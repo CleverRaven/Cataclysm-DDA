@@ -1,8 +1,10 @@
 #include "cata_utility.h"
 
 #include <cctype>
+#include <cerrno>
 #include <charconv>
 #include <clocale>
+#include <cstdlib>
 #include <cwctype>
 #include <algorithm>
 #include <cmath>
@@ -295,7 +297,14 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
 
     } catch( const std::exception &err ) {
         if( fail_message ) {
-            popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message, path.c_str(), err.what() );
+            const std::string msg =
+                string_format( _( "Failed to write %1$s to \"%2$s\": %3$s" ),
+                               fail_message, path, err.what() );
+            if( test_mode ) {
+                DebugLog( D_ERROR, DC_ALL ) << msg;
+            } else {
+                popup( "%s", msg );
+            }
         }
         return false;
     }
@@ -318,8 +327,14 @@ bool write_to_file( const cata_path &path, const std::function<void( std::ostrea
 
     } catch( const std::exception &err ) {
         if( fail_message ) {
-            popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message,
-                   path.generic_u8string().c_str(), err.what() );
+            const std::string msg =
+                string_format( _( "Failed to write %1$s to \"%2$s\": %3$s" ),
+                               fail_message, path.generic_u8string(), err.what() );
+            if( test_mode ) {
+                DebugLog( D_ERROR, DC_ALL ) << msg;
+            } else {
+                popup( "%s", msg );
+            }
         }
         return false;
     }
@@ -454,7 +469,7 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const std::string &pat
 std::unique_ptr<std::istream> read_maybe_compressed_file( const fs::path &path )
 {
     try {
-        cata::ifstream fin( path, std::ios::binary );
+        std::ifstream fin( path, std::ios::binary );
         if( !fin ) {
             throw std::runtime_error( "opening file failed" );
         }
@@ -472,7 +487,7 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const fs::path &path )
             inflated_contents_stream.write( outstring.data(), outstring.size() );
             return std::make_unique<std::stringstream>( std::move( inflated_contents_stream ) );
         } else {
-            return std::make_unique<cata::ifstream>( std::move( fin ) );
+            return std::make_unique<std::ifstream>( std::move( fin ) );
         }
         if( fin.bad() ) {
             throw std::runtime_error( "reading file failed" );
@@ -498,7 +513,7 @@ std::optional<std::string> read_whole_file( const fs::path &path )
 {
     std::string outstring;
     try {
-        cata::ifstream fin( path, std::ios::binary );
+        std::ifstream fin( path, std::ios::binary );
         if( !fin ) {
             throw std::runtime_error( "opening file failed" );
         }
@@ -850,4 +865,16 @@ std::string io::enum_to_string<aggregate_type>( aggregate_type agg )
             break;
     }
     cata_fatal( "Invalid aggregate type." );
+}
+
+std::optional<double> svtod( std::string_view token )
+{
+    char *pEnd = nullptr;
+    double const val = std::strtod( token.data(), &pEnd );
+    if( pEnd == token.data() + token.size() ) {
+        return { val };
+    }
+    errno = 0;
+
+    return std::nullopt;
 }

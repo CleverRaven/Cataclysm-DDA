@@ -399,5 +399,114 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [ [ "combat_wetsuit_cecalia", 20 ], [ "wetsuit_cecalia", 70 ], [ "trident", 70 ], [ "dive_bag", 100 ] ]
+  },
+  {
+    "id": "gear_afs_sidearm",
+    "type": "item_group",
+    "//": "Sidearm and appropriate holster or sheath for soldiers or other paramilitary forces.",
+    "items": [
+      {
+        "distribution": [
+          { "item": "PR24-retracted", "prob": 20 },
+          { "collection": [ { "item": "knife_rm42" }, { "item": "sheath" } ], "prob": 30 },
+          { "collection": [ { "item": "afs_10mm_caseless_FMJ" }, { "item": "afs_84k_20mag" } ], "prob": 60 },
+          { "collection": [ { "item": "afs_seyfert_84K" }, { "item": "holster" } ], "prob": 50 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "afs_escapepod_shootout_corpse",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "corpse",
+    "on_overflow": "spill",
+    "entries": [ { "group": "afs_escapepod_shootout" } ]
+  },
+  {
+    "id": "afs_escapepod_shootout",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "afs_seyfert_84K", "charges": [ 15, 19 ], "ammo-item": "afs_10mm_caseless_FMJ" },
+      { "item": "corpse" },
+      { "group": "afs_plastic_armor_g", "prob": 33 },
+      { "group": "afs_carbide_raider_armor_g", "prob": 10 },
+      { "group": "mil_armor", "prob": 10 },
+      { "group": "afs_colonist_shirt", "prob": 100 },
+      { "group": "afs_colonist_pants", "prob": 100 },
+      { "group": "afs_colonist_shoes", "prob": 100 },
+      { "group": "drugs_soldier", "prob": 25 }
+    ]
+  },
+  {
+    "id": "afs_mess_hall",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "plastic_fork" }, { "item": "plastic_spoon" }, { "item": "plastic_knife" }, { "item": "mess_tray" } ]
+  },
+  {
+    "id": "afs_todd_howard",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "skull_human" } ]
+  },
+  {
+    "id": "afs_exo_basic_power",
+    "type": "item_group",
+    "items": [
+      { "item": "exo_back_battery_rechargable", "prob": 75, "charges": [ 50, 100 ] },
+      { "item": "exo_back_gasoline", "prob": 50, "charges": [ 50, 100 ] },
+      { "item": "exo_aux_power", "prob": 25, "charges": [ 50, 100 ] },
+      { "item": "exo_small_aux_power", "prob": 25, "charges": [ 50, 100 ] }
+    ]
+  },
+  {
+    "id": "afs_exo_advanced_power",
+    "type": "item_group",
+    "items": [
+      { "item": "exo_back_battery_rechargable", "prob": 50, "charges": [ 50, 100 ] },
+      { "item": "exo_back_fuelcell", "prob": 75, "charges": [ 50, 100 ] },
+      { "item": "exo_asrg", "prob": 10 },
+      { "item": "exo_aux_power", "count": [ 0, 1 ], "prob": 25, "charges": [ 50, 100 ] },
+      { "item": "exo_small_aux_power", "prob": 25, "charges": [ 50, 100 ] }
+    ]
+  },
+  {
+    "id": "afs_power_tools",
+    "type": "item_group",
+    "items": [
+      { "item": "heavy_drill", "prob": 50 },
+      { "item": "exosuit_plasma_torch", "prob": 75 },
+      { "item": "exosuit_power_cutter", "prob": 25 }
+    ]
+  },
+  {
+    "id": "afs_exo_basic_accessories",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "exo_carry", "prob": 50 },
+      { "item": "exo_small_carry", "count": [ 0, 2 ], "prob": 75 },
+      { "item": "exo_flashlight", "prob": 75 },
+      { "item": "exo_imager", "prob": 25 }
+    ]
+  },
+  {
+    "id": "afs_exosuit_worker",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "modular_exosuit", "prob": 100 },
+      { "item": "afs_exo_standard_underlayer", "prob": 90 },
+      { "item": "exo_helmet_plastic", "prob": 90 },
+      { "item": "exo_torso_plastic", "prob": 90 },
+      { "item": "exo_arm_plastic", "prob": 90 },
+      { "item": "exo_leg_plastic", "prob": 90 },
+      { "group": "afs_exo_basic_power", "prob": 75 },
+      { "group": "afs_exo_basic_accessories", "prob": 75 },
+      { "group": "afs_exo_basic_accessories", "prob": 75 },
+      { "group": "afs_power_tools", "prob": 75 }
+    ]
   }
 ]

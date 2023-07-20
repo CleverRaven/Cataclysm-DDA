@@ -12,7 +12,7 @@
     "price_postapoc": 100,
     "symbol": "i",
     "color": "cyan",
-    "flags": [ "SLEEP_AID" ],
+    "flags": [ "SLEEP_AID", "NO_SALVAGE" ],
     "variant_type": "generic",
     "variants": [
       {
@@ -56,6 +56,12 @@
         "name": { "str": "remora plushie" },
         "description": "A large plush remora, a fish commonly seen alongside sharks.  Wait, wasn't there a shark plushie somewhere here…",
         "weight": 1
+      },
+      {
+        "id": "toy_plush_fox",
+        "name": { "str": "fox plushie" },
+        "description": "A large plush fox.  It isn't realistic enough to trick a zombie into going after it, but it's very cute and makes a comforting bedtime companion.",
+        "weight": 1
       }
     ]
   },
@@ -66,7 +72,7 @@
     "description": "A somewhat large, mass produced shark plushie.  Meant to provide comfort to people of all ages.",
     "category": "other",
     "material": [ "cotton" ],
-    "weight": "1945 g",
+    "weight": "625 g",
     "volume": "30 L",
     "longest_side": "103 cm",
     "price": 600,
@@ -115,8 +121,56 @@
     "variants": [
       {
         "id": "toy_figure_swordsman",
-        "name": { "str": "Swordsman figurine" },
+        "name": { "str": "swordsman figurine" },
         "description": "A figurine of some unnamed swordsman, covered with scars and equipped with sturdy leather armor.  Seems to be ready to fight.",
+        "weight": 1
+      },
+      {
+        "id": "toy_figure_female",
+        "name": { "str": "fashionable doll" },
+        "description": "A plastic figurine of a young woman.  She's meant to be dressed up and accessorized with a wide variety of clothing, sold separately.",
+        "weight": 1
+      },
+      {
+        "id": "toy_figure_krueger",
+        "name": { "str": "nightmare figurine" },
+        "description": "A plastic figurine with a nightmarish, scarred face.  He wears a hat and has three long blades extending from a glove on the back of his hand.",
+        "weight": 1
+      },
+      {
+        "id": "toy_figure_unicorn",
+        "name": { "str": "unicorn figurine" },
+        "description": "A figurine of a blue unicorn.  It is in a sitting position, shyly covering both eyes with its front hooves.",
+        "weight": 1
+      },
+      {
+        "id": "toy_figure_swampman",
+        "name": { "str": "swamp monster figurine" },
+        "description": "A figurine of a scaly green swamp monster emerging from some fetid lagoon.",
+        "weight": 1
+      },
+      {
+        "id": "toy_figure_reaper",
+        "name": { "str": "reaper figurine" },
+        "description": "Your heart leaps to your throat as you see the face of Death itself staring back at you, scythe raised for the harvest!  You relax significantly once you realize it's only a few inches tall and made of plastic.",
+        "weight": 1
+      },
+      {
+        "id": "toy_figure_mermaid",
+        "name": { "str": "mermaid figurine" },
+        "description": "A figurine of a redheaded mermaid sitting on a rock.  Like in the film this toy is based on, she gazes longingly out to a world she wants to be a part of - or she would be, but the face isn't drawn very well and doesn't express much emotion at all.",
+        "weight": 1
+      },
+      {
+        "id": "toy_figure_avocado",
+        "name": { "str": "avocado figurine" },
+        "description": "A plastic figurine of an anthropomorphic avocado, holding a salt shaker and a spoon.  Makes a great gift for the guacamole lover in your life, or as a decoration for your kitchen.",
+        "weight": 1
+      },
+      {
+        "id": "toy_figure_superhero",
+        "name": { "str": "superhero figurine" },
+        "description": "A superhero action figure.  Its limbs can be adjusted for different poses, and it is designed to do battle against a wide variety of crooks and supervillains, sold separately.",
         "weight": 1
       }
     ]

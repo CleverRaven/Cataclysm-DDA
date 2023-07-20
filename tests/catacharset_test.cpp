@@ -43,21 +43,25 @@ TEST_CASE( "base64", "[catacharset]" )
 TEST_CASE( "utf8_to_wstr", "[catacharset]" )
 {
     // std::mbstowcs' returning -1 workaround
-    setlocale( LC_ALL, "" );
+    char *result = setlocale( LC_ALL, "" );
+    REQUIRE( result );
     std::string src( u8"Hello, 世界!" );
     std::wstring dest( L"Hello, 世界!" );
     CHECK( utf8_to_wstr( src ) == dest );
-    setlocale( LC_ALL, "C" );
+    result = setlocale( LC_ALL, "C" );
+    REQUIRE( result );
 }
 
 TEST_CASE( "wstr_to_utf8", "[catacharset]" )
 {
     // std::wcstombs' returning -1 workaround
-    setlocale( LC_ALL, "" );
+    char *result = setlocale( LC_ALL, "" );
+    REQUIRE( result );
     std::wstring src( L"Hello, 世界!" );
     std::string dest( u8"Hello, 世界!" );
     CHECK( wstr_to_utf8( src ) == dest );
-    setlocale( LC_ALL, "C" );
+    result = setlocale( LC_ALL, "C" );
+    REQUIRE( result );
 }
 
 TEST_CASE( "localized_compare", "[catacharset]" )

@@ -1,4 +1,6 @@
-# Armor Overview
+# Armor Balance And Design
+
+## Armor Overview
 Armor in cataclysm has varying levels of complexity to attempt a deep simulation of worn clothing. Compared with systems that try to compress down armor to one or two numbers like Pen And Paper game armor class systems or CRPGs with systems like DT and DR (flat and multiplicative reduction) cataclysm attempts to more accurately simulate different materials, their relative coverage of the body, and how that interacts with the player.  A lot of this is simplified or clarified to the player in a way that is digestible. We *shouldn't* hide info from the player but we should *avoid* information overload.
 
 That said this document will practice no such restraint and is designed to be a complete guide to *everything* possible. This guide will cover the basic ideas of **how it works**, **what is necessary** for armor to function, **what is possible** with the armor system and **how to design armor** so that it is balanced and makes sense. An **FAQ** will also be included to cover some specifics people might have about armor or how to understand it as well as a section on things to be added **looking forward**.  Each section will also give specific example item ids you could investigate for examples (as well as code snippets) or for balance considerations.
@@ -49,7 +51,6 @@ here is an example armor to look at:
 ```json
 {
   "id": "dress_shirt",
-  "repairs_like": "tshirt",
   "type": "ARMOR",
   "name": { "str": "dress shirt" },
   "description": "A white button-down shirt with long sleeves.  Looks professional!",
@@ -251,14 +252,14 @@ The robofac greaves, mantles, skirts and vambraces use this.
 
 ### Repairs
 #### Explanation
-Clothing repairs are inherited from their material type, while the difficulty and required skills are inherited from their crafting recipe. In cases where a piece of clothing or armor is not craftable, the ``repairs-like`` flag can be used to specify a recipe from which the difficulty and required skills should be inherited instead. This flag does not change the materials required to repair the item, which is always derived from its composition.
+Clothing repairs are inherited from their material type.  Needed materials and repair difficulty are based on these materials (you can make a repair with any material it is made of, but the difficulty is whatever is the hardest part of it to repair).  In cases where the repair difficulty does not match that of its materials the ``repairs-like`` flag can be used to specify an item from which the difficulty and required skills should be inherited instead. This flag does not change the materials required to repair the item, which is always derived from its composition.
 
 #### Example
-
+The leather belt repairs like a leather patch because steel is more difficult to repair than leather, but the steel belt buckle is exceedingly unlikely to sustain damage compared to the leather majority of the belt.
 ```json
 {
-  "id": "dress_shirt",
-  "repairs_like": "tshirt"
+  "id": "belt_leather",
+  "repairs_like": "leather"
 }
 ```
 
@@ -493,7 +494,6 @@ Items with actions can be worn as armor. Usually you need to swap the type to ``
 {
   "id": "survivor_light_on",
   "copy-from": "survivor_light",
-  "repairs_like": "survivor_light",
   "type": "TOOL_ARMOR",
   "name": { "str": "survivor headlamp (on)", "str_pl": "survivor headlamps (on)" },
   "description": "This is a custom-made LED headlamp reinforced to be more durable, brighter, and with a larger and more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",

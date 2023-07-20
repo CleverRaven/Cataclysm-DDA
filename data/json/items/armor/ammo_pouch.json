@@ -44,6 +44,10 @@
           "545x39": 60,
           "223": 60,
           "3006": 60,
+          "123ln": 60,
+          "50beowulf": 60,
+          "450": 60,
+          "338lapua": 60,
           "303": 60,
           "270win": 60,
           "308": 60,
@@ -61,11 +65,12 @@
           "762R": 60,
           "paintball": 60
         },
-        "moves": 35
+        "moves": 35,
+        "volume_encumber_modifier": 0.3
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_LARGE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -131,6 +136,21 @@
     "type": "ARMOR",
     "name": { "str_sp": "chest rig" },
     "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_chestrig",
+        "name": { "str_sp": "chest rig" },
+        "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches.",
+        "weight": 30
+      },
+      {
+        "id": "flag_chestrig",
+        "name": { "str_sp": "patriot’s chest rig" },
+        "description": "An American flag is proudly embroidered across the front of each pouch, with a tiny, eagle-winged .50-caliber bullet crowning each banner.",
+        "append": true
+      }
+    ],
     "weight": "425 g",
     "volume": "500 ml",
     "price": 3900,
@@ -223,7 +243,8 @@
         "max_contains_weight": "2 kg",
         "moves": 60,
         "flag_restriction": [ "JAVELIN" ],
-        "max_item_length": "150 cm"
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -232,7 +253,8 @@
         "max_contains_weight": "2 kg",
         "moves": 60,
         "flag_restriction": [ "JAVELIN" ],
-        "max_item_length": "150 cm"
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -241,7 +263,8 @@
         "max_contains_weight": "2 kg",
         "moves": 60,
         "flag_restriction": [ "JAVELIN" ],
-        "max_item_length": "150 cm"
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -250,7 +273,8 @@
         "max_contains_weight": "2 kg",
         "moves": 60,
         "flag_restriction": [ "JAVELIN" ],
-        "max_item_length": "150 cm"
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -259,12 +283,13 @@
         "max_contains_weight": "2 kg",
         "moves": 60,
         "flag_restriction": [ "JAVELIN" ],
-        "max_item_length": "150 cm"
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash javelins", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ],
-    "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "legpouch",
@@ -300,7 +325,7 @@
         "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ],
         "coverage": 25,
         "encumbrance": 1,
-        "layers": [ "OUTER" ]
+        "layers": [ "BELTED" ]
       }
     ]
   },
@@ -514,7 +539,8 @@
         "max_contains_volume": "1000 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "30 cm",
-        "moves": 50
+        "moves": 50,
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -523,7 +549,8 @@
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
+        "moves": 60,
+        "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
@@ -532,7 +559,8 @@
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
+        "moves": 60,
+        "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
@@ -541,7 +569,8 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "1600 g",
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
+        "moves": 60,
+        "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
@@ -550,7 +579,8 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "1600 g",
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
+        "moves": 60,
+        "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
@@ -559,12 +589,17 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "1600 g",
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
+        "moves": 60,
+        "volume_encumber_modifier": 0.25
       },
-      { "ammo_restriction": { "410shot": 6, "shot": 6, "20x66mm": 6, "signal_flare": 6 }, "moves": 25 }
+      {
+        "ammo_restriction": { "410shot": 6, "shot": 6, "20x66mm": 6, "signal_flare": 6 },
+        "moves": 25,
+        "volume_encumber_modifier": 0.2
+      }
     ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 85, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 85, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "xl_tacvest",
@@ -587,7 +622,6 @@
   },
   {
     "id": "light_load_bearing_vest",
-    "repairs_like": "tacvest",
     "type": "ARMOR",
     "name": { "str": "light load bearing vest" },
     "description": "This lightweight harness covered in MOLLE webbing is designed to attach a few pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.",
@@ -614,7 +648,6 @@
   },
   {
     "id": "load_bearing_vest",
-    "repairs_like": "tacvest",
     "type": "ARMOR",
     "name": { "str": "load bearing vest" },
     "description": "This vest covered in MOLLE webbing is designed to attach pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.",
@@ -641,7 +674,6 @@
   },
   {
     "id": "load_bearing_vest_sling",
-    "repairs_like": "tacvest",
     "type": "ARMOR",
     "copy-from": "load_bearing_vest",
     "name": { "str": "load bearing vest with sling", "str_pl": "load bearing vests with slings" },
@@ -674,7 +706,6 @@
   },
   {
     "id": "heavy_load_bearing_vest",
-    "repairs_like": "tacvest",
     "type": "ARMOR",
     "name": { "str": "heavy load bearing vest" },
     "description": "This massive vest covered in MOLLE webbing is designed to attach a large number of pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.",
@@ -701,7 +732,6 @@
   },
   {
     "id": "heavy_load_bearing_vest_sling",
-    "repairs_like": "tacvest",
     "type": "ARMOR",
     "copy-from": "heavy_load_bearing_vest",
     "name": { "str": "heavy load bearing vest with sling", "str_pl": "heavy load bearing vests with slings" },
@@ -734,7 +764,6 @@
   },
   {
     "id": "heavy_load_bearing_vest_breacher",
-    "repairs_like": "tacvest",
     "type": "ARMOR",
     "copy-from": "heavy_load_bearing_vest",
     "name": { "str": "breacher load bearing vest" },
@@ -780,7 +809,6 @@
   },
   {
     "id": "radio_pouch",
-    "repairs_like": "legrig",
     "type": "ARMOR",
     "//": " stats taken from: https://www.patriotoutfitters.com/5-11-tactical-molle-radio-pouch?PMSRCH=MOLLE%20GEAR",
     "name": { "str": "tactical radio pouch", "str_pl": "tactical radio pouches" },
@@ -809,7 +837,6 @@
   },
   {
     "id": "gadget_pouch",
-    "repairs_like": "legrig",
     "type": "ARMOR",
     "//": " stats taken from: https://www.patriotoutfitters.com/condor-gadget-pouch-tan498-?PMSRCH=MOLLE%20GEAR",
     "name": { "str": "gadget pouch", "str_pl": "gadget pouches" },
@@ -838,7 +865,6 @@
   },
   {
     "id": "h2o_pouch",
-    "repairs_like": "legrig",
     "type": "ARMOR",
     "//": " stats taken from: https://www.patriotoutfitters.com/condor-h2o-pouch?PMSRCH=MOLLE%20GEAR",
     "name": { "str": "H2O pouch", "str_pl": "H2O pouches" },
@@ -875,7 +901,6 @@
   },
   {
     "id": "canteen_pouch",
-    "repairs_like": "legrig",
     "type": "ARMOR",
     "name": { "str": "canteen pouch", "str_pl": "canteen pouches" },
     "description": "A pouch designed to keep your canteen accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
@@ -904,7 +929,6 @@
   },
   {
     "id": "tool_pouch",
-    "repairs_like": "legrig",
     "type": "ARMOR",
     "//": " stats taken from: https://www.patriotoutfitters.com/condor-t-and-t-pouch?PMSRCH=MOLLE%20GEAR",
     "name": { "str": "tactical tool pouch", "str_pl": "tactical tool pouches" },
@@ -933,7 +957,6 @@
   },
   {
     "id": "flashlight_pouch",
-    "repairs_like": "legrig",
     "type": "ARMOR",
     "//": " stats taken from: https://www.patriotoutfitters.com/condor-flashlight-pouch?PMSRCH=MOLLE%20GEAR liberties were taken with this one so it would hold either flashlight",
     "name": { "str": "flashlight pouch", "str_pl": "flashlight pouches" },
@@ -963,7 +986,6 @@
   },
   {
     "id": "tactical_holster",
-    "repairs_like": "legrig",
     "type": "ARMOR",
     "name": { "str": "tactical holster" },
     "//": " stats taken from: https://www.patriotoutfitters.com/condor-vertical-molle-holster?PMSRCH=MOLLE%20GEAR",
@@ -1003,7 +1025,6 @@
   },
   {
     "id": "gas_mask_pouch",
-    "repairs_like": "legrig",
     "type": "ARMOR",
     "//": " stats taken from: https://condoroutdoor.com/ma11.html this one is much larger than an in game gas mask so I've take some liberties on size",
     "name": { "str": "gas mask pouch", "str_pl": "gas mask pouches" },
@@ -1043,7 +1064,6 @@
   },
   {
     "id": "tactical_grenade_pouch",
-    "repairs_like": "legrig",
     "type": "ARMOR",
     "//": " stats taken from: https://www.tacticalassaultgearstore.com/molle-frag-grenade-pouch.html",
     "name": { "str": "tactical grenade pouch", "str_pl": "tactical grenade pouches" },
@@ -1072,7 +1092,6 @@
   },
   {
     "id": "triple_stacker_pouch",
-    "repairs_like": "legrig",
     "type": "ARMOR",
     "//": " stats taken from: https://www.patriotoutfitters.com/condor-triple-stacker-open-top-m4-mag-pouch?PMSRCH=MOLLE%20GEAR",
     "name": { "str": "triple stacker ammo pouch", "str_pl": "triple stacker ammo pouches" },
@@ -1147,7 +1166,6 @@
   },
   {
     "id": "tactical_shotshell_pouch",
-    "repairs_like": "legrig",
     "type": "ARMOR",
     "//": " stats taken from: https://condoroutdoor.com/ma12-shotgun-ammo-pouch.html",
     "name": { "str": "tactical shotshell pouch", "str_pl": "tactical shotshell pouches" },
@@ -1167,7 +1185,6 @@
   },
   {
     "id": "xlkevlar",
-    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "XL Kevlar vest" },
@@ -1271,7 +1288,6 @@
   {
     "id": "belt_loop_small",
     "type": "ARMOR",
-    "repairs_like": "legrig",
     "name": { "str": "small belt loop" },
     "description": "A MOLLE-compatible loop for attaching small tools to a load-bearing vest.",
     "weight": "25 g",
@@ -1302,7 +1318,6 @@
   {
     "id": "belt_loop_medium",
     "type": "ARMOR",
-    "repairs_like": "legrig",
     "name": { "str": "medium belt loop" },
     "description": "A MOLLE-compatible loop for attaching tools and some weapons to a load-bearing vest.",
     "weight": "50 g",
@@ -1333,7 +1348,6 @@
   {
     "id": "belt_loop_large",
     "type": "ARMOR",
-    "repairs_like": "legrig",
     "name": { "str": "large belt loop" },
     "description": "A MOLLE-compatible loop for attaching large tools and weapons to a load-bearing vest.",
     "weight": "100 g",

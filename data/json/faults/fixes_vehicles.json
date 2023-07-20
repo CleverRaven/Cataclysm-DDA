@@ -1,0 +1,97 @@
+[
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_engine_belt_drive_replace",
+    "name": "Replace worn drive belt",
+    "success_msg": "You replace the worn drive belt of the %s.",
+    "time": "5 m",
+    "faults_removed": [ "fault_engine_belt_drive" ],
+    "skills": { "mechanics": 2 },
+    "requirements": [
+      {
+        "qualities": [ { "id": "WRENCH", "level": 1 } ],
+        "components": [ [ [ "drivebelt", 1 ], [ "drivebelt_makeshift", 1 ] ] ]
+      }
+    ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_engine_glow_plug_replace",
+    "name": "Replace faulty glow plugs",
+    "success_msg": "You replace the faulty glow plugs of the %s.",
+    "time": "40 m",
+    "faults_removed": [ "fault_engine_glow_plug" ],
+    "skills": { "mechanics": 4 },
+    "requirements": [ { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "glowplug", 1 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_engine_immobiliser_deactivate",
+    "name": "Deactivate immobiliser",
+    "success_msg": "You successfully deactivate the immobiliser of the %s.",
+    "time": "5 m",
+    "faults_removed": [ "fault_engine_immobiliser" ],
+    "skills": { "mechanics": 2, "electronics": 5 },
+    "requirements": [ { "qualities": [ { "id": "SCREW_FINE", "level": 1 } ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_engine_pump_diesel_replace",
+    "name": "Replace faulty diesel pump",
+    "success_msg": "You replace the faulty diesel pump of the %s.",
+    "time": "40 m",
+    "faults_removed": [ "fault_engine_pump_diesel" ],
+    "skills": { "mechanics": 4 },
+    "requirements": [ { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "pump_complex", 1 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_engine_filter_air_replace",
+    "name": "Replace expired air filter",
+    "success_msg": "You replace the expired air filter of the %s.",
+    "time": "5 m",
+    "faults_removed": [ "fault_engine_filter_air" ],
+    "skills": { "mechanics": 1 },
+    "requirements": [
+      {
+        "qualities": [ { "id": "SCREW", "level": 1 } ],
+        "components": [ [ [ "filter_air", 1 ], [ "filter_air_makeshift", 1 ] ] ]
+      }
+    ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_engine_filter_fuel_replace",
+    "name": "Replace expired fuel filter",
+    "success_msg": "You replace the expired fuel filter of the %s.",
+    "time": "5 m",
+    "faults_removed": [ "fault_engine_filter_fuel" ],
+    "skills": { "mechanics": 1 },
+    "requirements": [
+      {
+        "qualities": [ { "id": "SCREW", "level": 1 } ],
+        "components": [ [ [ "filter_liquid", 1 ], [ "filter_liquid_makeshift", 1 ] ] ]
+      }
+    ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_engine_pump_fuel_replace",
+    "name": "Replace faulty fuel pump",
+    "success_msg": "You replace the faulty fuel pump of the %s.",
+    "time": "40 m",
+    "faults_removed": [ "fault_engine_pump_fuel" ],
+    "skills": { "mechanics": 4 },
+    "requirements": [ { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "well_pump", 1 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_engine_starter_replace",
+    "name": "Replace faulty starter motor",
+    "success_msg": "You replace the faulty starter motor of %s.",
+    "time": "10 m",
+    "faults_removed": [ "fault_engine_starter" ],
+    "skills": { "mechanics": 3 },
+    "requirements": [ { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "motor_tiny", 1 ] ] ] } ]
+  }
+]

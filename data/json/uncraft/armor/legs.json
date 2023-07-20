@@ -13,6 +13,6 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_leather", 3 ] ], [ [ "thread", 15 ] ], [ [ "button_plastic", 3 ] ] ]
+    "components": [ [ [ "sheet_cotton", 3 ] ], [ [ "thread", 15 ] ], [ [ "button_plastic", 3 ] ] ]
   }
 ]

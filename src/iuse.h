@@ -76,7 +76,6 @@ std::optional<int> blood_draw( Character *, item *, bool, const tripoint & );
 std::optional<int> boltcutters( Character *, item *, bool, const tripoint & );
 std::optional<int> break_stick( Character *, item *, bool, const tripoint & );
 std::optional<int> c4( Character *, item *, bool, const tripoint & );
-std::optional<int> cable_attach( Character *, item *, bool, const tripoint & );
 std::optional<int> call_of_tindalos( Character *, item *, bool, const tripoint & );
 std::optional<int> camera( Character *, item *, bool, const tripoint & );
 std::optional<int> can_goo( Character *, item *, bool, const tripoint & );
@@ -96,7 +95,6 @@ std::optional<int> coin_flip( Character *, item *, bool, const tripoint & );
 std::optional<int> combatsaw_off( Character *, item *, bool, const tripoint & );
 std::optional<int> combatsaw_on( Character *, item *, bool, const tripoint & );
 std::optional<int> contacts( Character *, item *, bool, const tripoint & );
-std::optional<int> cord_attach( Character *, item *, bool, const tripoint & );
 std::optional<int> crowbar( Character *, item *, bool, const tripoint & );
 std::optional<int> crowbar_weak( Character *, item *, bool, const tripoint & );
 std::optional<int> dig( Character *, item *, bool, const tripoint & );
@@ -147,6 +145,7 @@ std::optional<int> electricstorage( Character *, item *, bool, const tripoint & 
 std::optional<int> ebooksave( Character *, item *, bool, const tripoint & );
 std::optional<int> ebookread( Character *, item *, bool, const tripoint & );
 std::optional<int> makemound( Character *, item *, bool, const tripoint & );
+std::optional<int> mace( Character *, item *, bool, const tripoint & );
 std::optional<int> manage_exosuit( Character *, item *, bool, const tripoint & );
 std::optional<int> melatonin_tablet( Character *, item *, bool, const tripoint & );
 std::optional<int> mininuke( Character *, item *, bool, const tripoint & );
@@ -165,6 +164,7 @@ std::optional<int> pack_item( Character *, item *, bool, const tripoint & );
 std::optional<int> pick_lock( Character *p, item *it, bool, const tripoint &pos );
 std::optional<int> pickaxe( Character *, item *, bool, const tripoint & );
 std::optional<int> play_game( Character *, item *, bool, const tripoint & );
+std::optional<int> plug_in( Character *, item *, bool, const tripoint & );
 std::optional<int> portable_game( Character *, item *, bool active, const tripoint & );
 std::optional<int> portal( Character *, item *, bool, const tripoint & );
 std::optional<int> radglove( Character *, item *, bool, const tripoint & );
@@ -191,7 +191,6 @@ std::optional<int> tazer( Character *, item *, bool, const tripoint & );
 std::optional<int> tazer2( Character *, item *, bool, const tripoint & );
 std::optional<int> teleport( Character *, item *, bool, const tripoint & );
 std::optional<int> toolmod_attach( Character *, item *, bool, const tripoint & );
-std::optional<int> tow_attach( Character *, item *, bool, const tripoint & );
 std::optional<int> towel( Character *, item *, bool, const tripoint & );
 std::optional<int> trimmer_off( Character *, item *, bool, const tripoint & );
 std::optional<int> trimmer_on( Character *, item *, bool, const tripoint & );
@@ -274,7 +273,7 @@ class iuse_actor
 
         virtual ~iuse_actor() = default;
         virtual void load( const JsonObject &jo ) = 0;
-        virtual std::optional<int> use( Character &, item &, bool, const tripoint & ) const = 0;
+        virtual std::optional<int> use( Character *, item &, bool, const tripoint & ) const = 0;
         virtual ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}
         /**
@@ -316,7 +315,7 @@ struct use_function {
         use_function( const std::string &type, use_function_pointer f );
         explicit use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
 
-        std::optional<int> call( Character &, item &, bool, const tripoint & ) const;
+        std::optional<int> call( Character *, item &, bool, const tripoint & ) const;
         ret_val<void> can_call( const Character &, const item &, bool t, const tripoint &pos ) const;
 
         iuse_actor *get_actor_ptr() {

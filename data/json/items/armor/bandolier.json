@@ -36,10 +36,11 @@
           "460": 18,
           "500": 18
         },
-        "moves": 20
+        "moves": 20,
+        "volume_encumber_modifier": 0.3
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_SMALL" ],
     "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
@@ -65,6 +66,7 @@
           "300blk": 16,
           "545x39": 16,
           "3006": 16,
+          "123ln": 16,
           "303": 16,
           "308": 16,
           "300": 16,
@@ -72,13 +74,17 @@
           "762R": 16,
           "8x40mm": 16,
           "4570": 16,
+          "50beowulf": 16,
+          "450": 16,
+          "338lapua": 16,
           "50": 16,
           "700nx": 16
         },
-        "moves": 20
+        "moves": 20,
+        "volume_encumber_modifier": 0.3
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_MEDIUM" ],
     "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
@@ -95,7 +101,13 @@
     "looks_like": "leather_belt",
     "color": "dark_gray",
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "410shot": 25, "shot": 25, "20x66mm": 25, "signal_flare": 25 }, "moves": 25 } ],
+    "pocket_data": [
+      {
+        "ammo_restriction": { "410shot": 25, "shot": 25, "20x66mm": 25, "signal_flare": 25 },
+        "moves": 25,
+        "volume_encumber_modifier": 0.3
+      }
+    ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
@@ -106,8 +118,9 @@
     "//": "It's very much similar to the torso shotgun bandolier I'm patterning this off of, so I'm keeping the data the same.",
     "name": { "str": "torso grenade bandolier" },
     "description": "A leather bandolier strapped around the torso for keeping 40mm grenades close to hand.  For some reason, wearing this makes you feel Austrian.",
-    "pocket_data": [ { "ammo_restriction": { "40x46mm": 6, "40x53mm": 6 }, "moves": 20 } ],
-    "//2": "The image I found when I went looking showed Arnie carrying six grenades in a bandolier."
+    "pocket_data": [ { "ammo_restriction": { "40x46mm": 6, "40x53mm": 6 }, "moves": 20, "volume_encumber_modifier": 0.3 } ],
+    "//2": "The image I found when I went looking showed Arnie carrying six grenades in a bandolier.",
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
   },
   {
     "id": "torso_bandolier_shotgun",
@@ -123,7 +136,13 @@
     "looks_like": "leather_belt",
     "color": "dark_gray",
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "410shot": 50, "shot": 50, "20x66mm": 50, "signal_flare": 50 }, "moves": 35 } ],
+    "pocket_data": [
+      {
+        "ammo_restriction": { "410shot": 50, "shot": 50, "20x66mm": 50, "signal_flare": 50 },
+        "moves": 35,
+        "volume_encumber_modifier": 0.3
+      }
+    ],
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ],
     "armor": [ { "encumbrance": 3, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
@@ -144,7 +163,8 @@
     "pocket_data": [
       {
         "ammo_restriction": { "flintlock": 14, "36paper": 14, "44paper": 14, "blunderbuss": 14, "shotpaper": 14 },
-        "moves": 20
+        "moves": 20,
+        "volume_encumber_modifier": 0.3
       }
     ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_LARGE", "OVERSIZE" ],
@@ -181,10 +201,14 @@
           "762R": 4,
           "8x40mm": 4,
           "4570": 4,
+          "50beowulf": 4,
+          "450": 4,
+          "338lapua": 4,
           "50": 4,
           "700nx": 4
         },
-        "moves": 20
+        "moves": 20,
+        "volume_encumber_modifier": 0.3
       }
     ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_SMALL", "ALLOWS_NATURAL_ATTACKS" ],
@@ -205,7 +229,7 @@
     "color": "dark_gray",
     "sided": true,
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "40x46mm": 4, "40x53mm": 4 }, "moves": 20 } ],
+    "pocket_data": [ { "ammo_restriction": { "40x46mm": 4, "40x53mm": 4 }, "moves": 20, "volume_encumber_modifier": 0.3 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_MEDIUM" ],
     "armor": [
       {
@@ -231,7 +255,7 @@
     "color": "dark_gray",
     "sided": true,
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "rock": 10, "pebble": 80 }, "moves": 20 } ],
+    "pocket_data": [ { "ammo_restriction": { "rock": 10, "pebble": 80 }, "moves": 20, "volume_encumber_modifier": 0.3 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_LARGE" ],
     "armor": [
       {
@@ -257,7 +281,7 @@
     "color": "dark_gray",
     "sided": true,
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "rock": 10, "pebble": 80 }, "moves": 20 } ],
+    "pocket_data": [ { "ammo_restriction": { "rock": 10, "pebble": 80 }, "moves": 20, "volume_encumber_modifier": 0.3 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_LARGE" ],
     "armor": [
       {
@@ -272,7 +296,7 @@
     "id": "grenadebandolier",
     "type": "ARMOR",
     "name": { "str": "large grenade pouch", "str_pl": "large grenade pouches" },
-    "description": "A pouch for holding up to four full-sized grenades of various types.",
+    "description": "A pouch for holding up to four full-sized grenades of various types, with straps for attaching it to your belt or other webbing.",
     "weight": "600 g",
     "volume": "1250 ml",
     "price": 3000,
@@ -288,32 +312,36 @@
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "GRENADE" ]
+        "flag_restriction": [ "GRENADE" ],
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "GRENADE" ]
+        "flag_restriction": [ "GRENADE" ],
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "GRENADE" ]
+        "flag_restriction": [ "GRENADE" ],
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "GRENADE" ]
+        "flag_restriction": [ "GRENADE" ],
+        "volume_encumber_modifier": 0.3
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash grenades", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_LARGE" ],
     "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
@@ -336,29 +364,33 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "290 ml",
         "max_contains_weight": "650 g",
-        "max_item_length": "200 mm"
+        "max_item_length": "200 mm",
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "290 ml",
         "max_contains_weight": "650 g",
-        "max_item_length": "200 mm"
+        "max_item_length": "200 mm",
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "290 ml",
         "max_contains_weight": "650 g",
-        "max_item_length": "200 mm"
+        "max_item_length": "200 mm",
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "290 ml",
         "max_contains_weight": "650 g",
-        "max_item_length": "200 mm"
+        "max_item_length": "200 mm",
+        "volume_encumber_modifier": 0.3
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 7, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "cheap_ammo_pouch_belt223",
@@ -380,11 +412,12 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "2100 ml",
         "max_contains_weight": "7000 g",
-        "max_item_length": "80 mm"
+        "max_item_length": "80 mm",
+        "volume_encumber_modifier": 0.3
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 7, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "cheap_ammo_pouch_belt308",
@@ -406,10 +439,11 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "4000 ml",
         "max_contains_weight": "10000 g",
-        "max_item_length": "90 mm"
+        "max_item_length": "90 mm",
+        "volume_encumber_modifier": 0.3
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 7, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   }
 ]

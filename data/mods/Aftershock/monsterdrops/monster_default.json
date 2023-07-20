@@ -68,7 +68,7 @@
       { "item": "coke", "prob": 2 },
       { "item": "lsd", "prob": 2 },
       { "item": "heroin", "prob": 2 },
-      { "item": "mobile_memory_card", "prob": 10 },
+      { "item": "memory_card_unread", "prob": 10 },
       { "item": "flyer", "prob": 30 },
       { "item": "multitool", "prob": 5 },
       { "item": "permanent_marker", "prob": 10, "charges": [ 0, 500 ] },

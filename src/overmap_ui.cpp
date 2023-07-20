@@ -130,7 +130,7 @@ std::tuple<char, nc_color, size_t> get_note_display_info( const std::string_view
         }
 
         // find the first following delimiter
-        const auto end = note.find_first_of( " :;", pos, 3 );
+        const size_t end = note.find_first_of( " :;", pos, 3 );
         if( end == std::string::npos ) {
             return result;
         }
@@ -237,7 +237,8 @@ weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
     if( iter == weather_cache.end() ) {
         const tripoint_abs_ms abs_ms_pos = project_to<coords::ms>( pos );
         const weather_generator &wgen = overmap_buffer.get_settings( pos ).weather;
-        const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
+        const weather_type_id weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn,
+                                        g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
     }
     return iter->second;
@@ -410,8 +411,16 @@ class map_notes_callback : public uilist_callback
                     return true;
                 }
                 if( action == "MARK_DANGER" ) {
+                    if( overmap_buffer.is_marked_dangerous( note_location() ) &&
+                        query_yn( _( "Remove dangerous mark?" ) ) ) {
+                        overmap_buffer.mark_note_dangerous( note_location(), 0, false );
+                    }
                     // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
-                    if( query_yn( _( "Mark area as dangerous ( to avoid on auto move paths? )" ) ) ) {
+                    else if( ( overmap_buffer.is_marked_dangerous( note_location() ) &&
+                               query_yn( _( "Edit dangerous mark?" ) ) ) ||
+                             ( !overmap_buffer.is_marked_dangerous( note_location() ) &&
+                               // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
+                               query_yn( _( "Mark area as dangerous ( to avoid on auto move paths?  This will create a note if none exists already )" ) ) ) ) {
                         const int max_amount = 20;
                         // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
                         const std::string popupmsg = _( "Danger radius in overmap squares? ( 0-20 )" );
@@ -426,9 +435,6 @@ class map_notes_callback : public uilist_callback
                             menu->ret = UILIST_MAP_NOTE_EDITED;
                             return true;
                         }
-                    } else if( overmap_buffer.is_marked_dangerous( note_location() ) &&
-                               query_yn( _( "Remove dangerous mark?" ) ) ) {
-                        overmap_buffer.mark_note_dangerous( note_location(), 0, false );
                     }
                 }
             }
@@ -522,7 +528,7 @@ static bool get_and_assign_los( int &los, avatar &player_character, const tripoi
 }
 
 static void draw_ascii(
-    ui_adaptor &ui, const catacurses::window &w, const tripoint_abs_omt &center,
+    const catacurses::window &w, const tripoint_abs_omt &center,
     const tripoint_abs_omt &orig, bool blink, bool show_explored, bool /* fast_scroll */,
     input_context * /* inp_ctxt */, const draw_data_t &data )
 {
@@ -995,12 +1001,10 @@ static void draw_ascii(
     }
     // Done with all drawing!
     wnoutrefresh( w );
-    // Set cursor for screen readers
-    ui.set_cursor( w, point( om_half_width, om_half_height ) );
 }
 
 static void draw_om_sidebar(
-    const catacurses::window &wbar, const tripoint_abs_omt &center,
+    ui_adaptor &ui, const catacurses::window &wbar, const tripoint_abs_omt &center,
     const tripoint_abs_omt &orig, bool /* blink */, bool fast_scroll,
     input_context *inp_ctxt, const draw_data_t &data )
 {
@@ -1043,20 +1047,22 @@ static void draw_om_sidebar(
     int lines = 1;
     if( center_seen ) {
         if( !mgroups.empty() ) {
-            int line_number = 6;
+            const point desc_pos( 3, 6 );
+            ui.set_cursor( wbar, desc_pos );
+            int line_number = 0;
             for( mongroup * const &mgroup : mgroups ) {
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "  Species: %s", mgroup->type.c_str() );
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "# monsters: %d", mgroup->population + mgroup->monsters.size() );
                 if( !mgroup->horde ) {
                     continue;
                 }
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "  Interest: %d", mgroup->interest );
-                mvwprintz( wbar, point( 3, line_number ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "  Target: %s", mgroup->target.to_string() );
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_red, "x" );
             }
         } else {
@@ -1066,13 +1072,22 @@ static void draw_om_sidebar(
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwputch( wbar, point( 1, 1 ), ter.get_color(), ter.get_symbol() );
 
-            lines = fold_and_print( wbar, point( 3, 1 ), getmaxx( wbar ) - 3, c_light_gray,
+            const point desc_pos( 3, 1 );
+            ui.set_cursor( wbar, desc_pos );
+            lines = fold_and_print( wbar, desc_pos, getmaxx( wbar ) - desc_pos.x,
+                                    c_light_gray,
                                     overmap_buffer.get_description_at( sm_pos ) );
         }
     } else {
+        const oter_t &ter = oter_unexplored.obj();
+
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( wbar, point( 1, 1 ), oter_unexplored.obj().get_color(), _( "%s %s" ),
-                   oter_unexplored.obj().get_symbol(), oter_unexplored.obj().get_name() );
+        mvwputch( wbar, point( 1, 1 ), ter.get_color(), ter.get_symbol() );
+
+        const point desc_pos( 3, 1 );
+        ui.set_cursor( wbar, desc_pos );
+        lines = fold_and_print( wbar, desc_pos, getmaxx( wbar ) - desc_pos.x,
+                                ter.get_color(), ter.get_name() );
     }
 
     // Describe the weather conditions on the following line, if weather is visible
@@ -1187,6 +1202,7 @@ static void draw_om_sidebar(
         print_hint( "SEARCH" );
         print_hint( "CREATE_NOTE" );
         print_hint( "DELETE_NOTE" );
+        print_hint( "MARK_DANGER" );
         print_hint( "LIST_NOTES" );
         print_hint( "MISSIONS" );
         print_hint( "TOGGLE_MAP_NOTES", uistate.overmap_show_map_notes ? c_pink : c_magenta );
@@ -1219,7 +1235,7 @@ static void draw(
     bool blink, bool show_explored, bool fast_scroll,
     input_context *inp_ctxt, const draw_data_t &data )
 {
-    draw_om_sidebar( g->w_omlegend, center, orig, blink, fast_scroll, inp_ctxt, data );
+    draw_om_sidebar( ui, g->w_omlegend, center, orig, blink, fast_scroll, inp_ctxt, data );
 #if defined( TILES )
     if( use_tiles && use_tiles_overmap ) {
         redraw_info = tiles_redraw_info { center, blink };
@@ -1229,7 +1245,7 @@ static void draw(
         return;
     }
 #endif // TILES
-    draw_ascii( ui, g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
+    draw_ascii( g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
 }
 
 static void create_note( const tripoint_abs_omt &curs )
@@ -1792,6 +1808,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     ictxt.register_action( "CENTER" );
     ictxt.register_action( "CREATE_NOTE" );
     ictxt.register_action( "DELETE_NOTE" );
+    ictxt.register_action( "MARK_DANGER" );
     ictxt.register_action( "SEARCH" );
     ictxt.register_action( "LIST_NOTES" );
     ictxt.register_action( "TOGGLE_MAP_NOTES" );
@@ -1872,6 +1889,31 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         } else if( action == "DELETE_NOTE" ) {
             if( overmap_buffer.has_note( curs ) && query_yn( _( "Really delete note?" ) ) ) {
                 overmap_buffer.delete_note( curs );
+            }
+        } else if( action == "MARK_DANGER" ) {
+            if( overmap_buffer.is_marked_dangerous( curs ) &&
+                query_yn( _( "Remove dangerous mark?" ) ) ) {
+                overmap_buffer.mark_note_dangerous( curs, 0,
+                                                    false );
+            } else if( ( overmap_buffer.is_marked_dangerous( curs ) &&
+                         query_yn( _( "Edit dangerous mark?" ) ) ) || ( !overmap_buffer.is_marked_dangerous( curs ) &&
+                                 // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
+                                 query_yn( _( "Mark area as dangerous ( to avoid on auto move paths?  This will create a note if none exists already )" ) ) ) ) {
+                if( !overmap_buffer.has_note( curs ) ) {
+                    create_note( curs );
+                }
+                const int max_amount = 20;
+                // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
+                const std::string popupmsg = _( "Danger radius in overmap squares? ( 0-20 )" );
+                int amount = string_input_popup()
+                             .title( popupmsg )
+                             .width( 20 )
+                             .text( "0" )
+                             .only_digits( true )
+                             .query_int();
+                if( amount > -1 && amount <= max_amount ) {
+                    overmap_buffer.mark_note_dangerous( curs, amount, true );
+                }
             }
         } else if( action == "LIST_NOTES" ) {
             const point_abs_omt p = draw_notes( curs );

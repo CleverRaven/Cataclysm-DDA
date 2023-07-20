@@ -729,6 +729,11 @@ void recipe_subset::include( const recipe *r, int custom_difficulty )
     }
 }
 
+void recipe_subset::remove( const recipe *r )
+{
+    recipes.erase( r );
+}
+
 void recipe_subset::include( const recipe_subset &subset )
 {
     for( const recipe * const &elem : subset ) {

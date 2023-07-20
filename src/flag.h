@@ -31,14 +31,19 @@ extern const flag_id flag_ALLERGEN_MEAT;
 extern const flag_id flag_ALLERGEN_MILK;
 extern const flag_id flag_ALLERGEN_NUT;
 extern const flag_id flag_ALLERGEN_VEGGY;
+extern const flag_id flag_ALLERGEN_DRIED_VEGETABLE;
 extern const flag_id flag_ALLERGEN_WHEAT;
+extern const flag_id flag_ALLERGEN_BREAD;
 extern const flag_id flag_ALLERGEN_WOOL;
+extern const flag_id flag_ALLERGEN_CHEESE;
 extern const flag_id flag_ALLOWS_BODY_BLOCK;
 extern const flag_id flag_ALLOWS_NATURAL_ATTACKS;
 extern const flag_id flag_ALLOWS_REMOTE_USE;
 extern const flag_id flag_ALWAYS_TWOHAND;
+extern const flag_id flag_ANIMAL_PRODUCT;
 extern const flag_id flag_OLD_CURRENCY;
 extern const flag_id flag_AURA;
+extern const flag_id flag_AUTO_DELETE_CABLE;
 extern const flag_id flag_BAROMETER;
 extern const flag_id flag_BASH_IMMUNE;
 extern const flag_id flag_BELTED;
@@ -86,6 +91,7 @@ extern const flag_id flag_CORROSIVE;
 extern const flag_id flag_CORPSE;
 extern const flag_id flag_CRUTCHES;
 extern const flag_id flag_CUSTOM_EXPLOSION;
+extern const flag_id flag_CUT_HARVEST;
 extern const flag_id flag_CUT_IMMUNE;
 extern const flag_id flag_DANGEROUS;
 extern const flag_id flag_DEAF;
@@ -145,6 +151,7 @@ extern const flag_id flag_FORAGE_HALLU;
 extern const flag_id flag_FORAGE_POISON;
 extern const flag_id flag_FRAGILE;
 extern const flag_id flag_FRAGILE_MELEE;
+extern const flag_id flag_FRESH_GRAIN;
 extern const flag_id flag_FREEZERBURN;
 extern const flag_id flag_FROZEN;
 extern const flag_id flag_FUNGAL_VECTOR;
@@ -152,6 +159,7 @@ extern const flag_id flag_GAS_DISCOUNT;
 extern const flag_id flag_GAS_PROOF;
 extern const flag_id flag_GIBBED;
 extern const flag_id flag_GNV_EFFECT;
+extern const flag_id flag_HARVEST_SEEDS;
 extern const flag_id flag_HEAT_IMMUNE;
 extern const flag_id flag_HIDDEN_HALLU;
 extern const flag_id json_flag_HIDDEN_ITEM;
@@ -182,14 +190,8 @@ extern const flag_id flag_MAG_BELT;
 extern const flag_id flag_MAG_BULKY;
 extern const flag_id flag_MAG_DESTROY;
 extern const flag_id flag_MAG_EJECT;
-extern const flag_id flag_MC_ENCRYPTED;
 extern const flag_id flag_MC_HAS_DATA;
-extern const flag_id flag_MC_MAY_BE_ENCRYPTED;
 extern const flag_id flag_MC_MOBILE;
-extern const flag_id flag_MC_RANDOM_STUFF;
-extern const flag_id flag_MC_SCIENCE_STUFF;
-extern const flag_id flag_MC_TURN_USED;
-extern const flag_id flag_MC_USED;
 extern const flag_id flag_MECH_BAT;
 extern const flag_id flag_MELTS;
 extern const flag_id flag_MESSY;
@@ -306,6 +308,7 @@ extern const flag_id flag_SMOKABLE;
 extern const flag_id flag_SMOKED;
 extern const flag_id flag_SOLARPACK;
 extern const flag_id flag_SOLARPACK_ON;
+extern const flag_id flag_SEED_HARVEST;
 extern const flag_id flag_SPAWN_ACTIVE;
 extern const flag_id flag_SPEAR;
 extern const flag_id flag_SPEEDLOADER;
@@ -344,6 +347,7 @@ extern const flag_id flag_URSINE_HONEY;
 extern const flag_id flag_USES_BIONIC_POWER;
 extern const flag_id flag_USE_EAT_VERB;
 extern const flag_id flag_USE_PLAYER_ENERGY;
+extern const flag_id flag_USE_POWER_WHEN_HIT;
 extern const flag_id flag_USE_UPS;
 extern const flag_id flag_VARSIZE;
 extern const flag_id flag_VEHICLE;
@@ -423,7 +427,7 @@ class json_flag
         }
 
         /** Requires this flag to be installed on vehicle */
-        std::string requires_flag() const {
+        const std::string &requires_flag() const {
             return requires_flag_;
         }
 

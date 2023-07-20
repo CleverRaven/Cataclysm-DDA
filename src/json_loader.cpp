@@ -14,31 +14,31 @@ namespace
 {
 flexbuffer_cache &base_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::base_path() ) / "cache", fs::u8path( PATH_INFO::base_path() ) };
+    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::base_path() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::base_path() ) };
     return cache;
 }
 
 flexbuffer_cache &config_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::config_dir() ) / "cache", fs::u8path( PATH_INFO::config_dir() ) };
+    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::config_dir() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::config_dir() ) };
     return cache;
 }
 
 flexbuffer_cache &data_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::datadir() ) / "cache", fs::u8path( PATH_INFO::datadir() ) };
+    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::datadir() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::datadir() ) };
     return cache;
 }
 
 flexbuffer_cache &memorial_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::memorialdir() ) / "cache", fs::u8path( PATH_INFO::memorialdir() ) };
+    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::memorialdir() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::memorialdir() ) };
     return cache;
 }
 
 flexbuffer_cache &user_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::user_dir() ) / "cache", fs::u8path( PATH_INFO::user_dir() ) };
+    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::user_dir() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::user_dir() ) };
     return cache;
 }
 
@@ -51,17 +51,18 @@ flexbuffer_cache &cache_for_save( const cata_path &path )
     // Assume lexically normal path
     auto path_it = path.get_relative_path().begin();
     // First path element is the world name
-    std::string worldname = path_it->u8string();
+    fs::path worldname_path = *path_it;
+    std::string worldname_str = worldname_path.u8string();
     ++path_it;
     // Next element is either a file, a character folder, or the maps folder
     std::string folder_or_file = path_it->u8string();
     ++path_it;
 
-    auto it = save_caches.find( worldname );
+    auto it = save_caches.find( worldname_str );
     if( it == save_caches.end() ) {
-        it = save_caches.emplace( worldname,
+        it = save_caches.emplace( worldname_str,
                                   std::make_unique<flexbuffer_cache>( fs::path(),
-                                          fs::u8path( PATH_INFO::savedir() ) / worldname ) ).first;
+                                          fs::u8path( PATH_INFO::savedir() ) / worldname_path ) ).first;
     }
 
     return *it->second;

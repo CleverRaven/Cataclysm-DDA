@@ -25,6 +25,10 @@
   },
   {
     "type": "mutation_type",
+    "id": "BLOOD"
+  },
+  {
+    "type": "mutation_type",
     "id": "SIZE"
   },
   {
@@ -254,5 +258,9 @@
   {
     "type": "mutation_type",
     "id": "facial_hair"
+  },
+  {
+    "type": "mutation_type",
+    "id": "BODY_ARMOR_MOD"
   }
 ]

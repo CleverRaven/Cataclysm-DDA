@@ -277,6 +277,75 @@
   },
   {
     "type": "mutation",
+    "id": "mullet",
+    "name": "Hair: mullet",
+    "points": 0,
+    "description": "Business in the front, party in the back!",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, mullet" },
+        "description": "You have long blue hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, mullet" },
+        "description": "You have long black hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, mullet" },
+        "description": "You have long blond hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, mullet" },
+        "description": "You have long brown hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, mullet" },
+        "description": "You have long red hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, mullet" },
+        "description": "You have long green hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, mullet" },
+        "description": "You have long pink hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, mullet" },
+        "description": "You have long purple hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, mullet" },
+        "description": "You have long white hair, in the style of a mullet.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
     "id": "short_over_eye",
     "name": "Hair: short over-eye",
     "points": 0,

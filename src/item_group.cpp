@@ -107,7 +107,7 @@ static item_pocket::pocket_type guess_pocket_for( const item &container, const i
 
 static void put_into_container(
     Item_spawn_data::ItemList &items, std::size_t num_items,
-    const std::optional<itype_id> &container_type,
+    const std::optional<itype_id> &container_type, const bool sealed,
     time_point birthday, Item_spawn_data::overflow_behaviour on_overflow,
     const std::string &context )
 {
@@ -149,7 +149,12 @@ static void put_into_container(
             }
         }
     }
-    excess.push_back( ctr );
+    ctr.add_automatic_whitelist();
+    if( sealed ) {
+        ctr.seal();
+    }
+
+    excess.emplace_back( std::move( ctr ) );
     items.erase( items.end() - num_items, items.end() );
     items.insert( items.end(), excess.begin(), excess.end() );
 }
@@ -265,7 +270,7 @@ std::size_t Single_item_creator::create( ItemList &list,
         }
     }
     const std::size_t items_created = list.size() - prev_list_size;
-    put_into_container( list, items_created, container_item, birthday, on_overflow, context() );
+    put_into_container( list, items_created, container_item, sealed, birthday, on_overflow, context() );
     return list.size() - prev_list_size;
 }
 
@@ -425,9 +430,22 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     }
 
     int max_capacity = -1;
-    if( charges.first != -1 && charges.second == -1 && new_item.is_magazine() ) {
-        const int max_ammo = new_item.ammo_capacity( item_controller->find_template(
-                                 new_item.ammo_default() )->ammo->type );
+
+    if( charges.first != -1 && charges.second == -1 && ( new_item.is_magazine() ||
+            new_item.uses_magazine() ) ) {
+        int max_ammo = 0;
+
+        if( new_item.is_magazine() ) {
+            // Get the ammo capacity of the new item itself
+            max_ammo = new_item.ammo_capacity( item_controller->find_template(
+                                                   new_item.ammo_default() )->ammo->type );
+        } else if( !new_item.magazine_default().is_null() ) {
+            // Get the capacity of the item's default magazine
+            max_ammo = item_controller->find_template( new_item.magazine_default() )->magazine->capacity;
+        }
+        // Don't change the ammo capacity from 0 if the item isn't a magazine
+        // and doesn't have a default magazine with a capacity
+
         if( max_ammo > 0 ) {
             max_capacity = max_ammo;
         }
@@ -542,6 +560,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     if( !cont.is_null() ) {
         const item_pocket::pocket_type pk_type = guess_pocket_for( cont, new_item );
         cont.put_in( new_item, pk_type );
+        cont.add_automatic_whitelist();
         new_item = cont;
         if( sealed ) {
             new_item.seal();
@@ -716,7 +735,7 @@ std::size_t Item_group::create( Item_spawn_data::ItemList &list,
         }
     }
     const std::size_t items_created = list.size() - prev_list_size;
-    put_into_container( list, items_created, container_item, birthday, on_overflow, context() );
+    put_into_container( list, items_created, container_item, sealed, birthday, on_overflow, context() );
 
     return list.size() - prev_list_size;
 }

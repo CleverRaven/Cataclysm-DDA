@@ -1,4 +1,4 @@
-# practice
+# Practice Recipes
 
 Practice recipes allow practicing skills and proficiencies by working on crafts that are "just for
 practice", and do not yield a finished result (although they may have some byproducts). They may be

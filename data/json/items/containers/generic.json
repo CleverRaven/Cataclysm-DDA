@@ -1,0 +1,18 @@
+[
+  {
+    "id": "shrink_wrap",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "shrink wrapping" },
+    "looks_like": "bag_plastic",
+    "description": "Polymer plastic material, that shrinks tightly over whatever it is covering.  Disposable.",
+    "weight": "50 g",
+    "volume": "50 ml",
+    "//": "this one should allow unloading, but not reloading, but nothing, including NO_RELOAD flag or forbidden boolean doesn't work here.",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "20 L", "max_contains_weight": "50 kg", "moves": 400 } ],
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "light_gray",
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  }
+]

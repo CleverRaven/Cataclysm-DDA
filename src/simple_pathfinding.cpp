@@ -293,7 +293,7 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
     const point_abs_omt source_point = source.xy();
     constexpr int max_search_count = 100000;
 
-    constexpr auto report_period = std::chrono::milliseconds( 100 );
+    constexpr std::chrono::milliseconds report_period = std::chrono::milliseconds( 100 );
     std::chrono::steady_clock::time_point report_next = std::chrono::steady_clock::now();
     int progress = 0;
     while( !open_set.empty() ) {
@@ -301,7 +301,7 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
         open_set.pop();
         if( progress++ >= 100 ) { // stagger progress checks to 1 in 100 nodes
             progress = 0;
-            const auto now = std::chrono::steady_clock::now();
+            const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
             if( now > report_next ) { // report progress every `report_period`
                 progress_fn( open_set.size(), known_nodes.size() );
                 report_next = now + report_period;

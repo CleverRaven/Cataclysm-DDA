@@ -171,16 +171,14 @@ extern template struct pos_dir<tripoint_rel_omt>;
 using om_pos_dir = pos_dir<tripoint_om_omt>;
 using rel_pos_dir = pos_dir<tripoint_rel_omt>;
 
-namespace std
-{
 template<typename Tripoint>
-struct hash<pos_dir<Tripoint>> {
-    size_t operator()( const pos_dir<Tripoint> &p ) const {
+// NOLINTNEXTLINE(cert-dcl58-cpp)
+struct std::hash<pos_dir<Tripoint>> {
+    std::size_t operator()( const pos_dir<Tripoint> &p ) const {
         cata::tuple_hash h;
         return h( std::make_tuple( p.p, p.dir ) );
     }
 };
-} // namespace std
 
 class overmap
 {

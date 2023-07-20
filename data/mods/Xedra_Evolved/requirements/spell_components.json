@@ -12,24 +12,12 @@
   {
     "id": "spell_components_dreamdross3",
     "type": "requirement",
-    "components": [ [ [ "forged_dreamstuff_ingot", 1 ], [ "scrap_dreamdross", 10 ], [ "scrap_dreamdross", 100 ] ] ]
+    "components": [ [ [ "forged_dreamstuff_ingot", 1 ], [ "dreamdross_lump", 10 ], [ "scrap_dreamdross", 100 ] ] ]
   },
   {
     "id": "spell_components_schematics",
     "type": "requirement",
     "components": [ [ [ "drawing_tool", 2, "LIST" ] ], [ [ "paper", 8 ] ] ]
-  },
-  {
-    "id": "spell_components_forging_dreamdross",
-    "type": "requirement",
-    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
-    "components": [ [ [ "dreamdross_lump", 10 ], [ "scrap_dreamdross", 100 ] ] ]
-  },
-  {
-    "id": "spell_components_research_dreamdross",
-    "type": "requirement",
-    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
-    "components": [ [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 20 ] ] ]
   },
   {
     "id": "spell_components_human_blood",

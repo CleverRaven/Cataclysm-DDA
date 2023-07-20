@@ -980,7 +980,15 @@
       { "proficiency": "prof_inorganic_chemistry" }
     ],
     "result_mult": 4,
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 25 ], [ "oxy_torch", 5 ] ] ],
+    "//": "This energy requirement is for charcoal forges, and should be revised when forges stop being copies of one another",
+    "//2": "For glass*making*, energy costs is about 2321MJ for ~907.2kg, or ~2.56MJ/kg. (cited figure: 2.2 MMBtu/one short ton of glass)",
+    "//3": "https://www.energystar.gov/sites/default/files/buildings/tools/Glass-Guide.pdf Optimally and not accounting for losses...",
+    "//4": "This recipe produces 300g of glass, so it costs about 768kJ. Say 800.",
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "sheet_metal", -1 ], [ "fire_brick", -1 ], [ "anvil", -1 ], [ "anvil_bronze", -1 ], [ "casting_mold", -1 ] ],
+      [ [ "forge", 26 ], [ "oxy_torch", 3 ] ]
+    ],
     "components": [
       [ [ "material_sand", 10 ] ],
       [ [ "chem_washing_soda", 41 ] ],

@@ -106,6 +106,7 @@ void past_games_info::ensure_loaded()
     refresh_display();
 
     const cata_path &memorial_dir = PATH_INFO::memorialdir_path();
+    assure_dir_exist( memorial_dir );
     std::vector<cata_path> filenames = get_files_from_path( ".json", memorial_dir, true, true );
 
     // Sort the files by the date & time encoded in the filename

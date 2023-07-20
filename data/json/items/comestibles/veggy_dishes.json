@@ -14,6 +14,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "cooked_burdock_stalk",
+    "name": { "str": "cooked burdock stalk" },
+    "copy-from": "cooked_cattail_stalk",
+    "description": "A cooked stalk from a burdock plant.  Its fibrous outer leaves have been stripped away, and now it is quite delicious."
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "roasted_cattail_rhizome",
     "name": { "str": "roasted cattail rhizome" },
     "copy-from": "cattail_rhizome",
@@ -245,11 +252,10 @@
     "name": { "str_sp": "cooked buckwheat" },
     "copy-from": "buckwheat",
     "spoils_in": "20 days",
-    "description": "A serving of cooked buckwheat groats.  Healthy and nutritious but bland.",
+    "description": "A serving of cooked buckwheat porridge.  Healthy and nutritious but bland.",
     "price": 120,
     "price_postapoc": 50,
-    "flags": [ "EATEN_HOT" ],
-    "fun": 0
+    "flags": [ "EATEN_HOT" ]
   },
   {
     "type": "COMESTIBLE",
@@ -699,19 +705,21 @@
     "type": "COMESTIBLE",
     "id": "cooked_pumpkin",
     "name": { "str": "mashed pumpkin" },
-    "copy-from": "pumpkin",
+    "copy-from": "pumpkin_cut",
     "color": "light_red",
     "spoils_in": "1 day 12 hours",
     "container": "can_food",
     "quench": 3,
+    "calories": 15,
     "description": "A simple dish made by cooking pumpkin pulp and then mashing.",
     "price": 50,
-    "price_postapoc": 50,
+    "price_postapoc": 30,
     "sealed": true,
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "delete": { "flags": [ "RAW" ] },
-    "charges": 1
+    "weight": "275 g",
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 1 ], [ "iron", 2 ] ],
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -791,6 +799,7 @@
       { "type": "COMPONENT_ID", "condition": "carrot", "name": { "str_sp": "%s, carrot" } },
       { "type": "COMPONENT_ID", "condition": "carrot_wild", "name": { "str_sp": "%s, wild root" } },
       { "type": "COMPONENT_ID", "condition": "cattail_stalk", "name": { "str_sp": "%s, cattail stalk" } },
+      { "type": "COMPONENT_ID", "condition": "burdock_stalk", "name": { "str_sp": "%s, burdock stalk" } },
       { "type": "COMPONENT_ID", "condition": "celery", "name": { "str_sp": "%s, celery" } },
       { "type": "COMPONENT_ID", "condition": "corn_kernels", "name": { "str_sp": "%s, corn kernels" } },
       { "type": "COMPONENT_ID", "condition": "cucumber", "name": { "str_sp": "%s, cucumber" } },
@@ -815,7 +824,12 @@
       { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str_sp": "%s, tomato" } },
       { "type": "COMPONENT_ID", "condition": "veggy", "name": { "str_sp": "%s, plant marrow" } },
       { "type": "COMPONENT_ID", "condition": "veggy_wild", "name": { "str_sp": "%s, wild vegetables" } },
-      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } }
+      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "japanese_knotweed_stem",
+        "name": { "str_sp": "%s, japanese knotweed stem" }
+      }
     ],
     "weight": "259 g",
     "color": "green",
@@ -870,7 +884,12 @@
       { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str_sp": "%s, tomato" } },
       { "type": "COMPONENT_ID", "condition": "veggy", "name": { "str_sp": "%s, plant marrow" } },
       { "type": "COMPONENT_ID", "condition": "veggy_wild", "name": { "str_sp": "%s, wild vegetables" } },
-      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } }
+      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "japanese_knotweed_stem",
+        "name": { "str_sp": "%s, japanese knotweed stem" }
+      }
     ],
     "weight": "192 g",
     "color": "green",
@@ -1029,7 +1048,12 @@
       { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str_sp": "%s, tomato" } },
       { "type": "COMPONENT_ID", "condition": "veggy", "name": { "str_sp": "%s, plant marrow" } },
       { "type": "COMPONENT_ID", "condition": "veggy_wild", "name": { "str_sp": "%s, wild vegetables" } },
-      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } }
+      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "japanese_knotweed_stem",
+        "name": { "str_sp": "%s, japanese knotweed stem" }
+      }
     ],
     "copy-from": "veggy",
     "proportional": { "weight": 0.5 },
@@ -1061,9 +1085,10 @@
     "material": [ "veggy" ],
     "milling": { "into": "cornmeal", "conversion_rate": 3 },
     "volume": "255 ml",
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
-    "fun": -10
+    "petfood": [ "CATTLEFOOD" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
+    "seed_data": { "plant_name": "corn", "fruit": "corn", "byproducts": [ "withered" ], "grow": "80 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -1103,7 +1128,12 @@
       { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str_sp": "%s, tomato" } },
       { "type": "COMPONENT_ID", "condition": "veggy", "name": { "str_sp": "%s, plant marrow" } },
       { "type": "COMPONENT_ID", "condition": "veggy_wild", "name": { "str_sp": "%s, wild vegetables" } },
-      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } }
+      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "japanese_knotweed_stem",
+        "name": { "str_sp": "%s, japanese knotweed stem" }
+      }
     ],
     "copy-from": "veggy",
     "color": "light_green",

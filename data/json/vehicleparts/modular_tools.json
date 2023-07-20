@@ -91,7 +91,6 @@
       { "count": [ 4, 6 ], "item": "scrap" }
     ],
     "broken_color": "light_cyan",
-    "broken_symbol": "x",
     "categories": [ "utility" ],
     "color": "light_cyan",
     "damage_modifier": 10,
@@ -101,20 +100,33 @@
     "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "VEH_TOOLS" ],
     "//": "allow tools common for both kitchen unit and workshop; unpowered or low-power and no fume hood required",
     "allowed_tools": [
-      "pot",
-      "pan",
-      "steel_pan",
-      "copper_pan",
       "aluminum_pan",
-      "coffeemaker",
+      "angle_grinder",
       "atomic_coffeepot",
+      "coffeemaker",
+      "con_mix",
+      "copper_pan",
       "cordless_drill",
-      "water_purifier",
-      "vac_sealer",
+      "elec_hairtrimmer",
+      "elec_shears",
+      "electric_spinwheel",
       "food_processor",
+      "large_repairkit",
+      "makeshift_sealer",
+      "makeshift_vacuum_mold",
+      "oil_press_manual",
+      "pan",
+      "polisher",
+      "pot",
       "press",
       "puller",
-      "soldering_iron"
+      "small_repairkit",
+      "soldering_iron",
+      "steel_pan",
+      "vac_mold",
+      "vac_sealer",
+      "water_purifier",
+      "wire_draw_machine"
     ],
     "item": "veh_tools_abstract",
     "location": "center",
@@ -127,7 +139,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 10 ] ]
       }
     },
-    "symbol": "&"
+    "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
   },
   {
     "type": "vehicle_part",
@@ -140,16 +152,21 @@
     "//": "allow tools here that require a fume hood but unpowered or low-power",
     "extend": {
       "allowed_tools": [
-        "hotplate",
-        "hotplate_induction",
-        "propane_cooker",
-        "oven",
-        "microwave",
         "chemistry_set",
+        "closed_loop_extractor_large",
+        "closed_loop_extractor_small",
+        "dehydrator",
         "electrolysis_kit",
         "electrolyzer_makeshift",
-        "dehydrator",
-        "towel"
+        "hotplate",
+        "hotplate_induction",
+        "ketene_lamp",
+        "microwave",
+        "oven",
+        "propane_cooker",
+        "towel",
+        "vac_oven_small",
+        "vac_pump"
       ]
     }
   },
@@ -161,6 +178,8 @@
     "looks_like": "welding_rig",
     "item": "veh_tools_workshop",
     "//": "allow tools here that require high power draw but no fume hood",
-    "extend": { "allowed_tools": [ "welding_kit", "welder" ] }
+    "extend": {
+      "allowed_tools": [ "circsaw_off", "cordless_impact_wrench", "reciprocating_saw", "welder", "welder_crude", "welding_kit" ]
+    }
   }
 ]

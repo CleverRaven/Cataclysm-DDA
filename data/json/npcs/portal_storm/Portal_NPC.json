@@ -32,6 +32,8 @@
     "type": "talk_topic",
     "id": "TALK_PORTAL_PERSON_2",
     "dynamic_line": "Jand rawdle?  Ignate hasture.",
-    "responses": [ { "text": "I guess, there's no reason to expect a dimensional traveler to speak english.", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "I guess there's no reason to expect an interdimensional traveler to speak English.", "topic": "TALK_DONE" }
+    ]
   }
 ]

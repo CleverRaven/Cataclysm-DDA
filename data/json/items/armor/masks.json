@@ -21,7 +21,6 @@
   {
     "id": "balaclava_skull",
     "type": "ARMOR",
-    "repairs_like": "balclava",
     "copy-from": "balclava",
     "name": { "str": "skull balaclava" },
     "description": "A skull-print balaclava covering the head and face, commonly used by motorcycle riders and as part of a costume.",
@@ -64,7 +63,6 @@
   },
   {
     "id": "bondage_mask",
-    "repairs_like": "mask_gas",
     "type": "ARMOR",
     "name": { "str": "bondage mask" },
     "description": "A tight mask made of black leather.  The eyes and mouth can be closed using zippers.",
@@ -106,7 +104,6 @@
   },
   {
     "id": "fencing_mask",
-    "repairs_like": "chainmail_hood",
     "type": "ARMOR",
     "name": { "str": "fencing mask" },
     "description": "A tough hood made of steel mesh used by fencers.",
@@ -148,7 +145,6 @@
   },
   {
     "id": "mask_bal",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "ballistic mask" },
@@ -170,7 +166,6 @@
   },
   {
     "id": "mask_dust",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "dust mask" },
     "description": "A simple piece of cotton that straps over the mouth.  Provides a small amount of protection from airborne illness and dust.",
@@ -275,7 +270,6 @@
   },
   {
     "id": "mask_guy_fawkes",
-    "repairs_like": "mask_hockey",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "Guy Fawkes mask" },
@@ -297,7 +291,6 @@
   },
   {
     "id": "mask_hockey",
-    "repairs_like": "mask_gas",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "hockey mask" },
@@ -341,7 +334,6 @@
     "id": "mask_skull",
     "type": "ARMOR",
     "category": "armor",
-    "repairs_like": "mask_hockey",
     "name": { "str": "skull mask" },
     "description": "A plastic skull mask that covers the face.  Spooky.",
     "weight": "50 g",

@@ -181,7 +181,7 @@
       { "item": "vac_sealer", "prob": 10 },
       { "item": "smart_phone", "prob": 50, "charges-min": 0 },
       { "item": "eink_tablet_pc", "prob": 15 },
-      { "item": "mobile_memory_card", "prob": 40 },
+      { "item": "memory_card_unread", "prob": 40 },
       { "item": "camera", "prob": 15, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "prob": 5, "charges": [ 0, 150 ] },
       { "item": "wristwatch", "prob": 15 },

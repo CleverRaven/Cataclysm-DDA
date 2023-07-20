@@ -34,7 +34,7 @@ static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
-TEST_CASE( "clearing identified books", "[reading][book][identify][clear]" )
+TEST_CASE( "clearing_identified_books", "[reading][book][identify][clear]" )
 {
     item book( "child_book" );
     SECTION( "using local avatar" ) {
@@ -51,7 +51,7 @@ TEST_CASE( "clearing identified books", "[reading][book][identify][clear]" )
     }
 }
 
-TEST_CASE( "identifying unread books", "[reading][book][identify]" )
+TEST_CASE( "identifying_unread_books", "[reading][book][identify]" )
 {
     clear_avatar();
     Character &dummy = get_avatar();
@@ -76,7 +76,7 @@ TEST_CASE( "identifying unread books", "[reading][book][identify]" )
     }
 }
 
-TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
+TEST_CASE( "reading_a_book_for_fun", "[reading][book][fun]" )
 {
     clear_avatar();
     Character &dummy = get_avatar();
@@ -148,7 +148,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
     }
 }
 
-TEST_CASE( "character reading speed", "[reading][character][speed]" )
+TEST_CASE( "character_reading_speed", "[reading][character][speed]" )
 {
     clear_avatar();
     Character &dummy = get_avatar();
@@ -169,11 +169,11 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
 
         THEN( "reading speed gets slower as intelligence decreases" ) {
             dummy.int_max = 7;
-            CHECK( dummy.read_speed() * 60 == 6300 );
+            CHECK( dummy.read_speed() * 60 == 6180 );
             dummy.int_max = 6;
-            CHECK( dummy.read_speed() * 60 == 6600 );
+            CHECK( dummy.read_speed() * 60 == 6480 );
             dummy.int_max = 5;
-            CHECK( dummy.read_speed() * 60 == 6900 );
+            CHECK( dummy.read_speed() * 60 == 6780 );
             dummy.int_max = 4;
             CHECK( dummy.read_speed() * 60 == 7200 );
         }
@@ -185,16 +185,16 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
             dummy.int_max = 9;
             CHECK( dummy.read_speed() * 60 == 5700 );
             dummy.int_max = 10;
-            CHECK( dummy.read_speed() * 60 == 5400 );
+            CHECK( dummy.read_speed() * 60 == 5460 );
             dummy.int_max = 12;
-            CHECK( dummy.read_speed() * 60 == 4800 );
+            CHECK( dummy.read_speed() * 60 == 5100 );
             dummy.int_max = 14;
-            CHECK( dummy.read_speed() * 60 == 4200 );
+            CHECK( dummy.read_speed() * 60 == 4800 );
         }
     }
 }
 
-TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
+TEST_CASE( "estimated_reading_time_for_a_book", "[reading][book][time]" )
 {
     avatar dummy;
     //Give eyes to our dummy
@@ -263,7 +263,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
         WHEN( "player has below average intelligence" ) {
             dummy.int_max = 6;
             REQUIRE( dummy.get_int() == 6 );
-            REQUIRE( dummy.read_speed() * 60 == 6600 ); // 66s
+            REQUIRE( dummy.read_speed() * 60 == 6480 ); // 65s
 
             THEN( "they take longer than average to read any book" ) {
                 CHECK( dummy.time_to_read( *child, dummy ) > moves_child );
@@ -275,7 +275,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
         WHEN( "player has above average intelligence" ) {
             dummy.int_max = 10;
             REQUIRE( dummy.get_int() == 10 );
-            REQUIRE( dummy.read_speed() * 60 == 5400 ); // 54s
+            REQUIRE( dummy.read_speed() * 60 == 5460 ); // 55s
 
             THEN( "they take less time than average to read any book" ) {
                 CHECK( dummy.time_to_read( *child, dummy ) < moves_child );
@@ -286,7 +286,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
     }
 }
 
-TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
+TEST_CASE( "reasons_for_not_being_able_to_read", "[reading][reasons]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -376,7 +376,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
     }
 }
 
-TEST_CASE( "determining book mastery", "[reading][book][mastery]" )
+TEST_CASE( "determining_book_mastery", "[reading][book][mastery]" )
 {
     static const auto book_has_skill = []( const item & book ) -> bool {
         REQUIRE( book.is_book() );
@@ -431,7 +431,7 @@ TEST_CASE( "determining book mastery", "[reading][book][mastery]" )
     }
 }
 
-TEST_CASE( "reading a book for skill", "[reading][book][skill]" )
+TEST_CASE( "reading_a_book_for_skill", "[reading][book][skill]" )
 {
     clear_avatar();
     Character &dummy = get_avatar();
@@ -466,7 +466,7 @@ TEST_CASE( "reading a book for skill", "[reading][book][skill]" )
     }
 }
 
-TEST_CASE( "reading a book with an ebook reader", "[reading][book][ereader]" )
+TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
 {
     avatar &dummy = get_avatar();
     clear_avatar();

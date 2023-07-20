@@ -145,7 +145,7 @@
     "id": "pantry",
     "type": "item_group",
     "subtype": "distribution",
-    "groups": [ [ "cannedfood", 40 ], [ "pasta", 20 ], [ "kitchen_nonfood", 10 ] ]
+    "entries": [ { "group": "cannedfood", "prob": 40 }, { "group": "pasta", "prob": 20 }, { "group": "kitchen_nonfood", "prob": 10 } ]
   },
   {
     "type": "item_group",
@@ -338,7 +338,9 @@
       { "item": "biscuit", "prob": 12 },
       { "item": "hardtack", "prob": 2 },
       { "item": "seasoning_salt", "prob": 25 },
-      { "item": "seasoning_italian", "prob": 25 }
+      { "item": "seasoning_italian", "prob": 25 },
+      { "item": "pecorino_cheese", "prob": 30 },
+      { "item": "eggplant", "prob": 30 }
     ]
   },
   {
@@ -373,7 +375,8 @@
       { "item": "garlic", "prob": 3 },
       { "item": "pine_nuts", "prob": 10 },
       { "item": "carrot", "prob": 3 },
-      { "item": "bell_pepper", "prob": 7 }
+      { "item": "bell_pepper", "prob": 7 },
+      { "item": "eggplant", "prob": 7 }
     ]
   },
   {
@@ -440,7 +443,8 @@
       { "item": "blackberries", "prob": 7 },
       { "item": "cholla_bud", "prob": 3 },
       { "item": "garlic", "prob": 3 },
-      { "item": "pine_nuts", "prob": 10 }
+      { "item": "pine_nuts", "prob": 10 },
+      { "item": "eggplant", "prob": 10 }
     ]
   },
   {
@@ -647,7 +651,9 @@
       { "item": "pie_veggy", "prob": 18 },
       { "item": "pie_meat", "prob": 18 },
       { "item": "pie_maple", "prob": 9 },
-      { "item": "gelatin_dessert_processed", "prob": 40 }
+      { "item": "gelatin_dessert_processed", "prob": 40 },
+      { "item": "mascarpone", "prob": 8 },
+      { "item": "tiramisu", "prob": 12 }
     ]
   },
   {
@@ -670,7 +676,9 @@
       { "item": "pie", "prob": 20 },
       { "item": "pie_veggy", "prob": 15 },
       { "item": "pie_meat", "prob": 15 },
-      { "item": "pie_maple", "prob": 10 }
+      { "item": "pie_maple", "prob": 10 },
+      { "item": "pecorino_cheese", "prob": 10 },
+      { "item": "tiramisu", "prob": 12 }
     ]
   },
   {

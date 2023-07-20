@@ -61,9 +61,21 @@
   {
     "id": "mx_roadblock",
     "type": "map_extra",
+    "name": { "str": "Roadblock (Police)" },
+    "description": "This road is blocked by police.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_roadblock" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "X",
+    "color": "blue",
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
+  },
+  {
+    "id": "mx_roadblock_mil",
+    "type": "map_extra",
     "name": { "str": "Roadblock (Military)" },
     "description": "This road is blocked by military.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_roadblock" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_roadblock_mil" },
     "min_max_zlevel": [ 0, 0 ],
     "sym": "X",
     "color": "red",
@@ -99,7 +111,7 @@
     "type": "map_extra",
     "name": { "str": "Supply Drop" },
     "description": "Several supply crates were dropped here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_supplydrop" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_airdrop" },
     "min_max_zlevel": [ 0, 0 ],
     "sym": "C",
     "color": "yellow",
@@ -589,5 +601,13 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_prison_van" },
     "min_max_zlevel": [ 0, 0 ],
     "flags": [ "MAN_MADE" ]
+  },
+  {
+    "id": "mx_beehive_natural",
+    "type": "map_extra",
+    "name": { "str": "Beehive" },
+    "description": "An ordinary beehive.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_beehive_natural" },
+    "min_max_zlevel": [ 0, 0 ]
   }
 ]

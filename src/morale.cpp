@@ -1009,7 +1009,7 @@ void player_morale::set_worn( const item &it, bool worn )
     }
 
     if( super_fancy ) {
-        const auto id = it.typeId();
+        const itype_id id = it.typeId();
         const auto iter = super_fancy_items.find( id );
 
         if( iter != super_fancy_items.end() ) {

@@ -19,6 +19,8 @@ static const efftype_id effect_ridden( "ridden" );
 
 static const mfaction_str_id monfaction_player( "player" );
 
+static const mon_flag_str_id mon_flag_VERMIN( "VERMIN" );
+
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 creature_tracker::creature_tracker() = default;
@@ -67,7 +69,7 @@ bool creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
         return false;
     }
 
-    if( critter.type->has_flag( MF_VERMIN ) ) {
+    if( critter.type->has_flag( mon_flag_VERMIN ) ) {
         // Don't spawn vermin, they aren't implemented yet
         return false;
     }

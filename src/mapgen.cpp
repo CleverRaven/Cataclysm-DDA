@@ -26,6 +26,7 @@
 #include "colony.h"
 #include "common_types.h"
 #include "computer.h"
+#include "condition.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
@@ -111,7 +112,6 @@ static const itype_id itype_jp8( "jp8" );
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
 static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
-static const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
 static const mongroup_id GROUP_LAB( "GROUP_LAB" );
 static const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
 static const mongroup_id GROUP_LAB_SECURITY( "GROUP_LAB_SECURITY" );
@@ -316,6 +316,8 @@ class mapgen_basic_container
 {
     private:
         std::vector<std::shared_ptr<mapgen_function>> mapgens_;
+        //mapgens that need to be recalculated with a function when spawned
+        std::vector<std::shared_ptr<mapgen_function>> mapgens_to_recalc_;
         weighted_int_list<std::shared_ptr<mapgen_function>> weights_;
 
     public:
@@ -336,7 +338,17 @@ class mapgen_basic_container
          * @p hardcoded_weight Weight for an additional entry. If that entry is chosen,
          * false is returned. If unsure, just use 0 for it.
          */
-        bool generate( mapgendata &dat, const int hardcoded_weight ) const {
+        bool generate( mapgendata &dat, const int hardcoded_weight ) {
+            for( const std::shared_ptr<mapgen_function> &ptr : mapgens_to_recalc_ ) {
+                dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+                int const weight = ptr->weight.evaluate( d );
+                if( weight >= 1 ) {
+                    weights_.add_or_replace( ptr, weight );
+                } else {
+                    weights_.remove( ptr );
+                }
+            }
+
             if( hardcoded_weight > 0 &&
                 rng( 1, weights_.get_weight() + hardcoded_weight ) > weights_.get_weight() ) {
                 return false;
@@ -356,11 +368,17 @@ class mapgen_basic_container
          */
         void setup() {
             for( const std::shared_ptr<mapgen_function> &ptr : mapgens_ ) {
-                const int weight = ptr->weight;
-                if( weight < 1 ) {
-                    continue; // rejected!
+                cata_assert( ptr->weight );
+                if( ptr->weight.is_constant() ) {
+                    int const weight = ptr->weight.constant();
+                    if( weight < 1 ) {
+                        continue; // rejected!
+                    }
+                    weights_.add( ptr, weight );
+                } else {
+                    mapgens_to_recalc_.push_back( ptr );
                 }
-                weights_.add( ptr, weight );
+
                 ptr->setup();
             }
             // Not needed anymore, pointers are now stored in weights_ (or not used at all)
@@ -468,7 +486,7 @@ class mapgen_factory
             return mapgens_[key].add( ptr );
         }
         /// @see mapgen_basic_container::generate
-        bool generate( mapgendata &dat, const std::string &key, const int hardcoded_weight = 0 ) const {
+        bool generate( mapgendata &dat, const std::string &key, const int hardcoded_weight = 0 ) {
             const auto iter = mapgens_.find( key );
             if( iter == mapgens_.end() ) {
                 return false;
@@ -613,15 +631,16 @@ std::shared_ptr<mapgen_function>
 load_mapgen_function( const JsonObject &jio, const std::string &id_base, const point &offset,
                       const point &total )
 {
-    int mgweight = jio.get_int( "weight", 1000 );
-    if( mgweight <= 0 || jio.get_bool( "disabled", false ) ) {
+    dbl_or_var weight = get_dbl_or_var( jio, "weight", false,  1000 );
+
+    if( jio.get_bool( "disabled", false ) ) {
         jio.allow_omitted_members();
         return nullptr; // nothing
     }
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "builtin" ) {
         if( const building_gen_pointer ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
-            return std::make_shared<mapgen_function_builtin>( ptr, mgweight );
+            return std::make_shared<mapgen_function_builtin>( ptr, std::move( weight ) );
         } else {
             jio.throw_error_at( "name", "function does not exist" );
         }
@@ -632,7 +651,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
         JsonObject jo = jio.get_object( "object" );
         jo.allow_omitted_members();
         return std::make_shared<mapgen_function_json>(
-                   jo, mgweight, "mapgen " + id_base, offset, total );
+                   jo, std::move( weight ), "mapgen " + id_base, offset, total );
     } else {
         jio.throw_error_at( "method", R"(invalid value: must be "builtin" or "json")" );
     }
@@ -813,9 +832,9 @@ mapgen_function_json_base::mapgen_function_json_base(
 
 mapgen_function_json_base::~mapgen_function_json_base() = default;
 
-mapgen_function_json::mapgen_function_json( const JsonObject &jsobj, const int w,
-        const std::string &context, const point &grid_offset, const point &grid_total )
-    : mapgen_function( w )
+mapgen_function_json::mapgen_function_json( const JsonObject &jsobj,
+        dbl_or_var w, const std::string &context, const point &grid_offset, const point &grid_total )
+    : mapgen_function( std::move( w ) )
     , mapgen_function_json_base( jsobj, context )
     , fill_ter( t_null )
     , rotation( 0 )
@@ -1403,6 +1422,7 @@ class mapgen_value
 
             std::vector<StringId> all_possible_results( const mapgen_parameters & ) const override {
                 std::vector<StringId> result;
+                result.reserve( cases.size() );
                 for( const std::pair<const std::string, StringId> &p : cases ) {
                     result.push_back( p.second );
                 }
@@ -2420,7 +2440,7 @@ class jmapgen_monster : public jmapgen_piece
                     { x.get(), y.get(), dat.m.get_abs_sub().z() },
                     friendly, -1, mission_id, name, data );
                 }
-            } else {
+            } else if( ids.is_valid() ) {
                 mtype_id chosen_type = ids.pick()->get( dat );
                 if( !chosen_type.is_null() ) {
                     dat.m.add_spawn( chosen_type, spawn_count * pack_size.get(),
@@ -2494,8 +2514,11 @@ class jmapgen_vehicle : public jmapgen_piece
                 return;
             }
             tripoint const dst( x.get(), y.get(), dat.m.get_abs_sub().z() );
-            dat.m.add_vehicle( chosen_id, dst.xy(), random_entry( rotation ),
-                               fuel, status, true, faction );
+            vehicle *veh = dat.m.add_vehicle( chosen_id->pick(), dst, random_entry( rotation ),
+                                              fuel, status );
+            if( veh && !faction.empty() ) {
+                veh->set_owner( faction_id( faction ) );
+            }
             if( get_map().inbounds( dat.m.getglobal( dst ) ) ) {
                 dat.m.queue_main_cleanup();
             }
@@ -3046,7 +3069,7 @@ class jmapgen_computer : public jmapgen_piece
             }
             if( jsi.has_array( "eocs" ) ) {
                 for( const std::string &eoc : jsi.get_string_array( "eocs" ) ) {
-                    eocs.emplace_back( effect_on_condition_id( eoc ) );
+                    eocs.emplace_back( eoc );
                 }
             }
             if( jsi.has_array( "chat_topics" ) ) {
@@ -3324,7 +3347,7 @@ class jmapgen_remove_vehicles : public jmapgen_piece
         std::vector<vproto_id> vehicles_to_remove;
         jmapgen_remove_vehicles( const JsonObject &jo, const std::string_view/*context*/ ) {
             for( std::string item_id : jo.get_string_array( "vehicles" ) ) {
-                vehicles_to_remove.emplace_back( vproto_id( item_id ) );
+                vehicles_to_remove.emplace_back( item_id );
             }
         }
         mapgen_phase phase() const override {
@@ -3419,48 +3442,51 @@ class jmapgen_nested : public jmapgen_piece
         class neighbor_oter_check
         {
             private:
-                std::unordered_map<direction, cata::flat_set<oter_type_str_id>> neighbors;
+                std::unordered_map<direction, cata::flat_set<std::pair<std::string, ot_match_type>>> neighbors;
             public:
                 explicit neighbor_oter_check( const JsonObject &jsi ) {
                     for( direction dir : all_enum_values<direction>() ) {
-                        cata::flat_set<oter_type_str_id> dir_neighbours =
-                            jsi.get_tags<oter_type_str_id, cata::flat_set<oter_type_str_id>>(
-                                io::enum_to_string( dir ) );
+                        std::string location = io::enum_to_string( dir );
+                        cata::flat_set<std::pair<std::string, ot_match_type>> dir_neighbours;
+                        if( !jsi.has_string( location ) ) {
+                            for( const JsonValue entry : jsi.get_array( location ) ) {
+                                std::pair<std::string, ot_match_type> dir_neighbour;
+                                if( entry.test_string() ) {
+                                    dir_neighbour.first = entry.get_string();
+                                    dir_neighbour.second = ot_match_type::contains;
+                                } else {
+                                    JsonObject jo = entry.get_object();
+                                    dir_neighbour.first = jo.get_string( "om_terrain" );
+                                    dir_neighbour.second = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                                                           ot_match_type::contains );
+                                }
+                                dir_neighbours.insert( dir_neighbour );
+                            }
+                        } else {
+                            std::pair<std::string, ot_match_type> dir_neighbour;
+                            dir_neighbour.first = jsi.get_string( location );
+                            dir_neighbour.second = ot_match_type::contains;
+                            dir_neighbours.insert( dir_neighbour );
+                        }
                         if( !dir_neighbours.empty() ) {
                             neighbors[dir] = std::move( dir_neighbours );
                         }
                     }
                 }
 
-                void check( const std::string_view/*oter_name*/, const mapgen_parameters & ) const {
-                    // The check is ot_match_type::contains, so actually these
-                    // don't need to be valid ids, although they were until
-                    // recently.  TODO: permit the JSON to specify which match
-                    // type is intended and check where applicable.
-
-                    //for( const std::pair<const direction, cata::flat_set<oter_type_str_id>> &p :
-                    //     neighbors ) {
-                    //    for( const oter_type_str_id &id : p.second ) {
-                    //        if( !id.is_valid() ) {
-                    //            debugmsg( "Invalid oter_str_id '%s' in %s", id.str(), oter_name );
-                    //        }
-                    //    }
-                    //}
-                }
-
                 bool test( const mapgendata &dat ) const {
-                    for( const std::pair<const direction, cata::flat_set<oter_type_str_id>> &p :
+                    for( const std::pair<const direction, cata::flat_set<std::pair<std::string, ot_match_type>>> &p :
                          neighbors ) {
                         const direction dir = p.first;
-                        const cata::flat_set<oter_type_str_id> &allowed_neighbors = p.second;
+                        const cata::flat_set<std::pair<std::string, ot_match_type>> &allowed_neighbors = p.second;
 
                         cata_assert( !allowed_neighbors.empty() );
 
                         bool this_direction_matches = false;
-                        for( const oter_type_str_id &allowed_neighbor : allowed_neighbors ) {
+                        for( const std::pair<std::string, ot_match_type> &allowed_neighbor : allowed_neighbors ) {
                             this_direction_matches |=
-                                is_ot_match( allowed_neighbor.str(), dat.neighbor_at( dir ).id(),
-                                             ot_match_type::contains );
+                                is_ot_match( allowed_neighbor.first, dat.neighbor_at( dir ).id(),
+                                             allowed_neighbor.second );
                         }
                         if( !this_direction_matches ) {
                             return false;
@@ -3498,11 +3524,47 @@ class jmapgen_nested : public jmapgen_piece
 
                         cata_assert( !allowed_joins.empty() );
 
-                        bool this_direction_matches = false;
+                        bool this_direction_has_join = false;
                         for( const std::string &allowed_join : allowed_joins ) {
-                            this_direction_matches |= dat.has_join( dir, allowed_join );
+                            this_direction_has_join |= dat.has_join( dir, allowed_join );
                         }
-                        if( !this_direction_matches ) {
+                        if( !this_direction_has_join ) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+        };
+        class neighbor_flag_check
+        {
+            private:
+                std::unordered_map<direction, cata::flat_set<oter_flags>> neighbors;
+            public:
+                explicit neighbor_flag_check( const JsonObject &jsi ) {
+                    for( direction dir : all_enum_values<direction>() ) {
+                        cata::flat_set<oter_flags> dir_neighbours;
+                        std::string location = io::enum_to_string( dir );
+                        optional( jsi, false, location, dir_neighbours );
+                        if( !dir_neighbours.empty() ) {
+                            neighbors[dir] = std::move( dir_neighbours );
+                        }
+                    }
+                }
+
+                bool test( const mapgendata &dat ) const {
+                    for( const std::pair<const direction, cata::flat_set<oter_flags>> &p :
+                         neighbors ) {
+                        const direction dir = p.first;
+                        const cata::flat_set<oter_flags> &allowed_flags = p.second;
+
+                        cata_assert( !allowed_flags.empty() );
+
+                        bool this_direction_has_flag = false;
+                        for( const oter_flags &allowed_flag : allowed_flags ) {
+                            this_direction_has_flag |=
+                                dat.neighbor_at( dir )->has_flag( allowed_flag );
+                        }
+                        if( !this_direction_has_flag ) {
                             return false;
                         }
                     }
@@ -3515,9 +3577,11 @@ class jmapgen_nested : public jmapgen_piece
         weighted_int_list<mapgen_value<nested_mapgen_id>> else_entries;
         neighbor_oter_check neighbor_oters;
         neighbor_join_check neighbor_joins;
+        neighbor_flag_check neighbor_flags;
         jmapgen_nested( const JsonObject &jsi, const std::string_view/*context*/ )
             : neighbor_oters( jsi.get_object( "neighbors" ) )
-            , neighbor_joins( jsi.get_object( "joins" ) ) {
+            , neighbor_joins( jsi.get_object( "joins" ) )
+            , neighbor_flags( jsi.get_object( "flags" ) ) {
             if( jsi.has_member( "chunks" ) ) {
                 load_weighted_list( jsi.get_member( "chunks" ), entries, 100 );
             }
@@ -3557,7 +3621,7 @@ class jmapgen_nested : public jmapgen_piece
         }
         const weighted_int_list<mapgen_value<nested_mapgen_id>> &get_entries(
         const mapgendata &dat ) const {
-            if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) ) {
+            if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) && neighbor_flags.test( dat ) ) {
                 return entries;
             } else {
                 return else_entries;
@@ -3599,7 +3663,6 @@ class jmapgen_nested : public jmapgen_piece
             for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &p : else_entries ) {
                 p.obj.check( oter_name, parameters );
             }
-            neighbor_oters.check( oter_name, parameters );
             neighbor_joins.check( oter_name, parameters );
 
             // Check whether any of the nests can attempt to place stuff out of
@@ -5650,7 +5713,7 @@ void map::draw_lab( mapgendata &dat )
                         // liquid floors.
                         break;
                     }
-                    auto fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
+                    ter_id fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
                     for( int i = 0; i < EAST_EDGE; i++ ) {
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // We spare some terrain to make it look better visually.
@@ -5677,7 +5740,7 @@ void map::draw_lab( mapgendata &dat )
                         // liquid floors.
                         break;
                     }
-                    auto fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
+                    ter_id fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
                     for( int i = 0; i < 2; ++i ) {
                         draw_rough_circle( [this, fluid_type]( const point & p ) {
                             if( t_thconc_floor == ter( p ) || t_strconc_floor == ter( p ) ||
@@ -5744,53 +5807,6 @@ void map::draw_lab( mapgendata &dat )
                     if( !is_open_air( *center ) ) {
                         trap_set( *center, tr_portal );
                         create_anomaly( *center, random_entry( valid_props ), false );
-                    }
-                    break;
-                }
-                // radioactive accident.
-                case 6: {
-                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z() );
-                    if( has_flag_ter( ter_furn_flag::TFLAG_WALL, center.xy() ) ) {
-                        // just skip it, we don't want to risk embedding radiation out of sight.
-                        break;
-                    }
-                    draw_rough_circle( [this]( const point & p ) {
-                        set_radiation( p, 10 );
-                    }, center.xy(), rng( 7, 12 ) );
-                    draw_circle( [this]( const point & p ) {
-                        set_radiation( p, 20 );
-                    }, center.xy(), rng( 5, 8 ) );
-                    draw_circle( [this]( const point & p ) {
-                        set_radiation( p, 30 );
-                    }, center.xy(), rng( 2, 4 ) );
-                    draw_circle( [this]( const point & p ) {
-                        set_radiation( p, 50 );
-                    }, center.xy(), 1 );
-                    draw_circle( [this]( const point & p ) {
-                        if( has_flag_ter( ter_furn_flag::TFLAG_GOES_DOWN, p ) ||
-                            has_flag_ter( ter_furn_flag::TFLAG_GOES_UP, p ) ||
-                            has_flag_ter( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
-                            return; // spare stairs and consoles.
-                        }
-                        make_rubble( {p, abs_sub.z() } );
-                        ter_set( p, t_thconc_floor );
-                    }, center.xy(), 1 );
-
-                    place_spawns( GROUP_HAZMATBOT, 1, center.xy() + point_west,
-                                  center.xy() + point_west, 1, true );
-                    place_spawns( GROUP_HAZMATBOT, 2, center.xy() + point_west,
-                                  center.xy() + point_west, 1, true );
-
-                    // damaged mininuke/plut thrown past edge of rubble so the player can see it.
-                    point marker( center.xy() + point( -2 + 4 * rng( 0, 1 ), rng( -2, 2 ) ) );
-                    if( one_in( 4 ) ) {
-                        spawn_item( marker,
-                                    "mininuke", 1, 1, calendar::turn_zero, rng( 2, 4 ) );
-                    } else {
-                        item newliquid( "plut_slurry_dense", calendar::start_of_cataclysm );
-                        newliquid.charges = 1;
-                        add_item_or_charges( tripoint( marker, get_abs_sub().z() ),
-                                             newliquid );
                     }
                     break;
                 }
@@ -5964,10 +5980,6 @@ void map::draw_lab( mapgendata &dat )
                             spawn_item( point( SEEX - 1, SEEY ), "recipe_atomic_battery" );
                             spawn_item( point( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
                         } else if( loot_variant < 89 ) {
-                            spawn_item( point( SEEX - 1, SEEY - 1 ), "mininuke", dice( 3, 6 ) );
-                            spawn_item( point( SEEX, SEEY - 1 ), "mininuke", dice( 3, 6 ) );
-                            spawn_item( point( SEEX - 1, SEEY ), "mininuke", dice( 3, 6 ) );
-                            spawn_item( point( SEEX, SEEY ), "mininuke", dice( 3, 6 ) );
                             spawn_item( point( SEEX, SEEY ), "recipe_atomic_battery" );
                             spawn_item( point( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
                         }  else { // loot_variant between 90 and 96.
@@ -6574,7 +6586,8 @@ std::vector<item *> map::place_items(
 std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, const tripoint &p,
         const time_point &turn )
 {
-    const auto items = item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
+    const std::vector<item> items =
+        item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
     return spawn_items( p, items );
 }
 
@@ -6617,31 +6630,8 @@ void map::add_spawn(
     place_on_submap->spawns.push_back( tmp );
 }
 
-vehicle *map::add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks, const std::string &faction,
-                           bool may_spawn_locked )
-{
-    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks, faction,
-                        may_spawn_locked );
-}
-
-vehicle *map::add_vehicle( const vgroup_id &type, const point &p, const units::angle &dir,
-                           int veh_fuel, int veh_status, bool merge_wrecks, const std::string &faction, bool may_spawn_locked )
-{
-    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks, faction,
-                        may_spawn_locked );
-}
-
-vehicle *map::add_vehicle( const vproto_id &type, const point &p, const units::angle &dir,
-                           int veh_fuel, int veh_status, bool merge_wrecks, const std::string &faction, bool may_spawn_locked )
-{
-    return add_vehicle( type, tripoint( p, abs_sub.z() ), dir, veh_fuel, veh_status, merge_wrecks,
-                        faction, may_spawn_locked );
-}
-
 vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks, const std::string &faction,
-                           bool may_spawn_locked )
+                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
 {
     if( !type.is_valid() ) {
         debugmsg( "Nonexistent vehicle type: \"%s\"", type.c_str() );
@@ -6653,13 +6643,11 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
         return nullptr;
     }
 
-    auto veh = std::make_unique<vehicle>( *this, type, veh_fuel, veh_status, may_spawn_locked );
+    std::unique_ptr<vehicle> veh = std::make_unique<vehicle>( type );
     tripoint p_ms = p;
     veh->sm_pos = ms_to_sm_remain( p_ms );
     veh->pos = p_ms.xy();
-    if( !faction.empty() ) {
-        veh->set_owner( faction_id( faction ) );
-    }
+    veh->init_state( *this, veh_fuel, veh_status );
     veh->place_spawn_items();
     veh->face.init( dir );
     veh->turn_dir = dir;
@@ -6785,8 +6773,14 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                     const point target_point = first_veh_parts.front()->mount;
                     const point source_point = parts_to_move.front()->mount;
                     for( const vehicle_part *vp : parts_to_move ) {
+                        const vpart_info &vpi = vp->info();
                         // TODO: change mount points to be tripoint
-                        first_veh->install_part( target_point, *vp );
+                        const ret_val<void> valid_mount = first_veh->can_mount( target_point, vpi );
+                        if( valid_mount.success() ) {
+                            // make a copy so we don't interfere with veh_to_add->remove_part below
+                            first_veh->install_part( target_point, vehicle_part( *vp ) );
+                        }
+                        // ignore parts that would make invalid vehicle configuration
                     }
 
                     if( !handler_ptr ) {
@@ -6801,10 +6795,11 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                     std::vector<int> parts_in_square = veh_to_add->parts_at_relative( source_point, true );
                     std::set<int> parts_to_check;
                     for( int index = parts_in_square.size() - 1; index >= 0; index-- ) {
+                        vehicle_part &vp = veh_to_add->part( parts_in_square[index] );
                         if( handler_ptr ) {
-                            veh_to_add->remove_part( parts_in_square[index], *handler_ptr );
+                            veh_to_add->remove_part( vp, *handler_ptr );
                         } else {
-                            veh_to_add->remove_part( parts_in_square[index] );
+                            veh_to_add->remove_part( vp );
                         }
                         parts_to_check.insert( parts_in_square[index] );
                     }

@@ -2,6 +2,7 @@
 
 #include <array>
 #include <chrono>
+#include <cmath>
 #include <fstream>
 #include <iomanip>
 #include <locale>
@@ -18,9 +19,8 @@ tgz_archiver::~tgz_archiver()
 }
 
 std::string tgz_archiver::_gen_tar_header( fs::path const &file_name, fs::path const &prefix,
-        fs::path const &real_path )
+        fs::path const &real_path, std::streamsize size )
 {
-    unsigned const size = fs::is_regular_file( real_path ) ? fs::file_size( real_path ) : 0;
     unsigned const type = fs::is_directory( real_path ) ? 5 : 0;
     unsigned const perms = fs::is_directory( real_path ) ? 0775 : 0664;
     // https://stackoverflow.com/a/61067330
@@ -85,20 +85,29 @@ bool tgz_archiver::add_file( fs::path const &real_path, fs::path const &archived
         file_name = archived_path;
     }
 
-    std::string const header = _gen_tar_header( file_name, prefix, real_path );
+    std::string header( tar_block_size, '\0' );
+    std::streamsize size = 0;
+    std::ifstream file( real_path, std::ios::binary | std::ios::ate );
+    if( fs::is_regular_file( real_path ) ) {
+        size = file.tellg();
+        header = _gen_tar_header( file_name, prefix, real_path, size );
+        file.seekg( 0 );
+        file.clear();
+    } else {
+        header = _gen_tar_header( file_name, prefix, real_path, 0 );
+    }
     bool ret = gzwrite( fd, header.c_str(), tar_block_size ) != 0;
 
-    if( !ret || !fs::is_regular_file( real_path ) ) {
+    if( !ret || !fs::is_regular_file( real_path ) || size == 0 ) {
         return ret;
     }
 
-    cata::ifstream file( real_path, std::ios::binary );
-    while( !file.eof() && ret ) {
-        tar_block_t buf{};
-        file.read( buf.data(), buf.size() );
-        if( file.gcount() > 0 ) {
-            ret &= gzwrite( fd, buf.data(), buf.size() ) != 0;
-        }
+    double const buf_size = std::ceil( static_cast<double>( size ) / tar_block_size ) * tar_block_size;
+    std::string buf( static_cast<std::string::size_type>( buf_size ), '\0' );
+    if( file.read( buf.data(), size ) ) {
+        ret &= gzwrite( fd, buf.data(), buf.size() ) != 0;
+    } else {
+        debugmsg( "failed to read file %s", real_path.string() );
     }
 
     return ret;

@@ -122,7 +122,7 @@ void damage_type::load( const JsonObject &jo, std::string_view )
         if( jsobj.has_array( "monster" ) ) {
             mon_immune_flags.clear();
             for( const std::string flg : jsobj.get_array( "monster" ) ) {
-                mon_immune_flags.insert( io::string_to_enum<m_flag>( flg ) );
+                mon_immune_flags.insert( flg );
             }
         }
         if( jsobj.has_array( "character" ) ) {
@@ -158,7 +158,7 @@ void damage_type::check()
             return dt.id == dio.dmg_type;
         } );
         if( iter == dio_list.end() ) {
-            debugmsg( "damage type %s has no associated damage_info_order type." );
+            debugmsg( "damage type %s has no associated damage_info_order type.", dt.id.c_str() );
         }
     }
 }
@@ -406,6 +406,7 @@ damage_instance damage_instance::di_considering_length( units::length barrel_len
     for( damage_unit &du : di.damage_units ) {
         if( !du.barrels.empty() ) {
             std::vector<std::pair<float, float>> lerp_points;
+            lerp_points.reserve( du.barrels.size() );
             for( const barrel_desc &b : du.barrels ) {
                 lerp_points.emplace_back( static_cast<float>( b.barrel_length.value() ), b.amount );
             }

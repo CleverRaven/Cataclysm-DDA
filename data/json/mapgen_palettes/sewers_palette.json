@@ -15,6 +15,7 @@
       "^": "t_metal_floor",
       "z": "t_metal_floor",
       "Z": "t_metal_floor",
+      "6": "t_metal_floor",
       "~": "t_sewage",
       "_": [ [ "t_moss", 2 ], [ "t_dirtmound", 4 ], [ "t_sewage", 4 ] ],
       "-": "t_bridge",
@@ -55,6 +56,7 @@
       "~": { "group": "GROUP_SEWER", "chance": 2 },
       "z": { "group": "GROUP_ZOMBIE", "chance": 25 },
       "Z": { "group": "GROUP_ZOMBIE", "chance": 100 }
-    }
+    },
+    "nested": { "6": { "chunks": [ [ "null", 2 ], [ "1x1_sewermap", 1 ] ] } }
   }
 ]

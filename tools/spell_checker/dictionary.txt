@@ -59,6 +59,7 @@ alay
 albertonykus
 albertosaurus
 alchemic
+alchemically
 alchemies
 aldosterone
 alembic
@@ -159,6 +160,7 @@ arthouse
 arthropod
 arthropodology
 artificer
+artisanals
 asexuality
 askin
 aspirants
@@ -193,11 +195,14 @@ autoinjector
 autoloading
 autologous
 automagnum
+automates
 autonomously
 autosaves
 autoselect
 autoshotgun
 avellana
+aventail
+aventails
 avgas
 avians
 aving
@@ -241,6 +246,7 @@ baselines
 basiliscus
 bassline
 basswood
+barleycorn
 batching
 batlike
 batrachian
@@ -265,6 +271,7 @@ betavoltaic
 betavoltaics
 bevor
 bicephalous
+bicolor
 biddable
 bifocal
 biggun
@@ -290,6 +297,7 @@ biomancy
 biomaterials
 biomatter
 biome
+biomes
 biomonitor
 bioparts
 bioprinted
@@ -329,7 +337,7 @@ bodkin
 bodyglove
 bodymesh
 bodypart
-bodyweight 
+bodyweight
 bokken
 bolas
 bolded
@@ -367,6 +375,8 @@ breakrooms
 breatharians
 brennt
 brewable
+brigandine
+brigandines
 brimless
 brined
 bringin
@@ -386,10 +396,14 @@ bugout
 buildups
 builtin
 bulette
+bulkiness
 bullhead
+bullheads
 bullpup
 bumbles
 burbles
+burbot
+burbots
 burdocks
 burette
 burnback
@@ -428,8 +442,11 @@ canina
 cannelured
 caparison
 caprison
+capsicum
 carabiner
 carabiners
+carapace
+carapaces
 caret
 carryin
 cartilaginous
@@ -516,6 +533,7 @@ civilizational
 clairly
 clambers
 clanged
+clanker
 clanky
 clarifier
 clashin
@@ -537,6 +555,7 @@ coati
 coatings
 coatis
 cockatrice
+cods
 coeculus
 coelophysis
 coffeetable
@@ -581,6 +600,8 @@ conversando
 coolants
 cooldown
 coprocessors
+copyplate
+copyplates
 copywritten
 cordage
 corded
@@ -593,6 +614,7 @@ corporeality
 corvid
 corythosaurus
 cosplayers
+counterchanged
 countermine
 countertime
 couters
@@ -651,6 +673,7 @@ cybernetically
 cyberstalking
 cyberterror
 cybug
+cycad
 cyclohexane
 cyclopean
 cyphers
@@ -678,6 +701,8 @@ deathcam
 deathmobile
 deathrattle
 debatably
+debuff
+debuffs
 debugged
 decap
 decelerates
@@ -776,7 +801,7 @@ doesnt
 doffing
 dogbane
 doggo
-doglike 
+doglike
 domestica
 dongle
 doomseer
@@ -786,6 +811,7 @@ dooting
 doots
 downspout
 doz
+drabs
 draconic
 dragonail
 dragonails
@@ -806,6 +832,7 @@ drivetrain
 dromaeosaurid
 dromaeosaurus
 droppers
+drotik
 drowse
 druidic
 druidry
@@ -820,6 +847,7 @@ dumpsite
 dunderfuck
 duplicator
 duplicators
+dustbunny
 dynamically
 dyoplosaurus
 dysfunctions
@@ -834,6 +862,7 @@ earthbag
 earthbags
 earthlike
 earthshaper
+earthside
 eatbtb
 ebon
 ebook
@@ -862,6 +891,7 @@ eles
 elete
 elongates
 elopements
+elsewheres
 elytra
 embrasure
 emode
@@ -891,6 +921,8 @@ eou
 epicuticle
 epistemology
 eppies
+equestrian
+equestrians
 ergometer
 ergonomics
 erlischt
@@ -926,6 +958,8 @@ excreta
 excretions
 exhorts
 existentialists
+exobay
+exodii
 exoplanet
 exosuit
 exosuits
@@ -950,6 +984,7 @@ eyestalks
 f
 fabricators
 facemask
+facemasks
 faceplates
 faceted
 faders
@@ -993,6 +1028,8 @@ fightin
 filenames
 fileset
 filmstrip
+fimbriated
+fimbriation
 finial
 finned
 fireboots
@@ -1132,6 +1169,7 @@ garishly
 garlander
 garou
 garried
+gars
 gasbomb
 gasgun
 gasmask
@@ -1154,6 +1192,7 @@ gesticulates
 getups
 ghast
 gibbous
+giganotosaurus
 github
 gladius
 glaive
@@ -1212,6 +1251,7 @@ gryposaurus
 gt
 guapote
 gubbins
+guls
 gunblade
 gunfighting
 gunmod
@@ -1220,6 +1260,7 @@ gunshop
 gunsmithing
 gunsmoke
 gushingly
+gurkha
 gutskin
 guvnah
 gymnocladus
@@ -1347,7 +1388,10 @@ hygroscopic
 hyolith
 hypacrosaurus
 hyperaggressive
+hyperboloid
+hyperboloids
 hyperdimensional
+hyperfocus
 hypergeometric
 hypermedia
 hypervelocity
@@ -1387,6 +1431,8 @@ ineffectively
 inertially
 infamously
 infeme
+infinitree
+infinitrees
 infirma
 influencers
 inhalant
@@ -1423,6 +1469,7 @@ inulin
 inverts
 invlets
 ios
+irising
 ironshod
 irradiance
 irremovable
@@ -1467,6 +1514,7 @@ karsk
 kart
 karting
 kasaya
+kastane
 katanas
 katar
 kcal
@@ -1491,6 +1539,8 @@ kickin
 kickstand
 killbasa
 killin
+kilij
+kilijs
 kilns
 kilroy
 kilted
@@ -1564,7 +1614,7 @@ lbs
 leache
 leatherbacked
 leatherbound
-leathercrafters 
+leathercrafters
 leatherworking
 leavening
 lectern
@@ -1617,10 +1667,12 @@ lobotomizer
 lockpick
 lockpickers
 lockpicking
+lockpicks
 longarm
 longear
 longhair
 longhouse
+longnose
 longsword
 longswords
 lootables
@@ -1644,10 +1696,12 @@ lx
 lyflode
 lyin
 m
+machiner
 macronutrient
 macrophenotypic
 macuahuitl
 maculata
+magickal
 magwells
 maiasaura
 maintainers
@@ -1666,6 +1720,8 @@ manhack
 manhacks
 manoomin
 manuc
+manufactorize
+manufactory
 manwich
 mapgen
 mapper
@@ -1739,7 +1795,7 @@ midden
 mideast
 mideastern
 midgame
-midground 
+midground
 midrange
 midsentence
 migo
@@ -1782,6 +1838,7 @@ modularity
 modulations
 mohawks
 moisturized
+mokorotlo
 moldspring
 molluscicide
 monicked
@@ -1802,6 +1859,8 @@ mosaicus
 mosasaurus
 mostlike
 mostravam
+mote
+motes
 motorpool
 motorsports
 mountable
@@ -1826,6 +1885,7 @@ multiplier
 multipronged
 multitool
 multiversal
+mundanity
 murderball
 murdersaw
 musculoskeletal
@@ -1850,6 +1910,7 @@ naginata
 naiad
 nailboard
 nakha
+namele
 nanocompound
 nanocrystals
 nanofab
@@ -1945,6 +2006,8 @@ numbnut
 numpad
 obovate
 obsoleted
+occultism
+occultists
 ocher
 octo
 ocularium
@@ -1955,6 +2018,7 @@ offroad
 ohms
 oignon
 oleaginous
+oleoresin
 olieribos
 olor
 omnivore
@@ -1996,7 +2060,7 @@ overclock
 overclocks
 overdosage
 overdrinking
-overengineered 
+overengineered
 overexertion
 overgrowth
 overmap
@@ -2066,6 +2130,8 @@ pentagonal
 peptone
 percents
 perforator
+periapta
+periaptas
 peridot
 peridots
 peripheric
@@ -2099,6 +2165,7 @@ phyle
 physicochemical
 pickelhaube
 pickerel
+pickerels
 pickhead
 pickin
 pickins
@@ -2219,6 +2286,7 @@ prototyping
 protuberances
 prybar
 pseudocode
+pseudomagical
 pseudopod
 pseudopods
 pshht
@@ -2272,6 +2340,7 @@ queenright
 quells
 quern
 quetzalcoatlus
+quickheal
 quicksave
 quidem
 quiescent
@@ -2284,9 +2353,12 @@ racketus
 radially
 radioisotopes
 rafflesia
+raggiana
 railguns
 raincatcher
 rainsuit
+raketa
+raketas
 randomize
 randomizes
 rangehands
@@ -2348,6 +2420,7 @@ regia
 regrows
 regurgitates
 reimpose
+reinstalling
 remodulator
 rended
 renderer
@@ -2414,6 +2487,7 @@ rollmat
 roncone
 roofless
 rootlike
+ropers
 ropy
 rothe
 roun
@@ -2441,6 +2515,7 @@ sagely
 salicylate
 sallet
 salsify
+saltire
 saltpan
 saltworks
 salvager
@@ -2477,6 +2552,7 @@ scions
 scissorlimbs
 sclera
 sclerotin
+sclerotized
 scolosaurus
 scrabblin
 screecher
@@ -2484,7 +2560,9 @@ screwdriving
 scrrrash
 scruffs
 scutcher
+scute
 scutellosaurus
+scutes
 scuttles
 sealab
 sealable
@@ -2513,7 +2591,10 @@ sh
 shadowbox
 shadowboxing
 shadowcat
+shahada
 shambler
+shamshir
+shamshirs
 shantak
 shantytowns
 shapechangers
@@ -2531,6 +2612,7 @@ shogi
 shootable
 shortfalls
 shorthair
+shortnose
 shotcestus
 shotgunner
 shotshell
@@ -2552,6 +2634,7 @@ siloing
 sinensis
 sintering
 sithen
+sixdust
 skeletonized
 skeltal
 skillset
@@ -2585,6 +2668,8 @@ smokable
 smokegun
 smokin
 smoothbore
+snakelet
+snakelets
 snapback
 snappier
 snick
@@ -2619,6 +2704,8 @@ spalling
 spasmically
 spasming
 spearcat
+spearfisher
+spearfishers
 spearhand
 spearmen
 speciesism
@@ -2647,8 +2734,10 @@ spinnerets
 spinosaurus
 spinwheel
 spitter
+splashproof
 splicer
 splinting
+splintmail
 splorch
 splosh
 spoilage
@@ -2681,6 +2770,7 @@ staunchable
 staunching
 std
 steadfastness
+steelshod
 steeltoed
 steeping
 steerable
@@ -2696,11 +2786,16 @@ stirfry
 stirge
 stockrooms
 stom
+stompers
+stompy
+stompy-clanker
 stonelike
 stoneskin
 stopcock
 stoppered
 stoppeth
+stook
+stooking
 storable
 stormcaller
 stormshaper
@@ -2716,6 +2811,7 @@ stubbier
 stungun
 sturdily
 sturdiness
+sturgeons
 stylette
 styracosaurus
 subcompact
@@ -2749,9 +2845,11 @@ supergluing
 supergravity
 superheroic
 supermaterials
+superoxide
 superpositional
 supersoldier
 supersoldiers
+superteam
 suppurated
 surcoat
 survivalcraft
@@ -2775,8 +2873,11 @@ synthesization
 t
 tacticool
 tadfish
+taegeuk
 taitsu
 takedowns
+talwar
+talwars
 tamable
 tambaqui
 tamina
@@ -2815,6 +2916,7 @@ testbed
 tetradrachm
 tetrahedron
 th
+thaumaturgical
 thawb
 themm
 therizinosaurus
@@ -2829,6 +2931,8 @@ thorned
 thornothurian
 thosun
 threateningly
+threshed
+throated
 throating
 throwable
 thru
@@ -2846,6 +2950,8 @@ tinamou
 tinning
 tiredly
 tireplate
+titani
+titanis
 titanochelon
 toecaps
 toggled
@@ -2877,6 +2983,7 @@ translocator
 transp
 transpositions
 transuranic
+trapezium
 trapezoidal
 travelogue
 travelpack
@@ -2887,6 +2994,7 @@ treelines
 trenchcoat
 trenchcoats
 trenchgun
+triband
 tribesperson
 tribot
 trichloride
@@ -2895,6 +3003,7 @@ triclopean
 tricorne
 trifacet
 triglav
+trigrams
 trilaser
 trilobite
 trioxide
@@ -2904,6 +3013,7 @@ trippin
 troglobite
 troodon
 troublin
+truckstop
 trudges
 tryphillum
 tsumi
@@ -2933,7 +3043,7 @@ uggo
 uistate
 ultracapacitor
 ultralight
-ultras 
+ultras
 ultratech
 unarmored
 unawareness
@@ -2956,6 +3066,7 @@ undersides
 underslung
 underwelming
 undescribed
+undried
 undulates
 uneasing
 unfathomably
@@ -2970,6 +3081,7 @@ ungulate
 unharvested
 unhealthily
 unhidden
+unhindering
 unhomogenized
 uninstall
 uninstalled
@@ -2983,19 +3095,23 @@ unlivable
 unlively
 unlives
 unlooted
+unlubricated
 unmalted
 unmark
 unmarred
 unmount
 unmounted
+unmutated
 unnervingly
 unobtainium
 unornamented
 unpadded
+unpopped
 unpowered
 unpressurised
 unreinforced
 unrifled
+unrotten
 unrushed
 unsaved
 unseasoned
@@ -3007,6 +3123,7 @@ unsiatable
 unskillfully
 unsorted
 unspecialized
+unspooled
 unsteadily
 unstocked
 unstrained
@@ -3064,6 +3181,7 @@ viewport
 viewports
 vikeys
 vinegared
+viny
 viperine
 virginica
 virions
@@ -3085,6 +3203,7 @@ wabbits
 wacka
 wakizashi
 wakizashis
+walleri
 walleye
 wammles
 wanderin
@@ -3094,6 +3213,8 @@ wargame
 warhammer
 warhammers
 warmouth
+warpglass
+warpstream
 wasnt
 wastebread
 watchband
@@ -3115,6 +3236,7 @@ wetworks
 whap
 whaps
 whatlike
+wheatberries
 whiled
 whiplike
 whirr
@@ -3177,6 +3299,7 @@ wyrmling
 wyrms
 x
 xamine
+xedra
 xenobiology
 xiph
 xiphos
@@ -3190,12 +3313,13 @@ yateveo
 yd
 yelemi
 yellowjacket
+yelman
 yme
 ynn
 yoroi
 youre
 yourselves
-youthful 
+youthful
 yowl
 yoyos
 yugg
@@ -3222,6 +3346,7 @@ zombeaver
 zombeavers
 zombiespawn
 zombiethustra
+zombification
 zombified
 zomborg
 zombull
@@ -3229,6 +3354,7 @@ zombullfrog
 zoonotic
 zpzzzzpzz
 zubon
+zucchinis
 zuniceratops
 zuul
 zweitimber

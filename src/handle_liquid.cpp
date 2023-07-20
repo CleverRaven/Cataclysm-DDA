@@ -393,18 +393,15 @@ bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
                                       round_up( to_liter( liquid.charges * stack ), 1 ),
                                       liquid.tname() );
 
-            vehicle_part &tank = veh_interact::select_part( *target.veh, sel, title );
-
-            if( !tank ) {
+            const std::optional<vpart_reference> vpr = veh_interact::select_part( *target.veh, sel, title );
+            if( !vpr ) {
                 return false;
             }
 
-            const vpart_reference vp( *target.veh, target.veh->index_of_part( &tank ) );
-
             if( create_activity() ) {
-                serialize_liquid_target( player_character.activity, vp );
+                serialize_liquid_target( player_character.activity, *vpr );
                 return true;
-            } else if( player_character.pour_into( vp, liquid ) ) {
+            } else if( player_character.pour_into( *vpr, liquid ) ) {
                 // this branch is used in milking and magiclysm butchery blood draining
                 player_character.mod_moves( -1000 ); // consistent with veh_interact::do_refill activity
                 return true;

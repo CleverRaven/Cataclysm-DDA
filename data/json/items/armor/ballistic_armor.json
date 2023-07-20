@@ -120,7 +120,6 @@
     "id": "stab_plate",
     "type": "ARMOR",
     "category": "armor",
-    "repairs_like": "ballistic_vest_esapi",
     "name": { "str": "soft stab panel" },
     "//": "based on https://www.highcomarmor.com/product/trooper-hcspike3/",
     "description": "A soft armor insert designed to protect against stab wounds.  While it's not great protection, it incurs no additional encumbrance.  This is intended to be inserted into a ballistic vest, and can't be worn on its own.",
@@ -152,7 +151,6 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "steel ballistic plate" },
-    "repairs_like": "hsurvivor_jumpsuit",
     "//": "based on 3a plates. Discuss high temp quenching so gonna assume tempered steel",
     "//2": "link like: https://www.shindn.com/products/nij-iiia?variant=35614363582627&currency=USD&utm_medium=product_sync&utm_source=google&utm_content=sag_organic&utm_campaign=sag_organic&utm_campaign=gs-2019-08-03&utm_source=google&utm_medium=smart_campaign&gclid=Cj0KCQjw5-WRBhCKARIsAAId9FlGQAManRGZ0qpV9AIkD23FZfpm4aPDI4PHE9qPktZ2bdQY2NmcIVkaAs2pEALw_wcB",
     "description": "A concave ballistic plate made of hard steel, designed to stop small-caliber rounds.  \"NIJ III A PROTECTION\" is etched into the back of the plate.  This is intended to be inserted into a ballistic vest, and can't be worn on its own.",
@@ -186,7 +184,6 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "heavy steel ballistic plate" },
-    "repairs_like": "hsurvivor_jumpsuit",
     "//": "based on level 3 plates. Discuss high temp quenching so gonna assume tempered steel",
     "//2": "link like: https://www.spartanarmorsystems.com/spartan-omega-ar500-body-armor-single-plate/",
     "description": "A heavy concave ballistic plate made of tempered steel, designed to stop small-caliber rounds.  \"NIJ III PROTECTION\" is etched into the back of the plate.  This is intended to be inserted into a ballistic vest, and can't be worn on its own.",
@@ -205,7 +202,7 @@
     "armor": [
       {
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6.35 } ],
-        "encumbrance": 2,
+        "encumbrance": 3,
         "coverage": 45,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ]
@@ -571,7 +568,6 @@
     "warmth": 0,
     "material": [ "nylon" ],
     "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
-    "repairs_like": "survivor_suit",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -824,7 +820,6 @@
     "id": "stab_vest",
     "type": "ARMOR",
     "category": "armor",
-    "repairs_like": "ballistic_vest_esapi",
     "looks_like": "kevlar",
     "//": "Based on security vests like https://www.bodyarmourcanada.com/shop-bullet-resistant-or-stab-resistant/vector-nij-ii-security-bullet-resistant-vest",
     "name": { "str": "stab vest" },
@@ -897,7 +892,6 @@
     "id": "soft_3a_vest",
     "type": "ARMOR",
     "category": "armor",
-    "repairs_like": "ballistic_vest_esapi",
     "//": "Based on security vests like https://canarmor.ca/product/lifeguard-black-nij-iii-a/",
     "name": { "str": "soft armor vest" },
     "looks_like": "kevlar",
@@ -984,7 +978,6 @@
     "category": "armor",
     "//": "Based on security vests like https://www.masadagear.com/p/masada_armour_%E2%80%8Bun_bullet_proof_vest",
     "name": { "str": "hard armor vest" },
-    "repairs_like": "ballistic_vest_esapi",
     "looks_like": "ballistic_vest_esapi",
     "variants": [
       {

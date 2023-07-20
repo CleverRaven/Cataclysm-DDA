@@ -33,6 +33,7 @@ set(CataAnalyzerSrc
         TranslateStringLiteralCheck.cpp
         TranslationsInDebugMessagesCheck.cpp
         TranslatorCommentsCheck.cpp
+        U8PathCheck.cpp
         UnsequencedCallsCheck.cpp
         UnusedStaticsCheck.cpp
         UseLocalizedSortingCheck.cpp

@@ -16,11 +16,7 @@
     "sound_category": "sunny",
     "priority": 10,
     "condition": {
-      "and": [
-        "is_day",
-        { "compare_num": [ { "weather": "pressure" }, ">=", { "const": 1020 } ] },
-        { "compare_num": [ { "weather": "humidity" }, "<", { "const": 70 } ] }
-      ]
+      "and": [ "is_day", { "math": [ "weather('pressure')", ">=", "1020" ] }, { "math": [ "weather('humidity')", "<", "70" ] } ]
     }
   },
   {
@@ -40,12 +36,7 @@
     "rains": false,
     "sound_category": "cloudy",
     "priority": 20,
-    "condition": {
-      "and": [
-        { "compare_num": [ { "weather": "humidity" }, ">=", { "const": 40 } ] },
-        { "compare_num": [ { "weather": "pressure" }, "<", { "const": 1010 } ] }
-      ]
-    }
+    "condition": { "and": [ { "math": [ "weather('humidity')", ">=", "40" ] }, { "math": [ "weather('pressure')", "<", "1010" ] } ] }
   },
   {
     "id": "light_drizzle",
@@ -67,12 +58,7 @@
     "sound_category": "drizzle",
     "required_weathers": [ "cloudy" ],
     "priority": 30,
-    "condition": {
-      "or": [
-        { "compare_num": [ { "weather": "humidity" }, ">=", { "const": 96 } ] },
-        { "compare_num": [ { "weather": "pressure" }, "<", { "const": 1003 } ] }
-      ]
-    }
+    "condition": { "or": [ { "math": [ "weather('humidity')", ">=", "96" ] }, { "math": [ "weather('pressure')", "<", "1003" ] } ] }
   },
   {
     "id": "drizzle",
@@ -94,12 +80,7 @@
     "sound_category": "drizzle",
     "required_weathers": [ "light_drizzle" ],
     "priority": 40,
-    "condition": {
-      "or": [
-        { "compare_num": [ { "weather": "humidity" }, ">=", { "const": 97 } ] },
-        { "compare_num": [ { "weather": "pressure" }, "<", { "const": 1000 } ] }
-      ]
-    }
+    "condition": { "or": [ { "math": [ "weather('humidity')", ">=", "97" ] }, { "math": [ "weather('pressure')", "<", "1000" ] } ] }
   },
   {
     "id": "rain",
@@ -121,12 +102,7 @@
     "sound_category": "rainy",
     "required_weathers": [ "light_drizzle", "drizzle" ],
     "priority": 50,
-    "condition": {
-      "or": [
-        { "compare_num": [ { "weather": "humidity" }, ">=", { "const": 98 } ] },
-        { "compare_num": [ { "weather": "pressure" }, "<", { "const": 993 } ] }
-      ]
-    }
+    "condition": { "or": [ { "math": [ "weather('humidity')", ">=", "98" ] }, { "math": [ "weather('pressure')", "<", "993" ] } ] }
   },
   {
     "id": "rainstorm",
@@ -149,8 +125,8 @@
     "priority": 60,
     "condition": {
       "and": [
-        { "compare_num": [ { "weather": "temperature" }, ">=", { "const": 33 } ] },
-        { "compare_num": [ { "weather": "windpower" }, ">=", { "const": 15 } ] }
+        { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 33 )" ] },
+        { "math": [ "weather('windpower')", ">=", "15" ] }
       ]
     }
   },
@@ -174,7 +150,7 @@
     "sound_category": "thunder",
     "required_weathers": [ "rain" ],
     "priority": 70,
-    "condition": { "compare_num": [ { "weather": "pressure" }, "<", { "const": 996 } ] }
+    "condition": { "math": [ "weather('pressure')", "<", "996" ] }
   },
   {
     "id": "lightning",
@@ -196,7 +172,7 @@
     "sound_category": "thunder",
     "required_weathers": [ "thunder" ],
     "priority": 80,
-    "condition": { "compare_num": [ { "weather": "pressure" }, "<", { "const": 990 } ] }
+    "condition": { "math": [ "weather('pressure')", "<", "990" ] }
   },
   {
     "id": "flurries",
@@ -218,7 +194,7 @@
     "sound_category": "flurries",
     "required_weathers": [ "flurries" ],
     "priority": 90,
-    "condition": { "compare_num": [ { "weather": "temperature" }, "<", { "const": 33 } ] }
+    "condition": { "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }
   },
   {
     "id": "snowing",
@@ -240,7 +216,7 @@
     "sound_category": "snow",
     "required_weathers": [ "rain", "thunder", "lightning" ],
     "priority": 100,
-    "condition": { "compare_num": [ { "weather": "temperature" }, "<", { "const": 33 } ] }
+    "condition": { "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }
   },
   {
     "id": "snowstorm",
@@ -264,8 +240,8 @@
     "priority": 110,
     "condition": {
       "and": [
-        { "compare_num": [ { "weather": "temperature" }, "<", { "const": 33 } ] },
-        { "compare_num": [ { "weather": "windpower" }, ">=", { "const": 15 } ] }
+        { "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] },
+        { "math": [ "weather('windpower')", ">=", "15" ] }
       ]
     }
   },
@@ -286,12 +262,13 @@
     "rains": false,
     "sound_category": "silent",
     "priority": 20,
-    "required_weathers": [ "clear", "sunny" ],
+    "required_weathers": [ "clear", "sunny", "fog" ],
     "condition": {
       "and": [
-        { "math": [ "u_val( 'weather:windpower' )", "<", "12" ] },
-        { "math": [ "u_val( 'weather:windpower' )", ">", "0" ] },
-        { "math": [ "dew_point_factor", "<", "5" ] }
+        { "math": [ "weather('windpower')", "<", "12" ] },
+        { "math": [ "weather('windpower')", ">", "0" ] },
+        { "math": [ "dew_point_factor(celsius(weather('temperature')))", "<=", "2.5" ] },
+        { "math": [ "weather('humidity')", "<", "90" ] }
       ]
     }
   },
@@ -312,32 +289,34 @@
     "rains": false,
     "sound_category": "silent",
     "priority": 20,
-    "required_weathers": [ "mist" ],
+    "required_weathers": [ "clear", "sunny", "mist" ],
     "condition": {
       "and": [
-        { "math": [ "u_val( 'weather:windpower' )", "<", "12" ] },
-        { "math": [ "u_val( 'weather:windpower' )", ">", "0" ] },
-        { "math": [ "dew_point_factor", "<=", "2.5" ] }
+        { "math": [ "weather('windpower')", "<", "12" ] },
+        { "math": [ "weather('windpower')", ">", "0" ] },
+        { "math": [ "dew_point_factor(celsius(weather('temperature')))", "<=", "2.5" ] }
       ]
     }
   },
   {
-    "type": "effect_on_condition",
-    "id": "EOC_DEW_POINT_FACTOR",
-    "recurrence": [ "15 minutes", "30 minutes" ],
-    "//": "First and second math calculate the dew point, the third calculate how close the weather to the point it can form a fog",
-    "//2": "dew_point_factor is a difference between actual temperature and the dew point.  the closer it gets to zero, the bigger probability to cause a mist or dew, starting somewhere from 2,5 centigrade or 5 fahrenheit, to zero",
-    "effect": [
-      {
-        "math": [
-          "dprhx",
-          "=",
-          "log ( u_val( 'weather:humidity' ) / 100 ) + 17.625 * u_val( 'weather:temperature' ) / ( 469.5 + u_val( 'weather:temperature' ) )"
-        ]
-      },
-      { "math": [ "dew_point", "=", "469.5 * dprhx / ( 17.625 - dprhx )" ] },
-      { "math": [ "dew_point_factor", "=", "u_val('weather: temperature') - ( dew_point )" ] }
-    ]
+    "type": "jmath_function",
+    "id": "dprhx",
+    "num_args": 1,
+    "return": "log(weather('humidity') / 100) + 17.625 * _0 / (243.04 + _0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "dew_point",
+    "num_args": 1,
+    "//": "Eq. (8) from https://doi.org/10.1175/BAMS-86-2-225; _0 is temperature in Celsius",
+    "return": "243.04 * dprhx(_0) / (17.625 - dprhx(_0))"
+  },
+  {
+    "type": "jmath_function",
+    "id": "dew_point_factor",
+    "num_args": 1,
+    "//": "the closer this difference gets to zero, the bigger the probability for fog to occur, starting at around 2.5 Celsius",
+    "return": "abs( _0 - dew_point(_0) )"
   },
   {
     "id": "early_portal_storm",
@@ -360,18 +339,29 @@
     "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
     "sound_category": "portal_storm",
     "priority": 120,
-    "condition": { "compare_num": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 1 } ] }
+    "condition": {
+      "and": [
+        { "math": [ "cause_early_portal_storm", "==", "1" ] },
+        {
+          "compare_num": [
+            { "distance": [ { "context_val": "weather_location" }, { "global_val": "portal_storm_center" } ] },
+            "<=",
+            { "global_val": "var", "var_name": "portal_storm_distant_distance", "default": 200 }
+          ]
+        }
+      ]
+    }
   },
   {
-    "id": "portal_storm",
+    "id": "distant_portal_storm",
     "type": "weather_type",
-    "name": "Portal Storm",
+    "name": "Distant Portal Storm",
     "color": "red",
     "map_color": "red",
     "sym": "O",
     "ranged_penalty": 0,
     "sight_penalty": 1.0,
-    "light_modifier": -10,
+    "light_modifier": -8,
     "sun_multiplier": 0.7,
     "sound_attn": 0,
     "dangerous": true,
@@ -383,6 +373,85 @@
     "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
     "sound_category": "portal_storm",
     "priority": 130,
-    "condition": { "compare_num": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 1 } ] }
+    "condition": {
+      "and": [
+        { "math": [ "cause_portal_storm", "==", "1" ] },
+        {
+          "compare_num": [
+            { "distance": [ { "context_val": "weather_location" }, { "global_val": "portal_storm_center" } ] },
+            "<=",
+            { "global_val": "var", "var_name": "portal_storm_distant_distance", "default": 200 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "close_portal_storm",
+    "type": "weather_type",
+    "name": "Close Portal Storm",
+    "color": "red",
+    "map_color": "red",
+    "sym": "O",
+    "ranged_penalty": 0,
+    "sight_penalty": 1.0,
+    "light_modifier": -10,
+    "sun_multiplier": 0.6,
+    "sound_attn": 0,
+    "dangerous": true,
+    "precip": "none",
+    "rains": false,
+    "debug_cause_eoc": "EOC_CAUSE_PORTAL_STORM",
+    "debug_leave_eoc": "EOC_CANCEL_PORTAL_STORM",
+    "tiles_animation": "weather_portal_storm",
+    "weather_animation": { "factor": 0.02, "color": "red", "sym": "*" },
+    "sound_category": "portal_storm",
+    "priority": 131,
+    "condition": {
+      "and": [
+        { "math": [ "cause_portal_storm", "==", "1" ] },
+        {
+          "compare_num": [
+            { "distance": [ { "context_val": "weather_location" }, { "global_val": "portal_storm_center" } ] },
+            "<=",
+            { "global_val": "var", "var_name": "portal_storm_close_distance", "default": 100 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "portal_storm",
+    "type": "weather_type",
+    "name": "Portal Storm",
+    "color": "red",
+    "map_color": "red",
+    "sym": "O",
+    "ranged_penalty": 0,
+    "sight_penalty": 1.0,
+    "light_modifier": -14,
+    "sun_multiplier": 0.5,
+    "sound_attn": 0,
+    "dangerous": true,
+    "precip": "none",
+    "rains": false,
+    "debug_cause_eoc": "EOC_CAUSE_PORTAL_STORM",
+    "debug_leave_eoc": "EOC_CANCEL_PORTAL_STORM",
+    "tiles_animation": "weather_portal_storm",
+    "weather_animation": { "factor": 0.03, "color": "red", "sym": "*" },
+    "sound_category": "portal_storm",
+    "priority": 132,
+    "condition": {
+      "and": [
+        { "math": [ "cause_portal_storm", "==", "1" ] },
+        {
+          "compare_num": [
+            { "distance": [ { "context_val": "weather_location" }, { "global_val": "portal_storm_center" } ] },
+            "<=",
+            { "global_val": "var", "var_name": "portal_storm_distance", "default": 50 }
+          ]
+        }
+      ]
+    }
   }
 ]
