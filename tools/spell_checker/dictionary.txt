@@ -600,6 +600,8 @@ conversando
 coolants
 cooldown
 coprocessors
+copyplate
+copyplates
 copywritten
 cordage
 corded
@@ -699,6 +701,8 @@ deathcam
 deathmobile
 deathrattle
 debatably
+debuff
+debuffs
 debugged
 decap
 decelerates
@@ -843,6 +847,7 @@ dumpsite
 dunderfuck
 duplicator
 duplicators
+dustbunny
 dynamically
 dyoplosaurus
 dysfunctions
@@ -857,6 +862,7 @@ earthbag
 earthbags
 earthlike
 earthshaper
+earthside
 eatbtb
 ebon
 ebook
@@ -1425,6 +1431,8 @@ ineffectively
 inertially
 infamously
 infeme
+infinitree
+infinitrees
 infirma
 influencers
 inhalant
@@ -1851,6 +1859,8 @@ mosaicus
 mosasaurus
 mostlike
 mostravam
+mote
+motes
 motorpool
 motorsports
 mountable
@@ -2276,6 +2286,7 @@ prototyping
 protuberances
 prybar
 pseudocode
+pseudomagical
 pseudopod
 pseudopods
 pshht
@@ -2329,6 +2340,7 @@ queenright
 quells
 quern
 quetzalcoatlus
+quickheal
 quicksave
 quidem
 quiescent
@@ -2837,6 +2849,7 @@ superoxide
 superpositional
 supersoldier
 supersoldiers
+superteam
 suppurated
 surcoat
 survivalcraft
@@ -3168,6 +3181,7 @@ viewport
 viewports
 vikeys
 vinegared
+viny
 viperine
 virginica
 virions
@@ -3199,6 +3213,8 @@ wargame
 warhammer
 warhammers
 warmouth
+warpglass
+warpstream
 wasnt
 wastebread
 watchband
