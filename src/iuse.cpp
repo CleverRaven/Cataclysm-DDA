@@ -3647,39 +3647,31 @@ std::optional<int> iuse::acidbomb_act( Character *p, item *it, bool, const tripo
     return std::nullopt;
 }
 
-std::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool, const tripoint &pos )
 {
     if( pos.x == -999 || pos.y == -999 ) {
         return std::nullopt;
     }
 
-    if( t ) { // Simple timer effects
-        // Vol 0 = only heard if you hold it
-        sounds::sound( pos, 0, sounds::sound_t::alarm, _( "Tick!" ), true, "misc", "bomb_ticking" );
-    } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already released the handle, try throwing it instead." ) );
-        return std::nullopt;
-    } else {  // blow up
-        map &here = get_map();
-        int num_flames = rng( 3, 5 );
-        for( int current_flame = 0; current_flame < num_flames; current_flame++ ) {
-            tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
-            std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
-            for( tripoint &flame : flames ) {
-                here.add_field( flame, fd_fire, rng( 0, 2 ) );
-            }
+    map &here = get_map();
+    int num_flames = rng( 3, 5 );
+    for( int current_flame = 0; current_flame < num_flames; current_flame++ ) {
+        tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
+        std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
+        for( tripoint &flame : flames ) {
+            here.add_field( flame, fd_fire, rng( 0, 2 ) );
         }
-        explosion_handler::explosion( p, pos, 8, 0.8, true );
-        for( const tripoint &dest : here.points_in_radius( pos, 2 ) ) {
-            here.add_field( dest, fd_incendiary, 3 );
-        }
+    }
+    explosion_handler::explosion( p, pos, 8, 0.8, true );
+    for( const tripoint &dest : here.points_in_radius( pos, 2 ) ) {
+        here.add_field( dest, fd_incendiary, 3 );
+    }
 
-        avatar &player = get_avatar();
-        if( player.has_trait( trait_PYROMANIA ) && player.sees( pos ) ) {
-            player.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-            player.rem_morale( MORALE_PYROMANIA_NOFIRE );
-            add_msg( m_good, _( "Fire…  Good…" ) );
-        }
+    avatar &player = get_avatar();
+    if( player.has_trait( trait_PYROMANIA ) && player.sees( pos ) ) {
+        player.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+        player.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        add_msg( m_good, _( "Fire…  Good…" ) );
     }
     return 0;
 }
