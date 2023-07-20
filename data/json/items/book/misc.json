@@ -1136,6 +1136,18 @@
     "color": "light_gray"
   },
   {
+    "id": "book_judaica_siddur",
+    "type": "BOOK",
+    "name": { "str": "Siddur" },
+    "description": "A Siddur, or prayerbook, contains the set order of prayers for Jewish religion services.  This one is comprehensive, divided into morning, afternoon, and evening prayers for both weekdays and Shabbat, along with separate sections for minor and major holidays.",
+    "copy-from": "book_nonf_hard_phil_tpl",
+    "fun": 1,
+    "weight": "750 g",
+    "volume": "1 L",
+    "longest_side": "20 cm",
+    "time": "45 m"
+  },
+  {
     "id": "book_judaica_hardcover",
     "type": "BOOK",
     "name": { "str": "Judaica hardcover" },
@@ -1146,13 +1158,8 @@
     "volume": "773 ml",
     "longest_side": "18 cm",
     "time": "45 m",
+    "variant_type": "generic",
     "variants": [
-      {
-        "id": "book_judaica_hardcover_1",
-        "name": { "str": "Siddur", "str_pl": "copies of a Siddur" },
-        "description": "A Siddur, or prayerbook, contains the set order of prayers for Jewish religion services.  This one is comprehensive, divided into morning, afternoon, and evening prayers for both weekdays and Shabbat, along with separate sections for minor and major holidays.",
-        "weight": 10
-      },
       {
         "id": "book_judaica_hardcover_2",
         "name": { "str": "Hell in Jewish Literature", "str_pl": "copies of Hell in Jewish Literature" },
@@ -1203,6 +1210,63 @@
         "name": { "str": "In This Hour", "str_pl": "copies of In This Hour" },
         "description": "An English translation of works written by Rabbi Abraham Joshua Heschel during the Nazi rule of Germany and Rabbi Heschel's exile in England, concerning historic and current persecution and his vision for Jewish education.",
         "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_9",
+        "name": {
+          "str": "Jewish Literacy: The Most Important Things to Know About the Jewish Religion, Its People and Its History",
+          "str_pl": "copies of Jewish Literacy: The Most Important Things to Know About the Jewish Religion, Its People and Its History"
+        },
+        "description": "Rabbi Joseph Telushkin's encyclopediac tome of Jewish life, running to hundreds of chapters and answering questions about the Hebrew bible, the Talmud, the holidays and rituals, the Holocaust, Israel and the diaspora, and everything in between.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_10",
+        "name": {
+          "str": "Biblical Literacy: The Most Important People, Events and Ideas of the Hebrew Bible",
+          "str_pl": "copies of Biblical Literacy: The Most Important People, Events and Ideas of the Hebrew Bible"
+        },
+        "description": "Rabbi Joseph Telushkin's exploration and analysis of the Hebrew Bible, containing a myriad of commentary and analysis, including on famous stories like the Binding of Isaac or the Exodus, a discussion of the weekly Torah readings that form part of the Jewish liturgical calendar, and a list of all 613 mitzvot.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_11",
+        "name": {
+          "str": "This Is Real and You Are Completely Unprepared",
+          "str_pl": "copies of This Is Real and You Are Completely Unprepared"
+        },
+        "description": "An in-depth discussion of the High Holy Days, starting with the Three Weeks and Nine Days before Tisha b'Av and continuing all the way through Sukkot, as a single period of rising and falling emotion, wherein each individual prepares themselves to stand before God.  A very well-known book that some people read every year and others mean to get around to finally reading this year.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_12",
+        "name": {
+          "str": "OU Manual for Checking Fruits and Vegetables",
+          "str_pl": "copies of the OU Manual for Checking Fruits and Vegetables"
+        },
+        "description": "A comprehensive guide to checking produce for insect infestation and how to prepare produce according to Jewish dietary law.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_13",
+        "name": { "str": "Shalom Rav, Volume 1", "str_pl": "copies of Shalom Rav, Volume 1" },
+        "description": "Rabbi Shalom Rosner's commentary on the weekly Torah portion, covering the books of Genesis and Exodus.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_14",
+        "name": { "str": "Shalom Rav, Volume 2", "str_pl": "copies of Shalom Rav, Volume 2" },
+        "description": "Rabbi Shalom Rosner's commentary on the weekly Torah portion, covering the books of Leviticus, Numbers, and Deuteronomy.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_hardcover_15",
+        "name": {
+          "str": "The Origins of Judaism: An Archaeological-Historical Reappraisal",
+          "str_pl": "copies of The Origins of Judaism: An Archaeological-Historical Reappraisal"
+        },
+        "description": "An examination of the archeological evidence behind the beginning of many Jewish traditions, including eschewing pork, adopting tefillin and placing mezuzot on doorposts, and circumcision.",
+        "weight": 1
       }
     ]
   },
@@ -1216,6 +1280,7 @@
     "volume": "421 ml",
     "fun": 1,
     "time": "45 m",
+    "variant_type": "generic",
     "variants": [
       {
         "id": "book_judaica_softcover_1",
@@ -1260,9 +1325,60 @@
         "weight": 1
       },
       {
-        "id": "book_judaica_hardcover_7",
+        "id": "book_judaica_softcover_7",
         "name": { "str": "Halakhic Man", "str_pl": "copies of Halakhic Man" },
         "description": "Rabbi Joseph Soloveitchik's argument on the proper path to moral virtue through Torah scholarship and observance to the law, through the intellect and not through mystical experience or surrender to God.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_8",
+        "name": { "str": "Maxwell House Haggadah", "str_pl": "copies of the Maxwell House Haggadah" },
+        "description": "Just like bubbe used to have at the Seder.  A true classic of the Jewish people despite its origin as a marketing tactic to sell coffee, the Maxwell House Haggadah has sold millions of copies and graced the Passover tables of millions of families.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_9",
+        "name": {
+          "str": "Reviving Synagogue Communities Using Smart Tech",
+          "str_pl": "copies of Reviving Synagogue Communities Using Smart Tech"
+        },
+        "description": "A discussion of ways to use modern technology to alleviate the administrative burden on clergy and synagogue staff but without losing the human touch that leads to a proper religious community.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_10",
+        "name": {
+          "str": "On Repentance And Repair: Making Amends in an Unapologetic World",
+          "str_pl": "copies of On Repentance And Repair: Making Amends in an Unapologetic World"
+        },
+        "description": "Rabbi Danya Ruttenberg's commentary on the great Jewish philosopher Maimonides ideas about \"Tikkum Olam\", often translated as \"Repairing the World,\" and how while popular ideas of forgiveness often involve moving on after the apology, the Hebrew word \"teshuvah\" means something closer to \"return.\"  True repentence, then, involves making restitution for error and harm and attempting to return the world to the way it was before the damage was done.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_11",
+        "name": {
+          "str": "Beyond Breaking the Glass: A Spiritual Guide to Your Jewish Wedding, Revised Edition",
+          "str_pl": "copies of Beyond Breaking the Glass: A Spiritual Guide to Your Jewish Wedding, Revised Edition"
+        },
+        "description": "A practical guide to throwing a Jewish wedding, including checklists, a timeline, and ways to make traditional rituals resonate with modern wedding guests.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_12",
+        "name": {
+          "str": "People Love Dead Jews: Reports from a Haunted Present ",
+          "str_pl": "copies of People Love Dead Jews: Reports from a Haunted Present "
+        },
+        "description": "Dara Horn's exploration of the modern rise of antisemitism, why there is so much interest in Jewish tragedy and comparatively little interest in Jewish culture, and why non-Jews feature so often and so prominently in popular stories of the Holocaust.  It would probably have been riveting and insightful before the Cataclysm made such concerns mostly irrelevant.",
+        "weight": 1
+      },
+      {
+        "id": "book_judaica_softcover_13",
+        "name": {
+          "str": "God in Search of Man : A Philosophy of Judaism ",
+          "str_pl": "copies of God in Search of Man : A Philosophy of Judaism "
+        },
+        "description": "Rabbi Abraham Joshua Heschel's philosophical work on religious thought, on revelation and the problem of evil, and on the nature of a God who seeks a partner in humanity.",
         "weight": 1
       }
     ]

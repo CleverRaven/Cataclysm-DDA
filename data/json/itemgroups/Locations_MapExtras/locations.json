@@ -1818,6 +1818,54 @@
   },
   {
     "type": "item_group",
+    "id": "synagogue",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "clothing_glasses", "prob": 80 },
+      { "item": "child_book", "prob": 60 },
+      { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "ref_lighter", "prob": 4, "charges": [ 0, 50 ] },
+      { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },
+      { "item": "ref_matches", "prob": 60, "charges": [ 0, 32 ] },
+      { "item": "coat_rain", "prob": 20 },
+      { "item": "hood_rain", "prob": 10 },
+      { "item": "cane", "prob": 10 },
+      { "item": "umbrella", "prob": 20 },
+      { "item": "essay_book", "prob": 6 },
+      { "item": "poetry_book", "prob": 6 },
+      { "item": "philosophy_book", "prob": 2 },
+      { "group": "newspaper", "prob": 20 },
+      { "item": "survivormap", "prob": 1 },
+      { "item": "holybook_tanakh", "prob": 38 },
+      { "item": "book_judaica_siddur", "prob": 60 },
+      { "item": "folding_poncho", "prob": 1 },
+      { "item": "pocketwatch", "prob": 10 },
+      { "item": "knitting_needles", "prob": 10 },
+      { "item": "survnote", "prob": 1 },
+      { "item": "kittel", "prob": 25 },
+      { "item": "kippah", "prob": 50 },
+      { "item": "tallit_gadol", "prob": 45 },
+      { "item": "tallit_katan", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "synagogue_books",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "book_judaica_hardcover", "prob": 70 },
+      { "item": "book_judaica_softcover", "prob": 50 },
+      { "item": "book_judaica_siddur", "prob": 35 },
+      { "item": "holybook_tanakh", "prob": 50 },
+      { "item": "holybook_talmud", "prob": 20 },
+      { "item": "essay_book", "prob": 25 },
+      { "item": "poetry_book", "prob": 15 },
+      { "group": "literature", "prob": 35 },
+      { "item": "philosophy_book", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "toxic_dump_equipment",
     "items": [
       { "group": "used_1st_aid", "prob": 35 },
