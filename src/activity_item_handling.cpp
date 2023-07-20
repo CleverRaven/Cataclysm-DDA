@@ -3196,6 +3196,84 @@ static std::optional<tripoint_bub_ms> find_refuel_spot_trap(
     return {};
 }
 
+// Visits an item and all its contents.
+VisitResponse visit_item_contents( item_location &loc,
+                                   const std::function<VisitResponse( item_location & )> &func )
+{
+    switch( func( loc ) ) {
+        case VisitResponse::ABORT:
+            return VisitResponse::ABORT;
+
+        case VisitResponse::NEXT:
+            for( item_pocket *pocket : loc->get_all_contained_pockets() ) {
+                for( item &i : pocket->edit_contents() ) {
+                    item_location child_loc( loc, &i );
+                    if( visit_item_contents( child_loc, func ) == VisitResponse::ABORT ) {
+                        return VisitResponse::ABORT;
+                    }
+                }
+            }
+        /* intentional fallthrough */
+
+        case VisitResponse::SKIP:
+            return VisitResponse::NEXT;
+    }
+}
+
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
+
+int get_comestible_order( Character &you, const item_location &loc, const time_duration &time )
+{
+    if( loc->rotten() ) {
+        if( you.has_trait( trait_SAPROPHAGE ) || you.has_trait( trait_SAPROVORE ) ) {
+            return 1;
+        } else {
+            return 5;
+        }
+    } else if( time == 0_turns ) {
+        return 4;
+    } else if( loc.has_parent() &&
+               loc.parent_pocket()->spoil_multiplier() == 0.0f ) {
+        return 3;
+    } else {
+        return 2;
+    }
+}
+
+time_duration get_comestible_time_left( const item_location &loc )
+{
+    time_duration time_left = 0_turns;
+    const time_duration shelf_life = loc->is_comestible() ? loc->get_comestible()->spoils :
+                                     calendar::INDEFINITELY_LONG_DURATION;
+    if( shelf_life > 0_turns ) {
+        const item &it = *loc;
+        const double relative_rot = it.get_relative_rot();
+        time_left = shelf_life - shelf_life * relative_rot;
+
+        // Correct for an estimate that exceeds shelf life -- this happens especially with
+        // fresh items.
+        if( time_left > shelf_life ) {
+            time_left = shelf_life;
+        }
+    }
+
+    return time_left;
+}
+
+bool comestible_sort_compare( Character &you, const item_location &lhs, const item_location &rhs )
+{
+    time_duration time_a = get_comestible_time_left( lhs );
+    time_duration time_b = get_comestible_time_left( rhs );
+    int order_a = get_comestible_order( you, lhs, time_a );
+    int order_b = get_comestible_order( you, rhs, time_b );
+
+    return order_a < order_b
+           || ( order_a == order_b && time_a < time_b )
+           || ( order_a == order_b && time_a == time_b /*&&
+                inventory_selector_preset::sort_compare( lhs, rhs )*/ );
+}
+
 int get_auto_consume_moves( Character &you, const bool food )
 {
     if( you.is_npc() ) {
@@ -3217,90 +3295,95 @@ int get_auto_consume_moves( Character &you, const bool food )
     if( dest_set.empty() ) {
         return 0;
     }
+    item_location best_comestible;
     for( const tripoint_abs_ms &loc : dest_set ) {
         if( loc.z() != you.pos().z ) {
             continue;
         }
 
+        const auto visit = [&]( item_location & it ) {
+            if( !you.can_consume_as_is( *it ) ) {
+                return VisitResponse::NEXT;
+            }
+            if( it->has_flag( json_flag_NO_AUTO_CONSUME ) ) {
+                // ignored due to NO_AUTO_CONSUME flag
+                return VisitResponse::NEXT;
+            }
+            if( it->is_null() || it->is_craft() || !it->is_food() ||
+                you.fun_for( *it ).first < -5 ) {
+                // not good eatings.
+                return VisitResponse::NEXT;
+            }
+            if( food && you.compute_effective_nutrients( *it ).kcal() < 50 ) {
+                // not filling enough
+                return VisitResponse::NEXT;
+            }
+            if( !you.will_eat( *it, false ).success() ) {
+                // wont like it, cannibal meat etc
+                return VisitResponse::NEXT;
+            }
+            if( !it->is_owned_by( you, true ) ) {
+                // it aint ours.
+                return VisitResponse::NEXT;
+            }
+            if( !food && it->get_comestible()->quench < 15 ) {
+                // not quenching enough
+                return VisitResponse::NEXT;
+            }
+            if( !food && it->is_watertight_container() && it->made_of( phase_id::SOLID ) ) {
+                // it's frozen
+                return VisitResponse::NEXT;
+            }
+            const use_function *usef = it->type->get_use( "BLECH_BECAUSE_UNCLEAN" );
+            if( usef ) {
+                // it's unclean
+                return VisitResponse::NEXT;
+            }
+            if( it->get_comestible()->addictions.count( addiction_alcohol ) &&
+                !you.has_addiction( addiction_alcohol ) ) {
+                return VisitResponse::NEXT;
+            }
+
+            if( !best_comestible || comestible_sort_compare( you, it, best_comestible ) ) {
+                best_comestible = it;
+            }
+
+            return VisitResponse::NEXT;
+        };
+
         const optional_vpart_position vp = here.veh_at( here.getlocal( loc ) );
-        std::vector<item *> items_here;
         if( vp ) {
             vehicle &veh = vp->vehicle();
             int index = veh.part_with_feature( vp->mount(), "CARGO", false );
             if( index >= 0 ) {
                 vehicle_stack vehitems = veh.get_items( index );
                 for( item &it : vehitems ) {
-                    items_here.push_back( &it );
+                    item_location i_loc( vehicle_cursor( veh, index ), &it );
+                    visit_item_contents( i_loc, visit );
                 }
             }
         } else {
             map_stack mapitems = here.i_at( here.getlocal( loc ) );
             for( item &it : mapitems ) {
-                items_here.push_back( &it );
+                item_location i_loc( map_cursor( here.getlocal( loc ) ), &it );
+                visit_item_contents( i_loc, visit );
             }
         }
-        for( item *it : items_here ) {
-            item &comest = you.get_consumable_from( *it );
-            if( comest.has_flag( json_flag_NO_AUTO_CONSUME ) ) {
-                // ignored due to NO_AUTO_CONSUME flag
-                continue;
-            }
-            if( comest.is_null() || comest.is_craft() || !comest.is_food() ||
-                you.fun_for( comest ).first < -5 ) {
-                // not good eatings.
-                continue;
-            }
-            if( !you.can_consume_as_is( comest ) ) {
-                continue;
-            }
-            if( food && you.compute_effective_nutrients( comest ).kcal() < 50 ) {
-                // not filling enough
-                continue;
-            }
-            if( !you.will_eat( comest, false ).success() ) {
-                // wont like it, cannibal meat etc
-                continue;
-            }
-            if( !it->is_owned_by( you, true ) ) {
-                // it aint ours.
-                continue;
-            }
-            if( !food && comest.get_comestible()->quench < 15 ) {
-                // not quenching enough
-                continue;
-            }
-            if( !food && it->is_watertight_container() && comest.made_of( phase_id::SOLID ) ) {
-                // it's frozen
-                continue;
-            }
-            const use_function *usef = comest.type->get_use( "BLECH_BECAUSE_UNCLEAN" );
-            if( usef ) {
-                // it's unclean
-                continue;
-            }
-            if( comest.get_comestible()->addictions.count( addiction_alcohol ) &&
-                !you.has_addiction( addiction_alcohol ) ) {
-                continue;
-            }
+    }
 
-            int consume_moves = -Pickup::cost_to_move_item( you, *it ) * std::max( rl_dist( you.pos(),
-                                here.getlocal( loc ) ), 1 );
-            consume_moves += to_moves<int>( you.get_consume_time( comest ) );
-            item_location item_loc;
-            if( vp ) {
-                item_loc = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), &comest );
-            } else {
-                item_loc = item_location( map_cursor( here.getlocal( loc ) ), &comest );
-            }
+    if( best_comestible ) {
+        int consume_moves = -Pickup::cost_to_move_item( you,
+                            *best_comestible ) * std::max( rl_dist( you.pos(),
+                                    here.getlocal( best_comestible.position() ) ), 1 );
+        consume_moves += to_moves<int>( you.get_consume_time( *best_comestible ) );
 
-            you.consume( item_loc );
-            // eat() may have removed the item, so check its still there.
-            if( item_loc.get_item() && item_loc->is_container() ) {
-                item_loc->on_contents_changed();
-            }
-
-            return consume_moves;
+        you.consume( best_comestible );
+        // eat() may have removed the item, so check its still there.
+        if( best_comestible.get_item() && best_comestible->is_container() ) {
+            best_comestible->on_contents_changed();
         }
+
+        return consume_moves;
     }
     return 0;
 }
