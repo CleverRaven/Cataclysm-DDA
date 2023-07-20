@@ -2402,7 +2402,7 @@ void Item_factory::check_definitions() const
         inp_mngr.pump_events();
     }
 }
-#pragma optimize("", off)
+
 //Returns the template with the given identification tag
 const itype *Item_factory::find_template( const itype_id &id ) const
 {
@@ -2440,7 +2440,7 @@ const itype *Item_factory::find_template( const itype_id &id ) const
     m_runtimes[ id ].reset( def );
     return def;
 }
-#pragma optimize("", on)
+
 Item_spawn_data *Item_factory::get_group( const item_group_id &group_tag )
 {
     GroupMap::iterator group_iter = m_template_groups.find( group_tag );
