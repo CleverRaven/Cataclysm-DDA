@@ -72,23 +72,26 @@ struct mon_flag {
     static void reset();
     static const std::vector<mon_flag> &get_all();
 };
-// The type of the effect.
-efftype_id id;
-// The percent chance of causing the effect.
-float chance;
-// Whether the effect is permanent.
-bool permanent;
-bool affect_hit_bp;
-bodypart_str_id bp;
-// The range of the durations (in turns) of the effect.
-std::pair<int, int> duration;
-// The range of the intensities of the effect.
-std::pair<int, int> intensity;
-// The message to print, if the player causes the effect.
-std::string message;
 
-mon_effect_data();
-void load( const JsonObject &jo );
+/** Used to store monster effects placed on attack */
+struct mon_effect_data {
+    // The type of the effect.
+    efftype_id id;
+    // The percent chance of causing the effect.
+    float chance;
+    // Whether the effect is permanent.
+    bool permanent;
+    bool affect_hit_bp;
+    bodypart_str_id bp;
+    // The range of the durations (in turns) of the effect.
+    std::pair<int, int> duration;
+    // The range of the intensities of the effect.
+    std::pair<int, int> intensity;
+    // The message to print, if the player causes the effect.
+    std::string message;
+
+    mon_effect_data();
+    void load( const JsonObject &jo );
 };
 
 /** Pet food data */
