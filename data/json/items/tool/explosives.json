@@ -239,8 +239,8 @@
     "material": [ "paper" ],
     "symbol": ";",
     "color": "red",
-    "turns_per_charge": 1,
-    "use_action": [ "FIRECRACKER_ACT" ],
+	"tick_action": [ { "type": "sound", "sound_message": "ssss…", "sound_volume": 0, "sound_id": "misc", "sound_variant": "lit_fuse" } ],
+    "countdown_action": { "type": "sound", "sound_message": "Bang!", "sound_volume": 20, "sound_id": "explosion", "sound_variant": "small" },
     "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 1 }
   },

@@ -3754,7 +3754,7 @@ std::optional<int> iuse::firecracker( Character *p, item *it, bool, const tripoi
     }
     p->add_msg_if_player( _( "You light the firecracker." ) );
     it->convert( itype_firecracker_act );
-    it->charges = 2;
+    it->countdown_point = calendar::turn + 2_seconds;
     it->active = true;
     return 1;
 }

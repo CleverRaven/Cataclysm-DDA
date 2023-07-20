@@ -4193,14 +4193,16 @@ The contents of use_action fields can either be a string indicating a built-in f
     "type": "sound",         // Makes sound
     "name": "Turn on"        // Optional name for the action. Default "Activate".
     "sound_message": "Bzzzz.", // message shown to player if they are able to hear the sound. %s is replaced by item name.
+    "sound_id": "misc"       // ID of the audio to be played. Default "misc". See [SOUNDPACKS.md](../SOUNDPACKS.md) for more details.
+	"sound_variant": "default"        // Default "default"
     "sound_volume": 5        // Loudness of the noise.
 }
 "use_action": {
     "type": "manualnoise",   // Makes sound. Includes ammo checks and may take moves from player
     "use_message": "You do the thing" // Shown to player who activated it
     "noise_message": "Bzzz"  // Shown if player can hear the sound. Default "hsss".
-    "noise_variant":         // Default "default"
-    "noise_id": "misc"       // Default "misc"
+    "noise_id": "misc"       // ID of the audio to be played. Default "misc". See [SOUNDPACKS.md](../SOUNDPACKS.md) for more details.
+	"noise_variant":         // Default "default"
     "noise" : 6              // Loudness of the noise. Default 0.
     "moves" : 40             // How long the action takes. Default 0.
 }

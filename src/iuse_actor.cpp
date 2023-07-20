@@ -533,12 +533,15 @@ void sound_iuse::load( const JsonObject &obj )
     obj.read( "name", name );
     obj.read( "sound_message", sound_message );
     obj.read( "sound_volume", sound_volume );
+    obj.read( "sound_id", sound_id );
+    obj.read( "sound_variant", sound_variant );
 }
 
 std::optional<int> sound_iuse::use( Character *, item &, bool,
                                     const tripoint &pos ) const
 {
-    sounds::sound( pos, sound_volume, sounds::sound_t::alarm, sound_message.translated(), true );
+    sounds::sound( pos, sound_volume, sounds::sound_t::alarm, sound_message.translated(), true,
+                   sound_id, sound_variant );
     return 0;
 }
 

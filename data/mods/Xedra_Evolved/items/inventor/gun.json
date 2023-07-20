@@ -530,7 +530,7 @@
     "material": [ "steel" ],
     "symbol": "*",
     "color": "blue",
-    "tick_action": [ { "type": "sound", "sound_message": "whistle", "sound_volume": 35 } ],
+    "tick_action": [ { "type": "sound", "sound_message": "whistle", "sound_volume": 35, "sound_variant": "bomb_ticking" } ],
     "countdown_action": { "type": "explosion", "explosion": { "power": 1200 } },
     "flags": [ "TRADER_AVOID", "BOMB" ]
   },
@@ -566,7 +566,7 @@
     "material": [ "steel" ],
     "symbol": "*",
     "color": "blue",
-    "tick_action": [ { "type": "sound", "sound_message": "whistle", "sound_volume": 35 } ],
+    "tick_action": [ { "type": "sound", "sound_message": "whistle", "sound_volume": 35, "sound_variant": "bomb_ticking" } ],
     "countdown_action": {
       "type": "explosion",
       "fields_type": "fd_electricity",
@@ -608,7 +608,7 @@
     "material": [ "steel" ],
     "symbol": "*",
     "color": "blue",
-    "tick_action": [ { "type": "sound", "sound_message": "whistle", "sound_volume": 35 } ],
+    "tick_action": [ { "type": "sound", "sound_message": "whistle", "sound_volume": 35, "sound_variant": "bomb_ticking" } ],
     "countdown_action": {
       "type": "explosion",
       "fields_type": "fd_fire",

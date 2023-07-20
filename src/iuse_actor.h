@@ -170,7 +170,9 @@ class sound_iuse : public iuse_actor
 
         translation sound_message;
 
-        int sound_volume;
+        int sound_volume = 0;
+        std::string sound_id = "misc";
+        std::string sound_variant = "default";
 
         ~sound_iuse() override = default;
         void load( const JsonObject &obj ) override;

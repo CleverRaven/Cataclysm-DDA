@@ -35,7 +35,7 @@
     "symbol": "*",
     "color": "green",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead." },
-    "tick_action": [ { "type": "sound", "sound_message": "Merged!", "sound_volume": 0 } ],
+    "tick_action": [ { "type": "sound", "sound_message": "Merged!", "sound_volume": 0, "sound_id": "speech", "sound_variant": "granade_act" } ],
     "countdown_action": "GRANADE_ACT",
     "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 6 }
