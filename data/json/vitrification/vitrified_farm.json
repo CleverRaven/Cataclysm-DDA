@@ -196,7 +196,7 @@
     "method": "json",
     "update_mapgen_id": "vitrified_farm_2",
     "object": {
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN"],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "fill_ter": "t_vitrified_roof",
       "rows": [
         "EEEEEEEEEEEEEEEEEEEEEEEE",
@@ -224,10 +224,7 @@
         "E                       ",
         "EEEEEEEEEEEEEEEEEEEEEEEE"
       ],
-      "terrain": { ".": "t_vitrified_roof",
-      "-": "t_vitrified_roof",
-      "5": "t_vitrified_gutter_drop",
-      "E": "t_vitrified_edge" }
+      "terrain": { ".": "t_vitrified_roof", "-": "t_vitrified_roof", "5": "t_vitrified_gutter_drop", "E": "t_vitrified_edge" }
     }
   },
   {
@@ -265,11 +262,7 @@
         "EEEEEEEEEEEEEEEEEEEEEEEE"
       ],
       "palettes": [ "orchard_vitrified_palette" ],
-      "terrain": {
-         "E": "t_vitrified_edge",
-         "q": "t_vitrified_soil_talker",
-         "!": "t_vitrified_fence_barbed" 
-        }
+      "terrain": { "E": "t_vitrified_edge", "q": "t_vitrified_soil_talker", "!": "t_vitrified_fence_barbed" }
     }
   },
   {
@@ -306,9 +299,7 @@
         "                       E",
         "EEEEEEEEEEEEEEEEEEEEEEEE"
       ],
-      "terrain": {
-         "E": "t_vitrified_edge"
-        }
+      "terrain": { "E": "t_vitrified_edge" }
     }
   },
   {
@@ -345,9 +336,7 @@
         "EEEEEEEEEEEEEEEEEEEEEEEE",
         "EEEEEEEEEEEEEEEEEEEEEEEE"
       ],
-      "terrain": {
-         "E": "t_vitrified_roof"
-        }
+      "terrain": { "E": "t_vitrified_roof" }
     }
   },
   {

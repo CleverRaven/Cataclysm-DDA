@@ -1,15 +1,17 @@
 [
-  {"type": "effect_on_condition",
-   "id": "EOC_quietfarm_nearby",
-   "recurrence": "1 seconds",
-   "condition": {
-      "and":[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_quietfarm_nearby",
+    "recurrence": "1 seconds",
+    "condition": {
+      "and": [
         { "or": [ { "u_near_om_location": "unvitrified_farm_0" }, { "u_near_om_location": "unvitrified_orchard" } ] },
         { "compare_num": [ { "global_val": "var", "var_name": "vitri_glass_entered" }, "<", { "const": 1 } ] }
       ]
     },
     "effect": [
-      {"u_message": "There is a strange, sonorous tone filling the air, like wind over brittle ice.  It sets your teeth on edge.",
+      {
+        "u_message": "There is a strange, sonorous tone filling the air, like wind over brittle ice.  It sets your teeth on edge.",
         "type": "neutral",
         "popup": true
       },
@@ -23,10 +25,17 @@
     "condition": {
       "and": [
         { "or": [ { "u_at_om_location": "unvitrified_farm_0" }, { "u_at_om_location": "unvitrified_orchard" } ] },
-        { "and": [ { "not": { "u_has_effect": "VITRIFYING" } }, { "not": { "u_has_trait": "NOT_GLASS" } },
-        { "not" : { "u_is_on_terrain": "t_quietfarm_border_ground" } }, { "not" : { "u_is_on_terrain": "t_quietfarm_border_fence" } },
-        { "not" : { "u_is_on_terrain": "t_quietfarm_border_fence_closed" } }, { "not" : { "u_is_on_terrain": "t_quietfarm_border_fence_open" } },
-        { "compare_num": [ { "global_val": "var", "var_name": "vitri_glass_entered" }, "<", { "const": 2 } ] } ] }
+        {
+          "and": [
+            { "not": { "u_has_effect": "VITRIFYING" } },
+            { "not": { "u_has_trait": "NOT_GLASS" } },
+            { "not": { "u_is_on_terrain": "t_quietfarm_border_ground" } },
+            { "not": { "u_is_on_terrain": "t_quietfarm_border_fence" } },
+            { "not": { "u_is_on_terrain": "t_quietfarm_border_fence_closed" } },
+            { "not": { "u_is_on_terrain": "t_quietfarm_border_fence_open" } },
+            { "compare_num": [ { "global_val": "var", "var_name": "vitri_glass_entered" }, "<", { "const": 2 } ] }
+          ]
+        }
       ]
     },
     "effect": {
@@ -34,25 +43,24 @@
         {
           "id": "EOC_vitrified_confuse",
           "effect": [
-            {"place_override": { "global_val": "place_name", "default_str": "Quiet Farmhouse" },
-            "length": "1 day",
-            "key": "vitrified_farm_escape_key"},
-            {"custom_light_level": 70,
-            "length": "1 day",
-            "key": "vitrified_farm_escape_key"}
-
+            {
+              "place_override": { "global_val": "place_name", "default_str": "Quiet Farmhouse" },
+              "length": "1 day",
+              "key": "vitrified_farm_escape_key"
+            },
+            { "custom_light_level": 70, "length": "1 day", "key": "vitrified_farm_escape_key" }
           ]
         },
         {
           "id": "EOC_vitrified_entry_state",
-          "effect":[
-            {"math": ["u_glass_health_head", "=",  "u_val('hp','bodypart: head')"  ] },
-            {"math": ["u_glass_health_torso", "=", "u_val('hp','bodypart: torso')" ] },
-            {"math": ["u_glass_health_arm_l", "=", "u_val('hp','bodypart: arm_l')" ] },
-            {"math": ["u_glass_health_arm_r", "=", "u_val('hp','bodypart: arm_r')" ] },
-            {"math": ["u_glass_health_leg_l", "=", "u_val('hp','bodypart: leg_l')" ] },
-            {"math": ["u_glass_health_leg_r", "=", "u_val('hp','bodypart: leg_r')" ] },
-            {"math": ["u_glass_fatigue", "=", "u_val('fatigue')" ] }
+          "effect": [
+            { "math": [ "u_glass_health_head", "=", "u_val('hp','bodypart: head')" ] },
+            { "math": [ "u_glass_health_torso", "=", "u_val('hp','bodypart: torso')" ] },
+            { "math": [ "u_glass_health_arm_l", "=", "u_val('hp','bodypart: arm_l')" ] },
+            { "math": [ "u_glass_health_arm_r", "=", "u_val('hp','bodypart: arm_r')" ] },
+            { "math": [ "u_glass_health_leg_l", "=", "u_val('hp','bodypart: leg_l')" ] },
+            { "math": [ "u_glass_health_leg_r", "=", "u_val('hp','bodypart: leg_r')" ] },
+            { "math": [ "u_glass_fatigue", "=", "u_val('fatigue')" ] }
           ]
         },
         {
@@ -153,7 +161,7 @@
               "key": "vitrified_farm_escape_key"
             },
             {
-              "revert_location": { "global_val": "vitrified_sky_2"},
+              "revert_location": { "global_val": "vitrified_sky_2" },
               "time_in_future": "infinite",
               "key": "vitrified_farm_escape_key"
             },
@@ -189,7 +197,11 @@
             { "math": [ "u_vitri_vitrified", "=", "1" ] },
             { "math": [ "u_vitri_glassed", "=", "0" ] },
             { "math": [ "vitri_glass_entered", "=", "2" ] },
-            { "u_add_effect": "VITRIFYING", "duration": "PERMANENT", "intensity": { "math": [ "u_vitri_vitrified" ] } }
+            {
+              "u_add_effect": "VITRIFYING",
+              "duration": "PERMANENT",
+              "intensity": { "math": [ "u_vitri_vitrified" ] }
+            }
           ]
         }
       ]
@@ -199,122 +211,142 @@
     "type": "effect_on_condition",
     "id": "EOC_vitrified_farm_explore",
     "recurrence": 40,
-    "condition": {
-      "u_has_effect": "VITRIFYING" },
-    "effect": [ 
-       { "switch" :  {"math": [ "u_vitri_vitrified" ]},
-          "cases": [
-            { "case": 1, "effect": { 
+    "condition": { "u_has_effect": "VITRIFYING" },
+    "effect": [
+      {
+        "switch": { "math": [ "u_vitri_vitrified" ] },
+        "cases": [
+          {
+            "case": 1,
+            "effect": {
               "run_eocs": [
                 {
                   "id": "EOC_vitrified_ambient_message_1",
-                  "effect": [ { "u_message": "Vitrifaction_Ambient_1", "snippet": true, "type": "good" },
-                  { "math": [ "u_vitri_glassed", "++" ] },
-                  { "u_add_morale": "morale_vitri_placid", "bonus": 5, "max_bonus": 50} 
-                ]
+                  "effect": [
+                    { "u_message": "Vitrifaction_Ambient_1", "snippet": true, "type": "good" },
+                    { "math": [ "u_vitri_glassed", "++" ] },
+                    { "u_add_morale": "morale_vitri_placid", "bonus": 5, "max_bonus": 50 }
+                  ]
                 },
                 "EOC_queue_vitrified_int_drain"
               ]
-              } },
-            { "case": 2, "effect": { 
+            }
+          },
+          {
+            "case": 2,
+            "effect": {
               "run_eocs": [
                 {
                   "id": "EOC_vitrified_ambient_message_2",
-                  "effect": [{ "u_message": "Vitrifaction_Ambient_2", "snippet": true, "type": "good"},
-                  { "math": [ "u_vitri_glassed", "++" ] },
-                  { "u_add_morale": "morale_vitri_placid", "bonus": 10, "max_bonus": 99} 
-                ]
+                  "effect": [
+                    { "u_message": "Vitrifaction_Ambient_2", "snippet": true, "type": "good" },
+                    { "math": [ "u_vitri_glassed", "++" ] },
+                    { "u_add_morale": "morale_vitri_placid", "bonus": 10, "max_bonus": 99 }
+                  ]
                 },
                 "EOC_queue_vitrified_int_drain"
               ]
-              } },
-            { "case": 3, "effect": { 
+            }
+          },
+          {
+            "case": 3,
+            "effect": {
               "run_eocs": [
                 {
                   "id": "EOC_vitrified_ambient_message_3",
-                  "effect": [ { "u_message": "Vitrifaction_Ambient_3", "snippet": true, "type": "good" },
-                  { "math": [ "u_vitri_glassed", "++" ] },
-                  { "u_add_morale": "morale_vitri_placid", "bonus": 20, "max_bonus": 99} 
-                ]
+                  "effect": [
+                    { "u_message": "Vitrifaction_Ambient_3", "snippet": true, "type": "good" },
+                    { "math": [ "u_vitri_glassed", "++" ] },
+                    { "u_add_morale": "morale_vitri_placid", "bonus": 20, "max_bonus": 99 }
+                  ]
                 },
                 "EOC_queue_vitrified_int_drain"
               ]
-             } },
-             { "case": 4, "effect": { 
+            }
+          },
+          {
+            "case": 4,
+            "effect": {
               "run_eocs": [
                 {
                   "id": "EOC_vitrified_ambient_message_4",
-                  "effect": [ { "u_message": "Vitrifaction_Ambient_4", "snippet": true, "type": "good" },
-                  { "math": [ "u_vitri_glassed", "++" ] },
-                  { "u_add_morale": "morale_vitri_placid", "bonus": 30, "max_bonus": 99} 
-                ]
+                  "effect": [
+                    { "u_message": "Vitrifaction_Ambient_4", "snippet": true, "type": "good" },
+                    { "math": [ "u_vitri_glassed", "++" ] },
+                    { "u_add_morale": "morale_vitri_placid", "bonus": 30, "max_bonus": 99 }
+                  ]
                 },
                 "EOC_queue_vitrified_int_drain"
               ]
-             } },
-             { "case": 5, "effect": { 
+            }
+          },
+          {
+            "case": 5,
+            "effect": {
               "run_eocs": [
                 {
                   "id": "EOC_vitrified_ambient_message_5",
-                  "effect": [ { "u_message": "Vitrifaction_Ambient_5", "snippet": true, "type": "good"},
-                  { "math": [ "u_vitri_glassed", "++" ] },
-                  { "u_add_morale": "morale_vitri_placid", "bonus": 50, "max_bonus": 99} 
-                ]
+                  "effect": [
+                    { "u_message": "Vitrifaction_Ambient_5", "snippet": true, "type": "good" },
+                    { "math": [ "u_vitri_glassed", "++" ] },
+                    { "u_add_morale": "morale_vitri_placid", "bonus": 50, "max_bonus": 99 }
+                  ]
                 },
                 "EOC_queue_vitrified_int_drain"
               ]
-             } },
-             { "case": 6, "effect": { 
+            }
+          },
+          {
+            "case": 6,
+            "effect": {
               "run_eocs": [
                 {
                   "id": "EOC_vitrified_ambient_message_6",
-                  "effect": [ { "u_message": "Vitrifaction_Ambient_6", "snippet": true, "type": "good" },
-                  { "math": [ "u_vitri_glassed", "++" ] },
-                  { "u_add_morale": "morale_vitri_placid", "bonus": 70, "max_bonus": 99} 
-                ]
+                  "effect": [
+                    { "u_message": "Vitrifaction_Ambient_6", "snippet": true, "type": "good" },
+                    { "math": [ "u_vitri_glassed", "++" ] },
+                    { "u_add_morale": "morale_vitri_placid", "bonus": 70, "max_bonus": 99 }
+                  ]
                 },
                 "EOC_queue_vitrified_int_drain"
               ]
-             } },
-             { "case": 7, "effect": 
-              [ { "u_message": "Vitrifaction_Final", "snippet": true, "popup": true, "type": "good"}, { "u_set_hp": 0 } ]
-             } 
-            ] 
+            }
+          },
+          {
+            "case": 7,
+            "effect": [ { "u_message": "Vitrifaction_Final", "snippet": true, "popup": true, "type": "good" }, { "u_set_hp": 0 } ]
           }
-          ]
-        },
-    {
-      "type": "effect_on_condition",
-      "id": "vitrified_bleed_check",
-      "recurrence": 10,
-      "condition": {
-        "and": [
-            {"u_has_effect": "VITRIFYING" },
-          {"u_has_effect": "bleed"}
         ]
-      },
-      "effect": [ { "switch" : {"math": ["u_vitri_vitrified"]},
-          "cases": [
-            { "case": 0, "effect": { "u_message": "Vitrifaction_Bleed_1", "snippet": true, "type": "good"  } },
-            { "case": 3, "effect": { "u_message": "Vitrifaction_Bleed_2", "snippet": true, "type": "good"  } },
-            { "case": 5, "effect": { "u_message": "Vitrifaction_Bleed_3", "snippet": true, "type": "good"  } }
-          ]
-        }
-      ]
-      },
-      {"type": "effect_on_condition",
-      "id": "vitrified_death",
-      "eoc_type": "AVATAR_DEATH",
-      "condition": {
-           "u_has_effect": "VITRIFYING" },
-      "effect": {"u_message":"Vitrifaction_Final", "snippet": true, "type": "good"}
-      },
+      }
+    ]
+  },
   {
-    "type":"effect_on_condition",
+    "type": "effect_on_condition",
+    "id": "vitrified_bleed_check",
+    "recurrence": 10,
+    "condition": { "and": [ { "u_has_effect": "VITRIFYING" }, { "u_has_effect": "bleed" } ] },
+    "effect": [
+      {
+        "switch": { "math": [ "u_vitri_vitrified" ] },
+        "cases": [
+          { "case": 0, "effect": { "u_message": "Vitrifaction_Bleed_1", "snippet": true, "type": "good" } },
+          { "case": 3, "effect": { "u_message": "Vitrifaction_Bleed_2", "snippet": true, "type": "good" } },
+          { "case": 5, "effect": { "u_message": "Vitrifaction_Bleed_3", "snippet": true, "type": "good" } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "vitrified_death",
+    "eoc_type": "AVATAR_DEATH",
+    "condition": { "u_has_effect": "VITRIFYING" },
+    "effect": { "u_message": "Vitrifaction_Final", "snippet": true, "type": "good" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_queue_vitrified_int_drain",
-    "effect": { 
-      "queue_eocs": "EOC_vitrified_int_drain", "time_in_future": "1 seconds" 
-    }
+    "effect": { "queue_eocs": "EOC_vitrified_int_drain", "time_in_future": "1 seconds" }
   },
   {
     "type": "effect_on_condition",
@@ -343,20 +375,14 @@
       { "u_remove_item_with": "imperfect_doll_complete" },
       { "u_remove_item_with": "black_glass_shard" },
       { "alter_timed_events": "vitrified_farm_escape_key" },
-      {"u_set_hp": {"math": ["u_glass_health_head"]},
-       "target_part": "head"},
-      {"u_set_hp": {"math": ["u_glass_health_torso"]},
-       "target_part": "torso"},
-      {"u_set_hp": {"math": ["u_glass_health_arm_l"]},
-       "target_part": "arm_l"},
-      {"u_set_hp": {"math": ["u_glass_health_arm_r"]},
-       "target_part": "arm_r"},
-       {"u_set_hp": {"math": ["u_glass_health_leg_l"]},
-       "target_part": "leg_l"},
-       {"u_set_hp": {"math": ["u_glass_health_leg_r"]},
-       "target_part": "leg_r"},
-       {"math": ["u_val('fatigue')", "=", "u_glass_fatigue"]},
-       {"u_lose_morale": "morale_vitri_placid"},
+      { "u_set_hp": { "math": [ "u_glass_health_head" ] }, "target_part": "head" },
+      { "u_set_hp": { "math": [ "u_glass_health_torso" ] }, "target_part": "torso" },
+      { "u_set_hp": { "math": [ "u_glass_health_arm_l" ] }, "target_part": "arm_l" },
+      { "u_set_hp": { "math": [ "u_glass_health_arm_r" ] }, "target_part": "arm_r" },
+      { "u_set_hp": { "math": [ "u_glass_health_leg_l" ] }, "target_part": "leg_l" },
+      { "u_set_hp": { "math": [ "u_glass_health_leg_r" ] }, "target_part": "leg_r" },
+      { "math": [ "u_val('fatigue')", "=", "u_glass_fatigue" ] },
+      { "u_lose_morale": "morale_vitri_placid" },
       {
         "u_message": "You suck in a deep, ragged draught of air that burns in your chest.  Have you been holding your breath?  You must have been.  All you can hear for a moment is your heart hammering in your ears.  It takes a while to settle down.",
         "type": "good",

@@ -131,7 +131,7 @@
     "type": "terrain",
     "id": "t_vitrified_dirt",
     "name": "black glass ground",
-    "description": "A patch of black glass, roughly textured and entirely solid. The little of it you can see through reveals larger, darker pebbles underneath.",
+    "description": "A patch of black glass, roughly textured and entirely solid.  The little of it you can see through reveals larger, darker pebbles underneath.",
     "symbol": " ",
     "color": "black",
     "move_cost": 2,
@@ -155,7 +155,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF","INDOORS" ]
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF", "INDOORS" ]
   },
   {
     "type": "terrain",
@@ -165,7 +165,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF","INDOORS" ]
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF", "INDOORS" ]
   },
   {
     "type": "terrain",
@@ -293,7 +293,7 @@
     "type": "terrain",
     "id": "t_vitrified_curtains",
     "name": "black glass curtains",
-    "description": "The shape of a window and trim, covered in drapings of black glass. Presumably it was once transparent; now the opaque curtains are a solid and immobile.",
+    "description": "The shape of a window and trim, covered in drapings of black glass.  Presumably it was once transparent; now the opaque curtains are a solid and immobile.",
     "symbol": "\"",
     "color": "dark_gray",
     "move_cost": 0,
@@ -548,7 +548,17 @@
     "looks_like": "t_gutter_north",
     "color": "light_gray",
     "move_cost": 3,
-    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "CLIMBABLE" ],
+    "flags": [
+      "SUPPORTS_ROOF",
+      "TRANSPARENT",
+      "INDOORS",
+      "THIN_OBSTACLE",
+      "MOUNTABLE",
+      "TINY",
+      "AUTO_WALL_SYMBOL",
+      "UNSTABLE",
+      "CLIMBABLE"
+    ],
     "connect_groups": "RAILING",
     "connects_to": "RAILING",
     "bash": {
