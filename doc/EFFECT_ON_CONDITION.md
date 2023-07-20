@@ -183,7 +183,7 @@ Your character or the NPC will attempt to mutate; used in mutation system, for o
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_mutate" / "npc_mutate" | **mandatory** | int or [variable object](#variable-object) | one in `int` chance of using the highest category, with 0 never using the highest category |
+| "u_mutate" / "npc_mutate" | **mandatory** | int, float or [variable object](#variable-object) | one in `int` chance of using the highest category, with 0 never using the highest category |
 | "use_vitamins" | optional | boolean | default true; if true, mutation require vitamins to work | 
 
 ##### Valid talkers:
@@ -231,7 +231,7 @@ Some effect would be applied on you or NPC
 | "u_add_effect" / "npc_add_effect" | **mandatory** | string or [variable object](#variable-object) | id of effect to give |
 | "duration" | optional | int, duration or [variable object](#variable-object) | 0 by default; length of the effect; both int (`"duration": 60`), and duration string (`"duration": "1 m"`) works; `PERMANENT` can be used to give a permanent effect | 
 | "target_part" | optional | string or [variable object](#variable-object) | default is "whole body"; if used, only specified body part would be used. `RANDOM` can be used to pick a random body part | 
-| "intensity" | optional | int or [variable object](#variable-object) | default 0; intensity of the effect | 
+| "intensity" | optional | int, float or [variable object](#variable-object) | default 0; intensity of the effect | 
 | "force_bool" | optional | boolean | default false; if true, all immunities would be ignored | 
 
 ##### Valid talkers:
@@ -498,7 +498,7 @@ Save a personal variable, that you can check later using `u_has_var`, `npc_has_v
 | "value" | **mandatory** | string | value, that would be stored in variable; **incompatible with "possible_values" and "time"** | 
 | "possible_values" | **mandatory** | string array | array of values, that could be picked to be stored in variable; **incompatible with "value" and "time"** | 
 | "time" | **mandatory** | boolean | default false; if true, the current time would be saved in variable; **incompatible with "value" and "possible_values"** | 
-| "type", "context" | optional | string | additional text to describe your variable, can be used in `u_lose_var` or in `math` syntax, as `type`\_`context`\_`variable_name`; For example,  |  
+| "type", "context" | optional | string | additional text to describe your variable, can be used in `u_lose_var` or in `math` syntax, as `type`\_`context`\_`variable_name` |  
 
 ##### Valid talkers:
 
@@ -572,7 +572,7 @@ Your character or the NPC will adjust the stored variable by `adjustment`. **Slo
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_adjust_var", "npc_adjust_var" | **mandatory** | string | variable to adjust |
-| "adjustment" | **mandatory** | int or [variable object](#variable-object) | size of adjustment | 
+| "adjustment" | **mandatory** | int, float or [variable object](#variable-object) | size of adjustment | 
 | "type", "context" | optional | string | additional text to describe your variable; not mandatory, but required to adjust correct variable |
 
 ##### Valid talkers:
@@ -674,13 +674,13 @@ Search a specific coordinates of map around `u_`, `npc_` or `target_params` and 
 | Syntax | Optionality | Value | Info |
 | --- | --- | --- | --- | 
 | "u_location_variable" / "npc_location_variable" | **mandatory** | [variable object](#variable-object) | variable, where the location would be saved | 
-| "min_radius", "max_radius" | optional | int or [variable object](#variable-object) | default 0; radius around the player or NPC, where the location would be searched | 
+| "min_radius", "max_radius" | optional | int, float or [variable object](#variable-object) | default 0; radius around the player or NPC, where the location would be searched | 
 | "outdoor_only" | optional | boolean | default false; if true, only outdoor values would be picked | 
 | "target_params" | optional | assign_mission_target | if used, the search would be performed not from `u_` or `npc_` location, but from `mission_target`. it uses an [assign_mission_target](MISSIONS_JSON.md) syntax | 
-| "x_adjust", "y_adjust", "z_adjust" | optional | int or [variable object](#variable-object) | add this amount to `x`, `y` or `z` coordinate in the end; `"x_adjust": 2` would save the coordinate with 2 tile shift to the right from targeted | 
+| "x_adjust", "y_adjust", "z_adjust" | optional | int, float or [variable object](#variable-object) | add this amount to `x`, `y` or `z` coordinate in the end; `"x_adjust": 2` would save the coordinate with 2 tile shift to the right from targeted | 
 | "z_override" | optional | boolean | default is false; if true, instead of adding up to `z` level, override it with absolute value; `"z_adjust": 3` with `"z_override": true` turn the value of `z` to `3` | 
 | "terrain" / "furniture" / "trap" / "monster" / "zone" / "npc" | optional | string or [variable object](#variable-object) | if used, search the entity with corresponding id between `target_min_radius` and `target_max_radius`; if empty string is used (e.g. `"monster": ""`), return any entity from the same radius  | 
-| "target_min_radius", "target_max_radius" | optional | int or [variable object](#variable-object) | default 0, min and max radius for search, if previous field was used | 
+| "target_min_radius", "target_max_radius" | optional | int, float or [variable object](#variable-object) | default 0, min and max radius for search, if previous field was used | 
 
 ##### Valid talkers:
 
@@ -727,7 +727,7 @@ Allow adjust location value, obtained by `u_location_variable`, and share the sa
 | Syntax | Optionality | Value | Info |
 | --- | --- | --- | --- | 
 | "location_variable_adjust" | **mandatory** | [variable object](#variable-object) | variable, where the location would be saved | 
-| "x_adjust", "y_adjust", "z_adjust" | optional | int or [variable object](#variable-object) | add this amount to `x`, `y` or `z` coordinate in the end; `"x_adjust": 2` would save the coordinate with 2 tile shift to the right from targeted | 
+| "x_adjust", "y_adjust", "z_adjust" | optional | int, float or [variable object](#variable-object) | add this amount to `x`, `y` or `z` coordinate in the end; `"x_adjust": 2` would save the coordinate with 2 tile shift to the right from targeted | 
 | "z_override" | optional | boolean | default is false; if true, instead of adding up to `z` level, override it with absolute value; `"z_adjust": 3` with `"z_override": true` turn the value of `z` to `3` | 
 | "overmap_tile" | optional | boolean | default is false; if true, the adjustments will be made in overmap tiles rather than map tiles | 
 
@@ -886,7 +886,7 @@ Your character or the NPC will be wet as if they were in the rain.
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_add_wet" / "npc_add_wet" | **mandatory** | int or [variable object](#variable-object) | How much wetness would be added (in percent) |
+| "u_add_wet" / "npc_add_wet" | **mandatory** | int, float or [variable object](#variable-object) | How much wetness would be added (in percent) |
 
 ##### Valid talkers:
 
@@ -907,7 +907,7 @@ Emit a sound
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_make_sound" / "npc_make_sound" | **mandatory** | string or [variable object](#variable-object) | description of the sound |
-| "volume" | **mandatory** | int or [variable object](#variable-object) | how loud the sound is (1 unit = 1 tile around the character) | 
+| "volume" | **mandatory** | int, float or [variable object](#variable-object) | how loud the sound is (1 unit = 1 tile around the character) | 
 | "type" | **mandatory** | string or [variable object](#variable-object) | Type of the sound; Could be one of `background`, `weather`, `music`, `movement`, `speech`, `electronic_speech`, `activity`, `destructive_activity`, `alarm`, `combat`, `alert`, or `order` | 
 | "target_var" | optional | [variable object](#variable-object) | if set, the center of the sound would be centered in this variable's coordinates instead of you or NPC | 
 | "snippet" | optional | boolean | dafault false; if true, `_make_sound` would use a snippet of provided id instead of a message | 
@@ -946,8 +946,8 @@ Increases or decreases your healthiness (respond for disease immunity and regene
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_mod_healthy" / "npc_mod_healthy" | **mandatory** | int or [variable object](#variable-object) | Amount of health to be added |
-| "cap" | optional | int or [variable object](#variable-object) | cap for healthiness, beyond which it can't go further | 
+| "u_mod_healthy" / "npc_mod_healthy" | **mandatory** | int, float or [variable object](#variable-object) | Amount of health to be added |
+| "cap" | optional | int, float or [variable object](#variable-object) | cap for healthiness, beyond which it can't go further | 
 
 ##### Valid talkers:
 
@@ -969,8 +969,8 @@ Your character or the NPC will gain a morale bonus
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_add_morale" / "npc_add_morale" | **mandatory** | string or [variable object](#variable-object) | `morale_type`, that would be given by effect |
-| "bonus" | optional | int or [variable object](#variable-object) | default 1; mood bonus or penalty, that would be given by effect; can be stacked up to `max_bonus` cap, but each bonus is lower than previous (e.g. `bonus` of 100 gives mood bonus as 100, 141, 172, 198, 221 and so on) | 
-| "max_bonus" | optional | int or [variable object](#variable-object) | default false; cap, beyond which mood won't increase or decrease | 
+| "bonus" | optional | int, float or [variable object](#variable-object) | default 1; mood bonus or penalty, that would be given by effect; can be stacked up to `max_bonus` cap, but each bonus is lower than previous (e.g. `bonus` of 100 gives mood bonus as 100, 141, 172, 198, 221 and so on) | 
+| "max_bonus" | optional | int, float or [variable object](#variable-object) | default false; cap, beyond which mood won't increase or decrease | 
 | "duration" | optional | int, duration or [variable object](#variable-object) | default 1 hour; how long the morale effect would last | 
 | "decay_start" | optional | int, duration or [variable object](#variable-object) | default 30 min; when the morale effect would start to decay | 
 | "capped" | optional | boolean | default false; if true, `bonus` is not decreased when stacked (e.g. `bonus` of 100 gives mood bonus as 100, 200, 300 and so on) |  
@@ -1031,7 +1031,7 @@ removes morale type, delivered by `morale_id`
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_add_faction_trust" | **mandatory** | int or [variable object](#variable-object) | amount of trust to give or remove |
+| "u_add_faction_trust" | **mandatory** | int, float or [variable object](#variable-object) | amount of trust to give or remove |
 
 ##### Valid talkers:
 
@@ -1097,7 +1097,7 @@ You or NPC cast a spell. The spell uses fake spell data (ignore `energy_cost`, `
 | "hit_self" | optional | boolean | part of `_cast_spell`; default false; if true, the spell could affect the caster (either as self damage from AoE spell, or as applying effect for buff spell) | 
 | "message" | optional | string or [variable object](#variable-object) | part of `_cast_spell`; message to send when spell is casted | 
 | "npc_message" | optional | string or [variable object](#variable-object) | part of `_cast_spell`; message if npc uses | 
-| "min_level", "max_level" | optional | int or [variable object](#variable-object) | part of `_cast_spell`; level of the spell that would be casted (min level define what the actual spell level would be casted, adding max_level make EoC pick a random level between min and max) | 
+| "min_level", "max_level" | optional | int, float or [variable object](#variable-object) | part of `_cast_spell`; level of the spell that would be casted (min level define what the actual spell level would be casted, adding max_level make EoC pick a random level between min and max) | 
 | "targeted" | optional | boolean | default false; if true, allow you to aim casted spell, otherwise cast it in random place, like `RANDOM_TARGET` spell flag was used | 
 | "true_eocs" | optional | string, [variable object](#variable-object), `effect_on_condition` or range of all of them | if spell was casted successfully, all EoCs from this field would be triggered; | 
 | "false_eocs" | optional | string, [variable object](#variable-object), `effect_on_condition` or range of all of them | if spell was not casted successfully, all EoCs from this field would be triggered | 
@@ -1207,7 +1207,7 @@ HP of you or NPC would be set to some amount
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_set_hp" / "npc_set_hp" | **mandatory** | int or [variable object](#variable-object) | amount of HP to set |
+| "u_set_hp" / "npc_set_hp" | **mandatory** | int, float or [variable object](#variable-object) | amount of HP to set |
 | "target_part" | optional | string or [variable object](#variable-object) | default whole body; if used, the HP adjustment would be applied only to this body part | 
 | "only_increase" | optional | boolean | default false; if true, the HP could be only increased | 
 | "main_only" | optional | boolean | default false; if true, only main body parts would be affected - arms, legs, head, torso etc.; can't be used with `minor_only` | 
