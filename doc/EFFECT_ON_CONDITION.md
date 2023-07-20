@@ -334,7 +334,7 @@ Adds `TELEPATH` trait to the character:
 
 Adds trait, stored in `trait_id` context value, to the character:
 ```json
-{ "u_add_trait": { "context_val": "trait_id" }
+{ "u_add_trait": { "context_val": "trait_id" } }
 ```
 
 
