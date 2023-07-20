@@ -5967,9 +5967,9 @@
     "result": "tongs",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "2 m",
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_chunk", 2 ] ] ]
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 4 ] ] ]
   },
   {
     "result": "umbrella",

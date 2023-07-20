@@ -351,10 +351,10 @@
     "type": "TOOL",
     "name": { "str": "pair of metal tongs", "str_pl": "pairs of metal tongs" },
     "description": "A pair of long, metal tongs.  They are commonly used for cooking.",
-    "weight": "540 g",
-    "volume": "500 ml",
+    "weight": "167 g",
+    "volume": "210 ml",
     "longest_side": "30 cm",
-    "price": 1600,
+    "price": "13 USD",
     "price_postapoc": 10,
     "material": [ "steel" ],
     "symbol": ";",
@@ -362,7 +362,8 @@
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_FOOD" ],
     "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "//": "Based on https://www.amazon.com/dp/B07Q5CJDM9"
   },
   {
     "id": "metalworking_tongs",
