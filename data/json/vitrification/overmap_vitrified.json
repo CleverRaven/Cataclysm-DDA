@@ -2,7 +2,7 @@
   {
     "type": "overmap_special",
     "id": "quiet_farm",
-    "locations": ["forest"],
+    "locations": [ "forest" ],
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "dirt_road_forest_north" },
       { "point": [ 0, -2, 0 ], "overmap": "dirt_road_turn_forest_west" },
@@ -19,6 +19,6 @@
     "city_distance": [ 8, 45 ],
     "occurrences": [ 1, 15 ],
     "flags": [ "GLOBALLY_UNIQUE", "FARM", "MAN_MADE" ],
-    "rotate" : false
+    "rotate": false
   }
 ]

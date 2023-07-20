@@ -55,7 +55,7 @@
       { "u_remove_item_with": "imperfect_doll_arms" },
       { "u_remove_item_with": "imperfect_doll_legs" },
       { "u_spawn_item": "imperfect_doll_complete", "suppress_message": true },
-      { "u_transform_radius" : 5, "ter_furn_transform" : "imperfect_doll_to_couch"}
+      { "u_transform_radius": 5, "ter_furn_transform": "imperfect_doll_to_couch" }
     ]
   },
   {
@@ -204,11 +204,6 @@
   {
     "type": "ter_furn_transform",
     "id": "imperfect_doll_to_couch",
-    "terrain": [
-      {
-        "result": "f_vitrified_sofa",
-        "valid_terrain": [ "f_vitrified_doll" ]
-      }
-    ]
+    "terrain": [ { "result": "f_vitrified_sofa", "valid_terrain": [ "f_vitrified_doll" ] } ]
   }
 ]

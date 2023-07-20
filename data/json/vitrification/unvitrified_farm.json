@@ -58,7 +58,7 @@
         "t": "t_linoleum_white",
         "q": "t_quietfarm_border_fence_closed"
       },
-      "furniture": { "c": "f_cupboard", "5": "f_sink", "6": "f_cupboard", "7": "f_cupboard", "8": "f_counter"},
+      "furniture": { "c": "f_cupboard", "5": "f_sink", "6": "f_cupboard", "7": "f_cupboard", "8": "f_counter" },
       "items": {
         "5": { "item": "SUS_kitchen_sink", "chance": 100 },
         "6": { "item": "SUS_pantry", "chance": 60 },
@@ -235,11 +235,7 @@
         "111111111111111111111111"
       ],
       "palettes": [ "orchard_tree_apple" ],
-      "terrain": {
-        "1": "t_quietfarm_border_fence",
-        "!": "t_fence",
-        "@": "t_fencegate_c"
-      }
+      "terrain": { "1": "t_quietfarm_border_fence", "!": "t_fence", "@": "t_fencegate_c" }
     }
   },
   {
