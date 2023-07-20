@@ -1314,7 +1314,8 @@ std::optional<int> firestarter_actor::use( Character *p, item &it, bool t,
 
     // TODO: fix point types
     tripoint_bub_ms pos( spos );
-    if( !p || !prep_firestarter_use( *p, pos ) ) {  // if invoked from active item processing, do nothing.
+    if( !p || !prep_firestarter_use( *p,
+                                     pos ) ) {  // if invoked from active item processing, do nothing.
         return std::nullopt;
     }
     float light = light_mod( p->pos() );
