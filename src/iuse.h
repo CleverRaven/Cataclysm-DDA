@@ -110,7 +110,6 @@ std::optional<int> ehandcuffs( Character *, item *, bool, const tripoint & );
 std::optional<int> einktabletpc( Character *, item *, bool, const tripoint & );
 std::optional<int> elec_chainsaw_off( Character *, item *, bool, const tripoint & );
 std::optional<int> elec_chainsaw_on( Character *, item *, bool, const tripoint & );
-std::optional<int> emf_passive_off( Character *, item *, bool, const tripoint & );
 std::optional<int> emf_passive_on( Character *, item *, bool, const tripoint & );
 std::optional<int> extinguisher( Character *, item *, bool, const tripoint & );
 std::optional<int> fill_pit( Character *, item *, bool, const tripoint & );

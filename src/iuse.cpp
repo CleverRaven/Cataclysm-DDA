@@ -2689,73 +2689,56 @@ std::optional<int> iuse::noise_emitter_on( Character *p, item *it, bool t, const
     return 1;
 }
 
-std::optional<int> iuse::emf_passive_off( Character *p, item *it, bool, const tripoint & )
+std::optional<int> iuse::emf_passive_on( Character *p, item *it, bool, const tripoint &pos )
 {
-    if( !it->ammo_sufficient( p ) ) {
-        p->add_msg_if_player( _( "It's dead." ) );
-        return std::nullopt;
-    } else {
-        p->add_msg_if_player( _( "You turn the EMF detector on." ) );
-        it->convert( itype_emf_detector_on ).active = true;
+    // need to calculate distance to closest electrical thing
+
+    // set distance as farther than the radius
+    const int max = 10;
+    int distance = max + 1;
+
+    creature_tracker &creatures = get_creature_tracker();
+    map &here = get_map();
+    // can't get a reading during a portal storm
+    if( get_weather().weather_id == weather_portal_storm ) {
+        sounds::sound( pos, 6, sounds::sound_t::alarm, _( "BEEEEE-CHHHHHHH-eeEEEEEEE-CHHHHHHHHHHHH" ), true,
+                       "tool", "emf_detector" );
+        // skip continuing to check for locations
+        return 1;
     }
-    return 1;
-}
 
-std::optional<int> iuse::emf_passive_on( Character *p, item *it, bool t, const tripoint &pos )
-{
-    if( t ) { // Normal use
-        // need to calculate distance to closest electrical thing
+    for( const tripoint &loc : closest_points_first( pos, max ) ) {
+        const Creature *critter = creatures.creature_at( loc );
 
-        // set distance as farther than the radius
-        const int max = 10;
-        int distance = max + 1;
+        // if the creature exists and is either a robot or electric
+        bool found = critter != nullptr && critter->is_electrical();
 
-        creature_tracker &creatures = get_creature_tracker();
-        map &here = get_map();
-        // can't get a reading during a portal storm
-        if( get_weather().weather_id == weather_portal_storm ) {
-            sounds::sound( pos, 6, sounds::sound_t::alarm, _( "BEEEEE-CHHHHHHH-eeEEEEEEE-CHHHHHHHHHHHH" ), true,
-                           "tool", "emf_detector" );
+        // check for an electrical field
+        if( !found ) {
+            for( const auto &fd : here.field_at( loc ) ) {
+                if( fd.first->has_elec ) {
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        // if an electrical field or creature is nearby
+        if( found ) {
+            distance = rl_dist( pos, loc );
+            if( distance <= 3 ) {
+                sounds::sound( pos, 4, sounds::sound_t::alarm, _( "BEEEEEEP BEEEEEEP" ), true, "tool",
+                               "emf_detector" );
+            } else if( distance <= 7 ) {
+                sounds::sound( pos, 3, sounds::sound_t::alarm, _( "BEEP BEEP" ), true, "tool",
+                               "emf_detector" );
+            } else if( distance <= 10 ) {
+                sounds::sound( pos, 2, sounds::sound_t::alarm, _( "beep… beep" ), true, "tool",
+                               "emf_detector" );
+            }
             // skip continuing to check for locations
             return 1;
         }
-
-        for( const tripoint &loc : closest_points_first( pos, max ) ) {
-            const Creature *critter = creatures.creature_at( loc );
-
-            // if the creature exists and is either a robot or electric
-            bool found = critter != nullptr && critter->is_electrical();
-
-            // check for an electrical field
-            if( !found ) {
-                for( const auto &fd : here.field_at( loc ) ) {
-                    if( fd.first->has_elec ) {
-                        found = true;
-                        break;
-                    }
-                }
-            }
-
-            // if an electrical field or creature is nearby
-            if( found ) {
-                distance = rl_dist( pos, loc );
-                if( distance <= 3 ) {
-                    sounds::sound( pos, 4, sounds::sound_t::alarm, _( "BEEEEEEP BEEEEEEP" ), true, "tool",
-                                   "emf_detector" );
-                } else if( distance <= 7 ) {
-                    sounds::sound( pos, 3, sounds::sound_t::alarm, _( "BEEP BEEP" ), true, "tool",
-                                   "emf_detector" );
-                } else if( distance <= 10 ) {
-                    sounds::sound( pos, 2, sounds::sound_t::alarm, _( "beep… beep" ), true, "tool",
-                                   "emf_detector" );
-                }
-                // skip continuing to check for locations
-                return 1;
-            }
-        }
-    } else { // Turning it off
-        p->add_msg_if_player( _( "The noise of your EMF detector slows to a halt." ) );
-        it->convert( itype_emf_detector ).active = false;
     }
     return 1;
 }

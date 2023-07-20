@@ -455,11 +455,6 @@
   },
   {
     "type": "item_action",
-    "id": "EMF_PASSIVE_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
     "id": "EMF_PASSIVE_ON",
     "name": { "str": "Turn off" }
   },
