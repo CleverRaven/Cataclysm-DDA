@@ -3148,7 +3148,7 @@ void monster::process_effects()
         }
     }
 
-    if( has_flag( MF_CORNERED_FIGHTER ) && ( morale + anger ) < 0 ) {
+    if( has_flag( mon_flag_CORNERED_FIGHTER ) && ( morale + anger ) < 0 ) {
         if( friendly == 0 && rl_dist( pos(), player_character.pos() ) <= 2 ) {
             if( morale < type->morale ) {
                 morale = type->morale;
