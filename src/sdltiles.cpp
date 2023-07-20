@@ -2814,22 +2814,21 @@ static void CheckMessages()
                         // Check if we're near a vehicle, if so, vehicle controls should be top.
                         {
                             const optional_vpart_position vp = here.veh_at( pos );
-                            vehicle *const veh = veh_pointer_or_null( vp );
-                            if( veh ) {
-                                if( veh->part_with_feature( vp->mount(), "CONTROLS", true ) >= 0 ) {
+                            if( vp ) {
+                                if( const std::optional<vpart_reference> controlpart = vp.part_with_feature( "CONTROLS", true ) ) {
                                     actions.insert( ACTION_CONTROL_VEHICLE );
                                 }
-                                const int openablepart = veh->part_with_feature( vp->mount(), "OPENABLE", true );
-                                if( openablepart >= 0 && veh->part( openablepart ).open && ( dx != 0 ||
+                                const std::optional<vpart_reference> openablepart = vp.part_with_feature( "OPENABLE", true );
+                                if( openablepart && openablepart->part().open && ( dx != 0 ||
                                         dy != 0 ) ) { // an open door adjacent to us
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                const int curtainpart = veh->part_with_feature( vp->mount(), "CURTAIN", true );
-                                if( curtainpart >= 0 && veh->part( curtainpart ).open && ( dx != 0 || dy != 0 ) ) {
+                                const std::optional<vpart_reference> curtainpart = vp.part_with_feature( "CURTAIN", true );
+                                if( curtainpart && curtainpart->part().open && ( dx != 0 || dy != 0 ) ) {
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                const int cargopart = veh->part_with_feature( vp->mount(), "CARGO", true );
-                                if( cargopart >= 0 && ( !veh->get_items( cargopart ).empty() ) ) {
+                                const std::optional<vpart_reference> cargopart = vp.cargo();
+                                if( cargopart && ( !cargopart->items().empty() ) ) {
                                     actions.insert( ACTION_PICKUP );
                                 }
                             }

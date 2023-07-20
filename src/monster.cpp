@@ -88,9 +88,9 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dripping_mechanical_fluid( "dripping_mechanical_fluid" );
 static const efftype_id effect_emp( "emp" );
-static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
 static const efftype_id effect_fake_flu( "fake_flu" );
+static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -104,6 +104,7 @@ static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_photophobia( "photophobia" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
@@ -172,6 +173,7 @@ static const mon_flag_str_id mon_flag_NO_BREED( "NO_BREED" );
 static const mon_flag_str_id mon_flag_NO_FUNG_DMG( "NO_FUNG_DMG" );
 static const mon_flag_str_id mon_flag_PARALYZEVENOM( "PARALYZEVENOM" );
 static const mon_flag_str_id mon_flag_PET_MOUNTABLE( "PET_MOUNTABLE" );
+static const mon_flag_str_id mon_flag_PHOTOPHOBIC( "PHOTOPHOBIC" );
 static const mon_flag_str_id mon_flag_PLASTIC( "PLASTIC" );
 static const mon_flag_str_id mon_flag_QUEEN( "QUEEN" );
 static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
@@ -3034,7 +3036,7 @@ void monster::process_one_effect( effect &it, bool is_new )
         }
 
         avatar &you = get_avatar(); // No NPCs for now.
-        if( rl_dist( it.get_source().resolve_creature()->pos(), you.pos() ) <= 1 ) {
+        if( rl_dist( pos(), you.pos() ) <= 1 ) {
             you.get_sick( false );
         }
     } else if( id == effect_fake_flu ) {
@@ -3044,7 +3046,7 @@ void monster::process_one_effect( effect &it, bool is_new )
         }
 
         avatar &you = get_avatar(); // No NPCs for now.
-        if( rl_dist( it.get_source().resolve_creature()->pos(), you.pos() ) <= 1 ) {
+        if( rl_dist( pos(), you.pos() ) <= 1 ) {
             you.get_sick( true );
         }
     }
@@ -3120,6 +3122,12 @@ void monster::process_effects()
             anger += 5;
             anger = std::min( anger, type->agro );
         }
+    }
+
+    // If this critter weakens in light, apply the appropriate effect
+    if( has_flag( mon_flag_PHOTOPHOBIC ) && get_map().ambient_light_at( pos() ) >= 30.0f ) {
+        add_msg_if_player_sees( *this, m_good, _( "The shadow withers in the light!" ), name() );
+        add_effect( effect_photophobia, 5_turns, true );
     }
 
     // If this critter dies in sunlight, check & assess damage.

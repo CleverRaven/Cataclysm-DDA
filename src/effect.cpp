@@ -590,10 +590,13 @@ game_message_type effect_type::lose_game_message_type( int intensity ) const
 }
 void effect_type::add_apply_msg( int intensity ) const
 {
+    if( intensity == 0 ) {
+        return;
+    }
     if( intensity - 1 < static_cast<int>( apply_msgs.size() ) ) {
         add_msg( apply_msgs[intensity - 1].second,
                  apply_msgs[intensity - 1].first.translated() );
-    } else if( !apply_msgs[0].first.empty() ) {
+    } else if( !apply_msgs.empty() && !apply_msgs[0].first.empty() ) {
         // if the apply message is empty we shouldn't show the message
         add_msg( apply_msgs[0].second,
                  apply_msgs[0].first.translated() );
@@ -640,7 +643,7 @@ bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string_view m
     return jo.read( member, miss_msgs );
 }
 
-static std::optional<game_message_type> process_rating( std::string r )
+static std::optional<game_message_type> process_rating( const std::string &r )
 {
     if( r == "good" ) {
         return m_good;
@@ -1168,7 +1171,7 @@ int effect::set_intensity( int val, bool alert )
         val - 1 < static_cast<int>( eff_type->decay_msgs.size() ) ) {
         add_msg( eff_type->decay_msgs[ val - 1 ].second,
                  eff_type->decay_msgs[ val - 1 ].first.translated() );
-    } else if( alert ) {
+    } else if( alert && val != 0 ) {
         eff_type->add_apply_msg( val );
     }
 
