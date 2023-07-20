@@ -316,19 +316,6 @@ void timed_event::per_turn()
     Character &player_character = get_player_character();
     map &here = get_map();
     switch( type ) {
-        case timed_event_type::WANTED: {
-            // About once every 5 minutes. Suppress in classic zombie mode.
-            if( here.get_abs_sub().z() >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
-                point place = here.random_outdoor_tile();
-                if( place.x == -1 && place.y == -1 ) {
-                    // We're safely indoors!
-                    return;
-                }
-                when = calendar::turn;
-            }
-        }
-        break;
-
         case timed_event_type::SPAWN_WYRMS:
             if( here.get_abs_sub().z() >= 0 ) {
                 when -= 1_turns;

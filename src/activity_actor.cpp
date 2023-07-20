@@ -783,10 +783,6 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
             get_event_bus().send<event_type::triggers_alarm>( who.getID() );
             sounds::sound( who.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
-            if( examp.z > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
-                get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                        who.get_location() );
-            }
             break;
         case hack_result::NOTHING:
             who.add_msg_if_player( _( "You fail the hack, but no alarms are triggered." ) );
@@ -2574,10 +2570,6 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     if( !perfect && ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
-        if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
-            get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                    who.get_location() );
-        }
     }
 
     if( destroy && lockpick.has_value() ) {
@@ -5356,10 +5348,6 @@ void prying_activity_actor::handle_prying( Character &who )
         get_event_bus().send<event_type::triggers_alarm>( who.getID() );
         sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
-        if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
-            get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                    who.get_location() );
-        }
     }
 
     if( !data->message().empty() ) {
