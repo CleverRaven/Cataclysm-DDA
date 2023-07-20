@@ -1404,6 +1404,141 @@
     "using": [ [ "armor_qt_chainmail_assembling", 6 ], [ "strap_small", 4 ], [ "clasps", 4 ] ]
   },
   {
+    "result": "lc_chainmail_half_legs",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "using": [ [ "armor_lc_chainmail_assembling", 3 ], [ "strap_small", 5 ], [ "clasps", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "xs_lc_chainmail_half_legs",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_half_legs",
+    "time": "3 h",
+    "using": [ [ "armor_lc_chainmail_assembling", 3 ], [ "strap_small", 4 ], [ "clasps", 2 ] ]
+  },
+  {
+    "result": "xl_lc_chainmail_half_legs",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_half_legs",
+    "time": "3 h 23 m",
+    "using": [ [ "armor_lc_chainmail_assembling", 5 ], [ "strap_small", 5 ], [ "clasps", 3 ] ]
+  },
+  {
+    "result": "mc_chainmail_half_legs",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "using": [ [ "armor_mc_chainmail_assembling", 3 ], [ "strap_small", 5 ], [ "clasps", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "xs_mc_chainmail_half_legs",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_half_legs",
+    "time": "3 h",
+    "using": [ [ "armor_mc_chainmail_assembling", 3 ], [ "strap_small", 4 ], [ "clasps", 2 ] ]
+  },
+  {
+    "result": "xl_mc_chainmail_half_legs",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_half_legs",
+    "time": "3 h 23 m",
+    "using": [ [ "armor_mc_chainmail_assembling", 5 ], [ "strap_small", 5 ], [ "clasps", 3 ] ]
+  },
+  {
+    "result": "hc_chainmail_half_legs",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "using": [ [ "armor_hc_chainmail_assembling", 3 ], [ "strap_small", 5 ], [ "clasps", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "xs_hc_chainmail_half_legs",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_half_legs",
+    "time": "3 h",
+    "using": [ [ "armor_hc_chainmail_assembling", 3 ], [ "strap_small", 4 ], [ "clasps", 2 ] ]
+  },
+  {
+    "result": "xl_hc_chainmail_half_legs",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_half_legs",
+    "time": "3 h 23 m",
+    "using": [ [ "armor_hc_chainmail_assembling", 5 ], [ "strap_small", 5 ], [ "clasps", 3 ] ]
+  },
+  {
+    "result": "ch_chainmail_half_legs",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "using": [ [ "armor_ch_chainmail_assembling", 3 ], [ "strap_small", 5 ], [ "clasps", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "xs_ch_chainmail_half_legs",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_half_legs",
+    "time": "3 h",
+    "using": [ [ "armor_ch_chainmail_assembling", 3 ], [ "strap_small", 4 ], [ "clasps", 2 ] ]
+  },
+  {
+    "result": "xl_ch_chainmail_half_legs",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_half_legs",
+    "time": "3 h 23 m",
+    "using": [ [ "armor_ch_chainmail_assembling", 5 ], [ "strap_small", 5 ], [ "clasps", 3 ] ]
+  },
+  {
+    "result": "qt_chainmail_half_legs",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "using": [ [ "armor_qt_chainmail_assembling", 3 ], [ "strap_small", 5 ], [ "clasps", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "xs_qt_chainmail_half_legs",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_half_legs",
+    "time": "3 h",
+    "using": [ [ "armor_qt_chainmail_assembling", 3 ], [ "strap_small", 4 ], [ "clasps", 2 ] ]
+  },
+  {
+    "result": "xl_qt_chainmail_half_legs",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_half_legs",
+    "time": "3 h 23 m",
+    "using": [ [ "armor_qt_chainmail_assembling", 5 ], [ "strap_small", 5 ], [ "clasps", 3 ] ]
+  },
+  {
     "result": "legguard_bronze",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",

@@ -289,7 +289,7 @@
         "c": { "item": "office_supplies", "chance": 60 },
         "l": { "item": "cleaning", "chance": 60, "repeat": 2 },
         "F": { "item": "office_paper", "chance": 50 },
-        " ": { "item": "corpse_and_science", "chance": 1 },
+        " ": { "item": "map_extra_science", "chance": 1 },
         "~": [
           { "item": "trash", "chance": 15 },
           { "item": "sewer", "chance": 15 },
@@ -339,12 +339,6 @@
       { "group": "toxic_waste_mx_chems", "prob": 35 },
       { "item": "55gal_drum", "prob": 50 }
     ]
-  },
-  {
-    "id": "corpse_and_science",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [ { "item": "corpse_generic_human", "prob": 100 }, { "group": "science", "prob": 100 } ]
   },
   {
     "id": "nanomaterials",

@@ -857,9 +857,9 @@ THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
-JSON_FORMATTER_SOURCES := $(wildcard tools/format/*.cpp) src/json.cpp
+JSON_FORMATTER_SOURCES := $(wildcard tools/format/*.cpp) src/wcwidth.cpp src/json.cpp
 JSON_FORMATTER_HEADERS := $(wildcard tools/format/*.h)
-CHKJSON_SOURCES := $(wildcard src/chkjson/*.cpp) src/json.cpp
+CHKJSON_SOURCES := $(wildcard src/chkjson/*.cpp) src/wcwidth.cpp src/json.cpp
 CLANG_TIDY_PLUGIN_SOURCES := \
   $(wildcard tools/clang-tidy-plugin/*.cpp tools/clang-tidy-plugin/*/*.cpp)
 CLANG_TIDY_PLUGIN_HEADERS := \
