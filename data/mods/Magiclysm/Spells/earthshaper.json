@@ -665,7 +665,7 @@
   {
     "id": "earthshaper_map_real",
     "type": "SPELL",
-    "name": "Earthshaper Real Spell",
+    "name": "Reading the Earthbones Real Spell",
     "description": "This is the spell that actually fires when you cast Reading the Earthbones.  It's a bug if you have it.",
     "valid_targets": [ "none" ],
     "message": "The secrets of the living earth are revealed to you.",
