@@ -2549,7 +2549,7 @@ item_location game_menus::inv::install_bionic( Character &you, Character &patien
 class change_sprite_inventory_preset: public inventory_selector_preset
 {
     public:
-        change_sprite_inventory_preset( Character &pl ) :
+        explicit change_sprite_inventory_preset( Character &pl ) :
             you( pl ) {
             append_cell( []( const item_location & loc ) -> std::string {
                 if( loc->has_var( "sprite_override" ) ) {
