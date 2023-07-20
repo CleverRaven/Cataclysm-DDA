@@ -12,7 +12,7 @@
   {
     "id": "BGSS_CRIMINAL_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "It was just <swear> chaos on the streets, man.  But I'm used to chaos.  You don't live as long as I've lived and not know how to keep away from a fight you can't win.  Biggest worry wasn't the zombies and the monsters, honestly.  But I swear, some cops got a nightstick so far up their ass… I didn't have time to ditch my orange when stuff kept swipin' at me, and I swear, cops got a look at me, they decided I was the big problem. Goddamn walking corpse next to me, who do they pick to shoot at? Pricks.",
+    "dynamic_line": "It was just <swear> chaos on the streets, man.  But I'm used to chaos.  You don't live as long as I've lived and not know how to keep away from a fight you can't win.  Biggest worry wasn't the zombies and the monsters, honestly.  But I swear, some cops got a nightstick so far up their ass…  I didn't have time to ditch my orange when stuff kept swipin' at me, and I swear, cops got a look at me, they decided I was the big problem.  Goddamn walking corpse next to me, who do they pick to shoot at?  Pricks.",
     "responses": [
       { "text": "How did you keep from getting arrested?", "topic": "BGSS_CRIMINAL_1_STORY3" },
       { "text": "What were you in for in the first place?", "topic": "BGSS_CRIMINAL_1_PAROLE" },
