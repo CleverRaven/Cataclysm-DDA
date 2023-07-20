@@ -20,7 +20,7 @@
     "flags": [ "BELT_CLIP", "DURABLE_MELEE" ],
     "weapon_category": [ "BATONS" ],
     "melee_damage": { "bash": 19, "cut": 1 },
-    "//2": "Based on https://www.amazon.com/440mm-Crowbar-Wrecking-Remover-Removal/dp/B07B4JDQB4/ref=sr_1_7?crid=2L3MYMBNF0SFQ&keywords=18+inch+crowbar&qid=1689843701&sprefix=18+inch+crowbar%2Caps%2C356&sr=8-7"
+    "//2": "Based on https://www.amazon.com/dp/B07B4JDQB4"
   },
   {
     "id": "emergency_lockpick",
@@ -143,6 +143,6 @@
     "qualities": [ [ "HAMMER", 1 ], [ "PRY", 3 ], [ "COOK", 1 ] ],
     "use_action": [ "CROWBAR" ],
     "melee_damage": { "bash": 45 },
-    "//2": "Based on https://www.amazon.com/Bon-RiverWorks-27-226-60-Inch-Carbon/dp/B007DHX596/ref=sr_1_5?crid=5W0QJWQUKVSF&keywords=construction+pry+bar+60+inch&qid=1689844867&sprefix=construction+prybar+60inch%2Caps%2C173&sr=8-5"
+    "//2": "Based on https://www.amazon.com/dp/B007DHX596"
   }
 ]

@@ -258,7 +258,7 @@
     "use_action": [ "CROWBAR" ],
     "flags": [ "BELT_CLIP" ],
     "melee_damage": { "bash": 13, "cut": 1 },
-    "//2": "Based on https://www.amazon.com/Stanley-55-114-10-Inch-Claw-Bar/dp/B000A24RCA/ref=sr_1_5?crid=QTVILE4L659W&keywords=clawbar&qid=1689844258&sprefix=clawbar%2Caps%2C254&sr=8-5&th=1"
+    "//2": "Based on https://www.amazon.com/dp/B000A24RCA"
   },
   {
     "id": "con_mix",
@@ -1208,7 +1208,7 @@
     "color": "light_gray",
     "qualities": [ [ "WHEEL_FAST", 1 ] ],
     "melee_damage": { "bash": 11 },
-    "//": "Based on https://www.amazon.com/CARTMAN-Heavy-Universal-Wrench-4-Way/dp/B06XPWS3HJ/ref=sr_1_5?crid=O9Z1Q5W7GE8O&keywords=lug%2Bwrench&qid=1689841445&sprefix=lug%2Bwrench%2Caps%2C300&sr=8-5&th=1"
+    "//": "Based on https://www.amazon.com/dp/B06XPWS3HJ"
   },
   {
     "id": "toolbox_empty",
