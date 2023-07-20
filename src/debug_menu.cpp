@@ -237,6 +237,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::CHANGE_SPELLS: return "CHANGE_SPELLS";
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
+        case debug_menu::debug_menu_index::VEHICLE_EXPORT: return "VEHICLE_EXPORT";
         case debug_menu::debug_menu_index::EDIT_CAMP_LARDER: return "EDIT_CAMP_LARDER";
         case debug_menu::debug_menu_index::VEHICLE_DELETE: return "VEHICLE_DELETE";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
@@ -523,6 +524,7 @@ static int vehicle_uilist()
         { uilist_entry( debug_menu_index::VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change battery charge" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_VEHICLE, true, 's', _( "Spawn a vehicle" ) ) },
         { uilist_entry( debug_menu_index::VEHICLE_DELETE, true, 'd', _( "Delete vehicle" ) ) },
+        { uilist_entry( debug_menu_index::VEHICLE_EXPORT, true, 'e', _( "Export vehicle as prototype" ) ) }
     };
 
     return uilist( _( "Vehicle…" ), uilist_initializer );
@@ -3444,6 +3446,31 @@ void debug()
                     here.destroy_vehicle( veh );
                 }
             }
+            break;
+        }
+        case debug_menu_index::VEHICLE_EXPORT: {
+            if( optional_vpart_position ovp = here.veh_at( player_character.pos() ) ) {
+                cata_path export_dir{ cata_path::root_path::user,  "export_dir" };
+                assure_dir_exist( export_dir );
+                const std::string text = string_input_popup()
+                                         .title( _( "Exported file name?" ) )
+                                         .width( 20 )
+                                         .query_string();
+                cata_path veh_path = export_dir / ( text + ".json" );
+                try {
+                    write_to_file( veh_path, [&]( std::ostream & fout ) {
+                        JsonOut jsout( fout );
+                        ovp->vehicle().refresh();
+                        vehicle_prototype::save_vehicle_as_prototype( ovp->vehicle(), jsout );
+                    } );
+                } catch( const std::exception &err ) {
+                    debugmsg( _( "Failed to export vehicle: %s" ), err.what() );
+                }
+                popup( _( "Written: %s .\n Please format the exported file for readability." ),
+                       veh_path.get_unrelative_path().string() );
+                break;
+            }
+            add_msg( m_bad, _( "There's no vehicle there." ) );
             break;
         }
 
