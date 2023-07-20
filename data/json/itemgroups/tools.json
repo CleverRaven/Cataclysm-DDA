@@ -78,7 +78,7 @@
     "items": [
       { "item": "brick_kiln", "prob": 80, "charges": [ 0, 1000 ] },
       { "item": "kiln", "prob": 40 },
-      { "item": "con_mix", "prob": 120, "charges": [ 0, 500 ] },
+      { "item": "con_mix", "prob": 120 },
       { "item": "elec_jackhammer", "prob": 40, "charges": [ 0, 6600 ] },
       { "item": "reciprocating_saw", "prob": 80, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 20, "charges": [ 0, 500 ] },
