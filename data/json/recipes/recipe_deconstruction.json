@@ -5940,14 +5940,6 @@
     "components": [ [ [ "sheet_metal_small", 2 ] ] ]
   },
   {
-    "result": "scissors",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "12 s",
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-  },
-  {
     "result": "shavingkit",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
