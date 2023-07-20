@@ -1197,7 +1197,7 @@
     "type": "TOOL",
     "name": { "str": "lug wrench", "str_pl": "lug wrenches" },
     "description": "A steel rod bent 90 degrees with a socket on the shorter end, made to hold the lug nuts of a car's wheels to either fasten or loosen for convenient removal and replacement.  Makes for a decent melee weapon in a pinch.",
-    "weight": "1565",
+    "weight": "1565 g",
     "longest_side": "46 cm",
     "volume": "460 ml",
     "price": "23 USD",
