@@ -2545,3 +2545,38 @@ item_location game_menus::inv::install_bionic( Character &you, Character &patien
     }
 
 }
+
+class change_sprite_inventory_preset: public inventory_selector_preset
+{
+    public:
+        change_sprite_inventory_preset( Character &pl ) :
+            you( pl ) {
+            append_cell( []( const item_location & loc ) -> std::string {
+                if( loc->has_var( "sprite_override" ) ) {
+                    const itype_id sprite_override( std::string( loc->get_var( "sprite_override" ) ) );
+                    const std::string variant = loc->get_var( "sprite_override_variant" );
+                    if( !item::type_is_defined( sprite_override ) ) {
+                        return _( "Unknown" );
+                    }
+                    item tmp( sprite_override );
+                    tmp.set_itype_variant( variant );
+                    return tmp.tname();
+                }
+                return _( "Default" );
+            }, _( "Shown as" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_armor();
+        }
+
+    protected:
+        Character &you;
+};
+
+item_location game_menus::inv::change_sprite( Character &you )
+{
+    return inv_internal( you, change_sprite_inventory_preset( you ),
+                         _( "Change appearance of your armor:" ), -1,
+                         _( "You have nothing to wear." ) );
+}

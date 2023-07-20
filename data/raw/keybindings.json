@@ -4260,6 +4260,13 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_ARMOR_SPRITE",
+    "category": "PLAYER_INFO",
+    "name": "Change sprite of armor.",
+    "bindings": [ { "input_method": "keyboard_char", "key": "W" }, { "input_method": "keyboard_code", "key": "w", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "category": "WISH_ITEM",
     "id": "CONTAINER",
     "name": "Toggle spawning item with container",
