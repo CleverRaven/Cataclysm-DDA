@@ -54,7 +54,7 @@ enum class mon_trigger : int {
     SOUND,              // Heard a sound
     PLAYER_NEAR_BABY,   // Player/npc is near a baby monster of this type
     MATING_SEASON,      // It's the monster's mating season (defined by baby_flags)
-    BRIGHT_LIGHT,       // Illumination in the monster's tile is equal or higher than 75% of daylight.
+    BRIGHT_LIGHT,       // Illumination in the monster's tile is 75% of full daylight or higher
 
     LAST               // This item must always remain last.
 };
