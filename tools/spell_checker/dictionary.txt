@@ -1528,7 +1528,7 @@ kickstand
 killbasa
 killin
 kilij
-kilijs
+kilijes
 kilns
 kilroy
 kilted
@@ -2038,6 +2038,7 @@ otherlands
 otherworlds
 oud
 outgrowths
+outperforms
 outputting
 ovata
 overbore
