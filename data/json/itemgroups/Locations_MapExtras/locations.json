@@ -1811,8 +1811,6 @@
       { "item": "cassock", "prob": 40 },
       { "item": "thawb", "prob": 10 },
       { "item": "kufi", "prob": 10 },
-      { "item": "kittel", "prob": 10 },
-      { "item": "kippah", "prob": 10 },
       { "item": "icon", "prob": 20 }
     ]
   },
