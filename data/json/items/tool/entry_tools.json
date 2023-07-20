@@ -19,7 +19,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP", "DURABLE_MELEE" ],
     "weapon_category": [ "BATONS" ],
-    "melee_damage": { "bash": 15, "cut": 1 },
+    "melee_damage": { "bash": 19, "cut": 1 },
     "//2": "Based on https://www.amazon.com/440mm-Crowbar-Wrecking-Remover-Removal/dp/B07B4JDQB4/ref=sr_1_7?crid=2L3MYMBNF0SFQ&keywords=18+inch+crowbar&qid=1689843701&sprefix=18+inch+crowbar%2Caps%2C356&sr=8-7"
   },
   {

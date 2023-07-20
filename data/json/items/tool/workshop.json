@@ -257,7 +257,7 @@
     "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "CROWBAR" ],
     "flags": [ "BELT_CLIP" ],
-    "melee_damage": { "bash": 9, "cut": 1 },
+    "melee_damage": { "bash": 13, "cut": 1 },
     "//2": "Based on https://www.amazon.com/Stanley-55-114-10-Inch-Claw-Bar/dp/B000A24RCA/ref=sr_1_5?crid=QTVILE4L659W&keywords=clawbar&qid=1689844258&sprefix=clawbar%2Caps%2C254&sr=8-5&th=1"
   },
   {
