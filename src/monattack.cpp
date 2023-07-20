@@ -454,7 +454,7 @@ bool mattack::eat_food( monster *z )
                 continue;
             }
             //Don't eat own eggs
-            if( z->has_flag( MF_EATS ) && z->type->baby_egg != item.type->get_id() &&
+            if( z->has_flag( mon_flag_EATS ) && z->type->baby_egg != item.type->get_id() &&
                 z->amount_eaten < z->stomach_size ) {
                 int consumed = 1;
                 if( item.count_by_charges() ) {
@@ -468,7 +468,7 @@ bool mattack::eat_food( monster *z )
                 }
                 return true;
             }
-            if( !z->has_flag( MF_EATS ) && z->type->baby_egg != item.type->get_id() ) {
+            if( !z->has_flag( mon_flag_EATS ) && z->type->baby_egg != item.type->get_id() ) {
                 int consumed = 1;
                 if( item.count_by_charges() ) {
                     here.use_charges( p, 1, item.type->get_id(), consumed );
