@@ -204,11 +204,7 @@
   {
     "type": "palette",
     "id": "orchard_vitrified_palette",
-    "terrain": { " ": "t_vitrified_grass",
-    "*": "t_vitrified_dirt",
-    "7": "t_tree_apple_vitrified",
-    "r": "t_vitrified_glass"
-        },
+    "terrain": { " ": "t_vitrified_grass", "*": "t_vitrified_dirt", "7": "t_tree_apple_vitrified", "r": "t_vitrified_glass" },
     "furniture": {
       "r": [
         "f_glassedbody_1",
@@ -221,7 +217,8 @@
         "f_glassedbody_8",
         "f_glassedbody_9",
         "f_glassedbody_10"
-           ] }
+      ]
+    }
   },
   {
     "type": "palette",
