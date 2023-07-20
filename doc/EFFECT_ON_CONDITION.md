@@ -212,11 +212,14 @@ Similar to `u_mutate` but takes category as a parameter and guarantees mutation.
 | "use_vitamins" | optional | boolean | same as in `u_mutate` | 
 
 ##### Examples
+
 ```json
 { "u_mutate_category": "PLANT" }
-{ "u_mutate_category": { "global_val": "next_mutation" }
----->> github eats these backticks ``` <----
+```
 
+```
+{ "u_mutate_category": { "global_val": "next_mutation" }
+```
 
 
 #### `u_add_effect`, `npc_add_effect`
