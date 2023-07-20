@@ -12,7 +12,13 @@
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "green",
-    "use_action": [ "GRANADE" ],
+    "use_action": {
+      "need_wielding": true,
+      "target": "granade_act",
+      "msg": "You pull the pin on the Granade.",
+      "target_timer": "5 seconds",
+      "type": "transform"
+    },
     "melee_damage": { "bash": 6 }
   },
   {
@@ -28,10 +34,9 @@
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "green",
-    "initial_charges": 5,
-    "max_charges": 5,
-    "turns_per_charge": 1,
-    "use_action": [ "GRANADE_ACT" ],
+    "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead." },
+    "tick_action": [ { "type": "sound", "sound_message": "Merged!", "sound_volume": 0 } ],
+    "countdown_action": "GRANADE_ACT",
     "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 6 }
   },

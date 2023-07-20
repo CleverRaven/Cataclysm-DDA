@@ -3486,152 +3486,134 @@ std::optional<int> iuse::can_goo( Character *p, item *it, bool, const tripoint &
     return 1;
 }
 
-std::optional<int> iuse::granade( Character *p, item *it, bool, const tripoint & )
-{
-    p->add_msg_if_player( _( "You pull the pin on the Granade." ) );
-    it->convert( itype_granade_act );
-    it->charges = 5;
-    it->active = true;
-    return 1;
-}
-
-std::optional<int> iuse::granade_act( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::granade_act( Character *p, item *it, bool, const tripoint &pos )
 {
     if( pos.x == -999 || pos.y == -999 ) {
         return std::nullopt;
     }
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
-    if( t ) { // Simple timer effects
-        // Vol 0 = only heard if you hold it
-        sounds::sound( pos, 0, sounds::sound_t::electronic_speech, _( "Merged!" ),
-                       true, "speech", it->typeId().str() );
-    } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already pulled the %s's pin, try throwing it instead." ),
-                              it->tname() );
-        return std::nullopt;
-    } else { // When that timer runs down...
-        int explosion_radius = 3;
-        int effect_roll = rng( 1, 4 );
-        auto buff_stat = [&]( int &current_stat, int modify_by ) {
-            int modified_stat = current_stat + modify_by;
-            current_stat = std::max( current_stat, std::min( 15, modified_stat ) );
-        };
-        avatar &player_character = get_avatar();
-        switch( effect_roll ) {
-            case 1:
-                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUGFIXES!" ),
-                               true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_light_cyan );
-                for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
-                    monster *const mon = creatures.creature_at<monster>( dest, true );
-                    if( mon && ( mon->type->in_species( species_INSECT ) || mon->is_hallucination() ) ) {
-                        mon->die_in_explosion( nullptr );
-                    }
-                }
-                break;
 
-            case 2:
-                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUFFS!" ),
-                               true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_green );
-                for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
-                    if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
-                        monster &critter = *mon_ptr;
-                        critter.set_speed_base(
-                            critter.get_speed_base() * rng_float( 1.1, 2.0 ) );
-                        critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
-                    } else if( npc *const person = creatures.creature_at<npc>( dest ) ) {
-                        /** @EFFECT_STR_MAX increases possible granade str buff for NPCs */
-                        buff_stat( person->str_max, rng( 0, person->str_max / 2 ) );
-                        /** @EFFECT_DEX_MAX increases possible granade dex buff for NPCs */
-                        buff_stat( person->dex_max, rng( 0, person->dex_max / 2 ) );
-                        /** @EFFECT_INT_MAX increases possible granade int buff for NPCs */
-                        buff_stat( person->int_max, rng( 0, person->int_max / 2 ) );
-                        /** @EFFECT_PER_MAX increases possible granade per buff for NPCs */
-                        buff_stat( person->per_max, rng( 0, person->per_max / 2 ) );
-                    } else if( player_character.pos() == dest ) {
-                        /** @EFFECT_STR_MAX increases possible granade str buff */
-                        buff_stat( player_character.str_max, rng( 0, player_character.str_max / 2 ) );
-                        /** @EFFECT_DEX_MAX increases possible granade dex buff */
-                        buff_stat( player_character.dex_max, rng( 0, player_character.dex_max / 2 ) );
-                        /** @EFFECT_INT_MAX increases possible granade int buff */
-                        buff_stat( player_character.int_max, rng( 0, player_character.int_max / 2 ) );
-                        /** @EFFECT_PER_MAX increases possible granade per buff */
-                        buff_stat( player_character.per_max, rng( 0, player_character.per_max / 2 ) );
-                        player_character.recalc_hp();
-                        for( const bodypart_id &bp : player_character.get_all_body_parts(
-                                 get_body_part_flags::only_main ) ) {
-                            player_character.set_part_hp_cur( bp, player_character.get_part_hp_cur( bp ) * rng_float( 1,
-                                                              1.2 ) );
-                            const int hp_max = player_character.get_part_hp_max( bp );
-                            if( player_character.get_part_hp_cur( bp ) > hp_max ) {
-                                player_character.set_part_hp_cur( bp, hp_max );
-                            }
+    int explosion_radius = 3;
+    int effect_roll = rng( 1, 4 );
+    auto buff_stat = [&]( int &current_stat, int modify_by ) {
+        int modified_stat = current_stat + modify_by;
+        current_stat = std::max( current_stat, std::min( 15, modified_stat ) );
+    };
+    avatar &player_character = get_avatar();
+    switch( effect_roll ) {
+        case 1:
+            sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUGFIXES!" ),
+                           true, "speech", it->typeId().str() );
+            explosion_handler::draw_explosion( pos, explosion_radius, c_light_cyan );
+            for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
+                monster *const mon = creatures.creature_at<monster>( dest, true );
+                if( mon && ( mon->type->in_species( species_INSECT ) || mon->is_hallucination() ) ) {
+                    mon->die_in_explosion( nullptr );
+                }
+            }
+            break;
+
+        case 2:
+            sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUFFS!" ),
+                           true, "speech", it->typeId().str() );
+            explosion_handler::draw_explosion( pos, explosion_radius, c_green );
+            for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
+                if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
+                    monster &critter = *mon_ptr;
+                    critter.set_speed_base(
+                        critter.get_speed_base() * rng_float( 1.1, 2.0 ) );
+                    critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
+                } else if( npc *const person = creatures.creature_at<npc>( dest ) ) {
+                    /** @EFFECT_STR_MAX increases possible granade str buff for NPCs */
+                    buff_stat( person->str_max, rng( 0, person->str_max / 2 ) );
+                    /** @EFFECT_DEX_MAX increases possible granade dex buff for NPCs */
+                    buff_stat( person->dex_max, rng( 0, person->dex_max / 2 ) );
+                    /** @EFFECT_INT_MAX increases possible granade int buff for NPCs */
+                    buff_stat( person->int_max, rng( 0, person->int_max / 2 ) );
+                    /** @EFFECT_PER_MAX increases possible granade per buff for NPCs */
+                    buff_stat( person->per_max, rng( 0, person->per_max / 2 ) );
+                } else if( player_character.pos() == dest ) {
+                    /** @EFFECT_STR_MAX increases possible granade str buff */
+                    buff_stat( player_character.str_max, rng( 0, player_character.str_max / 2 ) );
+                    /** @EFFECT_DEX_MAX increases possible granade dex buff */
+                    buff_stat( player_character.dex_max, rng( 0, player_character.dex_max / 2 ) );
+                    /** @EFFECT_INT_MAX increases possible granade int buff */
+                    buff_stat( player_character.int_max, rng( 0, player_character.int_max / 2 ) );
+                    /** @EFFECT_PER_MAX increases possible granade per buff */
+                    buff_stat( player_character.per_max, rng( 0, player_character.per_max / 2 ) );
+                    player_character.recalc_hp();
+                    for( const bodypart_id &bp : player_character.get_all_body_parts(
+                             get_body_part_flags::only_main ) ) {
+                        player_character.set_part_hp_cur( bp, player_character.get_part_hp_cur( bp ) * rng_float( 1,
+                                                          1.2 ) );
+                        const int hp_max = player_character.get_part_hp_max( bp );
+                        if( player_character.get_part_hp_cur( bp ) > hp_max ) {
+                            player_character.set_part_hp_cur( bp, hp_max );
                         }
                     }
                 }
-                break;
+            }
+            break;
 
-            case 3:
-                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "NERFS!" ),
-                               true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_red );
-                for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
-                    if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
-                        monster &critter = *mon_ptr;
-                        critter.set_speed_base(
-                            rng( 0, critter.get_speed_base() ) );
-                        critter.set_hp( rng( 1, critter.get_hp() ) );
-                    } else if( npc *const person = creatures.creature_at<npc>( dest ) ) {
-                        /** @EFFECT_STR_MAX increases possible granade str debuff for NPCs (NEGATIVE) */
-                        person->str_max -= rng( 0, person->str_max / 2 );
-                        /** @EFFECT_DEX_MAX increases possible granade dex debuff for NPCs (NEGATIVE) */
-                        person->dex_max -= rng( 0, person->dex_max / 2 );
-                        /** @EFFECT_INT_MAX increases possible granade int debuff for NPCs (NEGATIVE) */
-                        person->int_max -= rng( 0, person->int_max / 2 );
-                        /** @EFFECT_PER_MAX increases possible granade per debuff for NPCs (NEGATIVE) */
-                        person->per_max -= rng( 0, person->per_max / 2 );
-                    } else if( player_character.pos() == dest ) {
-                        /** @EFFECT_STR_MAX increases possible granade str debuff (NEGATIVE) */
-                        player_character.str_max -= rng( 0, player_character.str_max / 2 );
-                        /** @EFFECT_DEX_MAX increases possible granade dex debuff (NEGATIVE) */
-                        player_character.dex_max -= rng( 0, player_character.dex_max / 2 );
-                        /** @EFFECT_INT_MAX increases possible granade int debuff (NEGATIVE) */
-                        player_character.int_max -= rng( 0, player_character.int_max / 2 );
-                        /** @EFFECT_PER_MAX increases possible granade per debuff (NEGATIVE) */
-                        player_character.per_max -= rng( 0, player_character.per_max / 2 );
-                        player_character.recalc_hp();
-                        for( const bodypart_id &bp : player_character.get_all_body_parts(
-                                 get_body_part_flags::only_main ) ) {
-                            const int hp_cur = player_character.get_part_hp_cur( bp );
-                            if( hp_cur > 0 ) {
-                                player_character.set_part_hp_cur( bp, rng( 1, hp_cur ) );
-                            }
+        case 3:
+            sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "NERFS!" ),
+                           true, "speech", it->typeId().str() );
+            explosion_handler::draw_explosion( pos, explosion_radius, c_red );
+            for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
+                if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
+                    monster &critter = *mon_ptr;
+                    critter.set_speed_base(
+                        rng( 0, critter.get_speed_base() ) );
+                    critter.set_hp( rng( 1, critter.get_hp() ) );
+                } else if( npc *const person = creatures.creature_at<npc>( dest ) ) {
+                    /** @EFFECT_STR_MAX increases possible granade str debuff for NPCs (NEGATIVE) */
+                    person->str_max -= rng( 0, person->str_max / 2 );
+                    /** @EFFECT_DEX_MAX increases possible granade dex debuff for NPCs (NEGATIVE) */
+                    person->dex_max -= rng( 0, person->dex_max / 2 );
+                    /** @EFFECT_INT_MAX increases possible granade int debuff for NPCs (NEGATIVE) */
+                    person->int_max -= rng( 0, person->int_max / 2 );
+                    /** @EFFECT_PER_MAX increases possible granade per debuff for NPCs (NEGATIVE) */
+                    person->per_max -= rng( 0, person->per_max / 2 );
+                } else if( player_character.pos() == dest ) {
+                    /** @EFFECT_STR_MAX increases possible granade str debuff (NEGATIVE) */
+                    player_character.str_max -= rng( 0, player_character.str_max / 2 );
+                    /** @EFFECT_DEX_MAX increases possible granade dex debuff (NEGATIVE) */
+                    player_character.dex_max -= rng( 0, player_character.dex_max / 2 );
+                    /** @EFFECT_INT_MAX increases possible granade int debuff (NEGATIVE) */
+                    player_character.int_max -= rng( 0, player_character.int_max / 2 );
+                    /** @EFFECT_PER_MAX increases possible granade per debuff (NEGATIVE) */
+                    player_character.per_max -= rng( 0, player_character.per_max / 2 );
+                    player_character.recalc_hp();
+                    for( const bodypart_id &bp : player_character.get_all_body_parts(
+                             get_body_part_flags::only_main ) ) {
+                        const int hp_cur = player_character.get_part_hp_cur( bp );
+                        if( hp_cur > 0 ) {
+                            player_character.set_part_hp_cur( bp, rng( 1, hp_cur ) );
                         }
                     }
                 }
-                break;
+            }
+            break;
 
-            case 4:
-                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "REVERTS!" ),
-                               true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_pink );
-                for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
-                    if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
-                        monster &critter = *mon_ptr;
-                        critter.set_speed_base( critter.type->speed );
-                        critter.set_hp( critter.get_hp_max() );
-                        critter.clear_effects();
-                    } else if( npc *const person = creatures.creature_at<npc>( dest ) ) {
-                        person->environmental_revert_effect();
-                    } else if( player_character.pos() == dest ) {
-                        player_character.environmental_revert_effect();
-                        do_purify( player_character );
-                    }
+        case 4:
+            sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "REVERTS!" ),
+                           true, "speech", it->typeId().str() );
+            explosion_handler::draw_explosion( pos, explosion_radius, c_pink );
+            for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
+                if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
+                    monster &critter = *mon_ptr;
+                    critter.set_speed_base( critter.type->speed );
+                    critter.set_hp( critter.get_hp_max() );
+                    critter.clear_effects();
+                } else if( npc *const person = creatures.creature_at<npc>( dest ) ) {
+                    person->environmental_revert_effect();
+                } else if( player_character.pos() == dest ) {
+                    player_character.environmental_revert_effect();
+                    do_purify( player_character );
                 }
-                break;
-        }
+            }
+            break;
     }
     return 1;
 }

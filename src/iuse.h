@@ -124,7 +124,6 @@ std::optional<int> fitness_check( Character *p, item *it, bool, const tripoint &
 std::optional<int> foodperson( Character *, item *, bool, const tripoint & );
 std::optional<int> gasmask( Character *, item *, bool, const tripoint & );
 std::optional<int> geiger( Character *, item *, bool, const tripoint & );
-std::optional<int> granade( Character *, item *, bool, const tripoint & );
 std::optional<int> granade_act( Character *, item *, bool, const tripoint & );
 std::optional<int> grenade_inc_act( Character *, item *, bool, const tripoint & );
 std::optional<int> gun_repair( Character *, item *, bool, const tripoint & );
