@@ -906,7 +906,7 @@
       }
     ],
     "melee_damage": { "bash": 4 },
-	"//": "Based on https://www.amazon.com/dp/B08J7TPT98"
+    "//": "Based on https://www.amazon.com/dp/B08J7TPT98"
   },
   {
     "type": "GENERIC",
