@@ -271,10 +271,16 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_EXPAND",
+    "condition": { "math": [ "portal_storm_distance", "!=", "0" ] },
     "effect": [
       { "math": [ "portal_storm_distant_distance", "++" ] },
       { "math": [ "portal_storm_close_distance", "++" ] },
       { "math": [ "portal_storm_distance", "++" ] }
+    ],
+    "false_effect": [
+      { "math": [ "portal_storm_distant_distance", "=", "201" ] },
+      { "math": [ "portal_storm_close_distance", "=", "101" ] },
+      { "math": [ "portal_storm_distance", "=", "51" ] }
     ]
   },
   {

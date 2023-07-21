@@ -8689,6 +8689,17 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_SPEED",
+    "name": { "str": "Debug Speed" },
+    "points": 99,
+    "valid": false,
+    "description": "With this, you'll be fixing those bugs faster than ever!",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 10 } ] } ],
+    "debug": true,
+    "active": true
+  },
+  {
+    "type": "mutation",
     "id": "SQUEAMISH",
     "name": { "str": "Squeamish" },
     "points": -1,

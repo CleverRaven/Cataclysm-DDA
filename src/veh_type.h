@@ -117,7 +117,7 @@ struct vpslot_engine {
     int muscle_power_factor = 0;
     float damaged_power_factor = 0.0f;
     int noise_factor = 0;
-    int m2c = 1;
+    int m2c = 100;
     std::vector<std::string> exclusions;
     std::vector<itype_id> fuel_opts;
 };
@@ -131,7 +131,7 @@ struct veh_ter_mod {
 struct vpslot_wheel {
     float rolling_resistance = 1.0f;
     int contact_area = 1;
-    std::vector<veh_ter_mod> terrain_mod;
+    std::vector<veh_ter_mod> terrain_modifiers;
     float offroad_rating = 0.5f;
 };
 
@@ -151,7 +151,7 @@ struct vpslot_toolkit {
     std::set<itype_id> allowed_types;
 };
 
-struct transform_terrain_data {
+struct vpslot_terrain_transform {
     std::set<std::string> pre_flags;
     std::string post_terrain;
     std::string post_furniture;
@@ -260,13 +260,13 @@ class vpart_info
         requirement_data install_requirements() const;
 
         /** Installation time (in moves) for this component accounting for player skills */
-        int install_time( const Character &you ) const;
+        time_duration install_time( const Character &you ) const;
 
         /** Requirements for removal of this component */
         requirement_data removal_requirements() const;
 
         /** Removal time (in moves) for this component accounting for player skills */
-        int removal_time( const Character &you ) const;
+        time_duration removal_time( const Character &you ) const;
 
         /** Requirements for repair of this component (per level of damage) */
         requirement_data repair_requirements() const;
@@ -275,36 +275,14 @@ class vpart_info
         bool is_repairable() const;
 
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
-        int repair_time( const Character &you ) const;
+        time_duration repair_time( const Character &you ) const;
 
-        /**
-         * @name Engine specific functions
-         *
-         */
-        std::vector<std::string> engine_excludes() const;
-        int engine_m2c() const;
-        float engine_backfire_threshold() const;
-        int engine_backfire_freq() const;
-        int engine_muscle_power_factor() const;
-        float engine_damaged_power_factor() const;
-        int engine_noise_factor() const;
-        std::vector<itype_id> engine_fuel_opts() const;
-        /**
-         * @name Wheel specific functions
-         *
-         */
-        float wheel_rolling_resistance() const;
-        int wheel_area() const;
-        const std::vector<veh_ter_mod> &wheel_terrain_modifiers() const;
-        float wheel_offroad_rating() const;
-        /** @name rotor specific functions
-        */
-        int rotor_diameter() const;
-        /**
-         * Getter for optional workbench info
-         */
-        const std::optional<vpslot_workbench> &get_workbench_info() const;
-        const std::optional<vpslot_toolkit> &get_toolkit_info() const;
+        std::optional<vpslot_workbench> workbench_info;
+        std::optional<vpslot_toolkit> toolkit_info;
+        std::optional<vpslot_engine> engine_info;
+        std::optional<vpslot_wheel> wheel_info;
+        std::optional<vpslot_rotor> rotor_info;
+        std::optional<vpslot_terrain_transform> transform_terrain_info;
 
         std::set<std::pair<itype_id, int>> get_pseudo_tools() const;
 
@@ -336,15 +314,9 @@ class vpart_info
         // tools required to unfold this part
         std::vector<itype_id> unfolding_tools;
         // time required to fold this part
-        time_duration folding_time = time_duration::from_seconds( 10 );
+        time_duration folding_time = 10_seconds;
         // time required to unfold this part
-        time_duration unfolding_time = time_duration::from_seconds( 10 );
-
-        std::optional<vpslot_engine> engine_info;
-        std::optional<vpslot_wheel> wheel_info;
-        std::optional<vpslot_rotor> rotor_info;
-        std::optional<vpslot_workbench> workbench_info;
-        std::optional<vpslot_toolkit> toolkit_info;
+        time_duration unfolding_time = 10_seconds;
 
         /** Name from vehicle part definition which if set overrides the base item name */
         translation name_;
@@ -384,9 +356,6 @@ class vpart_info
         /** Color of part for different states */
         nc_color color = c_light_gray;
         nc_color color_broken = c_light_gray;
-
-        /* Contains data for terrain transformer parts */
-        transform_terrain_data transform_terrain;
 
         /** Fuel type of engine or tank */
         itype_id fuel_type = itype_id::NULL_ID();
@@ -516,6 +485,7 @@ struct vehicle_prototype {
         shared_ptr_fast<vehicle> blueprint;
 
         void load( const JsonObject &jo, std::string_view src );
+        static void save_vehicle_as_prototype( const vehicle &veh, JsonOut &json );
     private:
         bool was_loaded = false; // used by generic_factory
         std::vector<std::pair<vproto_id, mod_id>> src;

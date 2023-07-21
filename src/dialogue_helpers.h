@@ -201,6 +201,27 @@ struct dbl_or_var_part {
     std::optional<talk_effect_fun_t> arithmetic_val;
     std::optional<eoc_math> math_val;
     double evaluate( dialogue &d ) const;
+
+    bool is_constant() const {
+        return dbl_val.has_value();
+    }
+
+    double constant() const {
+        if( !dbl_val ) {
+            debugmsg( "this dbl_or_var is not a constant" );
+            return 0;
+        }
+        return *dbl_val;
+    }
+
+    explicit operator bool() const {
+        return dbl_val || var_val || arithmetic_val || math_val;
+    }
+
+    dbl_or_var_part() = default;
+    // construct from numbers
+    template <class D, typename std::enable_if_t<std::is_arithmetic_v<D>>* = nullptr>
+    explicit dbl_or_var_part( D d ) : dbl_val( d ) {}
 };
 
 struct dbl_or_var {
@@ -208,6 +229,23 @@ struct dbl_or_var {
     dbl_or_var_part min;
     dbl_or_var_part max;
     double evaluate( dialogue &d ) const;
+
+    bool is_constant() const {
+        return !max && min.is_constant();
+    }
+
+    double constant() const {
+        return min.constant();
+    }
+
+    explicit operator bool() const {
+        return static_cast<bool>( min );
+    }
+
+    dbl_or_var() = default;
+    // construct from numbers
+    template <class D, typename std::enable_if_t<std::is_arithmetic_v<D>>* = nullptr>
+    explicit dbl_or_var( D d ) : min( d ) {}
 };
 
 struct duration_or_var_part {

@@ -4246,8 +4246,20 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_properties_from_json( jo, "properties", def );
     }
 
-    for( const std::string &s : jo.get_tags( "techniques" ) ) {
-        def.techniques.insert( matec_id( s ) );
+    if( jo.has_member( "techniques" ) ) {
+        def.techniques.clear();
+        set_techniques_from_json( jo, "techniques", def );
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            extend_techniques_from_json( tmp, "techniques", def );
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            delete_techniques_from_json( tmp, "techniques", def );
+        }
     }
 
     set_use_methods_from_json( jo, "use_action", def.use_methods, def.ammo_scale );
@@ -4577,6 +4589,43 @@ void Item_factory::set_properties_from_json( const JsonObject &jo, const std::st
         }
     } else {
         jo.throw_error_at( member, "Properties list is not an array" );
+    }
+}
+
+void Item_factory::set_techniques_from_json( const JsonObject &jo, const std::string_view &member,
+        itype &def )
+{
+    if( jo.has_array( member ) ) {
+        for( std::string curr : jo.get_array( member ) ) {
+            const matec_id tech = matec_id( curr );
+            // Prevent duplicates
+            if( def.techniques.count( tech ) > 0 ) {
+                jo.throw_error_at( member, "Duplicated technique" );
+            }
+            def.techniques.insert( tech );
+        }
+    } else {
+        jo.throw_error_at( member, "Techniques list is not an array" );
+    }
+}
+
+void Item_factory::extend_techniques_from_json( const JsonObject &jo, const std::string_view member,
+        itype &def )
+{
+    for( std::string curr : jo.get_array( member ) ) {
+        def.techniques.insert( matec_id( curr ) );
+    }
+}
+
+void Item_factory::delete_techniques_from_json( const JsonObject &jo, const std::string_view member,
+        itype &def )
+{
+    for( std::string curr : jo.get_array( member ) ) {
+        const matec_id tech = matec_id( curr );
+        const auto iter = def.techniques.find( tech );
+        if( iter != def.techniques.end() ) {
+            def.techniques.erase( tech );
+        }
     }
 }
 

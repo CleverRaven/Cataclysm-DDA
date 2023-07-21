@@ -578,9 +578,10 @@ int Character::gun_engagement_moves( const item &gun, int target, int start,
 {
     int mv = 0;
     double penalty = start;
-
+    const aim_mods_cache &aim_cache = gen_aim_mods_cache( gun );
+    auto aim_cache_opt = std::make_optional( std::ref( aim_cache ) );
     while( penalty > target ) {
-        double adj = aim_per_move( gun, penalty, attributes );
+        double adj = aim_per_move( gun, penalty, attributes, aim_cache_opt );
         if( adj <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
@@ -1567,10 +1568,11 @@ static recoil_prediction predict_recoil( const Character &you, const item &weapo
 
     double predicted_recoil = start_recoil;
     int predicted_delay = 0;
-
+    const aim_mods_cache &aim_cache = you.gen_aim_mods_cache( weapon );
+    auto aim_cache_opt = std::make_optional( std::ref( aim_cache ) );
     // next loop simulates aiming until either aim mode threshold or sight_dispersion is reached
     do {
-        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target );
+        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target, aim_cache_opt );
         if( aim_amount <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
@@ -2021,11 +2023,9 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     tripoint eject = tiles.empty() ? pos : random_entry( tiles );
 
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
-    const optional_vpart_position vp = here.veh_at( pos );
-    std::vector<vehicle_part *> cargo;
-    if( vp && weap.has_flag( flag_VEHICLE ) ) {
-        cargo = vp->vehicle().get_parts_at( pos, "CARGO", part_status_flag::any );
-    }
+    const std::optional<vpart_reference> ovp_cargo = weap.has_flag( flag_VEHICLE )
+            ? here.veh_at( pos ).cargo()
+            : std::nullopt;
 
     item *brass_catcher = weap.gunmod_find_by_flag( flag_BRASS_CATCHER );
     if( !!ammo->ammo->casing ) {
@@ -2041,10 +2041,10 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
         } else {
             if( brass_catcher && brass_catcher->can_contain( casing ).success() ) {
                 brass_catcher->put_in( casing, item_pocket::pocket_type::CONTAINER );
-            } else if( cargo.empty() ) {
-                here.add_item_or_charges( eject, casing );
+            } else if( ovp_cargo ) {
+                ovp_cargo->vehicle().add_item( ovp_cargo->part(), casing );
             } else {
-                vp->vehicle().add_item( *cargo.front(), casing );
+                here.add_item_or_charges( eject, casing );
             }
 
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
@@ -2058,10 +2058,10 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( !( brass_catcher &&
                brass_catcher->put_in( linkage, item_pocket::pocket_type::CONTAINER ).success() ) ) {
-            if( cargo.empty() ) {
-                here.add_item_or_charges( eject, linkage );
+            if( ovp_cargo ) {
+                ovp_cargo->items().insert( linkage );
             } else {
-                vp->vehicle().add_item( *cargo.front(), linkage );
+                here.add_item_or_charges( eject, linkage );
             }
         }
     }

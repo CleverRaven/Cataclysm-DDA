@@ -76,6 +76,7 @@
     "charges_per_use": 1,
     "power_draw": "800 W",
     "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
+    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 30, "charge_rate": "800 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -167,6 +168,7 @@
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
+    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "300 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -193,6 +195,7 @@
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
+    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "600 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -241,19 +244,21 @@
     "type": "TOOL",
     "name": { "str": "claw bar" },
     "description": "A small prying tool with a clawed bend at one end for pulling spikes.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
-    "weight": "350 g",
-    "volume": "64 ml",
-    "longest_side": "25 cm",
-    "price": 1000,
+    "weight": "318 g",
+    "volume": "470 ml",
+    "//1": "With the assumption that it's a cylinder of 9.2in length and 2in diameter. Listing says 10in length but that's a lie - comparison images attached show it's 9.2in length. 2 inches diameter due to larger curvature than a normal crowbar.",
+    "longest_side": "24 cm",
+    "price": "19 USD",
     "price_postapoc": 250,
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "CROWBAR" ],
     "flags": [ "BELT_CLIP" ],
-    "melee_damage": { "bash": 9, "cut": 1 }
+    "melee_damage": { "bash": 13, "cut": 1 },
+    "//2": "Based on https://www.amazon.com/dp/B000A24RCA"
   },
   {
     "id": "con_mix",
@@ -271,7 +276,16 @@
     "ammo": [ "battery" ],
     "charges_per_use": 20,
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": [ "HOTPLATE" ],
+    "use_action": [
+      "HOTPLATE",
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 15,
+        "charge_rate": "1500 W"
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -377,7 +391,16 @@
     "ammo": [ "battery" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 7920 } } ],
     "charges_per_use": 3960,
-    "use_action": [ "JACKHAMMER" ],
+    "use_action": [
+      "JACKHAMMER",
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 33,
+        "charge_rate": "2200 W"
+      }
+    ],
     "flags": [ "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
     "melee_damage": { "bash": 14, "stab": 6 }
   },
@@ -404,7 +427,7 @@
     "type": "TOOL",
     "name": { "str_sp": "tin snips" },
     "description": "A pair of tin snips, resembling a sturdy pair of scissors with beefy blades designed to cut through thin sheets of soft metal.  These cannot cut through thick metals like a hacksaw can, but are better suited to precision work and leave a cleaner edge.",
-    "//": "Based on https://www.amazon.com/Stanley-FatMax-14-563-Straight-Aviation/dp/B00009OYFY/ref=sr_1_4?crid=1KL1NG4RARK8Y&keywords=Stanley+FATMAX+straight+cut+9-7%2F8-inch+aviation+snip&qid=1683478618&sprefix=stanley+fatmax+straight+cut+9-7%2F8-inch+aviation+snip%2Caps%2C421&sr=8-4",
+    "//": "Based on https://www.amazon.com/dp/B00009OYFY",
     "weight": "400 g",
     "volume": "500 ml",
     "longest_side": "25 cm",
@@ -562,6 +585,7 @@
     "color": "dark_gray",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "1500 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -614,6 +638,13 @@
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 3,
+        "charge_rate": "70 W"
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
@@ -894,6 +925,7 @@
     "charged_qualities": [ [ "GRIND", 2 ] ],
     "ammo": [ "battery" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 5, "charge_rate": "1600 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -940,6 +972,7 @@
     "charges_per_use": 1,
     "power_draw": "800 W",
     "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "800 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1096,6 +1129,13 @@
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 3,
+        "charge_rate": "70 W"
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
@@ -1132,6 +1172,13 @@
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
+      },
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 3,
+        "charge_rate": "70 W"
       }
     ],
     "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
@@ -1150,17 +1197,18 @@
     "type": "TOOL",
     "name": { "str": "lug wrench", "str_pl": "lug wrenches" },
     "description": "A steel rod bent 90 degrees with a socket on the shorter end, made to hold the lug nuts of a car's wheels to either fasten or loosen for convenient removal and replacement.  Makes for a decent melee weapon in a pinch.",
-    "weight": "454 g",
+    "weight": "1565 g",
     "longest_side": "46 cm",
-    "volume": "1500 ml",
-    "price": 1200,
+    "volume": "460 ml",
+    "price": "23 USD",
     "price_postapoc": 2000,
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "L",
     "color": "light_gray",
     "qualities": [ [ "WHEEL_FAST", 1 ] ],
-    "melee_damage": { "bash": 11 }
+    "melee_damage": { "bash": 11 },
+    "//": "Based on https://www.amazon.com/dp/B06XPWS3HJ"
   },
   {
     "id": "toolbox_empty",
@@ -1588,6 +1636,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "1500 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

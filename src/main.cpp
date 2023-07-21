@@ -634,6 +634,8 @@ int main( int argc, const char *argv[] )
     }
 
     setupDebug( DebugOutput::file );
+    // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+    json_error_output_colors = json_error_output_colors_t::color_tags;
 
     /**
      * OS X does not populate locale env vars correctly (they usually default to

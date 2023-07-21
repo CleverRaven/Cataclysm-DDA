@@ -2214,11 +2214,13 @@ void npc::aim( const Target_attributes &target_attributes )
 {
     const item_location weapon = get_wielded_item();
     double aim_amount = weapon ? aim_per_move( *weapon, recoil ) : 0.0;
+    const aim_mods_cache &aim_cache = gen_aim_mods_cache( *weapon );
+    auto aim_cache_opt = std::make_optional( std::ref( aim_cache ) );
     while( aim_amount > 0 && recoil > 0 && moves > 0 ) {
         moves--;
         recoil -= aim_amount;
         recoil = std::max( 0.0, recoil );
-        aim_amount = aim_per_move( *weapon, recoil, target_attributes );
+        aim_amount = aim_per_move( *weapon, recoil, target_attributes, aim_cache_opt );
     }
 }
 
@@ -2963,10 +2965,8 @@ void npc::find_item()
         int num_items = m_stack.size();
         const optional_vpart_position vp = here.veh_at( p );
         if( vp ) {
-            const std::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
-            if( cargo ) {
-                vehicle_stack v_stack = cargo->vehicle().get_items( cargo->part_index() );
-                num_items += v_stack.size();
+            if( const std::optional<vpart_reference> vp_cargo = vp.cargo() ) {
+                num_items += vp_cargo->items().size();
             }
         }
         if( prev_num_items == num_items ) {
@@ -2995,7 +2995,7 @@ void npc::find_item()
             cache_tile();
             continue;
         }
-        const std::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
+        const std::optional<vpart_reference> cargo = vp.cargo();
         static const std::string locked_string( "LOCKED" );
         // TODO: Let player know what parts are safe from NPC thieves
         if( !cargo || cargo->has_feature( locked_string ) ) {
@@ -3009,7 +3009,7 @@ void npc::find_item()
             continue;
         }
 
-        for( const item &it : cargo->vehicle().get_items( cargo->part_index() ) ) {
+        for( const item &it : cargo->items() ) {
             consider_item( it, p );
         }
         cache_tile();
@@ -3165,7 +3165,7 @@ std::list<item> npc::pick_up_item_map( const tripoint &where )
 
 std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
 {
-    vehicle_stack stack = veh.get_items( part_index );
+    vehicle_stack stack = veh.get_items( veh.part( part_index ) );
     return npc_pickup_from_stack( *this, stack );
 }
 

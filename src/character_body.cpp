@@ -323,7 +323,6 @@ void Character::update_body( const time_point &from, const time_point &to )
     const int thirty_mins = ticks_between( from, to, 30_minutes );
     if( thirty_mins > 0 ) {
         update_health();
-        get_sick();
     }
 
     if( calendar::once_every( 10_minutes ) ) {

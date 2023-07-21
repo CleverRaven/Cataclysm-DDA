@@ -297,6 +297,7 @@ biomancy
 biomaterials
 biomatter
 biome
+biomes
 biomonitor
 bioparts
 bioprinted
@@ -599,6 +600,8 @@ conversando
 coolants
 cooldown
 coprocessors
+copyplate
+copyplates
 copywritten
 cordage
 corded
@@ -698,6 +701,8 @@ deathcam
 deathmobile
 deathrattle
 debatably
+debuff
+debuffs
 debugged
 decap
 decelerates
@@ -842,6 +847,7 @@ dumpsite
 dunderfuck
 duplicator
 duplicators
+dustbunny
 dynamically
 dyoplosaurus
 dysfunctions
@@ -856,6 +862,7 @@ earthbag
 earthbags
 earthlike
 earthshaper
+earthside
 eatbtb
 ebon
 ebook
@@ -1185,6 +1192,7 @@ gesticulates
 getups
 ghast
 gibbous
+giganotosaurus
 github
 gladius
 glaive
@@ -1383,6 +1391,7 @@ hyperaggressive
 hyperboloid
 hyperboloids
 hyperdimensional
+hyperfocus
 hypergeometric
 hypermedia
 hypervelocity
@@ -1422,6 +1431,8 @@ ineffectively
 inertially
 infamously
 infeme
+infinitree
+infinitrees
 infirma
 influencers
 inhalant
@@ -1458,6 +1469,7 @@ inulin
 inverts
 invlets
 ios
+irising
 ironshod
 irradiance
 irremovable
@@ -1656,6 +1668,7 @@ lobotomizer
 lockpick
 lockpickers
 lockpicking
+lockpicks
 longarm
 longear
 longhair
@@ -1847,6 +1860,8 @@ mosaicus
 mosasaurus
 mostlike
 mostravam
+mote
+motes
 motorpool
 motorsports
 mountable
@@ -2273,6 +2288,7 @@ prototyping
 protuberances
 prybar
 pseudocode
+pseudomagical
 pseudopod
 pseudopods
 pshht
@@ -2326,6 +2342,7 @@ queenright
 quells
 quern
 quetzalcoatlus
+quickheal
 quicksave
 quidem
 quiescent
@@ -2722,6 +2739,7 @@ spitter
 splashproof
 splicer
 splinting
+splintmail
 splorch
 splosh
 spoilage
@@ -2833,6 +2851,7 @@ superoxide
 superpositional
 supersoldier
 supersoldiers
+superteam
 suppurated
 surcoat
 survivalcraft
@@ -3164,6 +3183,7 @@ viewport
 viewports
 vikeys
 vinegared
+viny
 viperine
 virginica
 virions
@@ -3195,6 +3215,8 @@ wargame
 warhammer
 warhammers
 warmouth
+warpglass
+warpstream
 wasnt
 wastebread
 watchband

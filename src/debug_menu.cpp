@@ -135,6 +135,16 @@ static const matype_id style_none( "style_none" );
 static const mtype_id mon_generator( "mon_generator" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
+static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
+static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
+static const trait_id trait_DEBUG_CLAIRVOYANCE( "DEBUG_CLAIRVOYANCE" );
+static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
+static const trait_id trait_DEBUG_MANA( "DEBUG_MANA" );
+static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
+static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
+static const trait_id trait_DEBUG_SPEED( "DEBUG_SPEED" );
 static const trait_id trait_NONE( "NONE" );
 
 #if defined(TILES)
@@ -227,6 +237,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::CHANGE_SPELLS: return "CHANGE_SPELLS";
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
+        case debug_menu::debug_menu_index::VEHICLE_EXPORT: return "VEHICLE_EXPORT";
         case debug_menu::debug_menu_index::EDIT_CAMP_LARDER: return "EDIT_CAMP_LARDER";
         case debug_menu::debug_menu_index::VEHICLE_DELETE: return "VEHICLE_DELETE";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
@@ -235,6 +246,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::IMPORT_FOLLOWER: return "IMPORT_FOLLOWER";
         case debug_menu::debug_menu_index::EXPORT_FOLLOWER: return "EXPORT_FOLLOWER";
         case debug_menu::debug_menu_index::EXPORT_SELF: return "EXPORT_SELF";
+		case debug_menu::debug_menu_index::QUICK_SETUP: return "QUICK_SETUP";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -430,6 +442,9 @@ static int player_uilist()
         { uilist_entry( debug_menu_index::BLEED_SELF, true, 'b', _( "Bleed self" ) ) },
         { uilist_entry( debug_menu_index::SET_AUTOMOVE, true, 'a', _( "Set auto move route" ) ) },
         { uilist_entry( debug_menu_index::CONTROL_NPC, true, 'x', _( "Control NPC follower" ) ) },
+        { uilist_entry( debug_menu_index::IMPORT_FOLLOWER, true, 'i', _( "Import follower" ) ) },
+        { uilist_entry( debug_menu_index::EXPORT_FOLLOWER, true, 'e', _( "Export follower" ) ) },
+        { uilist_entry( debug_menu_index::EXPORT_SELF, true, 'E', _( "Export self" ) ) },
     };
     if( !spell_type::get_all().empty() ) {
         uilist_initializer.emplace_back( debug_menu_index::CHANGE_SPELLS, true, 'S',
@@ -509,6 +524,7 @@ static int vehicle_uilist()
         { uilist_entry( debug_menu_index::VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change battery charge" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_VEHICLE, true, 's', _( "Spawn a vehicle" ) ) },
         { uilist_entry( debug_menu_index::VEHICLE_DELETE, true, 'd', _( "Delete vehicle" ) ) },
+        { uilist_entry( debug_menu_index::VEHICLE_EXPORT, true, 'e', _( "Export vehicle as prototype" ) ) }
     };
 
     return uilist( _( "Vehicle…" ), uilist_initializer );
@@ -568,23 +584,13 @@ static int map_uilist()
     return uilist( _( "Map…" ), uilist_initializer );
 }
 
-static int import_uilist()
+static int quick_setup_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
-        { uilist_entry( debug_menu_index::IMPORT_FOLLOWER, true, 'f', _( "Import follower" ) ) },
+        { uilist_entry( debug_menu_index::QUICK_SETUP, true, 'Q', _( "Quick setup…" ) ) },
     };
 
-    return uilist( _( "Import…" ), uilist_initializer );
-}
-
-static int export_uilist()
-{
-    const std::vector<uilist_entry> uilist_initializer = {
-        { uilist_entry( debug_menu_index::EXPORT_SELF, true, 's', _( "Export self" ) ) },
-        { uilist_entry( debug_menu_index::EXPORT_FOLLOWER, true, 'f', _( "Export follower" ) ) },
-    };
-
-    return uilist( _( "Export…" ), uilist_initializer );
+    return uilist( _( "Quick setup…" ), uilist_initializer );
 }
 
 /**
@@ -607,8 +613,7 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
             { uilist_entry( 7, true, 'v', _( "Vehicle…" ) ) },
             { uilist_entry( 4, true, 't', _( "Teleport…" ) ) },
             { uilist_entry( 5, true, 'm', _( "Map…" ) ) },
-            { uilist_entry( 8, true, 'i', _( "Import…" ) ) },
-            { uilist_entry( 9, true, 'e', _( "Export…" ) ) },
+            { uilist_entry( 8, true, 'q', _( "Quick setup…" ) ) },
         };
 
         // insert debug-only menu right after "Info".
@@ -650,10 +655,7 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
                 action = vehicle_uilist();
                 break;
             case 8:
-                action = import_uilist();
-                break;
-            case 9:
-                action = export_uilist();
+                action = quick_setup_uilist();
                 break;
 
             default:
@@ -3446,6 +3448,31 @@ void debug()
             }
             break;
         }
+        case debug_menu_index::VEHICLE_EXPORT: {
+            if( optional_vpart_position ovp = here.veh_at( player_character.pos() ) ) {
+                cata_path export_dir{ cata_path::root_path::user,  "export_dir" };
+                assure_dir_exist( export_dir );
+                const std::string text = string_input_popup()
+                                         .title( _( "Exported file name?" ) )
+                                         .width( 20 )
+                                         .query_string();
+                cata_path veh_path = export_dir / ( text + ".json" );
+                try {
+                    write_to_file( veh_path, [&]( std::ostream & fout ) {
+                        JsonOut jsout( fout );
+                        ovp->vehicle().refresh();
+                        vehicle_prototype::save_vehicle_as_prototype( ovp->vehicle(), jsout );
+                    } );
+                } catch( const std::exception &err ) {
+                    debugmsg( _( "Failed to export vehicle: %s" ), err.what() );
+                }
+                popup( _( "Written: %s .\n Please format the exported file for readability." ),
+                       veh_path.get_unrelative_path().string() );
+                break;
+            }
+            add_msg( m_bad, _( "There's no vehicle there." ) );
+            break;
+        }
 
         case debug_menu_index::EDIT_CAMP_LARDER: {
             faction *your_faction = get_player_character().get_faction();
@@ -3505,6 +3532,40 @@ void debug()
             cata_path export_name = prepare_export_dir_and_find_unused_name( get_avatar().name );
             get_avatar().export_as_npc( export_name );
             popup( _( "Written: %s" ), export_name.get_unrelative_path().string() );
+            break;
+        }
+
+        case debug_menu_index::QUICK_SETUP: {
+            std::vector<trait_id> setup_traits;
+            setup_traits.emplace_back( trait_DEBUG_BIONICS );
+            setup_traits.emplace_back( trait_DEBUG_BIONIC_POWERGEN );
+            setup_traits.emplace_back( trait_DEBUG_CLAIRVOYANCE );
+            setup_traits.emplace_back( trait_DEBUG_CLOAK );
+            setup_traits.emplace_back( trait_DEBUG_HS );
+            setup_traits.emplace_back( trait_DEBUG_LS );
+            setup_traits.emplace_back( trait_DEBUG_MANA );
+            setup_traits.emplace_back( trait_DEBUG_NODMG );
+            setup_traits.emplace_back( trait_DEBUG_NOTEMP );
+            setup_traits.emplace_back( trait_DEBUG_SPEED );
+            Character &u = get_avatar();
+            u.clear_bionics();
+            u.clear_effects();
+            u.clear_morale();
+            u.clear_mutations();
+            u.clear_vitamins();
+            u.set_all_parts_hp_to_max();
+            u.set_fatigue( 0 );
+            u.set_hunger( 0 );
+            u.set_mutations( setup_traits );
+            u.set_pain( 0 );
+            // Ideally, delete all held and worn items? (Then add debug backpack as worn item?)
+            // u.remove_items_with();
+            u.set_rad( 0 );
+            // This would require a lot more declarations or a bunch more code, so no skill levels being set (for now)
+            // u.set_skill_level(skill_archery, 10);
+            u.set_sleep_deprivation( 0 );
+            u.set_stored_kcal( u.get_healthy_kcal() );
+            u.set_thirst( 0 );
             break;
         }
 

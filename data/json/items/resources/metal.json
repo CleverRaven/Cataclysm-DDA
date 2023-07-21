@@ -1035,7 +1035,7 @@
     "color": "light_gray",
     "name": { "str_sp": "scrap cast iron" },
     "category": "spare_parts",
-    "description": "A handful of small pieces of scrap iron, usable for crafting or repairs.",
+    "description": "A handful of small pieces of scrap cast iron, usable for crafting or repairs.",
     "price": 75,
     "price_postapoc": 2,
     "material": [ "iron" ],
