@@ -604,7 +604,7 @@
     "epower": "-10 W",
     "bonus": 200,
     "damage_modifier": 10,
-    "looks_like": "ap_directed_floodlight",
+    "looks_like": "ap_standing_directed_floodlight",
     "breaks_into": [
       { "item": "cable", "charges": [ 1, 4 ] },
       { "item": "steel_chunk", "count": [ 0, 2 ] },
