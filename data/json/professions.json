@@ -2714,8 +2714,7 @@
           "pocketwatch",
           "syringe",
           "morphine",
-          "adrenaline_injector",
-          { "item": "adhesive_bandages", "count": 4 }
+          "adrenaline_injector"
         ],
         "entries": [
           { "group": "full_1st_aid" },
@@ -5250,8 +5249,6 @@
           { "item": "bandages", "count": 3 },
           "stethoscope",
           "scissors",
-          "syringe",
-          "morphine",
           "adrenaline_injector"
         ],
         "entries": [
