@@ -61,5 +61,14 @@
       { "u_consume_item": "matrix_crystal_vitakinesis", "count": 1 },
       { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CORUSCATING_CRYSTAL_DRAINING",
+    "condition": { "u_has_item": "matrix_crystal_coruscating" },
+    "effect": [
+      { "u_consume_item": "matrix_crystal_coruscating", "count": 1 },
+      { "u_spawn_item": "matrix_crystal_drained", "suppress_message": true }
+    ]
   }
 ]

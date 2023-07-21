@@ -13,15 +13,15 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 1,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_pull') * -1.5) - 1) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_pull') * -1.5) - 1) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_pull') * -1.5) - 6) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_pull') * -1.5) - 6) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_pull') * 1.2) + 3) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_pull') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_range": 40,
     "energy_source": "STAMINA",
@@ -47,15 +47,15 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 2,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_push') * 0.25) + 2) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_push') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_push') * 0.25) + 6) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_push') * 0.25) + 6) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_push') * 1.2) + 1) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_push') * 1.2) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_range": 40,
     "energy_source": "STAMINA",
@@ -82,15 +82,13 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 3,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: telekinetic_momentum') * 1000) + 9000) * ( ( u_val('intelligence') + 10) / 20 ) )"
-      ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_momentum') * 1000) + 9000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: telekinetic_momentum') * 1000) + 60000) * ( ( u_val('intelligence') + 10) / 20 ) )"
+        "( (u_val('spell_level', 'spell: telekinetic_momentum') * 1000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "energy_source": "STAMINA",
@@ -119,7 +117,7 @@
     ],
     "shape": "blast",
     "difficulty": 4,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "damage_type": "biological",
     "min_damage": 12,
     "max_damage": 12,
@@ -145,12 +143,12 @@
     "effect": "directed_push",
     "shape": "blast",
     "difficulty": 1,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_wave') * 0.25) + 2) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_wave') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_wave') * 0.25) + 6) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_wave') * 0.25) + 6) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": 1,
     "max_range": 1,
@@ -180,15 +178,15 @@
     "shape": "blast",
     "damage_type": "bash",
     "difficulty": 5,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.5) + 18) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.5) + 18) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.5) + 73) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.5) + 73) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.2) + 3) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_range": 70,
     "energy_source": "STAMINA",
@@ -213,12 +211,12 @@
     "effect": "bash",
     "shape": "blast",
     "damage_type": "bash",
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.5) + 18) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.5) + 18) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_hammer') * 2) + 73) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 2) + 73) * (scaling_factor(u_val('intelligence') ) )" ]
     }
   },
   {
@@ -236,12 +234,12 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 6,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_shield') * 1500) + 9000) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_shield') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_shield') * 2500) + 90000) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_shield') * 2500) + 90000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 7000,
@@ -279,19 +277,19 @@
     "effect": "bash",
     "shape": "blast",
     "difficulty": 7,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_explosion') * 3) + 22) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 3) + 22) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_explosion') * 5) + 100) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 5) + 100) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_explosion') * 1.2) + 4) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 1.2) + 4) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_range": 60,
     "min_aoe": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_explosion') * 0.3) + 2) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_aoe": 30,
     "energy_source": "STAMINA",
@@ -316,15 +314,15 @@
     "effect": "attack",
     "shape": "blast",
     "damage_type": "bash",
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_explosion') * 3) + 22) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 3) + 22) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_damage": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_explosion') * 5) + 100) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 5) + 100) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_aoe": {
-      "math": [ "( ( (u_val('spell_level', 'spell: telekinetic_explosion') * 0.3) + 2) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_aoe": 30
   }

@@ -14,9 +14,9 @@
     "description": "A thin forcefield surrounds your body, continually draining power.  Everything loses velocity when penetrating this field, which results in reduced amount of dealt damage at the cost of your bionic energy.  Bullets and stabbing attacks will lose more velocity than cutting attacks and those in turn more than bashing attacks.",
     "occupied_bodyparts": [ [ "torso", 10 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": "10 J",
-    "react_cost": "10 J",
-    "trigger_cost": "25kJ",
+    "act_cost": "1 kJ",
+    "react_cost": "1 kJ",
+    "trigger_cost": "10 kJ",
     "time": "1 s"
   },
   {
@@ -573,7 +573,7 @@
     "id": "bio_carbon",
     "type": "bionic",
     "name": { "str": "Subdermal Carbon Filament" },
-    "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This has little impact on blunt trauma but will protect you against deep cuts.",
+    "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This has no impact on blunt trauma but will protect you against deep cuts.",
     "occupied_bodyparts": [
       [ "torso", 6 ],
       [ "head", 2 ],
@@ -589,17 +589,17 @@
     ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "protec": [
-      [ "torso", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "head", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "mouth", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "arm_l", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "arm_r", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "leg_l", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "leg_r", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "foot_l", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "foot_r", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "hand_l", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ],
-      [ "hand_r", { "bash": 2, "cut": 4, "bullet": 4, "stab": 4 } ]
+      [ "torso", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "head", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "mouth", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "arm_l", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "arm_r", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "leg_l", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "leg_r", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "foot_l", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "foot_r", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "hand_l", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "hand_r", { "cut": 4, "bullet": 4, "stab": 4 } ]
     ]
   },
   {
@@ -1116,6 +1116,7 @@
     "type": "bionic",
     "name": { "str": "Cerebral Booster" },
     "description": "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus to intelligence.",
+    "cant_remove_reason": "The bionic is now critical to the continued functionality of the user's brain.",
     "occupied_bodyparts": [ [ "head", 6 ] ],
     "stat_bonus": [ [ "INT", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
@@ -1207,6 +1208,7 @@
     "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly.  Additionally, you forget skills you've learned slower.",
     "occupied_bodyparts": [ [ "head", 3 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
+    "cant_remove_reason": "Removing this CBM would cause severe amnesia and neurological issues.",
     "active_flags": [ "CBQ_LEARN_BONUS" ],
     "act_cost": "2 J",
     "react_cost": "2 J",
@@ -1744,10 +1746,17 @@
     "id": "bio_weight",
     "type": "bionic",
     "name": { "str": "Titanium Skeletal Bracing" },
-    "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds.",
+    "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds, and you receive slightly less bashing damage to your arms, legs and torso.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "weight_capacity_bonus": "20 kg",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "protec": [
+      [ "torso", { "bash": 2 } ],
+      [ "arm_l", { "bash": 2 } ],
+      [ "arm_r", { "bash": 2 } ],
+      [ "leg_l", { "bash": 2 } ],
+      [ "leg_r", { "bash": 2 } ]
+    ],
     "mutation_conflicts": [
       "AMORPHOUS",
       "BENDY2",

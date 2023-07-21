@@ -750,7 +750,13 @@
     "time": "2 h 30 m",
     "autolearn": true,
     "reversible": { "time": "10 m" },
-    "using": [ [ "tailoring_cotton_patchwork", 4 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
+    "using": [
+      [ "tailoring_canvas_patchwork", 4 ],
+      [ "filament_canvas", 2 ],
+      [ "fastener_small", 1 ],
+      [ "strap_small", 1 ],
+      [ "clasps", 1 ]
+    ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {

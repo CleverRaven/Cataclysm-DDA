@@ -119,7 +119,6 @@
     "limb_type": "sensor",
     "limb_scores": [ [ "vision", 2.0 ], [ "night_vis", 12 ], [ "reaction", 1.4 ] ],
     "side": "both",
-    "grabbing_effect": "grabbing_eyes",
     "base_hp": 60,
     "drench_capacity": 0,
     "flags": [ "IGNORE_TEMP", "LIMB_UPPER" ],

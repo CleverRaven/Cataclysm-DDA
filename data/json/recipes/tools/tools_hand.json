@@ -103,12 +103,12 @@
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
+    "using": [ [ "steel_tiny", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
-    ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "pipe", 3 ], [ "pipe_fittings", 1 ] ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -147,7 +147,8 @@
       [ "textbook_weapeast", 5 ],
       [ "textbook_weapwest", 5 ],
       [ "textbook_armeast", 5 ],
-      [ "textbook_armwest", 5 ]
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weparabic", 5 ]
     ],
     "using": [ [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
@@ -173,7 +174,8 @@
       [ "textbook_weapeast", 5 ],
       [ "textbook_weapwest", 5 ],
       [ "textbook_armeast", 5 ],
-      [ "textbook_armwest", 5 ]
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weparabic", 5 ]
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
@@ -197,7 +199,8 @@
       [ "textbook_weapeast", 5 ],
       [ "textbook_weapwest", 5 ],
       [ "textbook_armeast", 5 ],
-      [ "textbook_armwest", 5 ]
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weparabic", 5 ]
     ],
     "using": [ [ "blacksmithing_standard", 7 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
@@ -222,7 +225,8 @@
       [ "textbook_weapeast", 5 ],
       [ "textbook_weapwest", 5 ],
       [ "textbook_armeast", 5 ],
-      [ "textbook_armwest", 5 ]
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weparabic", 5 ]
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
@@ -435,7 +439,7 @@
     "difficulty": 4,
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_tiny", 7 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1174,7 +1178,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ]
   },
@@ -1281,7 +1285,6 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "120 m",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "forging_standard", 8 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
@@ -1303,7 +1306,7 @@
     "time": "380 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 8 ] ],
-    "using": [ [ "forging_standard", 20 ], [ "steel_standard", 4 ] ],
+    "using": [ [ "forging_standard", 20 ], [ "steel_standard", 7 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1341,9 +1344,8 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "100 m",
-    "reversible": true,
     "autolearn": true,
-    "using": [ [ "forging_standard", 6 ], [ "steel_standard", 2 ] ],
+    "using": [ [ "forging_standard", 6 ], [ "steel_tiny", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1537,7 +1539,8 @@
       [ "textbook_weapwest", 4 ],
       [ "textbook_armeast", 4 ],
       [ "textbook_armwest", 4 ],
-      [ "manual_mechanics", 3 ]
+      [ "manual_mechanics", 3 ],
+      [ "textbook_weparabic", 5 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_knapping" },
@@ -1576,7 +1579,8 @@
       [ "textbook_weapeast", 3 ],
       [ "textbook_weapwest", 3 ],
       [ "textbook_armeast", 3 ],
-      [ "textbook_armwest", 3 ]
+      [ "textbook_armwest", 3 ],
+      [ "textbook_weparabic", 3 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },

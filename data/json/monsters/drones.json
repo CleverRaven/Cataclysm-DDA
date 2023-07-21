@@ -40,7 +40,7 @@
     "speed": 250,
     "color": "light_gray",
     "revert_to_itype": "bot_c4_hack",
-    "starting_ammo": { "c4": 1 },
+    "starting_ammo": { "c4_payload": 1 },
     "special_attacks": [ [ "KAMIKAZE", 0 ] ],
     "armor": { "cut": 4, "bullet": 3 }
   },
@@ -116,7 +116,7 @@
     "speed": 150,
     "color": "light_green_magenta",
     "revert_to_itype": "bot_mininuke_hack",
-    "starting_ammo": { "mininuke": 1 },
+    "starting_ammo": { "mininuke_payload": 1 },
     "special_attacks": [ [ "KAMIKAZE", 0 ] ],
     "armor": { "bash": 1, "cut": 6, "bullet": 5 }
   },

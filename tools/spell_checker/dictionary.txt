@@ -246,6 +246,7 @@ baselines
 basiliscus
 bassline
 basswood
+barleycorn
 batching
 batlike
 batrachian
@@ -296,6 +297,7 @@ biomancy
 biomaterials
 biomatter
 biome
+biomes
 biomonitor
 bioparts
 bioprinted
@@ -598,6 +600,8 @@ conversando
 coolants
 cooldown
 coprocessors
+copyplate
+copyplates
 copywritten
 cordage
 corded
@@ -697,6 +701,8 @@ deathcam
 deathmobile
 deathrattle
 debatably
+debuff
+debuffs
 debugged
 decap
 decelerates
@@ -841,6 +847,7 @@ dumpsite
 dunderfuck
 duplicator
 duplicators
+dustbunny
 dynamically
 dyoplosaurus
 dysfunctions
@@ -855,6 +862,7 @@ earthbag
 earthbags
 earthlike
 earthshaper
+earthside
 eatbtb
 ebon
 ebook
@@ -976,6 +984,7 @@ eyestalks
 f
 fabricators
 facemask
+facemasks
 faceplates
 faceted
 faders
@@ -1183,6 +1192,7 @@ gesticulates
 getups
 ghast
 gibbous
+giganotosaurus
 github
 gladius
 glaive
@@ -1250,6 +1260,7 @@ gunshop
 gunsmithing
 gunsmoke
 gushingly
+gurkha
 gutskin
 guvnah
 gymnocladus
@@ -1380,6 +1391,7 @@ hyperaggressive
 hyperboloid
 hyperboloids
 hyperdimensional
+hyperfocus
 hypergeometric
 hypermedia
 hypervelocity
@@ -1419,6 +1431,8 @@ ineffectively
 inertially
 infamously
 infeme
+infinitree
+infinitrees
 infirma
 influencers
 inhalant
@@ -1455,6 +1469,7 @@ inulin
 inverts
 invlets
 ios
+irising
 ironshod
 irradiance
 irremovable
@@ -1524,6 +1539,8 @@ kickin
 kickstand
 killbasa
 killin
+kilij
+kilijs
 kilns
 kilroy
 kilted
@@ -1650,6 +1667,7 @@ lobotomizer
 lockpick
 lockpickers
 lockpicking
+lockpicks
 longarm
 longear
 longhair
@@ -1841,6 +1859,8 @@ mosaicus
 mosasaurus
 mostlike
 mostravam
+mote
+motes
 motorpool
 motorsports
 mountable
@@ -2266,6 +2286,7 @@ prototyping
 protuberances
 prybar
 pseudocode
+pseudomagical
 pseudopod
 pseudopods
 pshht
@@ -2319,6 +2340,7 @@ queenright
 quells
 quern
 quetzalcoatlus
+quickheal
 quicksave
 quidem
 quiescent
@@ -2571,6 +2593,8 @@ shadowboxing
 shadowcat
 shahada
 shambler
+shamshir
+shamshirs
 shantak
 shantytowns
 shapechangers
@@ -2644,6 +2668,8 @@ smokable
 smokegun
 smokin
 smoothbore
+snakelet
+snakelets
 snapback
 snappier
 snick
@@ -2711,6 +2737,7 @@ spitter
 splashproof
 splicer
 splinting
+splintmail
 splorch
 splosh
 spoilage
@@ -2743,6 +2770,7 @@ staunchable
 staunching
 std
 steadfastness
+steelshod
 steeltoed
 steeping
 steerable
@@ -2766,6 +2794,8 @@ stoneskin
 stopcock
 stoppered
 stoppeth
+stook
+stooking
 storable
 stormcaller
 stormshaper
@@ -2819,6 +2849,7 @@ superoxide
 superpositional
 supersoldier
 supersoldiers
+superteam
 suppurated
 surcoat
 survivalcraft
@@ -2845,6 +2876,8 @@ tadfish
 taegeuk
 taitsu
 takedowns
+talwar
+talwars
 tamable
 tambaqui
 tamina
@@ -2898,6 +2931,7 @@ thorned
 thornothurian
 thosun
 threateningly
+threshed
 throated
 throating
 throwable
@@ -3032,6 +3066,7 @@ undersides
 underslung
 underwelming
 undescribed
+undried
 undulates
 uneasing
 unfathomably
@@ -3071,10 +3106,12 @@ unnervingly
 unobtainium
 unornamented
 unpadded
+unpopped
 unpowered
 unpressurised
 unreinforced
 unrifled
+unrotten
 unrushed
 unsaved
 unseasoned
@@ -3144,6 +3181,7 @@ viewport
 viewports
 vikeys
 vinegared
+viny
 viperine
 virginica
 virions
@@ -3175,6 +3213,8 @@ wargame
 warhammer
 warhammers
 warmouth
+warpglass
+warpstream
 wasnt
 wastebread
 watchband
@@ -3196,6 +3236,7 @@ wetworks
 whap
 whaps
 whatlike
+wheatberries
 whiled
 whiplike
 whirr
@@ -3272,6 +3313,7 @@ yateveo
 yd
 yelemi
 yellowjacket
+yelman
 yme
 ynn
 yoroi
@@ -3312,6 +3354,7 @@ zombullfrog
 zoonotic
 zpzzzzpzz
 zubon
+zucchinis
 zuniceratops
 zuul
 zweitimber

@@ -1196,7 +1196,8 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
             const std::vector<damage_info_order> &all_ablate = damage_info_order::get_all(
                         damage_info_order::info_type::ABLATE );
             for( const damage_info_order &dio : all_ablate ) {
-                std::string label = string_format( idx == 0 ? _( "<bold>Protection</bold>: %s: " ) : "%s: ",
+                std::string label = string_format( idx == 0 ? _( "<bold>Protection</bold>: %s: " ) :
+                                                   pgettext( "protection info", " %s: " ),
                                                    uppercase_first_letter( dio.dmg_type->name.translated() ) );
                 iteminfo::flags flgs = idx == all_ablate.size() - 1 ?
                                        iteminfo::is_decimal : iteminfo::no_newline | iteminfo::is_decimal;

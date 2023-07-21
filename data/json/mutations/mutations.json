@@ -4003,7 +4003,8 @@
           "and": [
             { "u_has_move_mode": "crouch" },
             { "not": "u_can_drop_weapon" },
-            { "u_has_any_trait": [ "THRESH_LUPINE", "THRESH_FELINE", "THRESH_BEAST" ] }
+            { "u_has_any_trait": [ "THRESH_LUPINE", "THRESH_FELINE", "THRESH_BEAST" ] },
+            { "u_has_trait": "PAWS" }
           ]
         },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ]
@@ -4026,12 +4027,12 @@
             { "u_has_move_mode": "walk" },
             {
               "and": [
-                { "not": "u_can_drop_weapon" },
                 { "not": { "u_has_trait": "THRESH_LUPINE" } },
                 { "not": { "u_has_trait": "THRESH_FELINE" } },
                 { "not": { "u_has_trait": "THRESH_BEAST" } }
               ]
-            }
+            },
+            { "not": { "u_has_trait": "PAWS" } }
           ]
         },
         "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
@@ -8683,6 +8684,17 @@
     "points": 99,
     "valid": false,
     "description": "Activate to increase power by an amount you specify (can be repeated).",
+    "debug": true,
+    "active": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_SPEED",
+    "name": { "str": "Debug Speed" },
+    "points": 99,
+    "valid": false,
+    "description": "With this, you'll be fixing those bugs faster than ever!",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 10 } ] } ],
     "debug": true,
     "active": true
   },
