@@ -5,6 +5,7 @@
     "name": "quiet farmstead",
     "sym": "G",
     "color": "i_light_gray",
+    "flags": [ "NO_ROTATE" ],
     "see_cost": 5
   },
   {
@@ -13,6 +14,7 @@
     "name": "quiet orchard",
     "sym": "G",
     "color": "i_light_gray",
+    "flags": [ "NO_ROTATE" ],
     "see_cost": 5
   }
 ]
