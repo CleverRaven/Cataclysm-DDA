@@ -16,7 +16,7 @@
     "category": "Vitrifaction_Ambient_1",
     "text": [
       "With all this glass, you expected it to be brighter here.  It's not.  That's okay, it would have hurt your eyes otherwise.",
-      "A gust of wind blows across the farm.  Glass chimes and keens in the breeze.",
+      "A gust of wind blows across the farm.  Glass chimes in the breeze.",
       "You are suddenly very aware of your heartbeat, but only for a moment.",
       "The glass around you isn't sparkling; it doesn't reflect.  The glimmers that cross it in the corner of your eye are your imagination.",
       "It's very cold here.",
@@ -24,7 +24,7 @@
       "There's nothing here, really.  How long has it been since you've felt truly safe?",
       "You find yourself wondering what the glass tastes like.  You're ashamed of the thought.",
       "The glass is solid under your feet.  It supports you completely, but the feeling of it under your feet is dull, somehow.",
-      "It occurs to you that you can see clearly.  You're not sure how; the sun, if it's there, is the same smooth black as the rest of the sky.",
+      "You can't see it's light, but you know the sun is there.  It's the same perfect black as the rest of the sky.",
       "You are seized with a brief desire to smash something, anything.  You don't know why you'd think such an unseemly thing.  It doesn't feel at all like you."
     ]
   },
@@ -60,7 +60,7 @@
       "The glass is singing.  Or is that you?  No, it's both.  Your voices are beautiful together.",
       "When you turn your head, you can hear the wet click of tendons in your neck.  How dreadful.  It won't be a problem, soon.",
       "It would be a very good idea to lie down and close your eyes.  You could listen to the glass sing you to sleep.",
-      "Your head feels heavy on your neck, your arms heavy on your shoulders.  What an awful thing, to expect you to hold them up with a few strips of muscle.  You poor thing.",
+      "Your head feels heavy on your neck, your arms heavy on your shoulders.  What an awful demand, to expect you to hold them up with a few strips of muscle.  You poor thing.",
       "What a blessing it is, to be in a place without distractions like this.  What a joy, to think clearly for the first time in your life."
     ]
   },
@@ -157,13 +157,6 @@
       "Your fluids are so ugly.  You're so close to being free.",
       "Look.  You're bleeding snowflakes.  A thousand little parts of you are finding themselves.",
       "If you broke your skin just a little more, it would be that much easier to lift it away."
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "Vitrifaction_Free",
-    "text": [
-      "You suck in a deep, ragged draught of air that burns in your chest.  Have you been holding your breath?  You must have been.  All you can hear for a moment is your heart hammering in your ears.  It takes a while to settle down."
     ]
   }
 ]
