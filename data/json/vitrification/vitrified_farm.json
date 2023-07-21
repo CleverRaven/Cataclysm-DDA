@@ -187,9 +187,7 @@
         "!": "f_vitrified_table",
         "Q": "f_vitrified_box"
       },
-      "nested": {
-        "Y": { "chunks": [ "statue_vitrified_1x1" ] }
-      },
+      "nested": { "Y": { "chunks": [ "statue_vitrified_1x1" ] } },
       "place_item": [ { "item": "glass_boat", "x": 16, "y": 5, "chance": 100 } ]
     }
   },
@@ -262,9 +260,7 @@
       ],
       "palettes": [ "orchard_vitrified_palette" ],
       "terrain": { "E": "t_vitrified_edge", "q": "t_vitrified_soil_talker", "!": "t_vitrified_fence_barbed" },
-      "nested": {
-        "r": { "chunks": [ "statue_vitrified_1x1" ] }
-      }
+      "nested": { "r": { "chunks": [ "statue_vitrified_1x1" ] } }
     }
   },
   {
@@ -353,7 +349,7 @@
       ],
       "palettes": [ "house_vitrified_nest_palette" ],
       "furniture": { "!": "f_vitrified_doll" },
-      "nested": { "y": { "chunks": [ "statue_vitrified_1x1" ] }}
+      "nested": { "y": { "chunks": [ "statue_vitrified_1x1" ] } }
     }
   },
   {
@@ -372,7 +368,7 @@
         "      "
       ],
       "palettes": [ "house_vitrified_nest_palette" ],
-      "nested": { "y": { "chunks": [ "statue_vitrified_1x1" ] }}
+      "nested": { "y": { "chunks": [ "statue_vitrified_1x1" ] } }
     }
   },
   {
@@ -390,7 +386,7 @@
         " ccc "
       ],
       "palettes": [ "vitrified_garden_palette" ],
-      "nested": { "f": { "chunks": [ "statue_vitrified_1x1" ] }},
+      "nested": { "f": { "chunks": [ "statue_vitrified_1x1" ] } },
       "place_items": [ { "item": "stash_wood", "x": 1, "y": 2, "chance": 100, "repeat": [ 2, 10 ] } ]
     }
   },
@@ -443,7 +439,7 @@
         "H": "t_vitrified_floor",
         "h": "t_vitrified_floor"
       },
-      "nested": { "y": { "chunks": [ "statue_vitrified_1x1" ] }}
+      "nested": { "y": { "chunks": [ "statue_vitrified_1x1" ] } }
     }
   },
   {
@@ -478,7 +474,7 @@
         "  y L",
         "     "
       ],
-      "nested": { "y": { "chunks": [ "statue_vitrified_1x1" ] }},
+      "nested": { "y": { "chunks": [ "statue_vitrified_1x1" ] } },
       "palettes": [ "house_vitrified_nest_palette" ],
       "place_item": [ { "item": "glass_book", "x": 4, "y": 1, "chance": 100 } ]
     }
@@ -490,21 +486,21 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
-      "rows": [
-        "X"
-      ],
-      "furniture": {"X": [
-        "f_glassedbody_1",
-        "f_glassedbody_2",
-        "f_glassedbody_3",
-        "f_glassedbody_4",
-        "f_glassedbody_5",
-        "f_glassedbody_6",
-        "f_glassedbody_7",
-        "f_glassedbody_8",
-        "f_glassedbody_9",
-        "f_glassedbody_10"
-      ]}
+      "rows": [ "X" ],
+      "furniture": {
+        "X": [
+          "f_glassedbody_1",
+          "f_glassedbody_2",
+          "f_glassedbody_3",
+          "f_glassedbody_4",
+          "f_glassedbody_5",
+          "f_glassedbody_6",
+          "f_glassedbody_7",
+          "f_glassedbody_8",
+          "f_glassedbody_9",
+          "f_glassedbody_10"
+        ]
+      }
     }
   }
 ]

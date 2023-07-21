@@ -798,7 +798,7 @@
       "sound_fail": "clink.",
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
-    },
+  },
   {
     "type": "furniture",
     "id": "f_vitrified_floor_lamp",
