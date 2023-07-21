@@ -862,7 +862,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 20 }, { "item": "nail", "charges": [ 16, 24 ] }, { "item": "pipe", "count": 2 } ]
     },
-    "max_volume": "500 L",
+    "max_volume": "100 L",
     "bash": {
       "str_min": 12,
       "str_max": 40,
