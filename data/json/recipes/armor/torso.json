@@ -3994,7 +3994,7 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 0 ] ],
-    "components": [ [ [ "armor_hc_coat_brigandine", 1 ], [ "hc_shoulder_guards", 1 ] ] ]
+    "components": [ [ [ "armor_hc_coat_brigandine", 1 ] ], [ [ "hc_shoulder_guards", 1 ] ] ]
   },
   {
     "result": "xl_armor_hc_coat_brigandine_shoulders",
@@ -4024,7 +4024,7 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 0 ] ],
-    "components": [ [ [ "armor_ch_coat_brigandine", 1 ], [ "ch_shoulder_guards", 1 ] ] ]
+    "components": [ [ [ "armor_ch_coat_brigandine", 1 ] ], [ [ "ch_shoulder_guards", 1 ] ] ]
   },
   {
     "result": "xl_armor_ch_coat_brigandine_shoulders",
@@ -4054,7 +4054,7 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 0 ] ],
-    "components": [ [ [ "armor_qt_coat_brigandine", 1 ], [ "qt_shoulder_guards", 1 ] ] ]
+    "components": [ [ [ "armor_qt_coat_brigandine", 1 ] ], [ [ "qt_shoulder_guards", 1 ] ] ]
   },
   {
     "result": "xl_armor_qt_coat_brigandine_shoulders",

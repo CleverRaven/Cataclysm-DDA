@@ -1585,7 +1585,7 @@
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "scrap", 2 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "makeshift_welding_blanket",

@@ -4,10 +4,11 @@
     "type": "TOOL",
     "name": { "str": "crowbar" },
     "description": "A hefty prying tool.  Use it to open locked doors without destroying them, or to lift manhole covers.  You could also wield it to bash some heads in.",
-    "weight": "550 g",
-    "volume": "100 ml",
-    "longest_side": "45 cm",
-    "price": 1300,
+    "weight": "1456 g",
+    "volume": "520 ml",
+    "//1": "With the assumption that it's a cylinder of 18in length and 1.5in diameter. Listing says 0.5in width BUT the crowbar itself is curved a little and package dimensions said 1.57in so I rounded it down slightly.",
+    "longest_side": "46 cm",
+    "price": "26 USD",
     "price_postapoc": 500,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
@@ -18,7 +19,8 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP", "DURABLE_MELEE" ],
     "weapon_category": [ "BATONS" ],
-    "melee_damage": { "bash": 15, "cut": 1 }
+    "melee_damage": { "bash": 19, "cut": 1 },
+    "//2": "Based on https://www.amazon.com/dp/B07B4JDQB4"
   },
   {
     "id": "emergency_lockpick",
@@ -125,10 +127,11 @@
     "type": "TOOL",
     "name": { "str": "heavy crowbar" },
     "looks_like": "crowbar",
-    "description": "A 5-foot-long construction prybar.  Essentially a long, solid steel rod with a hardened chisel tip.",
-    "weight": "4 kg",
-    "volume": "725 ml",
-    "longest_side": "150 cm",
+    "description": "A 60-inch-long construction prybar.  Essentially a long, solid steel rod with a hardened chisel tip.",
+    "weight": "6201 g",
+    "volume": "1740 ml",
+    "//1": "With the assumption that it's a cylinder of 60in length and 1.5in diameter. Assuming 2.5in in diameter left it at 4l+ - item dimensions on the listing are yet again package dimensions that would inflate the volume.",
+    "longest_side": "152 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "price_postapoc": 4000,
     "color": "red",
@@ -136,9 +139,10 @@
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "ALWAYS_TWOHAND", "SHEATH_SPEAR" ],
-    "price": 10000,
+    "price": "90 USD",
     "qualities": [ [ "HAMMER", 1 ], [ "PRY", 3 ], [ "COOK", 1 ] ],
     "use_action": [ "CROWBAR" ],
-    "melee_damage": { "bash": 45 }
+    "melee_damage": { "bash": 45 },
+    "//2": "Based on https://www.amazon.com/dp/B007DHX596"
   }
 ]
