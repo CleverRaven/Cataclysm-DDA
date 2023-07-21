@@ -241,7 +241,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "compass direction indicates head of bed",
     "nested_mapgen_id": "bedroom_4x4_child_vit",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -264,7 +263,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "compass direction indicates head of bed",
     "nested_mapgen_id": "bedroom_5x4_adult_unvitrified",
     "object": {
       "mapgensize": [ 5, 5 ],

@@ -306,7 +306,6 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "vitrified_sky",
-    "weight": 100,
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "fill_ter": "t_vitrified_dirt",
@@ -342,7 +341,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "compass direction indicates sofa orientation",
     "nested_mapgen_id": "livingroom_5x5_vitrified",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -361,7 +359,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "compass direction indicates table orientation",
     "nested_mapgen_id": "diningroom_6x6_vitrified",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -380,7 +377,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "a nested map for lawns",
     "nested_mapgen_id": "firepit_5x5_vitrified",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -399,7 +395,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "a nested map for lawns",
     "nested_mapgen_id": "greenhouse_6x6_vitrified",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -419,7 +414,6 @@
     }
   },
   {
-    "//": "Home office. Cardinal direction indicates which wall the desk is on.",
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "home_office_4x4_vitrified",
@@ -453,7 +447,6 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "bedroom_4x4_child_vitrified",
-    "//": "compass direction indicates head of bed",
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
@@ -471,7 +464,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "compass direction indicates head of bed",
     "nested_mapgen_id": "bedroom_5x4_adult_vitrified",
     "object": {
       "mapgensize": [ 5, 5 ],

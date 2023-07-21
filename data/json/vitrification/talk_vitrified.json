@@ -24,7 +24,7 @@
   {
     "type": "talk_topic",
     "id": "vitrified_doll_talk_main",
-    "dynamic_line": "Sitting among the glass cushions of the couch is the only thing among all the glass which is soft; the limbless, faceless torso of a worn plush doll. It is warm to the touch, but it doesn't feel right to pick it up while it's so damaged.",
+    "dynamic_line": "Sitting among the glass cushions of the couch is the only thing among all the glass which is soft; the limbless, faceless torso of a worn plush doll.  It is warm to the touch, but it doesn't feel right to pick it up while it's so damaged.",
     "responses": [
       {
         "text": "Reassmble the doll.",
@@ -44,7 +44,7 @@
   {
     "type": "talk_topic",
     "id": "vitrified_repair_doll",
-    "dynamic_line": "Repairing the doll is easier than you thought. The mismatched parts fit together easily, and soon it is whole again.",
+    "dynamic_line": "Repairing the doll is easier than you thought.  The mismatched parts fit together easily, and soon it is whole again.",
     "responses": [ { "text": "You pick up the soft little thing, and feel a strong urge to hug it.", "topic": "TALK_DONE" } ]
   },
   {
@@ -65,7 +65,7 @@
     "symbol": "{",
     "description": "This bookcase is missing a book.",
     "color": "dark_gray",
-    "looks_like": "f_bookcase",
+    "looks_like": "f_vitrified_bookcase",
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": 900,
@@ -98,7 +98,7 @@
   {
     "type": "talk_topic",
     "id": "vitrified_bookcase_add_book",
-    "dynamic_line": "The book slots in among the rest, and you can no longer see the difference. Maybe there isn't any.",
+    "dynamic_line": "The book slots in among the rest, and you can no longer see the difference.  Maybe there isn't any.",
     "responses": [ { "text": "You find something new in your inventory.", "topic": "TALK_DONE" } ]
   },
   {
@@ -110,7 +110,7 @@
     "type": "terrain",
     "id": "t_vitrified_pool_talker",
     "name": "shallow black pool",
-    "description": "At first glance, this looks like a rippling pool of black water. Closer examination reveals it to be fine glass dust, blown in slow waves by the breeze.",
+    "description": "At first glance, this looks like a rippling pool of black water.  Closer examination reveals it to be fine glass dust, blown in slow waves by the breeze.",
     "looks_like": "t_water_pool",
     "symbol": "~",
     "color": "black",
@@ -145,7 +145,7 @@
   {
     "type": "talk_topic",
     "id": "vitrified_pool_add_boat",
-    "dynamic_line": "The boat would sink immediately in water. On the denser sand, it finds a balance, and the breeze stirs it to life.",
+    "dynamic_line": "The boat would sink immediately in water.  On the denser sand, it finds a balance, and the breeze stirs it to life.",
     "responses": [ { "text": "You find something new in your inventory.", "topic": "TALK_DONE" } ]
   },
   {
@@ -157,7 +157,7 @@
     "type": "terrain",
     "id": "t_vitrified_soil_talker",
     "name": "soft glass soil",
-    "description": "This little mound of soil is unlike the jagged dirt around it. It is smooth, welcoming, and pleasant to the touch.",
+    "description": "This little mound of soil is unlike the jagged dirt around it.  It is smooth, welcoming, and pleasant to the touch.",
     "looks_like": "t_sand",
     "symbol": "~",
     "color": "light_gray",
@@ -179,7 +179,7 @@
   {
     "type": "talk_topic",
     "id": "vitrified_soil_talk_main",
-    "dynamic_line": "This little mound of soil is unlike the jagged dirt around it. It is smooth, welcoming, and pleasant to the touch.",
+    "dynamic_line": "This little mound of soil is unlike the jagged dirt around it.  It is smooth, welcoming, and pleasant to the touch.",
     "responses": [
       {
         "text": "Plant the withered apple in the soil.",
@@ -193,7 +193,7 @@
   {
     "type": "talk_topic",
     "id": "vitrified_soil_add_apple",
-    "dynamic_line": "The soil yields easily, as if welcoming your contribution. The rotten shell of the apple crumbles away, and the seeds sparkle as the dirt covers them.",
+    "dynamic_line": "The soil yields easily, as if welcoming your contribution.  The rotten shell of the apple crumbles away, and the seeds sparkle as the dirt covers them.",
     "responses": [ { "text": "You find something new in your inventory.", "topic": "TALK_DONE" } ]
   },
   {

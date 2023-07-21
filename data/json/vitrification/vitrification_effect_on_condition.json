@@ -351,7 +351,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_vitrified_int_drain",
-    "EOC_TYPE": "ACTIVATION",
+    "eoc_type": "ACTIVATION",
     "condition": { "and": [ { "x_in_y_chance": { "x": 1, "y": 2 } }, { "math": [ "u_vitri_glassed", ">=", "5" ] } ] },
     "effect": [
       { "math": [ "u_vitri_vitrified", "++" ] },

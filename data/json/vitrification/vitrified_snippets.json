@@ -18,12 +18,12 @@
       "With all this glass, you expected it to be brighter here.  It's not.  That's okay, it would have hurt your eyes otherwise.",
       "A gust of wind blows across the farm.  Glass chimes and keens in the breeze.",
       "You are suddenly very aware of your heartbeat, but only for a moment.",
-      "The glass around you isn't sparkling; it doesn't reflect. The glimmers that cross it in the corner of your eye are your imagination.",
+      "The glass around you isn't sparkling; it doesn't reflect.  The glimmers that cross it in the corner of your eye are your imagination.",
       "It's very cold here.",
       "You didn't realize there had been an ache at the base of your neck all day until just now, when you notice it's gone.",
       "There's nothing here, really.  How long has it been since you've felt truly safe?",
       "You find yourself wondering what the glass tastes like.  You're ashamed of the thought.",
-      "The glass is solid under your feet. It supports you completely, but the feeling of it under your feet is dull, somehow.",
+      "The glass is solid under your feet.  It supports you completely, but the feeling of it under your feet is dull, somehow.",
       "It occurs to you that you can see clearly.  You're not sure how; the sun, if it's there, is the same smooth black as the rest of the sky.",
       "You are seized with a brief desire to smash something, anything.  You don't know why you'd think such an unseemly thing.  It doesn't feel at all like you."
     ]
@@ -32,7 +32,7 @@
     "type": "snippet",
     "category": "Vitrifaction_Ambient_2",
     "text": [
-      "The edges of the glass are very sharp.  But that is the nature of glass. Isn't it?.",
+      "The edges of the glass are very sharp.  But that is the nature of glass.  Isn't it?.",
       "You think, for a moment, that you might start flying.  You don't, but it doesn't trouble you much.",
       "Somewhere, inside a ribcage, something is beating very fast.  Something about that strikes you as very funny.",
       "How long has it been since you blinked?  It probably doesn't matter.",
@@ -55,7 +55,7 @@
       "Your teeth are the best part of you, really.",
       "Before you decided to visit, you might have thought you were feeling pain.  How silly you were!",
       "It feels like your ribs are finally able to tuck inwards, where they belong, now that all that mess and noise is settling down.",
-      "What a wonderful place. What a wonderful place!",
+      "What a wonderful place.  What a wonderful place!",
       "You catch a glimpse of your hands.  They're all wrong.  They won't do at all.  Not all askew like this.",
       "The glass is singing.  Or is that you?  No, it's both.  Your voices are beautiful together.",
       "When you turn your head, you can hear the wet click of tendons in your neck.  How dreadful.  It won't be a problem, soon.",
@@ -134,7 +134,7 @@
     "category": "Vitrifaction_Bleed_1",
     "text": [
       "Blood drips from your cuts.  It doesn't reach the ground.",
-      "Your cuts don't hurt anymore.  Or do they? It's... different, now.",
+      "Your cuts don't hurt anymore.  Or do they? It's… different, now.",
       "Blood falls from your wounds in ugly little drops.  It's disgusting.",
       "You feel a little better, with some of your blood gone.  Cleaner."
     ]
