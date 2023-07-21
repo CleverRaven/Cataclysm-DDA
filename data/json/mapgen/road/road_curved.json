@@ -38,21 +38,88 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
-      "//": "This nesting tries to place curvy bends when there's just one turn and straight diagonal road when there's more than one while not being able to search for sepcific rotations relative to this one due to the linear id forming",
+      "//": "These nesting passes try to place curvy bends when there's just one turn or it doubles back and straight diagonal road when there's more than one while not being able to search for sepcific rotations relative to this one due to the linear id forming",
+      "//1": "Check if both connections are also bends",
+      "place_nested": [
+        {
+          "chunks": [ "road_es_bend_second_pass_A" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "east": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
+            ],
+            "south": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
+            ]
+          }
+        },
+        {
+          "else_chunks": [ "road_es_bend_second_pass_B" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "east": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
+            ],
+            "south": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "road_es_bend_second_pass_A",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "//": "Check if it doubles back",
+      "place_nested": [
+        {
+          "chunks": [ "24x24_road_es_curvy" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south_east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
+        },
+        {
+          "else_chunks": [ "24x24_road_es_straight_middle" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south_east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "road_es_bend_second_pass_B",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "//": "Check if one direction is a bend",
       "place_nested": [
         {
           "chunks": [ "24x24_road_es_straight" ],
           "x": 0,
           "y": 0,
           "neighbors": {
-            "north_east": [
-              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_ns", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT" }
-            ],
             "east": [
               { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
               { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
@@ -62,18 +129,10 @@
           }
         },
         {
-          "else_chunks": [ "road_es_bend_second_pass" ],
+          "else_chunks": [ "road_es_bend_third_pass" ],
           "x": 0,
           "y": 0,
           "neighbors": {
-            "north_east": [
-              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_ns", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT" }
-            ],
             "east": [
               { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
               { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
@@ -88,24 +147,17 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "road_es_bend_second_pass",
+    "nested_mapgen_id": "road_es_bend_third_pass",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
+      "//": "Check if the other direction is a bend",
       "place_nested": [
         {
           "chunks": [ "24x24_road_es_straight" ],
           "x": 0,
           "y": 0,
           "neighbors": {
-            "south_west": [
-              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_ns", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT" }
-            ],
             "south": [
               { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
               { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
@@ -119,14 +171,6 @@
           "x": 0,
           "y": 0,
           "neighbors": {
-            "south_west": [
-              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_ns", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT" }
-            ],
             "south": [
               { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
               { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
@@ -261,57 +305,55 @@
         "                        ",
         "                        ",
         "                        ",
-        "                   .....",
+        "                      ..",
         "                  ......",
-        "                 .......",
-        "                ........",
         "               .........",
-        "              ..........",
         "             ...........",
-        "            ..........*.",
-        "           ..........**.",
-        "          ..........**..",
+        "           .............",
+        "          ..............",
         "         ...............",
-        "        ..........**....",
-        "       ..........**.....",
-        "      ..................",
-        "     ..........**.......",
-        "    ..........**........",
-        "    ....................",
-        "    .........*......... ",
-        "    ........**........  ",
+        "        ................",
+        "        .............**.",
+        "       .............***.",
+        "       ..........**.*...",
+        "      ..........***.....",
+        "      ..........*.......",
+        "      ........**........",
+        "     ........**.........",
+        "     ........**.........",
+        "     ...................",
+        "     .......**......... ",
+        "    .......**.........  ",
         "    .......**........   "
       ],
-      "//": "Yellow needs to go over by one?",
+      "//": "No SIDEWALK bc shouldn't occur in cities",
       "palettes": [ "road_palette" ],
       "place_nested": [
-        { "chunks": [ "24x24_sidewalk_es_straight_outer" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
         {
-          "chunks": [ "24x24_sidewalk_es_straight_outer" ],
+          "chunks": [ "24x24_road_es_straight_lanky_ne" ],
           "x": 0,
           "y": 0,
-          "flags": { "north_east": [ "SIDEWALK" ] }
+          "neighbors": {
+            "north_east": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
+            ]
+          }
         },
-        { "chunks": [ "24x24_sidewalk_es_straight_double" ], "x": 0, "y": 0, "flags": { "east": [ "SIDEWALK" ] } },
         {
-          "chunks": [ "3x3_sidewalk_es_straight_inner" ],
-          "x": 21,
-          "y": 21,
-          "flags": { "south_east": [ "SIDEWALK" ] }
-        },
-        { "chunks": [ "24x24_sidewalk_es_straight_double" ], "x": 0, "y": 0, "flags": { "south": [ "SIDEWALK" ] } },
-        {
-          "chunks": [ "24x24_sidewalk_es_straight_outer" ],
+          "chunks": [ "24x24_road_es_straight_lanky_sw" ],
           "x": 0,
           "y": 0,
-          "flags": { "south_west": [ "SIDEWALK" ] }
-        },
-        { "chunks": [ "24x24_sidewalk_es_straight_outer" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
-        {
-          "chunks": [ "24x24_sidewalk_es_straight_outer" ],
-          "x": 0,
-          "y": 0,
-          "flags": { "north_west": [ "SIDEWALK" ] }
+          "neighbors": {
+            "south_west": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
+            ]
+          }
         }
       ]
     }
@@ -319,65 +361,275 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_sidewalk_es_straight_double",
+    "nested_mapgen_id": "24x24_road_es_straight_lanky_ne",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
+      "rows": [
+        "                      ..",
+        "                    ....",
+        "                  ......",
+        "               .........",
+        "             .........  ",
+        "           .......      ",
+        "          .....         ",
+        "         ....           ",
+        "        ...             ",
+        "       ...              ",
+        "       ..               ",
+        "      ..                ",
+        "      ..                ",
+        "     ..                 ",
+        "     ..                 ",
+        "    ..                  ",
+        "    ..                  ",
+        "    ..                  ",
+        "    .                   ",
+        "    .                   ",
+        "    .                   ",
+        "    .                   ",
+        "                        ",
+        "                        "
+      ],
+      "//": "No SIDEWALK bc shouldn't occur in cities",
+      "palettes": [ "road_palette" ],
+      "place_nested": [  ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_es_straight_lanky_sw",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "               .......  ",
+        "             .....      ",
+        "           ....         ",
+        "         ....           ",
+        "        ...             ",
+        "       ...              ",
+        "      ...               ",
+        "     ...                ",
+        "     ...                ",
+        "    ...                 ",
+        "    ...                 ",
+        "   ...                  ",
+        "   ...                  ",
+        "   ...                  ",
+        "  ...                   ",
+        "  ...                   ",
+        " ....                   ",
+        " ....                   ",
+        "....                    ",
+        "....                    "
+      ],
+      "//": "No SIDEWALK bc shouldn't occur in cities",
+      "palettes": [ "road_palette" ],
+      "place_nested": [  ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_es_straight_middle",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                       .",
+        "                      ..",
+        "                     ...",
+        "                    ....",
+        "                   .....",
+        "                  ......",
+        "                 .......",
+        "                ........",
+        "               .........",
+        "              ..........",
+        "             ...........",
+        "            ............",
+        "           .............",
+        "          ..............",
+        "         ...............",
+        "        ................",
+        "       .................",
+        "      ..................",
+        "     ...................",
+        "    ...................."
+      ],
+      "//": "No SIDEWALK bc shouldn't occur in cities",
+      "palettes": [ "road_palette" ],
       "place_nested": [
-        { "chunks": [ "24x24_sidewalk_es_straight_outer" ], "x": 0, "y": 0 },
-        { "chunks": [ "3x3_sidewalk_es_straight_inner" ], "x": 21, "y": 21 }
+        {
+          "chunks": [ "24x24_road_es_straight_middle_lanky_ne" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "north_east": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
+            ]
+          }
+        },
+        {
+          "chunks": [ "24x24_road_es_straight_middle_lanky_sw" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "south_west": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
+            ]
+          }
+        },
+        {
+          "chunks": [ "24x24_road_es_straight_middle_lanky_both" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "north_east": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
+            ],
+            "south_west": [
+              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
+            ]
+          }
+        }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "3x3_sidewalk_es_straight_inner",
+    "nested_mapgen_id": "24x24_road_es_straight_middle_lanky_sw",
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "  _",
-        " __",
-        "___"
+        "                        ",
+        "                        ",
+        "                        ",
+        "                       .",
+        "                      . ",
+        "                     .  ",
+        "                   ..   ",
+        "                  ..    ",
+        "                 ..     ",
+        "                ..      ",
+        "               ..       ",
+        "              ..        ",
+        "             ..         ",
+        "           ...          ",
+        "          ...           ",
+        "         ...            ",
+        "        ...             ",
+        "       ...              ",
+        "      ...               ",
+        "     ...                ",
+        "   ....                 ",
+        "  ....                  ",
+        " ....                   ",
+        "....                    "
       ],
-      "palettes": [ "road_palette" ]
+      "//": "No SIDEWALK bc shouldn't occur in cities",
+      "palettes": [ "road_palette" ],
+      "place_nested": [  ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_sidewalk_es_straight_outer",
+    "nested_mapgen_id": "24x24_road_es_straight_middle_lanky_ne",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "                       _",
-        "                      __",
-        "                     ___",
-        "                    ____",
-        "                   ____ ",
-        "                  ____  ",
-        "                 ____   ",
-        "                ____    ",
-        "               ____     ",
-        "              ____      ",
-        "             ____       ",
-        "            ____        ",
-        "           ____         ",
-        "          ____          ",
-        "         ____           ",
-        "        ____            ",
-        "       ____             ",
-        "      ____              ",
-        "     ____               ",
-        "    ____                ",
-        "   ____                 ",
-        "  ____                  ",
-        " ____                   ",
-        "____                    "
+        "                       .",
+        "                      ..",
+        "                     ...",
+        "                    ....",
+        "                    ... ",
+        "                   ...  ",
+        "                  ...   ",
+        "                 ...    ",
+        "                ...     ",
+        "               ...      ",
+        "              ...       ",
+        "             ...        ",
+        "             ..         ",
+        "            ..          ",
+        "           ..           ",
+        "          ..            ",
+        "         ..             ",
+        "        ..              ",
+        "       ..               ",
+        "      ..                ",
+        "      .                 ",
+        "     .                  ",
+        "    .                   ",
+        "   .                    "
       ],
-      "palettes": [ "road_palette" ]
+      "//": "No SIDEWALK bc shouldn't occur in cities",
+      "palettes": [ "road_palette" ],
+      "place_nested": [  ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_es_straight_middle_lanky_both",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                       .",
+        "                      ..",
+        "                     ...",
+        "                    ....",
+        "                   .... ",
+        "                  ....  ",
+        "                 ....   ",
+        "                ....    ",
+        "               ....     ",
+        "              ....      ",
+        "             ....       ",
+        "            ....        ",
+        "           ....         ",
+        "          ....          ",
+        "         ....           ",
+        "        ....            ",
+        "       ....             ",
+        "      ....              ",
+        "     ....               ",
+        "    ....                ",
+        "   ....                 ",
+        "  ....                  ",
+        " ....                   ",
+        "....                    "
+      ],
+      "//": "No SIDEWALK bc shouldn't occur in cities",
+      "palettes": [ "road_palette" ],
+      "place_nested": [  ]
     }
   }
 ]

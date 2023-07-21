@@ -1,30 +1,6 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "hiway_ns",
-    "copy-from": "generic_transportation",
-    "name": "highway",
-    "sym": "H",
-    "color": "dark_gray",
-    "see_cost": 2,
-    "extras": "road",
-    "mapgen": [ { "method": "builtin", "name": "highway" } ],
-    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hiway_ew",
-    "copy-from": "generic_transportation",
-    "name": "highway",
-    "sym": "=",
-    "color": "dark_gray",
-    "see_cost": 2,
-    "extras": "road",
-    "mapgen": [ { "method": "builtin", "name": "highway" } ],
-    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "road",
     "name": "road",
     "copy-from": "generic_transportation",
