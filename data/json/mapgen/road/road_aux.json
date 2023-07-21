@@ -12,9 +12,7 @@
       "g": "t_region_grass",
       "#": "t_sconc_wall_halfway",
       "~": "t_water_sh",
-      "s": "t_region_shrub_decorative",
-      "Y": "t_sidewalk",
-      "T": "t_sidewalk"
+      "s": "t_region_shrub_decorative"
     },
     "furniture": {
       "Y": "f_street_light",
@@ -176,6 +174,23 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "24x24_street_lights_cul_de_sac",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "//": "Only four_way for now so no need for conditionals",
+      "place_nested": [
+        { "chunks": [ "1x1_street_light" ], "x": 20, "y": 4 },
+        { "chunks": [ "1x1_street_light" ], "x": 23, "y": 12 },
+        { "chunks": [ "1x1_street_light" ], "x": 20, "y": 19 },
+        { "chunks": [ "1x1_street_light" ], "x": 3, "y": 19 },
+        { "chunks": [ "1x1_street_light" ], "x": 0, "y": 12 },
+        { "chunks": [ "1x1_street_light" ], "x": 3, "y": 4 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "1x1_traffic_light",
     "object": { "mapgensize": [ 1, 1 ], "rows": [ "T" ], "palettes": [ "road_palette" ] }
   },
@@ -184,5 +199,16 @@
     "method": "json",
     "nested_mapgen_id": "1x1_street_light",
     "object": { "mapgensize": [ 1, 1 ], "rows": [ "Y" ], "palettes": [ "road_palette" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_trash",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_items": [ { "item": "road", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
   }
 ]

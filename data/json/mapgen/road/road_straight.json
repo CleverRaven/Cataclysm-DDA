@@ -41,7 +41,8 @@
         { "chunks": [ "24x24_sidewalk_ns_double" ], "x": 0, "y": 12, "flags": { "south": [ "SIDEWALK" ] } },
         { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 12, "flags": { "south_west": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_ns_long" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
-        { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } }
+        { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } },
+        { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }

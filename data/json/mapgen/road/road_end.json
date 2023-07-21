@@ -9,7 +9,7 @@
       "//": "Replace check with an OR check for any adjacent sidewalk and rotate 180 degrees.",
       "place_nested": [
         {
-          "chunks": [ "24x24_road_end_cul_de_sac", "24x24_road_end_straight" ],
+          "chunks": [ [ "24x24_road_end_cul_de_sac", 1 ], [ "24x24_road_end_straight", 2 ] ],
           "x": 0,
           "y": 0,
           "flags": { "east": [ "SIDEWALK" ] }
@@ -58,21 +58,12 @@
         { "chunks": [ "24x24_sidewalk_ns_double" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_ns_double" ], "x": 0, "y": 0, "flags": { "north_east": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_end_straight" ], "x": 0, "y": 0, "flags": { "east": [ "SIDEWALK" ] } },
-        {
-          "chunks": [ "24x24_sidewalk_end_straight" ],
-          "x": 0,
-          "y": 0,
-          "flags": { "south_east": [ "SIDEWALK" ] }
-        },
+        { "chunks": [ "24x24_sidewalk_end_straight" ], "x": 0, "y": 0, "flags": { "south_east": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_end_straight" ], "x": 0, "y": 0, "flags": { "south": [ "SIDEWALK" ] } },
-        {
-          "chunks": [ "24x24_sidewalk_end_straight" ],
-          "x": 0,
-          "y": 0,
-          "flags": { "south_west": [ "SIDEWALK" ] }
-        },
+        { "chunks": [ "24x24_sidewalk_end_straight" ], "x": 0, "y": 0, "flags": { "south_west": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_end_straight" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
-        { "chunks": [ "24x24_sidewalk_ns_double" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } }
+        { "chunks": [ "24x24_sidewalk_ns_double" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } },
+        { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -137,10 +128,10 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "____................____",
+        "____.......**.......____",
+        "____.......**.......____",
+        "____.......**.......____",
         "____................____",
-        "____................____",
-        "____................____",
-        "___Y................Y___",
         "___..................___",
         "__....................__",
         "__....................__",
@@ -148,21 +139,25 @@
         "_......................_",
         "_......................_",
         "_......................_",
-        "Y......................Y",
+        "_......................_",
         "_......................_",
         "_......................_",
         "__....................__",
         "__....................__",
         "__....................__",
         "___..................___",
-        "___Y................Y___",
+        "____................____",
         "_____.............._____",
         "______............______",
         "_________......_________",
         "________________________"
       ],
       "palettes": [ "road_palette" ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [
+        { "chunks": [ "24x24_street_lights_cul_de_sac" ], "x": 0, "y": 0 },
+        { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 }
+      ]
     }
   }
 ]
