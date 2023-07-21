@@ -262,14 +262,11 @@ static const itype_id itype_cow_bell( "cow_bell" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_ecig( "ecig" );
-static const itype_id itype_emf_detector( "emf_detector" );
-static const itype_id itype_emf_detector_on( "emf_detector_on" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_firecracker_act( "firecracker_act" );
 static const itype_id itype_firecracker_pack_act( "firecracker_pack_act" );
 static const itype_id itype_geiger_off( "geiger_off" );
 static const itype_id itype_geiger_on( "geiger_on" );
-static const itype_id itype_granade_act( "granade_act" );
 static const itype_id itype_handrolled_cig( "handrolled_cig" );
 static const itype_id itype_heatpack_used( "heatpack_used" );
 static const itype_id itype_hygrometer( "hygrometer" );
@@ -2689,7 +2686,7 @@ std::optional<int> iuse::noise_emitter_on( Character *p, item *it, bool t, const
     return 1;
 }
 
-std::optional<int> iuse::emf_passive_on( Character *p, item *it, bool, const tripoint &pos )
+std::optional<int> iuse::emf_passive_on( Character *, item *, bool, const tripoint &pos )
 {
     // need to calculate distance to closest electrical thing
 
@@ -3469,7 +3466,7 @@ std::optional<int> iuse::can_goo( Character *p, item *it, bool, const tripoint &
     return 1;
 }
 
-std::optional<int> iuse::granade_act( Character *p, item *it, bool, const tripoint &pos )
+std::optional<int> iuse::granade_act( Character *, item *it, bool, const tripoint &pos )
 {
     if( pos.x == -999 || pos.y == -999 ) {
         return std::nullopt;
@@ -3630,7 +3627,7 @@ std::optional<int> iuse::acidbomb_act( Character *p, item *it, bool, const tripo
     return std::nullopt;
 }
 
-std::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool, const tripoint &pos )
+std::optional<int> iuse::grenade_inc_act( Character *p, item *, bool, const tripoint &pos )
 {
     if( pos.x == -999 || pos.y == -999 ) {
         return std::nullopt;
