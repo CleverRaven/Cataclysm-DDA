@@ -991,7 +991,7 @@
     "volume": "2500 ml",
     "price": 3500,
     "price_postapoc": 250,
-    "material": [ { "type": "nylon", "portion": 7 }, { "type": "cotton", "portion": 3 } ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "pants_cargo",
     "color": "green",
