@@ -225,7 +225,7 @@
                   "effect": [
                     { "u_message": "Vitrifaction_Ambient_1", "snippet": true, "type": "good" },
                     { "math": [ "u_vitri_glassed", "++" ] },
-                    { "u_add_morale": "morale_vitri_placid", "bonus": 5, "max_bonus": 50 }
+                    { "u_add_morale": "morale_vitri_placid", "bonus": 3, "max_bonus": 50 }
                   ]
                 },
                 "EOC_queue_vitrified_int_drain"
@@ -241,7 +241,7 @@
                   "effect": [
                     { "u_message": "Vitrifaction_Ambient_2", "snippet": true, "type": "good" },
                     { "math": [ "u_vitri_glassed", "++" ] },
-                    { "u_add_morale": "morale_vitri_placid", "bonus": 10, "max_bonus": 99 }
+                    { "u_add_morale": "morale_vitri_placid", "bonus": 5, "max_bonus": 99 }
                   ]
                 },
                 "EOC_queue_vitrified_int_drain"
@@ -257,7 +257,7 @@
                   "effect": [
                     { "u_message": "Vitrifaction_Ambient_3", "snippet": true, "type": "good" },
                     { "math": [ "u_vitri_glassed", "++" ] },
-                    { "u_add_morale": "morale_vitri_placid", "bonus": 20, "max_bonus": 99 }
+                    { "u_add_morale": "morale_vitri_placid", "bonus": 7, "max_bonus": 99 }
                   ]
                 },
                 "EOC_queue_vitrified_int_drain"
@@ -273,7 +273,7 @@
                   "effect": [
                     { "u_message": "Vitrifaction_Ambient_4", "snippet": true, "type": "good" },
                     { "math": [ "u_vitri_glassed", "++" ] },
-                    { "u_add_morale": "morale_vitri_placid", "bonus": 30, "max_bonus": 99 }
+                    { "u_add_morale": "morale_vitri_placid", "bonus": 10, "max_bonus": 99 }
                   ]
                 },
                 "EOC_queue_vitrified_int_drain"
@@ -289,7 +289,7 @@
                   "effect": [
                     { "u_message": "Vitrifaction_Ambient_5", "snippet": true, "type": "good" },
                     { "math": [ "u_vitri_glassed", "++" ] },
-                    { "u_add_morale": "morale_vitri_placid", "bonus": 50, "max_bonus": 99 }
+                    { "u_add_morale": "morale_vitri_placid", "bonus": 15, "max_bonus": 99 }
                   ]
                 },
                 "EOC_queue_vitrified_int_drain"
@@ -305,7 +305,7 @@
                   "effect": [
                     { "u_message": "Vitrifaction_Ambient_6", "snippet": true, "type": "good" },
                     { "math": [ "u_vitri_glassed", "++" ] },
-                    { "u_add_morale": "morale_vitri_placid", "bonus": 70, "max_bonus": 99 }
+                    { "u_add_morale": "morale_vitri_placid", "bonus": 20, "max_bonus": 99 }
                   ]
                 },
                 "EOC_queue_vitrified_int_drain"
