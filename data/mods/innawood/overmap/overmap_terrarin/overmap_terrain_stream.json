@@ -1,23 +1,7 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "stream",
-    "copy-from": "generic_open_land",
-    "name": "stream",
-    "sym": ".",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stream_end",
-    "copy-from": "generic_open_land",
-    "name": "stream",
-    "sym": ".",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "stream_corner",
+    "id": [ "stream", "stream_end", "stream_corner" ],
     "copy-from": "generic_open_land",
     "name": "stream",
     "sym": ".",
