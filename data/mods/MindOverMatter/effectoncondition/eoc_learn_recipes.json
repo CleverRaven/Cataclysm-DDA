@@ -101,6 +101,7 @@
         { "math": [ "u_val('spell_level', 'spell: vita_healing_trance')", ">=", "0" ] }
       ]
     },
+    "deactivate_condition": { "u_know_recipe": "vitakin_disease_purge" },
     "effect": [
       { "u_learn_recipe": "vitakin_disease_purge" },
       {
