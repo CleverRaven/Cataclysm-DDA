@@ -5,6 +5,7 @@
     "copy-from": "generic_open_land",
     "name": "stream",
     "sym": ".",
-    "color": "light_blue"
+    "color": "light_blue",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
   }
 ]
