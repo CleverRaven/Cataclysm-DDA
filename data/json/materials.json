@@ -1187,7 +1187,7 @@
   {
     "type": "material",
     "id": "kevlar",
-    "name": "Stab Kevlar",
+    "name": "Kevlar",
     "density": 1.4,
     "soft": true,
     "specific_heat_liquid": 0.82,
@@ -1196,7 +1196,7 @@
     "chip_resist": 7,
     "breathability": "GOOD",
     "repaired_with": "kevlar_patch",
-    "salvaged_into": "sheet_kevlar",
+    "salvaged_into": "kevlar_patch",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
@@ -1220,7 +1220,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
-    "resist": { "bash": 2, "cut": 3, "acid": 5, "heat": 3, "bullet": 5 },
+    "resist": { "bash": 1.5, "cut": 2, "acid": 5, "heat": 3, "bullet": 5 },
     "repair_difficulty": 4
   },
   {
