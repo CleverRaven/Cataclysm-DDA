@@ -5,7 +5,6 @@
     "update_mapgen_id": "vitrified_farm_0",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "fill_ter": "t_vitrified_floor",
       "rows": [
         "EEEEEEEEEEEEEEEEEEEEEEEE",
         "E9...ssssssss.9.9.9.9.9.",
@@ -74,7 +73,8 @@
         "{": { "chunks": [ "livingroom_5x5_vitrified" ] },
         "}": { "chunks": [ "diningroom_6x6_vitrified" ] },
         "[": { "chunks": [ "firepit_5x5_vitrified" ] },
-        "]": { "chunks": [ "greenhouse_6x6_vitrified" ] }
+        "]": { "chunks": [ "greenhouse_6x6_vitrified" ] },
+        "Y": { "chunks": [ "statue_vitrified_1x1" ] }
       }
     }
   },
@@ -84,7 +84,6 @@
     "update_mapgen_id": "vitrified_farm_1",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "fill_ter": "t_vitrified_floor",
       "rows": [
         "EEEEEEEEEEEEEEEEEEEEEEEE",
         "E-----------------------",
@@ -137,14 +136,13 @@
     "//": "Unfinished basement",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "fill_ter": "t_vitrified_tile",
       "rows": [
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^^^^###############^^^^^",
         "^^^^#.............#^^^^^",
         "^^^^#..Q..........#^^^^^",
-        "^^^^#...........Q.#^^^^^",
+        "^^^^#........Y..Q.#^^^^^",
         "^^^^#.............#^^^^^",
         "^^^^#Z......!!!...#^^^^^",
         "^^^^#W..Q.........#^^^^^",
@@ -178,6 +176,7 @@
         "U": "t_vitrified_tile",
         "!": "t_vitrified_tile",
         "Q": "t_vitrified_tile",
+        "Y": "t_vitrified_tile",
         "<": "t_vitrified_stairs_up"
       },
       "furniture": {
@@ -188,6 +187,9 @@
         "!": "f_vitrified_table",
         "Q": "f_vitrified_box"
       },
+      "nested": {
+        "Y": { "chunks": [ "statue_vitrified_1x1" ] }
+      },
       "place_item": [ { "item": "glass_boat", "x": 16, "y": 5, "chance": 100 } ]
     }
   },
@@ -197,7 +199,6 @@
     "update_mapgen_id": "vitrified_farm_2",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "fill_ter": "t_vitrified_roof",
       "rows": [
         "EEEEEEEEEEEEEEEEEEEEEEEE",
         "E                       ",
@@ -233,7 +234,6 @@
     "update_mapgen_id": "vitrified_orchard",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "fill_ter": "t_vitrified_dirt",
       "rows": [
         "EEEEEEEEEEEEEEEEEEEEEEEE",
         "!**********************E",
@@ -261,7 +261,10 @@
         "EEEEEEEEEEEEEEEEEEEEEEEE"
       ],
       "palettes": [ "orchard_vitrified_palette" ],
-      "terrain": { "E": "t_vitrified_edge", "q": "t_vitrified_soil_talker", "!": "t_vitrified_fence_barbed" }
+      "terrain": { "E": "t_vitrified_edge", "q": "t_vitrified_soil_talker", "!": "t_vitrified_fence_barbed" },
+      "nested": {
+        "r": { "chunks": [ "statue_vitrified_1x1" ] }
+      }
     }
   },
   {
@@ -270,7 +273,6 @@
     "update_mapgen_id": "vitrified_orchard_sky",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "fill_ter": "t_vitrified_dirt",
       "rows": [
         "EEEEEEEEEEEEEEEEEEEEEEEE",
         "                       E",
@@ -306,7 +308,6 @@
     "update_mapgen_id": "vitrified_sky",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "fill_ter": "t_vitrified_dirt",
       "rows": [
         "EEEEEEEEEEEEEEEEEEEEEEEE",
         "EEEEEEEEEEEEEEEEEEEEEEEE",
@@ -351,7 +352,8 @@
         "L   y"
       ],
       "palettes": [ "house_vitrified_nest_palette" ],
-      "furniture": { "!": "f_vitrified_doll" }
+      "furniture": { "!": "f_vitrified_doll" },
+      "nested": { "y": { "chunks": [ "statue_vitrified_1x1" ] }}
     }
   },
   {
@@ -369,7 +371,8 @@
         " BLB y",
         "      "
       ],
-      "palettes": [ "house_vitrified_nest_palette" ]
+      "palettes": [ "house_vitrified_nest_palette" ],
+      "nested": { "y": { "chunks": [ "statue_vitrified_1x1" ] }}
     }
   },
   {
@@ -387,6 +390,7 @@
         " ccc "
       ],
       "palettes": [ "vitrified_garden_palette" ],
+      "nested": { "f": { "chunks": [ "statue_vitrified_1x1" ] }},
       "place_items": [ { "item": "stash_wood", "x": 1, "y": 2, "chance": 100, "repeat": [ 2, 10 ] } ]
     }
   },
@@ -420,7 +424,7 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "Prrr",
-        " Yh ",
+        " yh ",
         "    ",
         " RHH"
       ],
@@ -438,7 +442,8 @@
         "r": "t_vitrified_floor",
         "H": "t_vitrified_floor",
         "h": "t_vitrified_floor"
-      }
+      },
+      "nested": { "y": { "chunks": [ "statue_vitrified_1x1" ] }}
     }
   },
   {
@@ -470,11 +475,36 @@
         "    L",
         "O  EE",
         "O  EE",
-        "  Y L",
+        "  y L",
         "     "
       ],
+      "nested": { "y": { "chunks": [ "statue_vitrified_1x1" ] }},
       "palettes": [ "house_vitrified_nest_palette" ],
       "place_item": [ { "item": "glass_book", "x": 4, "y": 1, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "statue_vitrified_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "X"
+      ],
+      "furniture": {"X": [
+        "f_glassedbody_1",
+        "f_glassedbody_2",
+        "f_glassedbody_3",
+        "f_glassedbody_4",
+        "f_glassedbody_5",
+        "f_glassedbody_6",
+        "f_glassedbody_7",
+        "f_glassedbody_8",
+        "f_glassedbody_9",
+        "f_glassedbody_10"
+      ]}
     }
   }
 ]
