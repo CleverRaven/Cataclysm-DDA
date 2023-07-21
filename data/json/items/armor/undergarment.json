@@ -160,6 +160,158 @@
     "armor": [ { "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
+    "id": "binder_top",
+    "type": "ARMOR",
+    "name": { "str": "binder" },
+    "description": "A binder, meant to bind the chest close to the body to keep a persons chest flat.",
+    "weight": "110 g",
+    "volume": "250 ml",
+    "price": 3500,
+    "price_postapoc": 150,
+    "material": [ "lycra", "cotton" ],
+    "symbol": "[",
+    "looks_like": "bikini_top",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 0.5,
+    "flags": [ "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 10, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "binder_top_black",
+        "name": { "str": "black binder" },
+        "description": "This one is black.",
+        "weight": 140,
+        "append": true
+      },
+      {
+        "id": "binder_top_gray",
+        "name": { "str": "gray binder" },
+        "description": "This one is gray.",
+        "weight": 90,
+        "append": true
+      },
+      {
+        "id": "binder_top_white",
+        "name": { "str": "white binder" },
+        "description": "This one is white.",
+        "weight": 70,
+        "append": true
+      },
+      {
+        "id": "binder_top_blue",
+        "name": { "str": "blue binder" },
+        "description": "This one is blue.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "binder_top_green",
+        "name": { "str": "green binder" },
+        "description": "This one is green.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "binder_top_red",
+        "name": { "str": "red binder" },
+        "description": "This one is red.",
+        "weight": 12,
+        "append": true
+      },
+      {
+        "id": "binder_top_orange",
+        "name": { "str": "orange binder" },
+        "description": "This one is orange.",
+        "weight": 12,
+        "append": true
+      },
+      {
+        "id": "binder_top_pink",
+        "name": { "str": "pink binder" },
+        "description": "This one is pink.",
+        "weight": 4,
+        "append": true
+      },
+      {
+        "id": "binder_top_american",
+        "name": { "str": "american binder" },
+        "description": "This one is painted with the star spangled banner, the red white and blue, old glory, the american flag.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "binder_top_ribcage",
+        "name": { "str": "ribcage binder" },
+        "description": "This one is black, with white rib bones.",
+        "weight": 12,
+        "append": true
+      },
+      {
+        "id": "binder_top_mushroom",
+        "name": { "str": "mushroom binder" },
+        "description": "This one has a row of mushrooms on it.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "binder_top_floral",
+        "name": { "str": "floral binder" },
+        "description": "This one has a floral pattern.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "binder_top_dinos",
+        "name": { "str": "dinosaur binder" },
+        "description": "This one has a cartoon rendition of a stegosaurus on it.",
+        "weight": 8,
+        "append": true
+      },
+      {
+        "id": "binder_top_trans",
+        "name": { "str": "trans flag binder" },
+        "description": "This one is painted after the trans pride flag.",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "binder_top_nonbinary",
+        "name": { "str": "non-binary flag binder" },
+        "description": "This one is painted after the non-binary pride flag.",
+        "weight": 6,
+        "append": true
+      },
+      {
+        "id": "binder_top_meme",
+        "name": { "str": "meme binder" },
+        "description": "This one has an image of a stuffed rat chef, looking up with arms spread to the heavens, with text above reading \"I don't want to cook anymore\", and the bottom text reading \"I want to DIE\" all in a comic sans font.",
+        "weight": 4,
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "xl_binder_top",
+    "type": "ARMOR",
+    "copy-from": "binder_top",
+    "name": { "str_sp": "XL binder" },
+    "description": "A binder, meant to bind the chest close to the body to keep a persons chest flat, but custom made to accommodate larger mutants.",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_binder_top",
+    "type": "ARMOR",
+    "copy-from": "binder_top",
+    "looks_like": "binder_top",
+    "name": { "str_sp": "XS binder" },
+    "description": "A binder, meant to bind the chest close to the body to keep a persons chest flat, but custom made to accommodate smaller mutants.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "boxer_briefs",
     "type": "ARMOR",
     "name": { "str_sp": "boxer briefs" },
@@ -214,7 +366,8 @@
         "id": "flag_boxer_shorts",
         "name": { "str_sp": "star-spangled boxer shorts" },
         "description": "This pair has been printed with the pattern of an American flag, with stars and miniature eagles embroidered at strategic positions.",
-        "append": true
+        "append": true,
+        "weight": 1
       }
     ],
     "weight": "42 g",
@@ -270,7 +423,8 @@
         "id": "flag_boy_shorts",
         "name": { "str_sp": "star-spangled boy shorts" },
         "description": "This pair has been printed with the pattern of an American flag, with stars and miniature eagles embroidered at strategic positions.",
-        "append": true
+        "append": true,
+        "weight": 1
       }
     ],
     "weight": "42 g",
@@ -326,6 +480,25 @@
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "xl_bra",
+    "type": "ARMOR",
+    "copy-from": "bra",
+    "name": { "str_sp": "XL bra" },
+    "description": "A simple bra.  For protecting those bits you don't want zombies to look at, made for larger mutants.",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_bra",
+    "type": "ARMOR",
+    "copy-from": "bra",
+    "looks_like": "bra",
+    "name": { "str_sp": "XS bra" },
+    "description": "A simple bra.  For protecting those bits you don't want zombies to look at, made for smaller mutants.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "briefs",
@@ -820,7 +993,7 @@
         "weight": 2
       }
     ],
-    "//": "Based on https://www.amazon.com/dp/B07SDD5CZH/ref=twister_B07SB568SW?th=1"
+    "//": "Based on https://www.amazon.com/dp/B07SDD5CZH"
   },
   {
     "id": "tights",

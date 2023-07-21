@@ -2049,15 +2049,15 @@ void dialogue_chatbin::deserialize( const JsonObject &data )
 
     std::vector<int> tmpmissions;
     data.read( "missions", tmpmissions );
-    missions = mission::to_ptr_vector( tmpmissions );
+    missions = mission::to_ptr_vector( tmpmissions, /* ok_missing */ true );
     std::vector<int> tmpmissions_assigned;
     data.read( "missions_assigned", tmpmissions_assigned );
-    missions_assigned = mission::to_ptr_vector( tmpmissions_assigned );
+    missions_assigned = mission::to_ptr_vector( tmpmissions_assigned, /* ok_missing */ true );
 
     int tmpmission_selected = 0;
     mission_selected = nullptr;
     if( data.read( "mission_selected", tmpmission_selected ) && tmpmission_selected != -1 ) {
-        mission_selected = mission::find( tmpmission_selected );
+        mission_selected = mission::find( tmpmission_selected, /* ok_missing */ true );
     }
 }
 
@@ -2707,6 +2707,8 @@ void monster::load( const JsonObject &data )
 
     data.read( "mounted_player_id", mounted_player_id );
     data.read( "path", path );
+
+    data.read( "grabbed_limbs", grabbed_limbs );
 }
 
 /*
@@ -2781,6 +2783,9 @@ void monster::store( JsonOut &json ) const
     json.member( "dragged_foe_id", dragged_foe_id );
     // storing the rider
     json.member( "mounted_player_id", mounted_player_id );
+
+    // store grabbed limbs
+    json.member( "grabbed_limbs", grabbed_limbs );
 }
 
 void mon_special_attack::serialize( JsonOut &json ) const
@@ -4042,7 +4047,7 @@ void mm_submap::serialize( JsonOut &jsout ) const
 
     for( size_t y = 0; y < SEEY; y++ ) {
         for( size_t x = 0; x < SEEX; x++ ) {
-            const memorized_tile &elem = get_tile( point( x, y ) );
+            const memorized_tile &elem = get_tile( point_sm_ms( x, y ) );
             if( x == 0 && y == 0 ) {
                 last = elem;
                 continue;
@@ -4123,7 +4128,7 @@ void mm_submap::deserialize( int version, const JsonArray &ja )
             }
             // Try to avoid assigning to save up on memory
             if( tile != mm_submap::default_tile ) {
-                set_tile( point( x, y ), tile );
+                set_tile( point_sm_ms( x, y ), tile );
             }
         }
     }

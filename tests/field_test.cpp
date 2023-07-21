@@ -4,6 +4,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "effect.h"
 #include "field.h"
 #include "field_type.h"
 #include "item.h"
@@ -17,7 +18,10 @@
 #include "type_id.h"
 #include "weather.h"
 
+static const efftype_id effect_test_rash( "test_rash" );
+
 static const field_type_str_id field_fd_acid( "fd_acid" );
+static const field_type_str_id field_fd_test( "fd_test" );
 
 static const ter_str_id ter_t_tree_walnut( "t_tree_walnut" );
 
@@ -62,10 +66,10 @@ static void test_field_expiry( const std::string &field_type_str )
     std::vector<field_entry> test_fields;
     for( int i = 0; i < 10000; ++i ) {
         test_fields.emplace_back( field_type, 1, 0_seconds );
-        test_fields[i].do_decay();
+        test_fields[i].initialize_decay();
     }
     // Reduce time advancement by 2 seconds because age gets incremented by do_decay()
-    calendar::turn += field_type.obj().half_life - 2_seconds;
+    calendar::turn += field_type.obj().half_life - 1_seconds;
     float decayed = 0.0f;
     float alive = 0.0f;
     for( field_entry &test_field : test_fields ) {
@@ -89,6 +93,7 @@ TEST_CASE( "field_expiry", "[field]" )
     test_field_expiry( "fd_sludge" );
     test_field_expiry( "fd_extinguisher" );
     test_field_expiry( "fd_electricity" );
+    test_field_expiry( "fd_short_halflife" );
 }
 
 static void fire_duration( const std::string &terrain_type, const time_duration minimum,
@@ -470,5 +475,100 @@ TEST_CASE( "field_API_test", "[field]" )
     CHECK( m.set_field_intensity( p, fd_fire, 1 ) == 1 );
     CHECK( f.find_field( fd_fire ) );
 
+    fields_test_cleanup();
+}
+
+TEST_CASE( "player_double_effect_field_test", "[field][player]" )
+{
+    fields_test_setup();
+    clear_avatar();
+    const tripoint p{ 33, 33, 0 };
+
+    Character &dummy = get_avatar();
+    map &m = get_map();
+
+    dummy.setpos( p );
+    m.add_field( p, field_fd_test, 1 );
+
+    m.creature_in_field( dummy );
+
+    CHECK( dummy.has_effect( effect_test_rash, body_part_torso ) );
+    CHECK( dummy.has_effect( effect_test_rash, body_part_head ) );
+
+    clear_avatar();
+    fields_test_cleanup();
+}
+
+TEST_CASE( "player_single_effect_field_test_head", "[field][player]" )
+{
+    fields_test_setup();
+    clear_avatar();
+    const tripoint p{ 33, 33, 0 };
+
+    Character &dummy = get_avatar();
+    map &m = get_map();
+
+    item head_armor( "test_hazmat_hat" );
+    dummy.wear_item( head_armor );
+
+    dummy.setpos( p );
+    m.add_field( p, field_fd_test, 1 );
+
+    m.creature_in_field( dummy );
+
+    CHECK( dummy.has_effect( effect_test_rash, body_part_torso ) );
+    CHECK_FALSE( dummy.has_effect( effect_test_rash, body_part_head ) );
+
+    clear_avatar();
+    fields_test_cleanup();
+}
+
+TEST_CASE( "player_single_effect_field_test_torso", "[field][player]" )
+{
+    fields_test_setup();
+    clear_avatar();
+    const tripoint p{ 33, 33, 0 };
+
+    Character &dummy = get_avatar();
+    map &m = get_map();
+
+    item torso_armor( "test_hazmat_shirt" );
+    dummy.wear_item( torso_armor );
+
+    dummy.setpos( p );
+    m.add_field( p, field_fd_test, 1 );
+
+    m.creature_in_field( dummy );
+
+    CHECK_FALSE( dummy.has_effect( effect_test_rash, body_part_torso ) );
+    CHECK( dummy.has_effect( effect_test_rash, body_part_head ) );
+
+    clear_avatar();
+    fields_test_cleanup();
+}
+
+TEST_CASE( "player_single_effect_field_test_all", "[field][player]" )
+{
+    fields_test_setup();
+    clear_avatar();
+    const tripoint p{ 33, 33, 0 };
+
+    Character &dummy = get_avatar();
+    map &m = get_map();
+
+    item torso_armor( "test_hazmat_shirt" );
+    dummy.wear_item( torso_armor );
+    item head_armor( "test_hazmat_hat" );
+    dummy.wear_item( head_armor );
+
+    dummy.setpos( p );
+    m.add_field( p, field_fd_test, 1 );
+
+    m.creature_in_field( dummy );
+
+    CHECK_FALSE( dummy.has_effect( effect_test_rash, body_part_torso ) );
+    CHECK_FALSE( dummy.has_effect( effect_test_rash, body_part_head ) );
+
+    clear_avatar();
     fields_test_cleanup();
 }

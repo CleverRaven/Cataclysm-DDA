@@ -1187,7 +1187,7 @@ furn_id f_null, f_clear,
         f_cattails, f_lotus, f_lilypad,
         f_safe_c, f_safe_l, f_safe_o,
         f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
-        f_fvat_empty, f_fvat_full,
+        f_fvat_empty, f_fvat_full, f_fvat_wood_empty, f_fvat_wood_full,
         f_wood_keg,
         f_standing_tank,
         f_egg_sackbw, f_egg_sackcs, f_egg_sackws, f_egg_sacke,
@@ -1204,6 +1204,7 @@ furn_id f_null, f_clear,
         f_tourist_table,
         f_camp_chair,
         f_sign,
+        f_stook_empty, f_stook_full,
         f_street_light, f_traffic_light, f_flagpole, f_wooden_flagpole,
         f_console, f_console_broken;
 
@@ -1219,6 +1220,8 @@ void set_furn_ids()
     f_barricade_road = furn_id( "f_barricade_road" );
     f_sandbag_half = furn_id( "f_sandbag_half" );
     f_sandbag_wall = furn_id( "f_sandbag_wall" );
+    f_stook_empty = furn_id( "f_stook_empty" );
+    f_stook_full = furn_id( "f_stook_full" );
     f_bulletin = furn_id( "f_bulletin" );
     f_indoor_plant = furn_id( "f_indoor_plant" );
     f_bed = furn_id( "f_bed" );
@@ -1288,6 +1291,8 @@ void set_furn_ids()
     f_plant_harvest = furn_id( "f_plant_harvest" );
     f_fvat_empty = furn_id( "f_fvat_empty" );
     f_fvat_full = furn_id( "f_fvat_full" );
+    f_fvat_wood_empty = furn_id( "f_fvat_wood_empty" );
+    f_fvat_wood_full = furn_id( "f_fvat_wood_full" );
     f_wood_keg = furn_id( "f_wood_keg" );
     f_standing_tank = furn_id( "f_standing_tank" );
     f_egg_sackbw = furn_id( "f_egg_sackbw" );

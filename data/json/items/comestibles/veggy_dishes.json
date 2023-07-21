@@ -252,11 +252,10 @@
     "name": { "str_sp": "cooked buckwheat" },
     "copy-from": "buckwheat",
     "spoils_in": "20 days",
-    "description": "A serving of cooked buckwheat groats.  Healthy and nutritious but bland.",
+    "description": "A serving of cooked buckwheat porridge.  Healthy and nutritious but bland.",
     "price": 120,
     "price_postapoc": 50,
-    "flags": [ "EATEN_HOT" ],
-    "fun": 0
+    "flags": [ "EATEN_HOT" ]
   },
   {
     "type": "COMESTIBLE",
@@ -706,19 +705,21 @@
     "type": "COMESTIBLE",
     "id": "cooked_pumpkin",
     "name": { "str": "mashed pumpkin" },
-    "copy-from": "pumpkin",
+    "copy-from": "pumpkin_cut",
     "color": "light_red",
     "spoils_in": "1 day 12 hours",
     "container": "can_food",
     "quench": 3,
+    "calories": 15,
     "description": "A simple dish made by cooking pumpkin pulp and then mashing.",
     "price": 50,
-    "price_postapoc": 50,
+    "price_postapoc": 30,
     "sealed": true,
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "delete": { "flags": [ "RAW" ] },
-    "charges": 1
+    "weight": "275 g",
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 1 ], [ "iron", 2 ] ],
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -1084,9 +1085,10 @@
     "material": [ "veggy" ],
     "milling": { "into": "cornmeal", "conversion_rate": 3 },
     "volume": "255 ml",
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
-    "fun": -10
+    "petfood": [ "CATTLEFOOD" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
+    "seed_data": { "plant_name": "corn", "fruit": "corn", "byproducts": [ "withered" ], "grow": "80 days" }
   },
   {
     "type": "COMESTIBLE",

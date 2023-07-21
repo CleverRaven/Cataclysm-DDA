@@ -163,6 +163,7 @@
     "items": [
       { "group": "magazines", "prob": 2000 },
       { "group": "kids_books", "prob": 35 },
+      { "group": "stand_flyer", "prob": 100 },
       [ "recipe_augs", 20 ],
       [ "decoy_anarch", 50 ],
       { "group": "newspaper_recent", "prob": 200 },
@@ -398,7 +399,8 @@
       [ "boots_steel", 50 ],
       [ "sneakers_steel", 35 ],
       [ "boots_hiking", 10 ],
-      [ "jumpsuit", 20 ],
+      [ "technician_coveralls", 15 ],
+      [ "technician_coveralls_h", 5 ],
       [ "gloves_rubber", 20 ],
       [ "gloves_leather", 45 ],
       [ "shovel", 45 ],
@@ -902,6 +904,7 @@
       [ "steel_pan", 10 ],
       [ "teapot", 25 ],
       [ "kettle", 25 ],
+      [ "fuel_tin", 25 ],
       [ "fishing_hook_basic", 35 ],
       [ "spike", 30 ],
       [ "wire_barbed", 25 ],
@@ -1267,7 +1270,8 @@
       [ "wrench", 30 ],
       [ "pipe", 20 ],
       [ "boots", 70 ],
-      [ "jumpsuit", 20 ],
+      [ "technician_coveralls", 15 ],
+      [ "technician_coveralls_h", 5 ],
       [ "coat_lab", 20 ],
       [ "gloves_rubber", 20 ],
       [ "fishing_waders", 12 ],
@@ -1345,7 +1349,8 @@
       [ "chain", 20 ],
       [ "boots_steel", 50 ],
       [ "sneakers_steel", 35 ],
-      [ "jumpsuit", 20 ],
+      [ "technician_coveralls", 10 ],
+      [ "technician_coveralls_h", 10 ],
       [ "gloves_leather", 45 ],
       { "item": "mask_filter", "prob": 30, "charges": [ 0, 100 ] },
       { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
@@ -2167,6 +2172,7 @@
       { "item": "chem_manganese_dioxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_saltpetre", "prob": 10, "charges": [ 1, 50 ] },
       { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
+      { "item": "chem_caco3", "prob": 10, "charges-min": 100 },
       { "item": "denat_alcohol", "prob": 6, "charges-min": 250 },
       { "item": "methed_alcohol", "prob": 4, "charges-min": 250 }
     ]
@@ -2597,9 +2603,17 @@
   {
     "id": "mil_base_corpse_soldier",
     "type": "item_group",
-    "//": "Soldier corpse with clothes, without gear.",
+    "//": "Nested to damage corpse.",
     "subtype": "collection",
-    "entries": [ { "group": "mil_base_clothes_corpse_soldier", "damage": [ 1, 4 ] }, { "item": "corpse_generic_human" } ]
+    "entries": [ { "group": "mil_base_corpse_corpse_soldier", "damage": [ 2, 4 ] } ]
+  },
+  {
+    "id": "mil_base_corpse_corpse_soldier",
+    "type": "item_group",
+    "//": "Nested to damage all gear.",
+    "subtype": "collection",
+    "container-item": "corpse_generic_human",
+    "entries": [ { "group": "mil_base_clothes_corpse_soldier", "damage": [ 1, 4 ] } ]
   },
   {
     "id": "mil_base_clothes_corpse_soldier",
@@ -2811,12 +2825,12 @@
       { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
       {
         "distribution": [
-          { "item": "welding_rod_steel", "prob": 30, "charges": [ 50, 360 ] },
-          { "item": "welding_rod_alloy", "prob": 20, "charges": [ 50, 360 ] },
-          { "item": "welding_wire_steel", "prob": 20, "charges": [ 50, 360 ] },
-          { "item": "welding_wire_alloy", "prob": 15, "charges": [ 50, 360 ] },
-          { "item": "brazing_rod_bronze", "prob": 10, "charges": [ 50, 200 ] },
-          { "item": "brazing_rod_alloy", "prob": 5, "charges": [ 50, 200 ] }
+          { "item": "welding_rod_steel", "prob": 30, "charges": [ 1000, 1600 ] },
+          { "item": "welding_rod_alloy", "prob": 20, "charges": [ 1000, 1600 ] },
+          { "item": "welding_wire_steel", "prob": 20, "charges": [ 1000, 1600 ] },
+          { "item": "welding_wire_alloy", "prob": 15, "charges": [ 1000, 1600 ] },
+          { "item": "brazing_rod_bronze", "prob": 10, "charges": [ 500, 1500 ] },
+          { "item": "brazing_rod_alloy", "prob": 5, "charges": [ 400, 1200 ] }
         ]
       }
     ]

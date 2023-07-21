@@ -21,7 +21,6 @@ class JsonValue;
 class Creature;
 class item;
 class monster;
-enum m_flag : int;
 template<typename T> struct enum_traits;
 
 struct damage_type {
@@ -31,7 +30,7 @@ struct damage_type {
     skill_id skill = skill_id::NULL_ID();
     std::pair<damage_type_id, float> derived_from = { damage_type_id(), 0.0f };
     cata::flat_set<std::string> immune_flags;
-    cata::flat_set<m_flag> mon_immune_flags;
+    cata::flat_set<std::string> mon_immune_flags;
     nc_color magic_color;
     bool melee_only = false;
     bool physical = false;

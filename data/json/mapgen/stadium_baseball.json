@@ -450,7 +450,8 @@
         "4": "t_gutter_downspout",
         "#": "t_metal_floor_no_roof",
         "@": "t_metal_floor_no_roof",
-        "*": "t_open_air"
+        "*": "t_open_air",
+        ">": "t_stairs_down_no_roof"
       },
       "furniture": { "#": "f_small_satelitte_dish", "?": "f_sofa", "h": "f_armchair", "6": "f_console_broken" },
       "items": {

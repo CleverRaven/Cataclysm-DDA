@@ -330,7 +330,7 @@
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "difficulty": 8,
-    "time": "60 s",
+    "time": "60 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 180 ] ],
     "//": "180cm weld",
@@ -368,7 +368,7 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 150 ] ] ],
-    "components": [ [ [ "glass_shard", 5 ], [ "flask_glass", 5 ], [ "test_tube", 10 ], [ "marble", 125 ] ] ]
+    "components": [ [ [ "glass_shard", 13 ], [ "flask_glass", 20 ], [ "test_tube", 27 ], [ "marble", 318 ] ] ]
   },
   {
     "type": "recipe",
@@ -398,7 +398,7 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ],
-    "components": [ [ [ "glass_shard", 2 ], [ "flask_glass", 2 ], [ "test_tube", 4 ], [ "marble", 50 ] ] ]
+    "components": [ [ [ "glass_shard", 4 ], [ "flask_glass", 6 ], [ "test_tube", 8 ], [ "marble", 93 ] ] ]
   },
   {
     "type": "recipe",
@@ -1321,7 +1321,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "sheet_metal", 1 ] ] ]
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "scrap_aluminum", 1 ] ] ]
   },
   {
     "type": "recipe",

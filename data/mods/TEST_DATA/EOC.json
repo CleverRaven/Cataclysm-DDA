@@ -15,6 +15,19 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_run_until_test",
+    "effect": [
+      { "set_condition": "to_test", "condition": { "math": [ "u_context", "<", "10" ] } },
+      { "run_eoc_until": "EOC_until_nested", "condition": "to_test" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_until_nested",
+    "effect": [ { "math": [ "u_context", "++" ] }, { "math": [ "key1", "=", "u_context" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_stored_condition_test",
     "effect": [
       { "set_condition": "to_test", "condition": { "math": [ "_context", ">", "0" ] } },
@@ -306,6 +319,17 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_spell_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_casts_spell",
+    "effect": [
+      { "math": [ "key1", "=", "_damage" ] },
+      { "math": [ "key2", "=", "_cast_time" ] },
+      { "math": [ "key3", "=", "_difficulty" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_increment_var_var",
     "//": "tests adding a variable, that's in another variable",
     "effect": [
@@ -322,6 +346,14 @@
       { "set_string_var": "_key2", "target_var": { "context_val": "key1" } },
       { "math": [ "v_testing", "=", "1" ] },
       { "math": [ "global_nested", "=", "_key2 + v_testing" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_spell_xp",
+    "effect": [
+      { "math": [ "u_spell_exp('test_eoc_spell')", "=", "1000" ] },
+      { "math": [ "key1", "=", "u_spell_exp('test_eoc_spell')" ] }
     ]
   },
   {

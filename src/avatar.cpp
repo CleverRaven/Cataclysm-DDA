@@ -160,24 +160,11 @@ avatar::avatar( avatar && ) = default;
 // NOLINTNEXTLINE(performance-noexcept-move-constructor)
 avatar &avatar::operator=( avatar && ) = default;
 
-static void swap_npc( npc &one, npc &two, npc &tmp )
-{
-    tmp = std::move( one );
-    one = std::move( two );
-    two = std::move( tmp );
-}
-
 void avatar::control_npc( npc &np, const bool debug )
 {
     if( !np.is_player_ally() ) {
         debugmsg( "control_npc() called on non-allied npc %s", np.name );
         return;
-    }
-    if( !shadow_npc ) {
-        shadow_npc = std::make_unique<npc>();
-        shadow_npc->op_of_u.trust = 10;
-        shadow_npc->op_of_u.value = 10;
-        shadow_npc->set_attitude( NPCATT_FOLLOW );
     }
     character_id new_character = np.getID();
     const std::function<void( npc & )> update_npc = [new_character]( npc & guy ) {
@@ -185,13 +172,12 @@ void avatar::control_npc( npc &np, const bool debug )
     };
     overmap_buffer.foreach_npc( update_npc );
     mission().update_world_missions_character( get_avatar().getID(), new_character );
-    npc tmp;
     // move avatar character data into shadow npc
-    swap_character( *shadow_npc, tmp );
+    swap_character( get_shadow_npc() );
     // swap target npc with shadow npc
-    swap_npc( *shadow_npc, np, tmp );
+    std::swap( get_shadow_npc(), np );
     // move shadow npc character data into avatar
-    swap_character( *shadow_npc, tmp );
+    swap_character( get_shadow_npc() );
     // the avatar character is no longer a follower NPC
     g->remove_npc_follower( getID() );
     // the previous avatar character is now a follower
@@ -251,6 +237,11 @@ void avatar::toggle_map_memory()
     show_map_memory = !show_map_memory;
 }
 
+bool avatar::is_map_memory_valid() const
+{
+    return player_map_memory->is_valid();
+}
+
 bool avatar::should_show_map_memory() const
 {
     if( get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
@@ -261,20 +252,20 @@ bool avatar::should_show_map_memory() const
 
 bool avatar::save_map_memory()
 {
-    return player_map_memory->save( get_map().getabs( pos() ) );
+    return player_map_memory->save( get_map().getglobal( pos() ) );
 }
 
 void avatar::load_map_memory()
 {
-    player_map_memory->load( get_map().getabs( pos() ) );
+    player_map_memory->load( get_map().getglobal( pos() ) );
 }
 
-void avatar::prepare_map_memory_region( const tripoint &p1, const tripoint &p2 )
+void avatar::prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 )
 {
     player_map_memory->prepare_region( p1, p2 );
 }
 
-const memorized_tile &avatar::get_memorized_tile( const tripoint &p ) const
+const memorized_tile &avatar::get_memorized_tile( const tripoint_abs_ms &p ) const
 {
     if( should_show_map_memory() ) {
         return player_map_memory->get_tile( p );
@@ -282,24 +273,24 @@ const memorized_tile &avatar::get_memorized_tile( const tripoint &p ) const
     return mm_submap::default_tile;
 }
 
-void avatar::memorize_terrain( const tripoint &p, const std::string_view id,
+void avatar::memorize_terrain( const tripoint_abs_ms &p, const std::string_view id,
                                int subtile, int rotation )
 {
     player_map_memory->set_tile_terrain( p, id, subtile, rotation );
 }
 
-void avatar::memorize_decoration( const tripoint &p, const std::string_view id,
+void avatar::memorize_decoration( const tripoint_abs_ms &p, const std::string_view id,
                                   int subtile, int rotation )
 {
     player_map_memory->set_tile_decoration( p, id, subtile, rotation );
 }
 
-void avatar::memorize_symbol( const tripoint &p, char32_t symbol )
+void avatar::memorize_symbol( const tripoint_abs_ms &p, char32_t symbol )
 {
     player_map_memory->set_tile_symbol( p, symbol );
 }
 
-void avatar::memorize_clear_decoration( const tripoint &p, std::string_view prefix )
+void avatar::memorize_clear_decoration( const tripoint_abs_ms &p, std::string_view prefix )
 {
     player_map_memory->clear_tile_decoration( p, prefix );
 }
@@ -432,7 +423,7 @@ bool avatar::read( item_location &book, item_location ereader )
     // spells are handled in a different place
     // src/iuse_actor.cpp -> learn_spell_actor::use
     if( book->get_use( "learn_spell" ) ) {
-        book->get_use( "learn_spell" )->call( *this, *book, book->active, pos() );
+        book->get_use( "learn_spell" )->call( this, *book, book->active, pos() );
         return true;
     }
 
@@ -687,16 +678,16 @@ void avatar::grab( object_type grab_type_new, const tripoint &grab_point_new )
             if( const optional_vpart_position ovp = m.veh_at( pos() + gpoint ) ) {
                 for( const tripoint &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
-                        memorize_clear_decoration( m.getabs( target ), /* prefix = */ "vp_" );
+                        memorize_clear_decoration( m.getglobal( target ), /* prefix = */ "vp_" );
                     }
-                    m.set_memory_seen_cache_dirty( target );
+                    m.memory_cache_dec_set_dirty( target, true );
                 }
             }
         } else if( gtype != object_type::NONE ) {
             if( erase ) {
-                memorize_clear_decoration( m.getabs( pos() + gpoint ) );
+                memorize_clear_decoration( m.getglobal( pos() + gpoint ) );
             }
-            m.set_memory_seen_cache_dirty( pos() + gpoint );
+            m.memory_cache_dec_set_dirty( pos() + gpoint, true );
         }
     };
     // Mark the area covered by the previous vehicle/furniture/etc for re-memorizing.
@@ -1838,92 +1829,6 @@ void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
     }
 }
 
-bool character_martial_arts::pick_style( const avatar &you ) // Style selection menu
-{
-    enum style_selection {
-        KEEP_HANDS_FREE = 0,
-        STYLE_OFFSET
-    };
-
-    // Check for martial art styles known from active bionics
-    std::set<matype_id> bio_styles;
-    for( const bionic &bio : *you.my_bionics ) {
-        const std::vector<matype_id> &bio_ma_list = bio.id->ma_styles;
-        if( !bio_ma_list.empty() && you.has_active_bionic( bio.id ) ) {
-            bio_styles.insert( bio_ma_list.begin(), bio_ma_list.end() );
-        }
-    }
-    std::vector<matype_id> selectable_styles;
-    if( bio_styles.empty() ) {
-        selectable_styles = ma_styles;
-    } else {
-        selectable_styles.insert( selectable_styles.begin(), bio_styles.begin(), bio_styles.end() );
-    }
-
-    // If there are style already, cursor starts there
-    // if no selected styles, cursor starts from no-style
-
-    // Any other keys quit the menu
-    input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keycode );
-    ctxt.register_action( "SHOW_DESCRIPTION" );
-
-    uilist kmenu;
-    kmenu.text = string_format( _( "Select a style.\n"
-                                   "\n"
-                                   "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
-                                   "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
-                                   "Press [<color_yellow>%s</color>] for more info.\n" ),
-                                you.get_str(), you.get_dex(), you.get_per(), you.get_int(),
-                                ctxt.get_desc( "SHOW_DESCRIPTION" ) );
-    ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
-    kmenu.callback = &callback;
-    kmenu.input_category = "MELEE_STYLE_PICKER";
-    kmenu.additional_actions.emplace_back( "SHOW_DESCRIPTION", translation() );
-    kmenu.desc_enabled = true;
-    kmenu.addentry_desc( KEEP_HANDS_FREE, true, 'h',
-                         keep_hands_free ? _( "Keep hands free (on)" ) : _( "Keep hands free (off)" ),
-                         _( "When this is enabled, player won't wield things unless explicitly told to." ) );
-
-    kmenu.selected = STYLE_OFFSET;
-
-    // +1 to keep "No Style" at top
-    std::sort( selectable_styles.begin() + 1, selectable_styles.end(),
-    []( const matype_id & a, const matype_id & b ) {
-        return localized_compare( a->name.translated(), b->name.translated() );
-    } );
-
-    for( size_t i = 0; i < selectable_styles.size(); i++ ) {
-        const martialart &style = selectable_styles[i].obj();
-        //Check if this style is currently selected
-        const bool selected = selectable_styles[i] == style_selected;
-        std::string entry_text = style.name.translated();
-        if( selected ) {
-            kmenu.selected = i + STYLE_OFFSET;
-            entry_text = colorize( entry_text, c_pink );
-        }
-        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, style.description.translated() );
-    }
-
-    kmenu.query();
-    int selection = kmenu.ret;
-
-    if( selection >= STYLE_OFFSET ) {
-        // If the currect style is selected, do not change styles
-
-        avatar &u = const_cast<avatar &>( you );
-        style_selected->remove_all_buffs( u );
-        style_selected = selectable_styles[selection - STYLE_OFFSET];
-        ma_static_effects( u );
-        martialart_use_message( you );
-    } else if( selection == KEEP_HANDS_FREE ) {
-        keep_hands_free = !keep_hands_free;
-    } else {
-        return false;
-    }
-
-    return true;
-}
-
 bool avatar::wield_contents( item &container, item *internal_item, bool penalties, int base_cost )
 {
     // if index not specified and container has multiple items then ask the player to choose one
@@ -2080,6 +1985,24 @@ bool avatar::query_yn( const std::string &mes ) const
 void avatar::set_location( const tripoint_abs_ms &loc )
 {
     Creature::set_location( loc );
+}
+
+npc &avatar::get_shadow_npc()
+{
+    if( !shadow_npc ) {
+        shadow_npc = std::make_unique<npc>();
+        shadow_npc->op_of_u.trust = 10;
+        shadow_npc->op_of_u.value = 10;
+        shadow_npc->set_attitude( NPCATT_FOLLOW );
+    }
+    return *shadow_npc;
+}
+
+void avatar::export_as_npc( const cata_path &path )
+{
+    swap_character( get_shadow_npc() );
+    get_shadow_npc().export_to( path );
+    swap_character( get_shadow_npc() );
 }
 
 void monster_visible_info::remove_npc( npc *n )

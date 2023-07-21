@@ -1670,6 +1670,11 @@ static bool valid_unload_container( const item_location &container )
         return false;
     }
 
+    // Item must be able to be unloaded
+    if( container->has_flag( flag_NO_UNLOAD ) ) {
+        return false;
+    }
+
     // Container must contain at least one item
     if( container->empty_container() ) {
         return false;

@@ -27,6 +27,18 @@
         "coverage": 95,
         "encumbrance": 12
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
+      }
     ]
   },
   {
@@ -80,6 +92,18 @@
         "coverage": 80,
         "cover_vitals": 100,
         "encumbrance": 4
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },
@@ -137,6 +161,18 @@
         "coverage": 85,
         "cover_vitals": 100,
         "encumbrance": 4
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },
@@ -206,6 +242,18 @@
         "cover_vitals": 100,
         "encumbrance": 4
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
+      }
     ]
   },
   {
@@ -246,6 +294,18 @@
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 12
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },
@@ -289,6 +349,18 @@
         "coverage": 80,
         "cover_vitals": 100,
         "encumbrance": 4
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },
@@ -341,6 +413,18 @@
         "coverage": 85,
         "cover_vitals": 100,
         "encumbrance": 4
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },
@@ -399,6 +483,18 @@
         "cover_vitals": 100,
         "encumbrance": 4
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
+      }
     ]
   },
   {
@@ -439,6 +535,18 @@
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 12
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },
@@ -529,6 +637,18 @@
         "cover_vitals": 100,
         "encumbrance": 4
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
+      }
     ]
   },
   {
@@ -586,6 +706,18 @@
         "cover_vitals": 100,
         "encumbrance": 4
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
+      }
     ]
   },
   {
@@ -626,6 +758,18 @@
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 12
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },
@@ -722,6 +866,18 @@
         "cover_vitals": 100,
         "encumbrance": 4
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
+      }
     ]
   },
   {
@@ -779,6 +935,18 @@
         "cover_vitals": 100,
         "encumbrance": 4
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
+      }
     ]
   },
   {
@@ -819,6 +987,18 @@
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 12
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },
@@ -909,6 +1089,18 @@
         "cover_vitals": 100,
         "encumbrance": 4
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
+      }
     ]
   },
   {
@@ -962,6 +1154,18 @@
         "coverage": 80,
         "cover_vitals": 100,
         "encumbrance": 4
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3000 g",
+        "moves": 3000,
+        "description": "Attachment for additional plating placed on top.",
+        "flag_restriction": [ "EXTRA_PLATING" ]
       }
     ]
   },
@@ -1395,6 +1599,417 @@
     "type": "ARMOR",
     "copy-from": "legguard_qt_brigandine",
     "name": { "str": "XS pair of tempered splint leg guards", "str_pl": "XS pairs of tempered splint leg guards" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "lc_vambrace_brigandine",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of mild steel splint vambraces", "str_pl": "pairs of mild steel vambraces" },
+    "description": "A pair of vambraces made of tough fabric sandwiched between alternating strips of mild steel.  Can be comfortably worn over chainmail for extra protection.",
+    "weight": "600 g",
+    "volume": "1400 ml",
+    "longest_side": "12 cm",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "to_hit": 1,
+    "material": [ "lc_steel", "canvas" ],
+    "symbol": "[",
+    "looks_like": "armguard_bronze",
+    "color": "light_gray",
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "STURDY", "ABLATIVE_CHAINMAIL_ARMS", "VARSIZE" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 0.8 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 4,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 100,
+        "cover_vitals": 90,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_vambrace_brigandine",
+    "type": "ARMOR",
+    "copy-from": "lc_vambrace_brigandine",
+    "name": { "str": "XL pair of mild steel splint vambraces", "str_pl": "XL pairs of mild steel splint vambraces" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_lc_vambrace_brigandine",
+    "type": "ARMOR",
+    "copy-from": "lc_vambrace_brigandine",
+    "name": { "str": "XS pair of mild steel splint vambraces", "str_pl": "XS pairs of mild steel splint vambraces" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mc_vambrace_brigandine",
+    "type": "ARMOR",
+    "name": { "str": "pair of medium steel splint vambraces", "str_pl": "pairs of medium steel splint vambraces" },
+    "copy-from": "lc_vambrace_brigandine",
+    "description": "A pair of vambraces made of tough fabric sandwiched between alternating strips of medium steel.  Can be comfortably worn over chainmail for extra protection.",
+    "material": [ "mc_steel", "canvas" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "mc_steel", "covered_by_mat": 90, "thickness": 0.8 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 4,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 100,
+        "cover_vitals": 90,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_mc_vambrace_brigandine",
+    "type": "ARMOR",
+    "copy-from": "mc_vambrace_brigandine",
+    "name": { "str": "XL pair of medium steel splint vambraces", "str_pl": "XL pairs of medium steel splint vambraces" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_mc_vambrace_brigandine",
+    "type": "ARMOR",
+    "copy-from": "mc_vambrace_brigandine",
+    "name": { "str": "XS pair of medium steel splint vambraces", "str_pl": "XS pairs of medium steel splint vambraces" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "hc_vambrace_brigandine",
+    "type": "ARMOR",
+    "name": { "str": "pair of high steel splint vambraces", "str_pl": "pairs of high steel splint vambraces" },
+    "copy-from": "lc_vambrace_brigandine",
+    "description": "A pair of vambraces made of tough fabric sandwiched between alternating strips of high steel.  Can be comfortably worn over chainmail for extra protection.",
+    "material": [ "hc_steel", "canvas" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "hc_steel", "covered_by_mat": 90, "thickness": 0.8 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 4,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 100,
+        "cover_vitals": 90,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_hc_vambrace_brigandine",
+    "type": "ARMOR",
+    "copy-from": "hc_vambrace_brigandine",
+    "name": { "str": "XL pair of high steel splint vambraces", "str_pl": "XL pairs of high steel splint vambraces" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_hc_vambrace_brigandine",
+    "type": "ARMOR",
+    "copy-from": "hc_vambrace_brigandine",
+    "name": { "str": "XS pair of high steel splint vambraces", "str_pl": "XS pairs of high steel splint vambraces" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "ch_vambrace_brigandine",
+    "type": "ARMOR",
+    "name": { "str": "pair of case hardened splint vambraces", "str_pl": "pairs of case hardened splint vambraces" },
+    "copy-from": "lc_vambrace_brigandine",
+    "description": "A pair of vambraces made of tough fabric sandwiched between alternating strips of case hardened steel.  Can be comfortably worn over chainmail for extra protection.",
+    "material": [ "ch_steel", "canvas" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "ch_steel", "covered_by_mat": 90, "thickness": 0.8 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 4,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 100,
+        "cover_vitals": 90,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_vambrace_brigandine",
+    "type": "ARMOR",
+    "copy-from": "ch_vambrace_brigandine",
+    "name": { "str": "XL pair of case hardened splint vambraces", "str_pl": "XL pairs of case hardened splint vambraces" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ch_vambrace_brigandine",
+    "type": "ARMOR",
+    "copy-from": "ch_vambrace_brigandine",
+    "name": { "str": "XS pair of case hardened splint vambraces", "str_pl": "XS pairs of case hardened splint vambraces" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "qt_vambrace_brigandine",
+    "type": "ARMOR",
+    "name": { "str": "pair of tempered splint vambraces", "str_pl": "pairs of tempered splint vambraces" },
+    "copy-from": "lc_vambrace_brigandine",
+    "description": "A pair of vambraces made of tough fabric sandwiched between alternating strips of tempered steel.  Can be comfortably worn over chainmail for extra protection.",
+    "material": [ "qt_steel", "canvas" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "qt_steel", "covered_by_mat": 90, "thickness": 0.8 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 4,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 100,
+        "cover_vitals": 90,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_qt_vambrace_brigandine",
+    "type": "ARMOR",
+    "copy-from": "qt_vambrace_brigandine",
+    "name": { "str": "XL pair of tempered splint vambraces", "str_pl": "XL pairs of tempered splint vambraces" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_qt_vambrace_brigandine",
+    "type": "ARMOR",
+    "copy-from": "qt_vambrace_brigandine",
+    "name": { "str": "XS pair of tempered splint vambraces", "str_pl": "XS pairs of tempered splint vambraces" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "lc_greaves_brigandine",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of mild steel splint greaves", "str_pl": "pairs of mild steel splint greaves" },
+    "description": "A pair of greaves made of tough fabric sandwiched between alternating strips of mild steel.  Can be comfortably worn over chainmail for extra protection.",
+    "weight": "600 g",
+    "volume": "1400 ml",
+    "price": 40000,
+    "price_postapoc": 1000,
+    "to_hit": 1,
+    "material": [ "lc_steel", "canvas" ],
+    "symbol": "[",
+    "looks_like": "legguard_metal",
+    "color": "light_gray",
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "ALLOWS_TAIL", "STURDY", "ABLATIVE_CHAINMAIL_LEGS", "VARSIZE" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 0.8 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 4,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 100,
+        "cover_vitals": 90,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_greaves_brigandine",
+    "type": "ARMOR",
+    "copy-from": "lc_greaves_brigandine",
+    "name": { "str": "XL pair of mild steel splint greaves", "str_pl": "XL pairs of mild steel splint greaves" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_lc_greaves_brigandine",
+    "type": "ARMOR",
+    "copy-from": "lc_greaves_brigandine",
+    "name": { "str": "XS pair of mild steel splint greaves", "str_pl": "XS pairs of mild steel splint greaves" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mc_greaves_brigandine",
+    "type": "ARMOR",
+    "name": { "str": "pair of medium steel splint greaves", "str_pl": "pairs of medium steel splint greaves" },
+    "copy-from": "lc_greaves_brigandine",
+    "description": "A pair of greaves made of tough fabric sandwiched between alternating strips of medium steel.  Can be comfortably worn over chainmail for extra protection.",
+    "material": [ "mc_steel", "canvas" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "mc_steel", "covered_by_mat": 90, "thickness": 0.8 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 4,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 100,
+        "cover_vitals": 90,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_mc_greaves_brigandine",
+    "type": "ARMOR",
+    "copy-from": "mc_greaves_brigandine",
+    "name": { "str": "XL pair of medium steel splint greaves", "str_pl": "XL pairs of medium steel splint greaves" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_mc_greaves_brigandine",
+    "type": "ARMOR",
+    "copy-from": "mc_greaves_brigandine",
+    "name": { "str": "XS pair of medium steel splint greaves", "str_pl": "XS pairs of medium steel splint greaves" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "hc_greaves_brigandine",
+    "type": "ARMOR",
+    "name": { "str": "pair of high steel splint greaves", "str_pl": "pairs of high steel splint greaves" },
+    "copy-from": "lc_greaves_brigandine",
+    "description": "A pair of greaves made of tough fabric sandwiched between alternating strips of high steel.  Can be comfortably worn over chainmail for extra protection.",
+    "material": [ "hc_steel", "canvas" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "hc_steel", "covered_by_mat": 90, "thickness": 0.8 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 4,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 100,
+        "cover_vitals": 90,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_hc_greaves_brigandine",
+    "type": "ARMOR",
+    "copy-from": "hc_greaves_brigandine",
+    "name": { "str": "XL pair of high steel splint greaves", "str_pl": "XL pairs of high steel splint greaves" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_hc_greaves_brigandine",
+    "type": "ARMOR",
+    "copy-from": "hc_greaves_brigandine",
+    "name": { "str": "XS pair of high steel splint greaves", "str_pl": "XS pairs of high steel splint greaves" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "ch_greaves_brigandine",
+    "type": "ARMOR",
+    "name": { "str": "pair of case hardened splint greaves", "str_pl": "pairs of case hardened splint greaves" },
+    "copy-from": "lc_greaves_brigandine",
+    "description": "A pair of greaves made of tough fabric sandwiched between alternating strips of case hardened steel.  Can be comfortably worn over chainmail for extra protection.",
+    "material": [ "ch_steel", "canvas" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "ch_steel", "covered_by_mat": 90, "thickness": 0.8 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 4,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 100,
+        "cover_vitals": 90,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_greaves_brigandine",
+    "type": "ARMOR",
+    "copy-from": "ch_greaves_brigandine",
+    "name": { "str": "XL pair of case hardened splint greaves", "str_pl": "XL pairs of case hardened splint greaves" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ch_greaves_brigandine",
+    "type": "ARMOR",
+    "copy-from": "ch_greaves_brigandine",
+    "name": { "str": "XS pair of case hardened splint greaves", "str_pl": "XS pairs of case hardened splint greaves" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "qt_greaves_brigandine",
+    "type": "ARMOR",
+    "name": { "str": "pair of tempered splint greaves", "str_pl": "pairs of tempered splint greaves" },
+    "copy-from": "lc_greaves_brigandine",
+    "description": "A pair of greaves made of tough fabric sandwiched between alternating strips of tempered steel.  Can be comfortably worn over chainmail for extra protection.",
+    "material": [ "qt_steel", "canvas" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "qt_steel", "covered_by_mat": 90, "thickness": 0.8 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 4,
+        "coverage": 100,
+        "cover_melee": 100,
+        "cover_ranged": 100,
+        "cover_vitals": 90,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_qt_greaves_brigandine",
+    "type": "ARMOR",
+    "copy-from": "qt_greaves_brigandine",
+    "name": { "str": "XL pair of tempered splint greaves", "str_pl": "XL pairs of tempered splint greaves" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_qt_greaves_brigandine",
+    "type": "ARMOR",
+    "copy-from": "qt_greaves_brigandine",
+    "name": { "str": "XS pair of tempered splint greaves", "str_pl": "XS pairs of tempered splint greaves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },

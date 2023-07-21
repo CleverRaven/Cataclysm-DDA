@@ -383,6 +383,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "distraction_thirst", distraction_thirst );
     json.member( "distraction_temperature", distraction_temperature );
     json.member( "distraction_mutation", distraction_mutation );
+    json.member( "distraction_oxygen", distraction_oxygen );
     json.member( "numpad_navigation", numpad_navigation );
 
     json.member( "input_history" );
@@ -451,6 +452,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "distraction_thirst", distraction_thirst );
     jo.read( "distraction_temperature", distraction_temperature );
     jo.read( "distraction_mutation", distraction_mutation );
+    jo.read( "distraction_oxygen", distraction_oxygen );
     jo.read( "numpad_navigation", numpad_navigation );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
@@ -2047,18 +2049,17 @@ void inventory_selector::add_map_items( const tripoint &target )
 
 void inventory_selector::add_vehicle_items( const tripoint &target )
 {
-    const std::optional<vpart_reference> vp =
-        get_map().veh_at( target ).part_with_feature( "CARGO", true );
-    if( !vp ) {
+    const std::optional<vpart_reference> ovp = get_map().veh_at( target ).cargo();
+    if( !ovp ) {
         return;
     }
-    vehicle *const veh = &vp->vehicle();
-    const int part = vp->part_index();
-    vehicle_stack items = veh->get_items( part );
-    const std::string name = to_upper_case( remove_color_tags( veh->part( part ).name() ) );
+    vehicle_part &vp = ovp->part();
+    vehicle_stack items = ovp->items();
+    const std::string name = to_upper_case( remove_color_tags( vp.name() ) );
     const item_category vehicle_cat( name, no_translation( name ), 200 );
-    _add_map_items( target, vehicle_cat, items, [veh, part]( item & it ) {
-        return item_location( vehicle_cursor( *veh, part ), &it );
+    const vehicle_cursor cursor( ovp->vehicle(), ovp->part_index() );
+    _add_map_items( target, vehicle_cat, items, [&cursor]( item & it ) {
+        return item_location( cursor, &it );
     } );
 }
 

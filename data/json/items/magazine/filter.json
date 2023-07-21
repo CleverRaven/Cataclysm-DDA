@@ -61,7 +61,7 @@
     "id": "rebreather_cartridge_air",
     "type": "MAGAZINE",
     "category": "spare_parts",
-    "name": { "str": "rebreather scrubber cartridge, air tank" },
+    "name": { "str": "rebreather scrubber cartridge, air tank", "str_pl": "rebreather scrubber cartridges, air tanks" },
     "price": 8500,
     "price_postapoc": 1000,
     "symbol": "=",
@@ -78,7 +78,7 @@
     "id": "rebreather_cartridge_o2",
     "type": "MAGAZINE",
     "category": "spare_parts",
-    "name": { "str": "rebreather scrubber cartridge, oxygen tank" },
+    "name": { "str": "rebreather scrubber cartridge, oxygen tank", "str_pl": "rebreather scrubber cartridges, oxygen tanks" },
     "price": 8500,
     "price_postapoc": 1000,
     "symbol": "=",
@@ -104,7 +104,7 @@
     "material": [ "rubber", "steel" ],
     "volume": "2000 ml",
     "weight": "1000 g",
-    "ammo_type": "rebreather_filter",
+    "ammo_type": "rebreather_o2_regenerator",
     "flags": [ "NO_SALVAGE", "NO_RELOAD", "REBREATHER_CART" ],
     "pocket_data": [
       {

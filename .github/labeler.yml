@@ -257,6 +257,12 @@
 "Mods: Xedra Evolved":
   - data/mods/Xedra_Evolved/**/*
 
+"Mods: Mind Over Matter":
+  - data/mods/MindOverMatter/**/*
+
+"Mods: Sky Island":
+  - data/mods/Sky_Island/**/*
+
 "Mods":
   - any: [ 'data/mods/**' ]
     all: [ '!data/mods/TEST_DATA/**' ]

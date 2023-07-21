@@ -1187,7 +1187,7 @@
     ],
     "copy-from": "meat_cooked",
     "color": "red",
-    "spoils_in": "2 days",
+    "spoils_in": "24 days",
     "container": "plastic_bag_vac",
     "quench": -5,
     "description": "Meat slices cured in brine.  Salty but tasty in a pinch.",

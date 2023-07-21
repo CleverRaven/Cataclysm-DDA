@@ -1188,7 +1188,7 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
     // only non personal zones can be vehicle zones
     if( !personal ) {
         optional_vpart_position const vp = here.veh_at( here.getlocal( start ) );
-        if( vp && vp->vehicle().get_owner() == fac && vp.part_with_feature( "CARGO", false ) ) {
+        if( vp && vp->vehicle().get_owner() == fac && vp.cargo() ) {
             // TODO:Allow for loot zones on vehicles to be larger than 1x1
             if( start == end &&
                 ( silent || query_yn( _( "Bind this zone to the cargo part here?" ) ) ) ) {
@@ -1557,8 +1557,8 @@ void zone_manager::revert_vzones()
     map &here = get_map();
     for( zone_data zone : removed_vzones ) {
         //Code is copied from add() to avoid yn query
-        if( const std::optional<vpart_reference> vp = here.veh_at( here.getlocal(
-                    zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
+        const tripoint pos = here.getlocal( zone.get_start_point() );
+        if( const std::optional<vpart_reference> vp = here.veh_at( pos ).cargo() ) {
             zone.set_is_vehicle( true );
             vp->vehicle().loot_zones.emplace( vp->mount(), zone );
             here.register_vehicle_zone( &vp->vehicle(), here.get_abs_sub().z() );

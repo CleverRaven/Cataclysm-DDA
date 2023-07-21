@@ -299,7 +299,7 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
                                     cont_not_empty = true;
                                     iname = tmp_i.tname( 1U, true );
                                 }
-                                if( const std::optional<vpart_reference> vp = m.veh_at( p ).part_with_feature( "CARGO", true ) ) {
+                                if( const std::optional<vpart_reference> vp = m.veh_at( p ).cargo() ) {
                                     veh_items.emplace_back( vp.value(), tmp_i );
                                 } else {
                                     map_items.emplace_back( p, tmp_i );

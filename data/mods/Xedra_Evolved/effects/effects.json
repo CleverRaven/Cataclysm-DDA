@@ -220,7 +220,18 @@
     "id": "cheval_overdose",
     "//": "Intensity 1 is a standard dosage of the drug.  Further intensities reflect taking pills while the first dose hasn't worn off.  It is not wise to do so.",
     "name": [ "Energized", "Enflamed", "Arythmic", "Tachycardiac" ],
-    "apply_message": "These magickal trucker pills have kicked in and you feel great!",
+    "apply_message": [
+      [ "These magickal trucker pills have kicked in and you feel great!", "good" ],
+      [
+        "You shouldn't have taken this many pills.  Your skin flushes and your nerves feel like they are on fire.",
+        "bad"
+      ],
+      [ "Your heartbeat doesn't feel normal.  Why on earth did you take more of these pills?", "bad" ],
+      [
+        "This might just be it, the big one.  With no hospital available you're just going to have to ride it straight through Hell.",
+        "bad"
+      ]
+    ],
     "decay_messages": [
       [
         "These magickal trucker pills have worn off and you feel rough.  It might be best to go ahead and sleep through the hangover as best you can.",
@@ -233,27 +244,39 @@
       [ "Your heartbeat slows into a somewhat normal rhythm but your skin is still on fire.", "good" ],
       [ "The pain in your chest subsides but your heart is still beating in a concerning fashion.", "good" ]
     ],
-    "rating": "mixed",
     "max_intensity": 4,
     "blood_analysis_description": "Patient has dangerous levels of multiple chemicals in their blood.  Sedation and restraint suggested.",
-    "base_mods": { "speed_mod": [ 10 ], "str_mod": [ 1 ], "stim_amount": [ 1 ], "stim_tick": [ 500 ], "stim_max_val": [ 50 ] },
+    "base_mods": {
+      "speed_mod": [ 10 ],
+      "str_mod": [ 1 ],
+      "stim_amount": [ 1 ],
+      "stim_tick": [ 500 ],
+      "stim_max_val": [ 50 ],
+      "hurt_chance": [ 1 ],
+      "hurt_tick": [ 15000 ],
+      "pain_amount": [ 0 ],
+      "pain_chance": [ 2 ],
+      "pain_tick": [ 400 ],
+      "hurt_amount": [ 1 ]
+    },
     "scaling_mods": {
       "perspiration_amount": [ 6 ],
       "perspiration_min": [ 1 ],
       "perspiration_chance": [ 2 ],
-      "perspiration_tick": [ 1500 ],
+      "perspiration_tick": [ 150 ],
       "pain_amount": [ 10 ],
       "pain_min": [ 1 ],
-      "pain_chance": [ 2 ],
-      "pain_tick": [ 6000 ],
-      "stim_max_val": [ 100 ]
+      "hurt_amount": [ 1 ],
+      "pain_tick": [ -100 ],
+      "hurt_tick": [ -4925 ],
+      "stim_max_val": [ 400 ]
     }
   },
   {
     "type": "effect_type",
     "id": "cheval_withdrawal",
     "rating": "bad",
-    "blood_analysis_description": "Heightened levels of organosulfur compounds, mercury, and silver.",
+    "blood_analysis_description": "Patient has multiple byproducts in blood stream suggesting extended drug binge.",
     "base_mods": { "speed_mod": [ -15 ], "str_mod": [ -1 ], "stim_amount": [ -1 ], "stim_tick": [ 500 ], "stim_max_val": [ -50 ] }
   },
   {

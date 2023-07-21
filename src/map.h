@@ -349,23 +349,18 @@ class map
         void set_pathfinding_cache_dirty( int zlev );
         /*@}*/
 
-        void set_memory_seen_cache_dirty( const tripoint &p );
         void invalidate_map_cache( int zlev );
 
-        bool check_seen_cache( const tripoint &p ) const {
-            std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
-                get_cache( p.z ).map_memory_seen_cache;
-            return !memory_seen_cache[ p.x + p.y * MAPSIZE_Y ];
-        }
-        bool check_and_set_seen_cache( const tripoint &p ) const {
-            std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
-                get_cache( p.z ).map_memory_seen_cache;
-            if( !memory_seen_cache[ p.x + p.y * MAPSIZE_Y ] ) {
-                memory_seen_cache.set( p.x + p.y * MAPSIZE_Y );
-                return true;
-            }
-            return false;
-        }
+        // @returns true if map memory decoration should be re/memorized
+        bool memory_cache_dec_is_dirty( const tripoint &p ) const;
+        // @returns true if map memory terrain should be re/memorized
+        bool memory_cache_ter_is_dirty( const tripoint &p ) const;
+        // sets whether map memory decoration should be re/memorized
+        void memory_cache_dec_set_dirty( const tripoint &p, bool value ) const;
+        // sets whether map memory terrain should be re/memorized
+        void memory_cache_ter_set_dirty( const tripoint &p, bool value ) const;
+        // clears map memory for points occupied by vehicle and marks "dirty" for re-memorizing
+        void memory_clear_vehicle_points( const vehicle &veh ) const;
 
         /**
          * A pre-filter for bresenham LOS.
@@ -1729,6 +1724,7 @@ class map
         // @param init_veh_status   value of -1 spawns lightly damaged vehicle
         //                          value of 0 spawns fully intact vehicle
         //                          value of 1 spawns with destroyed seats / controls / tanks / tires / engines
+        //                          value of 2 spawns fully intact vehicle with no faults or security
         //                          can be overriden by VEHICLE_STATUS_AT_SPAWN EXTERNAL_OPTION
         // @param merge_wrecks      if true and vehicle overlaps another then both turn into wrecks
         //                          if false and vehicle will overlap aborts and returns nullptr
@@ -2108,8 +2104,7 @@ class map
                               const units::angle &wideangle = 30_degrees );
         void apply_light_ray( cata::mdarray<bool, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lit,
                               const tripoint &s, const tripoint &e, float luminance );
-        void add_light_from_items( const tripoint &p, const item_stack::iterator &begin,
-                                   const item_stack::iterator &end );
+        void add_light_from_items( const tripoint &p, const item_stack &items );
         std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
 
         // Internal methods used to bash just the selected features

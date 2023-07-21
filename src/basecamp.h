@@ -289,6 +289,7 @@ class basecamp
         // main mission description collection
         void get_available_missions( mission_data &mission_key, map &here );
         void get_available_missions_by_dir( mission_data &mission_key, const point &dir );
+        void choose_new_leader();
         // available companion list manipulation
         void reset_camp_workers();
         comp_list get_mission_workers( const mission_id &miss_id, bool contains = false );

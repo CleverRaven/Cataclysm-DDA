@@ -1,0 +1,271 @@
+[
+  {
+    "id": "telepathic_concentration",
+    "type": "SPELL",
+    "name": "[Ψ]Concentration Trance",
+    "description": "Focus your own mind into a trance state, increasing learning speed.",
+    "message": "Your vision narrows to what is directly in front of you as you concentrate.",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_telepathic_learning_bonus",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_concentration') * 15000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_concentration') * 15000) + 720000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 4000,
+    "final_energy_cost": 1000,
+    "energy_increment": -200,
+    "base_casting_time": 300,
+    "final_casting_time": 150,
+    "casting_time_increment": -15,
+    "learn_spells": { "telepathic_confusion": 7, "telepathic_blast": 15 }
+  },
+  {
+    "id": "telepathic_concentration_end",
+    "type": "SPELL",
+    "name": "[Ψ]Concentration Trance (Remove)",
+    "description": "End your focused trance, returning to normal.",
+    "message": "You stop concentrating.",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "remove_effect",
+    "effect_str": "effect_telepathic_learning_bonus",
+    "shape": "blast",
+    "max_level": 1,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 0,
+    "base_casting_time": 30
+  },
+  {
+    "id": "telepathic_shield",
+    "type": "SPELL",
+    "name": "[Ψ]Telepathic Shield",
+    "description": "You can protect your mind from the dangers of the post-Cataclysmic world.",
+    "message": "You begin shielding your thoughts.",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_telepathic_psi_armor",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_shield') * 1500) + 6000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_shield') * 1500) + 36000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2500,
+    "final_energy_cost": 500,
+    "energy_increment": -125,
+    "base_casting_time": 100,
+    "final_casting_time": 10,
+    "casting_time_increment": -7.5,
+    "learn_spells": { "telepathic_invisibility": 7, "telepathic_mind_control": 15 }
+  },
+  {
+    "id": "telepathic_morale",
+    "type": "SPELL",
+    "name": "[Ψ]Mood Stabilization",
+    "description": "With the ability to edit others' thoughts comes the ability to edit your own.",
+    "message": "You begin to edit out your discouraging thoughts.",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKIN_MORALE",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_morale') * 15000) + 180000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_morale') * 15000) + 720000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 4000,
+    "final_energy_cost": 1000,
+    "energy_increment": -125,
+    "base_casting_time": 300,
+    "final_casting_time": 150,
+    "casting_time_increment": -9.5,
+    "learn_spells": { "telepathic_confusion": 7, "telepathic_mind_control": 15 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_MORALE",
+    "effect": [
+      { "u_add_morale": "morale_telepathy", "bonus": 10, "max_bonus": 25, "duration": "4 hours", "decay_start": "2 hours" }
+    ]
+  },
+  {
+    "id": "telepathic_invisibility",
+    "type": "SPELL",
+    "name": "[Ψ]Obscurity",
+    "description": "Use a light touch on others' minds to hide your presence.  This power only lasts a few moments.",
+    "message": "You hide your presence from your enemies.",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_telepath_invisibility",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_invisibility') * 200) + 800) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_invisibility') * 200) + 3000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 750,
+    "energy_increment": -125,
+    "base_casting_time": 100,
+    "final_casting_time": 25,
+    "casting_time_increment": -7.5,
+    "learn_spells": { "telepathic_mind_control": 9, "telepathic_confusion": 12 }
+  },
+  {
+    "id": "telepathic_confusion",
+    "type": "SPELL",
+    "name": "[Ψ]Sensory Deprivation",
+    "description": "Disconnect a target's brain from its senses, leaving it blinded and confused.",
+    "message": "You lock your target's mind away!",
+    "valid_targets": [ "hostile" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "NO_PROJECTILE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "stunned",
+    "extra_effects": [
+      { "id": "pyrokinetic_flash", "hit_self": false, "max_level": 20 },
+      { "id": "psionic_drained_difficulty_five", "hit_self": true }
+    ],
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 100) + 400) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 100) + 2000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_confusion') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 80,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2000,
+    "final_energy_cost": 500,
+    "energy_increment": -150,
+    "base_casting_time": 90,
+    "final_casting_time": 40,
+    "casting_time_increment": -3.5,
+    "learn_spells": { "telepathic_blast": 9, "telepathic_mind_control": 12 }
+  },
+  {
+    "id": "telepathic_blast",
+    "type": "SPELL",
+    "name": "[Ψ]Synaptic Overload",
+    "description": "Short-circuit and overwhelm a target's brain, causing extreme damage or death.",
+    "message": "You unleash a psionic scream at your target!",
+    "valid_targets": [ "hostile" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "NO_PROJECTILE", "SILENT", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "PERCENTAGE_DAMAGE" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
+    "shape": "blast",
+    "damage_type": "biological",
+    "min_damage": 25,
+    "max_damage": 120,
+    "damage_increment": 1,
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_blast') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 80,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 500,
+    "energy_increment": -125,
+    "base_casting_time": 75,
+    "final_casting_time": 30,
+    "casting_time_increment": -2.5
+  },
+  {
+    "id": "telepathic_mind_control",
+    "type": "SPELL",
+    "name": "[Ψ]Mind Control",
+    "description": "Seize control of the target's mind, forcing them to do your bidding.",
+    "message": "You take control of your target's mind!",
+    "valid_targets": [ "hostile" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "NO_PROJECTILE", "SILENT", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "charm_monster",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
+    "shape": "blast",
+    "min_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_mind_control') * 4) + 30) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_mind_control') * 6) + 120) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_mind_control') * 400) + 1200) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telepathic_mind_control') * 400) + 5200) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_mind_control') * 1) + 4) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 70,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 5500,
+    "final_energy_cost": 2500,
+    "energy_increment": -250,
+    "base_casting_time": 120,
+    "final_casting_time": 75,
+    "casting_time_increment": -3.5
+  }
+]

@@ -28,5 +28,10 @@
     "name": "GROUP_EGG_WATER_BUG_TAME",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_water_scorpion_larva_friendly" } ]
+  },
+  {
+    "name": "GROUP_EGG_CENTIPEDE_TAME",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_centipede_larva_friendly" } ]
   }
 ]

@@ -57,7 +57,7 @@
   {
     "type": "recipe",
     "result": "faction_base_outpost_cross_root_cellar",
-    "description": "Digging a root cellar will allow us trapping small game and preserving it.",
+    "description": "Digging a root cellar will allow us to preserve any small game that we trap.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -71,7 +71,7 @@
   {
     "type": "recipe",
     "result": "faction_base_outpost_cross_butchery_rack",
-    "description": "Building a butchery rack will allow us hunting bigger animals.",
+    "description": "Building a butchery rack will allow us to hunt bigger animals.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -116,7 +116,7 @@
   {
     "type": "recipe",
     "result": "faction_base_outpost_cross_generator",
-    "description": "We could try to fix reactor's controller to power lights, it would really help us in planning missions.",
+    "description": "We could try to fix the reactor's controller to power lights, it would really help us in planning missions.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

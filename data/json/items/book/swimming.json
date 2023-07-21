@@ -38,8 +38,8 @@
       },
       {
         "id": "mag_swimming_5",
-        "name": { "str": "Bicycling", "str_pl": "copies of Bicycling" },
-        "description": "A small magazine about the bicycle scene, tips about the buying and maintenance and bikes, and different types of training you can do with them.",
+        "name": { "str": "Bicycling", "str_pl": "issues of Bicycling" },
+        "description": "A small magazine about the bicycle scene, tips about the buying and maintenance of bikes, and different types of training you can do with them.",
         "weight": 1
       }
     ],

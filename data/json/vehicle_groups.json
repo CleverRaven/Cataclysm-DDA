@@ -27,6 +27,7 @@
       [ "motorcycle_sidecart", 100 ],
       [ "scooter", 200 ],
       [ "scooter_electric", 300 ],
+      [ "skateboard", 100 ],
       [ "policecar", 250 ],
       [ "policecar_k9", 3 ],
       [ "policesuv", 250 ],
@@ -233,6 +234,7 @@
       [ "bicycle_dirt", 150 ],
       [ "bicycle_electric", 100 ],
       [ "tricycle", 5 ],
+      [ "skateboard", 100 ],
       [ "4x4_car", 100 ],
       [ "4x4_car_diesel", 100 ],
       [ "wheelbarrow", 100 ]
@@ -263,6 +265,7 @@
       [ "bicycle_dirt", 150 ],
       [ "bicycle_electric", 100 ],
       [ "tricycle", 5 ],
+      [ "skateboard", 100 ],
       [ "wheelbarrow", 100 ]
     ]
   },
@@ -708,6 +711,7 @@
       [ "motorcycle_cross", 150 ],
       [ "motorcycle_enduro", 100 ],
       [ "superbike", 100 ],
+      [ "skateboard", 75 ],
       [ "motorcycle_sidecart", 100 ],
       [ "golf_cart", 10 ],
       [ "golf_cart_4seat", 10 ]
@@ -983,7 +987,14 @@
   {
     "id": "park_playground_vehicles",
     "type": "vehicle_group",
-    "vehicles": [ [ "ice_cream_cart", 100 ], [ "food_cart", 200 ], [ "bicycle", 150 ], [ "bicycle_dirt", 125 ], [ "tricycle", 5 ] ]
+    "vehicles": [
+      [ "ice_cream_cart", 100 ],
+      [ "food_cart", 200 ],
+      [ "bicycle", 150 ],
+      [ "bicycle_dirt", 125 ],
+      [ "tricycle", 5 ],
+      [ "skateboard", 25 ]
+    ]
   },
   {
     "id": "wagons_all",
