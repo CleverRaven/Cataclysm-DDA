@@ -289,12 +289,12 @@
     "id": "f_vitrified_fridge",
     "name": "black glass refrigerator",
     "symbol": "{",
-    "description": "A black glass refrigerator, its door hanging open. Inside is a seamless surface with protrusions resembling fresh fruit and plastic bottles.",
+    "description": "A black glass refrigerator, its door hanging open.  Inside is a seamless surface with protrusions resembling fresh fruit and plastic bottles.",
     "color": "dark_gray",
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 10,
-    "flags": [ "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
+    "flags": [ "BLOCKSDOOR", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ] },
     "max_volume": "2000 L",
     "bash": {
@@ -317,7 +317,7 @@
     "comfort": 1,
     "floor_bedding_warmth": 0,
     "required_str": 7,
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT", "CAN_SIT", "ALIGN_WORKBENCH" ],
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "CAN_SIT", "ALIGN_WORKBENCH" ],
     "bash": {
       "str_min": 10,
       "str_max": 40,
@@ -788,6 +788,7 @@
     "description": "A circle of smooth glass pebbles.  Inside are frozen tendrils of fire, slightly translucent.  It seems colder as you approach.",
     "symbol": "#",
     "color": [ "dark_gray" ],
+    "flags": [ "TRANSPARENT", "SHARP", "PAINFUL" ],
     "move_cost_mod": 2,
     "required_str": -1,
     "bash": {
@@ -796,10 +797,8 @@
       "sound": "crash!",
       "sound_fail": "clink.",
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-    },
-    "flags": [ "TRANSPARENT", "SHARP", "PAINFUL" ]
     }
-  },
+    },
   {
     "type": "furniture",
     "id": "f_vitrified_floor_lamp",
