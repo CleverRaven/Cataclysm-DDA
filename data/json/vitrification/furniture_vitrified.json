@@ -268,7 +268,7 @@
     "id": "f_vitrified_dresser",
     "name": "black glass dresser",
     "symbol": "{",
-    "description": "A black glass cabinet with its doors slightly ajar. Inside is a row of hangers bearing neatly folded and entirely rigid clothing.",
+    "description": "A black glass cabinet with its doors slightly ajar.  Inside is a row of hangers bearing neatly folded and entirely rigid clothing.",
     "color": "dark_gray",
     "move_cost_mod": -1,
     "coverage": 70,
