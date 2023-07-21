@@ -117,7 +117,7 @@
       "damage": { "damage_type": "bullet", "amount": 0.85 },
       "dispersion": 1.1
     }
-  }
+  },
   {
     "id": "matchhead_38_special",
     "copy-from": "bp_38_special",
