@@ -205,7 +205,10 @@
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "effect_str": "cureall",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
+    "extra_effects": [
+      { "id": "vita_blood_purge_no_mutagens", "hit_self": true },
+      { "id": "psionic_drained_difficulty_seven", "hit_self": true }
+    ],
     "shape": "blast",
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
@@ -217,5 +220,53 @@
     "final_casting_time": 100,
     "casting_time_increment": -8,
     "learn_spells": { "vita_stop_bleeding": 4 }
+  },
+  {
+    "id": "vita_blood_purge_no_mutagens",
+    "type": "SPELL",
+    "name": "[Ψ]Blood Purge Remove Mutagens",
+    "description": "Blood purge's additional abiltiy to remove other substances contaminating your bloodstream.  It's a bug if you have it..",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_MUTAGEN_PURGE",
+    "shape": "blast"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_MUTAGEN_PURGE",
+    "effect": [
+      { "math": [ "u_val('vitamin', 'name: mutagen')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_alpha')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_batrachian')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_beast')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_bird')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_cattle')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_cephalopod')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_chelator')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_chimera')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_crustacean')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_elfa')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_feline')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_fish')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_gastropod')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_human')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_insect')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_lizard')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_lupine')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_medical')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_mouse')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_plant')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_rabbit')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_raptor')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_rat')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_slime')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_spider')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_troglobite')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_ursine')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagenic_slurry')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutant_toxin')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_crustacean')", "=", "0" ] }
+    ]
   }
 ]
