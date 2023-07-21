@@ -225,7 +225,7 @@
     "id": "vita_blood_purge_no_mutagens",
     "type": "SPELL",
     "name": "[Ψ]Blood Purge Remove Mutagens",
-    "description": "Blood purge's additional abiltiy to remove other substances contaminating your bloodstream.  It's a bug if you have it..",
+    "description": "Blood purge's additional ability to remove other substances contaminating your bloodstream.  It's a bug if you have it..",
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
     "effect": "effect_on_condition",

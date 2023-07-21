@@ -120,7 +120,7 @@
     ],
     "responses": [
       {
-        "text": "Hold still.  *Remove <npc_name>'s asthema*",
+        "text": "Hold still.  *Remove <npc_name>'s asthma*",
         "topic": "TALK_DONE",
         "condition": { "and": [ { "npc_has_trait": "ASTHMA" }, { "not": { "u_has_trait": "ASTHMA" } } ] },
         "effect": [
