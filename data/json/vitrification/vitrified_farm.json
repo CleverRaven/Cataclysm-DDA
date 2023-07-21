@@ -231,7 +231,6 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "vitrified_orchard",
-    "weight": 100,
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "fill_ter": "t_vitrified_dirt",
