@@ -13,7 +13,7 @@
     "material": [ { "type": "plastic", "portion": 17 }, { "type": "aluminum", "portion": 3 } ],
     "symbol": ";",
     "color": "light_gray",
-    "//": "Based on https://www.amazon.com/Amazon-Basics-Stapler-Capacity-Non-Slip/dp/B079ZV4V3C/ref=sr_1_5?crid=2ZKFCK28Z0F3E&keywords=stapler&qid=1684350703&sprefix=stapler%2Caps%2C284&sr=8-5&th=1"
+    "//": "Based on https://www.amazon.com/dp/B079ZV4V3C"
   },
   {
     "id": "office_holepunch",
