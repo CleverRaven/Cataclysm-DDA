@@ -537,9 +537,8 @@ bool mission::is_complete( const character_id &_npc_id ) const
                     if( here.has_items( p ) && here.accessible_items( p ) ) {
                         count_items( here.i_at( p ) );
                     }
-                    if( const std::optional<vpart_reference> vp =
-                            here.veh_at( p ).part_with_feature( "CARGO", true ) ) {
-                        count_items( vp->vehicle().get_items( vp->part_index() ) );
+                    if( const std::optional<vpart_reference> ovp = here.veh_at( p ).cargo() ) {
+                        count_items( ovp->items() );
                     }
                     if( found_quantity >= item_count ) {
                         break;

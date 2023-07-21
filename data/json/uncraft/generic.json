@@ -634,5 +634,13 @@
     "time": "1 s",
     "components": [ [ [ "ceramic_shard", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "casserole",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "ceramic_shard", 9 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

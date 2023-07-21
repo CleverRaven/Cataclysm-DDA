@@ -75,7 +75,6 @@
       { "item": "gartersheath1", "prob": 25 },
       { "item": "gartersheath2", "prob": 10 },
       { "item": "eyepatch_leather", "prob": 20 },
-      { "item": "suitcase_m", "prob": 4 },
       { "item": "hakama", "prob": 1 }
     ]
   },

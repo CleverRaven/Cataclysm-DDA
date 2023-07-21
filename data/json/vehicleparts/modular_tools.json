@@ -126,7 +126,8 @@
       "vac_mold",
       "vac_sealer",
       "water_purifier",
-      "wire_draw_machine"
+      "wire_draw_machine",
+      "casserole"
     ],
     "item": "veh_tools_abstract",
     "location": "center",

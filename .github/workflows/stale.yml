@@ -2,7 +2,7 @@ name: 'Stale issue handler'
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '30 * * * *'
 permissions:
   issues: write
   pull-requests: write
@@ -24,7 +24,7 @@ jobs:
           days-before-close: 30
           start-date: '2020-05-07'
           ascending: ${{ contains(fromJson('["01", "03", "05", "07", "09", "11"]'), env.time) }}
-          operations-per-run: 250
+          operations-per-run: 110
           exempt-issue-labels: 'Accessibility,<Bug>,<Bugfix>,<Crash / Freeze>,Organization: Bounty,Good First Issue,Help Wanted,(P1 - Critical),(P2 - High),(P3 - Medium),(P4 - Low),(P5 - Long-term),(S2 - Confirmed),0.G String Freeze,0.G Feature Freeze,0.G Content Freeze'
           exempt-pr-labels: '<Bug>,<Bugfix>,<Crash / Freeze>,Organization: Bounty,Good First Issue,(P1 - Critical),(P2 - High),(P3 - Medium),(P4 - Low),(P5 - Long-term),(S2 - Confirmed),0.G String Freeze,0.G Feature Freeze,0.G Content Freeze'
           exempt-all-milestones: true

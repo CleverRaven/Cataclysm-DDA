@@ -504,17 +504,17 @@ void veh_app_interact::remove()
         msg += reqs.list_missing();
     }
 
-    int time = vpinfo.removal_time( you );
+    time_duration time = vpinfo.removal_time( you );
     if( you.has_trait( trait_DEBUG_HS ) ) {
         can_remove = true;
-        time = 1;
+        time = 1_seconds;
     }
 
     if( !can_remove ) {
         popup( msg );
         //~ Prompt the player if they want to remove the appliance. %s = appliance name.
     } else if( query_yn( _( "Are you sure you want to take down the %s?" ), veh->name ) ) {
-        act = player_activity( ACT_VEHICLE, time, static_cast<int>( 'O' ) );
+        act = player_activity( ACT_VEHICLE, to_moves<int>( time ), static_cast<int>( 'O' ) );
         act.str_values.push_back( vpinfo.id.str() );
         const point q = veh->coord_translate( vp.mount );
         map &here = get_map();

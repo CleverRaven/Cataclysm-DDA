@@ -1,0 +1,233 @@
+[
+  {
+    "id": "TALK_STOLE_ITEM",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Telepathy Check] What are you talking about?  This is mine.",
+        "condition": { "u_has_trait": "TELEPATH" },
+        "switch": true,
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "and": [
+              {
+                "roll_contested": { "math": [ "u_val('spell_level', 'school: TELEPATH')" ] },
+                "difficulty": { "math": [ "n_val('intelligence')" ] },
+                "die_size": 5
+              },
+              { "math": [ "telepathically_stole_recently", "<=", "15" ] }
+            ]
+          }
+        },
+        "success": { "topic": "TALK_TELEPATHY_ALLOW_KEEP_ITEM" },
+        "failure": { "topic": "TALK_DISALLOW_KEEP_ITEM" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_TELEPATHY_ALLOW_KEEP_ITEM",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Oh, I…I don't know what I was thinking.  I…sorry.",
+      "It is?  Oh, it…it is.  Right.  Right.",
+      "I…I thought that…never mind.",
+      "But you…no, I thought…I just…",
+      "What?  But that's…we've had…how did you…"
+    ],
+    "responses": [
+      {
+        "text": "That's right.",
+        "topic": "TALK_DONE",
+        "effect": [ "remove_stolen_status", { "math": [ "telepathically_stole_recently", "+=", "rand(5)" ] } ]
+      }
+    ]
+  },
+  {
+    "id": "TALK_MUG_TELEKINESIS_USED",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_male": [
+        "*'s weapon flies out of his hands.\n\n\"<swear> <name_b>!  You some kind of witch?",
+        "*'s weapon flies out of his hands and he lets out a startled yelp."
+      ],
+      "no": [
+        "*'s weapon flies out of her hands.\n\n\"<swear> <name_b>!  You some kind of witch?",
+        "*'s weapon flies out of her hands and she lets out a startled yelp."
+      ]
+    },
+    "responses": [
+      {
+        "text": "Get out of here before I do worse.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 10, "mod": [ [ "FEAR", 3 ] ] },
+        "success": { "topic": "TALK_DONE", "effect": "flee" },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_MUG", "TALK_STRANGER_AGGRESSIVE" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Telekinesis Check] *Try to rip their weapon out of their hands*.",
+        "condition": { "u_has_trait": "TELEKINETIC" },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "roll_contested": { "math": [ "u_val('spell_level', 'school: TELEKINETIC')" ] },
+            "difficulty": { "math": [ "n_val('strength')" ] },
+            "die_size": 5
+          }
+        },
+        "success": { "topic": "TALK_MUG_TELEKINESIS_USED", "effect": "drop_weapon", "opinion": { "fear": 3 } },
+        "failure": { "topic": "TALK_DONE", "effect": [ "hostile", { "u_message": "Your telekinesis attempt failed!", "type": "bad" } ] }
+      },
+      {
+        "text": "[Brilliant Flash Check] *blind <npc_name>*",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: pyrokinetic_flash')", ">=", "1" ] },
+            { "not": { "npc_has_worn_with_flag": "FLASH_PROTECTION" } }
+          ]
+        },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "roll_contested": { "math": [ "u_val('spell_level', 'spell: pyrokinetic_flash')" ] },
+            "difficulty": { "math": [ "n_val('perception')" ] },
+            "die_size": 10
+          }
+        },
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": [ "hostile", { "npc_add_effect": "blind", "duration": "10 s" }, { "npc_add_effect": "stunned", "duration": "2 s" } ]
+        },
+        "failure": {
+          "topic": "TALK_DONE",
+          "effect": [ "hostile", { "u_message": "<npc_name> looks away as the air erupts in a burst of light!", "type": "bad" } ]
+        }
+      },
+      {
+        "text": "[Mood Stablization Check] You don't want to hurt me.",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: telepathic_morale')", ">=", "1" ] },
+            { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } }
+          ]
+        },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "roll_contested": { "math": [ "u_val('spell_level', 'spell: telepathic_morale')" ] },
+            "difficulty": { "math": [ "n_val('intelligence')" ] },
+            "die_size": 10
+          }
+        },
+        "success": { "topic": "TALK_STRANGER_NEUTRAL", "effect": "stranger_neutral", "opinion": { "trust": 3, "fear": -1 } },
+        "failure": { "topic": "TALK_DONE", "effect": [ "hostile", { "u_message": "Your telepathy attempt failed!", "type": "bad" } ] }
+      },
+      {
+        "text": "[Sensory Deprivation Check] *Shut off <npc_name>'s senses*.",
+        "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_confusion')", ">=", "1" ] },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "roll_contested": { "math": [ "u_val('spell_level', 'spell: telepathic_confusion')" ] },
+            "difficulty": { "math": [ "n_val('perception')" ] },
+            "die_size": 10
+          }
+        },
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": [
+            "hostile",
+            { "npc_add_effect": "blind", "duration": "10 s" },
+            { "npc_add_effect": "deaf", "duration": "10 s", "intensity": 3 }
+          ]
+        },
+        "failure": {
+          "topic": "TALK_DONE",
+          "effect": [ "hostile", { "u_message": "You failed to affect <npc_name>'s senses!", "type": "bad" } ]
+        }
+      },
+      {
+        "text": "[Synaptic Overload Check] *Attack <npc_name>'s mind*.",
+        "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_blast')", ">=", "1" ] },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "roll_contested": { "math": [ "u_val('spell_level', 'spell: telepathic_blast')" ] },
+            "difficulty": { "math": [ "n_val('intelligence')" ] },
+            "die_size": 10
+          }
+        },
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": [
+            "hostile",
+            {
+              "npc_set_hp": { "math": [ "(80 - (6 * (u_val('spell_level', 'spell: telepathic_blast'))))" ] },
+              "target_part": "head"
+            },
+            { "npc_add_effect": "stunned", "duration": "2 s" }
+          ]
+        },
+        "failure": {
+          "topic": "TALK_DONE",
+          "effect": [ "hostile", { "u_message": "<npc_name> repelled your attack on their mind!", "type": "bad" } ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "TALK_STRANGER_SCARED",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Mood Stablization Check] I'm not going to hurt you.",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: telepathic_morale')", ">=", "1" ] },
+            { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } }
+          ]
+        },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "roll_contested": { "math": [ "u_val('spell_level', 'spell: telepathic_morale')" ] },
+            "difficulty": { "math": [ "n_val('intelligence')" ] },
+            "die_size": 10
+          }
+        },
+        "success": { "topic": "TALK_STRANGER_NEUTRAL", "effect": "stranger_neutral", "opinion": { "trust": 3, "fear": -1 } },
+        "failure": { "topic": "TALK_DONE", "effect": [ "flee", { "u_message": "Your telepathy attempt failed!", "type": "bad" } ] }
+      }
+    ]
+  },
+  {
+    "id": "TALK_STRANGER_WARY",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Mood Stablization Check] I'm not going to hurt you.",
+        "condition": {
+          "and": [
+            { "math": [ "u_val('spell_level', 'spell: telepathic_morale')", ">=", "1" ] },
+            { "not": { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" } }
+          ]
+        },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "roll_contested": { "math": [ "u_val('spell_level', 'spell: telepathic_morale')" ] },
+            "difficulty": { "math": [ "n_val('intelligence')" ] },
+            "die_size": 10
+          }
+        },
+        "success": { "topic": "TALK_STRANGER_NEUTRAL", "effect": "stranger_neutral", "opinion": { "trust": 3, "fear": -1 } },
+        "failure": { "topic": "TALK_DONE", "effect": [ "flee", { "u_message": "Your telepathy attempt failed!", "type": "bad" } ] }
+      }
+    ]
+  }
+]
