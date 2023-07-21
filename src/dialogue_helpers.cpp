@@ -103,6 +103,35 @@ std::string str_or_var::evaluate( dialogue const &d ) const
     return "";
 }
 
+std::string translation_or_var::evaluate( dialogue const &d ) const
+{
+    if( function.has_value() ) {
+        return function.value()( d );
+    }
+    if( str_val.has_value() ) {
+        return str_val.value().translated();
+    }
+    if( var_val.has_value() ) {
+        std::string val = read_var_value( var_val.value(), d );
+        if( !val.empty() ) {
+            return val;
+        }
+        if( default_val.has_value() ) {
+            return default_val.value().translated();
+        }
+        std::string var_name = var_val.value().name;
+        if( var_name.find( "npctalk_var" ) != std::string::npos ) {
+            var_name = var_name.substr( 12 );
+        }
+        debugmsg( "No default value provided for str_or_var_part while encountering unused "
+                  "variable %s.  Add a \"default_str\" member to prevent this.  %s",
+                  var_name, d.get_callstack() );
+        return "";
+    }
+    debugmsg( "No valid value for str_or_var_part.  %s", d.get_callstack() );
+    return "";
+}
+
 double dbl_or_var_part::evaluate( dialogue &d ) const
 {
     if( dbl_val.has_value() ) {

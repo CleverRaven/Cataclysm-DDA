@@ -243,6 +243,30 @@ str_or_var get_str_or_var( const JsonValue &jv, const std::string &member, bool 
     return ret_val;
 }
 
+translation_or_var get_translation_or_var( const JsonValue &jv, const std::string &member,
+        bool required, const translation &default_val )
+{
+    translation_or_var ret_val;
+    translation str_val;
+    if( jv.read( str_val ) ) {
+        ret_val.str_val = str_val;
+    } else if( jv.test_object() ) {
+        const JsonObject &jo = jv.get_object();
+        if( jo.has_member( "mutator" ) ) {
+            // if we have a mutator then process that here.
+            ret_val.function = conditional_t::get_get_string( jo );
+        } else {
+            ret_val.var_val = read_var_info( jo );
+            ret_val.default_val = default_val;
+        }
+    } else if( required ) {
+        jv.throw_error( "No valid value for " + member );
+    } else {
+        ret_val.str_val = default_val;
+    }
+    return ret_val;
+}
+
 tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue const &d )
 {
     tripoint_abs_ms target_pos = get_map().getglobal( d.actor( false )->pos() );
@@ -1269,12 +1293,12 @@ void conditional_t::set_one_in_chance( const JsonObject &jo, const std::string &
 
 void conditional_t::set_query( const JsonObject &jo, const std::string &member, bool is_npc )
 {
-    str_or_var message = get_str_or_var( jo.get_member( member ), member, true );
+    translation_or_var message = get_translation_or_var( jo.get_member( member ), member, true );
     bool default_val = jo.get_bool( "default" );
     condition = [message, default_val, is_npc]( dialogue const & d ) {
         const talker *actor = d.actor( is_npc );
         if( actor->get_character() && actor->get_character()->is_avatar() ) {
-            std::string translated_message = _( message.evaluate( d ) );
+            std::string translated_message = message.evaluate( d );
             return query_yn( translated_message );
         } else {
             return default_val;
