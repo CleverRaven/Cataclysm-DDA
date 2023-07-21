@@ -574,7 +574,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" }, { "proficiency": "prof_bladesmith" } ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ], [ [ "casting_mold", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "casting_mold", -1 ] ] ],
     "components": [
       [ [ "cordage_short", 2, "LIST" ] ],
       [ [ "scrap_bronze", 2 ] ],
