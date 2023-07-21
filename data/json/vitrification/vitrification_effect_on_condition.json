@@ -11,7 +11,7 @@
     },
     "effect": [
       {
-        "u_message": "There is a strange, sonorous tone filling the air, like wind over brittle ice.  It sets your teeth on edge.",
+        "u_message": "There is a soft, sonorous tone filling the air, like wind over brittle ice.  It sets your teeth on edge.",
         "type": "neutral",
         "popup": true
       },
@@ -210,7 +210,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_vitrified_farm_explore",
-    "recurrence": 40,
+    "recurrence": "45 seconds",
     "condition": { "u_has_effect": "VITRIFYING" },
     "effect": [
       {
@@ -351,7 +351,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_vitrified_int_drain",
-    "eoc_type": "ACTIVATION",
     "condition": { "and": [ { "x_in_y_chance": { "x": 1, "y": 2 } }, { "math": [ "u_vitri_glassed", ">=", "5" ] } ] },
     "effect": [
       { "math": [ "u_vitri_vitrified", "++" ] },
