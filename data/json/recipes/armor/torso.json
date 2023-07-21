@@ -1171,7 +1171,7 @@
     "difficulty": 5,
     "time": "5 h 15 m",
     "autolearn": true,
-    "using": [ [ "tailoring_kevlar_fabric", 30 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 30 ], [ "armor_kevlar_layered", 2 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "combat_shirt", 1 ] ],
@@ -1195,7 +1195,7 @@
     "type": "recipe",
     "copy-from": "lsurvivor_armor",
     "time": "7 h 45 m",
-    "using": [ [ "tailoring_kevlar_fabric", 50 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 50 ], [ "armor_kevlar_layered", 4 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "combat_shirt", 2 ] ],
@@ -1219,7 +1219,7 @@
     "type": "recipe",
     "copy-from": "lsurvivor_armor",
     "time": "4 h 5 m",
-    "using": [ [ "tailoring_kevlar_fabric", 24 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 24 ], [ "armor_kevlar_layered", 2 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "combat_shirt", 1 ] ],
