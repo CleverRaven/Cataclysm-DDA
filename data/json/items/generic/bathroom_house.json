@@ -1,6 +1,6 @@
 [
   {
-    "id": "base_toiletries",
+    "abstract": "base_toiletries",
     "name": { "str": "generic grooming" },
     "type": "GENERIC",
     "description": "generic item template",
@@ -20,7 +20,12 @@
     "type": "GENERIC",
     "description": "A shallow dish for holding a bar of soap.  It has ridges to help drain water away from the dish.  Not the most exciting of items.",
     "symbol": "-",
-    "copy-from": "base_toiletries"
+    "weight": "65 g",
+    "volume": "221 ml",
+    "longest_side": "13 cm",
+    "price": 250,
+    "copy-from": "base_toiletries",
+    "//": "Based on https://www.amazon.com/dp/B09QGPWJPX"
   },
   {
     "id": "razor_shaving",
