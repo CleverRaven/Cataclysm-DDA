@@ -6,7 +6,42 @@
     "object": {
       "rotation": [ 2, 2 ],
       "fallback_predecessor_mapgen": "field",
-      "//": "Replace check with an OR check for any adjacent sidewalk and rotate 180 degrees.",
+      "//": "Checks if any sidewalk adjacent, needs rotating 180 degrees.",
+      "place_nested": [
+        {
+          "chunks": [ [ "24x24_road_end_cul_de_sac", 1 ], [ "24x24_road_end_straight", 2 ] ],
+          "x": 0,
+          "y": 0,
+          "flags": { "north": [ "SIDEWALK" ] }
+        },
+        { "else_chunks": [ "road_end_second_pass" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK" ] } }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "road_end_second_pass",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        {
+          "chunks": [ [ "24x24_road_end_cul_de_sac", 1 ], [ "24x24_road_end_straight", 2 ] ],
+          "x": 0,
+          "y": 0,
+          "flags": { "north_east": [ "SIDEWALK" ] }
+        },
+        { "else_chunks": [ "road_end_third_pass" ], "x": 0, "y": 0, "flags": { "north_east": [ "SIDEWALK" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "road_end_third_pass",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "place_nested": [
         {
           "chunks": [ [ "24x24_road_end_cul_de_sac", 1 ], [ "24x24_road_end_straight", 2 ] ],
@@ -14,9 +49,93 @@
           "y": 0,
           "flags": { "east": [ "SIDEWALK" ] }
         },
-        { "else_chunks": [ "24x24_road_end_straight" ], "x": 0, "y": 0, "flags": { "east": [ "SIDEWALK" ] } }
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+        { "else_chunks": [ "road_end_forth_pass" ], "x": 0, "y": 0, "flags": { "east": [ "SIDEWALK" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "road_end_forth_pass",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        {
+          "chunks": [ [ "24x24_road_end_cul_de_sac", 1 ], [ "24x24_road_end_straight", 2 ] ],
+          "x": 0,
+          "y": 0,
+          "flags": { "south_east": [ "SIDEWALK" ] }
+        },
+        { "else_chunks": [ "road_end_fifth_pass" ], "x": 0, "y": 0, "flags": { "south_east": [ "SIDEWALK" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "road_end_fifth_pass",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        {
+          "chunks": [ [ "24x24_road_end_cul_de_sac", 1 ], [ "24x24_road_end_straight", 2 ] ],
+          "x": 0,
+          "y": 0,
+          "flags": { "south": [ "SIDEWALK" ] }
+        },
+        { "else_chunks": [ "road_end_sixth_pass" ], "x": 0, "y": 0, "flags": { "south": [ "SIDEWALK" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "road_end_sixth_pass",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        {
+          "chunks": [ [ "24x24_road_end_cul_de_sac", 1 ], [ "24x24_road_end_straight", 2 ] ],
+          "x": 0,
+          "y": 0,
+          "flags": { "south_west": [ "SIDEWALK" ] }
+        },
+        { "else_chunks": [ "road_end_seventh_pass" ], "x": 0, "y": 0, "flags": { "south_west": [ "SIDEWALK" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "road_end_seventh_pass",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        {
+          "chunks": [ [ "24x24_road_end_cul_de_sac", 1 ], [ "24x24_road_end_straight", 2 ] ],
+          "x": 0,
+          "y": 0,
+          "flags": { "west": [ "SIDEWALK" ] }
+        },
+        { "else_chunks": [ "road_end_eighth_pass" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "road_end_eighth_pass",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        {
+          "chunks": [ [ "24x24_road_end_cul_de_sac", 1 ], [ "24x24_road_end_straight", 2 ] ],
+          "x": 0,
+          "y": 0,
+          "flags": { "north_west": [ "SIDEWALK" ] }
+        },
+        { "else_chunks": [ "24x24_road_end_straight" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } }
+      ]
     }
   },
   {
