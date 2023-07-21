@@ -5204,7 +5204,18 @@
     "vehicle": "ambulance",
     "items": {
       "both": {
-        "items": [ "technician_shirt_gray", "pants", "socks", "gloves_medical", "multitool", "wristwatch", "boots", { "item": "asprin", "count": 5 }, "adrenaline_injector", { "item": "adhesive_bandages", "count": 8 } ],
+        "items": [
+          "technician_shirt_gray",
+          "pants",
+          "socks",
+          "gloves_medical",
+          "multitool",
+          "wristwatch",
+          "boots",
+          { "item": "asprin", "count": 5 },
+          "adrenaline_injector",
+          { "item": "adhesive_bandages", "count": 8 }
+        ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
       "male": [ "boxer_shorts" ],
