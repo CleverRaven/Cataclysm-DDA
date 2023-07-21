@@ -1217,7 +1217,7 @@
           "str": "Jewish Literacy: The Most Important Things to Know About the Jewish Religion, Its People and Its History",
           "str_pl": "copies of Jewish Literacy: The Most Important Things to Know About the Jewish Religion, Its People and Its History"
         },
-        "description": "Rabbi Joseph Telushkin's encyclopediac tome of Jewish life, running to hundreds of chapters and answering questions about the Hebrew bible, the Talmud, the holidays and rituals, the Holocaust, Israel and the diaspora, and everything in between.",
+        "description": "Rabbi Joseph Telushkin's encyclopedic tome of Jewish life, running to hundreds of chapters and answering questions about the Hebrew bible, the Talmud, the holidays and rituals, the Holocaust, Israel and the diaspora, and everything in between.",
         "weight": 1
       },
       {
@@ -1357,7 +1357,7 @@
       {
         "id": "book_judaica_softcover_3",
         "name": { "str": "Living a Jewish Life", "str_pl": "copies of Living a Jewish Life" },
-        "description": "Anita Diamant's survey-level discussion of the daily practices and rituals of Jewish life.  Originally mostly superceded by the free availability of information on the internet, it's much more useful now for everyone who feels bad that they didn't attend their synagogue often enough before it was overrun.",
+        "description": "Anita Diamant's survey-level discussion of the daily practices and rituals of Jewish life.  Originally mostly superseded by the free availability of information on the internet, it's much more useful now for everyone who feels bad that they didn't attend their synagogue often enough before it was overrun.",
         "weight": 1
       },
       {
