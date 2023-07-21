@@ -36,8 +36,8 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "stream_palette" ],
       "place_monster": [
-        { "group": "GROUP_FOREST", "x": 10, "y": 10, "pack_size": [ 1, 6 ], "chance": 10 },
-        { "group": "GROUP_DOMESTIC", "x": 10, "y": 10, "pack_size": [ 1, 2 ], "chance": 0.7 }
+        { "group": "GROUP_FOREST", "x": 10, "y": 10, "pack_size": [ 1, 6 ], "chance": 25 },
+        { "group": "GROUP_DOMESTIC", "x": 10, "y": 10, "pack_size": [ 1, 2 ], "chance": 3 }
       ]
     }
   },
@@ -78,8 +78,8 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "stream_palette" ],
       "place_monster": [
-        { "group": "GROUP_FOREST", "x": 10, "y": 10, "pack_size": [ 1, 6 ], "chance": 10 },
-        { "group": "GROUP_DOMESTIC", "x": 10, "y": 10, "pack_size": [ 1, 2 ], "chance": 0.7 }
+        { "group": "GROUP_FOREST", "x": 10, "y": 10, "pack_size": [ 1, 6 ], "chance": 25 },
+        { "group": "GROUP_DOMESTIC", "x": 10, "y": 10, "pack_size": [ 1, 2 ], "chance": 3 }
       ]
     }
   },
@@ -163,8 +163,8 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "stream_palette" ],
       "place_monster": [
-        { "group": "GROUP_FOREST", "x": 10, "y": 10, "pack_size": [ 1, 6 ], "chance": 10 },
-        { "group": "GROUP_DOMESTIC", "x": 10, "y": 10, "pack_size": [ 1, 2 ], "chance": 0.7 }
+        { "group": "GROUP_FOREST", "x": 10, "y": 10, "pack_size": [ 1, 6 ], "chance": 25 },
+        { "group": "GROUP_DOMESTIC", "x": 10, "y": 10, "pack_size": [ 1, 2 ], "chance": 3 }
       ]
     }
   },
@@ -205,8 +205,8 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "stream_palette" ],
       "place_monster": [
-        { "group": "GROUP_FOREST", "x": 10, "y": 10, "pack_size": [ 1, 6 ], "chance": 10 },
-        { "group": "GROUP_DOMESTIC", "x": 10, "y": 10, "pack_size": [ 1, 2 ], "chance": 0.7 }
+        { "group": "GROUP_FOREST", "x": 10, "y": 10, "pack_size": [ 1, 6 ], "chance": 25 },
+        { "group": "GROUP_DOMESTIC", "x": 10, "y": 10, "pack_size": [ 1, 2 ], "chance": 3 }
       ]
     }
   },
@@ -247,8 +247,8 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "stream_palette" ],
       "place_monster": [
-        { "group": "GROUP_FOREST", "x": 10, "y": 10, "pack_size": [ 1, 6 ], "chance": 10 },
-        { "group": "GROUP_DOMESTIC", "x": 10, "y": 10, "pack_size": [ 1, 2 ], "chance": 0.3 }
+        { "group": "GROUP_FOREST", "x": 10, "y": 10, "pack_size": [ 1, 6 ], "chance": 25 },
+        { "group": "GROUP_DOMESTIC", "x": 10, "y": 10, "pack_size": [ 1, 2 ], "chance": 3 }
       ]
     }
   }
