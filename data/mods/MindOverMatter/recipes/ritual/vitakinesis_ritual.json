@@ -20,6 +20,8 @@
               "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA",
               "EOC_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE",
               "EOC_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC",
+              "EOC_VITAKIN_BANISH_ILLNESS_JITTERY",
+              "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS",
               "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING",
               "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC"
             ],
@@ -27,14 +29,18 @@
               "Purge Asthma",
               "Purge Chemical Imbalance",
               "Purge Kaluptic Psychosis",
+              "Purge Jitters",
+              "Purge Mood Swings",
               "Purge Wasting Sickness",
-              "Purge NARCOLEPTIC"
+              "Purge Narcolepsy"
             ],
-            "keys": [ "1", "2", "3", "4", "5" ],
+            "keys": [ "1", "2", "3", "4", "5", "6", "7" ],
             "descriptions": [
               "Attempt to cure your asthma.",
               "Attempt to cure your chemical imbalance.",
               "Attempt to cure your kaluptic psychosis",
+              "Attempt to cure your jitters",
+              "Attempt to cure your mood swings",
               "Attempt to cure your weakening sickness",
               "Attempt to cure your narcolepsy.  This meditation is extremely intensive, and is correspondingly more draining."
             ]
@@ -48,7 +54,7 @@
     "id": "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA",
     "condition": { "u_has_trait": "ASTHMA" },
     "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_ASTHMA", "duration": "360 minutes" } ],
-    "false_effect": [ { "u_message": "You don't have asthma.  There is no need to attemp to cure it.", "type": "mixed" } ]
+    "false_effect": [ { "u_message": "You don't have asthma.  There is no need to attempt to cure it.", "type": "mixed" } ]
   },
   {
     "id": "ACT_VITAKIN_BANISH_ILLNESS_ASTHMA",
@@ -82,7 +88,7 @@
     "id": "EOC_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE",
     "condition": { "u_has_trait": "CHEMIMBALANCE" },
     "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE", "duration": "480 minutes" } ],
-    "false_effect": [ { "u_message": "You don't have a chemical imbalance.  There is no need to attemp to cure it.", "type": "mixed" } ]
+    "false_effect": [ { "u_message": "You don't have a chemical imbalance.  There is no need to attempt to cure it.", "type": "mixed" } ]
   },
   {
     "id": "ACT_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE",
@@ -96,12 +102,10 @@
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE_RESULT",
     "condition": {
-      "condition": {
-        "roll_contested": {
-          "math": [ "rng( u_val('spell_level', 'spell: vita_blood_purge'), u_val('spell_level', 'spell: vita_healing_trance'))" ]
-        },
-        "difficulty": 14
-      }
+      "roll_contested": {
+        "math": [ "rng( u_val('spell_level', 'spell: vita_blood_purge'), u_val('spell_level', 'spell: vita_healing_trance'))" ]
+      },
+      "difficulty": 14
     },
     "effect": [
       { "u_message": "You body feels more normal.", "type": "good" },
@@ -118,7 +122,7 @@
     "id": "EOC_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC",
     "condition": { "u_has_trait": "SCHIZOPHRENIC" },
     "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC", "duration": "600 minutes" } ],
-    "false_effect": [ { "u_message": "You don't have kaluptic psychosis.  There is no need to attemp to cure it.", "type": "mixed" } ]
+    "false_effect": [ { "u_message": "You don't have kaluptic psychosis.  There is no need to attempt to cure it.", "type": "mixed" } ]
   },
   {
     "id": "ACT_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC",
@@ -132,12 +136,10 @@
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC_RESULT",
     "condition": {
-      "condition": {
-        "roll_contested": {
-          "math": [ "rng( u_val('spell_level', 'spell: vita_blood_purge'), u_val('spell_level', 'spell: vita_healing_trance'))" ]
-        },
-        "difficulty": 16
-      }
+      "roll_contested": {
+        "math": [ "rng( u_val('spell_level', 'spell: vita_blood_purge'), u_val('spell_level', 'spell: vita_healing_trance'))" ]
+      },
+      "difficulty": 16
     },
     "effect": [
       { "u_message": "You mind feels more normal.", "type": "good" },
@@ -151,10 +153,78 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_JITTERY",
+    "condition": { "u_has_trait": "JITTERY" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_JITTERY", "duration": "300 minutes" } ],
+    "false_effect": [ { "u_message": "You don't have muscle jitters.  There is no need to attempt to cure it.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_JITTERY",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_JITTERY_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_JITTERY_RESULT",
+    "condition": {
+      "roll_contested": {
+        "math": [ "rng( u_val('spell_level', 'spell: vita_blood_purge'), u_val('spell_level', 'spell: vita_healing_trance'))" ]
+      },
+      "difficulty": 12
+    },
+    "effect": [
+      { "u_message": "You muscles stop trembling.", "type": "good" },
+      { "u_lose_trait": "JITTERY" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS",
+    "condition": { "u_has_trait": "MOODSWINGS" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_MOODSWINGS", "duration": "420 minutes" } ],
+    "false_effect": [ { "u_message": "You don't have mood swings.  There is no need to attempt to cure it.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_MOODSWINGS",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS_RESULT",
+    "condition": {
+      "roll_contested": {
+        "math": [ "rng( u_val('spell_level', 'spell: vita_blood_purge'), u_val('spell_level', 'spell: vita_healing_trance'))" ]
+      },
+      "difficulty": 15
+    },
+    "effect": [
+      { "u_message": "You mood calms.", "type": "good" },
+      { "u_lose_trait": "MOODSWINGS" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING",
     "condition": { "u_has_trait": "WEAKENING" },
     "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_WEAKENING", "duration": "480 minutes" } ],
-    "false_effect": [ { "u_message": "You don't have a weakening sickness.  There is no need to attemp to cure it.", "type": "mixed" } ]
+    "false_effect": [ { "u_message": "You don't have a weakening sickness.  There is no need to attempt to cure it.", "type": "mixed" } ]
   },
   {
     "id": "ACT_VITAKIN_BANISH_ILLNESS_WEAKENING",
@@ -168,12 +238,10 @@
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING_RESULT",
     "condition": {
-      "condition": {
-        "roll_contested": {
-          "math": [ "rng( u_val('spell_level', 'spell: vita_blood_purge'), u_val('spell_level', 'spell: vita_healing_trance'))" ]
-        },
-        "difficulty": 15
-      }
+      "roll_contested": {
+        "math": [ "rng( u_val('spell_level', 'spell: vita_blood_purge'), u_val('spell_level', 'spell: vita_healing_trance'))" ]
+      },
+      "difficulty": 15
     },
     "effect": [
       { "u_message": "New vigor fills your body.", "type": "good" },
@@ -190,7 +258,7 @@
     "id": "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC",
     "condition": { "u_has_trait": "NARCOLEPTIC" },
     "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC", "duration": "120 minutes" } ],
-    "false_effect": [ { "u_message": "You don't have narcolepsy.  There is no need to attemp to cure it.", "type": "mixed" } ]
+    "false_effect": [ { "u_message": "You don't have narcolepsy.  There is no need to attempt to cure it.", "type": "mixed" } ]
   },
   {
     "id": "ACT_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC",
@@ -204,12 +272,10 @@
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC_RESULT",
     "condition": {
-      "condition": {
-        "roll_contested": {
-          "math": [ "rng( u_val('spell_level', 'spell: vita_blood_purge'), u_val('spell_level', 'spell: vita_healing_trance'))" ]
-        },
-        "difficulty": 13
-      }
+      "roll_contested": {
+        "math": [ "rng( u_val('spell_level', 'spell: vita_blood_purge'), u_val('spell_level', 'spell: vita_healing_trance'))" ]
+      },
+      "difficulty": 13
     },
     "effect": [
       { "u_message": "New vigor fills your body.", "type": "good" },
