@@ -1139,7 +1139,7 @@
     "id": "book_judaica_siddur",
     "type": "BOOK",
     "name": { "str": "Siddur" },
-    "description": "A Siddur, or prayerbook, contains the set order of prayers for Jewish religion services.  This one is comprehensive, divided into morning, afternoon, and evening prayers for both weekdays and Shabbat, along with separate sections for minor and major holidays.",
+    "description": "A Siddur, or prayerbook, contains the set order of prayers for Jewish religious services.  This one is comprehensive, divided into morning, afternoon, and evening prayers for both weekdays and Shabbat, along with separate sections for minor and major holidays.",
     "copy-from": "book_nonf_hard_phil_tpl",
     "fun": 1,
     "weight": "750 g",
