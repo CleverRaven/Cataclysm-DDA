@@ -1905,21 +1905,27 @@ class jmapgen_faction : public jmapgen_piece
  */
 class jmapgen_sign : public jmapgen_piece
 {
+    private:
+        furn_id sign_furniture;
     public:
         translation signage;
         std::string snippet;
         jmapgen_sign( const JsonObject &jsi, const std::string_view/*context*/ ) :
             snippet( jsi.get_string( "snippet", "" ) ) {
             jsi.read( "signage", signage );
+            optional( jsi, false, "furniture", sign_furniture, furn_f_sign );
             if( signage.empty() && snippet.empty() ) {
                 jsi.throw_error( "jmapgen_sign: needs either signage or snippet" );
+            }
+            if ( !sign_furniture->has_flag( ( ter_furn_flag::TFLAG_SIGN ) ) ) {
+                jsi.throw_error( "jmapgen_sign: specified furniture needs SIGN flag" );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             const point r( x.get(), y.get() );
             dat.m.furn_set( r, f_null );
-            dat.m.furn_set( r, furn_f_sign );
+            dat.m.furn_set( r, sign_furniture );
 
             std::string signtext;
 
