@@ -162,8 +162,6 @@
       { "point": [ 0, 1, -1 ], "overmap": "cathedralv_b_SW_north" },
       { "point": [ 1, 1, -1 ], "overmap": "cathedralv_b_SE_north" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
-    "occurrences": [ 0, 2 ]
   },
   {
     "type": "overmap_special",

@@ -58,7 +58,6 @@
     "armor_bash": 2,
     "armor_cut": 5,
     "armor_cold": 12,
-    "melee_skill": 3,
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "harvest": "fae_furred",
