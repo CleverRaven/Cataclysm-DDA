@@ -194,7 +194,6 @@
     "price": 2000,
     "price_postapoc": 750,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "stone" ],
     "looks_like": "glass_tube_small",
     "symbol": "N",

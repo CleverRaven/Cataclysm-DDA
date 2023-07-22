@@ -163,8 +163,6 @@
       { "point": [ 1, 1, -1 ], "overmap": "cathedralv_b_SE_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
-    "city_distance": [ 5, -1 ],
-    "city_sizes": [ 10, -1 ],
     "occurrences": [ 0, 2 ]
   },
   {
