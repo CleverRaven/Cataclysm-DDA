@@ -776,15 +776,16 @@
     "color": "light_cyan",
     "move_cost_mod": 1,
     "required_str": 5,
-    "max_volume": "20 L",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
+    "max_volume": "40 L",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
     "bash": {
-      "str_min": 8,
-      "str_max": 30,
+      "str_min": 1,
+      "str_max": 1,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
-    }
+      "items": [ { "item": "trashcan", "count": 1, "damage": [ 2, 4 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "trashcan", "count": 1 } ] }
   },
   {
     "type": "furniture",
