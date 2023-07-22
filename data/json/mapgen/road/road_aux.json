@@ -203,12 +203,79 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "1x1_manhole",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "O" ], "palettes": [ "road_palette" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "24x24_road_trash",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "place_items": [ { "item": "road", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_road_corner_ne",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "...",
+        " ..",
+        "  ."
+      ],
+      "//": "No SIDEWALK bc shouldn't occur in cities",
+      "palettes": [ "road_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_road_corner_se",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  .",
+        " ..",
+        "..."
+      ],
+      "palettes": [ "road_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_road_corner_sw",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".  ",
+        ".. ",
+        "..."
+      ],
+      "palettes": [ "road_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_road_corner_nw",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "...",
+        ".. ",
+        ".  "
+      ],
+      "palettes": [ "road_palette" ]
     }
   }
 ]

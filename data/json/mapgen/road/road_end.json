@@ -182,6 +182,18 @@
         { "chunks": [ "24x24_sidewalk_end_straight" ], "x": 0, "y": 0, "flags": { "south_west": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_end_straight" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_ns_double" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } },
+        {
+          "chunks": [ "3x3_road_corner_ne" ],
+          "x": 1,
+          "y": 0,
+          "neighbors": { "north_west": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
+        },
+        {
+          "chunks": [ "3x3_road_corner_nw" ],
+          "x": 20,
+          "y": 0,
+          "neighbors": { "north_east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
+        },
         { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
