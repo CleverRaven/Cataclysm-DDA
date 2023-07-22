@@ -421,7 +421,18 @@
     "id": "ppe_gloves",
     "type": "requirement",
     "//": "Disposable or reusable gloves.",
-    "tools": [ [ [ "gloves_medical", -1 ], [ "gloves_rubber", -1 ], [ "entry_suit", -1 ], [ "hazmat_suit", -1 ] ] ]
+    "tools": [
+      [
+        [ "gloves_medical", -1 ],
+        [ "gloves_rubber", -1 ],
+        [ "entry_suit", -1 ],
+        [ "hazmat_suit", -1 ],
+        [ "phase_immersion_suit", -1 ],
+        [ "phase_immersion_suit_on", -1 ],
+        [ "rm13_armor", -1 ],
+        [ "rm13_armor_on", -1 ]
+      ]
+    ]
   },
   {
     "id": "ppe_eyes",
@@ -449,7 +460,11 @@
         [ "mask_wsurvivorxs", -1 ],
         [ "mask_wsurvivor_nofur", -1 ],
         [ "mask_wsurvivor_nofur_xs", -1 ],
-        [ "mask_wsurvivorxl_nofur", -1 ]
+        [ "mask_wsurvivorxl_nofur", -1 ],
+        [ "phase_immersion_suit", -1 ],
+        [ "phase_immersion_suit_on", -1 ],
+        [ "rm13_armor", -1 ],
+        [ "rm13_armor_on", -1 ]
       ]
     ]
   },
@@ -476,7 +491,11 @@
         [ "mask_wsurvivorxs", 1 ],
         [ "mask_wsurvivor_nofur", 1 ],
         [ "mask_wsurvivor_nofur_xs", 1 ],
-        [ "mask_wsurvivorxl_nofur", 1 ]
+        [ "mask_wsurvivorxl_nofur", 1 ],
+        [ "phase_immersion_suit", 1 ],
+        [ "phase_immersion_suit_on", 1 ],
+        [ "rm13_armor", 1 ],
+        [ "rm13_armor_on", 1 ]
       ]
     ]
   },
@@ -494,7 +513,11 @@
         [ "coat_rain", -1 ],
         [ "bunker_coat", -1 ],
         [ "entry_suit_xs", -1 ],
-        [ "xl_entry_suit", -1 ]
+        [ "xl_entry_suit", -1 ],
+        [ "phase_immersion_suit", -1 ],
+        [ "phase_immersion_suit_on", -1 ],
+        [ "rm13_armor", -1 ],
+        [ "rm13_armor_on", -1 ]
       ]
     ]
   }
