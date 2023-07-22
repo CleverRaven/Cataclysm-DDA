@@ -13273,13 +13273,10 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }
-        // invoking the object can convert the item to another type
-        const bool had_revert_to = type->revert_to.has_value();
-        type->invoke( carrier, *this, pos );
         if( carrier ) {
             carrier->add_msg_if_player( m_info, _( "The %s ran out of energy!" ), tname() );
         }
-        if( had_revert_to ) {
+        if( type->revert_to.has_value() ) {
             deactivate( carrier );
             return false;
         } else {
