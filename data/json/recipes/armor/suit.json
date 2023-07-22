@@ -3207,7 +3207,12 @@
     "difficulty": 8,
     "time": "47 d 12 h 28 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 120 ], [ "lc_steel_standard", 30 ], [ "tailoring_leather_patchwork", 3 ], [ "carbon", 5 ] ],
+    "using": [
+      [ "blacksmithing_standard", 120 ],
+      [ "lc_steel_standard", 30 ],
+      [ "tailoring_leather_patchwork", 3 ],
+      [ "carbon", 5 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.1, "skill_penalty": 0.15 },
