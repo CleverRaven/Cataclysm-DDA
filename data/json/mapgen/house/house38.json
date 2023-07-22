@@ -12,7 +12,7 @@
         "..#D d#$;$#$$$#~~~~~~#..",
         "..#D d#~~~~G::#~~~~~~#..",
         ".##|+|#*o##oo##~~~~~~#^.",
-        ".#BB'S|÷L| hhh#~~~~~~##.",
+        ".#BB'S| L| hhh#~~~~~~##.",
         ".oBB't|    fff#~~~~~~U#.",
         ".#BB'8|    hhh#~~~~~~~o.",
         ".#||+||       #q~~~~~No.",
@@ -32,7 +32,7 @@
         "........................"
       ],
       "palettes": [
-        "domestic_general_and_variant_palette",
+        "standard_domestic_palette",
         "standard_domestic_lino_kitchen",
         "standard_domestic_lino_bathroom",
         "standard_domestic_landscaping_palette"
@@ -54,9 +54,9 @@
       "furniture": { ":": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "place_loot": [
         { "item": "hose", "x": 19, "y": 20, "chance": 35 },
-        { "item": "lawnmower", "x": 22, "y": 8, "chance": 35 },
-        { "item": "television", "x": 15, "y": 16 },
-        { "item": "stereo", "x": 15, "y": 18, "chance": 35 }
+        { "item": "lawnmower", "x": 23, "y": 8, "chance": 35 },
+        { "item": "television", "x": 14, "y": 16 },
+        { "item": "stereo", "x": 14, "y": 18, "chance": 35 }
       ],
       "place_vehicles": [ { "vehicle": "car", "x": 19, "y": 5, "chance": 35, "rotation": 270 } ]
     }

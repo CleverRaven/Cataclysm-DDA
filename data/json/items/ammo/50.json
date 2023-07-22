@@ -20,7 +20,7 @@
     "price": 2200,
     "price_postapoc": 2500,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "brass", "powder" ],
+    "material": [ "steel", "brass", "lead", "powder" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 25,

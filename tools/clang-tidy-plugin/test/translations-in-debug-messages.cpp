@@ -1,88 +1,9 @@
-// RUN: %check_clang_tidy %s cata-translations-in-debug-messages %t -- --load=%cata_plugin -- -I %test_include
+// RUN: %check_clang_tidy -allow-stdinc %s cata-translations-in-debug-messages %t -- --load=%cata_plugin -- -I %cata_include -isystem %cata_include/third-party -DLOCALIZE
 
-#include "mock-translation.h"
-
-// dummy messages interface
-class time_duration;
-class tripoint;
-
-namespace debugmode
-{
-// Please try to keep this alphabetically sorted
-enum debug_filter : int {
-    DF_ACT_BUTCHER = 0, // butcher activity handler
-};
-}
-
-struct game_message_params;
-
-class Creature
-{
-    public:
-        void add_msg_debug_if_player( debugmode::debug_filter, const std::string & ) const;
-        void add_msg_debug_if_npc( debugmode::debug_filter, const std::string & ) const;
-};
-
-void add_msg_debug( debugmode::debug_filter type, std::string msg );
-template<typename ...Args>
-void add_msg_debug( debugmode::debug_filter type, const std::string &msg, Args &&... args );
-template<typename ...Args>
-void add_msg_debug( debugmode::debug_filter type, const char *const msg, Args &&... args );
-
-void add_msg_if_player_sees( const tripoint &target, std::string msg );
-void add_msg_if_player_sees( const Creature &target, std::string msg );
-template<typename ...Args>
-void add_msg_if_player_sees( const tripoint &target, const std::string &msg,
-                             Args &&... args );
-template<typename ...Args>
-void add_msg_if_player_sees( const Creature &target, const std::string &msg,
-                             Args &&... args );
-template<typename ...Args>
-void add_msg_if_player_sees( const tripoint &target, const char *const msg, Args &&... args );
-template<typename ...Args>
-void add_msg_if_player_sees( const Creature &target, const char *const msg, Args &&... args );
-template<typename ...Args>
-void add_msg_if_player_sees( const tripoint &target, const translation &msg,
-                             Args &&... args );
-template<typename ...Args>
-void add_msg_if_player_sees( const Creature &target, const translation &msg,
-                             Args &&... args );
-
-void add_msg_if_player_sees( const tripoint &target, const game_message_params &params,
-                             std::string msg );
-void add_msg_if_player_sees( const Creature &target, const game_message_params &params,
-                             std::string msg );
-template<typename ...Args>
-void add_msg_if_player_sees( const tripoint &target, const game_message_params &params,
-                             const std::string &msg, Args &&... args );
-template<typename ...Args>
-void add_msg_if_player_sees( const Creature &target, const game_message_params &params,
-                             const std::string &msg, Args &&... args );
-template<typename ...Args>
-void add_msg_if_player_sees( const tripoint &target, const game_message_params &params,
-                             const char *const msg, Args &&... args );
-template<typename ...Args>
-void add_msg_if_player_sees( const Creature &target, const game_message_params &params,
-                             const char *const msg, Args &&... args );
-
-void add_msg_debug_if_player_sees( const tripoint &target, debugmode::debug_filter type,
-                                   std::string msg );
-void add_msg_debug_if_player_sees( const Creature &target, debugmode::debug_filter type,
-                                   std::string msg );
-template<typename ...Args>
-void add_msg_debug_if_player_sees( const tripoint &target, debugmode::debug_filter type,
-                                   const std::string &msg, Args &&... args );
-template<typename ...Args>
-void add_msg_debug_if_player_sees( const Creature &target, debugmode::debug_filter type,
-                                   const std::string &msg, Args &&... args );
-template<typename ...Args>
-void add_msg_debug_if_player_sees( const tripoint &target, debugmode::debug_filter type,
-                                   const char *const msg, Args &&... args );
-template<typename ...Args>
-void add_msg_debug_if_player_sees( const Creature &target, debugmode::debug_filter type,
-                                   const char *const msg, Args &&... args );
-
-std::string to_string( const time_duration &d, bool compact = false );
+#include "calendar.h"
+#include "creature.h"
+#include "messages.h"
+#include "translations.h"
 
 static void f( const time_duration &duration, Creature &c )
 {

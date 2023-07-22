@@ -25,6 +25,7 @@
 class advanced_inv_area;
 class advanced_inv_listitem;
 class advanced_inventory_pane;
+class cata_path;
 class diary;
 class faction;
 class item;
@@ -44,7 +45,7 @@ class window;
 } // namespace catacurses
 enum class character_type : int;
 class map_memory;
-struct memorized_terrain_tile;
+class memorized_tile;
 
 namespace debug_menu
 {
@@ -91,6 +92,7 @@ class avatar : public Character
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
+        void export_as_npc( const cata_path &path );
         void serialize( JsonOut &json ) const override;
         void deserialize( const JsonObject &data ) override;
         bool save_map_memory();
@@ -138,18 +140,17 @@ class avatar : public Character
         bool query_yn( const std::string &mes ) const override;
 
         void toggle_map_memory();
+        //! @copydoc map_memory::is_valid() const
+        bool is_map_memory_valid() const;
         bool should_show_map_memory() const;
-        void prepare_map_memory_region( const tripoint &p1, const tripoint &p2 );
-        /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
-        void memorize_tile( const tripoint &pos, const std::string &ter, int subtile,
-                            int rotation );
-        /** Returns last stored map tile in given location in tiles mode */
-        const memorized_terrain_tile &get_memorized_tile( const tripoint &p ) const;
-        /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
-        void memorize_symbol( const tripoint &pos, int symbol );
-        /** Returns last stored map tile in given location in curses mode */
-        int get_memorized_symbol( const tripoint &p ) const;
-        void clear_memorized_tile( const tripoint &pos );
+        void prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 );
+        const memorized_tile &get_memorized_tile( const tripoint_abs_ms &p ) const;
+        void memorize_terrain( const tripoint_abs_ms &p, std::string_view id,
+                               int subtile, int rotation );
+        void memorize_decoration( const tripoint_abs_ms &p, std::string_view id,
+                                  int subtile, int rotation );
+        void memorize_symbol( const tripoint_abs_ms &p, char32_t symbol );
+        void memorize_clear_decoration( const tripoint_abs_ms &p, std::string_view prefix = "" );
 
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
@@ -222,6 +223,8 @@ class avatar : public Character
         bool has_identified( const itype_id &item_id ) const override;
         void identify( const item &item ) override;
         void clear_identified();
+        // clears nutrition related values e.g. calorie_diary, consumption_history...
+        void clear_nutrition();
 
         void add_snippet( snippet_id snippet );
         bool has_seen_snippet( const snippet_id &snippet ) const;
@@ -367,6 +370,7 @@ class avatar : public Character
         const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
     private:
+        npc &get_shadow_npc();
 
         // The name used to generate save filenames for this avatar. Not serialized in json.
         std::string save_id;

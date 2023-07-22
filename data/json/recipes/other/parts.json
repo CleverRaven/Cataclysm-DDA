@@ -326,15 +326,16 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "30 m",
+    "time": "135 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 10 ] ],
+    "using": [ [ "welding_standard", 800 ] ],
+    "//": "5x5 grid of 20 cm square sheets combined into one big sheet = 800cm of weld. ouch!",
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "sheet_metal_small", 24 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 25 ] ] ]
   },
   {
     "result": "sheet_metal_small",
@@ -359,9 +360,10 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "8 m",
+    "time": "12 m",
     "autolearn": true,
-    "using": [ [ "welding_alloys", 6 ] ],
+    "using": [ [ "welding_alloys", 60 ] ],
+    "//": "60cm weld",
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
@@ -544,7 +546,8 @@
     "time": "2 h",
     "reversible": true,
     "book_learn": [ [ "textbook_mechanics", 8 ], [ "textbook_robots", 7 ] ],
-    "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 5 ] ],
+    "//": "50cm weld to graft all the extra stuff to it",
+    "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 50 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -639,7 +642,8 @@
     "difficulty": 3,
     "time": "60 m",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
-    "using": [ [ "welding_standard", 2 ] ],
+    "using": [ [ "welding_standard", 20 ] ],
+    "//": "20cm weld",
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "omnicamera", 1 ] ], [ [ "wire", 4 ] ], [ [ "superglue", 1 ] ] ]
@@ -721,7 +725,8 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "rope_natural", 4 ], [ "welding_standard", 10 ] ],
+    "//": "200cm weld total",
+    "using": [ [ "rope_natural", 4 ], [ "welding_standard", 200 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
@@ -741,7 +746,8 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 5 ] ],
+    "//": "20cm weld",
+    "using": [ [ "welding_standard", 20 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
@@ -761,7 +767,8 @@
     "time": "2 h",
     "reversible": { "time": "20 m" },
     "autolearn": true,
-    "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
+    "//": "20cm weld",
+    "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 20 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
@@ -780,7 +787,8 @@
     "time": "6 h",
     "reversible": { "time": "20 m" },
     "autolearn": true,
-    "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
+    "//": "20cm weld",
+    "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 20 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
@@ -804,9 +812,10 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "mechanics",
     "difficulty": 3,
-    "time": "30 m",
+    "time": "40 m",
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "textbook_mechanics", 3 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "welding_standard", 5 ] ],
+    "//": "80cm weld",
+    "using": [ [ "welding_standard", 80 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },

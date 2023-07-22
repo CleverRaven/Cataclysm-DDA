@@ -419,7 +419,7 @@ void widget::load( const JsonObject &jo, const std::string_view )
 
     if( jo.has_string( "bodypart" ) ) {
         _bps.clear();
-        _bps.emplace( bodypart_id( jo.get_string( "bodypart" ) ) );
+        _bps.emplace( jo.get_string( "bodypart" ) );
     }
 
     if( jo.has_array( "bodyparts" ) ) {
@@ -429,7 +429,7 @@ void widget::load( const JsonObject &jo, const std::string_view )
                 jo.throw_error_at( "bodyparts", "Invalid string value in bodyparts array" );
                 continue;
             }
-            _bps.emplace( bodypart_id( val.get_string() ) );
+            _bps.emplace( val.get_string() );
         }
     }
 

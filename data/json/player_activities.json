@@ -1107,6 +1107,13 @@
     "auto_needs": false
   },
   {
+    "id": "ACT_REEL_CABLE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "reeling cable",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_GENERIC_EOC",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

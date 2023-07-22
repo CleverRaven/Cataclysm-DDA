@@ -81,7 +81,6 @@
           "t_tree_cherry": 4,
           "t_tree_plum": 2,
           "t_tree_sassafras": 1,
-          "t_beehive_natural": 2,
           "t_region_tree_dead": 5,
           "t_region_tree_forest_other": 5
         },
@@ -99,7 +98,6 @@
           "t_tree_elderberry": 10,
           "t_tree_mulberry": 10,
           "t_tree_sassafras": 2,
-          "t_beehive_natural": 2,
           "t_tree_juniper": 5
         },
         "t_region_tree_forest": { "t_region_tree_forest_dense": 2, "t_region_tree_forest_other": 1 },
@@ -132,7 +130,6 @@
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
           "t_tree_sassafras": 3,
-          "t_beehive_natural": 2,
           "t_region_tree_dead": 48
         },
         "t_region_tree_shade": {
@@ -152,7 +149,6 @@
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
           "t_tree_sassafras": 3,
-          "t_beehive_natural": 2,
           "t_tree_dead": 2
         },
         "t_region_tree_fruit": {
@@ -447,6 +443,10 @@
           "spider_pit_south",
           "spider_pit_east",
           "spider_pit_west",
+          "survivor_forest_camp_north",
+          "survivor_forest_camp_south",
+          "survivor_forest_camp_east",
+          "survivor_forest_camp_west",
           "central_lab_entrance",
           "moonshine_still_north",
           "moonshine_still_south",
@@ -644,7 +644,6 @@
           "mx_science": 20,
           "mx_toxic_waste": 10,
           "mx_crater": 10,
-          "mx_supplydrop": 8,
           "mx_military": 8,
           "mx_drugdeal": 8,
           "mx_mass_grave": 5,
@@ -652,6 +651,7 @@
           "mx_portal_in": 3,
           "mx_helicopter": 1,
           "mx_exocrash_1": 1,
+          "mx_beehive_natural": 20,
           "mx_exocrash_2": 1
         }
       },
@@ -683,12 +683,12 @@
           "mx_grass": 10,
           "mx_military": 8,
           "mx_mass_grave": 5,
-          "mx_supplydrop": 5,
           "mx_portal": 3,
           "mx_portal_in": 3,
           "mx_jabberwock": 1,
           "mx_exocrash_1": 1,
           "mx_helicopter": 1,
+          "mx_beehive_natural": 30,
           "mx_exocrash_2": 1
         }
       },
@@ -705,7 +705,6 @@
           "mx_point_dead_vegetation": 60,
           "mx_science": 50,
           "mx_military": 25,
-          "mx_supplydrop": 25,
           "mx_crater": 20,
           "mx_drugdeal": 20,
           "mx_fallen_shed": 10,
@@ -718,6 +717,7 @@
           "mx_portal_in": 7,
           "mx_helicopter": 5,
           "mx_exocrash_1": 1,
+          "mx_beehive_natural": 25,
           "mx_exocrash_2": 1
         }
       },
@@ -739,7 +739,7 @@
           "mx_nest_wasp": 50,
           "mx_mass_grave": 50,
           "mx_grave": 50,
-          "mx_supplydrop": 40,
+          "mx_supplydrop": 4,
           "mx_Trapdoor_spider_den": 40,
           "mx_collegekids": 30,
           "mx_drugdeal": 30,
@@ -764,7 +764,7 @@
           "mx_roadblock_mil": 170,
           "mx_bandits_block": 800,
           "mx_drugdeal": 300,
-          "mx_supplydrop": 100,
+          "mx_supplydrop": 5,
           "mx_portal": 50,
           "mx_crater": 100,
           "mx_portal_in": 40,
@@ -841,7 +841,7 @@
           "mx_nest_wasp": 50,
           "mx_mass_grave": 50,
           "mx_grave": 50,
-          "mx_supplydrop": 40,
+          "mx_supplydrop": 2,
           "mx_Trapdoor_spider_den": 40,
           "mx_collegekids": 30,
           "mx_drugdeal": 30,
@@ -1080,6 +1080,7 @@
         "cs_open_sewer": 33
       },
       "shops": {
+        "deserter_city": 30,
         "bus_station": 200,
         "city_block_2": 300,
         "textile_mill_museum": 50,
@@ -1134,6 +1135,7 @@
         "s_library": 200,
         "s_library_1": 200,
         "s_library_2": 200,
+        "s_library_3": 200,
         "s_bookstore": 200,
         "s_bookstore_1": 200,
         "s_bookstore_2": 200,
@@ -1178,6 +1180,7 @@
         "bowling_alley": 200,
         "church": 200,
         "church_1": 200,
+        "synagogue": 75,
         "office_cubical": 200,
         "office_cubical_1": 200,
         "furniture": 200,

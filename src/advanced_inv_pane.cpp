@@ -62,8 +62,7 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     const aim_location location = static_cast<aim_location>( i_location );
     const advanced_inv_area &square = squares[location];
     // determine the square's vehicle/map item presence
-    bool has_veh_items = square.can_store_in_vehicle() ?
-                         !square.veh->get_items( square.vstor ).empty() : false;
+    bool has_veh_items = square.can_store_in_vehicle() && !square.get_vehicle_stack().empty();
     bool has_map_items = !get_map().i_at( square.pos ).empty();
     // determine based on map items and settings to show cargo
     bool show_vehicle = false;
@@ -245,7 +244,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
             square.weight = 0_gram;
         }
         const advanced_inv_area::itemstack &stacks = is_in_vehicle ?
-                square.i_stacked( square.veh->get_items( square.vstor ) ) :
+                square.i_stacked( square.get_vehicle_stack() ) :
                 square.i_stacked( m.i_at( square.pos ) );
 
         map_cursor loc_cursor( square.pos );

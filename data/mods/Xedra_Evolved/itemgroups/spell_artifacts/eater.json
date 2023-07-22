@@ -107,7 +107,8 @@
     "entries": [
       { "item": "polaroid_of_missing_person", "prob": 50 },
       { "item": "blindfold_artifact", "prob": 100 },
-      { "item": "artifact_cerebellum", "prob": 50 }
+      { "item": "artifact_cerebellum", "prob": 50 },
+      { "item": "artifact_point_blank", "prob": 50 }
     ]
   },
   {

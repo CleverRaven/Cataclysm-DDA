@@ -214,7 +214,7 @@
     "grab_strength": 75,
     "starting_ammo": { "anesthetic": 3 },
     "revert_to_itype": "bot_nursebot",
-    "special_attacks": [ [ "OPERATE", 30 ], [ "PARROT", 20 ] ],
+    "special_attacks": [ { "id": "grab", "cooldown": 9999 }, [ "OPERATE", 30 ], [ "PARROT", 20 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
     "flags": [

@@ -56,6 +56,7 @@ class scenario
         std::optional<achievement_id> _requirement;
 
         bool _custom_start_date = false;
+        bool reveal_locale = true;
         bool _is_random_hour = false;
         int _start_hour = 8;
         bool _is_random_day = false;
@@ -102,6 +103,7 @@ class scenario
         std::optional<achievement_id> get_requirement() const;
 
         bool custom_start_date() const;
+        bool get_reveal_locale() const;
         void rerandomize() const;
         bool is_random_hour() const;
         bool is_random_day() const;

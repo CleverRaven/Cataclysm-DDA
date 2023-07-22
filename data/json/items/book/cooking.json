@@ -619,5 +619,26 @@
     "symbol": "?",
     "looks_like": "cookbook",
     "melee_damage": { "bash": 7 }
+  },
+  {
+    "id": "cookbook_turkish",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "The Turkish Cookbook", "str_pl": "copies of The Turkish Cookbook" },
+    "description": "The definitive cookbook of hearty, healthy Turkish cuisine",
+    "weight": "600 g",
+    "volume": "800 ml",
+    "price": 1050,
+    "price_postapoc": 250,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "cookbook",
+    "color": "red",
+    "skill": "cooking",
+    "max_level": 2,
+    "intelligence": 4,
+    "time": "9 m",
+    "fun": 1,
+    "melee_damage": { "bash": 1 }
   }
 ]

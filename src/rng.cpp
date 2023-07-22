@@ -42,6 +42,39 @@ units::angle random_direction()
     return rng_float( 0_pi_radians, 2_pi_radians );
 }
 
+// Returns the area under a curve with provided standard deviation and center
+// from difficulty to positive infinity. That is, the chance that a normal roll on
+// said curve will return a value of difficulty or greater.
+float normal_roll_chance( float center, float stddev, float difficulty )
+{
+    cata_assert( stddev >= 0.f );
+    // We're going to be using them a lot, so let's name our variables.
+    // M = the given "center" of the curve
+    // S = the given standard deviation of the curve
+    // A = the difficulty
+    // So, the equation of the normal curve is...
+    // y = (1.f/(S*std::sqrt(2 * M_PI))) * exp(-(std::pow(x - M, 2))/(2 * std::pow(S, 2)))
+    // Thanks to wolfram alpha, we know the integral of that from A to B to be
+    // 0.5 * (erf((M-A)/(std::sqrt(2) * S)) - erf((M-B)/(std::sqrt(2) * S)))
+    // And since we know B to be infinity, we can simplify that to
+    // 0.5 * (erfc((A-m)/(std::sqrt(2)* S))+sgn(S)-1) (as long as S != 0)
+    // Wait a second, what are erf, erfc and sgn?
+    // Oh, those are the error function, complementary error function, and sign function
+    // Luckily, erf() is provided to us in math.h, and erfc is just 1 - erf
+    // Sign is pretty obvious x > 0 ? x == 0 ? 0 : 1 : -1;
+    // Since we know S will always be > 0, that term vanishes.
+
+    // With no standard deviation, we will always return center
+    if( stddev == 0.f ) {
+        return ( center > difficulty ) ? 1.f : 0.f;
+    }
+
+    float numerator = difficulty - center;
+    float denominator = std::sqrt( 2 ) * stddev;
+    float compl_erf = 1.f - std::erf( numerator / denominator );
+    return 0.5 * compl_erf;
+}
+
 double normal_roll( double mean, double stddev )
 {
     static std::normal_distribution<double> rng_normal_dist;

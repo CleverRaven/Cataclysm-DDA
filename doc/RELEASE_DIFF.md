@@ -1,3 +1,4 @@
+# Release Diff
 A section we have added to the changelog is the json entity diff.
 This enumerates the json entity types that have been added to the game since the last release.
 

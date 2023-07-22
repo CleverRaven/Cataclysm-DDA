@@ -170,7 +170,7 @@
     "count": 250,
     "stack_size": 200,
     "phase": "liquid",
-    "container": "bottle_plastic",
+    "container": "fuel_tin",
     "sealed": false,
     "symbol": "=",
     "color": "yellow",

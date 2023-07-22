@@ -425,6 +425,8 @@ class spell
         int experience = 0;
         // returns damage type for the spell
         const damage_type_id &dmg_type() const;
+        // Temporary caster level adjustments caused by EoC's
+        int temp_level_adjustment = 0;
 
         // alternative cast message
         translation alt_message;
@@ -440,7 +442,7 @@ class spell
 
     public:
         spell() = default;
-        explicit spell( spell_id sp, int xp = 0 );
+        explicit spell( spell_id sp, int xp = 0, int level_adjustment = 0 );
 
         // sets the message to be different than the spell_type specifies
         void set_message( const translation &msg );
@@ -468,6 +470,8 @@ class spell
         bool is_max_level( const Creature &caster ) const;
         // what is the max level of the spell
         int get_max_level( const Creature &caster ) const;
+        int get_temp_level_adjustment() const;
+        void set_temp_level_adjustment( int adjustment );
 
         spell_shape shape() const;
         // what is the intensity of the field the spell generates ( 0 if no field )
@@ -572,6 +576,8 @@ class spell
         std::string damage_type_string() const;
         // your level in this spell
         int get_level() const;
+        // your level in this spell adjusted by context
+        int get_effective_level() const;
         // difficulty of the level
         int get_difficulty( const Creature &caster ) const;
 
@@ -620,6 +626,7 @@ class known_magic
         int mana_base = 0; // NOLINT(cata-serialize)
         // current mana
         int mana = 0;
+
     public:
         // ignores all distractions when casting a spell when true
         bool casting_ignore = false; // NOLINT(cata-serialize)
@@ -664,9 +671,18 @@ class known_magic
         // does the Character have enough energy to cast this spell?
         // not specific to mana
         bool has_enough_energy( const Character &guy, const spell &sp ) const;
+        // Clears old data written by EoC triggered by the events player_opens_spellbook or npc_opens_spellbook
+        void clear_opens_spellbook_data();
+        // uses data received from EoC
+        void evaluate_opens_spellbook_data();
 
         void on_mutation_gain( const trait_id &mid, Character &guy );
         void on_mutation_loss( const trait_id &mid );
+
+        // data written by EoC
+        double caster_level_adjustment; // NOLINT(cata-serialize)
+        std::map<spell_id, double> caster_level_adjustment_by_spell; // NOLINT(cata-serialize)
+        std::map<trait_id, double> caster_level_adjustment_by_school; // NOLINT(cata-serialize)
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );

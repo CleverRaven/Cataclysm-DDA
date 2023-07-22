@@ -39,7 +39,7 @@ static void reset_player()
     player_character.add_effect( effect_blind, 1_turns, true );
 }
 
-TEST_CASE( "vehicle power with reactor", "[vehicle][power]" )
+TEST_CASE( "vehicle_power_with_reactor", "[vehicle][power]" )
 {
     clear_vehicles();
     reset_player();
@@ -76,7 +76,7 @@ TEST_CASE( "vehicle power with reactor", "[vehicle][power]" )
     }
 }
 
-TEST_CASE( "power loss to cables", "[vehicle][power]" )
+TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
 {
     clear_vehicles();
     reset_player();
@@ -108,19 +108,19 @@ TEST_CASE( "power loss to cables", "[vehicle][power]" )
         const vpart_id vpid( cord.typeId().str() );
 
         point vcoords = source_vp->mount();
-        vehicle_part source_part( vpid, "", vcoords, item( cord ) );
+        vehicle_part source_part( vpid, item( cord ) );
         source_part.target.first = target_global;
         source_part.target.second = target_veh->global_square_location().raw();
-        source_veh->install_part( vcoords, source_part );
+        source_veh->install_part( vcoords, std::move( source_part ) );
 
         vcoords = target_vp->mount();
-        vehicle_part target_part( vpid, "", vcoords, item( cord ) );
+        vehicle_part target_part( vpid, item( cord ) );
         tripoint source_global( cord.get_var( "source_x", 0 ),
                                 cord.get_var( "source_y", 0 ),
                                 cord.get_var( "source_z", 0 ) );
         target_part.target.first = here.getabs( source_global );
         target_part.target.second = source_veh->global_square_location().raw();
-        target_veh->install_part( vcoords, target_part );
+        target_veh->install_part( vcoords, std::move( target_part ) );
     };
 
     const std::vector<tripoint> placements { { 4, 10, 0 }, { 6, 10, 0 }, { 8, 10, 0 } };
@@ -170,7 +170,7 @@ TEST_CASE( "power loss to cables", "[vehicle][power]" )
     }
 }
 
-TEST_CASE( "Solar power", "[vehicle][power]" )
+TEST_CASE( "Solar_power", "[vehicle][power]" )
 {
     clear_vehicles();
     reset_player();
@@ -249,7 +249,7 @@ TEST_CASE( "Solar power", "[vehicle][power]" )
     }
 }
 
-TEST_CASE( "Daily solar power", "[vehicle][power]" )
+TEST_CASE( "Daily_solar_power", "[vehicle][power]" )
 {
     clear_vehicles();
     reset_player();
@@ -311,7 +311,7 @@ TEST_CASE( "Daily solar power", "[vehicle][power]" )
     }
 }
 
-TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
+TEST_CASE( "maximum_reverse_velocity", "[vehicle][power][reverse]" )
 {
     reset_player();
     build_test_map( ter_id( "t_pavement" ) );

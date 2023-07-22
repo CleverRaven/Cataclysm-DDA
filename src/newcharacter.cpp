@@ -700,14 +700,12 @@ bool avatar::create( character_type type, const std::string &tempname )
             if( !load_template( tempname, /*out*/ pool ) ) {
                 return false;
             }
-            // TEMPORARY until 0.F
-            set_all_parts_hp_to_max();
 
             // We want to prevent recipes known by the template from being applied to the
             // new character. The recipe list will be rebuilt when entering the game.
             // Except if it is a character transfer template
             if( pool != pool_type::TRANSFER ) {
-                learned_recipes->clear();
+                forget_all_recipes();
             }
             tabs.position.last();
             break;
@@ -819,11 +817,9 @@ void Character::initialize()
     set_stored_kcal( get_healthy_kcal() );
     if( has_trait( trait_XS ) ) {
         set_stored_kcal( std::floor( get_stored_kcal() / 5 ) );
-        toggle_trait( trait_XS );
     }
     if( has_trait( trait_XXXL ) ) {
         set_stored_kcal( std::floor( get_stored_kcal() * 5 ) );
-        toggle_trait( trait_XXXL );
     }
 
     // Learn recipes
@@ -1255,11 +1251,11 @@ static struct {
 static void add_trait( std::vector<trait_and_var> &to, const trait_id &trait )
 {
     if( trait->variants.empty() ) {
-        to.emplace_back( trait_and_var( trait, "" ) );
+        to.emplace_back( trait, "" );
         return;
     }
     for( const std::pair<const std::string, mutation_variant> &var : trait->variants ) {
-        to.emplace_back( trait_and_var( trait, var.first ) );
+        to.emplace_back( trait, var.first );
     }
 }
 
@@ -1778,7 +1774,7 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     //Profession story
     assembled += "\n" + colorize( _( "Profession story:" ), COL_HEADER ) + "\n";
     if( !sorted_profs[cur_id]->can_pick().success() ) {
-        assembled += colorize( sorted_profs[cur_id]->can_pick().str(), c_red ) + "'n";
+        assembled += colorize( sorted_profs[cur_id]->can_pick().str(), c_red ) + "\n";
     }
     assembled += colorize( sorted_profs[cur_id]->description( u.male ), c_green ) + "\n";
 
@@ -1804,7 +1800,7 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     }
 
     // Profession skills
-    const auto prof_skills = sorted_profs[cur_id]->skills();
+    const profession::StartingSkillList prof_skills = sorted_profs[cur_id]->skills();
     assembled += "\n" + colorize( _( "Profession skills:" ), COL_HEADER ) + "\n";
     if( prof_skills.empty() ) {
         assembled += pgettext( "set_profession_skill", "None" ) + std::string( "\n" );
@@ -2222,7 +2218,7 @@ static std::string assemble_hobby_details( const avatar &u, const input_context 
     }
 
     // Background skills
-    const auto prof_skills = sorted_hobbies[cur_id]->skills();
+    const profession::StartingSkillList prof_skills = sorted_hobbies[cur_id]->skills();
     assembled += "\n" + colorize( _( "Background skill experience:" ), COL_HEADER ) + "\n";
     if( prof_skills.empty() ) {
         assembled += pgettext( "set_profession_skill", "None" ) + std::string( "\n" );

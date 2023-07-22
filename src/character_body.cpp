@@ -196,6 +196,7 @@ void Character::update_body( const time_point &from, const time_point &to )
 {
     // Early return if we already did update previously on the same turn (e.g. when loading savegame).
     if( to <= last_updated ) {
+        last_updated = to;
         return;
     }
     if( !is_npc() ) {
@@ -322,7 +323,6 @@ void Character::update_body( const time_point &from, const time_point &to )
     const int thirty_mins = ticks_between( from, to, 30_minutes );
     if( thirty_mins > 0 ) {
         update_health();
-        get_sick();
     }
 
     if( calendar::once_every( 10_minutes ) ) {

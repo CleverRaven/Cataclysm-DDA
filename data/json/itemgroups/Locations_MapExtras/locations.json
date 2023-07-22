@@ -95,7 +95,7 @@
       { "group": "gunmod_energy", "prob": 40 },
       { "item": "plut_cell", "prob": 30, "charges": [ 1, 5 ] },
       [ "plasma", 30 ],
-      [ "UPS_off", 20 ]
+      [ "UPS_OFF", 20 ]
     ]
   },
   {
@@ -163,6 +163,7 @@
     "items": [
       { "group": "magazines", "prob": 2000 },
       { "group": "kids_books", "prob": 35 },
+      { "group": "stand_flyer", "prob": 100 },
       [ "recipe_augs", 20 ],
       [ "decoy_anarch", 50 ],
       { "group": "newspaper_recent", "prob": 200 },
@@ -398,7 +399,8 @@
       [ "boots_steel", 50 ],
       [ "sneakers_steel", 35 ],
       [ "boots_hiking", 10 ],
-      [ "jumpsuit", 20 ],
+      [ "technician_coveralls", 15 ],
+      [ "technician_coveralls_h", 5 ],
       [ "gloves_rubber", 20 ],
       [ "gloves_leather", 45 ],
       [ "shovel", 45 ],
@@ -512,7 +514,7 @@
       [ "leather_cat_tail", 5 ],
       [ "leather_collar", 5 ],
       [ "rope_30", 5 ],
-      [ "cheerleader_top", 5 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       [ "cheerleader_top_short", 10 ],
       [ "leotard", 5 ],
       [ "cheerleader_skirt", 5 ],
@@ -632,7 +634,10 @@
       { "item": "scuba_tank", "prob": 5, "charges": [ 0, 60 ] },
       { "item": "small_scuba_tank", "prob": 5, "charges": [ 0, 20 ] },
       [ "dive_bag", 10 ],
-      { "item": "rebreather", "prob": 2, "charges": [ 0, 60 ] },
+      { "item": "rebreather", "prob": 2, "ammo-item": "rebreather_cartridge_o2", "charges": 180 },
+      [ "dry_bag", 10 ],
+      [ "dry_duffelbag", 10 ],
+      [ "dry_bag_large", 5 ],
       { "item": "glowstick", "prob": 60, "charges": 1400 },
       { "item": "handflare", "prob": 40, "charges": 300 },
       [ "hand_pump", 10 ],
@@ -899,6 +904,7 @@
       [ "steel_pan", 10 ],
       [ "teapot", 25 ],
       [ "kettle", 25 ],
+      [ "fuel_tin", 25 ],
       [ "fishing_hook_basic", 35 ],
       [ "spike", 30 ],
       [ "wire_barbed", 25 ],
@@ -990,8 +996,8 @@
     "type": "item_group",
     "id": "sewer",
     "items": [
-      [ "mutagen", 8 ],
-      [ "fetus", 1 ],
+      [ "crack", 8 ],
+      { "group": "book_mag_tech", "prob": 20 },
       [ "joint", 20 ],
       [ "mag_porn", 20 ],
       [ "cotton_patchwork", 1 ],
@@ -1005,7 +1011,7 @@
       [ "55gal_drum", 10 ],
       [ "30gal_drum", 15 ],
       { "group": "tools_toolbox", "prob": 1 },
-      [ "recipe_elfa", 2 ]
+      [ "decoy_elfa", 2 ]
     ]
   },
   {
@@ -1264,7 +1270,8 @@
       [ "wrench", 30 ],
       [ "pipe", 20 ],
       [ "boots", 70 ],
-      [ "jumpsuit", 20 ],
+      [ "technician_coveralls", 15 ],
+      [ "technician_coveralls_h", 5 ],
       [ "coat_lab", 20 ],
       [ "gloves_rubber", 20 ],
       [ "fishing_waders", 12 ],
@@ -1342,7 +1349,8 @@
       [ "chain", 20 ],
       [ "boots_steel", 50 ],
       [ "sneakers_steel", 35 ],
-      [ "jumpsuit", 20 ],
+      [ "technician_coveralls", 10 ],
+      [ "technician_coveralls_h", 10 ],
       [ "gloves_leather", 45 ],
       { "item": "mask_filter", "prob": 30, "charges": [ 0, 100 ] },
       { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
@@ -1364,7 +1372,7 @@
       { "item": "jackhammer", "prob": 2, "charges": [ 0, 1200 ] },
       { "item": "elec_jackhammer", "prob": 1, "charges": [ 0, 7920 ] },
       [ "dynamite", 5 ],
-      { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
+      { "item": "UPS_OFF", "prob": 5, "charges": [ 0, 1000 ] },
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
       { "item": "gasoline_lantern", "prob": 5, "charges": [ 0, 500 ] },
@@ -1606,7 +1614,7 @@
       { "item": "pants", "prob": 100 },
       { "item": "badge_deputy", "prob": 100 },
       { "item": "cowboy_hat", "prob": 10 },
-      { "item": "leather_police_jacket", "prob": 25 },
+      { "item": "leather_police_jacket", "variant": "leather_police_jacket", "prob": 25 },
       { "item": "sheriffshirt", "prob": 100 },
       { "item": "police_belt", "prob": 100 },
       { "group": "cop_shoes", "prob": 100 },
@@ -1617,7 +1625,8 @@
       { "item": "file", "prob": 25 },
       { "item": "baton", "prob": 20 },
       { "item": "kevlar", "prob": 15 },
-      { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster", "prob": 10 },
+      { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster", "prob": 4 },
+      { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "nylon_holster", "prob": 6 },
       { "item": "survnote", "prob": 10 },
       { "item": "family_photo", "prob": 10 },
       { "item": "tazer", "prob": 5 }
@@ -1802,9 +1811,57 @@
       { "item": "cassock", "prob": 40 },
       { "item": "thawb", "prob": 10 },
       { "item": "kufi", "prob": 10 },
-      { "item": "kittel", "prob": 10 },
-      { "item": "kippah", "prob": 10 },
       { "item": "icon", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "synagogue",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "clothing_glasses", "prob": 20 },
+      { "item": "child_book", "prob": 10 },
+      { "item": "matches", "prob": 30, "charges": [ 0, 20 ] },
+      { "item": "ref_matches", "prob": 30, "charges": [ 0, 32 ] },
+      { "item": "coat_rain", "prob": 10 },
+      { "item": "hood_rain", "prob": 10 },
+      { "item": "purse", "prob": 30 },
+      { "group": "jackets", "prob": 20 },
+      { "item": "cane", "prob": 10 },
+      { "item": "umbrella", "prob": 20 },
+      { "group": "tefillin_sets", "prob": 10 },
+      { "item": "essay_book", "prob": 6 },
+      { "item": "poetry_book", "prob": 6 },
+      { "item": "philosophy_book", "prob": 5 },
+      { "group": "newspaper", "prob": 25 },
+      { "item": "survivormap", "prob": 1 },
+      { "group": "brochures", "prob": 10 },
+      { "item": "holybook_tanakh", "prob": 38 },
+      { "item": "book_judaica_siddur", "prob": 75 },
+      { "item": "folding_poncho", "prob": 1 },
+      { "item": "pocketwatch", "prob": 15 },
+      { "item": "knitting_needles", "prob": 10 },
+      { "item": "survnote", "prob": 1 },
+      { "item": "kittel", "prob": 25 },
+      { "item": "kippah", "prob": 50 },
+      { "item": "tallit_gadol", "prob": 45 },
+      { "item": "tallit_katan", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "synagogue_books",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "book_judaica_hardcover", "prob": 70 },
+      { "item": "book_judaica_softcover", "prob": 50 },
+      { "item": "book_judaica_siddur", "prob": 35 },
+      { "item": "holybook_tanakh", "prob": 50 },
+      { "item": "holybook_talmud", "prob": 20 },
+      { "item": "essay_book", "prob": 25 },
+      { "item": "poetry_book", "prob": 15 },
+      { "group": "literature", "prob": 35 },
+      { "item": "philosophy_book", "prob": 25 }
     ]
   },
   {
@@ -1830,7 +1887,7 @@
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "geiger_off", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "rad_monitor", "prob": 4, "charges": [ 0, 50 ] },
-      { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
+      { "item": "UPS_OFF", "prob": 5, "charges": [ 0, 1000 ] },
       [ "flyer", 10 ],
       [ "hazmat_suit", 5 ],
       [ "e_tool", 5 ],
@@ -2057,7 +2114,7 @@
       [ "frisbee", 10 ],
       [ "disc_golf", 10 ],
       [ "pom_poms", 10 ],
-      [ "cheerleader_top", 5 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       [ "cheerleader_top_short", 1 ],
       [ "cheerleader_skirt", 5 ],
       [ "cheerleader_skirt_short", 1 ],
@@ -2163,6 +2220,7 @@
       { "item": "chem_manganese_dioxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_saltpetre", "prob": 10, "charges": [ 1, 50 ] },
       { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
+      { "item": "chem_caco3", "prob": 10, "charges-min": 100 },
       { "item": "denat_alcohol", "prob": 6, "charges-min": 250 },
       { "item": "methed_alcohol", "prob": 4, "charges-min": 250 }
     ]
@@ -2593,9 +2651,17 @@
   {
     "id": "mil_base_corpse_soldier",
     "type": "item_group",
-    "//": "Soldier corpse with clothes, without gear.",
+    "//": "Nested to damage corpse.",
     "subtype": "collection",
-    "entries": [ { "group": "mil_base_clothes_corpse_soldier", "damage": [ 1, 4 ] }, { "item": "corpse_generic_human" } ]
+    "entries": [ { "group": "mil_base_corpse_corpse_soldier", "damage": [ 2, 4 ] } ]
+  },
+  {
+    "id": "mil_base_corpse_corpse_soldier",
+    "type": "item_group",
+    "//": "Nested to damage all gear.",
+    "subtype": "collection",
+    "container-item": "corpse_generic_human",
+    "entries": [ { "group": "mil_base_clothes_corpse_soldier", "damage": [ 1, 4 ] } ]
   },
   {
     "id": "mil_base_clothes_corpse_soldier",
@@ -2807,12 +2873,12 @@
       { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
       {
         "distribution": [
-          { "item": "welding_rod_steel", "prob": 30, "charges": [ 50, 360 ] },
-          { "item": "welding_rod_alloy", "prob": 20, "charges": [ 50, 360 ] },
-          { "item": "welding_wire_steel", "prob": 20, "charges": [ 50, 360 ] },
-          { "item": "welding_wire_alloy", "prob": 15, "charges": [ 50, 360 ] },
-          { "item": "brazing_rod_bronze", "prob": 10, "charges": [ 50, 200 ] },
-          { "item": "brazing_rod_alloy", "prob": 5, "charges": [ 50, 200 ] }
+          { "item": "welding_rod_steel", "prob": 30, "charges": [ 1000, 1600 ] },
+          { "item": "welding_rod_alloy", "prob": 20, "charges": [ 1000, 1600 ] },
+          { "item": "welding_wire_steel", "prob": 20, "charges": [ 1000, 1600 ] },
+          { "item": "welding_wire_alloy", "prob": 15, "charges": [ 1000, 1600 ] },
+          { "item": "brazing_rod_bronze", "prob": 10, "charges": [ 500, 1500 ] },
+          { "item": "brazing_rod_alloy", "prob": 5, "charges": [ 400, 1200 ] }
         ]
       }
     ]
@@ -2849,7 +2915,7 @@
           { "item": "pants_checkered", "prob": 10 },
           { "item": "pants", "prob": 40 },
           { "item": "jeans", "prob": 20 },
-          { "item": "flag_pants", "prob": 5 },
+          { "item": "pants", "variant": "pants_flag", "prob": 5 },
           { "item": "breeches", "prob": 25 }
         ]
       },

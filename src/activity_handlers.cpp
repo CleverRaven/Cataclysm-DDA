@@ -201,7 +201,11 @@ static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
+
+static const proficiency_id proficiency_prof_dissect_humans( "prof_dissect_humans" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
@@ -507,38 +511,126 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         }
     }
 
-    // applies to all butchery actions
     const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( species_HUMAN ) &&
                           !corpse.in_species( species_ZOMBIE ) );
-    if( is_human && !( you.has_flag( json_flag_CANNIBAL ) ||
-                       you.has_flag( json_flag_PSYCHOPATH ) ||
-                       you.has_flag( json_flag_SAPIOVORE ) ) ) {
 
-        if( you.is_avatar() ) {
-            if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
-                switch( rng( 1, 3 ) ) {
-                    case 1:
-                        you.add_msg_if_player( m_bad, _( "You clench your teeth at the prospect of this gruesome job." ) );
-                        break;
-                    case 2:
-                        you.add_msg_if_player( m_bad, _( "This will haunt you in your dreams." ) );
-                        break;
-                    case 3:
-                        you.add_msg_if_player( m_bad,
-                                               _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
-                        break;
+    // applies to all butchery actions except for dissections
+    if( is_human && action != butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) ||
+            you.has_flag( json_flag_PSYCHOPATH ) || you.has_flag( json_flag_SAPIOVORE ) ) ) {
+        //first determine if the butcherer has the dissect_humans proficiency.
+        if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
+            //if it's player doing the butchery, ask them first.
+            if( you.is_avatar() ) {
+                if( query_yn(
+                        _( "Really desecrate the mortal remains of a fellow human being by butchering them for meat?" ) ) ) {
+                    //give the player a random message showing their disgust and cause morale penalty.
+                    switch( rng( 1, 3 ) ) {
+                        case 1:
+                            you.add_msg_if_player( m_bad, _( "You clench your teeth at the prospect of this gruesome job." ) );
+                            break;
+                        case 2:
+                            you.add_msg_if_player( m_bad, _( "This will haunt you in your dreams." ) );
+                            break;
+                        case 3:
+                            you.add_msg_if_player( m_bad,
+                                                   _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
+                            break;
+                    }
+                    get_player_character().add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+                } else {
+                    //player has the dissect_humans prof, so they're familiar with dissection. reference this in their refusal to butcher
+                    you.add_msg_if_player( m_good, _( "You were trained for autopsies, not butchery." ) );
+                    act.targets.pop_back();
+                    return;
                 }
-                get_player_character().add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
             } else {
-                you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
-                act.targets.pop_back();
-                return;
+                //if not the avatar, don't ask, just do it and suffer without comment
+                you.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
             }
         } else {
-            you.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+            //this runs if the butcherer does NOT have prof_dissect_humans
+            if( you.is_avatar() ) {
+                if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
+                    //random message and morale penalty
+                    switch( rng( 1, 3 ) ) {
+                        case 1:
+                            you.add_msg_if_player( m_bad, _( "You clench your teeth at the prospect of this gruesome job." ) );
+                            break;
+                        case 2:
+                            you.add_msg_if_player( m_bad, _( "This will haunt you in your dreams." ) );
+                            break;
+                        case 3:
+                            you.add_msg_if_player( m_bad,
+                                                   _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
+                            break;
+                    }
+                    get_player_character().add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+                } else {
+                    //player doesn't have dissect_humans, so just give a regular refusal to mess with the corpse
+                    you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
+                    act.targets.pop_back();
+                    return;
+                }
+            } else {
+                //again, don't complain about it, or inform about it, just do it
+                you.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+            }
         }
     }
 
+    // applies to only dissections, so that dissect_humans training makes a difference.
+    if( is_human && action == butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) ||
+            you.has_flag( json_flag_PSYCHOPATH ) || you.has_flag( json_flag_SAPIOVORE ) ) ) {
+        if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
+            //you're either trained for this, densensitized, or both. doesn't bother you.
+            if( you.is_avatar() ) {
+                //this is a dissection, and we are trained for dissection, so no morale penalty, and lighter flavor text.
+                switch( rng( 1, 3 ) ) {
+                    case 1:
+                        you.add_msg_if_player( m_good, _( "You grit your teeth and get to work." ) );
+                        break;
+                    case 2:
+                        you.add_msg_if_player( m_good,
+                                               _( "The task at hand is unpleasant, but you steel your nerves regardless." ) );
+                        break;
+                    case 3:
+                        you.add_msg_if_player( m_good,
+                                               _( "Hopefully whatever you can glean from this autopsy is worth the effort." ) );
+                        break;
+                }
+            }
+            //if we're not the avatar, we aren't getting a morale penalty as usual, and no message, so nothing happens
+        } else {
+            //we don't have dissect_humans but are trying to dissect anyways.
+            if( you.is_avatar() ) {
+                if( query_yn( _( "Really dissect the remains of a fellow human being?" ) ) ) {
+                    //give us a message indicating we are dissecting without the stomach for it, but not actually butchering. lower morale penalty.
+                    switch( rng( 1, 3 ) ) {
+                        case 1:
+                            you.add_msg_if_player( m_bad,
+                                                   _( "This is nothing like dissecting a frog in biology class.  You feel sick inside." ) );
+                            break;
+                        case 2:
+                            you.add_msg_if_player( m_bad, _( "You wonder how anyone manages to do this ghastly work." ) );
+                            break;
+                        case 3:
+                            you.add_msg_if_player( m_bad,
+                                                   _( "The grim nature of your task deeply upsets you, leaving you feeling disgusted with yourself." ) );
+                            break;
+                    }
+                    get_player_character().add_morale( MORALE_BUTCHER, -40, 0, 1_days, 2_hours );
+                } else {
+                    //standard refusal to butcher
+                    you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
+                    act.targets.pop_back();
+                    return;
+                }
+            } else {
+                //if we're not player and don't have dissect_humans, just add morale penalty.
+                you.add_morale( MORALE_BUTCHER, -40, 0, 1_days, 2_hours );
+            }
+        }
+    }
     act.moves_left = butcher_time_to_cut( you, corpse_item, action ) * butchery_requirements.first;
 
     // We have a valid target, so preform the full finish function
@@ -1427,7 +1519,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                                  liquid.type_name( 1 ) );
                         map_stack items_here = here.i_at( source_pos );
                         if( items_here.empty() ) {
-                            here.furn_set( source_pos, f_fvat_empty );
+                            if( here.furn( source_pos ) == f_fvat_wood_full ) {
+                                here.furn_set( source_pos, f_fvat_wood_empty );
+                            } else {
+                                here.furn_set( source_pos, f_fvat_empty );
+                            }
                         }
                     }
                     act_ref.set_to_null();
@@ -1703,7 +1799,7 @@ void activity_handlers::start_fire_finish( player_activity *act, Character *you 
 
     you->practice( skill_survival, act->index, 5 );
 
-    firestarter_actor::resolve_firestarter_use( *you, get_map().bub_from_abs( act->placement ) );
+    firestarter_actor::resolve_firestarter_use( you, get_map().bub_from_abs( act->placement ) );
     act->set_to_null();
 }
 
@@ -2320,7 +2416,10 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
                                            fix.tname() );
         ammotype current_ammo;
         std::string ammo_name;
-        if( used_tool->has_flag( flag_USES_BIONIC_POWER ) ) {
+        if( used_tool->has_flag( flag_USE_UPS ) ) {
+            ammo_name = _( "battery" );
+            current_ammo = ammo_battery;
+        } else if( used_tool->has_flag( flag_USES_BIONIC_POWER ) ) {
             ammo_name = _( "bionic power" );
 
         } else {
@@ -2329,7 +2428,6 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
             } else {
                 current_ammo = item_controller->find_template( used_tool->ammo_current() )->ammo->type;
             }
-
             ammo_name = item::nname( used_tool->ammo_current() );
         }
 
@@ -2439,30 +2537,30 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
         debugmsg( "invalid arguments to ACT_MEND_ITEM" );
         return;
     }
-
-    item_location &target = act->targets[ 0 ];
-    const fault_id fault( act->name );
-
-    if( target->faults.count( fault ) == 0 ) {
-        debugmsg( "item %s does not have fault %s", target->tname(), fault.str() );
+    if( !act->targets[0] ) {
+        debugmsg( "lost targets[0] item location for ACT_MEND_ITEM" );
         return;
     }
-
+    item &target = *act->targets[0];
+    const fault_id fault_id( act->name );
+    if( target.faults.count( fault_id ) == 0 ) {
+        debugmsg( "item %s does not have fault %s", target.tname(), fault_id.str() );
+        return;
+    }
     if( act->str_values.empty() ) {
-        debugmsg( "missing mending_method id for ACT_MEND_ITEM." );
+        debugmsg( "missing fault_fix_id for ACT_MEND_ITEM." );
         return;
     }
-
-    const mending_method *method = fault->find_mending_method( act->str_values[0] );
-    if( !method ) {
-        debugmsg( "invalid mending_method id for ACT_MEND_ITEM." );
+    const fault_fix_id fix_id( act->str_values[0] );
+    if( !fix_id.is_valid() ) {
+        debugmsg( "invalid fault_fix_id '%s' for ACT_MEND_ITEM.", fix_id.str() );
         return;
     }
-
+    const fault_fix &fix = *fix_id;
+    const requirement_data &reqs = fix.get_requirements();
     const inventory &inv = you->crafting_inventory();
-    const requirement_data reqs = method->get_requirements();
     if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
-        add_msg( m_info, _( "You are currently unable to mend the %s." ), target->tname() );
+        add_msg( m_info, _( "You are currently unable to mend the %s." ), target.tname() );
         return;
     }
     for( const auto &e : reqs.get_components() ) {
@@ -2473,31 +2571,35 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     }
     you->invalidate_crafting_inventory();
 
-    target->faults.erase( fault );
-    if( method->turns_into ) {
-        target->faults.emplace( *method->turns_into );
+    for( const ::fault_id &id : fix.faults_removed ) {
+        target.faults.erase( id );
     }
-    // also_mends removes not just the fault picked to be mended, but this as well.
-    if( method->also_mends ) {
-        target->faults.erase( *method->also_mends );
+    for( const ::fault_id &id : fix.faults_added ) {
+        target.faults.insert( id );
     }
-    for( const std::pair<const std::string, std::string> &pair : method->set_variables ) {
-        target->set_var( pair.first, pair.second );
+    for( const auto &[var_name, var_value] : fix.set_variables ) {
+        target.set_var( var_name, var_value );
     }
 
-    const std::string start_durability = target->durability_indicator( true );
-    item &fix = *target.get_item();
-    for( int i = 0; i < method->heal_stages.value_or( 0 ); i++ ) {
-        fix.mod_damage( -itype::damage_scale );
+    const std::string start_durability = target.durability_indicator( true );
+
+    if( fix.mod_damage ) {
+        target.mod_damage( fix.mod_damage );
+    }
+    if( fix.mod_degradation ) {
+        target.set_degradation( target.degradation() + fix.mod_degradation );
     }
 
-    //get skill list from mending method, iterate through and give xp
-    for( const std::pair<const skill_id, int> &e : method->skills ) {
-        you->practice( e.first, 10, static_cast<int>( e.second * 1.25 ) );
+    for( const auto &[skill_id, level] : fix.skills ) {
+        you->practice( skill_id, 10, static_cast<int>( level * 1.25 ) );
     }
 
-    add_msg( m_good, method->success_msg.translated(), target->tname( 1, false ),
-             start_durability, target->durability_indicator( true ) );
+    for( const auto &[proficiency_id, mult] : fix.time_save_profs ) {
+        you->practice_proficiency( proficiency_id, fix.time );
+    }
+
+    add_msg( m_good, fix.success_msg.translated(), target.tname( 1, false ),
+             start_durability, target.durability_indicator( true ) );
 }
 
 void activity_handlers::toolmod_add_finish( player_activity *act, Character *you )
@@ -3416,7 +3518,7 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
     const float computer_skill = you->get_skill_level( skill_computer );
     const float randomized_skill = rng( 2, you->int_cur ) + computer_skill;
     float success = computer_skill - 3 * z->type->difficulty / randomized_skill;
-    if( z->has_flag( MF_RIDEABLE_MECH ) ) {
+    if( z->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         success = randomized_skill - rng( 1, 11 );
     }
     // rideable mechs are not hostile, they have no AI, they do not resist control as much.
@@ -3424,7 +3526,7 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
         you->add_msg_if_player( _( "You successfully override the %s's IFF protocols!" ),
                                 z->name() );
         z->friendly = -1;
-        if( z->has_flag( MF_RIDEABLE_MECH ) ) {
+        if( z->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             z->add_effect( effect_pet, 1_turns, true );
         }
     } else if( success >= -2 ) {
@@ -3645,6 +3747,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                     you->consume_charges( it, it.type->charges_to_use() );
                 }
             }
+            get_event_bus().send<event_type::spellcasting_finish>( you->getID(), sp,
+                    spell_being_cast.spell_class() );
         }
     }
 }

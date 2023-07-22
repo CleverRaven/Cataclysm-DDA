@@ -1,7 +1,6 @@
 [
   {
     "id": "afs_magellan_suit_helmet",
-    "repairs_like": "afs_magellan_suit",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "looks_like": "helmet_motor",
@@ -52,7 +51,6 @@
   {
     "id": "afs_magellan_suit_helmet_on",
     "copy-from": "afs_magellan_suit_helmet",
-    "repairs_like": "afs_magellan_suit",
     "type": "TOOL_ARMOR",
     "name": { "str": "Magellan helmet CA. (on)", "str_pl": "Magellan helmets CA. (on)" },
     "looks_like": "helmet_motor",
@@ -66,7 +64,6 @@
   },
   {
     "id": "afs_frontier_cryomask",
-    "repairs_like": "nomex_hood",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "looks_like": "helmet_motor",
@@ -111,7 +108,6 @@
   {
     "id": "afs_frontier_cryomask_on",
     "copy-from": "afs_frontier_cryomask",
-    "repairs_like": "afs_frontier_cryomask",
     "type": "TOOL_ARMOR",
     "name": { "str": "frontier cryomask (on)", "str_pl": "frontier cryomasks (on)" },
     "looks_like": "helmet_motor",

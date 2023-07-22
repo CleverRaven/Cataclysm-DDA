@@ -23,10 +23,9 @@
     "type": "item_group"
   },
   {
-    "abstract": "seat_abstract",
+    "id": "seat",
     "breaks_into": "ig_vp_seat",
     "broken_color": "red",
-    "broken_symbol": "*",
     "categories": [ "operations", "passengers" ],
     "color": "red",
     "comfort": 2,
@@ -39,6 +38,7 @@
     "item": "seat",
     "location": "center",
     "looks_like": "reclining_seat",
+    "//": "weld repairs would mostly be the frame and springs of the seat, so low 6cm cost per quadrant",
     "name": { "str": "seat" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -50,94 +50,65 @@
       }
     },
     "size": "25 L",
-    "symbol": "#",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "windshield", "label": "Windshield" }, { "id": "swivel_chair", "label": "Swivel Chair" } ],
+    "variants": [
+      { "id": "front", "label": "Front", "symbols": "#", "symbols_broken": "*" },
+      { "id": "vertical", "label": "Vertical", "symbols": "#", "symbols_broken": "*" },
+      { "id": "vertical_left", "label": "Left Vertical", "symbols": "#", "symbols_broken": "*" },
+      { "id": "vertical_right", "label": "Right Vertical", "symbols": "#", "symbols_broken": "*" },
+      { "id": "left", "label": "Left", "symbols": "#", "symbols_broken": "*" },
+      { "id": "right", "label": "Right", "symbols": "#", "symbols_broken": "*" },
+      { "id": "rear", "label": "Rear", "symbols": "#", "symbols_broken": "*" }
+    ]
   },
   {
-    "abstract": "seat_leather_abstract",
+    "id": "seat_leather",
     "breaks_into": "ig_vp_seat_leather",
     "copy-from": "seat",
     "item": "seat_leather",
-    "looks_like": "seat",
     "name": { "str": "leather seat" },
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "windshield", "label": "Windshield" } ]
   },
   {
-    "abstract": "reclining_seat_abstract",
-    "breaks_into": "ig_vp_seat",
-    "broken_color": "red",
-    "broken_symbol": "*",
-    "categories": [ "operations", "passengers" ],
-    "color": "red",
+    "id": "reclining_seat",
+    "copy-from": "seat",
     "comfort": 3,
-    "damage_modifier": 60,
-    "damage_reduction": { "all": 3, "bash": 5 },
-    "description": "A place to sit, and the backrest reclines to make it an uncomfortable bed.",
+    "description": "A place to sit, with an adjustable backrest.",
     "durability": 100,
-    "flags": [ "BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO" ],
     "floor_bedding_warmth": 350,
-    "item": "seat",
-    "location": "center",
-    "looks_like": "seat",
     "name": { "str": "reclining seat" },
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 2 ] ],
-        "time": "30 m",
-        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
-      }
-    },
     "size": "6250 ml",
-    "symbol": "#",
-    "type": "vehicle_part"
+    "extend": { "flags": [ "BED" ] },
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "windshield", "label": "Windshield" } ]
   },
   {
-    "abstract": "reclining_seat_leather_abstract",
+    "id": "reclining_seat_leather",
     "breaks_into": "ig_vp_seat_leather",
     "copy-from": "reclining_seat",
     "item": "seat_leather",
     "looks_like": "seat_leather",
     "name": { "str": "reclining leather seat" },
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "variants_bases": [ { "id": "windshield", "label": "Windshield" } ]
   },
   {
-    "abstract": "seat_back_abstract",
-    "breaks_into": "ig_vp_seat",
-    "broken_color": "red",
-    "broken_symbol": "*",
-    "categories": [ "operations", "passengers" ],
-    "color": "red",
+    "id": "seat_back",
+    "copy-from": "seat",
     "comfort": 4,
-    "damage_modifier": 60,
-    "damage_reduction": { "all": 3, "bash": 5 },
     "description": "A benchlike seat.  Mostly found in the second row, also known as the back or rear seat.",
-    "durability": 300,
-    "flags": [ "BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO" ],
     "floor_bedding_warmth": 500,
-    "item": "seat",
-    "location": "center",
-    "looks_like": "seat",
     "name": { "str": "back seat" },
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 2 ] ],
-        "time": "30 m",
-        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
-      }
-    },
     "size": "30 L",
-    "standard_symbols": false,
-    "symbols": { "vertical": "#", "vertical_left": "#", "vertical_right": "#", "left": "#", "right": "#" },
+    "extend": { "flags": [ "BED" ] },
     "type": "vehicle_part"
   },
   {
-    "abstract": "seat_back_leather_abstract",
-    "breaks_into": "ig_vp_seat_leather",
+    "id": "seat_back_leather",
     "copy-from": "seat_back",
+    "breaks_into": "ig_vp_seat_leather",
     "item": "seat_leather",
     "looks_like": "seat_leather",
     "name": { "str": "leather back seat" },
@@ -145,188 +116,68 @@
   },
   {
     "type": "vehicle_part",
-    "abstract": "saddle_abstract",
+    "id": "saddle",
+    "copy-from": "seat",
     "name": { "str": "saddle" },
-    "categories": [ "operations", "passengers" ],
-    "symbol": "#",
-    "looks_like": "seat",
-    "color": "red",
-    "broken_symbol": "*",
-    "broken_color": "red",
-    "damage_modifier": 20,
-    "damage_reduction": { "all": 3, "bash": 5 },
     "durability": 80,
     "description": "A padded wedge that you straddle, like a bicycle or motorcycle.",
     "folded_volume": "1250 ml",
+    "//": "weld repairs would mostly be the frame, so low 4cm cost per quadrant",
     "comfort": 1,
-    "floor_bedding_warmth": 200,
     "item": "saddle",
-    "location": "center",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 2 ] ],
-        "time": "20 s",
+        "time": "20 m",
         "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 4 ] ]
       }
     },
-    "flags": [ "SEAT", "BOARDABLE", "NONBELTABLE" ],
-    "breaks_into": [ { "item": "leather", "prob": 50 }, { "item": "scrap", "count": [ 1, 2 ] } ]
+    "breaks_into": [ { "item": "leather", "prob": 50 }, { "item": "scrap", "count": [ 1, 2 ] } ],
+    "size": "0 ml",
+    "extend": { "flags": [ "NONBELTABLE" ] },
+    "delete": { "flags": [ "BELTABLE", "CARGO" ] },
+    "variants_bases": [  ],
+    "variants": [
+      { "id": "pedal", "label": "Pedals", "symbols": "#", "symbols_broken": "*" },
+      { "id": "motor", "label": "Motorcycle", "symbols": "#", "symbols_broken": "*" },
+      { "id": "scooter", "label": "Scooter", "symbols": "#", "symbols_broken": "*" }
+    ]
   },
   {
     "type": "vehicle_part",
-    "abstract": "folding_seat_abstract",
+    "id": "folding_seat",
+    "copy-from": "saddle",
     "name": { "str": "foldable seat" },
-    "categories": [ "operations", "passengers" ],
-    "symbol": "#",
-    "looks_like": "seat",
-    "color": "red",
-    "broken_symbol": "*",
-    "broken_color": "red",
-    "damage_modifier": 10,
-    "damage_reduction": { "all": 3, "bash": 5 },
+    "comfort": 0,
+    "floor_bedding_warmth": 0,
     "durability": 20,
     "description": "A crude seat, too uncomfortable to sleep in.",
     "item": "sheet",
     "folded_volume": "2500 ml",
     "location": "anywhere",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 3 ] ],
-        "time": "20 s",
-        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 3 ] ]
-      }
-    },
-    "flags": [ "SEAT", "BOARDABLE", "NONBELTABLE" ],
-    "breaks_into": [ { "item": "cotton_patchwork", "count": [ 1, 6 ] } ]
+    "breaks_into": [ { "item": "cotton_patchwork", "count": [ 1, 6 ] } ],
+    "variants": [ { "symbols": "#", "symbols_broken": "*" } ]
   },
   {
-    "abstract": "metal_bench_abstract",
+    "id": "metal_bench",
+    "copy-from": "seat",
     "breaks_into": "ig_vp_prison_bench",
-    "broken_color": "dark_gray",
-    "broken_symbol": "*",
-    "categories": [ "operations", "passengers" ],
-    "color": "dark_gray",
     "comfort": 0,
-    "damage_modifier": 60,
-    "damage_reduction": { "all": 3, "bash": 5 },
+    "floor_bedding_warmth": 0,
     "description": "A steel bench with ankle and wrist restraints built in.  It looks very uncomfortable.",
     "durability": 450,
-    "flags": [ "SEAT", "BOARDABLE", "BELTABLE" ],
     "item": "steel_plate",
-    "location": "center",
-    "looks_like": "seat",
+    "//": "more metal here so bigger weld cost - 20cm weld per damage quadrant",
     "name": { "str": "steel bench" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_abstract",
-    "id": "seat",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_abstract",
-    "id": "seat_swivel_chair",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_abstract",
-    "id": "seat_windshield",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_leather_abstract",
-    "id": "seat_leather",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_leather_abstract",
-    "id": "seat_windshield_leather",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat_abstract",
-    "id": "reclining_seat",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat_abstract",
-    "id": "reclining_seat_windshield",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat_leather_abstract",
-    "id": "reclining_seat_leather",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat_leather_abstract",
-    "id": "reclining_seat_windshield_leather",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_back_abstract",
-    "id": "seat_back",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_back_leather_abstract",
-    "id": "seat_back_leather",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "saddle_abstract",
-    "id": "saddle",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "saddle_abstract",
-    "id": "saddle_pedal",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "saddle_abstract",
-    "id": "saddle_motor",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "saddle_abstract",
-    "id": "saddle_scooter",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "folding_seat_abstract",
-    "id": "folding_seat",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "metal_bench_abstract",
-    "id": "metal_bench",
-    "symbol": "#",
+    "size": "0 ml",
+    "delete": { "flags": [ "CARGO" ] },
     "type": "vehicle_part"
   }
 ]

@@ -29,6 +29,7 @@
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
@@ -150,6 +151,7 @@ std::string enum_to_string<mission_kind>( mission_kind data )
         case mission_kind::Forage_Job: return "Forage_Job";
         case mission_kind::Caravan_Commune_Center_Job: return "Caravan_Commune_Center_Job";
         case mission_kind::Camp_Distribute_Food: return "Camp_Distribute_Food";
+		case mission_kind::Camp_Determine_Leadership: return "Camp_Determine_Leadership";
         case mission_kind::Camp_Hide_Mission: return "Camp_Hide_Mission";
         case mission_kind::Camp_Reveal_Mission: return "Camp_Reveal_Mission";
         case mission_kind::Camp_Assign_Jobs: return "Camp_Assign_Jobs";
@@ -223,6 +225,10 @@ static const std::array < miss_data, Camp_Harvest + 1 > miss_info = { {
         //  Faction camp missions
         {
             "Camp_Distribute_Food",
+            no_translation( "" )
+        },
+        {
+            "Camp_Determine_Leadership",
             no_translation( "" )
         },
         {
@@ -1197,6 +1203,7 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
             return false;
 
         case Camp_Distribute_Food:
+        case Camp_Determine_Leadership:
         case Camp_Hide_Mission:
         case Camp_Reveal_Mission:
         case Camp_Assign_Jobs:
@@ -1659,7 +1666,6 @@ void talk_function::field_harvest( npc &p, const std::string &place )
             map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
                 return it.is_seed();
             } );
-
             if( seed != items.end() ) {
                 const islot_seed &seed_data = *seed->type->seed;
                 const item item_seed = item( seed->type, calendar::turn );

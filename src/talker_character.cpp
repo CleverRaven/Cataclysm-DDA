@@ -108,6 +108,13 @@ int talker_character_const::per_cur() const
     return me_chr_const->per_cur;
 }
 
+int talker_character_const::attack_speed() const
+{
+    item_location cur_weapon = me_chr_const->used_weapon();
+    item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
+    return me_chr_const->attack_speed( cur_weap );
+}
+
 void talker_character::set_str_max( int value )
 {
     me_chr->str_max = value;
@@ -203,6 +210,11 @@ void talker_character::learn_recipe( const recipe_id &recipe_to_learn )
     me_chr->learn_recipe( &*recipe_to_learn );
 }
 
+void talker_character::forget_recipe( const recipe_id &recipe_to_forget )
+{
+    me_chr->forget_recipe( &*recipe_to_forget );
+}
+
 bool talker_character_const::is_deaf() const
 {
     return me_chr_const->is_deaf();
@@ -234,10 +246,37 @@ void talker_character::unset_mutation( const trait_id &old_trait )
     me_chr->unset_mutation( old_trait );
 }
 
+void talker_character::activate_mutation( const trait_id &trait )
+{
+    me_chr->activate_mutation( trait );
+}
+
+void talker_character::deactivate_mutation( const trait_id &trait )
+{
+    me_chr->deactivate_mutation( trait );
+}
+
 bool talker_character_const::has_flag( const json_character_flag &trait_flag_to_check ) const
 {
     return me_chr_const->has_flag( trait_flag_to_check );
 }
+
+bool talker_character_const::has_species( const species_id &species ) const
+{
+    add_msg_debug( debugmode::DF_TALKER, "Character %s checked for species %s", me_chr_const->name,
+                   species.c_str() );
+    return me_chr_const->in_species( species );
+}
+
+bool talker_character_const::bodytype( const bodytype_id &bt ) const
+{
+    add_msg_debug( debugmode::DF_TALKER, "Character %s checked for bodytype %s", me_chr_const->name,
+                   bt );
+    // All characters are human-bodytyped for now
+    // TODO: Change that for very limby characters
+    return bt == "human";
+}
+
 
 bool talker_character_const::crossed_threshold() const
 {
@@ -554,6 +593,13 @@ int talker_character_const::get_healthy_kcal() const
     return me_chr_const->get_healthy_kcal();
 }
 
+int talker_character_const::get_size() const
+{
+    add_msg_debug( debugmode::DF_TALKER, "Size category of character %s = %d", me_chr_const->name,
+                   me_chr_const->get_size() - 0 );
+    return me_chr_const->get_size() - 0;
+}
+
 void talker_character::set_stored_kcal( int value )
 {
     me_chr->set_stored_kcal( value );
@@ -576,6 +622,11 @@ void talker_character::shout( const std::string &speech, bool order )
 int talker_character_const::pain_cur() const
 {
     return me_chr_const->get_pain();
+}
+
+double talker_character_const::armor_at( damage_type_id &dt, bodypart_id &bp ) const
+{
+    return me_chr_const->worn.damage_resist( dt, bp );
 }
 
 void talker_character::mod_pain( int amount )
@@ -891,10 +942,29 @@ void talker_character::set_part_hp_cur( const bodypart_id &id, int set ) const
     me_chr->set_part_hp_cur( id, set );
 }
 
+bool talker_character::get_is_alive() const
+{
+    return !me_chr->is_dead_state();
+}
+
 void talker_character::die()
 {
     me_chr->die( nullptr );
 }
+
+matec_id talker_character::get_random_technique( Creature &t, bool crit,
+        bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist ) const
+{
+    return me_chr->pick_technique( t, me_chr->used_weapon(), crit, dodge_counter, block_counter,
+                                   blacklist );
+}
+
+void talker_character::attack_target( Creature &t, bool allow_special,
+                                      const matec_id &force_technique, bool allow_unarmed, int forced_movecost )
+{
+    me_chr->melee_attack( t, allow_special, force_technique, allow_unarmed, forced_movecost );
+}
+
 
 void talker_character::learn_martial_art( const matype_id &id ) const
 {

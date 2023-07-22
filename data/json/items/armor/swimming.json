@@ -115,7 +115,6 @@
   },
   {
     "id": "bikini_bottom_short",
-    "repairs_like": "bikini_bottom",
     "type": "ARMOR",
     "name": { "str": "short bikini bottom" },
     "description": "A very short bikini bottom, commonly called a thong.",
@@ -242,7 +241,6 @@
   },
   {
     "id": "bikini_top_short",
-    "repairs_like": "bikini_top",
     "type": "ARMOR",
     "name": { "str": "short bikini top" },
     "description": "A very short bikini top.  It doesn't cover much, but was in fashion before the world ended.",
@@ -261,7 +259,6 @@
   {
     "id": "flag_swimsuit",
     "//": "the flag_swimsuit was first, so that's why this ID is used for all swimsuits",
-    "repairs_like": "leotard",
     "type": "ARMOR",
     "name": { "str": "swimsuit" },
     "description": "A simple swimsuit.",
@@ -374,7 +371,6 @@
   },
   {
     "id": "rashguard",
-    "repairs_like": "longshirt",
     "type": "ARMOR",
     "name": { "str": "rashguard shirt" },
     "description": "A long-sleeved rashguard shirt.  Commonly used to protect against rashes from abrasion or sun exposure.",
@@ -505,7 +501,6 @@
   },
   {
     "id": "speedo",
-    "repairs_like": "shorts",
     "type": "ARMOR",
     "name": { "str": "speedo" },
     "description": "A pair of very short black swim briefs.  Commonly used by male competitive swimmers and bodybuilders.",
@@ -523,7 +518,6 @@
   },
   {
     "id": "swim_briefs",
-    "repairs_like": "shorts",
     "type": "ARMOR",
     "name": { "str_sp": "swim briefs" },
     "description": "A pair of blue swim briefs.  Commonly used by male competitive swimmers.",
@@ -542,7 +536,6 @@
   },
   {
     "id": "swim_cap",
-    "repairs_like": "wetsuit_hood",
     "type": "ARMOR",
     "name": { "str": "swim cap" },
     "description": "A tightly fitted, skin-tight head garment made of lycra.  Commonly used by recreational and competitive swimmers.",
@@ -569,7 +562,6 @@
   },
   {
     "id": "trunks",
-    "repairs_like": "shorts",
     "type": "ARMOR",
     "name": { "str": "pair of swimming trunks", "str_pl": "pairs of swimming trunks" },
     "description": "A pair of swimming trunks, with netting.",
@@ -631,7 +623,6 @@
     "id": "wetsuit_booties_thick",
     "type": "ARMOR",
     "copy-from": "wetsuit_booties",
-    "repairs_like": "wetsuit_booties",
     "name": { "str": "pair of thick swimming booties", "str_pl": "pairs of thick swimming booties" },
     "description": "A pair of thick neoprene swimming booties, with individual toes.",
     "weight": "160 g",
@@ -703,7 +694,6 @@
   },
   {
     "id": "wetsuit_thick",
-    "repairs_like": "wetsuit",
     "type": "ARMOR",
     "name": { "str": "thick wetsuit" },
     "description": "A full-body 5mm thick neoprene and nylon wetsuit.",
@@ -761,7 +751,6 @@
     "id": "wetsuit_hood_thick",
     "type": "ARMOR",
     "copy-from": "wetsuit_hood",
-    "repairs_like": "wetsuit_hood",
     "name": { "str": "thick wetsuit hood" },
     "description": "A 5mm thick neoprene hood, commonly worn by divers.",
     "weight": "180 g",
@@ -773,7 +762,6 @@
   },
   {
     "id": "wetsuit_jacket",
-    "repairs_like": "wetsuit",
     "type": "ARMOR",
     "name": { "str": "wetsuit jacket" },
     "description": "A long-sleeved neoprene jacket.  Keeps you warm and protected from the elements.",
@@ -797,7 +785,6 @@
   },
   {
     "id": "wetsuit_top",
-    "repairs_like": "wetsuit",
     "type": "ARMOR",
     "name": { "str": "wetsuit shirt" },
     "description": "A short-sleeved neoprene shirt.  Good for use on the beach.",
@@ -826,7 +813,6 @@
   },
   {
     "id": "wetsuit_top_sleeved",
-    "repairs_like": "wetsuit",
     "type": "ARMOR",
     "name": { "str": "wetsuit long-sleeved shirt" },
     "description": "A long-sleeved neoprene shirt.  Good for surfing and other water sports.",
@@ -850,7 +836,6 @@
   },
   {
     "id": "wetsuit_pants",
-    "repairs_like": "wetsuit",
     "type": "ARMOR",
     "name": { "str_sp": "wetsuit pants" },
     "description": "A pair of light and stretchy neoprene pants.  Good for surfing and other water sports.",
@@ -871,7 +856,6 @@
   },
   {
     "id": "wetsuit_shorts",
-    "repairs_like": "wetsuit",
     "type": "ARMOR",
     "name": { "str_sp": "wetsuit shorts" },
     "description": "A pair of light and stretchy neoprene shorts.  Good for use on the beach.",
@@ -944,7 +928,6 @@
   },
   {
     "id": "wetsuit_spring_sleeveless",
-    "repairs_like": "wetsuit_spring",
     "type": "ARMOR",
     "name": { "str": "sleeveless spring suit" },
     "description": "A sleeveless spring wetsuit with an ocean blue color and cleavage-enhancing, hip-accentuating construction.  Not as protective as a full-body suit, but also less restrictive.",
@@ -1005,7 +988,6 @@
   },
   {
     "id": "shark_suit",
-    "repairs_like": "shark_suit_faraday",
     "type": "ARMOR",
     "name": { "str": "sharksuit" },
     "description": "A-one piece chainmail suit used by SCUBA divers for protection against shark bites.  It comes with attached plastic helmet and booties.",
@@ -1078,7 +1060,6 @@
   },
   {
     "id": "wetsuit_gloves_thick",
-    "repairs_like": "wetsuit_gloves",
     "type": "ARMOR",
     "copy-from": "wetsuit_gloves",
     "name": { "str": "pair of thick swimming gloves", "str_pl": "pairs of thick swimming gloves" },

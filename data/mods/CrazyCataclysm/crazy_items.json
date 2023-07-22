@@ -12,7 +12,13 @@
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "green",
-    "use_action": [ "GRANADE" ],
+    "use_action": {
+      "need_wielding": true,
+      "target": "granade_act",
+      "msg": "You pull the pin on the Granade.",
+      "target_timer": "5 seconds",
+      "type": "transform"
+    },
     "melee_damage": { "bash": 6 }
   },
   {
@@ -28,10 +34,11 @@
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "green",
-    "initial_charges": 5,
-    "max_charges": 5,
-    "turns_per_charge": 1,
-    "use_action": [ "GRANADE_ACT" ],
+    "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead." },
+    "tick_action": [
+      { "type": "sound", "sound_message": "Merged!", "sound_volume": 0, "sound_id": "speech", "sound_variant": "granade_act" }
+    ],
+    "countdown_action": "GRANADE_ACT",
     "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 6 }
   },
@@ -125,8 +132,7 @@
       "target_id": "firekatana_on",
       "moves": 10,
       "noise": 10,
-      "success_message": "The Sun rises.",
-      "lacks_fuel_message": "Time stands still."
+      "success_message": "The Sun rises."
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ] ],
     "flags": [ "FIRE", "DURABLE_MELEE", "SHEATH_SWORD" ],
@@ -150,15 +156,17 @@
     "revert_to": "firekatana_off",
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "use_action": [
+      { "type": "transform", "target": "firekatana_off", "msg": "The Sun sets.", "menu_text": "Turn off" },
+      { "type": "firestarter", "moves": 30 }
+    ],
+    "tick_action": [
       {
         "type": "fireweapon_on",
         "noise_chance": 35,
         "noise_message": "The Sun shines brightly.",
-        "voluntary_extinguish_message": "The Sun sets.",
         "charges_extinguish_message": "The Light Fades.",
         "water_extinguish_message": "Your sword hisses in the water and goes out."
-      },
-      { "type": "firestarter", "moves": 30 }
+      }
     ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ],
     "melee_damage": { "bash": 4, "cut": 31 }
@@ -185,8 +193,7 @@
       "target_id": "zweifire_on",
       "moves": 10,
       "noise": 10,
-      "success_message": "Die Klinge deines Schwertes brennt!",
-      "lacks_fuel_message": "Dein Flammenschwert hat keinen Brennstoff mehr."
+      "success_message": "Die Klinge deines Schwertes brennt!"
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 1 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
@@ -212,14 +219,21 @@
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "use_action": [
       {
+        "type": "transform",
+        "target": "zweifire_off",
+        "msg": "Die Flamme deines Schwertes erlischt.",
+        "menu_text": "Turn off"
+      },
+      { "type": "firestarter", "moves": 30 }
+    ],
+    "tick_action": [
+      {
         "type": "fireweapon_on",
         "noise_chance": 35,
         "noise_message": "Das Feuer um deine Schwertklinge leuchtet hell!",
-        "voluntary_extinguish_message": "Die Flamme deines Schwertes erlischt.",
         "charges_extinguish_message": "Deinem Flammenschwert ist der Brennstoff ausgegangen!",
         "water_extinguish_message": "Dein Schwert zischt und erlischt."
-      },
-      { "type": "firestarter", "moves": 30 }
+      }
     ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH", "ALWAYS_TWOHAND" ],
     "melee_damage": { "bash": 17, "cut": 40 }

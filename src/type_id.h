@@ -88,6 +88,9 @@ using event_statistic_id = string_id<event_statistic>;
 class fault;
 using fault_id = string_id<fault>;
 
+class fault_fix;
+using fault_fix_id = string_id<fault_fix>;
+
 struct field_type;
 using field_type_id = int_id<field_type>;
 using field_type_str_id = string_id<field_type>;
@@ -141,6 +144,10 @@ using mission_type_id = string_id<mission_type>;
 
 struct MOD_INFORMATION;
 using mod_id = string_id<MOD_INFORMATION>;
+
+struct mon_flag;
+using mon_flag_id = int_id<mon_flag>;
+using mon_flag_str_id = string_id<mon_flag>;
 
 class monfaction;
 using mfaction_id = int_id<monfaction>;
