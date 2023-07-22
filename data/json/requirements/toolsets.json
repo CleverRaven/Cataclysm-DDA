@@ -88,9 +88,16 @@
   {
     "id": "blacksmithing_standard",
     "type": "requirement",
-    "//": "Includes forging resources as well as tools needed for most blacksmithing",
+    "//": "Includes forging resources as well as tools needed for most blacksmithing. Per forging_standard energy cost balanced for one steel chunk.",
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "metal_file", -1 ] ], [ [ "metalworking_tongs", -1 ] ] ]
+  },
+  {
+    "id": "blacksmithing_scrap",
+    "type": "requirement",
+    "//": "Includes forging resources as well as tools needed for most blacksmithing. Recalculated to take energy for the weight of one scrap instead of one chunk.",
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "forge", 5 ], [ "oxy_torch", 5 ] ], [ [ "metal_file", -1 ] ], [ [ "metalworking_tongs", -1 ] ] ]
   },
   {
     "id": "mutagen_production_standard",

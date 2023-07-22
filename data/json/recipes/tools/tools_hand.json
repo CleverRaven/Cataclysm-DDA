@@ -343,7 +343,7 @@
     "difficulty": 6,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "using": [ [ "blacksmithing_scrap", 2 ] ],
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
