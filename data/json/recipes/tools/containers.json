@@ -138,7 +138,7 @@
     "difficulty": 3,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_scrap", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -282,7 +282,7 @@
     "difficulty": 8,
     "time": "7 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 64 ], [ "steel_standard", 20 ] ],
+    "using": [ [ "blacksmithing_standard", 80 ], [ "steel_standard", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ]
   },
@@ -297,7 +297,7 @@
     "difficulty": 8,
     "time": "4 h 20 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 31 ], [ "steel_standard", 8 ] ],
+    "using": [ [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ]
   },

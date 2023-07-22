@@ -711,7 +711,7 @@
     "time": "3 h",
     "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_scrap", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
@@ -748,7 +748,7 @@
     "time": "3 h",
     "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "lc_steel_lump", 1 ] ] ]
   },
@@ -785,7 +785,7 @@
     "time": "3 h",
     "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "mc_steel_lump", 1 ] ] ]
   },
@@ -822,7 +822,7 @@
     "time": "3 h",
     "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "hc_steel_lump", 1 ] ] ]
   },
@@ -859,7 +859,7 @@
     "time": "2 h",
     "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "carbon", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "carbon", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "lc_steel_lump", 1 ] ] ]
   },
@@ -897,7 +897,7 @@
     "time": "3 h",
     "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "carbon", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "carbon", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1747,7 +1747,7 @@
     "time": "1 h 30 m",
     "reversible": true,
     "book_learn": [ [ "mag_survival", 4 ], [ "atomic_survival", 3 ], [ "textbook_survival", 2 ] ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 8 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_tiny", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "rope_superior", 1, "LIST" ] ] ]
