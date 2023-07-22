@@ -3947,10 +3947,11 @@
     "name": { "str": "Padded Feet" },
     "points": 1,
     "visibility": 1,
-    "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.",
+    "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.  Also, your steps are significantly quieter, as added tissue dampens the noise.",
     "types": [ "SOLES" ],
     "category": [ "BATRACHIAN", "RABBIT", "URSINE", "FELINE", "LUPINE", "SPIDER", "BEAST" ],
-    "flags": [ "TOUGH_FEET" ]
+    "flags": [ "TOUGH_FEET" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",
