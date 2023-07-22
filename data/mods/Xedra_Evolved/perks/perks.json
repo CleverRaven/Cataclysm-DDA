@@ -66,6 +66,11 @@
     "points": 0,
     "description": "Maybe you aren't a genius, but something inside of you grants previously hidden reserves of mana.",
     "category": [ "perk" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "math": [ "u_val('mana')", "=", "( 16 - clamp(u_val('intelligence'), 8, 16) ) * 62.5" ] } ]
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "MAX_MANA", "add": { "math": [ "( 16 - clamp(u_val('intelligence'), 8, 16) ) * 62.5" ] } } ]
+      }
+    ]
   }
 ]
