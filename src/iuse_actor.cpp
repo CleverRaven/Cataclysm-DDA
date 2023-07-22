@@ -220,14 +220,16 @@ void iuse_transform::load( const JsonObject &obj )
     obj.read( "menu_text", menu_text );
 }
 
-std::optional<int> iuse_transform::use( Character *p, item &it, bool t, const tripoint & ) const
+std::optional<int> iuse_transform::use( Character *p, item &it, bool, const tripoint & ) const
 {
     int scale = 1;
     auto iter = it.type->ammo_scale.find( type );
     if( iter != it.type->ammo_scale.end() ) {
         scale = iter->second;
     }
-    if( t || !p ) {
+    if( !p ) {
+        debugmsg( "%s called action that requires character but no character is present",
+                  it.typeId().str() );
         return std::nullopt; // invoked from active item processing, do nothing.
     }
 
@@ -825,14 +827,14 @@ int delayed_transform_iuse::time_to_do( const item &it ) const
     return transform_age - to_turns<int>( it.age() );
 }
 
-std::optional<int> delayed_transform_iuse::use( Character *p, item &it, bool t,
+std::optional<int> delayed_transform_iuse::use( Character *p, item &it, bool,
         const tripoint &pos ) const
 {
     if( time_to_do( it ) > 0 ) {
         p->add_msg_if_player( m_info, "%s", not_ready_msg );
         return std::nullopt;
     }
-    return iuse_transform::use( p, it, t, pos );
+    return iuse_transform::use( p, it, false, pos );
 }
 
 std::unique_ptr<iuse_actor> place_monster_iuse::clone() const
@@ -1313,10 +1315,12 @@ int firestarter_actor::moves_cost_by_fuel( const tripoint_bub_ms &pos ) const
     return moves_cost_slow;
 }
 
-std::optional<int> firestarter_actor::use( Character *p, item &it, bool t,
+std::optional<int> firestarter_actor::use( Character *p, item &it, bool,
         const tripoint &spos ) const
 {
-    if( t ) {
+    if( !p ) {
+        debugmsg( "%s called action that requires character but no character is present",
+                  it.typeId().str() );
         return std::nullopt;
     }
 
@@ -1373,9 +1377,11 @@ std::unique_ptr<iuse_actor> salvage_actor::clone() const
     return std::make_unique<salvage_actor>( *this );
 }
 
-std::optional<int> salvage_actor::use( Character *p, item &cutter, bool t, const tripoint & ) const
+std::optional<int> salvage_actor::use( Character *p, item &cutter, bool, const tripoint & ) const
 {
-    if( t ) {
+    if( !p ) {
+        debugmsg( "%s called action that requires character but no character is present",
+                  cutter.typeId().str() );
         return std::nullopt;
     }
 
@@ -1784,9 +1790,9 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
     return true;
 }
 
-std::optional<int> inscribe_actor::use( Character *p, item &it, bool t, const tripoint & ) const
+std::optional<int> inscribe_actor::use( Character *p, item &it, bool, const tripoint & ) const
 {
-    if( t ) {
+    if( !p ) {
         return std::nullopt;
     }
 
@@ -1851,10 +1857,12 @@ std::unique_ptr<iuse_actor> fireweapon_off_actor::clone() const
     return std::make_unique<fireweapon_off_actor>( *this );
 }
 
-std::optional<int> fireweapon_off_actor::use( Character *p, item &it, bool t,
+std::optional<int> fireweapon_off_actor::use( Character *p, item &it, bool,
         const tripoint & ) const
 {
-    if( t ) {
+    if( !p ) {
+        debugmsg( "%s called action that requires character but no character is present",
+                  it.typeId().str() );
         return std::nullopt;
     }
 
@@ -3869,9 +3877,11 @@ void saw_barrel_actor::load( const JsonObject &jo )
 }
 
 //Todo: Make this consume charges if performed with a tool that uses charges.
-std::optional<int> saw_barrel_actor::use( Character *p, item &it, bool t, const tripoint & ) const
+std::optional<int> saw_barrel_actor::use( Character *p, item &it, bool, const tripoint & ) const
 {
-    if( t ) {
+    if( !p ) {
+        debugmsg( "%s called action that requires character but no character is present",
+                  it.typeId().str() );
         return std::nullopt;
     }
 
@@ -3928,9 +3938,11 @@ void saw_stock_actor::load( const JsonObject &jo )
 }
 
 //Todo: Make this consume charges if performed with a tool that uses charges.
-std::optional<int> saw_stock_actor::use( Character *p, item &it, bool t, const tripoint & ) const
+std::optional<int> saw_stock_actor::use( Character *p, item &it, bool, const tripoint & ) const
 {
-    if( t ) {
+    if( !p ) {
+        debugmsg( "%s called action that requires character but no character is present",
+                  it.typeId().str() );
         return std::nullopt;
     }
 
@@ -4004,7 +4016,9 @@ void molle_attach_actor::load( const JsonObject &jo )
 std::optional<int> molle_attach_actor::use( Character *p, item &it, bool t,
         const tripoint & ) const
 {
-    if( t ) {
+    if( !p ) {
+        debugmsg( "%s called action that requires character but no character is present",
+                  it.typeId().str() );
         return std::nullopt;
     }
 
@@ -4364,9 +4378,11 @@ std::string link_up_actor::get_name() const
     return iuse_actor::get_name();
 }
 
-std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tripoint & ) const
+std::optional<int> link_up_actor::use( Character *p, item &it, bool, const tripoint & ) const
 {
-    if( t ) {
+    if( !p ) {
+        debugmsg( "%s called action that requires character but no character is present",
+                  it.typeId().str() );
         return std::nullopt;
     }
 
@@ -5391,10 +5407,12 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
     dump.emplace_back( "DESCRIPTION", description );
 }
 
-std::optional<int> effect_on_conditons_actor::use( Character *p, item &it, bool t,
+std::optional<int> effect_on_conditons_actor::use( Character *p, item &it, bool,
         const tripoint & ) const
 {
-    if( t ) {
+    if( !p ) {
+        debugmsg( "%s called action that requires character but no character is present",
+                  it.typeId().str() );
         return std::nullopt;
     }
 
