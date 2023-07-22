@@ -688,7 +688,7 @@ class Character : public Creature, public visitable
         int point_shooting_limit( const item &gun ) const;
         double fastest_aiming_method_speed( const item &gun, double recoil,
                                             Target_attributes target_attributes = Target_attributes(),
-                                            const std::optional<std::reference_wrapper<parallax_cache>> parallax_cache = std::nullopt ) const;
+                                            std::optional<std::reference_wrapper<parallax_cache>> parallax_cache = std::nullopt ) const;
         int most_accurate_aiming_method_limit( const item &gun ) const;
         double aim_factor_from_volume( const item &gun ) const;
         double aim_factor_from_length( const item &gun ) const;
