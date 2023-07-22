@@ -61,8 +61,9 @@
     "category": "other",
     "weight": "150 g",
     "color": "red",
-    "//": "The pom poms could make use of their own type of use_action.",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "//": "The pom poms could make use of their own type of tick_action.",
+    "tick_action": {
       "type": "musical_instrument",
       "speed_penalty": 10,
       "volume": 10,

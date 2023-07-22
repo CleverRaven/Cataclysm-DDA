@@ -31,10 +31,10 @@
       "str_mod": [ -6 ],
       "dex_mod": [ -6 ],
       "speed_mod": [ -40 ],
-      "pain_chance_bot": [ 200 ],
-      "pain_chance": [ 2, 1 ],
+      "pain_chance": [ 20 ],
       "pain_min": [ 1 ],
-      "pain_max_val": [ 10, 5 ]
+      "pain_max_val": [ 10 ],
+      "pain_tick": [ 200 ]
     },
     "enchantments": [ { "values": [ { "value": "ARMOR_BASH", "add": 4 } ] } ]
   },
@@ -62,7 +62,7 @@
     "rating": "bad",
     "max_duration": "55 hours",
     "max_intensity": 1,
-    "base_mods": { "per_mod": [ -6 ], "pain_chance_bot": [ 200 ], "pain_chance": [ 2, 1 ], "pain_min": [ 1 ], "pain_max_val": [ 10, 5 ] },
+    "base_mods": { "per_mod": [ -6 ], "pain_chance": [ 20 ], "pain_min": [ 1 ], "pain_max_val": [ 10 ], "pain_tick": [ 200 ] },
     "flags": [ "HYPEROPIC", "MYOPIC" ]
   },
   {
@@ -120,10 +120,10 @@
     "base_mods": {
       "str_mod": [ -2 ],
       "speed_mod": [ -25 ],
-      "pain_chance_bot": [ 200 ],
-      "pain_chance": [ 2, 1 ],
+      "pain_chance": [ 20 ],
       "pain_min": [ 1 ],
-      "pain_max_val": [ 10, 5 ]
+      "pain_max_val": [ 10 ],
+      "pain_tick": [ 200 ]
     },
     "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.75 } ] } ]
   },
@@ -151,7 +151,7 @@
     "rating": "bad",
     "max_duration": "55 hours",
     "max_intensity": 1,
-    "base_mods": { "int_mod": [ -4 ], "pain_chance_bot": [ 200 ], "pain_chance": [ 2, 1 ], "pain_min": [ 1 ], "pain_max_val": [ 10, 5 ] },
+    "base_mods": { "int_mod": [ -4 ], "pain_chance": [ 20 ], "pain_min": [ 1 ], "pain_max_val": [ 10 ], "pain_tick": [ 200 ] },
     "enchantments": [ { "values": [ { "value": "LEARNING_FOCUS", "add": -30 }, { "value": "READING_EXP", "add": -1 } ] } ]
   },
   {
@@ -181,9 +181,10 @@
     "base_mods": {
       "speed_mod": [ -15 ],
       "pain_chance_bot": [ 200 ],
-      "pain_chance": [ 2, 1 ],
+      "pain_chance": [ 20 ],
       "pain_min": [ 1 ],
-      "pain_max_val": [ 10, 5 ]
+      "pain_max_val": [ 10 ],
+      "pain_tick": [ 200 ]
     },
     "enchantments": [ "enchant_teleport_potion_comedown" ]
   },
@@ -215,10 +216,41 @@
       "healing_rate": [ 0.3 ],
       "vomit_chance": [ 100 ],
       "vomit_tick": [ 180 ],
-      "pain_chance_bot": [ 100 ],
-      "pain_chance": [ 2, 1 ],
+      "pain_chance": [ 20 ],
       "pain_min": [ 1 ],
-      "pain_max_val": [ 10, 5 ]
+      "pain_max_val": [ 10 ],
+      "pain_tick": [ 200 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_noetic_resilience",
+    "name": [ "Noetic Resilience" ],
+    "desc": [ "You injected the formula and are now fortified against the unnatural fatigue caused by psionic channeling." ],
+    "apply_message": "",
+    "remove_message": "The concoction's effects fade and you feel weak.",
+    "rating": "good",
+    "max_duration": "30 hours",
+    "max_intensity": 1
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_noetic_resilience_comedown",
+    "name": [ "Noetically Fragile" ],
+    "desc": [ "Your psionic capacity, and physical stamina, are reduced by the aftereffects of the noetic resilience treatment." ],
+    "apply_message": "",
+    "remove_message": "You feel your strength and ability to channel your powers finally return to normal.",
+    "rating": "bad",
+    "max_duration": "55 hours",
+    "max_intensity": 1,
+    "base_mods": {
+      "pain_chance": [ 20 ],
+      "pain_min": [ 1 ],
+      "pain_max_val": [ 10 ],
+      "pain_tick": [ 150 ],
+      "stamina_amount": [ -2500 ],
+      "stamina_min": [ -250 ],
+      "stamina_chance": [ 30 ]
     }
   }
 ]

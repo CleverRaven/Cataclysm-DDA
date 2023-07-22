@@ -145,11 +145,10 @@ void material_type::load( const JsonObject &jsobj, const std::string_view )
 void material_type::finalize_all()
 {
     material_data.finalize();
-}
-
-void material_type::finalize()
-{
-    finalize_damage_map( _resistances.resist_vals );
+    for( const material_type &mtype : material_data.get_all() ) {
+        material_type &mt = const_cast<material_type &>( mtype );
+        finalize_damage_map( mt._resistances.resist_vals );
+    }
 }
 
 void material_type::check() const
@@ -209,6 +208,12 @@ itype_id material_type::repaired_with() const
 float material_type::resist( const damage_type_id &dmg_type ) const
 {
     return _resistances.type_resist( dmg_type );
+}
+
+bool material_type::has_dedicated_resist( const damage_type_id &dmg_type ) const
+{
+    return std::find( _res_was_loaded.begin(), _res_was_loaded.end(),
+                      dmg_type ) != _res_was_loaded.end();
 }
 
 std::string material_type::bash_dmg_verb() const

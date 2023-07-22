@@ -240,7 +240,8 @@
     "dur_add_perc": 10,
     "int_dur_factor": "9 s",
     "blocks_effects": [
-      "smoke",
+      "smoke_eyes",
+      "smoke_lungs",
       "teargas",
       "boomered",
       "migo_atmosphere",

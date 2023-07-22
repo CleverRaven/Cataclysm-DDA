@@ -1139,6 +1139,9 @@ struct itype {
         /** Action to take when countdown expires */
         use_function countdown_action;
 
+        /** Actions to take when item is processed */
+        std::map<std::string, use_function> tick_action;
+
         /**
         * @name Non-negative properties
         * After loading from JSON these properties guaranteed to be zero or positive

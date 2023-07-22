@@ -578,9 +578,10 @@ int Character::gun_engagement_moves( const item &gun, int target, int start,
 {
     int mv = 0;
     double penalty = start;
-
+    const aim_mods_cache &aim_cache = gen_aim_mods_cache( gun );
+    auto aim_cache_opt = std::make_optional( std::ref( aim_cache ) );
     while( penalty > target ) {
-        double adj = aim_per_move( gun, penalty, attributes );
+        double adj = aim_per_move( gun, penalty, attributes, aim_cache_opt );
         if( adj <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
@@ -1567,10 +1568,11 @@ static recoil_prediction predict_recoil( const Character &you, const item &weapo
 
     double predicted_recoil = start_recoil;
     int predicted_delay = 0;
-
+    const aim_mods_cache &aim_cache = you.gen_aim_mods_cache( weapon );
+    auto aim_cache_opt = std::make_optional( std::ref( aim_cache ) );
     // next loop simulates aiming until either aim mode threshold or sight_dispersion is reached
     do {
-        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target );
+        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target, aim_cache_opt );
         if( aim_amount <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
