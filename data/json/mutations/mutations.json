@@ -1103,7 +1103,7 @@
     "restricts_gear": [ "torso" ],
     "remove_rigid": [ "torso" ],
     "allow_soft_gear": true,
-    "metabolism_modifier": 1.2,
+    "metabolism_modifier": 4.8
     "thirst_modifier": 1.2,
     "active": true,
     "starts_active": false,
