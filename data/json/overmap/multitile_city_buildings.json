@@ -1370,6 +1370,16 @@
   },
   {
     "type": "city_building",
+    "id": "synagogue",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "synagogue_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "synagogue_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "synagogue_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "cs_tire_shop",
     "locations": [ "land" ],
     "overmaps": [

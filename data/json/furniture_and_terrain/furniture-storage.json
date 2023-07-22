@@ -850,6 +850,35 @@
   },
   {
     "type": "furniture",
+    "id": "f_torah_ark",
+    "name": "Torah Ark",
+    "description": "An ornately-carved cabinet designed to hold a Torah scroll.  This one is decorated with a tree motif, referencing Proverbs 3:18.",
+    "symbol": "{",
+    "color": "i_brown",
+    "move_cost_mod": -1,
+    "coverage": 85,
+    "required_str": 9,
+    "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 20 }, { "item": "nail", "charges": [ 16, 24 ] }, { "item": "pipe", "count": 2 } ]
+    },
+    "max_volume": "100 L",
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 8, 12 ] },
+        { "item": "nail", "charges": [ 8, 14 ] },
+        { "item": "splinter", "count": [ 4, 10 ] },
+        { "item": "pipe", "count": [ 0, 1 ] },
+        { "item": "scrap", "count": [ 2, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_filing_cabinet",
     "name": "filing cabinet",
     "looks_like": "f_rack",

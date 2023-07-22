@@ -3601,7 +3601,18 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "firstaid" } ],
     "items": {
       "both": {
-        "items": [ "pants", "leather_belt", "dress_shirt", "socks", "kittel", "kippah", "dress_shoes", "holy_symbol", "holybook_talmud" ],
+        "items": [
+          "pants",
+          "leather_belt",
+          "dress_shirt",
+          "socks",
+          "kittel",
+          "kippah",
+          "tallit_gadol",
+          "dress_shoes",
+          "holy_symbol",
+          "holybook_talmud"
+        ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
       "male": [ "briefs" ],
