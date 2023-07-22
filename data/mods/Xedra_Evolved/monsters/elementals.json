@@ -30,7 +30,7 @@
     "families": [ "prof_alien_biology" ],
     "harvest": "stoneling",
     "dissect": "dissect_ierde_small",
-    "special_attacks": [ [ "id": "grab", "cooldown": 7 ], [ "scratch", 20 ] ],
+    "special_attacks": [ [ "scratch", 20 ] ],
     "flags": [ "SEES", "HEARS", "BASHES", "GROUP_BASH", "NO_BREATHE", "PUSH_MON" ]
   },
   {
