@@ -26,7 +26,14 @@
     "volume": "56245 ml",
     "//": "https://www.amazon.com/Rubbermaid-Commercial-10-Gallon-Deskside-Rectangular/dp/B00030L5HY.",
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "40 L", "max_contains_weight": "50 kg", "open_container": true }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "40 L",
+        "max_contains_weight": "50 kg",
+        "open_container": true,
+        "rigid": true,
+        "watertight": true
+      }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "material": [ "plastic" ],
