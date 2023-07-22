@@ -30,6 +30,7 @@
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "material": [ "plastic" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_trashcan" }
     "symbol": ")",
     "color": "light_gray"
   }
