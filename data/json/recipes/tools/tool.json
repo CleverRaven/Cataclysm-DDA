@@ -593,7 +593,7 @@
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "5 h",
-    "using": [ [ "blacksmithing_standard", 7 ], [ "steel_standard", 7 ] ],
+    "using": [ [ "blacksmithing_standard", 28 ], [ "steel_standard", 7 ] ],
     "book_learn": [ [ "manual_shotgun", 2 ], [ "manual_rifle", 2 ], [ "manual_smg", 2 ], [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -824,7 +824,7 @@
     "reversible": true,
     "autolearn": true,
     "//": "50cm weld",
-    "using": [ [ "welding_standard", 50 ], [ "blacksmithing_standard", 10 ] ],
+    "using": [ [ "welding_standard", 50 ], [ "blacksmithing_standard", 14 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -978,7 +978,7 @@
     "time": "6 h",
     "reversible": true,
     "book_learn": [ [ "textbook_fireman", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1067,7 +1067,7 @@
     "book_learn": [ [ "textbook_extraction", 5 ] ],
     "reversible": true,
     "//": "90cm weld",
-    "using": [ [ "welding_standard", 90 ], [ "blacksmithing_standard", 2 ], [ "steel_standard", 5 ] ],
+    "using": [ [ "welding_standard", 90 ], [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M", "level": 2 },
@@ -1104,7 +1104,7 @@
     "book_learn": [ [ "textbook_extraction", 5 ] ],
     "reversible": true,
     "//": "110cm weld",
-    "using": [ [ "welding_standard", 110 ], [ "blacksmithing_standard", 5 ], [ "steel_standard", 10 ] ],
+    "using": [ [ "welding_standard", 110 ], [ "blacksmithing_standard", 40 ], [ "steel_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M", "level": 2 },
@@ -1279,7 +1279,7 @@
     "book_learn": [ [ "textbook_extraction", 5 ] ],
     "reversible": true,
     "//": "150cm weld",
-    "using": [ [ "welding_standard", 150 ], [ "blacksmithing_standard", 2 ], [ "steel_standard", 5 ] ],
+    "using": [ [ "welding_standard", 150 ], [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M", "level": 2 },
@@ -1574,7 +1574,7 @@
     "difficulty": 3,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "using": [ [ "blacksmithing_scrap", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 1.5 },
