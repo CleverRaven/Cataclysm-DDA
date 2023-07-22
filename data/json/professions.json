@@ -5188,17 +5188,8 @@
     "name": "EMT",
     "description": "You were responding to a call with your partner before you got separated.  Now all you have is your trusty ambulance, ready to transport patients through the apocalypse.",
     "points": 4,
-    "skills": [
-      { "level": 3, "name": "driving" },
-      { "level": 1, "name": "mechanics" },
-      { "level": 2, "name": "firstaid" }
-    ],
-    "proficiencies": [
-      "prof_wound_care",
-      "prof_intro_biology",
-      "prof_physiology",
-      "prof_burn_care"
-    ],
+    "skills": [ { "level": 3, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 2, "name": "firstaid" } ],
+    "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
     "traits": [ "PROF_MED" ],
     "vehicle": "ambulance",
     "items": {
