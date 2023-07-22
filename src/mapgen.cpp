@@ -1917,7 +1917,7 @@ class jmapgen_sign : public jmapgen_piece
             if( signage.empty() && snippet.empty() ) {
                 jsi.throw_error( "jmapgen_sign: needs either signage or snippet" );
             }
-            if ( !sign_furniture->has_flag( ( ter_furn_flag::TFLAG_SIGN ) ) ) {
+            if( !sign_furniture->has_flag( ( ter_furn_flag::TFLAG_SIGN ) ) ) {
                 jsi.throw_error( "jmapgen_sign: specified furniture needs SIGN flag" );
             }
         }
