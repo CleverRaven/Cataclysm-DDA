@@ -48,7 +48,7 @@
     "difficulty": 4,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -280,7 +280,7 @@
     "difficulty": 5,
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 6 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },

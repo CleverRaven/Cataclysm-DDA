@@ -1064,7 +1064,7 @@
     "batch_time_factors": [ 85, 2 ],
     "charges": 5,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "using": [ [ "blacksmithing_scrap", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "FILE", "level": 1 } ],
     "tools": [ [ [ "hotcut", -1 ] ], [ [ "nail", -1 ] ] ],
