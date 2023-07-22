@@ -5202,7 +5202,7 @@
           "multitool",
           "wristwatch",
           "boots",
-          { "item": "asprin", "count": 5 },
+          { "item": "aspirin", "count": 5 },
           "adrenaline_injector",
           { "item": "adhesive_bandages", "count": 8 }
         ],
