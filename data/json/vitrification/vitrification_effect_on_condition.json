@@ -210,7 +210,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_vitrified_farm_explore",
-    "recurrence": "45 seconds",
+    "recurrence": "1 minutes",
     "condition": { "u_has_effect": "VITRIFYING" },
     "effect": [
       {
