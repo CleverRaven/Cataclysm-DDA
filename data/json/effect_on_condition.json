@@ -1304,5 +1304,38 @@
       { "u_add_trait": "CHITIN2" },
       { "u_add_trait": "CRUSTACEAN_CARAPACE" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "//": "I couldn't for the life of me figure out how to have the item spawn open the place in container prompt, so I had to leave it as is.",
+    "id": "EOC_milk_yourself",
+    "condition": {
+      "u_compare_time_since_var": "milk_regeneration",
+      "type": "timer",
+      "context": "bio_processies",
+      "op": ">=",
+      "time": "12 h"
+    },
+    "effect": [
+      { "u_spawn_item": "milk_raw", "count": 40 },
+      { "u_message": "You milk yourself." },
+      { "u_lose_var": "milk_regeneration", "type": "timer", "context": "bio_processies" },
+      { "u_add_var": "milk_regeneration", "type": "timer", "context": "bio_processies", "time": true }
+    ],
+    "false_effect": [ { "u_message": "Your udders are too dry to milk right now." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_your_udders_timer_add",
+    "//": "Exists soley to get the EOC for milking yourself going.",
+    "recurrence": 10,
+    "condition": {
+      "and": [
+        { "u_has_trait": "UDDERS" },
+        { "not": { "u_has_var": "milk_regeneration", "type": "timer", "context": "bio_processies", "time": true } }
+      ]
+    },
+    "deactivate_condition": { "u_has_var": "milk_regeneration", "type": "timer", "context": "bio_processies", "time": true },
+    "effect": [ { "u_add_var": "milk_regeneration", "type": "timer", "context": "bio_processies", "time": true } ]
   }
 ]
