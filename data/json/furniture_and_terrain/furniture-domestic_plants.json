@@ -328,7 +328,7 @@
     "type": "furniture",
     "id": "f_hanging_basket_harvest",
     "name": "hanging basket with harvestable plant",
-    "description": "AA hanging basket full of soil.  This one has a fully grown plant, and will need closer examination to harvest.",
+    "description": "A hanging basket full of soil.  This one has a fully grown plant, and will need closer examination to harvest.",
     "symbol": "#",
     "color": "light_green",
     "looks_like": "f_plant_harvest",
