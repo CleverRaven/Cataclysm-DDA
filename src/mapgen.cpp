@@ -3571,7 +3571,6 @@ class jmapgen_nested : public jmapgen_piece
                     return true;
                 }
         };
-        
         // TO DO: Remove this and replace it with a smarter logical syntax for neighbor_join_check and neighbor_flag_check
         class neighbor_flag_any_check
         {
@@ -3583,7 +3582,7 @@ class jmapgen_nested : public jmapgen_piece
                         cata::flat_set<oter_flags> dir_neighbours;
                         std::string location = io::enum_to_string( dir );
                         optional( jsi, false, location, dir_neighbours );
-                        if( !dir_neighbours.empty() ) { 
+                        if( !dir_neighbours.empty() ) {
                             neighbors[dir] = std::move( dir_neighbours );
                         }
                     }
@@ -3658,7 +3657,8 @@ class jmapgen_nested : public jmapgen_piece
         }
         const weighted_int_list<mapgen_value<nested_mapgen_id>> &get_entries(
         const mapgendata &dat ) const {
-            if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) && neighbor_flags.test( dat ) && neighbor_flags_any.test( dat ) ) {
+            if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) && neighbor_flags.test( dat ) &&
+                neighbor_flags_any.test( dat ) ) {
                 return entries;
             } else {
                 return else_entries;
