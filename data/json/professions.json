@@ -5240,6 +5240,8 @@
           { "item": "bandages", "count": 3 },
           "stethoscope",
           "scissors",
+          "syringe",
+          "morphine"
           "adrenaline_injector"
         ],
         "entries": [
