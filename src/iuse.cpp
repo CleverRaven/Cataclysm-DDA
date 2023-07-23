@@ -5134,7 +5134,7 @@ std::optional<int> iuse::towel( Character *p, item *it, bool, const tripoint & )
     return towel_common( p, it, false );
 }
 
-int iuse::towel_common( Character *p, item *it, bool t )
+int iuse::towel_common( Character *p, item *it, bool )
 {
     if( !p ) {
         debugmsg( "%s called action that requires character but no character is present",
