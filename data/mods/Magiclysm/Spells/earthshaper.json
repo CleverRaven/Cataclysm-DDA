@@ -558,14 +558,14 @@
     "name": "Utility Molding (Hammer)",
     "description": "Spawn the Utility molding hammer.  It's a bug if you have this spell directly.",
     "valid_targets": [ "self" ],
-    "flags": [ "SOMATIC", "LOUD" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
     "effect_str": "eshaper_hammer",
     "shape": "blast",
-    "spell_class": "EARTHSHAPER",
-    "min_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] }
+    "min_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] },
+    "max_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] }
   },
   {
     "id": "eshaper_spawn_pickaxe",
@@ -573,14 +573,14 @@
     "name": "Utility Molding (Pickaxe)",
     "description": "Spawn the Utility molding pickaxe.  It's a bug if you have this spell directly.",
     "valid_targets": [ "self" ],
-    "flags": [ "SOMATIC", "LOUD" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
     "effect_str": "eshaper_pickaxe",
     "shape": "blast",
-    "spell_class": "EARTHSHAPER",
-    "min_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] }
+    "min_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] },
+    "max_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] }
   },
   {
     "id": "eshaper_spawn_axe",
@@ -588,14 +588,14 @@
     "name": "Utility Molding (Axe)",
     "description": "Spawn the Utility molding axe.  It's a bug if you have this spell directly.",
     "valid_targets": [ "self" ],
-    "flags": [ "SOMATIC", "LOUD" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
     "effect_str": "eshaper_ax",
     "shape": "blast",
-    "spell_class": "EARTHSHAPER",
-    "min_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] }
+    "min_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] },
+    "max_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] }
   },
   {
     "id": "eshaper_spawn_knife",
@@ -603,14 +603,14 @@
     "name": "Utility Molding (Knife)",
     "description": "Spawn the Utility molding knife.  It's a bug if you have this spell directly.",
     "valid_targets": [ "self" ],
-    "flags": [ "SOMATIC", "LOUD" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
     "effect_str": "eshaper_knife",
     "shape": "blast",
-    "spell_class": "EARTHSHAPER",
-    "min_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] }
+    "min_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] },
+    "max_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] }
   },
   {
     "id": "eshaper_spawn_shovel",
@@ -618,14 +618,14 @@
     "name": "Utility Molding (Shovel)",
     "description": "Spawn the Utility molding shovel.  It's a bug if you have this spell directly.",
     "valid_targets": [ "self" ],
-    "flags": [ "SOMATIC", "LOUD" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
     "effect_str": "eshaper_shovel",
     "shape": "blast",
-    "spell_class": "EARTHSHAPER",
-    "min_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] }
+    "min_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] },
+    "max_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] }
   },
   {
     "id": "eshaper_melee_damage",
