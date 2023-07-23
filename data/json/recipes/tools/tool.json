@@ -1228,8 +1228,8 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ], [ "fake_arc_furnace", 10 ] ], [ [ "metalworking_tongs", -1 ] ] ],
+    "using": [ [ "blacksmithing_scrap", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
