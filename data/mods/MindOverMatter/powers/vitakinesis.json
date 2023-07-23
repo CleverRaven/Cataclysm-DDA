@@ -40,10 +40,7 @@
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "effect_str": "effect_vita_health",
-    "extra_effects": [
-      { "id": "vita_remove_asthma_effect", "hit_self": true },
-      { "id": "psionic_drained_difficulty_one", "hit_self": true }
-    ],
+    "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
@@ -61,17 +58,6 @@
     "final_casting_time": 25,
     "casting_time_increment": -7.5,
     "learn_spells": { "vita_sleeping_trance": 7, "vita_healing_trance": 15 }
-  },
-  {
-    "id": "vita_remove_asthma_effect",
-    "type": "SPELL",
-    "name": "[Ψ]Healthy Glow Remove Asthma",
-    "description": "The second part of the Healthy Glow power, to remove asthma.",
-    "valid_targets": [ "self" ],
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
-    "effect": "remove_effect",
-    "effect_str": "asthma",
-    "shape": "blast"
   },
   {
     "id": "vita_hurt_touch",
