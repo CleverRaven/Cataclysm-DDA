@@ -205,6 +205,17 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_PERK_MENU_MAIN",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_trait": "perk_LOW_INT_MANA" } },
+        "text": "Gain [<trait_name:perk_LOW_INT_MANA>]",
+        "topic": "TALK_PERK_MENU_LOW_INT_MANA"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_PERK_MENU_LOW_INT_MANA",
     "dynamic_line": "<trait_name:perk_LOW_INT_MANA>: \"<trait_description:perk_LOW_INT_MANA>\"",
     "responses": [
