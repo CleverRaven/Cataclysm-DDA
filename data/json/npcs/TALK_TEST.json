@@ -1632,10 +1632,7 @@
     "repeat_responses": [
       {
         "for_item": "bottle_glass",
-        "response": {
-          "text": "This is a repeated item bottle_glass test response",
-          "topic": "TALK_TEST_TOPIC_ITEM_MUTATOR_2"
-        }
+        "response": { "text": "This is a repeated item bottle_glass test response", "topic": "TALK_TEST_TOPIC_ITEM_MUTATOR_2" }
       }
     ]
   },
