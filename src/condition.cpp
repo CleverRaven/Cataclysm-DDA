@@ -1532,6 +1532,10 @@ std::function<std::string( const dialogue & )> conditional_t::get_get_string( co
             tripoint_abs_ms target_pos = char_pos + tripoint::from_string( target.evaluate( d ) );
             return target_pos.to_string();
         };
+    } else if( jo.get_string( "mutator" ) == "topic_item" ) {
+        return []( const dialogue & d ) {
+            return d.cur_item.str();
+        };
     }
 
     jo.throw_error( "unrecognized string mutator in " + jo.str() );
@@ -1709,6 +1713,15 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             return [is_npc, bp]( dialogue const & d ) {
                 bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
                 return d.actor( is_npc )->get_cur_hp( bid );
+            };
+        } else if( checked_value == "hp_max" ) {
+            std::optional<bodypart_id> bp;
+            if constexpr( std::is_same_v<JsonObject, J> ) {
+                optional( jo, false, "bodypart", bp );
+            }
+            return [is_npc, bp]( dialogue const & d ) {
+                bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
+                return d.actor( is_npc )->get_hp_max( bid );
             };
         } else if( checked_value == "warmth" ) {
             std::optional<bodypart_id> bp;
