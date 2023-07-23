@@ -292,8 +292,6 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Darryl_You_Mutant",
     "dynamic_line": "I've heard of unnatural monsters such as yourself causing chaos after the fall of civilization, and how men have transformed into horrors and gone mad with sin.  This is the judgement of God upon you heathens for your wicked ways, and I want nothing to do with it.",
-    "responses": [
-      { "text": "…", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   }
 ]

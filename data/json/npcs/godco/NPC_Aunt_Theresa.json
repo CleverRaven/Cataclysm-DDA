@@ -271,8 +271,6 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Theresa_You_Mutant",
     "dynamic_line": "You clearly have the mark of a sinner.  I've seen your kind out and about after the Rapture, killing and maiming like wild animals.  None of you are any good, not even to God, and you're of no good to me either.  Run on back to your sinful ways, now.  God has judged you already.",
-    "responses": [
-      { "text": "…", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   }
 ]
