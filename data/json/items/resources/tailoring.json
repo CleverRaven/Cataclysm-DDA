@@ -414,7 +414,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "Kevlar patch", "str_pl": "Kevlar patches" },
-    "description": "A 6-inch square patch of loose-woven kevlar, suitable for repairing cut and stab resistant clothing or reassembling into sheet for sewing.",
+    "description": "A 6-inch square patch of loose-woven Kevlar, suitable for repairing cut and stab resistant clothing or reassembling into sheet for sewing.",
     "weight": "3250 mg",
     "volume": "5 ml",
     "//": "values taken from Duponts chemical reference. 144 GSM",
