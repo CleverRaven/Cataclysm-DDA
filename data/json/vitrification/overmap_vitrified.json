@@ -17,7 +17,7 @@
     ],
     "connections": [ { "point": [ 4, -2, 0 ], "terrain": "road", "connection": "local_road", "existing": true, "from": [ 3, -2, 0 ] } ],
     "city_distance": [ 5, 40 ],
-    "occurrences": [ 1, 8 ],
+    "occurrences": [ 1, 5 ],
     "flags": [ "GLOBALLY_UNIQUE", "FARM", "MAN_MADE" ],
     "rotate": false
   }
