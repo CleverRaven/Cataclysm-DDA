@@ -46,7 +46,7 @@
       },
       {
         "text": "I wanted to talk.",
-        "topic": "TALK_GODCO_chef_idle_chat",  
+        "topic": "TALK_GODCO_chef_idle_chat",
         "condition": {
           "and": [
             { "npc_has_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" },
