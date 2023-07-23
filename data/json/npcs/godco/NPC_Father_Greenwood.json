@@ -65,12 +65,7 @@
       },
       {
         "text": "Good to see you again, Reverend.  I wanted to talk.",
-        "condition": {
-          "and": [
-            { "npc_has_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
-          ]
-        },
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
         "topic": "TALK_GODCO_Greenwood_2"
       },
       {

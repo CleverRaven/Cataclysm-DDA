@@ -47,7 +47,7 @@
       "type": "dialogue",
       "context": "godco",
       "value": "yes",
-      "yes": "Get away from me, demon.  I shoot <name_b>s like you on a regular basis, and my rifle's right here.",
+      "yes": "Get away from me, demon.  I shoot crazy sinners like you on a regular basis, and my rifle's right here.",
       "no": {
         "npc_has_var": "u_met_godco_russell",
         "type": "general",
