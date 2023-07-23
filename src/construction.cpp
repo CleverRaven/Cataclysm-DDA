@@ -90,6 +90,7 @@ static const itype_id itype_nail( "nail" );
 static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
+static const itype_id itype_wall_wiring( "wall_wiring" );
 
 static const mon_flag_str_id mon_flag_HUMAN( "HUMAN" );
 
@@ -1431,40 +1432,14 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
 void construct::done_wiring( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     get_map().partial_con_remove( p );
+<<<<<<< HEAD
 
     place_appliance( p.raw(), vpart_from_item( STATIC( itype_id( "wall_wiring" ) ) ) );
 }
+=======
+>>>>>>> 1fede075a0 (post rebase fixes)
 
-    for( const tripoint_bub_ms &trip : here.points_in_radius( p, 1 ) ) {
-        const optional_vpart_position vp = here.veh_at( trip );
-        if( !vp ) {
-            continue;
-        }
-        const vehicle &veh_target = vp->vehicle();
-        if( veh_target.is_appliance() || veh_target.has_tag( flag_WIRING ) ) {
-            if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
-                // TODO: fix point types
-                veh->connect( p.raw(), trip.raw() );
-                connected_vehicles.insert( &veh_target );
-            }
-        }
-    }
-}
-
-    for( const tripoint_bub_ms &trip : here.points_in_radius( p, 1 ) ) {
-        const optional_vpart_position vp = here.veh_at( trip );
-        if( !vp ) {
-            continue;
-        }
-        const vehicle &veh_target = vp->vehicle();
-        if( veh_target.is_appliance() || veh_target.has_tag( flag_WIRING ) ) {
-            if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
-                // TODO: fix point types
-                veh->connect( p.raw(), trip.raw() );
-                connected_vehicles.insert( &veh_target );
-            }
-        }
-    }
+    place_appliance( p.raw(), vpart_from_item( itype_wall_wiring ) );
 }
 
 void construct::done_appliance( const tripoint_bub_ms &p, Character & )

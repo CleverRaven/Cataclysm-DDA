@@ -2274,8 +2274,8 @@ bool vehicle::split_vehicles( map &here,
         point mnt_offset;
 
         // if one part is an appliance it means we're dealing with a power grid
-        bool is_appliance = part_info( split_part0 ).has_flag( flag_APPLIANCE );
-        bool is_wiring = part_info( split_part0 ).base_item == itype_wall_wiring;
+        bool is_appliance = parts[split_part0].info().has_flag( flag_APPLIANCE );
+        bool is_wiring = parts[split_part0].info().base_item == itype_wall_wiring;
 
         decltype( labels ) new_labels;
         decltype( loot_zones ) new_zones;

@@ -22,6 +22,7 @@
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const itype_id fuel_type_battery( "battery" );
+static const itype_id itype_wall_wiring( "wall_wiring" );
 
 static const quality_id qual_HOSE( "HOSE" );
 
@@ -78,46 +79,13 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
     }
     veh->name = vpart->name();
 
-    // Allow for wall-mounted appliances in a general-ish way.
-    if( vpinfo.has_flag( flag_WALL_MOUNTED ) ) {
-        veh->add_tag( flag_CANT_DRAG );
-        if( vpinfo.has_flag( flag_WIRING ) ) {
-            veh->add_tag( flag_WIRING );
-            // Merge any neighbouring wire vehicles into this one if the resulting vehicle would not be too big.
-            // TODO: Push into a separate function.
-            for( const point &offset : four_adjacent_offsets ) {
-                const optional_vpart_position vp = here.veh_at( p + offset );
-                if( !vp ) {
-                    continue;
-                }
-
-                bounding_box vehicle_box = veh->get_bounding_box( false );
-                point size;
-                size.x = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
-                size.y = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
-
-                vehicle &veh_target = vp->vehicle();
-                if( &veh_target != veh && veh_target.has_tag( flag_WIRING ) ) {
-                    bounding_box target_vehicle_box = veh_target.get_bounding_box( false );
-
-                    point target_size;
-                    target_size.x = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
-                    target_size.y = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
-
-                    if( size.x + target_size.x <= MAX_WIRE_VEHICLE_SIZE &&
-                        size.y + target_size.y <= MAX_WIRE_VEHICLE_SIZE ) {
-                        if( !veh->merge_vehicle_parts( &veh_target ) ) {
-                            debugmsg( "failed to merge vehicle parts" );
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     veh->last_update = calendar::turn;
 
-    if( veh->is_powergrid() ) {
+    if( vpinfo.base_item == itype_wall_wiring ) {
+        veh->add_tag( flag_WIRING );
+    }
+
+    if( veh->is_powergrid() || vpinfo.has_flag( flag_WALL_MOUNTED ) ) {
         veh->add_tag( flag_CANT_DRAG );
     }
 
