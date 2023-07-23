@@ -199,7 +199,6 @@
     "range": 6,
     "ammo": [ "380" ],
     "skill": "rifle",
-    "range": 17,
     "dispersion": 180,
     "durability": 8,
     "blackpowder_tolerance": 30,
