@@ -80,7 +80,7 @@
             },
             {
               "u_location_variable": { "global_val": "vitrified_farm_basement" },
-              "target_params": { "om_terrain": "unvitrified_farm_-1", "search_range": 100, "min_distance": 0, "z": 0 },
+              "target_params": { "om_terrain": "unvitrified_farm_neg_1", "search_range": 100, "min_distance": 0, "z": 0 },
               "z_adjust": 5,
               "z_override": true
             },
