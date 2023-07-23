@@ -1955,8 +1955,8 @@
     "difficulty": 4,
     "time": "4 h 30 m",
     "autolearn": true,
-    "using": [ [ "forging_standard", 10 ], [ "steel_standard", 5 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 24 ] ], [ [ "nail", 40 ] ] ]
