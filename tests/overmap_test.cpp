@@ -55,7 +55,7 @@ static const oter_type_str_id oter_type_s_restaurant_deserted_test( "s_restauran
 static const oter_type_str_id oter_type_unvitrified_farm_0( "unvitrified_farm_0" );
 static const oter_type_str_id oter_type_unvitrified_farm_1( "unvitrified_farm_1" );
 static const oter_type_str_id oter_type_unvitrified_farm_2( "unvitrified_farm_2" );
-static const oter_type_str_id oter_type_unvitrified_farm_neg_1( "unvitrified_farm__neg_1" );
+static const oter_type_str_id oter_type_unvitrified_farm_neg_1( "unvitrified_farm_neg_1" );
 static const oter_type_str_id oter_type_unvitrified_orchard( "unvitrified_orchard" );
 
 static const overmap_special_id overmap_special_Cabin( "Cabin" );
