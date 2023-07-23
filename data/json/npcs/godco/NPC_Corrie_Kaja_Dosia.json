@@ -252,7 +252,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Corrie_You_Mutant",
-    "dynamic_line": "Nearly everyone here went to a church that was a bit… out there, shall we say.  They hate what they call \"mutants\", how some creatures and people have physically changed inexplicablly after everything went to shit.  I'm glad they didn't kill you on the spot, not many people are left out there.",
+    "dynamic_line": "Nearly everyone here went to a church that was a bit… out there, shall we say.  They hate what they call \"mutants\", how some creatures and people have physically changed inexplicably after everything went to shit.  I'm glad they didn't kill you on the spot, not many people are left out there.",
     "responses": [
       { "text": "Well, thank's for telling me.  Let's talk about something else.", "topic": "TALK_GODCO_Corrie_2" },
       { "text": "Wow.  This place is <swear> crazy, I'm outta here.", "topic": "TALK_DONE" }
