@@ -2239,7 +2239,7 @@
     "autolearn": true,
     "using": [ [ "tailoring_nylon_patchwork", 7 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
-    "byproducts": [ [ "scrap_nylon", 50 ] ],
+    "byproducts": [ [ "scrap_nylon", 50 ] ]
   },
   {
     "result": "wool_hoodie",
