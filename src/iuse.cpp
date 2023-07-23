@@ -2435,11 +2435,15 @@ std::optional<int> iuse::pack_cbm( Character *p, item *it, bool, const tripoint 
 
 std::optional<int> iuse::pack_item( Character *p, item *it, bool t, const tripoint & )
 {
+    if( !p ) {
+        debugmsg( "%s called action that requires character but no character is present",
+                  it->typeId().str() );
+    }
     if( p->cant_do_underwater() ) {
         return std::nullopt;
     }
-    if( t ) { // Normal use
-    } else if( p->is_worn( *it ) ) {
+
+    if( p->is_worn( *it ) ) {
         p->add_msg_if_player( m_info, _( "You can't pack your %s until you take it off." ),
                               it->tname() );
         return std::nullopt;
@@ -3853,14 +3857,14 @@ std::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &po
     return 1;
 }
 
-std::optional<int> iuse::tazer2( Character *p, item *it, bool b, const tripoint &pos )
+std::optional<int> iuse::tazer2( Character *p, item *it, bool, const tripoint &pos )
 {
     if( it->ammo_remaining( p ) >= 2 ) {
         // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
         // Ugly, but less so than copied blocks
         item fake( "tazer", calendar::turn_zero );
         fake.charges = 2;
-        return tazer( p, &fake, b, pos );
+        return tazer( p, &fake, false, pos );
     } else {
         p->add_msg_if_player( m_info, _( "Insufficient power" ) );
     }
@@ -8855,7 +8859,7 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, bool, const tripoint
     return std::nullopt;
 }
 
-std::optional<int> iuse::ebookread( Character *p, item *it, bool t, const tripoint & )
+std::optional<int> iuse::ebookread( Character *p, item *it, bool, const tripoint & )
 {
     if( !p ) {
         debugmsg( "%s called action that requires character but no character is present",

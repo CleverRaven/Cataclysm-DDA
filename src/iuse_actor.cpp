@@ -4013,7 +4013,7 @@ void molle_attach_actor::load( const JsonObject &jo )
     assign( jo, "moves", moves );
 }
 
-std::optional<int> molle_attach_actor::use( Character *p, item &it, bool t,
+std::optional<int> molle_attach_actor::use( Character *p, item &it, bool,
         const tripoint & ) const
 {
     if( !p ) {
