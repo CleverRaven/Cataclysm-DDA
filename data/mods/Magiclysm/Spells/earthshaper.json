@@ -530,57 +530,27 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_UTILITY_MOLDING_HAMMER",
-    "effect": [
-      { "u_remove_item_with": "eshaper_pickaxe" },
-      { "u_remove_item_with": "eshaper_ax" },
-      { "u_remove_item_with": "eshaper_knife" },
-      { "u_remove_item_with": "eshaper_shovel" },
-      { "u_cast_spell": { "id": "eshaper_spawn_hammer" } }
-    ]
+    "effect": [ { "u_cast_spell": { "id": "eshaper_spawn_hammer" } } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_UTILITY_MOLDING_PICKAXE",
-    "effect": [
-      { "u_remove_item_with": "eshaper_hammer" },
-      { "u_remove_item_with": "eshaper_ax" },
-      { "u_remove_item_with": "eshaper_knife" },
-      { "u_remove_item_with": "eshaper_shovel" },
-      { "u_cast_spell": { "id": "eshaper_spawn_pickaxe" } }
-    ]
+    "effect": [ { "u_cast_spell": { "id": "eshaper_spawn_pickaxe" } } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_UTILITY_MOLDING_AXE",
-    "effect": [
-      { "u_remove_item_with": "eshaper_hammer" },
-      { "u_remove_item_with": "eshaper_pickaxe" },
-      { "u_remove_item_with": "eshaper_knife" },
-      { "u_remove_item_with": "eshaper_shovel" },
-      { "u_cast_spell": { "id": "eshaper_spawn_axe" } }
-    ]
+    "effect": [ { "u_cast_spell": { "id": "eshaper_spawn_axe" } } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_UTILITY_MOLDING_KNIFE",
-    "effect": [
-      { "u_remove_item_with": "eshaper_hammer" },
-      { "u_remove_item_with": "eshaper_pickaxe" },
-      { "u_remove_item_with": "eshaper_ax" },
-      { "u_remove_item_with": "eshaper_shovel" },
-      { "u_cast_spell": { "id": "eshaper_spawn_knife" } }
-    ]
+    "effect": [ { "u_cast_spell": { "id": "eshaper_spawn_knife" } } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_UTILITY_MOLDING_SHOVEL",
-    "effect": [
-      { "u_remove_item_with": "eshaper_hammer" },
-      { "u_remove_item_with": "eshaper_pickaxe" },
-      { "u_remove_item_with": "eshaper_ax" },
-      { "u_remove_item_with": "eshaper_knife" },
-      { "u_cast_spell": { "id": "eshaper_spawn_shovel" } }
-    ]
+    "effect": [ { "u_cast_spell": { "id": "eshaper_spawn_shovel" } } ]
   },
   {
     "id": "eshaper_spawn_hammer",
