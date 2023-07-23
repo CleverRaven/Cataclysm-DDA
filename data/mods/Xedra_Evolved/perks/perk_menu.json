@@ -204,18 +204,25 @@
     ]
   },
   {
-    "condition": { "not": { "u_has_trait": "perk_LOW_INT_MANA" } },
-    "text": "Gain [<trait_name:perk_LOW_INT_MANA>]",
-    "effect": [
-      { "set_string_var": "<trait_name:perk_LOW_INT_MANA>", "target_var": { "context_val": "trait_name" } },
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_LOW_INT_MANA",
+    "dynamic_line": "<trait_name:perk_LOW_INT_MANA>: \"<trait_description:perk_LOW_INT_MANA>\"",
+    "responses": [
       {
-        "set_string_var": "<trait_description:perk_LOW_INT_MANA>",
-        "target_var": { "context_val": "trait_description" }
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_LOW_INT_MANA" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
       },
-      { "set_string_var": "perk_LOW_INT_MANA", "target_var": { "context_val": "trait_id" } },
-      { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
-      { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
-    ],
-    "topic": "TALK_PERK_MENU_SELECT"
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
   }
 ]
