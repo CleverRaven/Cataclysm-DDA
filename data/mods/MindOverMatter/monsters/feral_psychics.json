@@ -143,6 +143,7 @@
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "special_attacks": [
+      [ "PARROT_AT_DANGER", 10 ],
       { "id": "smash", "attack_upper": true, "throw_strength": 50, "cooldown": 10 },
       {
         "type": "leap",
@@ -435,6 +436,7 @@
     "luminance": 50,
     "upgrades": { "half_life": 45, "into": "mon_feral_human_pyrokin2" },
     "special_attacks": [
+      [ "PARROT_AT_DANGER", 10 ],
       {
         "id": "psi_pyrokin2_flameblast",
         "type": "spell",
@@ -516,6 +518,7 @@
     },
     "luminance": 200,
     "special_attacks": [
+      [ "PARROT_AT_DANGER", 10 ],
       {
         "id": "psi_pyrokin3_flameblast",
         "type": "spell",
@@ -826,6 +829,7 @@
       "message": "As the %1$s dies, a scream fills your mind!"
     },
     "special_attacks": [
+      [ "PARROT_AT_DANGER", 10 ],
       {
         "id": "psi_telepath2_scream",
         "type": "spell",
@@ -1022,6 +1026,7 @@
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "luminance": 25,
     "special_attacks": [
+      [ "PARROT_AT_DANGER", 10 ],
       {
         "id": "psi_teleport3_slow",
         "type": "spell",
