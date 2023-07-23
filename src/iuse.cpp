@@ -2433,7 +2433,7 @@ std::optional<int> iuse::pack_cbm( Character *p, item *it, bool, const tripoint 
     return 0;
 }
 
-std::optional<int> iuse::pack_item( Character *p, item *it, bool t, const tripoint & )
+std::optional<int> iuse::pack_item( Character *p, item *it, bool, const tripoint & )
 {
     if( !p ) {
         debugmsg( "%s called action that requires character but no character is present",
@@ -7491,7 +7491,7 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
     }
 }
 
-std::optional<int> iuse::remoteveh_tick( Character *p, item *it, bool, const tripoint &pos )
+std::optional<int> iuse::remoteveh_tick( Character *p, item *it, bool, const tripoint & )
 {
     vehicle *remote = g->remoteveh();
     bool stop = false;
@@ -7626,7 +7626,7 @@ static bool multicooker_hallu( Character &p )
 
 }
 
-std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::multicooker( Character *p, item *it, bool, const tripoint &pos )
 {
     static const int charges_to_start = 50;
     const int charge_buffer = 2;
