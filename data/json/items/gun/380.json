@@ -196,6 +196,7 @@
     "symbol": "(",
     "material": [ "plastic", "steel", "zinc" ],
     "color": "dark_gray",
+    "range": 6,
     "ammo": [ "380" ],
     "skill": "rifle",
     "range": 17,
