@@ -56,7 +56,7 @@
         "~~~....``..[.###oo##oo##",
         "~~~~..``.......%%%.^%%%."
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_landscaping_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette" ],
       "place_vehicles": [ { "vehicle": "boats_narrow", "x": 6, "y": 32, "chance": 100, "rotation": 90 } ],
       "terrain": {
         "c": "t_clay",
@@ -152,7 +152,7 @@
         "~~~~~~~~~~~~~##oo###oo##",
         "~~~~~~~~~~~~~~~~~~^~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_shingle_flat_roof",

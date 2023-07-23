@@ -232,7 +232,7 @@
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_basement_palette" ],
       "furniture": { "!": "f_table" },
       "place_nested": [
         { "chunks": [ "utility_3x3_S" ], "x": 8, "y": 7 },
@@ -273,7 +273,7 @@
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_basement_palette" ],
       "furniture": { "!": "f_table" },
       "place_nested": [
         { "chunks": [ "utility_3x3_S" ], "x": 8, "y": 7 },

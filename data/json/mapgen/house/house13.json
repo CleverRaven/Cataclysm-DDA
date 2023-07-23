@@ -32,7 +32,7 @@
         "....u.--...#ZWU#........",
         "...........#####........"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette" ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "$": "t_fence",
