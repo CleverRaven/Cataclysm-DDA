@@ -768,15 +768,27 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::bp_hp:
             // HP for body part
-            value = ava.get_part_hp_cur( only_bp() );
+            if( ava.has_part( only_bp() ) ) {
+                value = ava.get_part_hp_cur( only_bp() );
+            } else {
+                value = 0;
+            }
             break;
         case widget_var::bp_warmth:
             // Body part warmth/temperature
-            value = ava.get_part_temp_cur( only_bp() );
+            if( ava.has_part( only_bp() ) ) {
+                value = ava.get_part_temp_cur( only_bp() );
+            } else {
+                value = 0;
+            }
             break;
         case widget_var::bp_wetness:
             // Body part wetness
-            value = ava.get_part_wetness( only_bp() );
+            if( ava.has_part( only_bp() ) ) {
+                value = ava.get_part_wetness( only_bp() );
+            } else {
+                value = 0;
+            }
             break;
         case widget_var::focus:
             value = ava.get_focus();
