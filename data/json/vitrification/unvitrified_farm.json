@@ -126,7 +126,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "unvitrified_farm_-1",
+    "om_terrain": "unvitrified_farm_neg_1",
     "//": "Unfinished basement",
     "object": {
       "fill_ter": "t_thconc_floor",
