@@ -1129,7 +1129,7 @@
   {
     "type": "mutation",
     "id": "PSYCHOPATH",
-    "name": { "str": "Callous" },
+    "name": { "str": "Clean Concience" },
     "points": 2,
     "description": "Maybe ending the life of another person bothered you, once.  Maybe it never did.  Either way, you have made peace with what others might call murder.",
     "starting_trait": true,
