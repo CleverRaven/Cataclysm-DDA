@@ -331,7 +331,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_s_gas_g0_roof.id(),
         oter_type_s_gas_g1.id(),
         oter_type_s_gas_g1_roof.id(),
-        oter_type_s_restaurant_deserted_test.id(),// only in the desert test region
+        oter_type_s_restaurant_deserted_test.id(), // only in the desert test region
     };
 
     std::unordered_set<oter_type_id> done;

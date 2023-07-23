@@ -618,10 +618,10 @@
   {
     "type": "furniture",
     "id": "f_vitrified_dryer",
-    "name": "dark_gray",
+    "name": "black glass dryer",
     "description": "A mechanical dryer of black glass.  The door hangs open, and inside, you can see a jumble of what might once have been clothes, now smashed to pieces.",
     "symbol": "{",
-    "bgcolor": "white",
+    "color": "dark_gray",
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": 12,
