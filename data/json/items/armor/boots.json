@@ -2180,50 +2180,6 @@
     ]
   },
   {
-    "id": "swim_fins",
-    "type": "ARMOR",
-    "name": { "str": "pair of swim fins", "str_pl": "pairs of swim fins" },
-    "description": "A pair of rubber flippers worn on the feet, which improve swimming speed while greatly impeding the wearer's ability to walk.",
-    "weight": "680 g",
-    "volume": "1250 ml",
-    "price": 2000,
-    "price_postapoc": 250,
-    "material": [ "rubber" ],
-    "symbol": "[",
-    "looks_like": "clownshoes",
-    "color": "dark_gray",
-    "warmth": 5,
-    "material_thickness": 2.5,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "FIN" ],
-    "armor": [
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
-        "encumbrance": 25,
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_heel_r", "foot_heel_l" ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
-        "coverage": 60
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_arch_r", "foot_arch_l" ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
-        "coverage": 80
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
-        "coverage": 100
-      }
-    ]
-  },
-  {
     "id": "thigh_high_boots",
     "type": "ARMOR",
     "name": { "str": "pair of thigh-high boots", "str_pl": "pairs of thigh-high boots" },

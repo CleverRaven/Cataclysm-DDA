@@ -382,6 +382,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```SUPER_FANCY``` Gives an additional moral bonus over `FANCY` if the player has the `Stylish` trait.
 - ```SWIM_GOGGLES``` Allows you to see much further underwater.
 - ```THERMOMETER``` This gear is equipped with an accurate thermometer (which is used to measure temperature).
+- ```TOUGH_FEET``` Character receives no movement penalty for not wearing `NORMAL` layer foot clothing.
 - ```VARSIZE``` Can be made to fit via tailoring.
 - ```WAIST``` Layer for belts other things worn on the waist.
 - ```WATCH``` Acts as a watch and allows the player to see actual time.

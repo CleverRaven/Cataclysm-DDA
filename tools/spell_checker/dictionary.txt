@@ -1878,6 +1878,7 @@ motes
 motorpool
 motorsports
 mountable
+mountings
 mouthgear
 mouthpart
 mouthparts
@@ -2069,6 +2070,7 @@ outgrowths
 outperforms
 outputting
 ovata
+overboots
 overbore
 overbuilt
 overclock
@@ -2077,13 +2079,18 @@ overdosage
 overdrinking
 overengineered
 overexertion
+overgloves
 overgrowth
+overhood
+overhoods
 overmap
 overmaps
 overpenetration
 overpressure
 overqueen
 overshoes
+oversuit
+oversuits
 overswing
 overswinging
 overtaxing
@@ -2616,6 +2623,7 @@ shantak
 shantytowns
 shapechangers
 sharksuit
+sharksuits
 shedded
 shenandoah
 shipside

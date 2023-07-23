@@ -575,6 +575,47 @@
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
+    "type": "TOOL_ARMOR",
+    "id": "flashlight_mount_wrist",
+    "name": { "str": "diving flashlight wrist mount" },
+    "category": "clothing",
+    "volume": "150 ml",
+    "description": "A proprietary wrist mount for a flashlight.  Not very useful on its own.",
+    "//": "Based on mount for this: https://www.amazon.com/Aqualite-Tauchlampe-schwarz-Lumen-12516/dp/B00DI5GMOM",
+    "weight": "50 g",
+    "to_hit": -1,
+    "color": "light_gray",
+    "sided": true,
+    "price": 2500,
+    "price_postapoc": 100,
+    "material": [ "rubber", "plastic" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "symbol": "[",
+    "armor": [
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "plastic", "covered_by_mat": 40, "thickness": 4.0 }
+        ],
+        "coverage": 70,
+        "encumbrance": 1,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 1.5,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "300 g",
+        "moves": 150,
+        "description": "Proprietary mount for a diving flashlight.",
+        "flag_restriction": [ "WRIST_MOUNT_ATTACHMENT" ]
+      }
+    ]
+  },
+  {
     "id": "holo_cloak",
     "type": "TOOL_ARMOR",
     "name": { "str": "hologram cloak" },
@@ -2323,7 +2364,7 @@
     "color": "dark_gray",
     "name": { "str": "pair of light amp goggles", "str_pl": "pairs of light amp goggles" },
     "description": "A pair of battery-powered goggles that amplify ambient light, allowing you to see in the dark.  Use it to turn them on.",
-    "flags": [ "FRAGILE", "OUTER", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "FRAGILE", "OUTER", "ELECTRONIC" ],
     "price": 92000,
     "price_postapoc": 3500,
     "material": [ "plastic", "steel" ],
@@ -2360,7 +2401,7 @@
     "name": { "str_pl": "pairs of light amp goggles (on)", "str": "pair of light amp goggles (on)" },
     "description": "A pair of battery-powered light amplifying goggles with an infrared illuminator, allowing you to see in the dark.  It is turned on, and continually draining batteries.  Use it to turn them off.",
     "material": [ "plastic", "steel" ],
-    "flags": [ "GNV_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER" ],
+    "flags": [ "GNV_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER", "ELECTRONIC" ],
     "//": "2019 commercial models can operate at under 0.375W with the IR illuminator on",
     "power_draw": "375 mW",
     "revert_to": "goggles_nv",
@@ -2376,7 +2417,7 @@
     "color": "dark_gray",
     "name": { "str": "pair of infrared goggles", "str_pl": "pairs of infrared goggles" },
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them on.",
-    "flags": [ "FRAGILE", "OUTER", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "FRAGILE", "OUTER", "ELECTRONIC" ],
     "price": 92000,
     "price_postapoc": 2500,
     "material": [ "plastic", "steel" ],
@@ -2413,7 +2454,7 @@
     "name": { "str": "pair of infrared goggles (on)", "str_pl": "pairs of infrared goggles (on)" },
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them off.",
     "material": [ "plastic", "steel" ],
-    "flags": [ "IR_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER" ],
+    "flags": [ "IR_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER", "ELECTRONIC" ],
     "power_draw": "1 W",
     "revert_to": "goggles_ir",
     "use_action": { "ammo_scale": 0, "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },
