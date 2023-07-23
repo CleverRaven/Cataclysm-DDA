@@ -1497,7 +1497,7 @@
     "color": "cyan",
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 2, 5 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 2, 5 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 2, 2 ] }
     ],
     "pocket_data": [
       {
