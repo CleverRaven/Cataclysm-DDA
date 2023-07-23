@@ -2,7 +2,7 @@
   {
     "id": "TALK_GODCO_chloe",
     "type": "talk_topic",
-    "dynamic_line": { 
+    "dynamic_line": {
       "npc_has_var": "u_met_chloe",
       "type": "general",
       "context": "meeting",
