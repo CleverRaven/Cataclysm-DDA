@@ -81,14 +81,12 @@
     "difficulty": 4,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "forging_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [ [ [ "hc_steel_chunk", 1 ] ], [ [ "flint", 1 ] ] ]
   },
   {
@@ -244,14 +242,13 @@
     "difficulty": 5,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "forging_standard", 12 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ], [ "drift", -1 ] ] ],
+    "tools": [ [ [ "drift", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -264,14 +261,12 @@
     "difficulty": 5,
     "time": "2 h 20 m",
     "autolearn": true,
-    "using": [ [ "forging_standard", 12 ], [ "steel_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ], [ "splinter", 6 ] ] ]
   },
   {
@@ -362,14 +357,13 @@
     "difficulty": 1,
     "time": "30 minutes",
     "autolearn": true,
-    "using": [ [ "forging_standard", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "using": [ [ "blacksmithing_scrap", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
@@ -1240,14 +1234,13 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "textbook_carpentry", 5 ], [ "textbook_fabrication", 6 ] ],
-    "using": [ [ "forging_standard", 2 ], [ "steel_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ], [ "drift", -1 ] ] ],
+    "tools": [ [ [ "drift", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
   {
@@ -1355,16 +1348,14 @@
     "time": "240 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "forging_standard", 8 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
     "components": [
-      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ],
       [ [ "filament", 100, "LIST" ] ],
       [ [ "cotton_patchwork", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
     ]
@@ -1394,15 +1385,14 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "forging_standard", 8 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
     "result": "shovel_snow_plastic",
@@ -1589,13 +1579,11 @@
     "difficulty": 3,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "forging_standard", 12 ], [ "steel_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
-    ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ] ]
+    ]
   }
 ]

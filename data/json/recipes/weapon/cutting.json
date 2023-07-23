@@ -14,9 +14,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "result": "mc_cavalry_sabre",
@@ -33,9 +33,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "mc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ]
   },
   {
@@ -53,9 +53,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "hc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "hc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 1 ], [ "hc_wire", 2 ] ] ]
   },
   {
@@ -629,9 +629,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -648,9 +648,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "mc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ]
   },
   {
@@ -668,9 +668,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "hc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "hc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ]
   },
   {
@@ -1198,9 +1198,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1217,9 +1217,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "mc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ]
   },
   {
@@ -1237,9 +1237,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "hc_steel_standard", 4 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 16 ], [ "hc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 1 ], [ "hc_wire", 2 ] ] ]
   },
   {
@@ -1299,9 +1299,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1318,9 +1318,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "mc_steel_standard", 4 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ]
   },
   {
@@ -1338,9 +1338,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "hc_steel_standard", 4 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 16 ], [ "hc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 1 ], [ "hc_wire", 2 ] ] ]
   },
   {
@@ -1400,9 +1400,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1419,9 +1419,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "mc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 2 ], [ "mc_wire", 4 ] ] ]
   },
   {
@@ -1439,9 +1439,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "hc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "hc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 2 ], [ "hc_wire", 4 ] ] ]
   },
   {
@@ -1501,9 +1501,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1520,9 +1520,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "mc_steel_standard", 4 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ]
   },
   {
@@ -1540,9 +1540,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "hc_steel_standard", 4 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 16 ], [ "hc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 1 ], [ "hc_wire", 2 ] ] ]
   },
   {
@@ -1621,9 +1621,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "mc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ]
   },
   {
@@ -1641,9 +1641,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "hc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "hc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 1 ], [ "hc_wire", 2 ] ] ]
   },
   {
@@ -1722,9 +1722,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "mc_steel_standard", 4 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 2 ], [ "mc_wire", 4 ] ] ]
   },
   {
@@ -1742,9 +1742,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "hc_steel_standard", 4 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 16 ], [ "hc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 2 ], [ "hc_wire", 4 ] ] ]
   },
   {
@@ -1804,9 +1804,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 4 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 16 ], [ "lc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1823,9 +1823,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "mc_steel_standard", 4 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 2 ], [ "mc_wire", 4 ] ] ]
   },
   {
@@ -1843,9 +1843,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "hc_steel_standard", 4 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 16 ], [ "hc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 2 ], [ "hc_wire", 4 ] ] ]
   },
   {
@@ -1905,9 +1905,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1924,9 +1924,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "mc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ]
   },
   {
@@ -1944,9 +1944,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "hc_steel_standard", 4 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 16 ], [ "hc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 1 ], [ "hc_wire", 2 ] ] ]
   },
   {
@@ -2006,9 +2006,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2025,9 +2025,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "mc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 2 ], [ "mc_wire", 4 ] ] ]
   },
   {
@@ -2045,9 +2045,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "hc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "hc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 2 ], [ "hc_wire", 4 ] ] ]
   },
   {
@@ -2107,9 +2107,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 5 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 20 ], [ "lc_steel_standard", 5 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2126,9 +2126,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "mc_steel_standard", 5 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 20 ], [ "mc_steel_standard", 5 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 2 ], [ "mc_wire", 4 ] ] ]
   },
   {
@@ -2146,9 +2146,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 2 ], [ "hc_steel_standard", 5 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 20 ], [ "hc_steel_standard", 5 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 2 ], [ "hc_wire", 4 ] ] ]
   },
   {
