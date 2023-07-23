@@ -369,7 +369,7 @@
     "symbol": "(",
     "color": "brown",
     "range": 4,
-    "//range": "Blish \"lock\" is considered to be a straight blowback in modern firearm design."
+    "//range": "Blish \"lock\" is considered to be a straight blowback in modern firearm design.",
     "ammo": [ "45" ],
     "skill": "smg",
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
