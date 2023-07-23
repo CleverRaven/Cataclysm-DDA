@@ -250,7 +250,6 @@
     "longest_side": "900 mm",
     "price": 160000,
     "price_postapoc": 3100,
-    "range": 20,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
