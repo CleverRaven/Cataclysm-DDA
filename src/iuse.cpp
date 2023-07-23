@@ -7491,28 +7491,31 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
     }
 }
 
-std::optional<int> iuse::remoteveh( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::remoteveh_tick( Character *p, item *it, bool, const tripoint &pos )
 {
     vehicle *remote = g->remoteveh();
-    if( t ) {
-        bool stop = false;
-        if( !it->ammo_sufficient( p ) ) {
-            p->add_msg_if_player( m_bad, _( "The remote control's battery goes dead." ) );
-            stop = true;
-        } else if( remote == nullptr ) {
-            p->add_msg_if_player( _( "Lost contact with the vehicle." ) );
-            stop = true;
-        } else if( remote->fuel_left( itype_battery ) == 0 ) {
-            p->add_msg_if_player( m_bad, _( "The vehicle's battery died." ) );
-            stop = true;
-        }
-        if( stop ) {
-            it->active = false;
-            g->setremoteveh( nullptr );
-        }
-
-        return 1;
+    bool stop = false;
+    if( !it->ammo_sufficient( p ) ) {
+        p->add_msg_if_player( m_bad, _( "The remote control's battery goes dead." ) );
+        stop = true;
+    } else if( remote == nullptr ) {
+        p->add_msg_if_player( _( "Lost contact with the vehicle." ) );
+        stop = true;
+    } else if( remote->fuel_left( itype_battery ) == 0 ) {
+        p->add_msg_if_player( m_bad, _( "The vehicle's battery died." ) );
+        stop = true;
     }
+    if( stop ) {
+        it->active = false;
+        g->setremoteveh( nullptr );
+    }
+
+    return 1;
+}
+
+std::optional<int> iuse::remoteveh( Character *p, item *it, bool, const tripoint &pos )
+{
+    vehicle *remote = g->remoteveh();
 
     bool controlling = it->active && remote != nullptr;
     int choice = uilist( _( "What to do with the remote vehicle control:" ), {

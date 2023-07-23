@@ -220,6 +220,7 @@ std::optional<int> multicooker( Character *, item *, bool, const tripoint & );
 std::optional<int> multicooker_tick( Character *, item *, bool, const tripoint & );
 
 std::optional<int> remoteveh( Character *, item *, bool, const tripoint & );
+std::optional<int> remoteveh_tick( Character *, item *, bool, const tripoint & );
 
 std::optional<int> craft( Character *, item *, bool, const tripoint & );
 
