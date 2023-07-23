@@ -335,7 +335,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         unvitrified_farm_0.id(),
         unvitrified_farm_1.id(),
         unvitrified_farm_2.id(),
-        unvitrified_farm_-1.id(),
+        unvitrified_farm_ - 1.id(),
         unvitrified_orchard.id(),// only in the desert test region
     };
 
