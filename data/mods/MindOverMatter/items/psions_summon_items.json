@@ -840,6 +840,94 @@
     ]
   },
   {
+    "id": "telekin_ritual_summon_strength_item",
+    "type": "GENERIC",
+    "name": { "str": "Enhanced Strength" },
+    "description": "You are focusing your concentration on moving very heavy objects.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "0",
+    "color": "yellow",
+    "flags": [ "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "values": [
+            {
+              "value": "STRENGTH",
+              "add": {
+                "math": [
+                  "(u_val('spell_level', 'spell: telekinetic_pull') + u_val('spell_level', 'spell: telekinetic_push') + u_val('spell_level', 'spell: telekinetic_wave'))"
+                ]
+              }
+            },
+            { "value": "ATTACK_SPEED", "multiply": 5 },
+            { "value": "BONUS_DODGE", "add": -5 },
+            { "value": "BONUS_BLOCK", "add": -5 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "telekin_lifting_jack_1",
+    "looks_like": "jack_makeshift",
+    "type": "TOOL",
+    "name": { "str": "telekinetic jack" },
+    "description": "Using your powers, you can lift up a vehicle just enough to allow you to change the wheels.",
+    "material": [ "telekinetic_force" ],
+    "symbol": ";",
+    "color": "yellow",
+    "weight": "0 g",
+    "volume": "0 L",
+    "flags": [ "ZERO_WEIGHT" ],
+    "qualities": [ [ "JACK", 1 ], [ "LIFT", 1 ] ]
+  },
+  {
+    "id": "telekin_lifting_jack_2",
+    "looks_like": "jack_makeshift",
+    "copy-from": "telekin_lifting_jack",
+    "type": "TOOL",
+    "name": { "str": "telekinetic jack" },
+    "qualities": [ [ "JACK", 2 ], [ "LIFT", 2 ] ]
+  },
+  {
+    "id": "telekin_lifting_jack_3",
+    "looks_like": "jack_makeshift",
+    "copy-from": "telekin_lifting_jack",
+    "type": "TOOL",
+    "name": { "str": "telekinetic jack" },
+    "qualities": [ [ "JACK", 3 ], [ "LIFT", 3 ] ]
+  },
+  {
+    "id": "telekin_lifting_jack_4",
+    "looks_like": "jack_makeshift",
+    "copy-from": "telekin_lifting_jack",
+    "type": "TOOL",
+    "name": { "str": "telekinetic jack" },
+    "qualities": [ [ "JACK", 4 ], [ "LIFT", 4 ] ]
+  },
+  {
+    "id": "telekin_lifting_jack_5",
+    "looks_like": "jack_makeshift",
+    "copy-from": "telekin_lifting_jack",
+    "type": "TOOL",
+    "name": { "str": "telekinetic jack" },
+    "qualities": [ [ "JACK", 5 ], [ "LIFT", 5 ] ]
+  },
+  {
+    "id": "telekin_lifting_jack_6",
+    "looks_like": "jack_makeshift",
+    "copy-from": "telekin_lifting_jack",
+    "type": "TOOL",
+    "name": { "str": "telekinetic jack" },
+    "qualities": [ [ "JACK", 6 ], [ "LIFT", 6 ] ]
+  },
+  {
     "id": "vita_bandages",
     "type": "GENERIC",
     "name": { "str": "Vitakinetic Wound Staunching" },

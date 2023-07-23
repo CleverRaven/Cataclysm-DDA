@@ -1,0 +1,65 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "Enhance Strength",
+    "id": "telekin_push_heavy_things",
+    "description": "Focus your powers to allow you move much heavier objects and smash through walls.  The concentration required means you will be unable to engage in combat with any real ability while concentrating.\n\n[You must be wielding the Enhanced Strength for it to take effect. (d)rop the Enhanced Strength to stop concentrating and regain your combat ability]",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_RITUALS",
+    "skill_used": "metaphysics",
+    "difficulty": 3,
+    "time": "10 s",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "result_eocs": [
+      {
+        "id": "EOC_TELEKIN_SUMMON_STRENGTH",
+        "effect": [
+          { "u_cast_spell": { "id": "telekin_ritual_summon_strength" } },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 2,8 )" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "Vehicular Lifting",
+    "id": "telekin_lift_cars",
+    "description": "Focus your powers to raise a vehicle enough to change a tire or perform repairs.  As your powers increase, you will be able to lift heavier vehicles.",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_RITUALS",
+    "skill_used": "metaphysics",
+    "difficulty": 3,
+    "time": "5 s",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "result_eocs": [
+      {
+        "id": "EOC_TELEKIN_SUMMON_JACKING_TOOL",
+        "effect": {
+          "switch": {
+            "math": [
+              "((u_val('spell_level', 'spell: telekinetic_pull') + u_val('spell_level', 'spell: telekinetic_push') + u_val('spell_level', 'spell: telekinetic_wave')) / 2)"
+            ]
+          },
+          "cases": [
+            {
+              "case": 0,
+              "effect": [
+                { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_1" } },
+                { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,6 )" ] }
+              ]
+            },
+            {
+              "case": 1,
+              "effect": [
+                { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_2" } },
+                { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 1,6 )" ] }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "telekin_ritual_summon_strength",
+    "type": "SPELL",
+    "name": "[Ψ]Enhance Strength Spell",
+    "description": "The spell that summons the Enhanced Strength.  It's a bug if you have it directly.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "spawn_item",
+    "effect_str": "telekin_ritual_summon_strength_item",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": { "math": [ "(u_val('spell_level', 'school: TELEKINETIC') * 3000)" ] },
+    "max_duration": { "math": [ "(u_val('spell_level', 'school: TELEKINETIC') * 10000)" ] }
+  },
+  {
+    "id": "telekin_ritual_summon_lifting_jack_1",
+    "type": "SPELL",
+    "name": "[Ψ]Summon Lifting Jack #1",
+    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "spawn_item",
+    "effect_str": "telekin_lifting_jack_1",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": { "math": [ "(u_val('spell_level', 'school: TELEKINETIC') * 12000)" ] },
+    "max_duration": { "math": [ "(u_val('spell_level', 'school: TELEKINETIC') * 120000)" ] }
+  }
+]
