@@ -113,7 +113,7 @@
     "id": "vita_pain_split",
     "type": "SPELL",
     "name": "[Ψ]Damage Balancing",
-    "description": "By rerouting blood and stem cells from undamaged areas, you can lessen your most grevious wounds at the cost of weakness elsewhere.  You may also use this to control an asthma attack.",
+    "description": "By rerouting blood and stem cells from undamaged areas, you can lessen your most grievous wounds at the cost of weakness elsewhere.  You may also use this to control an asthma attack.",
     "message": "With a moment's concentration, your worst injuries heal, but you still don't feel well.",
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",

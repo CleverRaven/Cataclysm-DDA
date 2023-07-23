@@ -3186,6 +3186,8 @@ viperine
 virginica
 virions
 vises
+vitakinesis
+vitakinetic
 vivarium
 viviparous
 vivisect
