@@ -4,16 +4,21 @@
     "id": "domestic_general_and_variant_palette",
     "//": "Standard variant distribution for homes: General: 95%, Abandoned: 2.80%, Survivor: 1.80%, Hoarder: 0.40%",
     "//2": "Please don't forget to apply your changes to each house palette.",
-    "palettes": [
-      {
-        "distribution": [
-          [ "standard_domestic_palette", 9500 ],
-          [ "standard_domestic_palette_abandoned", 280 ],
-          [ "house_hoarder_palette", 40 ],
-          [ "house_survivor_palette", 180 ]
-        ]
+    "parameters": {
+      "random_palette": {
+        "type": "palette_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            "standard_domestic_palette",
+            "standard_domestic_palette_abandoned",
+            "house_hoarder_palette",
+            "house_survivor_palette"
+          ]
+        }
       }
-    ]
+    },
+    "palettes": [ { "param": "random_palette" } ]
   },
   {
     "type": "palette",
