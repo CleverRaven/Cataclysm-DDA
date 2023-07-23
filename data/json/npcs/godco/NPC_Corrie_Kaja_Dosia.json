@@ -103,7 +103,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Corrie_FirstmeetC",
-    "dynamic_line": "Just so you know, a lot of the folks here might not take to kindly to your appearence.  I'm cool with it, though.",
+    "dynamic_line": "Just so you know, a lot of the folks here might not take to kindly to your appearance.  I'm cool with it, though.",
     "responses": [
       { "text": "Why would that be?", "topic": "TALK_GODCO_Corrie_You_Mutant" },
       { "text": "Thank you for your politeness and generosity.  I'll be seeing you.", "topic": "TALK_DONE" }

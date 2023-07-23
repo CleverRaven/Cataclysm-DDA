@@ -94,7 +94,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Felicity_Firstmeet2",
-    "dynamic_line": "They're alright, but they won't take kindly to someone with your… appearence.  What can i do for you?",
+    "dynamic_line": "They're alright, but they won't take kindly to someone with your… appearance.  What can i do for you?",
     "responses": [ { "text": "If that's the case, I'll leave.", "topic": "TALK_DONE" } ]
   },
   {

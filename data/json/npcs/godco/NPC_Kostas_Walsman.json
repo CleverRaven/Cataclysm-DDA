@@ -259,7 +259,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Kostas_You_Mutant",
-    "dynamic_line": "I'm talking about you and your filthy, unnatural appearence.  I don't like your kind, and neither does anyone else.  Go repent before the Lord for your many sins, if he'll even listen to you.",
+    "dynamic_line": "I'm talking about you and your filthy, unnatural appearance.  I don't like your kind, and neither does anyone else.  Go repent before the Lord for your many sins, if he'll even listen to you.",
     "responses": [ { "text": "Fuck you, I'm blowing this joint.", "topic": "TALK_DONE" } ]
   }
 ]

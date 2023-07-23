@@ -179,7 +179,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Greenwood_You_Mutant",
-    "dynamic_line": "Well, it's your appearence.  You're… how do I say, significantly different than what most people are used to.  With the sudden appearence of strange phenomenon following the Rapture, some have taken your changes as a mark of demonic corruption, and won't be very kind to you either.  Be wary of this.",
+    "dynamic_line": "Well, it's your appearance.  You're… how do I say, significantly different than what most people are used to.  With the sudden appearance of strange phenomenon following the Rapture, some have taken your changes as a mark of demonic corruption, and won't be very kind to you either.  Be wary of this.",
     "responses": [
       { "text": "Alright.  Let's talk about something else.", "topic": "TALK_GODCO_Greenwood_2" },
       { "text": "Thanks for the info, I'd best be going then.", "topic": "TALK_DONE" }
