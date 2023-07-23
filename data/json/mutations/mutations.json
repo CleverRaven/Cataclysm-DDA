@@ -1131,7 +1131,7 @@
     "id": "PSYCHOPATH",
     "name": { "str": "Clean Conscience" },
     "points": 2,
-    "description": "Maybe ending the life of another person bothered you, once.  Maybe it never did.  Either way, you have made peace with what others might call murder.",
+    "description": "Maybe you once felt guilt over the things you've done. Maybe not. Either way, you've made peace with actions other people might find immoral.",
     "starting_trait": true,
     "valid": false,
     "social_modifiers": { "intimidate": 5 },
