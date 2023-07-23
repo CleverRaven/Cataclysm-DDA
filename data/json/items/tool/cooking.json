@@ -702,6 +702,7 @@
         "charge_rate": "1000 W"
       }
     ],
+    "tick_action": "MULTICOOKER_TICK",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

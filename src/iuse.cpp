@@ -7625,346 +7625,349 @@ static bool multicooker_hallu( Character &p )
 
 std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tripoint &pos )
 {
-    static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
     static const int charges_to_start = 50;
     const int charge_buffer = 2;
 
-    if( t ) {
-        //stop action before power runs out and iuse deletes the cooker
-        if( it->ammo_remaining( p ) < charge_buffer ) {
-            it->active = false;
-            it->erase_var( "RECIPE" );
-            it->convert( itype_multi_cooker );
-            //drain the buffer amount given at activation
-            it->ammo_consume( charge_buffer, pos, p );
-            p->add_msg_if_player( m_info,
-                                  _( "Batteries low, entering standby mode.  With a low buzzing sound the multi-cooker shuts down." ) );
+    enum {
+        mc_start, mc_stop, mc_take, mc_upgrade, mc_empty
+    };
+
+    if( p->cant_do_underwater() ) {
+        return std::nullopt;
+    }
+
+    if( p->has_trait( trait_ILLITERATE ) ) {
+        p->add_msg_if_player( m_info,
+                              _( "You can't read, and don't understand the screen or the buttons!" ) );
+        return std::nullopt;
+    }
+
+    if( p->has_effect( effect_hallu ) || p->has_effect( effect_visuals ) ) {
+        if( multicooker_hallu( *p ) ) {
             return 0;
         }
+    }
 
-        int cooktime = it->get_var( "COOKTIME", 0 );
-        cooktime -= 100;
+    if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
+        !p->has_effect( effect_contacts ) ) {
+        p->add_msg_if_player( m_info,
+                              _( "You'll need to put on reading glasses before you can see the screen." ) );
+        return std::nullopt;
+    }
 
-        if( cooktime >= 300 && cooktime < 400 ) {
-            //Smart or good cook or careful
-            /** @EFFECT_INT increases chance of checking multi-cooker on time */
+    uilist menu;
+    menu.text = _( "Welcome to the RobotChef3000.  Choose option:" );
 
-            /** @EFFECT_SURVIVAL increases chance of checking multi-cooker on time */
-            avatar &player = get_avatar();
-            if( player.int_cur + player.get_skill_level( skill_cooking ) + player.get_skill_level(
-                    skill_survival ) > 16 ) {
-                add_msg( m_info, _( "The multi-cooker should be finishing shortly…" ) );
-            }
-        }
+    item *dish_it = it->get_item_with(
+    []( const item & it ) {
+        return !( it.is_toolmod() || it.is_magazine() );
+    } );
 
-        if( cooktime <= 0 ) {
-            item meal( it->get_var( "DISH" ), time_point( calendar::turn ), 1 );
-            if( ( *recipe_id( it->get_var( "RECIPE" ) ) ).hot_result() ) {
-                meal.heat_up();
-            } else {
-                meal.set_item_temperature( std::max( temperatures::cold,
-                                                     get_weather().get_temperature( pos ) ) );
-            }
-
-            it->active = false;
-            it->erase_var( "COOKTIME" );
-            it->convert( itype_multi_cooker );
-            if( it->can_contain( meal ).success() ) {
-                it->put_in( meal, item_pocket::pocket_type::CONTAINER );
-            } else {
-                add_msg( m_info,
-                         _( "Obstruction detected.  Please remove any items lodged in the multi-cooker." ) );
-                return 0;
-            }
-
-            //~ sound of a multi-cooker finishing its cycle!
-            sounds::sound( pos, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
-
-            return 0;
-        } else {
-            it->set_var( "COOKTIME", cooktime );
-            return 0;
-        }
-
+    if( it->active ) {
+        menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
     } else {
-        enum {
-            mc_start, mc_stop, mc_take, mc_upgrade, mc_empty
-        };
-
-        if( p->cant_do_underwater() ) {
-            return std::nullopt;
-        }
-
-        if( p->has_trait( trait_ILLITERATE ) ) {
-            p->add_msg_if_player( m_info,
-                                  _( "You can't read, and don't understand the screen or the buttons!" ) );
-            return std::nullopt;
-        }
-
-        if( p->has_effect( effect_hallu ) || p->has_effect( effect_visuals ) ) {
-            if( multicooker_hallu( *p ) ) {
+        if( dish_it == nullptr ) {
+            if( it->ammo_remaining( p ) < charges_to_start ) {
+                p->add_msg_if_player( _( "Batteries are low." ) );
                 return 0;
             }
-        }
+            menu.addentry( mc_start, true, 's', _( "Start cooking" ) );
 
-        if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
-            !p->has_effect( effect_contacts ) ) {
-            p->add_msg_if_player( m_info,
-                                  _( "You'll need to put on reading glasses before you can see the screen." ) );
-            return std::nullopt;
-        }
+            /** @EFFECT_ELECTRONICS >3 allows multicooker upgrade */
 
-        uilist menu;
-        menu.text = _( "Welcome to the RobotChef3000.  Choose option:" );
-
-        item *dish_it = it->get_item_with(
-        []( const item & it ) {
-            return !( it.is_toolmod() || it.is_magazine() );
-        } );
-
-        if( it->active ) {
-            menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
-        } else {
-            if( dish_it == nullptr ) {
-                if( it->ammo_remaining( p ) < charges_to_start ) {
-                    p->add_msg_if_player( _( "Batteries are low." ) );
-                    return 0;
-                }
-                menu.addentry( mc_start, true, 's', _( "Start cooking" ) );
-
-                /** @EFFECT_ELECTRONICS >3 allows multicooker upgrade */
-
-                /** @EFFECT_FABRICATION >3 allows multicooker upgrade */
-                if( p->get_skill_level( skill_electronics ) >= 4 && p->get_skill_level( skill_fabrication ) >= 4 ) {
-                    const std::string upgr = it->get_var( "MULTI_COOK_UPGRADE" );
-                    if( upgr.empty() ) {
-                        menu.addentry( mc_upgrade, true, 'u', _( "Upgrade multi-cooker" ) );
+            /** @EFFECT_FABRICATION >3 allows multicooker upgrade */
+            if( p->get_skill_level( skill_electronics ) >= 4 && p->get_skill_level( skill_fabrication ) >= 4 ) {
+                const std::string upgr = it->get_var( "MULTI_COOK_UPGRADE" );
+                if( upgr.empty() ) {
+                    menu.addentry( mc_upgrade, true, 'u', _( "Upgrade multi-cooker" ) );
+                } else {
+                    if( upgr == "UPGRADE" ) {
+                        menu.addentry( mc_upgrade, false, 'u', _( "Multi-cooker already upgraded" ) );
                     } else {
-                        if( upgr == "UPGRADE" ) {
-                            menu.addentry( mc_upgrade, false, 'u', _( "Multi-cooker already upgraded" ) );
-                        } else {
-                            menu.addentry( mc_upgrade, false, 'u', _( "Multi-cooker unable to upgrade" ) );
-                        }
+                        menu.addentry( mc_upgrade, false, 'u', _( "Multi-cooker unable to upgrade" ) );
                     }
                 }
+            }
+        } else {
+            // Something other than a recipe item might be stored in the pocket.
+            if( dish_it->typeId().str() == it->get_var( "DISH" ) ) {
+                menu.addentry( mc_take, true, 't', _( "Take out dish" ) );
             } else {
-                // Something other than a recipe item might be stored in the pocket.
-                if( dish_it->typeId().str() == it->get_var( "DISH" ) ) {
-                    menu.addentry( mc_take, true, 't', _( "Take out dish" ) );
-                } else {
-                    menu.addentry( mc_empty, true, 't',
-                                   _( "Obstruction detected.  Please remove any items lodged in the multi-cooker." ) );
-                }
+                menu.addentry( mc_empty, true, 't',
+                               _( "Obstruction detected.  Please remove any items lodged in the multi-cooker." ) );
+            }
+        }
+    }
+
+    menu.query();
+    int choice = menu.ret;
+
+    if( choice < 0 ) {
+        return std::nullopt;
+    }
+
+    if( mc_stop == choice ) {
+        if( query_yn( _( "Really stop cooking?" ) ) ) {
+            it->active = false;
+            it->erase_var( "DISH" );
+            it->erase_var( "COOKTIME" );
+            it->erase_var( "RECIPE" );
+            it->convert( itype_multi_cooker );
+        }
+        return 0;
+    }
+
+    if( mc_take == choice ) {
+        item &dish = *dish_it;
+        if( dish.has_flag( flag_FROZEN ) ) {
+            dish.cold_up();  //don't know how to check if the dish is frozen liquid and prevent extraction of it into inventory...
+        }
+        const std::string dish_name = dish.tname( dish.charges, false );
+        const bool is_delicious = dish.has_flag( flag_HOT ) && dish.has_flag( flag_EATEN_HOT );
+        if( dish.made_of( phase_id::LIQUID ) ) {
+            if( !p->check_eligible_containers_for_crafting( *recipe_id( it->get_var( "RECIPE" ) ), 1 ) ) {
+                p->add_msg_if_player( m_info, _( "You don't have a suitable container to store your %s." ),
+                                      dish_name );
+
+                return 0;
+            }
+            liquid_handler::handle_all_liquid( dish, PICKUP_RANGE );
+        } else {
+            p->i_add( dish );
+        }
+
+        it->remove_item( *dish_it );
+        it->erase_var( "RECIPE" );
+        if( is_delicious ) {
+            p->add_msg_if_player( m_good,
+                                  _( "You got the dish from the multi-cooker.  The %s smells delicious." ),
+                                  dish_name );
+        } else {
+            p->add_msg_if_player( m_good, _( "You got the %s from the multi-cooker." ),
+                                  dish_name );
+        }
+
+        return 0;
+    }
+
+    // Do nothing if there's non-dish contained in the cooker
+    if( mc_empty == choice ) {
+        return std::nullopt;
+    }
+
+    if( mc_start == choice ) {
+        uilist dmenu;
+        dmenu.text = _( "Choose desired meal:" );
+
+        std::vector<const recipe *> dishes;
+
+        inventory crafting_inv = p->crafting_inventory();
+        // add some tools and qualities. we can't add this qualities to
+        // json, because multicook must be used only by activating, not as
+        // component other crafts.
+        crafting_inv.push_back( item( "hotplate", calendar::turn_zero ) ); //hotplate inside
+        // some recipes requires tongs
+        crafting_inv.push_back( item( "tongs", calendar::turn_zero ) );
+        // toolset with CUT and other qualities inside
+        crafting_inv.push_back( item( "toolset", calendar::turn_zero ) );
+        // good COOK, BOIL, CONTAIN qualities inside
+        crafting_inv.push_back( item( "pot", calendar::turn_zero ) );
+
+        int counter = 0;
+        static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
+
+        for( const recipe * const &r : get_avatar().get_learned_recipes().in_category( "CC_FOOD" ) ) {
+            if( multicooked_subcats.count( r->subcategory ) > 0 ) {
+                dishes.push_back( r );
+                const bool can_make = r->deduped_requirements().can_make_with_inventory(
+                                          crafting_inv, r->get_component_filter() );
+
+                dmenu.addentry( counter++, can_make, -1, r->result_name( /*decorated=*/true ) );
             }
         }
 
-        menu.query();
-        int choice = menu.ret;
+        dmenu.query();
+
+        int choice = dmenu.ret;
 
         if( choice < 0 ) {
             return std::nullopt;
-        }
-
-        if( mc_stop == choice ) {
-            if( query_yn( _( "Really stop cooking?" ) ) ) {
-                it->active = false;
-                it->erase_var( "DISH" );
-                it->erase_var( "COOKTIME" );
-                it->erase_var( "RECIPE" );
-                it->convert( itype_multi_cooker );
+        } else {
+            const recipe *meal = dishes[choice];
+            int mealtime;
+            if( it->get_var( "MULTI_COOK_UPGRADE" ) == "UPGRADE" ) {
+                mealtime = meal->time_to_craft_moves( *p, recipe_time_flag::ignore_proficiencies );
+            } else {
+                mealtime = meal->time_to_craft_moves( *p, recipe_time_flag::ignore_proficiencies ) * 2;
             }
+
+            const int all_charges = charges_to_start + mealtime / 1000 * units::to_watt(
+                                        it->type->tool->power_draw ) / 1000;
+
+            if( it->ammo_remaining( p ) < all_charges ) {
+
+                p->add_msg_if_player( m_warning,
+                                      _( "The multi-cooker needs %d charges to cook this dish." ),
+                                      all_charges );
+
+                return std::nullopt;
+            }
+
+            const auto filter = is_crafting_component;
+            const requirement_data *reqs =
+                meal->deduped_requirements().select_alternative( *p, crafting_inv, filter );
+            if( !reqs ) {
+                return std::nullopt;
+            }
+
+            for( const auto &component : reqs->get_components() ) {
+                p->consume_items( component, 1, filter );
+            }
+
+            it->set_var( "RECIPE", meal->ident().str() );
+            it->set_var( "DISH", meal->result().str() );
+            it->set_var( "COOKTIME", mealtime );
+
+            p->add_msg_if_player( m_good,
+                                  _( "The screen flashes blue symbols and scales as the multi-cooker begins to shake." ) );
+
+            it->convert( itype_multi_cooker_filled ).active = true;
+            it->ammo_consume( charges_to_start - charge_buffer, pos, p );
+
+            p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
+
             return 0;
         }
+    }
 
-        if( mc_take == choice ) {
-            item &dish = *dish_it;
-            if( dish.has_flag( flag_FROZEN ) ) {
-                dish.cold_up();  //don't know how to check if the dish is frozen liquid and prevent extraction of it into inventory...
-            }
-            const std::string dish_name = dish.tname( dish.charges, false );
-            const bool is_delicious = dish.has_flag( flag_HOT ) && dish.has_flag( flag_EATEN_HOT );
-            if( dish.made_of( phase_id::LIQUID ) ) {
-                if( !p->check_eligible_containers_for_crafting( *recipe_id( it->get_var( "RECIPE" ) ), 1 ) ) {
-                    p->add_msg_if_player( m_info, _( "You don't have a suitable container to store your %s." ),
-                                          dish_name );
+    if( mc_upgrade == choice ) {
 
-                    return 0;
-                }
-                liquid_handler::handle_all_liquid( dish, PICKUP_RANGE );
-            } else {
-                p->i_add( dish );
-            }
-
-            it->remove_item( *dish_it );
-            it->erase_var( "RECIPE" );
-            if( is_delicious ) {
-                p->add_msg_if_player( m_good,
-                                      _( "You got the dish from the multi-cooker.  The %s smells delicious." ),
-                                      dish_name );
-            } else {
-                p->add_msg_if_player( m_good, _( "You got the %s from the multi-cooker." ),
-                                      dish_name );
-            }
-
-            return 0;
-        }
-
-        // Do nothing if there's non-dish contained in the cooker
-        if( mc_empty == choice ) {
+        if( !p->has_morale_to_craft() ) {
+            p->add_msg_if_player( m_info, _( "Your morale is too low to craft…" ) );
             return std::nullopt;
         }
 
-        if( mc_start == choice ) {
-            uilist dmenu;
-            dmenu.text = _( "Choose desired meal:" );
+        bool has_tools = true;
 
-            std::vector<const recipe *> dishes;
+        const inventory &cinv = p->crafting_inventory();
 
-            inventory crafting_inv = p->crafting_inventory();
-            // add some tools and qualities. we can't add this qualities to
-            // json, because multicook must be used only by activating, not as
-            // component other crafts.
-            crafting_inv.push_back( item( "hotplate", calendar::turn_zero ) ); //hotplate inside
-            // some recipes requires tongs
-            crafting_inv.push_back( item( "tongs", calendar::turn_zero ) );
-            // toolset with CUT and other qualities inside
-            crafting_inv.push_back( item( "toolset", calendar::turn_zero ) );
-            // good COOK, BOIL, CONTAIN qualities inside
-            crafting_inv.push_back( item( "pot", calendar::turn_zero ) );
-
-            int counter = 0;
-
-            for( const recipe * const &r : get_avatar().get_learned_recipes().in_category( "CC_FOOD" ) ) {
-                if( multicooked_subcats.count( r->subcategory ) > 0 ) {
-                    dishes.push_back( r );
-                    const bool can_make = r->deduped_requirements().can_make_with_inventory(
-                                              crafting_inv, r->get_component_filter() );
-
-                    dmenu.addentry( counter++, can_make, -1, r->result_name( /*decorated=*/true ) );
-                }
-            }
-
-            dmenu.query();
-
-            int choice = dmenu.ret;
-
-            if( choice < 0 ) {
-                return std::nullopt;
-            } else {
-                const recipe *meal = dishes[choice];
-                int mealtime;
-                if( it->get_var( "MULTI_COOK_UPGRADE" ) == "UPGRADE" ) {
-                    mealtime = meal->time_to_craft_moves( *p, recipe_time_flag::ignore_proficiencies );
-                } else {
-                    mealtime = meal->time_to_craft_moves( *p, recipe_time_flag::ignore_proficiencies ) * 2;
-                }
-
-                const int all_charges = charges_to_start + mealtime / 1000 * units::to_watt(
-                                            it->type->tool->power_draw ) / 1000;
-
-                if( it->ammo_remaining( p ) < all_charges ) {
-
-                    p->add_msg_if_player( m_warning,
-                                          _( "The multi-cooker needs %d charges to cook this dish." ),
-                                          all_charges );
-
-                    return std::nullopt;
-                }
-
-                const auto filter = is_crafting_component;
-                const requirement_data *reqs =
-                    meal->deduped_requirements().select_alternative( *p, crafting_inv, filter );
-                if( !reqs ) {
-                    return std::nullopt;
-                }
-
-                for( const auto &component : reqs->get_components() ) {
-                    p->consume_items( component, 1, filter );
-                }
-
-                it->set_var( "RECIPE", meal->ident().str() );
-                it->set_var( "DISH", meal->result().str() );
-                it->set_var( "COOKTIME", mealtime );
-
-                p->add_msg_if_player( m_good,
-                                      _( "The screen flashes blue symbols and scales as the multi-cooker begins to shake." ) );
-
-                it->convert( itype_multi_cooker_filled ).active = true;
-                it->ammo_consume( charges_to_start - charge_buffer, pos, p );
-
-                p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
-
-                return 0;
-            }
+        if( !cinv.has_amount( itype_soldering_iron, 1 ) ) {
+            p->add_msg_if_player( m_warning, _( "You need a %s." ),
+                                  item::nname( itype_soldering_iron ) );
+            has_tools = false;
         }
 
-        if( mc_upgrade == choice ) {
+        if( !cinv.has_quality( qual_SCREW_FINE ) ) {
+            p->add_msg_if_player( m_warning, _( "You need an item with %s of 1 or more to upgrade this." ),
+                                  qual_SCREW_FINE.obj().name );
+            has_tools = false;
+        }
 
-            if( !p->has_morale_to_craft() ) {
-                p->add_msg_if_player( m_info, _( "Your morale is too low to craft…" ) );
-                return std::nullopt;
-            }
+        if( !has_tools ) {
+            return std::nullopt;
+        }
 
-            bool has_tools = true;
+        p->practice( skill_electronics, rng( 5, 10 ) );
+        p->practice( skill_fabrication, rng( 5, 10 ) );
 
-            const inventory &cinv = p->crafting_inventory();
+        p->moves -= to_moves<int>( 7_seconds );
 
-            if( !cinv.has_amount( itype_soldering_iron, 1 ) ) {
-                p->add_msg_if_player( m_warning, _( "You need a %s." ),
-                                      item::nname( itype_soldering_iron ) );
-                has_tools = false;
-            }
+        /** @EFFECT_INT increases chance to successfully upgrade multi-cooker */
 
-            if( !cinv.has_quality( qual_SCREW_FINE ) ) {
-                p->add_msg_if_player( m_warning, _( "You need an item with %s of 1 or more to upgrade this." ),
-                                      qual_SCREW_FINE.obj().name );
-                has_tools = false;
-            }
+        /** @EFFECT_ELECTRONICS increases chance to successfully upgrade multi-cooker */
 
-            if( !has_tools ) {
-                return std::nullopt;
-            }
+        /** @EFFECT_FABRICATION increases chance to successfully upgrade multi-cooker */
+        if( p->get_skill_level( skill_electronics ) + p->get_skill_level( skill_fabrication ) + p->int_cur >
+            rng( 20, 35 ) ) {
 
-            p->practice( skill_electronics, rng( 5, 10 ) );
-            p->practice( skill_fabrication, rng( 5, 10 ) );
+            p->practice( skill_electronics, rng( 5, 20 ) );
+            p->practice( skill_fabrication, rng( 5, 20 ) );
 
-            p->moves -= to_moves<int>( 7_seconds );
+            p->add_msg_if_player( m_good,
+                                  _( "You've successfully upgraded the multi-cooker, master tinkerer!  Now it cooks faster!" ) );
 
-            /** @EFFECT_INT increases chance to successfully upgrade multi-cooker */
+            it->set_var( "MULTI_COOK_UPGRADE", "UPGRADE" );
 
-            /** @EFFECT_ELECTRONICS increases chance to successfully upgrade multi-cooker */
+            return 0;
 
-            /** @EFFECT_FABRICATION increases chance to successfully upgrade multi-cooker */
-            if( p->get_skill_level( skill_electronics ) + p->get_skill_level( skill_fabrication ) + p->int_cur >
-                rng( 20, 35 ) ) {
+        } else {
 
-                p->practice( skill_electronics, rng( 5, 20 ) );
-                p->practice( skill_fabrication, rng( 5, 20 ) );
-
-                p->add_msg_if_player( m_good,
-                                      _( "You've successfully upgraded the multi-cooker, master tinkerer!  Now it cooks faster!" ) );
-
-                it->set_var( "MULTI_COOK_UPGRADE", "UPGRADE" );
-
-                return 0;
-
+            if( !one_in( 5 ) ) {
+                p->add_msg_if_player( m_neutral,
+                                      _( "You sagely examine and analyze the multi-cooker, but don't manage to accomplish anything." ) );
             } else {
-
-                if( !one_in( 5 ) ) {
-                    p->add_msg_if_player( m_neutral,
-                                          _( "You sagely examine and analyze the multi-cooker, but don't manage to accomplish anything." ) );
-                } else {
-                    p->add_msg_if_player( m_bad,
-                                          _( "Your tinkering nearly breaks the multi-cooker!  Fortunately, it still works, but best to stop messing with it." ) );
-                    it->set_var( "MULTI_COOK_UPGRADE", "DAMAGED" );
-                }
-
-                return 0;
-
+                p->add_msg_if_player( m_bad,
+                                      _( "Your tinkering nearly breaks the multi-cooker!  Fortunately, it still works, but best to stop messing with it." ) );
+                it->set_var( "MULTI_COOK_UPGRADE", "DAMAGED" );
             }
+
+            return 0;
 
         }
 
+    }
+
+    return 0;
+}
+
+std::optional<int> iuse::multicooker_tick( Character *p, item *it, bool, const tripoint &pos )
+{
+    const int charge_buffer = 2;
+
+    //stop action before power runs out and iuse deletes the cooker
+    if( it->ammo_remaining( p ) < charge_buffer ) {
+        it->active = false;
+        it->erase_var( "RECIPE" );
+        it->convert( itype_multi_cooker );
+        //drain the buffer amount given at activation
+        it->ammo_consume( charge_buffer, pos, p );
+        p->add_msg_if_player( m_info,
+                              _( "Batteries low, entering standby mode.  With a low buzzing sound the multi-cooker shuts down." ) );
+        return 0;
+    }
+
+    int cooktime = it->get_var( "COOKTIME", 0 );
+    cooktime -= 100;
+
+    if( cooktime >= 300 && cooktime < 400 ) {
+        //Smart or good cook or careful
+        /** @EFFECT_INT increases chance of checking multi-cooker on time */
+
+        /** @EFFECT_SURVIVAL increases chance of checking multi-cooker on time */
+        avatar &player = get_avatar();
+        if( player.int_cur + player.get_skill_level( skill_cooking ) + player.get_skill_level(
+                skill_survival ) > 16 ) {
+            add_msg( m_info, _( "The multi-cooker should be finishing shortly…" ) );
+        }
+    }
+
+    if( cooktime <= 0 ) {
+        item meal( it->get_var( "DISH" ), time_point( calendar::turn ), 1 );
+        if( ( *recipe_id( it->get_var( "RECIPE" ) ) ).hot_result() ) {
+            meal.heat_up();
+        } else {
+            meal.set_item_temperature( std::max( temperatures::cold,
+                                                 get_weather().get_temperature( pos ) ) );
+        }
+
+        it->active = false;
+        it->erase_var( "COOKTIME" );
+        it->convert( itype_multi_cooker );
+        if( it->can_contain( meal ).success() ) {
+            it->put_in( meal, item_pocket::pocket_type::CONTAINER );
+        } else {
+            add_msg( m_info,
+                     _( "Obstruction detected.  Please remove any items lodged in the multi-cooker." ) );
+            return 0;
+        }
+
+        //~ sound of a multi-cooker finishing its cycle!
+        sounds::sound( pos, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
+
+        return 0;
+    } else {
+        it->set_var( "COOKTIME", cooktime );
+        return 0;
     }
 
     return 0;
