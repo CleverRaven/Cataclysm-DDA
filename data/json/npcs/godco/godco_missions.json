@@ -510,7 +510,7 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "I have a job for you…",
-      "offer": "As a matter of fact, yes you can.  You see, we're running low on toilet paper.  It's not something we can't live without, but it's luxury we can afford.  I can pay you handsomely if you find us ten rolls of toilet paper.",
+      "offer": "As a matter of fact, yes you can.  You see, we're running low on toilet paper.  It's not something we can't live without, but it's luxury we can afford.  I can pay you handsomely if you find us ten rolls toilet paper.",
       "accepted": "Well, that's great.  Good luck.",
       "rejected": "Changed your mind already?",
       "advice": "You remember what toilet paper is, right?",

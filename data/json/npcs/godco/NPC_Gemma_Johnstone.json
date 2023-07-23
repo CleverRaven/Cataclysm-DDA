@@ -36,12 +36,19 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_1",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_gemma",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
       "value": "yes",
-      "yes": [ "Praise the Lord.", "Good to see you're still around, <granny_name_g>." ],
-      "no": "Great to see a new face.  I'm Gemma.  Will you be staying here with us?"
+      "yes": "The Lord isn't with you, and that's obvious.  Get out of my sight, sinner.",
+      "no": {
+        "npc_has_var": "u_met_godco_gemma",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": [ "Praise the Lord.", "Good to see you're still around, <granny_name_g>." ],
+        "no": "Great to see a new face.  I'm Gemma.  Will you be staying here with us?"
+      }
     },
     "responses": [
       {
@@ -50,7 +57,8 @@
         "condition": {
           "and": [
             { "not": { "npc_has_var": "u_met_godco_gemma", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } }
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
           ]
         },
         "effect": { "npc_add_var": "u_met_godco_gemma", "type": "general", "context": "meeting", "value": "yes" }
@@ -58,7 +66,12 @@
       {
         "text": "Nice to meet you, Gemma.  I'm seeking asylum.",
         "topic": "TALK_GODCO_Gemma_Join",
-        "condition": { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "effect": { "npc_add_var": "u_met_godco_gemma", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
@@ -67,7 +80,8 @@
         "condition": {
           "and": [
             { "not": { "npc_has_var": "u_met_godco_gemma", "type": "general", "context": "meeting", "value": "yes" } },
-            { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" }
+            { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
           ]
         },
         "effect": { "npc_add_var": "u_met_godco_gemma", "type": "general", "context": "meeting", "value": "yes" }
@@ -77,7 +91,21 @@
         "topic": "TALK_GODCO_Gemma_Mood",
         "condition": { "npc_has_var": "u_met_godco_gemma", "type": "general", "context": "meeting", "value": "yes" }
       },
-      { "text": "Hello, Gemma.  I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      {
+        "text": "Hello, Gemma.  I'm afraid I can't talk right now.",
+        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "What's the harsh reception about?",
+        "topic": "TALK_GODCO_Gemma_You_Mutant",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
+      },
+      {
+        "text": "Fine then, screw you.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
+      }
     ]
   },
   {
@@ -178,5 +206,11 @@
       { "text": "I meant \"Are there any jobs you know of?\"", "topic": "TALK_MISSION_LIST" },
       { "text": "Sure.  Well, bye.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Gemma_You_Mutant",
+    "dynamic_line": "You certainly have the marks of one.  I don't understand how you can go walking around looking like an abomination, cursed by God, and think everything's alright.  I'm not interested in learning, either, so be gone with you.",
+    "responses": [ { "text": "Sure.  See ya.", "topic": "TALK_DONE" } ]
   }
 ]
