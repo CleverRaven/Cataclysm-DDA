@@ -183,7 +183,8 @@
       { "item": "holybook_slack", "prob": 1 },
       { "item": "holybook_kallisti", "prob": 1 },
       { "item": "holybook_scientology", "prob": 1 },
-      { "item": "holybook_satanic", "prob": 1 }
+      { "item": "holybook_satanic", "prob": 1 },
+      { "item": "book_judaica_siddur", "prob": 1 }
     ]
   },
   {
@@ -322,7 +323,9 @@
       { "item": "fermenting_book", "prob": 8 },
       { "item": "distilling_cookbook", "prob": 3 },
       { "item": "cookbook_bloodforgood", "prob": 2 },
-      { "group": "memorial", "prob": 10 }
+      { "group": "memorial", "prob": 10 },
+      { "item": "book_judaica_hardcover", "prob": 5 },
+      { "item": "book_judaica_softcover", "prob": 5 }
     ]
   },
   {

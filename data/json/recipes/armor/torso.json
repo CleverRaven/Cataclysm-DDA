@@ -2228,6 +2228,20 @@
     "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs", -1 ] ] ]
   },
   {
+    "result": "jacket_windbreaker",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 7 ], [ "fastener_large", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "byproducts": [ [ "scrap_nylon", 50 ] ]
+  },
+  {
     "result": "wool_hoodie",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
