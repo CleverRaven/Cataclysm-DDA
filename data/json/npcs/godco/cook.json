@@ -13,12 +13,12 @@
       "value": "yes",
       "yes": "Could you be on your way, please?  We don't take kindly to sinners like you.",
       "no": {
-      "npc_has_var": "u_met_godco_chef",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
-      "yes": [ "Welcome back.", "Hello again.  What do you need?", "*waves you over.  \"Hey <name_g>.  How's it going for you?\"" ],
-      "no": "Hello stranger, I don't think we've met before.  Its nice to meet you, name's Simon."
+        "npc_has_var": "u_met_godco_chef",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": [ "Welcome back.", "Hello again.  What do you need?", "*waves you over.  \"Hey <name_g>.  How's it going for you?\"" ],
+        "no": "Hello stranger, I don't think we've met before.  Its nice to meet you, name's Simon."
       }
     },
     "responses": [
@@ -46,7 +46,7 @@
       },
       {
         "text": "I wanted to talk.",
-        "topic": "TALK_GODCO_chef_idle_chat",  
+        "topic": "TALK_GODCO_chef_idle_chat",
         "condition": {
           "and": [
             { "npc_has_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" },
