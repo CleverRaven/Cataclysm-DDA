@@ -78,11 +78,6 @@
         "text": "Fine then.",
         "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
         "topic": "TALK_DONE"
-      },
-      {
-        "text": "Fine then.",
-        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
-        "topic": "TALK_DONE"
       }
     ]
   },
