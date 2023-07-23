@@ -340,7 +340,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_unvitrified_farm_0.id(),
         oter_type_unvitrified_farm_1.id(),
         oter_type_unvitrified_farm_2.id(),
-        oter_type_unvitrified_farm__neg_1.id(),
+        oter_type_unvitrified_farm_neg_1.id(),
         oter_type_unvitrified_orchard.id(),
     };
 
