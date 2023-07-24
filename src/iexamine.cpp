@@ -4554,48 +4554,50 @@ void iexamine::sign( Character &you, const tripoint &examp )
     bool previous_signage_exists = !existing_signage.empty();
 
     // Display existing message, or lack thereof.
-    if( you.has_trait( trait_ILLITERATE ) ) {
-        popup( _( "You're illiterate, and can't read the message on the sign." ) );
-    } else if( previous_signage_exists ) {
-        popup( existing_signage );
-    } else {
-        you.add_msg_if_player( m_neutral, _( "Nothing legible on the sign." ) );
-    }
-
-    // Allow chance to modify message.
-    std::vector<tool_comp> tools;
-    std::vector<const item *> filter = you.crafting_inventory().items_with( []( const item & it ) {
-        return it.has_flag( flag_WRITE_MESSAGE ) && it.charges > 0;
-    } );
-    tools.reserve( filter.size() );
-    for( const item *writing_item : filter ) {
-        tools.emplace_back( writing_item->typeId(), 1 );
-    }
-
-    if( !tools.empty() ) {
-        // Different messages if the sign already has writing associated with it.
-        std::string query_message = previous_signage_exists ?
-                                    _( "Overwrite the existing message on the sign?" ) :
-                                    _( "Add a message to the sign?" );
-        std::string ignore_message = _( "You leave the sign alone." );
-        if( query_yn( query_message ) ) {
-            std::string signage = string_input_popup()
-                                  .title( _( "Write what?" ) )
-                                  .identifier( "signage" )
-                                  .query_string();
-            if( signage.empty() ) {
-                you.add_msg_if_player( m_neutral, ignore_message );
-            } else {
-                std::string spray_painted_message = previous_signage_exists ?
-                                                    _( "You overwrite the previous message on the sign with your graffiti." ) :
-                                                    _( "You graffiti a message onto the sign." );
-                here.set_signage( examp, signage );
-                you.add_msg_if_player( m_info, spray_painted_message );
-                you.mod_moves( - 20 * signage.length() );
-                you.consume_tools( tools, 1 );
-            }
+    if( here.furn( examp )->has_flag( ter_furn_flag::TFLAG_SIGN_ALWAYS ) || previous_signage_exists ) {
+        if( you.has_trait( trait_ILLITERATE ) ) {
+            popup( _( "You're illiterate, and can't read the message on the sign." ) );
+        } else if( previous_signage_exists ) {
+            popup( existing_signage );
         } else {
-            you.add_msg_if_player( m_neutral, ignore_message );
+            you.add_msg_if_player( m_neutral, _( "Nothing legible on the sign." ) );
+        }
+
+
+        // Allow chance to modify message.
+        std::vector<tool_comp> tools;
+        std::vector<const item *> filter = you.crafting_inventory().items_with( []( const item & it ) {
+            return it.has_flag( flag_WRITE_MESSAGE ) && it.charges > 0;
+        } );
+        tools.reserve( filter.size() );
+        for( const item *writing_item : filter ) {
+            tools.emplace_back( writing_item->typeId(), 1 );
+        }
+        if( !tools.empty() ) {
+            // Different messages if the sign already has writing associated with it.
+            std::string query_message = previous_signage_exists ?
+                                        _( "Overwrite the existing message on the sign?" ) :
+                                        _( "Add a message to the sign?" );
+            std::string ignore_message = _( "You leave the sign alone." );
+            if( query_yn( query_message ) ) {
+                std::string signage = string_input_popup()
+                                      .title( _( "Write what?" ) )
+                                      .identifier( "signage" )
+                                      .query_string();
+                if( signage.empty() ) {
+                    you.add_msg_if_player( m_neutral, ignore_message );
+                } else {
+                    std::string spray_painted_message = previous_signage_exists ?
+                                                        _( "You overwrite the previous message on the sign with your graffiti." ) :
+                                                        _( "You graffiti a message onto the sign." );
+                    here.set_signage( examp, signage );
+                    you.add_msg_if_player( m_info, spray_painted_message );
+                    you.mod_moves( - 20 * signage.length() );
+                    you.consume_tools( tools, 1 );
+                }
+            } else {
+                you.add_msg_if_player( m_neutral, ignore_message );
+            }
         }
     }
 }

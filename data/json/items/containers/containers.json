@@ -1887,7 +1887,7 @@
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 5 },
-    "//": "Based on https://www.amazon.com/CZFWin-Container-Airtight-Storage-Cookies/dp/B0936RC7M1/ref=sr_1_10?keywords=3l%2Bglass%2Bjar&qid=1684576671&sr=8-10&th=1"
+    "//": "Based on https://www.amazon.com/dp/B0936RC7M1"
   },
   {
     "id": "jar_glass_sealed",

@@ -14,5 +14,31 @@
     "symbol": ")",
     "color": "light_gray",
     "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "trashcan",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "trash can" },
+    "looks_like": "f_trashcan",
+    "description": "Big trashcan, that can store, you guess it, trash.  Made out of plastic, so it's watertight, but fragile material won't survive if you try to carry something really heavy.",
+    "weight": "1360 g",
+    "volume": "56245 ml",
+    "//": "https://www.amazon.com/Rubbermaid-Commercial-10-Gallon-Deskside-Rectangular/dp/B00030L5HY.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "40 L",
+        "max_contains_weight": "50 kg",
+        "open_container": true,
+        "rigid": true,
+        "watertight": true
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "material": [ "plastic" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_trashcan" },
+    "symbol": ")",
+    "color": "light_gray"
   }
 ]

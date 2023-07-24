@@ -60,7 +60,7 @@
       { "id": "dtowel7", "text": "A dish towel with a gingham pattern." },
       { "id": "dtowel8", "text": "A dish towel with a cat pattern." }
     ],
-    "//2": "Based on https://www.amazon.com/Zeppoli-Classic-Kitchen-15-Pack-Natural/dp/B01IG8X9E6/ref=sr_1_9?crid=3VWY7NLBYVH2N&keywords=dish%2Btowel&qid=1684589366&sprefix=dish%2Btowel%2Caps%2C256&sr=8-9&th=1"
+    "//2": "Based on https://www.amazon.com/dp/B01IG8X9E6"
   },
   {
     "id": "elec_hairtrimmer",
@@ -231,7 +231,7 @@
       { "id": "spng7", "text": "A sponge in the shape of a beloved character from a children's cartoon." },
       { "id": "spng8", "text": "A cat-shaped sponge." }
     ],
-    "//": "Based on https://www.amazon.com/Amazon-Brand-Solimo-Non-Scratch-Sponges/dp/B08RFC3VH7/ref=sr_1_7?crid=1JSW6KQKVQKBK&keywords=sponge&qid=1688239591&sprefix=250ml%2Bwine%2Bglass%2Caps%2C726&sr=8-7&th=1"
+    "//": "Based on https://www.amazon.com/dp/B08RFC3VH7"
   },
   {
     "id": "survivor_hairtrimmer",
