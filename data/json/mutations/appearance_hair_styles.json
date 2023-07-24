@@ -494,7 +494,49 @@
     "player_display": true,
     "vanity": true,
     "variants": [
-      { "id": "blue", "name": { "str": "Hair: blue, crew cut" }, "description": "You have a blue crew cut.", "weight": 1 },
+      { "id": "black", "name": { "str": "Hair: black, crew cut" }, "description": "You have a black crew cut.", "weight": 1 },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, crew cut" },
+        "description": "You have brown crew cut.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, crew cut" },
+        "description": "You have a blond crew cut.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, crew cut" },
+        "description": "You have a gray crew cut.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, crew cut" },
+        "description": "You have a white crew cut.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, crew cut" },
+        "description": "You have a red crew cut.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, crew cut" },
+        "description": "You have a blue crew cut.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, crew cut" },
+        "description": "You have a blue crew cut.",
+        "weight": 1
+      },
       {
         "id": "green",
         "name": { "str": "Hair: green, crew cut" },
@@ -528,6 +570,27 @@
     "player_display": true,
     "vanity": true,
     "variants": [
+      { "id": "black", "name": { "str": "Hair: black, mohawk" }, "description": "You have a black mohawk.", "weight": 1 },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, mohawk" },
+        "description": "You have a brown mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, mohawk" },
+        "description": "You have a blond mohawk.",
+        "weight": 1
+      },
+      { "id": "gray", "name": { "str": "Hair: gray, mohawk" }, "description": "You have a gray mohawk.", "weight": 1 },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, mohawk" },
+        "description": "You have a white mohawk.",
+        "weight": 1
+      },
+      { "id": "red", "name": { "str": "Hair: red, mohawk" }, "description": "You have a red mohawk.", "weight": 1 },
       { "id": "blue", "name": { "str": "Hair: blue, mohawk" }, "description": "You have a blue mohawk.", "weight": 1 },
       {
         "id": "green",
@@ -557,6 +620,12 @@
     "player_display": true,
     "vanity": true,
     "variants": [
+      { "id": "black", "name": { "str": "Hair: black, 'fro" }, "description": "You have a black 'fro.", "weight": 1 },
+      { "id": "brown", "name": { "str": "Hair: brown, 'fro" }, "description": "You have a brown 'fro.", "weight": 1 },
+      { "id": "blond", "name": { "str": "Hair: blond, 'fro" }, "description": "You have a blond 'fro.", "weight": 1 },
+      { "id": "gray", "name": { "str": "Hair: gray, 'fro" }, "description": "You have a gray 'fro.", "weight": 1 },
+      { "id": "white", "name": { "str": "Hair: white, 'fro" }, "description": "You have a white 'fro.", "weight": 1 },
+      { "id": "red", "name": { "str": "Hair: red, 'fro" }, "description": "You have a red 'fro.", "weight": 1 },
       { "id": "blue", "name": { "str": "Hair: blue, 'fro" }, "description": "You have a blue 'fro.", "weight": 1 },
       { "id": "green", "name": { "str": "Hair: green, 'fro" }, "description": "You have a green 'fro.", "weight": 1 },
       { "id": "pink", "name": { "str": "Hair: pink, 'fro" }, "description": "You have a pink 'fro.", "weight": 1 },
@@ -581,7 +650,38 @@
     "player_display": true,
     "vanity": true,
     "variants": [
-      { "id": "blue", "name": { "str": "Hair: blue, short" }, "description": "You have short blue hair.", "weight": 1 },
+      { "id": "black", "name": { "str": "Hair: black, short" }, "description": "You have short black hair.", "weight": 1 },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, short" },
+        "description": "You have short brown hair.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, short" },
+        "description": "You have short blond hair.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, short" },
+        "description": "You have short gray hair.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, short" },
+        "description": "You have short white hair.",
+        "weight": 1
+      },
+      { "id": "red", "name": { "str": "Hair: red, short" }, "description": "You have short red hair.", "weight": 1 },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, short" },
+        "description": "You have short blue hair.",
+        "weight": 1
+      },
       {
         "id": "green",
         "name": { "str": "Hair: green, short" },
@@ -615,6 +715,42 @@
     "player_display": true,
     "vanity": true,
     "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, medium" },
+        "description": "You have a head of medium-length black hair.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, medium" },
+        "description": "You have a head of medium-length brown hair.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, medium" },
+        "description": "You have a head of medium-length gray hair.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, medium" },
+        "description": "You have a head of medium-length white hair.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, medium" },
+        "description": "You have a head of medium-length blond hair.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, medium" },
+        "description": "You have a head of medium-length red hair.",
+        "weight": 1
+      },
       {
         "id": "blue",
         "name": { "str": "Hair: blue, medium-length" },
@@ -654,6 +790,27 @@
     "player_display": true,
     "vanity": true,
     "variants": [
+      { "id": "black", "name": { "str": "Hair: black, long" }, "description": "You have long black hair.", "weight": 1 },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, long" },
+        "description": "You have long brown hair.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, long" },
+        "description": "You have long blond hair.",
+        "weight": 1
+      },
+      { "id": "gray", "name": { "str": "Hair: gray, long" }, "description": "You have long gray hair.", "weight": 1 },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, long" },
+        "description": "You have long white hair.",
+        "weight": 1
+      },
+      { "id": "red", "name": { "str": "Hair: red, long" }, "description": "You have long red hair.", "weight": 1 },
       { "id": "blue", "name": { "str": "Hair: blue, long" }, "description": "You have long blue hair.", "weight": 1 },
       {
         "id": "green",
@@ -669,6 +826,19 @@
         "weight": 1
       }
     ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HAIR_BALD",
+    "name": "Hair: none",
+    "points": 0,
+    "description": "You are bald.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
     "types": [ "hair_style" ]
   }
 ]
