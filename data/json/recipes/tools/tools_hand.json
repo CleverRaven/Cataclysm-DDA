@@ -239,13 +239,14 @@
     "difficulty": 5,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "forging_standard", 4 ], [ "steel_standard", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "tools": [ [ [ "drift", -1 ] ] ],
+    "tools": [ [ [ "drift", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "//": "Casting the head instead of blacksmithing it so that it's craftable without itself.",
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
