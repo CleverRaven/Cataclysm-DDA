@@ -783,7 +783,7 @@
       "str_max": 1,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "trashcan", "count": 1, "damage": [ 2, 4 ] } ]
+      "items": [ { "item": "plastic_chunk", "count": [ 3, 17 ], "damage": [ 2, 4 ] } ]
     },
     "deconstruct": { "items": [ { "item": "trashcan", "count": 1 } ] }
   },
