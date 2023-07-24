@@ -2723,7 +2723,7 @@
     "name": "survivor wetsuit hoods",
     "description": "Recipes related to constructing various sizes of specialized hoods designed to protect the wearer from water.",
     "skill_used": "tailor",
-    "nested_category_data": [ 
+    "nested_category_data": [
       "hood_h20survivor",
       "xs_hood_h20survivor",
       "xl_hood_h20survivor",
