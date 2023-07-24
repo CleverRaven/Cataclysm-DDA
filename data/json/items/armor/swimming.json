@@ -1804,7 +1804,6 @@
     "looks_like": "goggles_welding",
     "color": "light_blue",
     "warmth": 10,
-    "material_thickness": 1,
     "environmental_protection": 16,
     "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SWIM_GOGGLES", "SKINTIGHT", "OVERSIZE" ],
     "armor": [
@@ -1906,5 +1905,99 @@
     "description": "A pair of thick neoprene-silicone rubber gloves, suitable for underwater use.  These fit very small hands.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
     "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "divemask_full_scuba_notready",
+    "type": "ARMOR",
+    "name": { "str": "full-face diving mask" },
+    "description": "A full-face diving mask that covers the face and eyes.  Can be equipped with any common scuba regulator to protect from drowning and other dangers, though the process needs some time and knowledge.",
+    "//": "Based on OTS Spectrum mask",
+    "weight": "1040 g",
+    "volume": "1500 ml",
+    "price": 40000,
+    "price_postapoc": 2000,
+    "to_hit": -2,
+    "material": [ "plastic", "rubber", "thermo_resin" ],
+    "symbol": "[",
+    "looks_like": "mask_h20survivor",
+    "color": "blue",
+    "warmth": 10,
+    "environmental_protection": 4,
+    "flags": [ "WATER_FRIENDLY", "RAINPROOF", "SWIM_GOGGLES" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 20, "thickness": 1.0 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "thermo_resin", "covered_by_mat": 20, "thickness": 2.0 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "rigid_layer_only": true
+      },
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "plastic", "covered_by_mat": 20, "thickness": 2.0 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "specifically_covers": [ "mouth_cheeks", "mouth_chin", "mouth_nose" ],
+        "rigid_layer_only": true
+      }
+    ]
+  },
+  {
+    "id": "divemask_full_modular",
+    "type": "ARMOR",
+    "name": { "str": "modular full-face diving mask" },
+    "description": "A high-end modular full-face diving mask that covers the face and eyes.  Can be equipped with proprietary adapters for scuba tanks or rebreather cartridges to protect from drowning and other dangers.",
+    "//": "Based on Kirby Morgan M-48 MOD-1 mask",
+    "weight": "830 g",
+    "volume": "1500 ml",
+    "price": 40000,
+    "price_postapoc": 2000,
+    "to_hit": -2,
+    "material": [ "plastic", "rubber", "thermo_resin" ],
+    "symbol": "[",
+    "looks_like": "mask_h20survivor",
+    "color": "dark_gray",
+    "warmth": 10,
+    "environmental_protection": 16,
+    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SWIM_GOGGLES" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 20, "thickness": 1.0 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "thermo_resin", "covered_by_mat": 25, "thickness": 3.0 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "rigid_layer_only": true
+      },
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "thermo_resin", "covered_by_mat": 40, "thickness": 3.0 }
+        ],
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_nose" ],
+        "coverage": 100
+      },
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "thermo_resin", "covered_by_mat": 50, "thickness": 3.0 }
+        ],
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_cheeks", "mouth_chin" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
   }
 ]
