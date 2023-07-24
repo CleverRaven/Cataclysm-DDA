@@ -10,10 +10,10 @@
         "scope": "overmap_special",
         "default": {
           "distribution": [
-            "standard_domestic_palette",
-            "standard_domestic_palette_abandoned",
-            "house_hoarder_palette",
-            "house_survivor_palette"
+            [ "standard_domestic_palette", 9500 ],
+            [ "standard_domestic_palette_abandoned", 280 ],
+            [ "house_hoarder_palette", 40 ],
+            [ "house_survivor_palette", 180 ]
           ]
         }
       }
