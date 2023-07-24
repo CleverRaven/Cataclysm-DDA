@@ -2346,7 +2346,7 @@
     "using": [ [ "tailoring_nylon_patchwork", 6 ], [ "tailoring_neoprene_patchwork", 9 ] ]
   },
   {
-    "result": "xl_wetsuit_hood",
+    "result": "xs_wetsuit_hood",
     "type": "recipe",
     "copy-from": "wetsuit_hood",
     "time": "1 h 30 m",
