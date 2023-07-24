@@ -104,7 +104,11 @@
   {
     "id": "EOC_swap_glass_book_for_eyes",
     "type": "effect_on_condition",
-    "effect": [ { "u_remove_item_with": "glass_book" }, { "u_spawn_item": "imperfect_doll_features", "suppress_message": true },{"u_transform_radius": 5, "ter_furn_transform": "glass_book_on_shelf"} ]
+    "effect": [
+      { "u_remove_item_with": "glass_book" },
+      { "u_spawn_item": "imperfect_doll_features", "suppress_message": true },
+      { "u_transform_radius": 5, "ter_furn_transform": "glass_book_on_shelf" }
+    ]
   },
   {
     "type": "terrain",
