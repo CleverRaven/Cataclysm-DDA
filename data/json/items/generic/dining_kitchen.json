@@ -625,7 +625,14 @@
     "description": "A simple tool for peeling the outer skin off fruits and veggies without stabbing yourself.",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "looks_like": "knife_butter",
-    "copy-from": "base_silverware"
+    "copy-from": "base_silverware",
+    "weight": "82 g",
+    "volume": "138 ml",
+    "longest_side": "19 cm",
+    "material": [ { "type": "plastic", "portion": 17 }, { "type": "steel", "portion": 3 } ],
+    "price": "12 USD",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B00004OCIP"
   },
   {
     "type": "GENERIC",
@@ -741,7 +748,13 @@
     "name": { "str": "garlic press", "str_pl": "garlic presses" },
     "description": "A tool for squashing a clove or two of garlic into a fine paste.",
     "looks_like": "spoon",
-    "copy-from": "base_utensil"
+    "copy-from": "base_utensil",
+    "weight": "238 g",
+    "volume": "224 ml",
+    "longest_side": "17 cm",
+    "price": "12 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B07N7KFHVH"
   },
   {
     "type": "GENERIC",

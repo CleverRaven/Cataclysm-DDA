@@ -1041,17 +1041,17 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "result": "brazier",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "30 m",
-    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "sheet_metal", 1 ] ] ]
+    "components": [ [ [ "sheet_metal", 1 ] ] ],
+    "byproducts": [ [ "steel_chunk", 6 ] ]
   },
   {
     "type": "recipe",
