@@ -115,7 +115,7 @@
     "id": "mon_water_sprite",
     "type": "MONSTER",
     "name": "Water Sprite",
-    "description": "A mischievous creature made entirely of water, with a vaguely humanoid shape. Its movements are graceful and fluid, and its voice is a musical tinkling.",
+    "description": "A mischievous creature made entirely of water, with a vaguely humanoid shape.  Its movements are graceful and fluid, and its voice is a musical tinkling.",
     "default_faction": "undine",
     "symbol": "s",
     "color": "light_blue",
