@@ -748,7 +748,13 @@
     "name": { "str": "garlic press", "str_pl": "garlic presses" },
     "description": "A tool for squashing a clove or two of garlic into a fine paste.",
     "looks_like": "spoon",
-    "copy-from": "base_utensil"
+    "copy-from": "base_utensil",
+    "weight": "238 g",
+    "volume": "224 ml",
+    "longest_side": "17 cm",
+    "price": "12 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B07N7KFHVH"
   },
   {
     "type": "GENERIC",
