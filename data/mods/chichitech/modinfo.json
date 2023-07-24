@@ -1,10 +1,10 @@
 [
   {
     "type": "MOD_INFO",
-    "id": "Mod_ID",
+    "id": "chichitech_mod",
     "name": "Chichitech Lore and Extras",
     "authors": [ "Chichit" ],
-    "description": "There are places in this dying world that are like no other.  Maybe you'll find truth, there.  What do you really have to lose?  Additional locations, content, and lore.",
+    "description": "There are places in this dying world that are like no other.  Maybe you'll find truth, there.  What do you really have to lose?  A repository for works in progress.",
     "category": "content",
     "dependencies": [ "dda" ]
   }
