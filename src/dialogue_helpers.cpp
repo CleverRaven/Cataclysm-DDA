@@ -74,6 +74,7 @@ var_info process_variable( const std::string &type )
     return var_info( vt, "npctalk_var_" + ret_str );
 }
 
+template<>
 std::string str_or_var::evaluate( dialogue const &d ) const
 {
     if( function.has_value() ) {
@@ -103,10 +104,11 @@ std::string str_or_var::evaluate( dialogue const &d ) const
     return "";
 }
 
+template<>
 std::string translation_or_var::evaluate( dialogue const &d ) const
 {
     if( function.has_value() ) {
-        return function.value()( d );
+        return function.value()( d ).translated();
     }
     if( str_val.has_value() ) {
         return str_val.value().translated();

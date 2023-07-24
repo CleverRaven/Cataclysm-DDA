@@ -153,20 +153,12 @@ struct abstract_str_or_var {
     std::optional<T> str_val;
     std::optional<var_info> var_val;
     std::optional<T> default_val;
-    std::optional<std::function<std::string( const dialogue & )>> function;
-    virtual ~abstract_str_or_var() = default;
-    virtual std::string evaluate( dialogue const & ) const {
-        return std::string();
-    }
+    std::optional<std::function<T( const dialogue & )>> function;
+    std::string evaluate( dialogue const & ) const;
 };
 
-struct str_or_var : abstract_str_or_var<std::string> {
-    std::string evaluate( dialogue const &d ) const override;
-};
-
-struct translation_or_var : abstract_str_or_var<translation> {
-    std::string evaluate( dialogue const &d ) const override;
-};
+using str_or_var = abstract_str_or_var<std::string>;
+using translation_or_var = abstract_str_or_var<translation>;
 
 struct eoc_math {
     enum class oper : int {

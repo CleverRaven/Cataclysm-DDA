@@ -6,10 +6,11 @@ def parse_condition(conditions, origin):
         conditions = [conditions]
     for cond in conditions:
         if type(cond) is dict:
-            if "u_query" in cond:
+            # if *_query is an object, the message is taken from elsewhere
+            if "u_query" in cond and type(cond["u_query"]) is str:
                 write_text(cond["u_query"], origin,
                            comment="Query message shown in a popup")
-            if "npc_query" in cond:
+            if "npc_query" in cond and type(cond["npc_query"]) is str:
                 write_text(cond["npc_query"], origin,
                            comment="Query message shown in a popup")
             if "and" in cond:

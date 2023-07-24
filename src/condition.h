@@ -206,6 +206,7 @@ struct conditional_t {
         void set_compare_num( const JsonObject &jo, std::string_view member );
         void set_math( const JsonObject &jo, std::string_view member );
         static std::function<std::string( const dialogue & )> get_get_string( const JsonObject &jo );
+        static std::function<translation( const dialogue & )> get_get_translation( const JsonObject &jo );
         template<class J>
         static std::function<double( dialogue & )> get_get_dbl( J const &jo );
         static std::function<double( dialogue & )> get_get_dbl( const std::string &value,
