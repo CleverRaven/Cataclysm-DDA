@@ -248,6 +248,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_ALARMED: return "ALARMED";
         case ter_furn_flag::TFLAG_CHOCOLATE: return "CHOCOLATE";
         case ter_furn_flag::TFLAG_SIGN: return "SIGN";
+        case ter_furn_flag::TFLAG_SIGN_ALWAYS: return "SIGN_ALWAYS";
         case ter_furn_flag::TFLAG_DONT_REMOVE_ROTTEN: return "DONT_REMOVE_ROTTEN";
         case ter_furn_flag::TFLAG_BLOCKSDOOR: return "BLOCKSDOOR";
         case ter_furn_flag::TFLAG_NO_SELF_CONNECT: return "NO_SELF_CONNECT";

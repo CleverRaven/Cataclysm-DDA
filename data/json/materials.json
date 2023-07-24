@@ -1195,18 +1195,18 @@
     "latent_heat": 273,
     "chip_resist": 7,
     "breathability": "GOOD",
-    "repaired_with": "sheet_kevlar",
-    "salvaged_into": "sheet_kevlar",
+    "repaired_with": "kevlar_patch",
+    "salvaged_into": "kevlar_patch",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
-    "resist": { "bash": 1, "cut": 3, "acid": 5, "heat": 1, "bullet": 5 },
+    "resist": { "bash": 1, "cut": 3, "acid": 5, "heat": 1, "bullet": 2, "stab": 5 },
     "repair_difficulty": 4
   },
   {
     "type": "material",
     "id": "kevlar_layered",
-    "name": "Layered Kevlar",
+    "name": "Ballistic Kevlar",
     "density": 1.4,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,
@@ -1220,7 +1220,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
-    "resist": { "bash": 2, "cut": 3, "acid": 5, "heat": 3, "bullet": 5 },
+    "resist": { "bash": 1.5, "cut": 2, "acid": 5, "heat": 3, "bullet": 5 },
     "repair_difficulty": 4
   },
   {

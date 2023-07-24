@@ -364,6 +364,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     optional( jsobj, was_loaded, "included_bionics", included_bionics );
     optional( jsobj, was_loaded, "included", included );
     optional( jsobj, was_loaded, "upgraded_bionic", upgraded_bionic );
+    optional( jsobj, was_loaded, "required_bionic", required_bionic );
     optional( jsobj, was_loaded, "fuel_options", fuel_opts );
     optional( jsobj, was_loaded, "activated_on_install", activated_on_install, false );
 
@@ -566,6 +567,14 @@ void bionic_data::check_bionic_consistency()
             } else if( !bio.upgraded_bionic.is_valid() ) {
                 debugmsg( "Bionic %s upgrades undefined bionic %s",
                           bio.id.c_str(), bio.upgraded_bionic.c_str() );
+            }
+        }
+        if( bio.required_bionic ) {
+            if( bio.required_bionic == bio.id ) {
+                debugmsg( "Bionic %s requires itself as a prerequisite for installation", bio.id.c_str() );
+            } else if( !bio.required_bionic.is_valid() ) {
+                debugmsg( "Bionic %s requires undefined bionic %s",
+                          bio.id.c_str(), bio.required_bionic.c_str() );
             }
         }
         if( !item::type_is_defined( bio.itype() ) && !bio.included ) {
@@ -2113,6 +2122,14 @@ bool Character::can_uninstall_bionic( const bionic &bio, Character &installer, b
         return false;
     }
 
+    for( const bionic_id &bid : get_bionics() ) {
+        if( bid->required_bionic && bid->required_bionic == bio.id ) {
+            popup( _( "%s cannot be removed because installed bionic %s requires it." ), bio.id->name,
+                   bid->name );
+            return false;
+        }
+    }
+
     if( bio.id->cant_remove_reason.has_value() ) {
         popup( string_format( bio.id->cant_remove_reason.value(), disp_name( true ), disp_name() ) );
         return false;
@@ -2331,6 +2348,10 @@ ret_val<void> Character::is_installable( const item *it, const bool by_autodoc )
                !has_bionic( bid->upgraded_bionic ) &&
                it->is_upgrade() ) {
         return ret_val<void>::make_failure( _( "No base version installed." ) );
+    } else if( bid->required_bionic &&
+               !has_bionic( bid->required_bionic ) ) {
+        return ret_val<void>::make_failure( _( "CBM requires prior installation of %s." ),
+                                            bid->required_bionic.obj().name );
     } else if( std::any_of( bid->available_upgrades.begin(),
                             bid->available_upgrades.end(),
     [this]( const bionic_id & b ) {
