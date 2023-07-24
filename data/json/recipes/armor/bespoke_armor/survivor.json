@@ -144,12 +144,7 @@
     "copy-from": "thick_h20survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
     "time": "11 h",
-    "using": [
-      [ "tailoring_kevlar_fabric", 300 ],
-      [ "tailoring_neoprene_patchwork", 9 ],
-      [ "fastener_large", 2 ],
-      [ "clasps", 12 ]
-    ],
+    "using": [ [ "tailoring_kevlar_fabric", 300 ], [ "tailoring_neoprene_patchwork", 9 ], [ "fastener_large", 2 ], [ "clasps", 12 ] ],
     "components": [ [ [ "wetsuit_thick", 1 ] ], [ [ "rubber_cement", 3 ] ] ]
   },
   {
