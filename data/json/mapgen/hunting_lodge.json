@@ -36,7 +36,7 @@
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 29, "y": 4 } ],
       "place_nested": [
         {
-          "chunks": [ [ "lodge_pantry_15x15", 60 ], [ "lodge_hunting_15x15", 40 ] ],
+          "chunks": [ [ "lodge_pantry_15x15", 80 ], [ "lodge_cannibal_15x15", 15 ], [ "lodge_hunting_15x15", 60 ] ],
           "x": 8,
           "y": 9
         }
@@ -81,7 +81,7 @@
       "place_npcs": [ { "class": "ABENAKI_Glooscap", "x": 28, "y": 11 } ],
       "place_nested": [
         {
-          "chunks": [ [ "lodge_pantry_15x15", 60 ], [ "lodge_hunting_15x15", 40 ] ],
+          "chunks": [ [ "lodge_pantry_15x15", 80 ], [ "lodge_cannibal_15x15", 15 ], [ "lodge_hunting_15x15", 60 ] ],
           "x": 8,
           "y": 9
         }
