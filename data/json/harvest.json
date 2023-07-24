@@ -1587,7 +1587,9 @@
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "sheet_kevlar", "type": "skin", "mass_ratio": 0.04, "flags": [ "FILTHY" ] },
+      { "drop": "kevlar_patch", "type": "skin", "mass_ratio": 0.02, "flags": [ "FILTHY" ] },
+      { "drop": "sheet_kevlar", "type": "skin", "mass_ratio": 0.01, "flags": [ "FILTHY" ] },
+      { "drop": "sheet_kevlar_layered", "type": "skin", "mass_ratio": 0.01, "flags": [ "FILTHY" ] },
       { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.04 }
     ]
   },
@@ -1602,7 +1604,9 @@
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "sheet_kevlar", "type": "skin", "mass_ratio": 0.04, "flags": [ "FILTHY" ] },
+      { "drop": "kevlar_patch", "type": "skin", "mass_ratio": 0.02, "flags": [ "FILTHY" ] },
+      { "drop": "sheet_kevlar", "type": "skin", "mass_ratio": 0.01, "flags": [ "FILTHY" ] },
+      { "drop": "sheet_kevlar_layered", "type": "skin", "mass_ratio": 0.01, "flags": [ "FILTHY" ] },
       { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.04 }
     ]
   },
