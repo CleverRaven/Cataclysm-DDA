@@ -851,7 +851,7 @@
     "symbol": "0",
     "color": "yellow",
     "flags": [ "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID" ],
-    "relic_data": { "passive_effects": [ { "id": "TELEKIN_RITUAL_SUMMON_STRENGTH_ENCHANT" } ] }
+    "relic_data": { "passive_effects": [ { "id": "telekin_ritual_summon_strength_enchant" } ] }
   },
   {
     "id": "telekin_lifting_jack_1",

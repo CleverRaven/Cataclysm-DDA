@@ -95,7 +95,12 @@
     "type": "effect_on_condition",
     "id": "EOC_TEACH_TELEKIN_RITUAL_ENHANCE_STRENGTH",
     "recurrence": [ "24 hour", "24 hours" ],
-    "condition": [ { "math": [ "u_val('spell_level', 'school: TELEKINETIC')", ">=", "5" ] } ],
+    "condition": {
+      "and": [
+        { "math": [ "u_val('spell_level', 'school: TELEKINETIC')", ">=", "5" ] },
+        { "not": { "u_know_recipe": "telekin_push_heavy_things" } }
+      ]
+    },
     "deactivate_condition": { "u_know_recipe": "telekin_push_heavy_things" },
     "effect": [
       { "u_learn_recipe": "telekin_push_heavy_things" },
@@ -109,15 +114,18 @@
     "type": "effect_on_condition",
     "id": "EOC_TEACH_TELEKIN_RITUAL_LIFT_CARS",
     "recurrence": [ "24 hour", "24 hours" ],
-    "condition": [
-      {
-        "math": [
-          "(((u_val('spell_level', 'spell: telekinetic_pull') + u_val('spell_level', 'spell: telekinetic_momentum') + u_val('spell_level', 'spell: telekinetic_shield') + u_val('spell_level', 'spell: telekinetic_push') + u_val('spell_level', 'spell: telekinetic_wave')) / 4 ) - 5)",
-          ">=",
-          "1"
-        ]
-      }
-    ],
+    "condition": {
+      "and": [
+        {
+          "math": [
+            "(((u_val('spell_level', 'spell: telekinetic_pull') + u_val('spell_level', 'spell: telekinetic_momentum') + u_val('spell_level', 'spell: telekinetic_shield') + u_val('spell_level', 'spell: telekinetic_push') + u_val('spell_level', 'spell: telekinetic_wave')) / 4 ) - 5)",
+            ">=",
+            "1"
+          ]
+        },
+        { "not": { "u_know_recipe": "telekin_lift_cars" } }
+      ]
+    },
     "deactivate_condition": { "u_know_recipe": "telekin_lift_cars" },
     "effect": [
       { "u_learn_recipe": "telekin_lift_cars" },
@@ -132,9 +140,14 @@
     "id": "EOC_TEACH_VITAKIN_RITUAL_DISEASE_PURGE",
     "recurrence": [ "24 hour", "24 hours" ],
     "condition": {
-      "or": [
-        { "math": [ "u_val('spell_level', 'spell: vita_blood_purge')", ">=", "0" ] },
-        { "math": [ "u_val('spell_level', 'spell: vita_healing_trance')", ">=", "0" ] }
+      "and": [
+        {
+          "or": [
+            { "math": [ "u_val('spell_level', 'spell: vita_blood_purge')", ">=", "0" ] },
+            { "math": [ "u_val('spell_level', 'spell: vita_healing_trance')", ">=", "0" ] }
+          ]
+        },
+        { "not": { "u_know_recipe": "vitakin_disease_purge" } }
       ]
     },
     "deactivate_condition": { "u_know_recipe": "vitakin_disease_purge" },
