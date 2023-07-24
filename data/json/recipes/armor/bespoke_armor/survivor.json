@@ -51,7 +51,7 @@
     "autolearn": true,
     "using": [
       [ "tailoring_kevlar_fabric", 200 ],
-      [ "tailoring_neoprene_patchwork", 30 ],
+      [ "tailoring_neoprene_patchwork", 12 ],
       [ "fastener_large", 1 ],
       [ "clasps", 8 ],
       [ "tailoring_nylon_patchwork", 10 ]
@@ -70,7 +70,7 @@
     "copy-from": "h20survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
     "time": "11 h",
-    "using": [ [ "tailoring_kevlar_fabric", 150 ], [ "tailoring_neoprene_patchwork", 20 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 150 ], [ "tailoring_neoprene_patchwork", 9 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 3 ] ] ]
   },
   {
@@ -79,7 +79,7 @@
     "copy-from": "h20survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
     "time": "14 h",
-    "using": [ [ "tailoring_kevlar_fabric", 300 ], [ "tailoring_neoprene_patchwork", 45 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 300 ], [ "tailoring_neoprene_patchwork", 18 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 4 ] ] ]
   },
   {
@@ -89,7 +89,7 @@
     "time": "8 h",
     "using": [
       [ "tailoring_kevlar_fabric", 200 ],
-      [ "tailoring_neoprene_patchwork", 5 ],
+      [ "tailoring_neoprene_patchwork", 2 ],
       [ "fastener_large", 1 ],
       [ "clasps", 8 ],
       [ "tailoring_nylon_patchwork", 10 ]
@@ -102,7 +102,7 @@
     "copy-from": "h20survivor_jumpsuit_light",
     "activity_level": "LIGHT_EXERCISE",
     "time": "6 h",
-    "using": [ [ "tailoring_kevlar_fabric", 150 ], [ "tailoring_neoprene_patchwork", 4 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 150 ], [ "tailoring_neoprene_patchwork", 2 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 1 ] ] ]
   },
   {
@@ -111,7 +111,7 @@
     "copy-from": "h20survivor_jumpsuit_light",
     "activity_level": "LIGHT_EXERCISE",
     "time": "12 h",
-    "using": [ [ "tailoring_kevlar_fabric", 300 ], [ "tailoring_neoprene_patchwork", 8 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 300 ], [ "tailoring_neoprene_patchwork", 3 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 2 ] ] ]
   },
   {
@@ -126,7 +126,7 @@
     "autolearn": true,
     "using": [
       [ "tailoring_kevlar_fabric", 400 ],
-      [ "tailoring_neoprene_patchwork", 42 ],
+      [ "tailoring_neoprene_patchwork", 12 ],
       [ "fastener_large", 2 ],
       [ "clasps", 12 ]
     ],
@@ -146,7 +146,7 @@
     "time": "11 h",
     "using": [
       [ "tailoring_kevlar_fabric", 300 ],
-      [ "tailoring_neoprene_patchwork", 28 ],
+      [ "tailoring_neoprene_patchwork", 9 ],
       [ "fastener_large", 2 ],
       [ "clasps", 12 ]
     ],
@@ -160,7 +160,7 @@
     "time": "14 h",
     "using": [
       [ "tailoring_kevlar_fabric", 600 ],
-      [ "tailoring_neoprene_patchwork", 63 ],
+      [ "tailoring_neoprene_patchwork", 18 ],
       [ "fastener_large", 2 ],
       [ "clasps", 12 ]
     ],
