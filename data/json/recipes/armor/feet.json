@@ -1319,14 +1319,14 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "time": "5 h",
-    "using": [ [ "tailoring_neoprene_patchwork", 6 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_nylon_patchwork", 10 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 6 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_nylon_patchwork", 8 ] ]
   },
   {
     "result": "xl_wetsuit_booties",
     "type": "recipe",
     "copy-from": "wetsuit_booties",
     "time": "8 h",
-    "using": [ [ "tailoring_neoprene_patchwork", 9 ], [ "shoe_rubber", 2 ], [ "adhesive_rubber", 2 ], [ "tailoring_nylon_patchwork", 10 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 9 ], [ "shoe_rubber", 2 ], [ "adhesive_rubber", 2 ], [ "tailoring_nylon_patchwork", 15 ] ]
   },
   {
     "result": "wetsuit_booties_thick",
@@ -1336,7 +1336,7 @@
     "time": "8 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_elastics" }, { "proficiency": "prof_cobbling" } ],
-    "using": [ [ "tailoring_neoprene_patchwork", 12 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_nylon_patchwork", 10 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 12 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_nylon_patchwork", 20 ] ]
   },
   {
     "result": "xs_wetsuit_booties_thick",
@@ -1345,14 +1345,14 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "time": "6 h",
-    "using": [ [ "tailoring_neoprene_patchwork", 10 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_nylon_patchwork", 8 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 10 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_nylon_patchwork", 16 ] ]
   },
   {
-    "result": "xl_wetsuit_booties",
+    "result": "xl_wetsuit_booties_thick",
     "type": "recipe",
     "copy-from": "wetsuit_booties_thick",
     "time": "12 h",
-    "using": [ [ "tailoring_neoprene_patchwork", 16 ], [ "shoe_rubber", 2 ], [ "adhesive_rubber", 2 ], [ "tailoring_nylon_patchwork", 13 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 16 ], [ "shoe_rubber", 2 ], [ "adhesive_rubber", 2 ], [ "tailoring_nylon_patchwork", 30 ] ]
   },
   {
     "result": "lc_chainmail_feet",
