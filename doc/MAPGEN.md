@@ -842,10 +842,11 @@ Example:
 "signs": { "P": { "signage": "Subway map: <city> stop" } }
 ```
 
-| Field   | Description
-| ---     | ---
-| signage | (optional, string) the message that should appear on the sign.
-| snippet | (optional, string) a category of snippets that can appear on the sign.
+| Field     | Description
+| ---       | ---
+| signage   | (optional, string) the message that should appear on the sign.
+| snippet   | (optional, string) a category of snippets that can appear on the sign.
+| furniture | (optional, string) the furniture used to display the message, defaults to f_sign.  Furniture used needs the SIGN flag and the sign examine_action if you want the message to popup on examine (still displays in look around otherwise).
 
 
 ### Place a vending machine and items with "vendingmachines"
