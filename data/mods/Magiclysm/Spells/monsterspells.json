@@ -235,6 +235,8 @@
     "flags": [ "WONDER", "NO_PROJECTILE" ],
     "min_damage": 1,
     "max_damage": 1,
+    "min_range": 10,
+    "max_range": 10,
     "message": "",
     "extra_effects": [ { "id": "blinding_flash" }, { "id": "ethereal_grasp" }, { "id": "point_flare" } ]
   }

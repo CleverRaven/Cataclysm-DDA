@@ -159,6 +159,28 @@ class message_iuse : public iuse_actor
         std::string get_name() const override;
 };
 
+class sound_iuse : public iuse_actor
+{
+    public:
+        explicit sound_iuse( const std::string &type = "sound" ) : iuse_actor( type ) {}
+
+        /** if specified overrides default action name */
+        translation name;
+        /** message if player hears activation with %s replaced by item name */
+
+        translation sound_message;
+
+        int sound_volume = 0;
+        std::string sound_id = "misc";
+        std::string sound_variant = "default";
+
+        ~sound_iuse() override = default;
+        void load( const JsonObject &obj ) override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+        std::string get_name() const override;
+};
+
 /**
  * This is a @ref iuse_actor for active items that explode when
  * their charges reaches 0.
@@ -187,12 +209,6 @@ class explosion_iuse : public iuse_actor
         int emp_blast_radius = -1;
         /** Calls game::scrambler_blast if >= 0 */
         int scrambler_blast_radius = -1;
-        /** Volume of sound each turn, -1 means no sound at all */
-        int sound_volume = -1;
-        translation sound_msg;
-        /** Message shown when the player tries to deactivate the item,
-         * which is not allowed. */
-        translation no_deactivate_msg;
 
         explicit explosion_iuse( const std::string &type = "explosion" ) : iuse_actor( type ) {}
 
@@ -553,13 +569,10 @@ class fireweapon_on_actor : public iuse_actor
 {
     public:
         translation noise_message = to_translation( "hsss" ); // If noise is 0, message content instead
-        translation voluntary_extinguish_message;
         translation charges_extinguish_message;
         translation water_extinguish_message;
         translation auto_extinguish_message;
-        int noise = 0; // If 0, it produces a message instead of noise
         int noise_chance = 1; // one_in(this variable)
-        int auto_extinguish_chance = 0; // one_in(this) per turn to fail
 
         explicit fireweapon_on_actor( const std::string &type = "fireweapon_on" ) : iuse_actor( type ) {}
 
@@ -575,7 +588,6 @@ class fireweapon_on_actor : public iuse_actor
 class manualnoise_actor : public iuse_actor
 {
     public:
-        translation no_charges_message;
         translation use_message;
         translation noise_message = to_translation( "hsss" );
         std::string noise_id;
@@ -586,6 +598,18 @@ class manualnoise_actor : public iuse_actor
         explicit manualnoise_actor( const std::string &type = "manualnoise" ) : iuse_actor( type ) {}
 
         ~manualnoise_actor() override = default;
+        void load( const JsonObject &obj ) override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
+class play_instrument_iuse : public iuse_actor
+{
+    public:
+        explicit play_instrument_iuse( const std::string &type = "play_instrument" ) : iuse_actor( type ) {}
+
+        ~play_instrument_iuse() override = default;
         void load( const JsonObject &obj ) override;
         std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;

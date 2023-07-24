@@ -436,9 +436,9 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_pottery" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_tools" }, { "id": "fbmc_firestation_blacksmith_recipes_4" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_tools" } ],
-    "blueprint_resources": [ "tongs", "chisel", "hammer", "swage" ],
+    "blueprint_resources": [ "metalworking_tongs", "chisel", "hammer", "swage" ],
     "blueprint_needs": {  },
-    "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "swage", 1 ] ] ]
+    "components": [ [ [ "metalworking_tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "swage", 1 ] ] ]
   },
   {
     "type": "recipe",

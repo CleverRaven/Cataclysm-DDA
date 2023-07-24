@@ -203,7 +203,7 @@
     "time": "30 s",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "accelerant_liquid", 500 ] ],
+    "using": [ [ "flammable_liquid", 500 ] ],
     "components": [ [ [ "cotton_patchwork", 1 ] ], [ [ "bottle_glass", 1 ], [ "flask_glass", 2 ], [ "clay_canister", 2 ] ] ]
   },
   {

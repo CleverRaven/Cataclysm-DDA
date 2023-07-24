@@ -2057,18 +2057,18 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         }
     }
 
-    for( const auto&[tool_item, hotkey_event] : vp.get_tools() ) {
+    for( const auto&[tool_item, hk] : vp.get_tools() ) {
         const itype_id &tool_type = tool_item.typeId();
         if( !tool_type->has_use() ) {
             continue; // passive tool
         }
-        if( !hotkey_event.sequence.empty() && hotkey_event.sequence.front() == -1 ) {
+        if( hk == -1 ) {
             continue; // skip old passive tools
         }
         const auto &[tool_ammo, ammo_amount] = tool_ammo_available( tool_type );
         menu.add( string_format( _( "Use %s" ), tool_type->nname( 1 ) ) )
         .enable( ammo_amount >= tool_item.typeId()->charges_to_use() )
-        .hotkey( hotkey_event )
+        .hotkey( hk )
         .skip_locked_check( tool_ammo.is_null() || tool_ammo->ammo->type != ammo_battery )
         .on_submit( [this, vppos, tool_type] { use_vehicle_tool( *this, vppos, tool_type ); } );
     }
@@ -2251,7 +2251,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             Character &you = get_player_character();
             vehicle_part &vp = part( vp_idx );
             std::set<itype_id> allowed_types = vp.info().toolkit_info->allowed_types;
-            for( const std::pair<const item, input_event> &pair : prepare_tools( vp ) )
+            for( const std::pair<const item, int> &pair : prepare_tools( vp ) )
             {
                 allowed_types.erase( pair.first.typeId() ); // one tool of each kind max
             }

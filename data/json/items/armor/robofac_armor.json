@@ -393,6 +393,119 @@
     ]
   },
   {
+    "id": "robofac_robotrig",
+    "type": "ARMOR",
+    "name": { "str_sp": "drone-tech harness" },
+    "description": "A modified army harness, repurposed to carry several small and a single medium sized drone alongside the tools to maintain them.",
+    "weight": "425 g",
+    "volume": "500 ml",
+    "price": 3900,
+    "price_postapoc": 3000,
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "tool_belt",
+    "color": "dark_gray",
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "800 mm",
+        "name": "Medium drone strap",
+        "description": "A series of connectors meant to hold a medium sized drone on your back.",
+        "max_contains_volume": "150 L",
+        "max_contains_weight": "40 kg",
+        "moves": 400,
+        "flag_restriction": [ "ROBOFAC_ROBOT_MEDIUM" ],
+        "holster": true,
+        "volume_encumber_modifier": 0.015
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "6 kg",
+        "name": "Small drone holder",
+        "description": "A series of connectors meant to store a small drone.",
+        "moves": 80,
+        "flag_restriction": [ "ROBOFAC_ROBOT_SMALL" ],
+        "holster": true,
+        "volume_encumber_modifier": 0.03
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "6 kg",
+        "name": "Small drone holder",
+        "description": "A series of connectors meant to store a small drone.",
+        "moves": 80,
+        "flag_restriction": [ "ROBOFAC_ROBOT_SMALL" ],
+        "holster": true,
+        "volume_encumber_modifier": 0.03
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "6 kg",
+        "name": "Small drone holder",
+        "description": "A series of connectors meant to store a small drone.",
+        "moves": 80,
+        "flag_restriction": [ "ROBOFAC_ROBOT_SMALL" ],
+        "holster": true,
+        "volume_encumber_modifier": 0.03
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Gadget pouch",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "15 cm",
+        "moves": 110,
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Gadget pouch",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "15 cm",
+        "moves": 110,
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "description": "Quick access pouches.",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "5 cm",
+        "moves": 80
+      },
+      {
+        "holster": true,
+        "description": "Tool clip",
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "description": "Tool clip",
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      }
+    ],
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "encumbrance": [ 1, 38 ], "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
     "abstract": "robofac_mantle",
     "type": "ARMOR",
     "category": "armor",

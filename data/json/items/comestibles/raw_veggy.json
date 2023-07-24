@@ -1126,7 +1126,7 @@
   {
     "type": "COMESTIBLE",
     "id": "eggplant",
-    "name": { "str_sp": "eggplant" },
+    "name": { "str": "eggplant" },
     "comestible_type": "FOOD",
     "weight": "194 g",
     "volume": "250 ml",
@@ -1147,7 +1147,7 @@
   {
     "type": "COMESTIBLE",
     "id": "eggplant_cut",
-    "name": { "str_sp": "cut eggplant" },
+    "name": { "str": "cut eggplant" },
     "comestible_type": "FOOD",
     "weight": "193 g",
     "volume": "249 ml",

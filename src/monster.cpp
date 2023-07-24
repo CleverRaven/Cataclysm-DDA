@@ -1341,7 +1341,7 @@ Creature *monster::attack_target()
 
     Creature *target = get_creature_tracker().creature_at( get_dest() );
     if( target == nullptr || target == this ||
-        attitude_to( *target ) == Attitude::FRIENDLY || !sees( *target ) ) {
+        attitude_to( *target ) == Attitude::FRIENDLY || !sees( *target ) || target->is_hallucination() ) {
         return nullptr;
     }
 
@@ -3061,7 +3061,7 @@ void monster::process_one_effect( effect &it, bool is_new )
         }
 
         avatar &you = get_avatar(); // No NPCs for now.
-        if( rl_dist( it.get_source().resolve_creature()->pos(), you.pos() ) <= 1 ) {
+        if( rl_dist( pos(), you.pos() ) <= 1 ) {
             you.get_sick( false );
         }
     } else if( id == effect_fake_flu ) {
@@ -3071,7 +3071,7 @@ void monster::process_one_effect( effect &it, bool is_new )
         }
 
         avatar &you = get_avatar(); // No NPCs for now.
-        if( rl_dist( it.get_source().resolve_creature()->pos(), you.pos() ) <= 1 ) {
+        if( rl_dist( pos(), you.pos() ) <= 1 ) {
             you.get_sick( true );
         }
     }

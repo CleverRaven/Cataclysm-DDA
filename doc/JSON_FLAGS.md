@@ -702,6 +702,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SHARP``` May do minor damage to players/monsters passing through it.
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - ```SIGN``` Show written message on examine.
+- ```SIGN_ALWAYS``` Shows a message to indicate nothing is written here and lets you add a message if examined without a signage/snippet present.
 - ```SMALL_HIDE``` Small creatures such as cockroaches and rats can hide under or inside of this furniture. Should not be applied to anything bigger than a housecat unless it is particularly flexible, IE a snake.
 - ```SMALL_PASSAGE``` This terrain or furniture is too small for large or huge creatures to pass through.
 - ```SPAWN_WITH_LIQUID``` This terrain will place liquid (once) on its own spawn. Type of liquid is defined by other flags. For example, it spawns fresh water via `FRESH_WATER` flag.

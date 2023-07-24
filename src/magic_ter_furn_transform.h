@@ -21,10 +21,10 @@ class ter_furn_data
 {
     public:
         weighted_int_list<T> list;
-        std::string message;
+        translation message;
         bool message_good = false;
         ter_furn_data() = default;
-        ter_furn_data( const weighted_int_list<T> &list, const std::string &message,
+        ter_furn_data( const weighted_int_list<T> &list, const translation &message,
                        const bool message_good ) :
             list( list ), message( message ), message_good( message_good ) {}
 
@@ -47,19 +47,19 @@ class ter_furn_transform
 
         std::map<field_type_id, ter_furn_data<field_type_id>> field_transform;
 
-        std::optional<std::pair<ter_str_id, std::pair<std::string, bool>>> next_ter(
+        std::optional<std::pair<ter_str_id, std::pair<translation, bool>>> next_ter(
             const ter_str_id &ter ) const;
-        std::optional<std::pair<ter_str_id, std::pair<std::string, bool>>> next_ter(
+        std::optional<std::pair<ter_str_id, std::pair<translation, bool>>> next_ter(
             const std::string &flag ) const;
-        std::optional<std::pair<furn_str_id, std::pair<std::string, bool>>> next_furn(
+        std::optional<std::pair<furn_str_id, std::pair<translation, bool>>> next_furn(
             const furn_str_id &furn ) const;
-        std::optional<std::pair<furn_str_id, std::pair<std::string, bool>>> next_furn(
+        std::optional<std::pair<furn_str_id, std::pair<translation, bool>>> next_furn(
             const std::string &flag ) const;
-        std::optional<std::pair<trap_str_id, std::pair<std::string, bool>>> next_trap(
+        std::optional<std::pair<trap_str_id, std::pair<translation, bool>>> next_trap(
             const trap_str_id &trap ) const;
-        std::optional<std::pair<trap_str_id, std::pair<std::string, bool>>> next_trap(
+        std::optional<std::pair<trap_str_id, std::pair<translation, bool>>> next_trap(
             const std::string &flag ) const;
-        std::optional<std::pair<field_type_id, std::pair<std::string, bool>>> next_field(
+        std::optional<std::pair<field_type_id, std::pair<translation, bool>>> next_field(
             const field_type_id &field )
         const;
 
@@ -68,7 +68,7 @@ class ter_furn_transform
                                      const K &key ) const;
 
         template <class T, class K>
-        std::optional<std::pair<T, std::pair<std::string, bool>>> next( const std::map<K, ter_furn_data<T>>
+        std::optional<std::pair<T, std::pair<translation, bool>>> next( const std::map<K, ter_furn_data<T>>
                 &list,
                 const K &key ) const;
 
