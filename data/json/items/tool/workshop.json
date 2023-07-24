@@ -464,6 +464,20 @@
     "melee_damage": { "bash": 9 }
   },
   {
+    "id": "hammer_bronze",
+    "type": "TOOL",
+    "name": { "str": "bronze hammer" },
+    "description": "A simple crude bronze hammer.  It is not as sophisticated or useful as its steel alternative but it does get the job of hammering in nails well enough.",
+    "copy-from": "hammer",
+    "ascii_picture": "hammer",
+    "weight": "500 g",
+    "price_postapoc": 50,
+    "material": [ "bronze", "wood" ],
+    "qualities": [ [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ] ],
+    "delete": { "use_action": [ "CROWBAR" ] },
+    "melee_damage": { "bash": 7 }
+  },
+  {
     "id": "hand_drill",
     "type": "TOOL",
     "name": { "str": "hand drill" },
