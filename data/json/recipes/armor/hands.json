@@ -1013,7 +1013,7 @@
     "difficulty": 4,
     "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "tailoring_neoprene_patchwork", 3 ], [ "tailoring_nylon_patchwork", 5 ] ],
+    "using": [ [ "tailoring_neoprene_patchwork", 4 ], [ "tailoring_nylon_patchwork", 5 ] ],
     "//": "Should use fabric_neoprene when the tailoring recipe audit is done.",
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "rubber_cement", 1 ] ] ]
@@ -1023,7 +1023,7 @@
     "type": "recipe",
     "copy-from": "wetsuit_gloves",
     "time": "9 h",
-    "using": [ [ "tailoring_neoprene_patchwork", 5 ], [ "tailoring_nylon_patchwork", 8 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 6 ], [ "tailoring_nylon_patchwork", 8 ] ]
   },
   {
     "result": "xs_wetsuit_gloves",
