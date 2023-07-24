@@ -214,11 +214,7 @@
           { "item": "straw_doll", "chance": 80, "repeat": [ 6, 14 ] },
           { "item": "bag_body_bag", "chance": 40, "repeat": [ 2, 4 ] }
         ],
-        "B": [
-          { "item": "coke", "chance": 60, "repeat": [ 13, 126 ] },
-          { "item": "funnel", "chance": 60, "repeat": [ 0, 1 ] },
-          { "item": "bag_plastic", "chance": 90, "repeat": [ 20, 60 ] }
-        ]
+        "B": [ { "item": "coke", "chance": 60, "repeat": [ 10, 25 ] }, { "item": "funnel", "chance": 60, "repeat": [ 0, 1 ] } ]
       }
     }
   }

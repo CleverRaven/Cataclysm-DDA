@@ -36,7 +36,7 @@
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 29, "y": 4 } ],
       "place_nested": [
         {
-          "chunks": [ [ "lodge_pantry_15x15", 80 ], [ "lodge_cannibal_15x15", 20 ], [ "lodge_hunting_15x15", 50 ] ],
+          "chunks": [ [ "lodge_pantry_15x15", 60 ], [ "lodge_hunting_15x15", 40 ] ],
           "x": 8,
           "y": 9
         }
@@ -81,7 +81,7 @@
       "place_npcs": [ { "class": "ABENAKI_Glooscap", "x": 28, "y": 11 } ],
       "place_nested": [
         {
-          "chunks": [ [ "lodge_pantry_15x15", 80 ], [ "lodge_cannibal_15x15", 20 ], [ "lodge_hunting_15x15", 50 ] ],
+          "chunks": [ [ "lodge_pantry_15x15", 60 ], [ "lodge_hunting_15x15", 40 ] ],
           "x": 8,
           "y": 9
         }
@@ -221,7 +221,7 @@
       "palettes": [ "basement_lodge" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 7, "y": 4 } ],
       "place_nested": [
-        { "chunks": [ [ "lodge_game_6x6", 80 ], [ "lodge_dungeon_6x6", 20 ], [ "lodge_drug_6x6", 50 ] ], "x": 2, "y": 1 },
+        { "chunks": [ [ "lodge_game_6x6", 90 ], [ "lodge_dungeon_6x6", 5 ], [ "lodge_drug_6x6", 5 ] ], "x": 2, "y": 1 },
         { "chunks": [ [ "5x5_sauna_W", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_W", 60 ] ], "x": 24, "y": 1 },
         {
           "chunks": [ [ "room_6x6_woodworker", 5 ], [ "room_6x6_bike", 15 ], [ "room_6x6_office_E", 5 ] ],
