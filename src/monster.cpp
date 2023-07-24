@@ -1582,7 +1582,7 @@ void monster::process_triggers()
         int ret = 0;
         static const int dim_light = round( .75 * default_daylight_level() );
         int light = round( get_map().ambient_light_at( pos() ) );
-        if( light >= ( dim_light ) ) {
+        if( light >= dim_light ) {
             ret += 10;
         }
         return ret;
@@ -3161,7 +3161,7 @@ void monster::process_effects()
         for( const tripoint &p : here.points_in_radius( pos(), 2 ) ) {
             const monster *const mon = creatures.creature_at<monster>( p );
             if( mon ) {
-                if( ( mon->faction->attitude( faction ) != MFA_FRIENDLY ) ) {
+                if( mon->faction->attitude( faction ) != MFA_FRIENDLY ) {
                     if( morale < type->morale ) {
                         morale = type->morale;
                         anger = type->agro;
