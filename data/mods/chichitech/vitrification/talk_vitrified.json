@@ -205,5 +205,10 @@
     "type": "ter_furn_transform",
     "id": "imperfect_doll_to_couch",
     "terrain": [ { "result": "f_vitrified_sofa", "valid_terrain": [ "f_vitrified_doll" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "glass_book_on_shelf",
+    "terrain": [ { "result": "f_vitrified_bookcase", "valid_terrain": [ "f_vitrified_bookcase_talker" ] } ]
   }
 ]
