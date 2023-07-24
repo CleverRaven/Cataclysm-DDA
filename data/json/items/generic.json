@@ -746,7 +746,7 @@
       }
     ],
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "//": "Based on https://www.amazon.com/SanDisk-Ultra-Flair-128GB-Flash/dp/B015CH1PJU/ref=sr_1_3?crid=3QN3ALWDNXCOT&keywords=usb%2Bdrive&qid=1683302125&sprefix=usb%2Bdrive%2Caps%2C499&sr=8-3&th=1"
+    "//": "Based on https://www.amazon.com/dp/B015CH1PJU"
   },
   {
     "type": "TOOL",
@@ -1395,8 +1395,25 @@
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "steel", "plastic" ],
-    "weight": "62650 g",
-    "volume": "30 L",
+    "weight": "32700 g",
+    "volume": "105 L",
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 4, "cut": 4 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_robofac_skittergun",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken exterminatron" },
+    "category": "other",
+    "description": "A broken Hub 01 exterminatron.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "steel", "plastic" ],
+    "weight": "32700 g",
+    "volume": "105 L",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }

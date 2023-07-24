@@ -391,7 +391,11 @@
     "wheel_offroad_rating": 0.3,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
     "contact_area": 4,
-    "flags": [ "WHEEL", "NEEDS_WHEEL_MOUNT_SKATEBOARD", "NEEDS_JACKING", "STABLE", "STEERABLE" ],
+    "requirements": {
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "1 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "1 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_WHEEL_MOUNT_SKATEBOARD", "STABLE", "STEERABLE" ],
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   },
   {
@@ -406,9 +410,21 @@
     "folding_time": "0 seconds",
     "unfolding_time": "0 seconds",
     "durability": 120,
-    "description": "A pair of metal skateboard trucks, for attaching wheels to.",
-    "flags": [ "WHEEL_MOUNT_SKATEBOARD", "NEEDS_JACKING" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 0, 1 ] } ],
+    "description": "A pair of skateboard trucks, for attaching wheels to.",
+    "flags": [ "WHEEL_MOUNT_SKATEBOARD" ],
+    "requirements": {
+      "removal": {
+        "skills": [ [ "mechanics", 0 ] ],
+        "time": "3 m",
+        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW", "level": 1 } ]
+      },
+      "install": {
+        "skills": [ [ "mechanics", 0 ] ],
+        "time": "3 m",
+        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW", "level": 1 } ]
+      }
+    },
+    "breaks_into": [ { "item": "scrap", "count": [ 0, 1 ] }, { "item": "scrap_aluminum", "count": [ 0, 2 ] } ],
     "damage_reduction": { "all": 10 },
     "variants": [ { "symbols": "-", "symbols_broken": "X" } ]
   },

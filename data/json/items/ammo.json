@@ -369,7 +369,7 @@
     "//1": "200 charges - one roll is 20 yards. One charge = 0.1 yard.",
     "flags": [ "UNRECOVERABLE" ],
     "container": "cardboard_roll",
-    "//2": "Based on https://www.amazon.com/dp/B097HKH3G4/ref=emc_b_5_t?th=1, with the assumption that the tape is 1mm thick for volume calculation"
+    "//2": "Based on https://www.amazon.com/dp/B097HKH3G4, with the assumption that the tape is 1mm thick for volume calculation"
   },
   {
     "type": "AMMO",

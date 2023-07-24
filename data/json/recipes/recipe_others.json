@@ -711,7 +711,7 @@
     "time": "3 h",
     "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_scrap", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
@@ -730,7 +730,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [
-      [ [ "tongs", -1 ] ],
+      [ [ "metalworking_tongs", -1 ] ],
       [ [ "hotcut", -1 ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
@@ -748,7 +748,7 @@
     "time": "3 h",
     "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "lc_steel_lump", 1 ] ] ]
   },
@@ -767,7 +767,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [
-      [ [ "tongs", -1 ] ],
+      [ [ "metalworking_tongs", -1 ] ],
       [ [ "hotcut", -1 ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
@@ -785,7 +785,7 @@
     "time": "3 h",
     "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "mc_steel_lump", 1 ] ] ]
   },
@@ -804,7 +804,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [
-      [ [ "tongs", -1 ] ],
+      [ [ "metalworking_tongs", -1 ] ],
       [ [ "hotcut", -1 ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
@@ -822,7 +822,7 @@
     "time": "3 h",
     "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "hc_steel_lump", 1 ] ] ]
   },
@@ -841,7 +841,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [
-      [ [ "tongs", -1 ] ],
+      [ [ "metalworking_tongs", -1 ] ],
       [ [ "hotcut", -1 ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
@@ -859,7 +859,7 @@
     "time": "2 h",
     "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "carbon", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "carbon", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "lc_steel_lump", 1 ] ] ]
   },
@@ -879,7 +879,7 @@
     "using": [ [ "carbon", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [
-      [ [ "tongs", -1 ] ],
+      [ [ "metalworking_tongs", -1 ] ],
       [ [ "hotcut", -1 ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
@@ -897,7 +897,7 @@
     "time": "3 h",
     "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "carbon", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "carbon", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -925,7 +925,7 @@
       { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ],
     "tools": [
-      [ [ "tongs", -1 ] ],
+      [ [ "metalworking_tongs", -1 ] ],
       [ [ "hotcut", -1 ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ],
@@ -1702,7 +1702,7 @@
     "time": "30 m",
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 6 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "glass_sheet", 1 ] ], [ [ "silver_small", 6 ] ] ]
   },
   {
@@ -1717,7 +1717,12 @@
     "book_learn": [ [ "glassblowing_book", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
+    "tools": [
+      [ [ "metalworking_tongs", -1 ] ],
+      [ [ "pipe", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 25 ] ]
+    ],
     "components": [ [ [ "glass_shard", 3 ], [ "bottle_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ] ]
   },
   {
@@ -1747,7 +1752,7 @@
     "time": "1 h 30 m",
     "reversible": true,
     "book_learn": [ [ "mag_survival", 4 ], [ "atomic_survival", 3 ], [ "textbook_survival", 2 ] ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 8 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_tiny", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "rope_superior", 1, "LIST" ] ] ]
@@ -1955,8 +1960,8 @@
     "difficulty": 4,
     "time": "4 h 30 m",
     "autolearn": true,
-    "using": [ [ "forging_standard", 10 ], [ "steel_standard", 5 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 24 ] ], [ [ "nail", 40 ] ] ]
@@ -3090,7 +3095,12 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
+    "tools": [
+      [ [ "metalworking_tongs", -1 ] ],
+      [ [ "pipe", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 75 ] ]
+    ],
     "components": [
       [ [ "glass_shard", 3 ], [ "pipe_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ],
       [ [ "stopcock", 1 ] ]

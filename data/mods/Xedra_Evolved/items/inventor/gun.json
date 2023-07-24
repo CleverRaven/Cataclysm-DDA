@@ -515,8 +515,7 @@
       "target": "inventor_grenade_noise_expl_act",
       "menu_text": "Activate",
       "msg": "You trigger the mechanism, and it start to whistle!",
-      "target_charges": 70,
-      "active": true,
+      "target_timer": "70 seconds",
       "type": "transform"
     }
   },
@@ -531,14 +530,8 @@
     "material": [ "steel" ],
     "symbol": "*",
     "color": "blue",
-    "turns_per_charge": 1,
-    "use_action": {
-      "type": "explosion",
-      "sound_volume": 35,
-      "sound_msg": "whistle",
-      "no_deactivate_msg": "The internal timer is already ticking, throw it!",
-      "explosion": { "power": 1200 }
-    },
+    "tick_action": [ { "type": "sound", "sound_message": "whistle", "sound_volume": 35, "sound_variant": "bomb_ticking" } ],
+    "countdown_action": { "type": "explosion", "explosion": { "power": 1200 } },
     "flags": [ "TRADER_AVOID", "BOMB" ]
   },
   {
@@ -557,7 +550,7 @@
       "target": "inventor_grenade_noise_emp_act",
       "menu_text": "Activate",
       "msg": "You trigger the mechanism, and it start to whistle!",
-      "target_charges": 70,
+      "target_timer": "70 seconds",
       "active": true,
       "type": "transform"
     }
@@ -573,12 +566,9 @@
     "material": [ "steel" ],
     "symbol": "*",
     "color": "blue",
-    "turns_per_charge": 1,
-    "use_action": {
+    "tick_action": [ { "type": "sound", "sound_message": "whistle", "sound_volume": 35, "sound_variant": "bomb_ticking" } ],
+    "countdown_action": {
       "type": "explosion",
-      "sound_volume": 35,
-      "sound_msg": "whistle",
-      "no_deactivate_msg": "The internal timer is already ticking, throw it!",
       "fields_type": "fd_electricity",
       "fields_radius": 5,
       "fields_min_intensity": 10,
@@ -603,8 +593,7 @@
       "target": "inventor_grenade_noise_fire_act",
       "menu_text": "Activate",
       "msg": "You trigger the mechanism, and it start to whistle!",
-      "target_charges": 70,
-      "active": true,
+      "target_timer": "70 seconds",
       "type": "transform"
     }
   },
@@ -619,12 +608,9 @@
     "material": [ "steel" ],
     "symbol": "*",
     "color": "blue",
-    "turns_per_charge": 1,
-    "use_action": {
+    "tick_action": [ { "type": "sound", "sound_message": "whistle", "sound_volume": 35, "sound_variant": "bomb_ticking" } ],
+    "countdown_action": {
       "type": "explosion",
-      "sound_volume": 35,
-      "sound_msg": "whistle",
-      "no_deactivate_msg": "The internal timer is already ticking, throw it!",
       "fields_type": "fd_fire",
       "fields_radius": 4,
       "fields_min_intensity": 0,

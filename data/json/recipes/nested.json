@@ -4649,8 +4649,8 @@
     "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
-    "name": "kilij'",
-    "description": "Recipes for making kilijs'.",
+    "name": "kilijes",
+    "description": "Recipes for making kilijes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_kilij", "mc_kilij", "hc_kilij", "ch_kilij", "qt_kilij" ],
     "difficulty": 7
@@ -4662,7 +4662,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "survival knives",
-    "description": "Recipes for making survival knives'.",
+    "description": "Recipes for making survival knives.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_knife_rambo", "mc_knife_rambo", "hc_knife_rambo", "ch_knife_rambo", "qt_knife_rambo" ],
     "difficulty": 7
@@ -4674,7 +4674,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "trench knives",
-    "description": "Recipes for making trench knives'.",
+    "description": "Recipes for making trench knives.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_knife_trench", "mc_knife_trench", "hc_knife_trench", "ch_knife_trench", "qt_knife_trench" ],
     "difficulty": 5
@@ -4686,7 +4686,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "kukris",
-    "description": "Recipes for making kukris'.",
+    "description": "Recipes for making kukris.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_kukri", "mc_kukri", "hc_kukri", "ch_kukri", "qt_kukri" ],
     "difficulty": 7
@@ -6496,7 +6496,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
-    "name": "steel steel facemasks",
+    "name": "steel facemasks",
     "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
     "skill_used": "fabrication",
     "nested_category_data": [

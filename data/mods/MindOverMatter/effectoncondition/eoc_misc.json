@@ -77,5 +77,12 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RESET_TELEPATHIC_STEALING_TIMER",
+    "recurrence": [ "20 hours", "28 hours" ],
+    "condition": { "math": [ "telepathically_stole_recently", ">=", "1" ] },
+    "effect": [ { "math": [ "telepathically_stole_recently", "=", "0" ] } ]
   }
 ]

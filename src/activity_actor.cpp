@@ -3641,7 +3641,11 @@ bool workout_activity_actor::query_keep_training( player_activity &act, Characte
         default:
             query_int( length, _( "Train for how long (minutes): " ) );
             elapsed += act.moves_total - act.moves_left;
-            act.moves_total = to_moves<int>( length * 1_minutes );
+            duration = 0_minutes;
+            if( length > 0 ) {
+                duration = length * 1_minutes;
+            }
+            act.moves_total = to_moves<int>( duration );
             act.moves_left = act.moves_total;
             return true;
     }

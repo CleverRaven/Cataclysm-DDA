@@ -175,7 +175,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
+    "flags": [ "SINGLE_USE", "NO_SALVAGE", "ROBOFAC_ROBOT_SMALL" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
@@ -534,12 +534,13 @@
     "type": "TOOL",
     "name": { "str": "inactive skitterbot" },
     "description": "An inactive skitterbot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the robot will race towards enemies and shock them.",
-    "weight": "40750 g",
-    "volume": "30 L",
+    "//": "Volume and weight based on Boston Dynamics Spot.",
+    "weight": "32700 g",
+    "volume": "105 L",
     "price": 80000,
-    "price_postapoc": 1000,
+    "price_postapoc": "100 USD",
     "to_hit": -3,
-    "material": [ "steel" ],
+    "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -552,7 +553,35 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
+    "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_MEDIUM" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "bot_robofac_skittergun",
+    "looks_like": "broken_skitterbot",
+    "type": "TOOL",
+    "name": { "str": "inactive exterminatron" },
+    "description": "An inactive Hub 01 exterminatron.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and reloaded successfully, the robot will track you while providing fire-support.",
+    "//": "Volume and weight based on Boston Dynamics Spot.",
+    "volume": "125 L",
+    "weight": "36000 g",
+    "price": 80000,
+    "price_postapoc": "250 USD",
+    "to_hit": -3,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_robofac_skittergun",
+      "friendly_msg": "The exterminator gives a quick bow and starts scanning the horizon for threats.",
+      "hostile_msg": "You misprogram the exterminatron and it trains its gun on you.  RUN!",
+      "//": "Hub tries to make this easy.",
+      "difficulty": 1,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    },
+    "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_MEDIUM" ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -706,7 +735,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
+    "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_SMALL" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
