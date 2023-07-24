@@ -90,5 +90,24 @@
       { "u_learn_recipe": "practice_vita_healing_trance" },
       { "u_learn_recipe": "practice_vita_blood_purge" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_VITAKIN_RITUAL_DISEASE_PURGE",
+    "recurrence": [ "24 hour", "24 hours" ],
+    "condition": {
+      "or": [
+        { "math": [ "u_val('spell_level', 'spell: vita_blood_purge')", ">=", "0" ] },
+        { "math": [ "u_val('spell_level', 'spell: vita_healing_trance')", ">=", "0" ] }
+      ]
+    },
+    "deactivate_condition": { "u_know_recipe": "vitakin_disease_purge" },
+    "effect": [
+      { "u_learn_recipe": "vitakin_disease_purge" },
+      {
+        "u_message": "Your increased mastery of vitakinesis now allows you to cure even virulent diseases or those incurable with pre-Cataclysmic medicine.",
+        "type": "good"
+      }
+    ]
   }
 ]
