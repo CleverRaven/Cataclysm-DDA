@@ -119,7 +119,7 @@ Bombastic Perks adds Playstyle Perks
 Disable the Bionic Professions mod by default
 Add the Mind Over Matter mod to the CDDA repository
 [Tamable Wildlife] More tamable creatures
-Add additional portal storm remnant map extras
+[MoM] Add additional portal storm remnant map extras
 [Sky Island] Mainline Sky Island mod
 [Magiclysm] Add a spell-using feral human to Magiclysm
 
