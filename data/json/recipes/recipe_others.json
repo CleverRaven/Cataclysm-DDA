@@ -1545,9 +1545,9 @@
     "time": "4 h 30 m",
     "reversible": true,
     "autolearn": true,
-    "//1": "80 cm weld",
+    "//": "80 cm weld",
     "book_learn": [ [ "textbook_fabrication", 7 ], [ "manual_fabrication", 7 ] ],
-    "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 80 ] ],
+    "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 80 ], [ "plastic_molding", 456 ] ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
@@ -1559,8 +1559,6 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "tools": [ [ [ "surface_heat", 133, "LIST" ] ] ],
-    "//2": "Based on enthalpy of polypropylene and the weight of plastic chunks used - 6604 kJ.",
     "components": [
       [ [ "pipe", 8 ] ],
       [ [ "motor_tiny", 1 ] ],
