@@ -109,9 +109,15 @@
     "type": "effect_on_condition",
     "id": "EOC_TEACH_TELEKIN_RITUAL_LIFT_CARS",
     "recurrence": [ "24 hour", "24 hours" ],
-    "condition": [ { "math": [
-              "(((u_val('spell_level', 'spell: telekinetic_pull') + u_val('spell_level', 'spell: telekinetic_momentum') + u_val('spell_level', 'spell: telekinetic_shield') + u_val('spell_level', 'spell: telekinetic_push') + u_val('spell_level', 'spell: telekinetic_wave')) / 4 ) - 5)"
-            , ">=", "1" ] } ],
+    "condition": [
+      {
+        "math": [
+          "(((u_val('spell_level', 'spell: telekinetic_pull') + u_val('spell_level', 'spell: telekinetic_momentum') + u_val('spell_level', 'spell: telekinetic_shield') + u_val('spell_level', 'spell: telekinetic_push') + u_val('spell_level', 'spell: telekinetic_wave')) / 4 ) - 5)",
+          ">=",
+          "1"
+        ]
+      }
+    ],
     "deactivate_condition": { "u_know_recipe": "telekin_lift_cars" },
     "effect": [
       { "u_learn_recipe": "telekin_lift_cars" },
