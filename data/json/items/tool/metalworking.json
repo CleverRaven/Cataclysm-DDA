@@ -349,7 +349,7 @@
   {
     "id": "tongs",
     "type": "TOOL",
-    "name": { "str": "pair of metal tongs", "str_pl": "pairs of metal tongs" },
+    "name": { "str": "pair of kitchen tongs", "str_pl": "pairs of kitchen tongs" },
     "description": "A pair of long, metal tongs.  They are commonly used for cooking.",
     "weight": "167 g",
     "volume": "210 ml",

@@ -118,7 +118,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 11 ] ],
+    "using": [ [ "blacksmithing_standard", 44 ], [ "steel_standard", 11 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -127,8 +127,7 @@
       { "proficiency": "prof_trapsetting" }
     ],
     "book_learn": [ [ "mag_traps", 1 ], [ "manual_mechanics", 2 ], [ "manual_traps", 1 ], [ "howto_traps", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
-    "tools": [ [ [ "tongs", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "spring", 1 ] ] ]
   },
   {
