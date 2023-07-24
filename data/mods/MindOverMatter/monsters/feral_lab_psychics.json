@@ -41,21 +41,21 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 5 },
         "cooldown": 12,
-        "monster_message": "A roar fills your mind and the world is blotted out!"
+        "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       },
       {
         "id": "psi_drbrain_blast",
         "type": "spell",
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 4 },
         "cooldown": 10,
-        "monster_message": "A searing pain fills your head!"
+        "monster_message": "%1$s stares at %3$s!"
       },
       {
         "id": "psi_drbrain_mindhammer",
         "type": "spell",
         "spell_data": { "id": "telekinetic_hammer_monster", "min_level": 6 },
         "cooldown": 12,
-        "monster_message": "%1$s hammers you with psionic force!"
+        "monster_message": "%1$s hammers %3$s with psionic force!"
       },
       {
         "id": "smash",
