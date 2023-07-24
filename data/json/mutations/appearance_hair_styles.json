@@ -937,5 +937,18 @@
       }
     ],
     "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HAIR_BALD",
+    "name": "Hair: none",
+    "points": 0,
+    "description": "You are bald.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "hair_style" ]
   }
 ]

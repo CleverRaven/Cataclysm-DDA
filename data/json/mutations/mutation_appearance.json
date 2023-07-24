@@ -1,17 +1,5 @@
 [
   {
-    "id": "HAIR_BALD",
-    "type": "mutation",
-    "name": { "str": "Hair: none" },
-    "description": "You are bald.",
-    "points": 0,
-    "starting_trait": true,
-    "valid": false,
-    "player_display": true,
-    "vanity": true,
-    "types": [ "hair_style" ]
-  },
-  {
     "id": "eye_color",
     "type": "mutation",
     "name": { "str": "Eye color" },
