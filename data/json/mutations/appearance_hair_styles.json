@@ -504,43 +504,43 @@
         "id": "brown", 
         "name": { "str": "Hair: brown, crew cut" }, 
         "description": "You have brown crew cut.",
-        "weight": 1 
+        "weight": 1
       },
-      { 
-        "id": "blond", 
-        "name": { "str": "Hair: blond, crew cut" }, 
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, crew cut" },
         "description": "You have a blond crew cut.",
-        "weight": 1 
+        "weight": 1
       },
-      { 
-        "id": "gray", 
-        "name": { "str": "Hair: gray, crew cut" }, 
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, crew cut" },
         "description": "You have a gray crew cut.",
-        "weight": 1 
+        "weight": 1
       },
-      { 
-        "id": "white", 
-        "name": { "str": "Hair: white, crew cut" }, 
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, crew cut" },
         "description": "You have a white crew cut.",
-        "weight": 1 
+        "weight": 1
       },
-      { 
-        "id": "red", 
-        "name": { "str": "Hair: red, crew cut" }, 
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, crew cut" },
         "description": "You have a red crew cut.",
-        "weight": 1 
+        "weight": 1
       },
-      { 
-        "id": "blue", 
-        "name": { "str": "Hair: blue, crew cut" }, 
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, crew cut" },
         "description": "You have a blue crew cut.",
-        "weight": 1 
+        "weight": 1
       },
-      { 
-        "id": "blue", 
-        "name": { "str": "Hair: blue, crew cut" }, 
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, crew cut" },
         "description": "You have a blue crew cut.",
-        "weight": 1 
+        "weight": 1
       },
       {
         "id": "green",
@@ -584,11 +584,11 @@
       { 
         "id": "brown", 
         "name": { "str": "Hair: brown, mohawk" },
-        "description": "You have a brown mohawk.", 
-        "weight": 1 
+        "description": "You have a brown mohawk.",
+        "weight": 1
       },
-      { 
-        "id": "blond", 
+      {
+        "id": "blond",
         "name": { "str": "Hair: blond, mohawk" },
         "description": "You have a blond mohawk.", 
         "weight": 1 
@@ -883,13 +883,13 @@
       },
       {
         "id": "brown",
-        "name": { "str": "Hair: brown, long"},
+        "name": { "str": "Hair: brown, long" },
         "description": "You have long brown hair.",
         "weight": 1
       },
       {
         "id": "blond",
-        "name": { "str": "Hair: blond, long"},
+        "name": { "str": "Hair: blond, long" },
         "description": "You have long blond hair.",
         "weight": 1
       },
@@ -901,7 +901,7 @@
       },
       {
         "id": "white",
-        "name": { "str": "Hair: white, long"},
+        "name": { "str": "Hair: white, long" },
         "description": "You have long white hair.",
         "weight": 1
       },
