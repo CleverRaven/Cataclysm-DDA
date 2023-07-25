@@ -1,7 +1,7 @@
 [
   {
     "type": "speech",
-    "speaker": [ "mon_feral_human_pyrokin3", "mon_feral_human_pyrokin2" ],
+    "speaker": [ "mon_feral_human_pyrokin3", "mon_feral_human_pyrokin2", "mon_civilian_pyrokinetic" ],
     "sound": "the crackle of flames.",
     "volume": 10
   },
@@ -10,6 +10,12 @@
     "speaker": [ "mon_feral_human_pyrokin3", "mon_feral_human_pyrokin2" ],
     "sound": "\"Must… burn…\"",
     "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_pyrokinetic" ],
+    "sound": "\"Burn them all! Burn them to ash!\"",
+    "volume": 15
   },
   {
     "type": "speech",
@@ -61,21 +67,87 @@
   },
   {
     "type": "speech",
+    "speaker": [ "mon_civilian_clairsentient" ],
+    "sound": "\"I told you they were coming.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_clairsentient" ],
+    "sound": "\"You didn't listen!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_clairsentient" ],
+    "sound": "\"Just like the dreams.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_clairsentient" ],
+    "sound": "\"This is the end.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_clairsentient" ],
+    "sound": "\"I knew it.  I knew it.  I knew it.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_clairsentient" ],
+    "sound": "\"Doom.  DOOM!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_clairsentient" ],
+    "sound": "\"You didn't listen!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
     "speaker": [ "mon_feral_human_porter3" ],
     "sound": "\"Lost between…\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_human_porter3" ],
+    "speaker": [ "mon_feral_human_porter3", "mon_civilian_teleporter" ],
     "sound": "\"So… cold…\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_human_porter3" ],
+    "speaker": [ "mon_feral_human_porter3", "mon_civilian_teleporter" ],
     "sound": "\"So… dark…\"",
     "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_vitakinetic" ],
+    "sound": "\"I have to live!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_vitakinetic" ],
+    "sound": "\"Have to escape.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_vitakinetic" ],
+    "sound": "\"Must survive.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_vitakinetic" ],
+    "sound": "\"I need a way out!\"",
+    "volume": 15
   },
   {
     "type": "speech",
