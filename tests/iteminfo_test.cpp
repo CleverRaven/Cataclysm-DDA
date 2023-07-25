@@ -1279,11 +1279,11 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
 
     SECTION( "moderate protection from physical and environmental damage" ) {
         // Hazmat suit, material:plastic, thickness:2
-        // 2/2/2 bash/cut/bullet x 2 thickness
+        // 2/2/1 bash/cut/bullet x 2 thickness
         // 9/1/20 acid/fire/env
         item hazmat( "test_hazmat_suit" );
         REQUIRE( hazmat.get_covered_body_parts().any() );
-        expected_armor_values( hazmat, 4, 4, 3.2, 4, 9, 1, 20 );
+        expected_armor_values( hazmat, 4, 4, 3.2, 2, 9, 1, 20 );
 
         // Protection info displayed on two lines
         CHECK( item_info_str( hazmat, protection ) ==
