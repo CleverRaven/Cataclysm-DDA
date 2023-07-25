@@ -63,7 +63,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_guard_food_borrow",
-    "dynamic_line": [ "Nope, you can't do that.  I'd like to help you, bit we've already got enough mouths to feed." ],
+    "dynamic_line": [ "Nope, you can't do that.  I'd like to help you, but we've already got enough mouths to feed." ],
     "responses": [
       {
         "text": "Could some money persuade you?",

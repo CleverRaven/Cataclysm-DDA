@@ -562,7 +562,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
-- ```INEDIBLE``` Inedible by default, enabled to eat when in conjunction with (mutation threshold) flags: `BIRD`, `CATTLE`.
+- ```INEDIBLE``` Inedible by default, enabled to eat when in conjunction with (mutation threshold) flags: `BIRD`, `CATTLE`, `FELINE`, `LUPINE`, `MOUSE`, `RABBIT`, `RAT`.
 - ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the `PLANTBLECH` function penalties will be reversed for plants.
 - ```FREEZERBURN``` First thaw is `MUSHY`, second is rotten.
 - ```FUNGAL_VECTOR``` Will give a fungal infection when consumed.
@@ -701,6 +701,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SHARP``` May do minor damage to players/monsters passing through it.
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - ```SIGN``` Show written message on examine.
+- ```SIGN_ALWAYS``` Shows a message to indicate nothing is written here and lets you add a message if examined without a signage/snippet present.
 - ```SMALL_PASSAGE``` This terrain or furniture is too small for large or huge creatures to pass through.
 - ```SPAWN_WITH_LIQUID``` This terrain will place liquid (once) on its own spawn. Type of liquid is defined by other flags. For example, it spawns fresh water via `FRESH_WATER` flag.
 - ```SUN_ROOF_ABOVE``` This furniture (terrain is not supported currently) has a "fake roof" above, that blocks sunlight. Special hack for #44421, to be removed later.

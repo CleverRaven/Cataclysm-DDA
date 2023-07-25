@@ -15,7 +15,8 @@
     "material": [ { "type": "wood", "portion": 7 }, { "type": "steel" }, { "type": "nylon", "portion": 2 } ],
     "symbol": "|",
     "color": "white",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "volume": 18,
       "fun": -3,
@@ -44,7 +45,8 @@
     "material": [ "bone" ],
     "symbol": "-",
     "color": "white",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "volume": 12,
       "fun": -5,
@@ -75,7 +77,8 @@
     "material": [ { "type": "wood", "portion": 9 }, { "type": "silver" } ],
     "symbol": "|",
     "color": "light_gray",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "volume": 14,
       "fun": -5,
@@ -105,7 +108,8 @@
     "//": "Moved this to just being silver.  Flutes aren't made of iron, and a full size sterling silver flute weighs 440g, which is the existing weight.",
     "symbol": "-",
     "color": "light_gray",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "volume": 12,
       "fun": -5,
@@ -135,7 +139,8 @@
     "material": [ "brass" ],
     "symbol": "-",
     "color": "yellow",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "volume": 21,
       "fun": -3,
@@ -166,7 +171,8 @@
     "material": [ "wood" ],
     "symbol": "(",
     "color": "brown",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "volume": 16,
       "fun": -3,
@@ -197,7 +203,8 @@
     "material": [ "wood" ],
     "symbol": "}",
     "color": "brown",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "volume": 18,
       "fun": -2,
@@ -227,7 +234,8 @@
     "material": [ "gold" ],
     "symbol": "}",
     "color": "yellow",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "volume": 25,
       "fun": 1,
@@ -257,7 +265,8 @@
     "material": [ "gold" ],
     "symbol": "}",
     "color": "yellow",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "volume": 25,
       "fun": 1,
@@ -275,7 +284,8 @@
     "category": "tools",
     "weight": "200 g",
     "color": "brown",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "speed_penalty": 10,
       "volume": 10,
@@ -304,7 +314,8 @@
     "weight": "2200 g",
     "color": "brown",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "speed_penalty": 15,
       "volume": 20,
@@ -339,7 +350,8 @@
     "weight": "3750 g",
     "color": "red",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "speed_penalty": 15,
       "volume": 6,
@@ -379,7 +391,8 @@
     "weight": "2500 g",
     "color": "green",
     "to_hit": -2,
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "speed_penalty": 15,
       "volume": 24,
@@ -418,7 +431,8 @@
     "color": "yellow",
     "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "to_hit": -1,
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "speed_penalty": 25,
       "volume": 20,
@@ -458,7 +472,8 @@
     "color": "yellow",
     "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "to_hit": 1,
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "speed_penalty": 18,
       "volume": 20,

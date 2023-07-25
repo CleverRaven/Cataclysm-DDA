@@ -92,11 +92,6 @@
     ]
   },
   {
-    "type": "monstergroup",
-    "name": "GROUP_ROBOT_EYEBOT",
-    "monsters": [ { "monster": "mon_eyebot", "weight": 100, "cost_multiplier": 0 } ]
-  },
-  {
     "name": "GROUP_MANSION",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_utilibot_butler", "weight": 20, "cost_multiplier": 2 } ]

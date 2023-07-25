@@ -634,5 +634,21 @@
     "time": "1 s",
     "components": [ [ [ "ceramic_shard", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "casserole",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "ceramic_shard", 9 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "fuel_tin",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap", 7 ] ] ]
   }
 ]
