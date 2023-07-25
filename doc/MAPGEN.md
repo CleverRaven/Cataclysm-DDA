@@ -1173,8 +1173,8 @@ Example:
 The code excerpt above will place chunks as follows:
 * `"nest1"` if the north neighbor's om terrain contains `"field"` or `"empty_rock"`.
 * `"nest2"` if the north neighbor has the prefix `"fort"` or contains `"mansion"`, so for example `"fort_1a_north"` and `"mansion_t2u"` would match but `"house_fortified"` wouldn't.
-* `"nest3"` if the north neighboring overmap terrain has a flag `"RIVER"` and either of the north east or north west neighboring overmap terrains have a `"RIVER"` flag.
-* `"nest4"` if the join `"interior_to_exterior"` was used to the north during mutable overmap placement.
+* `"nest3"` if the join `"interior_to_exterior"` was used to the north during mutable overmap placement.
+* `"nest4"` if the north neighboring overmap terrain has a flag `"RIVER"` and either of the north east or north west neighboring overmap terrains have a `"RIVER"` flag.
 * `"nest5"` if the north west neighboring overmap terrain has neither the `"RIVER"`, `"LAKE"` nor `"LAKE_SHORE"` flags.
 
 
