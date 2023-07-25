@@ -1690,9 +1690,7 @@
     "price_postapoc": 300,
     "material": [ "junk", "honey" ],
     "primary_material": "alcohol",
-    "volume": "250 ml",
-    "charges": 2,
-    "stack_size": 20,
+    "volume": "12 ml",
     "fun": -1,
     "vitamins": [ [ "vitC", 2 ], [ "iron", 4 ] ]
   },

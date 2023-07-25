@@ -360,9 +360,8 @@
     "price_postapoc": 100,
     "material": [ "tomato", "veggy" ],
     "primary_material": "tomato",
-    "volume": "1000 ml",
+    "volume": "250 ml",
     "flags": [ "FREEZERBURN" ],
-    "charges": 4,
     "fun": 2
   },
   {

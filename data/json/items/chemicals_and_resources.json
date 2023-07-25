@@ -29,12 +29,10 @@
     "container": "bottle_plastic_pill_supplement",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "charges": 10,
-    "stack_size": 10,
     "calories": 10,
     "description": "A pill for those looking to have children.  It is of no use to you.",
     "price": 10,
-    "volume": "100 ml"
+    "volume": "10 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -50,11 +48,10 @@
     "comestible_type": "MED",
     "description": "A handful of pure sulfur.  Primarily used to make battery acid, sulfur is sometimes used as fuel for explosives.  Can be burned to produce acidic smoke that is deadly to bacteria and humans alike, or oxidized to make paper-bleaching agents.  It is also a fungicide, and could be rubbed on your skin to treat fungal infection.",
     "material": [ "powder" ],
-    "volume": "16 ml",
+    "volume": "1 ml",
     "weight": "320 mg",
     "//": "Density: 2g/cm3.  NOTE: Weights for chemical powders are 1/100 mol.  Weights are given for ONE UNIT.  Volume is for all units.",
-    "container": "bottle_plastic_small",
-    "charges": 100
+    "container": "bottle_plastic_small"
   },
   {
     "type": "AMMO",
@@ -373,8 +370,7 @@
     "//2": "0.8  g/cm3",
     "price_postapoc": 1000,
     "material": [ "powder" ],
-    "volume": "2025 ml",
-    "charges": 60,
+    "volume": "33 ml",
     "category": "chems",
     "fun": -15
   },
@@ -397,10 +393,8 @@
     "price": 1100,
     "price_postapoc": 1000,
     "material": [ "powder" ],
-    "volume": "125ml",
-    "charges": 400,
+    "volume": "1 ml",
     "//2": "Previously 10 doses to a gram, so about 400 to the pound.",
-    "stack_size": 200,
     "fun": -15
   },
   {
@@ -419,9 +413,7 @@
     "price": 1100,
     "price_postapoc": 1000,
     "material": [ "powder" ],
-    "volume": "125ml",
-    "charges": 400,
-    "stack_size": 200
+    "volume": "1 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -1154,8 +1146,7 @@
     "description": "Intended for the clarification and disinfection of unsafe drinking water, this halazone-based purification tablet removes dangerous contaminants using powerful chemicals.  The label says to use one tablet per unit of water (250ml).",
     "price": 900,
     "price_postapoc": 2000,
-    "volume": "250 ml",
-    "stack_size": 100,
+    "volume": "2 ml",
     "flags": [ "NO_INGEST" ]
   },
   {
@@ -1609,11 +1600,10 @@
     "color": "yellow",
     "container": "bottle_plastic_small",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 50,
     "description": "A pre-mixed salty solution of protein and sugar.  It's meant for bacteria to eat, but if you were desperate, you could eat it too; it's not much different from cup noodle stock.",
     "comestible_type": "INVALID",
     "material": [ "powder" ],
-    "volume": "100 ml",
+    "volume": "2 ml",
     "//": "Bulk density is around 0.5 g/mL",
     "weight": "1 g"
   },
@@ -1630,11 +1620,10 @@
     "color": "yellow",
     "container": "bottle_plastic_small",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 50,
     "description": "Clear flakes of processed seaweed that can be dissolved in boiling water to create a very sturdy, temperature-resistant gel.  Not only is it good for making gels to separate molecules by size, but it's a great cheat ingredient to make sure your jellies set properly.",
     "comestible_type": "INVALID",
     "material": [ "powder" ],
-    "volume": "90 ml",
+    "volume": "1 ml",
     "//": "Bulk density is around 0.55 g/mL",
     "weight": "1 g"
   },
@@ -1652,11 +1641,10 @@
     "color": "white",
     "container": "bottle_glass",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 50,
     "description": "A handful of highly carcinogenic white powder that can be readily polymerized into a whole bunch of useful water-soluble gels.",
     "comestible_type": "INVALID",
     "material": [ "powder" ],
-    "volume": "100 ml",
+    "volume": "2 ml",
     "//": "Bulk density is around 0.5 g/mL (because it's a powder, the actual density of 1.12 g/mL is not useful)",
     "weight": "1 g"
   },
@@ -1843,11 +1831,10 @@
     "color": "white",
     "container": "bottle_glass",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 50,
     "description": "A manufactured form of citric acid that is commonly used as an additive in food, cleaning agents, and nutritional supplements.",
     "comestible_type": "INVALID",
     "material": [ "powder" ],
-    "volume": "100 ml",
+    "volume": "2 ml",
     "//": "Bulk density is around 0.5 g/mL (because it's a powder, the actual density of 1.12 g/mL is not useful)",
     "weight": "1 g"
   },

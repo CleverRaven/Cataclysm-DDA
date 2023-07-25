@@ -46,7 +46,8 @@
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "sugar", 1 ] ],
       [ [ "bell_pepper", 1 ] ]
-    ]
+    ],
+    "charges": 6
   },
   {
     "type": "recipe",
@@ -71,7 +72,8 @@
       [ [ "bell_pepper", 1 ] ],
       [ [ "garlic_clove", 2 ] ],
       [ [ "seasoning_mild", 2, "LIST" ] ]
-    ]
+    ],
+    "charges": 4
   },
   {
     "type": "recipe",
@@ -96,7 +98,8 @@
       [ [ "garlic_clove", 2 ] ],
       [ [ "seasoning_mild", 2, "LIST" ] ],
       [ [ "yoghurt", 1 ] ]
-    ]
+    ],
+    "charges": 4
   },
   {
     "type": "recipe",
@@ -148,6 +151,7 @@
       [ [ "cabbage", 2 ] ],
       [ [ "rice_cooked", 1 ] ],
       [ [ "eggs_bird", 1, "LIST" ] ]
-    ]
+    ],
+    "charges": 4
   }
 ]
