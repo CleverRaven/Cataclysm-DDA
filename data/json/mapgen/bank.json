@@ -77,8 +77,7 @@
           "options": [ { "name": "Open Vault", "action": "unlock" } ],
           "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
         }
-      },
-      "place_monster": [ { "monster": "mon_copbot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
+      }
     }
   },
   {
@@ -215,8 +214,7 @@
           "options": [ { "name": "Open Vault", "action": "unlock" } ],
           "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]
         }
-      },
-      "place_monster": [ { "monster": "mon_copbot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
+      }
     }
   },
   {
