@@ -3447,29 +3447,29 @@ class jmapgen_nested : public jmapgen_piece
                 explicit neighbor_oter_check( const JsonObject &jsi ) {
                     for( direction dir : all_enum_values<direction>() ) {
                         std::string location = io::enum_to_string( dir );
-                        cata::flat_set<std::pair<std::string, ot_match_type>> dir_neighbours;
+                        cata::flat_set<std::pair<std::string, ot_match_type>> dir_neighbors;
                         if( !jsi.has_string( location ) ) {
                             for( const JsonValue entry : jsi.get_array( location ) ) {
-                                std::pair<std::string, ot_match_type> dir_neighbour;
+                                std::pair<std::string, ot_match_type> dir_neighbor;
                                 if( entry.test_string() ) {
-                                    dir_neighbour.first = entry.get_string();
-                                    dir_neighbour.second = ot_match_type::contains;
+                                    dir_neighbor.first = entry.get_string();
+                                    dir_neighbor.second = ot_match_type::contains;
                                 } else {
                                     JsonObject jo = entry.get_object();
-                                    dir_neighbour.first = jo.get_string( "om_terrain" );
-                                    dir_neighbour.second = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                                    dir_neighbor.first = jo.get_string( "om_terrain" );
+                                    dir_neighbor.second = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
                                                            ot_match_type::contains );
                                 }
-                                dir_neighbours.insert( dir_neighbour );
+                                dir_neighbors.insert( dir_neighbor );
                             }
                         } else {
-                            std::pair<std::string, ot_match_type> dir_neighbour;
-                            dir_neighbour.first = jsi.get_string( location );
-                            dir_neighbour.second = ot_match_type::contains;
-                            dir_neighbours.insert( dir_neighbour );
+                            std::pair<std::string, ot_match_type> dir_neighbor;
+                            dir_neighbor.first = jsi.get_string( location );
+                            dir_neighbor.second = ot_match_type::contains;
+                            dir_neighbors.insert( dir_neighbor );
                         }
-                        if( !dir_neighbours.empty() ) {
-                            neighbors[dir] = std::move( dir_neighbours );
+                        if( !dir_neighbors.empty() ) {
+                            neighbors[dir] = std::move( dir_neighbors );
                         }
                     }
                 }
@@ -3503,11 +3503,11 @@ class jmapgen_nested : public jmapgen_piece
             public:
                 explicit neighbor_join_check( const JsonObject &jsi ) {
                     for( cube_direction dir : all_enum_values<cube_direction>() ) {
-                        cata::flat_set<std::string> dir_neighbours =
+                        cata::flat_set<std::string> dir_neighbors =
                             jsi.get_tags<std::string, cata::flat_set<std::string>>(
                                 io::enum_to_string( dir ) );
-                        if( !dir_neighbours.empty() ) {
-                            neighbors[dir] = std::move( dir_neighbours );
+                        if( !dir_neighbors.empty() ) {
+                            neighbors[dir] = std::move( dir_neighbors );
                         }
                     }
                 }
@@ -3542,11 +3542,11 @@ class jmapgen_nested : public jmapgen_piece
             public:
                 explicit neighbor_flag_check( const JsonObject &jsi ) {
                     for( direction dir : all_enum_values<direction>() ) {
-                        cata::flat_set<oter_flags> dir_neighbours;
+                        cata::flat_set<oter_flags> dir_neighbors;
                         std::string location = io::enum_to_string( dir );
-                        optional( jsi, false, location, dir_neighbours );
-                        if( !dir_neighbours.empty() ) {
-                            neighbors[dir] = std::move( dir_neighbours );
+                        optional( jsi, false, location, dir_neighbors );
+                        if( !dir_neighbors.empty() ) {
+                            neighbors[dir] = std::move( dir_neighbors );
                         }
                     }
                 }
@@ -3579,17 +3579,16 @@ class jmapgen_nested : public jmapgen_piece
             public:
                 explicit neighbor_flag_any_check( const JsonObject &jsi ) {
                     for( direction dir : all_enum_values<direction>() ) {
-                        cata::flat_set<oter_flags> dir_neighbours;
+                        cata::flat_set<oter_flags> dir_neighbors;
                         std::string location = io::enum_to_string( dir );
-                        optional( jsi, false, location, dir_neighbours );
-                        if( !dir_neighbours.empty() ) {
-                            neighbors[dir] = std::move( dir_neighbours );
+                        optional( jsi, false, location, dir_neighbors );
+                        if( !dir_neighbors.empty() ) {
+                            neighbors[dir] = std::move( dir_neighbors );
                         }
                     }
                 }
 
                 bool test( const mapgendata &dat ) const {
-                    bool any_direction_has_flag = false;
                     for( const std::pair<const direction, cata::flat_set<oter_flags>> &p :
                          neighbors ) {
                         const direction dir = p.first;
@@ -3598,11 +3597,12 @@ class jmapgen_nested : public jmapgen_piece
                         cata_assert( !allowed_flags.empty() );
 
                         for( const oter_flags &allowed_flag : allowed_flags ) {
-                            any_direction_has_flag |=
-                                dat.neighbor_at( dir )->has_flag( allowed_flag );
+                            if( dat.neighbor_at( dir )->has_flag( allowed_flag ) ) {
+                                return true;
+                            }
                         }
                     }
-                    return any_direction_has_flag;
+                    return false;
                 }
         };
 
