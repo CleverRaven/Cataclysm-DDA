@@ -1190,6 +1190,17 @@ float Character::get_stamina_dodge_modifier() const
     return stamina_logistic;
 }
 
+float Character::tally_organic_size() const
+{
+    float total_size = 0.0f;
+    for( const bodypart_id &part : get_all_body_parts() ) {
+        if( !part.is_cybernetic ) {
+            total_size += part.hit_size;
+        }
+    }
+    return hit_size / 100;
+}
+
 int Character::sight_range( float light_level ) const
 {
     if( light_level == 0 ) {
@@ -4271,7 +4282,7 @@ void Character::set_stored_calories( int cal )
 
 int Character::get_healthy_kcal() const
 {
-    float healthy_weight = 5.0f * std::pow( height() / 100.0f, 2 );
+    float healthy_weight = tally_organic_size() * 5.0f * std::pow( height() / 100.0f, 2 );
     return std::floor( KCAL_PER_KG * healthy_weight );
 }
 
@@ -6151,7 +6162,7 @@ units::mass Character::bodyweight_fat() const
 units::mass Character::bodyweight_lean() const
 {
     //12 plus base strength gives non fat bmi, adjusted by starvation in get_bmi_lean()
-    return units::from_kilogram( get_bmi_lean() * std::pow( height() / 100.0f, 2 ) );
+    return tally_organic_size() * units::from_kilogram( get_bmi_lean() * std::pow( height() / 100.0f, 2 ) );
 }
 
 float Character::fat_ratio() const
