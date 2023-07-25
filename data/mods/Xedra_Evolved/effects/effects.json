@@ -131,9 +131,9 @@
     "//": "Tracks inventors creative sparks",
     "name": [ "One Amazing Idea", "Several Inspired Tangents", "Brimming with Creativity" ],
     "desc": [
-      "You have one incredibly amazing idea.",
-      "You've got a few theories you'd like to explore.",
-      "Your brain can't hold any more brilliance."
+      "You have one incredibly amazing idea.  You think you should <color_yellow>research</color> it.",
+      "You've got a few theories you'd like to explore.  Pick laptop, cup of coffee, and <color_yellow>research</color> it as proper scientist.",
+      "Your brain can't hold any more brilliance.  To the <color_yellow>research</color> table!"
     ],
     "max_intensity": 3,
     "apply_message": "A great idea has illuminated your mind, it's probably a good time to pick up your laptop and do some calculations.",

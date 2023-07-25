@@ -237,6 +237,7 @@ bardiche
 barding
 barebones
 barghest
+barleycorn
 barony
 barosaurus
 barotrarumatic
@@ -247,7 +248,6 @@ baselines
 basiliscus
 bassline
 basswood
-barleycorn
 batching
 batlike
 batrachian
@@ -436,6 +436,7 @@ camelops
 camphine
 campin
 camptosaurus
+camspies
 camspy
 canadensis
 canid
@@ -1264,8 +1265,8 @@ gunmods
 gunshop
 gunsmithing
 gunsmoke
-gushingly
 gurkha
+gushingly
 gutskin
 guvnah
 gymnocladus
@@ -1545,10 +1546,11 @@ khru
 kickboard
 kickin
 kickstand
-killbasa
-killin
 kilij
 kilijes
+kilijs
+killbasa
+killin
 kilns
 kilroy
 kilted
@@ -2809,11 +2811,11 @@ stompy
 stompy-clanker
 stonelike
 stoneskin
+stook
+stooking
 stopcock
 stoppered
 stoppeth
-stook
-stooking
 storable
 stormcaller
 stormshaper
@@ -2878,6 +2880,7 @@ swages
 swappable
 swashbucklers
 sweetish
+swipin
 switchgear
 swordmanship
 syde

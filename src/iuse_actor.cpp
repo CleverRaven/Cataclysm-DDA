@@ -5371,7 +5371,7 @@ std::unique_ptr<iuse_actor> effect_on_conditons_actor::clone() const
 
 void effect_on_conditons_actor::load( const JsonObject &obj )
 {
-    description = obj.get_string( "description" );
+    obj.read( "description", description );
     obj.read( "menu_text", menu_text );
     for( JsonValue jv : obj.get_array( "effect_on_conditions" ) ) {
         eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
@@ -5388,7 +5388,7 @@ std::string effect_on_conditons_actor::get_name() const
 
 void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    dump.emplace_back( "DESCRIPTION", description );
+    dump.emplace_back( "DESCRIPTION", description.translated() );
 }
 
 std::optional<int> effect_on_conditons_actor::use( Character *p, item &it, bool t,
