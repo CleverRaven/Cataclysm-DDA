@@ -232,7 +232,7 @@
         { "chance": 30, "item": "pizza_trash", "x": 4, "y": 9 },
         { "chance": 20, "item": "tools_carpentry", "x": 8, "y": [ 6, 7 ] },
         { "chance": 25, "item": "paint", "x": 18, "y": 9 },
-        { "chance": 35, "item": "construction_worker", "x": [3, 4], "y": [5, 6]},
+        { "chance": 35, "item": "construction_worker", "x": [ 3, 4 ], "y": [ 5, 6 ] },
         { "chance": 65, "item": "floor_trash", "x": 3, "y": 10 },
         { "chance": 50, "item": "tools_construction", "x": 3, "y": 4 },
         { "chance": 30, "item": "power_tools", "x": 3, "y": 5 },
