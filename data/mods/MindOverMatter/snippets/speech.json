@@ -13,12 +13,6 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_civilian_pyrokinetic" ],
-    "sound": "\"Burn them all! Burn them to ash!\"",
-    "volume": 15
-  },
-  {
-    "type": "speech",
     "speaker": [ "mon_feral_human_teep2" ],
     "sound": "a low droning hum inside your head.",
     "volume": 10
@@ -31,7 +25,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_human_teep2" ],
+    "speaker": [ "mon_feral_human_teep2", "mon_civilian_telepath" ],
     "sound": "an inarticulate cry inside your head.",
     "volume": 10
   },
@@ -105,6 +99,30 @@
     "type": "speech",
     "speaker": [ "mon_civilian_clairsentient" ],
     "sound": "\"You didn't listen!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_pyrokinetic" ],
+    "sound": "\"Burn them all! Burn them to ash!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_telepath" ],
+    "sound": "a voice inside your head mutter, \"No no no no.\".",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_telepath" ],
+    "sound": "a voice inside your head whisper \"No escape…\".",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_telepath" ],
+    "sound": "a voice inside your head say \"Why?  Why?  Why?\".",
     "volume": 10
   },
   {
