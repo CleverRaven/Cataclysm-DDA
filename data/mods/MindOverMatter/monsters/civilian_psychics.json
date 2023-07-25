@@ -108,6 +108,21 @@
     ]
   },
   {
+    "id": "mon_civilian_telepath",
+    "type": "MONSTER",
+    "name": { "str": "manic mutterer" },
+    "description": "Holding their head in their hands, they barely seem aware of the world around them, but they still try to escape the zombies.  Looking at them, you feel an eerie sensation like fingers scratching at your mind.",
+    "path_settings": { "max_dist": 30, "allow_open_doors": false, "avoid_traps": false, "avoid_sharp": false },
+    "symbol": "@",
+    "color": "green",
+    "diff": 0,
+    "vision_day": 10,
+    "vision_night": 0,
+    "copy-from": "mon_civilian_panic",
+    "upgrades": { "half_life": 2, "into": "mon_feral_human_teep" },
+    "special_attacks": [ [ "PARROT_AT_DANGER", 5 ] ]
+  },
+  {
     "id": "mon_civilian_teleporter",
     "type": "MONSTER",
     "name": { "str": "jittery jumper" },
@@ -132,7 +147,7 @@
   {
     "id": "mon_civilian_vitakinetic",
     "type": "MONSTER",
-    "name": { "str": "agitated augur" },
+    "name": { "str": "healthy human" },
     "description": "This person mutters to themselves, glancing to and fro with bloodshot eyes.  They seem remarkably unscathed for someone in the midst of the apocalypse.",
     "path_settings": { "max_dist": 30, "allow_open_doors": false, "avoid_traps": false, "avoid_sharp": false },
     "hp": 90,
