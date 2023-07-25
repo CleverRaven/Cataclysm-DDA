@@ -169,17 +169,5 @@
     "name": "GROUP_CIVILIANS_STANDARD",
     "type": "monstergroup",
     "monsters": [ { "group": "GROUP_CIVILIANS_PSYCHIC_FERAL", "weight": 2, "cost_multiplier": 3 } ]
-  },
-  {
-    "name": "GROUP_CIVILIANS_PSYCHIC_FERAL",
-    "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_civilian_biokinetic", "weight": 3, "cost_multiplier": 0, "ends": "3 days" },
-      { "monster": "mon_civilian_clairsentient", "weight": 3, "cost_multiplier": 0, "ends": "3 days" },
-      { "monster": "mon_civilian_pyrokinetic", "weight": 2, "cost_multiplier": 2, "ends": "3 days" },
-      { "monster": "mon_civilian_telekinetic", "weight": 2, "cost_multiplier": 2, "ends": "3 days" },
-      { "monster": "mon_civilian_teleporter", "weight": 3, "cost_multiplier": 0, "ends": "3 days" },
-      { "monster": "mon_civilian_vitakinetic", "weight": 3, "cost_multiplier": 0, "ends": "3 days" }
-    ]
   }
 ]
