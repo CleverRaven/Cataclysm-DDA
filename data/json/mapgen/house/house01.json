@@ -225,16 +225,7 @@
         "`": "t_concrete",
         "-": "t_thconc_floor"
       },
-      "furniture": {
-        "X": "f_crate_c",
-        "2": [ 
-           "f_stack_plank" ,
-           "f_pallet_brick",
-           "f_pallet_cement",
-           "f_pallet_brick_adobe"
-         ]
-
-      },
+      "furniture": { "X": "f_crate_c", "2": [ "f_stack_plank", "f_pallet_brick", "f_pallet_cement", "f_pallet_brick_adobe" ] },
       "place_items": [
         { "chance": 30, "item": "construction_worker", "x": 12, "y": 13 },
         { "chance": 30, "item": "construction_worker", "x": 10, "y": 11 },
