@@ -228,7 +228,7 @@
         { "chance": 30, "item": "construction_worker", "x": 12, "y": 13 },
         { "chance": 30, "item": "construction_worker", "x": 10, "y": 11 },
         { "chance": 50, "item": "tools_home", "x": 8, "y": 8 },
-        { "chance": 60, "item": "hardware_trash", "x": 4, "y": 10, "repeat": [1, 2] },
+        { "chance": 60, "item": "hardware_trash", "x": 4, "y": 10, "repeat": [ 1, 2 ] },
         { "chance": 30, "item": "pizza_trash", "x": 4, "y": 9 },
         { "chance": 20, "item": "tools_carpentry", "x": 8, "y": [ 6, 7 ] },
         { "chance": 25, "item": "paint", "x": 18, "y": 9 },
