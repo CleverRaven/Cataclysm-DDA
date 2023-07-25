@@ -501,9 +501,7 @@
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_elastics" }
     ],
-    "components": [
-      [ [ "wetsuit_booties_thick", 1 ] ]
-    ]
+    "components": [ [ [ "wetsuit_booties_thick", 1 ] ] ]
   },
   {
     "result": "xs_boots_h20survivor_thick",
