@@ -738,6 +738,9 @@ class Character : public Creature, public visitable
         bool uncanny_dodge() override;
         float get_hit_base() const override;
 
+        // total hitsize of all non cybernetic body parts
+        float tally_organic_size() const;
+
         /** Returns the player's sight range */
         int sight_range( float light_level ) const override;
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
