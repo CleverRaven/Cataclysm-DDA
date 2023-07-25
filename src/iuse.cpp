@@ -3085,15 +3085,30 @@ std::optional<int> iuse::trimmer_off( Character *p, item *it, bool, const tripoi
                            _( "You yank the cord, but nothing happens." ) );
 }
 
-static int toolweapon_running( Character &p, item &it, const tripoint &pos,
+static int toolweapon_running( Character *p, item &it, const tripoint &pos,
                                const bool works_underwater, const int sound_chance, const int volume,  const std::string &sound,
                                const bool double_charge_cost = false )
 {
-    if( double_charge_cost && it.ammo_sufficient( &p ) ) {
-        it.ammo_consume( 1, pos, &p );
+    if( double_charge_cost && it.ammo_sufficient( p ) ) {
+        it.ammo_consume( 1, pos, p );
     }
-    if( !works_underwater && p.is_underwater() ) {
-        p.add_msg_if_player( _( "Your %s gurgles in the water and stops." ), it.tname() );
+    bool drown = false;
+    if( !works_underwater ) {
+        if( !p ) {
+            map &here = get_map();
+            if( here.is_water_shallow_current( pos ) || here.is_divable( pos ) ) {
+                // Item is on ground on water
+                drown = true;
+            }
+        } else if( p->is_underwater() ) {
+            drown = true;
+        }
+    }
+
+    if( drown ) {
+        if( p ) {
+            p->add_msg_if_player( _( "Your %s gurgles in the water and stops." ), it.tname() );
+        }
         it.convert( *it.type->revert_to ).active = false;
     } else if( one_in( sound_chance ) ) {
         sounds::ambient_sound( pos, volume, sounds::sound_t::activity, sound );
@@ -3116,38 +3131,38 @@ std::optional<int> iuse::toolweapon_deactivate( Character *p, item *it, bool, co
 
 std::optional<int> iuse::combatsaw_on( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_running( *p, *it, pos, false, 12, 18, _( "Your combat chainsaw growls." ) );
+    return toolweapon_running( p, *it, pos, false, 12, 18, _( "Your combat chainsaw growls." ) );
 }
 
 std::optional<int> iuse::e_combatsaw_on( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_running( *p, *it, pos, false, 12, 18,
+    return toolweapon_running( p, *it, pos, false, 12, 18,
                                _( "Your electric combat chainsaw growls." ) );
 }
 
 std::optional<int> iuse::chainsaw_on( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_running( *p, *it, pos, false, 15, 12, _( "Your chainsaw rumbles." ) );
+    return toolweapon_running( p, *it, pos, false, 15, 12, _( "Your chainsaw rumbles." ) );
 }
 
 std::optional<int> iuse::elec_chainsaw_on( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_running( *p, *it, pos, false, 5, 12, _( "Your electric chainsaw rumbles." ) );
+    return toolweapon_running( p, *it, pos, false, 5, 12, _( "Your electric chainsaw rumbles." ) );
 }
 
 std::optional<int> iuse::carver_on( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_running( *p, *it, pos, true, 10, 8, _( "Your electric carver buzzes." ) );
+    return toolweapon_running( p, *it, pos, true, 10, 8, _( "Your electric carver buzzes." ) );
 }
 
 std::optional<int> iuse::trimmer_on( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_running( *p, *it, pos, true, 15, 10, _( "Your hedge trimmer rumbles." ) );
+    return toolweapon_running( p, *it, pos, true, 15, 10, _( "Your hedge trimmer rumbles." ) );
 }
 
 std::optional<int> iuse::circsaw_on( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_running( *p, *it, pos,  true, 15, 7, _( "Your circular saw buzzes." ) );
+    return toolweapon_running( p, *it, pos,  true, 15, 7, _( "Your circular saw buzzes." ) );
 }
 
 std::optional<int> iuse::change_eyes( Character *p, item *, bool, const tripoint & )
