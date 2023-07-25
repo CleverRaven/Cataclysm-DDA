@@ -16,7 +16,7 @@
     "pocket_data": [
       { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 },
       {
-		"volume_encumber_modifier": 0.5,
+        "volume_encumber_modifier": 0.5,
         "max_contains_volume": "2 L",
         "max_contains_weight": "6 kg",
         "max_item_length": "90 cm",
@@ -26,7 +26,7 @@
       },
       {
         "holster": true,
-		"volume_encumber_modifier": 0.5,
+        "volume_encumber_modifier": 0.5,
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "1750 g",
         "max_item_length": "70 cm",
@@ -36,7 +36,7 @@
       },
       {
         "holster": true,
-		"volume_encumber_modifier": 0.5,
+        "volume_encumber_modifier": 0.5,
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "1750 g",
         "max_item_length": "70 cm",
@@ -211,7 +211,7 @@
         "covers": [ "torso" ],
         "coverage": 50,
         "specifically_covers": [ "torso_waist" ],
-		"volume_encumber_modifier": 0.5,
+        "volume_encumber_modifier": 0.5,
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 2 },
           { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
@@ -266,7 +266,7 @@
       { "max_contains_volume": "500 ml", "max_contains_weight": "1500 g", "moves": 100 },
       {
         "holster": true,
-		"volume_encumber_modifier": 0.5,
+        "volume_encumber_modifier": 0.5,
         "max_contains_volume": "2250 ml",
         "max_contains_weight": "3600 g",
         "max_item_length": "70 cm",
@@ -275,7 +275,7 @@
       },
       {
         "holster": true,
-		"volume_encumber_modifier": 0.5,
+        "volume_encumber_modifier": 0.5,
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "1750 g",
         "max_item_length": "70 cm",
@@ -284,7 +284,7 @@
       },
       {
         "holster": true,
-		"volume_encumber_modifier": 0.5,
+        "volume_encumber_modifier": 0.5,
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "1750 g",
         "max_item_length": "70 cm",
@@ -352,11 +352,23 @@
     "color": "brown",
     "material_thickness": 2,
     "pocket_data": [
-      { "max_contains_volume": "1500 ml", "max_contains_weight": "5000 g", "max_item_length": "20 cm", "moves": 100, "description": "Pouch to store multiple items." },
-      { "max_contains_volume": "1500 ml", "max_contains_weight": "5000 g", "max_item_length": "20 cm", "moves": 100, "description": "Pouch to store multiple items." },
+      {
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5000 g",
+        "max_item_length": "20 cm",
+        "moves": 100,
+        "description": "Pouch to store multiple items."
+      },
+      {
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5000 g",
+        "max_item_length": "20 cm",
+        "moves": 100,
+        "description": "Pouch to store multiple items."
+      },
       {
         "holster": true,
-		"volume_encumber_modifier": 0.5,
+        "volume_encumber_modifier": 0.5,
         "min_item_volume": "50 ml",
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "2500 g",
@@ -367,7 +379,7 @@
       },
       {
         "holster": true,
-		"volume_encumber_modifier": 0.5,
+        "volume_encumber_modifier": 0.5,
         "min_item_volume": "50 ml",
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "2500 g",
@@ -378,7 +390,7 @@
       },
       {
         "holster": true,
-		"volume_encumber_modifier": 0.25,
+        "volume_encumber_modifier": 0.25,
         "min_item_volume": "50 ml",
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "2500 g",
@@ -389,7 +401,7 @@
       },
       {
         "holster": true,
-		"volume_encumber_modifier": 0.25,
+        "volume_encumber_modifier": 0.25,
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "2500 g",
@@ -400,7 +412,7 @@
       },
       {
         "holster": true,
-		"volume_encumber_modifier": 0.25,
+        "volume_encumber_modifier": 0.25,
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "2500 g",
@@ -433,7 +445,7 @@
     "pocket_data": [
       {
         "holster": true,
-		"volume_encumber_modifier": 0.5,
+        "volume_encumber_modifier": 0.5,
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "2500 g",
         "max_item_length": "70 cm",
@@ -443,7 +455,7 @@
       },
       {
         "holster": true,
-		"volume_encumber_modifier": 0.5,
+        "volume_encumber_modifier": 0.5,
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "2500 g",
         "max_item_length": "70 cm",
@@ -453,7 +465,7 @@
       },
       {
         "holster": true,
-		"volume_encumber_modifier": 0.5,
+        "volume_encumber_modifier": 0.5,
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "2500 g",
         "max_item_length": "70 cm",
@@ -463,7 +475,7 @@
       },
       {
         "holster": true,
-		"volume_encumber_modifier": 0.5,
+        "volume_encumber_modifier": 0.5,
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "2500 g",
         "max_item_length": "70 cm",
