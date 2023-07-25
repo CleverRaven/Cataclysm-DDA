@@ -161,11 +161,7 @@
     "autolearn": true,
     "reversible": { "time": "35 m" },
     "book_learn": [ [ "plastics_book", 3 ] ],
-    "using": [
-      [ "tailoring_lycra_patchwork", 20 ],
-      [ "clasps", 1 ],
-      [ "waterproofing_plastic_sheets", 20 ]
-    ],
+    "using": [ [ "tailoring_lycra_patchwork", 20 ], [ "clasps", 1 ], [ "waterproofing_plastic_sheets", 20 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
