@@ -360,8 +360,7 @@
         " ccc "
       ],
       "palettes": [ "vitrified_garden_palette" ],
-      "nested": { "f": { "chunks": [ "statue_vitrified_1x1" ] } },
-      "place_items": [ { "item": "stash_wood", "x": 1, "y": 2, "chance": 100, "repeat": [ 2, 10 ] } ]
+      "nested": { "f": { "chunks": [ "statue_vitrified_1x1" ] } }
     }
   },
   {
