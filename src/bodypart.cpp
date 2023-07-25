@@ -411,6 +411,12 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "bmi_encumbrance_threshold", bmi_encumbrance_threshold, 999 );
     optional( jo, was_loaded, "bmi_encumbrance_scalar", bmi_encumbrance_scalar, 0 );
 
+    optional( jo, was_loaded, "is_cybernetic", is_cybernetic, false );
+    optional( jo, was_loaded, "bleeds", bleeds, false );
+    optional( jo, was_loaded, "feels_pain", feels_pain, false );
+    optional( jo, was_loaded, "feels_temperature", feels_temperature, false );
+    optional( jo, was_loaded, "power_efficiency", power_efficiency, 0 );
+
     if( jo.has_member( "limb_scores" ) ) {
         limb_scores.clear();
         const JsonArray &jarr = jo.get_array( "limb_scores" );
@@ -1037,6 +1043,61 @@ float bodypart::get_bmi_encumbrance_scalar() const
 std::array<int, NUM_WATER_TOLERANCE> bodypart::get_mut_drench() const
 {
     return mut_drench;
+}
+
+bool bodypart::get_is_cybernetic() const
+{
+    return is_cybernetic;
+}
+
+bool bodypart::get_bleeds() const
+{
+    return bleeds;
+}
+
+bool bodypart::get_feels_pain() const
+{
+    return feels_pain;
+}
+
+bool bodypart::get_feels_temperature() const
+{
+    return feels_temperature;
+}
+
+bool bodypart::get_is_cybernetic() const
+{
+    return is_cybernetic;
+}
+
+int bodypart::get_power_efficiency() const
+{
+    return power_efficiency;
+}
+
+void bodypart::set_is_cybernetic( bool set )
+{
+    is_cybernetic = set;
+}
+
+void bodypart::set_bleeds( bool set )
+{
+    bleeds = set;
+}
+
+void bodypart::set_feels_pain( bool set )
+{
+    feels_pain = set;
+}
+
+void bodypart::set_feels_temperature( bool set )
+{
+    feels_temperature = set;
+}
+
+void bodypart::set_power_efficiency( int set )
+{
+    power_efficiency = set;
 }
 
 void bodypart::set_hp_cur( int set )
