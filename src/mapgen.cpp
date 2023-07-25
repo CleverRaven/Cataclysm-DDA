@@ -3458,7 +3458,7 @@ class jmapgen_nested : public jmapgen_piece
                                     JsonObject jo = entry.get_object();
                                     dir_neighbor.first = jo.get_string( "om_terrain" );
                                     dir_neighbor.second = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
-                                                           ot_match_type::contains );
+                                                          ot_match_type::contains );
                                 }
                                 dir_neighbors.insert( dir_neighbor );
                             }
