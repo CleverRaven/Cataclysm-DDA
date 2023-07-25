@@ -34,7 +34,7 @@
     "connections": [ { "point": [ 2, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ], "existing": true } ],
     "locations": [ "land" ],
     "city_distance": [ 8, 30 ],
-    "occurrences": [ 2, 4 ],
+    "occurrences": [ 1, 2 ],
     "flags": [ "CLASSIC", "MAN_MADE" ]
   },
   {
@@ -56,7 +56,7 @@
     "connections": [ { "point": [ 2, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ], "existing": true } ],
     "locations": [ "land" ],
     "city_distance": [ 8, 40 ],
-    "occurrences": [ 2, 4 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "URBAN", "MAN_MADE" ]
   },
   {
