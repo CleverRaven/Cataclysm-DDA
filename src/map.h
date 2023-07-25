@@ -583,6 +583,7 @@ class map
         * If there's no obstacle adjacent to the target - no coverage.
         */
         int obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const;
+        int ledge_coverage( const tripoint &loc1, const tripoint &loc2 ) const;
         /**
         * Returns coverage value of the tile.
         */
