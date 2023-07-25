@@ -381,7 +381,13 @@
     "difficulty": 7,
     "time": "12 h",
     "autolearn": true,
-    "using": [ [ "tailoring_kevlar_fabric", 14 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_neoprene_patchwork", 3 ], [ "fastener_small", 6 ] ],
+    "using": [
+      [ "tailoring_kevlar_fabric", 14 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 1 ],
+      [ "tailoring_neoprene_patchwork", 3 ],
+      [ "fastener_small", 6 ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_closures" },
