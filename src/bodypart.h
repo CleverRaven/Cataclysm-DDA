@@ -315,12 +315,10 @@ struct body_part_type {
 
         // flag limbs for being bionics. if true it doesn't contribute bodyweight and uses bionic power instead of stamina
         bool is_cybernetic = false;
-        // does it spurt out blood when cut/stabbed
+        // does it spurt out blood when cut/stabbed - used for specific hardcoded checks like acidblood
         bool bleeds = true;
         // do attacks to it cause pain too
         bool feels_pain = true;
-        // is it affected by ambient temperature
-        bool feels_temperature = true;
         // this is the number of millijoules used per stamina point, divided by the total # of limbs that are cybernetic
         int power_efficiency = 0;
 
@@ -509,7 +507,6 @@ class bodypart
         bool get_is_cybernetic() const;
         bool get_bleeds() const;
         bool get_feels_pain() const;
-        bool get_feels_temperature const;
         int get_power_efficiency const;
 
         std::array<int, NUM_WATER_TOLERANCE> get_mut_drench() const;
@@ -525,12 +522,6 @@ class bodypart
         void set_temp_cur( int set );
         void set_temp_conv( int set );
         void set_frostbite_timer( int set );
-
-        void set_is_cybernetic();
-        void set_bleeds();
-        void set_feels_pain();
-        void set_feels_temperature;
-        void set_power_efficiency;
 
         void set_encumbrance_data( const encumbrance_data &set );
 
