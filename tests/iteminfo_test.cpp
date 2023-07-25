@@ -1294,7 +1294,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
                "<color_c_white>Protection</color>:\n"
                "  Bash: <color_c_yellow>4.00</color>\n"
                "  Cut: <color_c_yellow>4.00</color>\n"
-               "  Ballistic: <color_c_yellow>4.00</color>\n"
+               "  Ballistic: <color_c_yellow>2.00</color>\n"
                "  Pierce: <color_c_yellow>3.20</color>\n"
                "  Acid: <color_c_yellow>9.00</color>\n"
                "  Fire: <color_c_yellow>1.00</color>\n"
