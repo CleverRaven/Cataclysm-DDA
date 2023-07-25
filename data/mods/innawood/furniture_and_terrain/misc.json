@@ -3,7 +3,7 @@
     "type": "furniture",
     "id": "f_beaver_dam",
     "name": "dam",
-    "description": "A house that beavers built. The enterance is underwater making it harder for predators to access.",
+    "description": "A house that beavers built. The entrance is underwater making it harder for predators to access.",
     "symbol": "#",
     "color": "brown",
     "looks_like": "t_wall_log",
