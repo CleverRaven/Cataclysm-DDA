@@ -123,4 +123,5 @@
       "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 298 ] ] },
       " ": { "chunks": [ [ "corpse_blood_1x1", 1 ], [ "blood_field", 2 ], [ "bile_field", 1 ], [ "null", 196 ] ] }
     }
+  }
 ]
