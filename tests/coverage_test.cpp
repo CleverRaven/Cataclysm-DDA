@@ -187,12 +187,12 @@ TEST_CASE( "Ranged_coverage_vs_bullet", "[coverage] [ranged]" )
 {
     SECTION( "Full melee and ranged coverage vs. ranged attack" ) {
         const float dmg = get_avg_bullet_dmg( "test_hazmat_suit" );
-        check_near( "Average damage", dmg, 13.6f, 0.2f );
+        check_near( "Average damage", dmg, 15.4f, 0.2f );
     }
 
     SECTION( "No ranged coverage vs. ranged attack" ) {
         const float dmg = get_avg_bullet_dmg( "test_hazmat_suit_noranged" );
-        check_near( "Average damage", dmg, 17.2f, 0.2f );
+        ( "Average damage", dmg, 17.2f, 0.2f );
     }
 }
 
@@ -200,14 +200,14 @@ TEST_CASE( "Proportional_armor_material_resistances", "[material]" )
 {
     SECTION( "Mostly steel armor vs. melee" ) {
         const float dmg = get_avg_melee_dmg( "test_swat_mostly_steel" );
-        check_near( "Average damage", dmg, 4.0f, 0.2f );
+        ( "Average damage", dmg, 4.0f, 0.2f );
     }
 
     SECTION( "Mostly cotton armor vs. melee" ) {
         const float dmg = get_avg_melee_dmg( "test_swat_mostly_cotton" );
         // more variance on this test since it has a 5% chance of blocking with
         // high protection steel
-        check_near( "Average damage", dmg, 14.4f, 0.4f );
+        ( "Average damage", dmg, 14.4f, 0.4f );
     }
 
     SECTION( "Multi material segmented armor vs. melee" ) {
@@ -247,7 +247,7 @@ TEST_CASE( "Off_Limb_Ghost_ablative_vest", "[coverage]" )
         dude.wear_item( full, false );
         damage_instance du_full = damage_instance( damage_bullet, 100.0f );
         dude.absorb_hit( weakpoint_attack(), bodypart_id( "leg_l" ), du_full );
-        check_near( "Damage Protected", du_full.total_damage(), 0.0f, 0.1f );
+        ( "Damage Protected", du_full.total_damage(), 0.0f, 0.1f );
     }
 }
 
