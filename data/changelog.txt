@@ -38,6 +38,8 @@ Expand grain farming and adjust seeds
 Creatures above cast shadows onto tiles below
 Apply different messages at different effect intensity levels
 Player character now can get sick with common cold or flu only after contacts with NPCs or ferals
+Generate vehicle prototypes from in-game vehicles
+In-game Armor sprite change
 
 
 ## Content:
@@ -68,6 +70,8 @@ New location: speedway
 You can now choose a new leader for your faction without dying
 Adds new skateboard vehicle
 Most scenarios now provide vision of the nearest city on start
+Alternative resolution to clean back bay quest
+Add a synagogue
 
 
 ## Interface:
@@ -83,6 +87,8 @@ Display why vehicle parts cannot be installed
 Open multiple containers in Advanced Inventory Manager
 Adds the 'Mark as dangerous' keybinding to the overmap
 NPC selects melee style
+Add sundial, wind and radiation badge to "spacebar" sidebar
+fix widget error if player has no body part
 
 
 ## Mods:
@@ -113,6 +119,9 @@ Bombastic Perks adds Playstyle Perks
 Disable the Bionic Professions mod by default
 Add the Mind Over Matter mod to the CDDA repository
 [Tamable Wildlife] More tamable creatures
+[MoM] Add additional portal storm remnant map extras
+[Sky Island] Mainline Sky Island mod
+[Magiclysm] Add a spell-using feral human to Magiclysm
 
 
 ## Balance:
@@ -193,6 +202,10 @@ Fix tow cables being unable to connect different vehicles
 Smashing now incorporates any MELEE_DAMAGE and STRENGTH enchantments
 'w'ield menu will now correctly trigger a steal warning when wielding an item that does not belong to player
 Allow crafting tools to use linked electricity
+Don't get randomly sick anymore
+Itemgroups can seal containers
+Spawned corpses should now spawn with and contain their clothes
+Can no longer get stuck for days thinking about working out if you're a WIMP with NEGATIVE WORKOUT TIME
 
 
 ## Performance:
@@ -215,6 +228,7 @@ Allow C++ standard includes in clang-tidy tests
 Refactor timer items to be a bit more time based
 Support for material replacement in items
 Carrier for items on ground is nullptr
+Tick_action as a separate thing from use_action
 
 
 ## Build:

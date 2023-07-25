@@ -243,6 +243,30 @@ str_or_var get_str_or_var( const JsonValue &jv, const std::string &member, bool 
     return ret_val;
 }
 
+translation_or_var get_translation_or_var( const JsonValue &jv, const std::string &member,
+        bool required, const translation &default_val )
+{
+    translation_or_var ret_val;
+    translation str_val;
+    if( jv.read( str_val ) ) {
+        ret_val.str_val = str_val;
+    } else if( jv.test_object() ) {
+        const JsonObject &jo = jv.get_object();
+        if( jo.has_member( "mutator" ) ) {
+            // if we have a mutator then process that here.
+            ret_val.function = conditional_t::get_get_translation( jo );
+        } else {
+            ret_val.var_val = read_var_info( jo );
+            ret_val.default_val = default_val;
+        }
+    } else if( required ) {
+        jv.throw_error( "No valid value for " + member );
+    } else {
+        ret_val.str_val = default_val;
+    }
+    return ret_val;
+}
+
 tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue const &d )
 {
     tripoint_abs_ms target_pos = get_map().getglobal( d.actor( false )->pos() );
@@ -1269,12 +1293,12 @@ void conditional_t::set_one_in_chance( const JsonObject &jo, const std::string &
 
 void conditional_t::set_query( const JsonObject &jo, const std::string &member, bool is_npc )
 {
-    str_or_var message = get_str_or_var( jo.get_member( member ), member, true );
+    translation_or_var message = get_translation_or_var( jo.get_member( member ), member, true );
     bool default_val = jo.get_bool( "default" );
     condition = [message, default_val, is_npc]( dialogue const & d ) {
         const talker *actor = d.actor( is_npc );
         if( actor->get_character() && actor->get_character()->is_avatar() ) {
-            std::string translated_message = _( message.evaluate( d ) );
+            std::string translated_message = message.evaluate( d );
             return query_yn( translated_message );
         } else {
             return default_val;
@@ -1480,17 +1504,19 @@ void conditional_t::set_math( const JsonObject &jo, const std::string_view membe
     };
 }
 
-std::function<std::string( const dialogue & )> conditional_t::get_get_string( const JsonObject &jo )
+template<class T>
+static std::function<T( const dialogue & )> get_get_str_( const JsonObject &jo,
+        std::function<T( const std::string & )> ret_func )
 {
     if( jo.get_string( "mutator" ) == "mon_faction" ) {
         str_or_var mtypeid = get_str_or_var( jo.get_member( "mtype_id" ), "mtype_id" );
-        return [mtypeid]( const dialogue & d ) {
-            return ( static_cast<mtype_id>( mtypeid.evaluate( d ) ) )->default_faction.str();
+        return [mtypeid, ret_func]( const dialogue & d ) {
+            return ret_func( ( static_cast<mtype_id>( mtypeid.evaluate( d ) ) )->default_faction.str() );
         };
     } else if( jo.get_string( "mutator" ) == "game_option" ) {
         str_or_var option = get_str_or_var( jo.get_member( "option" ), "option" );
-        return [option]( const dialogue & d ) {
-            return get_option<std::string>( option.evaluate( d ) );
+        return [option, ret_func]( const dialogue & d ) {
+            return ret_func( get_option<std::string>( option.evaluate( d ) ) );
         };
     } else if( jo.get_string( "mutator" ) == "valid_technique" ) {
         std::vector<str_or_var> blacklist;
@@ -1504,33 +1530,42 @@ std::function<std::string( const dialogue & )> conditional_t::get_get_string( co
         bool dodge_counter = jo.get_bool( "dodge_counter", false );
         bool block_counter = jo.get_bool( "block_counter", false );
 
-        return [blacklist, crit, dodge_counter, block_counter]( const dialogue & d ) {
+        return [blacklist, crit, dodge_counter, block_counter, ret_func]( const dialogue & d ) {
             std::vector<matec_id> bl;
             bl.reserve( blacklist.size() );
             for( const str_or_var &sv : blacklist ) {
                 bl.emplace_back( sv.evaluate( d ) );
             }
-            return d.actor( false )->get_random_technique( *d.actor( true )->get_creature(), crit,
-                    dodge_counter, block_counter, bl ).str();
+            return ret_func( d.actor( false )->get_random_technique( *d.actor( true )->get_creature(),
+                             crit, dodge_counter, block_counter, bl ).str() );
         };
-    } else if( jo.get_string( "mutator" ) == "ma_technique_description" ) {
+    } else if( jo.get_string( "mutator" ) == "loc_relative_u" ) {
+        str_or_var target = get_str_or_var( jo.get_member( "target" ), "target" );
+        return [target, ret_func]( const dialogue & d ) {
+            tripoint_abs_ms char_pos = get_map().getglobal( d.actor( false )->pos() );
+            tripoint_abs_ms target_pos = char_pos + tripoint::from_string( target.evaluate( d ) );
+            return ret_func( target_pos.to_string() );
+        };
+    }
+
+    return nullptr;
+}
+
+template<class T>
+static std::function<T( const dialogue & )> get_get_translation_( const JsonObject &jo,
+        std::function<T( const translation & )> ret_func )
+{
+    if( jo.get_string( "mutator" ) == "ma_technique_description" ) {
         str_or_var ma = get_str_or_var( jo.get_member( "matec_id" ), "matec_id" );
 
-        return [ma]( const dialogue & d ) {
-            return matec_id( ma.evaluate( d ) )->description.translated();
+        return [ma, ret_func]( const dialogue & d ) {
+            return ret_func( matec_id( ma.evaluate( d ) )->description );
         };
     } else if( jo.get_string( "mutator" ) == "ma_technique_name" ) {
         str_or_var ma = get_str_or_var( jo.get_member( "matec_id" ), "matec_id" );
 
-        return [ma]( const dialogue & d ) {
-            return matec_id( ma.evaluate( d ) )->name.translated();
-        };
-    } else if( jo.get_string( "mutator" ) == "loc_relative_u" ) {
-        str_or_var target = get_str_or_var( jo.get_member( "target" ), "target" );
-        return [target]( const dialogue & d ) {
-            tripoint_abs_ms char_pos = get_map().getglobal( d.actor( false )->pos() );
-            tripoint_abs_ms target_pos = char_pos + tripoint::from_string( target.evaluate( d ) );
-            return target_pos.to_string();
+        return [ma, ret_func]( const dialogue & d ) {
+            return ret_func( matec_id( ma.evaluate( d ) )->name );
         };
     } else if( jo.get_string( "mutator" ) == "topic_item" ) {
         return []( const dialogue & d ) {
@@ -1538,10 +1573,50 @@ std::function<std::string( const dialogue & )> conditional_t::get_get_string( co
         };
     }
 
-    jo.throw_error( "unrecognized string mutator in " + jo.str() );
-    return []( const dialogue & ) {
-        return "INVALID";
-    };
+    return nullptr;
+}
+
+std::function<translation( const dialogue & )> conditional_t::get_get_translation(
+    const JsonObject &jo )
+{
+    auto ret_func = get_get_str_<translation>( jo, []( const std::string & s ) {
+        return no_translation( s );
+    } );
+
+    if( !ret_func ) {
+        ret_func = get_get_translation_<translation>( jo, []( const translation & t ) {
+            return t;
+        } );
+        if( !ret_func ) {
+            jo.throw_error( "unrecognized string mutator in " + jo.str() );
+            return []( const dialogue & ) {
+                return translation();
+            };
+        }
+    }
+
+    return ret_func;
+}
+
+std::function<std::string( const dialogue & )> conditional_t::get_get_string( const JsonObject &jo )
+{
+    auto ret_func = get_get_str_<std::string>( jo, []( const std::string & s ) {
+        return s;
+    } );
+
+    if( !ret_func ) {
+        ret_func = get_get_translation_<std::string>( jo, []( const translation & t ) {
+            return t.translated();
+        } );
+        if( !ret_func ) {
+            jo.throw_error( "unrecognized string mutator in " + jo.str() );
+            return []( const dialogue & ) {
+                return "INVALID";
+            };
+        }
+    }
+
+    return ret_func;
 }
 
 template<class J>

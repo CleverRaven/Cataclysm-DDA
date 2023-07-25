@@ -81,7 +81,7 @@
     "move_cost_mod": 2,
     "coverage": 50,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 4 },
@@ -151,7 +151,7 @@
     "coverage": 75,
     "required_str": 12,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "arcade_machine" },
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "deconstruct": { "items": [ { "item": "arcade_machine", "count": 1 } ] },
     "bash": {
       "str_min": 6,
@@ -180,7 +180,7 @@
     "move_cost_mod": -1,
     "coverage": 35,
     "required_str": 8,
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
         { "item": "spring", "count": [ 4, 6 ] },
@@ -426,7 +426,7 @@
     "coverage": 70,
     "required_str": 8,
     "//": "While heavy, most large pianos have casters for relatively easy movement.",
-    "flags": [ "FLAMMABLE", "ORGANIC", "BLOCKSDOOR" ],
+    "flags": [ "FLAMMABLE", "ORGANIC", "BLOCKSDOOR", "SMALL_HIDE" ],
     "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_PLAY_PIANO" ] },
     "deconstruct": {
       "items": [
@@ -527,7 +527,7 @@
     "move_cost_mod": 2,
     "coverage": 50,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 4 },
@@ -561,7 +561,7 @@
     "move_cost_mod": -1,
     "coverage": 100,
     "required_str": -1,
-    "flags": [ "FLAMMABLE", "ORGANIC", "NOITEM" ],
+    "flags": [ "FLAMMABLE", "ORGANIC", "NOITEM", "SMALL_HIDE" ],
     "looks_like": "f_piano",
     "deconstruct": {
       "items": [
