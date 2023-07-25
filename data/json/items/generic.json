@@ -3590,21 +3590,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "welding_components",
-    "category": "spare_parts",
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "red",
-    "name": { "str": "welding component kit" },
-    "description": "A set of components useful for constructing a full-featured welding station, complete with soldering capability.",
-    "price": 9000,
-    "price_postapoc": 2500,
-    "weight": "4500 g",
-    "volume": "3 L",
-    "melee_damage": { "bash": 8 }
-  },
-  {
-    "type": "GENERIC",
     "id": "amplifier_head",
     "symbol": ";",
     "color": "blue",
