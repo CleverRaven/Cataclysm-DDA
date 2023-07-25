@@ -6162,7 +6162,8 @@ units::mass Character::bodyweight_fat() const
 units::mass Character::bodyweight_lean() const
 {
     //12 plus base strength gives non fat bmi, adjusted by starvation in get_bmi_lean()
-    return tally_organic_size() * units::from_kilogram( get_bmi_lean() * std::pow( height() / 100.0f, 2 ) );
+    return tally_organic_size() * units::from_kilogram( get_bmi_lean() * std::pow( height() / 100.0f,
+            2 ) );
 }
 
 float Character::fat_ratio() const
