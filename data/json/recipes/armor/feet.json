@@ -398,14 +398,14 @@
     "type": "recipe",
     "copy-from": "boots_h20survivor",
     "time": "10 h",
-    "using": [ [ "tailoring_kevlar_fabric", 12 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_neoprene_patchwork", 2 ], [ "fastener_small", 6 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 12 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_neoprene_patchwork", 2 ], [ "fastener_small", 6 ] ]
   },
   {
     "result": "xl_boots_h20survivor",
     "type": "recipe",
     "copy-from": "boots_h20survivor",
     "time": "16 h",
-    "using": [ [ "tailoring_kevlar_fabric", 17 ], [ "shoe_rubber", 2 ], [ "adhesive_rubber", 2 ], [ "tailoring_neoprene_patchwork", 4 ], [ "fastener_small", 6 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 17 ], [ "shoe_rubber", 2 ], [ "adhesive_rubber", 2 ], [ "tailoring_neoprene_patchwork", 4 ], [ "fastener_small", 6 ] ]
   },
   {
     "result": "boots_h20survivor_light",
@@ -435,14 +435,14 @@
     "type": "recipe",
     "copy-from": "boots_h20survivor_light",
     "time": "11 h",
-    "using": [ [ "tailoring_kevlar_fabric", 12 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_neoprene_patchwork", 1 ], [ "fastener_small", 6 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 12 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_neoprene_patchwork", 1 ], [ "fastener_small", 6 ] ]
   },
   {
     "result": "xl_boots_h20survivor_light",
     "type": "recipe",
     "copy-from": "boots_h20survivor_light",
     "time": "18 h",
-    "using": [ [ "tailoring_kevlar_fabric", 17 ], [ "shoe_rubber", 2 ], [ "adhesive_rubber", 2 ], [ "tailoring_neoprene_patchwork", 2 ], [ "fastener_small", 6 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 17 ], [ "shoe_rubber", 2 ], [ "adhesive_rubber", 2 ], [ "tailoring_neoprene_patchwork", 2 ], [ "fastener_small", 6 ] ]
   },
   {
     "result": "boots_h20survivor_thick",
@@ -472,14 +472,14 @@
     "type": "recipe",
     "copy-from": "boots_h20survivor_thick",
     "time": "11 h",
-    "using": [ [ "tailoring_kevlar_fabric", 24 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_neoprene_patchwork", 1 ], [ "fastener_small", 6 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 24 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_neoprene_patchwork", 1 ], [ "fastener_small", 6 ] ]
   },
   {
     "result": "xl_boots_h20survivor_thick",
     "type": "recipe",
     "copy-from": "boots_h20survivor_thick",
     "time": "18 h",
-    "using": [ [ "tailoring_kevlar_fabric", 36 ], [ "shoe_rubber", 2 ], [ "adhesive_rubber", 2 ], [ "tailoring_neoprene_patchwork", 2 ], [ "fastener_small", 6 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 36 ], [ "shoe_rubber", 2 ], [ "adhesive_rubber", 2 ], [ "tailoring_neoprene_patchwork", 2 ], [ "fastener_small", 6 ] ]
   },
   {
     "result": "boots_hsurvivor",
