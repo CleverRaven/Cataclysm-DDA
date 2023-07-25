@@ -224,8 +224,8 @@
       { "point": [ -1, 0, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] }
     ],
     "city_distance": [ 5, -1 ],
-    "occurrences": [ 5, 100 ],
-    "flags": [ "CLASSIC", "LAKE", "MAN_MADE", "WILDERNESS", "GLOBALLY_UNIQUE" ]
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "LAKE", "MAN_MADE", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
