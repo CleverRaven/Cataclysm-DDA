@@ -2519,6 +2519,28 @@
   },
   {
     "type": "terrain",
+    "id": "t_burnt_stump",
+    "name": "burnt tree stump",
+    "description": "A charred tree stump, a remnant of a tree that has been burnt. Parts of it have been converted to charcoal.",
+    "symbol": "^",
+    "color": "light_gray",
+    "looks_like": "t_trunk",
+    "move_cost": 3,
+    "coverage": 35,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "crunch!",
+      "sound_fail": "crackle!",
+      "ter_set": "t_stump",
+      "items": [
+        { "item": "charcoal","container-item": "null", "charges": [ 2, 20 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_woodchips",
     "name": "woodchips",
     "looks_like": "t_dirt",
