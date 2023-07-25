@@ -2324,7 +2324,7 @@
     "name": "quivers",
     "description": "Recipes related to constructing different kinds of quivers to hold arrows.",
     "skill_used": "tailor",
-    "nested_category_data": [ "quiver_takedown_bow", "quiver", "quiver_birchbark", "quiver_large", "quiver_large_birchbark" ],
+    "nested_category_data": [ "quiver_takedown_bow", "quiver", "quiver_birchbark", "quiver_large", "quiver_large_birchbark", "nylon_quiver" ],
     "difficulty": 3
   },
   {
