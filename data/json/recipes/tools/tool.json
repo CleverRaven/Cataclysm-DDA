@@ -1229,7 +1229,7 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "forge", 8 ], [ "oxy_torch", 8 ] ], [ [ "metalworking_tongs", -1 ] ] ],
+    "tools": [ [ [ "forge", 8 ], [ "oxy_torch", 8 ] ], [ [ "metalworking_tongs", -1 ], [ "bronze_tongs", -1 ] ] ],
     "//": "Specifically avoids blacksmithing requirement groups so that it's craftable without itself - substitutes metal fileset for metalworking chisel.",
     "components": [ [ [ "scrap", 2 ] ] ]
   },
