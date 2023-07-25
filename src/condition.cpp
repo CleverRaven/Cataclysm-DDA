@@ -1546,6 +1546,10 @@ static std::function<T( const dialogue & )> get_get_str_( const JsonObject &jo,
             tripoint_abs_ms target_pos = char_pos + tripoint::from_string( target.evaluate( d ) );
             return ret_func( target_pos.to_string() );
         };
+    } else if( jo.get_string( "mutator" ) == "topic_item" ) {
+        return [ret_func]( const dialogue & d ) {
+            return ret_func( d.cur_item.str() );
+        };
     }
 
     return nullptr;
@@ -1566,10 +1570,6 @@ static std::function<T( const dialogue & )> get_get_translation_( const JsonObje
 
         return [ma, ret_func]( const dialogue & d ) {
             return ret_func( matec_id( ma.evaluate( d ) )->name );
-        };
-    } else if( jo.get_string( "mutator" ) == "topic_item" ) {
-        return []( const dialogue & d ) {
-            return d.cur_item.str();
         };
     }
 
