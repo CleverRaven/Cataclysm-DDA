@@ -45,30 +45,17 @@
         "c": "t_thconc_floor",
         "p": "t_pavement"
       },
-      "furniture": {
-        "S": "f_sink",
-        "F": "f_fridge",
-        "7": "f_counter",
-        "8": "f_cupboard",
-        "9": "f_shower",
-        "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
-        "X": "f_crate_c"
-      },
-      "items": {
-        "X": [
-          { "item": "hardware_bulk", "chance": 20 },
-          { "item": "hardware_plumbing", "chance": 20 },
-          { "item": "construction_worker", "chance": 10 }
-        ],
-        "T": [
-          { "item": "pizza_trash", "chance": 50 },
-          { "item": "floor_trash", "chance": 70 },
-          { "item": "hardware_trash", "chance": 70 }
-        ]
-      },
-      "nested": {
-        "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 298 ] ] },
-        " ": { "chunks": [ [ "corpse_blood_1x1", 1 ], [ "blood_field", 2 ], [ "bile_field", 1 ], [ "null", 196 ] ] }
+      "house_fence_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_splitrail_fence", 3 ],
+            [ "t_chainfence", 2 ],
+            [ "t_fence", 2 ],
+            [ "t_privacy_fence", 1 ],
+            [ "t_drystone_wall_half", 1 ]
+          ]
+        }
       }
     },
     "toilets": { "t": {  } },
