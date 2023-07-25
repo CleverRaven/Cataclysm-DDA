@@ -1620,6 +1620,7 @@
     "price": 90,
     "price_postapoc": 40,
     "volume": "236 ml",
+    "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 6

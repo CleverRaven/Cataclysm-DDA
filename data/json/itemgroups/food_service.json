@@ -139,13 +139,13 @@
       { "item": "con_milk", "prob": 10 },
       { "prob": 20, "group": "bee_balm_jar_3l_glass_sealed_1_12" },
       { "item": "jar_3l_glass_sealed", "prob": 40, "contents-group": "teashop_bulk_teas_no_stackable" },
-      { "prob": 10, "group": "raw_burdock_jar_3l_glass_sealed_1_48" },
+      { "prob": 10, "group": "raw_burdock_jar_3l_glass_sealed_1_inf" },
       { "prob": 60, "group": "tea_raw_jar_glass_sealed_10_40" },
       { "prob": 30, "group": "tea_green_raw_jar_glass_sealed_10_40" },
-      { "prob": 50, "group": "wild_herbs_jar_glass_sealed_20_200" },
-      { "prob": 10, "group": "raw_dandelion_jar_glass_sealed_1_8" },
+      { "prob": 50, "group": "wild_herbs_jar_glass_sealed_20_inf" },
+      { "prob": 10, "group": "raw_dandelion_jar_glass_sealed_1_inf" },
       { "prob": 30, "group": "milk_powder_jar_glass_sealed_1_8" },
-      { "prob": 20, "group": "cinnamon_jar_glass_sealed_1_200" },
+      { "prob": 20, "group": "cinnamon_jar_glass_sealed_1_inf" },
       { "prob": 40, "group": "sugar_jar_glass_sealed_10_142" }
     ]
   },
@@ -813,7 +813,7 @@
       { "group": "barbecue_sauce_sealed_rng", "prob": 40 },
       { "group": "honey_mustard_sealed_rng", "prob": 30 },
       { "item": "horseradish", "prob": 10 },
-      { "prob": 20, "group": "sprinkles_bottle_plastic_small_66" },
+      { "prob": 20, "group": "sprinkles_bottle_plastic_small_62" },
       { "item": "honey_bottled", "prob": 35 },
       { "prob": 35, "group": "honey_glassed_jar_glass_sealed_5" },
       { "item": "peanutbutter", "prob": 60 },
@@ -1568,11 +1568,11 @@
   },
   {
     "type": "item_group",
-    "id": "raw_burdock_jar_3l_glass_sealed_1_48",
+    "id": "raw_burdock_jar_3l_glass_sealed_1_inf",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "jar_3l_glass_sealed",
-    "entries": [ { "item": "raw_burdock", "count-min": 1, "count-max": 48 } ]
+    "entries": [ { "item": "raw_burdock", "count-min": 1 } ]
   },
   {
     "type": "item_group",
@@ -1592,19 +1592,19 @@
   },
   {
     "type": "item_group",
-    "id": "wild_herbs_jar_glass_sealed_20_200",
+    "id": "wild_herbs_jar_glass_sealed_20_inf",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "wild_herbs", "count-min": 20, "count-max": 200 } ]
+    "entries": [ { "item": "wild_herbs", "count-min": 20 } ]
   },
   {
     "type": "item_group",
-    "id": "raw_dandelion_jar_glass_sealed_1_8",
+    "id": "raw_dandelion_jar_glass_sealed_1_inf",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "raw_dandelion", "count-min": 1, "count-max": 8 } ]
+    "entries": [ { "item": "raw_dandelion", "count-min": 1 } ]
   },
   {
     "type": "item_group",
@@ -1616,11 +1616,11 @@
   },
   {
     "type": "item_group",
-    "id": "cinnamon_jar_glass_sealed_1_200",
+    "id": "cinnamon_jar_glass_sealed_1_inf",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "cinnamon", "container-item": "null", "count-min": 1, "count-max": 200 } ]
+    "entries": [ { "item": "cinnamon", "container-item": "null", "count-min": 1 } ]
   },
   {
     "type": "item_group",
@@ -1960,11 +1960,11 @@
   },
   {
     "type": "item_group",
-    "id": "sprinkles_bottle_plastic_small_66",
+    "id": "sprinkles_bottle_plastic_small_62",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "sprinkles", "container-item": "null", "count": 66 } ]
+    "entries": [ { "item": "sprinkles", "container-item": "null", "count": 62 } ]
   },
   {
     "type": "item_group",

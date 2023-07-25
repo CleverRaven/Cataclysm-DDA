@@ -1099,7 +1099,7 @@
     "name": { "str_sp": "hemostatic powder" },
     "description": "A powdered antihemorrhagic compound that reacts with blood to immediately form a gel-like substance that stops bleeding.",
     "weight": "5 g",
-    "volume": "4 ml",
+    "volume": "5 ml",
     "price": 550,
     "price_postapoc": 3000,
     "material": [ "powder" ],

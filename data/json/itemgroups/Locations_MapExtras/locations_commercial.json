@@ -2193,7 +2193,7 @@
   {
     "id": "farm_supply_animal_feed",
     "type": "item_group",
-    "items": [ { "prob": 50, "group": "cattlefodder_bag_canvas_60" }, { "prob": 50, "group": "birdfood_bag_canvas_60" } ]
+    "items": [ { "prob": 50, "group": "cattlefodder_bag_canvas_50" }, { "prob": 50, "group": "birdfood_bag_canvas_60" } ]
   },
   {
     "id": "farm_supply_riding_gear",
@@ -2266,11 +2266,11 @@
   },
   {
     "type": "item_group",
-    "id": "cattlefodder_bag_canvas_60",
+    "id": "cattlefodder_bag_canvas_50",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_canvas",
-    "entries": [ { "item": "cattlefodder", "count": 60 } ]
+    "entries": [ { "item": "cattlefodder", "count": 50 } ]
   },
   {
     "type": "item_group",

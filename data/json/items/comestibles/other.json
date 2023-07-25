@@ -128,7 +128,7 @@
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "vitamins": [ [ "mutant_toxin", 6 ] ],
     "//": "It takes about 30 portions of honeydew to feed an adult (~2000 kkal). 2000 kkal is about 10 raw chunks of mutant meat, which is 250% toxins. Honeydew probably isn't as toxic as meat, so 30 portions of it would give you 180% of toxins.",
-    "volume": "15 ml"
+    "volume": "16 ml"
   },
   {
     "type": "COMESTIBLE",

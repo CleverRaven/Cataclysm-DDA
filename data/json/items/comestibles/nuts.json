@@ -495,7 +495,7 @@
     "//": "Two tablespoons per charge.",
     "phase": "solid",
     "volume": "31 ml",
-    "weight": "50 g",
+    "weight": "32 g",
     "primary_material": "junk",
     "material": [ "nut", "junk" ],
     "quench": -2,

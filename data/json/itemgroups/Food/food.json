@@ -116,7 +116,7 @@
       { "prob": 50, "group": "yeast_bag_plastic_25" },
       { "prob": 40, "group": "sugar_box_small_71" },
       { "prob": 10, "group": "artificial_sweetener_box_small_71" },
-      { "prob": 5, "group": "sprinkles_bottle_plastic_small_66" },
+      { "prob": 5, "group": "sprinkles_bottle_plastic_small_62" },
       { "prob": 40, "group": "salt_bag_plastic_100" },
       { "prob": 30, "group": "pepper_bag_plastic_100" },
       { "prob": 15, "group": "cinnamon_bag_plastic_100" },
@@ -1062,6 +1062,7 @@
     "type": "item_group",
     "id": "brown_bread_can_medium_14",
     "subtype": "collection",
+    "on_overflow": "discard",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "can_medium",
     "entries": [ { "item": "brown_bread", "container-item": "null", "count": 14 } ]

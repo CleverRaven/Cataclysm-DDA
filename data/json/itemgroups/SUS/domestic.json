@@ -666,7 +666,7 @@
       { "prob": 5, "group": "artificial_sweetener_box_small_71" },
       { "prob": 25, "group": "curry_powder_bag_plastic_100" },
       { "prob": 25, "group": "garlic_powder_bag_plastic_100" },
-      { "prob": 10, "group": "sprinkles_bottle_plastic_small_66" },
+      { "prob": 10, "group": "sprinkles_bottle_plastic_small_62" },
       { "item": "thyme", "prob": 65 },
       { "prob": 50, "group": "seasoning_italian_bag_plastic_100" },
       { "prob": 50, "group": "seasoning_salt_bag_plastic_100" }
