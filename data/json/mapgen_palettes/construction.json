@@ -18,32 +18,9 @@
           ]
         }
       },
-      "toilets": { "t": {  } },
-      "terrain": {
-        ".": [ [ "t_region_groundcover_urban", 20 ], "t_region_shrub_decorative" ],
-        "+": [ [ "t_door_b", 2 ], [ "t_door_frame", 2 ], [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
-        "*": [
-          [ "t_door_b", 5 ],
-          [ "t_door_locked_peep", 2 ],
-          "t_door_locked_alarm",
-          [ "t_door_locked", 10 ],
-          [ "t_door_elocked_peep", 4 ],
-          "t_door_elocked_alarm",
-          [ "t_door_elocked", 15 ],
-          "t_door_c",
-          [ "t_door_o", 2 ]
-        ],
-        "^": "t_gutter_downspout",
-        "|": { "param": "interior_wall_type", "fallback": "t_wall_w" },
-        "#": { "param": "exterior_wall_type", "fallback": "t_brick_wall" },
-        ":": "t_wall_glass",
-        "-": "t_sidewalk",
-        "o": [ "t_window", "t_window_frame" ],
-        "<": "t_stairs_up",
-        ">": "t_stairs_down",
-        "`": "t_sidewalk",
-        "c": "t_thconc_floor",
-        "p": "t_pavement"
+      "exterior_wall_type": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_brick_wall", 6 ], [ "t_rock_wall", 3 ], [ "t_wall_wood", 3 ], [ "t_concrete_wall", 4 ] ] }
       },
       "house_fence_type": {
         "type": "ter_str_id",
