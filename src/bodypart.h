@@ -507,7 +507,7 @@ class bodypart
         bool get_is_cybernetic() const;
         bool get_bleeds() const;
         bool get_feels_pain() const;
-        int get_power_efficiency const;
+        int get_power_efficiency() const;
 
         std::array<int, NUM_WATER_TOLERANCE> get_mut_drench() const;
 
