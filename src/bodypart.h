@@ -313,6 +313,17 @@ struct body_part_type {
         int wet_morale = 0;
         int technique_enc_limit = 50;
 
+        // flag limbs for being bionics. if true it doesn't contribute bodyweight and uses bionic power instead of stamina
+        bool is_cybernetic = false;
+        // does it spurt out blood when cut/stabbed
+        bool bleeds = true;
+        // do attacks to it cause pain too
+        bool feels_pain = true;
+        // is it affected by ambient temperature
+        bool feels_temperature = true;
+        // this is the number of millijoules used per stamina point, divided by the total # of limbs that are cybernetic
+        int power_efficiency = 0;
+
     private:
         int bionic_slots_ = 0;
         body_part_type::type _primary_limb_type = body_part_type::type::num_types;
@@ -495,6 +506,11 @@ class bodypart
         int get_temp_conv() const;
         int get_bmi_encumbrance_threshold() const;
         float get_bmi_encumbrance_scalar() const;
+        bool get_is_cybernetic() const;
+        bool get_bleeds() const;
+        bool get_feels_pain() const;
+        bool get_feels_temperature const;
+        int get_power_efficiency const;
 
         std::array<int, NUM_WATER_TOLERANCE> get_mut_drench() const;
 
@@ -509,6 +525,12 @@ class bodypart
         void set_temp_cur( int set );
         void set_temp_conv( int set );
         void set_frostbite_timer( int set );
+
+        void set_is_cybernetic();
+        void set_bleeds();
+        void set_feels_pain();
+        void set_feels_temperature;
+        void set_power_efficiency;
 
         void set_encumbrance_data( const encumbrance_data &set );
 
