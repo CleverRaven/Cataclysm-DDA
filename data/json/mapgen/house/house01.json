@@ -114,7 +114,7 @@
       ],
       "terrain": {
         "#": "t_dirtmound",
-        ".": "t_dirt",
+        ".": "t_region_soil",
         "0": "t_pit_shallow",
         "D": "t_door_frame",
         "W": "t_window_frame",
@@ -173,7 +173,7 @@
     "om_terrain": "house_01",
     "//": "in-construction house - variant",
     "type": "mapgen",
-    "weight": 40000,
+    "weight": 40,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -209,7 +209,6 @@
         "standard_domestic_landscaping_palette"
       ],
       "terrain": {
-        "v": "t_dirtmound",
         ".": "t_region_soil",
         "0": "t_pit_shallow",
         "%": "t_region_groundcover",
