@@ -126,7 +126,7 @@
     "longest_side": "1278 mm",
     "price": 42000,
     "price_postapoc": 2500,
-    "relative": { "range": 2 },
+    "range": 12,
     "proportional": { "dispersion": 0.5, "reload": 1.1 }
   }
 ]
