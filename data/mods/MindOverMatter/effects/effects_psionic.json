@@ -661,7 +661,7 @@
     "type": "effect_type",
     "id": "effect_telekinetic_momentum",
     "name": [ "Altered Momentum" ],
-    "desc": [ "Your powers are affecting movement around you." ],
+    "desc": [ "Your powers are affecting movement around you; dangerous objects are slowed and your own speed is increased." ],
     "apply_message": "",
     "remove_message": "Nearby movement returns to normal.",
     "decay_messages": [

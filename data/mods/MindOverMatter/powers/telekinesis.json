@@ -71,7 +71,7 @@
     "id": "telekinetic_momentum",
     "type": "SPELL",
     "name": "[Ψ]Momentum Alteration",
-    "description": "Edit the momentum of yourself and nearby objects to your benefit.",
+    "description": "Edit the momentum of yourself and nearby objects to your benefit, slowing damaging force and slightly increasing your speed.",
     "message": "The air around you feels more yielding.",
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",

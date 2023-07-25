@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "Illness-Purging Meditation",
+    "name": "Purge Disease",
     "id": "vitakin_disease_purge",
     "description": "Enter a deep meditative trance and purge your body of illness, even serious ones like cancer or multiple sclerosis.  It will not cure mutation.  Some illnesses are more difficult to successfully eradicate than others.",
     "category": "CC_PSIONIC",
