@@ -1789,15 +1789,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
                 bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
                 return d.actor( is_npc )->get_cur_hp( bid );
             };
-        } else if( checked_value == "hp_max" ) {
-            std::optional<bodypart_id> bp;
-            if constexpr( std::is_same_v<JsonObject, J> ) {
-                optional( jo, false, "bodypart", bp );
-            }
-            return [is_npc, bp]( dialogue const & d ) {
-                bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
-                return d.actor( is_npc )->get_hp_max( bid );
-            };
         } else if( checked_value == "warmth" ) {
             std::optional<bodypart_id> bp;
             if constexpr( std::is_same_v<JsonObject, J> ) {
