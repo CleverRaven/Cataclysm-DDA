@@ -50,7 +50,7 @@ static const recipe_id recipe_oatmeal_cooked( "oatmeal_cooked" );
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 
 static const vpart_id vpart_ap_fridge_test( "ap_fridge_test" );
-static const vpart_id vpart_halfboard_horizontal( "halfboard_horizontal" );
+static const vpart_id vpart_halfboard( "halfboard" );
 static const vpart_id vpart_tank_test( "tank_test" );
 
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
@@ -62,22 +62,19 @@ TEST_CASE( "verify_copy_from_gets_damage_reduction", "[vehicle]" )
 {
     // Picking halfboard_horizontal as a vpart which is likely to remain
     // defined via copy-from, and which should have non-zero damage reduction.
-    const vpart_info &vp = vpart_halfboard_horizontal.obj();
-    CHECK( vp.damage_reduction.at( damage_bash ) != 0.f );
+    CHECK( vpart_halfboard->damage_reduction.at( damage_bash ) != 0.f );
 }
 
 TEST_CASE( "vehicle_parts_seats_and_beds_have_beltable_flags", "[vehicle][vehicle_parts]" )
 {
     // this checks all seats and beds either BELTABLE or NONBELTABLE but not both
 
-    for( const auto &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-
-        if( !vp.has_flag( "BED" ) && !vp.has_flag( "SEAT" ) ) {
+    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+        if( !vpi.has_flag( "BED" ) && !vpi.has_flag( "SEAT" ) ) {
             continue;
         }
-        CAPTURE( vp.get_id().c_str() );
-        CHECK( ( vp.has_flag( "BELTABLE" ) ^ vp.has_flag( "NONBELTABLE" ) ) );
+        CAPTURE( vpi.id.str() );
+        CHECK( ( vpi.has_flag( "BELTABLE" ) ^ vpi.has_flag( "NONBELTABLE" ) ) );
     }
 }
 
@@ -85,14 +82,12 @@ TEST_CASE( "vehicle_parts_boardable_openable_parts_have_door_flag", "[vehicle][v
 {
     // this checks all BOARDABLE and OPENABLE parts have DOOR flag
 
-    for( const auto &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-
-        if( !vp.has_flag( "BOARDABLE" ) || !vp.has_flag( "OPENABLE" ) ) {
+    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+        if( !vpi.has_flag( "BOARDABLE" ) || !vpi.has_flag( "OPENABLE" ) ) {
             continue;
         }
-        CAPTURE( vp.get_id().c_str() );
-        CHECK( vp.has_flag( "DOOR" ) );
+        CAPTURE( vpi.id.str() );
+        CHECK( vpi.has_flag( "DOOR" ) );
     }
 }
 
@@ -105,18 +100,17 @@ TEST_CASE( "vehicle_parts_have_at_least_one_category", "[vehicle][vehicle_parts]
         all_cat_ids.insert( cat.get_id() );
     }
 
-    for( const auto &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-        CAPTURE( vp.get_id().c_str() );
+    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+        CAPTURE( vpi.id.str() );
 
         bool part_has_category = false;
         for( const vpart_category &cat : categories ) {
-            if( vp.has_category( cat.get_id() ) ) {
+            if( vpi.has_category( cat.get_id() ) ) {
                 part_has_category = true;
                 break;
             }
         }
-        for( const std::string &cat : vp.get_categories() ) {
+        for( const std::string &cat : vpi.get_categories() ) {
             const bool no_unknown_categories = all_cat_ids.find( cat ) == all_cat_ids.cend();
             CHECK_FALSE( no_unknown_categories );
         }
@@ -130,7 +124,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     clear_avatar();
     clear_map();
     clear_vehicles();
-    set_time( midday );
+    set_time_to_day();
 
     const tripoint test_origin( 60, 60, 0 );
     Character &character = get_player_character();
@@ -175,9 +169,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     veh.discharge_battery( 500000 );
     veh.charge_battery( give_battery );
 
-    // Bust cache on crafting_inventory()
-    character.mod_moves( 1 );
-
+    character.invalidate_crafting_inventory();
     const inventory &crafting_inv = character.crafting_inventory();
     bool can_craft = recipe
                      .deduped_requirements()

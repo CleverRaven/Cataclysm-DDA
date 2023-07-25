@@ -6,6 +6,8 @@
 
 #include <algorithm>
 
+static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
+
 static const mtype_id mon_test_speed_desc_base( "mon_test_speed_desc_base" );
 static const mtype_id mon_test_speed_desc_base_150( "mon_test_speed_desc_base_150" );
 static const mtype_id mon_test_speed_desc_base_25( "mon_test_speed_desc_base_25" );
@@ -29,7 +31,7 @@ TEST_CASE( "monster_speed_description", "[monster][speed_description]" )
         monster mon( mon_id );
         return monster::speed_description(
                    mon.speed_rating(),
-                   mon.has_flag( MF_IMMOBILE ),
+                   mon.has_flag( mon_flag_IMMOBILE ),
                    mon.type->speed_desc
                );
     };

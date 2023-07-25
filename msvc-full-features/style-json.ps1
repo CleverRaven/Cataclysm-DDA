@@ -35,14 +35,14 @@ if ( IsFileLocked( $formatter ) ) {
 
 # Probe for files changed in common "upstream" branches, only style those
 $gitChanged = @( git diff --name-only '*.json' )
-foreach ( $probe in @( 'master', 'origin/master', 'upstream/master', 'fork/master' ) ) {
+foreach ( $probe in @( 'master/data/json', 'master/data/mods', 'origin/master/data/json', 'origin/master/data/mods', 'upstream/master/data/json', 'upstream/master/data/mods', 'fork/master/data/json', 'fork/master/data/mods' ) ) {
 	$mergebase = Invoke-Expression "git merge-base $probe HEAD" 2>&1
 	if ( -not( $? ) ) {
 		continue # skip missing branches
 	}
 	$gitChanged = ( @( $gitChanged ) + @( git diff --name-only $mergebase '*.json' ) ) | Select-Object -Unique
 	if ( -not( $? ) ) {
-		ExitWithError( "Linting JSON skipped: git diff command failed." )
+    Exit 0 # No point spamming "error" messages because no remote version of a file exists
 	}
 }
 
@@ -73,4 +73,5 @@ $gitChanged | ForEach-Object -Begin { $i = 0 } -Process { $i = $i+1 } {
 	} else {
 		Invoke-Expression "$formatter $_"
 	}
+  Write-Output "JSON linting done"
 } -End $null

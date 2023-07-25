@@ -30,7 +30,7 @@
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "flags": [
@@ -80,7 +80,7 @@
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] },
       {
         "type": "spell",
@@ -136,7 +136,7 @@
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.4 } ] }
     ],
     "flags": [
@@ -186,7 +186,7 @@
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       [ "SHRIEK_ALERT", 5 ],
       [ "SHRIEK_STUN", 4 ],
       [ "TAZER", 5 ],
@@ -245,7 +245,7 @@
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       { "id": "stretch_attack" },
       { "id": "longswipe", "cooldown": 12 },
       { "id": "cut_throat", "cooldown": 12 },

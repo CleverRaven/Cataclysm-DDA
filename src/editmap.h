@@ -60,7 +60,6 @@ class editmap
         void edit_fld();
         void edit_itm();
         void edit_critter( Creature &critter );
-        void edit_veh() const;
         void edit_mapgen();
         void cleartmpmap( tinymap &tmpmap ) const;
         void mapgen_preview( const real_coords &tc, uilist &gmenu );

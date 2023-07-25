@@ -21,7 +21,7 @@ void TranslationsInDebugMessagesCheck::registerMatchers( MatchFinder *Finder )
                 functionDecl(
                     anyOf(
                         functionDecl(
-                            hasAnyName( "_", "translation_argument_identity", "gettext", "pgettext",
+                            hasAnyName( "_", "translation_argument_identity", "pgettext",
                                         "n_gettext", "npgettext", "to_translation", "pl_translation",
                                         "no_translation" )
                         ),

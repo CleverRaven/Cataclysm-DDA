@@ -111,7 +111,7 @@
     "move_cost_mod": -1,
     "coverage": 55,
     "required_str": -1,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED", "EASY_DECONSTRUCT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "examine_action": "keg",
     "keg_capacity": 240,
     "deconstruct": { "items": [ { "item": "household_water_heater", "count": 1 } ] },
@@ -144,7 +144,7 @@
     "coverage": 50,
     "required_str": -1,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "stationary_water_purifier" },
-    "flags": [ "EASY_DECONSTRUCT" ],
+    "flags": [ "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "deconstruct": { "items": [ { "item": "stationary_water_purifier", "count": 1 } ] },
     "bash": {
       "str_min": 15,

@@ -34,5 +34,17 @@
     "time_to_learn": "12 h",
     "default_weakpoint_bonus": 2,
     "default_weakpoint_penalty": 0
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_dissect_humans",
+    "category": "prof_firstaid",
+    "name": { "str": "Human Autopsies" },
+    "description": "You have been trained such that you are desensitized to the sight of a human's innards, and can dissect human corpses without penalty.",
+    "can_learn": false,
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.25,
+    "time_to_learn": "1000 h",
+    "required_proficiencies": [ "prof_physiology" ]
   }
 ]

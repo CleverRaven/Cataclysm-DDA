@@ -277,5 +277,20 @@
     "max_field_intensity": 4,
     "field_intensity_increment": 0.5,
     "damage_type": "cold"
+  },
+  {
+    "type": "SPELL",
+    "id": "escape_pod",
+    "name": "Escape Pod Launch",
+    "description": "You're slammed back against the seat as the pod launches at incredible speed from the ship!",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ESCAPE_POD_CHAIR",
+    "valid_targets": "ground",
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 0,
+    "min_aoe": 1,
+    "max_aoe": 1
   }
 ]

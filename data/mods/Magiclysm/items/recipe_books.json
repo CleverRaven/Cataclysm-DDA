@@ -84,7 +84,7 @@
     "id": "alchemy_illegal",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "small notebook", "str_pl": "copies of small notebook" },
+    "name": { "str": "small notebook" },
     "description": "Small old notebook without cover.  There are some illegal potion recipes, that you can't find in common books",
     "weight": "260 g",
     "volume": "350 ml",

@@ -1,8 +1,10 @@
 #include "cata_utility.h"
 
 #include <cctype>
+#include <cerrno>
 #include <charconv>
 #include <clocale>
+#include <cstdlib>
 #include <cwctype>
 #include <algorithm>
 #include <cmath>
@@ -863,4 +865,16 @@ std::string io::enum_to_string<aggregate_type>( aggregate_type agg )
             break;
     }
     cata_fatal( "Invalid aggregate type." );
+}
+
+std::optional<double> svtod( std::string_view token )
+{
+    char *pEnd = nullptr;
+    double const val = std::strtod( token.data(), &pEnd );
+    if( pEnd == token.data() + token.size() ) {
+        return { val };
+    }
+    errno = 0;
+
+    return std::nullopt;
 }

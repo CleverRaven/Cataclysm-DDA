@@ -216,7 +216,8 @@
       [ "lifestraw", 4 ],
       [ "chem_hexamine", 10 ],
       [ "light_snare_kit", 8 ],
-      { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] }
+      { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
+      { "item": "teargas_sprayer", "prob": 15, "charges": 10 }
     ]
   },
   {
@@ -350,8 +351,8 @@
           },
           {
             "distribution": [
-              { "item": "brazing_rod_bronze", "prob": 75, "charges": [ 100, 360 ] },
-              { "item": "brazing_rod_alloy", "prob": 50, "charges": [ 80, 360 ] }
+              { "item": "brazing_rod_bronze", "prob": 75, "charges": [ 500, 1500 ] },
+              { "item": "brazing_rod_alloy", "prob": 50, "charges": [ 500, 1500 ] }
             ]
           }
         ],
@@ -369,12 +370,12 @@
       { "item": "welding_blanket", "prob": 20, "count": [ 0, 1 ] },
       {
         "distribution": [
-          { "item": "welding_rod_steel", "prob": 20, "charges": [ 50, 360 ] },
-          { "item": "welding_rod_alloy", "prob": 10, "charges": [ 50, 360 ] },
-          { "item": "welding_wire_steel", "prob": 15, "charges": [ 50, 360 ] },
-          { "item": "welding_wire_alloy", "prob": 5, "charges": [ 50, 360 ] },
-          { "item": "brazing_rod_bronze", "prob": 7, "charges": [ 50, 200 ] },
-          { "item": "brazing_rod_alloy", "prob": 5, "charges": [ 50, 200 ] }
+          { "item": "welding_rod_steel", "prob": 20, "charges": [ 1000, 1600 ] },
+          { "item": "welding_rod_alloy", "prob": 10, "charges": [ 1000, 1600 ] },
+          { "item": "welding_wire_steel", "prob": 15, "charges": [ 1000, 1600 ] },
+          { "item": "welding_wire_alloy", "prob": 5, "charges": [ 1000, 1600 ] },
+          { "item": "brazing_rod_bronze", "prob": 7, "charges": [ 500, 1500 ] },
+          { "item": "brazing_rod_alloy", "prob": 5, "charges": [ 400, 1200 ] }
         ]
       },
       [ "clamp", 10 ],
@@ -596,7 +597,7 @@
       [ "multitool", 5 ],
       [ "pockknife", 50 ],
       [ "knife_folding", 30 ],
-      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 75, 100 ] },
       { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
       {
         "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 350, 400 ] } ],
@@ -690,7 +691,7 @@
       { "item": "mask_filter", "prob": 5, "charges": [ 0, 100 ] },
       [ "gasfilter_s", 5 ],
       [ "glasses_safety", 5 ],
-      { "item": "UPS_off", "prob": 3, "charges": [ 0, 1000 ] },
+      { "item": "UPS_OFF", "prob": 3, "charges": [ 0, 1000 ] },
       [ "microscope", 5 ],
       [ "microscope_dissecting", 5 ],
       [ "funnel_separation", 3 ],
@@ -757,7 +758,7 @@
     "//": "tools and equipment you might find on robotics laboratories.",
     "items": [
       [ "recipe_lab_elec", 4 ],
-      { "item": "UPS_off", "prob": 6, "charges": [ 0, 1000 ] },
+      { "item": "UPS_OFF", "prob": 6, "charges": [ 0, 1000 ] },
       [ "file", 10 ],
       [ "atomic_lamp", 1 ],
       { "item": "smart_lamp", "prob": 2, "charges": [ 0, 100 ] },
@@ -778,12 +779,12 @@
       { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
       {
         "distribution": [
-          { "item": "welding_rod_steel", "prob": 10, "charges": [ 50, 360 ] },
-          { "item": "welding_rod_alloy", "prob": 5, "charges": [ 50, 360 ] },
-          { "item": "welding_wire_steel", "prob": 20, "charges": [ 50, 360 ] },
-          { "item": "welding_wire_alloy", "prob": 20, "charges": [ 50, 360 ] },
-          { "item": "brazing_rod_bronze", "prob": 3, "charges": [ 50, 200 ] },
-          { "item": "brazing_rod_alloy", "prob": 2, "charges": [ 50, 200 ] }
+          { "item": "welding_rod_steel", "prob": 10, "charges": [ 1000, 1600 ] },
+          { "item": "welding_rod_alloy", "prob": 5, "charges": [ 1000, 1600 ] },
+          { "item": "welding_wire_steel", "prob": 20, "charges": [ 1000, 1600 ] },
+          { "item": "welding_wire_alloy", "prob": 20, "charges": [ 1000, 1600 ] },
+          { "item": "brazing_rod_bronze", "prob": 3, "charges": [ 500, 1500 ] },
+          { "item": "brazing_rod_alloy", "prob": 2, "charges": [ 400, 1200 ] }
         ]
       },
       { "item": "soldering_iron", "prob": 8, "charges": [ 0, 50 ] },

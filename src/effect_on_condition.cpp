@@ -288,8 +288,6 @@ void effect_on_conditions::process_reactivate()
 
 bool effect_on_condition::activate( dialogue &d ) const
 {
-    // each version needs a copy of the dialogue to pass down
-
     bool retval = false;
     if( !exclude_player ) {
         if( !has_condition || condition( d ) ) {
@@ -299,6 +297,8 @@ bool effect_on_condition::activate( dialogue &d ) const
             false_effect.apply( d );
         }
 
+    d.amend_callstack( string_format( "EOC: %s", id.c_str() ) );
+    // each version needs a copy of the dialogue to pass down
     dialogue d_eoc( d );
     if( !has_condition || condition( d_eoc ) ) {
         true_effect.apply( d_eoc );

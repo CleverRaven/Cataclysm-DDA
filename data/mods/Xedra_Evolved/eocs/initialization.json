@@ -4,13 +4,13 @@
     "id": "EOC_XE_VARIABLE_INIT",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "condition": { "not": { "math": [ "XE_INITIALIZATION", "=", "1" ] } },
+    "condition": { "math": [ "XE_INITIALIZATION", "!=", "1" ] },
     "effect": [ { "queue_eocs": "EOC_XE_VARIABLE_INITIALIZATION" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_VARIABLE_INITIALIZATION",
-    "condition": { "not": { "math": [ "XE_INITIALIZATION", "=", "1" ] } },
+    "condition": { "math": [ "XE_INITIALIZATION", "!=", "1" ] },
     "effect": [
       { "math": [ "base_difficulty_1", "=", "2" ] },
       { "math": [ "base_difficulty_2", "=", "3" ] },

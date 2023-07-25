@@ -418,12 +418,12 @@ void bodygraph_display::prepare_partlist()
     partlist.clear();
     for( const auto &bgp : id->parts ) {
         for( const bodypart_id &bid : bgp.second.bodyparts ) {
-            partlist.emplace_back( std::make_tuple( bid, static_cast<const sub_body_part_type *>( nullptr ),
-                                                    &bgp.second, u->has_part( bid ) ) );
+            partlist.emplace_back( bid, static_cast<const sub_body_part_type *>( nullptr ),
+                                   &bgp.second, u->has_part( bid ) );
         }
         for( const sub_bodypart_id &sid : bgp.second.sub_bodyparts ) {
             const bodypart_id bid = sid->parent.id();
-            partlist.emplace_back( std::make_tuple( bid, &*sid, &bgp.second, u->has_part( bid ) ) );
+            partlist.emplace_back( bid, &*sid, &bgp.second, u->has_part( bid ) );
         }
     }
     std::sort( partlist.begin(), partlist.end(),
@@ -502,9 +502,9 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     info_txt.emplace_back( string_format( "%s:", colorize( _( "Effects" ), c_magenta ) ) );
     for( const effect &eff : info.effects ) {
         if( eff.get_id()->is_show_in_info() ) {
-            effect_rating rt = eff.get_id()->get_rating();
+            game_message_type rt = eff.get_id()->get_rating( eff.get_intensity() );
             info_txt.emplace_back( string_format( "  %s", colorize( eff.disp_name(),
-                                                  rt == e_good ? c_green : rt == e_bad ? c_red : c_yellow ) ) );
+                                                  rt == m_good ? c_green : rt == m_bad ? c_red : c_yellow ) ) );
         }
     }
     info_txt.emplace_back( "--" );
@@ -639,7 +639,7 @@ std::vector<std::string> get_bodygraph_lines( const Character &u,
                 txt.insert( txt.begin(), center_text_pos( txt, 0, width ), ' ' );
                 ret.emplace_back( colorize( txt, c_light_red ) );
             } else {
-                ret.emplace_back( std::string( width, ' ' ) );
+                ret.emplace_back( width, ' ' );
             }
         }
         return ret;

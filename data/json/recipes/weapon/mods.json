@@ -536,6 +536,7 @@
     "time": "15 m",
     "decomp_learn": 4,
     "book_learn": [ [ "manual_pistol", 3 ], [ "manual_fabrication", 4 ], [ "textbook_fabrication", 4 ] ],
+    "//": "15cm weld",
     "using": [ [ "welding_standard", 15 ], [ "plastic_molding", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
@@ -782,8 +783,9 @@
       [ "manual_rifle", 4 ],
       [ "manual_launcher", 4 ]
     ],
+    "//": "25cm weld",
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "using": [ [ "welding_standard", 1 ] ],
+    "using": [ [ "welding_standard", 25 ] ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
@@ -804,7 +806,8 @@
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
-    "using": [ [ "welding_standard", 1 ] ],
+    "//": "25cm weld",
+    "using": [ [ "welding_standard", 25 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "spring", 1 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
   {
@@ -843,7 +846,8 @@
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
-    "using": [ [ "welding_standard", 1 ] ],
+    "//": "20cm weld",
+    "using": [ [ "welding_standard", 20 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
   {
@@ -952,7 +956,8 @@
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
-    "using": [ [ "welding_standard", 1 ] ],
+    "//": "15cm weld",
+    "using": [ [ "welding_standard", 15 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 3 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
   {
@@ -976,7 +981,8 @@
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
-    "using": [ [ "welding_standard", 1 ] ],
+    "//": "25cm weld",
+    "using": [ [ "welding_standard", 25 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "spring", 2 ] ] ]
   },
   {
@@ -1016,18 +1022,31 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "tools": [
       [
-        [ "ar15", -1 ],
-        [ "ar15_retool_300blk", -1 ],
+        [ "ar15_223long", -1 ],
+        [ "modular_ar15", -1 ],
+        [ "ar15_223medium", -1 ],
+        [ "ar15_223short", -1 ],
+        [ "ar15_300", -1 ],
+        [ "ar15_300medium", -1 ],
+        [ "ar15_300short", -1 ],
+        [ "ar15_50", -1 ],
+        [ "ar15_50medium", -1 ],
+        [ "ar15_50short", -1 ],
+        [ "ar15_450", -1 ],
+        [ "ar15_450medium", -1 ],
+        [ "ar15_450short", -1 ],
+        [ "ar15_762", -1 ],
         [ "ar_pistol", -1 ],
         [ "oa93", -1 ],
-        [ "m27_assault_rifle", -1 ],
-        [ "m16_auto_rifle", -1 ],
-        [ "m4_carbine", -1 ],
-        [ "m16a4", -1 ]
+        [ "modular_m27_assault_rifle", -1 ],
+        [ "modular_m16_auto_rifle", -1 ],
+        [ "modular_m4_carbine", -1 ],
+        [ "modular_m16a4", -1 ]
       ],
       [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
     ],
-    "using": [ [ "welding_standard", 2 ] ],
+    "//1": "30cm weld",
+    "using": [ [ "welding_standard", 30 ] ],
     "components": [ [ [ "steel_plate", 1 ], [ "steel_lump", 2 ] ], [ [ "pipe", 1 ], [ "sheet_metal_small", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
@@ -1044,7 +1063,24 @@
     "book_learn": [ [ "manual_rifle", 6 ], [ "textbook_anarch", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "tools": [
-      [ [ "ar15", -1 ], [ "ar15_retool_300blk", -1 ], [ "ar_pistol", -1 ], [ "oa93", -1 ] ],
+      [
+        [ "ar15_223long", -1 ],
+        [ "modular_ar15", -1 ],
+        [ "ar15_223medium", -1 ],
+        [ "ar15_223short", -1 ],
+        [ "ar15_300", -1 ],
+        [ "ar15_300medium", -1 ],
+        [ "ar15_300short", -1 ],
+        [ "ar15_50", -1 ],
+        [ "ar15_50medium", -1 ],
+        [ "ar15_50short", -1 ],
+        [ "ar15_450", -1 ],
+        [ "ar15_450medium", -1 ],
+        [ "ar15_450short", -1 ],
+        [ "ar15_762", -1 ],
+        [ "ar_pistol", -1 ],
+        [ "oa93", -1 ]
+      ],
       [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
     ],
     "components": [ [ [ "sheet_metal_small", 2 ] ] ]
@@ -1073,7 +1109,8 @@
       ],
       [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
     ],
-    "using": [ [ "welding_standard", 2 ] ],
+    "//": "5cm weld",
+    "using": [ [ "welding_standard", 5 ] ],
     "components": [ [ [ "steel_chunk", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
@@ -1202,11 +1239,12 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
     "skills_required": [ [ "rifle", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_gunsmithing_basic" } ],
     "difficulty": 4,
     "time": "5 h",
     "book_learn": [ [ "manual_rifle", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "//": "20cm weld",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "tools": [ [ [ "m249", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
     "components": [ [ [ "sheet_metal_small", 6 ] ] ]
@@ -1219,11 +1257,12 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
     "skills_required": [ [ "rifle", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_gunsmithing_basic" } ],
     "difficulty": 4,
     "time": "5 h",
     "book_learn": [ [ "manual_rifle", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "//": "20cm weld",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "tools": [ [ [ "m240", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
     "components": [ [ [ "sheet_metal_small", 5 ] ] ]

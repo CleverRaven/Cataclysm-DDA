@@ -75,7 +75,7 @@
     "batch_time_factors": [ 99, 1 ],
     "book_learn": [ [ "recipe_lichenlog", 2 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 60, "LIST" ] ], [ [ "pressure_cooker", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 60, "LIST" ] ], [ [ "pressure_cooker", -1 ], [ "makeshift_pressure_cooker", -1 ] ] ],
     "components": [ [ [ "yum_lichen", 4 ] ] ]
   },
   {

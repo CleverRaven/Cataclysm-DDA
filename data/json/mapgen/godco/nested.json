@@ -35,18 +35,18 @@
     "object": {
       "mapgensize": [ 7, 7 ],
       "rows": [
-        ".z..z.z",
-        ".z..z.z",
-        ".z..z.z",
-        ".z..z.z",
-        ".z..z.z",
-        ".z..z.z",
-        ".z..z.z"
+        "y.yy.y.",
+        "y.yy.y.",
+        "y.yy.y.",
+        "y.yy.y.",
+        "y.yy.y.",
+        "y.yy.y.",
+        "y.yy.y."
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "godco_camp" ],
-      "furniture": { ".": "f_planter" },
-      "sealed_item": { ".": { "item": { "item": "seed_wild_herbs" }, "furniture": "f_plant_seedling", "chance": 100 } }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "furniture": { "y": "f_planter" },
+      "sealed_item": { "y": { "item": { "item": "seed_wild_herbs" }, "furniture": "f_plant_seedling", "chance": 100 } }
     }
   },
   {

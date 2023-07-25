@@ -106,7 +106,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "school_2_3", "school_2_2", "school_2_1" ],
+      [ "null", "school_2_2", "school_2_1" ],
       [ "school_2_6", "school_2_5", "school_2_4" ],
       [ "school_2_9", "school_2_8", "school_2_7" ]
     ],
@@ -203,7 +203,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "school_3_3", "school_3_2", "school_3_1" ],
+      [ "null", "school_3_2", "school_3_1" ],
       [ "school_3_6", "school_3_5", "school_3_4" ],
       [ "school_3_9", "school_3_8", "school_3_7" ]
     ],
@@ -300,7 +300,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "school_4_3", "school_4_2", "school_4_1" ],
+      [ "null", "school_4_2", "school_4_1" ],
       [ "school_4_6", "school_4_5", "school_4_4" ],
       [ "school_4_9", "school_4_8", "school_4_7" ]
     ],

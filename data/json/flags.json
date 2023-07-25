@@ -1,5 +1,35 @@
 [
   {
+    "id": "ABLATIVE_CHAINMAIL_ARMS",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> with out encumbrance penalty",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
+    "id": "ABLATIVE_CHAINMAIL_ELBOWS",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> with out encumbrance penalty",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
+    "id": "ABLATIVE_CHAINMAIL_LEGS",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> with out encumbrance penalty",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
+    "id": "ABLATIVE_CHAINMAIL_KNEES",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> with out encumbrance penalty",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
+    "id": "ABLATIVE_CHAINMAIL_TORSO",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> with out encumbrance penalty",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
     "id": "ABLATIVE_LARGE",
     "type": "json_flag",
     "info": "This plate will fit in <info>large</info> armor pockets",
@@ -10,6 +40,24 @@
     "type": "json_flag",
     "info": "This will hook to a <info>Hub 01 proprietary</info> mantle connector",
     "restriction": "Item must be an armored mantle"
+  },
+  {
+    "id": "STAR_PLATE",
+    "type": "json_flag",
+    "info": "This can be supported by the ryūsei battle kit",
+    "restriction": "Item must be resonance plate"
+  },
+  {
+    "id": "STAR_SHOULDER",
+    "type": "json_flag",
+    "info": "This can be supported by the ryūsei battle kit",
+    "restriction": "Item must be resonance shoulder"
+  },
+  {
+    "id": "STAR_SKIRT",
+    "type": "json_flag",
+    "info": "This can be supported by the ryūsei battle kit",
+    "restriction": "Item must be resonance skirt"
   },
   {
     "id": "ABLATIVE_MEDIUM",
@@ -144,6 +192,11 @@
     "inherit": false
   },
   {
+    "id": "GEMSTONE",
+    "type": "json_flag",
+    "info": "This item is a precious gemstone, used for ornamentation.  This is mostly useless post-Cataclysm."
+  },
+  {
     "id": "DIG_TOOL",
     "type": "json_flag",
     "info": "While wielded, this item allows you to mine through rocks and other hard obstacles by moving into tiles with them.  Note that automatic mining option should be set to true for this to work."
@@ -153,6 +206,11 @@
     "type": "json_flag",
     "info": "As a weapon, this item is <good>well-made</good> and will <info>withstand the punishment of combat</info>.",
     "conflicts": [ "FRAGILE_MELEE" ]
+  },
+  {
+    "id": "EASY_CLEAN",
+    "type": "json_flag",
+    "info": "This gun is made of <info>relatively simple parts</info> which makes powder fouling <good>easier to clean</good>."
   },
   {
     "id": "FIELD_DRESS",
@@ -310,6 +368,18 @@
     "type": "json_flag",
     "info": "This item is attachable in <info>tactical helmets</info> as a flashlight.",
     "restriction": "Item must be some kind of flashlight"
+  },
+  {
+    "id": "HELMET_AVENTAIL",
+    "type": "json_flag",
+    "info": "This item is attachable to metal cap helmets as a face and neck protective layer.",
+    "restriction": "Item must be some kind of chainmail veil"
+  },
+  {
+    "id": "EXTRA_PLATING",
+    "type": "json_flag",
+    "info": "This item is wearable over some armors as an extra layer of plating.",
+    "restriction": "Item must be some kind of strapped additional plating"
   },
   {
     "id": "COLD_IMMUNE",
@@ -842,7 +912,7 @@
     "id": "WATERPROOF",
     "type": "json_flag",
     "//": "Prevents the covered body-part(s) from getting wet in any circumstance.",
-    "info": "This clothing <info>won't let water through</info>.  Unless you jump in the river or something like that."
+    "info": "This clothing <info>won't let water through</info>.  Even if you jump into a river."
   },
   {
     "id": "WATER_FRIENDLY",
@@ -1091,6 +1161,18 @@
     "craft_inherit": true
   },
   {
+    "id": "ALLERGEN_BREAD",
+    "type": "json_flag"
+  },
+  {
+    "id": "ALLERGEN_CHEESE",
+    "type": "json_flag"
+  },
+  {
+    "id": "ALLERGEN_DRIED_VEGETABLE",
+    "type": "json_flag"
+  },
+  {
     "id": "ALLERGEN_EGG",
     "type": "json_flag"
   },
@@ -1127,6 +1209,10 @@
     "type": "json_flag"
   },
   {
+    "id": "ANIMAL_PRODUCT",
+    "type": "json_flag"
+  },
+  {
     "id": "ALWAYS_TWOHAND",
     "info": "<bad>You must</bad> have two free hands to wield this item.",
     "type": "json_flag"
@@ -1153,6 +1239,10 @@
   },
   {
     "id": "CABLE_SPOOL",
+    "type": "json_flag"
+  },
+  {
+    "id": "AUTO_DELETE_CABLE",
     "type": "json_flag"
   },
   {
@@ -1550,10 +1640,6 @@
   },
   {
     "id": "POWERED",
-    "type": "json_flag"
-  },
-  {
-    "id": "POWER_CORD",
     "type": "json_flag"
   },
   {
@@ -2083,6 +2169,16 @@
     "info": "This is meant for exosuit foot plating."
   },
   {
+    "id": "ROBOFAC_ROBOT_MEDIUM",
+    "type": "json_flag",
+    "info": "A medium drone sold by Hub 01."
+  },
+  {
+    "id": "ROBOFAC_ROBOT_SMALL",
+    "type": "json_flag",
+    "info": "A small drone sold by Hub 01."
+  },
+  {
     "id": "VOLTMETER",
     "type": "json_flag",
     "info": "This tool can test for voltage."
@@ -2113,6 +2209,96 @@
   },
   {
     "id": "ELECTRONIC",
+    "type": "json_flag"
+  },
+  {
+    "id": "AFS_CS_LOCKER_CARD",
+    "type": "json_flag",
+    "info": "ID card granting access to the crashing ship's locker room."
+  },
+  {
+    "id": "AFS_CS_ARMORY_CARD",
+    "type": "json_flag",
+    "info": "ID card granting access to the crashing ship's armory."
+  },
+  {
+    "id": "AFS_CS_EXOBAY_CARD",
+    "type": "json_flag",
+    "info": "ID card granting access to the crashing ship's exobay."
+  },
+  {
+    "id": "PAPER_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like paper"
+  },
+  {
+    "id": "CREDIT_CARD_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like a credit card"
+  },
+  {
+    "id": "BANK_NOTE_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like a bank note"
+  },
+  {
+    "id": "COIN_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like a coin"
+  },
+  {
+    "id": "BANK_NOTE_STRAP_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like a bank note strap"
+  },
+  {
+    "id": "FRESH_GRAIN",
+    "type": "json_flag",
+    "//": "This item is fresh-cut grain, and can be dried in a stook."
+  },
+  {
+    "id": "CUT_HARVEST",
+    "type": "json_flag",
+    "//": "This seed will grow into a plant which needs a grass-cutting tool such as a sickle to harvest."
+  },
+  {
+    "id": "GASFILTER_SM",
+    "type": "json_flag",
+    "info": "A small-sized gasmask filter.",
+    "name": "filter mask cartridge"
+  },
+  {
+    "id": "GASFILTER_MED",
+    "type": "json_flag",
+    "info": "A medium-sized gasmask filter.",
+    "name": "gas mask cartridge"
+  },
+  {
+    "id": "REBREATHER_CART",
+    "type": "json_flag",
+    "info": "A filter for a rebreather.",
+    "name": "rebreather cartridge"
+  },
+  {
+    "id": "OLD_GUN",
+    "type": "json_flag",
+    "info": "An old gun, WWII or earlier."
+  },
+  {
+    "id": "USE_POWER_WHEN_HIT",
+    "type": "json_flag",
+    "info": "This armor <info>expends energy when hit</info>."
+  },
+  {
+    "id": "RAT",
+    "type": "json_flag"
+  },
+  {
+    "id": "MOUSE",
+    "type": "json_flag"
+  },
+  {
+    "id": "RABBIT",
     "type": "json_flag"
   }
 ]

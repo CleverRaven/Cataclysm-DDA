@@ -751,6 +751,7 @@ std::string achievement_tracker::ui_text() const
 
     // Next: the requirements
     std::vector<std::optional<std::string>> req_texts;
+    req_texts.reserve( watchers_.size() );
     for( const std::unique_ptr<requirement_watcher> &watcher : watchers_ ) {
         req_texts.push_back( watcher->ui_text() );
     }

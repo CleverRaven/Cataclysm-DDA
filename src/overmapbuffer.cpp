@@ -1648,10 +1648,10 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
                     // pattern not found in note text
                     continue;
                 }
-                result.push_back( t_point_with_note(
-                                      project_combine( om.pos(), p.xy() ),
-                                      om.note( p )
-                                  ) );
+                result.emplace_back(
+                    project_combine( om.pos(), p.xy() ),
+                    om.note( p )
+                );
             }
         }
     }
@@ -1675,10 +1675,10 @@ overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::stri
                     // pattern not found in note text
                     continue;
                 }
-                result.push_back( t_point_with_extra(
-                                      project_combine( om.pos(), p.xy() ),
-                                      om.extra( p )
-                                  ) );
+                result.emplace_back(
+                    project_combine( om.pos(), p.xy() ),
+                    om.extra( p )
+                );
             }
         }
     }

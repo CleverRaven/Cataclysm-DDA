@@ -497,6 +497,39 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "parachute_mil",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "6 h",
+    "components": [ [ [ "sheet_nylon_patchwork", 1972 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "pallet",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "components": [ [ [ "2x4", 3 ] ], [ [ "plank_short", 9 ] ], [ [ "nail", 117 ] ], [ [ "splinter", 61 ] ] ],
+    "qualities": [ { "id": "PRYING_NAIL", "level": 1 } ]
+  },
+  {
+    "result": "432gal_drum_rubber",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "7 h",
+    "components": [ [ [ "rubber_tire_chunk", 65 ] ], [ [ "scrap", 89 ] ], [ [ "water_faucet", 2 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
+  },
+  {
+    "result": "shrink_wrap",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 s",
+    "components": [ [ [ "plastic_sheet_small", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "earthbag",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -552,7 +585,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton", 30 ] ], [ [ "thread", 150 ] ] ]
+    "components": [ [ [ "sheet_cotton", 20 ] ], [ [ "thread", 150 ] ] ],
+    "//": "This recipe somehow manages to lose cotton while creating mass out of thin air. Honestly remarkable, but for me it means I have to look into the weight for thread later on"
   },
   {
     "result": "crackpipe",
@@ -566,7 +600,8 @@
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "water_faucet",
@@ -583,5 +618,37 @@
     "time": "2 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "cotton_patchwork", 20 ] ], [ [ "down_feather", 50 ] ] ]
+  },
+  {
+    "result": "well_pump",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "chunk_cast_iron", 9 ] ] ]
+  },
+  {
+    "result": "ceramic_mug",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "ceramic_shard", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "casserole",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "ceramic_shard", 9 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "fuel_tin",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap", 7 ] ] ]
   }
 ]

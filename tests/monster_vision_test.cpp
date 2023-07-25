@@ -20,7 +20,7 @@ static monster &spawn_and_clear( const tripoint &pos, bool set_floor )
 
 static const time_point midday = calendar::turn_zero + 12_hours;
 
-TEST_CASE( "monsters shouldn't see through floors", "[vision]" )
+TEST_CASE( "monsters_should_not_see_through_floors", "[vision]" )
 {
     override_option opt( "FOV_3D", "true" );
     restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );

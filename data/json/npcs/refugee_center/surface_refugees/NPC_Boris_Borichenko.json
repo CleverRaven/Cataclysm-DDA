@@ -94,6 +94,63 @@
         "topic": "TALK_REFUGEE_Boris_Refuse_Boris_Mission_1"
       },
       {
+        "text": "Boris, I'm sorry, but I could only find two people willing to help.  Can I pitch in myself?  [Spend 5 hours helping]",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            },
+            {
+              "u_compare_var": "Boris_mission_1",
+              "type": "mission",
+              "context": "cleanup_promises",
+              "op": "==",
+              "value": 2
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Boris_MakeDoWith2"
+      },
+      {
+        "text": "Boris, I'm sorry, but I could only find three people willing to help.  Can I pitch in myself?  [Spend 4 hours helping]",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            },
+            {
+              "u_compare_var": "Boris_mission_1",
+              "type": "mission",
+              "context": "cleanup_promises",
+              "op": "==",
+              "value": 3
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Boris_MakeDoWith3"
+      },
+      {
+        "text": "I spoke with everyone I could, but only four people agreed to help.  I can pitch in if you want.",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            },
+            {
+              "u_compare_var": "Boris_mission_1",
+              "type": "mission",
+              "context": "cleanup_promises",
+              "op": "==",
+              "value": 4
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Boris_MakeDoWith4"
+      },
+      {
         "text": "Is there anything I can help you out with?",
         "topic": "TALK_REFUGEE_Boris_Work1",
         "condition": { "not": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" } }
@@ -353,7 +410,7 @@
     "dynamic_line": "Yes, my friend.  You have done so much for me, I would be glad to teach you what I can.  I must ask a small amount in trade, for materials.  I hope you understand.",
     "speaker_effect": { "effect": { "npc_add_var": "Boris_teach", "type": "timer", "context": "flag", "time": true } },
     "responses": [
-      { "text": "Great!  let's get started.", "topic": "TALK_TRAIN" },
+      { "text": "Great!  Let's get started.", "topic": "TALK_TRAIN" },
       { "text": "Actually, what were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.  Let's do this later.", "topic": "TALK_DONE" }
     ]
@@ -413,7 +470,6 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Refuse_Boris_Mission_1",
     "dynamic_line": "Have you had a problem with memory, friend?  I was the one who asked you this, I thought I explained why I could not.",
-    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
     "responses": [
       { "text": "Oh.  Right.  It's been a long apocalypse.  What were you saying?", "topic": "TALK_NONE" },
       {
@@ -421,6 +477,44 @@
         "topic": "TALK_DONE"
       }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_MakeDoWith2",
+    "dynamic_line": "Hmm, well it is not ideal but I appreciate you trying and being willing to help.  I will have to do my best despite the bad memories.  Thank you, my friend.",
+    "responses": [ { "text": "OK, let's get to work.", "topic": "TALK_DONE" } ],
+    "speaker_effect": {
+      "effect": [
+        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
+        { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "300 minutes" },
+        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+      ]
+    }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_MakeDoWith3",
+    "dynamic_line": "Thank you for trying, my friend.  With you and me that will be five, I will do my best to be strong and assist in the cleanup.",
+    "responses": [ { "text": "OK, let's get to work.", "topic": "TALK_DONE" } ],
+    "speaker_effect": {
+      "effect": [
+        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 2 },
+        { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "240 minutes" },
+        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+      ]
+    }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_MakeDoWith4",
+    "dynamic_line": "That is quite alright, four should be enough though I appreciate your offer.  Four people will make the job much easier and I will do my best even if it is painful.  My thanks, friend.",
+    "responses": [ { "text": "Good to hear.  I'm sure everyone will appreciate that place being cleaned up.", "topic": "TALK_DONE" } ],
+    "speaker_effect": {
+      "effect": [
+        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 },
+        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+      ]
+    }
   },
   {
     "id": "MISSION_REFUGEE_Boris_CLEANUP",

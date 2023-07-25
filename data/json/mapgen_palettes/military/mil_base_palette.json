@@ -53,7 +53,7 @@
       "8": "t_wall_metal",
       "9": "t_metal_floor",
       "Z": "t_radio_tower",
-      "@": "t_rock",
+      "@": "t_soil",
       "~": "t_gutter_downspout"
     },
     "furniture": {

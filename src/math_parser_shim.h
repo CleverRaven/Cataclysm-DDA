@@ -1,10 +1,12 @@
 #ifndef CATA_SRC_MATH_PARSER_SHIM_H
 #define CATA_SRC_MATH_PARSER_SHIM_H
 
+#include <limits>
 #include <map>
 #include <optional>
 #include <string>
 #include <string_view>
+#include <vector>
 
 #include "flexbuffer_json.h"
 

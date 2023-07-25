@@ -75,7 +75,6 @@
       { "item": "gartersheath1", "prob": 25 },
       { "item": "gartersheath2", "prob": 10 },
       { "item": "eyepatch_leather", "prob": 20 },
-      { "item": "suitcase_m", "prob": 4 },
       { "item": "hakama", "prob": 1 }
     ]
   },
@@ -272,7 +271,7 @@
     "entries": [
       { "item": "santa_pants", "prob": 20 },
       { "item": "santa_shorts", "prob": 10 },
-      { "item": "flag_pants", "prob": 15 },
+      { "item": "pants", "variant": "pants_flag", "prob": 15 },
       { "item": "trousers_ninja", "prob": 10 },
       { "item": "pants_army", "prob": 10 },
       { "item": "striped_pants", "prob": 15 },
@@ -371,7 +370,7 @@
     "entries": [
       { "item": "flag_jumpsuit", "prob": 25 },
       { "item": "flag_shirt", "prob": 25 },
-      { "item": "flag_pants", "prob": 25 },
+      { "item": "pants", "variant": "pants_flag", "prob": 25 },
       { "item": "american_flag", "prob": 25 },
       { "group": "costume_independence_undergarments_women", "prob": 25 },
       { "item": "rashguard", "variant": "flag_rashguard_shirt", "prob": 15 },

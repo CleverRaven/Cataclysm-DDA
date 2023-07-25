@@ -1,7 +1,6 @@
 [
   {
     "id": "afs_exo_standard_underlayer",
-    "repairs_like": "thermal_suit",
     "type": "TOOL_ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
@@ -33,7 +32,6 @@
   },
   {
     "id": "afs_exo_combat_underlayer",
-    "repairs_like": "thermal_suit",
     "type": "TOOL_ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
@@ -73,7 +71,6 @@
   },
   {
     "id": "afs_exo_eva_underlayer",
-    "repairs_like": "thermal_suit",
     "type": "TOOL_ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
@@ -83,7 +80,7 @@
     "volume": "3500 ml",
     "color": "brown",
     "material": [ "nomex", "nanoprinted_alloy" ],
-    "environmental_protection": 15,
+    "environmental_protection": 100,
     "armor": [
       {
         "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3 } ],
@@ -105,7 +102,6 @@
   },
   {
     "id": "afs_exo_hazard_underlayer",
-    "repairs_like": "thermal_suit",
     "type": "TOOL_ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",

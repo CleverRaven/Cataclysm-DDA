@@ -43,12 +43,6 @@ class TextJsonObject;
 class TextJsonValue;
 class item;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
-
 // Traits class to distinguish sequences which are string like from others
 template< class, class = void >
 struct is_string_like : std::false_type { };
@@ -99,6 +93,15 @@ struct json_source_location {
     shared_ptr_fast<std::string> path;
     int offset = 0;
 };
+
+enum class json_error_output_colors_t {
+    unset,        // default value, will print a warning
+    no_colors,    // use when error output is a redirected pipe
+    color_tags,   // use when debugmsg will handle the errors in either SDL or curses mode
+    ansi_escapes, // use when error output will end up in stdout: in tooling, formatters or CI
+};
+
+extern json_error_output_colors_t json_error_output_colors;
 
 class TextJsonValue
 {
@@ -784,6 +787,13 @@ class JsonOut
         template<typename T>
         auto write( const T &v ) -> decltype( v.serialize( *this ), void() ) {
             v.serialize( *this );
+        }
+
+        /// Overload to be able to write reference_wrapper as normal references.
+        template<typename T>
+        auto write( const std::reference_wrapper<const T> &v ) -> decltype( v.get().serialize( *this ),
+                void() ) {
+            v.get().serialize( *this );
         }
 
         template <typename T, typename std::enable_if<std::is_enum<T>::value, int>::type = 0>

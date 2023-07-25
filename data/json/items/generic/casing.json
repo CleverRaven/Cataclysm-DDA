@@ -306,6 +306,26 @@
     "volume": "10ml"
   },
   {
+    "id": "50beowulf_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "GENERIC",
+    "name": { "str": ".50 Beowulf casing" },
+    "description": "An empty casing from a .50 Beowulf round.",
+    "weight": "4 g",
+    "volume": "10ml"
+  },
+  {
+    "id": "450_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "GENERIC",
+    "name": { "str": ".450 Bushmaster casing" },
+    "description": "An empty casing from a .450 Bushmaster round.",
+    "weight": "4 g",
+    "volume": "10ml"
+  },
+  {
     "id": "46mm_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
@@ -342,6 +362,16 @@
     "type": "GENERIC",
     "name": { "str": ".50 BMG casing" },
     "description": "An empty casing from a .50 BMG round.  These are rare, so you might want to hold onto them.",
+    "weight": "18 g",
+    "volume": "12ml"
+  },
+  {
+    "id": "338lapua_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "GENERIC",
+    "name": { "str": ".338 Lapua casing" },
+    "description": "An empty casing from a .338 Lapua round.  These are rare, so you might want to hold onto them.",
     "weight": "18 g",
     "volume": "12ml"
   },

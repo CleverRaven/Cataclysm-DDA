@@ -132,6 +132,7 @@ static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_READ( "ACT_READ" );
+static const activity_id ACT_REEL_CABLE( "ACT_REEL_CABLE" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
@@ -191,6 +192,10 @@ static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+
+static const mon_flag_str_id mon_flag_INTERIOR_AMMO( "INTERIOR_AMMO" );
+static const mon_flag_str_id mon_flag_PAY_BOT( "PAY_BOT" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
@@ -778,10 +783,6 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
             get_event_bus().send<event_type::triggers_alarm>( who.getID() );
             sounds::sound( who.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
-            if( examp.z > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
-                get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                        who.get_location() );
-            }
             break;
         case hack_result::NOTHING:
             who.add_msg_if_player( _( "You fail the hack, but no alarms are triggered." ) );
@@ -876,7 +877,7 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
         std::vector<tool_comp> writing_tools;
         writing_tools.reserve( writing_tools_filter.size() );
         for( const item *tool : writing_tools_filter ) {
-            writing_tools.emplace_back( tool_comp( tool->typeId(), 1 ) );
+            writing_tools.emplace_back( tool->typeId(), 1 );
         }
 
         p.consume_tools( writing_tools, pages );
@@ -1825,7 +1826,7 @@ bool read_activity_actor::player_readma( avatar &you )
 
     if( one_in( difficulty ) ) {
         // learn martial art
-        mart_iter->second.call( you, *book, false, you.pos() );
+        mart_iter->second.call( &you, *book, false, you.pos() );
         return true;
     } else if( continuous ) {
         switch( rng( 1, 5 ) ) {
@@ -2442,9 +2443,20 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     const tripoint target = here.getlocal( this->target );
     const ter_id ter_type = here.ter( target );
     const furn_id furn_type = here.furn( target );
+    optional_vpart_position const veh = here.veh_at( target );
+    int locked_part = -1;
     ter_id new_ter_type;
     furn_id new_furn_type;
     std::string open_message = _( "The lock opens…" );
+
+    if( veh ) {
+        std::vector<vehicle_part *> parts_at_target = veh->vehicle().get_parts_at(
+                    target, "LOCKABLE_DOOR", part_status_flag::available );
+        if( !parts_at_target.empty() ) {
+            locked_part = veh->vehicle().next_part_to_unlock(
+                              veh->vehicle().index_of_part( parts_at_target.front() ) );
+        }
+    }
 
     if( here.has_furn( target ) ) {
         if( furn_type->lockpick_result.is_null() ) {
@@ -2456,6 +2468,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         if( !furn_type->lockpick_message.empty() ) {
             open_message = furn_type->lockpick_message.translated();
         }
+    } else if( locked_part >= 0 ) {
+        // no-op.
     } else {
         if( ter_type->lockpick_result.is_null() ) {
             who.add_msg_if_player( m_bad, _( "You can't open this lock." ) );
@@ -2519,6 +2533,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         }
         if( here.has_furn( target ) ) {
             here.furn_set( target, new_furn_type );
+        } else if( locked_part >= 0 ) {
+            veh->vehicle().unlock( locked_part );
         } else {
             here.ter_set( target, new_ter_type );
         }
@@ -2554,10 +2570,6 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     if( !perfect && ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
-        if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
-            get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                    who.get_location() );
-        }
     }
 
     if( destroy && lockpick.has_value() ) {
@@ -2577,10 +2589,13 @@ std::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
     }
 
     const std::function<bool( const tripoint & )> is_pickable = [&you]( const tripoint & p ) {
+        const map &here = get_map();
+        const optional_vpart_position vpart = here.veh_at( p );
         if( p == you.pos() ) {
             return false;
         }
-        return get_map().has_flag( ter_furn_flag::TFLAG_PICKABLE, p );
+        return here.has_flag( ter_furn_flag::TFLAG_PICKABLE, p ) ||
+               ( vpart && vpart->vehicle().next_part_to_unlock( vpart->part_index() ) >= 0 );
     };
 
     std::optional<tripoint> target = choose_adjacent_highlight(
@@ -3199,6 +3214,8 @@ craft_activity_actor::craft_activity_actor( item_location &it, const bool is_lon
     cached_assistants = 0;
     cached_base_total_moves = 1;
     cached_cur_total_moves = 1;
+    cached_workbench_multiplier = 0;
+    use_cached_workbench_multiplier = false;
 }
 
 bool craft_activity_actor::check_if_craft_okay( item_location &craft_item, Character &crafter )
@@ -3234,6 +3251,8 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
     }
     activity_override = craft_item.get_item()->get_making().exertion_level();
     cached_crafting_speed = 0;
+    cached_workbench_multiplier = 0;
+    use_cached_workbench_multiplier = false;
 }
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
@@ -3249,7 +3268,13 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     const std::optional<tripoint> location = craft_item.where() == item_location::type::character
             ? std::optional<tripoint>() : std::optional<tripoint>( craft_item.position() );
     const recipe &rec = craft.get_making();
-    const float crafting_speed = crafter.crafting_speed_multiplier( craft, location );
+    if( !use_cached_workbench_multiplier ) {
+        cached_workbench_multiplier = crafter.workbench_crafting_speed_multiplier( craft, location );
+        use_cached_workbench_multiplier = true;
+    }
+    const float crafting_speed = crafter.crafting_speed_multiplier( craft, location,
+                                 use_cached_workbench_multiplier,
+                                 cached_workbench_multiplier );
     const int assistants = crafter.available_assistant_count( craft.get_making() );
 
     if( crafting_speed <= 0.0f ) {
@@ -3312,6 +3337,8 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         level_up |= crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
         // Invalidate the crafting time cache because proficiencies may have changed
         cached_crafting_speed = 0;
+        // Also reset the multiplier
+        use_cached_workbench_multiplier = false;
     }
 
     // Unlike skill, tools are consumed once at the start and should not be consumed at the end
@@ -3614,7 +3641,11 @@ bool workout_activity_actor::query_keep_training( player_activity &act, Characte
         default:
             query_int( length, _( "Train for how long (minutes): " ) );
             elapsed += act.moves_total - act.moves_left;
-            act.moves_total = to_moves<int>( length * 1_minutes );
+            duration = 0_minutes;
+            if( length > 0 ) {
+                duration = length * 1_minutes;
+            }
+            act.moves_total = to_moves<int>( duration );
             act.moves_left = act.moves_total;
             return true;
     }
@@ -4003,7 +4034,7 @@ void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
         }
     } else {
         get_map().add_item_or_charges( target, critter.to_item() );
-        if( !critter.has_flag( MF_INTERIOR_AMMO ) ) {
+        if( !critter.has_flag( mon_flag_INTERIOR_AMMO ) ) {
             for( std::pair<const itype_id, int> &ammodef : critter.ammo ) {
                 if( ammodef.second > 0 ) {
                     get_map().spawn_item( target.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
@@ -4024,8 +4055,8 @@ bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
     }
 
     return ( ( monster.friendly != 0 || monster.has_effect( effect_sensor_stun ) ) &&
-             !monster.has_flag( MF_RIDEABLE_MECH ) &&
-             !( monster.has_flag( MF_PAY_BOT ) && monster.has_effect( effect_paid ) ) ) &&
+             !monster.has_flag( mon_flag_RIDEABLE_MECH ) &&
+             !( monster.has_flag( mon_flag_PAY_BOT ) && monster.has_effect( effect_paid ) ) ) &&
            ( !monster.type->revert_to_itype.is_empty() || monster.type->id == mon_manhack );
 }
 
@@ -4658,6 +4689,9 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
     target->set_var( "activity_var", who.name );
 
     activity_override = target->get_making().exertion_level();
+
+    cached_workbench_multiplier = 0;
+    use_cached_workbench_multiplier = false;
 }
 
 void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
@@ -4672,7 +4706,12 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
 
     const std::optional<tripoint> location = target.where() == item_location::type::character
             ? std::optional<tripoint>() : std::optional<tripoint>( target.position() );
-    const float crafting_speed = who.crafting_speed_multiplier( craft, location );
+    if( !use_cached_workbench_multiplier ) {
+        cached_workbench_multiplier = who.workbench_crafting_speed_multiplier( craft, location );
+        use_cached_workbench_multiplier = true;
+    }
+    const float crafting_speed = who.crafting_speed_multiplier( craft, location,
+                                 use_cached_workbench_multiplier, cached_workbench_multiplier );
 
     if( crafting_speed <= 0.0f ) {
         who.cancel_activity();
@@ -5000,6 +5039,51 @@ std::unique_ptr<activity_actor> tent_deconstruct_activity_actor::deserialize( Js
     return actor.clone();
 }
 
+void reel_cable_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void reel_cable_activity_actor::finish( player_activity &act, Character &who )
+{
+    cable->active = false;
+    cable->charges = cable->link->max_length;
+    cable->link.reset();
+    if( parent_item ) {
+        parent_item->contents_linked = false;
+        who.add_msg_if_player( m_info, string_format( _( "You gather the cable up with the %s." ),
+                               parent_item->label( 1 ) ) );
+    } else {
+        who.add_msg_if_player( m_info, string_format( _( "You reel in the %s and wind it up." ),
+                               cable->label( 1 ) ) );
+    }
+    if( cable->has_flag( flag_AUTO_DELETE_CABLE ) ) {
+        cable.remove_item();
+    }
+    act.set_to_null();
+}
+
+void reel_cable_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "cable", cable );
+    jsout.member( "parent_item", parent_item );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> reel_cable_activity_actor::deserialize( JsonValue &jsin )
+{
+    reel_cable_activity_actor actor( 0, {}, {} );
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+    data.read( "cable", actor.cable );
+    data.read( "parent_item", actor.parent_item );
+
+    return actor.clone();
+}
+
 void meditate_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( 20_minutes );
@@ -5268,10 +5352,6 @@ void prying_activity_actor::handle_prying( Character &who )
         get_event_bus().send<event_type::triggers_alarm>( who.getID() );
         sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
-        if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
-            get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                    who.get_location() );
-        }
     }
 
     if( !data->message().empty() ) {
@@ -5446,11 +5526,19 @@ static bool check_stealing( Character &who, item &it )
             Pickup::query_thief();
         }
         if( who.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+            if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+                who.set_value( "THIEF_MODE", "THIEF_ASK" );
+            }
             return false;
         }
     }
 
     return true;
+}
+
+bool avatar_action::check_stealing( Character &who, item &weapon )
+{
+    return ::check_stealing( who, weapon );
 }
 
 void wield_activity_actor::do_turn( player_activity &, Character &who )
@@ -6413,7 +6501,8 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
         put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, dest );
         // Remove from map or vehicle.
         if( src_veh ) {
-            src_veh->remove_item( src_part, &it );
+            vehicle_part &vp_src = src_veh->part( src_part );
+            src_veh->remove_item( vp_src, &it );
         } else {
             here.i_rem( src, &it );
         }
@@ -6422,7 +6511,8 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     // If we didn't pick up a whole stack, put the remainder back where it came from.
     if( leftovers.charges > 0 ) {
         if( src_veh ) {
-            if( !src_veh->add_item( src_part, leftovers ) ) {
+            vehicle_part &vp_src = src_veh->part( src_part );
+            if( !src_veh->add_item( vp_src, leftovers ) ) {
                 debugmsg( "SortLoot: Source vehicle failed to receive leftover charges." );
             }
         } else {
@@ -6474,8 +6564,9 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         num_processed = 0;
         // TODO: fix point types
         std::vector<tripoint_abs_ms> src_set;
+        src_set.reserve( coord_set.size() );
         for( const tripoint &p : coord_set ) {
-            src_set.emplace_back( tripoint_abs_ms( p ) );
+            src_set.emplace_back( p );
         }
         // sort source tiles by distance
         const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
@@ -6519,10 +6610,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             }
 
             //nothing to sort?
-            const std::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
-                    false );
-            if( ( !vp || vp->vehicle().get_items( vp->part_index() ).empty() )
-                && here.i_at( src_loc ).empty() ) {
+            const std::optional<vpart_reference> ovp = here.veh_at( src_loc ).cargo();
+            if( ( !ovp || ovp->items().empty() ) && here.i_at( src_loc ).empty() ) {
                 continue;
             }
 
@@ -6591,11 +6680,10 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         //Check source for cargo part
         //map_stack and vehicle_stack are different types but inherit from item_stack
         // TODO: use one for loop
-        if( const std::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
-                false ) ) {
-            src_veh = &vp->vehicle();
-            src_part = vp->part_index();
-            for( item &it : src_veh->get_items( src_part ) ) {
+        if( const std::optional<vpart_reference> ovp = here.veh_at( src_loc ).cargo() ) {
+            src_veh = &ovp->vehicle();
+            src_part = ovp->part_index();
+            for( item &it : ovp->items() ) {
                 items.emplace_back( &it, true );
             }
         } else {
@@ -6664,7 +6752,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                                 if( it->first->type->magazine->linkage ) {
                                     item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
                                     if( this_veh != nullptr ) {
-                                        this_veh->add_item( this_part, link );
+                                        vehicle_part &vp_this = this_veh->part( this_part );
+                                        this_veh->add_item( vp_this, link );
                                     } else {
                                         here.add_item_or_charges( src_loc, link );
                                     }
@@ -6675,7 +6764,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
 
                             if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
                                 if( this_veh != nullptr ) {
-                                    this_veh->remove_item( this_part, it->first );
+                                    vehicle_part &vp_this = this_veh->part( this_part );
+                                    this_veh->remove_item( vp_this, it->first );
                                 } else {
                                     here.i_rem( src_loc, it->first );
                                 }
@@ -6782,8 +6872,8 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
 
     // Drop cargo to ground
     // TODO: make cargo shuffling add time to activity
-    for( const vpart_reference &vp : veh.get_any_parts( "CARGO" ) ) {
-        vehicle_stack cargo = veh.get_items( vp.part_index() );
+    for( const vpart_reference &vpr : veh.get_any_parts( VPFLAG_CARGO ) ) {
+        vehicle_stack cargo = vpr.items();
         for( const item &elem : cargo ) {
             here.add_item_or_charges( veh.pos_bub(), elem );
         }
@@ -7116,6 +7206,7 @@ deserialize_functions = {
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_PRYING, &prying_activity_actor::deserialize },
     { ACT_READ, &read_activity_actor::deserialize },
+    { ACT_REEL_CABLE, &reel_cable_activity_actor::deserialize },
     { ACT_RELOAD, &reload_activity_actor::deserialize },
     { ACT_SHAVE, &shave_activity_actor::deserialize },
     { ACT_SHEARING, &shearing_activity_actor::deserialize },

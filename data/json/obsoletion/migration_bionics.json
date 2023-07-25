@@ -6,6 +6,12 @@
   },
   {
     "type": "bionic_migration",
+    "//": "remove after 0.H stable https://github.com/CleverRaven/Cataclysm-DDA/pull/61176",
+    "from": "bio_railgun",
+    "to": "bio_pitch_perfect"
+  },
+  {
+    "type": "bionic_migration",
     "//": "obsoleted as part of https://github.com/CleverRaven/Cataclysm-DDA/pull/65077",
     "from": "bio_power_armor_interface"
   },

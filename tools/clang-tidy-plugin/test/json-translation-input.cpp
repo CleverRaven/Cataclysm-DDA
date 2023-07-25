@@ -1,28 +1,7 @@
-// RUN: %check_clang_tidy %s cata-json-translation-input %t -- --load=%cata_plugin -- -I %test_include
+// RUN: %check_clang_tidy -allow-stdinc %s cata-json-translation-input %t -- --load=%cata_plugin -- -isystem %cata_include -isystem %cata_include/third-party -DLOCALIZE
 
-#include "mock-translation.h"
-
-// dummy json interface
-class JsonArray
-{
-    public:
-        std::string next_string();
-};
-
-class JsonObject
-{
-    public:
-        std::string get_string( const std::string & );
-        JsonArray get_array( const std::string & );
-        template<class T>
-        bool read( const std::string &name, T &t, bool throw_on_error = true );
-};
-
-class JsonIn
-{
-    public:
-        JsonObject get_object();
-};
+#include "json.h"
+#include "translations.h"
 
 class foo
 {
@@ -39,9 +18,8 @@ class foo
 };
 
 // <translation function>( ... <json input object>.<method>(...) ... )
-static void deserialize( foo &bar, JsonIn &jin )
+static void deserialize( foo &bar, JsonObject &jo )
 {
-    JsonObject jo = jin.get_object();
     bar.name = _( jo.get_string( "name" ) );
     // CHECK-MESSAGES: [[@LINE-1]]:16: warning: immediately translating a value read from json causes translation updating issues.  Consider reading into a translation object instead.
     // CHECK-MESSAGES: [[@LINE-2]]:19: note: value read from json
@@ -51,7 +29,7 @@ static void deserialize( foo &bar, JsonIn &jin )
                       // CHECK-MESSAGES: [[@LINE-1]]:36: warning: immediately translating a value read from json causes translation updating issues.  Consider reading into a translation object instead.
                       // CHECK-MESSAGES: [[@LINE-2]]:39: note: value read from json
                       // CHECK-MESSAGES: [[@LINE-3]]:62: warning: immediately translating a value read from json causes translation updating issues.  Consider reading into a translation object instead.
-                      std::string( ja.next_string() ) );
+                      std::string( ja.next_string() ).c_str() );
     // CHECK-MESSAGES: [[@LINE-1]]:36: note: value read from json
 
     // ok, not reading from json

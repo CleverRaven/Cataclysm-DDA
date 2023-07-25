@@ -38,7 +38,7 @@
   {
     "id": "dish_towel",
     "type": "TOOL",
-    "category": "spare_parts",
+    "category": "other",
     "name": { "str": "dish towel" },
     "description": "A dish towel, useful for cleaning hard surfaces.",
     "weight": "65600 mg",
@@ -60,7 +60,7 @@
       { "id": "dtowel7", "text": "A dish towel with a gingham pattern." },
       { "id": "dtowel8", "text": "A dish towel with a cat pattern." }
     ],
-    "//2": "Based on https://www.amazon.com/Zeppoli-Classic-Kitchen-15-Pack-Natural/dp/B01IG8X9E6/ref=sr_1_9?crid=3VWY7NLBYVH2N&keywords=dish%2Btowel&qid=1684589366&sprefix=dish%2Btowel%2Caps%2C256&sr=8-9&th=1"
+    "//2": "Based on https://www.amazon.com/dp/B01IG8X9E6"
   },
   {
     "id": "elec_hairtrimmer",
@@ -213,9 +213,9 @@
     "type": "TOOL",
     "name": { "str": "sponge" },
     "description": "A cleaning aid made of soft, porous material.  Typically used for cleaning hard objects.",
-    "weight": "40 g",
-    "volume": "150 ml",
-    "price": 0,
+    "weight": "17 g",
+    "volume": "156 ml",
+    "price": 66,
     "price_postapoc": 10,
     "material": [ "plastic" ],
     "symbol": "s",
@@ -225,13 +225,13 @@
     "snippet_category": [
       { "id": "spng1", "text": "A round smiley-face sponge." },
       { "id": "spng2", "text": "A rectangular sponge with a green abrasive back." },
-      { "id": "spng3", "text": "A natural sea sponge.  It looks kind of lumpy." },
       { "id": "spng4", "text": "A dolphin-shaped sponge.  It looks at home in the water." },
       { "id": "spng5", "text": "A rectangular sponge." },
       { "id": "spng6", "text": "A sponge cake-shaped sponge, the abrasive pad looks like frosting." },
       { "id": "spng7", "text": "A sponge in the shape of a beloved character from a children's cartoon." },
       { "id": "spng8", "text": "A cat-shaped sponge." }
-    ]
+    ],
+    "//": "Based on https://www.amazon.com/dp/B08RFC3VH7"
   },
   {
     "id": "survivor_hairtrimmer",

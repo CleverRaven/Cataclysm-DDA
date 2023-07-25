@@ -126,6 +126,7 @@
           "socks",
           "kittel",
           "kippah",
+          "tallit_gadol",
           "dress_shoes",
           "holy_symbol",
           "holybook_talmud",
@@ -454,8 +455,9 @@
     "type": "profession",
     "id": "magic_drunkard",
     "name": "Magic Drunkard",
-    "description": "You were lucky enough to find a weird flask that refills itself with whiskey!  You now spent your days just waiting for every refill and keeping it from the hands of any envious neighbor of yours.",
+    "description": "You were lucky enough to find a weird flask that refills itself with whiskey!  You now spend your days just waiting for every refill and keeping it from the hands of any envious neighbor of yours.",
     "points": 2,
+    "addictions": [ { "intensity": 20, "type": "alcohol" } ],
     "skills": [ { "level": 2, "name": "unarmed" } ],
     "items": {
       "both": {
@@ -564,7 +566,7 @@
     "type": "profession",
     "id": "archer_druid",
     "name": "Archer Druid",
-    "description": "You were a skilful and committed archer druid, making constant excursions to the forests in which you dedicated yourself to living of and with what nature had to offer you.  You were returning from your last travel when civilization fell upon itself.",
+    "description": "You were a skillful and committed archer druid, making constant excursions to the forests in which you dedicated yourself to living of and with what nature had to offer you.  You were returning from your last travel when civilization fell upon itself.",
     "points": 5,
     "proficiencies": [ "prof_bowyery", "prof_bow_basic", "prof_bow_expert" ],
     "spells": [
@@ -838,7 +840,7 @@
       { "level": 2, "name": "archery" },
       { "level": 1, "name": "tailor" }
     ],
-    "traits": [ "ANIMALEMPATH", "SLOWREADER" ],
+    "traits": [ "ANIMALEMPATH", "SLOWREADER", "DRUID" ],
     "pets": [ { "name": "mon_moose", "amount": 1 } ],
     "items": {
       "both": {

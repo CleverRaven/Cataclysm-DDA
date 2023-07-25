@@ -99,6 +99,7 @@ class recipe_subset
          */
         void include( const recipe *r, int custom_difficulty = -1 );
         void include( const recipe_subset &subset );
+        void remove( const recipe *r );
         /**
          * Include a recipe to the subset. Based on the condition.
          * @param subset Where to included the recipe
