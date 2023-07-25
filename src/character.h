@@ -2754,6 +2754,10 @@ class Character : public Creature, public visitable
         int get_stamina() const;
         int get_stamina_max() const;
         void set_stamina( int new_stamina );
+        // burn_energy looks at whether to use bionic power depending on how many limbs are cybernetic, then passes to mod_stamina after
+        void burn_energy_arms( int mod );
+        void burn_energy_legs( int mod );
+        void burn_energy_all( int mod );
         void mod_stamina( int mod );
         void burn_move_stamina( int moves );
         /** Regenerates stamina */
