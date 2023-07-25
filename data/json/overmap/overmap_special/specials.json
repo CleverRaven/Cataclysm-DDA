@@ -488,8 +488,8 @@
     "locations": [ "forest" ],
     "city_distance": [ 30, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "occurrences": [ 10, 100 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -528,8 +528,8 @@
     "locations": [ "forest" ],
     "city_distance": [ 30, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "occurrences": [ 10, 100 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",
