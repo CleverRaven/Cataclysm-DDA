@@ -90,7 +90,10 @@
     "type": "effect_on_condition",
     "id": "EOC_READ_TELEKIN_CONTEMPLATE_RECIPES_NOTE",
     "effect": [
-      { "u_message": "You study the note and contemplate ways that you might improve your powers (check practice recipes).", "type": "good" },
+      {
+        "u_message": "You study the note and contemplate ways that you might improve your powers (check practice recipes).",
+        "type": "good"
+      },
       { "run_eocs": [ "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" ] }
     ]
   },
