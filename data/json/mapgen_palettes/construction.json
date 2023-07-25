@@ -1,38 +1,21 @@
 [
-    {
-      "type": "palette",
-      "id": "construction_palette",
-      "//": "intended for in-construction homes",
-      "parameters": {
-        "interior_wall_type": {
-          "type": "ter_str_id",
-          "default": {
-            "distribution": [
-              [ "t_wall_b", 1 ],
-              [ "t_wall_g", 1 ],
-              [ "t_wall_p", 1 ],
-              [ "t_wall_P", 1 ],
-              [ "t_wall_r", 1 ],
-              [ "t_wall_w", 6 ],
-              [ "t_wall_y", 1 ]
-            ]
-          }
-        },
-        "exterior_wall_type": {
-          "type": "ter_str_id",
-          "default": { "distribution": [ [ "t_brick_wall", 6 ], [ "t_rock_wall", 3 ], [ "t_wall_wood", 3 ], [ "t_concrete_wall", 4 ] ] }
-        },
-        "house_fence_type": {
-          "type": "ter_str_id",
-          "default": {
-            "distribution": [
-              [ "t_splitrail_fence", 3 ],
-              [ "t_chainfence", 2 ],
-              [ "t_fence", 2 ],
-              [ "t_privacy_fence", 1 ],
-              [ "t_drystone_wall_half", 1 ]
-            ]
-          }
+  {
+    "type": "palette",
+    "id": "construction_palette",
+    "//": "intended for in-construction homes",
+    "parameters": {
+      "interior_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_wall_b", 1 ],
+            [ "t_wall_g", 1 ],
+            [ "t_wall_p", 1 ],
+            [ "t_wall_P", 1 ],
+            [ "t_wall_r", 1 ],
+            [ "t_wall_w", 6 ],
+            [ "t_wall_y", 1 ]
+          ]
         }
       },
       "toilets": { "t": {  } },
