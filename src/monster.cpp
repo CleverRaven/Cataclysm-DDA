@@ -3154,22 +3154,15 @@ void monster::process_effects()
     if( has_flag( mon_flag_CORNERED_FIGHTER ) ) {
         map &here = get_map();
         creature_tracker &creatures = get_creature_tracker();
-            for( const tripoint &p : here.points_in_radius( pos(), 2 ) ) {
-                const monster *const mon = creatures.creature_at<monster>( p );
-                const Character *const guy = creatures.creature_at<Character>( p );
-                    if( mon && mon != this && mon->faction->attitude( faction ) != MFA_FRIENDLY && !has_effect( effect_spooked ) && morale <= 0 ) {
-                        if( !has_effect( effect_spooked_recent ) ) {
-                            if( !has_effect( effect_spooked_recent ) ) {
-                                add_effect( effect_spooked, 3_turns, false );
-                                add_effect( effect_spooked_recent, 9_turns, false );
-                            }
-                        }
-                        else {
-                                if( morale < type->morale ) {
-                                    morale = type->morale;
-                                    anger = type->agro;
-                                }    
-                        }
+        for( const tripoint &p : here.points_in_radius( pos(), 2 ) ) {
+            const monster *const mon = creatures.creature_at<monster>( p );
+            const Character *const guy = creatures.creature_at<Character>( p );
+            if( mon && mon != this && mon->faction->attitude( faction ) != MFA_FRIENDLY &&
+                !has_effect( effect_spooked ) && morale <= 0 ) {
+                if( !has_effect( effect_spooked_recent ) ) {
+                    if( !has_effect( effect_spooked_recent ) ) {
+                        add_effect( effect_spooked, 3_turns, false );
+                        add_effect( effect_spooked_recent, 9_turns, false );
                     }
                     if( guy ) {
                         monster_attitude att = attitude( guy );
