@@ -223,22 +223,22 @@
           { "item": "floor_trash", "chance": 60 },
           { "item": "hardware_trash", "chance": 60 },
           { "item": "paint", "chance": 30 },
-          { "item": "tools_construction", "chance": 15 },
+          { "item": "tools_construction", "chance": 10 },
           { "item": "tools_carpentry", "chance": 10 },
-          { "item": "power_tools", "chance": 10 },
-          { "item": "tools_home", "chance": 20 },
-          { "item": "construction_worker", "chance": 20 }
+          { "item": "power_tools", "chance": 5 },
+          { "item": "tools_home", "chance": 10 },
+          { "item": "construction_worker", "chance": 10 }
         ],
         "A": [
           { "item": "pizza_trash", "chance": 60 },
           { "item": "floor_trash", "chance": 60 },
           { "item": "hardware_trash", "chance": 60 },
           { "item": "paint", "chance": 30 },
-          { "item": "tools_construction", "chance": 15 },
+          { "item": "tools_construction", "chance": 10 },
           { "item": "tools_carpentry", "chance": 10 },
-          { "item": "power_tools", "chance": 10 },
-          { "item": "tools_home", "chance": 20 },
-          { "item": "construction_worker", "chance": 20 }
+          { "item": "power_tools", "chance": 5 },
+          { "item": "tools_home", "chance": 10 },
+          { "item": "construction_worker", "chance": 10 }
         ]
       }
     }
