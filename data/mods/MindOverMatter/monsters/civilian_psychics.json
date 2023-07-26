@@ -178,7 +178,7 @@
   {
     "id": "mon_civilian_vitakinetic",
     "type": "MONSTER",
-    "name": { "str": "agitated augur" },
+    "name": { "str": "confused curer" },
     "description": "This person mutters to themselves, glancing to and fro with bloodshot eyes.  They seem remarkably unscathed for someone in the midst of the apocalypse.",
     "path_settings": { "max_dist": 30, "allow_open_doors": false, "avoid_traps": false, "avoid_sharp": false },
     "hp": 90,
