@@ -61,7 +61,8 @@
     "power_efficiency": 1000,
     "feels_discomfort": false,
     "mend_rate": 0,
-    "ugliness_mandatory": 0
+    "ugliness_mandatory": 2,
+    "stat_hp_mods": { "str_mod": 0 }
   },
   {
     "id": "bionic_basic_arm_r",
@@ -124,7 +125,8 @@
     "power_efficiency": 10000,
     "feels_discomfort": false,
     "mend_rate": 0,
-    "ugliness_mandatory": 0
+    "ugliness_mandatory": 2,
+    "stat_hp_mods": { "str_mod": 0 }
   },
   {
     "id": "bionic_basic_hand_l",
@@ -161,7 +163,8 @@
     "power_efficiency": 10000,
     "feels_discomfort": false,
     "mend_rate": 0,
-    "ugliness_mandatory": 0
+    "ugliness_mandatory": 0,
+    "stat_hp_mods": { "str_mod": 0 }
   },
   {
     "id": "bionic_basic_hand_r",
@@ -198,7 +201,8 @@
     "power_efficiency": 10000,
     "feels_discomfort": false,
     "mend_rate": 0,
-    "ugliness_mandatory": 0
+    "ugliness_mandatory": 0,
+    "stat_hp_mods": { "str_mod": 0 }
   },
   {
     "id": "bionic_basic_leg_l",
@@ -269,7 +273,8 @@
     "power_efficiency": 10000,
     "feels_discomfort": false,
     "mend_rate": 0,
-    "ugliness_mandatory": 0
+    "ugliness_mandatory": 3,
+    "stat_hp_mods": { "str_mod": 0 }
   },
   {
     "id": "bionic_basic_leg_r",
@@ -340,7 +345,8 @@
     "power_efficiency": 10000,
     "feels_discomfort": false,
     "mend_rate": 0,
-    "ugliness_mandatory": 0
+    "ugliness_mandatory": 3,
+    "stat_hp_mods": { "str_mod": 0 }
   },
   {
     "id": "bionic_basic_foot_l",
@@ -378,7 +384,8 @@
     "power_efficiency": 10000,
     "feels_discomfort": false,
     "mend_rate": 0,
-    "ugliness_mandatory": 0
+    "ugliness_mandatory": 0,
+    "stat_hp_mods": { "str_mod": 0 }
   },
   {
     "id": "bionic_basic_foot_r",
@@ -416,7 +423,8 @@
     "power_efficiency": 10000,
     "feels_discomfort": false,
     "mend_rate": 0,
-    "ugliness_mandatory": 0
+    "ugliness_mandatory": 0,
+    "stat_hp_mods": { "str_mod": 0 }
   },
   {
     "id": "bionic_basic_leg_draped_l",
