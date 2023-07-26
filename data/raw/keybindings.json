@@ -3722,7 +3722,7 @@
     ]
   },
   {
-    "type": "keybinding"
+    "type": "keybinding",
     "id": "ITEMS_PARENT",
     "category": "ADVANCED_INVENTORY",
     "name": "Exit container to parent",
