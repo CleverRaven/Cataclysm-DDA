@@ -295,7 +295,7 @@
     "id": "perk_long_shot",
     "name": { "str": "Long shot" },
     "points": 0,
-    "description": "You always ate your carrots, that good eyesight is paying off.  You can use guns effectively up to 4 more tiles away.",
+    "description": "You always ate your carrots, that good eyesight is paying off.  You can use ranged weapons effectively up to 4 more tiles away.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RANGE", "add": 4 } ] } ]
   },
