@@ -3955,8 +3955,17 @@ static void replace_materials( const JsonObject &jo, itype &def )
         material_id replacement = material_id( jv.get_string() );
 
         units::mass original_weight = def.weight;
-
         int mat_portion = def.materials[to_replace];
+
+        // make repairs_with act the same way
+        if( !def.repairs_with.empty() ) {
+            const auto iter = def.repairs_with.find( to_replace );
+            if( iter != def.repairs_with.end() ) {
+                def.repairs_with.erase( iter );
+                def.repairs_with.insert( replacement );
+            }
+        }
+
         // material is defined
         if( mat_portion != 0 ) {
             double mat_percent = static_cast<double>( mat_portion ) / static_cast<double>
@@ -4057,7 +4066,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "solar_efficiency", def.solar_efficiency );
     assign( jo, "ascii_picture", def.picture_id );
 
-    optional( jo, false, "repairs_with", def.repairs_with, string_id_reader<material_type>() );
+    optional( jo, true, "repairs_with", def.repairs_with, string_id_reader<material_type>() );
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
