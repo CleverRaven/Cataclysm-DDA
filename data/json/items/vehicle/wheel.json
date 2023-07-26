@@ -75,7 +75,7 @@
     "price": 200,
     "price_postapoc": 20,
     "to_hit": -2,
-    "material": [ "steel" ],
+    "material": [ "steel", "aluminum" ],
     "symbol": "]",
     "color": "dark_gray",
     "melee_damage": { "bash": 4 }

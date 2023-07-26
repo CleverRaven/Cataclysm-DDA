@@ -746,7 +746,7 @@
       }
     ],
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "//": "Based on https://www.amazon.com/SanDisk-Ultra-Flair-128GB-Flash/dp/B015CH1PJU/ref=sr_1_3?crid=3QN3ALWDNXCOT&keywords=usb%2Bdrive&qid=1683302125&sprefix=usb%2Bdrive%2Caps%2C499&sr=8-3&th=1"
+    "//": "Based on https://www.amazon.com/dp/B015CH1PJU"
   },
   {
     "type": "TOOL",
@@ -1369,27 +1369,20 @@
   },
   {
     "type": "GENERIC",
-    "id": "broken_eyebot",
+    "id": "broken_robofac_camspy",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken eyebot" },
+    "name": { "str": "broken camspy", "str_pl": "broken camspies" },
     "category": "other",
-    "description": "A broken eyebot.  Much less threatening now that it won't be calling for backup.  Could be gutted for parts.",
+    "description": "A broken camspy.  It probably won't spy on anything ever again.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "steel", "plastic" ],
     "weight": "31520 g",
     "volume": "15 L",
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
     "melee_damage": { "bash": 6, "cut": 6 }
-  },
-  {
-    "type": "GENERIC",
-    "id": "broken_robofac_camspy",
-    "copy-from": "broken_eyebot",
-    "name": { "str": "broken camspy", "str_pl": "broken camspies" },
-    "description": "A broken camspy.  It probably won't spy on anything ever again.  Could be gutted for parts."
   },
   {
     "type": "GENERIC",
@@ -1402,8 +1395,25 @@
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "steel", "plastic" ],
-    "weight": "62650 g",
-    "volume": "30 L",
+    "weight": "32700 g",
+    "volume": "105 L",
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 4, "cut": 4 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_robofac_skittergun",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken exterminatron" },
+    "category": "other",
+    "description": "A broken Hub 01 exterminatron.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "steel", "plastic" ],
+    "weight": "32700 g",
+    "volume": "105 L",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
@@ -1424,23 +1434,6 @@
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
-  },
-  {
-    "type": "GENERIC",
-    "id": "broken_copbot",
-    "symbol": ",",
-    "color": "green",
-    "name": { "str": "broken police bot" },
-    "category": "other",
-    "description": "A broken police bot.  Much less threatening now that it's quiet and still.  Could be gutted for parts.",
-    "price": 30000,
-    "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "140000 g",
-    "volume": "62500 ml",
-    "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -1498,23 +1491,6 @@
     "id": "broken_nursebot_defective",
     "name": { "str": "broken nurse bot" },
     "copy-from": "broken_nursebot"
-  },
-  {
-    "type": "GENERIC",
-    "id": "broken_riotbot",
-    "symbol": ",",
-    "color": "green",
-    "name": { "str": "broken riot control bot" },
-    "category": "other",
-    "description": "A broken riot control bot.  Much less threatening now that it's out of gas.  Could be gutted for parts.",
-    "price": 30000,
-    "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "140000 g",
-    "volume": "62500 ml",
-    "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -2894,7 +2870,7 @@
     "calories": 15,
     "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
     "material": [ "veggy" ],
-    "flags": [ "TRADER_AVOID", "INEDIBLE", "CATTLE", "TINDER" ],
+    "flags": [ "TRADER_AVOID", "INEDIBLE", "CATTLE", "TINDER", "RABBIT" ],
     "weight": "34 g",
     "volume": "250 ml",
     "to_hit": -2
@@ -3610,21 +3586,6 @@
     "material": [ "steel" ],
     "weight": "5000 g",
     "volume": "5 L",
-    "melee_damage": { "bash": 8 }
-  },
-  {
-    "type": "GENERIC",
-    "id": "welding_components",
-    "category": "spare_parts",
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "red",
-    "name": { "str": "welding component kit" },
-    "description": "A set of components useful for constructing a full-featured welding station, complete with soldering capability.",
-    "price": 9000,
-    "price_postapoc": 2500,
-    "weight": "4500 g",
-    "volume": "3 L",
     "melee_damage": { "bash": 8 }
   },
   {

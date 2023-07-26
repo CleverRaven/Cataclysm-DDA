@@ -355,7 +355,7 @@
     "recipes": [
       { "id": "chisel", "description": " Craft: Metalworking Chisel" },
       { "id": "hammer", "description": " Craft: Hammer" },
-      { "id": "tongs", "description": " Craft: Metal Tongs" },
+      { "id": "tongs", "description": " Craft: Pair of kitchen tongs" },
       { "id": "nail", "description": " Craft: Nail" },
       { "id": "wire", "description": " Craft: Wire" },
       { "id": "swage", "description": " Craft: Swage and Die Set" },

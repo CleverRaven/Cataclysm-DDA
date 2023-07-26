@@ -1936,6 +1936,7 @@
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 4,
+    "flags": [ "PADDED" ],
     "techniques": [ "WBLOCK_1" ],
     "armor": [
       {

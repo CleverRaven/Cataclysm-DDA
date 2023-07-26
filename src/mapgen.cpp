@@ -1905,21 +1905,27 @@ class jmapgen_faction : public jmapgen_piece
  */
 class jmapgen_sign : public jmapgen_piece
 {
+    private:
+        furn_id sign_furniture;
     public:
         translation signage;
         std::string snippet;
         jmapgen_sign( const JsonObject &jsi, const std::string_view/*context*/ ) :
             snippet( jsi.get_string( "snippet", "" ) ) {
             jsi.read( "signage", signage );
+            optional( jsi, false, "furniture", sign_furniture, furn_f_sign );
             if( signage.empty() && snippet.empty() ) {
                 jsi.throw_error( "jmapgen_sign: needs either signage or snippet" );
+            }
+            if( !sign_furniture->has_flag( ter_furn_flag::TFLAG_SIGN ) ) {
+                jsi.throw_error( "jmapgen_sign: specified furniture needs SIGN flag" );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             const point r( x.get(), y.get() );
             dat.m.furn_set( r, f_null );
-            dat.m.furn_set( r, furn_f_sign );
+            dat.m.furn_set( r, sign_furniture );
 
             std::string signtext;
 
@@ -3447,29 +3453,29 @@ class jmapgen_nested : public jmapgen_piece
                 explicit neighbor_oter_check( const JsonObject &jsi ) {
                     for( direction dir : all_enum_values<direction>() ) {
                         std::string location = io::enum_to_string( dir );
-                        cata::flat_set<std::pair<std::string, ot_match_type>> dir_neighbours;
+                        cata::flat_set<std::pair<std::string, ot_match_type>> dir_neighbors;
                         if( !jsi.has_string( location ) ) {
                             for( const JsonValue entry : jsi.get_array( location ) ) {
-                                std::pair<std::string, ot_match_type> dir_neighbour;
+                                std::pair<std::string, ot_match_type> dir_neighbor;
                                 if( entry.test_string() ) {
-                                    dir_neighbour.first = entry.get_string();
-                                    dir_neighbour.second = ot_match_type::contains;
+                                    dir_neighbor.first = entry.get_string();
+                                    dir_neighbor.second = ot_match_type::contains;
                                 } else {
                                     JsonObject jo = entry.get_object();
-                                    dir_neighbour.first = jo.get_string( "om_terrain" );
-                                    dir_neighbour.second = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
-                                                           ot_match_type::contains );
+                                    dir_neighbor.first = jo.get_string( "om_terrain" );
+                                    dir_neighbor.second = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                                                          ot_match_type::contains );
                                 }
-                                dir_neighbours.insert( dir_neighbour );
+                                dir_neighbors.insert( dir_neighbor );
                             }
                         } else {
-                            std::pair<std::string, ot_match_type> dir_neighbour;
-                            dir_neighbour.first = jsi.get_string( location );
-                            dir_neighbour.second = ot_match_type::contains;
-                            dir_neighbours.insert( dir_neighbour );
+                            std::pair<std::string, ot_match_type> dir_neighbor;
+                            dir_neighbor.first = jsi.get_string( location );
+                            dir_neighbor.second = ot_match_type::contains;
+                            dir_neighbors.insert( dir_neighbor );
                         }
-                        if( !dir_neighbours.empty() ) {
-                            neighbors[dir] = std::move( dir_neighbours );
+                        if( !dir_neighbors.empty() ) {
+                            neighbors[dir] = std::move( dir_neighbors );
                         }
                     }
                 }
@@ -3503,11 +3509,11 @@ class jmapgen_nested : public jmapgen_piece
             public:
                 explicit neighbor_join_check( const JsonObject &jsi ) {
                     for( cube_direction dir : all_enum_values<cube_direction>() ) {
-                        cata::flat_set<std::string> dir_neighbours =
+                        cata::flat_set<std::string> dir_neighbors =
                             jsi.get_tags<std::string, cata::flat_set<std::string>>(
                                 io::enum_to_string( dir ) );
-                        if( !dir_neighbours.empty() ) {
-                            neighbors[dir] = std::move( dir_neighbours );
+                        if( !dir_neighbors.empty() ) {
+                            neighbors[dir] = std::move( dir_neighbors );
                         }
                     }
                 }
@@ -3542,11 +3548,11 @@ class jmapgen_nested : public jmapgen_piece
             public:
                 explicit neighbor_flag_check( const JsonObject &jsi ) {
                     for( direction dir : all_enum_values<direction>() ) {
-                        cata::flat_set<oter_flags> dir_neighbours;
+                        cata::flat_set<oter_flags> dir_neighbors;
                         std::string location = io::enum_to_string( dir );
-                        optional( jsi, false, location, dir_neighbours );
-                        if( !dir_neighbours.empty() ) {
-                            neighbors[dir] = std::move( dir_neighbours );
+                        optional( jsi, false, location, dir_neighbors );
+                        if( !dir_neighbors.empty() ) {
+                            neighbors[dir] = std::move( dir_neighbors );
                         }
                     }
                 }
@@ -3571,6 +3577,40 @@ class jmapgen_nested : public jmapgen_piece
                     return true;
                 }
         };
+        // TO DO: Remove this and replace it with a smarter logical syntax for neighbor_join_check and neighbor_flag_check
+        class neighbor_flag_any_check
+        {
+            private:
+                std::unordered_map<direction, cata::flat_set<oter_flags>> neighbors;
+            public:
+                explicit neighbor_flag_any_check( const JsonObject &jsi ) {
+                    for( direction dir : all_enum_values<direction>() ) {
+                        cata::flat_set<oter_flags> dir_neighbors;
+                        std::string location = io::enum_to_string( dir );
+                        optional( jsi, false, location, dir_neighbors );
+                        if( !dir_neighbors.empty() ) {
+                            neighbors[dir] = std::move( dir_neighbors );
+                        }
+                    }
+                }
+
+                bool test( const mapgendata &dat ) const {
+                    for( const std::pair<const direction, cata::flat_set<oter_flags>> &p :
+                         neighbors ) {
+                        const direction dir = p.first;
+                        const cata::flat_set<oter_flags> &allowed_flags = p.second;
+
+                        cata_assert( !allowed_flags.empty() );
+
+                        for( const oter_flags &allowed_flag : allowed_flags ) {
+                            if( dat.neighbor_at( dir )->has_flag( allowed_flag ) ) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+        };
 
     public:
         weighted_int_list<mapgen_value<nested_mapgen_id>> entries;
@@ -3578,10 +3618,12 @@ class jmapgen_nested : public jmapgen_piece
         neighbor_oter_check neighbor_oters;
         neighbor_join_check neighbor_joins;
         neighbor_flag_check neighbor_flags;
+        neighbor_flag_any_check neighbor_flags_any;
         jmapgen_nested( const JsonObject &jsi, const std::string_view/*context*/ )
             : neighbor_oters( jsi.get_object( "neighbors" ) )
             , neighbor_joins( jsi.get_object( "joins" ) )
-            , neighbor_flags( jsi.get_object( "flags" ) ) {
+            , neighbor_flags( jsi.get_object( "flags" ) )
+            , neighbor_flags_any( jsi.get_object( "flags_any" ) ) {
             if( jsi.has_member( "chunks" ) ) {
                 load_weighted_list( jsi.get_member( "chunks" ), entries, 100 );
             }
@@ -3621,7 +3663,8 @@ class jmapgen_nested : public jmapgen_piece
         }
         const weighted_int_list<mapgen_value<nested_mapgen_id>> &get_entries(
         const mapgendata &dat ) const {
-            if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) && neighbor_flags.test( dat ) ) {
+            if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) && neighbor_flags.test( dat ) &&
+                neighbor_flags_any.test( dat ) ) {
                 return entries;
             } else {
                 return else_entries;
@@ -6675,6 +6718,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
         add_vehicle_to_cache( placed_vehicle );
 
         rebuild_vehicle_level_caches();
+        set_pathfinding_cache_dirty( p.z );
         placed_vehicle->place_zones( *this );
     }
     return placed_vehicle;
