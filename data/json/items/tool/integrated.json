@@ -150,7 +150,7 @@
       [ "BUTCHER", -15 ]
     ],
     "use_action": [
-      "CROWBAR",
+      { "type": "CROWBAR", "ammo_scale": 0 },
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
