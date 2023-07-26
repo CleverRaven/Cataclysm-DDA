@@ -168,6 +168,6 @@
   {
     "name": "GROUP_CIVILIANS_STANDARD",
     "type": "monstergroup",
-    "monsters": [ { "group": "GROUP_CIVILIANS_PSYCHIC_FERAL", "weight": 2, "cost_multiplier": 3 } ]
+    "monsters": [ { "group": "GROUP_CIVILIANS_PSYCHIC_FERAL", "weight": 10, "cost_multiplier": 2 } ]
   }
 ]
