@@ -251,6 +251,24 @@
   },
   {
     "type": "item_group",
+    "id": "trash_domestic",
+    "items": [
+      [ "bottle_plastic", 2 ],
+      [ "bottle_plastic_small", 3 ],
+      [ "bottle_glass", 2 ],
+      [ "can_drink", 20 ],
+      [ "wrapper", 20 ],
+      [ "wrapper_foil", 5 ],
+      [ "bag_zipper", 5 ],
+      [ "box_small", 20 ],
+      [ "bubblewrap", 3 ],
+      [ "survnote", 1 ],
+      { "item": "lighter", "prob": 3, "charges-min": 0, "charges-max": 10 },
+      [ "flyer", 3 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "trash_cart",
     "items": [
       [ "bottle_plastic", 5 ],
