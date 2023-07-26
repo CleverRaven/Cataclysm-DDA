@@ -336,7 +336,7 @@
     "type": "GENERIC",
     "name": { "str": "survival knife", "str_pl": "survival knives" },
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.",
-    "replace_materials": { "mc_steel": "steel" },
+    "replace_materials": { "mc_steel": "steel" }
   },
   {
     "id": "lc_knife_rambo",
@@ -462,7 +462,7 @@
     "type": "TOOL",
     "name": { "str": "trench knife", "str_pl": "trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.",
-    "replace_materials": { "mc_steel": "steel" },
+    "replace_materials": { "mc_steel": "steel" }
   },
   {
     "id": "lc_knife_trench",
@@ -646,7 +646,7 @@
     "type": "TOOL",
     "name": { "str": "cavalry saber" },
     "description": "A curved sword associated with cavalry from the Early Modern period onward.  Lightweight, but a deadly slashing weapon.",
-    "replace_materials": { "mc_steel": "steel" },
+    "replace_materials": { "mc_steel": "steel" }
   },
   {
     "id": "lc_cavalry_sabre",
@@ -740,7 +740,7 @@
     "type": "TOOL",
     "name": { "str": "kukri" },
     "description": "This versatile implement is a modern take on a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, it can be used as both a tool and a weapon.",
-    "replace_materials": { "mc_steel": "steel", "wood": "plastic" },
+    "replace_materials": { "mc_steel": "steel", "wood": "plastic" }
   },
   {
     "id": "lc_kukri",
@@ -817,7 +817,7 @@
     "replace_materials": { "mc_steel": "lc_steel" },
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "delete": { "flags": [ "NONCONDUCTIVE" ] },
-    "relative": [ "melee_damage": { "cut": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] ]
+    "relative": { "melee_damage": { "cut": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
     "id": "mc_jian",
@@ -834,7 +834,6 @@
     "price": 100000,
     "price_postapoc": 4000,
     "material": [ "mc_steel" ],
-    "repairs_with": [ "mc_steel" ],
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
@@ -850,7 +849,7 @@
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
     "extend": { "flags": [ "DURABLE_MELEE" ] },
-    "relative": { "melee_damage": { "cut": 2 }, "qualities": [ [ "BUTCHER", 1 ] ] }    
+    "relative": { "melee_damage": { "cut": 2 }, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
     "id": "ch_jian",
@@ -860,7 +859,7 @@
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel" },
     "extend": { "flags": [ "DURABLE_MELEE" ] },
-    "relative": { "melee_damage": { "cut": 3 }, "qualities": [ [ "BUTCHER", 1 ] ] }  
+    "relative": { "melee_damage": { "cut": 3 }, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
     "id": "qt_jian",
@@ -870,7 +869,7 @@
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel" },
     "extend": { "flags": [ "DURABLE_MELEE" ] },
-    "relative": { "melee_damage": { "cut": 5 }, "qualities": [ [ "BUTCHER", 2 ] ] } 
+    "relative": { "melee_damage": { "cut": 5 }, "qualities": [ [ "BUTCHER", 2 ] ] }
   },
   {
     "id": "jian_inferior",
@@ -895,58 +894,38 @@
   },
   {
     "id": "scimitar",
+    "copy-from": "mc_scimitar",
     "type": "TOOL",
-    "symbol": "/",
-    "color": "light_gray",
     "name": { "str": "shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.",
-    "price": 93000,
-    "price_postapoc": 3500,
-    "material": [ "iron" ],
-    "techniques": [ "WBLOCK_2" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIUM_SWORDS" ],
-    "weight": "1133 g",
-    "volume": "2 L",
-    "longest_side": "90 cm",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
-    "category": "weapons",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "melee_damage": { "bash": 5, "cut": 29 }
+    "replace_materials": { "mc_steel": "steel" }
   },
   {
     "id": "lc_scimitar",
+    "copy-from": "mc_scimitar",
     "type": "TOOL",
-    "looks_like": "scimitar",
-    "category": "weapons",
-    "symbol": "/",
-    "color": "light_gray",
     "name": { "str": "mild steel shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade with mild carbon steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
-    "weight": "1133 g",
-    "volume": "2 L",
-    "longest_side": "90 cm",
-    "price": 93000,
-    "price_postapoc": 3500,
-    "material": [ "lc_steel" ],
-    "repairs_with": [ "lc_steel" ],
-    "flags": [ "SHEATH_SWORD", "CONDUCTIVE" ],
-    "techniques": [ "WBLOCK_2" ],
+    "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "neutral" },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
-    "weapon_category": [ "MEDIUM_SWORDS" ],
-    "melee_damage": { "bash": 5, "cut": 26 }
+    "delete": { "flags": [ "NONCONDUCTIVE" ] },
+    "relative": { "melee_damage": { "cut": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
     "id": "mc_scimitar",
     "type": "TOOL",
-    "copy-from": "lc_scimitar",
+    "category": "weapons",
     "name": { "str": "medium steel shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade with medium carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "1223 g",
+    "volume": "2 L",
+    "longest_side": "90 cm",
+    "looks_like": "scimitar",
+    "symbol": "/",
+    "color": "light_gray",
     "price": 93000,
     "price_postapoc": 3500,
-    "material": [ "mc_steel" ],
+    "material": [ { "type": "leather", "portion": 5 }, { "type": "mc_steel", "portion": 30 } ],
     "repairs_with": [ "mc_steel" ],
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_2" ],
@@ -958,83 +937,51 @@
   {
     "id": "hc_scimitar",
     "type": "TOOL",
-    "copy-from": "lc_scimitar",
+    "copy-from": "mc_scimitar",
     "name": { "str": "high steel shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
-    "weight": "1223 g",
-    "price": 93000,
-    "price_postapoc": 3500,
-    "material": [ "hc_steel" ],
-    "repairs_with": [ "hc_steel" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
-    "techniques": [ "WBLOCK_2" ],
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "weapon_category": [ "MEDIUM_SWORDS" ],
-    "melee_damage": { "bash": 5, "cut": 32 }
+    "replace_materials": { "mc_steel": "hc_steel" },
+    "extend": { "flags": [ "DURABLE_MELEE" ] },
+    "relative": { "melee_damage": { "cut": 2 }, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
     "id": "ch_scimitar",
     "type": "TOOL",
-    "copy-from": "lc_scimitar",
+    "copy-from": "mc_scimitar",
     "name": { "str": "hardened scimitar" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
-    "weight": "1198 g",
-    "price": 93000,
-    "price_postapoc": 3500,
-    "material": [ "ch_steel" ],
-    "repairs_with": [ "ch_steel" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
-    "techniques": [ "WBLOCK_2" ],
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "weapon_category": [ "MEDIUM_SWORDS" ],
-    "melee_damage": { "bash": 5, "cut": 33 }
+    "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
+    "extend": { "flags": [ "DURABLE_MELEE" ] },
+    "relative": { "melee_damage": { "cut": 3 }, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
     "id": "qt_scimitar",
     "type": "TOOL",
-    "copy-from": "lc_scimitar",
+    "copy-from": "mc_scimitar",
     "name": { "str": "tempered shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
-    "weight": "1198 g",
-    "price": 93000,
-    "price_postapoc": 3500,
-    "material": [ "qt_steel" ],
-    "repairs_with": [ "qt_steel" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
-    "techniques": [ "WBLOCK_2" ],
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "weapon_category": [ "MEDIUM_SWORDS" ],
-    "melee_damage": { "bash": 5, "cut": 35 }
+    "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
+    "extend": { "flags": [ "DURABLE_MELEE" ] },
+    "relative": { "melee_damage": { "cut": 5 }, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
     "id": "scimitar_inferior",
-    "copy-from": "scimitar",
+    "copy-from": "mc_scimitar",
     "type": "TOOL",
     "name": { "str": "shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  This one seems oddly dull and worn.",
-    "proportional": { "melee_damage": { "bash": 3.9, "cut": 0.25 } },
-    "delete": { "flags": [ "DURABLE_MELEE" ] },
-    "material": [ "budget_steel" ],
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
-    "price": 93000,
-    "price_postapoc": 500
+    "proportional": { "melee_damage": { "bash": 3.9, "cut": 0.25 }, "price": 0.1, "price_postapoc": 0.1 },
+    "replace_materials": { "mc_steel": "budget_steel" }
   },
   {
     "id": "scimitar_fake",
-    "copy-from": "scimitar",
+    "copy-from": "mc_scimitar",
     "type": "GENERIC",
     "name": { "str": "shamshir" },
     "description": "A dull, cheaply-made replica of a curved sword associated with various Middle Eastern and Central Asian countries.",
-    "proportional": { "melee_damage": { "bash": 1.9, "cut": 0.07 } },
-    "delete": { "flags": [ "DURABLE_MELEE" ] },
+    "proportional": { "melee_damage": { "bash": 1.9, "cut": 0.07 }, "price": 0.05, "price_postapoc": 0.05 },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
-    "material": [ "aluminum" ],
-    "weight": "586 g",
-    "price": 9300,
-    "price_postapoc": 50
+    "replace_materials": { "mc_steel": "aluminum", "leather": "nylon" }
   },
   {
     "id": "estoc",
