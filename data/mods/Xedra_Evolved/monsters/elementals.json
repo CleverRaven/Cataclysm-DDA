@@ -93,7 +93,7 @@
     "families": [ "prof_alien_biology" ],
     "hp": 10,
     "death_drops": { "subtype": "collection", "groups": [ [ "produce", 100 ], [ "vertebrate_parts", 10 ] ] },
-    "description": "A small dog-sized lizard colored in ocean blues.  It hisses and then spits gouts of water at whatever attracts its ire.",
+    "description": "A small dog-sized furry lizard colored in ocean blues.  It hisses and then spits gouts of water at whatever attracts its ire.",
     "special_attacks": [
       {
         "type": "gun",
@@ -105,7 +105,7 @@
       }
     ],
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "PATH_AVOID_DANGER_1", "CLIMBS" ],
-    "harvest": "fae_leather_tiny",
+    "harvest": "fae_furred",
     "dissect": "dissect_undine_tiny",
     "vision_day": 20,
     "vision_night": 5,
@@ -139,6 +139,7 @@
     "families": [ "prof_alien_biology" ],
     "hp": 20,
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "PATH_AVOID_DANGER_1", "HARDTOSHOOT" ],
+    "harvest": "water_elemental",
     "dissect": "dissect_undine_tiny",
     "special_attacks": [ { "id": "ice_spray" } ],
     "death_drops": [ { "item": "water", "charges": 25, "prob": 100 } ]
@@ -167,6 +168,7 @@
     "harvest": "rat_with_skull",
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
+    "harvest": "fae_furred",
     "dissect": "dissect_tiny_arvore",
     "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "anger_triggers": [ "SOUND", "PLAYER_CLOSE" ],
@@ -196,7 +198,7 @@
     "dodge": 5,
     "bleed_rate": 10,
     "harvest": "triffid_small",
-    "dissect": "dissect_plant_sample_single",
+    "dissect": "dissect_arvore",
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "HARDTOSHOOT", "GRABS", "SWIMS", "PLASTIC", "WATER_CAMOUFLAGE" ],
     "armor": { "bash": 18, "electric": 3 }
   }

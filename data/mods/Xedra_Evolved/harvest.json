@@ -15,6 +15,22 @@
     ]
   },
   {
+    "id": "stoneling",
+    "type": "harvest",
+    "entries": [
+      { "drop": "pebble", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "rock", "type": "flesh", "mass_ratio": 0.4 }
+    ]
+  },
+  {
+    "id": "water_elemental",
+    "type": "harvest",
+    "entries": [
+      { "drop": "fae_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "fae_meat", "type": "flesh", "mass_ratio": 0.4 }
+    ]
+  },
+  {
     "id": "fig_harv",
     "type": "harvest",
     "entries": [ { "drop": "fig", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
