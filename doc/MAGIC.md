@@ -1,4 +1,4 @@
-# How to add magic to a mod
+# Magic, Spells, and Enchantments
 
 - [How to add magic to a mod](#how-to-add-magic-to-a-mod)
   - [Spells](#spells)
@@ -835,6 +835,7 @@ Character status value  | Description
 `SOCIAL_INTIMIDATE`     | Affects your ability to intimidate.
 `SOCIAL_LIE`            | Affects your ability to lie.
 `SOCIAL_PERSUADE`       | Affects your ability to persuade.
+`RANGE`                 | Modifies your characters range with firearms
 `READING_EXP`           | Changes the minimum you learn from each reading increment.
 `RECOIL_MODIFIER`       | Affects recoil when shooting a gun. Positive value increase the dispersion, negative decrease one.
 `REGEN_HP`              | Affects the rate you recover hp.
