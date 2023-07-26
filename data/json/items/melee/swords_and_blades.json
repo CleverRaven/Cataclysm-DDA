@@ -948,7 +948,7 @@
     "id": "ch_scimitar",
     "type": "TOOL",
     "copy-from": "mc_scimitar",
-    "name": { "str": "hardened scimitar" },
+    "name": { "str": "hardened shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
     "extend": { "flags": [ "DURABLE_MELEE" ] },
