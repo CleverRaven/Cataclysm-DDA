@@ -104,7 +104,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_civilian_pyrokinetic" ],
-    "sound": "\"Burn them all! Burn them to ash!\"",
+    "sound": "\"Burn them all!  Burn them to ash!\"",
     "volume": 15
   },
   {
@@ -116,13 +116,13 @@
   {
     "type": "speech",
     "speaker": [ "mon_civilian_telepath" ],
-    "sound": "a voice inside your head whisper \"No escape…\".",
+    "sound": "a voice inside your head whisper, \"No escape…\".",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_civilian_telepath" ],
-    "sound": "a voice inside your head say \"Why?  Why?  Why?\".",
+    "sound": "a voice inside your head say, \"Why?  Why?  Why?\".",
     "volume": 10
   },
   {
