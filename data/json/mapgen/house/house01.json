@@ -216,12 +216,12 @@
         "A": "t_thconc_floor"
       },
       "place_nested": [ { "chunks": [ "pallets_crates_construction" ], "x": 3, "y": 4 } ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 11, 13 ], "y": [ 12, 13 ] } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 11, 13 ], "y": [ 12, 13 ], "repeat": [ 1, 2 ] } ],
       "items": {
         "T": [
           { "item": "pizza_trash", "chance": 60 },
           { "item": "floor_trash", "chance": 60 },
-          { "item": "hardware_trash", "chance": 60 },
+          { "item": "hardware_trash", "chance": 30 },
           { "item": "paint", "chance": 30 },
           { "item": "tools_construction", "chance": 10 },
           { "item": "tools_carpentry", "chance": 10 },
