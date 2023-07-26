@@ -214,6 +214,7 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_chafing( "chafing" );
 static const efftype_id effect_common_cold( "common_cold" );
+static const efftype_id effect_common_cold_immunity( "common_cold_immunity" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_corroding( "corroding" );
@@ -227,6 +228,7 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_flushot( "flushot" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
@@ -313,7 +315,6 @@ static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 static const json_character_flag json_flag_NIGHT_VISION( "NIGHT_VISION" );
 static const json_character_flag json_flag_NON_THRESH( "NON_THRESH" );
-static const json_character_flag json_flag_NO_DISEASE( "NO_DISEASE" );
 static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
@@ -902,8 +903,17 @@ int Character::point_shooting_limit( const item &gun )const
     }
 }
 
+aim_mods_cache Character::gen_aim_mods_cache( const item &gun )const
+{
+    parallax_cache parallaxes{ get_character_parallax( true ), get_character_parallax( false ) };
+    auto parallaxes_opt = std::make_optional( std::ref( parallaxes ) );
+    aim_mods_cache aim_cache = { get_modifier( character_modifier_aim_speed_skill_mod, gun.gun_skill() ), get_modifier( character_modifier_aim_speed_dex_mod ), get_modifier( character_modifier_aim_speed_mod ), most_accurate_aiming_method_limit( gun ), aim_factor_from_volume( gun ), aim_factor_from_length( gun ), parallaxes_opt };
+    return aim_cache;
+}
+
 double Character::fastest_aiming_method_speed( const item &gun, double recoil,
-        const Target_attributes target_attributes ) const
+        const Target_attributes target_attributes,
+        const std::optional<std::reference_wrapper<parallax_cache>> parallax_cache ) const
 {
     // Get fastest aiming method that can be used to improve aim further below @ref recoil.
 
@@ -939,6 +949,13 @@ double Character::fastest_aiming_method_speed( const item &gun, double recoil,
     const float light_limit = 120.0f;
     bool laser_light_available = target_attributes.range <= ( base_distance + per_cur ) * std::max(
                                      1.0f - target_attributes.light / light_limit, 0.0f ) && target_attributes.visible;
+    // There are only two kinds of parallaxes, one with zoom and one without. So cache them.
+    std::vector<std::optional<int>> parallaxes;
+    parallaxes.resize( 2 );
+    if( parallax_cache.has_value() ) {
+        parallaxes[0].emplace( parallax_cache.value().get().parallax_without_zoom );
+        parallaxes[1].emplace( parallax_cache.value().get().parallax_with_zoom );
+    }
     for( const item *e : gun.gunmods() ) {
         const islot_gunmod &mod = *e->type->gunmod;
         if( mod.sight_dispersion < 0 || mod.field_of_view <= 0 ) {
@@ -948,11 +965,15 @@ double Character::fastest_aiming_method_speed( const item &gun, double recoil,
             continue;
         }
         bool zoom = e->has_flag( flag_ZOOM );
-        double e_effective_dispersion = effective_dispersion( mod.sight_dispersion,
-                                        zoom );
+        // zoom==true will access parallaxes[1], zoom==false will access parallaxes[0].
+        int parallax = parallaxes[static_cast<int>( zoom )].has_value() ? parallaxes[static_cast<int>
+                       ( zoom )].value() : get_character_parallax( zoom );
+        parallaxes[static_cast<int>( zoom )].emplace( parallax );
+        // Maunal expansion of effective_dispersion() for performance.
+        double e_effective_dispersion = parallax + mod.sight_dispersion;
 
         // The character can hardly get the aiming speed bonus from a non-magnifier sight when aiming at a target that is too far or too small
-        double effective_aim_speed_modifier = 4 * get_character_parallax( zoom ) >
+        double effective_aim_speed_modifier = 4 * parallax >
                                               target_attributes.size_in_moa ? std::min( 0.0, mod.aim_speed_modifier ) : mod.aim_speed_modifier;
         if( e_effective_dispersion < recoil && recoil <= mod.field_of_view ) {
             double e_speed = recoil < mod.field_of_view ? modified_sight_speed( effective_aim_speed_modifier,
@@ -1037,14 +1058,17 @@ double Character::aim_factor_from_length( const item &gun ) const
 }
 
 double Character::aim_per_move( const item &gun, double recoil,
-                                const Target_attributes target_attributes ) const
+                                const Target_attributes target_attributes,
+                                std::optional<std::reference_wrapper<const aim_mods_cache>> aim_cache ) const
 {
     if( !gun.is_gun() ) {
         return 0.0;
     }
-
-    double sight_speed_modifier = fastest_aiming_method_speed( gun, recoil, target_attributes );
-    int limit = most_accurate_aiming_method_limit( gun );
+    bool use_cache = aim_cache.has_value();
+    double sight_speed_modifier = fastest_aiming_method_speed( gun, recoil, target_attributes,
+                                  use_cache ? aim_cache.value().get().parallaxes : std::nullopt );
+    int limit = use_cache ? aim_cache.value().get().limit :
+                most_accurate_aiming_method_limit( gun );
     if( sight_speed_modifier == INT_MIN ) {
         // No suitable sights (already at maximum aim).
         return 0;
@@ -1057,16 +1081,25 @@ double Character::aim_per_move( const item &gun, double recoil,
     double aim_speed = 10.0;
 
     skill_id gun_skill = gun.gun_skill();
-    // Ranges [-1.5 - 3.5] for archery Ranges [0 - 2.5] for others
-    aim_speed += get_modifier( character_modifier_aim_speed_skill_mod, gun_skill );
-
-    /** @EFFECT_DEX increases aiming speed */
-    // every DEX increases 0.5 aim_speed
-    aim_speed += get_modifier( character_modifier_aim_speed_dex_mod );
 
     aim_speed += sight_speed_modifier;
 
-    aim_speed *= get_modifier( character_modifier_aim_speed_mod );
+    if( !use_cache ) {
+        // Ranges [-1.5 - 3.5] for archery Ranges [0 - 2.5] for others
+        aim_speed += get_modifier( character_modifier_aim_speed_skill_mod, gun_skill );
+
+        /** @EFFECT_DEX increases aiming speed */
+        // every DEX increases 0.5 aim_speed
+        aim_speed += get_modifier( character_modifier_aim_speed_dex_mod );
+
+        aim_speed *= get_modifier( character_modifier_aim_speed_mod );
+    } else {
+        aim_speed += aim_cache.value().get().aim_speed_skill_mod;
+
+        aim_speed += aim_cache.value().get().aim_speed_dex_mod;
+
+        aim_speed *= aim_cache.value().get().aim_speed_mod;
+    }
 
     // finally multiply everything by a harsh function that is eliminated by 7.5 gunskill
     aim_speed /= std::max( 1.0, 2.5 - 0.2 * get_skill_level( gun_skill ) );
@@ -1076,16 +1109,22 @@ double Character::aim_per_move( const item &gun, double recoil,
     // add 4 max aim speed per skill up to 5 skill, then 1 per skill for skill 5-10
     double base_aim_speed_cap = 5.0 +  1.0 * get_skill_level( gun_skill ) + std::max( 10.0,
                                 3.0 * get_skill_level( gun_skill ) );
+    if( !use_cache ) {
+        // This upper limit usually only affects the first half of the aiming process
+        // Pistols have a much higher aiming speed limit
+        aim_speed = std::min( aim_speed, base_aim_speed_cap * aim_factor_from_volume( gun ) );
 
-    // This upper limit usually only affects the first half of the aiming process
-    // Pistols have a much higher aiming speed limit
-    aim_speed = std::min( aim_speed, base_aim_speed_cap * aim_factor_from_volume( gun ) );
+        // When the character is in an open area, it will not be affected by the length of the weapon.
+        // This upper limit usually only affects the first half of the aiming process
+        // Weapons shorter than carbine are usually not affected by it
+        aim_speed = std::min( aim_speed, base_aim_speed_cap * aim_factor_from_length( gun ) );
+    } else {
+        aim_speed = std::min( aim_speed,
+                              base_aim_speed_cap * aim_cache.value().get().aim_factor_from_volume );
 
-    // When the character is in an open area, it will not be affected by the length of the weapon.
-    // This upper limit usually only affects the first half of the aiming process
-    // Weapons shorter than carbine are usually not affected by it
-    aim_speed = std::min( aim_speed, base_aim_speed_cap * aim_factor_from_length( gun ) );
-
+        aim_speed = std::min( aim_speed,
+                              base_aim_speed_cap * aim_cache.value().get().aim_factor_from_length );
+    }
     // Just a raw scaling factor.
     aim_speed *= 2.4;
 
@@ -2736,7 +2775,7 @@ void Character::conduct_blood_analysis()
             continue;
         }
         effect_descriptions.emplace_back( elem.first->get_blood_analysis_description() );
-        colors.emplace_back( elem.first->get_rating() == e_good ? c_green : c_red );
+        colors.emplace_back( elem.first->get_rating() == m_good ? c_green : c_red );
     }
 
     const int win_w = 46;
@@ -5155,45 +5194,28 @@ void Character::check_needs_extremes()
     }
 }
 
-void Character::get_sick()
+void Character::get_sick( bool is_flu )
 {
-    // NPCs are too dumb to handle infections now
-    if( is_npc() || has_flag( json_flag_NO_DISEASE ) ) {
-        // In a shocking twist, disease immunity prevents diseases.
-        return;
-    }
-
-    if( has_effect( effect_flu ) || has_effect( effect_common_cold ) ) {
-        // While it's certainly possible to get sick when you already are,
-        // it wouldn't be very fun.
-        return;
-    }
-
-    // Normal people get sick about 2-4 times/year.
-    int base_diseases_per_year = 3;
-    if( has_trait( trait_DISRESISTANT ) ) {
-        // Disease resistant people only get sick once a year.
-        base_diseases_per_year = 1;
-    }
-
-    // This check runs once every 30 minutes, so double to get hours, *24 to get days.
-    const int checks_per_year = 2 * 24 * 365;
-
     // Health is in the range [-200,200].
     // Diseases are half as common for every 50 health you gain.
-    float health_factor = std::pow( 2.0f, get_lifestyle() / 50.0f );
-    float env_factor = 1.0f + std::pow( get_env_resist( body_part_mouth ), 0.3f ) / 2.0;
-
-    int disease_rarity = static_cast<int>( checks_per_year * health_factor * env_factor /
-                                           base_diseases_per_year );
+    const float health_factor = std::pow( 2.0f, get_lifestyle() / 50.0f );
+    const float env_factor = 2.0f + std::pow( get_env_resist( body_part_mouth ), 0.3f );
+    const int disease_rarity = static_cast<int>( health_factor + env_factor );
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "disease_rarity = %d", disease_rarity );
+
     if( one_in( disease_rarity ) ) {
-        if( one_in( 6 ) ) {
+        // Normal people get sick about 2-4 times/year. If they are disease resistant, it's 1 time per year.
+        const int base_diseases_per_year = has_trait( trait_DISRESISTANT ) ? 1 : 3;
+        const time_duration immunity_duration = calendar::season_length() * 4 / base_diseases_per_year;
+
+        if( is_flu ) {
             // The flu typically lasts 3-10 days.
             add_effect( effect_flu, rng( 3_days, 10_days ) );
+            add_effect( effect_flushot, immunity_duration );
         } else {
             // A cold typically lasts 1-14 days.
             add_effect( effect_common_cold, rng( 1_days, 14_days ) );
+            add_effect( effect_common_cold_immunity, immunity_duration );
         }
     }
 }
@@ -5276,11 +5298,8 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
             // Note: shelled individuals can still use sleeping aids!
         } else if( vp ) {
-            const std::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
-            const std::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
-            if( carg ) {
-                const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
-                for( const item &items_it : items ) {
+            if( const std::optional<vpart_reference> cargo = vp.cargo() ) {
+                for( const item &items_it : cargo->items() ) {
                     if( items_it.has_flag( flag_SLEEP_AID ) ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                         comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
@@ -5309,7 +5328,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                     }
                 }
             }
-            if( board ) {
+            if( const std::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true ) ) {
                 comfort += board->info().comfort;
             } else {
                 comfort -= here.move_cost( p );
@@ -8588,18 +8607,15 @@ void Character::migrate_items_to_storage( bool disintegrate )
 std::string Character::is_snuggling() const
 {
     map &here = get_map();
-    auto begin = here.i_at( pos() ).begin();
-    auto end = here.i_at( pos() ).end();
+    map_stack items_here = here.i_at( pos() );
+    item_stack::const_iterator begin = items_here.begin();
+    item_stack::const_iterator end = items_here.end();
 
     if( in_vehicle ) {
-        if( const std::optional<vpart_reference> vp = here.veh_at( pos() ).part_with_feature( VPFLAG_CARGO,
-                false ) ) {
-            vehicle *const veh = &vp->vehicle();
-            const int cargo = vp->part_index();
-            if( !veh->get_items( cargo ).empty() ) {
-                begin = veh->get_items( cargo ).begin();
-                end = veh->get_items( cargo ).end();
-            }
+        if( const std::optional<vpart_reference> ovp = here.veh_at( pos() ).cargo() ) {
+            const vehicle_stack vs = ovp->items();
+            begin = vs.begin();
+            end = vs.end();
         }
     }
     const item *floor_armor = nullptr;
@@ -8748,18 +8764,13 @@ int Character::floor_item_warmth( const tripoint &pos )
 
     map &here = get_map();
 
-    if( !!here.veh_at( pos ) ) {
-        if( const std::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( VPFLAG_CARGO,
-                false ) ) {
-            vehicle *const veh = &vp->vehicle();
-            const int cargo = vp->part_index();
-            vehicle_stack vehicle_items = veh->get_items( cargo );
-            warm( vehicle_items );
+    if( const optional_vpart_position veh_here = here.veh_at( pos ) ) {
+        if( const std::optional<vpart_reference> ovp = veh_here.cargo() ) {
+            warm( ovp->items() );
         }
-        return item_warmth;
+    } else {
+        warm( here.i_at( pos ) );
     }
-    map_stack floor_items = here.i_at( pos );
-    warm( floor_items );
     return item_warmth;
 }
 
@@ -9284,8 +9295,9 @@ float Character::adjust_for_focus( float amount ) const
     int effective_focus = get_focus();
     effective_focus = enchantment_cache->modify_value( enchant_vals::mod::LEARNING_FOCUS,
                       effective_focus );
-    effective_focus += ( get_int() - get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
-                       get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" );
+    effective_focus *= 1.0 + ( 0.01f * ( get_int() -
+                                         get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
+                               get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" ) );
     effective_focus = std::max( effective_focus, 1 );
     return amount * ( effective_focus / 100.0f );
 }
@@ -9649,7 +9661,7 @@ void Character::place_corpse()
     body.set_item_temperature( units::from_celsius( 37 ) );
     map &here = get_map();
     for( item *itm : tmp ) {
-        here.add_item_or_charges( pos(), *itm );
+        body.force_insert_item( *itm, item_pocket::pocket_type::CONTAINER );
     }
     for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.info().itype() ) ) {
@@ -9689,7 +9701,7 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, get_name() );
     for( item *itm : tmp ) {
-        bay.add_item_or_charges( fin, *itm );
+        body.force_insert_item( *itm, item_pocket::pocket_type::CONTAINER );
     }
     for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.info().itype() ) ) {
@@ -10820,18 +10832,24 @@ int Character::book_fun_for( const item &book, const Character &p ) const
 
 bool Character::has_bionic_with_flag( const json_character_flag &flag ) const
 {
+    auto iter = bio_flag_cache.find( flag );
+    if( iter != bio_flag_cache.end() ) {
+        return iter->second;
+    }
     for( const bionic &bio : *my_bionics ) {
         if( bio.info().has_flag( flag ) ) {
+            bio_flag_cache[flag] = true;
             return true;
         }
         if( bio.info().activated ) {
             if( ( bio.info().has_active_flag( flag ) && has_active_bionic( bio.id ) ) ||
                 ( bio.info().has_inactive_flag( flag ) && !has_active_bionic( bio.id ) ) ) {
+                bio_flag_cache[flag] = true;
                 return true;
             }
         }
     }
-
+    bio_flag_cache[flag] = false;
     return false;
 }
 

@@ -9,6 +9,7 @@ use_action_msg_keys = [
     "charges_extinguish_message",
     "deactive_msg",
     "descriptions",
+    "description",
     "done_message",
     "failure_message",
     "friendly_msg",

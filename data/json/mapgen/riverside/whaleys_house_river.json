@@ -286,7 +286,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "X": "t_pit_corpsed", "x": "t_pit", "4": "t_gutter_downspout" },
       "items": {
-        "n": [ { "item": "corpses", "chance": 33 }, { "item": "butcher_tools", "chance": 75, "repeat": [ 1, 3 ] } ],
+        "n": [ { "item": "corpses_no_items", "chance": 33 }, { "item": "butcher_tools", "chance": 75, "repeat": [ 1, 3 ] } ],
         "X": { "item": "creepy", "chance": 50, "repeat": [ 1, 2 ] },
         ".": { "item": "creepy", "chance": 10 }
       },

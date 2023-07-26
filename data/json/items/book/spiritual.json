@@ -658,6 +658,19 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_torah_scroll",
+    "type": "BOOK",
+    "name": { "str": "Torah", "str_pl": "copies of the Torah" },
+    "description": "The five books of Moses, written on animal skin by a trained scribe in accordance with the laws and customs of traditional Jewish calligraphy and bound onto wooden rollers.  Once very expensive, it would now be beyond price, if there are any Jewish communities left to use it.",
+    "weight": "12000 g",
+    "volume": "24 L",
+    "price": 4000000,
+    "price_postapoc": 200,
+    "longest_side": "48 cm",
+    "material": [ "leather", "wood" ],
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_tripitaka",
     "type": "BOOK",
     "name": { "str": "The Tripitaka", "str_pl": "copies of The Tripitaka" },

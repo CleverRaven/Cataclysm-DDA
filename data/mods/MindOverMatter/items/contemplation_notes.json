@@ -17,8 +17,19 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Study the formulae.",
-      "effect_on_conditions": [ "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES" ]
+      "effect_on_conditions": [ "EOC_READ_BIOKIN_CONTEMPLATE_RECIPES_NOTE" ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_BIOKIN_CONTEMPLATE_RECIPES_NOTE",
+    "effect": [
+      {
+        "u_message": "You study the note and contemplate ways that you might improve your powers (check practice recipes).",
+        "type": "good"
+      },
+      { "run_eocs": [ "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES" ] }
+    ]
   },
   {
     "type": "GENERIC",
@@ -28,8 +39,19 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Study the formulae.",
-      "effect_on_conditions": [ "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES" ]
+      "effect_on_conditions": [ "EOC_READ_CLAIR_CONTEMPLATE_RECIPES_NOTE" ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_CLAIR_CONTEMPLATE_RECIPES_NOTE",
+    "effect": [
+      {
+        "u_message": "You study the note and contemplate ways that you might improve your powers (check practice recipes).",
+        "type": "good"
+      },
+      { "run_eocs": [ "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES" ] }
+    ]
   },
   {
     "type": "GENERIC",
@@ -39,8 +61,19 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Study the formulae.",
-      "effect_on_conditions": [ "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES" ]
+      "effect_on_conditions": [ "EOC_READ_PYRO_CONTEMPLATE_RECIPES_NOTE" ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_PYRO_CONTEMPLATE_RECIPES_NOTE",
+    "effect": [
+      {
+        "u_message": "You study the note and contemplate ways that you might improve your powers (check practice recipes).",
+        "type": "good"
+      },
+      { "run_eocs": [ "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES" ] }
+    ]
   },
   {
     "type": "GENERIC",
@@ -50,8 +83,19 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Study the formulae.",
-      "effect_on_conditions": [ "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" ]
+      "effect_on_conditions": [ "EOC_READ_TELEKIN_CONTEMPLATE_RECIPES_NOTE" ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_TELEKIN_CONTEMPLATE_RECIPES_NOTE",
+    "effect": [
+      {
+        "u_message": "You study the note and contemplate ways that you might improve your powers (check practice recipes).",
+        "type": "good"
+      },
+      { "run_eocs": [ "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" ] }
+    ]
   },
   {
     "type": "GENERIC",
@@ -61,8 +105,19 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Study the formulae.",
-      "effect_on_conditions": [ "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES" ]
+      "effect_on_conditions": [ "EOC_READ_TELEPATH_CONTEMPLATE_RECIPES_NOTE" ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_TELEPATH_CONTEMPLATE_RECIPES_NOTE",
+    "effect": [
+      {
+        "u_message": "You study the note and contemplate ways that you might improve your powers (check practice recipes).",
+        "type": "good"
+      },
+      { "run_eocs": [ "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES" ] }
+    ]
   },
   {
     "type": "GENERIC",
@@ -72,8 +127,19 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Study the formulae.",
-      "effect_on_conditions": [ "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES" ]
+      "effect_on_conditions": [ "EOC_READ_TELEPORT_CONTEMPLATE_RECIPES_NOTE" ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_TELEPORT_CONTEMPLATE_RECIPES_NOTE",
+    "effect": [
+      {
+        "u_message": "You study the note and contemplate ways that you might improve your powers (check practice recipes).",
+        "type": "good"
+      },
+      { "run_eocs": [ "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES" ] }
+    ]
   },
   {
     "type": "GENERIC",
@@ -83,7 +149,18 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Study the formulae.",
-      "effect_on_conditions": [ "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" ]
+      "effect_on_conditions": [ "EOC_READ_VITAKIN_CONTEMPLATE_RECIPES_NOTE" ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_VITAKIN_CONTEMPLATE_RECIPES_NOTE",
+    "effect": [
+      {
+        "u_message": "You study the note and contemplate ways that you might improve your powers (check practice recipes).",
+        "type": "good"
+      },
+      { "run_eocs": [ "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" ] }
+    ]
   }
 ]

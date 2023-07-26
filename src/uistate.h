@@ -151,6 +151,7 @@ class uistatedata
         bool distraction_thirst = true;
         bool distraction_temperature = true;
         bool distraction_mutation = true;
+        bool distraction_oxygen = true;
         bool numpad_navigation = false;
 
         // V Menu Stuff

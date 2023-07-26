@@ -23,7 +23,6 @@
       "noise_id": "misc",
       "noise_variant": "airhorn",
       "use_message": "You honk your airhorn.",
-      "no_charges_message": "You depress the button but no sound comes out.",
       "//": "Use of %s not currently supported."
     },
     "melee_damage": { "bash": 3 }
@@ -311,7 +310,6 @@
       "noise_id": "misc",
       "noise_variant": "horn_bicycle",
       "use_message": "You honk the bicycle horn.",
-      "no_charges_message": "Seeing this is an error.",
       "//": "Use of %s not currently supported."
     },
     "melee_damage": { "bash": 1 }
@@ -732,6 +730,28 @@
     "use_action": [ "MACE" ]
   },
   {
+    "id": "c4_payload",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "C-4 payload" },
+    "description": "This is a dummy item used by c4 hacks.  You should never see it outside of debug.",
+    "symbol": "*",
+    "color": "dark_gray",
+    "use_action": { "target": "c4armed", "target_timer": "10 seconds", "type": "transform" },
+    "flags": [ "TRADER_AVOID", "BOMB", "GRENADE", "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "mininuke_payload",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "mininuke payload" },
+    "description": "This is a dummy item used by mininuke hacks.  You should never see it outside of debug.",
+    "symbol": "*",
+    "color": "dark_gray",
+    "use_action": { "target": "mininuke_act", "target_timer": "20 seconds", "type": "transform" },
+    "flags": [ "TRADER_AVOID", "BOMB", "GRENADE", "ZERO_WEIGHT" ]
+  },
+  {
     "id": "tear_gas_payload",
     "type": "TOOL",
     "category": "weapons",
@@ -934,7 +954,6 @@
         "noise_id": "misc",
         "noise_variant": "whistle",
         "use_message": "You blow the whistle.",
-        "no_charges_message": "Seeing this is an error.",
         "//": "Somewhat lower than the proper whistle."
       },
       "WEATHER_TOOL",

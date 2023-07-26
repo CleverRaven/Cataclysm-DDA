@@ -127,7 +127,7 @@
     "coverage": 60,
     "required_str": 12,
     "max_volume": "37500 ml",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -168,7 +168,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 10,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "deconstruct": { "items": [ { "item": "fridge", "count": 1 } ] },
     "max_volume": "500 L",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "fridge" },
@@ -203,7 +203,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 10,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "NO_SELF_CONNECT" ],
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "NO_SELF_CONNECT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 2, 5 ] },
@@ -252,7 +252,7 @@
     "coverage": 60,
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "freezer" },
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] },
     "max_volume": "450 L",
     "bash": {
@@ -328,7 +328,7 @@
     "required_str": 12,
     "max_volume": "135 L",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "household_washing_machine" },
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "EASY_DECONSTRUCT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "deconstruct": { "items": [ { "item": "household_washing_machine", "count": 1 } ] },
     "bash": {
       "str_min": 18,
@@ -368,6 +368,7 @@
       "CONTAINER",
       "BLOCKSDOOR",
       "MOUNTABLE",
+      "SMALL_HIDE",
       "NO_SELF_CONNECT"
     ],
     "deconstruct": { "items": [ { "item": "oven", "count": 1 } ] },
@@ -383,8 +384,7 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "scrap", "count": [ 0, 6 ] },
         { "item": "element", "count": [ 1, 3 ] },
-        { "item": "cable", "charges": [ 1, 3 ] },
-        { "item": "pilot_light", "count": 1 }
+        { "item": "cable", "charges": [ 1, 3 ] }
       ]
     },
     "crafting_pseudo_item": "oven"
@@ -435,7 +435,16 @@
     "symbol": "#",
     "description": "A standard gas-powered oven, commonly used for heating and cooking food.  This one has an attached microwave.  With the state of nearby gas lines unknown, it's best not to put any fire near it.  You could disassemble the shelving holding them together and pull the microwave out.",
     "color": "dark_gray",
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE", "NO_SELF_CONNECT" ],
+    "flags": [
+      "PLACE_ITEM",
+      "TRANSPARENT",
+      "EASY_DECONSTRUCT",
+      "CONTAINER",
+      "BLOCKSDOOR",
+      "MOUNTABLE",
+      "NO_SELF_CONNECT",
+      "SMALL_HIDE"
+    ],
     "deconstruct": { "items": [ { "item": "microwave", "count": 1 } ], "furn_set": "f_gas_oven" },
     "bash": {
       "str_min": 8,

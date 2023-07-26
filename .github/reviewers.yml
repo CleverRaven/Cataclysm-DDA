@@ -51,3 +51,5 @@ files:
     - dseguin
   'src/ui_manager.*':
     - Qrox
+  'data/raw/keybindings{.json,/**}':
+    - Qrox
