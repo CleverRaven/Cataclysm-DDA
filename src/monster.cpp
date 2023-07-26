@@ -3164,19 +3164,24 @@ void monster::process_effects()
                         add_effect( effect_spooked, 3_turns, false );
                         add_effect( effect_spooked_recent, 9_turns, false );
                     }
-                    if( guy ) {
-                        monster_attitude att = attitude( guy );
-                        if( ( friendly == 0 ) && ( att == MATT_FOLLOW || att == MATT_FLEE ) && !has_effect( effect_spooked ) ) {
-                            if( !has_effect( effect_spooked_recent ) ) {
-                                add_effect( effect_spooked, 3_turns, false );
-                                add_effect( effect_spooked_recent, 9_turns, false );
-                            }
-                            else {
-                                if( morale < type->morale ) {
-                                    morale = type->morale;
-                                    anger = type->agro;
-                                }           
-                            }
+                } else {
+                    if( morale < type->morale ) {
+                        morale = type->morale;
+                        anger = type->agro;
+                    }
+                }
+            }
+            if( guy ) {
+                monster_attitude att = attitude( guy );
+                if( ( friendly == 0 ) && ( att == MATT_FOLLOW || att == MATT_FLEE ) &&
+                    !has_effect( effect_spooked ) ) {
+                    if( !has_effect( effect_spooked_recent ) ) {
+                        add_effect( effect_spooked, 3_turns, false );
+                        add_effect( effect_spooked_recent, 9_turns, false );
+                    } else {
+                        if( morale < type->morale ) {
+                            morale = type->morale;
+                            anger = type->agro;
                         }
                     }
             }
