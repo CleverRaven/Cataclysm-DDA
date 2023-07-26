@@ -93,6 +93,26 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TEACH_PYROKIN_RITUAL_CALL_FLAME",
+    "recurrence": [ "24 hour", "24 hours" ],
+    "condition": {
+      "and": [
+        { "math": [ "u_val('spell_level', 'school: PYROKINETIC')", ">=", "5" ] },
+        { "not": { "u_know_recipe": "pyrokin_call_flame_short_term" } }
+      ]
+    },
+    "deactivate_condition": { "u_know_recipe": "pyrokin_call_flame_short_term" },
+    "effect": [
+      { "u_learn_recipe": "pyrokin_call_flame_short_term" },
+      { "u_learn_recipe": "pyrokin_call_flame_long_term" },
+      {
+        "u_message": "Your increased mastery of pyrokinesis now allows you to summon a flame with enough control to use it for cooking or heating.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TEACH_TELEKIN_RITUAL_ENHANCE_STRENGTH",
     "recurrence": [ "24 hour", "24 hours" ],
     "condition": {
