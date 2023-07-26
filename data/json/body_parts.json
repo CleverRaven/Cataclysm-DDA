@@ -30,6 +30,7 @@
     "bionic_slots": 80,
     "bmi_encumbrance_threshold": 9,
     "bmi_encumbrance_scalar": 0.8,
+    "is_cybernetic": false,
     "effects_on_hit": [
       {
         "id": "bleed",
