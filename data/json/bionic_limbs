@@ -58,7 +58,10 @@
     "cybernetic": true,
     "bleeds": false,
     "feels_pain": false,
-    "power_efficiency": 1000
+    "power_efficiency": 1000,
+    "feels_discomfort": false,
+    "mend_rate": 0,
+    "ugliness_mandatory": 0
   },
   {
     "id": "bionic_basic_arm_r",
@@ -118,7 +121,10 @@
     "cybernetic": true,
     "bleeds": false,
     "feels_pain": false,
-    "power_efficiency": 1000
+    "power_efficiency": 10000,
+    "feels_discomfort": false,
+    "mend_rate": 0,
+    "ugliness_mandatory": 0
   },
   {
     "id": "bionic_basic_hand_l",
@@ -152,7 +158,10 @@
     "cybernetic": true,
     "bleeds": false,
     "feels_pain": false,
-    "power_efficiency": 1000
+    "power_efficiency": 10000,
+    "feels_discomfort": false,
+    "mend_rate": 0,
+    "ugliness_mandatory": 0
   },
   {
     "id": "bionic_basic_hand_r",
@@ -186,7 +195,10 @@
     "cybernetic": true,
     "bleeds": false,
     "feels_pain": false,
-    "power_efficiency": 1000
+    "power_efficiency": 10000,
+    "feels_discomfort": false,
+    "mend_rate": 0,
+    "ugliness_mandatory": 0
   },
   {
     "id": "bionic_basic_leg_l",
@@ -254,7 +266,10 @@
     "cybernetic": true,
     "bleeds": false,
     "feels_pain": false,
-    "power_efficiency": 1000
+    "power_efficiency": 10000,
+    "feels_discomfort": false,
+    "mend_rate": 0,
+    "ugliness_mandatory": 0
   },
   {
     "id": "bionic_basic_leg_r",
@@ -322,7 +337,10 @@
     "cybernetic": true,
     "bleeds": false,
     "feels_pain": false,
-    "power_efficiency": 1000
+    "power_efficiency": 10000,
+    "feels_discomfort": false,
+    "mend_rate": 0,
+    "ugliness_mandatory": 0
   },
   {
     "id": "bionic_basic_foot_l",
@@ -357,7 +375,10 @@
     "cybernetic": true,
     "bleeds": false,
     "feels_pain": false,
-    "power_efficiency": 1000
+    "power_efficiency": 10000,
+    "feels_discomfort": false,
+    "mend_rate": 0,
+    "ugliness_mandatory": 0
   },
   {
     "id": "bionic_basic_foot_r",
@@ -392,7 +413,10 @@
     "cybernetic": true,
     "bleeds": false,
     "feels_pain": false,
-    "power_efficiency": 1000
+    "power_efficiency": 10000,
+    "feels_discomfort": false,
+    "mend_rate": 0,
+    "ugliness_mandatory": 0
   },
   {
     "id": "bionic_basic_leg_draped_l",
