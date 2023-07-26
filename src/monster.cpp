@@ -3186,6 +3186,7 @@ void monster::process_effects()
                     }
                 }
             }
+        }
     }
     
 
