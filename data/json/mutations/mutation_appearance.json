@@ -390,5 +390,221 @@
     "player_display": true,
     "vanity": true,
     "types": [ "facial_hair" ]
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_black_crewcut",
+    "trait": "crewcut",
+    "variant": "black"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_black_mohawk",
+    "trait": "mohawk",
+    "variant": "black"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_black_fro",
+    "trait": "fro",
+    "variant": "black"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_black_short",
+    "trait": "short",
+    "variant": "black"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_black_medium",
+    "trait": "medium",
+    "variant": "black"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_black_long",
+    "trait": "long",
+    "variant": "black"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_brown_crewcut",
+    "trait": "crewcut",
+    "variant": "brown"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_brown_mohawk",
+    "trait": "mohawk",
+    "variant": "brown"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_brown_fro",
+    "trait": "fro",
+    "variant": "brown"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_brown_short",
+    "trait": "short",
+    "variant": "brown"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_brown_medium",
+    "trait": "medium",
+    "variant": "brown"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_brown_long",
+    "trait": "long",
+    "variant": "brown"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_blond_crewcut",
+    "trait": "crewcut",
+    "variant": "blond"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_blond_mohawk",
+    "trait": "mohawk",
+    "variant": "blond"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_blond_fro",
+    "trait": "fro",
+    "variant": "blond"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_blond_short",
+    "trait": "short",
+    "variant": "blond"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_blond_medium",
+    "trait": "medium",
+    "variant": "blond"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_blond_long",
+    "trait": "long",
+    "variant": "blond"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_red_crewcut",
+    "trait": "crewcut",
+    "variant": "red"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_red_mohawk",
+    "trait": "mohawk",
+    "variant": "red"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_red_fro",
+    "trait": "fro",
+    "variant": "red"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_red_short",
+    "trait": "short",
+    "variant": "red"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_red_medium",
+    "trait": "medium",
+    "variant": "red"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_red_long",
+    "trait": "long",
+    "variant": "red"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_gray_crewcut",
+    "trait": "crewcut",
+    "variant": "gray"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_gray_mohawk",
+    "trait": "mohawk",
+    "variant": "gray"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_gray_fro",
+    "trait": "fro",
+    "variant": "gray"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_gray_short",
+    "trait": "short",
+    "variant": "gray"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_gray_medium",
+    "trait": "medium",
+    "variant": "gray"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_gray_long",
+    "trait": "long",
+    "variant": "gray"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_white_crewcut",
+    "trait": "crewcut",
+    "variant": "white"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_white_mohawk",
+    "trait": "mohawk",
+    "variant": "white"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_white_fro",
+    "trait": "fro",
+    "variant": "white"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_white_short",
+    "trait": "short",
+    "variant": "white"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_white_medium",
+    "trait": "medium",
+    "variant": "white"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "hair_white_long",
+    "trait": "long",
+    "variant": "white"
   }
 ]
