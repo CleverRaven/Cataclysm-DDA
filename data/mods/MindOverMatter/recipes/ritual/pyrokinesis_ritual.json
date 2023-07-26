@@ -25,7 +25,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "name": "Call Flame (long-term)",
-    "id": "pyrokin_call_flame_long_temr",
+    "id": "pyrokin_call_flame_long_term",
     "description": "Call up flames over your outstretched hand.  You can use them to heat up food, boil water, start fires, or anything else fire can accomplish.  These flames will last much longer.",
     "category": "CC_PSIONIC",
     "subcategory": "CSC_PSIONIC_RITUALS",
