@@ -1315,10 +1315,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ] ],
     "using": [ [ "tailoring_nylon_patchwork", 8 ], [ "fastener_large", 2 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_large", 2, "LIST" ] ] ]
   },
   {
