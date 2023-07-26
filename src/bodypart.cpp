@@ -1046,22 +1046,22 @@ std::array<int, NUM_WATER_TOLERANCE> bodypart::get_mut_drench() const
 
 bool bodypart::get_is_cybernetic() const
 {
-    return is_cybernetic;
+    return id->is_cybernetic;
 }
 
 bool bodypart::get_bleeds() const
 {
-    return bleeds;
+    return id->bleeds;
 }
 
 bool bodypart::get_feels_pain() const
 {
-    return feels_pain;
+    return id->feels_pain;
 }
 
 int bodypart::get_power_efficiency() const
 {
-    return power_efficiency;
+    return id->power_efficiency;
 }
 
 void bodypart::set_hp_cur( int set )
