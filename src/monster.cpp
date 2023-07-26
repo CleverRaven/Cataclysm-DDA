@@ -3188,7 +3188,6 @@ void monster::process_effects()
             }
         }
     }
-    
 
 
     if( has_flag( mon_flag_PHOTOPHOBIC ) && get_map().ambient_light_at( pos() ) >= 30.0f ) {
