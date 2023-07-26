@@ -3184,6 +3184,7 @@ void monster::process_effects()
                             anger = type->agro;
                         }
                     }
+                }
             }
     }
     
