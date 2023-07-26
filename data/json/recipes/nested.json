@@ -69,7 +69,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "Steelshod Quarterstaves",
+    "name": "steelshod quarterstaves",
     "description": "Recipes related to constructing different qualities of steelshod quarterstaves.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_steel_staff", "mc_steel_staff", "hc_steel_staff", "ch_steel_staff", "qt_steel_staff" ],
@@ -5328,7 +5328,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel splint vambraces",
-    "description": "Recipes related to forging various sizes of splintmail vambraces.",
+    "description": "Recipes related to forging various sizes of splint mail vambraces.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_vambrace_brigandine", "xl_lc_vambrace_brigandine", "xs_lc_vambrace_brigandine" ],
     "difficulty": 4
@@ -6284,7 +6284,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "low steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_helmet_nasal", "xl_lc_helmet_nasal", "xs_lc_helmet_nasal" ],
     "difficulty": 1
@@ -6296,7 +6296,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_helmet_nasal", "xl_mc_helmet_nasal", "xs_mc_helmet_nasal" ],
     "difficulty": 2
@@ -6308,7 +6308,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_helmet_nasal", "xl_hc_helmet_nasal", "xs_hc_helmet_nasal" ],
     "difficulty": 3
@@ -6320,7 +6320,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_helmet_nasal", "xl_qt_helmet_nasal", "xs_qt_helmet_nasal" ],
     "difficulty": 5
@@ -6332,7 +6332,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "ch_helmet_nasal", "xl_ch_helmet_nasal", "xs_ch_helmet_nasal" ],
     "difficulty": 5
@@ -6344,7 +6344,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_helmet_nasal",
@@ -6362,7 +6362,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "low steel turban helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_helmet_turban", "xl_lc_helmet_turban", "xs_lc_helmet_turban" ],
     "difficulty": 1
@@ -6374,7 +6374,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel turban helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_helmet_turban", "xl_mc_helmet_turban", "xs_mc_helmet_turban" ],
     "difficulty": 2
@@ -6386,7 +6386,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel turban helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_helmet_turban", "xl_hc_helmet_turban", "xs_hc_helmet_turban" ],
     "difficulty": 3
@@ -6398,7 +6398,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel turban helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_helmet_turban", "xl_qt_helmet_turban", "xs_qt_helmet_turban" ],
     "difficulty": 5
@@ -6410,7 +6410,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel turban helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "ch_helmet_turban", "xl_ch_helmet_turban", "xs_ch_helmet_turban" ],
     "difficulty": 5
@@ -6422,7 +6422,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "steel turban helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_helmet_turban",
@@ -6542,7 +6542,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel mirror armor",
-    "description": "Recipes related to constructing various sizes of viking style mirror armor.",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_mirror_armor", "xl_hc_mirror_armor", "xs_hc_mirror_armor" ],
     "difficulty": 3
@@ -6554,7 +6554,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel mirror armor",
-    "description": "Recipes related to constructing various sizes of viking style mirror armor.",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_mirror_armor", "xl_qt_mirror_armor", "xs_qt_mirror_armor" ],
     "difficulty": 5
@@ -6566,7 +6566,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel mirror armor",
-    "description": "Recipes related to constructing various sizes of viking style mirror armor.",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
     "skill_used": "fabrication",
     "nested_category_data": [ "ch_mirror_armor", "xl_ch_mirror_armor", "xs_ch_mirror_armor" ],
     "difficulty": 5
@@ -6578,7 +6578,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "steel mirror armor",
-    "description": "Recipes related to constructing various sizes of viking style mirror armor.",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
     "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_mirror_armor",

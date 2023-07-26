@@ -184,7 +184,7 @@
       { "id": "faction_base_mansion_e2", "description": "Mansion's Entrance", "om_terrains": [ "mansion_e2" ] },
       { "id": "faction_base_mansion_t1", "description": "Mansion's Swimming Pool", "om_terrains": [ "mansion_t1" ] },
       { "id": "faction_base_mansion_t2", "description": "Mansion's Bedrooms", "om_terrains": [ "mansion_t2" ] },
-      { "id": "faction_base_mansion_t3", "description": "Mansion's???", "om_terrains": [ "mansion_t3" ] },
+      { "id": "faction_base_mansion_t3", "description": "Mansion's ???", "om_terrains": [ "mansion_t3" ] },
       { "id": "faction_base_mansion_t4", "description": "Mansion's Kitchen", "om_terrains": [ "mansion_t4" ] },
       { "id": "faction_base_mansion_t5", "description": "Mansion's Library", "om_terrains": [ "mansion_t5" ] },
       { "id": "faction_base_mansion_t6", "description": "Mansion's Bedroom", "om_terrains": [ "mansion_t6" ] },
