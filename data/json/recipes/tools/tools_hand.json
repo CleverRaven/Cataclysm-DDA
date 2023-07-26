@@ -150,8 +150,6 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "45 m",
-    "reversible": true,
-    "//": "melting the chisel back down seems unlikely to teach anything useful",
     "autolearn": true,
     "book_learn": [
       [ "textbook_fabrication", 3 ],
@@ -161,9 +159,10 @@
       [ "textbook_armwest", 5 ],
       [ "textbook_weparabic", 5 ]
     ],
-    "using": [ [ "steel_standard", 1 ] ],
+    "using": [ [ "forging_standard", 3 ], [ "steel_tiny", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ], [ "fake_arc_furnace", 10 ] ], [ [ "metalworking_tongs", -1 ] ] ],
+    "//": "Specifically avoids blacksmithing requirement groups so that it's craftable without the metal fileset - this process would still be possibly, just realistically take slightly longer.",
+    "tools": [ [ [ "metalworking_tongs", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -280,7 +279,11 @@
       { "proficiency": "prof_redsmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "tools": [ [ [ "drift", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "casting_mold", -1 ] ] ],
+    "tools": [
+      [ [ "drift", -1 ], [ "punch_nail", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "casting_mold", -1 ] ]
+    ],
     "qualities": [ { "id": "ANVIL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "scrap_bronze", 2 ] ] ]
   },
