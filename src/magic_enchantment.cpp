@@ -526,7 +526,7 @@ bool enchant_cache::add( const enchant_cache &rhs )
 
 void enchant_cache::force_add( const enchant_cache &rhs )
 {
-    for( const std::pair<const enchant_vals::mod, int> &pair_values :
+    for( const std::pair<const enchant_vals::mod, double> &pair_values :
          rhs.values_add ) {
         values_add[pair_values.first] += pair_values.second;
     }
