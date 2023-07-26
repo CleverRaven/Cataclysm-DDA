@@ -69,6 +69,7 @@
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "vvvvvvvvvvvvvvvvvvvvvvvv"
       ],
+      "furniture": { "M": "f_solar_unit" },
       "palettes": [ "bunker_ext" ]
     }
   },

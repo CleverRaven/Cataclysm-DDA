@@ -146,7 +146,6 @@
       "(": "t_slope_down",
       "T": [ "t_region_tree_fruit", "t_region_tree_nut" ]
     },
-    "furniture": { "M": "f_solar_unit" },
     "items": { " ": [ { "item": "forest", "chance": 1 }, { "item": "field", "chance": 2 } ] }
   }
 ]
