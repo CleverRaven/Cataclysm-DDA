@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "call flame (short-term)",
+    "name": "Call Flame (short-term)",
     "id": "pyrokin_call_flame_short_term",
     "description": "Call up flames over your outstretched hand.  You can use them to heat up food, boil water, start fires, or anything else fire can accomplish.",
     "category": "CC_PSIONIC",
@@ -24,7 +24,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "call flame (long-term)",
+    "name": "Call Flame (long-term)",
     "id": "pyrokin_call_flame_long_temr",
     "description": "Call up flames over your outstretched hand.  You can use them to heat up food, boil water, start fires, or anything else fire can accomplish.  These flames will last much longer.",
     "category": "CC_PSIONIC",
