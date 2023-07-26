@@ -384,18 +384,6 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "id": "bronze_tongs",
-    "type": "TOOL",
-    "name": { "str": "pair of bronze tongs", "str_pl": "pairs of bronze tongs" },
-    "description": "A pair of crude bronze tongs.  They are not as well-suited for blacksmithing as their steel counterparts, however, they should get the job done.",
-    "copy-from": "metalworking_tongs",
-    "weight": "700 g",
-    "price_postapoc": 6,
-    "material": [ "bronze" ],
-    "color": "brown",
-    "melee_damage": { "bash": 4 }
-  },
-  {
     "id": "sandpaper",
     "type": "TOOL",
     "name": { "str": "sandpaper", "str_pl": "sheets of sandpaper" },
