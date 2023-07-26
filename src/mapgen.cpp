@@ -3595,10 +3595,8 @@ class jmapgen_nested : public jmapgen_piece
                 }
 
                 bool test( const mapgendata &dat ) const {
-                    bool empty = true;
                     for( const std::pair<const direction, cata::flat_set<oter_flags>> &p :
                          neighbors ) {
-                        empty = false;
                         const direction dir = p.first;
                         const cata::flat_set<oter_flags> &allowed_flags = p.second;
 
@@ -3610,7 +3608,7 @@ class jmapgen_nested : public jmapgen_piece
                             }
                         }
                     }
-                    return empty;
+                    return neighbors.empty();
                 }
         };
 
