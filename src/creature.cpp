@@ -2133,7 +2133,7 @@ void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max
 
 bool Creature::has_part( const bodypart_id &id ) const
 {
-    return body.count( id.id() );
+    return get_part_id( id ) != body_part_bp_null;
 }
 
 bodypart *Creature::get_part( const bodypart_id &id )
