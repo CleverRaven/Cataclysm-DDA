@@ -182,10 +182,10 @@
         "..%pppppp0....`.%....%..",
         ".%#------##o##*##oo##..%",
         "..#------#   | | T  #...",
-        "%.#X-----# 1 | +  1 o...",
-        "%.#X----2# 1 + |    o%.%",
-        ".^#X----2#   | |  T #%..",
-        "..#-----2#||||+|||||#...",
+        "%.#------# 1 | +  1 o...",
+        "%.#------# 1 + |    o%.%",
+        ".^#------#   | |  T #%..",
+        "..#------#||||+|||||#...",
         "0.#------#     | T F#...",
         "..#------#     | 1 7o..%",
         "..######+#  T  +T  O#..%",
@@ -213,10 +213,8 @@
         "~": "t_linoleum_white",
         "S": "t_linoleum_white",
         "-": "t_thconc_floor",
-        "1": "t_floor",
-        "2": "t_thconc_floor"
+        "1": "t_floor"
       },
-      "furniture": { "2": [ "f_stack_plank", "f_pallet_brick", "f_pallet_cement", "f_pallet_brick_adobe" ] },
       "place_items": [
         { "chance": 5, "item": "construction_worker", "x": [ 10, 12 ], "y": [ 11, 13 ] },
         { "chance": 5, "item": "tools_home", "x": 10, "y": 5 },
@@ -229,7 +227,9 @@
         { "chance": 5, "item": "tools_construction", "x": 4, "y": 3 },
         { "chance": 5, "item": "power_tools", "x": 4, "y": 4 },
         { "chance": 70, "item": "paint", "x": [ 17, 18 ], "y": 7, "repeat": [ 1, 2 ] }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ "pallets_crates_construction" ], "x": 3, "y": 4 } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 11, 13 ], "y": [ 12, 13 ] } ]
     }
   },
   {
@@ -266,6 +266,33 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pallets_crates_construction",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "X     ",
+        "X    X",
+        "X    X",
+        "     X",
+        "      "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": {
+        "X": [
+          [ "f_null", 60 ],
+          [ "f_crate_c", 10 ],
+          [ "f_pallet_brick", 5 ],
+          [ "f_pallet_brick_adobe", 5 ],
+          [ "f_pallet_cement", 5 ],
+          [ "f_stack_plank", 5 ]
+        ]
+      }
     }
   }
 ]
