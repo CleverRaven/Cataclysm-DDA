@@ -3151,41 +3151,6 @@ void monster::process_effects()
         }
     }
 
-//     if( has_flag( mon_flag_CORNERED_FIGHTER ) && ( morale <= 0 || anger <= 10  ) ) {
-//         if( !has_effect( effect_spooked_recent ) ) {
-//             add_msg( m_good, _( "The mi-go gets spooked!" ), name() );
-//             add_effect( effect_spooked, 2_turns, false );
-//             add_effect( effect_spooked_recent, 20_turns, false );
-//         }
-//         if( has_effect( effect_spooked_recent ) ) {
-//             add_msg( m_good, _( "The mi-go is immune to spookage and qualifies for cornered_fighter!" ), name() );
-//             map &here = get_map();
-//             creature_tracker &creatures = get_creature_tracker();
-//                 for( const tripoint &p : here.points_in_radius( pos(), 2 ) ) {
-//                     //const monster *const mon = creatures.creature_at<monster>( p );
-//                     const Character *const guy = creatures.creature_at<Character>( p );
-//                     //    if( mon ) {
-//                     //        if( mon->faction->attitude( faction ) != MFA_FRIENDLY ) {
-//                     //            if( morale < type->morale ) {
-//                     //                morale = type->morale;
-//                     //                anger = type->agro;
-//                     //        }
-//                         if( guy ) {
-//                             if( friendly == 0 && !has_effect( effect_spooked ) ) {
-//                             add_msg( m_good, _( "The mi-go is reacting to the presence of a guy!" ), name() );
-//                                 if( morale < type->morale ) {
-//                                     add_msg( m_good, _( "The mi-go recovers its morale" ), name() );
-//                                     morale = type->morale;
-//                                     anger = type->agro;
-//                                 }
-//                             }
-//                         }
-//                     }
-//                 }
-//             }
-//      // }
-//    // }
-
     if( has_flag( mon_flag_CORNERED_FIGHTER ) ) {
         map &here = get_map();
         creature_tracker &creatures = get_creature_tracker();
