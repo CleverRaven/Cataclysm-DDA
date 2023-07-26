@@ -336,7 +336,7 @@
     "type": "GENERIC",
     "name": { "str": "survival knife", "str_pl": "survival knives" },
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.",
-    "material": [ "steel", "plastic" ]
+    "replace_materials": { "mc_steel": "steel" },
   },
   {
     "id": "lc_knife_rambo",
@@ -345,7 +345,7 @@
     "name": { "str": "mild steel survival knife", "str_pl": "mild steel survival knives" },
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.  It's custom-made of mild steel, you could probably find better in a hunting store.",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "good" },
-    "material": [ "lc_steel", "plastic" ],
+    "replace_materials": { "mc_steel": "lc_steel" },
     "relative": { "melee_damage": { "stab": -1 } }
   },
   {
@@ -387,7 +387,7 @@
     "type": "GENERIC",
     "name": { "str": "high steel survival knife", "str_pl": "high steel survival knives" },
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.  A competent weapon and tool, if not the best at any of them.",
-    "material": [ "hc_steel", "plastic" ],
+    "replace_materials": { "mc_steel": "hc_steel" },
     "relative": { "melee_damage": { "stab": 1 } }
   },
   {
@@ -396,7 +396,7 @@
     "type": "GENERIC",
     "name": { "str": "hardened steel survival knife", "str_pl": "hardened steel survival knives" },
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.  Now this, this is a knife.",
-    "material": [ "ch_steel", "plastic" ],
+    "replace_materials": { "mc_steel": "ch_steel" },
     "relative": { "melee_damage": { "stab": 2 } }
   },
   {
@@ -405,7 +405,7 @@
     "type": "GENERIC",
     "name": { "str": "tempered steel survival knife", "str_pl": "case hardened steel survival knives" },
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.  Time to go Rambo on this apocalypse.",
-    "material": [ "qt_steel", "plastic" ],
+    "replace_materials": { "mc_steel": "qt_steel" },
     "relative": { "melee_damage": { "stab": 3 } }
   },
   {
@@ -462,7 +462,7 @@
     "type": "TOOL",
     "name": { "str": "trench knife", "str_pl": "trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.",
-    "material": [ "steel", "wood" ]
+    "replace_materials": { "mc_steel": "steel" },
   },
   {
     "id": "lc_knife_trench",
@@ -471,7 +471,7 @@
     "name": { "str": "mild steel trench knife", "str_pl": "mild steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is poorly made of mild steel with barely a proper grip.",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "good" },
-    "material": [ "lc_steel", "wood" ],
+    "replace_materials": { "mc_steel": "lc_steel" },
     "relative": { "melee_damage": { "bash": -1, "stab": -2 } }
   },
   {
@@ -501,7 +501,7 @@
     "type": "TOOL",
     "name": { "str": "high steel trench knife", "str_pl": "high steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is made of high steel and is probably as good as a WWI trench knife.",
-    "material": [ "hc_steel", "wood" ],
+    "replace_materials": { "mc_steel": "hc_steel" },
     "relative": { "melee_damage": { "stab": 1 } }
   },
   {
@@ -510,7 +510,7 @@
     "type": "TOOL",
     "name": { "str": "hardened steel trench knife", "str_pl": "hardened steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is made of hardened steel, an officer's weapon if ever there was one.",
-    "material": [ "ch_steel", "wood" ],
+    "replace_materials": { "mc_steel": "ch_steel" },
     "relative": { "melee_damage": { "stab": 2 } }
   },
   {
@@ -519,7 +519,7 @@
     "type": "TOOL",
     "name": { "str": "tempered steel trench knife", "str_pl": "tempered steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is made of tempered steel, and you feel you could hold a trench against an army of zombies with it.",
-    "material": [ "qt_steel", "wood" ],
+    "replace_materials": { "mc_steel": "qt_steel" },
     "relative": { "melee_damage": { "stab": 3 } }
   },
   {
@@ -646,7 +646,7 @@
     "type": "TOOL",
     "name": { "str": "cavalry saber" },
     "description": "A curved sword associated with cavalry from the Early Modern period onward.  Lightweight, but a deadly slashing weapon.",
-    "material": [ "steel" ]
+    "replace_materials": { "mc_steel": "steel" },
   },
   {
     "id": "lc_cavalry_sabre",
@@ -656,10 +656,8 @@
     "description": "A curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.\n\nMade with mild carbon steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "weight": "910 g",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
-    "material": [ "lc_steel" ],
-    "delete": { "qualities": [ [ "BUTCHER", 8 ] ] },
-    "extend": { "qualities": [ [ "BUTCHER", -7 ] ] },
-    "relative": { "melee_damage": { "cut": -4 } }
+    "replace_materials": { "mc_steel": "lc_steel" },
+    "relative": { "melee_damage": { "cut": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
     "id": "mc_cavalry_sabre",
@@ -689,7 +687,7 @@
     "type": "TOOL",
     "name": { "str": "high steel cavalry saber" },
     "description": "A curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
-    "material": [ "hc_steel" ],
+    "replace_materials": { "mc_steel": "hc_steel" },
     "extend": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": 2 }, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
@@ -699,8 +697,7 @@
     "copy-from": "mc_cavalry_sabre",
     "name": { "str": "hardened cavalry saber" },
     "description": "A curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
-    "weight": "975 g",
-    "material": [ "ch_steel" ],
+    "replace_materials": { "mc_steel": "ch_steel" },
     "delete": { "flags": [ "CONDUCTIVE" ] },
     "extend": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
     "relative": { "melee_damage": { "cut": 3 }, "qualities": [ [ "BUTCHER", 1 ] ] }
@@ -708,11 +705,10 @@
   {
     "id": "qt_cavalry_sabre",
     "type": "TOOL",
-    "copy-from": "lc_cavalry_sabre",
+    "copy-from": "mc_cavalry_sabre",
     "name": { "str": "tempered cavalry saber" },
     "description": "A curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
-    "weight": "975 g",
-    "material": [ "qt_steel" ],
+    "replace_materials": { "mc_steel": "qt_steel" },
     "delete": { "flags": [ "CONDUCTIVE" ] },
     "extend": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
     "relative": { "melee_damage": { "cut": 4 }, "qualities": [ [ "BUTCHER", 2 ] ] }
@@ -744,7 +740,7 @@
     "type": "TOOL",
     "name": { "str": "kukri" },
     "description": "This versatile implement is a modern take on a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, it can be used as both a tool and a weapon.",
-    "material": [ "steel", "plastic" ]
+    "replace_materials": { "mc_steel": "steel", "wood": "plastic" },
   },
   {
     "id": "lc_kukri",
@@ -753,7 +749,7 @@
     "name": { "str": "mild steel kukri" },
     "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of mild steel, and barely has a proper handle.  You'd probably find a better version in a store somewhere.",
     "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
-    "material": [ "lc_steel", "wood" ],
+    "replace_materials": { "mc_steel": "lc_steel" },
     "relative": { "melee_damage": { "cut": -1 } }
   },
   {
@@ -768,7 +764,7 @@
     "price": 8000,
     "price_postapoc": 1250,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
-    "material": [ "mc_steel", "wood" ],
+    "material": [ { "type": "wood", "portion": 1 }, { "type": "mc_steel", "portion": 3 } ],
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
@@ -783,7 +779,7 @@
     "type": "TOOL",
     "name": { "str": "high steel kukri" },
     "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of high steel and is a well-made piece.",
-    "material": [ "hc_steel", "wood" ],
+    "replace_materials": { "mc_steel": "hc_steel" },
     "relative": { "melee_damage": { "cut": 1 } }
   },
   {
@@ -792,7 +788,7 @@
     "type": "TOOL",
     "name": { "str": "hardened steel kukri" },
     "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of hardened steel and is a fine tool and weapon.",
-    "material": [ "ch_steel", "wood" ],
+    "replace_materials": { "mc_steel": "ch_steel" },
     "relative": { "melee_damage": { "cut": 2 } }
   },
   {
@@ -801,7 +797,7 @@
     "type": "TOOL",
     "name": { "str": "tempered steel kukri" },
     "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of tempered steel and truly a weapon worthy of a post apocalyptic gurkha.",
-    "material": [ "qt_steel", "wood" ],
+    "replace_materials": { "mc_steel": "qt_steel" },
     "relative": { "melee_damage": { "cut": 3 } }
   },
   {
