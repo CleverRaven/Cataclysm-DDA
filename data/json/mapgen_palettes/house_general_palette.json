@@ -3,15 +3,15 @@
     "type": "palette",
     "id": "domestic_general_and_variant_palette",
     "//": "Standard variant distribution for homes: General: 95%, Abandoned: 2.80%, Survivor: 1.80%, Hoarder: 0.40%",
-    "//2": "Changes to standard_domestic_palette may also need applying to standard_domestic_palette_abandoned.",
+    "//2": "Changes to standard_domestic_palette may also need applying to standard_domestic_abandoned_palette.",
     "parameters": {
       "variant_palette": {
         "type": "palette_id",
         "scope": "overmap_special",
         "default": {
           "distribution": [
-            [ "standard_domestic_palette_migration", 9500 ],
-            [ "standard_domestic_palette_abandoned", 280 ],
+            [ "standard_domestic_migration_palette", 9500 ],
+            [ "standard_domestic_abandoned_palette", 280 ],
             [ "house_hoarder_palette", 40 ],
             [ "house_survivor_palette", 180 ]
           ]
@@ -22,7 +22,7 @@
   },
   {
     "type": "palette",
-    "id": "standard_domestic_palette_migration",
+    "id": "standard_domestic_migration_palette",
     "//": "Palette to replace most standard_domestic_palette use that adds a random level of pre-cata tidyness and post-cata damage.",
     "parameters": {
       "tidyness_palette": {
@@ -30,7 +30,7 @@
         "scope": "overmap_special",
         "//": "Null here represents tidy",
         "default": {
-          "distribution": [ [ "null", 2 ], [ "standard_domestic_palette_untidy", 2 ], [ "standard_domestic_palette_messy", 1 ] ]
+          "distribution": [ [ "null_palette", 2 ], [ "standard_domestic_untidy_palette", 2 ], [ "standard_domestic_messy_palette", 1 ] ]
         }
       },
       "damage_palette": {
@@ -38,7 +38,7 @@
         "scope": "overmap_special",
         "//": "Null here represents untouched",
         "default": {
-          "distribution": [ [ "null", 1 ], [ "standard_domestic_palette_damage", 2 ], [ "standard_domestic_palette_damage_large", 1 ] ]
+          "distribution": [ [ "null_palette", 1 ], [ "standard_domestic_damage_palette", 2 ], [ "standard_domestic_damage_large_palette", 1 ] ]
         }
       }
     },
@@ -389,7 +389,7 @@
   },
   {
     "type": "palette",
-    "id": "standard_domestic_palette_damage",
+    "id": "standard_domestic_damage_palette",
     "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to add blood and some property damage.",
     "nested": {
       "+": { "chunks": [ [ "damaged_door_nested", 2 ], [ "destroyed_door_nested", 1 ], [ "null", 17 ] ] },
@@ -434,7 +434,7 @@
   },
   {
     "type": "palette",
-    "id": "standard_domestic_palette_damage_large",
+    "id": "standard_domestic_damage_large_palette",
     "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to add corpses and lots of property damage.",
     "nested": {
       "+": { "chunks": [ [ "damaged_door_nested", 1 ], [ "destroyed_door_nested", 2 ], [ "null", 7 ] ] },
