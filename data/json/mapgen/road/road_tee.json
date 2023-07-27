@@ -292,9 +292,13 @@
       "place_nested": [
         {
           "chunks": [
-            [ "24x24_road_tee_vehicles_city_wrecks"  33 ], city_vehicles "number": [ 1, 3 ], "fuel": -1, "status": 1
-            [ "24x24_road_tee_vehicles_city_parked", 33 ], city_vehicles "number": 1, "fuel": -1, "status": 1
-            [ "24x24_road_vehicles_special", 1 ]
+            [ "24x24_road_vehicles_city_wrecks_east"  88 ],
+            [ "24x24_road_vehicles_city_wrecks_south"  88 ],
+            [ "24x24_road_vehicles_city_wrecks_west"  88 ],
+            [ "24x24_road_vehicles_city_parked_east", 176 ],
+            [ "24x24_road_vehicles_city_parked_south", 176 ],
+            [ "24x24_road_vehicles_city_parked_west", 176 ],
+            [ "24x24_road_vehicles_special", 12 ]
           ],
           "x": 0,
           "y": 0
