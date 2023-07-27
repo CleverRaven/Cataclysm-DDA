@@ -741,28 +741,26 @@
     "id": "BOVINE_BULK",
     "name": { "str": "Bovine Bulk" },
     "points": 2,
-    "description": "You've added a lot of weight, much of it muscle!  You get a 10% bonus to all hit points.  Swimming will be more difficult from now on.",
+    "description": "Your flesh has become dense with fat and muscle.  This makes you harder to take down, but also a poor swimmer.",
     "types": [ "BUILD" ],
     "changes_to": [ "BOVINE_BULK2" ],
     "category": [ "CATTLE" ],
     "movecost_modifier": 1.02,
     "movecost_swim_modifier": 1.3,
-    "hp_modifier": 0.1,
-    "passive_mods": { "str_mod": 2 }
+    "hp_modifier": 0.1
   },
   {
     "type": "mutation",
     "id": "BOVINE_BULK2",
     "name": { "str": "Bull Roids" },
     "points": 4,
-    "description": "There is no way you'd be allowed to compete in pre-Cataclysm sports.  You get a 20% bonus to all hit points.  Swimming is no longer recommended for someone built like you.",
+    "description": "Your bulk has rendered you a veritable living wall.  Be careful around water though; while you're as sturdy as a rock, you'll sink like one too.",
     "types": [ "BUILD" ],
     "prereqs": [ "BOVINE_BULK" ],
     "category": [ "CATTLE" ],
     "movecost_modifier": 1.04,
     "movecost_swim_modifier": 1.7,
-    "hp_modifier": 0.2,
-    "passive_mods": { "str_mod": 4 }
+    "hp_modifier": 0.2
   },
   {
     "type": "mutation",
