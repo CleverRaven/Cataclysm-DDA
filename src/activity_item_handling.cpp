@@ -3180,7 +3180,7 @@ static std::optional<tripoint_bub_ms> find_refuel_spot_trap(
     return {};
 }
 
-// Visits an item and all its contents.,
+// Visits an item and all its contents.
 static VisitResponse visit_item_contents( item_location &loc,
         const std::function<VisitResponse( item_location & )> &func )
 {
