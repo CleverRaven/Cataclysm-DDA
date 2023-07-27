@@ -474,7 +474,7 @@
     "price_postapoc": 50,
     "material": [ "bronze", "wood" ],
     "qualities": [ [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ] ],
-    "delete": { "use_action": [ "CROWBAR" ] },
+    "use_action": [  ],
     "melee_damage": { "bash": 7 }
   },
   {
