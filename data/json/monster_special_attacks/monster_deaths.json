@@ -299,6 +299,7 @@
     "name": { "str": "Fake Spell" },
     "description": "A spell that doesn't do anything.",
     "valid_targets": [ "hostile", "ally", "ground" ],
+    "message": "",
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
     "min_damage": 1,

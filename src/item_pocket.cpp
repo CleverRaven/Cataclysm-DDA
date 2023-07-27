@@ -1196,7 +1196,8 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
             const std::vector<damage_info_order> &all_ablate = damage_info_order::get_all(
                         damage_info_order::info_type::ABLATE );
             for( const damage_info_order &dio : all_ablate ) {
-                std::string label = string_format( idx == 0 ? _( "<bold>Protection</bold>: %s: " ) : "%s: ",
+                std::string label = string_format( idx == 0 ? _( "<bold>Protection</bold>: %s: " ) :
+                                                   pgettext( "protection info", " %s: " ),
                                                    uppercase_first_letter( dio.dmg_type->name.translated() ) );
                 iteminfo::flags flgs = idx == all_ablate.size() - 1 ?
                                        iteminfo::is_decimal : iteminfo::no_newline | iteminfo::is_decimal;
@@ -1678,7 +1679,8 @@ static void move_to_parent_pocket_recursive( const tripoint &pos, item &it,
     if( loc ) {
         item_pocket *parent_pocket = loc.parent_pocket();
         if( parent_pocket && parent_pocket->can_contain( it ).success() ) {
-            add_msg( m_bad, _( "Your %1$s falls into your %2$s." ), it.tname(), loc.parent_item()->tname() );
+            add_msg( m_bad, _( "Your %1$s falls into your %2$s." ), it.display_name(),
+                     loc.parent_item()->label( 1 ) );
             loc.parent_pocket()->insert_item( it );
             return;
         }
@@ -1689,7 +1691,7 @@ static void move_to_parent_pocket_recursive( const tripoint &pos, item &it,
     }
 
     map &here = get_map();
-    add_msg( m_bad, _( "Your %s falls to the ground." ), it.tname() );
+    add_msg( m_bad, _( "Your %s falls to the ground." ), it.display_name() );
     here.add_item_or_charges( pos, it );
 }
 

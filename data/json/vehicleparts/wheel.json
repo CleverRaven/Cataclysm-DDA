@@ -374,6 +374,61 @@
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   },
   {
+    "id": "wheel_skateboard",
+    "type": "vehicle_part",
+    "name": { "str": "skateboard wheels" },
+    "item": "wheel_skateboard",
+    "location": "under",
+    "categories": [ "movement" ],
+    "color": "dark_gray",
+    "durability": 70,
+    "description": "A set of four small wheels, for a skateboard.",
+    "damage_modifier": 50,
+    "folded_volume": "1250 ml",
+    "folding_time": "0 seconds",
+    "unfolding_time": "0 seconds",
+    "rolling_resistance": 1.5,
+    "wheel_offroad_rating": 0.3,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
+    "contact_area": 4,
+    "requirements": {
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "1 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "1 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_WHEEL_MOUNT_SKATEBOARD", "STABLE", "STEERABLE" ],
+    "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "wheel_mount_skateboard",
+    "type": "vehicle_part",
+    "name": { "str": "skateboard trucks" },
+    "item": "wheel_mount_skateboard",
+    "location": "axle",
+    "categories": [ "movement" ],
+    "damage_modifier": 80,
+    "folded_volume": "200 ml",
+    "folding_time": "0 seconds",
+    "unfolding_time": "0 seconds",
+    "durability": 120,
+    "description": "A pair of skateboard trucks, for attaching wheels to.",
+    "flags": [ "WHEEL_MOUNT_SKATEBOARD" ],
+    "requirements": {
+      "removal": {
+        "skills": [ [ "mechanics", 0 ] ],
+        "time": "3 m",
+        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW", "level": 1 } ]
+      },
+      "install": {
+        "skills": [ [ "mechanics", 0 ] ],
+        "time": "3 m",
+        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW", "level": 1 } ]
+      }
+    },
+    "breaks_into": [ { "item": "scrap", "count": [ 0, 1 ] }, { "item": "scrap_aluminum", "count": [ 0, 2 ] } ],
+    "damage_reduction": { "all": 10 },
+    "variants": [ { "symbols": "-", "symbols_broken": "X" } ]
+  },
+  {
     "id": "wheel_10",
     "type": "vehicle_part",
     "name": { "str": "wheels" },

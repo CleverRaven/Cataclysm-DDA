@@ -26,6 +26,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "synagogue" ],
+    "copy-from": "generic_city_building",
+    "name": "synagogue",
+    "sym": "S",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "synagogue_roof", "synagogue_upper_roof" ],
+    "copy-from": "generic_city_building",
+    "name": "synagogue roof",
+    "sym": "S",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "cathedral_1_NW",
       "cathedral_1_NE",
@@ -256,7 +272,6 @@
     "id": [
       "school_2_1",
       "school_2_2",
-      "school_2_3",
       "school_2_4",
       "school_2_5",
       "school_2_6",
@@ -265,7 +280,6 @@
       "school_2_9",
       "school_3_1",
       "school_3_2",
-      "school_3_3",
       "school_3_4",
       "school_3_5",
       "school_3_6",
@@ -274,7 +288,6 @@
       "school_3_9",
       "school_4_1",
       "school_4_2",
-      "school_4_3",
       "school_4_4",
       "school_4_5",
       "school_4_6",

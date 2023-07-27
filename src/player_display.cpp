@@ -25,7 +25,9 @@
 #include "flag.h"
 #include "enum_conversions.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "input.h"
+#include "itype.h"
 #include "localized_comparator.h"
 #include "mutation.h"
 #include "options.h"
@@ -1018,7 +1020,7 @@ static void draw_speed_tab( ui_adaptor &ui, const catacurses::window &w_speed,
         if( highlight_line ) {
             ui.set_cursor( w_speed, pos );
         }
-        const speedlist_entry entry = speedlist[i];
+        const speedlist_entry &entry = speedlist[i];
 
         // +speed is good, -movecost is good
         const nc_color col = entry.is_speed == ( entry.val > 0 ) ? c_light_green : c_red;
@@ -1174,6 +1176,46 @@ static void on_customize_character( Character &you )
             } else {
                 you.play_name = filterstring;
             }
+        }
+    }
+}
+
+static void change_armor_sprite( avatar &you )
+{
+    item_location target_loc;
+    target_loc = game_menus::inv::change_sprite( you );
+    if( target_loc && target_loc.get_item() ) {
+        item *target_item = target_loc.get_item();
+
+        uilist menu;
+        menu.title = _( "Change sprite" );
+        menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Select sprite from items" ) );
+        menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Restore default sprite" ) );
+        menu.addentry( 2, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+
+        menu.query();
+        if( menu.ret == 0 ) {
+            item_location sprite_loc;
+            avatar *you = get_player_character().as_avatar();
+            auto armor_filter = [&]( const item & i ) {
+                return i.is_armor();
+            };
+            if( you != nullptr ) {
+                sprite_loc = game_menus::inv::titled_filter_menu( armor_filter,
+                             *you,
+                             _( "Select appearance of this armor:" ),
+                             -1,
+                             _( "You have nothing to wear." ) );
+            }
+            if( sprite_loc && sprite_loc.get_item() ) {
+                const item *sprite_item = sprite_loc.get_item();
+                const std::string variant = sprite_item->has_itype_variant() ? sprite_item->itype_variant().id : "";
+                target_item->set_var( "sprite_override", sprite_item->typeId().str() );
+                target_item->set_var( "sprite_override_variant", variant );
+            }
+        } else if( menu.ret == 1 ) {
+            target_item->erase_var( "sprite_override" );
+            target_item->erase_var( "sprite_override_variant" );
         }
     }
 }
@@ -1433,6 +1475,10 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         if( you.is_avatar() ) {
             you.as_avatar()->disp_medical();
         }
+    } else if( action == "CHANGE_ARMOR_SPRITE" ) {
+        if( you.as_avatar() ) {
+            change_armor_sprite( *you.as_avatar() );
+        }
     }
     return done;
 }
@@ -1644,6 +1690,7 @@ void Character::disp_info( bool customize_character )
     ctxt.register_action( "SELECT_TRAIT_VARIANT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "MEDICAL_MENU" );
+    ctxt.register_action( "CHANGE_ARMOR_SPRITE" );
 
     std::map<std::string, int> speed_effects;
     for( auto &elem : *effects ) {

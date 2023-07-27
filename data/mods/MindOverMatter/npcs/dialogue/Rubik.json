@@ -1,0 +1,67 @@
+[
+  {
+    "id": [ "TALK_EXODII_MERCHANT_New", "TALK_EXODII_MERCHANT_Talk" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Premonition] *Determine if <npc_name> is a threat*",
+        "topic": "TALK_EXODII_MERCHANT_danger_sense",
+        "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "2" ] }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_EXODII_MERCHANT_danger_sense" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You extend your senses, alert for danger, and are surprised that at the result.  There is danger here, but it's muted, and certainly Rubik doesn't bear you any malice.  If any place is safe in the hell that the Earth has become, this is it.",
+    "responses": [ { "text": "…", "topic": "TALK_EXODII_MERCHANT_Talk" } ]
+  },
+  {
+    "id": [
+      "TALK_EXODII_MERCHANT_New",
+      "TALK_EXODII_MERCHANT_Talk",
+      "TALK_EXODII_MERCHANT_Exodus",
+      "TALK_EXODII_MERCHANT_Exodus2",
+      "TALK_EXODII_MERCHANT_Exodus3",
+      "TALK_EXODII_MERCHANT_Survival2"
+    ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Telepathy] *Read <npc_name>'s mind*",
+        "topic": "TALK_EXODII_MERCHANT_scan",
+        "condition": { "u_has_trait": "TELEPATH" }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_EXODII_MERCHANT_scan" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You weren't expecting to be able to understand Rubik's thoughts.  Whatever language it is he speaks, this \"Anglic\", the resemblance to English is clearly a fortunate coincidence.  But you are surprised that your telepathic scan doesn't pick up anything at all.  Just a faint static hum, rising and falling in an irregular pattern.",
+    "responses": [
+      { "text": "*Withdraw from <npc_name>'s mind*.", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      {
+        "text": "[Telepathy 10+] *Go deeper*.",
+        "topic": "TALK_EXODII_MERCHANT_deep_scan",
+        "condition": { "math": [ "u_val('spell_level', 'school: TELEPATH')", ">=", "10" ] }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_EXODII_MERCHANT_deep_scan" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Your awareness of the outside world fades as you fall into Rubik's mind.\n\nYou see a young boy in a thriving metropolis, doing odd jobs for spare coins, playing in the alleys with his friends, coming home at dusk for supper.  You see a young man running from a group of zombies.  You see this castle, or near enough--some towers are missing, some missing towers are there, but obviously the same--and its denizens fending off an attack from a group of winged things.  You see a conversation in a language you've never heard before among a group of Exodii, before everyone files into rooms, secures themselves with restraints, and there's a brief moment of searing pain and then darkness, filled with static and bursts of light half-glimpsed in your peripheral vision.\n\nYou see worlds.  World after world, in a procession over…decades?  Centuries?  You can't tell; you have no sense of time during the vision.  Most worlds were less advanced than the Earth, and the few survivors fought the dead with human wave tactics and trench warfare, or lines of musketeers, or archers from behind the trees.  Sometimes, doughty warriors clad in iron or bronze hurled themselves at the enemy with sword and shield in hand, until they fell and their corpses rose again.  In one world, the survivors fought with powered armor and particle-beam weapons.  But on every world, slowly, inexorably, the dead or the fungus or the walking trees ground down the defenders until humanity was on the brink of extinction and, with a few survivors in tow, the Exodii powered up their jump devices and continued the Long Retreat.\n\nIn the end, not once, in a dozen or a hundred or you know not how many worlds, was there anything left to save.",
+    "responses": [ { "text": "*Withdraw from his mind*.", "topic": "TALK_EXODII_MERCHANT_Post_Scan" } ]
+  },
+  {
+    "id": [ "TALK_EXODII_MERCHANT_Post_Scan" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Rubik is looking at you oddly.  Whatever he had been saying before, he's stopped.",
+    "responses": [
+      {
+        "text": "Sorry, I must have zoned out for a moment there.  It's been a long day.  You were saying?",
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      }
+    ]
+  }
+]

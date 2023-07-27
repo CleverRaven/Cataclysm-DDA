@@ -69,7 +69,7 @@
     "result": "can_opener",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "scrap", 4 ] ] ]
   },
   {
     "type": "uncraft",
@@ -77,7 +77,7 @@
     "result": "carving_fork",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "colander_steel",
@@ -773,30 +773,6 @@
     ]
   },
   {
-    "result": "broken_copbot",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "electronics",
-    "difficulty": 6,
-    "time": "2 h",
-    "//": "These robot corpses should really be moved into the butcher mechanic",
-    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "memory_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "omni_wheel", 1 ] ],
-      [ [ "copbot_chassis", 1 ] ],
-      [ [ "android_arms", 1 ] ],
-      [ [ "power_supply", 4 ] ],
-      [ [ "solar_cell", 2 ] ],
-      [ [ "tazer", 1 ] ]
-    ]
-  },
-  {
     "result": "broken_turret_speaker",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -1003,29 +979,6 @@
     ]
   },
   {
-    "result": "broken_eyebot",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "electronics",
-    "difficulty": 2,
-    "time": "30 m",
-    "using": [ [ "soldering_standard", 3 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "small_storage_battery", 1 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "quad_rotors", 1 ] ],
-      [ [ "lens", 1 ] ]
-    ]
-  },
-  {
     "result": "broken_robofac_camspy",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -1169,29 +1122,6 @@
     ]
   },
   {
-    "result": "broken_riotbot",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "electronics",
-    "difficulty": 6,
-    "time": "2 h",
-    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "memory_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "omni_wheel", 1 ] ],
-      [ [ "copbot_chassis", 1 ] ],
-      [ [ "android_arms", 1 ] ],
-      [ [ "power_supply", 4 ] ],
-      [ [ "solar_cell", 2 ] ],
-      [ [ "canister_empty", 1 ] ]
-    ]
-  },
-  {
     "result": "broken_secubot",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -1260,6 +1190,30 @@
       [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "tazer", 2 ] ]
+    ]
+  },
+  {
+    "result": "broken_robofac_skittergun",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "spidery_legs_small", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ]
     ]
   },
   {
@@ -1715,9 +1669,7 @@
       [ [ "exodii_motor", 8 ] ],
       [ [ "gun_module", 3 ] ],
       [ [ "flamethrower", 1 ] ],
-      [ [ "tazer", 1 ] ],
-      [ [ "modular_m4_carbine", 1 ] ],
-      [ [ "pamd68", 1 ] ],
+      [ [ "pamd68", 2 ] ],
       [ [ "power_supply", 20 ] ],
       [ [ "amplifier", 5 ] ],
       [ [ "e_scrap", 50 ] ],
@@ -1873,7 +1825,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "chunk_cast_iron", 8 ] ], [ [ "lump_cast_iron", 1 ] ] ]
+    "components": [ [ [ "chunk_cast_iron", 5 ] ], [ [ "lump_cast_iron", 1 ] ], [ [ "scrap_cast_iron", 4 ] ] ]
   },
   {
     "result": "pathfinding_module",
@@ -1989,17 +1941,6 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "motor_micro", 16 ] ], [ [ "power_supply", 8 ] ], [ [ "cable", 16 ] ], [ [ "scrap", 14 ] ] ]
-  },
-  {
-    "result": "reverse_jointed_legs",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "mechanics",
-    "difficulty": 4,
-    "time": "6 h 40 m",
-    "using": [ [ "soldering_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "motor_tiny", 6 ] ], [ [ "power_supply", 6 ] ], [ [ "cable", 12 ] ], [ [ "steel_chunk", 6 ] ] ]
   },
   {
     "result": "omni_wheel",
@@ -2173,23 +2114,26 @@
   {
     "result": "ceramic_bowl",
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "time": "3 s",
-    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+    "components": [ [ [ "ceramic_shard", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "ceramic_cup",
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "time": "3 s",
-    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+    "components": [ [ [ "ceramic_shard", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "ceramic_plate",
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "time": "3 s",
-    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+    "components": [ [ [ "ceramic_shard", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "char_purifier",
@@ -3055,11 +2999,11 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "knife_carving",
-    "time": "5 m",
+    "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "spike", 1 ], [ "scrap", 5 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "uncraft",
@@ -3106,9 +3050,9 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "result": "knife_vegetable_cleaver",
-    "time": "2 m",
+    "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "blade", 1 ], [ "scrap", 5 ] ] ]
+    "components": [ [ [ "scrap", 6 ] ] ]
   },
   {
     "result": "laptop",
@@ -3401,14 +3345,6 @@
     "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "metal_tank_little", 1 ] ] ]
   },
   {
-    "result": "peeler",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-  },
-  {
     "result": "pot_makeshift_copper",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -3607,7 +3543,7 @@
     "result": "garlic_press",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "scrap", 4 ] ] ]
   },
   {
     "result": "gold_ring",
@@ -4104,11 +4040,9 @@
     "result": "stock_pot",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "3 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 8 ], [ "steel_chunk", 1 ] ] ]
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "sheet_metal_small", 9 ], [ "scrap_aluminum", 1 ] ] ]
   },
   {
     "result": "straw_basket",
@@ -4353,7 +4287,8 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "peanut",
@@ -5003,7 +4938,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "3 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "chunk_cast_iron", 6 ] ], [ [ "lump_cast_iron", 1 ] ] ]
+    "components": [ [ [ "chunk_cast_iron", 5 ] ], [ [ "lump_cast_iron", 1 ] ], [ [ "scrap_cast_iron", 3 ] ] ]
   },
   {
     "result": "pot",
@@ -5018,8 +4953,8 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "15 m",
-    "qualities": [ { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_lump", 3 ] ], [ [ "steel_chunk", 6 ] ], [ [ "scrap", 10 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_lump", 3 ] ], [ [ "steel_chunk", 3 ] ], [ [ "scrap", 6 ] ] ]
   },
   {
     "result": "fluid_preserved_brain",
@@ -5949,14 +5884,6 @@
     "components": [ [ [ "sheet_metal_small", 2 ] ] ]
   },
   {
-    "result": "scissors",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "12 s",
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-  },
-  {
     "result": "shavingkit",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -5976,9 +5903,9 @@
     "result": "tongs",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "2 m",
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_chunk", 2 ] ] ]
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 4 ] ] ]
   },
   {
     "result": "umbrella",
@@ -6070,38 +5997,46 @@
   {
     "result": "heavy_crowbar",
     "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "time": "20 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 4 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_lump", 6 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "result": "sheet_kevlar",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "10 m",
+    "time": "1 m",
     "skill_used": "tailor",
-    "difficulty": 3,
-    "qualities": [ { "id": "CUT_FINE", "level": 2 } ],
-    "components": [ [ [ "thread_kevlar", 80 ] ] ],
-    "//": "Realistically, this may be out of the question (though I have not found info to the contrary), and a full sheet would give way more thread, but this is to keep the time down"
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT_FINE", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "kevlar_patch", 8 ] ] ]
+  },
+  {
+    "result": "sheet_kevlar_patchwork",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT_FINE", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "kevlar_patch", 8 ] ] ]
+  },
+  {
+    "result": "kevlar_patch",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "scrap_kevlar", 4 ] ] ]
   },
   {
     "result": "scrap_kevlar",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "qualities": [ { "id": "CUT_FINE", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "thread_kevlar", 2 ] ] ]
-  },
-  {
-    "result": "sheet_kevlar_layered",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "10 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_kevlar", 16 ] ] ],
-    "//": "just ripping the seams to separate the 16 layers"
   },
   {
     "result": "office_letter_opener",
@@ -7066,7 +7001,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "15 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_chunk", 1 ] ], [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "scrap", 6 ] ] ]
   },
   {
     "result": "metal_tank_little",
@@ -7573,5 +7508,13 @@
     "time": "15 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "steel_chunk", 4 ] ] ]
+  },
+  {
+    "result": "active_backup_generator",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "45 m",
+    "qualities": [ { "id": "WRENCH", "level": 2 } ],
+    "components": [ [ [ "alternator_truck", 1 ] ], [ [ "i4_diesel", 1 ] ], [ [ "frame", 1 ] ], [ [ "jerrycan_big", 1 ] ] ]
   }
 ]

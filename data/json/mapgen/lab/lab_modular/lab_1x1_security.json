@@ -473,7 +473,7 @@
         { "monster": "mon_manhack", "x": 18, "y": 19, "chance": 100 },
         { "monster": "mon_tazer_hack", "x": 21, "y": 19, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 22, "y": 19, "chance": 100 },
-        { "monster": "mon_devourer_lab_sec", "x": [ 1, 10 ], "y": [ 1, 22 ], "chance": 100 }
+        { "monster": "mon_devourer_lab_sec", "x": [ 1, 10 ], "y": 11, "chance": 100 }
       ],
       "place_nested": [
         { "chunks": [ [ "12x12_obstacle_course_N", 100 ] ], "x": 1, "y": 1 },

@@ -1,6 +1,6 @@
 [
   {
-    "id": "base_silverware",
+    "abstract": "base_silverware",
     "name": { "str": "generic silverware" },
     "type": "GENERIC",
     "description": "generic item template",
@@ -15,7 +15,7 @@
     "melee_damage": { "bash": 2, "cut": 1 }
   },
   {
-    "id": "base_utensil",
+    "abstract": "base_utensil",
     "name": { "str": "generic utensil" },
     "type": "GENERIC",
     "description": "generic item template",
@@ -30,7 +30,7 @@
     "melee_damage": { "bash": 3, "cut": 2 }
   },
   {
-    "id": "base_plastic_silverware",
+    "abstract": "base_plastic_silverware",
     "name": { "str": "generic silverware" },
     "type": "GENERIC",
     "description": "generic item template",
@@ -45,7 +45,7 @@
     "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
-    "id": "base_ceramic_dish",
+    "abstract": "base_ceramic_dish",
     "name": { "str": "generic dish", "str_pl": "generic dishes" },
     "description": "generic item template",
     "type": "GENERIC",
@@ -60,7 +60,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "id": "base_glass_dish",
+    "abstract": "base_glass_dish",
     "name": { "str": "generic dish", "str_pl": "generic dishes" },
     "description": "generic item template",
     "type": "GENERIC",
@@ -75,7 +75,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "id": "base_tin_dish",
+    "abstract": "base_tin_dish",
     "name": { "str": "generic dish", "str_pl": "generic dishes" },
     "description": "generic item template",
     "type": "GENERIC",
@@ -90,7 +90,7 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "id": "base_plastic_dish",
+    "abstract": "base_plastic_dish",
     "name": { "str": "generic dish", "str_pl": "generic dishes" },
     "description": "generic item template",
     "type": "GENERIC",
@@ -156,16 +156,24 @@
     "symbol": "u",
     "description": "A light ceramic teacup.  Quite classy.",
     "copy-from": "base_ceramic_dish",
+    "weight": "254 g",
+    "//1": "Weight calculated proportionally from the coffee mug as I couldn't find detailed weight information for the product.",
+    "volume": "380 ml",
+    "longest_side": "12 cm",
+    "price": "5 USD",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "clumsy" },
     "pocket_data": [
       {
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg",
+        "//2": "This isn't true. It should contain 150ml. But I can't lower it beyond this much because then it won't be able to hold common liquids. I love charges.",
+        "max_contains_weight": "300 g",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "//3": "Based on https://www.dimensions.com/element/ikea-vardagen-coffee-cup-saucer"
   },
   {
     "type": "GENERIC",
@@ -242,7 +250,7 @@
       { "id": "mug25", "text": "A white ceramic coffee mug.  There's a tiny dinosaur sculpture inside of it." },
       { "id": "mug26", "text": "A white ceramic coffee mug.  It says \"I <3 Massachusetts.\" on the side." }
     ],
-    "//": "Based on https://www.amazon.com/Black-Novelty-Coffee-Homeyes-Ceramic/dp/B0B6CWNKCP/ref=sr_1_51?keywords=ceramic%2Bmug&qid=1684583367&sr=8-51&th=1"
+    "//": "Based on https://www.amazon.com/dp/B0B6CWNKCP"
   },
   {
     "type": "GENERIC",
@@ -330,22 +338,26 @@
     "type": "GENERIC",
     "category": "container",
     "id": "wine_glass",
-    "volume": "262 ml",
+    "volume": "420 ml",
+    "weight": "130 g",
+    "longest_side": "20 cm",
+    "price": "13 USD",
     "name": { "str": "wine glass", "str_pl": "wine glasses" },
-    "proportional": { "weight": 0.5 },
     "symbol": "Y",
     "description": "A stemmed drinking glass that makes you feel very fancy when you drink from it.",
     "copy-from": "base_glass_dish",
     "pocket_data": [
       {
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "500 g",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "//": "Based on https://www.amazon.com/dp/B01M4OEU65"
   },
   {
     "type": "GENERIC",
@@ -485,7 +497,7 @@
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "bash": 2, "stab": 1 },
-    "//": "Based on https://www.amazon.com/Stainless-Silverware-Flatware-Dishwasher-Restaurant/dp/B086D4PV2G/ref=sr_1_6?crid=18H1OA6OULCBH&keywords=fork&qid=1684410017&sprefix=fo%2Caps%2C365&sr=8-6&th=1"
+    "//": "Based on https://www.amazon.com/dp/B086D4PV2G"
   },
   {
     "type": "GENERIC",
@@ -514,7 +526,7 @@
     "copy-from": "base_silverware",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
-    "//": "Based on https://www.amazon.com/dp/B0886HQRD3/ref=emc_b_5_i?th=1"
+    "//": "Based on https://www.amazon.com/dp/B0886HQRD3"
   },
   {
     "type": "GENERIC",
@@ -562,7 +574,7 @@
     "copy-from": "base_silverware",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "bash": 2, "stab": 1 },
-    "//": "Based on https://www.amazon.com/Stainless-Spreader-Multifunctional-Chopping-Serrated/dp/B08NFVGSRJ/ref=sr_1_6?crid=1GUK0X805PBB&keywords=butter%2Bknife&qid=1684409167&sprefix=butter%2Bknife%2Caps%2C274&sr=8-6&th=1"
+    "//": "Based on https://www.amazon.com/dp/B08NFVGSRJ"
   },
   {
     "type": "GENERIC",
@@ -603,7 +615,7 @@
     "price": "9 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "bash": 2, "stab": 1 },
-    "//2": "Based on https://www.amazon.com/Cooking-Light-Wine-Professional-Opener/dp/B081R28ZLP/ref=sr_1_12?crid=1XEV9UEX382A&keywords=corkscrew&qid=1684583858&sprefix=corkscrew%2Caps%2C236&sr=8-12"
+    "//2": "Based on https://www.amazon.com/dp/B081R28ZLP"
   },
   {
     "type": "GENERIC",
@@ -613,7 +625,14 @@
     "description": "A simple tool for peeling the outer skin off fruits and veggies without stabbing yourself.",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "looks_like": "knife_butter",
-    "copy-from": "base_silverware"
+    "copy-from": "base_silverware",
+    "weight": "82 g",
+    "volume": "138 ml",
+    "longest_side": "19 cm",
+    "material": [ { "type": "plastic", "portion": 17 }, { "type": "steel", "portion": 3 } ],
+    "price": "12 USD",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B00004OCIP"
   },
   {
     "type": "GENERIC",
@@ -645,7 +664,7 @@
       { "id": "bottleopener8", "text": "This bottle opener is shaped like a phaser." },
       { "id": "bottleopener9", "text": "This novelty bottle opener is designed to look like a hobo clown." }
     ],
-    "//": "Based on https://www.amazon.com/AmazonCommercial-Stainless-Steel-Bottle-Opener/dp/B087QF9SWM/ref=sr_1_27?crid=3FSB1YEYIF4T8&keywords=bottle%2Bopener&qid=1684578611&sprefix=bottle%2Bopener%2Caps%2C229&sr=8-27&th=1"
+    "//": "Based on https://www.amazon.com/dp/B087QF9SWM"
   },
   {
     "type": "GENERIC",
@@ -686,7 +705,7 @@
     "material": [ "wood" ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "stab": 1 },
-    "//": "Based on https://www.amazon.com/Fuji-Merchandise-Quality-Wooden-Chopsticks/dp/B07N47CN44/ref=sr_1_8?crid=28MLMFZEJET90&keywords=chopsticks%2Bsingle%2Bpair&qid=1683476295&sprefix=chopsticks%2Bsingle%2Bpai%2Caps%2C210&sr=8-8&th=1"
+    "//": "Based on https://www.amazon.com/dp/B07N47CN44"
   },
   {
     "type": "GENERIC",
@@ -729,7 +748,13 @@
     "name": { "str": "garlic press", "str_pl": "garlic presses" },
     "description": "A tool for squashing a clove or two of garlic into a fine paste.",
     "looks_like": "spoon",
-    "copy-from": "base_utensil"
+    "copy-from": "base_utensil",
+    "weight": "238 g",
+    "volume": "224 ml",
+    "longest_side": "17 cm",
+    "price": "12 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B07N7KFHVH"
   },
   {
     "type": "GENERIC",
@@ -738,7 +763,13 @@
     "name": { "str": "can opener" },
     "description": "A tool for opening cans that lack pull-tabs.  Now that you think about it, you haven't seen any of those around lately.",
     "looks_like": "hand_crank_charger",
-    "copy-from": "base_utensil"
+    "copy-from": "base_utensil",
+    "price": "9 USD",
+    "weight": "204 g",
+    "volume": "364 ml",
+    "longest_side": "21 cm",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B087MSWH65 with the volume multiplied by 0.85 - otherwise the volume is way higher than it should be since Amazon lists package volume"
   },
   {
     "type": "GENERIC",
@@ -748,9 +779,14 @@
     "description": "A utensil used to hold meat still while you slice it.  It's like a tiny pitchfork, or a very large dinner fork.",
     "looks_like": "fork",
     "copy-from": "base_utensil",
-    "proportional": { "melee_damage": { "stab": 2 } },
+    "weight": "90 g",
+    "volume": "180 ml",
+    "longest_side": "29 cm",
+    "price": "12 USD",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "melee_damage": { "bash": 3, "stab": 2 }
+    "melee_damage": { "bash": 3, "stab": 2 },
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B083FJXZM5"
   },
   {
     "type": "GENERIC",
@@ -765,7 +801,7 @@
     "price": 435,
     "material": [ "rubber" ],
     "copy-from": "base_plastic_silverware",
-    "//": "Based on https://www.amazon.com/Rubbermaid-Commercial-Products-Spatula-FG1901000000/dp/B001BKWXOY/ref=sr_1_8?crid=1JRXNWE266SFB&keywords=rubber%2Bspatula&qid=1683210364&sprefix=rubber%2Bspatula%2Caps%2C238&sr=8-8&th=1"
+    "//": "Based on https://www.amazon.com/dp/B001BKWXOY"
   },
   {
     "type": "GENERIC",
@@ -785,7 +821,7 @@
     "price_postapoc": 5,
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 7 },
-    "//": "Based on https://www.amazon.com/Goodcook-05717000817-Good-Cook-23830/dp/B000ARPJRM/ref=sr_1_6?crid=934OZ18675K2&keywords=rolling%2Bpin&qid=1683202158&sprefix=rollingpin%2Caps%2C512&sr=8-6&th=1"
+    "//": "Based on https://www.amazon.com/dp/B000ARPJRM"
   },
   {
     "type": "GENERIC",
@@ -810,7 +846,7 @@
       }
     ],
     "melee_damage": { "bash": 6 },
-    "//": "Based on https://www.amazon.com/jalz-Stainless-Saucepan-Classic-Cookware/dp/B087PB2L83/ref=sr_1_14?crid=1RO37Q8AD174O&keywords=2l%2Bstainless%2Bsteel%2Bpot&qid=1683292826&sprefix=steel%2Bpot%2B2l%2Caps%2C184&sr=8-14&th=1"
+    "//": "Based on https://www.amazon.com/dp/B087PB2L83"
   },
   {
     "type": "GENERIC",
@@ -821,13 +857,14 @@
     "copy-from": "base_cookpot",
     "material": [ "iron" ],
     "color": "dark_gray",
-    "weight": "3000 g",
-    "volume": "2375 ml",
-    "longest_side": "24 cm",
+    "weight": "2490 g",
+    "volume": "3980 ml",
+    "longest_side": "25 cm",
+    "price": "29 USD",
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
-        "max_contains_weight": "2 kg",
+        "max_contains_weight": "4 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
@@ -868,19 +905,21 @@
     "copy-from": "base_cookpot",
     "material": [ "ceramic" ],
     "color": "white",
-    "weight": "650 g",
-    "volume": "2100 ml",
-    "longest_side": "23 cm",
+    "weight": "1400 g",
+    "volume": "3140 ml",
+    "longest_side": "22 cm",
+    "price": "20 USD",
     "pocket_data": [
       {
-        "max_contains_volume": "2 L",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "//": "Based on https://www.amazon.com/dp/B08J7TPT98"
   },
   {
     "type": "GENERIC",
@@ -889,40 +928,42 @@
     "name": { "str": "stock pot" },
     "description": "A large pot with 20 gauge walls and a thick aluminum bottom, used for making soup stocks.  You could fit a whole turkey in there, with a bit of shoving.",
     "copy-from": "base_cookpot",
-    "material": [ "steel", "aluminum" ],
+    "material": [ { "type": "steel", "portion": 9 }, { "type": "aluminum", "portion": 1 } ],
     "color": "light_gray",
-    "weight": "2490 g",
-    "volume": "12800 ml",
+    "weight": "2500 g",
+    "volume": "12700 ml",
     "longest_side": "25 cm",
+    "price": "137 USD",
     "pocket_data": [
       {
         "max_contains_volume": "12 L",
-        "max_contains_weight": "12 kg",
+        "max_contains_weight": "24 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "//": "Based on https://www.amazon.com/dp/B08RD3RDYL"
   },
   {
     "id": "pot_canning",
     "type": "GENERIC",
     "category": "tools",
     "name": { "str": "canning pot" },
-    "description": "A very large 25 liter pot, primarily meant for canning food in glass jars via the water bath method, though it can cook normal foods just as well.  Canning foods with it will require a lot of water.  If you're only canning a couple of jars at a time, you'd fill it up with rocks or something to displace the water above the lids.",
-    "weight": "5540 g",
-    "volume": "32570 ml",
-    "longest_side": "40 cm",
-    "price": "112 USD",
+    "description": "A very large 20 liter pot, primarily meant for canning food in glass jars via the water bath method, though it can cook normal foods just as well.  Canning foods with it will require a lot of water.  If you're only canning a couple of jars at a time, you'd fill it up with rocks or something to displace the water above the lids.",
+    "weight": "4082 g",
+    "volume": "25400 ml",
+    "longest_side": "45 cm",
+    "price": "68 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [
       {
-        "max_contains_volume": "25 L",
-        "max_contains_weight": "50 kg",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "40 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
@@ -932,7 +973,7 @@
     "use_action": [ "HEAT_FOOD" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 10 },
-    "//": "Based on https://www.amazon.co.uk/Stainless-Fitted-Tri-Ply-Composite-17Litre/dp/B087X1Y9MN/ref=sr_1_1?crid=17CCGCR5CTO4U&keywords=25l%2Bcanning%2Bpot&qid=1684580110&sprefix=25l%2Bcanning%2Bpo%2Caps%2C92&sr=8-1&th=1"
+    "//": "Based on https://www.amazon.com/dp/B0075O2Z34"
   },
   {
     "id": "pot_canning_clay",
@@ -971,22 +1012,24 @@
     "copy-from": "base_cookpot",
     "material": [ "iron" ],
     "color": "dark_gray",
-    "weight": "2628 g",
-    "volume": "1335 ml",
-    "longest_side": "36 cm",
-    "to_hit": -3,
+    "weight": "2427 g",
+    "volume": "2940 ml",
+    "longest_side": "41 cm",
+    "price": "20 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "pocket_data": [
       {
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "HAMMER", 1 ], [ "COOK", 2 ] ] },
-    "melee_damage": { "bash": 12 }
+    "extend": { "qualities": [ [ "HAMMER", 1 ] ] },
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
+    "melee_damage": { "bash": 12 },
+    "//": "Based on https://www.amazon.com/dp/B00006JSUA BUT volume calculated as a cylinder - 2 inches height x 10.68 inches diameter"
   },
   {
     "type": "GENERIC",
@@ -1011,8 +1054,7 @@
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] },
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
     "melee_damage": { "bash": 8 }
   },
   {
@@ -1038,8 +1080,7 @@
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] },
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
     "melee_damage": { "bash": 7 }
   },
   {
@@ -1112,7 +1153,7 @@
     "weight": "728 g",
     "volume": "1575 ml",
     "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
+    "delete": { "qualities": [ "COOK" ] },
     "melee_damage": { "bash": 5 }
   },
   {
@@ -1128,7 +1169,7 @@
     "volume": "3100 ml",
     "melee_damage": { "bash": 5 },
     "pocket_data": [ { "max_contains_volume": "3000 ml", "max_contains_weight": "6 kg", "watertight": true, "rigid": true } ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] }
+    "delete": { "qualities": [ "COOK" ] }
   },
   {
     "id": "colander_steel",
@@ -1171,7 +1212,7 @@
     "price": "48 USD",
     "price_postapoc": 5,
     "melee_damage": { "bash": 7 },
-    "//": "Based on https://www.amazon.com/John-Boos-Chop-N-Slice-Maple-Cutting/dp/B00063QBL8/ref=sr_1_51?crid=3HQVDF1UITVHX&keywords=cutting%2Bboard&qid=1683203867&sprefix=cutting%2Bboard%2Caps%2C213&sr=8-51&th=1"
+    "//": "Based on https://www.amazon.com/dp/B00063QBL8"
   },
   {
     "id": "mess_tray",
@@ -1302,8 +1343,7 @@
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] },
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
     "melee_damage": { "bash": 7 }
   },
   {

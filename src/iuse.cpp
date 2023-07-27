@@ -210,7 +210,7 @@ static const efftype_id effect_sap( "sap" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slimed( "slimed" );
-static const efftype_id effect_smoke( "smoke" );
+static const efftype_id effect_smoke_lungs( "smoke_lungs" );
 static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_stimpack( "stimpack" );
 static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
@@ -262,14 +262,11 @@ static const itype_id itype_cow_bell( "cow_bell" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_ecig( "ecig" );
-static const itype_id itype_emf_detector( "emf_detector" );
-static const itype_id itype_emf_detector_on( "emf_detector_on" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_firecracker_act( "firecracker_act" );
 static const itype_id itype_firecracker_pack_act( "firecracker_pack_act" );
 static const itype_id itype_geiger_off( "geiger_off" );
 static const itype_id itype_geiger_on( "geiger_on" );
-static const itype_id itype_granade_act( "granade_act" );
 static const itype_id itype_handrolled_cig( "handrolled_cig" );
 static const itype_id itype_heatpack_used( "heatpack_used" );
 static const itype_id itype_hygrometer( "hygrometer" );
@@ -288,7 +285,6 @@ static const itype_id itype_nicotine_liquid( "nicotine_liquid" );
 static const itype_id itype_noise_emitter( "noise_emitter" );
 static const itype_id itype_noise_emitter_on( "noise_emitter_on" );
 static const itype_id itype_paper( "paper" );
-static const itype_id itype_radio( "radio" );
 static const itype_id itype_radio_car( "radio_car" );
 static const itype_id itype_radio_car_on( "radio_car_on" );
 static const itype_id itype_radio_on( "radio_on" );
@@ -313,6 +309,11 @@ static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+
+static const mon_flag_str_id mon_flag_DOGFOOD( "DOGFOOD" );
+static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
+static const mon_flag_str_id mon_flag_NO_BREATHE( "NO_BREATHE" );
+static const mon_flag_str_id mon_flag_SEES( "SEES" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
@@ -1033,7 +1034,7 @@ std::optional<int> iuse::inhaler( Character *p, item *, bool, const tripoint & )
         }
     }
     p->add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
-    p->remove_effect( effect_smoke );
+    p->remove_effect( effect_smoke_lungs );
     return 1;
 }
 
@@ -1044,8 +1045,8 @@ std::optional<int> iuse::oxygen_bottle( Character *p, item *it, bool, const trip
                               it->tname() ),
                               string_format( _( "<npcname> breathes from the %s." ),
                                       it->tname() ) );
-    if( p->has_effect( effect_smoke ) ) {
-        p->remove_effect( effect_smoke );
+    if( p->has_effect( effect_smoke_lungs ) ) {
+        p->remove_effect( effect_smoke_lungs );
     } else if( p->has_effect( effect_teargas ) ) {
         p->remove_effect( effect_teargas );
     } else if( p->has_effect( effect_asthma ) ) {
@@ -1832,8 +1833,10 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripoi
                 return 0;
             }
 
+            avatar &player = get_avatar();
+
             int success = -50;
-            const float surv = p->get_skill_level( skill_survival );
+            const float surv = player.get_skill_level( skill_survival );
             const int attempts = rng( it->ammo_remaining(), it->ammo_remaining() * it->ammo_remaining() );
             for( int i = 0; i < attempts; i++ ) {
                 /** @EFFECT_SURVIVAL randomly increases number of fish caught in fishing trap */
@@ -1859,7 +1862,7 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripoi
 
             if( fishes == 0 ) {
                 it->ammo_consume( it->ammo_remaining(), pos, p );
-                p->practice( skill_survival, rng( 5, 15 ) );
+                player.practice( skill_survival, rng( 5, 15 ) );
 
                 return 0;
             }
@@ -1868,7 +1871,7 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripoi
             std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos );
             std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
             for( int i = 0; i < fishes; i++ ) {
-                p->practice( skill_survival, rng( 3, 10 ) );
+                player.practice( skill_survival, rng( 3, 10 ) );
                 if( !fishables.empty() ) {
                     monster *chosen_fish = random_entry( fishables );
                     // reduce the abstract fish_population marker of that fish
@@ -1929,7 +1932,7 @@ std::optional<int> iuse::extinguisher( Character *p, item *it, bool, const tripo
         monster &critter = *mon_ptr;
         critter.moves -= to_moves<int>( 2_seconds );
         bool blind = false;
-        if( one_in( 2 ) && critter.has_flag( MF_SEES ) ) {
+        if( one_in( 2 ) && critter.has_flag( mon_flag_SEES ) ) {
             blind = true;
             critter.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
         }
@@ -2305,12 +2308,12 @@ std::optional<int> iuse::mace( Character *p, item *it, bool, const tripoint & )
         monster &critter = *mon_ptr;
         critter.moves -= to_moves<int>( 2_seconds );
         bool blind = false;
-        if( one_in( 2 ) && critter.has_flag( MF_SEES ) ) {
+        if( one_in( 2 ) && critter.has_flag( mon_flag_SEES ) ) {
             blind = true;
             critter.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
         }
         // even if it's not blinded getting maced hurts a lot and stuns it
-        if( !critter.has_flag( MF_NO_BREATHE ) ) {
+        if( !critter.has_flag( mon_flag_NO_BREATHE ) ) {
             critter.moves -= to_moves<int>( 3_seconds );
             p->add_msg_if_player( _( "The %s recoils in pain!" ), critter.name() );
         }
@@ -2555,123 +2558,105 @@ static int radio_static_chance( const radio_tower_reference &tref )
                  ( max_strength - RADIO_MIN_STRENGTH ) );
 }
 
-std::optional<int> iuse::radio_on( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::radio_tick( Character *, item *it, bool, const tripoint &pos )
 {
-    if( t ) {
-        // Normal use
-        std::string message = _( "Radio: Kssssssssssssh." );
-        const radio_tower_reference tref = overmap_buffer.find_radio_station( it->frequency );
-        add_msg_debug( debugmode::DF_RADIO, "Set freq: %d", it->frequency );
-        if( tref ) {
-            point_abs_omt dbgpos = project_to<coords::omt>( tref.abs_sm_pos );
-            add_msg_debug( debugmode::DF_RADIO, "found broadcast (str %d) at (%d %d)",
-                           tref.signal_strength, dbgpos.x(), dbgpos.y() );
-            const radio_tower *selected_tower = tref.tower;
-            if( selected_tower->type == radio_type::MESSAGE_BROADCAST ) {
-                message = selected_tower->message;
-            } else if( selected_tower->type == radio_type::WEATHER_RADIO ) {
-                message = weather_forecast( tref.abs_sm_pos );
-            }
-
-            const city *c = overmap_buffer.closest_city( tripoint_abs_sm( tref.abs_sm_pos, 0 ) ).city;
-            //~ radio noise
-            const std::string cityname = c == nullptr ? _( "ksssh" ) : c->name;
-
-            replace_city_tag( message, cityname );
-            int static_chance = radio_static_chance( tref );
-            add_msg_debug( debugmode::DF_RADIO, "Message: '%s' at %d%% noise", message, static_chance );
-            message = obscure_message( message, [&static_chance]()->int {
-                if( x_in_y( static_chance, 100 ) )
-                {
-                    // Gradually replace random characters with noise as distance increases
-                    if( one_in( 3 ) && static_chance - rng( 0, 25 ) < 50 ) {
-                        // Replace with random character
-                        return 0;
-                    }
-                    // Replace with '#'
-                    return '#';
-                }
-                // Leave unchanged
-                return -1;
-            } );
-
-            std::vector<std::string> segments = foldstring( message, RADIO_PER_TURN );
-            int index = to_turn<int>( calendar::turn ) % segments.size();
-            message = string_format( _( "radio: %s" ), segments[index] );
-        }
-        sounds::ambient_sound( pos, 6, sounds::sound_t::electronic_speech, message );
-        if( !sfx::is_channel_playing( sfx::channel::radio ) ) {
-            if( one_in( 10 ) ) {
-                sfx::play_ambient_variant_sound( "radio", "static", 100, sfx::channel::radio, 300, -1, 0 );
-            } else if( one_in( 10 ) ) {
-                sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::radio, 300, -1,
-                                                 0 );
-            }
-        }
-    } else { // Activated
-        int ch = 1;
-        if( it->ammo_sufficient( p ) ) {
-            ch = uilist( _( "Radio:" ), {
-                _( "Scan" ), _( "Turn off" )
-            } );
+    std::string message = _( "Radio: Kssssssssssssh." );
+    const radio_tower_reference tref = overmap_buffer.find_radio_station( it->frequency );
+    add_msg_debug( debugmode::DF_RADIO, "Set freq: %d", it->frequency );
+    if( tref ) {
+        point_abs_omt dbgpos = project_to<coords::omt>( tref.abs_sm_pos );
+        add_msg_debug( debugmode::DF_RADIO, "found broadcast (str %d) at (%d %d)",
+                       tref.signal_strength, dbgpos.x(), dbgpos.y() );
+        const radio_tower *selected_tower = tref.tower;
+        if( selected_tower->type == radio_type::MESSAGE_BROADCAST ) {
+            message = selected_tower->message;
+        } else if( selected_tower->type == radio_type::WEATHER_RADIO ) {
+            message = weather_forecast( tref.abs_sm_pos );
         }
 
-        const auto tower_desc = []( const int noise ) {
-            if( noise == 0 ) {
-                return SNIPPET.random_from_category( "radio_station_desc_noise_0" )->translated();
-            } else if( noise <= 20 ) {
-                return SNIPPET.random_from_category( "radio_station_desc_noise_20" )->translated();
-            } else if( noise <= 40 ) {
-                return SNIPPET.random_from_category( "radio_station_desc_noise_40" )->translated();
-            } else if( noise <= 60 ) {
-                return SNIPPET.random_from_category( "radio_station_desc_noise_60" )->translated();
-            } else if( noise <= 80 ) {
-                return SNIPPET.random_from_category( "radio_station_desc_noise_80" )->translated();
-            }
-            return SNIPPET.random_from_category( "radio_station_desc_noise_max" )->translated();
-        };
+        const city *c = overmap_buffer.closest_city( tripoint_abs_sm( tref.abs_sm_pos, 0 ) ).city;
+        //~ radio noise
+        const std::string cityname = c == nullptr ? _( "ksssh" ) : c->name;
 
-        switch( ch ) {
-            case 0: {
-                std::vector<radio_tower_reference> options = overmap_buffer.find_all_radio_stations();
-                if( options.empty() ) {
-                    popup( SNIPPET.random_from_category( "radio_scan_no_stations" )->translated() );
+        replace_city_tag( message, cityname );
+        int static_chance = radio_static_chance( tref );
+        add_msg_debug( debugmode::DF_RADIO, "Message: '%s' at %d%% noise", message, static_chance );
+        message = obscure_message( message, [&static_chance]()->int {
+            if( x_in_y( static_chance, 100 ) )
+            {
+                // Gradually replace random characters with noise as distance increases
+                if( one_in( 3 ) && static_chance - rng( 0, 25 ) < 50 ) {
+                    // Replace with random character
+                    return 0;
                 }
-                uilist scanlist;
-                scanlist.title = _( "Select a station" );
-                scanlist.desc_enabled = true;
-                add_msg_debug( debugmode::DF_RADIO, "Radio scan:" );
-                for( size_t i = 0; i < options.size(); ++i ) {
-                    std::string selected_text;
-                    const radio_tower_reference &tref = options[i];
-                    if( it->frequency == tref.tower->frequency ) {
-                        selected_text = pgettext( "radio station", " (selected)" );
-                    }
-                    //~ Selected radio station, %d is a number in sequence (1,2,3...),
-                    //~ %s is ' (selected)' if this is the radio station playing, else nothing
-                    const std::string station_name = string_format( _( "Station %d%s" ), i + 1, selected_text );
-                    const int noise_chance = radio_static_chance( tref );
-                    scanlist.addentry_desc( i, true, MENU_AUTOASSIGN, station_name, tower_desc( noise_chance ) );
-                    const point_abs_omt dbgpos = project_to<coords::omt>( tref.abs_sm_pos );
-                    add_msg_debug( debugmode::DF_RADIO, "  %d: %d at (%d %d) str [%d/%d]", i + 1, tref.tower->frequency,
-                                   dbgpos.x(), dbgpos.y(), tref.signal_strength, tref.tower->strength );
-                }
-                scanlist.query();
-                const int sel = scanlist.ret;
-                if( sel >= 0 && static_cast<size_t>( sel ) < options.size() ) {
-                    it->frequency = options[sel].tower->frequency;
-                    break;
-                }
+                // Replace with '#'
+                return '#';
             }
-            break;
-            case 1:
-                p->add_msg_if_player( _( "The radio dies." ) );
-                it->convert( itype_radio ).active = false;
-                sfx::fade_audio_channel( sfx::channel::radio, 300 );
-                break;
-            default:
-                break;
+            // Leave unchanged
+            return -1;
+        } );
+
+        std::vector<std::string> segments = foldstring( message, RADIO_PER_TURN );
+        int index = to_turn<int>( calendar::turn ) % segments.size();
+        message = string_format( _( "radio: %s" ), segments[index] );
+    }
+    sounds::ambient_sound( pos, 6, sounds::sound_t::electronic_speech, message );
+    if( !sfx::is_channel_playing( sfx::channel::radio ) ) {
+        if( one_in( 10 ) ) {
+            sfx::play_ambient_variant_sound( "radio", "static", 100, sfx::channel::radio, 300, -1, 0 );
+        } else if( one_in( 10 ) ) {
+            sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::radio, 300, -1,
+                                             0 );
         }
+    }
+    return 1;
+}
+
+std::optional<int> iuse::radio_on( Character *, item *it, bool, const tripoint & )
+{
+
+    const auto tower_desc = []( const int noise ) {
+        if( noise == 0 ) {
+            return SNIPPET.random_from_category( "radio_station_desc_noise_0" )->translated();
+        } else if( noise <= 20 ) {
+            return SNIPPET.random_from_category( "radio_station_desc_noise_20" )->translated();
+        } else if( noise <= 40 ) {
+            return SNIPPET.random_from_category( "radio_station_desc_noise_40" )->translated();
+        } else if( noise <= 60 ) {
+            return SNIPPET.random_from_category( "radio_station_desc_noise_60" )->translated();
+        } else if( noise <= 80 ) {
+            return SNIPPET.random_from_category( "radio_station_desc_noise_80" )->translated();
+        }
+        return SNIPPET.random_from_category( "radio_station_desc_noise_max" )->translated();
+    };
+
+    std::vector<radio_tower_reference> options = overmap_buffer.find_all_radio_stations();
+    if( options.empty() ) {
+        popup( SNIPPET.random_from_category( "radio_scan_no_stations" )->translated() );
+    }
+    uilist scanlist;
+    scanlist.title = _( "Select a station" );
+    scanlist.desc_enabled = true;
+    add_msg_debug( debugmode::DF_RADIO, "Radio scan:" );
+    for( size_t i = 0; i < options.size(); ++i ) {
+        std::string selected_text;
+        const radio_tower_reference &tref = options[i];
+        if( it->frequency == tref.tower->frequency ) {
+            selected_text = pgettext( "radio station", " (selected)" );
+        }
+        //~ Selected radio station, %d is a number in sequence (1,2,3...),
+        //~ %s is ' (selected)' if this is the radio station playing, else nothing
+        const std::string station_name = string_format( _( "Station %d%s" ), i + 1, selected_text );
+        const int noise_chance = radio_static_chance( tref );
+        scanlist.addentry_desc( i, true, MENU_AUTOASSIGN, station_name, tower_desc( noise_chance ) );
+        const point_abs_omt dbgpos = project_to<coords::omt>( tref.abs_sm_pos );
+        add_msg_debug( debugmode::DF_RADIO, "  %d: %d at (%d %d) str [%d/%d]", i + 1, tref.tower->frequency,
+                       dbgpos.x(), dbgpos.y(), tref.signal_strength, tref.tower->strength );
+    }
+    scanlist.query();
+    const int sel = scanlist.ret;
+    if( sel >= 0 && static_cast<size_t>( sel ) < options.size() ) {
+        it->frequency = options[sel].tower->frequency;
     }
     return 1;
 }
@@ -2701,73 +2686,56 @@ std::optional<int> iuse::noise_emitter_on( Character *p, item *it, bool t, const
     return 1;
 }
 
-std::optional<int> iuse::emf_passive_off( Character *p, item *it, bool, const tripoint & )
+std::optional<int> iuse::emf_passive_on( Character *, item *, bool, const tripoint &pos )
 {
-    if( !it->ammo_sufficient( p ) ) {
-        p->add_msg_if_player( _( "It's dead." ) );
-        return std::nullopt;
-    } else {
-        p->add_msg_if_player( _( "You turn the EMF detector on." ) );
-        it->convert( itype_emf_detector_on ).active = true;
+    // need to calculate distance to closest electrical thing
+
+    // set distance as farther than the radius
+    const int max = 10;
+    int distance = max + 1;
+
+    creature_tracker &creatures = get_creature_tracker();
+    map &here = get_map();
+    // can't get a reading during a portal storm
+    if( get_weather().weather_id == weather_portal_storm ) {
+        sounds::sound( pos, 6, sounds::sound_t::alarm, _( "BEEEEE-CHHHHHHH-eeEEEEEEE-CHHHHHHHHHHHH" ), true,
+                       "tool", "emf_detector" );
+        // skip continuing to check for locations
+        return 1;
     }
-    return 1;
-}
 
-std::optional<int> iuse::emf_passive_on( Character *p, item *it, bool t, const tripoint &pos )
-{
-    if( t ) { // Normal use
-        // need to calculate distance to closest electrical thing
+    for( const tripoint &loc : closest_points_first( pos, max ) ) {
+        const Creature *critter = creatures.creature_at( loc );
 
-        // set distance as farther than the radius
-        const int max = 10;
-        int distance = max + 1;
+        // if the creature exists and is either a robot or electric
+        bool found = critter != nullptr && critter->is_electrical();
 
-        creature_tracker &creatures = get_creature_tracker();
-        map &here = get_map();
-        // can't get a reading during a portal storm
-        if( get_weather().weather_id == weather_portal_storm ) {
-            sounds::sound( pos, 6, sounds::sound_t::alarm, _( "BEEEEE-CHHHHHHH-eeEEEEEEE-CHHHHHHHHHHHH" ), true,
-                           "tool", "emf_detector" );
+        // check for an electrical field
+        if( !found ) {
+            for( const auto &fd : here.field_at( loc ) ) {
+                if( fd.first->has_elec ) {
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        // if an electrical field or creature is nearby
+        if( found ) {
+            distance = rl_dist( pos, loc );
+            if( distance <= 3 ) {
+                sounds::sound( pos, 4, sounds::sound_t::alarm, _( "BEEEEEEP BEEEEEEP" ), true, "tool",
+                               "emf_detector" );
+            } else if( distance <= 7 ) {
+                sounds::sound( pos, 3, sounds::sound_t::alarm, _( "BEEP BEEP" ), true, "tool",
+                               "emf_detector" );
+            } else if( distance <= 10 ) {
+                sounds::sound( pos, 2, sounds::sound_t::alarm, _( "beep… beep" ), true, "tool",
+                               "emf_detector" );
+            }
             // skip continuing to check for locations
             return 1;
         }
-
-        for( const tripoint &loc : closest_points_first( pos, max ) ) {
-            const Creature *critter = creatures.creature_at( loc );
-
-            // if the creature exists and is either a robot or electric
-            bool found = critter != nullptr && critter->is_electrical();
-
-            // check for an electrical field
-            if( !found ) {
-                for( const auto &fd : here.field_at( loc ) ) {
-                    if( fd.first->has_elec ) {
-                        found = true;
-                        break;
-                    }
-                }
-            }
-
-            // if an electrical field or creature is nearby
-            if( found ) {
-                distance = rl_dist( pos, loc );
-                if( distance <= 3 ) {
-                    sounds::sound( pos, 4, sounds::sound_t::alarm, _( "BEEEEEEP BEEEEEEP" ), true, "tool",
-                                   "emf_detector" );
-                } else if( distance <= 7 ) {
-                    sounds::sound( pos, 3, sounds::sound_t::alarm, _( "BEEP BEEP" ), true, "tool",
-                                   "emf_detector" );
-                } else if( distance <= 10 ) {
-                    sounds::sound( pos, 2, sounds::sound_t::alarm, _( "beep… beep" ), true, "tool",
-                                   "emf_detector" );
-                }
-                // skip continuing to check for locations
-                return 1;
-            }
-        }
-    } else { // Turning it off
-        p->add_msg_if_player( _( "The noise of your EMF detector slows to a halt." ) );
-        it->convert( itype_emf_detector ).active = false;
     }
     return 1;
 }
@@ -3117,85 +3085,84 @@ std::optional<int> iuse::trimmer_off( Character *p, item *it, bool, const tripoi
                            _( "You yank the cord, but nothing happens." ) );
 }
 
-static int toolweapon_on( Character &p, item &it, const bool t,
-                          const std::string &tname, const bool works_underwater,
-                          const int sound_chance, const int volume,
-                          const std::string &sound, const bool double_charge_cost = false )
+static int toolweapon_running( Character *p, item &it, const tripoint &pos,
+                               const bool works_underwater, const int sound_chance, const int volume,  const std::string &sound,
+                               const bool double_charge_cost = false )
 {
-    std::string off_type =
-        it.typeId().str().substr( 0, it.typeId().str().size() - 3 ) +
-        // 3 is the length of "_on".
-        "_off";
-    if( t ) { // Effects while simply on
-        if( double_charge_cost && it.ammo_sufficient( &p ) ) {
-            it.ammo_consume( 1, p.pos(), &p );
-        }
-        if( !works_underwater && p.is_underwater() ) {
-            p.add_msg_if_player( _( "Your %s gurgles in the water and stops." ), tname );
-            it.convert( itype_id( off_type ) ).active = false;
-        } else if( one_in( sound_chance ) ) {
-            sounds::ambient_sound( p.pos(), volume, sounds::sound_t::activity, sound );
-        }
-    } else { // Toggling
-        if( it.typeId() == itype_chainsaw_on ) {
-            sfx::play_variant_sound( "chainsaw_stop", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
-            sfx::fade_audio_channel( sfx::channel::idle_chainsaw, 100 );
-            sfx::fade_audio_channel( sfx::channel::chainsaw_theme, 3000 );
-        }
-        p.add_msg_if_player( _( "Your %s goes quiet." ), tname );
-        it.convert( itype_id( off_type ) ).active = false;
-        return 0; // Don't consume charges when turning off.
+    if( double_charge_cost && it.ammo_sufficient( p ) ) {
+        it.ammo_consume( 1, pos, p );
     }
-    return 1;
+    bool drown = false;
+    if( !works_underwater ) {
+        if( !p ) {
+            map &here = get_map();
+            if( here.is_water_shallow_current( pos ) || here.is_divable( pos ) ) {
+                // Item is on ground on water
+                drown = true;
+            }
+        } else if( p->is_underwater() ) {
+            drown = true;
+        }
+    }
+
+    if( drown ) {
+        if( p ) {
+            p->add_msg_if_player( _( "Your %s gurgles in the water and stops." ), it.tname() );
+        }
+        it.convert( *it.type->revert_to ).active = false;
+    } else if( one_in( sound_chance ) ) {
+        sounds::ambient_sound( pos, volume, sounds::sound_t::activity, sound );
+    }
+
+    return 0; // Ammo consumption handled elsewhere
 }
 
-std::optional<int> iuse::combatsaw_on( Character *p, item *it, bool t, const tripoint & )
+std::optional<int> iuse::toolweapon_deactivate( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_on( *p, *it, t, _( "combat chainsaw" ),
-                          false,
-                          12, 18, _( "Your combat chainsaw growls." ) );
+    if( it->typeId() == itype_chainsaw_on ) {
+        sfx::play_variant_sound( "chainsaw_stop", "chainsaw_on", sfx::get_heard_volume( pos ) );
+        sfx::fade_audio_channel( sfx::channel::idle_chainsaw, 100 );
+        sfx::fade_audio_channel( sfx::channel::chainsaw_theme, 3000 );
+    }
+    p->add_msg_if_player( _( "Your %s goes quiet." ), it->tname() );
+    it->convert( *it->type->revert_to ).active = false;
+    return 0; // Don't consume charges when turning off.
 }
 
-std::optional<int> iuse::e_combatsaw_on( Character *p, item *it, bool t, const tripoint & )
+std::optional<int> iuse::combatsaw_on( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_on( *p, *it, t, _( "electric combat chainsaw" ),
-                          false,
-                          12, 18, _( "Your electric combat chainsaw growls." ) );
+    return toolweapon_running( p, *it, pos, false, 12, 18, _( "Your combat chainsaw growls." ) );
 }
 
-std::optional<int> iuse::chainsaw_on( Character *p, item *it, bool t, const tripoint & )
+std::optional<int> iuse::e_combatsaw_on( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_on( *p, *it, t, _( "chainsaw" ),
-                          false,
-                          15, 12, _( "Your chainsaw rumbles." ) );
+    return toolweapon_running( p, *it, pos, false, 12, 18,
+                               _( "Your electric combat chainsaw growls." ) );
 }
 
-std::optional<int> iuse::elec_chainsaw_on( Character *p, item *it, bool t, const tripoint & )
+std::optional<int> iuse::chainsaw_on( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_on( *p, *it, t, _( "electric chainsaw" ),
-                          false,
-                          15, 12, _( "Your electric chainsaw rumbles." ) );
+    return toolweapon_running( p, *it, pos, false, 15, 12, _( "Your chainsaw rumbles." ) );
 }
 
-std::optional<int> iuse::carver_on( Character *p, item *it, bool t, const tripoint & )
+std::optional<int> iuse::elec_chainsaw_on( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_on( *p, *it, t, _( "electric carver" ),
-                          true,
-                          10, 8, _( "Your electric carver buzzes." ) );
+    return toolweapon_running( p, *it, pos, false, 5, 12, _( "Your electric chainsaw rumbles." ) );
 }
 
-std::optional<int> iuse::trimmer_on( Character *p, item *it, bool t, const tripoint & )
+std::optional<int> iuse::carver_on( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_on( *p, *it, t, _( "hedge trimmer" ),
-                          true,
-                          15, 10, _( "Your hedge trimmer rumbles." ) );
+    return toolweapon_running( p, *it, pos, true, 10, 8, _( "Your electric carver buzzes." ) );
 }
 
-std::optional<int> iuse::circsaw_on( Character *p, item *it, bool t, const tripoint & )
+std::optional<int> iuse::trimmer_on( Character *p, item *it, bool, const tripoint &pos )
 {
-    return toolweapon_on( *p, *it, t, _( "circular saw" ),
-                          true,
-                          15, 7, _( "Your circular saw buzzes." ) );
+    return toolweapon_running( p, *it, pos, true, 15, 10, _( "Your hedge trimmer rumbles." ) );
+}
+
+std::optional<int> iuse::circsaw_on( Character *p, item *it, bool, const tripoint &pos )
+{
+    return toolweapon_running( p, *it, pos,  true, 15, 7, _( "Your circular saw buzzes." ) );
 }
 
 std::optional<int> iuse::change_eyes( Character *p, item *, bool, const tripoint & )
@@ -3375,7 +3342,7 @@ std::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint 
                                 rads > 25 ? _( "geiger_medium" ) : _( "geiger_low" );
 
         sounds::sound( pos, 6, sounds::sound_t::alarm, description, true, "tool", sound_var );
-        if( !p->can_hear( pos, 6 ) ) {
+        if( !get_avatar().can_hear( pos, 6 ) ) {
             // can not hear it, but may have alarmed other creatures
             return 1;
         }
@@ -3514,152 +3481,134 @@ std::optional<int> iuse::can_goo( Character *p, item *it, bool, const tripoint &
     return 1;
 }
 
-std::optional<int> iuse::granade( Character *p, item *it, bool, const tripoint & )
-{
-    p->add_msg_if_player( _( "You pull the pin on the Granade." ) );
-    it->convert( itype_granade_act );
-    it->charges = 5;
-    it->active = true;
-    return 1;
-}
-
-std::optional<int> iuse::granade_act( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::granade_act( Character *, item *it, bool, const tripoint &pos )
 {
     if( pos.x == -999 || pos.y == -999 ) {
         return std::nullopt;
     }
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
-    if( t ) { // Simple timer effects
-        // Vol 0 = only heard if you hold it
-        sounds::sound( pos, 0, sounds::sound_t::electronic_speech, _( "Merged!" ),
-                       true, "speech", it->typeId().str() );
-    } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already pulled the %s's pin, try throwing it instead." ),
-                              it->tname() );
-        return std::nullopt;
-    } else { // When that timer runs down...
-        int explosion_radius = 3;
-        int effect_roll = rng( 1, 4 );
-        auto buff_stat = [&]( int &current_stat, int modify_by ) {
-            int modified_stat = current_stat + modify_by;
-            current_stat = std::max( current_stat, std::min( 15, modified_stat ) );
-        };
-        avatar &player_character = get_avatar();
-        switch( effect_roll ) {
-            case 1:
-                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUGFIXES!" ),
-                               true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_light_cyan );
-                for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
-                    monster *const mon = creatures.creature_at<monster>( dest, true );
-                    if( mon && ( mon->type->in_species( species_INSECT ) || mon->is_hallucination() ) ) {
-                        mon->die_in_explosion( nullptr );
-                    }
-                }
-                break;
 
-            case 2:
-                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUFFS!" ),
-                               true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_green );
-                for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
-                    if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
-                        monster &critter = *mon_ptr;
-                        critter.set_speed_base(
-                            critter.get_speed_base() * rng_float( 1.1, 2.0 ) );
-                        critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
-                    } else if( npc *const person = creatures.creature_at<npc>( dest ) ) {
-                        /** @EFFECT_STR_MAX increases possible granade str buff for NPCs */
-                        buff_stat( person->str_max, rng( 0, person->str_max / 2 ) );
-                        /** @EFFECT_DEX_MAX increases possible granade dex buff for NPCs */
-                        buff_stat( person->dex_max, rng( 0, person->dex_max / 2 ) );
-                        /** @EFFECT_INT_MAX increases possible granade int buff for NPCs */
-                        buff_stat( person->int_max, rng( 0, person->int_max / 2 ) );
-                        /** @EFFECT_PER_MAX increases possible granade per buff for NPCs */
-                        buff_stat( person->per_max, rng( 0, person->per_max / 2 ) );
-                    } else if( player_character.pos() == dest ) {
-                        /** @EFFECT_STR_MAX increases possible granade str buff */
-                        buff_stat( player_character.str_max, rng( 0, player_character.str_max / 2 ) );
-                        /** @EFFECT_DEX_MAX increases possible granade dex buff */
-                        buff_stat( player_character.dex_max, rng( 0, player_character.dex_max / 2 ) );
-                        /** @EFFECT_INT_MAX increases possible granade int buff */
-                        buff_stat( player_character.int_max, rng( 0, player_character.int_max / 2 ) );
-                        /** @EFFECT_PER_MAX increases possible granade per buff */
-                        buff_stat( player_character.per_max, rng( 0, player_character.per_max / 2 ) );
-                        player_character.recalc_hp();
-                        for( const bodypart_id &bp : player_character.get_all_body_parts(
-                                 get_body_part_flags::only_main ) ) {
-                            player_character.set_part_hp_cur( bp, player_character.get_part_hp_cur( bp ) * rng_float( 1,
-                                                              1.2 ) );
-                            const int hp_max = player_character.get_part_hp_max( bp );
-                            if( player_character.get_part_hp_cur( bp ) > hp_max ) {
-                                player_character.set_part_hp_cur( bp, hp_max );
-                            }
+    int explosion_radius = 3;
+    int effect_roll = rng( 1, 4 );
+    auto buff_stat = [&]( int &current_stat, int modify_by ) {
+        int modified_stat = current_stat + modify_by;
+        current_stat = std::max( current_stat, std::min( 15, modified_stat ) );
+    };
+    avatar &player_character = get_avatar();
+    switch( effect_roll ) {
+        case 1:
+            sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUGFIXES!" ),
+                           true, "speech", it->typeId().str() );
+            explosion_handler::draw_explosion( pos, explosion_radius, c_light_cyan );
+            for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
+                monster *const mon = creatures.creature_at<monster>( dest, true );
+                if( mon && ( mon->type->in_species( species_INSECT ) || mon->is_hallucination() ) ) {
+                    mon->die_in_explosion( nullptr );
+                }
+            }
+            break;
+
+        case 2:
+            sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUFFS!" ),
+                           true, "speech", it->typeId().str() );
+            explosion_handler::draw_explosion( pos, explosion_radius, c_green );
+            for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
+                if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
+                    monster &critter = *mon_ptr;
+                    critter.set_speed_base(
+                        critter.get_speed_base() * rng_float( 1.1, 2.0 ) );
+                    critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
+                } else if( npc *const person = creatures.creature_at<npc>( dest ) ) {
+                    /** @EFFECT_STR_MAX increases possible granade str buff for NPCs */
+                    buff_stat( person->str_max, rng( 0, person->str_max / 2 ) );
+                    /** @EFFECT_DEX_MAX increases possible granade dex buff for NPCs */
+                    buff_stat( person->dex_max, rng( 0, person->dex_max / 2 ) );
+                    /** @EFFECT_INT_MAX increases possible granade int buff for NPCs */
+                    buff_stat( person->int_max, rng( 0, person->int_max / 2 ) );
+                    /** @EFFECT_PER_MAX increases possible granade per buff for NPCs */
+                    buff_stat( person->per_max, rng( 0, person->per_max / 2 ) );
+                } else if( player_character.pos() == dest ) {
+                    /** @EFFECT_STR_MAX increases possible granade str buff */
+                    buff_stat( player_character.str_max, rng( 0, player_character.str_max / 2 ) );
+                    /** @EFFECT_DEX_MAX increases possible granade dex buff */
+                    buff_stat( player_character.dex_max, rng( 0, player_character.dex_max / 2 ) );
+                    /** @EFFECT_INT_MAX increases possible granade int buff */
+                    buff_stat( player_character.int_max, rng( 0, player_character.int_max / 2 ) );
+                    /** @EFFECT_PER_MAX increases possible granade per buff */
+                    buff_stat( player_character.per_max, rng( 0, player_character.per_max / 2 ) );
+                    player_character.recalc_hp();
+                    for( const bodypart_id &bp : player_character.get_all_body_parts(
+                             get_body_part_flags::only_main ) ) {
+                        player_character.set_part_hp_cur( bp, player_character.get_part_hp_cur( bp ) * rng_float( 1,
+                                                          1.2 ) );
+                        const int hp_max = player_character.get_part_hp_max( bp );
+                        if( player_character.get_part_hp_cur( bp ) > hp_max ) {
+                            player_character.set_part_hp_cur( bp, hp_max );
                         }
                     }
                 }
-                break;
+            }
+            break;
 
-            case 3:
-                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "NERFS!" ),
-                               true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_red );
-                for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
-                    if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
-                        monster &critter = *mon_ptr;
-                        critter.set_speed_base(
-                            rng( 0, critter.get_speed_base() ) );
-                        critter.set_hp( rng( 1, critter.get_hp() ) );
-                    } else if( npc *const person = creatures.creature_at<npc>( dest ) ) {
-                        /** @EFFECT_STR_MAX increases possible granade str debuff for NPCs (NEGATIVE) */
-                        person->str_max -= rng( 0, person->str_max / 2 );
-                        /** @EFFECT_DEX_MAX increases possible granade dex debuff for NPCs (NEGATIVE) */
-                        person->dex_max -= rng( 0, person->dex_max / 2 );
-                        /** @EFFECT_INT_MAX increases possible granade int debuff for NPCs (NEGATIVE) */
-                        person->int_max -= rng( 0, person->int_max / 2 );
-                        /** @EFFECT_PER_MAX increases possible granade per debuff for NPCs (NEGATIVE) */
-                        person->per_max -= rng( 0, person->per_max / 2 );
-                    } else if( player_character.pos() == dest ) {
-                        /** @EFFECT_STR_MAX increases possible granade str debuff (NEGATIVE) */
-                        player_character.str_max -= rng( 0, player_character.str_max / 2 );
-                        /** @EFFECT_DEX_MAX increases possible granade dex debuff (NEGATIVE) */
-                        player_character.dex_max -= rng( 0, player_character.dex_max / 2 );
-                        /** @EFFECT_INT_MAX increases possible granade int debuff (NEGATIVE) */
-                        player_character.int_max -= rng( 0, player_character.int_max / 2 );
-                        /** @EFFECT_PER_MAX increases possible granade per debuff (NEGATIVE) */
-                        player_character.per_max -= rng( 0, player_character.per_max / 2 );
-                        player_character.recalc_hp();
-                        for( const bodypart_id &bp : player_character.get_all_body_parts(
-                                 get_body_part_flags::only_main ) ) {
-                            const int hp_cur = player_character.get_part_hp_cur( bp );
-                            if( hp_cur > 0 ) {
-                                player_character.set_part_hp_cur( bp, rng( 1, hp_cur ) );
-                            }
+        case 3:
+            sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "NERFS!" ),
+                           true, "speech", it->typeId().str() );
+            explosion_handler::draw_explosion( pos, explosion_radius, c_red );
+            for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
+                if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
+                    monster &critter = *mon_ptr;
+                    critter.set_speed_base(
+                        rng( 0, critter.get_speed_base() ) );
+                    critter.set_hp( rng( 1, critter.get_hp() ) );
+                } else if( npc *const person = creatures.creature_at<npc>( dest ) ) {
+                    /** @EFFECT_STR_MAX increases possible granade str debuff for NPCs (NEGATIVE) */
+                    person->str_max -= rng( 0, person->str_max / 2 );
+                    /** @EFFECT_DEX_MAX increases possible granade dex debuff for NPCs (NEGATIVE) */
+                    person->dex_max -= rng( 0, person->dex_max / 2 );
+                    /** @EFFECT_INT_MAX increases possible granade int debuff for NPCs (NEGATIVE) */
+                    person->int_max -= rng( 0, person->int_max / 2 );
+                    /** @EFFECT_PER_MAX increases possible granade per debuff for NPCs (NEGATIVE) */
+                    person->per_max -= rng( 0, person->per_max / 2 );
+                } else if( player_character.pos() == dest ) {
+                    /** @EFFECT_STR_MAX increases possible granade str debuff (NEGATIVE) */
+                    player_character.str_max -= rng( 0, player_character.str_max / 2 );
+                    /** @EFFECT_DEX_MAX increases possible granade dex debuff (NEGATIVE) */
+                    player_character.dex_max -= rng( 0, player_character.dex_max / 2 );
+                    /** @EFFECT_INT_MAX increases possible granade int debuff (NEGATIVE) */
+                    player_character.int_max -= rng( 0, player_character.int_max / 2 );
+                    /** @EFFECT_PER_MAX increases possible granade per debuff (NEGATIVE) */
+                    player_character.per_max -= rng( 0, player_character.per_max / 2 );
+                    player_character.recalc_hp();
+                    for( const bodypart_id &bp : player_character.get_all_body_parts(
+                             get_body_part_flags::only_main ) ) {
+                        const int hp_cur = player_character.get_part_hp_cur( bp );
+                        if( hp_cur > 0 ) {
+                            player_character.set_part_hp_cur( bp, rng( 1, hp_cur ) );
                         }
                     }
                 }
-                break;
+            }
+            break;
 
-            case 4:
-                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "REVERTS!" ),
-                               true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_pink );
-                for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
-                    if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
-                        monster &critter = *mon_ptr;
-                        critter.set_speed_base( critter.type->speed );
-                        critter.set_hp( critter.get_hp_max() );
-                        critter.clear_effects();
-                    } else if( npc *const person = creatures.creature_at<npc>( dest ) ) {
-                        person->environmental_revert_effect();
-                    } else if( player_character.pos() == dest ) {
-                        player_character.environmental_revert_effect();
-                        do_purify( player_character );
-                    }
+        case 4:
+            sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "REVERTS!" ),
+                           true, "speech", it->typeId().str() );
+            explosion_handler::draw_explosion( pos, explosion_radius, c_pink );
+            for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
+                if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
+                    monster &critter = *mon_ptr;
+                    critter.set_speed_base( critter.type->speed );
+                    critter.set_hp( critter.get_hp_max() );
+                    critter.clear_effects();
+                } else if( npc *const person = creatures.creature_at<npc>( dest ) ) {
+                    person->environmental_revert_effect();
+                } else if( player_character.pos() == dest ) {
+                    player_character.environmental_revert_effect();
+                    do_purify( player_character );
                 }
-                break;
-        }
+            }
+            break;
     }
     return 1;
 }
@@ -3682,10 +3631,10 @@ std::optional<int> iuse::c4( Character *p, item *it, bool, const tripoint & )
 
 std::optional<int> iuse::acidbomb_act( Character *p, item *it, bool, const tripoint &pos )
 {
-    if( !p->has_item( *it ) ) {
+    if( !p ) {
         it->charges = -1;
         map &here = get_map();
-        for( const tripoint &tmp : here.points_in_radius( pos.x == -999 ? p->pos() : pos, 1 ) ) {
+        for( const tripoint &tmp : here.points_in_radius( pos, 1 ) ) {
             here.add_field( tmp, fd_acid, 3 );
         }
         return 1;
@@ -3693,69 +3642,58 @@ std::optional<int> iuse::acidbomb_act( Character *p, item *it, bool, const tripo
     return std::nullopt;
 }
 
-std::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::grenade_inc_act( Character *p, item *, bool, const tripoint &pos )
 {
     if( pos.x == -999 || pos.y == -999 ) {
         return std::nullopt;
     }
 
-    if( t ) { // Simple timer effects
-        // Vol 0 = only heard if you hold it
-        sounds::sound( pos, 0, sounds::sound_t::alarm, _( "Tick!" ), true, "misc", "bomb_ticking" );
-    } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already released the handle, try throwing it instead." ) );
-        return std::nullopt;
-    } else {  // blow up
-        map &here = get_map();
-        int num_flames = rng( 3, 5 );
-        for( int current_flame = 0; current_flame < num_flames; current_flame++ ) {
-            tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
-            std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
-            for( tripoint &flame : flames ) {
-                here.add_field( flame, fd_fire, rng( 0, 2 ) );
-            }
+    map &here = get_map();
+    int num_flames = rng( 3, 5 );
+    for( int current_flame = 0; current_flame < num_flames; current_flame++ ) {
+        tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
+        std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
+        for( tripoint &flame : flames ) {
+            here.add_field( flame, fd_fire, rng( 0, 2 ) );
         }
-        explosion_handler::explosion( p, pos, 8, 0.8, true );
-        for( const tripoint &dest : here.points_in_radius( pos, 2 ) ) {
-            here.add_field( dest, fd_incendiary, 3 );
-        }
+    }
+    explosion_handler::explosion( p, pos, 8, 0.8, true );
+    for( const tripoint &dest : here.points_in_radius( pos, 2 ) ) {
+        here.add_field( dest, fd_incendiary, 3 );
+    }
 
-        if( p->has_trait( trait_PYROMANIA ) ) {
-            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
-            p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
-        }
+    avatar &player = get_avatar();
+    if( player.has_trait( trait_PYROMANIA ) && player.sees( pos ) ) {
+        player.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+        player.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        add_msg( m_good, _( "Fire…  Good…" ) );
     }
     return 0;
 }
 
-std::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::molotov_lit( Character *p, item *it, bool, const tripoint &pos )
 {
-    if( !t ) { // The Molotov is no longer active
-        if( it->charges > 0 ) { // Because the player tried to light it again
-            p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
-                                  it->tname() );
-            return std::nullopt;
-        } else { // It ran out of charges because it was thrown or dropped, so burst into flames
-            map &here = get_map();
-            for( const tripoint &pt : here.points_in_radius( pos, 1, 0 ) ) {
-                const int intensity = 1 + one_in( 3 ) + one_in( 5 );
-                here.add_field( pt, fd_fire, intensity );
-            }
-            if( p->has_trait( trait_PYROMANIA ) ) {
-                p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-                p->rem_morale( MORALE_PYROMANIA_NOFIRE );
-                p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
-            }
-            return 1;
+
+    if( !p ) {
+        // It was thrown or dropped, so burst into flames
+        map &here = get_map();
+        for( const tripoint &pt : here.points_in_radius( pos, 1, 0 ) ) {
+            const int intensity = 1 + one_in( 3 ) + one_in( 5 );
+            here.add_field( pt, fd_fire, intensity );
         }
-    } else if( p->has_item( *it ) && it->charges == 0 ) {
-        // Add a charge to stay lit, but has a 20% chance of going out harmlessly.
-        it->charges += 1;
-        if( one_in( 5 ) ) {
-            p->add_msg_if_player( _( "Your lit Molotov goes out." ) );
-            it->convert( itype_molotov ).active = false;
+        avatar &player = get_avatar();
+        if( player.has_trait( trait_PYROMANIA ) && player.sees( pos ) ) {
+            player.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+            player.rem_morale( MORALE_PYROMANIA_NOFIRE );
+            add_msg( m_good, _( "Fire…  Good…" ) );
         }
+        return 1;
+    }
+
+    // 20% chance of going out harmlessly.
+    if( one_in( 5 ) ) {
+        p->add_msg_if_player( _( "Your lit Molotov goes out." ) );
+        it->convert( itype_molotov ).active = false;
     }
     return 0;
 }
@@ -3771,7 +3709,7 @@ std::optional<int> iuse::firecracker_pack( Character *p, item *it, bool, const t
     }
     p->add_msg_if_player( _( "You light the pack of firecrackers." ) );
     it->convert( itype_firecracker_pack_act );
-    it->charges = 26;
+    it->countdown_point = calendar::turn + 27_seconds;
     it->set_age( 0_turns );
     it->active = true;
     return 0; // don't use any charges at all. it has became a new item
@@ -3779,23 +3717,20 @@ std::optional<int> iuse::firecracker_pack( Character *p, item *it, bool, const t
 
 std::optional<int> iuse::firecracker_pack_act( Character *, item *it, bool, const tripoint &pos )
 {
-    time_duration timer = it->age();
-    if( timer < 2_turns ) {
+    // Two seconds of lit fuse burning
+    // Followed by random number of explosions (4-6) per turn until 25 epxlosions have happened
+    // Finally item despawns since countdown has ended
+    if( it->age() < 2_seconds ) {
         sounds::sound( pos, 0, sounds::sound_t::alarm, _( "ssss…" ), true, "misc", "lit_fuse" );
-        it->inc_damage();
-    } else if( it->charges > 0 ) {
-        int ex = rng( 4, 6 );
+    } else {
+        // Time left to countdown_point is used to track of number of explosions
+        int explosions = rng( 4, 6 );
         int i = 0;
-        if( ex > it->charges ) {
-            ex = it->charges;
-        }
-        for( i = 0; i < ex; i++ ) {
+        explosions = std::min( explosions, to_seconds<int>( it->countdown_point - calendar::turn ) );
+        for( i = 0; i < explosions; i++ ) {
             sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ), false, "explosion", "small" );
         }
-        it->charges -= ex;
-    }
-    if( it->charges == 0 ) {
-        it->charges = -1;
+        it->countdown_point -= ( explosions - 1 ) * 1_seconds;
     }
     return 0;
 }
@@ -3811,26 +3746,9 @@ std::optional<int> iuse::firecracker( Character *p, item *it, bool, const tripoi
     }
     p->add_msg_if_player( _( "You light the firecracker." ) );
     it->convert( itype_firecracker_act );
-    it->charges = 2;
+    it->countdown_point = calendar::turn + 2_seconds;
     it->active = true;
     return 1;
-}
-
-std::optional<int> iuse::firecracker_act( Character *p, item *it, bool t, const tripoint &pos )
-{
-    if( pos.x == -999 || pos.y == -999 ) {
-        return std::nullopt;
-    }
-    if( t ) { // Simple timer effects
-        sounds::sound( pos, 0,  sounds::sound_t::alarm, _( "ssss…" ), true, "misc", "lit_fuse" );
-    } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
-                              it->tname() );
-        return std::nullopt;
-    } else { // When that timer runs down...
-        sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ), true, "explosion", "small" );
-    }
-    return 0;
 }
 
 std::optional<int> iuse::mininuke( Character *p, item *it, bool, const tripoint & )
@@ -4093,7 +4011,7 @@ void iuse::play_music( Character &p, const tripoint &source, const int volume,
 std::optional<int> iuse::mp3_on( Character *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) { // Normal use
-        if( p->has_item( *it ) ) {
+        if( p ) {
             // mp3 player in inventory, we can listen
             play_music( *p, pos, 0, 20 );
             music::activate_music_id( music::music_id::mp3 );
@@ -4145,7 +4063,7 @@ std::optional<int> iuse::rpgdie( Character *you, item *die, bool, const tripoint
 std::optional<int> iuse::dive_tank( Character *p, item *it, bool t, const tripoint & )
 {
     if( t ) { // Normal use
-        if( p->is_worn( *it ) ) {
+        if( p && p->is_worn( *it ) ) {
             if( p->is_underwater() && p->oxygen < 10 ) {
                 p->oxygen += 20;
             }
@@ -4240,7 +4158,7 @@ std::optional<int> iuse::solarpack_off( Character *p, item *it, bool t, const tr
 std::optional<int> iuse::gasmask( Character *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) { // Normal use
-        if( p->is_worn( *it ) ) {
+        if( p && p->is_worn( *it ) ) {
             // calculate amount of absorbed gas per filter charge
             const field &gasfield = get_map().field_at( pos );
             for( const auto &dfield : gasfield ) {
@@ -4620,7 +4538,7 @@ std::optional<int> iuse::dog_whistle( Character *p, item *, bool, const tripoint
     }
 
     for( monster &critter : g->all_monsters() ) {
-        if( critter.friendly != 0 && critter.has_flag( MF_DOGFOOD ) ) {
+        if( critter.friendly != 0 && critter.has_flag( mon_flag_DOGFOOD ) ) {
             bool u_see = get_player_view().sees( critter );
             if( critter.has_effect( effect_docile ) ) {
                 if( u_see ) {
@@ -5689,7 +5607,7 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, bool active, cons
             p->moves -= to_moves<int>( 1_seconds );
             int f = 0; //flag to check if you have robotic allies
             for( monster &critter : g->all_monsters() ) {
-                if( critter.friendly != 0 && critter.has_flag( MF_ELECTRONIC ) ) {
+                if( critter.friendly != 0 && critter.has_flag( mon_flag_ELECTRONIC ) ) {
                     p->add_msg_if_player( _( "A following %s goes into combat mode." ),
                                           critter.name() );
                     critter.remove_effect( effect_docile );
@@ -5856,7 +5774,7 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tri
                 if( it->is_transformable() ) {
                     const use_function *readinglight = it->type->get_use( "transform" );
                     if( readinglight ) {
-                        readinglight->call( *p, *it, it->active, p->pos() );
+                        readinglight->call( p, *it, it->active, p->pos() );
                     }
                 }
                 it->activate();
@@ -6928,7 +6846,7 @@ std::optional<int> iuse::camera( Character *p, item *it, bool t, const tripoint 
                     }
                     std::vector<std::string> blinded_names;
                     for( monster * const &monster_p : monster_vec ) {
-                        if( dist < 4 && one_in( dist + 2 ) && monster_p->has_flag( MF_SEES ) ) {
+                        if( dist < 4 && one_in( dist + 2 ) && monster_p->has_flag( mon_flag_SEES ) ) {
                             monster_p->add_effect( effect_blind, rng( 5_turns, 10_turns ) );
                             blinded_names.push_back( monster_p->name() );
                         }
@@ -7067,6 +6985,14 @@ std::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const tripo
             it->ammo_unset();
             it->active = false;
             add_msg( m_good, _( "%s automatically turned off!" ), it->tname() );
+            return 1;
+        }
+
+        if( !p ) {
+            // Active but not in use. Deactivate
+            sounds::sound( pos, 2, sounds::sound_t::combat, "Click.", true, "tools", "handcuffs" );
+            it->unset_flag( flag_NO_UNWIELD );
+            it->active = false;
             return 1;
         }
 
@@ -7324,7 +7250,7 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
                 sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
                 if( it.has_flag( flag_RADIO_INVOKE_PROC ) ) {
                     // Invoke to transform a radio-modded explosive into its active form
-                    it.type->invoke( p, it, loc );
+                    it.type->invoke( &p, it, loc );
                 }
             } else if( !it.empty_container() ) {
                 item *itm = it.get_item_with( [&signal]( const item & c ) {
@@ -7335,7 +7261,7 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
                     sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
                     // Invoke to transform a radio-modded explosive into its active form
                     if( itm->has_flag( flag_RADIO_INVOKE_PROC ) ) {
-                        itm->type->invoke( p, *itm, loc );
+                        itm->type->invoke( &p, *itm, loc );
                     }
                 }
             }
@@ -7346,6 +7272,13 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
 std::optional<int> iuse::radiocontrol( Character *p, item *it, bool t, const tripoint & )
 {
     if( t ) {
+        if( !p ) {
+            // Player has dropped the controller
+            avatar &player = get_avatar();
+            it->active = false;
+            player.remove_value( "remote_controlling" );
+            return 1;
+        }
         if( !it->ammo_sufficient( p ) ) {
             it->active = false;
             p->remove_value( "remote_controlling" );
@@ -7702,7 +7635,9 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
             /** @EFFECT_INT increases chance of checking multi-cooker on time */
 
             /** @EFFECT_SURVIVAL increases chance of checking multi-cooker on time */
-            if( p->int_cur + p->get_skill_level( skill_cooking ) + p->get_skill_level( skill_survival ) > 16 ) {
+            avatar &player = get_avatar();
+            if( player.int_cur + player.get_skill_level( skill_cooking ) + player.get_skill_level(
+                    skill_survival ) > 16 ) {
                 add_msg( m_info, _( "The multi-cooker should be finishing shortly…" ) );
             }
         }
@@ -8729,12 +8664,12 @@ std::optional<int> iuse::magic_8_ball( Character *p, item *it, bool, const tripo
 
 std::optional<int> iuse::electricstorage( Character *p, item *it, bool t, const tripoint & )
 {
-    if( p->is_npc() ) {
+    // From item processing
+    if( t ) {
         return std::nullopt;
     }
 
-    // From item processing
-    if( t ) {
+    if( p->is_npc() ) {
         return std::nullopt;
     }
 
@@ -8935,7 +8870,7 @@ std::optional<int> iuse::ebookread( Character *p, item *it, bool t, const tripoi
     if( p->fine_detail_vision_mod() > 4 && !it->active && it->is_transformable() ) {
         const use_function *readinglight = it->type->get_use( "transform" );
         if( readinglight ) {
-            readinglight->call( *p, *it, it->active, p->pos() );
+            readinglight->call( p, *it, it->active, p->pos() );
         }
     }
 
@@ -9117,7 +9052,7 @@ ret_val<void> use_function::can_call( const Character &p, const item &it, bool t
     return actor->can_use( p, it, t, pos );
 }
 
-std::optional<int> use_function::call( Character &p, item &it, bool active,
+std::optional<int> use_function::call( Character *p, item &it, bool active,
                                        const tripoint &pos ) const
 {
     return actor->use( p, it, active, pos );

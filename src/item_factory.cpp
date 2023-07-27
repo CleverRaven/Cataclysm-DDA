@@ -91,6 +91,9 @@ static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
 static const material_id material_bean( "bean" );
 static const material_id material_blood( "blood" );
 static const material_id material_bone( "bone" );
+static const material_id material_bread( "bread" );
+static const material_id material_cheese( "cheese" );
+static const material_id material_dried_vegetable( "dried_vegetable" );
 static const material_id material_egg( "egg" );
 static const material_id material_flesh( "flesh" );
 static const material_id material_fruit( "fruit" );
@@ -1543,8 +1546,8 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        std::optional<int> use( Character &p, item &it, bool a, const tripoint &pos ) const override {
-            return cpp_function( &p, &it, a, pos );
+        std::optional<int> use( Character *p, item &it, bool a, const tripoint &pos ) const override {
+            return cpp_function( p, &it, a, pos );
         }
         std::unique_ptr<iuse_actor> clone() const override {
             return std::make_unique<iuse_function_wrapper>( *this );
@@ -1645,6 +1648,7 @@ void Item_factory::init()
     add_iuse( "COKE", &iuse::coke );
     add_iuse( "COMBATSAW_OFF", &iuse::combatsaw_off );
     add_iuse( "COMBATSAW_ON", &iuse::combatsaw_on );
+    add_iuse( "TOOLWEAPON_DEACTIVATE", &iuse::toolweapon_deactivate );
     add_iuse( "E_COMBATSAW_OFF", &iuse::e_combatsaw_off );
     add_iuse( "E_COMBATSAW_ON", &iuse::e_combatsaw_on );
     add_iuse( "CONTACTS", &iuse::contacts );
@@ -1666,13 +1670,11 @@ void Item_factory::init()
     add_iuse( "EBOOKREAD", &iuse::ebookread );
     add_iuse( "ELEC_CHAINSAW_OFF", &iuse::elec_chainsaw_off );
     add_iuse( "ELEC_CHAINSAW_ON", &iuse::elec_chainsaw_on );
-    add_iuse( "EMF_PASSIVE_OFF", &iuse::emf_passive_off );
     add_iuse( "EMF_PASSIVE_ON", &iuse::emf_passive_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
     add_iuse( "EYEDROPS", &iuse::eyedrops );
     add_iuse( "FILL_PIT", &iuse::fill_pit );
     add_iuse( "FIRECRACKER", &iuse::firecracker );
-    add_iuse( "FIRECRACKER_ACT", &iuse::firecracker_act );
     add_iuse( "FIRECRACKER_PACK", &iuse::firecracker_pack );
     add_iuse( "FIRECRACKER_PACK_ACT", &iuse::firecracker_pack_act );
     add_iuse( "FISH_ROD", &iuse::fishing_rod );
@@ -1690,7 +1692,6 @@ void Item_factory::init()
                               "present</info>."
                             ) );
     add_iuse( "GEIGER", &iuse::geiger );
-    add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
     add_iuse( "GUN_REPAIR", &iuse::gun_repair );
@@ -1749,6 +1750,7 @@ void Item_factory::init()
     add_iuse( "RADIO_MOD", &iuse::radio_mod );
     add_iuse( "RADIO_OFF", &iuse::radio_off );
     add_iuse( "RADIO_ON", &iuse::radio_on );
+    add_iuse( "RADIO_TICK", &iuse::radio_tick );
     add_iuse( "BINDER_ADD_RECIPE", &iuse::binder_add_recipe );
     add_iuse( "BINDER_MANAGE_RECIPE", &iuse::binder_manage_recipe );
     add_iuse( "REMOTEVEH", &iuse::remoteveh );
@@ -1810,6 +1812,8 @@ void Item_factory::init()
     add_actor( std::make_unique<iuse_transform>() );
     add_actor( std::make_unique<unpack_actor>() );
     add_actor( std::make_unique<message_iuse>() );
+    add_actor( std::make_unique<sound_iuse>() );
+    add_actor( std::make_unique<play_instrument_iuse>() );
     add_actor( std::make_unique<manualnoise_actor>() );
     add_actor( std::make_unique<musical_instrument_actor>() );
     add_actor( std::make_unique<deploy_furn_actor>() );
@@ -2865,7 +2869,7 @@ static void apply_optional( T &value, const std::optional<T> &applied )
     }
 }
 
-// Gets around the issue that cata::optional doesn't support
+// Gets around the issue that std::optional doesn't support
 // the *= and += operators required for "proportional" and "relative".
 template<typename T>
 static void get_optional( const JsonObject &jo, bool was_loaded, const std::string &member,
@@ -2916,12 +2920,20 @@ void islot_armor::load( const JsonObject &jo )
     get_relative( relative, "material_thickness", _material_thickness, 0.f );
     get_relative( relative, "environmental_protection", _env_resist, 0 );
     get_relative( relative, "environmental_protection_with_filter", _env_resist_w_filter, 0 );
+    float _rel_encumb = 0.0f;
+    if( relative.has_float( "encumbrance" ) ) {
+        _rel_encumb = relative.get_float( "encumbrance" );
+    }
 
     JsonObject proportional = jo.get_object( "proportional" );
     proportional.allow_omitted_members();
     get_proportional( proportional, "material_thickness", _material_thickness, 0.f );
     get_proportional( proportional, "environmental_protection", _env_resist, 0 );
     get_proportional( proportional, "environmental_protection_with_filter", _env_resist_w_filter, 0 );
+    float _prop_encumb = 1.0f;
+    if( proportional.has_float( "encumbrance" ) ) {
+        _prop_encumb = proportional.get_float( "encumbrance" );
+    }
 
     for( armor_portion_data &armor : sub_data ) {
         apply_optional( armor.avg_thickness, _material_thickness );
@@ -2930,6 +2942,22 @@ void islot_armor::load( const JsonObject &jo )
         if( covers ) {
             armor.covers = covers;
         }
+
+        // pass down relative and proportional encumbrance
+        if( armor.encumber > 0 ) {
+            armor.encumber += _rel_encumb;
+            armor.encumber *= _prop_encumb;
+
+            armor.encumber = std::max( 0, armor.encumber );
+        }
+
+        if( armor.max_encumber > 0 ) {
+            armor.max_encumber += _rel_encumb;
+            armor.max_encumber *= _prop_encumb;
+
+            armor.max_encumber = std::max( 0, armor.max_encumber );
+        }
+
     }
 
     optional( jo, was_loaded, "sided", sided, false );
@@ -3467,20 +3495,23 @@ void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 // Set for all items (not just food and clothing) to avoid edge cases
 void Item_factory::set_allergy_flags( itype &item_template )
 {
-    static const std::array<std::pair<material_id, flag_id>, 28> all_pairs = { {
+    static const std::array<std::pair<material_id, flag_id>, 29> all_pairs = { {
             // First allergens:
             // An item is an allergen even if it has trace amounts of allergenic material
             { material_hflesh, flag_CANNIBALISM },
             { material_hblood, flag_CANNIBALISM },
             { material_hflesh, flag_ALLERGEN_MEAT },
             { material_iflesh, flag_ALLERGEN_MEAT },
+            { material_bread, flag_ALLERGEN_BREAD },
             { material_flesh, flag_ALLERGEN_MEAT },
+            { material_cheese, flag_ALLERGEN_CHEESE},
             { material_blood, flag_ALLERGEN_MEAT },
             { material_hblood, flag_ALLERGEN_MEAT },
             { material_bone, flag_ALLERGEN_MEAT },
             { material_wheat, flag_ALLERGEN_WHEAT },
             { material_fruit, flag_ALLERGEN_FRUIT },
             { material_veggy, flag_ALLERGEN_VEGGY },
+            { material_dried_vegetable, flag_ALLERGEN_DRIED_VEGETABLE },
             { material_bean, flag_ALLERGEN_VEGGY },
             { material_tomato, flag_ALLERGEN_VEGGY },
             { material_garlic, flag_ALLERGEN_VEGGY },
@@ -3495,8 +3526,6 @@ void Item_factory::set_allergy_flags( itype &item_template )
             { material_flesh, flag_CARNIVORE_OK },
             { material_hflesh, flag_CARNIVORE_OK },
             { material_iflesh, flag_CARNIVORE_OK },
-            { material_milk, flag_CARNIVORE_OK },
-            { material_egg, flag_CARNIVORE_OK },
             { material_blood, flag_CARNIVORE_OK },
             { material_hblood, flag_CARNIVORE_OK },
             { material_honey, flag_URSINE_HONEY }
@@ -3918,6 +3947,65 @@ static void migrate_mag_from_pockets( itype &def )
     }
 }
 
+static void replace_materials( const JsonObject &jo, itype &def )
+{
+    // itterate through material replacements
+    for( JsonMember jv : jo ) {
+        material_id to_replace = material_id( jv.name() );
+        material_id replacement = material_id( jv.get_string() );
+
+        units::mass original_weight = def.weight;
+        int mat_portion = def.materials[to_replace];
+
+        // make repairs_with act the same way
+        if( !def.repairs_with.empty() ) {
+            const auto iter = def.repairs_with.find( to_replace );
+            if( iter != def.repairs_with.end() ) {
+                def.repairs_with.erase( iter );
+                def.repairs_with.insert( replacement );
+            }
+        }
+
+        // material is defined
+        if( mat_portion != 0 ) {
+            double mat_percent = static_cast<double>( mat_portion ) / static_cast<double>
+                                 ( def.mat_portion_total );
+
+            float density_percent = replacement->density() / to_replace->density();
+
+            // add the portion for the replaced material
+            def.materials[replacement] += mat_portion;
+
+            // delete the old data
+            def.materials.erase( to_replace );
+
+            // change the weight relative
+            units::mass material_weight = original_weight * mat_percent;
+            units::mass weight_dif = material_weight * density_percent - material_weight;
+
+            def.weight += weight_dif;
+        }
+
+        // update the armor defs
+        if( def.armor ) {
+            for( armor_portion_data &data : def.armor->sub_data ) {
+                std::vector<part_material>::iterator entry;
+                do {
+                    entry = std::find_if( data.materials.begin(),
+                    data.materials.end(), [to_replace]( const part_material & pm ) {
+                        return pm.id == to_replace;
+                    } );
+
+                    if( entry != data.materials.end() ) {
+                        entry->id = replacement;
+                    }
+
+                } while( entry != data.materials.end() );
+            }
+        }
+    }
+}
+
 void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std::string &src )
 {
     bool strict = src == "dda";
@@ -3977,8 +4065,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "insulation", def.insulation_factor );
     assign( jo, "solar_efficiency", def.solar_efficiency );
     assign( jo, "ascii_picture", def.picture_id );
-
-    optional( jo, false, "repairs_with", def.repairs_with, string_id_reader<material_type>() );
+    assign( jo, "repairs_with", def.repairs_with );
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
@@ -3998,7 +4085,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     float degrade_mult = 1.0f;
     optional( jo, false, "degradation_multiplier", degrade_mult, 1.0f );
     // TODO: remove condition once degradation is ready to be applied to all items
-    if( def.category_force != item_category_veh_parts ) {
+    if( def.count_by_charges() || def.category_force != item_category_veh_parts ) {
         degrade_mult = 0.0f;
     }
     if( ( degrade_mult * itype::damage_max_ ) <= 0.5f ) {
@@ -4157,6 +4244,11 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
             tmp.allow_omitted_members();
             delete_qualities_from_json( tmp, "qualities", def );
         }
+        if( jo.has_object( "relative" ) ) {
+            JsonObject tmp = jo.get_object( "relative" );
+            tmp.allow_omitted_members();
+            relative_qualities_from_json( tmp, "qualities", def );
+        }
     }
 
     if( jo.has_member( "charged_qualities" ) ) {
@@ -4168,11 +4260,24 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_properties_from_json( jo, "properties", def );
     }
 
-    for( const std::string &s : jo.get_tags( "techniques" ) ) {
-        def.techniques.insert( matec_id( s ) );
+    if( jo.has_member( "techniques" ) ) {
+        def.techniques.clear();
+        set_techniques_from_json( jo, "techniques", def );
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            extend_techniques_from_json( tmp, "techniques", def );
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            delete_techniques_from_json( tmp, "techniques", def );
+        }
     }
 
     set_use_methods_from_json( jo, "use_action", def.use_methods, def.ammo_scale );
+    set_use_methods_from_json( jo, "tick_action", def.tick_action, def.ammo_scale );
 
     assign( jo, "countdown_interval", def.countdown_interval );
     assign( jo, "revert_to", def.revert_to, strict );
@@ -4274,6 +4379,12 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     } else {
         def.snippet_category = jo.get_string( "snippet_category", "" );
     }
+
+
+    // potentially replace materials and update their values
+    JsonObject replace_val = jo.get_object( "replace_materials" );
+    replace_val.allow_omitted_members();
+    replace_materials( replace_val, def );
 
     if( jo.has_string( "abstract" ) ) {
         m_abstracts[ def.id ] = def;
@@ -4472,10 +4583,23 @@ void Item_factory::extend_qualities_from_json( const JsonObject &jo, const std::
 void Item_factory::delete_qualities_from_json( const JsonObject &jo, const std::string_view member,
         itype &def )
 {
-    for( JsonArray curr : jo.get_array( member ) ) {
-        const auto iter = def.qualities.find( quality_id( curr.get_string( 0 ) ) );
-        if( iter != def.qualities.end() && iter->second == curr.get_int( 1 ) ) {
+    for( std::string curr : jo.get_array( member ) ) {
+        const auto iter = def.qualities.find( quality_id( curr ) );
+        if( iter != def.qualities.end() ) {
             def.qualities.erase( iter );
+        }
+    }
+}
+
+void Item_factory::relative_qualities_from_json( const JsonObject &jo,
+        const std::string_view member, itype &def )
+{
+    for( JsonArray curr : jo.get_array( member ) ) {
+        const quality_id key = quality_id( curr.get_string( 0 ) );
+        if( def.qualities.find( quality_id( key ) ) != def.qualities.end() ) {
+            def.qualities[ key ] += curr.get_int( 1 );
+        } else {
+            jo.throw_error_at( member, "Quality specified wasn't inherited" );
         }
     }
 }
@@ -4493,6 +4617,43 @@ void Item_factory::set_properties_from_json( const JsonObject &jo, const std::st
         }
     } else {
         jo.throw_error_at( member, "Properties list is not an array" );
+    }
+}
+
+void Item_factory::set_techniques_from_json( const JsonObject &jo, const std::string_view &member,
+        itype &def )
+{
+    if( jo.has_array( member ) ) {
+        for( std::string curr : jo.get_array( member ) ) {
+            const matec_id tech = matec_id( curr );
+            // Prevent duplicates
+            if( def.techniques.count( tech ) > 0 ) {
+                jo.throw_error_at( member, "Duplicated technique" );
+            }
+            def.techniques.insert( tech );
+        }
+    } else {
+        jo.throw_error_at( member, "Techniques list is not an array" );
+    }
+}
+
+void Item_factory::extend_techniques_from_json( const JsonObject &jo, const std::string_view member,
+        itype &def )
+{
+    for( std::string curr : jo.get_array( member ) ) {
+        def.techniques.insert( matec_id( curr ) );
+    }
+}
+
+void Item_factory::delete_techniques_from_json( const JsonObject &jo, const std::string_view member,
+        itype &def )
+{
+    for( std::string curr : jo.get_array( member ) ) {
+        const matec_id tech = matec_id( curr );
+        const auto iter = def.techniques.find( tech );
+        if( iter != def.techniques.end() ) {
+            def.techniques.erase( tech );
+        }
     }
 }
 

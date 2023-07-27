@@ -289,6 +289,9 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_firestation1_bedroom_sw",
     "blueprint_name": "furnish the SW bedroom",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    },
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_sw" }, { "id": "bed" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_sw" } ]
@@ -304,6 +307,9 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_firestation1_bedroom_nw",
     "blueprint_name": "furnish the NW bedroom",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    },
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_nw" }, { "id": "bed" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_nw" } ]
@@ -319,6 +325,9 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_firestation1_bedroom_se",
     "blueprint_name": "furnish the SE bedroom",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    },
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_se" }, { "id": "bed" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_se" } ]
@@ -334,6 +343,9 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_firestation1_bedroom_ne",
     "blueprint_name": "furnish the NE bedroom",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    },
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_ne" }, { "id": "bed" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_ne" } ]
@@ -424,9 +436,9 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_pottery" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_tools" }, { "id": "fbmc_firestation_blacksmith_recipes_4" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_tools" } ],
-    "blueprint_resources": [ "tongs", "chisel", "hammer", "swage" ],
+    "blueprint_resources": [ "metalworking_tongs", "chisel", "hammer", "swage" ],
     "blueprint_needs": {  },
-    "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "swage", 1 ] ] ]
+    "components": [ [ [ "metalworking_tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "swage", 1 ] ] ]
   },
   {
     "type": "recipe",

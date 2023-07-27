@@ -1,0 +1,50 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_riftwalker_teleport",
+    "name": [ "Dimensionally Unstable" ],
+    "desc": [ "You feel like you're barely part of the world." ],
+    "apply_message": "",
+    "remove_message": "With a jolt you feel more solid again.",
+    "rating": "bad",
+    "enchantments": [ "enchant_riftwalker_teleport" ],
+    "immune_flags": [ "TELESTOP", "DIMENSIONAL_ANCHOR" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakinetic_health_down",
+    "name": [ "Feeling Unwell" ],
+    "desc": [ "You feel weak and shaky." ],
+    "apply_message": "",
+    "remove_message": "The feeling of weakness fades away.",
+    "rating": "bad",
+    "max_duration": "12 hours",
+    "base_mods": {
+      "str_mod": [ -2 ],
+      "h_mod_min": [ -2 ],
+      "h_mod_chance": [ 1 ],
+      "h_mod_chance_bot": [ 5 ],
+      "h_mod_tick": [ 600 ],
+      "healing_rate": [ 0.75 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakinetic_healing_down",
+    "name": [ "Feeling Very Unwell" ],
+    "desc": [ "You feel fatigued and shaky." ],
+    "apply_message": "",
+    "remove_message": "The feeling of weakness fades away.",
+    "rating": "bad",
+    "max_duration": "18 hours",
+    "base_mods": {
+      "str_mod": [ -2 ],
+      "h_mod_min": [ -2 ],
+      "h_mod_chance": [ 1 ],
+      "h_mod_chance_bot": [ 4 ],
+      "h_mod_tick": [ 500 ],
+      "healing_rate": [ 0.5 ]
+    },
+    "vitamins": [ { "vitamin": "iron", "rate": [ [ -10, -10 ] ], "tick": [ "1 m" ] } ]
+  }
+]

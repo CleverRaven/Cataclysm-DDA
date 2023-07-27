@@ -88,6 +88,7 @@
     "description": "A gladius covered in the whorls of Celtic knots.  Sparks seems to pop off the edge of the blade.",
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "longest_side": "60 cm",
+    "material": [ "moon_tears" ],
     "weapon_category": [ "CONSTRUCTED_SWORDS", "SHORT_SWORDS", "DURABLE_MELEE" ],
     "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "distant_thunder" } ] } ] }
   },

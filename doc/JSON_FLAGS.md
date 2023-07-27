@@ -562,7 +562,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
-- ```INEDIBLE``` Inedible by default, enabled to eat when in conjunction with (mutation threshold) flags: `BIRD`, `CATTLE`.
+- ```INEDIBLE``` Inedible by default, enabled to eat when in conjunction with (mutation threshold) flags: `BIRD`, `CATTLE`, `FELINE`, `LUPINE`, `MOUSE`, `RABBIT`, `RAT`.
 - ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the `PLANTBLECH` function penalties will be reversed for plants.
 - ```FREEZERBURN``` First thaw is `MUSHY`, second is rotten.
 - ```FUNGAL_VECTOR``` Will give a fungal infection when consumed.
@@ -638,6 +638,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```CONNECT_WITH_WALL``` (only for terrain) This flag has been superseded by the JSON entries `connect_group` and `connects_to`, but is retained for backward compatibility.
 - ```CONSOLE``` Used as a computer.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
+- ```CORNERED_FIGHTER``` This creature will stop fleeing and fight back if enemies pursue it into melee range.
 - ```CURRENT``` This water is flowing.
 - ```DEEP_WATER``` This is water that can submerge the player.
 - ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`.
@@ -701,6 +702,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SHARP``` May do minor damage to players/monsters passing through it.
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - ```SIGN``` Show written message on examine.
+- ```SIGN_ALWAYS``` Shows a message to indicate nothing is written here and lets you add a message if examined without a signage/snippet present.
+- ```SMALL_HIDE``` Small creatures such as cockroaches and rats can hide under or inside of this furniture. Should not be applied to anything bigger than a housecat unless it is particularly flexible, IE a snake.
 - ```SMALL_PASSAGE``` This terrain or furniture is too small for large or huge creatures to pass through.
 - ```SPAWN_WITH_LIQUID``` This terrain will place liquid (once) on its own spawn. Type of liquid is defined by other flags. For example, it spawns fresh water via `FRESH_WATER` flag.
 - ```SUN_ROOF_ABOVE``` This furniture (terrain is not supported currently) has a "fake roof" above, that blocks sunlight. Special hack for #44421, to be removed later.
@@ -874,7 +877,7 @@ See [Mapgen flags](MAPGEN.md#mapgen-flags).
 - ```mx_clearcut``` ... All trees become stumps.
 - ```mx_collegekids``` ... Corpses and items.
 - ```mx_corpses``` ... Up to 5 corpses with everyday loot.
-- ```mx_crater``` ... Crater with rubble (and radioactivity).
+- ```mx_crater``` ... Crater formed using a bomb.
 - ```mx_drugdeal``` ... Corpses and some drugs.
 - ```mx_dead_vegetation``` ... Kills all plants. (aftermath of acid rain etc.)
 - ```mx_exocrash_1``` ... Area of glassed sand created by a crashed pod of space travelers. Populated by zomborgs.
@@ -1066,6 +1069,7 @@ Other monster flags.
 - ```DRIPS_GASOLINE``` Occasionally drips gasoline on move.
 - ```DRIPS_NAPALM``` Occasionally drips napalm on move.
 - ```DROPS_AMMO``` This monster drops ammo. Should not be set for monsters that use pseudo ammo.
+- ```EATS``` This creature has a stomach_size (defined in its monster json) which gets filled up when it eats, and digests food over time.
 - ```ELECTRIC``` Shocks unarmed attackers.
 - ```ELECTRIC_FIELD``` This monster is surrounded by an electrical field that ignites flammable liquids near it. It also deals damage to other monsters with this flag, with "The %s's disabled electrical field reverses polarity!" message.
 - ```ELECTRONIC``` e.g. a robot; affected by emp blasts and other stuff.
@@ -1111,6 +1115,7 @@ Other monster flags.
 - ```PET_MOUNTABLE``` Creature can be ridden or attached to a harness.
 - ```PET_HARNESSABLE``` Creature can be attached to a harness.
 - ```PET_WONT_FOLLOW``` This monster won't follow the player automatically when tamed.
+- ```PHOTOPHOBIC``` Severely weakened if in light level >= 30 (within about 7 tiles of a full-strength flashlight) by applying photophobia effect.
 - ```PRIORITIZE_TARGETS``` This monster will prioritize targets depending on their danger levels.
 - ```NULL``` Source use only.
 - ```PACIFIST``` Monster will never do melee attacks. Useful for having them use grab without attacking the player.

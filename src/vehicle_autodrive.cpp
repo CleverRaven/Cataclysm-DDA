@@ -604,7 +604,7 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
     }
     for( int part_num : driven_veh.rotors ) {
         const vehicle_part &part = driven_veh.part( part_num );
-        const int diameter = part.info().rotor_diameter();
+        const int diameter = part.info().rotor_info->rotor_diameter;
         const int radius = ( diameter + 1 ) / 2;
         if( radius > 0 ) {
             tripoint pos;
@@ -650,7 +650,7 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
         return &ovp->vehicle() == &driven_veh;
     }
 
-    const tripoint_abs_ms pt_abs( here.getabs( pt ) );
+    const tripoint_abs_ms pt_abs = here.getglobal( pt );
     const tripoint_abs_omt pt_omt = project_to<coords::omt>( pt_abs );
     // only check visibility for the current OMT, we'll check other OMTs when
     // we reach them
@@ -659,7 +659,13 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
         if( !driver.sees( pt ) ) {
             if( !driver.is_avatar() ) {
                 return false;
-            } else if( driver.as_avatar()->get_memorized_tile( pt_abs.raw() ) == mm_submap::default_tile ) {
+            }
+            const avatar &avatar = *driver.as_avatar();
+            if( !avatar.is_map_memory_valid() ) {
+                debugmsg( "autodrive querying uninitialized map memory at %s", pt_abs.to_string() );
+                return false;
+            }
+            if( avatar.get_memorized_tile( pt_abs ) == mm_submap::default_tile ) {
                 // apparently open air doesn't get memorized, so pretend it is or else
                 // we can't fly helicopters due to the many unseen tiles behind the driver
                 if( !( data.air_ok && here.ter( pt ) == t_open_air ) ) {

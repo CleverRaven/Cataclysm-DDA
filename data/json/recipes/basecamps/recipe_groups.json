@@ -355,7 +355,7 @@
     "recipes": [
       { "id": "chisel", "description": " Craft: Metalworking Chisel" },
       { "id": "hammer", "description": " Craft: Hammer" },
-      { "id": "tongs", "description": " Craft: Metal Tongs" },
+      { "id": "tongs", "description": " Craft: Pair of kitchen tongs" },
       { "id": "nail", "description": " Craft: Nail" },
       { "id": "wire", "description": " Craft: Wire" },
       { "id": "swage", "description": " Craft: Swage and Die Set" },
@@ -562,7 +562,7 @@
       { "id": "xl_armor_qt_lightplate", "description": " Craft: Armor, XL Tempered Light Plate" },
       { "id": "xl_armor_qt_plate", "description": " Craft: Armor, XL Tempered Plate" },
       { "id": "broadsword", "description": " Craft: Sword, Broadsword" },
-      { "id": "scimitar", "description": " Craft: Sword, Scimitar" },
+      { "id": "scimitar", "description": " Craft: Sword, Shamshir" },
       { "id": "fire_ax", "description": " Craft: Axe, Fire" },
       { "id": "hacksaw", "description": " Craft: Hacksaw" },
       { "id": "saw", "description": " Craft: Woodsaw" },

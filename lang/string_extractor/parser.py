@@ -173,6 +173,7 @@ parsers = {
     "monster_attack": parse_monster_attack,
     "monster_blacklist": dummy_parser,
     "monster_faction": dummy_parser,
+    "monster_flag": dummy_parser,
     "monster_whitelist": dummy_parser,
     "monstergroup": dummy_parser,
     "mood_face": dummy_parser,

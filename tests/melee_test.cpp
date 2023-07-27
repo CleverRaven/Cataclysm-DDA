@@ -347,9 +347,35 @@ static void check_damage_from_test_fire( const std::string &mon_id, int expected
             }
         }
     }
+    Messages::clear_messages();
     CHECK( total_hits == Approx( 1000 ).margin( 50 ) );
     CHECK( set_on_fire == total_hits );
     CHECK( total_dmg / static_cast<float>( total_hits ) == Approx( expected_avg_dmg ).epsilon( 0.05 ) );
+}
+
+static void check_eocs_from_test_fire( const std::string &mon_id )
+{
+    int eoc_total_dmg = 0;
+    clear_creatures();
+    standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
+    monster &mon = spawn_test_monster( mon_id, dude.pos() + tripoint_east );
+    REQUIRE( mon.pos() == dude.pos() + tripoint_east );
+    REQUIRE( mon.get_hp() == mon.get_hp_max() );
+    REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
+    REQUIRE( mon.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
+    item firesword( "test_fire_sword" );
+    dude.set_wielded_item( firesword );
+    while( !dude.melee_attack( mon, false ) ) {}
+    if( mon.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "target" ) {
+        REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "source" );
+    }
+
+    eoc_total_dmg = std::round( std::stod(
+                                    dude.get_value( "npctalk_var_test_damage_taken" ) ) );
+    REQUIRE( !dude.get_value( "npctalk_var_test_bp" ).empty() );
+
+    Messages::clear_messages();
+    CHECK( eoc_total_dmg == firesword.damage_melee( damage_test_fire ) );
 }
 
 static void check_damage_from_test_fire( const std::vector<std::string> &armor_items,
@@ -383,13 +409,14 @@ static void check_damage_from_test_fire( const std::vector<std::string> &armor_i
             }
         }
     }
+    Messages::clear_messages();
     CHECK( total_hits == Approx( 1000 ).margin( 100 ) );
     CHECK( set_on_fire == total_hits );
     const float avg_dmg = total_dmg / static_cast<float>( total_hits );
     CHECK( avg_dmg == Approx( expected_avg_dmg ).epsilon( 0.075 ) );
 }
 
-TEST_CASE( "Damage_type_effectiveness_vs_monster_resistance", "[melee][damage]" )
+TEST_CASE( "Damage_type_effectiveness_vs_monster_resistance", "[melee][damage][eoc]" )
 {
     clear_map();
 
@@ -411,7 +438,7 @@ TEST_CASE( "Damage_type_effectiveness_vs_monster_resistance", "[melee][damage]" 
 
     SECTION( "Attacking an NPC with no resistance to test_fire" ) {
         check_damage_from_test_fire( std::vector<std::string> { "test_zentai" },
-                                     body_part_torso, 0, false, 13.75f );
+                                     body_part_torso, 0, false, 14.84f );
     }
 
     SECTION( "Attacking an NPC that is resistant to test_fire" ) {
@@ -421,6 +448,16 @@ TEST_CASE( "Damage_type_effectiveness_vs_monster_resistance", "[melee][damage]" 
 
     SECTION( "Attacking an NPC that is immune to test_fire" ) {
         check_damage_from_test_fire( std::vector<std::string> { "test_zentai_immune_test_fire" },
-                                     body_part_torso, 0, true, 5.7f );
+                                     body_part_torso, 0, true, 6.87f );
     }
+}
+
+TEST_CASE( "Damage_type_EOCs", "[damage][eoc]" )
+{
+    clear_map();
+
+    SECTION( "Attacking a monster" ) {
+        check_eocs_from_test_fire( "mon_test_zombie_only_fire" );
+    }
+
 }

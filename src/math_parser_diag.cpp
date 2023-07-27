@@ -193,6 +193,15 @@ std::function<double( dialogue & )> armor_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> hp_max_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[bpid = params[0], beta = is_beta( scope )]( dialogue const & d ) {
+        bodypart_id bp( bpid.str( d ) );
+        return d.actor( beta )->get_hp_max( bp );
+    };
+}
+
 std::function<double( dialogue & )> num_input_eval( char /*scope*/,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -306,6 +315,22 @@ std::function<void( dialogue &, double )> skill_ass( char scope,
 {
     return [beta = is_beta( scope ), sid = params[0] ]( dialogue const & d, double val ) {
         return d.actor( beta )->set_skill_level( skill_id( sid.str( d ) ), val );
+    };
+}
+
+std::function<double( dialogue & )> spell_exp_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope ), sid = params[0]]( dialogue const & d ) {
+        return d.actor( beta )->get_spell_exp( spell_id( sid.str( d ) ) );
+    };
+}
+
+std::function<void( dialogue &, double )> spell_exp_ass( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope ), sid = params[0]]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_spell_exp( spell_id( sid.str( d ) ), val );
     };
 }
 

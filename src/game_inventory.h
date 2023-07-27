@@ -14,11 +14,6 @@
 class Character;
 struct tripoint;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 class avatar;
 class item;
 class repair_item_actor;
@@ -151,6 +146,8 @@ item_location repair( Character &you, const repair_item_actor *actor, const item
 item_location install_bionic( Character &you, Character &patient, bool surgeon = false );
 /**Autoclave sterilize menu*/
 item_location sterilize_cbm( Character &you );
+/** Change sprite menu. */
+item_location change_sprite( Character &you );
 /*@}*/
 
 } // namespace inv

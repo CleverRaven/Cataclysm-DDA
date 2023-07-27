@@ -202,7 +202,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_VANILLA_ONLY_HUMANS",
-    "//": "only human zombies, used in the refugee center and as upgrades for civilians",
+    "//": "only human zombies, used in the refugee center",
     "default": "mon_zombie",
     "monsters": [
       { "monster": "mon_zombie", "weight": 264, "cost_multiplier": 0 },
@@ -455,14 +455,14 @@
     "name": "GROUP_SCHOOL",
     "//": "School monster spawns.",
     "monsters": [
-      { "monster": "mon_null", "weight": 1 },
+      { "monster": "mon_null", "weight": 10 },
       { "monster": "mon_civilian_stationary", "weight": 20, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_zombiefighter", "weight": 10, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_panic", "weight": 50, "cost_multiplier": 0, "ends": "5 days" },
-      { "monster": "mon_zombie_child", "weight": 4 },
-      { "monster": "mon_zombie_fat", "weight": 1 },
-      { "monster": "mon_zombie_tough", "weight": 1 },
-      { "monster": "mon_zombie", "weight": 3 }
+      { "monster": "mon_zombie_child", "weight": 50 },
+      { "monster": "mon_zombie_fat", "weight": 10 },
+      { "monster": "mon_zombie_tough", "weight": 10 },
+      { "monster": "mon_zombie", "weight": 30 }
     ]
   },
   {
@@ -602,6 +602,14 @@
       { "monster": "mon_feral_fancy_rapier", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_feral_fancy_rapier_fake", "weight": 20, "cost_multiplier": 2 },
       { "monster": "mon_feral_fancy_crossbow", "weight": 5, "cost_multiplier": 3 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBULL_FROG_UPGRADE",
+    "monsters": [
+      { "monster": "mon_frog_dad", "weight": 75, "cost_multiplier": 3 },
+      { "monster": "mon_frog_mother", "weight": 25, "cost_multiplier": 1 }
     ]
   },
   {
@@ -903,12 +911,7 @@
   {
     "name": "GROUP_FORT",
     "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_zombie", "weight": 25, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_child", "weight": 25, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zombie_reenactor", "weight": 850 },
-      { "monster": "mon_zombie_reenactor", "weight": 100, "pack_size": [ 1, 2 ] }
-    ]
+    "monsters": [ { "monster": "mon_zombie_reenactor" } ]
   },
   {
     "name": "GROUP_CIVILIAN",

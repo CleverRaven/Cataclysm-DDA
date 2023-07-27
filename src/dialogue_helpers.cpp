@@ -74,6 +74,7 @@ var_info process_variable( const std::string &type )
     return var_info( vt, "npctalk_var_" + ret_str );
 }
 
+template<>
 std::string str_or_var::evaluate( dialogue const &d ) const
 {
     if( function.has_value() ) {
@@ -89,6 +90,36 @@ std::string str_or_var::evaluate( dialogue const &d ) const
         }
         if( default_val.has_value() ) {
             return default_val.value();
+        }
+        std::string var_name = var_val.value().name;
+        if( var_name.find( "npctalk_var" ) != std::string::npos ) {
+            var_name = var_name.substr( 12 );
+        }
+        debugmsg( "No default value provided for str_or_var_part while encountering unused "
+                  "variable %s.  Add a \"default_str\" member to prevent this.  %s",
+                  var_name, d.get_callstack() );
+        return "";
+    }
+    debugmsg( "No valid value for str_or_var_part.  %s", d.get_callstack() );
+    return "";
+}
+
+template<>
+std::string translation_or_var::evaluate( dialogue const &d ) const
+{
+    if( function.has_value() ) {
+        return function.value()( d ).translated();
+    }
+    if( str_val.has_value() ) {
+        return str_val.value().translated();
+    }
+    if( var_val.has_value() ) {
+        std::string val = read_var_value( var_val.value(), d );
+        if( !val.empty() ) {
+            return val;
+        }
+        if( default_val.has_value() ) {
+            return default_val.value().translated();
         }
         std::string var_name = var_val.value().name;
         if( var_name.find( "npctalk_var" ) != std::string::npos ) {

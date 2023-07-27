@@ -610,13 +610,6 @@
         "weight": 10
       },
       {
-        "id": "pants_flag",
-        "name": { "str": "liberty’s pants", "str_pl": "pairs of liberty’s pants" },
-        "description": "These pair of sky blue pants are resplendent with a pair of stitched American flags, their flag poles running down each leg, and a standard flanking the trousers’ front and rear.  \"Freedom\" is boldly stitched across the fly and enclosed by a ring of golden stars, while the back bears the legend, \"Liberbooty!\"",
-        "color": "light_blue",
-        "weight": 2
-      },
-      {
         "id": "pants_cream",
         "name": { "str": "cream pants", "str_pl": "pairs of cream pants" },
         "description": "A pair of milky, off-white pants dyed a shade of soft cream.  They're slightly warmer than jeans.",
@@ -979,6 +972,13 @@
         "description": "Much like the bird from which the hue of this pair of pants derives its name, this set of trousers is dyed a warm and extremely vibrant hue of yellow.  Equipped with deep pockets and warmer than regular jeans, you feel relatively sure that wearing this would let you be seen by any survivors, zombies, or even the ISS, if it’s still in orbit.",
         "color": "yellow",
         "weight": 2
+      },
+      {
+        "id": "pants_flag",
+        "name": { "str": "liberty’s pants", "str_pl": "pairs of liberty’s pants" },
+        "description": "These pair of sky blue pants are resplendent with a pair of stitched American flags, their flag poles running down each leg, and a standard flanking the trousers’ front and rear.  \"Freedom\" is boldly stitched across the fly and enclosed by a ring of golden stars, while the back bears the legend, \"Liberbooty!\"",
+        "color": "light_blue",
+        "weight": 2
       }
     ]
   },
@@ -991,7 +991,7 @@
     "volume": "2500 ml",
     "price": 3500,
     "price_postapoc": 250,
-    "material": [ { "type": "nylon", "portion": 7 }, { "type": "cotton", "portion": 3 } ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "pants_cargo",
     "color": "green",

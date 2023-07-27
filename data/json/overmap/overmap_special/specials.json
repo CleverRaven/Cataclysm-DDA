@@ -22,20 +22,42 @@
     "type": "overmap_special",
     "id": "Motel",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "motel_entrance_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "motel_entrance_roof_north" },
-      { "point": [ -1, 0, 0 ], "overmap": "motel_1_north" },
-      { "point": [ -1, 0, 1 ], "overmap": "motel_1_roof_north" },
-      { "point": [ -1, 1, 0 ], "overmap": "motel_2_north" },
-      { "point": [ -1, 1, 1 ], "overmap": "motel_2_roof_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "motel_3_north" },
-      { "point": [ 0, 1, 1 ], "overmap": "motel_3_roof_north" }
+      { "point": [ 1, 0, 0 ], "overmap": "motel_entrance_no_sidewalk_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "motel_1_no_sidewalk_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "motel_2_no_sidewalk_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "motel_3_no_sidewalk_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "motel_entrance_roof_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "motel_1_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "motel_2_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "motel_3_roof_north" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "connections": [ { "point": [ 2, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ], "existing": true } ],
     "locations": [ "land" ],
     "city_distance": [ 8, 30 ],
-    "occurrences": [ 0, 2 ],
+    "occurrences": [ 1, 2 ],
     "flags": [ "CLASSIC", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "2fMotel",
+    "overmaps": [
+      { "point": [ 1, 0, 0 ], "overmap": "motel_entrance_no_sidewalk_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "motel_1_no_sidewalk_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "motel_2_no_sidewalk_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "motel_3_no_sidewalk_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "2fmotel_entrance_f2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "2fmotel_1_f2_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "2fmotel_2_f2_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "2fmotel_3_f2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "2fmotel_1_r_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "2fmotel_2_r_north" },
+      { "point": [ 1, 1, 2 ], "overmap": "2fmotel_3_r_north" }
+    ],
+    "connections": [ { "point": [ 2, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ], "existing": true } ],
+    "locations": [ "land" ],
+    "city_distance": [ 8, 40 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "URBAN", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -202,7 +224,7 @@
       { "point": [ -1, 0, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] }
     ],
     "city_distance": [ 5, -1 ],
-    "occurrences": [ 0, 1 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "LAKE", "MAN_MADE", "WILDERNESS" ]
   },
   {
@@ -466,8 +488,8 @@
     "locations": [ "forest" ],
     "city_distance": [ 30, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "occurrences": [ 10, 100 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -506,8 +528,8 @@
     "locations": [ "forest" ],
     "city_distance": [ 30, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "occurrences": [ 10, 100 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -4455,28 +4477,6 @@
     "city_sizes": [ 3, 12 ],
     "occurrences": [ 50, 100 ],
     "flags": [ "CLASSIC", "UNIQUE", "URBAN", "MAN_MADE" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "2fMotel",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "2fmotel_entrance_north" },
-      { "point": [ -1, 0, 0 ], "overmap": "2fmotel_1_north" },
-      { "point": [ -1, 1, 0 ], "overmap": "2fmotel_2_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "2fmotel_3_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "2fmotel_entrance_f2_north" },
-      { "point": [ -1, 0, 1 ], "overmap": "2fmotel_1_f2_north" },
-      { "point": [ -1, 1, 1 ], "overmap": "2fmotel_2_f2_north" },
-      { "point": [ 0, 1, 1 ], "overmap": "2fmotel_3_f2_north" },
-      { "point": [ -1, 0, 2 ], "overmap": "2fmotel_1_r_north" },
-      { "point": [ -1, 1, 2 ], "overmap": "2fmotel_2_r_north" },
-      { "point": [ 0, 1, 2 ], "overmap": "2fmotel_3_r_north" }
-    ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
-    "locations": [ "land" ],
-    "city_distance": [ 8, 40 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "URBAN", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",

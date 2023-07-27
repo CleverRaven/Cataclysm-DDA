@@ -21,17 +21,17 @@ class JsonValue;
 class Creature;
 class item;
 class monster;
-enum m_flag : int;
 template<typename T> struct enum_traits;
 
 struct damage_type {
     damage_type_id id;
     translation name;
     std::vector<effect_on_condition_id> onhit_eocs;
+    std::vector<effect_on_condition_id> ondamage_eocs;
     skill_id skill = skill_id::NULL_ID();
     std::pair<damage_type_id, float> derived_from = { damage_type_id(), 0.0f };
     cata::flat_set<std::string> immune_flags;
-    cata::flat_set<m_flag> mon_immune_flags;
+    cata::flat_set<std::string> mon_immune_flags;
     nc_color magic_color;
     bool melee_only = false;
     bool physical = false;
@@ -44,6 +44,11 @@ struct damage_type {
 
     // Applies damage type on-hit effects
     void onhit_effects( Creature *source, Creature *target ) const;
+
+    // Applies damage type on-damage effects
+    void ondamage_effects( Creature *source, Creature *target,
+                           bodypart_str_id bp, double total_damage = 0.0,
+                           double damage_taken = 0.0 ) const;
 
     static void load_damage_types( const JsonObject &jo, const std::string &src );
     static void reset();
@@ -137,6 +142,11 @@ struct damage_instance {
 
     // Applies damage type on-hit effects for all damage units
     void onhit_effects( Creature *source, Creature *target ) const;
+
+    // Applies damage type on-damage effects for all damage units
+    void ondamage_effects( Creature *source, Creature *target, const damage_instance &premitigated,
+                           bodypart_str_id bp ) const;
+
 
     // calculates damage taking barrel length into consideration for the amount
     damage_instance di_considering_length( units::length barrel_length ) const;

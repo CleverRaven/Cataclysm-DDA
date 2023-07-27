@@ -187,7 +187,6 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
-static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NONE( "NONE" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
@@ -365,6 +364,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     optional( jsobj, was_loaded, "included_bionics", included_bionics );
     optional( jsobj, was_loaded, "included", included );
     optional( jsobj, was_loaded, "upgraded_bionic", upgraded_bionic );
+    optional( jsobj, was_loaded, "required_bionic", required_bionic );
     optional( jsobj, was_loaded, "fuel_options", fuel_opts );
     optional( jsobj, was_loaded, "activated_on_install", activated_on_install, false );
 
@@ -446,6 +446,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     activated = has_flag( STATIC( json_character_flag( json_flag_BIONIC_TOGGLED ) ) ) ||
                 has_flag( json_flag_BIONIC_GUN ) ||
                 power_activate > 0_kJ ||
+                spell_on_activate ||
                 charge_time > 0_turns;
 
     if( has_flag( STATIC( json_character_flag( "BIONIC_FAULTY" ) ) ) ) {
@@ -567,6 +568,14 @@ void bionic_data::check_bionic_consistency()
             } else if( !bio.upgraded_bionic.is_valid() ) {
                 debugmsg( "Bionic %s upgrades undefined bionic %s",
                           bio.id.c_str(), bio.upgraded_bionic.c_str() );
+            }
+        }
+        if( bio.required_bionic ) {
+            if( bio.required_bionic == bio.id ) {
+                debugmsg( "Bionic %s requires itself as a prerequisite for installation", bio.id.c_str() );
+            } else if( !bio.required_bionic.is_valid() ) {
+                debugmsg( "Bionic %s requires undefined bionic %s",
+                          bio.id.c_str(), bio.required_bionic.c_str() );
             }
         }
         if( !item::type_is_defined( bio.itype() ) && !bio.included ) {
@@ -1199,7 +1208,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             }
         }
     }
-
+    bio_flag_cache.clear();
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
     calc_encumbrance();
     reset();
@@ -1245,7 +1254,7 @@ ret_val<void> Character::can_deactivate_bionic( bionic &bio, bool eff_only ) con
 bool Character::deactivate_bionic( bionic &bio, bool eff_only )
 {
     const auto can_deactivate = can_deactivate_bionic( bio, eff_only );
-
+    bio_flag_cache.clear();
     if( !can_deactivate.success() ) {
         if( !can_deactivate.str().empty() ) {
             add_msg( m_info,  can_deactivate.str() );
@@ -2114,6 +2123,14 @@ bool Character::can_uninstall_bionic( const bionic &bio, Character &installer, b
         return false;
     }
 
+    for( const bionic_id &bid : get_bionics() ) {
+        if( bid->required_bionic && bid->required_bionic == bio.id ) {
+            popup( _( "%s cannot be removed because installed bionic %s requires it." ), bio.id->name,
+                   bid->name );
+            return false;
+        }
+    }
+
     if( bio.id->cant_remove_reason.has_value() ) {
         popup( string_format( bio.id->cant_remove_reason.value(), disp_name( true ), disp_name() ) );
         return false;
@@ -2332,6 +2349,10 @@ ret_val<void> Character::is_installable( const item *it, const bool by_autodoc )
                !has_bionic( bid->upgraded_bionic ) &&
                it->is_upgrade() ) {
         return ret_val<void>::make_failure( _( "No base version installed." ) );
+    } else if( bid->required_bionic &&
+               !has_bionic( bid->required_bionic ) ) {
+        return ret_val<void>::make_failure( _( "CBM requires prior installation of %s." ),
+                                            bid->required_bionic.obj().name );
     } else if( std::any_of( bid->available_upgrades.begin(),
                             bid->available_upgrades.end(),
     [this]( const bionic_id & b ) {
@@ -2783,7 +2804,7 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
             wear_item( tmparmor, false );
         }
     }
-
+    bio_flag_cache.clear();
     invalidate_pseudo_items();
     update_bionic_power_capacity();
 
@@ -2869,6 +2890,7 @@ void Character::remove_bionic( const bionic &bio )
 
     const bool has_enchantments = !bio.id->enchantments.empty();
     *my_bionics = new_my_bionics;
+    bio_flag_cache.clear();
     update_last_bionic_uid();
     invalidate_pseudo_items();
     update_bionic_power_capacity();
@@ -3253,8 +3275,7 @@ void Character::introduce_into_anesthesia( const time_duration &duration, Charac
     }
 
     //Pain junkies feel sorry about missed pain from operation.
-    if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
-        has_trait( trait_CENOBITE ) ) {
+    if( has_trait( trait_MASOCHIST_MED ) || has_trait( trait_CENOBITE ) ) {
         add_msg_if_player( m_mixed,
                            _( "As your consciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
     }

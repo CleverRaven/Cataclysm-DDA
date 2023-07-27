@@ -742,8 +742,9 @@
       { "item": "tool_belt", "prob": 25 },
       {
         "distribution": [
-          { "collection": [ { "group": "clothing_work_pants" }, { "group": "clothing_work_torso" } ], "prob": 75 },
-          { "item": "jumpsuit", "prob": 25 }
+          { "collection": [ { "group": "clothing_work_pants" }, { "group": "clothing_work_torso" } ], "prob": 80 },
+          { "item": "technician_coveralls", "prob": 15 },
+          { "item": "technician_coveralls_h", "prob": 5 }
         ]
       }
     ]
@@ -796,7 +797,8 @@
       [ "boots_steel", 50 ],
       [ "sneakers_steel", 28 ],
       [ "fishing_waders", 20 ],
-      [ "jumpsuit", 20 ],
+      [ "technician_coveralls", 15 ],
+      [ "technician_coveralls_h", 5 ],
       [ "apron_plastic", 30 ],
       [ "apron_leather", 10 ],
       { "item": "mask_filter", "prob": 20, "charges": [ 0, 100 ] },
@@ -832,7 +834,11 @@
       },
       { "distribution": [ { "item": "socks" }, { "item": "socks_ankle" } ] },
       {
-        "distribution": [ { "item": "jumpsuit" }, { "collection": [ { "group": "clothing_work_torso" }, { "group": "clothing_work_pants" } ] } ]
+        "distribution": [
+          { "collection": [ { "group": "clothing_work_pants" }, { "group": "clothing_work_torso" } ], "prob": 75 },
+          { "item": "technician_coveralls", "prob": 20 },
+          { "item": "technician_coveralls_h", "prob": 5 }
+        ]
       },
       [ "hat_hard", 50 ],
       {
@@ -1630,6 +1636,9 @@
       [ "holy_symbol", 20 ],
       [ "kufi", 5 ],
       [ "kippah", 5 ],
+      [ "tallit_katan", 5 ],
+      [ "tallit_gadol", 1 ],
+      { "group": "tefillin_sets", "prob": 1 },
       [ "headscarf", 5 ],
       { "item": "kirpan", "container-item": "sheath", "prob": 1 },
       { "item": "kirpan_cheap", "container-item": "sheath", "prob": 3 },
@@ -2122,7 +2131,7 @@
   {
     "type": "item_group",
     "id": "female_underwear_top",
-    "items": [ [ "corset", 5 ], [ "corset_waist", 5 ], { "group": "female_underwear_top_child", "prob": 190 } ]
+    "items": [ [ "corset", 5 ], [ "binder_top", 1 ], [ "corset_waist", 5 ], { "group": "female_underwear_top_child", "prob": 190 } ]
   },
   {
     "type": "item_group",
@@ -2155,7 +2164,14 @@
   {
     "type": "item_group",
     "id": "male_underwear_top",
-    "items": [ [ "undershirt", 50 ], [ "long_undertop", 20 ], [ "thermal_shirt", 10 ], [ "under_armor", 20 ], [ "tank_top", 50 ] ]
+    "items": [
+      [ "undershirt", 50 ],
+      [ "binder_top", 2 ],
+      [ "long_undertop", 20 ],
+      [ "thermal_shirt", 10 ],
+      [ "under_armor", 20 ],
+      [ "tank_top", 50 ]
+    ]
   },
   {
     "type": "item_group",
@@ -2611,7 +2627,7 @@
     "type": "item_group",
     "id": "diving_masks",
     "//": "Only diving appropriate masks, it needs to let the user breath underwater.",
-    "items": [ [ "rebreather", 100 ], [ "rebreather_cartridge", 100 ] ]
+    "items": [ [ "rebreather", 100 ], [ "rebreather_cartridge_o2", 100 ] ]
   },
   {
     "type": "item_group",
@@ -2932,7 +2948,8 @@
       [ "winter_pants_army", 10 ],
       [ "winter_jacket_army", 10 ],
       [ "winter_gloves_army", 10 ],
-      [ "jumpsuit", 20 ],
+      [ "technician_coveralls", 20 ],
+      [ "technician_coveralls_h", 10 ],
       [ "jacket_leather", 15 ],
       [ "leather_police_jacket", 30 ],
       [ "sleeveless_trenchcoat", 2 ],
@@ -3010,7 +3027,8 @@
       { "item": "boots_steel", "prob": 50 },
       { "item": "sneakers_steel", "prob": 35 },
       { "item": "boots_hiking", "prob": 10 },
-      { "item": "jumpsuit", "prob": 20 },
+      { "item": "technician_coveralls", "prob": 15 },
+      { "item": "technician_coveralls_h", "prob": 5 },
       { "item": "gloves_rubber", "prob": 20 },
       { "item": "gloves_leather", "prob": 45 },
       { "item": "gloves_work", "prob": 45 },
@@ -3096,7 +3114,7 @@
   {
     "type": "item_group",
     "id": "hazmat_torso",
-    "items": [ [ "cleansuit", 40 ], [ "jumpsuit", 60 ] ]
+    "items": [ [ "cleansuit", 40 ], [ "technician_coveralls", 60 ] ]
   },
   {
     "type": "item_group",
@@ -3373,7 +3391,6 @@
       [ "survivor_belt_notools", 2 ],
       [ "survivor_machete", 2 ],
       [ "spear_survivor", 2 ],
-      [ "survivor_light", 24 ],
       [ "survivor_mess_kit", 6 ],
       [ "acetylene_cooker", 12 ],
       [ "survivor_shavingkit", 3 ],
@@ -4546,5 +4563,26 @@
       { "item": "ring_signet", "prob": 30 },
       { "item": "tie_skinny", "prob": 20 }
     ]
+  },
+  {
+    "id": "tefillin_sets",
+    "type": "item_group",
+    "//": "tefillin sets",
+    "subtype": "distribution",
+    "items": [ { "group": "tefillin_right_hand", "prob": 1 }, { "group": "tefillin_left_hand", "prob": 1 } ]
+  },
+  {
+    "id": "tefillin_right_hand",
+    "type": "item_group",
+    "//": "tefillin sets",
+    "subtype": "collection",
+    "items": [ { "item": "tefillin_hand_r", "prob": 100 }, { "item": "tefillin_head", "prob": 100 } ]
+  },
+  {
+    "id": "tefillin_left_hand",
+    "type": "item_group",
+    "//": "tefillin sets",
+    "subtype": "collection",
+    "items": [ { "item": "tefillin_hand_l", "prob": 100 }, { "item": "tefillin_head", "prob": 100 } ]
   }
 ]

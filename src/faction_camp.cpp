@@ -156,6 +156,7 @@ static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_traps( "traps" );
 static const skill_id skill_unarmed( "unarmed" );
 
+
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static const update_mapgen_id update_mapgen_faction_wall_level_E_1( "faction_wall_level_E_1" );
@@ -179,6 +180,13 @@ static const update_mapgen_id update_mapgen_faction_wall_level_N_1(
 static const std::string camp_om_fortifications_trench_parameter = faction_wall_level_n_0_string;
 static const std::string camp_om_fortifications_spiked_trench_parameter =
     faction_wall_level_n_1_string;
+
+static const std::string var_time_between_succession =
+    "npctalk_var_time_between_succession";
+
+static const std::string var_timer_time_of_last_succession =
+    "npctalk_var_timer_time_of_last_succession";
+
 
 //  These strings are matched against recipe group 'building_type'. Definite candidates for JSON definitions of
 //  the various UI strings corresponding to these groups.
@@ -346,6 +354,9 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
 
         case Camp_Distribute_Food:
             return _( "Distribute Food" );
+
+        case Camp_Determine_Leadership:
+            return _( "Choose New Leader" );
 
         case Camp_Hide_Mission:
             return _( "Hide Mission" );
@@ -782,8 +793,24 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
 
             if( npc_list.empty() ) {
                 std::string display_name = name_display_of( miss_id );
+                const recipe &making = *recipe_id( miss_id.parameters );
+                const int foodcost = time_to_food( base_camps::to_workdays( time_duration::from_moves(
+                                                       making.blueprint_build_reqs().reqs_by_parameters.find( miss_id.mapgen_args )->second.time ) ),
+                                                   BRISK_EXERCISE );
+                const int available_calories = camp_food_supply( 0, false );
+                bool can_upgrade = upgrade.avail;
                 entry = om_upgrade_description( upgrade.bldg, upgrade.args );
-                mission_key.add_start( miss_id, display_name, entry, upgrade.avail );
+                if( foodcost > available_calories ) {
+                    can_upgrade = false;
+                    entry += string_format( _( "Total calorie cost: %s (have %d)" ),
+                                            colorize( std::to_string( foodcost ), c_red ),
+                                            available_calories );
+                } else {
+                    entry += string_format( _( "Total calorie cost: %s (have %d)" ),
+                                            colorize( std::to_string( foodcost ), c_green ),
+                                            available_calories );
+                }
+                mission_key.add_start( miss_id, display_name, entry, can_upgrade );
             } else {
                 entry = action_of( miss_id.id );
                 bool avail = update_time_left( entry, npc_list );
@@ -1413,6 +1440,16 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
                              entry );
         }
         {
+            const mission_id miss_id = { Camp_Determine_Leadership, "", {}, base_dir };
+            entry = string_format( _( "Notes:\n"
+                                      "Choose a new leader for your faction.\n"
+                                      "<color_yellow>You will switch to playing as the new leader.</color>\n"
+                                      "Difficulty: N/A\n"
+                                      "Risk: None\n" ) );
+            mission_key.add( { miss_id, false }, name_display_of( miss_id ),
+                             entry );
+        }
+        {
             validate_assignees();
             const mission_id miss_id = { Camp_Assign_Jobs, "", {}, base_dir };
             entry = string_format( _( "Notes:\n"
@@ -1476,6 +1513,105 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
     }
 }
 
+void basecamp::choose_new_leader()
+{
+    // This is ugly, but dialogue vars are stored as strings, even if they hold data for times.
+    time_point last_succession_time = time_point::from_turn( std::stof(
+                                          get_player_character().get_value( var_timer_time_of_last_succession ) ) );
+    time_duration succession_cooldown = time_duration::from_turns( std::stof(
+                                            get_globals().get_global_value(
+                                                    var_time_between_succession ) ) );
+    time_point next_succession_chance = last_succession_time + succession_cooldown;
+    int current_time_int = to_seconds<int>( calendar::turn - calendar::turn_zero );
+    if( next_succession_chance >= calendar::turn ) {
+        popup( _( "It's too early for that.  A new leader can be chosen in %s days." ),
+               to_days<int>( next_succession_chance - calendar::turn ) );
+        return;
+    }
+    std::vector<std::string> choices;
+    int choice = 0;
+    choices.emplace_back _( "autocratic" );
+    choices.emplace_back _( "sortition" );
+    choices.emplace_back _( "democratic" );
+
+    choice = uilist( _( "Choose how the new leader will be determined." ), choices );
+
+    if( choice < 0 || static_cast<size_t>( choice ) >= choices.size() ) {
+        popup( _( "You choose to wait…" ) );
+        return;
+    }
+
+    // Autocratic
+    if( choice == 0 ) {
+        if( !query_yn(
+                _( "As an experienced leader, only you know what will be required of future leaders.  You will choose.\n\nIs this acceptable?" ) ) ) {
+            return;
+        }
+        get_avatar().control_npc_menu( false );
+        // Possible to exit menu and not choose a *new* leader. However this doesn't reset global timer. 100% on purpose, since you are "choosing" yourself.
+        get_player_character().set_value( var_timer_time_of_last_succession,
+                                          std::to_string( current_time_int ) );
+    }
+
+    // Vector of pairs containing a pointer to an NPC and their modified social score
+    std::vector<std::pair<shared_ptr_fast<npc>, int>> followers;
+    // You is still a nullptr! We never want to actually call the first value, this will crash.
+    shared_ptr_fast<npc> you;
+    followers.emplace_back( you, rng( 0, 5 ) +
+                            rng( 0, get_avatar().get_skill_level( skill_speech ) * 2 ) );
+    int charnum = 0;
+    for( const character_id &elem : g->get_follower_list() ) {
+        shared_ptr_fast<npc> follower = overmap_buffer.find_npc( elem );
+        if( follower ) {
+            // Yes this is a very barren representation of who gets elected in a democracy. Too bad!
+            int popularity = rng( 0, 5 ) + rng( 0, follower->get_skill_level( skill_speech ) * 2 );
+            followers.emplace_back( follower, popularity );
+            charnum++;
+        }
+    }
+    // Sortition
+    if( choice == 1 ) {
+        if( !query_yn(
+                _( "You will allow fate to choose the next leader.  Whether it's by dice, drawing straws, or picking names out of a hat, it will be purely random.\n\nIs this acceptable?" ) ) ) {
+            return;
+        }
+        int selected = rng( 0, charnum );
+        // Vector starts at 0, we inserted 'you' first, 0 will always be 'you' pre-sort (that's why we don't sort unless democracy is called)
+        if( selected == 0 ) {
+            popup( _( "Fate calls for you to remain in your role as leader… for now." ) );
+            get_player_character().set_value( var_timer_time_of_last_succession,
+                                              std::to_string( current_time_int ) );
+            return;
+        }
+        npc_ptr chosen = followers.at( selected ).first;
+        popup( _( "Fate chooses %s to lead your faction." ), chosen->get_name() );
+        get_avatar().control_npc( *chosen, false );
+        return;
+    }
+
+    // Democratic
+    if( choice == 2 ) {
+        if( !query_yn(
+                _( "A leader can only lead those willing to follow.  Everyone must get a say in choosing the new leader.\n\nIs this acceptable?" ) ) ) {
+            return;
+        }
+        std::sort( followers.begin(), followers.end(), []( const auto & x, const auto & y ) {
+            return x.second > y.second;
+        } );
+        npc_ptr elected = followers.at( 0 ).first;
+        // you == nullptr
+        if( elected == nullptr ) {
+            popup( _( "You win the election!" ) );
+            get_player_character().set_value( var_timer_time_of_last_succession,
+                                              std::to_string( current_time_int ) );
+            return;
+        }
+        popup( _( "%1$s wins the election with a popularity of %2$s!  The runner-up had a popularity of %3$s." ),
+               elected->get_name(), followers.at( 0 ).second, followers.at( 1 ).second );
+        get_avatar().control_npc( *elected, false );
+    }
+}
+
 bool basecamp::handle_mission( const ui_mission_id &miss_id )
 {
     if( miss_id.id.id == No_Mission ) {
@@ -1490,6 +1626,10 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
     switch( miss_id.id.id ) {
         case Camp_Distribute_Food:
             distribute_food();
+            break;
+
+        case Camp_Determine_Leadership:
+            choose_new_leader();
             break;
 
         case Camp_Hide_Mission:
@@ -4779,9 +4919,11 @@ std::string basecamp::craft_description( const recipe_id &itm )
     for( auto &elem : component_print_buffer ) {
         str_append( comp, elem, "\n" );
     }
-    comp = string_format( _( "Skill used: %s\nDifficulty: %d\n%s\nTime: %s\n" ),
+    comp = string_format( _( "Skill used: %s\nDifficulty: %d\n%s\nTime: %s\nCalories per craft: %s\n" ),
                           making.skill_used.obj().name(), making.difficulty, comp,
-                          to_string( base_camps::to_workdays( making.batch_duration( get_player_character() ) ) ) );
+                          to_string( base_camps::to_workdays( making.batch_duration( get_player_character() ) ) ),
+                          time_to_food( base_camps::to_workdays( making.batch_duration( get_player_character() ) ),
+                                        itm.obj().exertion_level() ) );
     return comp;
 }
 
@@ -5077,6 +5219,7 @@ std::string basecamp::name_display_of( const mission_id &miss_id )
 
         //  Faction camp tasks
         case Camp_Distribute_Food:
+        case Camp_Determine_Leadership:
         case Camp_Hide_Mission:
         case Camp_Reveal_Mission:
         case Camp_Assign_Jobs:

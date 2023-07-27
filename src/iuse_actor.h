@@ -107,14 +107,14 @@ class iuse_transform : public iuse_actor
 
         ~iuse_transform() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;
         void info( const item &, std::vector<iteminfo> & ) const override;
     private:
-        void do_transform( Character &p, item &it ) const;
+        void do_transform( Character *p, item &it ) const;
 };
 
 class unpack_actor : public iuse_actor
@@ -136,7 +136,7 @@ class unpack_actor : public iuse_actor
 
         ~unpack_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &p, item &it, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *p, item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> &dump ) const override;
 };
@@ -154,7 +154,29 @@ class message_iuse : public iuse_actor
 
         ~message_iuse() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+        std::string get_name() const override;
+};
+
+class sound_iuse : public iuse_actor
+{
+    public:
+        explicit sound_iuse( const std::string &type = "sound" ) : iuse_actor( type ) {}
+
+        /** if specified overrides default action name */
+        translation name;
+        /** message if player hears activation with %s replaced by item name */
+
+        translation sound_message;
+
+        int sound_volume = 0;
+        std::string sound_id = "misc";
+        std::string sound_variant = "default";
+
+        ~sound_iuse() override = default;
+        void load( const JsonObject &obj ) override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         std::string get_name() const override;
 };
@@ -187,18 +209,12 @@ class explosion_iuse : public iuse_actor
         int emp_blast_radius = -1;
         /** Calls game::scrambler_blast if >= 0 */
         int scrambler_blast_radius = -1;
-        /** Volume of sound each turn, -1 means no sound at all */
-        int sound_volume = -1;
-        translation sound_msg;
-        /** Message shown when the player tries to deactivate the item,
-         * which is not allowed. */
-        translation no_deactivate_msg;
 
         explicit explosion_iuse( const std::string &type = "explosion" ) : iuse_actor( type ) {}
 
         ~explosion_iuse() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
@@ -246,7 +262,7 @@ class consume_drug_iuse : public iuse_actor
 
         ~consume_drug_iuse() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 
@@ -281,7 +297,7 @@ class delayed_transform_iuse : public iuse_transform
 
         ~delayed_transform_iuse() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -314,7 +330,7 @@ class place_monster_iuse : public iuse_actor
         place_monster_iuse() : iuse_actor( "place_monster" ) { }
         ~place_monster_iuse() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -342,7 +358,7 @@ class change_scent_iuse : public iuse_actor
         change_scent_iuse() : iuse_actor( "change_scent" ) { }
         ~change_scent_iuse() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -361,7 +377,7 @@ class place_npc_iuse : public iuse_actor
         place_npc_iuse() : iuse_actor( "place_npc" ) { }
         ~place_npc_iuse() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -380,7 +396,7 @@ class deploy_furn_actor : public iuse_actor
 
         ~deploy_furn_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
@@ -416,7 +432,7 @@ class reveal_map_actor : public iuse_actor
 
         ~reveal_map_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -443,7 +459,7 @@ class firestarter_actor : public iuse_actor
 
         static bool prep_firestarter_use( const Character &p, tripoint_bub_ms &pos );
         /** Player here isn't const because pyromaniacs gain a mood boost from it */
-        static void resolve_firestarter_use( Character &p, const tripoint_bub_ms &pos );
+        static void resolve_firestarter_use( Character *p, const tripoint_bub_ms &pos );
         /** Modifier on speed - higher is better, 0 means it won't work. */
         float light_mod( const tripoint &pos ) const;
         /** Checks quality of fuel on the tile and interpolates move cost based on that. */
@@ -453,7 +469,7 @@ class firestarter_actor : public iuse_actor
 
         ~firestarter_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
@@ -475,7 +491,7 @@ class salvage_actor : public iuse_actor
 
         ~salvage_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
     private:
         void cut_up( Character &p, item_location &cut ) const;
@@ -518,7 +534,7 @@ class inscribe_actor : public iuse_actor
 
         ~inscribe_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -531,7 +547,6 @@ class fireweapon_off_actor : public iuse_actor
     public:
         itype_id target_id;
         translation success_message = to_translation( "hsss" );
-        translation lacks_fuel_message;
         translation failure_message = to_translation( "hsss" ); // Due to bad roll
         int noise = 0; // If > 0 success message is a success sound instead
         int moves = 0;
@@ -542,7 +557,7 @@ class fireweapon_off_actor : public iuse_actor
 
         ~fireweapon_off_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
@@ -554,19 +569,16 @@ class fireweapon_on_actor : public iuse_actor
 {
     public:
         translation noise_message = to_translation( "hsss" ); // If noise is 0, message content instead
-        translation voluntary_extinguish_message;
         translation charges_extinguish_message;
         translation water_extinguish_message;
         translation auto_extinguish_message;
-        int noise = 0; // If 0, it produces a message instead of noise
         int noise_chance = 1; // one_in(this variable)
-        int auto_extinguish_chance = 0; // one_in(this) per turn to fail
 
         explicit fireweapon_on_actor( const std::string &type = "fireweapon_on" ) : iuse_actor( type ) {}
 
         ~fireweapon_on_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -576,7 +588,6 @@ class fireweapon_on_actor : public iuse_actor
 class manualnoise_actor : public iuse_actor
 {
     public:
-        translation no_charges_message;
         translation use_message;
         translation noise_message = to_translation( "hsss" );
         std::string noise_id;
@@ -588,7 +599,19 @@ class manualnoise_actor : public iuse_actor
 
         ~manualnoise_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
+class play_instrument_iuse : public iuse_actor
+{
+    public:
+        explicit play_instrument_iuse( const std::string &type = "play_instrument" ) : iuse_actor( type ) {}
+
+        ~play_instrument_iuse() override = default;
+        void load( const JsonObject &obj ) override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
@@ -633,7 +656,7 @@ class musical_instrument_actor : public iuse_actor
 
         ~musical_instrument_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
@@ -651,7 +674,7 @@ class learn_spell_actor : public iuse_actor
 
         ~learn_spell_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &p, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *p, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
@@ -678,7 +701,7 @@ class cast_spell_actor : public iuse_actor
 
         ~cast_spell_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &p, item &it, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *p, item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
         std::string get_name() const override;
@@ -705,7 +728,7 @@ class holster_actor : public iuse_actor
 
         ~holster_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
@@ -719,7 +742,7 @@ class ammobelt_actor : public iuse_actor
 
         ~ammobelt_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
@@ -810,7 +833,7 @@ class repair_item_actor : public iuse_actor
 
         ~repair_item_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 
         std::string get_name() const override;
@@ -877,7 +900,7 @@ class heal_actor : public iuse_actor
 
         ~heal_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
@@ -924,7 +947,7 @@ class place_trap_actor : public iuse_actor
         explicit place_trap_actor( const std::string &type = "place_trap" );
         ~place_trap_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -938,7 +961,7 @@ class emit_actor : public iuse_actor
         explicit emit_actor( const std::string &type = "emit_actor" ) : iuse_actor( type ) {}
         ~emit_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void finalize( const itype_id &my_item_type ) override;
 };
@@ -949,7 +972,7 @@ class saw_barrel_actor : public iuse_actor
         explicit saw_barrel_actor( const std::string &type = "saw_barrel" ) : iuse_actor( type ) {}
 
         void load( const JsonObject &jo ) override;
-        std::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
+        std::optional<int> use( Character *p, item &it, bool t, const tripoint &pnt ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 
         ret_val<void> can_use_on( const Character &you, const item &it, const item &target ) const;
@@ -961,7 +984,7 @@ class saw_stock_actor : public iuse_actor
         explicit saw_stock_actor( const std::string &type = "saw_stock" ) : iuse_actor( type ) {}
 
         void load( const JsonObject &jo ) override;
-        std::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
+        std::optional<int> use( Character *p, item &it, bool t, const tripoint &pnt ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 
         ret_val<void> can_use_on( const Character &you, const item &it, const item &target ) const;
@@ -977,7 +1000,7 @@ class molle_attach_actor : public iuse_actor
         int moves;
 
         void load( const JsonObject &jo ) override;
-        std::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
+        std::optional<int> use( Character *p, item &it, bool t, const tripoint &pnt ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -990,7 +1013,7 @@ class molle_detach_actor : public iuse_actor
         int moves;
 
         void load( const JsonObject &jo ) override;
-        std::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
+        std::optional<int> use( Character *p, item &it, bool t, const tripoint &pnt ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -1000,7 +1023,7 @@ class install_bionic_actor : public iuse_actor
         explicit install_bionic_actor( const std::string &type = "install_bionic" ) : iuse_actor( type ) {}
 
         void load( const JsonObject & ) override {}
-        std::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
+        std::optional<int> use( Character *p, item &it, bool t, const tripoint &pnt ) const override;
         ret_val<void> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void finalize( const itype_id &my_item_type ) override;
@@ -1012,7 +1035,7 @@ class detach_gunmods_actor : public iuse_actor
         explicit detach_gunmods_actor( const std::string &type = "detach_gunmods" ) : iuse_actor( type ) {}
 
         void load( const JsonObject & ) override {}
-        std::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
+        std::optional<int> use( Character *p, item &it, bool t, const tripoint &pnt ) const override;
         ret_val<void> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void finalize( const itype_id &my_item_type ) override;
@@ -1024,7 +1047,7 @@ class modify_gunmods_actor : public iuse_actor
         explicit modify_gunmods_actor( const std::string &type = "modify_gunmods" ) : iuse_actor( type ) {}
 
         void load( const JsonObject & ) override {}
-        std::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
+        std::optional<int> use( Character *p, item &it, bool t, const tripoint &pnt ) const override;
         ret_val<void> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void finalize( const itype_id &my_item_type ) override;
@@ -1052,7 +1075,7 @@ class link_up_actor : public iuse_actor
 
         ~link_up_actor() override = default;
         void load( const JsonObject &jo ) override;
-        std::optional<int> use( Character &p, item &it, bool t, const tripoint & ) const override;
+        std::optional<int> use( Character *p, item &it, bool t, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
         std::string get_name() const override;
@@ -1073,7 +1096,7 @@ class deploy_tent_actor : public iuse_actor
 
         ~deploy_tent_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 
         bool check_intact( const tripoint &center ) const;
@@ -1092,7 +1115,7 @@ class weigh_self_actor : public iuse_actor
 
         ~weigh_self_actor() override = default;
         void load( const JsonObject &jo ) override;
-        std::optional<int> use( Character &p, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *p, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
@@ -1114,7 +1137,7 @@ class sew_advanced_actor : public iuse_actor
 
         ~sew_advanced_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -1125,14 +1148,14 @@ class effect_on_conditons_actor : public iuse_actor
 {
     public:
         std::vector<effect_on_condition_id> eocs;
-        std::string description;
+        translation description;
         translation menu_text;
         explicit effect_on_conditons_actor( const std::string &type = "effect_on_conditions" ) : iuse_actor(
                 type ) {}
 
         ~effect_on_conditons_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character &p, item &it, bool, const tripoint & ) const override;
+        std::optional<int> use( Character *p, item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         std::string get_name() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;

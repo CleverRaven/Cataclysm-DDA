@@ -578,8 +578,14 @@
   {
     "type": "ammunition_type",
     "id": "rebreather_filter",
-    "name": "rebreather filter",
-    "default": "rebreather_filter"
+    "name": "rebreather CO2 scrubber",
+    "default": "rebreather_filler_soda_lime"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "rebreather_o2_regenerator",
+    "name": "rebreather O2 regenerator",
+    "default": "rebreather_filler_ko2"
   },
   {
     "type": "ammunition_type",

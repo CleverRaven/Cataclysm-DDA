@@ -39,7 +39,7 @@
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": 10,
-    "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR" ],
+    "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "SMALL_HIDE" ],
     "rotates_to": "INDOORFLOOR",
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 14 }, { "item": "wood_panel", "count": 2 }, { "item": "nail", "charges": [ 12, 20 ] } ]
@@ -189,7 +189,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": 10,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
     },
@@ -678,7 +678,7 @@
     "coverage": 40,
     "required_str": 5,
     "max_volume": "200 L",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -776,15 +776,16 @@
     "color": "light_cyan",
     "move_cost_mod": 1,
     "required_str": 5,
-    "max_volume": "20 L",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
+    "max_volume": "40 L",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "SMALL_HIDE", "EASY_DECONSTRUCT" ],
     "bash": {
-      "str_min": 8,
-      "str_max": 30,
+      "str_min": 1,
+      "str_max": 1,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
-    }
+      "items": [ { "item": "trashcan", "count": 1, "damage": [ 2, 4 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "trashcan", "count": 1 } ] }
   },
   {
     "type": "furniture",
@@ -798,7 +799,7 @@
     "move_cost_mod": 1,
     "required_str": 5,
     "max_volume": "20 L",
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
         { "item": "sheet_metal_small", "count": [ 10, 14 ] },
@@ -829,11 +830,40 @@
     "move_cost_mod": -1,
     "coverage": 85,
     "required_str": 9,
-    "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 20 }, { "item": "nail", "charges": [ 16, 24 ] }, { "item": "pipe", "count": 2 } ]
     },
     "max_volume": "500 L",
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 8, 12 ] },
+        { "item": "nail", "charges": [ 8, 14 ] },
+        { "item": "splinter", "count": [ 4, 10 ] },
+        { "item": "pipe", "count": [ 0, 1 ] },
+        { "item": "scrap", "count": [ 2, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_torah_ark",
+    "name": "Torah Ark",
+    "description": "An ornately-carved cabinet designed to hold a Torah scroll.  This one is decorated with a tree motif, referencing Proverbs 3:18.",
+    "symbol": "{",
+    "color": "i_brown",
+    "move_cost_mod": -1,
+    "coverage": 85,
+    "required_str": 9,
+    "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 20 }, { "item": "nail", "charges": [ 16, 24 ] }, { "item": "pipe", "count": 2 } ]
+    },
+    "max_volume": "100 L",
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -887,7 +917,7 @@
     "move_cost_mod": -1,
     "coverage": 55,
     "required_str": 6,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "TRANSPARENT" ],
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "TRANSPARENT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
         { "item": "sheet_metal_small", "count": [ 4, 6 ] },
@@ -920,7 +950,7 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": 10,
-    "flags": [ "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": [ "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": [ 6, 12 ] },
@@ -1050,6 +1080,100 @@
       "sound": "crunch!",
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_board_map",
+    "name": "map board",
+    "looks_like": "f_bulletin",
+    "description": "A secure metal board with a locked glass panel used to display a map.",
+    "symbol": "6",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "PICKABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 4 },
+        { "item": "sheet_metal", "count": 1 },
+        { "item": "hinge", "count": 2 },
+        { "item": "glass_sheet", "count": 1 }
+      ]
+    },
+    "lockpick_result": "f_board_map_o",
+    "lockpick_message": "With a satisfying click, the locked glass panel opens",
+    "examine_action": "locked_object_pickable",
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "glass breaking",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "furn_set": "f_board_map_b",
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_board_map_o",
+    "name": "open map board",
+    "looks_like": "f_bulletin",
+    "description": "A successfully picked metal board with an open glass panel used to display a map.",
+    "symbol": "6",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 4 },
+        { "item": "sheet_metal", "count": 1 },
+        { "item": "hinge", "count": 2 },
+        { "item": "glass_sheet", "count": 1 }
+      ]
+    },
+    "rotates_to": "INDOORFLOOR",
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "glass breaking",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "furn_set": "f_board_map_b",
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_board_map_b",
+    "name": "broken map board",
+    "looks_like": "f_bulletin",
+    "description": "A metal board with a smashed glass panel used to display a map.",
+    "symbol": "6",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 4 }, { "item": "sheet_metal", "count": 1 }, { "item": "hinge", "count": [ 0, 1 ] } ]
+    },
+    "rotates_to": "INDOORFLOOR",
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 4 ] },
+        { "item": "hinge", "count": [ 0, 1 ] }
+      ]
     }
   },
   {
@@ -1399,7 +1523,7 @@
     "coverage": 80,
     "required_str": 12,
     "max_volume": "1000 L",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "NO_SIGHT", "HIDE_PLACE", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "NO_SIGHT", "HIDE_PLACE", "BLOCKSDOOR", "MOUNTABLE", "SMALL_HIDE" ],
     "bash": {
       "str_min": 30,
       "str_max": 150,
@@ -1501,7 +1625,17 @@
     "coverage": 60,
     "required_str": 40,
     "max_volume": "1000 L",
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "FLAMMABLE",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "SHORT",
+      "SMALL_HIDE"
+    ],
     "examine_action": "locked_object",
     "//": "probably should remove locked_object, because it mention you can pry it when actually you can't",
     "deconstruct": {
@@ -1527,7 +1661,7 @@
     "coverage": 60,
     "required_str": 40,
     "max_volume": "1000 L",
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "MOUNTABLE", "SHORT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [ { "item": "rope_6", "count": 4 }, { "item": "plastic_sheet", "count": 3 }, { "item": "pallet", "count": 1 } ]
     },

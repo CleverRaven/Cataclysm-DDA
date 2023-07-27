@@ -529,5 +529,33 @@
     "environmental_protection": 0,
     "flags": [ "OVERSIZE", "COLLAR", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "tallit_gadol",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "blue",
+    "name": { "str_sp": "tallit gadol" },
+    "description": "A large prayer shawl worn by observant Jews during morning prayers and certain other occasions.",
+    "price": 25000,
+    "price_postapoc": 50,
+    "material": [ "wool" ],
+    "weight": "500 g",
+    "volume": "1 L",
+    "to_hit": -3,
+    "flags": [ "OUTER", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
+    "warmth": 45,
+    "environmental_protection": 2,
+    "material_thickness": 1,
+    "armor": [
+      { "encumbrance": 5, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
+      {
+        "encumbrance": 5,
+        "coverage": 10,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      }
+    ]
   }
 ]

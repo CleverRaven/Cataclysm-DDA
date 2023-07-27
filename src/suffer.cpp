@@ -129,6 +129,8 @@ static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 static const json_character_flag json_flag_SUNBURN( "SUNBURN" );
 
+static const mon_flag_str_id mon_flag_GROUP_BASH( "GROUP_BASH" );
+
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
 static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
@@ -328,7 +330,7 @@ void suffer::while_grabbed( Character &you )
     int impassable_ter = 0;
     for( auto&& dest : here.points_in_radius( you.pos(), 1, 0 ) ) { // *NOPAD*
         const monster *const mon = creatures.creature_at<monster>( dest );
-        if( mon && mon->has_flag( MF_GROUP_BASH ) ) {
+        if( mon && mon->has_flag( mon_flag_GROUP_BASH ) ) {
             crowd++;
             add_msg_debug( debugmode::DF_CHARACTER, "Crowd pressure check: monster %s found, crowd size %d",
                            mon->name(), crowd );
@@ -362,6 +364,9 @@ void suffer::while_grabbed( Character &you )
     // a few warnings before starting to take damage
     if( you.oxygen <= 5 ) {
         you.add_msg_if_player( m_bad, _( "You're suffocating!" ) );
+        if( uistate.distraction_oxygen && you.is_avatar() ) {
+            g->cancel_activity_or_ignore_query( distraction_type::oxygen, _( "You're suffocating!" ) );
+        }
         // your characters chest is being crushed and you are dying
         you.apply_damage( nullptr, you.get_random_body_part_of_type( body_part_type::type::torso ), rng( 1,
                           4 ) );

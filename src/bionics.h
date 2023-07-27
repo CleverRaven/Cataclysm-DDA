@@ -167,7 +167,13 @@ struct bionic_data {
      */
     std::set<bionic_id> available_upgrades;
 
-    /**Requirement to bionic installation*/
+    /**
+     * Id of another bionic which this bionic needs to have installed to be installed.
+     * Also prevents that bionic from being removed while this bionic is installed.
+     */
+    bionic_id required_bionic;
+
+    /**Requirement to bionic installation - this is a crafting requirement such as soldering_standard or surface_heat*/
     requirement_id installation_requirement;
 
     cata::flat_set<json_character_flag> flags;

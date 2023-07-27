@@ -948,7 +948,7 @@
     "volume": "3 L",
     "price": 3500,
     "price_postapoc": 750,
-    "material": [ { "type": "nylon", "portion": 7 }, { "type": "cotton", "portion": 3 } ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "green",
@@ -1013,7 +1013,7 @@
     "volume": "3 L",
     "price": 6400,
     "price_postapoc": 750,
-    "material": [ { "type": "nylon", "portion": 7 }, { "type": "cotton", "portion": 3 } ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "jacket_army",
     "color": "green",
@@ -1215,12 +1215,12 @@
     "volume": "4250 ml",
     "price": 6000,
     "price_postapoc": 250,
-    "material": [ "cotton" ],
+    "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_red",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 9, 13 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 9, 11 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 9, 9 ] }
     ],
     "pocket_data": [
@@ -1240,7 +1240,8 @@
       }
     ],
     "warmth": 35,
-    "material_thickness": 0.2,
+    "//": "Moderate weight 9 oz jacket.",
+    "material_thickness": 0.7,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -1486,17 +1487,17 @@
     "type": "ARMOR",
     "name": { "str": "windbreaker" },
     "description": "A light synthetic jacket with a hood.  Not very warm, but will keep out the rain.",
-    "weight": "197 g",
+    "weight": "280 g",
     "volume": "2250 ml",
     "price": 1000,
     "price_postapoc": 150,
-    "material": [ "plastic" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "jacket_light",
     "color": "cyan",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 6, 9 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 6, 7 ] }
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 2, 5 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 2, 2 ] }
     ],
     "pocket_data": [
       {
@@ -1521,10 +1522,10 @@
         "moves": 80
       }
     ],
-    "warmth": 25,
-    "material_thickness": 0.3,
+    "warmth": 10,
+    "material_thickness": 0.25,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF", "SOFT" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "judo_gi",
