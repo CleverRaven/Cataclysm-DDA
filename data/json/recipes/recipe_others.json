@@ -1547,25 +1547,15 @@
     "autolearn": true,
     "//": "80 cm weld",
     "book_learn": [ [ "textbook_fabrication", 7 ], [ "manual_fabrication", 7 ] ],
-    "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 80 ], [ "plastic_molding", 456 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_plasticworking" },
-      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
-      { "proficiency": "prof_welding" }
-    ],
+    "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 80 ] ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 }, { "proficiency": "prof_welding" } ],
     "qualities": [
-      { "id": "HAMMER", "level": 2 },
+      { "id": "HAMMER", "level": 3 },
       { "id": "SAW_M", "level": 1 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "components": [
-      [ [ "pipe", 8 ] ],
-      [ [ "motor_tiny", 1 ] ],
-      [ [ "wheel_small", 2 ] ],
-      [ [ "cable", 16 ] ],
-      [ [ "plastic_chunk", 638 ] ]
-    ]
+    "components": [ [ [ "pipe", 8 ] ], [ [ "motor_tiny", 1 ] ], [ [ "wheel_small", 2 ] ], [ [ "cable", 16 ] ], [ [ "30gal_barrel", 1 ] ] ]
   },
   {
     "type": "recipe",
