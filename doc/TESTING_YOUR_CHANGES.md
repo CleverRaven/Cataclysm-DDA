@@ -5,6 +5,18 @@ Our tests will already cover a good amount of things that could go wrong,
 but you are expected to test your non-trivial changes in-game.
 Typo fixes and the like usually do not need to be tested.
 
+## Style
+
+The [Manual of Style](MANUAL_OF_STYLE.md), applies to any proposed change,
+so read this one first.
+
+For JSON changes, read [JSON_STYLE.md](JSON_STYLE.md).
+For C++ changes, read [CODE_STYLE.md](CODE_STYLE.md).
+
+All released builds include a pre-compiled `json_formatter.cgi`, which
+is a handy tool to automatically format any JSON file you point it at
+to our chosen standards.
+
 ## Applying your changes locally
 
 For JSON-only changes, which make up most contributions, a very simple
