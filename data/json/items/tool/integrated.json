@@ -148,9 +148,7 @@
       [ "PRYING_NAIL", 1 ],
       [ "BUTCHER", -15 ]
     ],
-    "use_action": [
-      { "type": "CROWBAR", "ammo_scale": 0 }
-    ],
+    "use_action": [ { "type": "CROWBAR", "ammo_scale": 0 } ],
     "melee_damage": { "bash": 1, "cut": 3 }
   },
   {
