@@ -400,12 +400,12 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
-    "difficulty": 8,
-    "time": "30 m",
+    "difficulty": 6,
+    "time": "1 h",
     "autolearn": true,
-    "using": [ [ "soldering_standard", 40 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "duct_tape", 200 ], [ "superglue", 4 ] ], [ [ "jerrycan", 12 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
+    "using": [ [ "plastic_molding", 98 ] ],
+    "components": [ [ [ "plastic_chunk", 136 ] ] ]
   },
   {
     "type": "recipe",
