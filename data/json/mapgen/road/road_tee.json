@@ -177,7 +177,8 @@
             ]
           }
         },
-        { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 }
+        { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 },
+        { "chunks": [ "24x24_road_tee_vehicles" ], "x": 0, "y": 0 }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
