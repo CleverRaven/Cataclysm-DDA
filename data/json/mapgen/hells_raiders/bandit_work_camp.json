@@ -145,7 +145,7 @@
         { "vehicle": "motorcycle", "x": 10, "y": 16, "chance": 80, "rotation": 270, "status": 0 }
       ],
       "nested": { "Á": { "chunks": [ "tent_5x5_N" ] }, "É": { "chunks": [ "tent_5x5_S" ] } },
-      "sealed_item": { "D": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling", "chance": 90 } }
+      "sealed_item": { "D": { "item": { "item": "seed_weed" }, "furniture": "f_plant_seedling", "chance": 90 } }
     }
   }
 ]
