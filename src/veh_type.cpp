@@ -37,7 +37,6 @@
 #include "vehicle.h"
 #include "vehicle_group.h"
 #include "wcwidth.h"
-#include "math_parser_func.h"
 
 class npc;
 
@@ -55,8 +54,6 @@ static const itype_id itype_null( "null" );
 
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
-static const quality_id qual_PISTOL( "PISTOL" );
-static const quality_id qual_SMG( "SMG");
 
 static const skill_id skill_launcher( "launcher" );
 
@@ -537,12 +534,6 @@ void vehicles::parts::finalize()
             new_part.set_flag( "USE_BATTERIES" );
             // +1 electronics level per 15 battery charges used for electric plumbing
             electronics_req += static_cast<int>( std::ceil( battery_mags_drain / 15.0 ) );
-        }
-
-        // make part foldable for pistols and SMGs
-        bool turret_foldable = item->qualities.find(qual_PISTOL) != item->qualities.end() || item->qualities.find( qual_SMG) != item->qualities.end();
-        if ( turret_foldable ) {
-            new_part.folded_volume = item->volume;
         }
 
         // cap all skills at 8
