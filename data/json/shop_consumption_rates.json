@@ -1,9 +1,0 @@
-[
-  {
-    "type": "shopkeeper_consumption_rates",
-    "id": "basic_shop_rates",
-    "default_rate": 5,
-    "junk_threshold": "10 cent",
-    "rates": [ { "category": "currency", "rate": 10 }, { "category": "spare_parts", "rate": 100 } ]
-  }
-]

@@ -6376,20 +6376,7 @@
       "spear_stone",
       "spear_stone_simple",
       "spear_wood",
-      "spear_wood_simple",
-      "nested_pikes"
+      "spear_wood_simple"
     ]
-  },
-  {
-    "id": "nested_pikes",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "pikes",
-    "description": "Recipes related to constructing pikes from various materials",
-    "skill_used": "fabrication",
-    "nested_category_data": [ "pike", "pike_copper", "pike_wood", "spear_homemade_halfpike" ],
-    "difficulty": 3
   }
 ]
