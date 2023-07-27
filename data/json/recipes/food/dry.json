@@ -565,7 +565,7 @@
     "time": "18 m",
     "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
-    "tools": [ [ [ "dehydrating_heat", 26, "LIST" ] ] ],
+    "tools": [ [ [ "dehydrating_heat", 13, "LIST" ] ] ],
     "//": "259g of stuff, liquids are naturally inefficient for this",
     "components": [ [ [ "milk", 1 ] ] ]
   },
