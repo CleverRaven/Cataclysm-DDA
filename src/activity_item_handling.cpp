@@ -3202,6 +3202,9 @@ static VisitResponse visit_item_contents( item_location &loc,
         case VisitResponse::SKIP:
             return VisitResponse::NEXT;
     }
+
+    /* never reached; suppress the warning */
+    return VisitResponse::ABORT;
 }
 
 static int get_comestible_order( Character &you, const item_location &loc,
