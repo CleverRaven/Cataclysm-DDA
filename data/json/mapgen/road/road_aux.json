@@ -18,7 +18,7 @@
     "signs": {
       "@": {
         "signage": "Statue in commemoration of <full_name> who <statue_worthy_act> and will always be remembered.",
-        "sign_furniture": "f_statue"
+        "furniture": "f_statue"
       }
     }
   },
@@ -787,7 +787,7 @@
           "chunks": [
             [ "24x24_road_vehicles_city_jack-knifed_semi", 15 ],
             [ "24x24_road_vehicles_city_vehicle_pileup", 4 ],
-            [ "24x24_road_tee_vehicles_city_policecar_pileup", 1 ]
+            [ "24x24_road_vehicles_city_policecar_pileup", 1 ]
           ],
           "x": 0,
           "y": 0
@@ -950,7 +950,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_road_tee_vehicles_city_policecar_pileup",
+    "nested_mapgen_id": "24x24_road_vehicles_city_policecar_pileup",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],

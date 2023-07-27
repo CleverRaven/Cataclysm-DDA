@@ -274,7 +274,7 @@
           "chunks": [
             "24x24_road_vehicles_country_out_of_fuel_east",
             "24x24_road_vehicles_country_out_of_fuel_west",
-            "24x24_road_vehicles_country_out_of_fuel_south",
+            "24x24_road_vehicles_country_out_of_fuel_south"
           ],
           "x": 0,
           "y": 0
@@ -292,9 +292,9 @@
       "place_nested": [
         {
           "chunks": [
-            [ "24x24_road_vehicles_city_wrecks_east"  88 ],
-            [ "24x24_road_vehicles_city_wrecks_south"  88 ],
-            [ "24x24_road_vehicles_city_wrecks_west"  88 ],
+            [ "24x24_road_vehicles_city_wrecks_east", 88 ],
+            [ "24x24_road_vehicles_city_wrecks_south", 88 ],
+            [ "24x24_road_vehicles_city_wrecks_west", 88 ],
             [ "24x24_road_vehicles_city_parked_east", 176 ],
             [ "24x24_road_vehicles_city_parked_south", 176 ],
             [ "24x24_road_vehicles_city_parked_west", 176 ],
