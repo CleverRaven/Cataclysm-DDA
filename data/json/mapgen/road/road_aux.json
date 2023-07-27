@@ -198,14 +198,13 @@
     "nested_mapgen_id": "24x24_street_lights_cul_de_sac",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "//": "Only four_way for now so no need for conditionals",
       "place_nested": [
-        { "chunks": [ "1x1_street_light" ], "x": 20, "y": 4 },
-        { "chunks": [ "1x1_street_light" ], "x": 23, "y": 12 },
         { "chunks": [ "1x1_street_light" ], "x": 20, "y": 19 },
-        { "chunks": [ "1x1_street_light" ], "x": 3, "y": 19 },
-        { "chunks": [ "1x1_street_light" ], "x": 0, "y": 12 },
-        { "chunks": [ "1x1_street_light" ], "x": 3, "y": 4 }
+        { "chunks": [ "1x1_street_light" ], "x": 23, "y": 11 },
+        { "chunks": [ "1x1_street_light" ], "x": 20, "y": 4 },
+        { "chunks": [ "1x1_street_light" ], "x": 3, "y": 4 },
+        { "chunks": [ "1x1_street_light" ], "x": 0, "y": 11 },
+        { "chunks": [ "1x1_street_light" ], "x": 3, "y": 19 }
       ]
     }
   },
