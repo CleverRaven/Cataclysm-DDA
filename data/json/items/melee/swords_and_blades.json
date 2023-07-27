@@ -1556,6 +1556,27 @@
     "relative": { "melee_damage": { "cut": 4 }, "qualities": [ [ "BUTCHER", 3 ] ] }
   },
   {
+    "id": "wakizashi_inferior",
+    "copy-from": "mc_wakizashi",
+    "type": "TOOL",
+    "name": { "str_sp": "wakizashi" },
+    "description": "A comparatively common Japanese short sword.  There's something not quite right about this one.",
+    "replace_materials": { "mc_steel": "budget_steel" },
+    "proportional": { "melee_damage": { "bash": 8.5, "cut": 0.23 }, "price": 0.1, "price_postapoc": 0.1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
+  },
+  {
+    "id": "wakizashi_fake",
+    "copy-from": "mc_wakizashi",
+    "type": "TOOL",
+    "name": { "str_sp": "wakizashi" },
+    "description": "A dull, cheap replica of the more common wakizashi.  Smaller and lighter than a katana, but still effective in combat.",
+    "replace_materials": { "mc_steel": "aluminum", "leather": "nylon" },
+    "proportional": { "melee_damage": { "bash": 4, "cut": 0.066 }, "price": 0.05, "price_postapoc": 0.05 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] }
+  },
+  {
     "id": "zweihander",
     "copy-from": "mc_zweihander",
     "type": "TOOL",
@@ -2286,32 +2307,6 @@
     "weight": "600 g",
     "price": 9700,
     "price_postapoc": 50
-  },
-  {
-    "id": "wakizashi_fake",
-    "copy-from": "wakizashi",
-    "type": "GENERIC",
-    "name": { "str_sp": "wakizashi" },
-    "description": "A dull, cheap replica of the more common wakizashi.  Smaller and lighter than a katana, but still effective in combat.",
-    "proportional": { "melee_damage": { "bash": 4, "cut": 0.066 } },
-    "delete": { "flags": [ "DURABLE_MELEE" ] },
-    "extend": { "flags": [ "FRAGILE_MELEE" ] },
-    "material": [ "aluminum" ],
-    "weight": "557 g",
-    "price": 7800,
-    "price_postapoc": 50
-  },
-  {
-    "id": "wakizashi_inferior",
-    "copy-from": "wakizashi",
-    "type": "TOOL",
-    "name": { "str_sp": "wakizashi" },
-    "description": "A comparatively common Japanese short sword.  There's something not quite right about this one.",
-    "proportional": { "melee_damage": { "bash": 8.5, "cut": 0.23 } },
-    "delete": { "flags": [ "DURABLE_MELEE" ] },
-    "material": [ "budget_steel" ],
-    "price": 17800,
-    "price_postapoc": 500
   },
   {
     "id": "kris_fake",
