@@ -646,6 +646,7 @@ cryopod
 cryopreservation
 cryosleep
 crystaltender
+cthonic
 ctivate
 ctulaly
 cudgels
@@ -802,6 +803,7 @@ doffing
 dogbane
 doggo
 doglike
+dollkin
 domestica
 dongle
 doomseer
@@ -860,6 +862,7 @@ earmuff
 earsplitting
 earthbag
 earthbags
+earthkin
 earthlike
 earthshaper
 earthside
@@ -1056,6 +1059,7 @@ flagration
 flairs
 flamberge
 flamesword
+flametouched
 flammenschwert
 flanged
 flappin
@@ -2109,12 +2113,15 @@ parst
 parthenogenetic
 partyin
 passionfruit
+pastes
 pasteurize
 pathfinding
 patios
 pauldrons
+pebbled
 peacoat
 peanutbutter
+pearlescent
 peccari
 peccary
 pecial
@@ -2190,6 +2197,7 @@ placidly
 planar
 planer
 planetside
+plantkin
 plantlike
 plastron
 platemail
@@ -2241,6 +2249,7 @@ posteriori
 posthuman
 potboiler
 potentiates
+poultices
 pouncer
 powerlifting
 powerplants
@@ -2365,6 +2374,7 @@ rangehands
 raptorial
 rashguard
 rashy
+ratatosk
 ratlike
 rattigan
 rayed
@@ -2790,6 +2800,8 @@ stompers
 stompy
 stompy-clanker
 stonelike
+stoneling
+stonelings
 stoneskin
 stopcock
 stoppered
@@ -2863,6 +2875,7 @@ sweetish
 switchgear
 swordmanship
 syde
+sylph
 sylvatica
 sylvite
 sym
@@ -3067,6 +3080,7 @@ undersides
 underslung
 underwelming
 undescribed
+undine
 undried
 undulates
 uneasing
@@ -3182,9 +3196,11 @@ viewport
 viewports
 vikeys
 vinegared
+vineling
 viny
 viperine
 virginica
+viridian
 virions
 vises
 vivarium
@@ -3221,6 +3237,7 @@ wastebread
 watchband
 waterfowl
 waterproofed
+waterkin
 waterskin
 waterskins
 waterskis
