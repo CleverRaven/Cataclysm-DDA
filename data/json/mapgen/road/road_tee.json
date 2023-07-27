@@ -53,7 +53,7 @@
           }
         },
         {
-          "chunks": [ "24x24_marked_crosswalks", "null" ],
+          "chunks": [ "24x24_marked_crosswalks" ],
           "x": 0,
           "y": 0,
           "flags": {
@@ -219,6 +219,93 @@
         "____"
       ],
       "palettes": [ "road_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_tee_vehicles",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_road_tee_vehicles_country" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": {
+            "north": [ "SIDEWALK" ],
+            "north_east": [ "SIDEWALK" ],
+            "east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
+        {
+          "else_chunks": [ "24x24_road_tee_vehicles_city" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": {
+            "north": [ "SIDEWALK" ],
+            "north_east": [ "SIDEWALK" ],
+            "east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_tee_vehicles_country",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "//": "Make these specific and reusable",
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 117 ],
+            [ "24x24_road_vehicles_country_out_of_fuel_east", 1 ],
+            [ "24x24_road_vehicles_country_out_of_fuel_west", 1 ],
+            [ "24x24_road_vehicles_country_out_of_fuel_south", 1 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_tee_vehicles_city",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "//": "Make these specific and reusable",
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 660 ],
+            [ [ "24x24_road_tee_vehicles_country_wrecks", "24x24_road_tee_vehicles_country_wrecks" ], 660 ],
+            [ "24x24_road_tee_vehicles_country_parked", 660 ],
+            [ "24x24_road_vehicles_country_jack-knifed_semi", 15 ],
+            [ "24x24_road_vehicles_country_vehicle_pileup", 4 ],
+            [ "24x24_road_tee_vehicles_country_policecar_pileup", 1 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
     }
   }
 ]

@@ -31,6 +31,27 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "24x24_marked_crosswalk_and_traffic_lights",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        { "chunks": [ "16x16_marked_crosswalk_h" ], "x": 4, "y": 12 },
+        { "chunks": [ "18x18_marked_crosswalk_traffic_lights", "null" ], "x": 3, "y": 11 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "18x18_marked_crosswalk_traffic_lights",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [ { "chunks": [ "1x1_traffic_light" ], "x": 0, "y": 0 }, { "chunks": [ "1x1_traffic_light" ], "x": 17, "y": 3 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "16x16_marked_crosswalk_h",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -91,25 +112,25 @@
       "//": "Could merge with traffic lights so they're not independant.",
       "place_nested": [
         {
-          "chunks": [ [ "16x16_marked_crosswalk_h", 1 ], [ "null", 4 ] ],
+          "chunks": [ "16x16_marked_crosswalk_h", "null" ],
           "x": 4,
           "y": 1,
           "neighbors": { "north": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
         },
         {
-          "chunks": [ [ "16x16_marked_crosswalk_v", 1 ], [ "null", 4 ] ],
+          "chunks": [ "16x16_marked_crosswalk_v", "null" ],
           "x": 21,
           "y": 4,
           "neighbors": { "east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
         },
         {
-          "chunks": [ [ "16x16_marked_crosswalk_h", 1 ], [ "null", 4 ] ],
+          "chunks": [ "16x16_marked_crosswalk_h", "null" ],
           "x": 4,
           "y": 21,
           "neighbors": { "south": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
         },
         {
-          "chunks": [ [ "16x16_marked_crosswalk_v", 1 ], [ "null", 4 ] ],
+          "chunks": [ "16x16_marked_crosswalk_v", "null" ],
           "x": 1,
           "y": 4,
           "neighbors": { "west": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
@@ -276,6 +297,46 @@
         ".  "
       ],
       "palettes": [ "road_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_vehicles_country_out_of_fuel_north",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_vehicles": [ { "vehicle": "highway", "fuel": -1, "status": 1, "chance": 100, "rotation": [ 0, 180 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_vehicles_country_out_of_fuel_east",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_vehicles": [ { "vehicle": "highway", "fuel": -1, "status": 1, "chance": 100, "rotation": [ 0, 180 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_vehicles_country_out_of_fuel_west",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_vehicles": [ { "vehicle": "highway", "fuel": -1, "status": 1, "chance": 100, "rotation": [ 0, 180 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_vehicles_country_out_of_fuel_south",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_vehicles": [ { "vehicle": "highway", "fuel": -1, "status": 1, "chance": 100, "rotation": [ 0, 180 ] } ]
     }
   }
 ]

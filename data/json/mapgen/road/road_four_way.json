@@ -5,8 +5,8 @@
     "om_terrain": "road_four_way",
     "object": {
       "fallback_predecessor_mapgen": "field",
-      "//": "I can't think of a good way to apply the hacky diagonal method here but four ways should very rarely spawn with diagonals anyway",
-      "place_nested": [ { "chunks": [ [ "24x24_road_four_way_crossroad", 20 ], [ "24x24_road_four_way_rotary", 1 ] ], "x": 0, "y": 0 } ],
+      "//": "TODO Only spawn rotaries when no orthoganally adjacent curved",
+      "place_nested": [ { "chunks": [ [ "24x24_road_four_way_crossroad", 39 ], [ "24x24_road_four_way_rotary", 1 ] ], "x": 0, "y": 0 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -58,6 +58,7 @@
           "chunks": [ "24x24_marked_crosswalks" ],
           "x": 0,
           "y": 0,
+          "//": "Move these to the nest itself?",
           "flags": {
             "north_east": [ "SIDEWALK" ],
             "south_east": [ "SIDEWALK" ],

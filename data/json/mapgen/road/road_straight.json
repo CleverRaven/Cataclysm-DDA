@@ -43,6 +43,13 @@
         { "chunks": [ "24x24_sidewalk_ns_long" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
         { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } },
         {
+          "chunks": [ [ "24x24_marked_crosswalk_and_traffic_lights", 1 ], [ "null", 9 ] ],
+          "x": 0,
+          "y": 0,
+          "//": "TODO ( north_east || east || south_east ) && ( north_west || west || south_west )",
+          "flags": { "east": [ "SIDEWALK" ], "west": [ "SIDEWALK" ] }
+        },
+        {
           "chunks": [ "3x3_road_corner_ne" ],
           "x": 1,
           "y": 0,
