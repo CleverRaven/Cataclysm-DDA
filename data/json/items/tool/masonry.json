@@ -57,7 +57,7 @@
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
     "use_action": [
-      "CHAINSAW_OFF",
+      { "target": "electric_masonrysaw_on", "msg": "You turn on the masonry saw.", "active": true, "type": "transform" },
       {
         "type": "link_up",
         "menu_text": "Plug in / Unplug",
