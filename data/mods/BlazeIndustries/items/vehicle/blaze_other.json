@@ -9,7 +9,7 @@
     "color": "cyan",
     "symbol": "]",
     "material": [ "steel", "plastic" ],
-    "volume": "200 L",
+    "volume": "2000 L",
     "category": "veh_parts",
     "price": 80000,
     "price_postapoc": 1000,
