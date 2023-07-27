@@ -403,6 +403,33 @@
     "melee_damage": { "bash": 2 }
   },
   {
+    "id": "nylon_quiver",
+    "type": "ARMOR",
+    "name": { "str": "nylon quiver" },
+    "description": "A lighter and more durable quiver made of nylon, with straps to attach to a MOLLE system.",
+    "weight": "230 g",
+    "volume": "500 ml",
+    "price": 6500,
+    "price_postapoc": 1200,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "bscabbard",
+    "color": "light_gray",
+    "sided": true,
+    "material_thickness": 0.5,
+    "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20 }, "moves": 20 } ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_LARGE" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
+    ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
     "id": "quiver_birchbark",
     "type": "ARMOR",
     "name": { "str": "birchbark quiver" },
