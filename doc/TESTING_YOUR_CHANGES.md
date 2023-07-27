@@ -12,8 +12,6 @@ so read this one first.
 
 For JSON changes, read [JSON_STYLE.md](JSON_STYLE.md).
 For C++ changes, read [CODE_STYLE.md](CODE_STYLE.md).
-If tinkering with C++, you may also want to look at
-[TESTING.md](TESTING.md) for our unit tests.
 
 All released builds include a pre-compiled `json_formatter.cgi`, which
 is a handy tool to automatically format any JSON file you point it at
@@ -39,6 +37,8 @@ Cataclysm or reload your save, whatever is more convenient.
 
 For C++ changes, you will need to compile the game yourself.
 See [COMPILING.md](COMPILING/COMPILING.md).
+You may also want to look at [TESTING.md](TESTING.md) for our unit
+tests.
 
 ## Using the debug menu
 
