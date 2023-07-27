@@ -422,9 +422,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
-      "place_nested": [
-        { "chunks": [ "24x24_road_vehicles_country_out_of_fuel_north_north_facing" ], "x": 0, "y": 12 }
-      ]
+      "place_nested": [ { "chunks": [ "24x24_road_vehicles_country_out_of_fuel_north_north_facing" ], "x": 0, "y": 12 } ]
     }
   },
   {
@@ -434,9 +432,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
-      "place_nested": [
-        { "chunks": [ "24x24_road_vehicles_country_out_of_fuel_north_south_facing" ], "x": 0, "y": 12 }
-      ]
+      "place_nested": [ { "chunks": [ "24x24_road_vehicles_country_out_of_fuel_north_south_facing" ], "x": 0, "y": 12 } ]
     }
   },
   {
@@ -446,9 +442,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
-      "place_nested": [
-        { "chunks": [ "24x24_road_vehicles_country_out_of_fuel_west_east_facing" ], "x": 12, "y": 0 }
-      ]
+      "place_nested": [ { "chunks": [ "24x24_road_vehicles_country_out_of_fuel_west_east_facing" ], "x": 12, "y": 0 } ]
     }
   },
   {
@@ -458,9 +452,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
-      "place_nested": [
-        { "chunks": [ "24x24_road_vehicles_country_out_of_fuel_west_west_facing" ], "x": 12, "y": 0 }
-      ]
+      "place_nested": [ { "chunks": [ "24x24_road_vehicles_country_out_of_fuel_west_west_facing" ], "x": 12, "y": 0 } ]
     }
   },
   {
