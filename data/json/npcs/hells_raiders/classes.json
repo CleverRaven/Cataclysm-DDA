@@ -1,5 +1,5 @@
 [
- {
+  {
     "type": "npc_class",
     "id": "NC_THUG",
     "name": { "str": "Thug" },

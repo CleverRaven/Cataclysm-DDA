@@ -1,5 +1,5 @@
 [
- {
+  {
     "type": "npc",
     "id": "thug",
     "//": "Generic melee focused guard for the Hell's Raiders faction.",
