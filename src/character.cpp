@@ -1198,7 +1198,7 @@ float Character::tally_organic_size() const
             total_size += part->hit_size;
         }
     }
-    return total_size;
+    return total_size / 100.0f;
 }
 
 int Character::sight_range( float light_level ) const
