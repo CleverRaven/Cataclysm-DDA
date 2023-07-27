@@ -17,10 +17,7 @@
   {
     "id": "stoneling",
     "type": "harvest",
-    "entries": [
-      { "drop": "pebble", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "rock", "type": "flesh", "mass_ratio": 0.4 }
-    ]
+    "entries": [ { "drop": "pebble", "type": "blood", "mass_ratio": 0.1 }, { "drop": "rock", "type": "flesh", "mass_ratio": 0.4 } ]
   },
   {
     "id": "water_elemental",
