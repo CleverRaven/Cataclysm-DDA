@@ -63,7 +63,7 @@
     "default_faction": "elves",
     "bodytype": "human",
     "volume": "123 ml",
-    "weight": "38 kg"
+    "weight": "38 kg",
     "hp": 45,
     "speed": 100,
     "material": [ "flesh" ],
