@@ -62,6 +62,14 @@ they will not be applied.
 With *Spawning > Spawn monster*, you can spawn an individual monster
 or an entire horde of them.
 This is very useful to test e.g monster faction and combat behavior.
-
 Unfortunately there is no way to spawn a monster group (`mongroup`)
 yet, as of writing.
+
+For more advanced playtesting, use loadouts from the Standard Combat
+Testing Mod (included in the Misc category of built-in mods) and document
+your results in the Testing section of your PR.
+
+Important test tips:
+ - A spawned and saved monster always stays the same, even if you change the underlying monster definition.  Always use freshly spawned monsters!
+ - Evolution, growth, and reproduction happen on monster load, so the sequence of testing is: Spawn monster -> Teleport away to unload it -> Teleport back to load it and start the timers -> Teleport away -> Set time forward via the debug menu -> Teleport back.
+ - Activating Debug Mode's monster filter allows you to examine monsters using `x` and then `e` and get additional information.
