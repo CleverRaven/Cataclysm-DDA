@@ -78,7 +78,7 @@
       ],
       "toilets": { ";": {  } },
       "terrain": {
-        "X": "t_embrasure_log", 
+        "X": "t_embrasure_log",
         "W": "t_palisade_embrasure",
         "4": "t_gutter_downspout",
         ",": "t_region_groundcover_barren",
