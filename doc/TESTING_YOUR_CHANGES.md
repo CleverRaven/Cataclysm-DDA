@@ -7,16 +7,24 @@ Typo fixes and the like usually do not need to be tested.
 
 ## Applying your changes locally
 
-A very simple way is to simply place your Cataclysm executable into your
+For JSON-only changes, which make up most contributions, a very simple
+way is to simply place your Cataclysm executable into your
 git repository.
-It will automagically use this altered path to load resources.
+It will automatically use this altered path to load resources.
 For more advanced situations, there are commandline parameters such as
 `--datadir`, which you can point at your git respository.
 Check `--help` for more information.
 
+You should also use an up-to-date version of Cataclysm and ensure that
+the git revision matches the Cataclysm executable version to avoid
+conflicts due to other people's changes to the JSON handling code.
+
 Exiting to the main menu and loading your save again will re-read most
 JSON files, so after making changes, make sure to either relaunch
 Cataclysm or reload your save, whatever is more convenient.
+
+For C++ changes, you will need to compile the game yourself.
+See [COMPILING.md](COMPILING/COMPILING.md).
 
 ## Using the debug menu
 
@@ -54,7 +62,7 @@ For spawning entire buildings or other things occupying multiple overmap
 tiles, type `s` to spawn a special. Spawning individual pieces of overmap
 terrain is usually not as commonly used and less useful in that sense.
 
-Make sure to only spawn overmap specials in the non-red areas, or
+Make sure to only spawn overmap specials in the non-highlighted areas, or
 they will not be applied.
 
 ### Monsters
