@@ -119,17 +119,7 @@
         { "class": "bandit", "x": 17, "y": 8 },
         { "class": "bandit", "x": 18, "y": 14 },
         { "class": "bandit", "x": 3, "y": 16 },
-        { "class": "bandit_quartermaster", "x": 17, "y": 11 },
-        { "class": "slave", "x": 26, "y": 4 },
-        { "class": "slave", "x": 26, "y": 12 },
-        { "class": "slave", "x": 26, "y": 14 },
-        { "class": "slave", "x": 28, "y": 4 },
-        { "class": "slave", "x": 28, "y": 6 },
-        { "class": "slave", "x": 32, "y": 9 },
-        { "class": "slave", "x": 32, "y": 10 },
-        { "class": "slave", "x": 34, "y": 10 },
-        { "class": "slave", "x": 42, "y": 4 },
-        { "class": "slave", "x": 44, "y": 6 }
+        { "class": "bandit_quartermaster", "x": 17, "y": 11 }
       ],
       "items": {
         "F": { "item": "kitchen_counters", "chance": 93 },
