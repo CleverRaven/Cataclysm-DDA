@@ -2131,9 +2131,9 @@ void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max
     }
 }
 
-bool Creature::has_part( const bodypart_id &id ) const
+bool Creature::has_part( const bodypart_id &id, body_part_filter filter ) const
 {
-    return get_part_id( id ) != body_part_bp_null;
+    return get_part_id( id, filter, true ) != body_part_bp_null;
 }
 
 bodypart *Creature::get_part( const bodypart_id &id )
@@ -2191,10 +2191,11 @@ static void set_part_helper( Creature &c, const bodypart_id &id,
     }
 }
 
-bodypart_id Creature::get_part_id( const bodypart_id &id ) const
+bodypart_id Creature::get_part_id( const bodypart_id &id,
+                                   body_part_filter filter, bool suppress_debugmsg ) const
 {
     auto found = body.find( id.id() );
-    if( found == body.end() ) {
+    if( found == body.end() && filter >= body_part_filter::equivalent ) {
         // try to find an equivalent part in the body map
         for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
             if( id->part_side == bp.first->part_side &&
@@ -2205,18 +2206,20 @@ bodypart_id Creature::get_part_id( const bodypart_id &id ) const
 
         // try to find the next best thing
         std::pair<bodypart_id, float> best = { body_part_bp_null, 0.0f };
-        for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
-            for( const std::pair<const body_part_type::type, float> &mp : bp.first->limbtypes ) {
-                // if the secondary limb type matches and is better than the current
-                if( mp.first == id->primary_limb_type() && mp.second > best.second ) {
-                    // give an inflated bonus if the part sides match
-                    float bonus = id->part_side == bp.first->part_side ? 1.0f : 0.0f;
-                    best = { bp.first, mp.second + bonus };
+        if( filter >= body_part_filter::next_best ) {
+            for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
+                for( const std::pair<const body_part_type::type, float> &mp : bp.first->limbtypes ) {
+                    // if the secondary limb type matches and is better than the current
+                    if( mp.first == id->primary_limb_type() && mp.second > best.second ) {
+                        // give an inflated bonus if the part sides match
+                        float bonus = id->part_side == bp.first->part_side ? 1.0f : 0.0f;
+                        best = { bp.first, mp.second + bonus };
+                    }
                 }
             }
         }
 
-        if( best.first == body_part_bp_null ) {
+        if( best.first == body_part_bp_null && !suppress_debugmsg ) {
             debugmsg( "Could not find equivalent bodypart id %s in %s's body", id.id().c_str(), get_name() );
         }
 

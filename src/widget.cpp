@@ -705,7 +705,7 @@ void widget::set_default_var_range( const avatar &ava )
         case widget_var::bp_hp:
             // HP for body part
             _var_min = 0;
-            if( ava.has_part( only_bp() ) ) {
+            if( ava.has_part( only_bp(), body_part_filter::equivalent ) ) {
                 _var_max = ava.get_part_hp_max( only_bp() );
             } else {
                 _var_max = 0;
@@ -768,7 +768,7 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::bp_hp:
             // HP for body part
-            if( ava.has_part( only_bp() ) ) {
+            if( ava.has_part( only_bp(), body_part_filter::equivalent ) ) {
                 value = ava.get_part_hp_cur( only_bp() );
             } else {
                 value = 0;
@@ -776,7 +776,7 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::bp_warmth:
             // Body part warmth/temperature
-            if( ava.has_part( only_bp() ) ) {
+            if( ava.has_part( only_bp(), body_part_filter::equivalent ) ) {
                 value = ava.get_part_temp_cur( only_bp() );
             } else {
                 value = 0;
@@ -784,7 +784,7 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::bp_wetness:
             // Body part wetness
-            if( ava.has_part( only_bp() ) ) {
+            if( ava.has_part( only_bp(), body_part_filter::equivalent ) ) {
                 value = ava.get_part_wetness( only_bp() );
             } else {
                 value = 0;

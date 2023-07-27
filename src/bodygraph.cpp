@@ -419,11 +419,11 @@ void bodygraph_display::prepare_partlist()
     for( const auto &bgp : id->parts ) {
         for( const bodypart_id &bid : bgp.second.bodyparts ) {
             partlist.emplace_back( bid, static_cast<const sub_body_part_type *>( nullptr ),
-                                   &bgp.second, u->has_part( bid ) );
+                                   &bgp.second, u->has_part( bid, body_part_filter::equivalent ) );
         }
         for( const sub_bodypart_id &sid : bgp.second.sub_bodyparts ) {
             const bodypart_id bid = sid->parent.id();
-            partlist.emplace_back( bid, &*sid, &bgp.second, u->has_part( bid ) );
+            partlist.emplace_back( bid, &*sid, &bgp.second, u->has_part( bid, body_part_filter::equivalent ) );
         }
     }
     std::sort( partlist.begin(), partlist.end(),
@@ -627,7 +627,7 @@ std::vector<std::string> get_bodygraph_lines( const Character &u,
     std::vector<std::string> ret;
 
     // Bodypart not present on character
-    if( !!id->parent_bp && !u.has_part( *id->parent_bp ) ) {
+    if( !!id->parent_bp && !u.has_part( *id->parent_bp, body_part_filter::equivalent ) ) {
         std::string txt = string_format( u.is_avatar() ?
                                          //~ 1$ = 2nd person pronoun (You), 2$ = body part (left arm)
                                          _( "%1$s do not have a %2$s." ) :
@@ -658,12 +658,12 @@ std::vector<std::string> get_bodygraph_lines( const Character &u,
                 bgp = &iter->second;
                 bool missing_section = true;
                 for( const bodypart_id &bp : iter->second.bodyparts ) {
-                    if( u.has_part( bp ) ) {
+                    if( u.has_part( bp, body_part_filter::equivalent ) ) {
                         missing_section = false;
                     }
                 }
                 for( const sub_bodypart_id &sp : iter->second.sub_bodyparts ) {
-                    if( u.has_part( sp->parent ) ) {
+                    if( u.has_part( sp->parent, body_part_filter::equivalent ) ) {
                         missing_section = false;
                     }
                 }
