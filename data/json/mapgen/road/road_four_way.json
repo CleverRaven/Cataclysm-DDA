@@ -218,7 +218,8 @@
             ]
           }
         },
-        { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 }
+        { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 },
+        { "chunks": [ "24x24_road_four_way_crossroad_vehicles" ], "x": 0, "y": 0 }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -241,6 +242,94 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "place_nested": [ { "chunks": [ "4x4_sidewalk_corner" ], "x": 0, "y": 0 }, { "chunks": [ "4x4_sidewalk_corner" ], "x": 0, "y": 20 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_four_way_crossroad_vehicles",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        {
+          "chunks": [ [ "24x24_road_four_way_crossroad_vehicles_city", 67 ], [ "null", 33 ] ],
+          "x": 0,
+          "y": 0,
+          "flags_any": {
+            "north": [ "SIDEWALK" ],
+            "north_east": [ "SIDEWALK" ],
+            "east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
+        {
+          "else_chunks": [ [ "24x24_road_four_way_crossroad_vehicles_country", 1 ], [ "null", 39 ] ],
+          "x": 0,
+          "y": 0,
+          "flags_any": {
+            "north": [ "SIDEWALK" ],
+            "north_east": [ "SIDEWALK" ],
+            "east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_four_way_crossroad_vehicles_country",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        {
+          "chunks": [
+            "24x24_road_vehicles_country_out_of_fuel_north",
+            "24x24_road_vehicles_country_out_of_fuel_south",
+            "24x24_road_vehicles_country_out_of_fuel_east",
+            "24x24_road_vehicles_country_out_of_fuel_west"
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_four_way_crossroad_vehicles_city",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "24x24_road_vehicles_city_wrecks_north", 66 ],
+            [ "24x24_road_vehicles_city_wrecks_south", 66 ],
+            [ "24x24_road_vehicles_city_wrecks_east", 66 ],
+            [ "24x24_road_vehicles_city_wrecks_west", 66 ],
+            [ "24x24_road_vehicles_city_parked_north", 132 ],
+            [ "24x24_road_vehicles_city_parked_south", 132 ],
+            [ "24x24_road_vehicles_city_parked_east", 132 ],
+            [ "24x24_road_vehicles_city_parked_west", 132 ],
+            [ "24x24_road_vehicles_special", 12 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
     }
   },
   {
