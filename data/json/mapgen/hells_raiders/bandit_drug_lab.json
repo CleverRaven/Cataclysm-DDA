@@ -84,12 +84,12 @@
       "place_npcs": [ { "class": "bandit", "x": 14, "y": 12 }, { "class": "thug", "x": 16, "y": 10 } ],
       "items": {
         " ": [ { "item": "trash", "chance": 1 }, { "item": "clutter_yard", "chance": 1 } ],
-        "t": [ 
-            { "item": "hazmat_suits", "chance": 70 },
-            { "item": "hazmat_masks", "chance": 70 },
-            { "item": "mobile_meth_lab", "chance": 70 }, 
-            { "item": "supplies_reagents_lab", "chance": 20 }, 
-            { "item": "methlab", "chance": 90 }
+        "t": [
+          { "item": "hazmat_suits", "chance": 70 },
+          { "item": "hazmat_masks", "chance": 70 },
+          { "item": "mobile_meth_lab", "chance": 70 },
+          { "item": "supplies_reagents_lab", "chance": 20 },
+          { "item": "methlab", "chance": 90 }
         ]
       }
     }
