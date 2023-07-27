@@ -540,10 +540,13 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
         txt.insert( txt.begin(), res_avail > 4 ? 4 : res_avail, ' ' );
         return txt;
     };
+    auto get_env_str = [&]( const damage_type_id & dt ) -> std::string {
+        return colorize( string_format( "    %5.2f", info.best_case.type_resist( dt ) ), c_white );
+    };
     for( const damage_type &dt : damage_type::get_all() ) {
         if( info.best_case.type_resist( dt.id ) > 1 ) {
             info_txt.emplace_back( string_format( "  %s:", uppercase_first_letter( dt.name.translated() ) ) );
-            info_txt.emplace_back( get_res_str( dt.id ) );
+            info_txt.emplace_back( dt.env ? get_env_str( dt.id ) : get_res_str( dt.id ) );
         }
     }
 }
