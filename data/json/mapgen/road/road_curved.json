@@ -226,6 +226,7 @@
         { "chunks": [ "24x24_sidewalk_es_curvy_outer" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_es_curvy_outer" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 },
+        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_curved_vehicles" ], "x": 0, "y": 0 }
       ]
     }
@@ -391,7 +392,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_road_straight_vehicles_city",
+    "nested_mapgen_id": "24x24_road_curved_vehicles_city",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -473,6 +474,7 @@
           }
         },
         { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 },
+        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_curved_vehicles" ], "x": 0, "y": 0 }
       ]
     }

@@ -98,6 +98,7 @@
           "y": 0,
           "neighbors": { "north_east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
         },
+        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
@@ -191,6 +192,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
         { "chunks": [ "24x24_street_lights_cul_de_sac" ], "x": 0, "y": 0 },
+        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 }
       ]
     }

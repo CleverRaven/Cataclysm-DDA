@@ -302,6 +302,42 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "24x24_road_zombies",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_road_zombies_placement" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": {
+            "north": [ "SIDEWALK" ],
+            "north_east": [ "SIDEWALK" ],
+            "east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_zombies_placement",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 0 ],
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "chance": 2, "repeat": 576, "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_country_out_of_fuel_north",
     "object": {
       "mapgensize": [ 24, 24 ],
