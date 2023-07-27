@@ -180,7 +180,6 @@
       "palettes": [ "road_palette" ]
     }
   },
-  
   {
     "type": "mapgen",
     "method": "json",
@@ -231,10 +230,7 @@
       "rotation": [ 0, 3 ],
       "place_nested": [
         {
-          "chunks": [
-            "24x24_road_vehicles_country_out_of_fuel_north",
-            "24x24_road_vehicles_country_out_of_fuel_south"
-          ],
+          "chunks": [ "24x24_road_vehicles_country_out_of_fuel_north", "24x24_road_vehicles_country_out_of_fuel_south" ],
           "x": 0,
           "y": 0
         }
