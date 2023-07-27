@@ -32,7 +32,6 @@
         "    .......**.......    "
       ],
       "palettes": [ "road_palette" ],
-      "//": "Could check north_east for road_wn (and north for road_es) to replicate old diag behaviour.",
       "place_nested": [
         { "chunks": [ "24x24_sidewalk_ns_double" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
         { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 20, "y": 0, "flags": { "north_east": [ "SIDEWALK" ] } },
