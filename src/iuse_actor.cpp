@@ -5041,31 +5041,56 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it ) co
         return std::nullopt;
     }
 
-    item *extension = is_cable_item ? &it : &*selected;
-    item *extended = is_cable_item ? &*selected : &it;
+    item_location extension = is_cable_item ? form_loc( *p, tripoint_min, it ) : selected;
+    item_location extended = is_cable_item ? selected : form_loc( *p, tripoint_min, it );
+    std::string extended_name = extended->type_name();
 
-    std::vector<const item *> all_cables = extension->cables();
-    all_cables.emplace_back( extension );
+    const bool can_stay_put = extended.parent_pocket() == extension.parent_pocket() ||
+                              ( extended.volume_capacity() - extension->volume() >= 0_ml &&
+                                extended.weight_capacity() - extension->weight() >= 0_gram );
 
     // Put the extension cable and all of its attached cables, if any, into the extended item's CABLE pocket.
+    std::vector<const item *> all_cables = extension->cables();
+    all_cables.emplace_back( &*extension );
     for( const item *cable : all_cables ) {
         item cable_copy( *cable );
         cable_copy.get_contents().clear_items();
         cable_copy.link.reset();
         if( !extended->put_in( cable_copy, item_pocket::pocket_type::CABLE ).success() ) {
-            debugmsg( "Failed to put %s inside %s!", cable_copy.tname(), extended->tname() );
+            debugmsg( "Failed to put %s inside %s!", cable_copy.type_name(), extended_name );
         }
     }
-
     if( extension->link ) {
         extended->link = extension->link;
     }
     extended->set_link_traits();
-    extended->process( get_map(), p, p->pos() );
+
+    // If the device's containing pocket can't also hold the extension cord, move to another pocket. If no other pocket works, ask the player.
+    if( !can_stay_put ) {
+        if( extended.has_parent() && extended.parent_item()->insert_cost( *extended ) > -1 ) {
+            if( !extended.parent_item()->put_in( *extended, item_pocket::pocket_type::CONTAINER ).success() ) {
+                debugmsg( "Failed to put %s inside %s!", extended_name, extended.parent_item()->type_name() );
+                it.get_contents().clear_pockets_if( []( item_pocket const & pocket ) {
+                    return pocket.is_type( item_pocket::pocket_type::CABLE );
+                } );
+                extended->link.reset();
+                return std::nullopt;
+            }
+            extended.remove_item();
+        } else if( !query_yn( _( "The %1$s can't contain the %2$s with the %3$s attached.  Continue?" ),
+                              extended.parent_item()->type_name(), extended_name, extension->type_name() ) ) {
+            it.get_contents().clear_pockets_if( []( item_pocket const & pocket ) {
+                return pocket.is_type( item_pocket::pocket_type::CABLE );
+            } );
+            extended->link.reset();
+            return std::nullopt;
+        }
+    }
 
     p->add_msg_if_player( is_cable_item ? _( "You extend the %1$s with the %2$s." ) :
-                          _( "You extend the %1$s's cable with the %2$s." ), extended->type_name(), extension->type_name() );
-    p->i_rem( extension );
+                          _( "You extend the %1$s's cable with the %2$s." ), extended_name, extension->type_name() );
+    extension.remove_item();
+    p->invalidate_inventory_validity_cache();
     p->moves -= move_cost;
     return 0;
 }

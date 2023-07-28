@@ -3721,14 +3721,9 @@ void Item_factory::add_special_pockets( itype &def )
         def.pockets.emplace_back( item_pocket::pocket_type::MIGRATION );
     }
     if( !has_pocket_type( def.pockets, item_pocket::pocket_type::CABLE ) ) {
-        const use_function *iuse = def.get_use( "link_up" );
-        if( iuse != nullptr ) {
+        if( def.get_use( "link_up" ) != nullptr ) {
             pocket_data cable_pocket( item_pocket::pocket_type::CABLE );
-            cable_pocket.rigid = true;
-            cable_pocket.volume_capacity = units::from_milliliter( 1 );
-            cable_pocket.max_contains_weight = units::from_gram( 1 );
-            cable_pocket.weight_multiplier = 0.0f;
-            cable_pocket.volume_multiplier = 0.0f;
+            cable_pocket.rigid = false;
             def.pockets.emplace_back( cable_pocket );
         }
     }
