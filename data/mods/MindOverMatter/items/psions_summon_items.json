@@ -881,7 +881,8 @@
     "weight": "0 g",
     "volume": "0 L",
     "flags": [ "ZERO_WEIGHT" ],
-    "qualities": [ [ "JACK", 1 ], [ "LIFT", 1 ] ]
+    "qualities": [ [ "JACK", 1 ], [ "LIFT", 1 ] ],
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   },
   {
     "id": "telekin_lifting_jack_2",
