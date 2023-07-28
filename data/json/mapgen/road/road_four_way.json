@@ -5,8 +5,87 @@
     "om_terrain": "road_four_way",
     "object": {
       "fallback_predecessor_mapgen": "field",
-      "//": "TODO Only spawn rotaries when no orthoganally adjacent curved",
-      "place_nested": [ { "chunks": [ [ "24x24_road_four_way_crossroad", 39 ], [ "24x24_road_four_way_rotary", 1 ] ], "x": 0, "y": 0 } ],
+      "//": "Only have a chance for a rotary when no orthoganally adjacent curved",
+      "place_nested": [
+        {
+          "chunks": [ [ "24x24_road_four_way_crossroad", 39 ], [ "24x24_road_four_way_rotary", 1 ] ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "north": [
+              { "om_terrain": "road_ns", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_new", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_nes", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_nsw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_esw", "om_terrain_match_type": "EXACT" }
+            ],
+            "east": [
+              { "om_terrain": "road_ns", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_new", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_nes", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_nsw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_esw", "om_terrain_match_type": "EXACT" }
+            ],
+            "south": [
+              { "om_terrain": "road_ns", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_new", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_nes", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_nsw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_esw", "om_terrain_match_type": "EXACT" }
+            ],
+            "west": [
+              { "om_terrain": "road_ns", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_new", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_nes", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_nsw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_esw", "om_terrain_match_type": "EXACT" }
+            ]
+          }
+        },
+        {
+          "else_chunks": [ "24x24_road_four_way_crossroad" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "north": [
+              { "om_terrain": "road_ns", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_new", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_nes", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_nsw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_esw", "om_terrain_match_type": "EXACT" }
+            ],
+            "east": [
+              { "om_terrain": "road_ns", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_new", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_nes", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_nsw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_esw", "om_terrain_match_type": "EXACT" }
+            ],
+            "south": [
+              { "om_terrain": "road_ns", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_new", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_nes", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_nsw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_esw", "om_terrain_match_type": "EXACT" }
+            ],
+            "west": [
+              { "om_terrain": "road_ns", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_new", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_nes", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_nsw", "om_terrain_match_type": "EXACT" },
+              { "om_terrain": "road_esw", "om_terrain_match_type": "EXACT" }
+            ]
+          }
+        }
+      ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },

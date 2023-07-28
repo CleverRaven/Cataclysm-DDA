@@ -6,7 +6,7 @@
     "object": {
       "rotation": [ 0, 0 ],
       "fallback_predecessor_mapgen": "field",
-      "//": "Places cul de sacs 1/3 of the time when there's any sidewalk adjacent, needs rotating 180 degrees.",
+      "//": "Places cul de sacs 1/3 of the time when there's any sidewalk adjacent.",
       "place_nested": [
         {
           "chunks": [ [ "24x24_road_end_cul_de_sac", 1 ], [ "24x24_road_end_straight", 2 ] ],
@@ -80,7 +80,7 @@
         {
           "chunks": [ "24x24_sidewalk_ns_double" ],
           "x": 0,
-          "y": 0,
+          "y": 12,
           "flags_any": { "south_east": [ "SIDEWALK" ], "south": [ "SIDEWALK" ], "south_west": [ "SIDEWALK" ] }
         },
         {
@@ -100,7 +100,7 @@
           "x": 1,
           "y": 21,
           "neighbors": {
-            "north_west": [
+            "south_west": [
               { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
               { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
               { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
@@ -113,7 +113,7 @@
           "x": 20,
           "y": 21,
           "neighbors": {
-            "north_east": [
+            "south_east": [
               { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
               { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
               { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
