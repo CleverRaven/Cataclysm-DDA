@@ -193,6 +193,15 @@ std::function<double( dialogue & )> armor_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> hp_max_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[bpid = params[0], beta = is_beta( scope )]( dialogue const & d ) {
+        bodypart_id bp( bpid.str( d ) );
+        return d.actor( beta )->get_hp_max( bp );
+    };
+}
+
 std::function<double( dialogue & )> num_input_eval( char /*scope*/,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {

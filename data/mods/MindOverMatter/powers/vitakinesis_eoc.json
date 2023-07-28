@@ -1,50 +1,78 @@
 [
   {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "name": "Purge Disease",
-    "id": "vitakin_disease_purge",
-    "description": "Enter a deep meditative trance and purge your body of illness, even serious ones like cancer or multiple sclerosis.  It will not cure mutation.  Some illnesses are more difficult to successfully eradicate than others.",
-    "category": "CC_PSIONIC",
-    "subcategory": "CSC_PSIONIC_RITUALS",
-    "skill_used": "metaphysics",
-    "difficulty": 6,
-    "time": "5 s",
-    "flags": [ "SECRET", "BLIND_EASY" ],
-    "result_eocs": [
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_SLEEP",
+    "effect": [ { "math": [ "u_val('sleep_deprivation')", "-=", "500" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_MUTAGEN_PURGE",
+    "effect": [
+      { "math": [ "u_val('vitamin', 'name: mutagen')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_alpha')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_batrachian')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_beast')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_bird')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_cattle')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_cephalopod')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_chelator')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_chimera')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_crustacean')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_elfa')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_feline')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_fish')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_gastropod')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_human')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_insect')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_lizard')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_lupine')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_medical')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_mouse')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_plant')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_rabbit')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_raptor')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_rat')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_slime')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_spider')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_troglobite')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_ursine')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagenic_slurry')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutant_toxin')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_crustacean')", "=", "0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_SELECTOR",
+    "effect": [
       {
-        "id": "EOC_VITAKIN_BANISH_ILLNESS_SELECTOR",
-        "effect": [
-          {
-            "run_eoc_selector": [
-              "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA",
-              "EOC_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE",
-              "EOC_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC",
-              "EOC_VITAKIN_BANISH_ILLNESS_JITTERY",
-              "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS",
-              "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING",
-              "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC"
-            ],
-            "names": [
-              "Purge Asthma",
-              "Purge Chemical Imbalance",
-              "Purge Kaluptic Psychosis",
-              "Purge Jitters",
-              "Purge Mood Swings",
-              "Purge Wasting Sickness",
-              "Purge Narcolepsy"
-            ],
-            "keys": [ "1", "2", "3", "4", "5", "6", "7" ],
-            "descriptions": [
-              "Attempt to cure your asthma.",
-              "Attempt to cure your chemical imbalance.",
-              "Attempt to cure your kaluptic psychosis",
-              "Attempt to cure your jitters",
-              "Attempt to cure your mood swings",
-              "Attempt to cure your weakening sickness",
-              "Attempt to cure your narcolepsy.  This meditation is extremely intensive, and is correspondingly more draining."
-            ]
-          }
+        "run_eoc_selector": [
+          "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA",
+          "EOC_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE",
+          "EOC_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC",
+          "EOC_VITAKIN_BANISH_ILLNESS_JITTERY",
+          "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS",
+          "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING",
+          "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC"
+        ],
+        "names": [
+          "Purge Asthma",
+          "Purge Chemical Imbalance",
+          "Purge Kaluptic Psychosis",
+          "Purge Jitters",
+          "Purge Mood Swings",
+          "Purge Wasting Sickness",
+          "Purge Narcolepsy"
+        ],
+        "keys": [ "1", "2", "3", "4", "5", "6", "7" ],
+        "descriptions": [
+          "Attempt to cure your asthma.",
+          "Attempt to cure your chemical imbalance.",
+          "Attempt to cure your kaluptic psychosis",
+          "Attempt to cure your jitters",
+          "Attempt to cure your mood swings",
+          "Attempt to cure your weakening sickness",
+          "Attempt to cure your narcolepsy.  This meditation is extremely intensive, and is correspondingly more draining."
         ]
       }
     ]
@@ -67,12 +95,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA_RESULT",
-    "condition": {
-      "roll_contested": {
-        "math": [ "rng( u_val('spell_level', 'spell: vita_blood_purge'), u_val('spell_level', 'spell: vita_healing_trance'))" ]
-      },
-      "difficulty": 12
-    },
+    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 12 },
     "effect": [
       { "u_message": "You breath easily once again.", "type": "good" },
       { "u_lose_trait": "ASTHMA" },
@@ -101,12 +124,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE_RESULT",
-    "condition": {
-      "roll_contested": {
-        "math": [ "rng( u_val('spell_level', 'spell: vita_blood_purge'), u_val('spell_level', 'spell: vita_healing_trance'))" ]
-      },
-      "difficulty": 14
-    },
+    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 14 },
     "effect": [
       { "u_message": "You body feels more normal.", "type": "good" },
       { "u_lose_trait": "CHEMIMBALANCE" },
@@ -135,12 +153,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC_RESULT",
-    "condition": {
-      "roll_contested": {
-        "math": [ "rng( u_val('spell_level', 'spell: vita_blood_purge'), u_val('spell_level', 'spell: vita_healing_trance'))" ]
-      },
-      "difficulty": 16
-    },
+    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 16 },
     "effect": [
       { "u_message": "You mind feels more normal.", "type": "good" },
       { "u_lose_trait": "SCHIZOPHRENIC" },
@@ -169,12 +182,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_JITTERY_RESULT",
-    "condition": {
-      "roll_contested": {
-        "math": [ "rng( u_val('spell_level', 'spell: vita_blood_purge'), u_val('spell_level', 'spell: vita_healing_trance'))" ]
-      },
-      "difficulty": 12
-    },
+    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 12 },
     "effect": [
       { "u_message": "You muscles stop trembling.", "type": "good" },
       { "u_lose_trait": "JITTERY" },
@@ -203,12 +211,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS_RESULT",
-    "condition": {
-      "roll_contested": {
-        "math": [ "rng( u_val('spell_level', 'spell: vita_blood_purge'), u_val('spell_level', 'spell: vita_healing_trance'))" ]
-      },
-      "difficulty": 15
-    },
+    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 15 },
     "effect": [
       { "u_message": "You mood calms.", "type": "good" },
       { "u_lose_trait": "MOODSWINGS" },
@@ -237,12 +240,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING_RESULT",
-    "condition": {
-      "roll_contested": {
-        "math": [ "rng( u_val('spell_level', 'spell: vita_blood_purge'), u_val('spell_level', 'spell: vita_healing_trance'))" ]
-      },
-      "difficulty": 15
-    },
+    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 15 },
     "effect": [
       { "u_message": "New vigor fills your body.", "type": "good" },
       { "u_lose_trait": "WEAKENING" },
@@ -271,12 +269,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC_RESULT",
-    "condition": {
-      "roll_contested": {
-        "math": [ "rng( u_val('spell_level', 'spell: vita_blood_purge'), u_val('spell_level', 'spell: vita_healing_trance'))" ]
-      },
-      "difficulty": 13
-    },
+    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 13 },
     "effect": [
       { "u_message": "New vigor fills your body.", "type": "good" },
       { "u_lose_trait": "NARCOLEPTIC" },

@@ -20,6 +20,12 @@
     "replace": "veh_tools_kitchen"
   },
   {
+    "id": "welding_components",
+    "type": "MIGRATION",
+    "replace": "bag_plastic",
+    "contents": [ { "id": "welder", "count": 1 }, { "id": "soldering_iron", "count": 1 } ]
+  },
+  {
     "type": "vehicle_part_migration",
     "from": "ap_weldkit",
     "to": "veh_tools_workshop",
