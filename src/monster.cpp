@@ -1886,7 +1886,10 @@ bool monster::melee_attack( Creature &target, float accuracy )
             if( target.is_avatar() ) {
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
-                sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
+                // don't make a pain yelp if our limb is a bionic
+                if( !dealt_dam.bp_hit->is_cybernetic ) {
+                    sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
+                }
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 add_msg( m_bad, _( "%1$s hits your %2$s." ), u_see_me ? disp_name( false, true ) : _( "Something" ),
                          body_part_name_accusative( dealt_dam.bp_hit ) );
