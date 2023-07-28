@@ -117,10 +117,14 @@
     "final_energy_cost": 2000,
     "energy_increment": -75,
     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_health_power_ally') * 2100) + 18000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_health_power_ally') * 2100) + 18000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: vita_health_power_ally') * 2700) + 145000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_health_power_ally') * 2700) + 145000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
     "base_casting_time": 100,
     "final_casting_time": 25,

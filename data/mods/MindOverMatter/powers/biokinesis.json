@@ -334,9 +334,9 @@
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "effect_str": "effect_biokin_climate_control",
-    "extra_effects": [ 
-      { "id": "biokin_climate_remove_sealed", "hit_self": true }, 
-      { "id": "psionic_drained_difficulty_four", "hit_self": true } 
+    "extra_effects": [
+      { "id": "biokin_climate_remove_sealed", "hit_self": true },
+      { "id": "psionic_drained_difficulty_four", "hit_self": true }
     ],
     "shape": "blast",
     "difficulty": 4,
@@ -408,7 +408,7 @@
     "casting_time_increment": -7.5,
     "learn_spells": { "biokin_overcome_pain": 4 }
   },
-    {
+  {
     "id": "biokin_sealed_removee_climate",
     "type": "SPELL",
     "name": "[Ψ]Sealed System Cancel Temperature Adaptability",
