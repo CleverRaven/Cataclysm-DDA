@@ -131,6 +131,61 @@
     }
   },
   {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "damaged_window_nested",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_ter_furn_transforms": [ { "transform": "damaged_window", "x": 0, "y": 0 } ],
+      "place_item": [ { "item": "glass_shard", "x": 0, "y": 0, "repeat": [ 21, 29 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "destroyed_window_nested",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_ter_furn_transforms": [ { "transform": "destroyed_window", "x": 0, "y": 0 } ],
+      "place_item": [ { "item": "glass_shard", "x": 0, "y": 0, "repeat": [ 27, 39 ] } ]
+    }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "damaged_window",
+    "//": "Should include the bash result for every standard_domestic_palette window",
+    "terrain": [
+      {
+        "result": "t_window_frame",
+        "valid_terrain": [
+          "t_window_domestic",
+          "t_window_no_curtains",
+          "t_window_open",
+          "t_window_no_curtains_open",
+          "t_curtains"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "destroyed_window",
+    "//": "Should include the bash result for every standard_domestic_palette window",
+    "terrain": [
+      {
+        "result": "t_window_empty",
+        "valid_terrain": [
+          "t_window_domestic",
+          "t_window_no_curtains",
+          "t_window_open",
+          "t_window_no_curtains_open",
+          "t_curtains",
+          "t_window_frame"
+        ]
+      }
+    ]
+  },
+  {
     "type": "ter_furn_transform",
     "id": "damaged_door",
     "//": "Should include the bash result for every wooden door",
@@ -351,8 +406,8 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_items": [
-        { "item": "corpses", "x": 0, "y": 0, "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "casings", "x": 0, "y": 0, "chance": 100 }
+        { "item": "corpses", "x": 0, "y": 0, "chance": 50 },
+        { "item": "casings", "x": 0, "y": 0, "chance": 100, "repeat": [ 1, 3 ] }
       ],
       "place_fields": [
         { "field": "fd_blood", "x": 0, "y": 0, "intensity": 2, "age": 10 },
