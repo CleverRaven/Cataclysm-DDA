@@ -132,7 +132,8 @@
     "charges_per_use": 0,
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
-    "use_action": [ "CARVER_ON" ],
+    "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
+    "tick_action": [ "CARVER_ON" ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 2, "cut": 30 }
   },
@@ -689,7 +690,7 @@
     "copy-from": "multi_cooker",
     "name": { "str": "multi-cooker - cooking", "str_pl": "multi-cookers - cooking" },
     "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  There is a dish cooking inside it.",
-    "delete": { "qualities": [ [ "CONTAIN", 1 ] ] }
+    "delete": { "qualities": [ "CONTAIN" ] }
   },
   {
     "id": "oil_cooker",

@@ -400,7 +400,7 @@
     "type": "effect_on_condition",
     "eoc_type": "AVATAR_DEATH",
     "condition": {
-      "and": [ { "npc_allies_global": 1 }, { "u_query": "You have died. Continue as one of your followers?", "default": false } ]
+      "and": [ { "npc_allies_global": 1 }, { "u_query": "You have died.  Continue as one of your followers?", "default": false } ]
     },
     "effect": [ "take_control_menu" ]
   },

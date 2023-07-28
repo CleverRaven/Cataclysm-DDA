@@ -1154,8 +1154,6 @@ void spell_effect::timed_event( const spell &sp, Creature &caster, const tripoin
 {
     const std::map<std::string, timed_event_type> timed_event_map{
         { "help", timed_event_type::HELP },
-        { "wanted", timed_event_type::WANTED },
-        { "robot_attack", timed_event_type::ROBOT_ATTACK },
         { "spawn_wyrms", timed_event_type::SPAWN_WYRMS },
         { "amigara", timed_event_type::AMIGARA },
         { "roots_die", timed_event_type::ROOTS_DIE },

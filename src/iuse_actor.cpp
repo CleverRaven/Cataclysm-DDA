@@ -502,10 +502,10 @@ void message_iuse::load( const JsonObject &obj )
     obj.read( "message", message );
 }
 
-std::optional<int> message_iuse::use( Character *p, item &it, bool t,
+std::optional<int> message_iuse::use( Character *p, item &it, bool,
                                       const tripoint &pos ) const
 {
-    if( t || !p ) {
+    if( !p ) {
         return std::nullopt;
     }
 
@@ -517,6 +517,36 @@ std::optional<int> message_iuse::use( Character *p, item &it, bool t,
 }
 
 std::string message_iuse::get_name() const
+{
+    if( !name.empty() ) {
+        return name.translated();
+    }
+    return iuse_actor::get_name();
+}
+
+std::unique_ptr<iuse_actor> sound_iuse::clone() const
+{
+    return std::make_unique<sound_iuse>( *this );
+}
+
+void sound_iuse::load( const JsonObject &obj )
+{
+    obj.read( "name", name );
+    obj.read( "sound_message", sound_message );
+    obj.read( "sound_volume", sound_volume );
+    obj.read( "sound_id", sound_id );
+    obj.read( "sound_variant", sound_variant );
+}
+
+std::optional<int> sound_iuse::use( Character *, item &, bool,
+                                    const tripoint &pos ) const
+{
+    sounds::sound( pos, sound_volume, sounds::sound_t::alarm, sound_message.translated(), true,
+                   sound_id, sound_variant );
+    return 0;
+}
+
+std::string sound_iuse::get_name() const
 {
     if( !name.empty() ) {
         return name.translated();
@@ -578,32 +608,10 @@ void explosion_iuse::load( const JsonObject &obj )
     }
     obj.read( "emp_blast_radius", emp_blast_radius );
     obj.read( "scrambler_blast_radius", scrambler_blast_radius );
-    obj.read( "sound_volume", sound_volume );
-    obj.read( "sound_msg", sound_msg );
-    obj.read( "no_deactivate_msg", no_deactivate_msg );
 }
 
-std::optional<int> explosion_iuse::use( Character *p, item &it, bool t, const tripoint &pos ) const
+std::optional<int> explosion_iuse::use( Character *p, item &, bool, const tripoint &pos ) const
 {
-    if( t ) {
-        if( sound_volume >= 0 ) {
-            sounds::sound( pos, sound_volume, sounds::sound_t::alarm,
-                           sound_msg.empty() ? _( "Tick." ) : sound_msg.translated(), true, "misc", "bomb_ticking" );
-        }
-        return 0;
-    }
-    if( it.charges > 0 ) {
-        if( p->has_item( it ) ) {
-            if( no_deactivate_msg.empty() ) {
-                p->add_msg_if_player( m_warning,
-                                      _( "You've already set the %s's timer you might want to get away from it." ), it.tname() );
-            } else {
-                p->add_msg_if_player( m_info, no_deactivate_msg.translated(), it.tname() );
-            }
-        }
-        return std::nullopt;
-    }
-
     if( explosion.power >= 0.0f ) {
         explosion_handler::explosion( p, pos, explosion );
     }
@@ -1885,15 +1893,9 @@ ret_val<void> fireweapon_off_actor::can_use( const Character &p, const item &it,
 void fireweapon_on_actor::load( const JsonObject &obj )
 {
     obj.read( "noise_message", noise_message );
-    obj.get_member( "voluntary_extinguish_message" ).read( voluntary_extinguish_message );
     obj.get_member( "charges_extinguish_message" ).read( charges_extinguish_message );
     obj.get_member( "water_extinguish_message" ).read( water_extinguish_message );
-    noise                           = obj.get_int( "noise", 0 );
     noise_chance                    = obj.get_int( "noise_chance", 1 );
-    auto_extinguish_chance          = obj.get_int( "auto_extinguish_chance", 0 );
-    if( auto_extinguish_chance > 0 ) {
-        obj.get_member( "auto_extinguish_message" ).read( auto_extinguish_message );
-    }
 }
 
 std::unique_ptr<iuse_actor> fireweapon_on_actor::clone() const
@@ -1901,31 +1903,36 @@ std::unique_ptr<iuse_actor> fireweapon_on_actor::clone() const
     return std::make_unique<fireweapon_on_actor>( *this );
 }
 
-std::optional<int> fireweapon_on_actor::use( Character *p, item &it, bool t,
-        const tripoint & ) const
+std::optional<int> fireweapon_on_actor::use( Character *p, item &it, bool,
+        const tripoint &pos ) const
 {
     bool extinguish = true;
+    translation deactivation_msg;
     if( !it.ammo_sufficient( p ) ) {
-        p->add_msg_if_player( m_bad, "%s", charges_extinguish_message );
-    } else if( p->is_underwater() ) {
-        p->add_msg_if_player( m_bad, "%s", water_extinguish_message );
-    } else if( auto_extinguish_chance > 0 && one_in( auto_extinguish_chance ) ) {
-        p->add_msg_if_player( m_bad, "%s", auto_extinguish_message );
-    } else if( !t ) {
-        p->add_msg_if_player( "%s", voluntary_extinguish_message );
+        deactivation_msg = charges_extinguish_message;
+    } else if( p && p->is_underwater() ) {
+        deactivation_msg = water_extinguish_message;
     } else {
         extinguish = false;
     }
 
+    if( !p ) {
+        map &here = get_map();
+        if( here.is_water_shallow_current( pos ) || here.is_divable( pos ) ) {
+            // Item is on ground on water
+            extinguish = true;
+        }
+    }
+
     if( extinguish ) {
         it.deactivate( p, false );
-
-    } else if( one_in( noise_chance ) ) {
-        if( noise > 0 ) {
-            sounds::sound( p->pos(), noise, sounds::sound_t::combat, noise_message );
-        } else {
-            p->add_msg_if_player( "%s", noise_message );
+        if( p ) {
+            p->add_msg_if_player( m_bad, "%s", deactivation_msg );
         }
+        return 0;
+
+    } else if( p && one_in( noise_chance ) ) {
+        p->add_msg_if_player( "%s", noise_message );
     }
 
     return 1;
@@ -1933,7 +1940,6 @@ std::optional<int> fireweapon_on_actor::use( Character *p, item &it, bool t,
 
 void manualnoise_actor::load( const JsonObject &obj )
 {
-    obj.get_member( "no_charges_message" ).read( no_charges_message );
     obj.get_member( "use_message" ).read( use_message );
     obj.read( "noise_message", noise_message );
     noise_id            = obj.get_string( "noise_id", "misc" );
@@ -1947,23 +1953,14 @@ std::unique_ptr<iuse_actor> manualnoise_actor::clone() const
     return std::make_unique<manualnoise_actor>( *this );
 }
 
-std::optional<int> manualnoise_actor::use( Character *p, item &it, bool t, const tripoint & ) const
+std::optional<int> manualnoise_actor::use( Character *p, item &, bool, const tripoint & ) const
 {
-    if( t ) {
-        return std::nullopt;
+    p->moves -= moves;
+    if( noise > 0 ) {
+        sounds::sound( p->pos(), noise, sounds::sound_t::activity,
+                       noise_message.empty() ? _( "Hsss" ) : noise_message.translated(), true, noise_id, noise_variant );
     }
-    if( !it.ammo_sufficient( p ) ) {
-        p->add_msg_if_player( "%s", no_charges_message );
-        return std::nullopt;
-    }
-    {
-        p->moves -= moves;
-        if( noise > 0 ) {
-            sounds::sound( p->pos(), noise, sounds::sound_t::activity,
-                           noise_message.empty() ? _( "Hsss" ) : noise_message.translated(), true, noise_id, noise_variant );
-        }
-        p->add_msg_if_player( "%s", use_message );
-    }
+    p->add_msg_if_player( "%s", use_message );
     return 1;
 }
 
@@ -1974,6 +1971,38 @@ ret_val<void> manualnoise_actor::can_use( const Character &p, const item &it, bo
         return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
+    return ret_val<void>::make_success();
+}
+
+void play_instrument_iuse::load( const JsonObject & )
+{
+}
+
+std::unique_ptr<iuse_actor> play_instrument_iuse::clone() const
+{
+    return std::make_unique<play_instrument_iuse>( *this );
+}
+
+std::optional<int> play_instrument_iuse::use( Character *p, item &it, bool, const tripoint & ) const
+{
+    if( it.active ) {
+        it.active = false;
+        p->add_msg_player_or_npc( _( "You stop playing your %s." ),
+                                  _( "<npcname> stops playing their %s." ),
+                                  it.display_name() );
+    } else {
+        p->add_msg_player_or_npc( m_good,
+                                  _( "You start playing your %s." ),
+                                  _( "<npcname> starts playing their %s." ),
+                                  it.display_name() );
+        it.active = true;
+    }
+    return std::nullopt;
+}
+
+ret_val<void> play_instrument_iuse::can_use( const Character &, const item &, bool,
+        const tripoint & ) const
+{
     return ret_val<void>::make_success();
 }
 
@@ -1996,9 +2025,14 @@ void musical_instrument_actor::load( const JsonObject &obj )
     obj.read( "npc_descriptions", npc_descriptions );
 }
 
-std::optional<int> musical_instrument_actor::use( Character *p, item &it, bool t,
+std::optional<int> musical_instrument_actor::use( Character *p, item &it, bool,
         const tripoint & ) const
 {
+    if( !p ) {
+        it.active = false;
+        return std::nullopt;
+    }
+
     if( !p->is_npc() && music::is_active_music_id( music::music_id::instrument ) ) {
         music::deactivate_music_id( music::music_id::instrument );
         // Because musical instrument creates musical sound too
@@ -2033,14 +2067,6 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it, bool t
         return std::nullopt;
     }
 
-    if( !t && it.active ) {
-        p->add_msg_player_or_npc( _( "You stop playing your %s." ),
-                                  _( "<npcname> stops playing their %s." ),
-                                  it.display_name() );
-        it.active = false;
-        return std::nullopt;
-    }
-
     // Check for worn or wielded - no "floating"/bionic instruments for now
     // TODO: Distinguish instruments played with hands and with mouth, consider encumbrance
     const int inv_pos = p->get_item_position( &it );
@@ -2066,14 +2092,6 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it, bool t
     // We can play the music now
     if( !p->is_npc() ) {
         music::activate_music_id( music::music_id::instrument );
-    }
-
-    if( !it.active ) {
-        p->add_msg_player_or_npc( m_good,
-                                  _( "You start playing your %s." ),
-                                  _( "<npcname> starts playing their %s." ),
-                                  it.display_name() );
-        it.active = true;
     }
 
     if( p->get_effect_int( effect_playing_instrument ) <= speed_penalty ) {
@@ -5509,7 +5527,7 @@ std::unique_ptr<iuse_actor> effect_on_conditons_actor::clone() const
 
 void effect_on_conditons_actor::load( const JsonObject &obj )
 {
-    description = obj.get_string( "description" );
+    obj.read( "description", description );
     obj.read( "menu_text", menu_text );
     for( JsonValue jv : obj.get_array( "effect_on_conditions" ) ) {
         eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
@@ -5526,7 +5544,7 @@ std::string effect_on_conditons_actor::get_name() const
 
 void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    dump.emplace_back( "DESCRIPTION", description );
+    dump.emplace_back( "DESCRIPTION", description.translated() );
 }
 
 std::optional<int> effect_on_conditons_actor::use( Character *p, item &it, bool t,

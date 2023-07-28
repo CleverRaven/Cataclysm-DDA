@@ -90,5 +90,73 @@
       { "u_learn_recipe": "practice_vita_healing_trance" },
       { "u_learn_recipe": "practice_vita_blood_purge" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_TELEKIN_RITUAL_ENHANCE_STRENGTH",
+    "recurrence": [ "24 hour", "24 hours" ],
+    "condition": {
+      "and": [
+        { "math": [ "u_val('spell_level', 'school: TELEKINETIC')", ">=", "5" ] },
+        { "not": { "u_know_recipe": "telekin_push_heavy_things" } }
+      ]
+    },
+    "deactivate_condition": { "u_know_recipe": "telekin_push_heavy_things" },
+    "effect": [
+      { "u_learn_recipe": "telekin_push_heavy_things" },
+      {
+        "u_message": "Your increased mastery of telekinesis now allows you to focus your powers to lift or drag heavy objects.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_TELEKIN_RITUAL_LIFT_CARS",
+    "recurrence": [ "24 hour", "24 hours" ],
+    "condition": {
+      "and": [
+        {
+          "math": [
+            "(((u_val('spell_level', 'spell: telekinetic_pull') + u_val('spell_level', 'spell: telekinetic_momentum') + u_val('spell_level', 'spell: telekinetic_shield') + u_val('spell_level', 'spell: telekinetic_push') + u_val('spell_level', 'spell: telekinetic_wave')) / 4 ) - 5)",
+            ">=",
+            "1"
+          ]
+        },
+        { "not": { "u_know_recipe": "telekin_lift_cars" } }
+      ]
+    },
+    "deactivate_condition": { "u_know_recipe": "telekin_lift_cars" },
+    "effect": [
+      { "u_learn_recipe": "telekin_lift_cars" },
+      {
+        "u_message": "Your increased mastery of telekinesis now allows you to focus your powers to raise a car just enough to do some work on it.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_VITAKIN_RITUAL_DISEASE_PURGE",
+    "recurrence": [ "24 hour", "24 hours" ],
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "math": [ "u_val('spell_level', 'spell: vita_blood_purge')", ">=", "0" ] },
+            { "math": [ "u_val('spell_level', 'spell: vita_healing_trance')", ">=", "0" ] }
+          ]
+        },
+        { "not": { "u_know_recipe": "vitakin_disease_purge" } }
+      ]
+    },
+    "deactivate_condition": { "u_know_recipe": "vitakin_disease_purge" },
+    "effect": [
+      { "u_learn_recipe": "vitakin_disease_purge" },
+      {
+        "u_message": "Your increased mastery of vitakinesis now allows you to cure even virulent diseases or those incurable with pre-Cataclysmic medicine.",
+        "type": "good"
+      }
+    ]
   }
 ]

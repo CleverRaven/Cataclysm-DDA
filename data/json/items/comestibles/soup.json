@@ -40,7 +40,7 @@
     "symbol": "~",
     "quench": 30,
     "calories": 43,
-    "description": "A tasty and nutritious broth made from bones.",
+    "description": "A tasty and nutritious broth made from bones, with added vinegar to extract more calcium.",
     "price": 350,
     "price_postapoc": 25,
     "material": [ "bone" ],
@@ -50,7 +50,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_SALVAGE" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", 7 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

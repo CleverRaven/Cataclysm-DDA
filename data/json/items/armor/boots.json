@@ -1640,7 +1640,7 @@
       {
         "id": "chelsea_boots",
         "name": { "str": "pair of chelsea boots", "str_pl": "pairs of chelsea boots" },
-        "description": "A pair of knee-length, laceless boots formed from calfskin with an elastic side panel that’s designed to stretch away to facilitate simple dawning and doffing, these stylish stompers are a time-old gift from Victorian-age England.  Intended for you to fashionably saunter down roadways rather than sprint for your life, this style of boot became a style staple within London during the 1960s, where they were synonymous with the mod crowd.",
+        "description": "A pair of knee-length, laceless boots formed from calfskin with an elastic side panel that’s designed to stretch away to facilitate simple donning and doffing, these stylish stompers are a time-old gift from Victorian-age England.  Intended for you to fashionably saunter down roadways rather than sprint for your life, this style of boot became a style staple within London during the 1960s, where they were synonymous with the mod crowd.",
         "weight": 10
       }
     ]

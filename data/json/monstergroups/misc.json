@@ -421,7 +421,6 @@
     "monsters": [
       { "monster": "mon_wasp_small" },
       { "monster": "mon_wasp" },
-      { "monster": "mon_riotbot" },
       { "monster": "mon_secubot" },
       { "monster": "mon_feral_militia" },
       { "monster": "mon_plague_vector" },

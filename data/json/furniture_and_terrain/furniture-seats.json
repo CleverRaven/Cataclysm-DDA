@@ -12,7 +12,7 @@
     "floor_bedding_warmth": -1500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 8,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "nuts_bolts", "charges": 12 }, { "item": "steel_chunk", "count": 8 } ]
     },
@@ -43,7 +43,16 @@
     "bonus_fire_warmth_feet": 1000,
     "required_str": 7,
     "deconstruct": { "items": [ { "item": "armchair", "count": 1 } ] },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "EASY_DECONSTRUCT", "CAN_SIT", "ALIGN_WORKBENCH" ],
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE_ASH",
+      "ORGANIC",
+      "MOUNTABLE",
+      "EASY_DECONSTRUCT",
+      "CAN_SIT",
+      "ALIGN_WORKBENCH",
+      "SMALL_HIDE"
+    ],
     "bash": {
       "str_min": 10,
       "str_max": 40,
@@ -81,7 +90,7 @@
         { "item": "spring", "count": 3 }
       ]
     },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 10,
       "str_max": 40,
@@ -144,7 +153,7 @@
         { "item": "splinter", "count": [ 1, 25 ] }
       ]
     },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -284,7 +293,7 @@
     "comfort": 1,
     "floor_bedding_warmth": -2000,
     "bonus_fire_warmth_feet": 1000,
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "CAN_SIT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 15,
       "str_max": 50,
@@ -320,7 +329,7 @@
     "floor_bedding_warmth": -1500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 5,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT", "SMALL_HIDE" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 1 }, { "item": "splinter", "count": 32 } ] },
     "bash": {
       "str_min": 8,
@@ -345,7 +354,7 @@
     "floor_bedding_warmth": -1500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 12,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 8 }, { "item": "nuts_bolts", "charges": 20 }, { "item": "steel_chunk", "count": 12 } ]
     },

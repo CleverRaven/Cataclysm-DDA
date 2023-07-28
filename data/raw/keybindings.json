@@ -3723,6 +3723,17 @@
   },
   {
     "type": "keybinding",
+    "id": "ITEMS_PARENT",
+    "category": "ADVANCED_INVENTORY",
+    "name": "Exit container to parent",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "x" },
+      { "input_method": "keyboard_char", "key": "X" },
+      { "input_method": "keyboard_code", "key": "x", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "ITEMS_WORN",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items currently worn",
@@ -4250,6 +4261,13 @@
     "category": "PLAYER_INFO",
     "id": "morale",
     "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CHANGE_ARMOR_SPRITE",
+    "category": "PLAYER_INFO",
+    "name": "Change sprite of armor.",
+    "bindings": [ { "input_method": "keyboard_char", "key": "W" }, { "input_method": "keyboard_code", "key": "w", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",

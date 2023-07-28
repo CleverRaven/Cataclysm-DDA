@@ -23,7 +23,6 @@
       "noise_id": "misc",
       "noise_variant": "airhorn",
       "use_message": "You honk your airhorn.",
-      "no_charges_message": "You depress the button but no sound comes out.",
       "//": "Use of %s not currently supported."
     },
     "melee_damage": { "bash": 3 }
@@ -311,7 +310,6 @@
       "noise_id": "misc",
       "noise_variant": "horn_bicycle",
       "use_message": "You honk the bicycle horn.",
-      "no_charges_message": "Seeing this is an error.",
       "//": "Use of %s not currently supported."
     },
     "melee_damage": { "bash": 1 }
@@ -932,7 +930,6 @@
         "noise_id": "misc",
         "noise_variant": "whistle",
         "use_message": "You blow the whistle.",
-        "no_charges_message": "Seeing this is an error.",
         "//": "Somewhat lower than the proper whistle."
       },
       "WEATHER_TOOL",

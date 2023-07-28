@@ -57,6 +57,8 @@ const std::unordered_set<std::string> complex_conds = { {
 
 str_or_var get_str_or_var( const JsonValue &jv, const std::string &member, bool required = true,
                            const std::string &default_val = "" );
+translation_or_var get_translation_or_var( const JsonValue &jv, const std::string &member,
+        bool required = true, const translation &default_val = {} );
 dbl_or_var get_dbl_or_var( const JsonObject &jo, const std::string &member, bool required = true,
                            double default_val = 0.0 );
 dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, const std::string &member,
@@ -204,6 +206,7 @@ struct conditional_t {
         void set_compare_num( const JsonObject &jo, std::string_view member );
         void set_math( const JsonObject &jo, std::string_view member );
         static std::function<std::string( const dialogue & )> get_get_string( const JsonObject &jo );
+        static std::function<translation( const dialogue & )> get_get_translation( const JsonObject &jo );
         template<class J>
         static std::function<double( dialogue & )> get_get_dbl( J const &jo );
         static std::function<double( dialogue & )> get_get_dbl( const std::string &value,
