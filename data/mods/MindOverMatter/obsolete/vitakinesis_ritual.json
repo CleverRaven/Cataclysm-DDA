@@ -11,6 +11,6 @@
     "difficulty": 6,
     "time": "5 s",
     "flags": [ "SECRET", "BLIND_EASY" ],
-    "result_eocs": [  ]
+    "result_eocs": [ "EOC_OBSOLETE" ]
   }
 ]

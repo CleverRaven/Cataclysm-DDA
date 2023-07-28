@@ -201,7 +201,7 @@
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
-        "id": "EOC_PRACTICE_PYROKIN_QUELL_FIRE",
+        "id": "EOC_PRACTICE_PYROKIN_CALL_FLAMES",
         "condition": {
           "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_call_flames" }, ">=", { "const": 1 } ] },
@@ -225,7 +225,7 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_PYROKIN_QUELL_FIRE_FALSE",
+              "id": "EOC_PRACTICE_PYROKIN_CALL_FLAMES_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_call_flames" }, ">=", { "const": 1 } ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },

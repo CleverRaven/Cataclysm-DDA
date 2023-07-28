@@ -12,7 +12,7 @@
     "time": "10 s",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "proficiencies": [ { "proficiency": "prof_psionic_ritual", "required": false } ],
-    "result_eocs": [  ]
+    "result_eocs": [ "EOC_OBSOLETE" ]
   },
   {
     "type": "recipe",
@@ -27,6 +27,6 @@
     "time": "5 s",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "proficiencies": [ { "proficiency": "prof_psionic_ritual", "required": false } ],
-    "result_eocs": [  ]
+    "result_eocs": [ "EOC_OBSOLETE" ]
   }
 ]

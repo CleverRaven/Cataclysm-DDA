@@ -168,10 +168,13 @@
     "message": "You concentrate and prepare to lift something heavy.",
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION", "EXTRA_EFFECTS_FIRST" ],
     "effect": "spawn_item",
     "effect_str": "telekin_ritual_summon_strength_item",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
+    "extra_effects": [
+      { "id": "telekinetic_strength_remove_previous", "hit_self": true },
+      { "id": "psionic_drained_difficulty_five", "hit_self": true }
+    ],
     "shape": "blast",
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
@@ -186,6 +189,17 @@
     "final_casting_time": 200,
     "casting_time_increment": -86,
     "learn_spells": { "telekinetic_vehicle_lift": 4, "telekinetic_shield": 8 }
+  },
+  {
+    "id": "telekinetic_strength_remove_previous",
+    "type": "SPELL",
+    "name": "[Ψ]Enhance Strength Remove Previous",
+    "description": "The check to make sure you can't stack multiple Enhance Strengths.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKIN_REMOVE_ENHANCE_STRENGTH",
+    "shape": "blast"
   },
   {
     "id": "telekinetic_hammer",

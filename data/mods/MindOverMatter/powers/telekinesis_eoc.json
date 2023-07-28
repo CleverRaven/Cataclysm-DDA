@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SPELL_TELEKIN_SUMMON_JACKING_TOOL",
     "effect": {
-      "switch": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift')" ] },
+      "switch": { "math": [ "u_val('spell_level', 'spell: telekinetic_vehicle_lift')" ] },
       "cases": [
         { "case": 1, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_1" } } ] },
         { "case": 2, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_2" } } ] },
@@ -27,6 +27,11 @@
         { "case": 20, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_20" } } ] }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_REMOVE_ENHANCE_STRENGTH",
+    "effect": [ { "u_remove_item_with": "telekin_ritual_summon_strength_item" } ]
   },
   {
     "id": "telekin_ritual_summon_lifting_jack_1",
