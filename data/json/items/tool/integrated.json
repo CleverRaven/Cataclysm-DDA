@@ -152,7 +152,7 @@
     "melee_damage": { "bash": 1, "cut": 3 }
   },
   {
-    "id": "mini_welder",
+    "id": "welder",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "weight": "100 g",
