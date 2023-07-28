@@ -220,9 +220,7 @@
     "hp": 10,
     "death_drops": { "subtype": "collection", "groups": [ [ "produce", 100 ], [ "vertebrate_parts", 10 ] ] },
     "description": "A small dog-sized furry lizard colored in fiery reds.  It hisses and then spits gouts of water at whatever attracts its ire.",
-    "special_attacks": [
-      { "type": "spell", "spell_data": { "id": "mon_salamander_glob", "min_level": 4 }, "cooldown": 20 }
-    ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "mon_salamander_glob", "min_level": 4 }, "cooldown": 20 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "RANGED_ATTACKER", "PATH_AVOID_DANGER_1", "CLIMBS" ],
     "harvest": "fae_furred",
     "dissect": "dissect_salamander_tiny",
