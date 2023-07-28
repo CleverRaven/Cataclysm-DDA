@@ -145,8 +145,6 @@ static const oter_type_str_id oter_type_road( "road" );
 
 static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" );
 
-static const string_id<class npc_template> npc_template_bandit( "bandit" );
-
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
 static const ter_str_id ter_t_stump( "t_stump" );
@@ -156,9 +154,7 @@ static const ter_str_id ter_t_tree_deadpine( "t_tree_deadpine" );
 static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
 
-static const trap_str_id tr_caltrops( "tr_caltrops" );
 static const trap_str_id tr_engine( "tr_engine" );
-static const trap_str_id tr_nailboard( "tr_nailboard" );
 
 static const vgroup_id VehicleGroup_crashed_helicopters( "crashed_helicopters" );
 
