@@ -157,13 +157,7 @@
     "terrain": [
       {
         "result": "t_window_frame",
-        "valid_terrain": [
-          "t_window_domestic",
-          "t_window_no_curtains",
-          "t_window_open",
-          "t_window_no_curtains_open",
-          "t_curtains"
-        ]
+        "valid_terrain": [ "t_window_domestic", "t_window_no_curtains", "t_window_open", "t_window_no_curtains_open", "t_curtains" ]
       }
     ]
   },
