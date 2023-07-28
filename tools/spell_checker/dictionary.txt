@@ -1220,6 +1220,7 @@ goops
 gores
 gorget
 gorgosaurus
+gouts
 goverments
 gowod
 gozu
@@ -3177,6 +3178,7 @@ vars
 vatgrown
 vaulters
 veggy
+vegital
 veined
 venandi
 ventrolateral
@@ -3197,6 +3199,7 @@ viewports
 vikeys
 vinegared
 vineling
+vinelings
 viny
 viperine
 virginica

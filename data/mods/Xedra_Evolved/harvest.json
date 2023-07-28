@@ -28,6 +28,15 @@
     ]
   },
   {
+    "id": "rat_with_skull_arvore",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_rodent", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "fae_meat_scrap", "type": "flesh", "mass_ratio": 0.5 },
+      { "drop": "fae_blood", "type": "blood", "mass_ratio": 0.1 }
+    ]
+  },
+  {
     "id": "fig_harv",
     "type": "harvest",
     "entries": [ { "drop": "fig", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
