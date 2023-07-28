@@ -44,6 +44,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         tripoint_abs_ms global_pos() const override;
         tripoint_abs_omt global_omt_location() const override;
         int get_cur_hp( const bodypart_id &bp ) const override;
+        int get_hp_max( const bodypart_id &bp ) const override;
         int get_cur_part_temp( const bodypart_id &bp ) const override;
 
         // stats, skills, traits, bionics, and magic

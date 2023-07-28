@@ -190,6 +190,11 @@ int talker_monster_const::get_cur_hp( const bodypart_id & ) const
     return me_mon_const->get_hp();
 }
 
+int talker_monster_const::get_hp_max( const bodypart_id & ) const
+{
+    return me_mon_const->get_hp_max();
+}
+
 bool talker_monster_const::will_talk_to_u( const Character &you, bool )
 {
     return !you.is_dead_state();

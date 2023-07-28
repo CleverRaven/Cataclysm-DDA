@@ -164,5 +164,10 @@
     "type": "monstergroup",
     "name": "GROUP_NETHER_PORTAL",
     "monsters": [ { "monster": "mon_nether_eater", "weight": 200, "cost_multiplier": 0 } ]
+  },
+  {
+    "name": "GROUP_CIVILIANS_STANDARD",
+    "type": "monstergroup",
+    "monsters": [ { "group": "GROUP_CIVILIANS_PSYCHIC_FERAL", "weight": 10, "cost_multiplier": 2 } ]
   }
 ]

@@ -598,7 +598,7 @@
         "type": "spell",
         "spell_data": { "id": "telekinetic_pull_monster", "min_level": 2 },
         "cooldown": 15,
-        "monster_message": "%1$s stares at you and you are lifted off your feet and pulled towards them!"
+        "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
       },
       {
         "type": "gun",
@@ -611,7 +611,7 @@
         "fake_str": 11,
         "require_targeting_player": false,
         "ranges": [ [ 2, 10, "DEFAULT" ] ],
-        "description": "%1$s stares at you and a rock hurtles toward you!"
+        "description": "%1$s stares at %3$s and one of the rocks around them suddenly launches like a bullet!"
       },
       {
         "id": "smash",
@@ -687,14 +687,14 @@
         "type": "spell",
         "spell_data": { "id": "telekinetic_pull_monster", "min_level": 3 },
         "cooldown": 10,
-        "monster_message": "%1$s stares at you and you are lifted off your feet and pulled towards them!"
+        "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
       },
       {
         "id": "psi_telekin2_mindhammer",
         "type": "spell",
         "spell_data": { "id": "telekinetic_hammer_monster", "min_level": 4 },
         "cooldown": 10,
-        "monster_message": "%1$s hammers you with psionic force!"
+        "monster_message": "%1$s hammers %3$s with psionic force!"
       },
       {
         "id": "smash",
@@ -775,7 +775,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
         "cooldown": 10,
-        "monster_message": "A roar fills your mind and the world is blotted out!"
+        "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       },
       [ "FEAR_PARALYZE", 15 ]
     ],
@@ -836,14 +836,14 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
         "cooldown": 8,
-        "monster_message": "A roar fills your mind and the world is blotted out!"
+        "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       },
       {
         "id": "psi_telepath2_blast",
         "type": "spell",
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 2 },
         "cooldown": 10,
-        "monster_message": "A searing pain fills your head!"
+        "monster_message": "%1$s stares at %3$s!"
       },
       [ "FEAR_PARALYZE", 10 ]
     ],
@@ -901,7 +901,7 @@
         "type": "spell",
         "spell_data": { "id": "teleport_slow_monster", "min_level": 2 },
         "cooldown": 15,
-        "monster_message": "%1$s looks at you and the world lurches."
+        "monster_message": "%1$s looks at %3$s and the world lurches."
       },
       {
         "type": "leap",
@@ -966,7 +966,7 @@
         "type": "spell",
         "spell_data": { "id": "teleport_slow_monster", "min_level": 4 },
         "cooldown": 10,
-        "monster_message": "%1$s glances at you and the world lurches."
+        "monster_message": "%1$s glances at %3$s and the world lurches."
       },
       {
         "type": "leap",
@@ -1034,14 +1034,14 @@
         "type": "spell",
         "spell_data": { "id": "teleport_slow_monster", "min_level": 6 },
         "cooldown": 10,
-        "monster_message": "%1$s glances at you and the world lurches."
+        "monster_message": "%1$s glances at %3$s and the world lurches."
       },
       {
         "id": "psi_teleport3_instability",
         "type": "spell",
         "spell_data": { "id": "teleport_blink_attack_monster", "min_level": 4 },
         "cooldown": 20,
-        "monster_message": "%1$s touches you and the world around you wavers."
+        "monster_message": "%1$s touches %3$s and the world around %3$s wavers."
       },
       {
         "type": "leap",
@@ -1113,7 +1113,7 @@
         "type": "spell",
         "spell_data": { "id": "vitakinetic_health_down", "min_level": 4 },
         "cooldown": 15,
-        "monster_message": "%1$s touches you and a numbing weakness spreads through your body."
+        "monster_message": "%1$s touches %3$s."
       }
     ],
     "flags": [
@@ -1174,7 +1174,7 @@
         "type": "spell",
         "spell_data": { "id": "vitakinetic_healing_down", "min_level": 4 },
         "cooldown": 15,
-        "monster_message": "%1$s touches you and a numbing weakness spreads through your body, quickly followed by a crawling sensation."
+        "monster_message": "%1$s touches %3$s."
       }
     ],
     "flags": [

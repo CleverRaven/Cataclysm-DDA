@@ -773,30 +773,6 @@
     ]
   },
   {
-    "result": "broken_copbot",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "electronics",
-    "difficulty": 6,
-    "time": "2 h",
-    "//": "These robot corpses should really be moved into the butcher mechanic",
-    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "memory_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "omni_wheel", 1 ] ],
-      [ [ "copbot_chassis", 1 ] ],
-      [ [ "android_arms", 1 ] ],
-      [ [ "power_supply", 4 ] ],
-      [ [ "solar_cell", 2 ] ],
-      [ [ "tazer", 1 ] ]
-    ]
-  },
-  {
     "result": "broken_turret_speaker",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -1003,29 +979,6 @@
     ]
   },
   {
-    "result": "broken_eyebot",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "electronics",
-    "difficulty": 2,
-    "time": "30 m",
-    "using": [ [ "soldering_standard", 3 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "small_storage_battery", 1 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "quad_rotors", 1 ] ],
-      [ [ "lens", 1 ] ]
-    ]
-  },
-  {
     "result": "broken_robofac_camspy",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -1166,29 +1119,6 @@
       [ [ "medium_storage_battery", 1 ] ],
       [ [ "robot_controls", 1 ] ],
       [ [ "steel_chunk", 20 ] ]
-    ]
-  },
-  {
-    "result": "broken_riotbot",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "electronics",
-    "difficulty": 6,
-    "time": "2 h",
-    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "memory_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "omni_wheel", 1 ] ],
-      [ [ "copbot_chassis", 1 ] ],
-      [ [ "android_arms", 1 ] ],
-      [ [ "power_supply", 4 ] ],
-      [ [ "solar_cell", 2 ] ],
-      [ [ "canister_empty", 1 ] ]
     ]
   },
   {
@@ -1739,9 +1669,7 @@
       [ [ "exodii_motor", 8 ] ],
       [ [ "gun_module", 3 ] ],
       [ [ "flamethrower", 1 ] ],
-      [ [ "tazer", 1 ] ],
-      [ [ "modular_m4_carbine", 1 ] ],
-      [ [ "pamd68", 1 ] ],
+      [ [ "pamd68", 2 ] ],
       [ [ "power_supply", 20 ] ],
       [ [ "amplifier", 5 ] ],
       [ [ "e_scrap", 50 ] ],
@@ -3417,14 +3345,6 @@
     "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "metal_tank_little", 1 ] ] ]
   },
   {
-    "result": "peeler",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-  },
-  {
     "result": "pot_makeshift_copper",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -3623,7 +3543,7 @@
     "result": "garlic_press",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "scrap", 4 ] ] ]
   },
   {
     "result": "gold_ring",

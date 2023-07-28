@@ -65,5 +65,10 @@
       "fatigue_chance": [ -1.5 ],
       "fatigue_tick": [ -1 ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_OBSOLETE",
+    "effect": [ { "u_message": "This is an obsolete recipe--check your powers", "type": "mixed" } ]
   }
 ]

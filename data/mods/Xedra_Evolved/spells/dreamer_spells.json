@@ -523,9 +523,9 @@
     "effect_str": "EOC_DREAMER_ARTIFACT_SPAWN",
     "shape": "blast",
     "energy_source": "MANA",
-    "base_energy_cost": 1000,
-    "base_casting_time": { "math": [ "spell_time(u_val('time: 2 h'))" ] },
-    "final_casting_time": { "math": [ "spell_time(u_val('time: 2 h'))" ] },
+    "base_energy_cost": 0,
+    "base_casting_time": { "math": [ "spell_time(u_val('time: 10 m'))" ] },
+    "final_casting_time": { "math": [ "spell_time(u_val('time: 10 m'))" ] },
     "spell_class": "DREAMER"
   },
   {
