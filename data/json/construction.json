@@ -4738,7 +4738,7 @@
     "group": "mine_resin_cage",
     "category": "DIG",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "90 m",
+    "time": "70 m",
     "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 2112 ] ] ],
     "activity_level": "EXTRA_EXERCISE",
     "pre_terrain": "t_wall_resin_cage",
