@@ -133,12 +133,79 @@
   {
     "type": "ter_furn_transform",
     "id": "damaged_door",
-    "terrain": [ { "result": "t_door_b", "valid_terrain": [ "t_door_c", "t_door_o", "t_door_locked_interior" ] } ]
+    "//": "Should include the bash result for every wooden door",
+    "terrain": [
+      {
+        "result": "t_door_b",
+        "valid_terrain": [
+          "t_door_c",
+          "t_door_o",
+          "t_door_locked_interior",
+          "t_rdoor_b",
+          "t_door_locked",
+          "t_door_elocked",
+          "t_door_locked_alarm",
+          "t_door_elocked_alarm",
+          "t_door_boarded_damaged"
+        ]
+      },
+      { "result": "t_rdoor_b", "valid_terrain": [ "t_rdoor_c", "t_rdoor_o", "t_rdoor_boarded_damaged" ] },
+      { "result": "t_door_boarded_damaged", "valid_terrain": [ "t_door_boarded" ] },
+      { "result": "t_rdoor_boarded_damaged", "valid_terrain": [ "t_rdoor_boarded" ] },
+      { "result": "t_door_boarded_damaged_peep", "valid_terrain": [ "t_door_boarded_peep" ] },
+      { "result": "t_door_o_peep", "valid_terrain": [ "t_door_elocked_peep" ] },
+      { "result": "t_door_frame", "valid_terrain": [ "t_door_makeshift_c", "t_door_makeshift_o" ] },
+      {
+        "result": "t_door_b_peep",
+        "valid_terrain": [ "t_door_c_peep", "t_door_o_peep", "t_door_locked_peep", "t_door_boarded_damaged_peep" ]
+      },
+      { "result": "t_door_white_b", "valid_terrain": [ "t_door_white_c", "t_door_white_o" ] },
+      { "result": "t_door_gray_b", "valid_terrain": [ "t_door_gray_c", "t_door_gray_o" ] },
+      { "result": "t_door_red_b", "valid_terrain": [ "t_door_red_c", "t_door_red_o" ] },
+      { "result": "t_door_green_b", "valid_terrain": [ "t_door_green_c", "t_door_green_o" ] }
+    ]
   },
   {
     "type": "ter_furn_transform",
     "id": "destroyed_door",
-    "terrain": [ { "result": "t_door_frame", "valid_terrain": [ "t_door_b", "t_door_c", "t_door_o", "t_door_locked_interior" ] } ]
+    "terrain": [
+      {
+        "result": "t_door_frame",
+        "valid_terrain": [
+          "t_door_c",
+          "t_door_o",
+          "t_door_locked_interior",
+          "t_rdoor_b",
+          "t_door_locked",
+          "t_door_elocked",
+          "t_door_locked_alarm",
+          "t_door_elocked_alarm",
+          "t_door_boarded_damaged",
+          "t_door_b",
+          "t_rdoor_c",
+          "t_rdoor_o",
+          "t_rdoor_boarded_damaged",
+          "t_rdoor_b",
+          "t_door_boarded",
+          "t_door_boarded_damaged",
+          "t_rdoor_boarded",
+          "t_rdoor_boarded_damaged",
+          "t_door_boarded_peep",
+          "t_door_boarded_damaged_peep",
+          "t_door_makeshift_c",
+          "t_door_makeshift_o",
+          "t_door_c_peep",
+          "t_door_o_peep",
+          "t_door_locked_peep",
+          "t_door_boarded_damaged_peep",
+          "t_door_b_peep"
+        ]
+      },
+      { "result": "t_door_white_frame", "valid_terrain": [ "t_door_white_c", "t_door_white_o", "t_door_white_b" ] },
+      { "result": "t_door_gray_frame", "valid_terrain": [ "t_door_gray_c", "t_door_gray_o", "t_door_gray_b" ] },
+      { "result": "t_door_red_frame", "valid_terrain": [ "t_door_red_c", "t_door_red_o", "t_door_red_b" ] },
+      { "result": "t_door_green_frame", "valid_terrain": [ "t_door_green_c", "t_door_green_o", "t_door_green_b" ] }
+    ]
   },
   {
     "type": "ter_furn_transform",
