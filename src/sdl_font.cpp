@@ -312,10 +312,13 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
         src_rect.h = dst_rect.h;
     }
 
+    // Copy without altering the source
+    SDL_SetSurfaceBlendMode( sglyph.get(), SDL_BLENDMODE_NONE );
     if( !printErrorIf( SDL_BlitSurface( sglyph.get(), &src_rect, surface.get(), &dst_rect ) != 0,
                        "SDL_BlitSurface failed" ) ) {
         sglyph = std::move( surface );
     }
+    SDL_SetSurfaceBlendMode( sglyph.get(), SDL_BLENDMODE_BLEND );
 
     return CreateTextureFromSurface( renderer, sglyph );
 }
