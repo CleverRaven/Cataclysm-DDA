@@ -743,7 +743,7 @@
     "points": 2,
     "description": "Your flesh has become dense with fat and muscle.  This makes you harder to take down, but also a poor swimmer.",
     "types": [ "BUILD" ],
-    "prereqs": [ "STR_UP_3" ],
+    "prereqs": [ "DENSE_BONES" ],
     "changes_to": [ "BOVINE_BULK2" ],
     "category": [ "CATTLE" ],
     "movecost_modifier": 1.02,
