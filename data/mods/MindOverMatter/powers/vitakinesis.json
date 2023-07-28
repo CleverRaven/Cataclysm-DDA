@@ -106,7 +106,7 @@
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
-    "effect_str": "effect_vita_health_ally",
+    "effect_str": "effect_vita_health",
     "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 3,
