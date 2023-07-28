@@ -5,7 +5,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_basement_palette" ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
       "fill_ter": "t_floor",
       "rows": [
         "^^^^^^^^^^^^^^^^^^^^^^^^",
