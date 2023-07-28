@@ -26,6 +26,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_mine_resin_cage",
+    "group": "mine_resin_cage",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 6 ], [ "survival", 4 ] ],
+    "time": "480 m",
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 2112 ] ] ],
+    "activity_level": "EXTRA_EXERCISE",
+    "pre_terrain": "t_pit",
+    "post_terrain": "t_pit_spiked"
+  },
+  {
+    "type": "construction",
     "id": "constr_crafting_spot",
     "group": "make_crafting_spot",
     "category": "OTHER",
