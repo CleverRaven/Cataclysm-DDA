@@ -4530,7 +4530,7 @@
     "type": "nested_category",
     "activity_level": "fake",
     "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
+    "subcategory": "CSC_WEAPON_PIERCING",
     "name": "estocs",
     "description": "Recipes for making estocs.",
     "skill_used": "fabrication",
@@ -6699,8 +6699,7 @@
       "ankle_wallet_pouch",
       "ragpouch",
       "leather_pouch"
-    ],
-    "difficulty": 5
+    ]
   },
   {
     "id": "nested_cloak",
@@ -6752,7 +6751,7 @@
       "iv_mutagen_batrachian",
       "iv_mutagen_cephalopod"
     ],
-    "difficulty": 8
+    "difficulty": 7
   },
   {
     "id": "nested_mutagen",
@@ -6793,7 +6792,7 @@
       "mutagen_batrachian",
       "mutagen_cephalopod"
     ],
-    "difficulty": 8
+    "difficulty": 7
   },
   {
     "id": "nested_acid",
@@ -6827,6 +6826,62 @@
       "chem_hydrogen_peroxide",
       "chem_hydrogen_peroxide_conc"
     ],
-    "difficulty": 5
+    "difficulty": 2
+  },
+  {
+    "id": "nested_link_sheet",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "name": "chainmail sheets",
+    "description": "Recipes related to making sheets of chainmail of different steel qualities.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "link_sheet_fabrication", "lc_link_sheet", "mc_link_sheet", "hc_link_sheet", "ch_link_sheet", "qt_link_sheet" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_spears",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "name": "spears",
+    "description": "Recipes related to making spears from various materials.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "pointy_stick",
+      "pointy_stick_long",
+      "simple_spear_pipe",
+      "spear_bronze",
+      "spear_copper",
+      "spear_knife",
+      "spear_knife_proper",
+      "spear_knife_superior",
+      "spear_knife_superior_from simple version",
+      "spear_pipe",
+      "spear_rebar",
+      "spear_shaft_sharpened",
+      "spear_spike",
+      "spear_steel",
+      "spear_steel_crude",
+      "spear_stone",
+      "spear_stone_simple",
+      "spear_wood",
+      "spear_wood_simple",
+      "nested_pikes"
+    ]
+  },
+  {
+    "id": "nested_pikes",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "pikes",
+    "description": "Recipes related to constructing pikes from various materials",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "pike", "pike_copper", "pike_wood" ],
+    "difficulty": 3
   }
 ]
