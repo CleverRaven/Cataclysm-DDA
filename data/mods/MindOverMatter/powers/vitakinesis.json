@@ -98,7 +98,7 @@
   {
     "id": "vita_health_power_ally",
     "type": "SPELL",
-    "name": "[Ψ]Revitalizing Touch",
+    "name": "[Ψ]Medicinal Touch",
     "description": "You can apply your Healthy Glow power to a follower or ally.  This can stop an asthma attack.",
     "message": "Your touch your target and they seem to perk up.",
     "valid_targets": [ "ally" ],
