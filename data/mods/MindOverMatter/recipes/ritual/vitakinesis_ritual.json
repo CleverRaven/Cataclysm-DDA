@@ -11,6 +11,7 @@
     "difficulty": 6,
     "time": "5 s",
     "flags": [ "SECRET", "BLIND_EASY" ],
+    "proficiencies": [ { "proficiency": "prof_psionic_ritual", "required": false } ],
     "result_eocs": [
       {
         "id": "EOC_VITAKIN_BANISH_ILLNESS_SELECTOR",

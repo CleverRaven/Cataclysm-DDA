@@ -1,6 +1,6 @@
 [
   {
-    "id": "pyrokin_call_flame_short",
+    "id": "pyrokin_call_flame_short_term",
     "type": "SPELL",
     "name": "[Ψ]Call Flame Short Spell",
     "description": "The spell that summons the flame for Call Flame.  It's a bug if you have it directly.",

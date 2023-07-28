@@ -11,10 +11,12 @@
     "difficulty": 1,
     "time": "10 s",
     "flags": [ "SECRET", "BLIND_EASY" ],
+    "proficiencies": [ { "proficiency": "prof_psionic_ritual", "required": false } ],
     "result_eocs": [
       {
         "id": "EOC_TELEKIN_SUMMON_STRENGTH",
         "effect": [
+          { "u_remove_item_with": "telekin_ritual_summon_strength_item" },
           { "u_cast_spell": { "id": "telekin_ritual_summon_strength" } },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 2,6 )" ] }
         ]
@@ -33,6 +35,7 @@
     "difficulty": 3,
     "time": "5 s",
     "flags": [ "SECRET", "BLIND_EASY" ],
+    "proficiencies": [ { "proficiency": "prof_psionic_ritual", "required": false } ],
     "result_eocs": [
       {
         "id": "EOC_TELEKIN_SUMMON_JACKING_TOOL",

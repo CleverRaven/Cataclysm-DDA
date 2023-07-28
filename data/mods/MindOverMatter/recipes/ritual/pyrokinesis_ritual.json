@@ -11,11 +11,13 @@
     "difficulty": 1,
     "time": "5 s",
     "flags": [ "SECRET", "BLIND_EASY" ],
+    "proficiencies": [ { "proficiency": "prof_psionic_ritual", "required": false } ],
     "result_eocs": [
       {
         "id": "EOC_PYROKIN_SUMMON_FLAME_SHORT",
         "effect": [
-          { "u_cast_spell": { "id": "pyrokin_call_flame_short" } },
+          { "u_remove_item_with": "pyrokinetic_fire_tool" },
+          { "u_cast_spell": { "id": "pyrokin_call_flame_short_term" } },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,3 )" ] }
         ]
       }
@@ -33,11 +35,13 @@
     "difficulty": 2,
     "time": "5 s",
     "flags": [ "SECRET", "BLIND_EASY" ],
+    "proficiencies": [ { "proficiency": "prof_psionic_ritual", "required": false } ],
     "result_eocs": [
       {
         "id": "EOC_PYROKIN_SUMMON_FLAME_LONG",
         "effect": [
-          { "u_cast_spell": { "id": "pyrokin_call_flame_long" } },
+          { "u_remove_item_with": "pyrokinetic_fire_tool" },
+          { "u_cast_spell": { "id": "pyrokin_call_flame_long_term" } },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 3,12 )" ] }
         ]
       }
