@@ -91,11 +91,7 @@
   {
     "type": "vehicle_group",
     "id": "food_trucks",
-    "vehicles": [ 
-      [ "icecream_truck", 10 ],
-      [ "food_truck", 10 ],
-      [ "food_truck_taco", 10 ],
-      [ "wienermobile", 1 ] ]
+    "vehicles": [ [ "icecream_truck", 10 ], [ "food_truck", 10 ], [ "food_truck_taco", 10 ], [ "wienermobile", 1 ] ]
   },
   {
     "type": "vehicle_group",
