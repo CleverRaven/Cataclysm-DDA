@@ -72,11 +72,11 @@
     "components": [ [ [ "seed_bottle_gourd", 3 ] ] ]
   },
   {
-    "result": "soybean",
+    "result": "raw_edamame",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "30 s",
-    "components": [ [ [ "raw_edamame", 1 ] ] ]
+    "components": [ [ [ "soybean", 1 ] ] ]
   },
   {
     "result": "eggplant",

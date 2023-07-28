@@ -216,6 +216,17 @@
     ]
   },
   {
+    "name": "GROUP_MUTANT_PET_DOGS",
+    "type": "monstergroup",
+    "default": "mon_dog_mutant_mongrel",
+    "monsters": [
+      { "monster": "mon_dog_mutant_mongrel", "weight": 7, "cost_multiplier": 0 },
+      { "monster": "mon_dog_mutant_thrasher", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_dog_mutant_mauler", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_dog_mutant_loper", "weight": 1, "cost_multiplier": 0 }
+    ]
+  },
+  {
     "name": "GROUP_PET_CATS",
     "type": "monstergroup",
     "default": "mon_cat",

@@ -3730,6 +3730,17 @@
   },
   {
     "type": "keybinding",
+    "id": "ITEMS_PARENT",
+    "category": "ADVANCED_INVENTORY",
+    "name": "Exit container to parent",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "x" },
+      { "input_method": "keyboard_char", "key": "X" },
+      { "input_method": "keyboard_code", "key": "x", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "ITEMS_WORN",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items currently worn",

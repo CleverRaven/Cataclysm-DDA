@@ -1351,16 +1351,16 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
     SECTION( "pet armor with good physical and environmental protection" ) {
         // Kevlar cat harness, for reasons
         // material:layered_kevlar, thickness:2
-        // 2/3/5 bash/cut/bullet x 2 thickness
+        // 1.5/2/5 bash/cut/bullet x 2 thickness
         // 5/3/10 acid/fire/env
         item meower_armor( "test_meower_armor" );
-        expected_armor_values( meower_armor, 4, 6, 4.8, 10, 5, 3, 10 );
+        expected_armor_values( meower_armor, 3, 4, 3.2, 10, 5, 3, 10 );
 
         CHECK( item_info_str( meower_armor, protection ) ==
                "--\n"
                "<color_c_white>Protection</color>:\n"
-               "  Bash: <color_c_yellow>4.00</color>\n"
-               "  Cut: <color_c_yellow>6.00</color>\n"
+               "  Bash: <color_c_yellow>3.00</color>\n"
+               "  Cut: <color_c_yellow>4.00</color>\n"
                "  Ballistic: <color_c_yellow>10.00</color>\n"
                "  Acid: <color_c_yellow>5.00</color>\n"
                "  Fire: <color_c_yellow>3.00</color>\n"

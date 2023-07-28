@@ -1651,3 +1651,26 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     // Teardown
     player_character.remove_value( var_name );
 }
+
+TEST_CASE( "test_topic_item_mutator", "[npc_talk]" )
+{
+    dialogue d;
+    prep_test( d );
+    Character &player_character = get_avatar();
+    clear_avatar();
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    player_character.inv->add_item( item( itype_bottle_glass ) );
+    CHECK( player_character.has_amount( itype_bottle_glass, 1 ) );
+    d.add_topic( "TALK_TEST_TOPIC_ITEM_MUTATOR" );
+    gen_response_lines( d, 2 );
+    talk_response &chosen = d.responses[0];
+    CHECK( chosen.text == "This is a repeated item bottle_glass test response" );
+    d.add_topic( chosen.success.next_topic );
+    gen_dynamic_line( d );
+    gen_response_lines( d, 1 );
+    chosen = d.responses[0];
+    chosen.success.apply( d );
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "bottle_glass" );
+}
