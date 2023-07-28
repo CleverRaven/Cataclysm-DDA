@@ -303,7 +303,7 @@
     "type": "map_extra",
     "name": { "str": "Clearcut" },
     "description": "Most trees in this area were uniformly cut down.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_clearcut" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_clearcut" },
     "min_max_zlevel": [ 0, 0 ],
     "sym": ".",
     "color": "brown",
