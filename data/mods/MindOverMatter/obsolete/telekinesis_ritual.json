@@ -1,0 +1,32 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "Enhance Strength",
+    "id": "telekin_push_heavy_things",
+    "description": "Focus your powers to allow you move much heavier objects and smash through walls.  The concentration required means you will be unable to engage in combat with any real aptitude while concentrating.\n\n[(d)rop the Enhanced Strength to stop concentrating and regain your combat ability]",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_RITUALS",
+    "skill_used": "metaphysics",
+    "difficulty": 1,
+    "time": "10 s",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "proficiencies": [ { "proficiency": "prof_psionic_ritual", "required": false } ],
+    "result_eocs": [ "EOC_OBSOLETE" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "Vehicular Lifting",
+    "id": "telekin_lift_cars",
+    "description": "Focus your powers to raise a vehicle just enough to change a tire or perform repairs.  As your powers increase, you will be able to lift heavier vehicles.",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_RITUALS",
+    "skill_used": "metaphysics",
+    "difficulty": 3,
+    "time": "5 s",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "proficiencies": [ { "proficiency": "prof_psionic_ritual", "required": false } ],
+    "result_eocs": [ "EOC_OBSOLETE" ]
+  }
+]
