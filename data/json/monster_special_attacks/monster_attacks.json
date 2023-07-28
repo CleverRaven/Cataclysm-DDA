@@ -479,7 +479,8 @@
     "no_dmg_msg_u": "%1$s tries to sting your %2$s, but it fails to penetrate your armor.",
     "no_dmg_msg_npc": "%1$s tries to sting <npcname>, but it fails to penetrate their armor.",
     "dodgeable": true,
-    "blockable": true
+    "blockable": true,
+    "effects_require_organic": true
   },
   {
     "type": "monster_attack",
@@ -497,7 +498,8 @@
     "miss_msg_u": "%1$s tries to sting you, but you dodge!",
     "miss_msg_npc": "%1$s tries to sting <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s's stinger bounces off your %2$s.",
-    "no_dmg_msg_npc": "%1$s tries to sting <npcname>, but it fails to penetrate their armor."
+    "no_dmg_msg_npc": "%1$s tries to sting <npcname>, but it fails to penetrate their armor.",
+    "effects_require_organic": true
   },
   {
     "type": "monster_attack",
