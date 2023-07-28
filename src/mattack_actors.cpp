@@ -963,33 +963,36 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
 {
     melee_actor::on_damage( z, target, dealt );
     add_msg_debug( debugmode::DF_MATTACK, "Bite-type attack, infection chance %d", infection_chance );
+    const bodypart_id &hit = dealt.bp_hit;
 
-    if( x_in_y( infection_chance, 100 ) ) {
-        const bodypart_id &hit = dealt.bp_hit;
-        if( target.has_effect( effect_bite, hit.id() ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Incrementing bitten effect on %s", hit->name );
-            target.add_effect( effect_bite, 40_minutes, hit, true );
-        } else if( target.has_effect( effect_infected, hit.id() ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Incrementing infected effect on %s", hit->name );
-            target.add_effect( effect_infected, 25_minutes, hit, true );
-        } else {
-            add_msg_debug( debugmode::DF_MATTACK, "Added bitten effect to %s", hit->name );
-            target.add_effect( effect_bite, 1_turns, hit, true );
+    // only do bitey things if the limb is fleshy
+    if( !hit->is_cybernetic ) {
+        // first, do regular zombie infections
+        if( x_in_y( infection_chance, 100 ) ) {        
+            if( target.has_effect( effect_bite, hit.id() ) ) {
+                add_msg_debug( debugmode::DF_MATTACK, "Incrementing bitten effect on %s", hit->name );
+                target.add_effect( effect_bite, 40_minutes, hit, true );
+            } else if( target.has_effect( effect_infected, hit.id() ) ) {
+                add_msg_debug( debugmode::DF_MATTACK, "Incrementing infected effect on %s", hit->name );
+                target.add_effect( effect_infected, 25_minutes, hit, true );
+            } else {
+                add_msg_debug( debugmode::DF_MATTACK, "Added bitten effect to %s", hit->name );
+                target.add_effect( effect_bite, 1_turns, hit, true );
+            }
         }
-    }
-
-    // Flag only set for zombies in the deadly_bites mod
-    if( x_in_y( infection_chance, 20 ) ) {
-        if( z.has_flag( mon_flag_DEADLY_VIRUS ) && !target.has_effect( effect_zombie_virus ) ) {
-            target.add_effect( effect_zombie_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
-        } else if( z.has_flag( mon_flag_VAMP_VIRUS ) && !target.has_trait( trait_VAMPIRE ) ) {
-            target.add_effect( effect_vampire_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
+        // Flag only set for zombies in the deadly_bites mod
+        if( x_in_y( infection_chance, 20 ) ) {
+            if( z.has_flag( mon_flag_DEADLY_VIRUS ) && !target.has_effect( effect_zombie_virus ) ) {
+                target.add_effect( effect_zombie_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
+            } else if( z.has_flag( mon_flag_VAMP_VIRUS ) && !target.has_trait( trait_VAMPIRE ) ) {
+                target.add_effect( effect_vampire_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
+            }
         }
-    }
-
-    if( target.has_trait( trait_TOXICFLESH ) ) {
-        z.add_effect( effect_poison, 5_minutes );
-        z.add_effect( effect_badpoison, 5_minutes );
+        // lastly, poison it if we're yucky
+        if( target.has_trait( trait_TOXICFLESH ) ) {
+            z.add_effect( effect_poison, 5_minutes );
+            z.add_effect( effect_badpoison, 5_minutes );
+        }
     }
 }
 
