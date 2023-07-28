@@ -54,8 +54,8 @@
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "vvvvvvvvv((((((vvvvvvvvv",
         "vvvvvvvvv(    (vvvvvvvvv",
-        "vvvvvvvvv( MM (vvvvvvvvv",
-        "vvvvvvvvv( MM (vvvvvvvvv",
+        "vvvvvvvvv(    (vvvvvvvvv",
+        "vvvvvvvvv(    (vvvvvvvvv",
         "vvvvvvvvv(    (vvvvvvvvv",
         "vvvvvvvvv((v(((vvvvvvvvv",
         "vvvvvvvvvvvvvvvvvvvvvvvv",
@@ -69,8 +69,8 @@
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "vvvvvvvvvvvvvvvvvvvvvvvv"
       ],
-      "furniture": { "M": "f_solar_unit" },
-      "palettes": [ "bunker_ext" ]
+      "palettes": [ "bunker_ext" ],
+      "place_nested": { "chunks": [ "null", "lmoe_solar" ], "x": 11, "y": 10 }
     }
   },
   {
