@@ -446,15 +446,15 @@ bool Creature::sees( const Creature &critter ) const
                     break;
             }
 
-            int vision_modifier {0};
-
+            int profile = 120 / size_modifier;
             if( ch->is_crouching() ) {
-                vision_modifier = 30 - 0.5 * coverage * size_modifier;
+                profile *= 0.5;
             } else if( ch->is_prone() ) {
-                vision_modifier = 30 - 0.9 * coverage * size_modifier;
+                profile *= 0.275;
             }
 
-            if( vision_modifier > 1 ) {
+            if( coverage < profile ) {
+                const int vision_modifier = 30 * ( 1 - coverage / profile );
                 return sees( critter.pos(), critter.is_avatar(), vision_modifier ) && visible( ch );
             }
             return false;
