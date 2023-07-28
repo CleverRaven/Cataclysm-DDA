@@ -33,8 +33,8 @@
     "time": "480 m",
     "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 2112 ] ] ],
     "activity_level": "EXTRA_EXERCISE",
-    "pre_terrain": "t_pit",
-    "post_terrain": "t_pit_spiked"
+    "pre_terrain": "t_wall_resin_cage",
+    "post_terrain": "t_floor_resin"
   },
   {
     "type": "construction",
