@@ -480,7 +480,15 @@
       "¤": { "chunks": [ [ "destroyed_furniture", 1 ], [ "null", 9 ] ] },
       "₸": { "chunks": [ [ "destroyed_furniture", 1 ], [ "null", 9 ] ] },
       "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 598 ] ] },
-      " ": { "chunks": [ [ "corpse_blood_1x1", 3 ], [ "corpse_blood_casings_1x1", 1 ], [ "blood_field", 8 ], [ "bile_field", 1 ], [ "null", 387 ] ] }
+      " ": {
+        "chunks": [
+          [ "corpse_blood_1x1", 3 ],
+          [ "corpse_blood_casings_1x1", 1 ],
+          [ "blood_field", 8 ],
+          [ "bile_field", 1 ],
+          [ "null", 387 ]
+        ]
+      }
     }
   },
   {
