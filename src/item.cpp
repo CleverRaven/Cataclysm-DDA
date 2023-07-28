@@ -13192,7 +13192,7 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
         }
     } else {
         // Around 85% efficient by default; a few of the discharges don't actually charge
-        if(  !short_time_passed || rng_float( 0.0, 1.0 ) <= link->efficiency  ) {
+        if( !short_time_passed || rng_float( 0.0, 1.0 ) <= link->efficiency ) {
             const int battery_surplus = linked_veh.charge_battery( transfer_total, true );
             if( battery_surplus == 0 ) {
                 ammo_set( itype_battery, ammo_remaining() - transfer_total );
