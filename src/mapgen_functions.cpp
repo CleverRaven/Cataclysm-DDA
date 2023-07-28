@@ -39,10 +39,6 @@
 
 static const item_group_id Item_spawn_data_field( "field" );
 static const item_group_id Item_spawn_data_forest_trail( "forest_trail" );
-static const item_group_id Item_spawn_data_road( "road" );
-static const item_group_id Item_spawn_data_sewer( "sewer" );
-
-static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 static const oter_str_id oter_forest_thick( "forest_thick" );
 static const oter_str_id oter_forest_trail_end_east( "forest_trail_end_east" );
@@ -55,7 +51,6 @@ static const oter_str_id oter_forest_trail_nsw( "forest_trail_nsw" );
 static const oter_str_id oter_forest_trail_sw( "forest_trail_sw" );
 static const oter_str_id oter_forest_trail_wn( "forest_trail_wn" );
 static const oter_str_id oter_hellmouth( "hellmouth" );
-static const oter_str_id oter_hiway_ew( "hiway_ew" );
 static const oter_str_id oter_rift( "rift" );
 static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
 static const oter_str_id oter_river_c_not_se( "river_c_not_se" );
@@ -67,16 +62,11 @@ static const oter_str_id oter_river_se( "river_se" );
 static const oter_str_id oter_river_south( "river_south" );
 static const oter_str_id oter_river_sw( "river_sw" );
 static const oter_str_id oter_river_west( "river_west" );
-static const oter_str_id oter_road_nesw( "road_nesw" );
-static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
 static const oter_str_id oter_slimepit( "slimepit" );
 static const oter_str_id oter_slimepit_down( "slimepit_down" );
 
 static const oter_type_str_id oter_type_railroad( "railroad" );
 
-static const ter_str_id ter_t_soil( "t_soil" );
-
-static const vspawn_id VehicleSpawn_default_highway( "default_highway" );
 static const vspawn_id VehicleSpawn_default_subway_deadend( "default_subway_deadend" );
 
 class npc_template;
