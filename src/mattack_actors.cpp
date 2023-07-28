@@ -973,7 +973,7 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
     // only do bitey things if the limb is fleshy
     if( !hit->is_cybernetic ) {
         // first, do regular zombie infections
-        if( x_in_y( infection_chance, 100 ) ) {        
+        if( x_in_y( infection_chance, 100 ) ) {
             if( target.has_effect( effect_bite, hit.id() ) ) {
                 add_msg_debug( debugmode::DF_MATTACK, "Incrementing bitten effect on %s", hit->name );
                 target.add_effect( effect_bite, 40_minutes, hit, true );
