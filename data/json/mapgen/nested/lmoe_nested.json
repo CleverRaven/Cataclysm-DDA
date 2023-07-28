@@ -93,6 +93,6 @@
     "object": { "mapgensize": [ 2, 2 ], "rows": [
         "MM",
         "MM"
-      ], "palettes": "roof_pallete" }
+      ], "palettes": [ "roof_palette" ] }
   }
 ]
