@@ -14,7 +14,7 @@ static const oter_str_id oter_sewer_nsw( "sewer_nsw" );
 static const oter_str_id oter_sewer_sw( "sewer_sw" );
 static const oter_str_id oter_sewer_wn( "sewer_wn" );
 
-bool connects_to( const oter_id &there, int dir )
+static bool connects_to( const oter_id &there, int dir )
 {
     switch( dir ) {
         // South
@@ -50,7 +50,6 @@ bool connects_to( const oter_id &there, int dir )
             }
             return false;
         default:
-            debugmsg( "Connects_to with dir of %d", dir );
             return false;
     }
 }
