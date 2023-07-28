@@ -228,7 +228,7 @@
     "type": "map_extra",
     "name": { "str": "Wasp Nest" },
     "description": "Wasp nest is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_house_wasp" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_house_wasp" },
     "min_max_zlevel": [ 0, 10 ],
     "sym": "W",
     "color": "yellow",
