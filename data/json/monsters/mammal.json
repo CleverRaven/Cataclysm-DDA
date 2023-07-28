@@ -113,7 +113,7 @@
     "//": "220 days gestation period, the mother and cubs remain together for 16-17 months.",
     "baby_flags": [ "SPRING" ],
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "CORNERED_FIGHTER" ],
     "armor": { "bash": 2, "electric": 1 }
   },
   {
@@ -273,7 +273,7 @@
     "symbol": "b",
     "color": "brown",
     "aggression": 20,
-    "morale": 40,
+    "morale": 20,
     "aggro_character": false,
     "melee_skill": 5,
     "melee_dice": 2,
@@ -286,11 +286,11 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "path_settings": { "max_dist": 10 },
-    "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED" ],
+    "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "zombify_into": "mon_zpig_brute",
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "CORNERED_FIGHTER" ],
     "armor": { "bash": 2, "cut": 1 }
   },
   {
@@ -781,7 +781,8 @@
       "WARM",
       "PET_WONT_FOLLOW",
       "MILKABLE",
-      "CAN_BE_CULLED"
+      "CAN_BE_CULLED",
+      "CORNERED_FIGHTER"
     ],
     "armor": { "bash": 2, "electric": 1 }
   },
@@ -975,7 +976,8 @@
       "SEES",
       "SMELLS",
       "SWARMS",
-      "WARM"
+      "WARM",
+      "CORNERED_FIGHTER"
     ]
   },
   {
@@ -999,7 +1001,8 @@
     "vision_night": 4,
     "harvest": "dog_small_with_skull",
     "upgrades": { "age_grow": 42, "into": "mon_dog" },
-    "extend": { "flags": [ "NO_BREED" ] }
+    "extend": { "flags": [ "NO_BREED" ] },
+    "delete": { "flags": [ "CORNERED_FIGHTER" ] }
   },
   {
     "id": "mon_dog_bull",
@@ -1034,7 +1037,8 @@
       "PATH_AVOID_DANGER_1",
       "SEES",
       "SMELLS",
-      "WARM"
+      "WARM",
+      "CORNERED_FIGHTER"
     ]
   },
   {
@@ -1106,7 +1110,8 @@
       "PATH_AVOID_DANGER_1",
       "SEES",
       "SMELLS",
-      "WARM"
+      "WARM",
+      "CORNERED_FIGHTER"
     ]
   },
   {
@@ -1183,7 +1188,8 @@
       "SEES",
       "SMELLS",
       "SWARMS",
-      "WARM"
+      "WARM",
+      "CORNERED_FIGHTER"
     ]
   },
   {
@@ -1268,7 +1274,8 @@
       "PATH_AVOID_DANGER_1",
       "SEES",
       "SMELLS",
-      "WARM"
+      "WARM",
+      "CORNERED_FIGHTER"
     ]
   },
   {
@@ -1575,7 +1582,8 @@
       "PATH_AVOID_DANGER_1",
       "SEES",
       "SMELLS",
-      "WARM"
+      "WARM",
+      "CORNERED_FIGHTER"
     ]
   },
   {
@@ -1652,7 +1660,8 @@
       "PATH_AVOID_DANGER_1",
       "SEES",
       "SMELLS",
-      "WARM"
+      "WARM",
+      "CORNERED_FIGHTER"
     ]
   },
   {
@@ -1729,7 +1738,8 @@
       "PATH_AVOID_DANGER_1",
       "SEES",
       "SMELLS",
-      "WARM"
+      "WARM",
+      "CORNERED_FIGHTER"
     ]
   },
   {
@@ -1804,7 +1814,8 @@
       "PATH_AVOID_DANGER_1",
       "SEES",
       "SMELLS",
-      "WARM"
+      "WARM",
+      "CORNERED_FIGHTER"
     ]
   },
   {
@@ -2164,7 +2175,7 @@
     "families": [ "prof_intro_biology" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER" ],
     "armor": { "bash": 4, "cut": 1, "bullet": 1, "electric": 1 }
   },
   {
@@ -2239,7 +2250,7 @@
     "dissect": "dissect_cattle_sample_large",
     "families": [ "prof_intro_biology" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER" ],
     "armor": { "bash": 14, "cut": 1, "bullet": 10, "electric": 1 }
   },
   {
@@ -2434,7 +2445,18 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "zombify_into": "mon_zombie_pig",
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "CAN_BE_CULLED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "PET_MOUNTABLE",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "KEENNOSE",
+      "CAN_BE_CULLED",
+      "CORNERED_FIGHTER"
+    ]
   },
   {
     "id": "mon_rabbit",
@@ -2758,7 +2780,7 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE", "PLAYER_NEAR_BABY" ],
     "zombify_into": "mon_zolf",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "CORNERED_FIGHTER" ],
     "armor": { "bash": 1 }
   },
   {
@@ -2823,7 +2845,7 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 12 },
     "baby_flags": [ "WINTER", "AUTUMN" ],
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER" ],
     "armor": { "electric": 1 }
   },
   {
@@ -2913,7 +2935,18 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE", "CAN_BE_CULLED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "PET_WONT_FOLLOW",
+      "MILKABLE",
+      "CAN_BE_CULLED",
+      "CORNERED_FIGHTER"
+    ]
   },
   {
     "id": "mon_ferret",

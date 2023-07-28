@@ -1490,10 +1490,6 @@ void computer_session::failure_alarm()
     sounds::sound( player_character.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
                    "environment",
                    "alarm" );
-    if( get_map().get_abs_sub().z() > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
-        get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                player_character.get_location() );
-    }
 }
 
 void computer_session::failure_manhacks()

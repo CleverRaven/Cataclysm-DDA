@@ -156,17 +156,15 @@
       {
         "collection": [
           { "group": "harddrugs", "prob": 25 },
-          { "group": "chem_lab", "prob": 60 },
+          { "group": "psi_lab", "prob": 65 },
+          { "item": "lab_postit_psi", "prob": 15 },
           { "group": "electronics", "prob": 40 },
           { "group": "radio", "prob": 15 },
           { "group": "textbooks", "prob": 25 },
           { "group": "feral_humans_crystal_drops_telekin", "prob": 50 },
           { "group": "feral_humans_crystal_drops_teep", "prob": 50 },
-          { "group": "collection_matrix_dust", "prob": 50, "count": [ 1, 3 ] },
-          { "group": "psionic_recipes_beginner", "prob": 45 },
-          { "group": "psionic_recipes_medicine", "prob": 15 },
-          { "group": "psionic_recipes_advanced", "prob": 3 },
-          { "item": "id_science_visitor_phavian", "prob": 15 }
+          { "item": "id_science_visitor_phavian", "prob": 15 },
+          { "group": "collection_force_field_and_note", "prob": 2 }
         ]
       },
       { "group": "wallets_science", "damage": [ 1, 4 ], "prob": 15 }

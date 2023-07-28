@@ -582,16 +582,81 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "sheet_kevlar_layered",
+    "result": "sheet_kevlar_patchwork",
+    "difficulty": 3,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
-    "time": "1 h",
+    "time": "1 h 30 m",
     "autolearn": true,
     "reversible": true,
     "using": [ [ "sewing_kevlar", 15 ] ],
     "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
-    "components": [ [ [ "sheet_kevlar", 16 ] ], [ [ "thread", 30 ] ] ]
+    "components": [ [ [ "kevlar_patch", 8 ] ] ]
+  },
+  {
+    "result": "sheet_kevlar",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "3 h 20 m",
+    "autolearn": true,
+    "book_learn": [ [ "manual_tailor", 4 ], [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ] ],
+    "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "thread_kevlar", 100 ] ] ]
+  },
+  {
+    "result": "sheet_kevlar",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "difficulty": 4,
+    "id_suffix": "spinningwheel",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "batch_time_factors": [ 70, 1 ],
+    "time": "2 h",
+    "book_learn": [ [ "manual_tailor", 4 ], [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_weaving" } ],
+    "tools": [ [ [ "spinwheelitem", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "thread_kevlar", 100 ] ] ]
+  },
+  {
+    "result": "sheet_kevlar",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "difficulty": 4,
+    "id_suffix": "electric_spinwheel",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "batch_time_factors": [ 70, 1 ],
+    "time": "1 h 20 m",
+    "book_learn": [ [ "manual_tailor", 4 ], [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_weaving" } ],
+    "tools": [ [ [ "electric_spinwheel", 200 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "thread_kevlar", 100 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "kevlar_patch",
+    "category": "CC_OTHER",
+    "difficulty": 3,
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "30 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "sewing_kevlar", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
+    "components": [ [ [ "scrap_kevlar", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -1009,7 +1074,7 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" }, { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [
-      [ [ "tongs", -1 ] ],
+      [ [ "metalworking_tongs", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "sheet_metal_small", -1 ], [ "sheet_metal", -1 ] ],
       [ [ "forge", 60 ] ]
@@ -1064,7 +1129,7 @@
     "batch_time_factors": [ 85, 2 ],
     "charges": 5,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "using": [ [ "blacksmithing_scrap", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "FILE", "level": 1 } ],
     "tools": [ [ [ "hotcut", -1 ] ], [ [ "nail", -1 ] ] ],
@@ -1116,7 +1181,7 @@
     "batch_time_factors": [ 90, 2 ],
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 64 ], [ "charcoal", 40 ] ] ]
   },
   {
@@ -1131,7 +1196,7 @@
     "batch_time_factors": [ 90, 2 ],
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 77 ], [ "charcoal", 48 ] ] ]
   },
   {
@@ -1146,7 +1211,7 @@
     "batch_time_factors": [ 90, 2 ],
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 90 ], [ "charcoal", 68 ] ] ]
   },
   {
@@ -1162,7 +1227,7 @@
     "batch_time_factors": [ 90, 2 ],
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 200 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 200 ] ] ],
     "components": [
       [
         [ "hc_steel_lump", 1 ],
