@@ -14,7 +14,6 @@
     "qualities": [ [ "BLOW_HOT_AIR", 1 ] ],
     "use_action": [ { "type": "firestarter", "moves": 30 }, { "type": "HEAT_FOOD" } ],
     "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
-    
   },
   {
     "id": "telekinetic_container_1",
