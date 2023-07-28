@@ -486,8 +486,8 @@
     "flags": [ "SOMATIC", "LOUD" ],
     "min_damage": 1,
     "max_damage": 1,
-    "effect": "spawn_item",
-    "effect_str": "eshaper_hammer",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EARTHSHAPER_UTILITY_MOLDING",
     "shape": "blast",
     "spell_class": "EARTHSHAPER",
     "energy_source": "MANA",
@@ -502,6 +502,130 @@
     "min_duration": 576000,
     "max_duration": 8640000,
     "duration_increment": 576000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_UTILITY_MOLDING",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_EARTHSHAPER_UTILITY_MOLDING_HAMMER",
+          "EOC_EARTHSHAPER_UTILITY_MOLDING_PICKAXE",
+          "EOC_EARTHSHAPER_UTILITY_MOLDING_AXE",
+          "EOC_EARTHSHAPER_UTILITY_MOLDING_KNIFE",
+          "EOC_EARTHSHAPER_UTILITY_MOLDING_SHOVEL"
+        ],
+        "names": [ "Summon Hammer", "Summon Pickaxe", "Summon Axe", "Summon Knife", "Summon Shovel" ],
+        "keys": [ "1", "2", "3", "4", "5" ],
+        "descriptions": [
+          "Transform the living earth into a hammer.",
+          "Transform the living earth into a pickaxe.",
+          "Transform the living earth into an axe.",
+          "Transform the living earth into a knife.",
+          "Transform the living earth into a shovel."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_UTILITY_MOLDING_HAMMER",
+    "effect": [ { "u_cast_spell": { "id": "eshaper_spawn_hammer" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_UTILITY_MOLDING_PICKAXE",
+    "effect": [ { "u_cast_spell": { "id": "eshaper_spawn_pickaxe" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_UTILITY_MOLDING_AXE",
+    "effect": [ { "u_cast_spell": { "id": "eshaper_spawn_axe" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_UTILITY_MOLDING_KNIFE",
+    "effect": [ { "u_cast_spell": { "id": "eshaper_spawn_knife" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_UTILITY_MOLDING_SHOVEL",
+    "effect": [ { "u_cast_spell": { "id": "eshaper_spawn_shovel" } } ]
+  },
+  {
+    "id": "eshaper_spawn_hammer",
+    "type": "SPELL",
+    "name": "Utility Molding (Hammer)",
+    "description": "Spawn the Utility molding hammer.  It's a bug if you have this spell directly.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "eshaper_hammer",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] },
+    "max_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] }
+  },
+  {
+    "id": "eshaper_spawn_pickaxe",
+    "type": "SPELL",
+    "name": "Utility Molding (Pickaxe)",
+    "description": "Spawn the Utility molding pickaxe.  It's a bug if you have this spell directly.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "eshaper_pickaxe",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] },
+    "max_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] }
+  },
+  {
+    "id": "eshaper_spawn_axe",
+    "type": "SPELL",
+    "name": "Utility Molding (Axe)",
+    "description": "Spawn the Utility molding axe.  It's a bug if you have this spell directly.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "eshaper_ax",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] },
+    "max_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] }
+  },
+  {
+    "id": "eshaper_spawn_knife",
+    "type": "SPELL",
+    "name": "Utility Molding (Knife)",
+    "description": "Spawn the Utility molding knife.  It's a bug if you have this spell directly.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "eshaper_knife",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] },
+    "max_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] }
+  },
+  {
+    "id": "eshaper_spawn_shovel",
+    "type": "SPELL",
+    "name": "Utility Molding (Shovel)",
+    "description": "Spawn the Utility molding shovel.  It's a bug if you have this spell directly.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "eshaper_shovel",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] },
+    "max_duration": { "math": [ "( (u_val('spell_level', 'spell: eshaper_spawn_tools') * 576000) + 576000)" ] }
   },
   {
     "id": "eshaper_melee_damage",

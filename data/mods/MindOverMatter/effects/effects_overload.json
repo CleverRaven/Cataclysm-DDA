@@ -30,8 +30,46 @@
       "Simply moving takes almost all of your effort and you have to fight to stay awake.  You've very nearly drained your life away.",
       "Simply moving takes almost all of your effort and you have to fight to stay awake.  You've very nearly drained your life away."
     ],
-    "rating": "bad",
-    "apply_message": "You feel a little tired.  All that psionic channeling is starting to wear you down.",
+    "apply_message": [
+      [ "You feel a little tired.  All that psionic channeling is starting to wear you down.", "bad" ],
+      [ "", "bad" ],
+      [ "", "bad" ],
+      [ "Your breath catches in your lungs.  Use of your powers is really tiring you out.", "bad" ],
+      [ "", "bad" ],
+      [ "", "bad" ],
+      [ "Even standing is an effort.  You've really worn yourself out with all this psionic channeling.", "bad" ],
+      [ "", "bad" ],
+      [
+        "Your muscles ache and your eyes are starting to close on your own.  Constant channeling is draining you dry.",
+        "bad"
+      ],
+      [ "", "bad" ],
+      [
+        "It hurts to move.  It hurts to breathe.  It hurts to think.  You need rest and to stop using your powers.  Now.",
+        "bad"
+      ],
+      [ "", "bad" ]
+    ],
+    "decay_messages": [
+      [ "", "good" ],
+      [ "", "good" ],
+      [
+        "All that's left is a bit of weariness and some slight soreness.  You've almost totally recovered from the aftereffects of drain.",
+        "good"
+      ],
+      [ "", "good" ],
+      [ "", "good" ],
+      [
+        "It's slow but you're recovering.  Some more rest and you'll be ready to use your powers freely again.",
+        "good"
+      ],
+      [ "", "good" ],
+      [ "Your muscles ache less and you feel more energetic.  You must be getting your strength back.", "good" ],
+      [ "", "good" ],
+      [ "", "good" ],
+      [ "", "good" ],
+      [ "", "good" ]
+    ],
     "remove_message": "You take a deep breath as the last of the unnatural tiredness of psionic channeling leaves you.",
     "max_intensity": 12,
     "base_mods": {
@@ -40,6 +78,9 @@
       "stamina_min": [ -5 ],
       "stamina_chance": [ 30 ],
       "stamina_tick": [ 30 ],
+      "health_amount": [ -1 ],
+      "health_chance": [ 200 ],
+      "health_tick": [ 2000 ],
       "hunger_min": [ 1 ],
       "hunger_chance": [ 100 ],
       "hunger_tick": [ 400 ],
@@ -55,6 +96,8 @@
       "stamina_amount": [ -300 ],
       "stamina_min": [ -1 ],
       "stamina_tick": [ -1 ],
+      "health_chance": [ -15 ],
+      "health_tick": [ -165 ],
       "hunger_min": [ 0.6 ],
       "hunger_chance": [ -4 ],
       "hunger_tick": [ -30 ],

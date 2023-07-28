@@ -435,7 +435,7 @@
     "type": "requirement",
     "//": "Crafting Kevlar items, per 26 g of Kevlar; 6 g + excessive weight of material is wasted, producing Kevlar scraps as byproducts.  Time needed is usually 40 minutes per unit if hand-stitching.",
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_kevlar", 1 ] ], [ [ "filament_durable", 6, "LIST" ] ] ]
+    "components": [ [ [ "sheet_kevlar", 1 ], [ "sheet_kevlar_patchwork", 1 ] ], [ [ "filament_durable", 6, "LIST" ] ] ]
   },
   {
     "id": "tailoring_leather",

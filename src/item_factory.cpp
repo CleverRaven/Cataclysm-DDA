@@ -3955,8 +3955,17 @@ static void replace_materials( const JsonObject &jo, itype &def )
         material_id replacement = material_id( jv.get_string() );
 
         units::mass original_weight = def.weight;
-
         int mat_portion = def.materials[to_replace];
+
+        // make repairs_with act the same way
+        if( !def.repairs_with.empty() ) {
+            const auto iter = def.repairs_with.find( to_replace );
+            if( iter != def.repairs_with.end() ) {
+                def.repairs_with.erase( iter );
+                def.repairs_with.insert( replacement );
+            }
+        }
+
         // material is defined
         if( mat_portion != 0 ) {
             double mat_percent = static_cast<double>( mat_portion ) / static_cast<double>
@@ -4056,8 +4065,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "insulation", def.insulation_factor );
     assign( jo, "solar_efficiency", def.solar_efficiency );
     assign( jo, "ascii_picture", def.picture_id );
-
-    optional( jo, false, "repairs_with", def.repairs_with, string_id_reader<material_type>() );
+    assign( jo, "repairs_with", def.repairs_with );
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
@@ -4235,6 +4243,11 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
             JsonObject tmp = jo.get_object( "delete" );
             tmp.allow_omitted_members();
             delete_qualities_from_json( tmp, "qualities", def );
+        }
+        if( jo.has_object( "relative" ) ) {
+            JsonObject tmp = jo.get_object( "relative" );
+            tmp.allow_omitted_members();
+            relative_qualities_from_json( tmp, "qualities", def );
         }
     }
 
@@ -4570,10 +4583,23 @@ void Item_factory::extend_qualities_from_json( const JsonObject &jo, const std::
 void Item_factory::delete_qualities_from_json( const JsonObject &jo, const std::string_view member,
         itype &def )
 {
-    for( JsonArray curr : jo.get_array( member ) ) {
-        const auto iter = def.qualities.find( quality_id( curr.get_string( 0 ) ) );
-        if( iter != def.qualities.end() && iter->second == curr.get_int( 1 ) ) {
+    for( std::string curr : jo.get_array( member ) ) {
+        const auto iter = def.qualities.find( quality_id( curr ) );
+        if( iter != def.qualities.end() ) {
             def.qualities.erase( iter );
+        }
+    }
+}
+
+void Item_factory::relative_qualities_from_json( const JsonObject &jo,
+        const std::string_view member, itype &def )
+{
+    for( JsonArray curr : jo.get_array( member ) ) {
+        const quality_id key = quality_id( curr.get_string( 0 ) );
+        if( def.qualities.find( quality_id( key ) ) != def.qualities.end() ) {
+            def.qualities[ key ] += curr.get_int( 1 );
+        } else {
+            jo.throw_error_at( member, "Quality specified wasn't inherited" );
         }
     }
 }

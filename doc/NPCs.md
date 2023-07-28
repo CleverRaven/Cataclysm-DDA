@@ -1261,6 +1261,7 @@ Mutator Name | Required Keys | Description
 `"ma_technique_description"` | `matec_id`: String or [variable object](#variable-object). | Returns the description of the martial arts tech with ID `matec_id` 
 `"valid_technique`" | `blacklist`: array of String or [variable object](#variable-object). <br/> `crit`: bool <br/> `dodge_counter`: bool <br/> `block_counter`: bool | Returns a random valid technique for the alpha talker to use against the beta talker with the provided specifications.
 `"loc_relative_u"` | `target`: String or [variable object](#variable-object). | target should be a string like "(x,y,z)" where x,y,z are coordinates relative to the player. Returns the abs_ms coordinates as a string (ready to store as a location variable), in the form "(x,y,z)" of the provided point relative to the player. So `"target":"(0,1,0)"` would return the point south of the player.
+`"topic_item"` | | Returns current topic_item as a string. See [Repeat Responses](#repeat-responses)
 
 
 ### Compare Numbers and Arithmetics
@@ -1462,6 +1463,7 @@ _function arguments are `d`oubles (or sub-expressions), `s`trings, or `v`[ariabl
 |----------|------|--------|-------|-------------|
 | armor(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the numerical value for a characters armor on a body part, for a damage type.<br/> Variables are damagetype ID, bodypart ID.<br/> Example:<br/>`"condition": { "math": [ "u_armor('bash', 'torso')", ">=", "5"] }`|  
 | attack_speed()    |  ✅   |   ❌  | u, n  | Return the characters current adjusted attack speed with their current weapon.<br/> Example:<br/>`"condition": { "math": [ "u_attack_speed()", ">=", "10"] }`| 
+| hp_max(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters max amount of hp on a body part.<br/> Variable is bodypart ID.<br/> Example:<br/>`"condition": { "math": [ "u_hp_max('torso')", ">=", "100"] }`|
 | game_option(`s`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Return the numerical value of a game option<br/> Example:<br/>`"condition": { "math": [ "game_option('NPC_SPAWNTIME')", ">=", "5"] }`|
 | monsters_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Return the number of nearby monsters. Takes any number of `s`tring or `v`ariable positional parameters as monster IDs. <br/><br/>Optional kwargs:<br/>`radius`: `d`/`v` - limit to radius (rl_dist)<br/>`location`: `v` - center search on this location<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_monsters_nearby('radius': u_search_radius * 3)", ">", "5" ] }`<br/><br/>`"condition": { "math": [ "monsters_nearby('mon_void_maw', 'mon_void_limb', mon_fotm_var, 'radius': u_search_radius * 3, 'location': u_search_loc)", ">", "5" ] }`|
 | num_input(`s`/`v`,`d`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Prompt the player for a number.<br/> Variables are Prompt text, Default Value:<br/>`"math": [ "u_value_to_set", "=", "num_input('Playstyle Perks Cost?', 4)" ]`|

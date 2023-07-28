@@ -54,6 +54,7 @@
               { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
             ]
           },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -107,6 +108,7 @@
               { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
             ]
           },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -160,6 +162,7 @@
               { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
             ]
           },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -214,6 +217,7 @@
               { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
             ]
           },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -270,6 +274,7 @@
               { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
             ]
           },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -324,6 +329,7 @@
               { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
             ]
           },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
@@ -378,6 +384,7 @@
               { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
             ]
           },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": {
