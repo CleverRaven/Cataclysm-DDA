@@ -4732,7 +4732,7 @@
     "pre_terrain": "t_rock_floor",
     "post_special": "done_mine_downstair"
   },
-   {
+  {
     "type": "construction",
     "id": "constr_mine_resin_cage",
     "group": "mine_resin_cage",
