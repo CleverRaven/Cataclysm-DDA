@@ -7534,7 +7534,7 @@
     "skill_used": "tailor",
     "time": "8 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_kevlar_patchwork", 2 ] ], [ [ "thread_kevlar", 15 ] ] ],
+    "components": [ [ [ "sheet_kevlar_patchwork", 4 ] ], [ [ "thread_kevlar", 20 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
