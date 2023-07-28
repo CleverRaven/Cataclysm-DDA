@@ -193,6 +193,34 @@ std::function<double( dialogue & )> armor_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> effect_intensity_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[effect_id = params[0], bpid = params[1], beta = is_beta( scope )]( dialogue const & d ) {
+        bodypart_id bp( bpid.str( d ) );
+        effect target = d.actor( beta )->get_effect( efftype_id( effect_id.str( d ) ), bp );
+        return target.is_null() ? -1 : target.get_intensity();
+    };
+}
+
+std::function<double( dialogue & )> hp_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[bpid = params[0], beta = is_beta( scope )]( dialogue const & d ) {
+        bodypart_id bp( bpid.str( d ) );
+        return d.actor( beta )->get_cur_hp( bp );
+    };
+}
+
+std::function<void( dialogue &, double )> hp_ass( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [bpid = params[0], beta = is_beta( scope )]( dialogue const & d, double val ) {
+        bodypart_id bp( bpid.str( d ) );
+        d.actor( beta )->set_part_hp_cur( bp, val );
+    };
+}
+
 std::function<double( dialogue & )> hp_max_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -349,6 +377,15 @@ std::function<double( dialogue & )> test_diag( char /* scope */,
             ret += v.dbl( d );
         }
         return ret;
+    };
+}
+
+std::function<double( dialogue & )> warmth_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[bpid = params[0], beta = is_beta( scope )]( dialogue const & d ) {
+        bodypart_id bp( bpid.str( d ) );
+        return d.actor( beta )->get_cur_part_temp( bp );
     };
 }
 
