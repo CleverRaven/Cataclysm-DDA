@@ -12,7 +12,7 @@
     "color": "red",
     "flags": [ "UNBREAKABLE", "ZERO_WEIGHT", "LIGHT_20", "FIRE" ],
     "qualities": [ [ "BLOW_HOT_AIR", 1 ] ],
-    "use_action": [ { "type": "firestarter", "moves": 30 }, {"type": "HEAT_FOOD"} ],
+    "use_action": [ { "type": "firestarter", "moves": 30 }, { "type": "HEAT_FOOD" } ],
     "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
     
   },
