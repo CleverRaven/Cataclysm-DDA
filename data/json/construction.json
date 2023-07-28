@@ -4742,7 +4742,7 @@
     "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ] ] ],
     "activity_level": "EXTRA_EXERCISE",
     "pre_terrain": "t_wall_resin_cage",
-    "post_terrain": "t_floor_resin"
+    "post_terrain": "t_floor_resin",
     "pre_note": "This is a slow, hard process that could be accelerated with power tools. Mi-go structures are dangerously hot -- you'll likely need to take breaks outside.",
   },
   {
@@ -4755,7 +4755,7 @@
     "tools": [ [ [ "jackhammer", 300 ], [ "elec_jackhammer", 3960 ] ] ],
     "activity_level": "EXTRA_EXERCISE",
     "pre_terrain": "t_wall_resin_cage",
-    "post_terrain": "t_floor_resin"
+    "post_terrain": "t_floor_resin",
      "pre_note": "Your power tool is effective at cutting through the resin cage, but it's still a hard process. Mi-go structures are dangerously hot -- you'll likely need to take breaks outside.",
   },
   {
