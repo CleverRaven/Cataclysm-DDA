@@ -1056,6 +1056,11 @@
   },
   {
     "type": "construction_group",
+    "id": "jackhammer_resin_cage",
+    "name": "Jackhammer Resin Cage"
+  },
+  {
+    "type": "construction_group",
     "id": "lay_down_decorative_ground_cable",
     "name": "Lay down decorative ground cable"
   },
