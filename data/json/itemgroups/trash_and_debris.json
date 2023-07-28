@@ -360,5 +360,28 @@
       { "item": "nail", "charges": [ 4, 8 ] },
       { "item": "splinter", "count": 1 }
     ]
+  },
+  {
+    "id": "door_destruction",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "2x4", "count": [ 1, 2 ] },
+      { "item": "nail", "charges": [ 1, 4 ] },
+      { "item": "splinter", "count": [ 1, 4 ] },
+      { "item": "hinge", "count": [ 1, 2 ] },
+      { "group": "door_damage" }
+    ]
+  },
+  {
+    "id": "door_damage",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "2x4", "prob": 25 },
+      { "item": "wood_panel", "prob": 10 },
+      { "item": "splinter", "count": [ 1, 2 ] },
+      { "item": "nail", "charges": [ 0, 2 ] }
+    ]
   }
 ]
