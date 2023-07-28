@@ -358,6 +358,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "uncanny_dodgeable", uncanny_dodgeable, dodgeable );
     optional( obj, was_loaded, "blockable", blockable, true );
     optional( obj, was_loaded, "effects_require_dmg", effects_require_dmg, true );
+    optional( obj, was_loaded, "effects_require_organic", effects_require_organic, false );
     optional( obj, was_loaded, "grab", is_grab, false );
     optional( obj, was_loaded, "range", range, 1 );
     optional( obj, was_loaded, "throw_strength", throw_strength, 0 );
@@ -863,9 +864,11 @@ bool melee_actor::call( monster &z ) const
             for( const mon_effect_data &eff : effects ) {
                 if( x_in_y( eff.chance, 100 ) ) {
                     const bodypart_id affected_bp = eff.affect_hit_bp ? bp_id : eff.bp.id();
-                    target->add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
-                                        eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
-                                                eff.intensity.second ) );
+                    if( !( effects_require_organic && affected_bp->is_cybernetic ) ) {
+                        target->add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
+                                            eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
+                                                    eff.intensity.second ) );
+                    }
                 }
             }
         }
@@ -923,9 +926,11 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     for( const mon_effect_data &eff : effects ) {
         if( x_in_y( eff.chance, 100 ) ) {
             const bodypart_id affected_bp = eff.affect_hit_bp ? bp : eff.bp.id();
-            target.add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
-                               eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
-                                       eff.intensity.second ) );
+            if( !( effects_require_organic && affected_bp->is_cybernetic ) ) {
+                target.add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
+                                   eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
+                                           eff.intensity.second ) );
+            }
         }
     }
 
