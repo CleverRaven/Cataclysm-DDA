@@ -119,7 +119,6 @@
     "description": "A portable radio that is turned on and continually draining its batteries.  It is playing the broadcast being sent from any nearby radio towers.",
     "power_draw": "500 mW",
     "revert_to": "radio",
-
     "use_action": [
       "RADIO_ON",
       { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "5 W" },

@@ -1470,7 +1470,7 @@ class item : public visitable
 
         /**
          * @return The item's maximum possible link length, including extensions. Item doesn't need an active link.
-         * @return `-1` if the item doesn't have a link_up action.
+         * @return `-2` if the item doesn't have a link_up action.
          */
         int max_link_length() const;
 

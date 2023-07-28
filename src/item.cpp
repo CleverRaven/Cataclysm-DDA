@@ -12987,9 +12987,6 @@ int item::max_link_length() const
     int total_length = actor->cable_length != -1 ? actor->cable_length : type->maximum_charges();
 
     for( const item *cable : cables() ) {
-        if( !cable->has_flag( flag_CABLE_SPOOL ) ) {
-            continue;
-        }
         total_length += cable->type->maximum_charges();
     }
 
