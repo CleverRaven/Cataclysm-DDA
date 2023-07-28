@@ -1101,6 +1101,11 @@
   },
   {
     "type": "construction_group",
+    "id": "mine_resin_cage",
+    "name": "Mine Resin Cage"
+  },
+  {
+    "type": "construction_group",
     "id": "mine_upstair",
     "name": "Mine Upstair"
   },
