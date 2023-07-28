@@ -190,8 +190,7 @@
     "bleed_rate": 10,
     "harvest": "triffid_small",
     "dissect": "dissect_arvore",
-    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "HARDTOSHOOT", "GRABS", "SWIMS", "PLASTIC", "WATER_CAMOUFLAGE" ],
-    "armor": { "bash": 18, "electric": 3 }
+    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "HARDTOSHOOT", "GRABS", "SWIMS", "PLASTIC", "WATER_CAMOUFLAGE" ]
   },
   {
     "type": "MONSTER",
