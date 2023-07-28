@@ -7117,7 +7117,7 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
     return ter( obstaclepos )->coverage;
 }
 
-int map::ledge_coverage( const tripoint &loc1, const tripoint &loc2 ) const
+int map::ledge_coverage( const tripoint &loc1, const tripoint &loc2, const creature_size &viewer_size ) const
 {
 	// Find ledge between viewer and target
     // Only the first ledge found is calculated for performance reasons
@@ -7144,6 +7144,25 @@ int map::ledge_coverage( const tripoint &loc1, const tripoint &loc2 ) const
     const float zlevel_to_grid_ratio = 2.0f;
     // Viewer eye level from ground in grids
     float eye_level = 1.0f;
+    switch( viewer_size ) {
+        case creature_size::medium:
+            break;
+        case creature_size::tiny:
+            eye_level = 0.4f;
+            break;
+        case creature_size::small:
+            eye_level = 0.7f;
+            break;
+        case creature_size::large:
+            eye_level = 1.3f;
+            break;
+        case creature_size::huge:
+            eye_level = 1.6f;
+            break;
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Creature has invalid size class." );
+            break;
+    }
     const float dist_to_ledge = rl_dist( loc1, ledge_p ) - 0.5f;
     // Calculate tangent of elevation angle between viewer and ledge
     const double tangent = ( ledge_height * zlevel_to_grid_ratio - eye_level ) / dist_to_ledge;

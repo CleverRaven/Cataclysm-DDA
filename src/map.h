@@ -26,6 +26,7 @@
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
@@ -583,7 +584,7 @@ class map
         * If there's no obstacle adjacent to the target - no coverage.
         */
         int obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const;
-        int ledge_coverage( const tripoint &loc1, const tripoint &loc2 ) const;
+        int ledge_coverage( const tripoint &loc1, const tripoint &loc2, const creature_size &viewer_size = creature_size::medium ) const;
         /**
         * Returns coverage value of the tile.
         */
