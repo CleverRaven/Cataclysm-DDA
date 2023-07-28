@@ -126,7 +126,10 @@
       "vac_mold",
       "vac_sealer",
       "water_purifier",
-      "wire_draw_machine"
+      "wire_draw_machine",
+      "casserole",
+      "tongs",
+      "metalworking_tongs"
     ],
     "item": "veh_tools_abstract",
     "location": "center",

@@ -175,7 +175,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
+    "flags": [ "SINGLE_USE", "NO_SALVAGE", "ROBOFAC_ROBOT_SMALL" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
@@ -476,60 +476,6 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "bot_copbot",
-    "looks_like": "broken_copbot",
-    "type": "TOOL",
-    "name": { "str": "inactive police bot" },
-    "description": "An inactive police robot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the police bot will then identify you as law enforcement, roam around or follow you, and attempt to detain lawbreakers.",
-    "weight": "81500 g",
-    "volume": "62500 ml",
-    "price": 100000,
-    "price_postapoc": 500,
-    "to_hit": -3,
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "light_green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_copbot",
-      "friendly_msg": "The police bot rolls into action, ready to pursue criminals.",
-      "hostile_msg": "A siren howls and lights flash as the police bot prepares to arrest you!",
-      "//": "Wheeled and must be easy-to-use for police deployment",
-      "difficulty": 3,
-      "moves": 100,
-      "skills": [ "electronics", "computer" ]
-    },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
-  },
-  {
-    "id": "bot_eyebot",
-    "looks_like": "broken_eyebot",
-    "type": "TOOL",
-    "name": { "str": "inactive eyebot" },
-    "description": "An inactive eyebot.  Using this item involves turning it on and launching the UAV.  If reprogrammed and rewired successfully, the eyebot will then keep watch for intruders.",
-    "weight": "40750 g",
-    "volume": "30 L",
-    "price": 10000,
-    "price_postapoc": 500,
-    "to_hit": -3,
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "light_green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_eyebot",
-      "friendly_msg": "The eyebot hums and takes to the sky.",
-      "hostile_msg": "The eyebot beeps disapprovingly and focuses its camera on your face.  Say cheese!",
-      "//": "Like most surveillance tech these likely have poor security. Secure the wifi!",
-      "difficulty": 1,
-      "moves": 100,
-      "skills": [ "electronics", "computer" ]
-    },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
-  },
-  {
     "id": "bot_hazmatbot",
     "type": "TOOL",
     "name": { "str": "inactive cleaner bot" },
@@ -583,44 +529,18 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "bot_riotbot",
-    "looks_like": "broken_riotbot",
-    "type": "TOOL",
-    "name": { "str": "inactive riot control bot" },
-    "description": "An inactive riot control bot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the robot will bring order and peace to the horde.",
-    "weight": "81500 g",
-    "volume": "62500 ml",
-    "price": 35000,
-    "price_postapoc": 1500,
-    "to_hit": -3,
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "light_green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_riotbot",
-      "friendly_msg": "The riot control bot rolls into action.",
-      "hostile_msg": "The riot control bot gasses you and approaches with a pair of handcuffs!",
-      "//": "Pretty easy but you want to be careful with the gas",
-      "difficulty": 4,
-      "moves": 150,
-      "skills": [ "electronics", "computer" ]
-    },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
-  },
-  {
     "id": "bot_skitterbot",
     "looks_like": "broken_skitterbot",
     "type": "TOOL",
     "name": { "str": "inactive skitterbot" },
     "description": "An inactive skitterbot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the robot will race towards enemies and shock them.",
-    "weight": "40750 g",
-    "volume": "30 L",
+    "//": "Volume and weight based on Boston Dynamics Spot.",
+    "weight": "32700 g",
+    "volume": "105 L",
     "price": 80000,
-    "price_postapoc": 1000,
+    "price_postapoc": "100 USD",
     "to_hit": -3,
-    "material": [ "steel" ],
+    "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -633,7 +553,35 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
+    "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_MEDIUM" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "bot_robofac_skittergun",
+    "looks_like": "broken_skitterbot",
+    "type": "TOOL",
+    "name": { "str": "inactive exterminatron" },
+    "description": "An inactive Hub 01 exterminatron.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and reloaded successfully, the robot will track you while providing fire-support.",
+    "//": "Volume and weight based on Boston Dynamics Spot.",
+    "volume": "125 L",
+    "weight": "36000 g",
+    "price": 80000,
+    "price_postapoc": "250 USD",
+    "to_hit": -3,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_robofac_skittergun",
+      "friendly_msg": "The exterminator gives a quick bow and starts scanning the horizon for threats.",
+      "hostile_msg": "You misprogram the exterminatron and it trains its gun on you.  RUN!",
+      "//": "Hub tries to make this easy.",
+      "difficulty": 1,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    },
+    "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_MEDIUM" ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -787,7 +735,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ],
+    "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_SMALL" ],
     "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
@@ -971,5 +919,31 @@
     },
     "flags": [ "SINGLE_USE" ],
     "melee_damage": { "bash": 6, "cut": 6 }
+  },
+  {
+    "id": "bot_robofac_camspy",
+    "looks_like": "broken_robofac_camspy",
+    "type": "TOOL",
+    "name": { "str": "inactive camspy", "str_pl": "inactive camspies" },
+    "description": "An inactive camspy.  Using this item involves turning it on and launching it.  If reprogrammed and rewired successfully, the camspy will then keep watch for intruders.",
+    "weight": "40750 g",
+    "volume": "30 L",
+    "price": 10000,
+    "price_postapoc": 500,
+    "to_hit": -3,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_robofac_camspy",
+      "friendly_msg": "The camspy hums and takes to the sky.",
+      "hostile_msg": "The camspy hums and appears to reconnect to whoever was piloting it before.",
+      "difficulty": 3,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    },
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 8 }
   }
 ]

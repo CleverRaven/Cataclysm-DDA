@@ -134,12 +134,9 @@
     "items": [
       [ "schematics_nursebot", 10 ],
       [ "schematics_grocerybot", 20 ],
-      [ "schematics_copbot", 50 ],
-      [ "schematics_eyebot", 50 ],
       [ "schematics_secubot", 50 ],
       [ "schematics_skitterbot", 50 ],
       [ "schematics_hazmatbot", 50 ],
-      [ "schematics_riotbot", 50 ],
       [ "schematics_sciencebot", 10 ],
       [ "schematics_molebot", 20 ],
       [ "schematics_dispatch", 25 ],

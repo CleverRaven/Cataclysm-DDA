@@ -124,8 +124,10 @@
     "revert_to": "radio",
     "use_action": [
       "RADIO_ON",
-      { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "5 W" }
+      { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "5 W" },
+      { "type": "transform", "target": "radio", "menu_text": "Turn off" }
     ],
+    "tick_action": [ "RADIO_TICK" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {

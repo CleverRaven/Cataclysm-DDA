@@ -123,6 +123,7 @@ antihemorrhagic
 antimateriel
 antiparasitic
 antipodes
+antisemitism
 antiseptics
 antlered
 antlion
@@ -236,6 +237,7 @@ bardiche
 barding
 barebones
 barghest
+barleycorn
 barony
 barosaurus
 barotrarumatic
@@ -246,7 +248,6 @@ baselines
 basiliscus
 bassline
 basswood
-barleycorn
 batching
 batlike
 batrachian
@@ -297,6 +298,7 @@ biomancy
 biomaterials
 biomatter
 biome
+biomes
 biomonitor
 bioparts
 bioprinted
@@ -349,6 +351,7 @@ bookplate
 bookstrap
 boomin
 boonie
+booo
 booorrrring
 bootable
 bootup
@@ -433,6 +436,7 @@ camelops
 camphine
 campin
 camptosaurus
+camspies
 camspy
 canadensis
 canid
@@ -599,6 +603,8 @@ conversando
 coolants
 cooldown
 coprocessors
+copyplate
+copyplates
 copywritten
 cordage
 corded
@@ -698,6 +704,8 @@ deathcam
 deathmobile
 deathrattle
 debatably
+debuff
+debuffs
 debugged
 decap
 decelerates
@@ -746,6 +754,7 @@ devs
 dewlap
 dextrous
 dharmachakra
+diaspora
 dieselpunk
 diffract
 diffracting
@@ -842,6 +851,7 @@ dumpsite
 dunderfuck
 duplicator
 duplicators
+dustbunny
 dynamically
 dyoplosaurus
 dysfunctions
@@ -856,6 +866,7 @@ earthbag
 earthbags
 earthlike
 earthshaper
+earthside
 eatbtb
 ebon
 ebook
@@ -1083,6 +1094,7 @@ flyable
 flyin
 foamcrete
 foldable
+folktales
 followup
 foodborne
 foodburger
@@ -1145,6 +1157,7 @@ fwoosh
 fzzzzzt
 g
 gachunk
+gadol
 gaits
 galea
 galena
@@ -1252,8 +1265,8 @@ gunmods
 gunshop
 gunsmithing
 gunsmoke
-gushingly
 gurkha
+gushingly
 gutskin
 guvnah
 gymnocladus
@@ -1284,6 +1297,8 @@ haori
 haplocanthosaurus
 haptic
 hardbound
+hardcover
+hardcovers
 hardhat
 hardpoint
 harmonically
@@ -1384,6 +1399,7 @@ hyperaggressive
 hyperboloid
 hyperboloids
 hyperdimensional
+hyperfocus
 hypergeometric
 hypermedia
 hypervelocity
@@ -1423,6 +1439,8 @@ ineffectively
 inertially
 infamously
 infeme
+infinitree
+infinitrees
 infirma
 influencers
 inhalant
@@ -1459,6 +1477,7 @@ inulin
 inverts
 invlets
 ios
+irising
 ironshod
 irradiance
 irremovable
@@ -1504,6 +1523,7 @@ kart
 karting
 kasaya
 kastane
+katan
 katanas
 katar
 kcal
@@ -1526,10 +1546,11 @@ khru
 kickboard
 kickin
 kickstand
+kilij
+kilijes
+kilijs
 killbasa
 killin
-kilij
-kilijs
 kilns
 kilroy
 kilted
@@ -1643,6 +1664,7 @@ linux
 listlessly
 lithely
 litheness
+liturgies
 livingrooms
 lizardfolk
 lizardlike
@@ -1764,6 +1786,8 @@ methacola
 methodologies
 methothexazole
 metrology
+mezuzah
+mezuzot
 miasaura
 micellular
 microbian
@@ -1809,8 +1833,11 @@ misc
 misjudgements
 misperceive
 misprogram
+misreadings
 misshaped
 misshapened
+mitzvah
+mitzvot
 mixup
 ml
 mm
@@ -1848,6 +1875,8 @@ mosaicus
 mosasaurus
 mostlike
 mostravam
+mote
+motes
 motorpool
 motorsports
 mountable
@@ -2039,6 +2068,7 @@ otherlands
 otherworlds
 oud
 outgrowths
+outperforms
 outputting
 ovata
 overbore
@@ -2234,6 +2264,7 @@ powerplants
 powertool
 prancer
 prateleiras
+prayerbook
 prayeres
 precooked
 predatorially
@@ -2273,6 +2304,7 @@ prototyping
 protuberances
 prybar
 pseudocode
+pseudomagical
 pseudopod
 pseudopods
 pshht
@@ -2326,6 +2358,7 @@ queenright
 quells
 quern
 quetzalcoatlus
+quickheal
 quicksave
 quidem
 quiescent
@@ -2333,6 +2366,7 @@ quillbag
 quipping
 qwerty
 r
+rabbinic
 rabidly
 racketus
 radially
@@ -2665,6 +2699,7 @@ snuggie
 socketed
 socketing
 softcover
+softcovers
 sojourner
 solarpunk
 solderers
@@ -2776,11 +2811,11 @@ stompy
 stompy-clanker
 stonelike
 stoneskin
+stook
+stooking
 stopcock
 stoppered
 stoppeth
-stook
-stooking
 storable
 stormcaller
 stormshaper
@@ -2834,6 +2869,7 @@ superoxide
 superpositional
 supersoldier
 supersoldiers
+superteam
 suppurated
 surcoat
 survivalcraft
@@ -2844,6 +2880,7 @@ swages
 swappable
 swashbucklers
 sweetish
+swipin
 switchgear
 swordmanship
 syde
@@ -2860,6 +2897,7 @@ tadfish
 taegeuk
 taitsu
 takedowns
+tallit
 talwar
 talwars
 tamable
@@ -2884,6 +2922,7 @@ technologist
 technomancer
 technomancy
 techo
+tefillin
 tegmental
 tegwazhi
 teil
@@ -2896,6 +2935,7 @@ tequini
 teravolt
 terpenes
 terranean
+teshuvah
 testbed
 tetradrachm
 tetrahedron
@@ -3165,10 +3205,13 @@ viewport
 viewports
 vikeys
 vinegared
+viny
 viperine
 virginica
 virions
 vises
+vitakinesis
+vitakinetic
 vivarium
 viviparous
 vivisect
@@ -3196,6 +3239,8 @@ wargame
 warhammer
 warhammers
 warmouth
+warpglass
+warpstream
 wasnt
 wastebread
 watchband

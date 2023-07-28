@@ -698,6 +698,7 @@
       "CHITIN",
       "ELECTRORECEPTORS"
     ],
+    "reveal_locale": false,
     "flags": [ "LONE_START" ]
   },
   {

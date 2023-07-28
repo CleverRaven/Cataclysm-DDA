@@ -240,7 +240,8 @@
     "dur_add_perc": 10,
     "int_dur_factor": "9 s",
     "blocks_effects": [
-      "smoke",
+      "smoke_eyes",
+      "smoke_lungs",
       "teargas",
       "boomered",
       "migo_atmosphere",
@@ -660,7 +661,7 @@
     "type": "effect_type",
     "id": "effect_telekinetic_momentum",
     "name": [ "Altered Momentum" ],
-    "desc": [ "Your powers are affecting movement around you." ],
+    "desc": [ "Your powers are affecting movement around you; dangerous objects are slowed and your own speed is increased." ],
     "apply_message": "",
     "remove_message": "Nearby movement returns to normal.",
     "decay_messages": [
@@ -858,6 +859,7 @@
     "dur_add_perc": 10,
     "int_dur_factor": "73 s",
     "blocks_effects": [ "scurvy", "redcells_anemia", "anemia", "toxin_buildup", "common_cold", "flu" ],
+    "removes_effects": [ "asthma" ],
     "base_mods": { "health_min": [ 1 ], "health_chance": [ 50 ], "h_mod_min": [ 2 ], "h_mod_chance": [ 50 ], "healing_rate": [ 2 ] }
   },
   {

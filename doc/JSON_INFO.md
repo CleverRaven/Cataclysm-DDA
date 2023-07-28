@@ -144,6 +144,7 @@ Use the `Home` key to return to the top.
       - [`effects_activated`](#effects_activated)
     - [Software Data](#software-data)
     - [Use Actions](#use-actions)
+    - [Tick Actions](#tick-actions)
       - [Delayed Item Actions](#delayed-item-actions)
     - [Random Descriptions](#random-descriptions)
 - [`json/` JSONs](#json-jsons)
@@ -1090,6 +1091,7 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `social_modifiers`			     | (_optional_) Json object with optional members: persuade, lie, and intimidate which add or subtract that amount from those types of social checks
 | `dispersion_mod`             | (_optional_) Modifier to change firearm dispersion.
 | `activated_on_install`       | (_optional_) Auto-activates this bionic when installed.
+| `required_bionic`       | (_optional_) Bionic which is required to install this bionic, and which cannot be uninstalled if this bionic is installed
 
 ```JSON
 {
@@ -1123,7 +1125,19 @@ mod = min( max, ( limb_score / denominator ) - subtract );
       [ "hand_r", { "bash": 3, "cut": 3, "bullet": 3 } ]
     ],
     "flags": [ "BIONIC_NPC_USABLE" ]
-}
+},
+  {
+    "id": "bio_hydraulics",
+    "type": "bionic",
+    "name": { "str": "Hydraulic Muscles" },
+    "description": "While activated, your muscles will be greatly enhanced, increasing your strength by 20.",
+    "occupied_bodyparts": [ [ "torso", 10 ], [ "arm_l", 8 ], [ "arm_r", 8 ], [ "leg_l", 10 ], [ "leg_r", 10 ] ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "act_cost": "10 kJ",
+    "react_cost": "10 kJ",
+    "time": "1 s",
+    "required_bionic": "bio_weight"
+  }
 ```
 
 Bionics effects are defined in the code and new effects cannot be created through JSON alone.
@@ -1147,6 +1161,7 @@ When adding a new bionic, if it's not included with another one, you must also a
 | `magic_color`       | _(optional)_ Determines which color identifies this damage type when used in spells. (defaults to "black")
 | `derived_from`      | _(optional)_ An array that determines how this damage type should be calculated in terms of armor protection and monster resistance values. The first value is the source damage type and the second value is the modifier applied to source damage type calculations.
 | `onhit_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character hits another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target.
+| `ondamage_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character takes damage from another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target. Also have access to some [context vals](EFFECT_ON_CONDITION#context-variables-for-other-eocs)
 
 ```JSON
   {
@@ -3951,9 +3966,6 @@ The contents of use_action fields can either be a string indicating a built-in f
 },
 "use_action": {
     "type": "explosion", // An item that explodes when it runs out of charges.
-    "sound_volume": 0, // Volume of a sound the item makes every turn.
-    "sound_msg": "Tick.", // Message describing sound the item makes every turn.
-    "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.", // Message to display if the player tries to activate the item, prevents activation from succeeding if defined.
     "explosion": { // Optional: physical explosion data
         // Specified like `"explosion"` field in generic items
     },
@@ -4191,8 +4203,33 @@ The contents of use_action fields can either be a string indicating a built-in f
     "message": "Read this.",// Message that is shown
     "name": "Light fuse"    // Optional name for the action. Default "Activate".
 }
+"use_action": {
+    "type": "sound",         // Makes sound
+    "name": "Turn on"        // Optional name for the action. Default "Activate".
+    "sound_message": "Bzzzz.", // message shown to player if they are able to hear the sound. %s is replaced by item name.
+    "sound_id": "misc"       // ID of the audio to be played. Default "misc". See SOUNDPACKS.md for more details.
+	"sound_variant": "default" // Default "default"
+    "sound_volume": 5        // Loudness of the noise.
+}
+"use_action": {
+    "type": "manualnoise",   // Makes sound. Includes ammo checks and may take moves from player
+    "use_message": "You do the thing" // Shown to player who activated it
+    "noise_message": "Bzzz"  // Shown if player can hear the sound. Default "hsss".
+    "noise_id": "misc"       // ID of the audio to be played. Default "misc". See SOUNDPACKS.md for more details.
+	"noise_variant":         // Default "default"
+    "noise" : 6              // Loudness of the noise. Default 0.
+    "moves" : 40             // How long the action takes. Default 0.
+}
 ```
 
+  ### Tick Actions
+
+`"tick_action"` of active tools is executed once on every turn. This action can be any use action or iuse but some of them may not work properly when not executed by player.
+
+If `"tick_action"` is defined as array of multiple actions they all are executed in order. Multiple use actions of same type cannot be used at once.
+
+On items that do not have `"tick_action"` the `"use_action"` of active tools is executed on every turn. This is only for compatibility with old items and should not be used. This functionality will be removed in future.
+  
 #### Delayed Item Actions
 
 Item use actions can be used with a timer delay.

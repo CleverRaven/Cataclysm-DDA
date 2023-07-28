@@ -961,6 +961,18 @@
     "difficulty": 5
   },
   {
+    "id": "bio_taser",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Super Stun Gun CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A bionic stun gun which implants into the hand.  It is highly powerful, able to easily cause electrical burns and cardiac arrest in targets.  The electricity it generates arcs through the air over short distances, making it nearly impossible to miss, but it still requires the user to be nearly adjacent to their target.",
+    "price": 250000,
+    "price_postapoc": 2000,
+    "weight": "100 g",
+    "difficulty": 3
+  },
+  {
     "id": "bio_teleport",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

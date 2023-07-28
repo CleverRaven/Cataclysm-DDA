@@ -1,0 +1,1188 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_safely_landed",
+    "//": "Called on landing.  Creates the extract mission, the slaughter mission, and two optional missions.",
+    "effect": [
+      {
+        "run_eocs": [ "EOC_create_slaughter", "EOC_create_bonus", "EOC_create_bonus", "EOC_create_extract", "EOC_create_extract" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Random_Loc_Warp",
+    "//": "Picks a random location to warp to based on the player's unlocked difficulty.",
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [ "EOC_Location1w", { "const": 15 } ],
+          [ "EOC_Location2w", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
+          [ "EOC_Location3w", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Random_Loc_Extract",
+    "//": "Picks a random location to place the extract based on the player's unlocked difficulty.",
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [ "EOC_Location1e", { "const": 15 } ],
+          [ "EOC_Location2e", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
+          [ "EOC_Location3e", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Random_Loc_Mission",
+    "//": "Picks a random location to place the missions based on the player's unlocked difficulty.",
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [ "EOC_Location1m", { "const": 15 } ],
+          [ "EOC_Location2m", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
+          [ "EOC_Location3m", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_create_extract",
+    "//": "Actually creates the extract by first choosing a location, then assigning a mission there.  It will also clean up that spot later so the exit room doesn't remain for future expeditions.",
+    "effect": [
+      { "run_eocs": [ "EOC_Random_Loc_Extract" ] },
+      {
+        "revert_location": { "global_val": "OM_missionspot" },
+        "time_in_future": "infinite",
+        "key": "return_portal_close"
+      },
+      { "assign_mission": "MISSION_REACH_EXTRACT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_create_slaughter",
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [ "EOC_slaughtermission1", { "const": 10 } ],
+          [ "EOC_slaughtermission2", { "const": 20 } ],
+          [ "EOC_slaughtermission3", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
+          [ "EOC_slaughtermission4", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
+          [ "EOC_slaughtermission5", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
+          [ "EOC_slaughtermission6", { "const": 5 } ],
+          [ "EOC_slaughtermission7", { "const": 5 } ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_create_bonus",
+    "//": "Actually creates a bonus mission by first choosing a location, then assigning a mission there.  It will also clean up that spot later so any map changes don't remain for future expeditions.",
+    "effect": [
+      { "run_eocs": [ "EOC_Random_Loc_Mission" ] },
+      {
+        "revert_location": { "global_val": "OM_missionspot" },
+        "time_in_future": "infinite",
+        "key": "return_portal_close"
+      },
+      {
+        "weighted_list_eocs": [
+          [ "EOC_bonusmission_1", { "const": 45 } ],
+          [ "EOC_bonusmission_2", { "const": 15 } ],
+          [ "EOC_bonusmission_3", { "const": 10 } ],
+          [ "EOC_bonusmission_4", { "const": 15 } ],
+          [ "EOC_bonusmission_5", { "const": 10 } ],
+          [ "EOC_bonusmission_6", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
+          [ "EOC_bonusmission_7", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
+          [ "EOC_bonusmission_8", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
+          [ "EOC_bonusmission_9", { "global_val": "var", "var_name": "hardestmissions", "default": 0 } ],
+          [ "EOC_bonusmission_12", { "global_val": "var", "var_name": "hardestmissions", "default": 0 } ],
+          [ "EOC_bonusmission_13", { "global_val": "var", "var_name": "hardestmissions", "default": 0 } ],
+          [ "EOC_bonusmission_10", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
+          [ "EOC_bonusmission_11", { "global_val": "var", "var_name": "hardestmissions", "default": 0 } ],
+          [ "EOC_assassinmission1", { "global_val": "var", "var_name": "hardmissions", "default": 0 } ],
+          [ "EOC_assassinmission2", { "global_val": "var", "var_name": "hardermissions", "default": 0 } ],
+          [ "EOC_assassinmission3", { "global_val": "var", "var_name": "hardestmissions", "default": 0 } ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_1",
+    "effect": [ { "assign_mission": "MISSION_BONUS_TREASURE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_2",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_LIGHT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_3",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_HORDE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_4",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_MID" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_5",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_MID_HORDE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_6",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_HARD" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_7",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_ELITE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_8",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_BOSS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_9",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_BOSS_GROUP" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_12",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_BOSS_HORDE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_13",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_BOSS_MULTI" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_10",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_MIGO" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_11",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_MIGO_ELITE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_slaughtermission1",
+    "effect": [ { "assign_mission": "MISSION_BONUS_SLAUGHTER_ZED1" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_slaughtermission2",
+    "effect": [ { "assign_mission": "MISSION_BONUS_SLAUGHTER_ZED2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_slaughtermission3",
+    "effect": [ { "assign_mission": "MISSION_BONUS_SLAUGHTER_ZED3" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_slaughtermission4",
+    "effect": [ { "assign_mission": "MISSION_BONUS_SLAUGHTER_MIGO" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_slaughtermission5",
+    "effect": [ { "assign_mission": "MISSION_BONUS_SLAUGHTER_NETHER" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_slaughtermission6",
+    "effect": [ { "assign_mission": "MISSION_BONUS_SLAUGHTER_BIRD" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_slaughtermission7",
+    "effect": [ { "assign_mission": "MISSION_BONUS_SLAUGHTER_MAMMAL" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_assassinmission1",
+    "effect": [ { "assign_mission": "MISSION_BONUS_ASSASSIN1" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_assassinmission2",
+    "effect": [ { "assign_mission": "MISSION_BONUS_ASSASSIN2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_assassinmission3",
+    "effect": [ { "assign_mission": "MISSION_BONUS_ASSASSIN3" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Location1w",
+    "//": "Picks a random field.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "field",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
+          "min_distance": 200,
+          "z": 0,
+          "random": true
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Location2w",
+    "//": "Picks a random forest.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "forest",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
+          "min_distance": 200,
+          "z": 0,
+          "random": true
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Location3w",
+    "//": "Picks a random house.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "house",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
+          "min_distance": 200,
+          "z": 0,
+          "random": true
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Location1e",
+    "//": "Picks a random field.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "field",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 160,
+          "min_distance": 40,
+          "reveal_radius": 2,
+          "z": 0,
+          "random": true
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Location2e",
+    "//": "Picks a random forest.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "forest",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 160,
+          "min_distance": 40,
+          "reveal_radius": 2,
+          "z": 0,
+          "random": true
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Location3e",
+    "//": "Picks a random house.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "house",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 160,
+          "min_distance": 40,
+          "reveal_radius": 2,
+          "z": 0,
+          "random": true
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Location1m",
+    "//": "Picks a random field.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "field",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 80,
+          "min_distance": 20,
+          "reveal_radius": 2,
+          "z": 0,
+          "random": true
+        }
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "location_difficulty_bonus" }, "=", { "const": 0 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Location2m",
+    "//": "Picks a random forest.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "forest",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 80,
+          "min_distance": 20,
+          "reveal_radius": 2,
+          "z": 0,
+          "random": true
+        }
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "location_difficulty_bonus" }, "=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Location3m",
+    "//": "Picks a random house.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "house",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 80,
+          "min_distance": 2,
+          "reveal_radius": 2,
+          "z": 0,
+          "random": true
+        }
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "location_difficulty_bonus" }, "=", { "const": 2 } ] }
+    ]
+  },
+  {
+    "id": "MISSION_REACH_EXTRACT",
+    "type": "mission_definition",
+    "name": { "str": "Reach one of the exit points!" },
+    "goal": "MGOAL_GO_TO",
+    "description": "If you want to get home with your stuff, you'll need to reach one of these nearby warp points.  They're only things that can bring you back to your sanctuary island in one piece.",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
+      "update_mapgen": { "place_nested": [ { "chunks": [ "mx_exitroom" ], "x": [ 0, 13 ], "y": [ 0, 13 ] } ] }
+    }
+  },
+  {
+    "id": "MISSION_BONUS_TREASURE",
+    "type": "mission_definition",
+    "name": { "str": "Find the warp shards!" },
+    "goal": "MGOAL_GO_TO",
+    "description": "A very small cluster of warp energy has left shards behind at this location.  All you need to do is find and retrieve them.  There may be threats nearby, but unlike most tasks, no special guards are on-site.  A minimal reward, but little risk.",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
+      "update_mapgen": { "place_nested": [ { "chunks": [ "mx_treasuregoal" ], "x": [ 0, 13 ], "y": [ 0, 13 ] } ] }
+    },
+    "end": { "effect": [ { "u_adjust_var": "missionswon", "adjustment": 1 } ] }
+  },
+  {
+    "id": "MISSION_BONUS_KILL_LIGHT",
+    "type": "mission_definition",
+    "name": { "str": "Kill the warp-draining zombies!" },
+    "goal": "MGOAL_KILL_MONSTERS",
+    "description": "A handful of zombies are congregating at a location where warp resonance is high.  Clear them out for a minimal reward of warp shards.",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
+      "update_mapgen": {
+        "place_monster": [
+          { "group": "GROUP_SI_ZOMEASY", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true, "name": "Marked", "repeat": [ 4, 8 ] }
+        ]
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        {
+          "arithmetic": [
+            { "global_val": "var", "var_name": "totalbonus" },
+            "=",
+            { "const": 3 },
+            "+",
+            { "global_val": "var", "var_name": "location_difficulty_bonus" }
+          ]
+        },
+        {
+          "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
+          "type": "mixed"
+        },
+        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_BONUS_KILL_HORDE",
+    "type": "mission_definition",
+    "name": { "str": "Kill the warp-draining horde!" },
+    "goal": "MGOAL_KILL_MONSTERS",
+    "description": "A horde of low level zombies are congregating at a location where warp resonance is high.  Clear them out for a small reward of warp shards.",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
+      "update_mapgen": {
+        "place_monster": [
+          { "group": "GROUP_SI_ZOMEASY", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true, "name": "Marked", "repeat": [ 8, 24 ] }
+        ]
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        {
+          "arithmetic": [
+            { "global_val": "var", "var_name": "totalbonus" },
+            "=",
+            { "const": 4 },
+            "+",
+            { "global_val": "var", "var_name": "location_difficulty_bonus" }
+          ]
+        },
+        {
+          "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
+          "type": "mixed"
+        },
+        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_BONUS_KILL_MID",
+    "type": "mission_definition",
+    "name": { "str": "Kill the warp-draining evolved zombies!" },
+    "goal": "MGOAL_KILL_MONSTERS",
+    "description": "A swarm of evolved zombies are congregating at a location where warp resonance is high.  Clear them out for a medium reward of warp shards.",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
+      "update_mapgen": {
+        "place_monster": [
+          { "group": "GROUP_SI_ZOMEASY", "x": [ 1, 22 ], "y": [ 1, 22 ], "name": "Marked", "target": true, "repeat": [ 0, 4 ] },
+          {
+            "group": "GROUP_SI_ZOMMID",
+            "x": [ 1, 22 ],
+            "y": [ 1, 22 ],
+            "target": true,
+            "name": "Marked",
+            "repeat": [ 3, 8 ]
+          }
+        ]
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        {
+          "arithmetic": [
+            { "global_val": "var", "var_name": "totalbonus" },
+            "=",
+            { "const": 4 },
+            "+",
+            { "global_val": "var", "var_name": "location_difficulty_bonus" }
+          ]
+        },
+        {
+          "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
+          "type": "mixed"
+        },
+        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_BONUS_KILL_MID_HORDE",
+    "type": "mission_definition",
+    "name": { "str": "Kill the warp-draining evolved horde!" },
+    "goal": "MGOAL_KILL_MONSTERS",
+    "description": "A huge horde of evolved zombies are congregating at a location where warp resonance is high.  Clear them out for a large reward of warp shards.",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
+      "update_mapgen": {
+        "place_monster": [
+          { "group": "GROUP_SI_ZOMEASY", "x": [ 1, 22 ], "y": [ 1, 22 ], "name": "Marked", "target": true, "repeat": [ 0, 6 ] },
+          {
+            "group": "GROUP_SI_ZOMMID",
+            "x": [ 1, 22 ],
+            "y": [ 1, 22 ],
+            "target": true,
+            "name": "Marked",
+            "repeat": [ 8, 20 ]
+          }
+        ]
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        {
+          "arithmetic": [
+            { "global_val": "var", "var_name": "totalbonus" },
+            "=",
+            { "const": 5 },
+            "+",
+            { "global_val": "var", "var_name": "location_difficulty_bonus" }
+          ]
+        },
+        {
+          "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
+          "type": "mixed"
+        },
+        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_BONUS_KILL_HARD",
+    "type": "mission_definition",
+    "name": { "str": "Kill the warp-draining fearsome zombies!" },
+    "goal": "MGOAL_KILL_MONSTERS",
+    "description": "A swarm of rather powerful zombies are congregating at a location where warp resonance is high.  Clear them out for a large reward of warp shards.",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
+      "update_mapgen": {
+        "place_monster": [
+          { "group": "GROUP_SI_ZOMEASY", "x": [ 1, 22 ], "y": [ 1, 22 ], "name": "Marked", "target": true, "repeat": [ 0, 4 ] },
+          {
+            "group": "GROUP_SI_ZOMMID",
+            "x": [ 1, 22 ],
+            "y": [ 1, 22 ],
+            "name": "Marked",
+            "target": true,
+            "repeat": [ 0, 2 ]
+          },
+          {
+            "group": "GROUP_SI_ZOMHARD",
+            "x": [ 1, 22 ],
+            "y": [ 1, 22 ],
+            "target": true,
+            "name": "Marked",
+            "repeat": [ 4, 8 ]
+          }
+        ]
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        {
+          "arithmetic": [
+            { "global_val": "var", "var_name": "totalbonus" },
+            "=",
+            { "const": 5 },
+            "+",
+            { "global_val": "var", "var_name": "location_difficulty_bonus" }
+          ]
+        },
+        {
+          "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
+          "type": "mixed"
+        },
+        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_BONUS_KILL_ELITE",
+    "type": "mission_definition",
+    "name": { "str": "Kill the warp-draining elite zombies!" },
+    "goal": "MGOAL_KILL_MONSTERS",
+    "description": "A swarm of extremely dangerous zombies are congregating at a location where warp resonance is high.  Clear them out for a very large reward of warp shards.",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
+      "update_mapgen": {
+        "place_monster": [
+          { "group": "GROUP_SI_ZOMMID", "x": [ 1, 22 ], "y": [ 1, 22 ], "name": "Marked", "target": true, "repeat": [ 0, 2 ] },
+          {
+            "group": "GROUP_SI_ZOMHARD",
+            "x": [ 1, 22 ],
+            "y": [ 1, 22 ],
+            "name": "Marked",
+            "target": true,
+            "repeat": [ 0, 1 ]
+          },
+          {
+            "group": "GROUP_SI_ZOMELITE",
+            "x": [ 1, 22 ],
+            "y": [ 1, 22 ],
+            "target": true,
+            "name": "Marked",
+            "repeat": [ 4, 8 ]
+          }
+        ]
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        {
+          "arithmetic": [
+            { "global_val": "var", "var_name": "totalbonus" },
+            "=",
+            { "const": 8 },
+            "+",
+            { "global_val": "var", "var_name": "location_difficulty_bonus" }
+          ]
+        },
+        {
+          "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
+          "type": "mixed"
+        },
+        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_BONUS_KILL_BOSS",
+    "type": "mission_definition",
+    "name": { "str": "Kill the warp-draining zombie lord!" },
+    "goal": "MGOAL_KILL_MONSTERS",
+    "description": "A single supremely powerful zombie has been found at a location where warp resonance is high.  Destroy it for a very large reward of warp shards.",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
+      "update_mapgen": {
+        "place_monster": [ { "group": "GROUP_SI_ZOMBOSS", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true, "name": "Marked" } ]
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        {
+          "arithmetic": [
+            { "global_val": "var", "var_name": "totalbonus" },
+            "=",
+            { "const": 10 },
+            "+",
+            { "global_val": "var", "var_name": "location_difficulty_bonus" }
+          ]
+        },
+        {
+          "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
+          "type": "mixed"
+        },
+        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_BONUS_KILL_BOSS_MULTI",
+    "type": "mission_definition",
+    "name": { "str": "Kill the warp-draining zombie superteam!" },
+    "goal": "MGOAL_KILL_MONSTERS",
+    "description": "A team of supremely powerful zombies has been found at a location where warp resonance is high.  Destroy it for a very large reward of warp shards.",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
+      "update_mapgen": {
+        "place_monster": [
+          { "group": "GROUP_SI_ZOMBOSS", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true, "name": "Marked", "pack_size": [ 2, 5 ] }
+        ]
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        {
+          "arithmetic": [
+            { "global_val": "var", "var_name": "totalbonus" },
+            "=",
+            { "const": 10 },
+            "+",
+            { "global_val": "var", "var_name": "location_difficulty_bonus" }
+          ]
+        },
+        {
+          "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
+          "type": "mixed"
+        },
+        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_BONUS_KILL_BOSS_GROUP",
+    "type": "mission_definition",
+    "name": { "str": "Kill the warp-draining zombie leader!" },
+    "goal": "MGOAL_KILL_MONSTERS",
+    "description": "A supremely powerful zombie has been found at a location where warp resonance is high.  Be warned that it will be accompanied by an elite swarm!  Destroy them all for a huge reward of warp shards.",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
+      "update_mapgen": {
+        "place_monster": [
+          { "group": "GROUP_SI_ZOMBOSS", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true, "name": "Marked" },
+          {
+            "group": "GROUP_SI_ZOMELITE",
+            "x": [ 1, 22 ],
+            "y": [ 1, 22 ],
+            "target": true,
+            "name": "Marked",
+            "repeat": [ 2, 5 ]
+          }
+        ]
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        {
+          "arithmetic": [
+            { "global_val": "var", "var_name": "totalbonus" },
+            "=",
+            { "const": 12 },
+            "+",
+            { "global_val": "var", "var_name": "location_difficulty_bonus" }
+          ]
+        },
+        {
+          "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
+          "type": "mixed"
+        },
+        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_BONUS_KILL_BOSS_HORDE",
+    "type": "mission_definition",
+    "name": { "str": "Kill the warp-draining zombie horde lord!" },
+    "goal": "MGOAL_KILL_MONSTERS",
+    "description": "A supremely powerful zombie has been found at a location where warp resonance is high.  Be warned that it will be accompanied by an massive horde of weaker zombies!  Destroy them all for a huge reward of warp shards.",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
+      "update_mapgen": {
+        "place_monster": [
+          { "group": "GROUP_SI_ZOMBOSS", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true, "name": "Marked" },
+          {
+            "group": "GROUP_SI_ZOMEASY",
+            "x": [ 1, 22 ],
+            "y": [ 1, 22 ],
+            "target": true,
+            "name": "Marked",
+            "repeat": [ 10, 22 ]
+          }
+        ]
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        {
+          "arithmetic": [
+            { "global_val": "var", "var_name": "totalbonus" },
+            "=",
+            { "const": 12 },
+            "+",
+            { "global_val": "var", "var_name": "location_difficulty_bonus" }
+          ]
+        },
+        {
+          "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
+          "type": "mixed"
+        },
+        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_BONUS_KILL_MIGO",
+    "type": "mission_definition",
+    "name": { "str": "Kill the warp-draining mi-go threat!" },
+    "goal": "MGOAL_KILL_MONSTERS",
+    "description": "A group of lethal mi-gos are draining a location where warp resonance is high.  Destroy them all for a very large reward of warp shards.",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
+      "update_mapgen": {
+        "place_monster": [ { "group": "GROUP_SI_MIGO", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true, "name": "Marked", "repeat": [ 2, 5 ] } ]
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        {
+          "arithmetic": [
+            { "global_val": "var", "var_name": "totalbonus" },
+            "=",
+            { "const": 9 },
+            "+",
+            { "global_val": "var", "var_name": "location_difficulty_bonus" }
+          ]
+        },
+        {
+          "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
+          "type": "mixed"
+        },
+        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_BONUS_KILL_MIGO_ELITE",
+    "type": "mission_definition",
+    "name": { "str": "Kill the warp-draining mi-go overlord!" },
+    "goal": "MGOAL_KILL_MONSTERS",
+    "description": "A group of lethal mi-gos are draining a location where warp resonance is high.  Destroy them all for a very large reward of warp shards.",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
+      "update_mapgen": {
+        "place_monster": [
+          { "group": "GROUP_SI_MIGO", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true, "name": "Marked", "repeat": [ 0, 2 ] },
+          { "group": "GROUP_SI_MIGO_ELITE", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true, "name": "Marked" }
+        ]
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        {
+          "arithmetic": [
+            { "global_val": "var", "var_name": "totalbonus" },
+            "=",
+            { "const": 12 },
+            "+",
+            { "global_val": "var", "var_name": "location_difficulty_bonus" }
+          ]
+        },
+        {
+          "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
+          "type": "mixed"
+        },
+        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_BONUS_ASSASSIN1",
+    "type": "mission_definition",
+    "name": { "str": "Kill the armed interloper!" },
+    "goal": "MGOAL_ASSASSINATE",
+    "description": "The warp has marked a single human being for death.  They will likely carry a ranged weapon.  They will be alone.  Their sins are not your concern.  All you need to know is that it must be done.",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
+      "update_mapgen": { "place_npcs": [ { "class": "bandit", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true } ] }
+    },
+    "end": {
+      "effect": [
+        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        {
+          "arithmetic": [
+            { "global_val": "var", "var_name": "totalbonus" },
+            "=",
+            { "const": 9 },
+            "+",
+            { "global_val": "var", "var_name": "location_difficulty_bonus" }
+          ]
+        },
+        {
+          "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
+          "type": "mixed"
+        },
+        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_BONUS_ASSASSIN2",
+    "type": "mission_definition",
+    "name": { "str": "Kill the interloper!" },
+    "goal": "MGOAL_ASSASSINATE",
+    "description": "The warp has marked a single human being for death.  They will likely carry a melee weapon.  They will be alone.  Their sins are not your concern.  All you need to know is that it must be done.",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
+      "update_mapgen": { "place_npcs": [ { "class": "thug", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true } ] }
+    },
+    "end": {
+      "effect": [
+        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        {
+          "arithmetic": [
+            { "global_val": "var", "var_name": "totalbonus" },
+            "=",
+            { "const": 6 },
+            "+",
+            { "global_val": "var", "var_name": "location_difficulty_bonus" }
+          ]
+        },
+        {
+          "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
+          "type": "mixed"
+        },
+        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_BONUS_ASSASSIN3",
+    "type": "mission_definition",
+    "name": { "str": "Kill the guarded interlopers!" },
+    "goal": "MGOAL_ASSASSINATE",
+    "description": "The warp has marked human beings for death.  They may be accompanied.  Their sins are not your concern.  All you need to know is that it must be done.",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
+      "update_mapgen": {
+        "place_npcs": [
+          { "class": "thug", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 2 ], "target": true },
+          { "class": "bandit", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 0, 1 ], "target": true },
+          { "class": "bandit", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true }
+        ]
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_adjust_var": "missionswon", "adjustment": 1 },
+        {
+          "arithmetic": [
+            { "global_val": "var", "var_name": "totalbonus" },
+            "=",
+            { "const": 12 },
+            "+",
+            { "global_val": "var", "var_name": "location_difficulty_bonus" }
+          ]
+        },
+        {
+          "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
+          "type": "mixed"
+        },
+        { "u_spawn_item": "warptoken", "count": { "global_val": "var", "var_name": "totalbonus", "default": 1 } }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_BONUS_SLAUGHTER_ZED1",
+    "type": "mission_definition",
+    "name": { "str": "Kill 10 Zombies this expedition" },
+    "description": "Zombies have absorbed latent energies which must be released into the stream of warp once more.  Kill at least 10 zombified humans or creatures before returning to your sanctuary for bonus warp shards.",
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "ZOMBIE",
+    "monster_kill_goal": 10,
+    "difficulty": 0,
+    "value": 0,
+    "end": { "effect": [ { "u_adjust_var": "slaughterswon", "adjustment": 1 }, { "u_spawn_item": "warptoken", "count": 1 } ] }
+  },
+  {
+    "id": "MISSION_BONUS_SLAUGHTER_ZED2",
+    "type": "mission_definition",
+    "name": { "str": "Kill 50 Zombies this expedition" },
+    "description": "Zombies have absorbed latent energies which must be released into the stream of warp once more.  Kill at least 50 zombified humans or creatures before returning to your sanctuary for bonus warp shards.",
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "ZOMBIE",
+    "monster_kill_goal": 50,
+    "difficulty": 0,
+    "value": 0,
+    "end": { "effect": [ { "u_adjust_var": "slaughterswon", "adjustment": 1 }, { "u_spawn_item": "warptoken", "count": 3 } ] }
+  },
+  {
+    "id": "MISSION_BONUS_SLAUGHTER_ZED3",
+    "type": "mission_definition",
+    "name": { "str": "Kill 100 Zombies this expedition" },
+    "description": "Zombies have absorbed latent energies which must be released into the stream of warp once more.  Kill at least 100 zombified humans or creatures before returning to your sanctuary for bonus warp shards.",
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "ZOMBIE",
+    "monster_kill_goal": 100,
+    "difficulty": 0,
+    "value": 0,
+    "end": { "effect": [ { "u_adjust_var": "slaughterswon", "adjustment": 1 }, { "u_spawn_item": "warptoken", "count": 5 } ] }
+  },
+  {
+    "id": "MISSION_BONUS_SLAUGHTER_MIGO",
+    "type": "mission_definition",
+    "name": { "str": "Kill a Mi-Go this expedition" },
+    "description": "The mi-go have sucked up latent energies which must be released into the stream of warp once more.  Kill at least one mi-go creature before returning to your sanctuary for bonus warp shards.",
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "MIGO",
+    "monster_kill_goal": 1,
+    "difficulty": 0,
+    "value": 0,
+    "end": { "effect": [ { "u_adjust_var": "slaughterswon", "adjustment": 1 }, { "u_spawn_item": "warptoken", "count": 3 } ] }
+  },
+  {
+    "id": "MISSION_BONUS_SLAUGHTER_NETHER",
+    "type": "mission_definition",
+    "name": { "str": "Kill 3 nether creatures this expedition" },
+    "description": "A rift to another dimension has drained latent energies which must be released into the stream of warp once more.  Kill at least 3 nether-born creatures before returning to your sanctuary for bonus warp shards.",
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "NETHER",
+    "monster_kill_goal": 3,
+    "difficulty": 0,
+    "value": 0,
+    "end": { "effect": [ { "u_adjust_var": "slaughterswon", "adjustment": 1 }, { "u_spawn_item": "warptoken", "count": 4 } ] }
+  },
+  {
+    "id": "MISSION_BONUS_SLAUGHTER_BIRD",
+    "type": "mission_definition",
+    "name": { "str": "Kill 5 un-zombified birds this expedition" },
+    "description": "Are the birds around here…  sparkling?  It seems even the local wildlife has started absorbing latent warp energy.  Kill at least 5 non-zombie birds of any kind before returning to your sanctuary for bonus warp shards.",
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "BIRD",
+    "monster_kill_goal": 5,
+    "difficulty": 0,
+    "value": 0,
+    "end": { "effect": [ { "u_adjust_var": "slaughterswon", "adjustment": 1 }, { "u_spawn_item": "warptoken", "count": 1 } ] }
+  },
+  {
+    "id": "MISSION_BONUS_SLAUGHTER_MAMMAL",
+    "type": "mission_definition",
+    "name": { "str": "Kill 5 un-zombified mammals this expedition" },
+    "description": "Are the critters around here…  sparkling?  It seems even the local wildlife has started absorbing latent warp energy.  Kill at least 5 non-zombie mammals of any kind before returning to your sanctuary for bonus warp shards.",
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "MAMMAL",
+    "monster_kill_goal": 5,
+    "difficulty": 0,
+    "value": 0,
+    "end": { "effect": [ { "u_adjust_var": "slaughterswon", "adjustment": 1 }, { "u_spawn_item": "warptoken", "count": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_exitroom",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "           ",
+        "  -     -  ",
+        " ----D---- ",
+        "--.......--",
+        " -.......- ",
+        " D...X...D ",
+        " -.......- ",
+        "--.......--",
+        " ----D---- ",
+        "  -     -  ",
+        "           "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "D": [ "t_door_c" ], "-": [ "t_wall_r" ], ".": [ "t_carpet_red" ], "X": [ "t_carpet_red" ], "x": [ "t_carpet_red" ] },
+      "furniture": { "X": [ "f_returnportal" ], "D": [ "f_null" ], ".": [ "f_null" ], "x": [ "f_null" ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_treasuregoal",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  x  ",
+        " xxx ",
+        "xxoxx",
+        " xxx ",
+        "  x  "
+      ],
+      "terrain": { "x": [ "t_carpet_green" ], "o": [ "t_carpet_purple" ] },
+      "items": { "o": [ { "item": "warp_mission_goal", "chance": 100 } ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mapgen_dummyplace",
+    "//": "This is a stopgap.  If revert_location is called without a mapgen update, the game crashes.  So this is a blank map update that does nothing but still prevents the crash.  To be removed if the bug gets patched.",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ]
+    }
+  }
+]

@@ -2434,9 +2434,9 @@ std::optional<vpart_reference> vpart_position::part_with_tool( const itype_id &t
         if( vp.part().is_broken() ) {
             continue;
         }
-        const std::map<item, input_event> tools = vehicle().prepare_tools( vp.part() );
+        const std::map<item, int> tools = vehicle().prepare_tools( vp.part() );
         if( std::find_if( tools.begin(), tools.end(),
-        [&tool_type]( const std::pair<const item, input_event> &pair ) {
+        [&tool_type]( const std::pair<const item, int> &pair ) {
         return pair.first.typeId() == tool_type;
         } ) != tools.end() ) {
             return vp;
@@ -2445,16 +2445,16 @@ std::optional<vpart_reference> vpart_position::part_with_tool( const itype_id &t
     return std::optional<vpart_reference>();
 }
 
-std::map<item, input_event> vpart_position::get_tools() const
+std::map<item, int> vpart_position::get_tools() const
 {
-    std::map<item, input_event> res;
+    std::map<item, int> res;
     for( const int part_idx : this->vehicle().parts_at_relative( this->mount(), false ) ) {
         const vehicle_part &vp = this->vehicle().part( part_idx );
         if( vp.is_broken() ) {
             continue;
         }
-        for( const auto &[tool_item, ev] : this->vehicle().prepare_tools( vp ) ) {
-            res[tool_item] = ev;
+        for( const auto &[tool_item, hk] : this->vehicle().prepare_tools( vp ) ) {
+            res[tool_item] = hk;
         }
     }
     return res;
@@ -5593,22 +5593,18 @@ const std::vector<item> &vehicle::get_tools( const vehicle_part &vp ) const
     return vp.tools;
 }
 
-std::map<item, input_event> vehicle::prepare_tools( const vehicle_part &vp ) const
+std::map<item, int> vehicle::prepare_tools( const vehicle_part &vp ) const
 {
-    std::map<item, input_event> res;
+    std::map<item, int> res;
     for( const std::pair<itype_id, int> &pair : vp.info().get_pseudo_tools() ) {
         item it( pair.first, calendar::turn );
-        const input_event ev( pair.second, input_event_t::keyboard_char );
         prepare_tool( it );
-        res.emplace( it, pair.second > 0 ? ev : input_event( -1, input_event_t::error ) );
+        res.emplace( it, pair.second > 0 ? pair.second : -1 );
     }
     for( const item &it_src : vp.tools ) {
         item it( it_src ); // make a copy
-        const input_event ev = it.invlet > 0
-                               ? input_event( it.invlet, input_event_t::keyboard_char )
-                               : input_event();
         prepare_tool( it );
-        res.emplace( it, ev );
+        res.emplace( it, it.invlet > 0 ? it.invlet : 0 );
     }
     return res;
 }

@@ -5112,6 +5112,12 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     insert_separation_line( info );
 
+    if( bid->required_bionic ) {
+        info.emplace_back( "CBM", string_format( "* This CBM requires another CBM to also be installed: %s",
+                           bid->required_bionic->name ) );
+    }
+    insert_separation_line( info );
+
     // TODO refactor these almost identical blocks
     if( !bid->encumbrance.empty() ) {
         info.emplace_back( "DESCRIPTION", _( "<bold>Encumbrance</bold>:" ),
@@ -8493,9 +8499,9 @@ float item::_resist( const damage_type_id &dmg_type, bool to_self, int resist_va
         return _environmental_resist( dmg_type, to_self, resist_value, bp_null, armor_mats );
     }
 
+    std::optional<std::pair<damage_type_id, float>> derived;
     if( !dmg_type->derived_from.first.is_null() ) {
-        return dmg_type->derived_from.second * _resist( dmg_type->derived_from.first, to_self,
-                resist_value, bp_null, armor_mats, avg_thickness );
+        derived = dmg_type->derived_from;
     }
 
     float resist = 0.0f;
@@ -8513,7 +8519,13 @@ float item::_resist( const damage_type_id &dmg_type, bool to_self, int resist_va
                 int internal_roll;
                 resist_value < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = resist_value;
                 if( internal_roll < m->cover ) {
-                    resist += m->id->resist( dmg_type ) * m->thickness;
+                    float tmp_add = 0.f;
+                    if( derived.has_value() && !m->id->has_dedicated_resist( dmg_type ) ) {
+                        tmp_add = m->id->resist( derived->first ) * m->thickness * derived->second;
+                    } else {
+                        tmp_add = m->id->resist( dmg_type ) * m->thickness;
+                    }
+                    resist += tmp_add;
                 }
             }
             return ( resist + mod ) * damage_scale;
@@ -8525,7 +8537,13 @@ float item::_resist( const damage_type_id &dmg_type, bool to_self, int resist_va
     if( !mats.empty() ) {
         const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
         for( const auto &m : mats ) {
-            resist += m.first->resist( dmg_type ) * m.second;
+            float tmp_add = 0.f;
+            if( derived.has_value() && !m.first->has_dedicated_resist( dmg_type ) ) {
+                tmp_add = m.first->resist( derived->first ) * m.second * derived->second;
+            } else {
+                tmp_add = m.first->resist( dmg_type ) * m.second;
+            }
+            resist += tmp_add;
         }
         // Average based portion of materials
         resist /= total;
@@ -8544,6 +8562,11 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
         return std::numeric_limits<float>::max();
     }
 
+    std::optional<std::pair<damage_type_id, float>> derived;
+    if( !dmg_type->derived_from.first.is_null() ) {
+        derived = dmg_type->derived_from;
+    }
+
     float resist = 0.0f;
     float mod = get_clothing_mod_val_for_damage_type( dmg_type );
 
@@ -8551,7 +8574,13 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
         // If we have armour portion materials for this body part, use that instead
         if( !armor_mats.empty() ) {
             for( const part_material *m : armor_mats ) {
-                resist += m->id->resist( dmg_type ) * m->cover * 0.01f;
+                float tmp_add = 0.f;
+                if( derived.has_value() && !m->id->has_dedicated_resist( dmg_type ) ) {
+                    tmp_add = m->id->resist( derived->first ) * m->cover * 0.01f * derived->second;
+                } else {
+                    tmp_add = m->id->resist( dmg_type ) * m->cover * 0.01f;
+                }
+                resist += tmp_add;
             }
             const int env = get_env_resist( base_env_resist );
             if( env < 10 ) {
@@ -8567,7 +8596,13 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
         // Not sure why cut and bash get an armor thickness bonus but acid/fire doesn't,
         // but such is the way of the code.
         for( const auto &m : mats ) {
-            resist += m.first->resist( dmg_type ) * m.second;
+            float tmp_add = 0.f;
+            if( derived.has_value() && !m.first->has_dedicated_resist( dmg_type ) ) {
+                tmp_add = m.first->resist( derived->first ) * m.second * derived->second;
+            } else {
+                tmp_add = m.first->resist( dmg_type ) * m.second;
+            }
+            resist += tmp_add;
         }
         // Average based portion of materials
         resist /= total;
@@ -11804,7 +11839,8 @@ void item::set_item_temperature( units::temperature new_temperature )
 int item::fill_with( const item &contained, const int amount,
                      const bool unseal_pockets,
                      const bool allow_sealed,
-                     const bool ignore_settings )
+                     const bool ignore_settings,
+                     const bool into_bottom )
 {
     if( amount <= 0 ) {
         return 0;
@@ -11848,7 +11884,7 @@ int item::fill_with( const item &contained, const int amount,
             }
         }
 
-        if( !pocket->insert_item( contained_item ).success() ) {
+        if( !pocket->insert_item( contained_item, into_bottom ).success() ) {
             if( count_by_charges ) {
                 debugmsg( "charges per remaining pocket volume does not fit in that very volume" );
             } else {
@@ -13238,13 +13274,10 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }
-        // invoking the object can convert the item to another type
-        const bool had_revert_to = type->revert_to.has_value();
-        type->invoke( carrier, *this, pos );
         if( carrier ) {
             carrier->add_msg_if_player( m_info, _( "The %s ran out of energy!" ), tname() );
         }
-        if( had_revert_to ) {
+        if( type->revert_to.has_value() ) {
             deactivate( carrier );
             return false;
         } else {
