@@ -7516,5 +7516,95 @@
     "time": "45 m",
     "qualities": [ { "id": "WRENCH", "level": 2 } ],
     "components": [ [ [ "alternator_truck", 1 ] ], [ [ "i4_diesel", 1 ] ], [ [ "frame", 1 ] ], [ [ "jerrycan_big", 1 ] ] ]
+  },
+  {
+    "result": "apron_cut_resistant",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_kevlar_patchwork", 6 ] ], [ [ "thread_kevlar", 30 ] ]  ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "armguard_cut_resistant",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "8 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_kevlar_patchwork", 2 ] ], [ [ "thread_kevlar", 15 ] ]  ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "chaps_cut_resistant",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "16 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_kevlar_patchwork", 18 ] ], [ [ "thread_kevlar", 40 ] ]  ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "stab_vest",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "20 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_kevlar_patchwork", 35 ] ], [ [ "thread_kevlar", 75 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "bite_suit",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "60 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_kevlar_patchwork", 200 ] ], [ [ "thread_kevlar", 300 ] ], [ [ "sheet_denim_patchwork", 20 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "motorbike_pants",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_kevlar_patchwork", 3 ] ], [ [ "thread_kevlar", 12 ] ], [ [ "sheet_denim_patchwork", 2 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "bunker_pants",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "32 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_kevlar_patchwork", 14 ] ], [ [ "thread_kevlar", 40 ] ], [ [ "sheet_nomex_patchwork", 16 ] ], [ [ "sheet_lycra_patchwork", 6 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "bunker_coat",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "36 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_kevlar_patchwork", 16 ] ], [ [ "thread_kevlar", 45 ] ], [ [ "sheet_nomex_patchwork", 18 ] ], [ [ "sheet_lycra_patchwork", 6 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "entry_suit",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "45 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_kevlar_patchwork", 25 ] ], [ [ "thread_kevlar", 60 ] ], [ [ "sheet_nomex_patchwork", 32 ] ] ],
+    "flags": [ "BLIND_HARD" ]
   }
 ]
