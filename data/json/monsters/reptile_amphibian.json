@@ -473,7 +473,7 @@
     "armor": { "bash": 4 }
   },
   {
-    "id": "mon_proxy_tadpole",
+    "abstract": "mon_proxy_tadpole",
     "type": "MONSTER",
     "description": "The larval form of some species of frog. Soon enough it will undergo metamorphosis into its adult form.",
     "name": { "str": "tadpole" },
