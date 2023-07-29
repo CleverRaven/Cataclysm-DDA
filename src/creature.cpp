@@ -454,7 +454,7 @@ bool Creature::sees( const Creature &critter ) const
             }
 
             if( coverage < profile ) {
-                const int vision_modifier = 30 * ( 1 - coverage / profile );
+                const int vision_modifier = std::max( 30 * ( 1 - coverage / profile ), 1 );
                 return sees( critter.pos(), critter.is_avatar(), vision_modifier ) && visible( ch );
             }
             return false;
