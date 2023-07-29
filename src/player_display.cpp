@@ -830,12 +830,12 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
             center_print( w_skills, y_pos, c_yellow, type_name );
         } else {
             const SkillLevel &level = you.get_skill_level_object( aSkill->ident() );
-            const bool can_train = level.can_train();
-            const bool training = level.isTraining();
-            const bool skill_gap = level.knowledgeLevel() > level.level();
-            const bool skill_small_gap = level.knowledgeExperience() > level.exercise();
             int exercise = level.knowledgeExperience();
             int level_num = level.knowledgeLevel();
+            const bool can_train = level.can_train();
+            const bool training = level.isTraining();
+            const bool skill_gap = level_num > level.level();
+            const bool skill_small_gap = exercise > level.exercise();
             bool locked = false;
             if( you.has_active_bionic( bio_cqb ) && is_cqb_skill( aSkill->ident() ) ) {
                 level_num = 5;
@@ -851,9 +851,7 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                     cstatus = h_white;
                 } else if( exercise >= 100 ) {
                     cstatus = training ? h_pink : h_magenta;
-                } else if( skill_gap ) {
-                    cstatus = training ? h_light_green : h_green;
-                } else if( skill_small_gap ) {
+                } else if( skill_gap || skill_small_gap ) {
                     cstatus = training ? h_light_cyan : h_cyan;
                 } else {
                     cstatus = training ? h_light_blue : h_blue;
@@ -862,9 +860,7 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
             } else {
                 if( locked ) {
                     cstatus = c_yellow;
-                } else if( skill_gap ) {
-                    cstatus = training ? c_light_green : c_green;
-                } else if( skill_small_gap ) {
+                } else if( skill_gap || skill_small_gap ) {
                     cstatus = training ? c_light_cyan : c_cyan;
                 } else if( !can_train ) {
                     cstatus = c_white;
