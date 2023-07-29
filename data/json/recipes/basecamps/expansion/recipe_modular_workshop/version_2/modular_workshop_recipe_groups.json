@@ -3,9 +3,7 @@
     "type": "recipe_group",
     "id": "fbmw_2_potter_recipes_0",
     "building_type": "SMITH",
-    "recipes": [
-      { "id": "crucible_clay", "description": " Craft: Crucible, Clay" }
-    ]
+    "recipes": [ { "id": "crucible_clay", "description": " Craft: Crucible, Clay" } ]
   },
   {
     "type": "recipe_group",
@@ -54,6 +52,7 @@
     "id": "fbmw_2_blacksmith_recipes_3",
     "building_type": "SMITH",
     "recipes": [
+      { "id": "casting_mold", "description": " Craft: Casting Mold (for metal)" },
       { "id": "copper_knife", "description": " Craft: Knife, Copper" },
       { "id": "sword_crude", "description": " Craft: Sword, Crude" },
       { "id": "pot_copper", "description": " Craft: Pot, Copper" },
@@ -70,6 +69,7 @@
       { "id": "stone_polishing", "description": " Craft: Polishing Stone" },
       { "id": "tongs", "description": " Craft: Pair of kitchen tongs" },
       { "id": "metalworking_tongs", "description": " Craft: Pair of Flatjaw Tongs" },
+      { "id": "metalworking_tongs_casting", "description": " Craft: Pair of Flatjaw Tongs" },
       { "id": "hotcut", "description": " Craft: Hotcut (chisel for metal working)" },
       { "id": "nail", "description": " Craft: Nail" },
       { "id": "wire", "description": " Craft: Wire" },
