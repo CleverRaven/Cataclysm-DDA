@@ -1955,7 +1955,7 @@ bool mattack::fungus_inject( monster *z )
         add_msg( m_bad, _( "The %1$s sinks its point into your %2$s!" ), z->name(),
                  body_part_name_accusative( hit ) );
         // do not fungal infect a bionic limb
-        if( !dam.bp_hit->is_cybernetic && one_in( 10 - dam ) ) {
+        if( !hit->is_cybernetic && one_in( 10 - dam ) ) {
             player_character.add_effect( effect_fungus, 10_minutes, true );
             add_msg( m_warning, _( "You feel thousands of live spores pumping into you…" ) );
         }
@@ -2010,7 +2010,7 @@ bool mattack::fungus_bristle( monster *z )
         target->add_msg_if_player( m_bad, _( "The %1$s sinks several needlelike barbs into your %2$s!" ),
                                    z->name(), body_part_name_accusative( hit ) );
         // no fungal infection if it is a bionic limb
-        if( !dam.bp_hit->is_cybernetic && one_in( 15 - dam ) ) {
+        if( !hit->is_cybernetic && one_in( 15 - dam ) ) {
             target->add_effect( effect_fungus, 20_minutes, true );
             target->add_msg_if_player( m_warning,
                                        _( "You feel thousands of live spores pumping into you…" ) );
@@ -2174,7 +2174,7 @@ bool mattack::fungus_fortify( monster *z )
 
     int dam = player_character.deal_damage( z, hit, dam_inst ).total_damage();
     // no way to pump spores into a cybernetic limb
-    if( !dam.bp_hit->is_cybernetic && dam > 0 ) {
+    if( !hit->is_cybernetic && dam > 0 ) {
         //~ 1$s is monster name, 2$s bodypart in accusative
         add_msg( m_bad, _( "The %1$s sinks its point into your %2$s!" ), z->name(),
                  body_part_name_accusative( hit ) );
