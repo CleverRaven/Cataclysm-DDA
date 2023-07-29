@@ -135,7 +135,7 @@
       "menu_text": "Attach / Manage connections",
       "efficiency": 1.0,
       "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle_port", "vehicle_battery", "vehicle_tow" ],
-      "can_extend": [ "ELECTRICAL_DEVICES" ]
+      "can_extend": [ "ELECTRICAL_DEVICES", "jumper_cable_debug" ]
     }
   }
 ]
