@@ -123,9 +123,9 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "_test_diag_", { "g", -1, test_diag } },
     { "armor", { "un", 2, armor_eval } },
     { "attack_speed", { "un", 0, attack_speed_eval } },
-    { "effect_intensity", { "un", 2, effect_intensity_eval } },
+    { "effect_intensity", { "un", 1, effect_intensity_eval } },
     { "game_option", { "g", 1, option_eval } },
-    { "hp", { "un", 1, hp_eval } },
+    { "hp", { "un", 0, hp_eval } },
     { "hp_max", { "un", 1, hp_max_eval } },
     { "monsters_nearby", { "ung", -1, monsters_nearby_eval } },
     { "num_input", { "g", 2, num_input_eval } },
@@ -138,7 +138,7 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
 };
 
 inline std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
-    { "hp", { "un", 1, hp_ass } },
+    { "hp", { "un", 0, hp_ass } },
     { "pain", { "un", 0, pain_ass } },
     { "skill", { "un", 1, skill_ass } },
     { "spell_exp", { "un", 1, spell_exp_ass}},

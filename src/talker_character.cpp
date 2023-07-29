@@ -947,6 +947,11 @@ void talker_character::set_part_hp_cur( const bodypart_id &id, int set ) const
     me_chr->set_part_hp_cur( id, set );
 }
 
+void talker_character::set_all_parts_hp_cur( int set ) const
+{
+    me_chr->set_all_parts_hp_cur( set );
+}
+
 bool talker_character::get_is_alive() const
 {
     return !me_chr->is_dead_state();
