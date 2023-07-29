@@ -490,7 +490,7 @@ class bodypart
 
         int get_hp_cur() const;
         int get_hp_max() const;
-        int get_hit_size() const;
+        float get_hit_size() const;
         int get_healed_total() const;
         int get_damage_bandaged() const;
         int get_damage_disinfected() const;
