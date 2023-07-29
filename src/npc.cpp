@@ -570,11 +570,18 @@ void npc_template::load( const JsonObject &jsobj )
     if( jsobj.has_string( "snip_wear" ) ) {
         guy.chatbin.snip_wear = jsobj.get_string( "snip_wear" );
     }
-    if( jsobj.has_int( "age" ) ) {
-        guy.set_base_age( jsobj.get_int( "age" ) );
-    }
-    if( jsobj.has_int( "height" ) ) {
-        guy.set_base_height( jsobj.get_int( "height" ) );
+    jsobj.read( "age", tem.age );
+    jsobj.read( "height", tem.height );
+    jsobj.read( "str", tem.str );
+    jsobj.read( "dex", tem.dex );
+    jsobj.read( "int", tem.intl );
+    jsobj.read( "per", tem.per );
+    if( jsobj.has_object( "personality" ) ) {
+        const JsonObject personality = jsobj.get_object( "personality" );
+        personality.read( "aggression", tem.personality.aggression );
+        personality.read( "bravery", tem.personality.bravery );
+        personality.read( "collector", tem.personality.collector );
+        personality.read( "altruism", tem.personality.altruism );
     }
     for( JsonValue jv : jsobj.get_array( "death_eocs" ) ) {
         guy.death_eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
@@ -640,7 +647,7 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
 
     idz = tguy.idz;
     myclass = npc_class_id( tguy.myclass );
-    randomize( myclass );
+    randomize( myclass, ident );
     if( tem.gender_override != npc_template::gender::random ) {
         male = tem.gender_override == npc_template::gender::male;
     }
@@ -749,7 +756,7 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
 
 npc::~npc() = default;
 
-void npc::randomize( const npc_class_id &type )
+void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
 {
     if( !getID().is_valid() ) {
         setID( g->assign_npc_id() );
@@ -765,6 +772,46 @@ void npc::randomize( const npc_class_id &type )
     mission = NPC_MISSION_NULL;
     male = one_in( 2 );
     pick_name();
+    randomize_height();
+    set_base_age( rng( 18, 55 ) );
+    str_max = dice( 4, 3 );
+    dex_max = dice( 4, 3 );
+    int_max = dice( 4, 3 );
+    per_max = dice( 4, 3 );
+
+    if( tem_id.is_valid() ) {
+        const npc_template &tem = tem_id.obj();
+        if( tem.personality.aggression != npc_template::random ) {
+            personality.aggression = tem.personality.aggression;
+        }
+        if( tem.personality.bravery != npc_template::random ) {
+            personality.bravery = tem.personality.bravery;
+        }
+        if( tem.personality.collector != npc_template::random ) {
+            personality.collector = tem.personality.collector;
+        }
+        if( tem.personality.altruism != npc_template::random ) {
+            personality.altruism = tem.personality.altruism;
+        }
+        if( tem.str != npc_template::random ) {
+            str_max = tem.str;
+        }
+        if( tem.dex != npc_template::random ) {
+            dex_max = tem.dex;
+        }
+        if( tem.intl != npc_template::random ) {
+            int_max = tem.intl;
+        }
+        if( tem.per != npc_template::random ) {
+            per_max = tem.per;
+        }
+        if( tem.height != npc_template::random ) {
+            set_base_height( tem.height );
+        }
+        if( tem.age != npc_template::random ) {
+            set_base_age( tem.age );
+        }
+    }
 
     if( !type.is_valid() ) {
         debugmsg( "Invalid NPC class %s", type.c_str() );
@@ -776,10 +823,10 @@ void npc::randomize( const npc_class_id &type )
     }
 
     const npc_class &the_class = myclass.obj();
-    str_max = the_class.roll_strength();
-    dex_max = the_class.roll_dexterity();
-    int_max = the_class.roll_intelligence();
-    per_max = the_class.roll_perception();
+    str_max += the_class.roll_strength();
+    dex_max += the_class.roll_dexterity();
+    int_max += the_class.roll_intelligence();
+    per_max += the_class.roll_perception();
 
     for( Skill &skill : Skill::skills ) {
         int level = myclass->roll_skill( skill.ident() );
@@ -841,7 +888,6 @@ void npc::randomize( const npc_class_id &type )
 
     set_body();
     recalc_hp();
-    randomize_height();
     int days_since_cata = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
     double time_influence = days_since_cata >= 180 ? 3.0 : 6.0 - 3.0 * days_since_cata / 180.0;
     double weight_percent = std::clamp<double>( chi_squared_roll( time_influence ) / 5.0,
@@ -888,8 +934,6 @@ void npc::randomize( const npc_class_id &type )
             sp.gain_level( *this );
         }
     }
-
-    set_base_age( rng( 18, 55 ) );
 
     // Add eocs
     effect_on_conditions::load_new_character( *this );

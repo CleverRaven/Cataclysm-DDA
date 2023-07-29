@@ -781,7 +781,8 @@ class npc : public Character
         void npc_dismount();
         weak_ptr_fast<monster> chosen_mount;
         // Generating our stats, etc.
-        void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
+        void randomize( const npc_class_id &type = npc_class_id::NULL_ID(),
+                        const npc_template_id &tem_id = npc_template_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
         void apply_ownership_to_inv();
         void learn_ma_styles_from_traits();
@@ -1438,7 +1439,12 @@ class standard_npc : public npc
 class npc_template
 {
     public:
-        npc_template() = default;
+        npc_template() {
+            personality.aggression = random;
+            personality.bravery = random;
+            personality.collector = random;
+            personality.altruism = random;
+        }
 
         npc guy;
         translation name_unique;
@@ -1449,6 +1455,14 @@ class npc_template
             female
         };
         gender gender_override = gender::random;
+        static constexpr int random = INT_MIN;
+        int age = random;
+        int height = random;
+        int str = random;
+        int dex = random;
+        int intl = random;
+        int per = random;
+        npc_personality personality;
 
         static void load( const JsonObject &jsobj );
         static void reset();
