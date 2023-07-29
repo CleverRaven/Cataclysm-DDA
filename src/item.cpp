@@ -223,6 +223,8 @@ static const std::string flag_BLACKPOWDER_FOULING_DAMAGE( "BLACKPOWDER_FOULING_D
 // item pricing
 static const int PRICE_FILTHY_MALUS = 100;  // cents
 
+static constexpr float MIN_LINK_EFFICIENCY = 0.001f;
+
 class npc_class;
 
 using npc_class_id = string_id<npc_class>;
@@ -10402,7 +10404,7 @@ int item::ammo_remaining( const Character *carrier, const bool include_linked ) 
     }
 
     // Cable connections
-    if( include_linked && link_length() >= 0 && link->efficiency >= 0.001f ) {
+    if( include_linked && link_length() >= 0 && link->efficiency >= MIN_LINK_EFFICIENCY ) {
         if( link->t_veh_safe ) {
             ret += link->t_veh_safe->connected_battery_power_level().first;
         } else {
@@ -10590,7 +10592,7 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
 
     // Consume power from appliances/vehicles connected with cables
     if( link ) {
-        if( link->t_veh_safe && link->efficiency >= 0.001f ) {
+        if( link->t_veh_safe && link->efficiency >= MIN_LINK_EFFICIENCY ) {
             qty = link->t_veh_safe->discharge_battery( qty, true );
         } else {
             const optional_vpart_position vp = get_map().veh_at( link->t_abs_pos );
@@ -12951,7 +12953,7 @@ void item::set_link_traits()
     const link_up_actor *it_actor = static_cast<const link_up_actor *>
                                     ( get_use( "link_up" )->get_actor_ptr() );
     link->max_length = it_actor->cable_length == -1 ? type->maximum_charges() : it_actor->cable_length;
-    link->efficiency = it_actor->efficiency;
+    link->efficiency = it_actor->efficiency < MIN_LINK_EFFICIENCY ? 0.0f : link->efficiency;
     // Reset s_bub_pos to force the item to check the length during process_link.
     link->s_bub_pos = tripoint_min;
 
@@ -12963,14 +12965,15 @@ void item::set_link_traits()
                                      ( cable->get_use( "link_up" )->get_actor_ptr() );
         link->max_length += actor->cable_length == -1 ? cable->type->maximum_charges() :
                             actor->cable_length;
-        link->efficiency = link->efficiency < 0.001f ? 0.0f : link->efficiency * actor->efficiency;
+        link->efficiency = link->efficiency < MIN_LINK_EFFICIENCY ? 0.0f :
+                           link->efficiency * actor->efficiency;
     }
 }
 
 int item::link_length() const
 {
-    return !link ||
-           link->has_no_links() ? -2 : link->has_state( link_state::needs_reeling ) ? -1 : link->length;
+    return !link || link->has_no_links() ? -2 :
+           link->has_state( link_state::needs_reeling ) ? -1 : link->length;
 }
 
 int item::max_link_length() const
@@ -13161,7 +13164,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     if( !is_cable_item ) {
         int power_draw = 0;
 
-        if( link->efficiency < 0.001f ) {
+        if( link->efficiency < MIN_LINK_EFFICIENCY ) {
             return false;
         }
         // Recharge or charge linked batteries
@@ -13187,7 +13190,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
 int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
 {
     if( link->charge_rate == 0 || turns_elapsed < 1 ||
-        link->charge_interval < 1 || link->efficiency < 0.001f ) {
+        link->charge_interval < 1 || link->efficiency < MIN_LINK_EFFICIENCY ) {
         return link->charge_rate;
     }
 
