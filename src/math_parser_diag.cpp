@@ -196,40 +196,45 @@ std::function<double( dialogue & )> armor_eval( char scope,
 std::function<double( dialogue & )> effect_intensity_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    bodypart_id bp = bodypart_str_id::NULL_ID();
+    diag_value bp_val( std::string{} );
     if( kwargs.count( "bodypart" ) != 0 ) {
-        bp = bodypart_str_id( kwargs.at( "bodypart" )->str() );
+        bp_val = *kwargs.at( "bodypart" );
     }
-    return[effect_id = params[0], bp, beta = is_beta( scope )]( dialogue const & d ) {
+    return[effect_id = params[0], bp_val, beta = is_beta( scope )]( dialogue const & d ) {
+        std::string const bp_str = bp_val.str( d );
+        bodypart_id const bp = bp_str.empty() ? bodypart_str_id::NULL_ID() : bodypart_id( bp_str );
         effect target = d.actor( beta )->get_effect( efftype_id( effect_id.str( d ) ), bp );
         return target.is_null() ? -1 : target.get_intensity();
     };
 }
 
 std::function<double( dialogue & )> hp_eval( char scope,
-        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    bodypart_id bp = bodypart_str_id::NULL_ID();
-    if( kwargs.count( "bodypart" ) != 0 ) {
-        bp = bodypart_str_id( kwargs.at( "bodypart" )->str() );
+    diag_value bp_val( std::string{} );
+    if( !params.empty() ) {
+        bp_val = params[0];
     }
-    return[bp, beta = is_beta( scope )]( dialogue const & d ) {
+    return[bp_val, beta = is_beta( scope )]( dialogue const & d ) {
+        std::string const bp_str = bp_val.str( d );
+        bodypart_id const bp = bp_str.empty() ? bodypart_str_id::NULL_ID() : bodypart_id( bp_str );
         return d.actor( beta )->get_cur_hp( bp );
     };
 }
 
 std::function<void( dialogue &, double )> hp_ass( char scope,
-        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    bodypart_id bp = bodypart_str_id::NULL_ID();
-    if( kwargs.count( "bodypart" ) != 0 ) {
-        bp = bodypart_str_id( kwargs.at( "bodypart" )->str() );
+    diag_value bp_val( std::string{} );
+    if( !params.empty() ) {
+        bp_val = params[0];
     }
-    return [bp, beta = is_beta( scope )]( dialogue const & d, double val ) {
-        if( bp == bodypart_str_id::NULL_ID() ) {
+    return [bp_val, beta = is_beta( scope )]( dialogue const & d, double val ) {
+        std::string const bp_str = bp_val.str( d );
+        if( bp_str.empty() ) {
             d.actor( beta )->set_all_parts_hp_cur( val );
         } else {
-            d.actor( beta )->set_part_hp_cur( bp, val );
+            d.actor( beta )->set_part_hp_cur( bodypart_id( bp_str ), val );
         }
     };
 }
