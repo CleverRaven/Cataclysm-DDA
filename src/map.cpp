@@ -7119,7 +7119,7 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
 
 int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p, const creature_size &viewer_size ) const
 {
-    if (viewer_p.z <= target_p.z) {
+    if (viewer_p.z >= target_p.z) {
     	return 0;
     }
 
