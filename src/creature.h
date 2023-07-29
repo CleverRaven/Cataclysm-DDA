@@ -19,6 +19,7 @@
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
+#include "field_type.h"
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "talker.h"
@@ -53,7 +54,7 @@ class time_duration;
 struct point;
 struct tripoint;
 
-enum m_flag : int;
+struct mon_flag;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct projectile;
@@ -545,10 +546,16 @@ class Creature : public viewer
         bool is_dangerous_fields( const field &fld ) const;
         /** Returns true if the given field entry is dangerous to us. */
         bool is_dangerous_field( const field_entry &entry ) const;
-        /** Returns true if we are immune to the field type with the given fid. Does not
-         *  handle intensity, so this function should only be called through is_dangerous_field().
+        /** Returns true if we are immune to the field type with the given fid. Can handle intensity if field intensity data is specified for the effect
+        , so this function should only be called through is_dangerous_field().
          */
         virtual bool is_immune_field( const field_type_id & ) const {
+            return false;
+        }
+
+
+        // check if the creature is immune to the effect / field based on the immunity data
+        virtual bool check_immunity_data( const field_immunity_data & ) const {
             return false;
         }
 
@@ -721,7 +728,7 @@ class Creature : public viewer
         virtual field_type_id bloodType() const = 0;
         virtual field_type_id gibType() const = 0;
         // TODO: replumb this to use a std::string along with monster flags.
-        virtual bool has_flag( const m_flag ) const {
+        virtual bool has_flag( const mon_flag_id & ) const {
             return false;
         }
         virtual bool uncanny_dodge() {

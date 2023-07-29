@@ -84,7 +84,8 @@ struct level_cache {
 
         // stores resulting apparent brightness to player, calculated by map::apparent_light_at
         cata::mdarray<lit_level, point_bub_ms> visibility_cache;
-        std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
+        std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_cache_dec;
+        std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_cache_ter;
         std::bitset<MAPSIZE *MAPSIZE> field_cache;
 
         std::set<vehicle *> vehicle_list;

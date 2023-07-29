@@ -16,7 +16,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "white",
-    "//": "Based on https://www.amazon.com/AmazonBasics-Thread-Count-Pillow-Cases/dp/B01MUDQUN9/ref=sr_1_7?crid=2HK7WH8A1GKY5&keywords=pillowcase%2Bcotton&qid=1684589982&sprefix=pillowcase%2Bcotton%2Caps%2C192&sr=8-7&th=1"
+    "//": "Based on https://www.amazon.com/dp/B01MUDQUN9"
   },
   {
     "type": "GENERIC",
@@ -77,11 +77,11 @@
     "type": "ARMOR",
     "name": { "str": "blanket" },
     "description": "Hiding under here will not protect you from the monsters.",
-    "weight": "1123 g",
-    "volume": "15 L",
-    "price": 5500,
+    "weight": "848 g",
+    "volume": "15500 ml",
+    "price": "15 USD",
     "price_postapoc": 50,
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "towel",
@@ -96,7 +96,8 @@
         "coverage": 100,
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
-    ]
+    ],
+    "//": "Based on https://www.amazon.com/dp/B091DZVHX7 with the assumed material thickness of 0.8cm"
   },
   {
     "id": "down_blanket",

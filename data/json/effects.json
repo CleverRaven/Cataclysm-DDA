@@ -307,143 +307,6 @@
   },
   {
     "type": "effect_type",
-    "id": "grabbing_head",
-    "name": [ "Grabbing Head" ],
-    "show_in_info": true,
-    "//": "Grab filter effect for dedicated removal, per-bptype",
-    "base_mods": { "dodge_mod": [ -8 ] },
-    "desc": [ "You're grabbing the head of somebody." ],
-    "flags": [ "GRAB_FILTER" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "grabbing_eyes",
-    "name": [ "Grabbing Eyes" ],
-    "show_in_info": true,
-    "base_mods": { "dodge_mod": [ -8 ] },
-    "desc": [ "You've caught the eye of somebody." ],
-    "flags": [ "GRAB_FILTER" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "grabbing_mouth",
-    "name": [ "Grabbing Mouth" ],
-    "show_in_info": true,
-    "base_mods": { "dodge_mod": [ -8 ] },
-    "desc": [ "You're grabbing the mouth of somebody.  Somehow." ],
-    "flags": [ "GRAB_FILTER" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "grabbing_torso",
-    "name": [ "Grabbing Torso" ],
-    "show_in_info": true,
-    "base_mods": { "dodge_mod": [ -8 ] },
-    "desc": [ "You're hugging somebody." ],
-    "flags": [ "GRAB_FILTER" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "grabbing_arm_l",
-    "name": [ "Grabbing Left Arm" ],
-    "show_in_info": true,
-    "base_mods": { "dodge_mod": [ -8 ] },
-    "desc": [ "You're grabbing the left arm of somebody." ],
-    "flags": [ "GRAB_FILTER" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "grabbing_arm_r",
-    "name": [ "Grabbing Right Arm" ],
-    "show_in_info": true,
-    "base_mods": { "dodge_mod": [ -8 ] },
-    "desc": [ "You're grabbing the right arm of somebody." ],
-    "flags": [ "GRAB_FILTER" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "grabbing_hand_l",
-    "name": [ "Grabbing Left Hand" ],
-    "show_in_info": true,
-    "base_mods": { "dodge_mod": [ -8 ] },
-    "desc": [ "You're holding hands(left)." ],
-    "flags": [ "GRAB_FILTER" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "grabbing_hand_r",
-    "name": [ "Grabbing Right Hand" ],
-    "show_in_info": true,
-    "base_mods": { "dodge_mod": [ -8 ] },
-    "desc": [ "You're holding hands(right)." ],
-    "flags": [ "GRAB_FILTER" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "grabbing_leg_l",
-    "name": [ "Grabbing Left Leg" ],
-    "show_in_info": true,
-    "base_mods": { "dodge_mod": [ -8 ] },
-    "desc": [ "You're grabbing the left leg of somebody." ],
-    "flags": [ "GRAB_FILTER" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "grabbing_leg_r",
-    "name": [ "Grabbing Right Leg" ],
-    "show_in_info": true,
-    "base_mods": { "dodge_mod": [ -8 ] },
-    "desc": [ "You're grabbing the right leg of somebody." ],
-    "flags": [ "GRAB_FILTER" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "grabbing_foot_l",
-    "name": [ "Grabbing Left Foot" ],
-    "show_in_info": true,
-    "base_mods": { "dodge_mod": [ -8 ] },
-    "desc": [ "You're grabbing the left foot of somebody." ],
-    "flags": [ "GRAB_FILTER" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "grabbing_foot_r",
-    "name": [ "Grabbing Right Foot" ],
-    "show_in_info": true,
-    "base_mods": { "dodge_mod": [ -8 ] },
-    "desc": [ "You're grabbing the right foot of somebody." ],
-    "flags": [ "GRAB_FILTER" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "grabbing_tail",
-    "name": [ "Grabbing Tail" ],
-    "show_in_info": true,
-    "base_mods": { "dodge_mod": [ -8 ] },
-    "desc": [ "You're grabbing the tail of somebody." ],
-    "flags": [ "GRAB_FILTER" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "grabbing_gastropod_foot",
-    "name": [ "Grabbing G. Foot" ],
-    "show_in_info": true,
-    "base_mods": { "dodge_mod": [ -8 ] },
-    "desc": [ "You're grabbing the snail like lower body of somebody." ],
-    "flags": [ "GRAB_FILTER" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "grabbing_appendix",
-    "name": [ "Grabbing" ],
-    "show_in_info": true,
-    "base_mods": { "dodge_mod": [ -8 ] },
-    "//": "Null-BP grabbing effect for safety and monsters",
-    "desc": [ "This sounds pretty invasive." ],
-    "flags": [ "GRAB_FILTER" ]
-  },
-  {
-    "type": "effect_type",
     "id": "staggered",
     "name": [ "Staggered" ],
     "//": "Mainly for monsters",
@@ -451,23 +314,7 @@
     "apply_message": "You're staggered off-balance.",
     "max_duration": "5 s",
     "base_mods": { "speed_mod": [ -20 ] },
-    "removes_effects": [
-      "grabbing",
-      "grabbing_2",
-      "grabbing_head",
-      "grabbing_eyes",
-      "grabbing_mouth",
-      "grabbing_hand_l",
-      "grabbing_hand_r",
-      "grabbing_arm_l",
-      "grabbing_arm_r",
-      "grabbing_leg_l",
-      "grabbing_leg_r",
-      "grabbing_foot_l",
-      "grabbing_foot_r",
-      "grabbing_appendix",
-      "grabbing_tail"
-    ],
+    "removes_effects": [ "grabbing", "grabbing_2" ],
     "rating": "bad",
     "show_in_info": true
   },
@@ -1932,15 +1779,68 @@
   },
   {
     "type": "effect_type",
-    "id": "smoke",
-    "name": [ { "ctxt": "inhaled", "str": "Smoke" } ],
-    "desc": [ "You've inhaled a lungful of thick smoke." ],
-    "apply_message": "You inhale a lungful of thick smoke.",
-    "rating": "bad",
+    "id": "smoke_eyes",
+    "name": [
+      "Little Eye Irritation (Smoke)",
+      "Minor Eye Irritation (Smoke)",
+      "Huge Eye Irritation (Smoke)",
+      "Bad Eye Irritation (Smoke)"
+    ],
+    "desc": [
+      "Your eyes mildly irritate.",
+      "Your eyes watering.",
+      "Your eyes tear and stings heavily.",
+      "Your eyes burn out of smoke, and you hardly see anything."
+    ],
+    "apply_message": [
+      [ "Your eyes mildly irritate.", "bad" ],
+      [ "Your eyes watering out of smoke.", "bad" ],
+      [ "Your eyes tear and stings heavily.", "bad" ],
+      [ "Your eyes burn out of smoke, and you hardly see anything.", "bad" ]
+    ],
+    "miss_messages": [ [ "Your eyes sting and tear from the smoke.", 1 ] ],
+    "max_duration": "3 m",
+    "max_intensity": 4,
+    "int_decay_tick": 40,
+    "base_mods": { "per_mod": [ -1 ] },
+    "scaling_mods": { "per_mod": [ -1 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2 },
+      { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "smoke_lungs",
+    "name": [ "Inhaled Some Smoke", "Inhaled Plenty of Smoke", "Smoke Inhalation", "Bad Smoke Inhalation" ],
+    "desc": [
+      "You draw in a faint whiff of smoke.",
+      "Noticeable amount of smoke fills your lungs.",
+      "Dense cloud of smoke enter your lungs.",
+      "You inhale an overwhelming amount of smoke."
+    ],
+    "apply_message": [
+      [ "You draw in a faint whiff of smoke.", "bad" ],
+      [ "Noticeable amount of smoke fills your lungs.", "bad" ],
+      [ "Dense cloud of smoke enter your lungs.", "bad" ],
+      [ "You inhale an overwhelming amount of smoke.", "bad" ]
+    ],
     "miss_messages": [ [ "Your lungs burn from the smoke.", 1 ] ],
     "harmful_cough": true,
-    "max_duration": "10 m",
-    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 10 ] },
+    "max_duration": "3 m",
+    "max_intensity": 4,
+    "int_decay_tick": 40,
+    "scaling_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 10 ] },
+    "limb_score_mods": [
+      { "limb_score": "breathing", "resist_modifier": 1, "scaling": -0.25 },
+      { "limb_score": "reaction", "resist_modifier": 1, "scaling": -0.1 },
+      { "limb_score": "balance", "resist_modifier": 1, "scaling": -0.1 },
+      { "limb_score": "lift", "resist_modifier": 1, "scaling": -0.1 },
+      { "limb_score": "manip", "resist_modifier": 1, "scaling": -0.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true
   },
   {
@@ -2748,6 +2648,7 @@
     "apply_message": "You feel a cold coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
+    "immune_flags": [ "NO_DISEASE" ],
     "miss_messages": [ [ "You're too stuffed up to fight effectively.", 1 ] ],
     "base_mods": {
       "thirst_tick": [ 1800 ],
@@ -2774,6 +2675,8 @@
     "apply_message": "You feel a flu coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
+    "immune_flags": [ "NO_DISEASE" ],
+    "miss_messages": [ [ "You're too stuffed up to fight effectively.", 1 ] ],
     "base_mods": {
       "thirst_tick": [ 1800 ],
       "thirst_min": [ 1 ],
@@ -2789,6 +2692,27 @@
       "vomit_chance": [ 3600, 7200 ]
     },
     "blood_analysis_description": "Viral Infection"
+  },
+  {
+    "type": "effect_type",
+    "id": "common_cold_immunity",
+    "name": [ "Common Cold Antibodies" ],
+    "desc": [ "Common cold antibodies in your bloodstream prevent you from catching common cold." ],
+    "blocks_effects": [ "common_cold" ],
+    "rating": "good",
+    "blood_analysis_description": "Common Cold Antibodies",
+    "max_duration": 14515200,
+    "dur_add_perc": 50
+  },
+  {
+    "type": "effect_type",
+    "id": "fake_common_cold",
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "fake_flu",
+    "show_in_info": false
   },
   {
     "type": "effect_type",
@@ -4224,6 +4148,45 @@
     "show_intensity": false,
     "//": "Don't multiply speed by 0 or else the effect will never be removed for creatures with 0 damage(e.g. rabbits)",
     "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 0.01 } ] } ]
+  },
+  {
+    "id": "Shadow_Reveal",
+    "type": "effect_type",
+    "max_duration": "60 s",
+    "name": [ "Revealed" ],
+    "desc": [ "The shadows no longer hide you!" ],
+    "rating": "bad",
+    "show_intensity": false,
+    "show_in_info": true,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LUMINATION", "add": 10 } ] } ]
+  },
+  {
+    "id": "photophobia",
+    "type": "effect_type",
+    "max_duration": "5 s",
+    "name": [ "photophobia" ],
+    "base_mods": { "speed_mod": [ -100 ] },
+    "desc": [ "It burns!  Thankfully, this can't ever happen to you.  This is a bug if you have it." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "show_in_info": true,
+    "//": "Enchantments don't actually work for monsters! If you find that shadow is suddenly very killable, they probably got hooked up!",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": 0.5 },
+          { "value": "ARMOR_BASH", "add": 15 },
+          { "value": "ARMOR_STAB", "add": 15 },
+          { "value": "ARMOR_CUT", "add": 15 },
+          { "value": "ARMOR_HEAT", "add": 15 },
+          { "value": "ARMOR_COLD", "add": 15 },
+          { "value": "ARMOR_ELEC", "add": 15 },
+          { "value": "ARMOR_ACID", "add": 15 },
+          { "value": "ARMOR_BULLET", "add": 400 }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",

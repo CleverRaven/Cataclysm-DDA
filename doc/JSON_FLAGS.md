@@ -874,7 +874,7 @@ See [Mapgen flags](MAPGEN.md#mapgen-flags).
 - ```mx_clearcut``` ... All trees become stumps.
 - ```mx_collegekids``` ... Corpses and items.
 - ```mx_corpses``` ... Up to 5 corpses with everyday loot.
-- ```mx_crater``` ... Crater with rubble (and radioactivity).
+- ```mx_crater``` ... Crater formed using a bomb.
 - ```mx_drugdeal``` ... Corpses and some drugs.
 - ```mx_dead_vegetation``` ... Kills all plants. (aftermath of acid rain etc.)
 - ```mx_exocrash_1``` ... Area of glassed sand created by a crashed pod of space travelers. Populated by zomborgs.
@@ -1111,6 +1111,7 @@ Other monster flags.
 - ```PET_MOUNTABLE``` Creature can be ridden or attached to a harness.
 - ```PET_HARNESSABLE``` Creature can be attached to a harness.
 - ```PET_WONT_FOLLOW``` This monster won't follow the player automatically when tamed.
+- ```PHOTOPHOBIC``` Severely weakened if in light level >= 30 (within about 7 tiles of a full-strength flashlight) by applying photophobia effect.
 - ```PRIORITIZE_TARGETS``` This monster will prioritize targets depending on their danger levels.
 - ```NULL``` Source use only.
 - ```PACIFIST``` Monster will never do melee attacks. Useful for having them use grab without attacking the player.

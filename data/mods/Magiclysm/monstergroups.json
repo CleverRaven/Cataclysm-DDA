@@ -40,6 +40,13 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_FERAL",
+    "//": "default ferals",
+    "default": "mon_feral_human_crowbar",
+    "monsters": [ { "monster": "mon_feral_human_magician", "weight": 2, "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_SWAMP",
     "is_animal": true,
     "monsters": [
@@ -211,5 +218,11 @@
       { "monster": "mon_orc_archer", "weight": 25, "cost_multiplier": 7 },
       { "monster": "mon_orc_blood_warrior", "weight": 15, "cost_multiplier": 5 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_WORKSHOP",
+    "default": "mon_workshop_elf",
+    "monsters": [ { "monster": "mon_workshop_elf", "freq": 100, "cost_multiplier": 2 } ]
   }
 ]

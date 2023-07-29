@@ -79,7 +79,7 @@
   {
     "id": "inventor_lasmod_close_range",
     "type": "GUNMOD",
-    "name": { "str": "beam scatterer" },
+    "name": { "str": "beam array" },
     "description": "Modified weapon lens, that increase the output energy of the laser at expense of its range.",
     "weight": "380 g",
     "volume": "250 ml",

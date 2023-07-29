@@ -226,7 +226,7 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
                    *loc ).part_with_feature( "WORKBENCH", true ) ) {
         // Vehicle workbench
         const vpart_info &vp_info = vp->part().info();
-        if( const std::optional<vpslot_workbench> &wb_info = vp_info.get_workbench_info() ) {
+        if( const std::optional<vpslot_workbench> &wb_info = vp_info.workbench_info ) {
             multiplier = wb_info->multiplier;
             allowed_mass = wb_info->allowed_mass;
             allowed_volume = wb_info->allowed_volume;
@@ -301,7 +301,7 @@ float Character::crafting_speed_multiplier( const item &craft,
     }
     if( bench_multi <= 0.1f || ( bench_multi <= 0.33f && total_multi <= 0.2f ) ) {
         add_msg_if_player( m_bad, _( "The %s is too large and/or heavy to work on.  You may want to"
-                                     " use a workbench or a lifting tool" ), craft.tname() );
+                                     " use a workbench or a lifting tool." ), craft.tname() );
         return 0.0f;
     }
     if( morale_multi <= 0.2f || ( morale_multi <= 0.33f && total_multi <= 0.2f ) ) {
@@ -518,9 +518,8 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
             }
         }
 
-        if( const std::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
-                true ) ) {
-            for( const item &it : vp->vehicle().get_items( vp->part_index() ) ) {
+        if( const std::optional<vpart_reference> vp = here.veh_at( loc ).cargo() ) {
+            for( const item &it : vp->items() ) {
                 std::vector<const item *> eligible = get_eligible_containers_recursive( it, true );
                 conts.insert( conts.begin(), eligible.begin(), eligible.end() );
             }
@@ -714,18 +713,16 @@ static item_location set_item_map( const tripoint &loc, item &newit )
 static item_location set_item_map_or_vehicle( const Character &p, const tripoint &loc, item &newit )
 {
     map &here = get_map();
-    if( const std::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
-            false ) ) {
-
-        if( const std::optional<vehicle_stack::iterator> it = vp->vehicle().add_item( vp->part_index(),
-                newit ) ) {
+    if( const std::optional<vpart_reference> vp = here.veh_at( loc ).cargo() ) {
+        vehicle &veh = vp->vehicle();
+        if( const std::optional<vehicle_stack::iterator> it = veh.add_item( vp->part(), newit ) ) {
             p.add_msg_player_or_npc(
                 //~ %1$s: name of item being placed, %2$s: vehicle part name
                 pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
                 pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
                 ( *it )->tname(), vp->part().name() );
 
-            return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), & **it );
+            return item_location( vehicle_cursor( veh, vp->part_index() ), & **it );
         }
 
         // Couldn't add the in progress craft to the target part, so drop it to the map.
@@ -775,7 +772,7 @@ static item_location place_craft_or_disassembly(
             }
         } else if( const std::optional<vpart_reference> vp = here.veh_at(
                        adj ).part_with_feature( "WORKBENCH", true ) ) {
-            if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+            if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().workbench_info ) {
                 if( wb_info->multiplier > best_bench_multi ) {
                     best_bench_multi = wb_info->multiplier;
                     target = adj;
@@ -1131,7 +1128,7 @@ Character::craft_roll_data Character::recipe_success_roll_data( const recipe &ma
     }
 
     // Let's just be careful, I don't want to touch a negative stddev
-    crafting_stddev = std::max( crafting_stddev, 0.f );
+    crafting_stddev = std::max( crafting_stddev, 1.f );
 
     craft_roll_data ret;
     ret.center = weighted_skill_average;
@@ -1139,7 +1136,7 @@ Character::craft_roll_data Character::recipe_success_roll_data( const recipe &ma
     ret.final_difficulty = final_difficulty + 1;
     if( has_trait( trait_DEBUG_CNF ) ) {
         ret.center = 2.f;
-        ret.stddev = 0.f;
+        ret.stddev = std::numeric_limits<decltype( ret.stddev )>::epsilon();
         ret.final_difficulty = 0.f;
     }
     return ret;

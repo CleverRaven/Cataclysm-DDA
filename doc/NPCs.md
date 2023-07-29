@@ -789,6 +789,7 @@ The `effect` field of `speaker_effect` or a `response` can be any of the followi
 | `assign_mission`  | Assigns a previously selected mission to your character.        |
 | `mission_success` | Resolves the current mission successfully.                      |
 | `mission_failure` | Resolves the current mission as a failure.                      |
+| `finish_mission`  | Resolves a specific mission defined by ID                       |
 | `clear_mission`   | Clears the mission from the your character's assigned missions. |
 | `mission_reward`  | Gives the player the mission's reward.                          |
 
@@ -927,12 +928,12 @@ Effect | Description
 
 #### General
 
-Effect | Description
----|---
-`sound_effect: `string or [variable object](#variable-object), (*optional* `sound_effect_variant: `string or [variable object](#variable-object)), (*optional* `outdoor_event: outdoor_event`), (*optional* `volume: `int or [variable object](#variable-object))  | Will play a sound effect of id `sound_effect` and variant `sound_effect_variant`. If `volume` is defined it will be used otherwise 80 is the default. If `outdoor_event`(defaults to false) is true this will be less likely to play if the player is underground.
-`open_dialogue`, (*optional* `topic: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`). | Opens up a dialog between the participants. This should only be used in effect_on_conditions. If the dialog is opened, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run. If `topic` is supplied than a conversation with an empty talker starting with the topic `topic` will be opened.
-`take_control`, (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | If the npc is a character then take control of them and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
-`give_achievement` string or [variable object](#variable-object), Marks the given achievement as complete.
+| Effect | Description                                                                                                                                                                                                                                                        |
+| ---- | ---- |
+| `sound_effect: `string or [variable object](#variable-object), (*optional* `sound_effect_variant: `string or [variable object](#variable-object)), (*optional* `outdoor_event: outdoor_event`), (*optional* `volume: `int or [variable object](#variable-object)) | Will play a sound effect of id `sound_effect` and variant `sound_effect_variant`. If `volume` is defined it will be used otherwise 80 is the default. If `outdoor_event`(defaults to false) is true this will be less likely to play if the player is underground. |
+| `open_dialogue`, (*optional* `topic: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`). | Opens up a dialog between the participants. This should only be used in effect_on_conditions. If the dialog is opened, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run. If `topic` is supplied than a conversation with an empty talker starting with the topic `topic` will be opened.
+| `take_control`, (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | If the npc is a character then take control of them and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+| `give_achievement` string or [variable object](#variable-object), | Marks the given achievement as complete.
 `take_control_menu` | Opens up a menu to choose a follower to take control of.
 `assign_mission: `string or [variable object](#variable-object) | Will assign mission to the player.
 `remove_active_mission: `string or [variable object](#variable-object) | Will remove mission from the player's active mission list without failing it.
@@ -950,9 +951,11 @@ Effect | Description
 
 #### Detailed Info
 New EOC effects that are documented should be in the format below.
-| Effect | Options | Description |
-| ----- | ------ | ------ |
-`u_attack, npc_attack` | `u_attack`: string or [variable object](#variable-object) The technique ID to use, if you don't want a specific tech provide "tec_none" </br> `allow_special: ` bool, **default true**, whether or not a special attack should be selected. </br> `allow_unarmed: ` bool **default true** if unarmed techs should be considered </br> `forced_movecost: ` double or [variable object](#variable-object) **default -1.0** the attack will take a fixed amount of moves, any negative value will be ignored (giving the moves standard cost) | the selected talker attacks the other talker with a melee attack. 
+
+| Effect                 | Options            | Description   |
+| ---------------------- | ------- | --- |
+| `u_attack, npc_attack` | `u_attack`: string or [variable object](#variable-object) The technique ID to use, if you don't want a specific tech provide "tec_none" <br/> `allow_special: ` bool, **default true**, whether or not a special attack should be selected. <br/> `allow_unarmed: ` bool **default true** if unarmed techs should be considered <br/> `forced_movecost: ` double or [variable object](#variable-object) **default -1.0** the attack will take a fixed amount of moves, any negative value will be ignored (giving the moves standard cost) | the selected talker attacks the other talker with a melee attack. |
+| `run_eoc_until`        | `run_eoc_until`: EOC or inline EOC The eoc to run multiple times <br/> `condition` string or [variable object](#variable-object) The name of the condition from the current context to evaluate to see if execution should continue <br/> `iteration` double or [variable object](#variable-object) The number of iterations this loop is allowed to go for before throwing an error, **default 100**  | The provided EOC is run until the condition given is false. |
 
 
 #### Deprecated
@@ -1094,8 +1097,8 @@ Condition | Type | Description
 `"days_since_cataclysm"` | int or [variable object](#variable-object) | `true` if at least `days_since_cataclysm` days have passed since the Cataclysm.
 `"is_season"` | string or [variable object](#variable-object) | `true` if the current season matches `is_season`, which must be one of "`spring"`, `"summer"`, `"autumn"`, or `"winter"`.
 `"is_day"` | simple string | `true` if it is currently daytime.
-`"u_is_outside"`</br>`"npc_is_outside"`  | simple string | `true` if you or the NPC is on a tile without a roof.
-`"u_is_underwater"`</br>`"npc_is_underwater"`  | simple string | `true` if you or the NPC is underwater.
+`"u_is_outside"`<br/>`"npc_is_outside"`  | simple string | `true` if you or the NPC is on a tile without a roof.
+`"u_is_underwater"`<br/>`"npc_is_underwater"`  | simple string | `true` if you or the NPC is underwater.
 `"one_in_chance"` | int or [variable object](#variable-object) | `true` if a one in `one_in_chance` random chance occurs.
 `"x_in_y_chance"` | object | `true` if a `x` in `y` random chance occurs. `x` and `y` are either ints  or [variable object](#variable-object).
 `"is_weather"` | string or [variable object](#variable-object)  | `true` if current weather is `"is_weather"`.
@@ -1294,7 +1297,7 @@ Mutator Name | Required Keys | Description
 `"game_option"` | `option`: String or [variable object](#variable-object). | Returns the value of the option as a string, for numerical options you should instead use the math function.
 `"ma_technique_name"` | `matec_id`: String or [variable object](#variable-object). | Returns the name of the martial arts tech with ID `matec_id` 
 `"ma_technique_description"` | `matec_id`: String or [variable object](#variable-object). | Returns the description of the martial arts tech with ID `matec_id` 
-`"valid_technique`" | `blacklist`: array of String or [variable object](#variable-object). </br> `crit`: bool </br> `dodge_counter`: bool </br> `block_counter`: bool | Returns a random valid technique for the alpha talker to use against the beta talker with the provided specifications.
+`"valid_technique`" | `blacklist`: array of String or [variable object](#variable-object). <br/> `crit`: bool <br/> `dodge_counter`: bool <br/> `block_counter`: bool | Returns a random valid technique for the alpha talker to use against the beta talker with the provided specifications.
 `"loc_relative_u"` | `target`: String or [variable object](#variable-object). | target should be a string like "(x,y,z)" where x,y,z are coordinates relative to the player. Returns the abs_ms coordinates as a string (ready to store as a location variable), in the form "(x,y,z)" of the provided point relative to the player. So `"target":"(0,1,0)"` would return the point south of the player.
 
 
@@ -1502,6 +1505,7 @@ _function arguments are `d`oubles (or sub-expressions), `s`trings, or `v`[ariabl
 | num_input(`s`/`v`,`d`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Prompt the player for a number.<br/> Variables are Prompt text, Default Value:<br/>`"math": [ "u_value_to_set", "=", "num_input('Playstyle Perks Cost?', 4)" ]`|
 | pain()     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
 | skill(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set skill level<br/> Example:<br/>`"condition": { "math": [ "u_skill('driving')", ">=", "5"] }`<br/>`"condition": { "math": [ "u_skill(someskill)", ">=", "5"] }`|
+| spell_exp(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set spell xp<br/> Example:<br/>`"condition": { "math": [ "u_spell_exp('SPELL_ID')", ">=", "5"] }`|
 | weather(`s`)  |  ✅  |   ✅   | N/A<br/>(global)  | Return or set a weather aspect<br/><br/>Aspect must be one of:<br/>`temperature` (in Kelvin),<br/>`humidity` (as percentage),<br/>`pressure` (in millibar),<br/>`windpower` (in mph).<br/>`precipitation` (in mm / h) either 0.5 (very_light ), 1.5 (light), or 3 (heavy). Read only.<br/><br/>Temperature conversion functions are available: `celsius()`, `fahrenheit()`, `from_celsius()`, and `from_fahrenheit()`.<br/><br/>Examples:<br/>`{ "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }`<br/>`{ "math": [ "fahrenheit( weather('temperature') )", "==", "21" ] }`|
 
 ##### u_val shim

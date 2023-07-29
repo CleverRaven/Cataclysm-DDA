@@ -349,7 +349,7 @@ std::wstring utf8_to_wstr( const std::string &str )
     std::size_t sz = std::mbstowcs( nullptr, str.c_str(), 0 );
     cata_assert( sz != static_cast<size_t>( -1 ) );
     std::wstring wstr( sz + 1, '\0' );
-    std::size_t converted = std::mbstowcs( wstr.data(), str.c_str(), sz );
+    [[maybe_unused]] const size_t converted = std::mbstowcs( wstr.data(), str.c_str(), sz );
     cata_assert( converted == sz );
     strip_trailing_nulls( wstr );
     return wstr;
@@ -368,7 +368,7 @@ std::string wstr_to_utf8( const std::wstring &wstr )
     std::size_t sz = std::wcstombs( nullptr, wstr.c_str(), 0 );
     cata_assert( sz != static_cast<size_t>( -1 ) );
     std::string str( sz + 1, '\0' );
-    std::size_t converted = std::wcstombs( str.data(), wstr.c_str(), sz );
+    [[maybe_unused]] const size_t converted = std::wcstombs( str.data(), wstr.c_str(), sz );
     cata_assert( converted == sz );
     strip_trailing_nulls( str );
     return str;

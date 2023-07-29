@@ -87,6 +87,23 @@
     "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
+    "id": "mon_giganotosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "giganotosaurus juvenile",
+    "description": "Large predatory bipedal dinosaur juvenile with a wide, flat head.",
+    "default_faction": "giganotosaurus_juvenile",
+    "copy-from": "mon_giganotosaurus",
+    "melee_dice": 1,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "volume": "750 L",
+    "weight": "750 kg",
+    "proportional": { "hp": 0.5, "speed": 1.25 },
+    "upgrades": { "age_grow": 365, "into": "mon_giganotosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
     "id": "mon_siats_juvenile",
     "type": "MONSTER",
     "name": "siats juvenile",

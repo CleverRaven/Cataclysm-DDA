@@ -239,9 +239,10 @@
           "                        "
         ],
         "terrain": { "@": "t_grass", "b": "t_dirt", "M": "t_dirt" },
-        "fields": { "b": { "field": "fd_blood", "intensity": 1 } },
+        "fields": { "b": { "field": "fd_blood", "intensity": [ 1, 2 ] } },
         "items": { "@": { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 100 } },
-        "item": { "@": [ { "item": "grenade_emp", "amount": 2 }, { "item": "corpse" } ] },
+        "item": { "@": [ { "item": "corpse_generic_female" } ] },
+        "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
         "monster": { "M": { "monster": "mon_robofac_prototype" } }
       }
     },

@@ -187,7 +187,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
 
     // Remove all items from cargo to normalize weight.
     for( const vpart_reference &vp : veh.get_all_parts() ) {
-        veh_ptr->get_items( vp.part_index() ).clear();
+        veh_ptr->get_items( vp.part() ).clear();
         vp.part().ammo_consume( vp.part().ammo_remaining(), vp.pos() );
     }
     for( const vpart_reference &vp : veh.get_avail_parts( "OPENABLE" ) ) {

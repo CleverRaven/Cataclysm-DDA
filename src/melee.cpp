@@ -102,6 +102,7 @@ static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_venom_dmg( "venom_dmg" );
 static const efftype_id effect_venom_player1( "venom_player1" );
@@ -134,6 +135,9 @@ static const matec_id tec_none( "tec_none" );
 
 static const material_id material_glass( "glass" );
 static const material_id material_steel( "steel" );
+
+static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const move_mode_id move_mode_prone( "prone" );
 
@@ -586,7 +590,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     }
     if( is_mounted() ) {
         auto *mons = mounted_creature.get();
-        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
+        if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "The %s has dead batteries and will not move its arms." ),
                          mons->get_name() );
@@ -679,7 +683,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             }
         } else if( player_character.sees( *this ) ) {
             if( miss_recovery.id != tec_none ) {
-                add_msg( miss_recovery.npc_message.translated(), t.disp_name() );
+                add_msg_if_npc( miss_recovery.npc_message.translated(), t.disp_name() );
             } else if( stumble_pen >= 60 ) {
                 add_msg( _( "%s misses and stumbles with the momentum." ), get_name() );
             } else if( stumble_pen >= 10 ) {
@@ -987,6 +991,15 @@ void Character::reach_attack( const tripoint &p, int forced_movecost )
             !x_in_y( ( target_size * target_size + 1 ) * skill,
                      ( inter->get_size() * inter->get_size() + 1 ) * 10 ) ) {
             // Even if we miss here, low roll means weapon is pushed away or something like that
+            if( inter->has_effect( effect_pet ) || ( inter->is_npc() &&
+                    inter->as_npc()->is_friendly( get_player_character() ) ) ) {
+                if( query_yn( _( "Your attack may cause accidental injury, continue?" ) ) ) {
+                    critter = inter;
+                    break;
+                } else {
+                    return;
+                }
+            }
             critter = inter;
             break;
             /** @EFFECT_STABBING increases ability to reach attack through fences */
@@ -1840,7 +1853,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
         }
     }
 
-    if( technique.side_switch && !t.has_flag( MF_IMMOBILE ) ) {
+    if( technique.side_switch && !t.has_flag( mon_flag_IMMOBILE ) ) {
         const tripoint b = t.pos();
         point new_;
 
@@ -1866,7 +1879,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
         }
     }
     map &here = get_map();
-    if( technique.knockback_dist && !t.has_flag( MF_IMMOBILE ) ) {
+    if( technique.knockback_dist && !t.has_flag( mon_flag_IMMOBILE ) ) {
         const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
         const point kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
                                rng( -technique.knockback_spread, technique.knockback_spread ) );
@@ -1906,11 +1919,14 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
         // Remove our grab if we knocked back our grabber (if we can do so is handled by tech conditions)
         if( has_flag( json_flag_GRAB ) && t.has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
             for( const effect &eff : get_effects_with_flag( json_flag_GRAB ) ) {
-                if( t.has_effect( eff.get_bp()->grabbing_effect ) ) {
-                    t.remove_effect( eff.get_bp()->grabbing_effect );
-                    remove_effect( eff.get_id(), eff.get_bp() );
-                    add_msg_debug( debugmode::DF_MELEE, "Grabber %s knocked back, grab on %s removed", t.get_name(),
-                                   eff.get_bp()->name );
+                if( t.is_monster() ) {
+                    monster *m = t.as_monster();
+                    if( m->is_grabbing( eff.get_bp().id() ) ) {
+                        m->remove_grab( eff.get_bp().id() );
+                        remove_effect( eff.get_id(), eff.get_bp() );
+                        add_msg_debug( debugmode::DF_MELEE, "Grabber %s knocked back, grab on %s removed", t.get_name(),
+                                       eff.get_bp()->name );
+                    }
                 }
             }
         }
@@ -2635,7 +2651,7 @@ void player_hit_message( Character *attacker, const std::string &message,
         //Player won't see exact numbers of damage dealt by NPC unless player has DEBUG_NIGHTVISION trait
         if( attacker->is_npc() && !player_character.has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something (critical)
-            msg = string_format( _( "%s. Critical!" ), message );
+            msg = string_format( _( "%s.  Critical!" ), message );
         } else if( technique && !wp_hit.empty() ) {
             //~ %1$s: "someone hits something", %2$d: damage dealt, %3$s: the weakpoint hit
             msg = string_format( _( "%1$s for %2$d damage, and hit it in %3$s.  Critical!" ), message, dam,
@@ -2728,7 +2744,7 @@ int Character::attack_speed( const item &weap ) const
 
 double Character::weapon_value( const item &weap, int ammo ) const
 {
-    if( is_wielding( weap ) ) {
+    if( is_wielding( weap ) || ( !get_wielded_item() && weap.is_null() ) ) {
         auto cached_value = cached_info.find( "weapon_value" );
         if( cached_value != cached_info.end() ) {
             return cached_value->second;
@@ -2743,7 +2759,7 @@ double Character::weapon_value( const item &weap, int ammo ) const
     const double my_val = more + ( less / 2.0 );
     add_msg_debug( debugmode::DF_MELEE, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(),
                    ammo, my_val );
-    if( is_wielding( weap ) ) {
+    if( is_wielding( weap ) || ( !get_wielded_item() && weap.is_null() ) ) {
         cached_info.emplace( "weapon_value", my_val );
     }
     return my_val;

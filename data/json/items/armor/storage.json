@@ -1035,6 +1035,7 @@
         "max_contains_volume": "60 L",
         "max_contains_weight": "90 kg",
         "max_item_length": "65 cm",
+        "watertight": true,
         "magazine_well": "5 L",
         "moves": 450
       },
@@ -1457,7 +1458,7 @@
         "id": "flag_leg_bag",
         "name": { "str": "founders' leg bag" },
         "description": "A garishly colored red, white, and blue bag that can be worn on the thighs and hips using adjustable buckled straps, with the stylized depiction of George Washington’s face gazing sternly from the side.  Perfect for carrying the dreams of the founding fathers wherever you go.",
-        "weight": 50
+        "weight": 1
       }
     ]
   },

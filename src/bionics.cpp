@@ -187,7 +187,6 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
-static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NONE( "NONE" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
@@ -1199,7 +1198,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             }
         }
     }
-
+    bio_flag_cache.clear();
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
     calc_encumbrance();
     reset();
@@ -1245,7 +1244,7 @@ ret_val<void> Character::can_deactivate_bionic( bionic &bio, bool eff_only ) con
 bool Character::deactivate_bionic( bionic &bio, bool eff_only )
 {
     const auto can_deactivate = can_deactivate_bionic( bio, eff_only );
-
+    bio_flag_cache.clear();
     if( !can_deactivate.success() ) {
         if( !can_deactivate.str().empty() ) {
             add_msg( m_info,  can_deactivate.str() );
@@ -2783,7 +2782,7 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
             wear_item( tmparmor, false );
         }
     }
-
+    bio_flag_cache.clear();
     invalidate_pseudo_items();
     update_bionic_power_capacity();
 
@@ -2869,6 +2868,7 @@ void Character::remove_bionic( const bionic &bio )
 
     const bool has_enchantments = !bio.id->enchantments.empty();
     *my_bionics = new_my_bionics;
+    bio_flag_cache.clear();
     update_last_bionic_uid();
     invalidate_pseudo_items();
     update_bionic_power_capacity();
@@ -3253,8 +3253,7 @@ void Character::introduce_into_anesthesia( const time_duration &duration, Charac
     }
 
     //Pain junkies feel sorry about missed pain from operation.
-    if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
-        has_trait( trait_CENOBITE ) ) {
+    if( has_trait( trait_MASOCHIST_MED ) || has_trait( trait_CENOBITE ) ) {
         add_msg_if_player( m_mixed,
                            _( "As your consciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
     }

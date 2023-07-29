@@ -1215,12 +1215,12 @@
     "volume": "4250 ml",
     "price": 6000,
     "price_postapoc": 250,
-    "material": [ "cotton" ],
+    "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_red",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 9, 13 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 9, 11 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 9, 9 ] }
     ],
     "pocket_data": [
@@ -1240,7 +1240,8 @@
       }
     ],
     "warmth": 35,
-    "material_thickness": 0.2,
+    "//": "Moderate weight 9 oz jacket.",
+    "material_thickness": 0.7,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {

@@ -158,8 +158,8 @@ class monster : public Creature
 
         std::string extended_description() const override;
         // Inverts color if inv==true
-        bool has_flag( m_flag f ) const override; // Returns true if f is set (see mtype.h)
-        // Evaluates monster for both JSON and monster flags (converted to m_flag)
+        bool has_flag( const mon_flag_id &f ) const override; // Returns true if f is set (see mtype.h)
+        // Evaluates monster for both JSON and monster flags (converted to mon_flag_id)
         bool has_flag( flag_id f ) const;
         bool can_see() const;      // MF_SEES and no MF_BLIND
         bool can_hear() const;     // MF_HEARS and no MF_DEAF
@@ -401,6 +401,10 @@ class monster : public Creature
         bool can_attack_high() const override; // Can we attack upper limbs?
         int get_grab_strength() const; // intensity of grabbed effect
 
+        void add_grab( bodypart_str_id bp );
+        void remove_grab( bodypart_str_id bp );
+        bool is_grabbing( bodypart_str_id bp );
+
         monster_horde_attraction get_horde_attraction();
         void set_horde_attraction( monster_horde_attraction mha );
         bool will_join_horde( int size );
@@ -499,6 +503,9 @@ class monster : public Creature
         using Creature::add_msg_debug_player_or_npc;
         void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
                                           const std::string &npc_msg ) const override;
+
+        // currently grabbed limbs
+        std::unordered_set<bodypart_str_id> grabbed_limbs;
 
         tripoint_abs_ms wander_pos; // Wander destination - Just try to move in that direction
         bool provocative_sound = false; // Are we wandering toward something we think is alive?

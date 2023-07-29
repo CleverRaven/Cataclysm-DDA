@@ -13,5 +13,25 @@
     "id": "welding_standard",
     "type": "requirement",
     "extend": { "tools": [ [ [ "inventor_welder", 10 ] ] ] }
+  },
+  {
+    "id": "welding_alloys",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "inventor_welder", 10 ] ] ] }
+  },
+  {
+    "id": "repair_welding_standard",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "inventor_welder", 100 ] ] ] }
+  },
+  {
+    "id": "repair_welding_alloys",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "inventor_welder", 100 ] ] ] }
+  },
+  {
+    "id": "repair_welding_rebar",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "inventor_welder", 400 ] ] ] }
   }
 ]

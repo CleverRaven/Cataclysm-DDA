@@ -174,7 +174,8 @@
         "id": "flag_cowboy_hat",
         "name": { "str_sp": "American cowboy hat" },
         "description": "This hat has traded its original classic looks for a red, white, and blue pattern with a band of golden stars embossed about its lip; suitable headwear for only the most serious of patriots.",
-        "append": true
+        "append": true,
+        "weight": 1
       }
     ],
     "weight": "390 g",

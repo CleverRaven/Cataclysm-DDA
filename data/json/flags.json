@@ -192,6 +192,11 @@
     "inherit": false
   },
   {
+    "id": "GEMSTONE",
+    "type": "json_flag",
+    "info": "This item is a precious gemstone, used for ornamentation.  This is mostly useless post-Cataclysm."
+  },
+  {
     "id": "DIG_TOOL",
     "type": "json_flag",
     "info": "While wielded, this item allows you to mine through rocks and other hard obstacles by moving into tiles with them.  Note that automatic mining option should be set to true for this to work."
@@ -369,6 +374,12 @@
     "type": "json_flag",
     "info": "This item is attachable to metal cap helmets as a face and neck protective layer.",
     "restriction": "Item must be some kind of chainmail veil"
+  },
+  {
+    "id": "EXTRA_PLATING",
+    "type": "json_flag",
+    "info": "This item is wearable over some armors as an extra layer of plating.",
+    "restriction": "Item must be some kind of strapped additional plating"
   },
   {
     "id": "COLD_IMMUNE",
@@ -1148,6 +1159,18 @@
     "id": "STRICT_HUMANITARIANISM",
     "type": "json_flag",
     "craft_inherit": true
+  },
+  {
+    "id": "ALLERGEN_BREAD",
+    "type": "json_flag"
+  },
+  {
+    "id": "ALLERGEN_CHEESE",
+    "type": "json_flag"
+  },
+  {
+    "id": "ALLERGEN_DRIED_VEGETABLE",
+    "type": "json_flag"
   },
   {
     "id": "ALLERGEN_EGG",
@@ -2194,6 +2217,11 @@
     "info": "ID card granting access to the crashing ship's exobay."
   },
   {
+    "id": "PAPER_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like paper"
+  },
+  {
     "id": "CREDIT_CARD_SHAPED",
     "type": "json_flag",
     "restriction": "Item must be shaped like a credit card"
@@ -2214,19 +2242,32 @@
     "restriction": "Item must be shaped like a bank note strap"
   },
   {
+    "id": "FRESH_GRAIN",
+    "type": "json_flag",
+    "//": "This item is fresh-cut grain, and can be dried in a stook."
+  },
+  {
+    "id": "CUT_HARVEST",
+    "type": "json_flag",
+    "//": "This seed will grow into a plant which needs a grass-cutting tool such as a sickle to harvest."
+  },
+  {
     "id": "GASFILTER_SM",
     "type": "json_flag",
-    "info": "A small-sized gasmask filter."
+    "info": "A small-sized gasmask filter.",
+    "name": "filter mask cartridge"
   },
   {
     "id": "GASFILTER_MED",
     "type": "json_flag",
-    "info": "A medium-sized gasmask filter."
+    "info": "A medium-sized gasmask filter.",
+    "name": "gas mask cartridge"
   },
   {
     "id": "REBREATHER_CART",
     "type": "json_flag",
-    "info": "A filter for a rebreather."
+    "info": "A filter for a rebreather.",
+    "name": "rebreather cartridge"
   },
   {
     "id": "OLD_GUN",

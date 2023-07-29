@@ -999,15 +999,18 @@
     "result": "duct_tape",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "chemistry",
+    "skill_used": "fabrication",
     "difficulty": 3,
     "time": "18 m",
-    "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ], [ "textbook_mechanics", 5 ] ],
-    "//": "Does not involve any actual chemistry, so no chemical proficiencies needed.",
-    "using": [ [ "filament", 50 ] ],
+    "charges": 40,
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "superglue", 1 ] ], [ [ "cotton_patchwork", 6 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [
+      [ [ "rubber_cement", 1 ] ],
+      [ [ "sheet_cotton_patchwork", 1 ], [ "sheet_cotton", 1 ] ],
+      [ [ "plastic_sheet_small", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1216,7 +1219,8 @@
       [ "textbook_weapeast", 5 ],
       [ "textbook_weapwest", 5 ],
       [ "textbook_armeast", 5 ],
-      [ "textbook_armwest", 5 ]
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weparabic", 5 ]
     ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
@@ -1390,7 +1394,8 @@
       [ "textbook_weapeast", 5 ],
       [ "textbook_weapwest", 5 ],
       [ "textbook_armeast", 5 ],
-      [ "textbook_armwest", 5 ]
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weparabic", 5 ]
     ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },

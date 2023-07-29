@@ -198,7 +198,7 @@
         "prob": 85
       },
       {
-        "collection": [ { "item": "rebreather_cartridge", "prob": 50, "charges": 100 }, { "item": "rebreather", "prob": 90 } ],
+        "collection": [ { "item": "rebreather_cartridge_o2", "prob": 50, "charges": 180 }, { "item": "rebreather", "prob": 90 } ],
         "prob": 20
       },
       {

@@ -390,6 +390,7 @@ void DynamicDataLoader::initialize()
     add( "SPECIES", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_species( jo, src );
     } );
+    add( "monster_flag", &mon_flag::load_mon_flags );
 
     add( "LOOT_ZONE", &zone_type::load_zones );
     add( "monster_adjustment", &load_monster_adjustment );
@@ -591,6 +592,7 @@ void DynamicDataLoader::unload_data()
     mission_type::reset();
     move_mode::reset();
     monfactions::reset();
+    mon_flag::reset();
     MonsterGenerator::generator().reset();
     MonsterGroupManager::ClearMonsterGroups();
     morale_type_data::reset();

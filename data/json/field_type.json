@@ -454,11 +454,21 @@
         "translucency": 1,
         "effects": [
           {
-            "effect_id": "smoke",
+            "effect_id": "smoke_eyes",
+            "body_part": "eyes",
+            "intensity": 1,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 3 ] ] },
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "smoke_lungs",
             "body_part": "mouth",
             "intensity": 1,
             "min_duration": "2 seconds",
             "max_duration": "2 seconds",
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 3 ] ] },
             "immune_inside_vehicle": true
           }
         ]
@@ -470,11 +480,21 @@
         "translucency": 10,
         "effects": [
           {
-            "effect_id": "smoke",
+            "effect_id": "smoke_eyes",
+            "body_part": "eyes",
+            "intensity": 2,
+            "min_duration": "7 seconds",
+            "max_duration": "7 seconds",
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 5 ] ] },
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "smoke_lungs",
             "body_part": "mouth",
             "intensity": 2,
             "min_duration": "7 seconds",
             "max_duration": "7 seconds",
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 5 ] ] },
             "immune_inside_vehicle": true
           }
         ],
@@ -486,11 +506,21 @@
         "translucency": 0,
         "effects": [
           {
-            "effect_id": "smoke",
+            "effect_id": "smoke_eyes",
+            "body_part": "eyes",
+            "intensity": 4,
+            "min_duration": "15 seconds",
+            "max_duration": "15 seconds",
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 7 ] ] },
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "smoke_lungs",
             "body_part": "mouth",
             "intensity": 4,
             "min_duration": "15 seconds",
             "max_duration": "15 seconds",
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 7 ] ] },
             "immune_inside_vehicle": true
           }
         ],
@@ -502,7 +532,6 @@
     "dirty_transparency_cache": true,
     "percent_spread": 10,
     "outdoor_age_speedup": "0 turns",
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 7 ] ] },
     "priority": 8,
     "half_life": "2 minutes",
     "phase": "gas",

@@ -201,7 +201,7 @@ bool Character::try_remove_grab( bool attacking )
             monster *grabber = nullptr;
             for( const tripoint loc : surrounding ) {
                 monster *mon = creatures.creature_at<monster>( loc );
-                if( mon && mon->has_effect( eff.get_bp()->grabbing_effect ) ) {
+                if( mon && mon->is_grabbing( eff.get_bp().id() ) ) {
                     add_msg_debug( debugmode::DF_MATTACK, "Grabber %s found", mon->name() );
                     grabber = mon;
                     break;
@@ -266,22 +266,22 @@ bool Character::try_remove_grab( bool attacking )
             // Every attempt burns some stamina - maybe some moves?
             mod_stamina( -5 * eff.get_intensity() );
             if( x_in_y( escape_chance, grabber_roll ) ) {
-                grabber->remove_effect( eff.get_bp()->grabbing_effect );
-                add_msg_debug( debugmode::DF_MATTACK, "Removed grab filter effect %s from monster %s",
-                               eff.get_bp()->grabbing_effect.c_str(), grabber->name() );
+                grabber->remove_grab( eff.get_bp().id() );
+                add_msg_debug( debugmode::DF_MATTACK, "Removed grab effect %s from monster %s",
+                               eff.get_bp()->name, grabber->name() );
 
                 if( grab_break_factor > 0 ) {
                     add_msg_if_player( m_info, martial_arts_data->get_grab_break( *this ).avatar_message.translated(),
                                        grabber->disp_name() );
                 } else {
-                    add_msg_player_or_npc( m_good, _( "You break the %s grab on your %s!" ),
-                                           _( "<npcname> the %s grab on their %s!" ), grabber->disp_name( true ),
+                    add_msg_player_or_npc( m_good, _( "You break %s grab on your %s!" ),
+                                           _( "<npcname> breaks %s grab on their %s!" ), grabber->disp_name( true ),
                                            eff.get_bp()->name );
                 }
                 // Remove only this one grab
                 remove_effect( eff.get_id(), eff.get_bp() );
             } else {
-                add_msg_player_or_npc( m_bad, _( "You try to break the %s grab on your %s, but fail!" ),
+                add_msg_player_or_npc( m_bad, _( "You try to break %s grab on your %s, but fail!" ),
                                        _( "<npcname> tries to break out of the grab, but fails!" ), grabber->disp_name( true ),
                                        eff.get_bp()->name );
             }

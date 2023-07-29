@@ -1157,6 +1157,42 @@
     ]
   },
   {
+    "id": "test_hazmat_hat",
+    "type": "ARMOR",
+    "name": "TEST hazmat hat",
+    "description": ".",
+    "weight": "5000 g",
+    "volume": "17 L",
+    "price": 117500,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "beekeeping_suit",
+    "color": "yellow",
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER" ],
+    "armor": [ { "encumbrance": 37, "coverage": 100, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "test_hazmat_shirt",
+    "type": "ARMOR",
+    "name": "TEST hazmat shirt",
+    "description": ".",
+    "weight": "5000 g",
+    "volume": "17 L",
+    "price": 117500,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "beekeeping_suit",
+    "color": "yellow",
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER" ],
+    "armor": [ { "encumbrance": 37, "coverage": 100, "covers": [ "torso" ] } ]
+  },
+  {
     "id": "test_hazmat_suit",
     "type": "ARMOR",
     "name": "TEST hazmat suit",
@@ -1302,6 +1338,29 @@
         "cover_melee": 0,
         "cover_ranged": 100,
         "cover_vitals": 0,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "test_zentai_resist_stab_cut",
+    "type": "ARMOR",
+    "name": { "str": "test zentai" },
+    "description": "Full-body suit completely covering all body parts, including the head, mouth, and eyes.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": 2500,
+    "price_postapoc": 50,
+    "material": [ "lycra_resist_override_stab" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 20,
+    "material_thickness": 1,
+    "environmental_protection": 10,
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "coverage": 100,
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ]

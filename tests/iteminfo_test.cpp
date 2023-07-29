@@ -1230,7 +1230,7 @@ static void expected_armor_values( const item &armor, float bash, float cut, flo
 
 TEST_CASE( "armor_stats", "[armor][protection]" )
 {
-    expected_armor_values( item( itype_zentai ), 0.2f, 0.2f, 0.16f, 0.2f );
+    expected_armor_values( item( itype_zentai ), 0.1f, 0.1f, 0.08f, 0.1f );
     expected_armor_values( item( itype_tshirt ), 0.1f, 0.1f, 0.08f, 0.1f );
     expected_armor_values( item( itype_dress_shirt ), 0.1f, 0.1f, 0.08f, 0.1f );
 }
@@ -1299,6 +1299,30 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
                "  Acid: <color_c_yellow>9.00</color>\n"
                "  Fire: <color_c_yellow>1.00</color>\n"
                "  Environmental: <color_c_yellow>20</color>\n"
+             );
+    }
+
+    SECTION( "check that material resistances are properly overriden" ) {
+        // Zentai suit, material:lycra_resist_override_stab, thickness:1
+        // 2/2/2/50 bash/cut/bullet/stab x 1 thickness
+        item zentai( "test_zentai_resist_stab_cut" );
+        REQUIRE( zentai.get_covered_body_parts().any() );
+        expected_armor_values( zentai, 2, 2, 50, 2, 9, 2, 10 );
+
+        // Protection info displayed on two lines
+        CHECK( item_info_str( zentai, protection ) ==
+               "--\n"
+               "<color_c_white>Protection for</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>eyes</color>. The <color_c_cyan>feet</color>. The <color_c_cyan>hands</color>. The <color_c_cyan>head</color>. The <color_c_cyan>legs</color>. The <color_c_cyan>mouth</color>. The <color_c_cyan>torso</color>.\n"
+               "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
+               "  Default:  <color_c_yellow>100</color>\n"
+               "<color_c_white>Protection</color>:\n"
+               "  Bash: <color_c_yellow>2.00</color>\n"
+               "  Cut: <color_c_yellow>2.00</color>\n"
+               "  Ballistic: <color_c_yellow>2.00</color>\n"
+               "  Pierce: <color_c_yellow>50.00</color>\n"
+               "  Acid: <color_c_yellow>9.00</color>\n"
+               "  Fire: <color_c_yellow>2.00</color>\n"
+               "  Environmental: <color_c_yellow>10</color>\n"
              );
     }
 

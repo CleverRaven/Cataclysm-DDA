@@ -57,7 +57,10 @@ ID_WHITELIST = {
     'bio_shotgun_gun',
     'gasfilter_med',
     'gasfilter_sm',
-    "rebreather_cartridge"
+    "rebreather_cartridge",
+    "rebreather_cartridge_air",
+    "rebreather_cartridge_o2",
+    "rebreather_cartridge_regen"
 }
 
 
