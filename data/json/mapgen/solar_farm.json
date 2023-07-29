@@ -37,8 +37,8 @@
         "+": "t_chaingate_c",
         "-": "t_chainfence_h",
         "|": "t_chainfence_v",
-        ".": "t_grass",
-        "#": "t_grass",
+        ".": "t_region_groundcover",
+        "#": "t_region_groundcover",
         "s": "t_switchgear_s",
         "{": "t_current_trans",
         "h": "t_station_disc"
