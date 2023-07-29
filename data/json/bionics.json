@@ -1577,7 +1577,7 @@
     "id": "bio_synlungs",
     "type": "bionic",
     "name": { "str": "Synthetic Lungs" },
-    "description": "You have highly efficient artificial lungs which greatly increase your oxygen intake.  If they are not powered you will suffocate.",
+    "description": "You have highly efficient artificial lungs which greatly increase your oxygen intake.  If they are not powered you will suffocate, and they weaken your immune system somewhat.",
     "occupied_bodyparts": [ [ "torso", 5 ] ],
     "flags": [ "BIONIC_SLEEP_FRIENDLY", "BIO_SHOCKPROOF", "BIONIC_TOGGLED" ],
     "act_cost": "3 J",
@@ -1587,6 +1587,15 @@
     "trigger_cost": "3 J",
     "cant_remove_reason": "The CBM has replaced the patient's lungs and cannot be removed.",
     "canceled_mutations": [ "GOODCARDIO", "BADCARDIO", "GOODCARDIO2", "PERSISTENCE_HUNTER", "PERSISTENCE_HUNTER2", "ASTHMA" ]
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "MOD_HEALTH", "add": -1 },
+          { "value": "MOD_HEALTH_CAP", "add": -20 }
+        ]
+      }
+    ]
   },
   {
     "id": "bio_targeting",
