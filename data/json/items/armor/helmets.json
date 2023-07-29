@@ -267,13 +267,12 @@
     "//": "assuming this is an antique and not a cheap replica",
     "price_postapoc": 1200,
     "to_hit": -1,
-    "material": [ "hc_steel", "cotton" ],
+    "material": [ "hc_steel", "plastic", "leather" ],
     "repairs_with": [ "hc_steel" ],
     "symbol": "[",
     "looks_like": "helmet_army",
     "color": "dark_gray",
     "warmth": 10,
-    "material_thickness": 1.12,
     "flags": [ "VARSIZE", "STURDY", "PADDED" ],
     "armor": [
       {
