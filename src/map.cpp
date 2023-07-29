@@ -7119,20 +7119,14 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
 
 int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p, const creature_size &viewer_size ) const
 {
-	// Find ledge between viewer and target
-    // Only the first ledge found is calculated for performance reasons
-    tripoint loc_high;
-    tripoint loc_low;
     if (viewer_p.z <= target_p.z) {
-    	loc_high = viewer_p;
-    	loc_low = target_p;
-    } else {
-    	loc_high = target_p;
-    	loc_low = viewer_p;
+    	return 0;
     }
 
-    tripoint ledge_p = loc_high;
-    for (tripoint p : line_to( tripoint(loc_low.xy(), loc_high.z), loc_high ) ) {
+	// Find ledge between viewer and target
+    // Only the first ledge found is calculated for performance reasons
+    tripoint ledge_p = target_p;
+    for (tripoint p : line_to( tripoint(viewer_p.xy(), target_p.z), target_p ) ) {
     	if ( dont_draw_lower_floor( p ) ) {
 	    	ledge_p = p;
 	    	break;
