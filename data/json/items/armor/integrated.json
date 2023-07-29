@@ -1530,7 +1530,7 @@
     ]
   },
   {
-    "id": "armor_bio_arms_basic",
+    "id": "armor_bio_legs_basic",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "bionic plating - legs" },
