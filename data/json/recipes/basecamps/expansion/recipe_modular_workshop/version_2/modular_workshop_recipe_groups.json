@@ -1,14 +1,31 @@
 [
   {
     "type": "recipe_group",
+    "id": "fbmw_2_potter_recipes_0",
+    "building_type": "SMITH",
+    "recipes": [
+      { "id": "crucible_clay", "description": " Craft: Crucible, Clay" }
+    ]
+  },
+  {
+    "type": "recipe_group",
     "id": "fbmw_2_potter_recipes_1",
     "building_type": "SMITH",
     "recipes": [
       { "id": "brick", "description": " Craft: Brick" },
       { "id": "clay_canister", "description": " Craft: Canister, Clay" },
-      { "id": "crucible_clay", "description": " Craft: Crucible, Clay" },
       { "id": "fire_brick", "description": " Craft: Brick, Fire" },
       { "id": "pebble_clay", "description": " Craft: Pellet, Clay" }
+    ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "fbmw_2_blacksmith_recipes_0",
+    "building_type": "SMITH",
+    "recipes": [
+      { "id": "stone_chisel", "description": " Craft: Stone Chisel" },
+      { "id": "makeshift_hammer", "description": " Craft: Makeshift Hammer" },
+      { "id": "primitive_hammer", "description": " Craft: Stone Hammer" }
     ]
   },
   {
