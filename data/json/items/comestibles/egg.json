@@ -1169,5 +1169,128 @@
     "material": [ "egg", "veggy" ],
     "fun": 5,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_proxy_frog",
+    "copy-from": "egg_chicken",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "weight": "20 g",
+    "volume": "650 ml",
+    "description": "A large clump of frog eggs.  They're gelatinous and transparent.",
+    "rot_spawn": "GROUP_EGG_PROXY_FROG",
+    "rot_spawn_chance": 60
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_leo_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "rot_spawn": "GROUP_EGG_LEO_FROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pattern_frog",
+    "copy-from": "egg_leo_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "rot_spawn": "GROUP_EGG_PATTERN_FROG",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_bullfrog_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "spoils_in": "14 days",
+    "rot_spawn": "GROUP_EGG_BULLFROG_FROG",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_strange_frog",
+    "copy-from": "egg_bullfrog_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "rot_spawn": "GROUP_EGG_STRANGE_FROG",
+    "rot_spawn_chance": 80
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_giant_frog",
+    "copy-from": "egg_bullfrog_frog",
+    "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
+    "weight": "143 g",
+    "volume": "130 ml",
+    "description": "A large clump of very large frog eggs. They're gelatinous, transparent and larger even than chicken's eggs. ",
+    "rot_spawn": "GROUP_EGG_GIANT_FROG",
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ],
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_fowler_toad",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "rot_spawn": "GROUP_EGG_FOWLER_TOAD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_foul_toad",
+    "copy-from": "egg_fowler_toad",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "spoils_in": "9 days",
+    "rot_spawn": "GROUP_EGG_FOUL_TOAD",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_freedom_toad",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "rot_spawn": "GROUP_EGG_FREEDOM_TOAD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_odd_toad",
+    "copy-from": "egg_freedom_toad",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "spoils_in": "9 days",
+    "rot_spawn": "GROUP_EGG_ODD_TOAD",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_peeper_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "spoils_in": "4 days",
+    "rot_spawn": "GROUP_EGG_PEEPER_FROG",
+    "rot_spawn_chance": 75
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_vocal_frog",
+    "copy-from": "egg_peeper_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "spoils_in": "7 days",
+    "rot_spawn": "GROUP_EGG_VOCAL_FROG",
+    "rot_spawn_chance": 90
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_gray_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "spoils_in": "4 days",
+    "rot_spawn": "GROUP_EGG_GRAY_FROG",
+    "rot_spawn_chance": 75
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_shift_frog",
+    "copy-from": "egg_gray_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "spoils_in": "7 days",
+    "rot_spawn": "GROUP_EGG_SHIFT_FROG",
+    "rot_spawn_chance": 90
   }
 ]

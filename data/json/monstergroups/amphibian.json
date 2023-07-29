@@ -1,0 +1,160 @@
+[
+  {
+    "name": "GROUP_TADPOLES_ALL",
+    "type": "monstergroup",
+    "default": "mon_leo_tadpole",
+    "monsters": [
+      { "monster": "mon_leo_tadpole", "weight": 70 },
+      { "monster": "mon_pattern_tadpole", "weight": 30 },
+      { "monster": "mon_bullfrog_tadpole", "weight": 80 },
+      { "monster": "mon_strange_tadpole", "weight": 40 },
+      { "monster": "mon_fowler_tadpole", "weight": 70 },
+      { "monster": "mon_foul_tadpole", "weight": 35 },
+      { "monster": "mon_freedom_tadpole", "weight": 70 },
+      { "monster": "mon_odd_tadpole", "weight": 70 },
+      { "monster": "mon_peeper_tadpole", "weight": 100 },
+      { "monster": "mon_vocal_tadpole", "weight": 50 },
+      { "monster": "mon_gray_tadpole", "weight": 70 },
+      { "monster": "mon_shift_tadpole", "weight": 25 }
+    ]
+  },
+  {
+    "name": "GROUP_TADPOLES_NATURAL",
+    "type": "monstergroup",
+    "default": "mon_leo_tadpole",
+    "monsters": [
+      { "monster": "mon_leo_tadpole", "weight": 70 },
+      { "monster": "mon_bullfrog_tadpole", "weight": 80 },
+      { "monster": "mon_fowler_tadpole", "weight": 70 },
+      { "monster": "mon_freedom_tadpole", "weight": 70 },
+      { "monster": "mon_peeper_tadpole", "weight": 100 },
+      { "monster": "mon_gray_tadpole", "weight": 70 }
+    ]
+  },
+  {
+    "name": "GROUP_TADPOLES_STRANGE",
+    "type": "monstergroup",
+    "default": "mon_strange_tadpole",
+    "monsters": [
+      { "monster": "mon_pattern_tadpole", "weight": 50 },
+      { "monster": "mon_strange_tadpole", "weight": 100 },
+      { "monster": "mon_giant_tadpole", "weight": 75 },
+      { "monster": "mon_foul_tadpole", "weight": 75 },
+      { "monster": "mon_odd_tadpole", "weight": 100 },
+      { "monster": "mon_vocal_tadpole", "weight": 100 },
+      { "monster": "mon_shift_tadpole", "weight": 50 }
+    ]
+  },
+  {
+    "name": "GROUP_TADPOLES_FROGS",
+    "type": "monstergroup",
+    "default": "mon_bullfrog_tadpole",
+    "monsters": [
+      { "monster": "mon_leo_tadpole", "weight": 100 },
+      { "monster": "mon_pattern_tadpole", "weight": 25 },
+      { "monster": "mon_bullfrog_tadpole", "weight": 100 },
+      { "monster": "mon_strange_tadpole", "weight": 50 },
+      { "monster": "mon_giant_tadpole", "weight": 50 }
+    ]
+  },
+  {
+    "name": "GROUP_TADPOLES_TOADS",
+    "type": "monstergroup",
+    "default": "mon_odd_tadpole",
+    "monsters": [
+      { "monster": "mon_fowler_tadpole", "weight": 70 },
+      { "monster": "mon_foul_tadpole", "weight": 35 },
+      { "monster": "mon_freedom_tadpole", "weight": 70 },
+      { "monster": "mon_odd_tadpole", "weight": 35 }
+    ]
+  },
+  {
+    "name": "GROUP_TADPOLES_TREEFROGS",
+    "type": "monstergroup",
+    "default": "mon_peeper_tadpole",
+    "monsters": [
+      { "monster": "mon_peeper_tadpole", "weight": 100 },
+      { "monster": "mon_vocal_tadpole", "weight": 50 },
+      { "monster": "mon_gray_tadpole", "weight": 70 },
+      { "monster": "mon_shift_tadpole", "weight": 35 }
+    ]
+  },
+  {
+    "name": "GROUP_FROGS_ALL",
+    "type": "monstergroup",
+    "default": "mon_leo_frog",
+    "monsters": [
+      { "monster": "mon_leo_frog", "weight": 70 },
+      { "monster": "mon_pattern_frog", "weight": 30 },
+      { "monster": "mon_bullfrog_frog", "weight": 80 },
+      { "monster": "mon_strange_frog", "weight": 40 },
+      { "monster": "mon_fowler_toad", "weight": 70 },
+      { "monster": "mon_foul_toad", "weight": 35 },
+      { "monster": "mon_freedom_toad", "weight": 70 },
+      { "monster": "mon_odd_toad", "weight": 70 },
+      { "monster": "mon_peeper_frog", "weight": 100 },
+      { "monster": "mon_vocal_frog", "weight": 50 },
+      { "monster": "mon_gray_frog", "weight": 70 },
+      { "monster": "mon_shift_frog", "weight": 25 }
+    ]
+  },
+  {
+    "name": "GROUP_FROGS_NATURAL",
+    "type": "monstergroup",
+    "default": "mon_leo_frog",
+    "monsters": [
+      { "monster": "mon_leo_frog", "weight": 70 },
+      { "monster": "mon_bullfrog_frog", "weight": 80 },
+      { "monster": "mon_fowler_toad", "weight": 60 },
+      { "monster": "mon_freedom_toad", "weight": 60 },
+      { "monster": "mon_peeper_frog", "weight": 100 },
+      { "monster": "mon_gray_frog", "weight": 60 }
+    ]
+  },
+  {
+    "name": "GROUP_FROGS_STRANGE",
+    "type": "monstergroup",
+    "default": "mon_strange_frog",
+    "monsters": [
+      { "monster": "mon_pattern_frog", "weight": 50 },
+      { "monster": "mon_strange_frog", "weight": 100 },
+      { "monster": "mon_foul_toad", "weight": 70 },
+      { "monster": "mon_odd_toad", "weight": 100 },
+      { "monster": "mon_vocal_frog", "weight": 70 },
+      { "monster": "mon_shift_frog", "weight": 50 }
+    ]
+  },
+  {
+    "name": "GROUP_FROGS_FROGS",
+    "type": "monstergroup",
+    "default": "mon_bullfrog_frog",
+    "monsters": [
+      { "monster": "mon_leo_frog", "weight": 100 },
+      { "monster": "mon_pattern_frog", "weight": 30 },
+      { "monster": "mon_bullfrog_frog", "weight": 100 },
+      { "monster": "mon_strange_frog", "weight": 50 }
+    ]
+  },
+  {
+    "name": "GROUP_FROGS_TOADS",
+    "type": "monstergroup",
+    "default": "mon_odd_toad",
+    "monsters": [
+      { "monster": "mon_fowler_toad", "weight": 70 },
+      { "monster": "mon_foul_toad", "weight": 35 },
+      { "monster": "mon_freedom_toad", "weight": 70 },
+      { "monster": "mon_odd_toad", "weight": 35 }
+    ]
+  },
+  {
+    "name": "GROUP_FROGS_TREEFROGS",
+    "type": "monstergroup",
+    "default": "mon_peeper_frog",
+    "monsters": [
+      { "monster": "mon_peeper_frog", "weight": 100 },
+      { "monster": "mon_vocal_frog", "weight": 40 },
+      { "monster": "mon_gray_frog", "weight": 75 },
+      { "monster": "mon_shift_frog", "weight": 25 }
+    ]
+  }
+]

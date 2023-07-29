@@ -471,5 +471,269 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ],
     "armor": { "bash": 4 }
+  },
+  {
+    "id": "mon_proxy_tadpole",
+    "type": "MONSTER",
+    "description": "The larval form of some species of frog. Soon enough it will undergo metamorphosis into its adult form.",
+    "name": { "str": "tadpole" },
+    "default_faction": "frog",
+    "bodytype": "fish",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "AMPHIBIAN" ],
+    "volume": "120 ml",
+    "weight": "10 g",
+    "hp": 1,
+    "speed": 70,
+    "material": [ "flesh" ],
+    "symbol": "t",
+    "color": "brown",
+    "aggression": -60,
+    "morale": -5,
+    "dodge": 5,
+    "harvest": "mammal_tiny",
+    "vision_night": 30,
+    "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "HURT", "FRIEND_ATTACKED", "SOUND" ],
+    "upgrades": { "age_grow": 60, "into": "mon_proxy_frog" },
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+  },
+  {
+    "id": "mon_leo_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_tadpole",
+    "name": { "str": "tadpole" },
+    "upgrades": { "age_grow": 90, "into": "mon_leo_frog" }
+  },
+  {
+    "id": "mon_pattern_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_leo_tadpole",
+    "name": { "str": "tadpole" },
+    "upgrades": { "age_grow": 90, "into": "mon_pattern_frog" }
+  },
+  {
+    "id": "mon_bullfrog_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_tadpole",
+    "name": { "str": "tadpole" },
+    "volume": "240 ml",
+    "weight": "40 g",
+    "hp": 2,
+    "upgrades": { "age_grow": 365, "into": "mon_bullfrog_frog" }
+  },
+  {
+    "id": "mon_strange_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_bullfrog_tadpole",
+    "name": { "str": "tadpole" },
+    "upgrades": { "age_grow": 90, "into": "mon_strange_frog" }
+  },
+  {
+    "id": "mon_giant_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_medium",
+    "description": "A tadpole larger than most bass. It swims a bit like one too.",
+    "name": { "str": "giant tadpole" },
+    "default_faction": "frog",
+    "species": [ "AMPHIBIAN" ],
+    "symbol": "J",
+    "color": "brown",
+    "dissect": "dissect_batrachian_sample_single",
+    "harvest": "mammal_tiny",
+    "vision_night": 30,
+    "upgrades": { "age_grow": 365, "into": "mon_frog_small" },
+    "reproduction": { "baby_egg": "egg_bullfrog_frog", "baby_count": 16, "baby_timer": 60 },
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+  },
+  {
+    "id": "mon_fowler_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_tadpole",
+    "name": { "str": "tadpole" },
+    "upgrades": { "age_grow": 30, "into": "mon_fowler_toad" }
+  },
+  {
+    "id": "mon_foul_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_fowler_tadpole",
+    "name": { "str": "tadpole" },
+    "upgrades": { "age_grow": 30, "into": "mon_foul_toad" }
+  },
+  {
+    "id": "mon_freedom_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_tadpole",
+    "name": { "str": "tadpole" },
+    "upgrades": { "age_grow": 60, "into": "mon_freedom_toad" }
+  },
+  {
+    "id": "mon_odd_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_freedom_tadpole",
+    "name": { "str": "tadpole" },
+    "upgrades": { "age_grow": 60, "into": "mon_odd_toad" }
+  },
+  {
+    "id": "mon_peeper_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_tadpole",
+    "name": { "str": "tadpole" },
+    "upgrades": { "age_grow": 60, "into": "mon_peeper_frog" }
+  },
+  {
+    "id": "mon_vocal_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_peeper_tadpole",
+    "name": { "str": "tadpole" },
+    "upgrades": { "age_grow": 60, "into": "mon_vocal_frog" }
+  },
+  {
+    "id": "mon_gray_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_tadpole",
+    "name": { "str": "tadpole" },
+    "upgrades": { "age_grow": 60, "into": "mon_gray_frog" }
+  },
+  {
+    "id": "mon_shift_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_gray_tadpole",
+    "name": { "str": "tadpole" },
+    "upgrades": { "age_grow": 60, "into": "mon_shift_frog" }
+  },
+  {
+    "id": "mon_proxy_frog",
+    "type": "MONSTER",
+    "description": "A hypothetical frog, if you're seeing this there's a problem.",
+    "name": { "str": "proxy frog" },
+    "default_faction": "frog",
+    "bodytype": "frog",
+    "looks_like": "mon_frog",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "AMPHIBIAN" ],
+    "volume": "400 ml",
+    "weight": "60 g",
+    "hp": 3,
+    "speed": 80,
+    "material": [ "flesh" ],
+    "symbol": "b",
+    "color": "green",
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "dodge": 6,
+    "dissect": "dissect_batrachian_sample_single",
+    "harvest": "mammal_tiny",
+    "vision_night": 30,
+    "special_attacks": [ { "type": "leap", "cooldown": 4, "max_range": 4, "allow_no_target": true } ],
+    "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "HURT", "FRIEND_ATTACKED" ],
+    "reproduction": { "baby_egg": "egg_proxy_frog", "baby_count": 8, "baby_timer": 26 },
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "WATER_CAMOUFLAGE" ]
+  },
+  {
+    "id": "mon_leo_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_frog",
+    "description": "Leopard frogs are named for the brown spots on their backs and legs. Although limited by size, they too are voracious predators.",
+    "name": { "str": "leopard frog" },
+    "reproduction": { "baby_egg": "egg_leo_frog", "baby_count": 6, "baby_timer": 80 }
+  },
+  {
+    "id": "mon_pattern_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_leo_frog",
+    "description": "This large frog is covered in chaotic markings like a fractal river map over a background of tv static.",
+    "name": { "str": "strangely-patterned frog" },
+    "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 6, "baby_timer": 80 }
+  },
+  {
+    "id": "mon_bullfrog_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_frog",
+    "description": "The American bullfrog, in its natural habitat.  It feeds on insects, mice, lizards and any other living thing it can stuff down its gullet.",
+    "name": { "str": "bullfrog" },
+    "volume": "750 ml",
+    "weight": "500 g",
+    "hp": 4,
+    "reproduction": { "baby_egg": "egg_bullfrog_frog", "baby_count": 16, "baby_timer": 60 }
+  },
+  {
+    "id": "mon_strange_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_bullfrog_frog",
+    "description": "Based on its vestigial tail, you might call it a polliwog. That is if it weren't so large and didn't already move like an adult frog. Whatever species it is, it looks to have some growing left to do.",
+    "name": { "str": "strange bullfrog" },
+    "upgrades": { "age_grow": 120, "into": "mon_frog_small" },
+    "reproduction": { "baby_egg": "egg_strange_frog", "baby_count": 16, "baby_timer": 60 }
+  },
+  {
+    "id": "mon_fowler_toad",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_frog",
+    "description": "Fowler's toads secrete a harmful and distasteful compound from their backs. This helps to safeguard them from predators and also gives them a distinctive odour like boiled peanuts.",
+    "name": { "str": "fowler's toad" },
+    "reproduction": { "baby_egg": "egg_fowler_toad", "baby_count": 8, "baby_timer": 60 }
+  },
+  {
+    "id": "mon_foul_toad",
+    "type": "MONSTER",
+    "copy-from": "mon_fowler_toad",
+    "description": "You could almost smell it before you saw it. This toad reeks. You're not quite sure what like, but it's hot and musky and it sticks in your nose until you're tasting it.",
+    "name": { "str": "foul toad" },
+    "reproduction": { "baby_egg": "egg_foul_toad", "baby_count": 8, "baby_timer": 60 }
+  },
+  {
+    "id": "mon_freedom_toad",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_frog",
+    "description": "American toads can vary greatly in appearance. Individual toads will shift their coloration and patterning throughout the seasons to better camouflage.",
+    "name": { "str": "american toad" },
+    "reproduction": { "baby_egg": "egg_freedom_toad", "baby_count": 8, "baby_timer": 80 }
+  },
+  {
+    "id": "mon_odd_toad",
+    "type": "MONSTER",
+    "copy-from": "mon_freedom_toad",
+    "description": "Toads come in all sorts of funky variety, but there's just something... off about this one. Maybe its the proportions of the head or the angle of the limbs, perhaps the slope of its back and head. No one feature stands out under scrutiny. ",
+    "name": { "str": "odd toad" },
+    "upgrades": { "age_grow": 120, "into": "mon_toad_small" },
+    "reproduction": { "baby_egg": "egg_odd_toad", "baby_count": 8, "baby_timer": 80 }
+  },
+  {
+    "id": "mon_peeper_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_frog",
+    "description": "This diminutive frog has a distinctive chirping call and bands of darker skin that form a rough X shape on its back.",
+    "name": { "str": "spring peeper" },
+    "volume": "50 ml",
+    "weight": "4 g",
+    "hp": 1,
+    "reproduction": { "baby_egg": "egg_peeper_frog", "baby_count": 8, "baby_timer": 60 }
+  },
+  {
+    "id": "mon_vocal_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_peeper_frog",
+    "description": "Like a powered machine, this frog never stops making noise. When it calls, its whole torso expands like an inflatable suit.",
+    "name": { "str": "vocal treefrog" },
+    "reproduction": { "baby_egg": "egg_vocal_frog", "baby_count": 8, "baby_timer": 60 }
+  },
+  {
+    "id": "mon_gray_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_frog",
+    "description": "This treefrog can change its coloration much like a chameleon, shifting from a near-white gray, through greens and browns, to a dark, almost charcoal color.",
+    "name": { "str": "gray treefrog" },
+    "volume": "200 ml",
+    "weight": "25 g",
+    "hp": 2,
+    "reproduction": { "baby_egg": "egg_gray_frog", "baby_count": 8, "baby_timer": 60 }
+  },
+  {
+    "id": "mon_shift_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_gray_frog",
+    "description": "You've seen it wrinkle its skin into bark and disappear on a tree; settle on a toadstool and take its spots. It's no trick of the light, this frog's skin shifts not just color but texture.",
+    "name": { "str": "shifting treefrog" },
+    "reproduction": { "baby_egg": "egg_shift_frog", "baby_count": 8, "baby_timer": 60 }
   }
 ]
