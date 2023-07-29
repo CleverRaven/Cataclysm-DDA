@@ -1517,6 +1517,12 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
             }
         }
     }
+    if( link_length() != rhs.link_length() ) {
+        return false;
+    }
+    if( max_link_length() != rhs.max_link_length() ) {
+        return false;
+    }
     const std::vector<const item *> this_mods = mods();
     const std::vector<const item *> that_mods = rhs.mods();
     if( this_mods.size() != that_mods.size() ) {
@@ -12979,6 +12985,14 @@ int item::link_length() const
 int item::max_link_length() const
 {
     return !link ? -2 : link->max_length != -1 ? link->max_length : type->maximum_charges();
+}
+
+int item::link_sort_key() const
+{
+    const int length = link_length();
+    int key = length >= 0 ? -1000000000 : length == -1 ? 0 : 1000000000;
+    key += max_link_length() * 100000;
+    return key - length;
 }
 
 bool item::process_link( map &here, Character *carrier, const tripoint &pos )

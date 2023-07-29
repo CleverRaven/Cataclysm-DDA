@@ -86,12 +86,9 @@ item_name_t &get_cached_name( item const *it )
 {
     auto iter = item_name_cache.find( it );
     if( iter == item_name_cache.end() ) {
-        const std::string name = remove_color_tags( it->tname( 1, false, 0, true, false ) );
-        const std::string name_full = string_format( "%s%d%d",
-                                      remove_color_tags( it->tname( 1, true, 0, true, false ) ),
-                                      it->max_link_length(), it->link_length() );
         return item_name_cache
-               .emplace( it, item_name_t{ name, name_full } )
+               .emplace( it, item_name_t{ remove_color_tags( it->tname( 1, false, 0, true, false ) ),
+                                          remove_color_tags( it->tname( 1, true, 0, true, false ) ) } )
                .first->second;
     }
 
@@ -662,7 +659,8 @@ bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
     auto const sort_key = []( inventory_entry const & e ) {
-        return std::make_tuple( *e.cached_name, *e.cached_name_full, e.generation );
+        return std::make_tuple( *e.cached_name, *e.cached_name_full,
+                                e.any_item()->link_sort_key(), e.generation );
     };
     return localized_compare( sort_key( lhs ), sort_key( rhs ) );
 }

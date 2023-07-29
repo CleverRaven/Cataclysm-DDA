@@ -1475,6 +1475,11 @@ class item : public visitable
         int max_link_length() const;
 
         /**
+         * Value used for sorting linked items in inventory lists.
+         */
+        int link_sort_key() const;
+
+        /**
          * Brings a cable item back to its initial state.
          * @param p Set to character that's holding the linked item, nullptr if none.
          * @param vpart_index The index of the vehicle part the cable is attached to, so it can have `linked_flag` removed.
