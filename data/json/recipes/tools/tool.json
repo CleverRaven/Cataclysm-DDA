@@ -334,10 +334,10 @@
         "learning_time_multiplier": 0.1
       }
     ],
-    "using": [ [ "forging_standard", 4 ], [ "plastic_molding", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "steel_lump", 2 ] ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "plastic_molding", 1 ], [ "steel_standard", 2 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "components": [ [ [ "plastic_chunk", 2 ] ] ]
   },
   {
     "result": "forged_shears",
@@ -354,10 +354,9 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "forging_standard", 4 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "steel_lump", 3 ] ] ]
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "result": "bronze_shears",
@@ -419,10 +418,10 @@
     "difficulty": 4,
     "time": "120 m",
     "autolearn": true,
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
-    "using": [ [ "forging_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
@@ -449,14 +448,14 @@
     "difficulty": 7,
     "time": "6 h",
     "autolearn": true,
-    "using": [ [ "forging_standard", 4 ], [ "plastic_molding", 1 ] ],
+    "using": [ [ "blacksmithing_scrap", 2 ], [ "plastic_molding", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_plasticworking" }
     ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
@@ -542,14 +541,14 @@
     "time": "300 m",
     "reversible": true,
     "book_learn": [ [ "manual_mechanics", 3 ], [ "manual_fabrication", 5 ], [ "textbook_fabrication", 5 ] ],
-    "using": [ [ "forging_standard", 10 ], [ "steel_standard", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ]
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
     "result": "jack_makeshift",
@@ -593,7 +592,7 @@
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "5 h",
-    "using": [ [ "blacksmithing_standard", 7 ], [ "steel_standard", 7 ] ],
+    "using": [ [ "blacksmithing_standard", 28 ], [ "steel_standard", 7 ] ],
     "book_learn": [ [ "manual_shotgun", 2 ], [ "manual_rifle", 2 ], [ "manual_smg", 2 ], [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -823,17 +822,14 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "tools": [ [ [ "tongs", -1 ] ] ],
     "//": "50cm weld",
-    "using": [ [ "welding_standard", 50 ], [ "forging_standard", 1 ] ],
+    "using": [ [ "welding_standard", 50 ], [ "blacksmithing_standard", 14 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "HAMMER", "level": 3 },
       { "id": "GRIND", "level": 2 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 2 },
@@ -981,7 +977,7 @@
     "time": "6 h",
     "reversible": true,
     "book_learn": [ [ "textbook_fireman", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1070,7 +1066,7 @@
     "book_learn": [ [ "textbook_extraction", 5 ] ],
     "reversible": true,
     "//": "90cm weld",
-    "using": [ [ "welding_standard", 90 ], [ "blacksmithing_standard", 2 ], [ "steel_standard", 5 ] ],
+    "using": [ [ "welding_standard", 90 ], [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M", "level": 2 },
@@ -1107,7 +1103,7 @@
     "book_learn": [ [ "textbook_extraction", 5 ] ],
     "reversible": true,
     "//": "110cm weld",
-    "using": [ [ "welding_standard", 110 ], [ "blacksmithing_standard", 5 ], [ "steel_standard", 10 ] ],
+    "using": [ [ "welding_standard", 110 ], [ "blacksmithing_standard", 40 ], [ "steel_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M", "level": 2 },
@@ -1232,8 +1228,10 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ], [ "fake_arc_furnace", 10 ] ], [ [ "metalworking_tongs", -1 ] ] ],
+    "using": [ [ "forging_scrap", 2 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ] ],
+    "//": "Specifically avoids blacksmithing requirement groups so that it's craftable without itself - substitutes metal fileset for metalworking chisel.",
     "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
@@ -1282,7 +1280,7 @@
     "book_learn": [ [ "textbook_extraction", 5 ] ],
     "reversible": true,
     "//": "150cm weld",
-    "using": [ [ "welding_standard", 150 ], [ "blacksmithing_standard", 2 ], [ "steel_standard", 5 ] ],
+    "using": [ [ "welding_standard", 150 ], [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M", "level": 2 },
@@ -1501,7 +1499,12 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 5 ] ] ],
+    "tools": [
+      [ [ "metalworking_tongs", -1 ] ],
+      [ [ "pipe", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 5 ] ]
+    ],
     "components": [ [ [ "glass_shard", 1 ], [ "flask_glass", 1 ], [ "marble", 25 ] ] ]
   },
   {
@@ -1577,7 +1580,7 @@
     "difficulty": 3,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "using": [ [ "blacksmithing_scrap", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 1.5 },
@@ -1585,7 +1588,7 @@
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "scrap", 2 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "makeshift_welding_blanket",

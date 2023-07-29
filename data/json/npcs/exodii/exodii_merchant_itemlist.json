@@ -277,7 +277,8 @@
       [ "bio_shotgun", 10 ],
       [ "bio_laser", 5 ],
       [ "bio_shock", 10 ],
-      [ "bio_recoil", 15 ]
+      [ "bio_recoil", 15 ],
+      [ "bio_taser", 10 ]
     ]
   },
   {

@@ -1,0 +1,10 @@
+[
+  {
+    "result": "crowbar",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_lump", 1 ] ], [ [ "steel_chunk", 2 ] ] ]
+  }
+]

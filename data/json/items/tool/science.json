@@ -1309,7 +1309,7 @@
     "symbol": "l",
     "color": "light_gray",
     "melee_damage": { "bash": 2 },
-    "//2": "Based on https://www.amazon.com/QWORK-Laboratory-Stands-Support-Burette/dp/B08ZSC1H5F/ref=sr_1_3?crid=37KM69HA77UU2&keywords=ring%2Bstand&qid=1684348895&sprefix=ring%2Bstand%2Caps%2C389&sr=8-3&th=1"
+    "//2": "Based on https://www.amazon.com/dp/B08ZSC1H5F"
   },
   {
     "id": "stand_ring_clamps",

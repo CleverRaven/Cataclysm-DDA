@@ -84,5 +84,15 @@
         }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "This is done to give a chance for lmoe bunkers to spawn with solar panels on the roof",
+    "nested_mapgen_id": "lmoe_solar",
+    "object": { "mapgensize": [ 2, 2 ], "rows": [
+        "MM",
+        "MM"
+      ], "palettes": [ "roof_palette" ] }
   }
 ]

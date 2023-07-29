@@ -52,6 +52,12 @@
         }
       },
       {
+        "group": "robofac_robots",
+        "rigid": true,
+        "strict": true,
+        "condition": { "u_has_var": "completed_robofac_intercom_portal_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" }
+      },
+      {
         "group": "robofac_gun_mags",
         "rigid": true,
         "condition": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },

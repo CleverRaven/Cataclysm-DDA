@@ -119,6 +119,7 @@ static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
 static const mon_flag_str_id mon_flag_MECH_DEFENSIVE( "MECH_DEFENSIVE" );
 static const mon_flag_str_id mon_flag_NIGHT_INVISIBILITY( "NIGHT_INVISIBILITY" );
 static const mon_flag_str_id mon_flag_RANGED_ATTACKER( "RANGED_ATTACKER" );
+static const mon_flag_str_id mon_flag_SMALL_HIDER( "SMALL_HIDER" );
 static const mon_flag_str_id mon_flag_WATER_CAMOUFLAGE( "WATER_CAMOUFLAGE" );
 
 static const species_id species_ROBOT( "ROBOT" );
@@ -410,6 +411,10 @@ bool Creature::sees( const Creature &critter ) const
                                 here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos() ),
                                 posz() != critter.posz() ) ) ||
                ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_HIDE_PLACE, critter.pos() ) &&
+                 !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
+                    std::abs( posz() - critter.posz() ) <= 1 ) ) ||
+               ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SMALL_HIDE, critter.pos() ) &&
+                 critter.has_flag( mon_flag_SMALL_HIDER ) &&
                  !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
                     std::abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
@@ -1211,6 +1216,9 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
             total_damage += cur_damage;
         }
     }
+    // get eocs for all damage effects
+    d.ondamage_effects( source, this, dam, bp.id() );
+
     if( total_base_damage < total_damage ) {
         // Only deal more HP than remains if damage not including crit multipliers is higher.
         total_damage = clamp( get_hp( bp ), total_base_damage, total_damage );
@@ -1542,10 +1550,10 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
             if( e.get_int_dur_factor() > 0_turns ) {
                 // Set intensity if value is given
             } else if( intensity > 0 ) {
-                e.set_intensity( intensity );
+                e.set_intensity( intensity, is_avatar() );
                 // Else intensity uses the type'd step size if it already exists
             } else if( e.get_int_add_val() != 0 ) {
-                e.mod_intensity( e.get_int_add_val() );
+                e.mod_intensity( e.get_int_add_val(), is_avatar() );
             }
 
             // Bound intensity by [1, max intensity]
@@ -1598,8 +1606,8 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
         ( *effects )[eff_id][bp] = e;
         if( Character *ch = as_character() ) {
             get_event_bus().send<event_type::character_gains_effect>( ch->getID(), eff_id );
-            if( is_avatar() && !type.get_apply_message().empty() ) {
-                add_msg( type.gain_game_message_type(), type.get_apply_message() );
+            if( is_avatar() ) {
+                eff_id->add_apply_msg( e.get_intensity() );
             }
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
@@ -1681,7 +1689,8 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
     if( Character *ch = as_character() ) {
         if( is_avatar() ) {
             if( !type.get_remove_message().empty() ) {
-                add_msg( type.lose_game_message_type(), type.get_remove_message() );
+                add_msg( type.lose_game_message_type( get_effect( eff_id, bp.id() ).get_intensity() ),
+                         type.get_remove_message() );
             }
         }
         get_event_bus().send<event_type::character_loses_effect>( ch->getID(), eff_id );
@@ -2122,9 +2131,9 @@ void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max
     }
 }
 
-bool Creature::has_part( const bodypart_id &id ) const
+bool Creature::has_part( const bodypart_id &id, body_part_filter filter ) const
 {
-    return body.count( id.id() );
+    return get_part_id( id, filter, true ) != body_part_bp_null;
 }
 
 bodypart *Creature::get_part( const bodypart_id &id )
@@ -2182,20 +2191,25 @@ static void set_part_helper( Creature &c, const bodypart_id &id,
     }
 }
 
-bodypart_id Creature::get_part_id( const bodypart_id &id ) const
+bodypart_id Creature::get_part_id( const bodypart_id &id,
+                                   body_part_filter filter, bool suppress_debugmsg ) const
 {
     auto found = body.find( id.id() );
-    if( found == body.end() ) {
-        // try to find an equivalent part in the body map
+    if( found != body.end() ) {
+        return found->first;
+    }
+    // try to find an equivalent part in the body map
+    if( filter >= body_part_filter::equivalent ) {
         for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
             if( id->part_side == bp.first->part_side &&
                 id->primary_limb_type() == bp.first->primary_limb_type() ) {
                 return bp.first;
             }
         }
-
-        // try to find the next best thing
-        std::pair<bodypart_id, float> best = { body_part_bp_null, 0.0f };
+    }
+    // try to find the next best thing
+    std::pair<bodypart_id, float> best = { body_part_bp_null, 0.0f };
+    if( filter >= body_part_filter::next_best ) {
         for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
             for( const std::pair<const body_part_type::type, float> &mp : bp.first->limbtypes ) {
                 // if the secondary limb type matches and is better than the current
@@ -2206,14 +2220,12 @@ bodypart_id Creature::get_part_id( const bodypart_id &id ) const
                 }
             }
         }
-
-        if( best.first == body_part_bp_null ) {
-            debugmsg( "Could not find equivalent bodypart id %s in %s's body", id.id().c_str(), get_name() );
-        }
-
-        return best.first;
     }
-    return found->first;
+    if( best.first == body_part_bp_null && !suppress_debugmsg ) {
+        debugmsg( "Could not find equivalent bodypart id %s in %s's body", id.id().c_str(), get_name() );
+    }
+
+    return best.first;
 }
 
 int Creature::get_part_hp_cur( const bodypart_id &id ) const

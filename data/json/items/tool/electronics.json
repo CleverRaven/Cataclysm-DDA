@@ -535,7 +535,13 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": [ "EMF_PASSIVE_OFF" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the EMF detector on.",
+      "target": "emf_detector_on",
+      "active": true,
+      "need_charges_msg": "It's dead."
+    },
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
@@ -556,7 +562,13 @@
     "//": "lasts 12 hours with backlight off",
     "power_draw": "6 W",
     "revert_to": "emf_detector",
-    "use_action": [ "EMF_PASSIVE_ON" ],
+    "use_action": {
+      "type": "transform",
+      "target": "emf_detector",
+      "msg": "The noise of your EMF detector slows to a halt.",
+      "menu_text": "Turn off"
+    },
+    "tick_action": [ "EMF_PASSIVE_ON" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {

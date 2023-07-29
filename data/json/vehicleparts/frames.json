@@ -158,14 +158,15 @@
     "unfolding_time": "0 seconds",
     "categories": [ "hull" ],
     "durability": 100,
-    "description": "A light wooden decking.  Other skateboard components can be mounted on it.",
+    "description": "A light wooden skateboard deck.  Other skateboard components can be mounted on it.",
     "power": "360 W",
     "muscle_power_factor": 60,
     "fuel_type": "muscle",
     "m2c": 45,
-    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "count": [ 1, 4 ] } ],
+    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "fabrication", 0 ] ], "time": "10 m", "using": [ [ "vehicle_nail_install", 4 ] ] },
+      "install": { "skills": [ [ "fabrication", 0 ] ], "time": "0 m" },
+      "removal": { "skills": [ [ "fabrication", 0 ] ], "time": "0 m" },
       "repair": { "skills": [ [ "fabrication", 0 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
     },
     "extend": {

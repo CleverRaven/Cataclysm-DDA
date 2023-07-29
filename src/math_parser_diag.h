@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_MATH_PARSER_DIAG_H
 #define CATA_SRC_MATH_PARSER_DIAG_H
 
@@ -99,6 +100,7 @@ using decl_diag_ass = std::function<void( dialogue &, double )> ( char scope,
 
 decl_diag_eval armor_eval;
 decl_diag_eval attack_speed_eval;
+decl_diag_eval hp_max_eval;
 decl_diag_eval monsters_nearby_eval;
 decl_diag_eval num_input_eval;
 decl_diag_eval option_eval;
@@ -119,6 +121,7 @@ inline std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "armor", { "un", 2, armor_eval } },
     { "attack_speed", { "un", 0, attack_speed_eval } },
     { "game_option", { "g", 1, option_eval } },
+    { "hp_max", { "un", 1, hp_max_eval } },
     { "monsters_nearby", { "ung", -1, monsters_nearby_eval } },
     { "num_input", { "g", 2, num_input_eval } },
     { "pain", { "un", 0, pain_eval } },

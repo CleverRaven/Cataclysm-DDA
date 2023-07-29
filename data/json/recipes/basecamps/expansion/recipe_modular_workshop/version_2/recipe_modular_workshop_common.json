@@ -128,8 +128,8 @@
     "blueprint_requires": [ { "id": "fbmw_2_common_smithy_3" }, { "id": "fbmw_2_smithy_3" } ],
     "blueprint_provides": [ { "id": "fbmw_2_common_smithy_4" }, { "id": "fbmw_2_blacksmith_recipes_4" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_common_smithy_4" } ],
-    "blueprint_resources": [ "tongs", "chisel", "hammer", "swage" ],
-    "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ],
+    "blueprint_resources": [ "metalworking_tongs", "chisel", "hammer", "swage" ],
+    "components": [ [ [ "metalworking_tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ],
     "flags": [
       "MAP_MIRROR_HORIZONTAL_IF_N",
       "MAP_ROTATE_90_IF_NE",
@@ -243,8 +243,8 @@
     "blueprint_requires": [ { "id": "fbmw_2_glassblower" } ],
     "blueprint_provides": [ { "id": "fbmw_2_common_glassblower" }, { "id": "blacksmith" }, { "id": "fbmw_2_glassblower_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_common_glassblower" } ],
-    "components": [ [ [ "chisel", 1 ] ], [ [ "tongs", 1 ] ], [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ] ],
-    "blueprint_resources": [ "fake_forge", "chisel", "tongs", "crucible" ],
+    "components": [ [ [ "chisel", 1 ] ], [ [ "metalworking_tongs", 1 ] ], [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ] ],
+    "blueprint_resources": [ "fake_forge", "chisel", "metalworking_tongs", "crucible" ],
     "flags": [
       "MAP_MIRROR_HORIZONTAL_IF_N",
       "MAP_ROTATE_90_IF_NE",

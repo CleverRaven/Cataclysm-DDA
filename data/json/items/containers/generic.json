@@ -14,5 +14,34 @@
     "symbol": ")",
     "color": "light_gray",
     "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "trashcan",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "trash can" },
+    "looks_like": "f_trashcan",
+    "description": "A big trashcan in which you can store, you guessed it, trash.  Made out of plastic, so it's watertight but fragile and won't survive if you try to carry something really heavy in it.",
+    "weight": "1021 g",
+    "//1": "Weight taken from https://www.amazon.com/dp/B08PDQDBFL - roughly the same size but actually has specified weight in the listing.",
+    "volume": "56228 ml",
+    "longest_side": "51 cm",
+    "price": "12 USD",
+    "//2": "Based on https://www.amazon.com/dp/B00030L5HY.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "38 L",
+        "max_contains_weight": "50 kg",
+        "open_container": true,
+        "rigid": true,
+        "watertight": true
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "material": [ "plastic" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_trashcan" },
+    "symbol": ")",
+    "color": "light_gray"
   }
 ]

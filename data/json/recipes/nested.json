@@ -69,7 +69,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "Steelshod Quarterstaves",
+    "name": "steelshod quarterstaves",
     "description": "Recipes related to constructing different qualities of steelshod quarterstaves.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_steel_staff", "mc_steel_staff", "hc_steel_staff", "ch_steel_staff", "qt_steel_staff" ],
@@ -2520,7 +2520,7 @@
     "name": "quivers",
     "description": "Recipes related to constructing different kinds of quivers to hold arrows.",
     "skill_used": "tailor",
-    "nested_category_data": [ "quiver_takedown_bow", "quiver", "quiver_birchbark", "quiver_large", "quiver_large_birchbark" ],
+    "nested_category_data": [ "quiver_takedown_bow", "quiver", "quiver_birchbark", "quiver_large", "quiver_large_birchbark", "nylon_quiver" ],
     "difficulty": 3
   },
   {
@@ -3511,6 +3511,84 @@
     "difficulty": 7
   },
   {
+    "id": "nested_lc_chainmail_half_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel chain half-legs",
+    "description": "Recipes related to constructing various sizes of partial chainmail leggings.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_chainmail_half_legs", "xs_lc_chainmail_half_legs", "xl_lc_chainmail_half_legs" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_chainmail_half_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel chain half-legs",
+    "description": "Recipes related to constructing various sizes of partial chainmail leggings.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_chainmail_half_legs", "xs_mc_chainmail_half_legs", "xl_mc_chainmail_half_legs" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_hc_chainmail_half_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel chain half-legs",
+    "description": "Recipes related to constructing various sizes of partial chainmail leggings.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_chainmail_half_legs", "xs_hc_chainmail_half_legs", "xl_hc_chainmail_half_legs" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_ch_chainmail_half_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel chain half-legs",
+    "description": "Recipes related to constructing various sizes of partial chainmail leggings.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_chainmail_half_legs", "xs_ch_chainmail_half_legs", "xl_ch_chainmail_half_legs" ],
+    "difficulty": 4
+  },
+  {
+    "id": "nested_qt_chainmail_half_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel chain half-legs",
+    "description": "Recipes related to constructing various sizes of partial chainmail leggings.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_chainmail_half_legs", "xs_qt_chainmail_half_legs", "xl_qt_chainmail_half_legs" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_all_chainmail_half_legs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "name": "steel chain half-legs",
+    "description": "Recipes related to constructing various sizes and types of partial chainmail leggings.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_chainmail_half_legs",
+      "nested_mc_chainmail_half_legs",
+      "nested_hc_chainmail_half_legs",
+      "nested_ch_chainmail_half_legs",
+      "nested_qt_chainmail_half_legs"
+    ],
+    "difficulty": 7
+  },
+  {
     "id": "nested_boots_fsurvivor",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -4452,7 +4530,7 @@
     "type": "nested_category",
     "activity_level": "fake",
     "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
+    "subcategory": "CSC_WEAPON_PIERCING",
     "name": "estocs",
     "description": "Recipes for making estocs.",
     "skill_used": "fabrication",
@@ -4571,8 +4649,8 @@
     "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
-    "name": "kilij'",
-    "description": "Recipes for making kilijs'.",
+    "name": "kilijes",
+    "description": "Recipes for making kilijes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_kilij", "mc_kilij", "hc_kilij", "ch_kilij", "qt_kilij" ],
     "difficulty": 7
@@ -4584,7 +4662,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "survival knives",
-    "description": "Recipes for making survival knives'.",
+    "description": "Recipes for making survival knives.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_knife_rambo", "mc_knife_rambo", "hc_knife_rambo", "ch_knife_rambo", "qt_knife_rambo" ],
     "difficulty": 7
@@ -4596,7 +4674,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "trench knives",
-    "description": "Recipes for making trench knives'.",
+    "description": "Recipes for making trench knives.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_knife_trench", "mc_knife_trench", "hc_knife_trench", "ch_knife_trench", "qt_knife_trench" ],
     "difficulty": 5
@@ -4608,7 +4686,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "kukris",
-    "description": "Recipes for making kukris'.",
+    "description": "Recipes for making kukris.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_kukri", "mc_kukri", "hc_kukri", "ch_kukri", "qt_kukri" ],
     "difficulty": 7
@@ -5052,7 +5130,6 @@
       "bot_c4_hack",
       "bot_hazmatbot",
       "bot_EMP_hack",
-      "bot_eyebot",
       "bot_flashbang_hack",
       "bot_grenade_hack",
       "bot_grocerybot",
@@ -5066,8 +5143,6 @@
       "bot_molebot",
       "bot_mininuke_hack",
       "bot_nursebot",
-      "bot_copbot",
-      "bot_riotbot",
       "bot_skitterbot",
       "bot_secubot",
       "bot_tazer_hack",
@@ -5240,6 +5315,162 @@
       "nested_hc_elbow_guards",
       "nested_ch_elbow_guards",
       "nested_qt_elbow_guards"
+    ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_lc_vambrace_brigandine",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel splint vambraces",
+    "description": "Recipes related to forging various sizes of splint mail vambraces.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_vambrace_brigandine", "xl_lc_vambrace_brigandine", "xs_lc_vambrace_brigandine" ],
+    "difficulty": 4
+  },
+  {
+    "id": "nested_mc_vambrace_brigandine",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel splint mail vambraces",
+    "description": "Recipes related to forging various sizes of splint mail vambraces.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_vambrace_brigandine", "xl_mc_vambrace_brigandine", "xs_mc_vambrace_brigandine" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_hc_vambrace_brigandine",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel splint mail vambraces",
+    "description": "Recipes related to forging various sizes of splint mail vambraces.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_vambrace_brigandine", "xl_hc_vambrace_brigandine", "xs_hc_vambrace_brigandine" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_ch_vambrace_brigandine",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel splint mail vambraces",
+    "description": "Recipes related to forging various sizes of splint mail vambraces.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_vambrace_brigandine", "xl_ch_vambrace_brigandine", "xs_ch_vambrace_brigandine" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_qt_vambrace_brigandine",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel splint mail vambraces",
+    "description": "Recipes related to forging various sizes of splint mail vambraces.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_vambrace_brigandine", "xl_qt_vambrace_brigandine", "xs_qt_vambrace_brigandine" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_all_vambrace_brigandine",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "name": "splint mail vambraces",
+    "description": "Recipes related to forging various sizes of splint mail vambraces.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_vambrace_brigandine",
+      "nested_mc_vambrace_brigandine",
+      "nested_hc_vambrace_brigandine",
+      "nested_ch_vambrace_brigandine",
+      "nested_qt_vambrace_brigandine"
+    ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_lc_greaves_brigandine",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel splint greaves",
+    "description": "Recipes related to constructing various sizes of splint greaves.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_greaves_brigandine", "xl_lc_greaves_brigandine", "xs_lc_greaves_brigandine" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_mc_greaves_brigandine",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel splint greaves",
+    "description": "Recipes related to constructing various sizes of splint greaves.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mc_greaves_brigandine", "xl_mc_greaves_brigandine", "xs_mc_greaves_brigandine" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_hc_greaves_brigandine",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel splint greaves",
+    "description": "Recipes related to constructing various sizes of splint greaves.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hc_greaves_brigandine", "xl_hc_greaves_brigandine", "xs_hc_greaves_brigandine" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_ch_greaves_brigandine",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel splint greaves",
+    "description": "Recipes related to constructing various sizes of splint greaves.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "ch_greaves_brigandine", "xl_ch_greaves_brigandine", "xs_ch_greaves_brigandine" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_qt_greaves_brigandine",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel splint greaves",
+    "description": "Recipes related to constructing various sizes of splint greaves.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "qt_greaves_brigandine", "xl_qt_greaves_brigandine", "xs_qt_greaves_brigandine" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_all_greaves_brigandine",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "name": "splint mail greaves",
+    "description": "Recipes related to forging various sizes of splint mail greaves.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_greaves_brigandine",
+      "nested_mc_greaves_brigandine",
+      "nested_hc_greaves_brigandine",
+      "nested_ch_greaves_brigandine",
+      "nested_qt_greaves_brigandine"
     ],
     "difficulty": 5
   },
@@ -6050,7 +6281,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "low steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_helmet_nasal", "xl_lc_helmet_nasal", "xs_lc_helmet_nasal" ],
     "difficulty": 1
@@ -6062,7 +6293,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_helmet_nasal", "xl_mc_helmet_nasal", "xs_mc_helmet_nasal" ],
     "difficulty": 2
@@ -6074,7 +6305,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_helmet_nasal", "xl_hc_helmet_nasal", "xs_hc_helmet_nasal" ],
     "difficulty": 3
@@ -6086,7 +6317,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_helmet_nasal", "xl_qt_helmet_nasal", "xs_qt_helmet_nasal" ],
     "difficulty": 5
@@ -6098,7 +6329,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "ch_helmet_nasal", "xl_ch_helmet_nasal", "xs_ch_helmet_nasal" ],
     "difficulty": 5
@@ -6110,7 +6341,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "steel nasal helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_helmet_nasal",
@@ -6128,7 +6359,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "low steel turban helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_helmet_turban", "xl_lc_helmet_turban", "xs_lc_helmet_turban" ],
     "difficulty": 1
@@ -6140,7 +6371,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel turban helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_helmet_turban", "xl_mc_helmet_turban", "xs_mc_helmet_turban" ],
     "difficulty": 2
@@ -6152,7 +6383,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel turban helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_helmet_turban", "xl_hc_helmet_turban", "xs_hc_helmet_turban" ],
     "difficulty": 3
@@ -6164,7 +6395,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel turban helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_helmet_turban", "xl_qt_helmet_turban", "xs_qt_helmet_turban" ],
     "difficulty": 5
@@ -6176,7 +6407,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel turban helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [ "ch_helmet_turban", "xl_ch_helmet_turban", "xs_ch_helmet_turban" ],
     "difficulty": 5
@@ -6188,7 +6419,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "steel turban helmets",
-    "description": "Recipes related to constructing various sizes of viking style nasal helmets.",
+    "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
     "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_helmet_turban",
@@ -6265,7 +6496,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
-    "name": "steel steel facemasks",
+    "name": "steel facemasks",
     "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
     "skill_used": "fabrication",
     "nested_category_data": [
@@ -6308,7 +6539,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "high steel mirror armor",
-    "description": "Recipes related to constructing various sizes of viking style mirror armor.",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_mirror_armor", "xl_hc_mirror_armor", "xs_hc_mirror_armor" ],
     "difficulty": 3
@@ -6320,7 +6551,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel mirror armor",
-    "description": "Recipes related to constructing various sizes of viking style mirror armor.",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_mirror_armor", "xl_qt_mirror_armor", "xs_qt_mirror_armor" ],
     "difficulty": 5
@@ -6332,7 +6563,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel mirror armor",
-    "description": "Recipes related to constructing various sizes of viking style mirror armor.",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
     "skill_used": "fabrication",
     "nested_category_data": [ "ch_mirror_armor", "xl_ch_mirror_armor", "xs_ch_mirror_armor" ],
     "difficulty": 5
@@ -6344,7 +6575,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "steel mirror armor",
-    "description": "Recipes related to constructing various sizes of viking style mirror armor.",
+    "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
     "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_mirror_armor",
@@ -6468,8 +6699,7 @@
       "ankle_wallet_pouch",
       "ragpouch",
       "leather_pouch"
-    ],
-    "difficulty": 5
+    ]
   },
   {
     "id": "nested_cloak",
@@ -6521,7 +6751,7 @@
       "iv_mutagen_batrachian",
       "iv_mutagen_cephalopod"
     ],
-    "difficulty": 8
+    "difficulty": 7
   },
   {
     "id": "nested_mutagen",
@@ -6562,7 +6792,7 @@
       "mutagen_batrachian",
       "mutagen_cephalopod"
     ],
-    "difficulty": 8
+    "difficulty": 7
   },
   {
     "id": "nested_acid",
@@ -6596,6 +6826,62 @@
       "chem_hydrogen_peroxide",
       "chem_hydrogen_peroxide_conc"
     ],
-    "difficulty": 5
+    "difficulty": 2
+  },
+  {
+    "id": "nested_link_sheet",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "name": "chainmail sheets",
+    "description": "Recipes related to making sheets of chainmail of different steel qualities.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "link_sheet_fabrication", "lc_link_sheet", "mc_link_sheet", "hc_link_sheet", "ch_link_sheet", "qt_link_sheet" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_spears",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "name": "spears",
+    "description": "Recipes related to making spears from various materials.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "pointy_stick",
+      "pointy_stick_long",
+      "simple_spear_pipe",
+      "spear_bronze",
+      "spear_copper",
+      "spear_knife",
+      "spear_knife_proper",
+      "spear_knife_superior",
+      "spear_knife_superior_from simple version",
+      "spear_pipe",
+      "spear_rebar",
+      "spear_shaft_sharpened",
+      "spear_spike",
+      "spear_steel",
+      "spear_steel_crude",
+      "spear_stone",
+      "spear_stone_simple",
+      "spear_wood",
+      "spear_wood_simple",
+      "nested_pikes"
+    ]
+  },
+  {
+    "id": "nested_pikes",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "pikes",
+    "description": "Recipes related to constructing pikes from various materials",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "pike", "pike_copper", "pike_wood" ],
+    "difficulty": 3
   }
 ]

@@ -15,6 +15,8 @@ static const damage_type_id damage_heat( "heat" );
 static const damage_type_id damage_stab( "stab" );
 
 static const material_id material_glass( "glass" );
+static const material_id material_lycra( "lycra" );
+static const material_id material_lycra_resist_override_stab( "lycra_resist_override_stab" );
 static const material_id material_plastic( "plastic" );
 static const material_id material_steel( "steel" );
 static const material_id material_wood( "wood" );
@@ -104,4 +106,15 @@ TEST_CASE( "Glass_portion_breakability", "[material] [slow]" )
         check_near( "Chance of glass breaking", static_cast<float>( shatter_count ) / num_iters, 0.42f,
                     0.08f );
     }
+}
+
+TEST_CASE( "Override_derived_resistance", "[material]" )
+{
+    // Materials don't store derived resistances, instead they're derived at the item level.
+    // Just check that this is still the case.
+    REQUIRE( damage_stab->derived_from.first == damage_cut );
+    CHECK( material_lycra->resist( damage_cut ) == 1.f );
+    CHECK( material_lycra->resist( damage_stab ) == 0.f );
+    CHECK( material_lycra_resist_override_stab->resist( damage_cut ) == 2.f );
+    CHECK( material_lycra_resist_override_stab->resist( damage_stab ) == 50.f );
 }

@@ -399,7 +399,8 @@
       [ "boots_steel", 50 ],
       [ "sneakers_steel", 35 ],
       [ "boots_hiking", 10 ],
-      [ "jumpsuit", 20 ],
+      [ "technician_coveralls", 15 ],
+      [ "technician_coveralls_h", 5 ],
       [ "gloves_rubber", 20 ],
       [ "gloves_leather", 45 ],
       [ "shovel", 45 ],
@@ -1269,7 +1270,8 @@
       [ "wrench", 30 ],
       [ "pipe", 20 ],
       [ "boots", 70 ],
-      [ "jumpsuit", 20 ],
+      [ "technician_coveralls", 15 ],
+      [ "technician_coveralls_h", 5 ],
       [ "coat_lab", 20 ],
       [ "gloves_rubber", 20 ],
       [ "fishing_waders", 12 ],
@@ -1347,7 +1349,8 @@
       [ "chain", 20 ],
       [ "boots_steel", 50 ],
       [ "sneakers_steel", 35 ],
-      [ "jumpsuit", 20 ],
+      [ "technician_coveralls", 10 ],
+      [ "technician_coveralls_h", 10 ],
       [ "gloves_leather", 45 ],
       { "item": "mask_filter", "prob": 30, "charges": [ 0, 100 ] },
       { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
@@ -1808,9 +1811,57 @@
       { "item": "cassock", "prob": 40 },
       { "item": "thawb", "prob": 10 },
       { "item": "kufi", "prob": 10 },
-      { "item": "kittel", "prob": 10 },
-      { "item": "kippah", "prob": 10 },
       { "item": "icon", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "synagogue",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "clothing_glasses", "prob": 20 },
+      { "item": "child_book", "prob": 10 },
+      { "item": "matches", "prob": 30, "charges": [ 0, 20 ] },
+      { "item": "ref_matches", "prob": 30, "charges": [ 0, 32 ] },
+      { "item": "coat_rain", "prob": 10 },
+      { "item": "hood_rain", "prob": 10 },
+      { "item": "purse", "prob": 30 },
+      { "group": "jackets", "prob": 20 },
+      { "item": "cane", "prob": 10 },
+      { "item": "umbrella", "prob": 20 },
+      { "group": "tefillin_sets", "prob": 10 },
+      { "item": "essay_book", "prob": 6 },
+      { "item": "poetry_book", "prob": 6 },
+      { "item": "philosophy_book", "prob": 5 },
+      { "group": "newspaper", "prob": 25 },
+      { "item": "survivormap", "prob": 1 },
+      { "group": "brochures", "prob": 10 },
+      { "item": "holybook_tanakh", "prob": 38 },
+      { "item": "book_judaica_siddur", "prob": 75 },
+      { "item": "folding_poncho", "prob": 1 },
+      { "item": "pocketwatch", "prob": 15 },
+      { "item": "knitting_needles", "prob": 10 },
+      { "item": "survnote", "prob": 1 },
+      { "item": "kittel", "prob": 25 },
+      { "item": "kippah", "prob": 50 },
+      { "item": "tallit_gadol", "prob": 45 },
+      { "item": "tallit_katan", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "synagogue_books",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "book_judaica_hardcover", "prob": 70 },
+      { "item": "book_judaica_softcover", "prob": 50 },
+      { "item": "book_judaica_siddur", "prob": 35 },
+      { "item": "holybook_tanakh", "prob": 50 },
+      { "item": "holybook_talmud", "prob": 20 },
+      { "item": "essay_book", "prob": 25 },
+      { "item": "poetry_book", "prob": 15 },
+      { "group": "literature", "prob": 35 },
+      { "item": "philosophy_book", "prob": 25 }
     ]
   },
   {
@@ -2600,9 +2651,17 @@
   {
     "id": "mil_base_corpse_soldier",
     "type": "item_group",
-    "//": "Soldier corpse with clothes, without gear.",
+    "//": "Nested to damage corpse.",
     "subtype": "collection",
-    "entries": [ { "group": "mil_base_clothes_corpse_soldier", "damage": [ 1, 4 ] }, { "item": "corpse_generic_human" } ]
+    "entries": [ { "group": "mil_base_corpse_corpse_soldier", "damage": [ 2, 4 ] } ]
+  },
+  {
+    "id": "mil_base_corpse_corpse_soldier",
+    "type": "item_group",
+    "//": "Nested to damage all gear.",
+    "subtype": "collection",
+    "container-item": "corpse_generic_human",
+    "entries": [ { "group": "mil_base_clothes_corpse_soldier", "damage": [ 1, 4 ] } ]
   },
   {
     "id": "mil_base_clothes_corpse_soldier",

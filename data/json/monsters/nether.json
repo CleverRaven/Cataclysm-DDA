@@ -554,7 +554,6 @@
       { "type": "leap", "cooldown": 20, "max_range": 6, "allow_no_target": true },
       { "id": "hunter_peck" }
     ],
-    "//": "Reduce bullet armor when things are harder to hit or players miss more",
     "anger_triggers": [ "FIRE" ],
     "fear_triggers": [ "HURT" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
@@ -572,7 +571,7 @@
       "HARDTOSHOOT",
       "HIT_AND_RUN"
     ],
-    "armor": { "bash": 5, "cut": 5, "stab": 5, "bullet": 30 }
+    "armor": { "bash": 5, "cut": 5, "stab": 5, "bullet": 12 }
   },
   {
     "id": "mon_gozu",

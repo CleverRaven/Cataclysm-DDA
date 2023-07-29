@@ -88,6 +88,8 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dripping_mechanical_fluid( "dripping_mechanical_fluid" );
 static const efftype_id effect_emp( "emp" );
+static const efftype_id effect_fake_common_cold( "fake_common_cold" );
+static const efftype_id effect_fake_flu( "fake_flu" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_heavysnare( "heavysnare" );
@@ -102,9 +104,12 @@ static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_photophobia( "photophobia" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
+static const efftype_id effect_spooked( "spooked" );
+static const efftype_id effect_spooked_recent( "spooked_recent" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_tied( "tied" );
@@ -148,7 +153,9 @@ static const mon_flag_str_id mon_flag_ATTACK_UPPER( "ATTACK_UPPER" );
 static const mon_flag_str_id mon_flag_BADVENOM( "BADVENOM" );
 static const mon_flag_str_id mon_flag_CAN_DIG( "CAN_DIG" );
 static const mon_flag_str_id mon_flag_CLIMBS( "CLIMBS" );
+static const mon_flag_str_id mon_flag_CORNERED_FIGHTER( "CORNERED_FIGHTER" );
 static const mon_flag_str_id mon_flag_DIGS( "DIGS" );
+static const mon_flag_str_id mon_flag_EATS( "EATS" );
 static const mon_flag_str_id mon_flag_ELECTRIC( "ELECTRIC" );
 static const mon_flag_str_id mon_flag_ELECTRIC_FIELD( "ELECTRIC_FIELD" );
 static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
@@ -170,6 +177,7 @@ static const mon_flag_str_id mon_flag_NO_BREED( "NO_BREED" );
 static const mon_flag_str_id mon_flag_NO_FUNG_DMG( "NO_FUNG_DMG" );
 static const mon_flag_str_id mon_flag_PARALYZEVENOM( "PARALYZEVENOM" );
 static const mon_flag_str_id mon_flag_PET_MOUNTABLE( "PET_MOUNTABLE" );
+static const mon_flag_str_id mon_flag_PHOTOPHOBIC( "PHOTOPHOBIC" );
 static const mon_flag_str_id mon_flag_PLASTIC( "PLASTIC" );
 static const mon_flag_str_id mon_flag_QUEEN( "QUEEN" );
 static const mon_flag_str_id mon_flag_REVIVES( "REVIVES" );
@@ -259,6 +267,7 @@ monster::monster()
     ignoring = 0;
     upgrades = false;
     upgrade_time = -1;
+    stomach_timer = calendar::turn;
     last_updated = calendar::turn_zero;
     biosig_timer = calendar::before_time_starts;
     udder_timer = calendar::turn;
@@ -280,6 +289,7 @@ monster::monster( const mtype_id &id ) : monster()
     }
     anger = type->agro;
     morale = type->morale;
+    stomach_size = type->stomach_size;
     faction = type->default_faction;
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( mon_flag_NO_BREED );
@@ -536,8 +546,9 @@ void monster::try_reproduce()
         return;
     }
 
-    if( !baby_timer ) {
+    if( !baby_timer && amount_eaten >= stomach_size ) {
         // Assume this is a freshly spawned monster (because baby_timer is not set yet), set the point when it reproduce to somewhere in the future.
+        // Monsters need to have eaten eat to start their pregnancy timer, but that's all.
         baby_timer.emplace( calendar::turn + *type->baby_timer );
     }
 
@@ -553,7 +564,7 @@ void monster::try_reproduce()
     }
 
     map &here = get_map();
-    // add a decreasing chance of additional spawns when "catching up" an existing animal
+    // add a decreasing chance of additional spawns when "catching up" an existing animal.
     int chance = -1;
     while( true ) {
         if( *baby_timer > calendar::turn ) {
@@ -573,6 +584,9 @@ void monster::try_reproduce()
         }
 
         chance += 2;
+        if( has_flag( mon_flag_EATS ) && amount_eaten == 0 ) {
+            chance += 1; //Reduce the chances but don't prevent birth if the animal is not eating.
+        }
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
@@ -581,7 +595,6 @@ void monster::try_reproduce()
                 here.add_item_or_charges( pos(), item( type->baby_egg, *baby_timer, spawn_cnt ), true );
             }
         }
-
         *baby_timer += *type->baby_timer;
     }
 }
@@ -612,9 +625,17 @@ void monster::refill_udders()
         return;
     }
     if( calendar::turn - udder_timer > 1_days ) {
-        // no point granularizing this really, you milk once a day.
+        // You milk once a day.
         ammo.begin()->second = type->starting_ammo.begin()->second;
         udder_timer = calendar::turn;
+    }
+}
+
+void monster::digest_food()
+{
+    if( calendar::turn - stomach_timer > 1_days && amount_eaten > 0 ) {
+        amount_eaten -= 1;
+        stomach_timer = calendar::turn;
     }
 }
 
@@ -1322,7 +1343,7 @@ Creature *monster::attack_target()
 
     Creature *target = get_creature_tracker().creature_at( get_dest() );
     if( target == nullptr || target == this ||
-        attitude_to( *target ) == Attitude::FRIENDLY || !sees( *target ) ) {
+        attitude_to( *target ) == Attitude::FRIENDLY || !sees( *target ) || target->is_hallucination() ) {
         return nullptr;
     }
 
@@ -1557,6 +1578,16 @@ void monster::process_triggers()
 {
     process_trigger( mon_trigger::STALK, [this]() {
         return anger > 0 && one_in( 5 ) ? 1 : 0;
+    } );
+
+    process_trigger( mon_trigger::BRIGHT_LIGHT, [this]() {
+        int ret = 0;
+        static const int dim_light = round( .75 * default_daylight_level() );
+        int light = round( get_map().ambient_light_at( pos() ) );
+        if( light >= dim_light ) {
+            ret += 10;
+        }
+        return ret;
     } );
 
     process_trigger( mon_trigger::FIRE, [this]() {
@@ -3026,6 +3057,25 @@ void monster::process_one_effect( effect &it, bool is_new )
             // monsters are simplified so they just take damage from bleeding
             apply_damage( it.get_source().resolve_creature(), bodypart_id( "torso" ), 1 );
         }
+    } else if( id == effect_fake_common_cold ) {
+        if( calendar::once_every( time_duration::from_seconds( rng( 30, 300 ) ) ) && one_in( 2 ) ) {
+            sounds::sound( pos(), 4, sounds::sound_t::speech, _( "a hacking cough." ), false, "misc", "cough" );
+        }
+
+        avatar &you = get_avatar(); // No NPCs for now.
+        if( rl_dist( pos(), you.pos() ) <= 1 ) {
+            you.get_sick( false );
+        }
+    } else if( id == effect_fake_flu ) {
+        // Need to define the two separately because it's theoretically (and realistically) possible to have both flu and cold at once, both for players and monsters.
+        if( calendar::once_every( time_duration::from_seconds( rng( 30, 300 ) ) ) && one_in( 2 ) ) {
+            sounds::sound( pos(), 4, sounds::sound_t::speech, _( "a hacking cough." ), false, "misc", "cough" );
+        }
+
+        avatar &you = get_avatar(); // No NPCs for now.
+        if( rl_dist( pos(), you.pos() ) <= 1 ) {
+            you.get_sick( true );
+        }
     }
 }
 
@@ -3099,6 +3149,50 @@ void monster::process_effects()
             anger += 5;
             anger = std::min( anger, type->agro );
         }
+    }
+
+    if( has_flag( mon_flag_CORNERED_FIGHTER ) ) {
+        map &here = get_map();
+        creature_tracker &creatures = get_creature_tracker();
+        for( const tripoint &p : here.points_in_radius( pos(), 2 ) ) {
+            const monster *const mon = creatures.creature_at<monster>( p );
+            const Character *const guy = creatures.creature_at<Character>( p );
+            if( mon && mon != this && mon->faction->attitude( faction ) != MFA_FRIENDLY &&
+                !has_effect( effect_spooked ) && morale <= 0 ) {
+                if( !has_effect( effect_spooked_recent ) ) {
+                    if( !has_effect( effect_spooked_recent ) ) {
+                        add_effect( effect_spooked, 3_turns, false );
+                        add_effect( effect_spooked_recent, 9_turns, false );
+                    }
+                } else {
+                    if( morale < type->morale ) {
+                        morale = type->morale;
+                        anger = type->agro;
+                    }
+                }
+            }
+            if( guy ) {
+                monster_attitude att = attitude( guy );
+                if( ( friendly == 0 ) && ( att == MATT_FOLLOW || att == MATT_FLEE ) &&
+                    !has_effect( effect_spooked ) ) {
+                    if( !has_effect( effect_spooked_recent ) ) {
+                        add_effect( effect_spooked, 3_turns, false );
+                        add_effect( effect_spooked_recent, 9_turns, false );
+                    } else {
+                        if( morale < type->morale ) {
+                            morale = type->morale;
+                            anger = type->agro;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    if( has_flag( mon_flag_PHOTOPHOBIC ) && get_map().ambient_light_at( pos() ) >= 30.0f ) {
+        add_msg_if_player_sees( *this, m_good, _( "The shadow withers in the light!" ), name() );
+        add_effect( effect_photophobia, 5_turns, true );
     }
 
     // If this critter dies in sunlight, check & assess damage.
@@ -3556,6 +3650,11 @@ void monster::on_load()
     try_upgrade( false );
     try_reproduce();
     try_biosignature();
+
+    if( has_flag( mon_flag_EATS ) ) {
+        digest_food();
+    }
+
     if( has_flag( mon_flag_MILKABLE ) ) {
         refill_udders();
     }

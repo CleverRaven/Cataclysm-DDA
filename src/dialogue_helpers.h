@@ -8,6 +8,7 @@
 #include "global_vars.h"
 #include "math_parser.h"
 #include "rng.h"
+#include "translation.h"
 #include "type_id.h"
 
 struct dialogue;
@@ -147,14 +148,17 @@ std::string read_var_value( const var_info &info, const dialogue &d );
 
 var_info process_variable( const std::string &type );
 
-
-struct str_or_var {
-    std::optional<std::string> str_val;
+template<class T>
+struct abstract_str_or_var {
+    std::optional<T> str_val;
     std::optional<var_info> var_val;
-    std::optional<std::string> default_val;
-    std::optional<std::function<std::string( const dialogue & )>> function;
-    std::string evaluate( dialogue const &d ) const;
+    std::optional<T> default_val;
+    std::optional<std::function<T( const dialogue & )>> function;
+    std::string evaluate( dialogue const & ) const;
 };
+
+using str_or_var = abstract_str_or_var<std::string>;
+using translation_or_var = abstract_str_or_var<translation>;
 
 struct eoc_math {
     enum class oper : int {
@@ -201,6 +205,27 @@ struct dbl_or_var_part {
     std::optional<talk_effect_fun_t> arithmetic_val;
     std::optional<eoc_math> math_val;
     double evaluate( dialogue &d ) const;
+
+    bool is_constant() const {
+        return dbl_val.has_value();
+    }
+
+    double constant() const {
+        if( !dbl_val ) {
+            debugmsg( "this dbl_or_var is not a constant" );
+            return 0;
+        }
+        return *dbl_val;
+    }
+
+    explicit operator bool() const {
+        return dbl_val || var_val || arithmetic_val || math_val;
+    }
+
+    dbl_or_var_part() = default;
+    // construct from numbers
+    template <class D, typename std::enable_if_t<std::is_arithmetic_v<D>>* = nullptr>
+    explicit dbl_or_var_part( D d ) : dbl_val( d ) {}
 };
 
 struct dbl_or_var {
@@ -208,6 +233,23 @@ struct dbl_or_var {
     dbl_or_var_part min;
     dbl_or_var_part max;
     double evaluate( dialogue &d ) const;
+
+    bool is_constant() const {
+        return !max && min.is_constant();
+    }
+
+    double constant() const {
+        return min.constant();
+    }
+
+    explicit operator bool() const {
+        return static_cast<bool>( min );
+    }
+
+    dbl_or_var() = default;
+    // construct from numbers
+    template <class D, typename std::enable_if_t<std::is_arithmetic_v<D>>* = nullptr>
+    explicit dbl_or_var( D d ) : min( d ) {}
 };
 
 struct duration_or_var_part {

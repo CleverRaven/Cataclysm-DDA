@@ -140,6 +140,11 @@
     "//": "Dies in full sunlight"
   },
   {
+    "id": "PHOTOPHOBIC",
+    "type": "monster_flag",
+    "//": "Severely weakened in sufficient light (applies photophobia effect)"
+  },
+  {
     "id": "ELECTRIC",
     "type": "monster_flag",
     "//": "Shocks unarmed attackers"
@@ -553,5 +558,20 @@
     "id": "SILENT_DISAPPEAR",
     "type": "monster_flag",
     "//": "This monster will disappear without printing any message"
+  },
+  {
+    "id": "EATS",
+    "type": "monster_flag",
+    "//": "If this monster eats via EAT_CARRION or EAT_FOOD, it can fill its stomach. Requires a stomach_size in its json."
+  },
+  {
+    "id": "CORNERED_FIGHTER",
+    "type": "monster_flag",
+    "//": "This monster will stop fleeing and fight back if pursued into spear range or closer."
+  },
+  {
+    "id": "SMALL_HIDER",
+    "type": "monster_flag",
+    "//": "This small monster can hide under or behind furniture such as beds, refrigerators, and underbrush"
   }
 ]

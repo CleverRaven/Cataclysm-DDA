@@ -26,7 +26,7 @@
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 5,
-    "harvest": "zombie",
+    "harvest": "zombie_humanoid_mushroom",
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
@@ -98,7 +98,7 @@
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 3,
-    "harvest": "zombie",
+    "harvest": "zombie_humanoid_mushroom",
     "emit_fields": [ { "emit_id": "emit_fungal_haze_plume", "delay": "1 s" } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
@@ -123,7 +123,7 @@
     },
     "special_attacks": [ [ "FUNGUS", 200 ] ],
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "moldy_bones",
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
     "armor": { "bash": 0, "electric": 5 }
   },
@@ -144,7 +144,7 @@
       "weakpoint_sets": [ "wps_bone_armor" ],
       "families": [ "prof_wp_skeleton" ]
     },
-    "harvest": "mr_bones",
+    "harvest": "moldy_bones",
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } }
   },
   {
@@ -175,7 +175,7 @@
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 5,
-    "harvest": "mr_bones",
+    "harvest": "big_mr_bones",
     "special_attacks": [ { "id": "smash", "throw_strength": 54 } ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
@@ -223,7 +223,7 @@
     "bleed_rate": 0,
     "vision_day": 30,
     "vision_night": 5,
-    "harvest": "zombie",
+    "harvest": "zombie_humanoid_mushroom",
     "special_attacks": [ [ "scratch", 15 ], [ "FUNGUS", 200 ] ],
     "death_drops": {
       "subtype": "collection",
@@ -261,7 +261,7 @@
     "bleed_rate": 0,
     "vision_day": 30,
     "vision_night": 3,
-    "harvest": "zombie",
+    "harvest": "zombie_humanoid",
     "special_attacks": [ [ "FUNGUS", 100 ], [ "BOOMER", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
@@ -296,7 +296,7 @@
     "vision_night": 2,
     "emit_fields": [ { "emit_id": "emit_fungal_leak", "delay": "1 s" } ],
     "bleed_rate": 0,
-    "harvest": "zombie",
+    "harvest": "zombie_humanoid_mushroom",
     "special_attacks": [
       {
         "type": "spell",
@@ -335,7 +335,7 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_flying" ],
     "dodge": 3,
     "vision_night": 5,
-    "harvest": "zombie",
+    "harvest": "zombie_animal_mushroom",
     "special_attacks": [ { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] } ],
     "flags": [
       "SEES",

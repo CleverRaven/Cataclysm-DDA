@@ -741,8 +741,9 @@
     "id": "BOVINE_BULK",
     "name": { "str": "Bovine Bulk" },
     "points": 2,
-    "description": "You've added a lot of weight, much of it muscle!  You get a 10% bonus to all hit points.  Swimming will be more difficult from now on.",
+    "description": "Your flesh has become dense with fat and muscle.  This makes you harder to take down, but also a poor swimmer.",
     "types": [ "BUILD" ],
+    "prereqs": [ "DENSE_BONES" ],
     "changes_to": [ "BOVINE_BULK2" ],
     "category": [ "CATTLE" ],
     "movecost_modifier": 1.02,
@@ -754,7 +755,7 @@
     "id": "BOVINE_BULK2",
     "name": { "str": "Bull Roids" },
     "points": 4,
-    "description": "There is no way you'd be allowed to compete in pre-Cataclysm sports.  You get a 20% bonus to all hit points.  Swimming is no longer recommended for someone built like you.",
+    "description": "Your bulk has rendered you a veritable living wall.  Be careful around water though; while you're as sturdy as a rock, you'll sink like one too.",
     "types": [ "BUILD" ],
     "prereqs": [ "BOVINE_BULK" ],
     "category": [ "CATTLE" ],
@@ -3947,10 +3948,11 @@
     "name": { "str": "Padded Feet" },
     "points": 1,
     "visibility": 1,
-    "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.",
+    "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.  Also, your steps are significantly quieter, as added tissue dampens the noise.",
     "types": [ "SOLES" ],
     "category": [ "BATRACHIAN", "RABBIT", "URSINE", "FELINE", "LUPINE", "SPIDER", "BEAST" ],
-    "flags": [ "TOUGH_FEET" ]
+    "flags": [ "TOUGH_FEET" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -4654,8 +4656,8 @@
     "threshreq": [ "THRESH_INSECT" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You sting %s with your tail",
-      "attack_text_npc": "%1$s stings %2$s with their tail",
+      "attack_text_u": "You sting %s with your tail!",
+      "attack_text_npc": "%1$s stings %2$s with their tail!",
       "chance": 20,
       "base_damage": { "damage_type": "stab", "amount": 20 }
     }
@@ -8684,6 +8686,17 @@
     "points": 99,
     "valid": false,
     "description": "Activate to increase power by an amount you specify (can be repeated).",
+    "debug": true,
+    "active": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_SPEED",
+    "name": { "str": "Debug Speed" },
+    "points": 99,
+    "valid": false,
+    "description": "With this, you'll be fixing those bugs faster than ever!",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 10 } ] } ],
     "debug": true,
     "active": true
   },
