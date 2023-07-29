@@ -110,7 +110,6 @@ static const map_extra_id map_extra_mx_corpses( "mx_corpses" );
 static const map_extra_id map_extra_mx_dead_vegetation( "mx_dead_vegetation" );
 static const map_extra_id map_extra_mx_grove( "mx_grove" );
 static const map_extra_id map_extra_mx_helicopter( "mx_helicopter" );
-static const map_extra_id map_extra_mx_house_wasp( "mx_house_wasp" );
 static const map_extra_id map_extra_mx_jabberwock( "mx_jabberwock" );
 static const map_extra_id map_extra_mx_looters( "mx_looters" );
 static const map_extra_id map_extra_mx_mayhem( "mx_mayhem" );
@@ -124,7 +123,6 @@ static const map_extra_id map_extra_mx_reed( "mx_reed" );
 static const map_extra_id map_extra_mx_roadworks( "mx_roadworks" );
 static const map_extra_id map_extra_mx_shrubbery( "mx_shrubbery" );
 
-static const mongroup_id GROUP_DERMATIK( "GROUP_DERMATIK" );
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
 static const mongroup_id GROUP_JABBERWOCK( "GROUP_JABBERWOCK" );
@@ -134,8 +132,6 @@ static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 static const mongroup_id GROUP_TURRET_SPEAKER( "GROUP_TURRET_SPEAKER" );
-static const mongroup_id GROUP_WASP_GUARD( "GROUP_WASP_GUARD" );
-static const mongroup_id GROUP_WASP_QUEEN( "GROUP_WASP_QUEEN" );
 
 static const mtype_id mon_wolf( "mon_wolf" );
 
@@ -285,45 +281,6 @@ static void dead_vegetation_parser( map &m, const tripoint &loc )
             m.spawn_item( loc, itype_stick_long );
         }
     }
-}
-
-static bool mx_house_wasp( map &m, const tripoint &/*loc*/ )
-{
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( m.ter( point( i, j ) ) == t_door_c || m.ter( point( i, j ) ) == t_door_locked ) {
-                m.ter_set( point( i, j ), t_door_frame );
-            }
-            if( m.ter( point( i, j ) ) == t_window_domestic && !one_in( 3 ) ) {
-                m.ter_set( point( i, j ), t_window_frame );
-            }
-            if( m.ter( point( i, j ) ) == t_wall && one_in( 8 ) ) {
-                m.ter_set( point( i, j ), t_paper );
-            }
-        }
-    }
-    const int num_pods = rng( 8, 12 );
-    for( int i = 0; i < num_pods; i++ ) {
-        const point pod( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
-        point non;
-        while( non.x == 0 && non.y == 0 ) {
-            non.x = rng( -1, 1 );
-            non.y = rng( -1, 1 );
-        }
-        for( int x = -1; x <= 1; x++ ) {
-            for( int y = -1; y <= 1; y++ ) {
-                if( ( x != non.x || y != non.y ) && ( x != 0 || y != 0 ) ) {
-                    m.ter_set( pod + point( x, y ), t_paper );
-                }
-            }
-        }
-        m.place_spawns( GROUP_WASP_GUARD, 1, pod, pod, 1, true );
-    }
-    m.place_spawns( GROUP_WASP_QUEEN, 1, point_zero, point( SEEX, SEEY ), 1, true );
-    m.place_spawns( GROUP_DERMATIK, 5, { SEEX * 2 - 1, SEEY * 2 - 1 }, { SEEX * 2 - 1, SEEY * 2 - 1 },
-                    0.1f );
-
-    return true;
 }
 
 static void delete_items_at_mount( vehicle &veh, const point &pt )
@@ -2369,7 +2326,6 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_minefield, mx_minefield },
     { map_extra_mx_helicopter, mx_helicopter },
     { map_extra_mx_portal_in, mx_portal_in },
-    { map_extra_mx_house_wasp, mx_house_wasp },
     { map_extra_mx_jabberwock, mx_jabberwock },
     { map_extra_mx_grove, mx_grove },
     { map_extra_mx_shrubbery, mx_shrubbery },
