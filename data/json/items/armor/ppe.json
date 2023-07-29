@@ -173,6 +173,69 @@
     "use_action": [ "GASMASK" ]
   },
   {
+    "id": "mask_gas_xs",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "name": { "str": "homemade XS gas mask" },
+    "description": "More akin to a rubber-coated canvas sock with cobbled-together eyepieces and a filtration system than an actual piece of PPE, this glorified bag layered with water-proof butyl rubber, which loosely hangs upon the wearer’s head with the sack’s mouth clamped tightly about the throat, is compatible with standard 40-mm STANAG filters.  Designed for people with abnormally tiny anatomy or children, the entire respirator balloons with each exhalation.  The mask must be prepared before use.",
+    "weight": "1107 g",
+    "volume": "810 ml",
+    "//": "Calculated to be formed from a 2mm sheet of 45x45 cm canvas with a density of 1600 kg/m, coated by a 2mm thick layer of butyl rubber with a density of 920 kg/m, with a panoramic eyepiece, a filter port, and an intake valve attached.",
+    "longest_side": "18 cm",
+    "//2": "The longest length is low, as, fundamentally, it’s just a giant collapsible sack. Hence, it only needs to be as long as the panoramic eyepiece potentially used to make it, give or take some length.",
+    "price": 25000,
+    "price_postapoc": 750,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ { "type": "canvas", "portion": 3 }, { "type": "rubber", "portion": 3 }, { "type": "plastic", "portion": 1 } ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 35,
+        "//": "Like the VM44, on which this is based, the mask is just all around floppy in the places where it isn’t pulled tight against the wearer’s skin, and, as such, it doesn’t retain its shape, unlike actual, proper gas masks."
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 10
+      },
+      {
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "plastic", "covered_by_mat": 40, "thickness": 10 }
+        ],
+        "//": "Considering the likely size of the survivor who would make a mask like this, it’s reasonable to assume that they would have only placed a single filter port on its front. There’s no real need for more than a single filter connection, and mounting it on one of the sides would make the respirator unnecessarily lopsided, especially when considering the size of the survivor’s cranium in relation to the size of the actual filter. The plastic content represents the solitary filter.",
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 35,
+        "//2": "With no provision for an exhale valve, as the survivor would likely wish to keep matters simple when crafting an already questionable respirator, breathing would be rendered harder as outgoing breaths would have to force their way around the mask’s edges."
+      }
+    ],
+    "warmth": 20,
+    "material_thickness": 2,
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 16,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
+    "ammo": "gasfilter_m",
+    "use_action": [ "GASMASK" ],
+    "flags": [ "UNDERSIZE", "SLEEP_IGNORE" ]
+  },
+  {
     "id": "mask_gas_xl",
     "type": "TOOL_ARMOR",
     "category": "clothing",
@@ -180,9 +243,9 @@
     "description": "Less of a piece of PPE than a giant canvas sock coated in rubber, this mask is formed from a Butyl-coated waterproof sack with eyepieces, a pair of filter ports, and inhale valves buggered from a proper respirator attached to it.  Compatible with 40mm STANAG filters, capable of housing heavily mutated anatomy, and needing to be prepared before use, this potato-sack-turned head equipment sags upon the face while its elastic mouth clamps about the neck to form a seal.  Considering the lack of an exhale valve and the lungs of the beings it’s meant for, the whole thing balloons with each breath.",
     "weight": "4018 g",
     "volume": "3375 ml",
-    "//": "Calculated to be formed from a 2mm sheet of 75x75 cm canvas with a density of 1600 kg/m, coated by a 0.4mm thick layer of butyl rubber with a density of 920 kg/m, with a panoramic eyepiece, two filter ports, and two intake valves attached.",
+    "//": "Calculated to be formed from a 2mm sheet of 75x75 cm canvas with a density of 1600 kg/m, coated by a 4mm thick layer of butyl rubber with a density of 920 kg/m, with a panoramic eyepiece, two filter ports, and two intake valves attached.",
     "longest_side": "18 cm",
-    "//": "The longest length is low, as, fundamentally, it’s just a giant collapsible sack. Hence, it only needs to be as long as the panoramic eyepiece potentially used to make it, give or take some length.",
+    "//2": "The longest length is low, as, fundamentally, it’s just a giant collapsible sack. Hence, it only needs to be as long as the panoramic eyepiece potentially used to make it, give or take some length.",
     "price": 25000,
     "price_postapoc": 750,
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
