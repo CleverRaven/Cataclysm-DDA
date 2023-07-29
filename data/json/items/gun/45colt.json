@@ -50,6 +50,7 @@
     "to_hit": -1,
     "material": [ "steel", "wood" ],
     "color": "brown",
+    "range": 7,
     "ammo": [ "45colt" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 180,

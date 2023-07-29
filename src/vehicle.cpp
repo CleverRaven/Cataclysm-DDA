@@ -7099,7 +7099,8 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
         coeff_air_changed = true;
 
         // refresh cache in case the broken part has changed the status
-        refresh();
+        // do not remove fakes parts in case external vehicle part references get invalidated
+        refresh( false );
     }
 
     if( vp.is_fuel_store() ) {

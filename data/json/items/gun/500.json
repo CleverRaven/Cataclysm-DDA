@@ -23,6 +23,8 @@
     "to_hit": -1,
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
+    "range": 7,
+    "//range": "Given that .700 NX enjoys MUCH better range at 42 tiles, maybe give this a bit more range at some point, too?",
     "ammo": [ "500" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 180,

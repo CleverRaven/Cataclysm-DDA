@@ -740,6 +740,8 @@ ifeq ($(TILES), 1)
       ifneq (,$(findstring mingw32,$(CROSS)))
         # We use pkg-config to find out which libs are needed with MXE
         LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_image SDL2_ttf)
+        # We don't use SDL_main -- we have proper main()/WinMain()
+        LDFLAGS := $(filter-out -lSDL2main,$(LDFLAGS))
       else
         ifeq ($(MSYS2),1)
           LDFLAGS += -Wl,--start-group -lharfbuzz -lfreetype -Wl,--end-group -lgraphite2 -lpng -lz -ltiff -lbz2 -lglib-2.0 -llzma -lws2_32 -lwebp -ljpeg -luuid

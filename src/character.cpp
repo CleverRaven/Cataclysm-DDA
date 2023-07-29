@@ -913,7 +913,7 @@ aim_mods_cache Character::gen_aim_mods_cache( const item &gun )const
 
 double Character::fastest_aiming_method_speed( const item &gun, double recoil,
         const Target_attributes target_attributes,
-        std::optional<std::reference_wrapper<const parallax_cache>> parallax_cache ) const
+        const std::optional<std::reference_wrapper<parallax_cache>> parallax_cache ) const
 {
     // Get fastest aiming method that can be used to improve aim further below @ref recoil.
 
@@ -3813,7 +3813,7 @@ int Character::avg_encumb_of_limb_type( body_part_type::type part_type ) const
 
 int Character::encumb( const bodypart_id &bp ) const
 {
-    if( !has_part( bp ) ) {
+    if( !has_part( bp, body_part_filter::equivalent ) ) {
         debugmsg( "INFO: Tried to check encumbrance of a bodypart that does not exist." );
         return 0;
     }
