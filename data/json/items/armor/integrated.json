@@ -1496,5 +1496,83 @@
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
     }
+  },
+  {
+    "id": "armor_bio_arms_basic",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "bionic plating - arms" },
+    "description": "The durable alloy armor which protects the sensitive components that operate your bionic arms.",
+    "weight": "1000 g",
+    "volume": "1000 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": 1,
+    "material": [ "kevlar_rigid", "superalloy" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 0,
+    "material_thickness": 8,
+    "environmental_protection": 25,
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "OUTER",
+      "WATER_FRIENDLY",
+      "NO_REPAIR",
+      "NO_SALVAGE"
+    ],
+    "melee_damage": { "bash": 10 },
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 4.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "bionic_basic_arm_l", "bionic_basic_arm_r", "bionic_basic_hand_l", "bionic_basic_hand_r" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "cover_vitals": 100
+      }
+    ]
+  },
+  {
+    "id": "armor_bio_arms_basic",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "bionic plating - legs" },
+    "description": "The durable alloy armor which protects the sensitive components that operate your bionic legs.",
+    "weight": "1000 g",
+    "volume": "1000 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": 1,
+    "material": [ "kevlar_rigid", "superalloy" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 0,
+    "material_thickness": 8,
+    "environmental_protection": 25,
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "OUTER",
+      "WATER_FRIENDLY",
+      "NO_REPAIR",
+      "NO_SALVAGE"
+    ],
+    "melee_damage": { "bash": 10 },
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 4.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "bionic_basic_leg_l", "bionic_basic_leg_r", "bionic_basic_foot_l", "bionic_basic_foot_r" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "cover_vitals": 100
+      }
+    ]
   }
 ]
