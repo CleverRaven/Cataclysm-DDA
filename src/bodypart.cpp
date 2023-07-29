@@ -412,8 +412,6 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "bmi_encumbrance_scalar", bmi_encumbrance_scalar, 0 );
 
     optional( jo, was_loaded, "is_cybernetic", is_cybernetic, false );
-    optional( jo, was_loaded, "bleeds", bleeds, false );
-    optional( jo, was_loaded, "feels_pain", feels_pain, false );
     optional( jo, was_loaded, "power_efficiency", power_efficiency, 0 );
 
     if( jo.has_member( "limb_scores" ) ) {
@@ -1044,19 +1042,9 @@ std::array<int, NUM_WATER_TOLERANCE> bodypart::get_mut_drench() const
     return mut_drench;
 }
 
-bool bodypart::get_is_cybernetic() const
+int bodypart::get_hit_size() const
 {
-    return id->is_cybernetic;
-}
-
-bool bodypart::get_bleeds() const
-{
-    return id->bleeds;
-}
-
-bool bodypart::get_feels_pain() const
-{
-    return id->feels_pain;
+    return hit_size;
 }
 
 int bodypart::get_power_efficiency() const
