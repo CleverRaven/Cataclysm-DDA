@@ -7157,6 +7157,12 @@ int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p, con
             debugmsg( "ERROR: Creature has invalid size class." );
             break;
     }
+    // Viewer eye level is higher when standing on furniture
+    const furn_id viewer_furn = furn( viewer_p );
+    if( viewer_furn.obj().id || ( move_cost( viewer_p ) > 2 && !has_flag_ter( ter_furn_flag::TFLAG_FLAT, viewer_p ) ) ) {
+        const int viewer_furn_coverage = viewer_furn->coverage;
+        eye_level += viewer_furn_coverage > 0 ? viewer_furn_coverage * 0.01f : 0.5f ;
+    }
     const float dist_to_ledge = rl_dist( viewer_p, ledge_p ) - 0.5f;
     // Calculate tangent of elevation angle between viewer and ledge
     const double tangent = ( ledge_height * zlevel_to_grid_ratio - eye_level ) / dist_to_ledge;
@@ -7166,7 +7172,16 @@ int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p, con
     const double covered_height = flat_dist * tangent + eye_level;
     // Amount of coverage provided by ledge to view target
     // 100 coverage represents a single grid's distance from ground at target
-    return ( covered_height - zlevel_to_grid_ratio * ledge_height ) * 100;
+    int ledge_coverage = ( covered_height - zlevel_to_grid_ratio * ledge_height ) * 100;
+
+    // Target has a coverage penalty when standing on furniture
+    const furn_id target_furn = furn( target_p );
+    if( target_furn.obj().id || ( move_cost( target_p ) > 2 && !has_flag_ter( ter_furn_flag::TFLAG_FLAT, target_p ) ) ) {
+        const int target_furn_coverage = target_furn->coverage;
+        ledge_coverage -= target_furn_coverage > 0 ? target_furn_coverage : 50 ;
+    }
+
+    return ledge_coverage;
 }
 
 int map::coverage( const tripoint &p ) const
