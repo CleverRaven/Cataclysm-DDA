@@ -1439,12 +1439,7 @@ class standard_npc : public npc
 class npc_template
 {
     public:
-        npc_template() {
-            personality.aggression = random;
-            personality.bravery = random;
-            personality.collector = random;
-            personality.altruism = random;
-        }
+        npc_template() = default;
 
         npc guy;
         translation name_unique;
@@ -1455,14 +1450,13 @@ class npc_template
             female
         };
         gender gender_override = gender::random;
-        static constexpr int8_t random = _I8_MIN;
-        int age = random;
-        int height = random;
-        int str = random;
-        int dex = random;
-        int intl = random;
-        int per = random;
-        npc_personality personality;
+        std::optional<int> age;
+        std::optional<int> height;
+        std::optional<int> str;
+        std::optional<int> dex;
+        std::optional<int> intl;
+        std::optional<int> per;
+        std::optional<npc_personality> personality;
 
         static void load( const JsonObject &jsobj );
         static void reset();

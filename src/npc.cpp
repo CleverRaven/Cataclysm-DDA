@@ -578,10 +578,11 @@ void npc_template::load( const JsonObject &jsobj )
     jsobj.read( "per", tem.per );
     if( jsobj.has_object( "personality" ) ) {
         const JsonObject personality = jsobj.get_object( "personality" );
-        personality.read( "aggression", tem.personality.aggression );
-        personality.read( "bravery", tem.personality.bravery );
-        personality.read( "collector", tem.personality.collector );
-        personality.read( "altruism", tem.personality.altruism );
+        tem.personality = npc_personality();
+        tem.personality->aggression = personality.get_int( "aggression" );
+        tem.personality->bravery = personality.get_int( "bravery" );
+        tem.personality->collector = personality.get_int( "collector" );
+        tem.personality->altruism = personality.get_int( "altruism" );
     }
     for( JsonValue jv : jsobj.get_array( "death_eocs" ) ) {
         guy.death_eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
@@ -781,35 +782,29 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
 
     if( tem_id.is_valid() ) {
         const npc_template &tem = tem_id.obj();
-        if( tem.personality.aggression != npc_template::random ) {
-            personality.aggression = tem.personality.aggression;
+        if( tem.personality.has_value() ) {
+            personality.aggression = tem.personality->aggression;
+            personality.bravery = tem.personality->bravery;
+            personality.collector = tem.personality->collector;
+            personality.altruism = tem.personality->altruism;
         }
-        if( tem.personality.bravery != npc_template::random ) {
-            personality.bravery = tem.personality.bravery;
+        if( tem.str.has_value() ) {
+            str_max = tem.str.value();
         }
-        if( tem.personality.collector != npc_template::random ) {
-            personality.collector = tem.personality.collector;
+        if( tem.dex.has_value() ) {
+            dex_max = tem.dex.value();
         }
-        if( tem.personality.altruism != npc_template::random ) {
-            personality.altruism = tem.personality.altruism;
+        if( tem.intl.has_value() ) {
+            int_max = tem.intl.value();
         }
-        if( tem.str != npc_template::random ) {
-            str_max = tem.str;
+        if( tem.per.has_value() ) {
+            per_max = tem.per.value();
         }
-        if( tem.dex != npc_template::random ) {
-            dex_max = tem.dex;
+        if( tem.height.has_value() ) {
+            set_base_height( tem.height.value() );
         }
-        if( tem.intl != npc_template::random ) {
-            int_max = tem.intl;
-        }
-        if( tem.per != npc_template::random ) {
-            per_max = tem.per;
-        }
-        if( tem.height != npc_template::random ) {
-            set_base_height( tem.height );
-        }
-        if( tem.age != npc_template::random ) {
-            set_base_age( tem.age );
+        if( tem.age.has_value() ) {
+            set_base_age( tem.age.value() );
         }
     }
 
