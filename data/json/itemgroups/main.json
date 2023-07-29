@@ -197,7 +197,7 @@
       { "item": "bolt_wood_bodkin", "prob": 50 },
       { "item": "bolt_cf", "prob": 100 }
     ]
-  }
+  },
   {
     "type": "item_group",
     "id": "archery_quivers",
