@@ -6854,27 +6854,27 @@ std::string item::display_name( unsigned int quantity ) const
         amt = " (" + ammotext + ")";
     }
 
-    if( type->can_use( "link_up" ) ) {
+    if( link ) {
         std::string extensions = cables().empty() ? "" : string_format( "+%d", cables().size() );
-        if( link ) {
-            if( link->has_state( link_state::needs_reeling ) ) {
-                cable = string_format( _( " (%1$s cable%2$s)" ), colorize( string_format( "×/%d",
-                                       link->max_length ), c_light_red ), extensions );
+        const int link_len = link_length();
+        const int link_max_len = max_link_length();
+        if( link_len <= -2 ) {
+            cable = string_format( _( " (-/%1$d cable%2$s)" ), link_max_len, extensions );
+        } else if( link_len == -1 ) {
+            cable = string_format( _( " (%1$s cable%2$s)" ),
+                                   colorize( string_format( "×/%d", link_max_len ), c_light_red ), extensions );
+        } else {
+            nc_color cable_color;
+            const double ratio = static_cast<double>( link_len ) / static_cast<double>( link_max_len );
+            if( ratio < 1.0 / 3.0 ) {
+                cable_color = c_light_green;
+            } else if( ratio < 2.0 / 3.0 ) {
+                cable_color = c_yellow;
             } else {
-                nc_color cable_color;
-                const double ratio = static_cast<double>( link->length ) / static_cast<double>( link->max_length );
-                if( ratio < 1.0 / 3.0 ) {
-                    cable_color = c_light_green;
-                } else if( ratio < 2.0 / 3.0 ) {
-                    cable_color = c_yellow;
-                } else {
-                    cable_color = c_red;
-                }
-                cable = string_format( " (%s)", colorize( string_format( _( "%d/%d cable%s" ),
-                                       link->max_length - link->length, link->max_length, extensions ), cable_color ) );
+                cable_color = c_red;
             }
-        } else if( !extensions.empty() ) {
-            cable = string_format( _( " (-/%1$d cable%2$s)" ), max_link_length(), extensions );
+            cable = string_format( " (%s)", colorize( string_format( _( "%d/%d cable%s" ),
+                                   link_max_len - link_len, link_max_len, extensions ), cable_color ) );
         }
     }
 
@@ -12978,22 +12978,7 @@ int item::link_length() const
 
 int item::max_link_length() const
 {
-    if( link ) {
-        return link->max_length != -1 ? link->max_length : type->maximum_charges();
-    }
-    if( !type->can_use( "link_up" ) ) {
-        return -2;
-    }
-
-    const link_up_actor *actor = static_cast<const link_up_actor *>
-                                 ( get_use( "link_up" )->get_actor_ptr() );
-    int total_length = actor->cable_length != -1 ? actor->cable_length : type->maximum_charges();
-
-    for( const item *cable : cables() ) {
-        total_length += cable->type->maximum_charges();
-    }
-
-    return total_length;
+    return !link ? -2 : link->max_length != -1 ? link->max_length : type->maximum_charges();
 }
 
 bool item::process_link( map &here, Character *carrier, const tripoint &pos )
@@ -13309,6 +13294,11 @@ bool item::reset_link( Character *p, int vpart_index,
     }
 
     link.reset();
+    if( !cables().empty() ) {
+        // If there are extensions, keep link active to maintain max_length.
+        link = cata::make_value<item::link_data>();
+        set_link_traits();
+    }
     return has_flag( flag_NO_DROP );
 }
 

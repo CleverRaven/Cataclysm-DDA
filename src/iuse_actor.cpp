@@ -5013,7 +5013,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it ) co
     if( is_cable_item ) {
         const bool can_extend_devices = can_extend.find( "ELECTRICAL_DEVICES" ) != can_extend.end();
         const auto filter = [this, &it, &can_extend_devices]( const item & inv ) {
-            if( inv.link && ( it.link || inv.link->has_state( link_state::needs_reeling ) ) ) {
+            if( inv.link && ( it.link_length() >= 0 || inv.link->has_state( link_state::needs_reeling ) ) ) {
                 return false;
             }
             if( !inv.has_flag( flag_CABLE_SPOOL ) ) {
@@ -5026,7 +5026,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it ) co
     } else {
         const auto filter = [&it]( const item & inv ) {
             if( !inv.has_flag( flag_CABLE_SPOOL ) || !inv.type->can_use( "link_up" ) ||
-                ( inv.link && ( it.link || inv.link->has_state( link_state::needs_reeling ) ) ) ) {
+                ( inv.link && ( it.link_length() >= 0 || inv.link->has_state( link_state::needs_reeling ) ) ) ) {
                 return false;
             }
             const link_up_actor *actor = static_cast<const link_up_actor *>
@@ -5062,6 +5062,9 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it ) co
     }
     if( extension->link ) {
         extended->link = extension->link;
+    }
+    if( !extended->link ) {
+        extended->link = cata::make_value<item::link_data>();
     }
     extended->set_link_traits();
 
