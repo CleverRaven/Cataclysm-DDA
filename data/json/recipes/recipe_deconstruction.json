@@ -2979,7 +2979,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "3 m",
-    "components": [ [ [ "charcoal", 200 ] ], [ [ "char_kiln", 1 ] ] ]
+    "components": [ [ [ "charcoal", 10000 ] ], [ [ "char_kiln", 1 ] ] ]
   },
   {
     "type": "uncraft",
