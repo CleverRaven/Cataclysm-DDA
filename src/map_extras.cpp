@@ -106,7 +106,6 @@ static const map_extra_id map_extra_mx_burned_ground( "mx_burned_ground" );
 static const map_extra_id map_extra_mx_casings( "mx_casings" );
 static const map_extra_id map_extra_mx_city_trap( "mx_city_trap" );
 static const map_extra_id map_extra_mx_clay_deposit( "mx_clay_deposit" );
-static const map_extra_id map_extra_mx_clearcut( "mx_clearcut" );
 static const map_extra_id map_extra_mx_corpses( "mx_corpses" );
 static const map_extra_id map_extra_mx_dead_vegetation( "mx_dead_vegetation" );
 static const map_extra_id map_extra_mx_grove( "mx_grove" );
@@ -1331,33 +1330,6 @@ static bool mx_shrubbery( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_clearcut( map &m, const tripoint &abs_sub )
-{
-    // From wikipedia - Clearcutting, clearfelling or clearcut logging is a forestry/logging
-    // practice in which most or all trees in an area are uniformly cut down.
-
-    // This map extra converts all trees and young trees in the area to stumps.
-
-    ter_id stump( "t_stump" );
-
-    bool did_something = false;
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            const tripoint location( i, j, abs_sub.z );
-            if( m.has_flag_ter( ter_furn_flag::TFLAG_TREE, location ) ||
-                m.has_flag_ter( ter_furn_flag::TFLAG_YOUNG, location ) ) {
-                if( !did_something ) {
-                    did_something = true;
-                }
-                m.ter_set( location, stump );
-            }
-        }
-    }
-
-    return did_something;
-}
-
 static bool mx_pond( map &m, const tripoint &abs_sub )
 {
     // This map extra creates small ponds using a simple cellular automaton.
@@ -2401,7 +2373,6 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_jabberwock, mx_jabberwock },
     { map_extra_mx_grove, mx_grove },
     { map_extra_mx_shrubbery, mx_shrubbery },
-    { map_extra_mx_clearcut, mx_clearcut },
     { map_extra_mx_pond, mx_pond },
     { map_extra_mx_clay_deposit, mx_clay_deposit },
     { map_extra_mx_dead_vegetation, mx_dead_vegetation },

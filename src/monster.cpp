@@ -108,6 +108,8 @@ static const efftype_id effect_photophobia( "photophobia" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
+static const efftype_id effect_spooked( "spooked" );
+static const efftype_id effect_spooked_recent( "spooked_recent" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_tied( "tied" );
@@ -3149,27 +3151,44 @@ void monster::process_effects()
         }
     }
 
-    if( has_flag( mon_flag_CORNERED_FIGHTER ) && ( morale + anger ) < 0 ) {
-        if( friendly == 0 && rl_dist( pos(), player_character.pos() ) <= 2 ) {
-            if( morale < type->morale ) {
-                morale = type->morale;
-                anger = type->agro;
-            }
-        }
+    if( has_flag( mon_flag_CORNERED_FIGHTER ) ) {
         map &here = get_map();
         creature_tracker &creatures = get_creature_tracker();
         for( const tripoint &p : here.points_in_radius( pos(), 2 ) ) {
             const monster *const mon = creatures.creature_at<monster>( p );
-            if( mon ) {
-                if( mon->faction->attitude( faction ) != MFA_FRIENDLY ) {
+            const Character *const guy = creatures.creature_at<Character>( p );
+            if( mon && mon != this && mon->faction->attitude( faction ) != MFA_FRIENDLY &&
+                !has_effect( effect_spooked ) && morale <= 0 ) {
+                if( !has_effect( effect_spooked_recent ) ) {
+                    if( !has_effect( effect_spooked_recent ) ) {
+                        add_effect( effect_spooked, 3_turns, false );
+                        add_effect( effect_spooked_recent, 9_turns, false );
+                    }
+                } else {
                     if( morale < type->morale ) {
                         morale = type->morale;
                         anger = type->agro;
                     }
                 }
             }
+            if( guy ) {
+                monster_attitude att = attitude( guy );
+                if( ( friendly == 0 ) && ( att == MATT_FOLLOW || att == MATT_FLEE ) &&
+                    !has_effect( effect_spooked ) ) {
+                    if( !has_effect( effect_spooked_recent ) ) {
+                        add_effect( effect_spooked, 3_turns, false );
+                        add_effect( effect_spooked_recent, 9_turns, false );
+                    } else {
+                        if( morale < type->morale ) {
+                            morale = type->morale;
+                            anger = type->agro;
+                        }
+                    }
+                }
+            }
         }
     }
+
 
     if( has_flag( mon_flag_PHOTOPHOBIC ) && get_map().ambient_light_at( pos() ) >= 30.0f ) {
         add_msg_if_player_sees( *this, m_good, _( "The shadow withers in the light!" ), name() );
