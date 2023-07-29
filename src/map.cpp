@@ -7117,18 +7117,18 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
     return ter( obstaclepos )->coverage;
 }
 
-int map::ledge_coverage( const tripoint &loc1, const tripoint &loc2, const creature_size &viewer_size ) const
+int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p, const creature_size &viewer_size ) const
 {
 	// Find ledge between viewer and target
     // Only the first ledge found is calculated for performance reasons
     tripoint loc_high;
     tripoint loc_low;
-    if (loc1.z > loc2.z) {
-    	loc_high = loc1;
-    	loc_low = loc2;
+    if (viewer_p.z <= target_p.z) {
+    	loc_high = viewer_p;
+    	loc_low = target_p;
     } else {
-    	loc_high = loc2;
-    	loc_low = loc1;
+    	loc_high = target_p;
+    	loc_low = viewer_p;
     }
 
     tripoint ledge_p = loc_high;
@@ -7139,7 +7139,7 @@ int map::ledge_coverage( const tripoint &loc1, const tripoint &loc2, const creat
 	    }
     }
 
-    const int ledge_height = loc2.z - loc1.z;
+    const int ledge_height = target_p.z - viewer_p.z;
     // Height of each z-level in grids
     const float zlevel_to_grid_ratio = 2.0f;
     // Viewer eye level from ground in grids
@@ -7163,11 +7163,11 @@ int map::ledge_coverage( const tripoint &loc1, const tripoint &loc2, const creat
             debugmsg( "ERROR: Creature has invalid size class." );
             break;
     }
-    const float dist_to_ledge = rl_dist( loc1, ledge_p ) - 0.5f;
+    const float dist_to_ledge = rl_dist( viewer_p, ledge_p ) - 0.5f;
     // Calculate tangent of elevation angle between viewer and ledge
     const double tangent = ( ledge_height * zlevel_to_grid_ratio - eye_level ) / dist_to_ledge;
 
-    const int flat_dist = rl_dist( loc1, tripoint( loc2.xy(), loc1.z ) );
+    const int flat_dist = rl_dist( viewer_p, tripoint( target_p.xy(), viewer_p.z ) );
     // Amount of height relative to ground at viewer covered by ledge at target's distance in grids
     const double covered_height = flat_dist * tangent + eye_level;
     // Amount of coverage provided by ledge to view target
