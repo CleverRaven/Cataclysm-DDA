@@ -1195,7 +1195,7 @@ float Character::tally_organic_size() const
     float total_size = 0.0f;
     for( const bodypart_id &part : get_all_body_parts() ) {
         if( !part->is_cybernetic ) {
-            total_size += part->hit_size;
+            total_size += part.get_hit_size();
         }
     }
     return total_size;
@@ -7814,7 +7814,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
         hurt = body_part_torso;
     }
 
-    if( hurt->feels_pain ) {
+    if( !hurt->is_cybernetic ) {
         mod_pain( dam / 2 );
     }
 
@@ -7892,7 +7892,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     bool u_see = player_character.sees( *this );
     // FIXME: Hardcoded damage type
     int cut_dam = dealt_dams.type_damage( damage_cut );
-    if( source && has_flag( json_flag_ACIDBLOOD ) && bp->bleeds && !one_in( 3 ) &&
+    if( source && has_flag( json_flag_ACIDBLOOD ) && !bp->is_cybernetic && !one_in( 3 ) &&
         ( dam >= 4 || cut_dam > 0 ) && ( rl_dist( player_character.pos(), source->pos() ) <= 1 ) ) {
         if( is_avatar() ) {
             add_msg( m_good, _( "Your acidic blood splashes %s in mid-attack!" ),
@@ -7946,7 +7946,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     // i.e. if the body part has a sum of 100 coverage from filthy clothing,
     // each point of damage has a 1% change of causing infection.
     // if the bodypart doesn't bleed, it doesn't have blood, and cannot get infected
-    if( sum_cover > 0 && bp->bleeds ) {
+    if( sum_cover > 0 && !bp->is_cybernetic ) {
         // FIXME: Hardcoded damage types
         const int cut_type_dam = dealt_dams.type_damage( damage_cut ) +
                                  dealt_dams.type_damage( damage_stab );
