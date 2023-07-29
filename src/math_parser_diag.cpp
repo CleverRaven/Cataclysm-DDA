@@ -207,7 +207,7 @@ std::function<double( dialogue & )> effect_intensity_eval( char scope,
 }
 
 std::function<double( dialogue & )> hp_eval( char scope,
-        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
     bodypart_id bp = bodypart_str_id::NULL_ID();
     if( kwargs.count( "bodypart" ) != 0 ) {
@@ -219,7 +219,7 @@ std::function<double( dialogue & )> hp_eval( char scope,
 }
 
 std::function<void( dialogue &, double )> hp_ass( char scope,
-        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
     bodypart_id bp = bodypart_str_id::NULL_ID();
     if( kwargs.count( "bodypart" ) != 0 ) {
