@@ -315,10 +315,6 @@ struct body_part_type {
 
         // flag limbs for being bionics. if true it doesn't contribute bodyweight and uses bionic power instead of stamina
         bool is_cybernetic = false;
-        // does it spurt out blood when cut/stabbed - used for specific hardcoded checks like acidblood
-        bool bleeds = true;
-        // do attacks to it cause pain too
-        bool feels_pain = true;
         // this is the number of millijoules used per stamina point, divided by the total # of limbs that are cybernetic
         int power_efficiency = 0;
 
@@ -494,6 +490,7 @@ class bodypart
 
         int get_hp_cur() const;
         int get_hp_max() const;
+        int get_hit_size() const;
         int get_healed_total() const;
         int get_damage_bandaged() const;
         int get_damage_disinfected() const;
@@ -505,8 +502,6 @@ class bodypart
         int get_bmi_encumbrance_threshold() const;
         float get_bmi_encumbrance_scalar() const;
         bool get_is_cybernetic() const;
-        bool get_bleeds() const;
-        bool get_feels_pain() const;
         int get_power_efficiency() const;
 
         std::array<int, NUM_WATER_TOLERANCE> get_mut_drench() const;
