@@ -1042,9 +1042,9 @@ std::array<int, NUM_WATER_TOLERANCE> bodypart::get_mut_drench() const
     return mut_drench;
 }
 
-int bodypart::get_hit_size() const
+float bodypart::get_hit_size() const
 {
-    return hit_size;
+    return id->hit_size;
 }
 
 int bodypart::get_power_efficiency() const
