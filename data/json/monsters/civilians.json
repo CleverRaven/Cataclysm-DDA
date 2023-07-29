@@ -145,7 +145,13 @@
       { "monster": "mon_civilian_stationary", "weight": 30, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_zombiefighter", "weight": 16, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_police", "weight": 4, "cost_multiplier": 3, "ends": "3 days" },
-      { "monster": "mon_civilian_parent", "weight": 20, "cost_multiplier": 0, "ends": "2 days", "pack_size": [ 1, 2 ] },
+      {
+        "monster": "mon_civilian_parent",
+        "weight": 20,
+        "cost_multiplier": 0,
+        "ends": "2 days",
+        "pack_size": [ 1, 2 ]
+      },
       { "monster": "mon_civilian_parent", "weight": 20, "cost_multiplier": 0, "starts": "2 days" },
       { "monster": "mon_civilian_panic", "weight": 40, "cost_multiplier": 0, "ends": "2 days", "pack_size": [ 1, 5 ] },
       {
