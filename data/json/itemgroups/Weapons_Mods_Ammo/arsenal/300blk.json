@@ -35,7 +35,7 @@
     "id": "nested_m4blk_carbine_no_ammo",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "item": "m16_auto_rifle" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
+    "items": [ { "item": "modular_m16_auto_rifle" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
   },
   {
     "type": "item_group",

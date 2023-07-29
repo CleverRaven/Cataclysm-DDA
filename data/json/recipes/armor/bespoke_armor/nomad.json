@@ -9,16 +9,19 @@
     "difficulty": 5,
     "time": "2 h",
     "book_learn": [ [ "bp_nomad_cowl", 4 ] ],
-    "using": [ [ "sewing_standard", 65 ] ],
+    "using": [ [ "filament_canvas", 80 ], [ "fastener_small", 4 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
-      [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
-      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
-      [ [ "leather", 8 ], [ "tanned_hide", 2 ] ]
+      [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ], [ "hat_golf", 1 ] ],
+      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ], [ "goggles_ski", 1 ], [ "face_shield_plastic", 1 ] ],
+      [ [ "leather", 8 ], [ "tanned_hide", 2 ], [ "sheet_leather", 2 ], [ "sheet_leather_patchwork", 2 ] ],
+      [ [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_closures_waterproofing" }
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_closures" }
     ]
   },
   {
@@ -26,25 +29,29 @@
     "type": "recipe",
     "copy-from": "helmet_nomad",
     "time": "2 h",
-    "using": [ [ "sewing_standard", 48 ] ],
+    "using": [ [ "filament_canvas", 60 ], [ "fastener_small", 4 ] ],
     "components": [
-      [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
-      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
-      [ [ "leather", 4 ], [ "tanned_hide", 1 ] ]
-    ]
+      [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ], [ "hat_golf", 1 ] ],
+      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ], [ "goggles_ski", 1 ], [ "face_shield_plastic", 1 ] ],
+      [ [ "leather", 8 ], [ "tanned_hide", 2 ], [ "sheet_leather", 2 ], [ "sheet_leather_patchwork", 2 ] ],
+      [ [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "result": "xl_helmet_nomad",
     "type": "recipe",
     "copy-from": "helmet_nomad",
     "time": "2 h 15 m",
-    "book_learn": [ [ "bp_nomad_cowl", 7 ] ],
-    "using": [ [ "sewing_standard", 85 ] ],
+    "using": [ [ "filament_canvas", 120 ], [ "fastener_small", 6 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
-      [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
-      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
-      [ [ "leather", 12 ], [ "tanned_hide", 3 ] ]
-    ]
+      [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ], [ "hat_golf", 1 ] ],
+      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ], [ "goggles_ski", 1 ], [ "face_shield_plastic", 1 ] ],
+      [ [ "leather", 12 ], [ "tanned_hide", 3 ], [ "sheet_leather", 3 ], [ "sheet_leather_patchwork", 3 ] ],
+      [ [ "sheet_denim", 15 ], [ "sheet_denim_patchwork", 15 ] ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "result": "armor_nomad",
@@ -57,21 +64,22 @@
     "difficulty": 5,
     "time": "4 h 20 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
-    "using": [ [ "sewing_standard", 90 ], [ "tailoring_lycra_patchwork", 24 ], [ "tailoring_leather_patchwork", 4 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "using": [ [ "filament_canvas", 240 ], [ "fastener_large", 4 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elastics" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
     "components": [
-      [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
-      [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
-      [ [ "jumpsuit", 1 ], [ "combat_shirt", 1 ], [ "longshirt", 1 ], [ "sweatshirt", 1 ] ],
-      [ [ "pants_cargo", 1 ], [ "pants_army", 1 ], [ "pants_hiking", 1 ] ]
-    ]
+      [ [ "leather", 16 ], [ "tanned_hide", 4 ], [ "sheet_leather", 4 ], [ "sheet_leather_patchwork", 4 ] ],
+      [ [ "sheet_denim", 12 ], [ "sheet_denim_patchwork", 12 ] ],
+      [ [ "leather_belt", 4 ], [ "webbing_belt", 4 ] ],
+      [ [ "jeans", 1 ], [ "jeans_red", 1 ], [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ],
+      [ [ "jacket_jean", 1 ], [ "jacket_flannel", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "result": "armor_nomad",
@@ -85,10 +93,19 @@
     "difficulty": 5,
     "time": "2 h 20 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
-    "using": [ [ "tailoring_leather_patchwork", 4 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
-    "components": [ [ [ "armor_nomad_light", 1 ] ] ]
+    "using": [ [ "filament_canvas", 120 ], [ "fastener_large", 1 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_leatherworking_basic" }
+    ],
+    "components": [
+      [ [ "armor_nomad_light", 1 ] ],
+      [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "sheet_leather", 1 ], [ "sheet_leather_patchwork", 1 ] ],
+      [ [ "sheet_denim", 12 ], [ "sheet_denim_patchwork", 12 ] ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "result": "armor_nomad_light",
@@ -100,18 +117,22 @@
     "difficulty": 4,
     "time": "2 h 20 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 3 ] ],
-    "using": [ [ "tailoring_lycra_patchwork", 24 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "using": [ [ "filament_canvas", 120 ], [ "fastener_large", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_elastics" }
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
     ],
     "components": [
-      [ [ "shorts_cargo", 1 ], [ "pants_cargo", 1 ], [ "pants_hiking", 1 ] ],
-      [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
-      [ [ "leather_belt", 2 ], [ "webbing_belt", 2 ] ],
-      [ [ "jumpsuit", 1 ], [ "combat_shirt", 1 ], [ "longshirt", 1 ], [ "sweatshirt", 1 ] ]
-    ]
+      [ [ "leather", 12 ], [ "tanned_hide", 3 ], [ "sheet_leather", 3 ], [ "sheet_leather_patchwork", 3 ] ],
+      [ [ "sheet_denim", 6 ], [ "sheet_denim_patchwork", 6 ] ],
+      [ [ "leather_belt", 4 ], [ "webbing_belt", 4 ] ],
+      [ [ "jeans", 1 ], [ "jeans_red", 1 ], [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ],
+      [ [ "jacket_jean", 1 ], [ "jacket_flannel", 1 ], [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "result": "armor_nomad_advanced",
@@ -126,7 +147,8 @@
     "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
     "using": [ [ "sewing_standard", 90 ], [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "components": [ [ [ "armor_nomad", 1 ] ], [ [ "exodii_wire_kit", 1 ] ], [ [ "exodii_ac_kit", 1 ] ] ]
+    "components": [ [ [ "armor_nomad", 1 ] ], [ [ "exodii_wire_kit", 1 ] ], [ [ "exodii_ac_kit", 1 ] ] ],
+    "flags": [ "SECRET" ]
   },
   {
     "result": "nomad_rig",
@@ -139,26 +161,24 @@
     "difficulty": 5,
     "time": "5 h 30 m",
     "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
-    "using": [
-      [ "sewing_standard", 90 ],
-      [ "soldering_standard", 10 ],
-      [ "tailoring_leather_small", 4 ],
-      [ "tailoring_nylon_patchwork", 4 ]
-    ],
+    "using": [ [ "filament_canvas", 150 ], [ "soldering_standard", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures_waterproofing" }
     ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
+      [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "sheet_leather", 1 ], [ "sheet_leather_patchwork", 1 ] ],
+      [ [ "sheet_denim", 4 ], [ "sheet_denim_patchwork", 4 ] ],
       [ [ "exodii_wire_kit", 1 ] ],
       [ [ "flashlight", 1 ], [ "heavy_flashlight", 1 ] ],
       [ [ "plastic_sheet", 2 ] ],
       [ [ "vest", 1 ], [ "tacvest", 1 ], [ "light_load_bearing_vest", 1 ], [ "load_bearing_vest", 1 ] ],
-      [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ], [ "dump_pouch", 2 ], [ "fanny", 2 ] ],
+      [ [ "purse", 2 ], [ "leather_pouch", 4 ], [ "dump_pouch", 2 ], [ "fanny", 2 ] ],
       [ [ "tool_belt", 1 ], [ "legrig", 1 ] ]
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "result": "nomad_bodyglove_1",
@@ -178,7 +198,8 @@
     ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
-    "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "rubber_cement", 2 ] ] ]
+    "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "rubber_cement", 2 ] ] ],
+    "flags": [ "SECRET" ]
   },
   {
     "result": "nomad_bodyglove_2",
@@ -198,6 +219,7 @@
     ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_polymerworking" } ],
-    "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "thread_kevlar", 20 ] ], [ [ "rubber_cement", 2 ] ] ]
+    "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "thread_kevlar", 20 ] ], [ [ "rubber_cement", 2 ] ] ],
+    "flags": [ "SECRET" ]
   }
 ]

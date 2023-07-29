@@ -137,6 +137,11 @@
     ]
   },
   {
+    "name": "GROUP_HORSES_STABLES",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_null", "weight": 50 }, { "group": "GROUP_HORSES", "weight": 50, "ends": "14 days" } ]
+  },
+  {
     "name": "GROUP_MOOSE",
     "type": "monstergroup",
     "monsters": [
@@ -208,6 +213,17 @@
       { "monster": "mon_dog_auscattle_pup", "weight": 5, "cost_multiplier": 0 },
       { "monster": "mon_dog_samoyed", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_dog_samoyed_pup", "weight": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "name": "GROUP_MUTANT_PET_DOGS",
+    "type": "monstergroup",
+    "default": "mon_dog_mutant_mongrel",
+    "monsters": [
+      { "monster": "mon_dog_mutant_mongrel", "weight": 7, "cost_multiplier": 0 },
+      { "monster": "mon_dog_mutant_thrasher", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_dog_mutant_mauler", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_dog_mutant_loper", "weight": 1, "cost_multiplier": 0 }
     ]
   },
   {

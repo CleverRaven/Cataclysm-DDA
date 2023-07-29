@@ -41,7 +41,7 @@
       {
         "id": "male_6",
         "text": {
-          "str": "MISSING/ RUNAWAY PERSON\n\nIF YOU HAVE ANY INFORMATION ON JONAH BROWN'S WHEREABOUTS PLEASE CALL ESSEX COUNTY SHERIFF'S DEPARTMENT AT 978-555-6174 OR BY DIALING 911.\n\n[Photograph: a college athlete posing with a basketball for a professional photo.]\n\nJONAH BROWN\n\nMissing From: 2337 Huntz Lane, Lynn, MA\nDate Missing: March 7\nAge: 20\nSex: Male\nHeight: 6'3\"\nEyes: Brown\nHair: Black, Short\nRace: African-American\n\nLast Seen Wearing:\n ● orange & gray puffer coat\n ● red long beanie\n ● black jeans\n ● white running shoes\n ● silver necklace\n\nFor additional information, please see www.where-is-jonah.org.\n\nDON'T HESITATE\nANYONE HAVING INFORMATION SHOULD CONTACT 911 or 1-800-TIPS",
+          "str": "MISSING/RUNAWAY PERSON\n\nIF YOU HAVE ANY INFORMATION ON JONAH BROWN'S WHEREABOUTS PLEASE CALL ESSEX COUNTY SHERIFF'S DEPARTMENT AT 978-555-6174 OR BY DIALING 911.\n\n[Photograph: a college athlete posing with a basketball for a professional photo.]\n\nJONAH BROWN\n\nMissing From: 2337 Huntz Lane, Lynn, MA\nDate Missing: March 7\nAge: 20\nSex: Male\nHeight: 6'3\"\nEyes: Brown\nHair: Black, Short\nRace: African-American\n\nLast Seen Wearing:\n ● orange & gray puffer coat\n ● red long beanie\n ● black jeans\n ● white running shoes\n ● silver necklace\n\nFor additional information, please see www.where-is-jonah.org.\n\nDON'T HESITATE\nANYONE HAVING INFORMATION SHOULD CONTACT 911 or 1-800-TIPS",
           "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
         }
       },
@@ -78,7 +78,7 @@
       {
         "id": "female_4",
         "text": {
-          "str": "CITY OF\nBOSTON\nPOLICE DEPARTMENT\n\nMissing/ Runaway Person\n\nThe Boston Police Department's Special Victims Unit is seeking information on the location of Cassandra Rose.\n\n[Photograph: a middle-aged woman in heavy makeup posing for a selfie inside a truck.]\n\nCassandra Rose\n43-year-old White Female; 5'9\"; 138 lbs.\nLong Black Hair; Tattoos on neck, right forearm and upper back\n\nCassandra Rose was last seen on 4/6, wearing a camouflage hoodie and gray sweatpants, near Eternal Harvest Baptist Church.  There is concern for Cassandra's welfare.\n\nAnyone with information is asked to call the Boston Police Department Special Victims Unit at (508) 555-4200.",
+          "str": "CITY OF\nBOSTON\nPOLICE DEPARTMENT\n\nMissing/Runaway Person\n\nThe Boston Police Department's Special Victims Unit is seeking information on the location of Cassandra Rose.\n\n[Photograph: a middle-aged woman in heavy makeup posing for a selfie inside a truck.]\n\nCassandra Rose\n43-year-old White Female; 5'9\"; 138 lbs.\nLong Black Hair; Tattoos on neck, right forearm and upper back\n\nCassandra Rose was last seen on 4/6, wearing a camouflage hoodie and gray sweatpants, near Eternal Harvest Baptist Church.  There is concern for Cassandra's welfare.\n\nAnyone with information is asked to call the Boston Police Department Special Victims Unit at (508) 555-4200.",
           "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
         }
       },
@@ -99,6 +99,13 @@
           "str": "AT RISK MISSING PERSON\n\n[Photograph: an elderly woman with short curly hair wearing a pearl necklace and a floral dress.]\nBetty Rue Webber, 74\n\nMrs. Webber is a female Caucasian 74-year-old, 5'1\" tall, 160 pounds, short gray curly hair, wears reading glasses, last seen wearing a purple waistcoat, blue jeans and black crocs.\n\nThe family reports Mrs. Webber has dementia.  The missing person left her residence on 2354 Kennedy Court, Mansfield, MA, at approximately 11 to 13 am.  Her loved ones are very worried and asking for your help locating her.\n\nANY INFORMATION PLEASE CONTACT LOCAL LAW ENFORCEMENT OR CALL 774-555-3710",
           "//~": "Please replace the fictitious phone number with one of your local equivalent when translating",
           "//NOLINT(cata-text-style)": "intentional format"
+        }
+      },
+      {
+        "id": "female_8",
+        "text": {
+          "str": "This poster seems to be several years old.  Even heavily faded, there's still some prominent details left.\n\nCITY OF\nBOSTON\nPOLICE DEPARTMENT\n\nMISSING\n\nThe Boston Police Department's Missing Persons Unit is seeking information on the location of Amy Takatoshi.\n\n[Photograph: A stern looking woman in a lab coat can be seen sitting for a professional photo.]\n\nAmy Takatoshi\n51-year-old Asian Female; 5'5\"; 126 lbs.\nShort Black Hair; No tattoos, beauty mark on right cheek\n\nAmy Takatoshi was last seen on 7/12, wearing a pencil skirt, white button down shirt, tie, and pumps, leaving the Massachusetts Institute of Technology building around at 7 AM.\n\nIf you have any information, please call the Missing Persons Unit at (202) 555-0114.",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
         }
       }
     ]

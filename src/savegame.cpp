@@ -2,6 +2,7 @@
 
 #include <clocale>
 #include <algorithm>
+#include <fstream>
 #include <map>
 #include <sstream>
 #include <string>
@@ -15,6 +16,7 @@
 #include "avatar.h"
 #include "basecamp.h"
 #include "cata_io.h"
+#include "cata_path.h"
 #include "city.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
@@ -138,6 +140,7 @@ void game::serialize( std::ostream &fout )
         json.start_object();
         json.member( "time", temp_queued.top().time );
         json.member( "eoc", temp_queued.top().eoc );
+        json.member( "context", temp_queued.top().context );
         json.end_object();
         temp_queued.pop();
     }
@@ -268,6 +271,11 @@ void game::unserialize( std::istream &fin, const cata_path &path )
             queued_eoc temp;
             temp.time = time_point( elem.get_int( "time" ) );
             temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
+            std::unordered_map<std::string, std::string> context;
+            for( const JsonMember &jm : elem.get_object( "context" ) ) {
+                context[jm.name()] = jm.get_string();
+            }
+            temp.context = context;
             queued_global_effect_on_conditions.push( temp );
         }
         global_variables_instance.unserialize( data );
@@ -704,10 +712,10 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
                     count--;
                     layer[z + OVERMAP_DEPTH].terrain[i][j] = tmp_otid;
                     if( tmp_otid == oter_lake_shore || tmp_otid == oter_lake_surface ) {
-                        lake_points.emplace_back( tripoint_om_omt( i, j, z ) );
+                        lake_points.emplace_back( i, j, z );
                     }
                     if( tmp_otid == oter_forest || tmp_otid == oter_forest_thick ) {
-                        forest_points.emplace_back( tripoint_om_omt( i, j, z ) );
+                        forest_points.emplace_back( i, j, z );
                     }
                 }
             }
@@ -1381,6 +1389,14 @@ void weather_manager::unserialize_all( const JsonObject &w )
 void global_variables::unserialize( JsonObject &jo )
 {
     jo.read( "global_vals", global_values );
+    // potentially migrate some variable names
+    for( std::pair<std::string, std::string> migration : migrations ) {
+        if( global_values.count( migration.first ) != 0 ) {
+            auto extracted = global_values.extract( migration.first );
+            extracted.key() = migration.second;
+            global_values.insert( std::move( extracted ) );
+        }
+    }
 }
 
 void timed_event_manager::unserialize_all( const JsonArray &ja )
@@ -1467,6 +1483,7 @@ void game::serialize_master( std::ostream &fout )
 void faction_manager::serialize( JsonOut &jsout ) const
 {
     std::vector<faction> local_facs;
+    local_facs.reserve( factions.size() );
     for( const auto &elem : factions ) {
         local_facs.push_back( elem.second );
     }
@@ -1476,6 +1493,15 @@ void faction_manager::serialize( JsonOut &jsout ) const
 void global_variables::serialize( JsonOut &jsout ) const
 {
     jsout.member( "global_vals", global_values );
+}
+
+void global_variables::load_migrations( const JsonObject &jo, const std::string_view & )
+{
+    const std::string from( jo.get_string( "from" ) );
+    const std::string to = jo.has_string( "to" )
+                           ? jo.get_string( "to" )
+                           : "NULL_VALUE";
+    get_globals().migrations.emplace( from, to );
 }
 
 void timed_event_manager::serialize_all( JsonOut &jsout )
@@ -1584,4 +1610,81 @@ void overmapbuffer::deserialize_placed_unique_specials( const JsonValue &jsin )
     for( const JsonValue &special : ja ) {
         placed_unique_specials.emplace( special.get_string() );
     }
+}
+
+void npc::import_and_clean( const cata_path &path )
+{
+    std::ifstream fin( path.get_unrelative_path(), std::ios::binary );
+    size_t json_offset = chkversion( fin );
+    JsonValue jsin = json_loader::from_path_at_offset( path, json_offset );
+    import_and_clean( jsin.get_object() );
+}
+
+void npc::import_and_clean( const JsonObject &data )
+{
+    deserialize( data );
+
+    npc defaults;  // to avoid hardcoding defaults here
+
+    // avoid duplicate id
+    setID( g->assign_npc_id(), /* force */ true );
+
+    // timestamps are irrelevant if importing into a different world
+    last_updated = defaults.last_updated;
+    lifespan_end = defaults.lifespan_end;
+    effects->clear();
+    consumption_history = defaults.consumption_history;
+    last_sleep_check = defaults.last_sleep_check;
+    queued_effect_on_conditions = defaults.queued_effect_on_conditions;
+
+    // space coordinates are irrelevant if importing into a different world
+    set_location( defaults.get_location() );
+    omt_path = defaults.omt_path;
+    known_traps.clear();
+    camps = defaults.camps;
+    last_player_seen_pos = defaults.last_player_seen_pos;
+    guard_pos = defaults.guard_pos;
+    pulp_location = defaults.pulp_location;
+    chair_pos = defaults.chair_pos;
+    wander_pos = defaults.wander_pos;
+    goal = defaults.goal;
+    assigned_camp = defaults.assigned_camp;
+    job = defaults.job;
+
+    // mission related
+    mission = defaults.mission;
+    previous_mission = defaults.previous_mission;
+    reset_companion_mission();
+    companion_mission_role_id = defaults.companion_mission_role_id;
+    companion_mission_points = defaults.companion_mission_points;
+    companion_mission_time = defaults.companion_mission_time;
+    companion_mission_time_ret = defaults.companion_mission_time_ret;
+    companion_mission_inv.clear();
+    chatbin.missions.clear();
+    chatbin.missions_assigned.clear();
+    chatbin.mission_selected = nullptr;
+
+    // activity related
+    activity = defaults.activity;
+    backlog = defaults.backlog;
+    clear_destination();
+    stashed_outbounds_activity = defaults.stashed_outbounds_activity;
+    stashed_outbounds_backlog = defaults.stashed_outbounds_backlog;
+    activity_vehicle_part_index = defaults.activity_vehicle_part_index;
+    current_activity_id = defaults.current_activity_id;
+
+    // miscellaneous
+    in_vehicle = defaults.in_vehicle;
+    warning_record = defaults.warning_record;
+    complaints = defaults.complaints;
+    unique_id = defaults.unique_id;
+}
+
+void npc::export_to( const cata_path &path ) const
+{
+    write_to_file( path, [&]( std::ostream & fout ) {
+        fout << "# version " << savegame_version << std::endl;
+        JsonOut jsout( fout );
+        serialize( jsout );
+    } );
 }

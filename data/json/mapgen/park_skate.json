@@ -4,6 +4,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
+      { "item": "folded_skateboard_generic", "prob": 2 },
       { "item": "roller_blades", "prob": 2 },
       { "item": "rollerskates", "prob": 2 },
       { "item": "knee_pads", "prob": 1 },

@@ -15,12 +15,210 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_run_until_test",
+    "effect": [
+      { "set_condition": "to_test", "condition": { "math": [ "u_context", "<", "10" ] } },
+      { "run_eoc_until": "EOC_until_nested", "condition": "to_test" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_until_nested",
+    "effect": [ { "math": [ "u_context", "++" ] }, { "math": [ "key1", "=", "u_context" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_stored_condition_test",
+    "effect": [
+      { "set_condition": "to_test", "condition": { "math": [ "_context", ">", "0" ] } },
+      { "run_eocs": "EOC_stored_condition_test_nested" },
+      { "run_eoc_with": "EOC_stored_condition_test_nested_var", "variables": { "condition_name": "to_test" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_stored_condition_test_nested",
+    "condition": { "get_condition": "to_test" },
+    "effect": [ { "math": [ "context", "=", "_context" ] }, { "math": [ "key1", "=", "1" ] } ],
+    "false_effect": [ { "math": [ "context", "=", "_context" ] }, { "math": [ "key1", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_stored_condition_test_nested_var",
+    "condition": { "get_condition": { "context_val": "condition_name" } },
+    "effect": [ { "math": [ "key2", "=", "1" ] } ],
+    "false_effect": [ { "math": [ "key2", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_with_test",
+    "effect": [
+      { "math": [ "u_ukey", "=", "3" ] },
+      {
+        "run_eoc_with": "EOC_run_with_test_nested",
+        "variables": { "key1": "1", "key2": "2", "key3": { "u_val": "ukey" } }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_with_test_queued",
+    "effect": [
+      { "math": [ "u_ukey", "=", "3" ] },
+      {
+        "queue_eoc_with": "EOC_run_with_test_nested",
+        "variables": { "key1": "1", "key2": "2", "key3": { "u_val": "ukey" } },
+        "time_in_future": "1 seconds"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_with_test_nested",
+    "effect": [ { "math": [ "key1", "=", "_key1" ] }, { "math": [ "key2", "=", "_key2" ] }, { "math": [ "key3", "=", "_key3" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_with_test_expects_pass",
+    "effect": [
+      { "math": [ "u_ukey", "=", "3" ] },
+      {
+        "run_eoc_with": "EOC_run_with_test_nested2",
+        "variables": { "key1": "1", "key2": "2", "key3": { "u_val": "ukey" } }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_with_test_expects_fail",
+    "effect": [ { "run_eoc_with": "EOC_run_with_test_nested2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_with_test_nested2",
+    "condition": { "expects_vars": [ "key1", "key2", "key3" ] },
+    "effect": [ { "math": [ "key1", "=", "_key1" ] }, { "math": [ "key2", "=", "_key2" ] }, { "math": [ "key3", "=", "_key3" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_try_kill",
+    "effect": [
+      { "set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" }, "target_var": { "context_val": "kill_loc" } },
+      { "run_eoc_with": "EOC_kill", "beta_loc": { "context_val": "kill_loc" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_kill",
+    "effect": [ "npc_die" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_armor",
+    "effect": [
+      { "math": [ "key1", "=", "u_armor('bash', 'torso')" ] },
+      { "math": [ "key2", "=", "u_armor('acid', 'torso')" ] },
+      { "math": [ "key3", "=", "u_armor('bash', 'head')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_combat_mutator_test",
+    "effect": [
+      { "set_string_var": { "mutator": "valid_technique" }, "target_var": { "global_val": "key1" } },
+      {
+        "set_string_var": { "mutator": "ma_technique_name", "matec_id": { "global_val": "key1" } },
+        "target_var": { "global_val": "key2" }
+      },
+      {
+        "set_string_var": { "mutator": "ma_technique_description", "matec_id": { "global_val": "key1" } },
+        "target_var": { "global_val": "key3" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_attack_test",
+    "effect": [ { "u_attack": "tec_none" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_alive_test",
+    "condition": "u_is_alive",
+    "effect": [ { "set_string_var": "alive", "target_var": { "global_val": "key1" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mon_nearby_test",
+    "effect": [
+      { "math": [ "mons", "=", "u_monsters_nearby()" ] },
+      { "math": [ "zombs", "=", "u_monsters_nearby('mon_zombie')" ] },
+      { "set_string_var": "mon_zombie_tough", "target_var": { "context_val": "tough_id" } },
+      { "math": [ "zplust", "=", "u_monsters_nearby('mon_zombie', _tough_id)" ] },
+      { "math": [ "zplust_adj", "=", "u_monsters_nearby('mon_zombie', _tough_id, 'radius': 1)" ] },
+      { "u_location_variable": { "context_val": "smoker_loc" }, "x_adjust": 10 },
+      { "math": [ "smoks", "=", "u_monsters_nearby('mon_zombie_smoker', 'radius': 0, 'location': _smoker_loc)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_options_tests",
+    "effect": [
+      {
+        "set_string_var": { "mutator": "game_option", "option": "DANGEROUS_TERRAIN_WARNING_PROMPT" },
+        "target_var": { "global_val": "key1" }
+      },
+      { "math": [ "key2", "=", "game_option('NPC_SPAWNTIME')" ] },
+      { "run_eocs": "EOC_options_test_nested" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_options_test_nested",
+    "condition": { "get_game_option": "AUTOSAVE" },
+    "effect": [ { "math": [ "key3", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mutator_test",
+    "effect": [
+      { "set_string_var": "mon_zombie", "target_var": { "context_val": "temp" } },
+      {
+        "set_string_var": { "mutator": "mon_faction", "mtype_id": "mon_zombie" },
+        "target_var": { "global_val": "key1" }
+      },
+      {
+        "set_string_var": { "mutator": "mon_faction", "mtype_id": { "context_val": "temp" } },
+        "target_var": { "global_val": "key2" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_math_test_context",
     "effect": [
       { "math": [ "_simple", "=", "12" ] },
       { "math": [ "simple_global", "=", "_simple" ] },
       { "run_eocs": [ "EOC_math_test_nested_context" ] },
       { "math": [ "non_nested_simple_global", "=", "_nested_simple" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_activate_mutation_to_start_test",
+    "effect": [ { "u_activate_trait": "process_mutation" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_activate_mutation_test",
+    "effect": [ { "u_deactivate_trait": { "context_val": "this" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mark_mutation_test",
+    "effect": [
+      { "math": [ "test_val", "=", "1" ] },
+      { "set_string_var": { "context_val": "this" }, "target_var": { "global_val": "context_test" } }
     ]
   },
   {
@@ -33,6 +231,12 @@
     "id": "EOC_math_test_equals_assign",
     "condition": { "math": [ "u_val('stamina')", "==", "500" ] },
     "effect": [ { "math": [ "math_test", "=", "-3^2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_test_inline_condition",
+    "condition": { "math": [ "u_val('stamina') == 500" ] },
+    "effect": [ { "math": [ "_noop", "=", "0" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -73,6 +277,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_math_diag_w_vars",
+    "effect": [
+      { "set_string_var": "survival", "target_var": { "global_val": "myskill" } },
+      { "math": [ "myskill_math", "=", "u_skill(myskill)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_jmath_test",
     "effect": [ { "math": [ "blorgy", "=", "jmath_test_blorg(1, 2)" ] } ]
   },
@@ -110,5 +322,70 @@
     "id": "EOC_increment_var",
     "//": "tests adding a variable to the player",
     "effect": [ { "math": [ "u_activitiy_incrementer", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_spell_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_casts_spell",
+    "effect": [
+      { "math": [ "key1", "=", "_damage" ] },
+      { "math": [ "key2", "=", "_cast_time" ] },
+      { "math": [ "key3", "=", "_difficulty" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_increment_var_var",
+    "//": "tests adding a variable, that's in another variable",
+    "effect": [
+      { "set_string_var": "key1", "target_var": { "context_val": "testing" } },
+      { "math": [ "v_testing", "=", "5" ] },
+      { "math": [ "key2", "=", "key1 + v_testing" ] },
+      { "set_string_var": "u_key1", "target_var": { "context_val": "testing" } },
+      { "math": [ "v_testing", "=", "3" ] },
+      { "math": [ "global_u", "=", "u_key1 + v_testing" ] },
+      { "set_string_var": "_key1", "target_var": { "context_val": "testing" } },
+      { "math": [ "v_testing", "=", "2" ] },
+      { "math": [ "global_context", "=", "_key1 + v_testing" ] },
+      { "set_string_var": "v_key1", "target_var": { "context_val": "testing" } },
+      { "set_string_var": "_key2", "target_var": { "context_val": "key1" } },
+      { "math": [ "v_testing", "=", "1" ] },
+      { "math": [ "global_nested", "=", "_key2 + v_testing" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_spell_xp",
+    "effect": [
+      { "math": [ "u_spell_exp('test_eoc_spell')", "=", "1000" ] },
+      { "math": [ "key1", "=", "u_spell_exp('test_eoc_spell')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_string_var_var",
+    "//": "tests copying a variable, that's in another variable",
+    "effect": [
+      { "set_string_var": "key1", "target_var": { "context_val": "testing" } },
+      { "set_string_var": "Works", "target_var": { "global_val": "key1" } },
+      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key2" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_recipe_test_1",
+    "//": "tests adding a recipe to the player",
+    "condition": { "not": { "u_know_recipe": "cattail_jelly" } },
+    "effect": { "u_learn_recipe": "cattail_jelly" },
+    "false_effect": { "math": [ "fail_var", "=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_recipe_test_2",
+    "//": "tests forgetting a recipe from the player",
+    "condition": { "u_know_recipe": "cattail_jelly" },
+    "effect": { "u_forget_recipe": "cattail_jelly" },
+    "false_effect": { "math": [ "fail_var", "=", "1" ] }
   }
 ]

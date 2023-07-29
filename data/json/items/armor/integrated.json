@@ -614,6 +614,77 @@
     ]
   },
   {
+    "id": "integrated_chitin2_molted",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "fresh chitin carapace" },
+    "description": "The exoskeleton is soft and vulnerable.  It would be best to hide until it hardens.",
+    "weight": "1500 g",
+    "volume": "1 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "leather_arthropod" ],
+    "symbol": "x",
+    "color": "dark_gray",
+    "warmth": 8,
+    "environmental_protection": 1,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 1.4 } ],
+        "covers": [ "head" ],
+        "coverage": 95,
+        "encumbrance": 3
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.2 } ],
+        "covers": [ "torso" ],
+        "coverage": 95,
+        "encumbrance": 4
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 1.6 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "coverage": 95,
+        "encumbrance": 1
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
+        "coverage": 95,
+        "encumbrance": 2
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 1.6 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_lower_l", "leg_upper_r", "leg_lower_r" ],
+        "coverage": 95,
+        "encumbrance": 2
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_knee_l", "leg_hip_r", "leg_knee_r" ],
+        "coverage": 95,
+        "encumbrance": 2
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 1.1 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 85,
+        "encumbrance": 2
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 1.1 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 90,
+        "encumbrance": 2
+      }
+    ]
+  },
+  {
     "id": "integrated_chitin3",
     "type": "ARMOR",
     "category": "armor",
@@ -679,6 +750,71 @@
     ]
   },
   {
+    "id": "integrated_chitin3_molted",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "fresh sclerotin plate" },
+    "description": "The exoskeleton is weak, it will require more time to harden.",
+    "weight": "3 kg",
+    "volume": "2 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "leather_arthropod" ],
+    "symbol": "x",
+    "color": "brown",
+    "warmth": 5,
+    "environmental_protection": 1,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "head" ],
+        "coverage": 95,
+        "encumbrance": 9
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 3.5 } ],
+        "covers": [ "torso" ],
+        "coverage": 95,
+        "encumbrance": 12
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.3 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 4
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.2 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
+        "coverage": 90,
+        "encumbrance": 5
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.4 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_lower_l", "leg_upper_r", "leg_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 4
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.3 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_knee_l", "leg_hip_r", "leg_knee_r" ],
+        "coverage": 90,
+        "encumbrance": 5
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 1.8 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 90,
+        "encumbrance": 6
+      }
+    ]
+  },
+  {
     "id": "integrated_chitin3_claws",
     "type": "ARMOR",
     "category": "armor",
@@ -720,7 +856,7 @@
     "material": [ "sclerotin" ],
     "symbol": "x",
     "color": "brown",
-    "warmth": 7,
+    "warmth": 20,
     "environmental_protection": 1,
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER" ],
     "armor": [
@@ -771,6 +907,100 @@
         "encumbrance": 9
       }
     ]
+  },
+  {
+    "id": "integrated_carapace_molted",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "fresh sclerotin carapace" },
+    "description": "This recently-molted carapace is still soft, and will need time to harden before it provides proper protection.",
+    "weight": "4500 g",
+    "volume": "3 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "leather_arthropod" ],
+    "symbol": "x",
+    "color": "brown",
+    "warmth": 7,
+    "environmental_protection": 1,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.2 } ],
+        "covers": [ "head" ],
+        "coverage": 95,
+        "encumbrance": 10
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [ "torso" ],
+        "coverage": 95,
+        "encumbrance": 12
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.4 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
+        "coverage": 90,
+        "encumbrance": 6
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.6 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_lower_l", "leg_upper_r", "leg_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 6
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_knee_l", "leg_hip_r", "leg_knee_r" ],
+        "coverage": 90,
+        "encumbrance": 6
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 90,
+        "encumbrance": 6
+      }
+    ]
+  },
+  {
+    "id": "integrated_giant_pincer",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "sclerotin right pincer" },
+    "description": "A powerful tool for snatching fish or breaking open shells.",
+    "weight": "900 g",
+    "volume": "1 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "sclerotin" ],
+    "symbol": ",",
+    "color": "brown",
+    "warmth": 10,
+    "to_hit": 1,
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -4 ], [ "PRY", 1 ], [ "HAMMER", 1 ] ],
+    "environmental_protection": 3,
+    "techniques": [ "BRUTAL", "WBLOCK_2" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED" ],
+    "armor": [
+      {
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 6.4 } ],
+        "covers": [ "hand_r" ],
+        "coverage": 80,
+        "encumbrance": 30
+      }
+    ],
+    "melee_damage": { "bash": 12, "cut": 3 }
   },
   {
     "id": "integrated_shell",
@@ -869,32 +1099,111 @@
     ]
   },
   {
-    "id": "integrated_scales",
+    "id": "integrated_sparse_scales",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "sparse scales" },
     "description": "Your dermis has toughened and started to grow scales in places.",
-    "weight": "1 kg",
-    "volume": "900 ml",
+    "weight": "400 g",
+    "volume": "400 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "hflesh", "mut_bone", "chitin" ],
+    "material": [ "hflesh", "mut_scales" ],
     "symbol": "x",
     "color": "light_red",
     "warmth": 1,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT", "NO_SALVAGE" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [
-          { "type": "hflesh", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "bone", "covered_by_mat": 60, "thickness": 1 },
-          { "type": "chitin", "covered_by_mat": 60, "thickness": 1 }
+          { "type": "hflesh", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "mut_scales", "covered_by_mat": 45, "thickness": 1.0 }
         ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "covers": [ "head" ],
         "coverage": 100,
         "encumbrance": 0,
         "breathability": "GOOD"
+      },
+      {
+        "material": [
+          { "type": "hflesh", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "mut_scales", "covered_by_mat": 50, "thickness": 1.0 }
+        ],
+        "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "GOOD"
+      },
+      {
+        "material": [
+          { "type": "hflesh", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "mut_scales", "covered_by_mat": 45, "thickness": 0.5 }
+        ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "GOOD"
+      }
+    ]
+  },
+  {
+    "id": "integrated_scales",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "scales" },
+    "description": "Your scales have grown thicker and cover most of your body, providing solid armor.",
+    "weight": "1 kg",
+    "volume": "900 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "flesh", "mut_scales" ],
+    "symbol": "x",
+    "color": "light_red",
+    "warmth": 2,
+    "environmental_protection": 2,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "TOUGH_FEET" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "mut_scales", "covered_by_mat": 85, "thickness": 2.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 1,
+        "breathability": "POOR"
+      },
+      {
+        "material": [
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "mut_scales", "covered_by_mat": 90, "thickness": 2.0 }
+        ],
+        "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 2,
+        "breathability": "POOR"
+      },
+      {
+        "material": [
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "mut_scales", "covered_by_mat": 85, "thickness": 1.0 }
+        ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 1,
+        "breathability": "POOR"
+      },
+      {
+        "material": [
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "mut_scales", "covered_by_mat": 90, "thickness": 1.0 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 90,
+        "encumbrance": 1,
+        "breathability": "POOR",
+        "layers": [ "PERSONAL" ]
       }
     ]
   },
@@ -908,44 +1217,48 @@
     "volume": "1800 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "flesh", "mut_bone", "chitin" ],
+    "material": [ "flesh", "mut_scales" ],
     "symbol": "x",
     "color": "light_red",
     "warmth": 3,
     "environmental_protection": 4,
-    "flags": [
-      "INTEGRATED",
-      "ALLOWS_NATURAL_ATTACKS",
-      "UNBREAKABLE",
-      "SKINTIGHT",
-      "WATER_FRIENDLY",
-      "PADDED",
-      "SOFT",
-      "TOUGH_FEET",
-      "NO_SALVAGE"
-    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "TOUGH_FEET" ],
     "armor": [
       {
         "material": [
-          { "type": "flesh", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "bone", "covered_by_mat": 99, "thickness": 2.0 },
-          { "type": "chitin", "covered_by_mat": 99, "thickness": 2.0 }
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "mut_scales", "covered_by_mat": 95, "thickness": 2.5 }
         ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance": 3,
-        "breathability": "POOR"
+        "encumbrance": 3
       },
       {
         "material": [
-          { "type": "flesh", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "bone", "covered_by_mat": 75, "thickness": 2.0 },
-          { "type": "chitin", "covered_by_mat": 75, "thickness": 2.0 }
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "mut_scales", "covered_by_mat": 95, "thickness": 2.5 }
+        ],
+        "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 3
+      },
+      {
+        "material": [
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "mut_scales", "covered_by_mat": 95, "thickness": 2.0 }
+        ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 3
+      },
+      {
+        "material": [
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "mut_scales", "covered_by_mat": 95, "thickness": 2.0 }
         ],
         "covers": [ "mouth" ],
         "coverage": 100,
-        "encumbrance": 0,
-        "breathability": "POOR"
+        "encumbrance": 2
       }
     ]
   },
@@ -959,37 +1272,69 @@
     "volume": "3600 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "leather", "flesh", "mut_bone", "chitin" ],
+    "material": [ "leather", "mut_scales", "mut_bone" ],
     "symbol": "x",
     "color": "light_red",
     "warmth": 5,
-    "environmental_protection": 3,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY", "PADDED", "SOFT", "NO_SALVAGE" ],
+    "environmental_protection": 4,
+    "flags": [
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "UNBREAKABLE",
+      "SKINTIGHT",
+      "WATER_FRIENDLY",
+      "PADDED",
+      "TOUGH_FEET",
+      "NO_SALVAGE"
+    ],
     "armor": [
       {
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 },
-          { "type": "flesh", "covered_by_mat": 100, "thickness": 0.5 },
-          { "type": "bone", "covered_by_mat": 95, "thickness": 4.0 },
-          { "type": "chitin", "covered_by_mat": 95, "thickness": 4.0 }
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "mut_scales", "covered_by_mat": 87, "thickness": 5.0 }
         ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance": 8,
-        "breathability": "POOR"
+        "encumbrance": 6
       },
       {
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "flesh", "covered_by_mat": 100, "thickness": 0.5 },
-          { "type": "bone", "covered_by_mat": 60, "thickness": 4.0 },
-          { "type": "chitin", "covered_by_mat": 60, "thickness": 4.0 }
+          { "type": "mut_scales", "covered_by_mat": 95, "thickness": 6.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "//": "mut_bone represents the scutes",
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "mut_scales", "covered_by_mat": 91, "thickness": 6.0 },
+          { "type": "mut_bone", "covered_by_mat": 82, "thickness": 4.0 }
+        ],
+        "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 8,
+        "layers": [ "NORMAL" ]
+      },
+      {
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "mut_scales", "covered_by_mat": 85, "thickness": 4.0 }
+        ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 6
+      },
+      {
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "mut_scales", "covered_by_mat": 85, "thickness": 4.0 }
         ],
         "covers": [ "mouth" ],
         "coverage": 100,
-        "encumbrance": 0,
-        "breathability": "POOR",
-        "layers": [ "SKINTIGHT" ]
+        "encumbrance": 2
       }
     ]
   },
@@ -1035,5 +1380,121 @@
         "cover_vitals": 90
       }
     ]
+  },
+  {
+    "id": "integrated_claws",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "claws" },
+    "description": "You have long, sharp claws at the tips of your fingers.",
+    "weight": "100 g",
+    "volume": "200 ml",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "chitin" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 10,
+        "encumbrance": 1
+      }
+    ],
+    "melee_damage": { "cut": 9 },
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
+    }
+  },
+  {
+    "id": "integrated_claws_rat",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "gnarled claws" },
+    "description": "Your fingernails have become gnarled, twisted claws.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ] ],
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "chitin" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 20,
+        "encumbrance": 3
+      }
+    ],
+    "melee_damage": { "cut": 10 },
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
+    }
+  },
+  {
+    "id": "integrated_claws_st",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "stainless claws" },
+    "description": "Your claws have toughened to become something akin to miniature butcher knives.",
+    "weight": "100 g",
+    "volume": "300 ml",
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 8 ] ],
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "chitin" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 40,
+        "encumbrance": 5
+      }
+    ],
+    "melee_damage": { "cut": 11 },
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
+    }
+  },
+  {
+    "id": "integrated_talons",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "talons" },
+    "description": "Your index fingers have become talons.  They make for wicked natural daggers.  Unfortunately, they get in the way of everything including gloves.",
+    "weight": "100 g",
+    "volume": "350 ml",
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "chitin" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 10,
+        "encumbrance": 7
+      }
+    ],
+    "melee_damage": { "cut": 16 },
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
+    }
   }
 ]

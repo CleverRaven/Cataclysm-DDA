@@ -470,11 +470,13 @@
     "description": "A powerful antiseptic commonly used to disinfect wounds.",
     "weight": "27 g",
     "volume": "250 ml",
+    "material": [ { "type": "isopropyl", "portion": 7 }, { "type": "water", "portion": 3 } ],
     "price": 1500,
     "price_postapoc": 500,
     "charges": 10,
     "symbol": "~",
     "color": "light_cyan",
+    "freezing_point": -56,
     "phase": "liquid",
     "container": "bottle_plastic_small",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
@@ -675,26 +677,6 @@
     "color": "magenta",
     "use_action": [ "FLU_VACCINE" ],
     "flags": [ "NO_INGEST", "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
-  },
-  {
-    "id": "gum",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "name": { "str_sp": "chewing gum" },
-    "description": "Bright pink sugar-free chewing gum.",
-    "category": "food",
-    "weight": "3 g",
-    "volume": "250 ml",
-    "price": 100,
-    "price_postapoc": 100,
-    "charges": 10,
-    "stack_size": 100,
-    "symbol": "*",
-    "color": "pink",
-    "stim": 1,
-    "fun": 2,
-    "flags": [ "NO_INGEST" ],
-    "use_action": [ "CHEW" ]
   },
   {
     "id": "handrolled_cig",
@@ -1486,6 +1468,7 @@
     "healthy": -1,
     "fun": 15,
     "addiction_potential": 5,
+    "material": [ "veggy" ],
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
@@ -1563,6 +1546,31 @@
       "effects": [ { "id": "tummy_tablet", "duration": 6400 } ]
     },
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
+  },
+  {
+    "id": "tums",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "antacid tablet" },
+    "description": "A common stomach soother in flavored tablet form.  Makes you less likely to vomit.",
+    "weight": "2 g",
+    "looks_like": "melatonin_tablet",
+    "volume": "250 ml",
+    "price": 500,
+    "price_postapoc": 250,
+    "charges": 20,
+    "fun": 1,
+    "stack_size": 25,
+    "symbol": "!",
+    "color": "white",
+    "container": "bottle_plastic_small",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN", "NPC_SAFE" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You take an antacid tablet.",
+      "effects": [ { "id": "tummy_tablet", "duration": 6400 } ],
+      "vitamins": [ [ "calcium", 25 ] ]
+    }
   },
   {
     "id": "panacea",

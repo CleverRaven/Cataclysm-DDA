@@ -19,13 +19,7 @@
       "^": "t_gutter_downspout",
       ",": "t_open_air",
       "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
-      "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-      "2": "t_gutter_north",
-      "{": "t_gutter_south",
-      "3": "t_gutter_east",
-      "4": "t_gutter_downspout",
-      "|": "t_gutter_west",
-      "5": "t_gutter_drop"
+      "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ]
     },
     "furniture": {
       "0": "f_water_mill",

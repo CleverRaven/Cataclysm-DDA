@@ -94,6 +94,7 @@
       [ "medical_gauze", 20 ],
       [ "medical_tape", 20 ],
       [ "pepto", 20 ],
+      [ "tums", 20 ],
       [ "saline", 10 ],
       [ "weak_antibiotic", 30 ],
       [ "homeopathic_pills", 10 ]

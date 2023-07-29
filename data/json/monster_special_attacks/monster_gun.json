@@ -233,6 +233,16 @@
     "melee_damage": { "bash": 8 }
   },
   {
+    "id": "civilian_cop_glock22",
+    "copy-from": "glock_22",
+    "looks_like": "glock_22",
+    "type": "GUN",
+    "name": { "str_sp": "Cops' Glock 22" },
+    "description": "A gun carried by overconfident officer monsters, more inaccurate for balancing reasons.",
+    "dispersion": 960,
+    "durability": 5
+  },
+  {
     "id": "acid_spit",
     "type": "GUN",
     "copy-from": "fake_item",

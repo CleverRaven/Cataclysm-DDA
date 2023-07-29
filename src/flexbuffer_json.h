@@ -101,6 +101,9 @@ class Json
 
         static const std::string &flexbuffer_type_to_string( flexbuffers::Type t );
 
+        // Atomically sets whether Json destructors report unvisited members or not. Returns the prior value.
+        static bool globally_report_unvisited_members( bool do_report );
+
     protected:
         Json( std::shared_ptr<parsed_flexbuffer> root, flexbuffer json ) : root_{ std::move( root ) },
             json_ { json } {}

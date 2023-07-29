@@ -235,7 +235,7 @@ class flexbuffer_disk_cache
                 fs::path cached_flexbuffer_path = fs::u8path( cached_flexbuffer );
                 fs::path json_with_mtime = cached_flexbuffer_path.stem();
                 std::string mtime_str = json_with_mtime.extension().u8string();
-                std::string original_json_file_name = json_with_mtime.stem().u8string();
+                fs::path original_json_file_name = json_with_mtime.stem();
                 if( mtime_str.empty() || original_json_file_name.empty() ) {
                     // Not a recognized flexbuffer filename.
                     remove_file( cached_flexbuffer );
@@ -322,9 +322,9 @@ class flexbuffer_disk_cache
                            const std::vector<uint8_t> &flexbuffer_binary ) {
             std::error_code ec;
             std::string json_source_path_string = lexically_normal_json_source_path.u8string();
-            fs::file_time_type mtime = fs::last_write_time( json_source_path_string );
-            auto mtime_ms = std::chrono::duration_cast<std::chrono::milliseconds>
-                            ( mtime.time_since_epoch() ).count();
+            fs::file_time_type mtime = fs::last_write_time( lexically_normal_json_source_path );
+            int64_t mtime_ms = std::chrono::duration_cast<std::chrono::milliseconds>
+                               ( mtime.time_since_epoch() ).count();
             if( ec ) {
                 return false;
             }
@@ -335,10 +335,10 @@ class flexbuffer_disk_cache
 
             assure_dir_exist( flexbuffer_path );
 
-            std::string flexbuffer_filename = lexically_normal_json_source_path.filename().u8string() + "." +
-                                              std::to_string( mtime_ms ) + ".fb";
-            flexbuffer_path.append( flexbuffer_filename );
-            cata::ofstream fb( flexbuffer_path, std::ofstream::binary );
+            fs::path flexbuffer_filename = lexically_normal_json_source_path.filename();
+            flexbuffer_filename += fs::u8path( "." + std::to_string( mtime_ms ) + ".fb" );
+            flexbuffer_path /= flexbuffer_filename;
+            std::ofstream fb( flexbuffer_path, std::ofstream::binary );
             if( !fb.good() ) {
                 return false;
             }

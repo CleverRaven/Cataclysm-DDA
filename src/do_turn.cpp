@@ -50,6 +50,8 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const event_statistic_id event_statistic_last_words( "last_words" );
 
+static const mon_flag_str_id mon_flag_MILKABLE( "MILKABLE" );
+
 static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 
 #if defined(__ANDROID__)
@@ -255,7 +257,7 @@ void monmove()
 
         m.creature_in_field( critter );
         if( calendar::once_every( 1_days ) ) {
-            if( critter.has_flag( MF_MILKABLE ) ) {
+            if( critter.has_flag( mon_flag_MILKABLE ) ) {
                 critter.refill_udders();
             }
             critter.try_biosignature();
@@ -326,15 +328,8 @@ void monmove()
             // It has to be done before the last turn, otherwise
             // there will be no meaningful debug output.
             if( turns == 9 ) {
-                debugmsg( "NPC %s entered infinite loop.  Turning on debug mode",
-                          guy.get_name() );
-                debug_mode = true;
-                // make sure the filter is active
-                if( std::find(
-                        debugmode::enabled_filters.begin(), debugmode::enabled_filters.end(),
-                        debugmode::DF_NPC ) == debugmode::enabled_filters.end() ) {
-                    debugmode::enabled_filters.emplace_back( debugmode::DF_NPC );
-                }
+                debugmsg( "NPC '%s' entered infinite loop, npc activity id: '%s'",
+                          guy.get_name(), guy.activity.id().str() );
             }
         }
 
@@ -440,6 +435,8 @@ bool do_turn()
     mission::process_all();
     avatar &u = get_avatar();
     map &m = get_map();
+    // Set the last PC z-level position value (used in character.cpp for "fine_detail_vision_mod" NPCs function override) Check will compare last turn and current Z-levels
+    get_player_character().last_pc_zlev = get_player_character().pos().z;
     // If controlling a vehicle that is owned by someone else
     if( u.in_vehicle && u.controlling_vehicle ) {
         vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
@@ -689,6 +686,10 @@ bool do_turn()
 
     if( calendar::once_every( 1_minutes ) ) {
         u.update_morale();
+        for( npc &guy : g->all_npcs() ) {
+            guy.update_morale();
+            guy.check_and_recover_morale();
+        }
     }
 
     if( calendar::once_every( 9_turns ) ) {

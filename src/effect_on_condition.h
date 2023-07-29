@@ -31,6 +31,7 @@ class eoc_events : public event_subscriber
 {
     public:
         void notify( const cata::event &e ) override;
+        void clear();
 
     private:
         std::map<event_type, std::vector<effect_on_condition>> event_EOCs;
@@ -86,7 +87,7 @@ void load_existing_character( Character &you );
 effect_on_condition_id load_inline_eoc( const JsonValue &jv, const std::string &src );
 /** queue an eoc to happen in the future */
 void queue_effect_on_condition( time_duration duration, effect_on_condition_id eoc,
-                                Character &you );
+                                Character &you, const std::unordered_map<std::string, std::string> &context );
 /** called every turn to process the queued eocs */
 void process_effect_on_conditions( Character &you );
 /** called after certain events to test whether to reactivate eocs */

@@ -161,6 +161,7 @@ item_location Character::try_add( item it, const item *avoid, const item *origin
                                   const bool allow_wield, bool ignore_pkt_settings )
 {
     invalidate_inventory_validity_cache();
+    invalidate_leak_level_cache();
     itype_id item_type_id = it.typeId();
     last_item = item_type_id;
 
@@ -207,6 +208,7 @@ item_location Character::i_add( item it, bool /* should_stack */, const item *av
                                 const bool allow_wield, bool ignore_pkt_settings )
 {
     invalidate_inventory_validity_cache();
+    invalidate_leak_level_cache();
     item_location added = try_add( it, avoid, original_inventory_item, allow_wield,
                                    ignore_pkt_settings );
     if( added == item_location::nowhere ) {
@@ -289,6 +291,7 @@ item Character::i_rem( const item *it )
         debugmsg( "did not found item %s to remove it!", it->tname() );
         return item();
     }
+    invalidate_leak_level_cache();
     return tmp.front();
 }
 
@@ -428,9 +431,8 @@ void Character::drop( const drop_locations &what, const tripoint &target,
     if( what.empty() ) {
         return;
     }
-
-    const std::optional<vpart_reference> vp = get_map().veh_at(
-                target ).part_with_feature( "CARGO", false );
+    invalidate_leak_level_cache();
+    const std::optional<vpart_reference> vp = get_map().veh_at( target ).cargo();
     if( rl_dist( pos(), target ) > 1 || !( stash || get_map().can_put_items( target ) )
         || ( vp.has_value() && vp->part().is_cleaner_on() ) ) {
         add_msg_player_or_npc( m_info, _( "You can't place items here!" ),
@@ -457,7 +459,7 @@ void Character::pick_up( const drop_locations &what )
     if( what.empty() ) {
         return;
     }
-
+    invalidate_leak_level_cache();
     //todo: refactor pickup_activity_actor to just use drop_locations, also rename drop_locations
     std::vector<item_location> items;
     std::vector<int> quantities;
@@ -517,9 +519,11 @@ void Character::drop_invalid_inventory()
         add_msg_if_player( m_bad, _( "Liquid from your inventory has leaked onto the ground." ) );
     }
 
-    weapon.overflow( pos() );
-    worn.overflow( pos() );
-
+    item_location weap = get_wielded_item();
+    if( weap ) {
+        weap.overflow();
+    }
+    worn.overflow( *this );
     cache_inventory_is_valid = true;
 }
 

@@ -32,6 +32,17 @@
         "           BBB          "
       ],
       "palettes": [ "nether_monster_palette" ],
+      "place_monster": [ { "monster": "mon_nether_fish", "x": [ 12, 23 ], "y": [ 12 ], "chance": 70, "pack_size": [ 1, 3 ] } ],
+      "place_monsters": [
+        {
+          "monster": "GROUP_NETHER_CORPSE_BOWELS",
+          "x": [ 1, 23 ],
+          "y": [ 8, 23 ],
+          "chance": 70,
+          "repeat": [ 1, 2 ],
+          "density": 0.2
+        }
+      ],
       "terrain": {
         " ": [
           [ "t_nm_floor_flesh", 25 ],
@@ -113,6 +124,16 @@
         "                        "
       ],
       "palettes": [ "nether_monster_palette" ],
+      "place_monsters": [
+        {
+          "monster": "GROUP_NETHER_CORPSE_BOWELS",
+          "x": [ 1, 23 ],
+          "y": [ 8, 23 ],
+          "chance": 70,
+          "repeat": [ 1, 2 ],
+          "density": 0.2
+        }
+      ],
       "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
       "furniture": {
         " ": [
@@ -180,6 +201,16 @@
       ],
       "palettes": [ "nether_monster_palette" ],
       "place_monster": [ { "monster": "mon_nether_fish", "x": [ 12, 23 ], "y": [ 12 ], "chance": 100, "pack_size": [ 1, 3 ] } ],
+      "place_monsters": [
+        {
+          "monster": "GROUP_NETHER_CORPSE_BOWELS",
+          "x": [ 1, 23 ],
+          "y": [ 8, 23 ],
+          "chance": 70,
+          "repeat": [ 1, 2 ],
+          "density": 0.2
+        }
+      ],
       "terrain": {
         " ": [
           [ "t_nm_floor_flesh", 25 ],
@@ -252,6 +283,16 @@
       ],
       "palettes": [ "nether_monster_palette" ],
       "place_monster": [ { "monster": "mon_nether_fish", "x": [ 0, 10 ], "y": [ 12 ], "chance": 100, "pack_size": [ 1, 3 ] } ],
+      "place_monsters": [
+        {
+          "monster": "GROUP_NETHER_CORPSE_BOWELS",
+          "x": [ 1, 23 ],
+          "y": [ 8, 23 ],
+          "chance": 70,
+          "repeat": [ 1, 2 ],
+          "density": 0.2
+        }
+      ],
       "terrain": {
         " ": [
           [ "t_nm_floor_flesh", 25 ],
@@ -324,6 +365,16 @@
       ],
       "palettes": [ "nether_monster_palette" ],
       "place_monster": [ { "monster": "mon_nether_fish", "x": [ 0, 23 ], "y": [ 12 ], "chance": 100, "pack_size": [ 2, 4 ] } ],
+      "place_monsters": [
+        {
+          "monster": "GROUP_NETHER_CORPSE_BOWELS",
+          "x": [ 1, 23 ],
+          "y": [ 8, 23 ],
+          "chance": 70,
+          "repeat": [ 1, 2 ],
+          "density": 0.2
+        }
+      ],
       "terrain": { "H": "t_nm_floor_flesh", "J": "t_nm_floor_flesh", "K": "t_nm_floor_flesh", "L": "t_nm_floor_flesh" }
     }
   },
@@ -360,6 +411,16 @@
         "########################################################################"
       ],
       "palettes": [ "nether_monster_palette" ],
+      "place_monsters": [
+        {
+          "monster": "GROUP_NETHER_CORPSE_BOWELS",
+          "x": [ 1, 23 ],
+          "y": [ 1, 14 ],
+          "chance": 70,
+          "repeat": [ 1, 2 ],
+          "density": 0.2
+        }
+      ],
       "terrain": {
         " ": [
           [ "t_nm_floor_flesh", 25 ],

@@ -21,11 +21,6 @@ enum action_id : int;
 class cata_path;
 class hotkey_queue;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 namespace catacurses
 {
 class window;
@@ -561,6 +556,7 @@ class input_context
             input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
+            register_action( "toggle_language_to_en" );
         }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
@@ -573,6 +569,7 @@ class input_context
             input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
+            register_action( "toggle_language_to_en" );
         }
 
 #if defined(__ANDROID__)

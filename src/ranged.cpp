@@ -91,6 +91,7 @@ static const ammotype ammo_flammable( "flammable" );
 static const ammotype ammo_homebrew_rocket( "homebrew_rocket" );
 static const ammotype ammo_m235( "m235" );
 static const ammotype ammo_metal_rail( "metal_rail" );
+static const ammotype ammo_strange_arrow( "strange_arrow" );
 
 static const bionic_id bio_railgun( "bio_railgun" );
 
@@ -113,6 +114,8 @@ static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
+static const flag_id json_flag_FILTHY( "FILTHY" );
+
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_case_hardened_steel( "case_hardened_steel" );
 static const material_id material_glass( "glass" );
@@ -122,6 +125,10 @@ static const material_id material_low_steel( "low_steel" );
 static const material_id material_med_steel( "med_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_tempered_steel( "tempered_steel" );
+
+static const mon_flag_str_id mon_flag_HARDTOSHOOT( "HARDTOSHOOT" );
+static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
 static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
@@ -535,7 +542,7 @@ double Creature::ranged_target_size() const
             stance_factor = 0.25;
         }
     }
-    if( has_flag( MF_HARDTOSHOOT ) ) {
+    if( has_flag( mon_flag_HARDTOSHOOT ) ) {
         switch( get_size() ) {
             case creature_size::tiny:
             case creature_size::small:
@@ -570,9 +577,10 @@ int Character::gun_engagement_moves( const item &gun, int target, int start,
 {
     int mv = 0;
     double penalty = start;
-
+    const aim_mods_cache &aim_cache = gen_aim_mods_cache( gun );
+    auto aim_cache_opt = std::make_optional( std::ref( aim_cache ) );
     while( penalty > target ) {
-        double adj = aim_per_move( gun, penalty, attributes );
+        double adj = aim_per_move( gun, penalty, attributes, aim_cache_opt );
         if( adj <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
@@ -787,7 +795,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     }
     bool is_mech_weapon = false;
     if( is_mounted() &&
-        mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+        mounted_creature->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         is_mech_weapon = true;
     }
 
@@ -850,6 +858,10 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         weakpoint_attack wp_attack;
         wp_attack.weapon = &gun;
         projectile proj = make_gun_projectile( gun );
+
+        for( damage_unit &elem : proj.impact.damage_units ) {
+            elem.amount = enchantment_cache->modify_value( enchant_vals::mod::RANGED_DAMAGE, elem.amount );
+        }
         dispersion_sources dispersion = get_weapon_dispersion( gun );
         dispersion.add_range( recoil_total() );
         dispersion.add_spread( proj.shot_spread );
@@ -1324,11 +1336,14 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
                                            this, nullptr, wp_attack );
 
     const double missed_by = dealt_attack.missed_by;
-    if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
+
+    if( critter && dealt_attack.hit_critter != nullptr && missed_by <= 0.1 &&
+        !critter->has_flag( mon_flag_IMMOBILE ) ) {
         practice( skill_throw, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
         get_event_bus().send<event_type::character_gets_headshot>( getID() );
-    } else if( dealt_attack.hit_critter != nullptr && missed_by > 0.0f ) {
+    } else if( critter && dealt_attack.hit_critter != nullptr && missed_by > 0.0f &&
+               !critter->has_flag( mon_flag_IMMOBILE ) ) {
         practice( skill_throw, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
         // Pure grindy practice - cap gain at lvl 2
@@ -1552,10 +1567,11 @@ static recoil_prediction predict_recoil( const Character &you, const item &weapo
 
     double predicted_recoil = start_recoil;
     int predicted_delay = 0;
-
+    const aim_mods_cache &aim_cache = you.gen_aim_mods_cache( weapon );
+    auto aim_cache_opt = std::make_optional( std::ref( aim_cache ) );
     // next loop simulates aiming until either aim mode threshold or sight_dispersion is reached
     do {
-        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target );
+        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target, aim_cache_opt );
         if( aim_amount <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
@@ -1933,6 +1949,7 @@ static projectile make_gun_projectile( const item &gun )
     proj.speed  = 1000;
     proj.impact = gun.gun_damage();
     proj.shot_impact = gun.gun_damage( true, true );
+
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 
@@ -2005,26 +2022,28 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     tripoint eject = tiles.empty() ? pos : random_entry( tiles );
 
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
-    const optional_vpart_position vp = here.veh_at( pos );
-    std::vector<vehicle_part *> cargo;
-    if( vp && weap.has_flag( flag_VEHICLE ) ) {
-        cargo = vp->vehicle().get_parts_at( pos, "CARGO", part_status_flag::any );
-    }
+    const std::optional<vpart_reference> ovp_cargo = weap.has_flag( flag_VEHICLE )
+            ? here.veh_at( pos ).cargo()
+            : std::nullopt;
 
     item *brass_catcher = weap.gunmod_find_by_flag( flag_BRASS_CATCHER );
     if( !!ammo->ammo->casing ) {
-        const itype_id casing = *ammo->ammo->casing;
+        item casing = item( *ammo->ammo->casing );
+        // blackpowder can gum up casings too
+        if( ( *ammo->ammo ).ammo_effects.count( "BLACKPOWDER" ) ) {
+            casing.set_flag( json_flag_FILTHY );
+        }
         if( weap.has_flag( flag_RELOAD_EJECT ) ) {
-            weap.force_insert_item( item( casing ).set_flag( flag_CASING ),
+            weap.force_insert_item( casing.set_flag( flag_CASING ),
                                     item_pocket::pocket_type::MAGAZINE );
             weap.on_contents_changed();
         } else {
-            if( brass_catcher && brass_catcher->can_contain( casing.obj() ) ) {
-                brass_catcher->put_in( item( casing ), item_pocket::pocket_type::CONTAINER );
-            } else if( cargo.empty() ) {
-                here.add_item_or_charges( eject, item( casing ) );
+            if( brass_catcher && brass_catcher->can_contain( casing ).success() ) {
+                brass_catcher->put_in( casing, item_pocket::pocket_type::CONTAINER );
+            } else if( ovp_cargo ) {
+                ovp_cargo->vehicle().add_item( ovp_cargo->part(), casing );
             } else {
-                vp->vehicle().add_item( *cargo.front(), item( casing ) );
+                here.add_item_or_charges( eject, casing );
             }
 
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
@@ -2038,10 +2057,10 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( !( brass_catcher &&
                brass_catcher->put_in( linkage, item_pocket::pocket_type::CONTAINER ).success() ) ) {
-            if( cargo.empty() ) {
-                here.add_item_or_charges( eject, linkage );
+            if( ovp_cargo ) {
+                ovp_cargo->items().insert( linkage );
             } else {
-                vp->vehicle().add_item( *cargo.front(), linkage );
+                here.add_item_or_charges( eject, linkage );
             }
         }
     }
@@ -2090,6 +2109,8 @@ item::sound_data item::gun_noise( const bool burst ) const
         return { 4, _( "Fwoosh!" ) };
     } else if( at.count( ammo_arrow ) ) {
         return { noise, _( "whizz!" ) };
+    } else if( at.count( ammo_strange_arrow ) ) {
+        return { noise, _( "Crack!" ) };
     } else if( at.count( ammo_bolt ) ) {
         return { noise, _( "thonk!" ) };
     }
@@ -2142,7 +2163,7 @@ static double dispersion_from_skill( double skill, double weapon_dispersion )
         return 0.0;
     }
     double skill_shortfall = static_cast<double>( MAX_SKILL ) - skill;
-    double dispersion_penalty = 3 * skill_shortfall;
+    double dispersion_penalty = 10 * skill_shortfall;
     double skill_threshold = 5;
     if( skill >= skill_threshold ) {
         double post_threshold_skill_shortfall = static_cast<double>( MAX_SKILL ) - skill;
@@ -2153,7 +2174,7 @@ static double dispersion_from_skill( double skill, double weapon_dispersion )
     // Unskilled shooters suffer greater penalties, still scaling with weapon penalties.
     double pre_threshold_skill_shortfall = skill_threshold - skill;
     dispersion_penalty += weapon_dispersion *
-                          ( 1.25 + pre_threshold_skill_shortfall * 3.75 / skill_threshold );
+                          ( 1.25 + pre_threshold_skill_shortfall * 10.0 / skill_threshold );
 
     return dispersion_penalty;
 }
@@ -3148,7 +3169,10 @@ void target_ui::recalc_aim_turning_penalty()
     } else {
         // Raise it proportionally to how much
         // the player has to turn from previous aiming point
-        const double recoil_per_degree = MAX_RECOIL / 180.0;
+        // the player loses their aim more quickly if less skilled, normalizing at 5 skill.
+        /** @EFFECT_GUN increases the penalty for reorienting aim while below 5 */
+        const double skill_penalty = std::max( 0.0, 5.0 - you->get_skill_level( skill_gun ) );
+        const double recoil_per_degree = skill_penalty * MAX_RECOIL / 180.0;
         const units::angle angle_curr = coord_to_angle( src, curr_recoil_pos );
         const units::angle angle_desired = coord_to_angle( src, dst );
         const units::angle phi = normalize( angle_curr - angle_desired );

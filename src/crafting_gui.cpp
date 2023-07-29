@@ -576,6 +576,7 @@ class recipe_result_info_cache
         int last_terminal_width = 0;
         int panel_width;
         int cached_batch_size = 1;
+        int lang_version = 0;
 
         void get_byproducts_data( const recipe *rec, std::vector<iteminfo> &summary_info,
                                   std::vector<iteminfo> &details_info );
@@ -674,13 +675,18 @@ void recipe_result_info_cache::get_item_header( item &dummy_item, const int quan
 item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, const int batch_size,
         int &scroll_pos, const catacurses::window &window )
 {
-    /* If the recipe has not changed, return the cached version in info.
-       Unfortunately, the separator lines are baked into info at a specific width, so if the terminal width
-       has changed, the info needs to be regenerated */
-    if( rec == last_recipe && rec != nullptr && TERMX == last_terminal_width &&
-        batch_size == cached_batch_size ) {
-        item_info_data data( "", "", info, {}, scroll_pos );
-        return data;
+    //lang check here is needed to rebuild cache when using "Toggle language to English" option
+    if( lang_version == detail::get_current_language_version() ) {
+        /* If the recipe has not changed, return the cached version in info.
+           Unfortunately, the separator lines are baked into info at a specific width, so if the terminal width
+           has changed, the info needs to be regenerated */
+        if( rec == last_recipe && rec != nullptr && TERMX == last_terminal_width &&
+            batch_size == cached_batch_size ) {
+            item_info_data data( "", "", info, {}, scroll_pos );
+            return data;
+        }
+    } else {
+        lang_version = detail::get_current_language_version();
     }
 
     cached_batch_size = batch_size;
@@ -700,6 +706,9 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
     std::string result_description;
     if( dummy_result.is_null() ) {
         result_description = rec->description.translated();
+    }
+    if( !rec->variant().empty() ) {
+        dummy_result.set_itype_variant( rec->variant() );
     }
     //Check if recipe result is a clothing item that can be properly fitted
     if( dummy_result.has_flag( flag_VARSIZE ) && !dummy_result.has_flag( flag_FIT ) ) {
@@ -812,15 +821,19 @@ static const std::vector<std::string> &cached_recipe_info( recipe_info_cache &in
         const recipe &recp, const availability &avail, Character &guy, const std::string &qry_comps,
         const int batch_size, const int fold_width, const nc_color &color )
 {
+    static int lang_version = detail::get_current_language_version();
+
     if( info_cache.recp != &recp ||
         info_cache.qry_comps != qry_comps ||
         info_cache.batch_size != batch_size ||
-        info_cache.fold_width != fold_width ) {
+        info_cache.fold_width != fold_width ||
+        lang_version != detail::get_current_language_version() ) {
         info_cache.recp = &recp;
         info_cache.qry_comps = qry_comps;
         info_cache.batch_size = batch_size;
         info_cache.fold_width = fold_width;
         info_cache.text = recipe_info( recp, avail, guy, qry_comps, batch_size, fold_width, color );
+        lang_version = detail::get_current_language_version();
     }
     return info_cache.text;
 }
@@ -1046,8 +1059,8 @@ static void expand_recipes( std::vector<const recipe *> &current,
     }
 }
 
-static std::string list_nested( const recipe *rec, const inventory &crafting_inv,
-                                const std::vector<npc *> &helpers, int indent = 0 )
+static std::string list_nested( const recipe *rec, const recipe_subset &available_recipes,
+                                int indent = 0 )
 {
     std::string description;
     availability avail( rec );
@@ -1055,9 +1068,9 @@ static std::string list_nested( const recipe *rec, const inventory &crafting_inv
         description += colorize( std::string( indent,
                                               ' ' ) + rec->result_name() + ":\n", avail.color() );
         for( const recipe_id &r : rec->nested_category_data ) {
-            description += list_nested( &r.obj(), crafting_inv, helpers, indent + 2 );
+            description += list_nested( &r.obj(), available_recipes, indent + 2 );
         }
-    } else if( get_avatar().has_recipe( rec, crafting_inv, helpers ) ) {
+    } else if( available_recipes.contains( rec ) ) {
         description += colorize( std::string( indent,
                                               ' ' ) + rec->result_name() + "\n", avail.color() );
     }
@@ -1453,7 +1466,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
                 wnoutrefresh( w_iteminfo );
             } else if( cur_recipe->is_nested() ) {
                 std::string desc = cur_recipe->description.translated() + "\n\n";;
-                desc += list_nested( cur_recipe, crafting_inv, helpers );
+                desc += list_nested( cur_recipe, available_recipes );
                 fold_and_print( w_iteminfo, point_zero, item_info_width, c_light_gray, desc );
                 scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
                             w_iteminfo ) ).apply( w_iteminfo );

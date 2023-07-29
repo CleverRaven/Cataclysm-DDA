@@ -1,6 +1,6 @@
-// RUN: %check_clang_tidy %s cata-translator-comments %t -- -plugins=%cata_plugin -- -I %test_include
+// RUN: %check_clang_tidy -allow-stdinc %s cata-translator-comments %t -- --load=%cata_plugin -- -isystem %cata_include -DLOCALIZE
 
-#include "mock-translation.h"
+#include "translations.h"
 
 void foo()
 {
@@ -28,9 +28,6 @@ void foo()
     _( "bar" );
 
     n_gettext( /*~ foo */ ( "bar" ), _( "baz" ), 0 );
-
-    //~ bar
-    gettext( "bar" );
 
     //~bar
     n_gettext( "bar", "baz", 1 );

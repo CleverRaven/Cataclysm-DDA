@@ -25,7 +25,7 @@
     ],
     "common": false,
     "bonus_per": { "one_in": 4 },
-    "worn_override": "NC_Isherwood_worn",
+    "worn_override": "NC_Isherwood_female_worn",
     "weapon_override": "NC_ISHERWOOD_rifle",
     "skills": [
       {
@@ -48,8 +48,8 @@
       "yes": "Leave our property, Marshal.",
       "no": {
         "u_male": true,
-        "yes": "Hello, We don't see many people these days.",
-        "no": "Hello, We don't see many people these days."
+        "yes": "Hello.  We don't see many people these days.",
+        "no": "Hello.  We don't see many people these days."
       }
     },
     "responses": [

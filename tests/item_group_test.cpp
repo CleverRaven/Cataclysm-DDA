@@ -73,7 +73,7 @@ TEST_CASE( "spill_when_items_dont_fit", "[item_group]" )
     CHECK( observed_outside.size() == 3 );
 }
 
-TEST_CASE( "spawn with default charges and with ammo", "[item_group]" )
+TEST_CASE( "spawn_with_default_charges_and_with_ammo", "[item_group]" )
 {
     Item_modifier default_charges;
     default_charges.with_ammo = 100;
@@ -92,7 +92,7 @@ TEST_CASE( "spawn with default charges and with ammo", "[item_group]" )
     }
 }
 
-TEST_CASE( "Item_modifier damages item", "[item_group]" )
+TEST_CASE( "Item_modifier_damages_item", "[item_group]" )
 {
     Item_modifier damaged;
     damaged.damage.first = 1;
@@ -113,7 +113,7 @@ TEST_CASE( "Item_modifier damages item", "[item_group]" )
     }
 }
 
-TEST_CASE( "Item_modifier gun fouling", "[item_group]" )
+TEST_CASE( "Item_modifier_gun_fouling", "[item_group]" )
 {
     Item_modifier fouled;
     fouled.dirt.first = 1;
@@ -133,7 +133,7 @@ TEST_CASE( "Item_modifier gun fouling", "[item_group]" )
     }
 }
 
-TEST_CASE( "item_modifier modifies charges for item", "[item_group]" )
+TEST_CASE( "item_modifier_modifies_charges_for_item", "[item_group]" )
 {
     GIVEN( "an ammo item that uses charges" ) {
         const std::string item_id = "40x46mm_m1006";
@@ -241,7 +241,7 @@ TEST_CASE( "item_modifier modifies charges for item", "[item_group]" )
     }
 }
 
-TEST_CASE( "Event-based item spawns do not spawn outside event", "[item_group]" )
+TEST_CASE( "Event-based_item_spawns_do_not_spawn_outside_event", "[item_group]" )
 {
     override_option ev_spawn_opt( "EVENT_SPAWNS", "items" );
     REQUIRE( get_option<std::string>( "EVENT_SPAWNS" ) == "items" );

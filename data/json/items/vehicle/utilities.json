@@ -133,7 +133,7 @@
     "color": "light_blue",
     "symbol": "{",
     "material": [ "steel" ],
-    "volume": "20 L",
+    "volume": "90 L",
     "category": "veh_parts",
     "price": 60000,
     "price_postapoc": 500,
@@ -173,6 +173,7 @@
     "copy-from": "washing_machine",
     "id": "minifridge",
     "name": { "str": "minifridge" },
+    "volume": "150 L",
     "description": "A very small refrigerator for keeping food cool.  Provides some insulation from outside weather.",
     "insulation": 2
   },
@@ -250,6 +251,7 @@
     "category": "veh_parts",
     "color": "green",
     "symbol": "Y",
+    "ammo": "battery",
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],

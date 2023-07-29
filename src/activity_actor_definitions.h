@@ -266,6 +266,45 @@ class bookbinder_copy_activity_actor: public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+class data_handling_activity_actor: public activity_actor
+{
+    public:
+        explicit data_handling_activity_actor() = default;
+        explicit data_handling_activity_actor( const item_location &, const std::vector<item_location> & );
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_DATA_HANDLING" );
+        }
+
+        bool can_resume_with_internal( const activity_actor &, const Character & ) const override {
+            return false;
+        }
+
+        void start( player_activity &, Character & ) override;
+        void do_turn( player_activity &, Character & ) override;
+        void finish( player_activity &, Character & ) override;
+        void canceled( player_activity &, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<data_handling_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut & ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+    private:
+        static constexpr time_duration time_per_card = 1_minutes;
+        item_location recorder;
+        std::vector<item_location> targets;
+        time_duration time_until_next_card = 0_seconds;
+        int handled_cards = 0;
+        int encrypted_cards = 0;
+        int downloaded_photos = 0;
+        int downloaded_songs = 0;
+        std::vector<recipe_id> downloaded_recipes;
+        int downloaded_extended_photos = 0;
+        int downloaded_monster_photos = 0;
+};
+
 class hotwire_car_activity_actor : public activity_actor
 {
     private:
@@ -852,7 +891,8 @@ class craft_activity_actor : public activity_actor
         int cached_assistants; // NOLINT(cata-serialize)
         double cached_base_total_moves; // NOLINT(cata-serialize)
         double cached_cur_total_moves; // NOLINT(cata-serialize)
-
+        float cached_workbench_multiplier; // NOLINT(cata-serialize)
+        bool use_cached_workbench_multiplier; // NOLINT(cata-serialize)
         bool check_if_craft_okay( item_location &craft_item, Character &crafter );
     public:
         craft_activity_actor( item_location &it, bool is_long );
@@ -1160,7 +1200,8 @@ class disassemble_activity_actor : public activity_actor
     private:
         int moves_total;
         float activity_override = NO_EXERCISE; // NOLINT(cata-serialize)
-
+        float cached_workbench_multiplier; // NOLINT(cata-serialize)
+        bool use_cached_workbench_multiplier; // NOLINT(cata-serialize)
     public:
         item_location target;
 
@@ -1428,6 +1469,39 @@ class tent_deconstruct_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<tent_deconstruct_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
+class reel_cable_activity_actor : public activity_actor
+{
+    private:
+        int moves_total;
+        item_location cable;
+        item_location parent_item;
+    public:
+        reel_cable_activity_actor( int moves_total, const item_location &cable,
+                                   const item_location &parent_item ) :
+            moves_total( moves_total ), cable( cable ), parent_item( parent_item ) {}
+        activity_id get_type() const override {
+            return activity_id( "ACT_REEL_CABLE" );
+        }
+
+        bool can_resume_with_internal( const activity_actor &other,
+                                       const Character &/*who*/ ) const override {
+            const reel_cable_activity_actor &actor = static_cast<const reel_cable_activity_actor &>
+                    ( other );
+            return actor.cable == cable && actor.parent_item == parent_item;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<reel_cable_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;

@@ -55,51 +55,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "generic_figurine_plastic",
-    "symbol": "f",
-    "color": "yellow",
-    "name": { "str": "figurine" },
-    "description": "Some kind of figurine.  It does not have much use nowadays.",
-    "snippet_category": [
-      { "id": "genfig01", "text": "Shaped like a human female.  It was made to wear different clothes." },
-      {
-        "id": "genfig02",
-        "text": "This one wears a hat.  It wears a glove on it's right hand that has three blades sticking out."
-      },
-      {
-        "id": "genfig03",
-        "text": "A blue unicorn that covers it's eyes with it's hooves.  It's in a sitting position."
-      },
-      {
-        "id": "genfig04",
-        "text": "A pink unicorn that covers it's ears with it's hooves.  It's in a sitting position."
-      },
-      {
-        "id": "genfig05",
-        "text": "A purple unicorn that covers it's mouth with it's hooves.  It's in a sitting position."
-      },
-      { "id": "genfig06", "text": "It seems to wear a reindeer suit.  It has a skull for a head." },
-      { "id": "genfig07", "text": "It looks like a swamp monster with scales over it's body." },
-      { "id": "genfig08", "text": "It looks like the reaper.  In it's left hand is a scythe." },
-      { "id": "genfig09", "text": "A mermaid sitting on a rock.  It has red hair." },
-      {
-        "id": "genfig10",
-        "text": "It seems to wear an avocado suit.  In the left hand is a salt shaker and in the right hand is a spoon.  It's in a sitting position."
-      },
-      {
-        "id": "genfig11",
-        "text": "Looks like someone's hero.  You can bend the arms and legs to give it different stances."
-      }
-    ],
-    "price": 600,
-    "price_postapoc": 20,
-    "material": [ "plastic" ],
-    "weight": "100 g",
-    "volume": "150 ml",
-    "longest_side": "15 cm"
-  },
-  {
-    "type": "GENERIC",
     "id": "swimming_kickboard",
     "name": { "str": "swimming kickboard" },
     "description": "A swimming kickboard, would be a great training aid for the beach or the pool, if only they weren't full of zombies and mutant fish.",

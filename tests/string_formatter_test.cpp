@@ -1,3 +1,4 @@
+#include <clocale>
 #include <cstddef>
 #include <iosfwd>
 #include <limits>
@@ -5,6 +6,7 @@
 #include <type_traits>
 
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "string_formatter.h"
 
 // Same as @ref string_format, but does not swallow errors and throws them instead.
@@ -22,6 +24,7 @@ void importet_test( const int serial, const char *const expected, const char *co
 {
     CAPTURE( serial );
     CAPTURE( format );
+    CAPTURE( std::setlocale( LC_ALL, nullptr ), std::locale().name() );
 
     const std::string original_result = cata::string_formatter::raw_string_format( format,
                                         std::forward<Args>( args )... );
@@ -36,6 +39,7 @@ template<typename ...Args>
 void test_for_expected( const std::string &expected, const char *const format, Args &&... args )
 {
     CAPTURE( format );
+    CAPTURE( std::setlocale( LC_ALL, nullptr ), std::locale().name() );
 
     const std::string result = throwing_string_format( format, std::forward<Args>( args )... );
     CHECK( result == expected );
@@ -45,6 +49,7 @@ template<typename ...Args>
 void test_for_error( const char *const format, Args &&... args )
 {
     CAPTURE( format );
+    CAPTURE( std::setlocale( LC_ALL, nullptr ), std::locale().name() );
 
     const std::string result = throwing_string_format( format, std::forward<Args>( args )... );
     CAPTURE( result );
@@ -58,6 +63,7 @@ void test_new_old_pattern( const char *const old_pattern, const char *const new_
 {
     CAPTURE( old_pattern );
     CAPTURE( new_pattern );
+    CAPTURE( std::setlocale( LC_ALL, nullptr ), std::locale().name() );
 
     std::string original_result = cata::string_formatter::raw_string_format( old_pattern,
                                   std::forward<Args>( args )... );
@@ -96,6 +102,7 @@ void mingw_test( const char *const old_pattern, const char *const new_pattern, c
 {
     CAPTURE( old_pattern );
     CAPTURE( new_pattern );
+    CAPTURE( std::setlocale( LC_ALL, nullptr ), std::locale().name() );
     std::string original_result = cata::string_formatter::raw_string_format( old_pattern, value );
     std::string new_result = throwing_string_format( new_pattern, value );
     CHECK( original_result == new_result );
@@ -103,6 +110,15 @@ void mingw_test( const char *const old_pattern, const char *const new_pattern, c
 
 TEST_CASE( "string_formatter" )
 {
+    std::locale const &oldloc = std::locale();
+    on_out_of_scope reset_loc( [&oldloc]() {
+        std::locale::global( oldloc );
+    } );
+    try {
+        std::locale::global( std::locale( "en_US.UTF-8" ) );
+    } catch( std::runtime_error &e ) {
+        WARN( "couldn't set locale for string_formatter test: " << e.what() );
+    }
     test_typed_printf<signed char>( "%hhi", "%i" );
     test_typed_printf<unsigned char>( "%hhu", "%u" );
 

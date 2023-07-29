@@ -55,7 +55,16 @@
     "sub": "hotplate",
     "charges_per_use": 1,
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
-    "use_action": [ "HOTPLATE" ],
+    "use_action": [
+      "HOTPLATE",
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 7,
+        "charge_rate": "1 kW"
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -97,6 +106,7 @@
     "symbol": ";",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "300 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -119,6 +129,7 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "150 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -163,7 +174,8 @@
       { "item": "engineering_makerspace_kit" },
       { "item": "bubblewrap", "count": 2 },
       { "item": "manual_makerspace" },
-      { "item": "screwdriver" }
+      { "item": "screwdriver" },
+      { "item": "wrench_small" }
     ]
   },
   {
@@ -201,7 +213,8 @@
       { "item": "engineering_robotics_kit" },
       { "item": "bubblewrap", "count": 2 },
       { "item": "manual_robotics_kit" },
-      { "item": "screwdriver" }
+      { "item": "screwdriver" },
+      { "item": "wrench_small" }
     ]
   },
   {
@@ -231,7 +244,8 @@
       { "item": "engineering_engine_kit" },
       { "item": "bubblewrap", "count": 2 },
       { "item": "manual_engine_kit" },
-      { "item": "screwdriver" }
+      { "item": "screwdriver" },
+      { "item": "wrench_small" }
     ]
   },
   {
@@ -250,6 +264,7 @@
     "symbol": "E",
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "color": "dark_gray",
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "1200 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -276,6 +291,7 @@
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "qualities": [ [ "EXTRACT", 2 ] ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "600 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -315,6 +331,7 @@
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ],
     "ammo": [ "battery" ],
     "qualities": [ [ "EXTRACT", 1 ] ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "1800 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -355,19 +372,17 @@
   },
   {
     "id": "catalytic_cracking_reactor",
-    "type": "TOOL",
-    "name": { "str": "catalytic cracking reactor" },
-    "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  Meticulously disassembled and reassembled.",
-    "symbol": "U",
-    "color": "dark_gray",
-    "looks_like": "household_water_heater",
-    "weight": "22700 g",
+    "type": "GENERIC",
+    "name": { "str": "disassembled catalytic cracking reactor" },
+    "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  Meticulously disassembled.  You can reassemble and plug it into your own power grid to use it.",
+    "symbol": "Y",
+    "color": "light_cyan",
+    "looks_like": "f_catalytic_cracking_reactor",
+    "weight": "500 kg",
     "volume": "500 L",
     "price": 20000,
     "to_hit": -5,
     "material": [ "steel" ],
-    "use_action": { "type": "deploy_furn", "furn_type": "f_catalytic_cracking_reactor" },
-    "qualities": [ [ "EXTRACT", 3 ] ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -429,6 +444,7 @@
     "material": [ "iron" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "ammo": [ "battery" ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "250 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -484,6 +500,7 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "150 W" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "storage_battery", "large_storage_battery" ] } ],
     "melee_damage": { "bash": 20 }
   },
@@ -503,6 +520,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "800 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ],
     "melee_damage": { "bash": 20 }
@@ -523,6 +541,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "350 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ],
     "melee_damage": { "bash": 20 }
@@ -543,6 +562,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "1200 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
@@ -586,12 +606,6 @@
     ],
     "looks_like": "oxygen_tank",
     "flags": [  ],
-    "explosion": {
-      "power": 90100,
-      "distance_factor": 0.5,
-      "fire": true,
-      "shrapnel": { "casing_mass": 200, "fragment_mass": 0.5, "recovery": 0 }
-    },
     "explode_in_fire": true,
     "melee_damage": { "bash": 10 }
   },
@@ -679,7 +693,8 @@
   },
   {
     "id": "oxygen_cylinder",
-    "type": "TOOL",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
     "name": { "str": "oxygen cylinder" },
     "description": "A large steel cylinder used for storing pressurized gas.  It is marked with a faded, but legible O2 symbol.",
     "weight": "19050 g",
@@ -700,10 +715,9 @@
         "ammo_restriction": { "oxygen": 300 }
       }
     ],
-    "initial_charges": 300,
-    "max_charges": 300,
-    "charges_per_use": 1,
-    "use_action": [ "OXYGEN_BOTTLE" ],
+    "ammo_type": [ "oxygen" ],
+    "capacity": 300,
+    "count": 300,
     "melee_damage": { "bash": 10 }
   },
   {
@@ -1148,7 +1162,17 @@
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "symbol": "R",
     "color": "white",
-    "qualities": [ [ "CONCENTRATE", 1 ] ],
+    "charges_per_use": 5,
+    "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "400 W" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -1166,7 +1190,7 @@
     "looks_like": "glass_tube_small",
     "symbol": "N",
     "color": "light_blue",
-    "qualities": [ [ "FINE_DISTILL", 1 ] ],
+    "qualities": [ [ "FINE_DISTILL", 1 ], [ "CONCENTRATE", 1 ] ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -1203,7 +1227,9 @@
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
-    "qualities": [ [ "CONCENTRATE", 1 ] ],
+    "charges_per_use": 5,
+    "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "400 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1271,16 +1297,19 @@
     "category": "spare_parts",
     "name": { "str": "ring stand" },
     "description": "A heavy metal plate and a sturdy rod, for clamping lab stuff to.",
-    "weight": "900 g",
-    "volume": "550ml",
-    "price": 75,
+    "weight": "1100 g",
+    "volume": "3 L",
+    "//1": "The volume is lowered. The volume of the package of the attached amazon article is 5l+ but a lot of the parts are small enough to actually not take up much space. Yes, the number is relatively an asspull, but I refuse to believe a ring stand would be larger than a cooking pot in volume.",
+    "longest_side": "41 cm",
+    "price": "19 USD",
     "price_postapoc": 10,
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "looks_like": "rebar",
     "symbol": "l",
     "color": "light_gray",
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "//2": "Based on https://www.amazon.com/dp/B08ZSC1H5F"
   },
   {
     "id": "stand_ring_clamps",

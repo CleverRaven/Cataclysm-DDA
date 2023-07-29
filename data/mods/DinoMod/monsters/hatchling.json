@@ -69,6 +69,13 @@
     "upgrades": { "age_grow": 30, "into": "mon_acrocanthosaurus_juvenile" }
   },
   {
+    "id": "mon_giganotosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_allosaurus_hatchling",
+    "default_faction": "giganotosaurus_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_giganotosaurus_juvenile" }
+  },
+  {
     "id": "mon_siats_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_allosaurus_hatchling",
@@ -161,7 +168,18 @@
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "STUMBLES", "NO_BREED", "CANPLAY" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY",
+      "CAN_BE_CULLED"
+    ],
     "harvest": "bird_tiny"
   },
   {
@@ -174,7 +192,18 @@
     "upgrades": { "age_grow": 20, "into": "mon_gallimimus_juvenile" },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "STUMBLES", "NO_BREED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CANPLAY",
+      "STUMBLES",
+      "NO_BREED",
+      "CAN_BE_CULLED"
+    ]
   },
   {
     "id": "mon_struthiomimus_hatchling",
@@ -198,7 +227,18 @@
     "upgrades": { "age_grow": 25, "into": "mon_albertonykus" },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "STUMBLES", "NO_BREED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CANPLAY",
+      "STUMBLES",
+      "NO_BREED",
+      "CAN_BE_CULLED"
+    ]
   },
   {
     "id": "mon_therizinosaurus_hatchling",
@@ -668,7 +708,18 @@
     "upgrades": { "age_grow": 20, "into": "mon_thescelosaurus_juvenile" },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "STUMBLES", "NO_BREED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CANPLAY",
+      "STUMBLES",
+      "NO_BREED",
+      "CAN_BE_CULLED"
+    ]
   },
   {
     "id": "mon_dimorphodon_hatchling",

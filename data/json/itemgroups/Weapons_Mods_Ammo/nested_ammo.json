@@ -565,6 +565,59 @@
     ]
   },
   {
+    "id": "on_hand_50beowulf",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "50beowulf_xtp", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "50beowulf_penetrator", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "50beowulf_xtp", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "50beowulf_penetrator", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "50beowulf_xtp", "prob": 30, "charges": [ 44, 80 ] },
+      { "item": "50beowulf_penetrator", "prob": 30, "charges": [ 44, 80 ] }
+    ]
+  },
+  {
+    "id": "on_hand_450",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "450_ftx", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "450_penetrator", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "450_ftx", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "450_penetrator", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "450_ftx", "prob": 30, "charges": [ 44, 80 ] },
+      { "item": "450_penetrator", "prob": 30, "charges": [ 44, 80 ] }
+    ]
+  },
+  {
+    "id": "on_hand_338lapua",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "338lapua_hpbt", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "338lapua_hpbt", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "338lapua_hpbt", "prob": 30, "charges": [ 44, 80 ] }
+    ]
+  },
+  {
+    "id": "on_hand_military_338lapua",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded military gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "338lapua_fmjbt", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "338lapua_api", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "338lapua_fmjbt", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "338lapua_api", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "338lapua_hpbt", "prob": 30, "charges": [ 44, 80 ] },
+      { "item": "338lapua_api", "prob": 30, "charges": [ 44, 80 ] }
+    ]
+  },
+  {
     "id": "on_hand_303",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",

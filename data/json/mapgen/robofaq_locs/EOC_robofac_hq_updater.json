@@ -10,7 +10,6 @@
     "type": "effect_on_condition",
     "id": "EOC_ROBOFAC_HQ_UPDATE_EVENT",
     "global": true,
-    "//": "This sets up all the variables for the start of an early portal storm.",
     "condition": {
       "and": [
         { "u_near_om_location": "robofachq_surface_road1", "range": 30 },
@@ -44,21 +43,34 @@
         },
         {
           "id": "EOC_ROBOFAC_HQ_PLACE_ANCILLA_BAR",
-          "condition": {
-            "and": [
-              { "compare_num": [ { "global_val": "var", "var_name": "ancilla_bar_placed" }, "!=", { "const": 1 } ] },
-              { "days_since_cataclysm": 60 }
-            ]
-          },
+          "condition": { "and": [ { "math": [ "ancilla_bar_placed", "!=", "1" ] }, { "days_since_cataclysm": 60 } ] },
           "effect": [
             { "mapgen_update": "robofachq_ancilla_bar_basic", "om_terrain": "robofachq_subcc_a2" },
             {
               "u_location_variable": { "global_val": "ancilla_bar_loc" },
               "target_params": { "om_terrain": "robofachq_subcc_a2" }
             },
-            { "arithmetic": [ { "global_val": "var", "var_name": "ancilla_bar_exists" }, "=", { "const": 1 } ] },
-            { "arithmetic": [ { "global_val": "var", "var_name": "ancilla_bar_placed" }, "=", { "const": 1 } ] },
+            { "math": [ "ancilla_bar_exists", "=", "1" ] },
+            { "math": [ "ancilla_bar_placed", "=", "1" ] },
             { "run_eocs": [ "EOC_reroll_bar_mercs" ] }
+          ]
+        },
+        {
+          "id": "EOC_ROBOFAC_HQ_PLACE_ANCILLA_AUTODOC",
+          "condition": {
+            "and": [
+              { "math": [ "ancilla_bar_exists", "==", "1" ] },
+              { "math": [ "ancilla_autodoc_placed", "!=", "1" ] },
+              { "days_since_cataclysm": 80 }
+            ]
+          },
+          "effect": [
+            { "mapgen_update": "robofachq_ancilla_bar_autodoc", "om_terrain": "robofachq_subcc_a1" },
+            {
+              "u_location_variable": { "global_val": "ancilla_autodoc_loc" },
+              "target_params": { "om_terrain": "robofachq_subcc_a1" }
+            },
+            { "math": [ "ancilla_autodoc_placed", "=", "1" ] }
           ]
         }
       ]

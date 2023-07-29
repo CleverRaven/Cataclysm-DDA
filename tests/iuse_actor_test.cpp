@@ -82,9 +82,9 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     g->clear_zombies();
 }
 
-TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
+TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
 {
-    Character &dummy = get_avatar();
+    Character *dummy = &get_avatar();
     clear_avatar();
 
     GIVEN( "flashlight with a charged battery installed" ) {
@@ -108,7 +108,7 @@ TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
             const use_function *use = flashlight.type->get_use( "transform" );
             REQUIRE( use != nullptr );
             const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use->get_actor_ptr() );
-            actor->use( dummy, flashlight, false, dummy.pos() );
+            actor->use( dummy, flashlight, false, dummy->pos() );
 
             THEN( "it becomes active" ) {
                 CHECK( flashlight.active );

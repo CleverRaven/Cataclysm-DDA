@@ -1514,7 +1514,7 @@ static std::pair<std::string, nc_color> get_bodygraph_bp_sym_color( const Charac
 nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id &bid,
         const bodygraph_var var )
 {
-    if( !u.has_part( bid ) ) {
+    if( !u.has_part( bid, body_part_filter::equivalent ) ) {
         return c_black; // character is missing this part
     }
 
@@ -1784,7 +1784,7 @@ std::pair<std::string, nc_color> display::wind_text_color( const Character &u )
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
     weather_manager &weather = get_weather();
     double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
-                                            u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
+                                            u.get_location(), weather.winddirection, g->is_sheltered( u.pos() ) );
 
     // Wind descriptor followed by a directional arrow
     const std::string wind_text = get_wind_desc( windpower ) + " " + get_wind_arrow(

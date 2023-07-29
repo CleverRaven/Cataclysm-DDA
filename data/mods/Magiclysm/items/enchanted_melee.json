@@ -864,13 +864,13 @@
     "type": "GENERIC",
     "copy-from": "copper_ax",
     "name": { "str": "Stormshaper axe" },
-    "//": "Equivalent to copper axe +1.  Metals chosen for being two most conductive metals + balancing reasons",
+    "//": "Based off battle axe +1.  Metals chosen for being two most conductive metals + balancing reasons",
     "description": "A forged copper axe with silver trimmings and a wooden handle.  There is a Stormshaper rune embedded in the eye.",
-    "weight": "3330 g",
-    "volume": "3500 ml",
+    "weight": "2850 g",
+    "volume": "2025 ml",
     "longest_side": "90 cm",
     "price": 3900,
-    "to_hit": -1,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "wood", "copper", "silver" ],
     "symbol": "/",
     "color": "brown",
@@ -878,7 +878,7 @@
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -20 ] ],
     "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_AXE", "TRADER_AVOID", "MAGIC_FOCUS", "HYGROMETER", "BAROMETER" ],
-    "melee_damage": { "bash": 33, "cut": 22 }
+    "melee_damage": { "bash": 21, "cut": 42 }
   },
   {
     "id": "rune_stormshaper_weapon_adept",

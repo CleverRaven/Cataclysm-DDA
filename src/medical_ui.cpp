@@ -660,7 +660,7 @@ static medical_column draw_stats_summary( const int column_count, avatar *player
     }
 
     std::map<std::string, int> speed_effects;
-    for( effect &elem : player->get_effects() ) {
+    for( const effect &elem : player->get_effects() ) {
         bool reduced = player->resists_effect( elem );
         int move_adjust = elem.get_mod( "SPEED", reduced );
         if( move_adjust != 0 ) {

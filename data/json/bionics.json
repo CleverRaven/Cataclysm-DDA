@@ -14,9 +14,9 @@
     "description": "A thin forcefield surrounds your body, continually draining power.  Everything loses velocity when penetrating this field, which results in reduced amount of dealt damage at the cost of your bionic energy.  Bullets and stabbing attacks will lose more velocity than cutting attacks and those in turn more than bashing attacks.",
     "occupied_bodyparts": [ [ "torso", 10 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": "10 J",
-    "react_cost": "10 J",
-    "trigger_cost": "25kJ",
+    "act_cost": "1 kJ",
+    "react_cost": "1 kJ",
+    "trigger_cost": "10 kJ",
     "time": "1 s"
   },
   {
@@ -45,7 +45,7 @@
     "id": "bio_ar",
     "type": "bionic",
     "name": { "str": "Integrated AR System" },
-    "description": "Extreamly thin lenses provide user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
+    "description": "Extremely thin lenses provide user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
     "//": "Basically implanted contact lenses with AR capabilities",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "flags": [ "USES_BIONIC_POWER" ],
@@ -59,10 +59,10 @@
     "description": "An advanced protective meshwork has been woven into the flesh on your arms and hands, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "protec": [
-      [ "arm_l", { "bash": 3, "cut": 3, "bullet": 3 } ],
-      [ "arm_r", { "bash": 3, "cut": 3, "bullet": 3 } ],
-      [ "hand_l", { "bash": 3, "cut": 3, "bullet": 3 } ],
-      [ "hand_r", { "bash": 3, "cut": 3, "bullet": 3 } ]
+      [ "arm_l", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ],
+      [ "arm_r", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ],
+      [ "hand_l", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ],
+      [ "hand_r", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ]
     ],
     "encumbrance": [ [ "arm_l", 1 ], [ "arm_r", 1 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
@@ -70,7 +70,6 @@
     "mutation_conflicts": [
       "THICKSKIN",
       "THINSKIN",
-      "SKIN_ROUGH",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -154,7 +153,15 @@
       "FAT",
       "SLIME_SPRAY",
       "MUCUS_SECRETION",
-      "MUCUS_SECRETION2"
+      "MUCUS_SECRETION2",
+      "SKIN_SMOOTH",
+      "SKIN_RASHY",
+      "CHITIN_MOLTED",
+      "CHITIN2_MOLTED",
+      "CHITIN3_MOLTED",
+      "CRUSTACEAN_CARAPACE_MOLTED",
+      "SPARSE_SCALES",
+      "SKIN_PEELING"
     ]
   },
   {
@@ -173,14 +180,16 @@
     "name": { "str": "Head Alloy Plating" },
     "description": "An advanced protective meshwork has been woven into the flesh on your head and jaw region, protecting your skull from physical trauma.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
-    "protec": [ [ "head", { "bash": 3, "cut": 3, "bullet": 3 } ], [ "mouth", { "bash": 3, "cut": 3, "bullet": 3 } ] ],
+    "protec": [
+      [ "head", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ],
+      [ "mouth", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ]
+    ],
     "encumbrance": [ [ "head", 1 ] ],
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
       "THINSKIN",
-      "SKIN_ROUGH",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -279,7 +288,15 @@
       "SLIME_SPRAY",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
-      "WIDE_MOUTH"
+      "WIDE_MOUTH",
+      "SKIN_SMOOTH",
+      "SKIN_RASHY",
+      "CHITIN_MOLTED",
+      "CHITIN2_MOLTED",
+      "CHITIN3_MOLTED",
+      "CRUSTACEAN_CARAPACE_MOLTED",
+      "SPARSE_SCALES",
+      "SKIN_PEELING"
     ]
   },
   {
@@ -289,10 +306,10 @@
     "description": "An advanced protective meshwork has been woven into the flesh on your legs and feet, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "protec": [
-      [ "leg_l", { "bash": 3, "cut": 3, "bullet": 3 } ],
-      [ "leg_r", { "bash": 3, "cut": 3, "bullet": 3 } ],
-      [ "foot_l", { "bash": 3, "cut": 3, "bullet": 3 } ],
-      [ "foot_r", { "bash": 3, "cut": 3, "bullet": 3 } ]
+      [ "leg_l", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ],
+      [ "leg_r", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ],
+      [ "foot_l", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ],
+      [ "foot_r", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ]
     ],
     "encumbrance": [ [ "leg_l", 1 ], [ "leg_r", 1 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
@@ -300,7 +317,6 @@
     "mutation_conflicts": [
       "THICKSKIN",
       "THINSKIN",
-      "SKIN_ROUGH",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -379,7 +395,15 @@
       "GASTROPOD_FOOT",
       "GASTROPOD_BALANCE",
       "MUCUS_SECRETION",
-      "MUCUS_SECRETION2"
+      "MUCUS_SECRETION2",
+      "SKIN_SMOOTH",
+      "SKIN_RASHY",
+      "CHITIN_MOLTED",
+      "CHITIN2_MOLTED",
+      "CHITIN3_MOLTED",
+      "CRUSTACEAN_CARAPACE_MOLTED",
+      "SPARSE_SCALES",
+      "SKIN_PEELING"
     ]
   },
   {
@@ -388,7 +412,7 @@
     "name": { "str": "Torso Alloy Plating" },
     "description": "An advanced protective meshwork has been woven into the flesh on your torso, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "protec": [ [ "torso", { "bash": 3, "cut": 3, "bullet": 3 } ] ],
+    "protec": [ [ "torso", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ] ],
     "encumbrance": [ [ "torso", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
@@ -396,7 +420,6 @@
     "mutation_conflicts": [
       "THICKSKIN",
       "THINSKIN",
-      "SKIN_ROUGH",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -465,7 +488,15 @@
       "SLIME_SPRAY",
       "INSECT_RESERVOIR",
       "MUCUS_SECRETION",
-      "MUCUS_SECRETION2"
+      "MUCUS_SECRETION2",
+      "SKIN_SMOOTH",
+      "SKIN_RASHY",
+      "CHITIN_MOLTED",
+      "CHITIN2_MOLTED",
+      "CHITIN3_MOLTED",
+      "CRUSTACEAN_CARAPACE_MOLTED",
+      "SPARSE_SCALES",
+      "SKIN_PEELING"
     ]
   },
   {
@@ -506,7 +537,7 @@
     "id": "bio_blindfold",
     "type": "bionic",
     "name": { "str": "Optical Dampers" },
-    "description": "The lenses surgically installed over your eyes can be tinted to block out incoming light.",
+    "description": "A pair of lenses surgically installed over your eyes that can be tinted to block out incoming light.",
     "included": true,
     "flags": [ "BIONIC_TOGGLED" ],
     "active_flags": [ "BLIND" ]
@@ -542,7 +573,7 @@
     "id": "bio_carbon",
     "type": "bionic",
     "name": { "str": "Subdermal Carbon Filament" },
-    "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This has little impact on blunt trauma but will protect you against deep cuts.",
+    "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This has no impact on blunt trauma but will protect you against deep cuts.",
     "occupied_bodyparts": [
       [ "torso", 6 ],
       [ "head", 2 ],
@@ -558,17 +589,17 @@
     ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "protec": [
-      [ "torso", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "head", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "mouth", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "arm_l", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "arm_r", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "leg_l", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "leg_r", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "foot_l", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "foot_r", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "hand_l", { "bash": 2, "cut": 4, "bullet": 4 } ],
-      [ "hand_r", { "bash": 2, "cut": 4, "bullet": 4 } ]
+      [ "torso", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "head", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "mouth", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "arm_l", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "arm_r", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "leg_l", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "leg_r", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "foot_l", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "foot_r", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "hand_l", { "cut": 4, "bullet": 4, "stab": 4 } ],
+      [ "hand_r", { "cut": 4, "bullet": 4, "stab": 4 } ]
     ]
   },
   {
@@ -1085,6 +1116,7 @@
     "type": "bionic",
     "name": { "str": "Cerebral Booster" },
     "description": "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus to intelligence.",
+    "cant_remove_reason": "The bionic is now critical to the continued functionality of the user's brain.",
     "occupied_bodyparts": [ [ "head", 6 ] ],
     "stat_bonus": [ [ "INT", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
@@ -1176,6 +1208,7 @@
     "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly.  Additionally, you forget skills you've learned slower.",
     "occupied_bodyparts": [ [ "head", 3 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
+    "cant_remove_reason": "Removing this CBM would cause severe amnesia and neurological issues.",
     "active_flags": [ "CBQ_LEARN_BONUS" ],
     "act_cost": "2 J",
     "react_cost": "2 J",
@@ -1346,6 +1379,15 @@
     "occupied_bodyparts": [ [ "torso", 5 ], [ "mouth", 1 ] ],
     "env_protec": [ [ "mouth", 15 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
+  },
+  {
+    "id": "bio_radio",
+    "type": "bionic",
+    "name": { "str": "Infolink" },
+    "description": "A compact communications device has been built into your ears, enabling you to communicate over radio waves.",
+    "occupied_bodyparts": [ [ "head", 2 ] ],
+    "flags": [ "BIONIC_NPC_USABLE" ],
+    "passive_pseudo_items": [ "fake_radio" ]
   },
   {
     "id": "bio_radscrubber",
@@ -1541,6 +1583,16 @@
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ] } ]
   },
   {
+    "id": "bio_taser",
+    "type": "bionic",
+    "name": { "str": "Super Stun Gun" },
+    "description": "You have a powerful stun gun built into your hand.  Activate to zap an adjacent enemy.",
+    "occupied_bodyparts": [ [ "hand_r", 3 ] ],
+    "flags": [ "BIONIC_NPC_USABLE" ],
+    "spell_on_activation": { "id": "bio_taser_spell" },
+    "activated_close_ui": true
+  },
+  {
     "id": "bio_teleport",
     "type": "bionic",
     "name": { "str": "Teleportation Unit" },
@@ -1660,7 +1712,9 @@
     "occupied_bodyparts": [ [ "torso", 2 ], [ "mouth", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ],
     "social_modifiers": { "persuade": -20, "lie": 10, "intimidate": 20 },
-    "canceled_mutations": [ "GROWL", "SNARL", "HISS", "CROAK" ]
+    "//": "bird mutants might have an entirely different vocal chord structure rather than just a different tone of voice",
+    "canceled_mutations": [ "GROWL", "SNARL", "HISS", "CROAK" ],
+    "mutation_conflicts": [ "SCREECH" ]
   },
   {
     "id": "bio_watch",
@@ -1704,10 +1758,17 @@
     "id": "bio_weight",
     "type": "bionic",
     "name": { "str": "Titanium Skeletal Bracing" },
-    "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds.",
+    "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds, and you receive slightly less bashing damage to your arms, legs and torso.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "weight_capacity_bonus": "20 kg",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "protec": [
+      [ "torso", { "bash": 2 } ],
+      [ "arm_l", { "bash": 2 } ],
+      [ "arm_r", { "bash": 2 } ],
+      [ "leg_l", { "bash": 2 } ],
+      [ "leg_r", { "bash": 2 } ]
+    ],
     "mutation_conflicts": [
       "AMORPHOUS",
       "BENDY2",

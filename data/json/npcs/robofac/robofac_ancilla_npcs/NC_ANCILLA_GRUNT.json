@@ -59,8 +59,8 @@
     "subtype": "collection",
     "items": [
       {
-        "item": "m4_carbine",
-        "variant": "m4a1",
+        "item": "modular_m4_carbine",
+        "variant": "modular_m4a1",
         "ammo-item": "556",
         "charges": 30,
         "contents-item": [ "shoulder_strap", "suppressor" ]

@@ -1,7 +1,6 @@
 [
   {
     "id": "beekeeping_hood",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "beekeeping hood" },
     "description": "A beekeeping hood.  Keeps the bees out, but lets fresh air in.",
@@ -237,55 +236,6 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "gambeson_hood",
-    "//": "roughly 0.25mm per sheet of canvas making this 8 layers, sheets are 1x2 feet. 10 sheets total",
-    "//1": "human head total is about 2.5 sq. feet.  76g (canvas) x 8 (layers) x 1.25 (surface area) = 760g",
-    "type": "ARMOR",
-    "name": { "str": "padded coif" },
-    "description": "A cloth coif with neck and forehead protection.  Resting on your shoulders, it serves as padding for a helmet.  Though it's pretty warm, it is constructed of stuffed cloth layers and provides moderate protection.",
-    "weight": "760 g",
-    "volume": "500 ml",
-    "price_postapoc": 1000,
-    "to_hit": -5,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "cowl_wool",
-    "color": "light_gray",
-    "warmth": 25,
-    "material_thickness": 2.0,
-    "flags": [ "VARSIZE", "STURDY", "SKINTIGHT", "WATERPROOF" ],
-    "armor": [
-      {
-        "material": [
-          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 0.5 },
-          { "type": "cotton", "covered_by_mat": 95, "thickness": 1.5 }
-        ],
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_throat", "head_ear_l", "head_ear_r", "head_forehead", "head_crown", "head_nape" ],
-        "coverage": 100,
-        "encumbrance_modifiers": [ "WELL_SUPPORTED" ]
-      }
-    ]
-  },
-  {
-    "id": "xl_gambeson_hood",
-    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
-    "type": "ARMOR",
-    "name": { "str": "XL padded coif" },
-    "copy-from": "gambeson_hood",
-    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xs_gambeson_hood",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
-    "type": "ARMOR",
-    "name": { "str": "XS padded coif" },
-    "copy-from": "gambeson_hood",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
-  },
-  {
     "id": "hood_rain",
     "type": "ARMOR",
     "name": { "str": "rain hood" },
@@ -345,7 +295,6 @@
   },
   {
     "id": "hood_ninja",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "ninja hood" },
     "description": "A black hood commonly used by ninja.",

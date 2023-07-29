@@ -110,7 +110,7 @@
       { "item": "gold_ring" },
       { "item": "tool_belt" },
       { "item": "spearsling" },
-      { "item": "ar15", "ammo-item": "223", "charges": 30, "container-item": "back_holster" }
+      { "item": "modular_ar15", "ammo-item": "223", "charges": 30, "container-item": "back_holster" }
     ]
   },
   {

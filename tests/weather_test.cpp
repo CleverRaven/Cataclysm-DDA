@@ -71,7 +71,7 @@ static year_of_weather_data collect_weather_data( unsigned seed )
 
     // Collect generated weather data for a single year.
     for( time_point i = begin ; i < end ; i += 1_minutes ) {
-        w_point w = wgen.get_weather( tripoint_zero, i, seed );
+        w_point w = wgen.get_weather( tripoint_abs_ms( tripoint_zero ), i, seed );
         int day = to_days<int>( time_past_new_year( i ) );
         int minute = to_minutes<int>( time_past_midnight( i ) );
         result.temperature[day][minute] = units::to_fahrenheit( w.temperature );
@@ -100,7 +100,7 @@ static year_of_weather_data collect_weather_data( unsigned seed )
 // Try a few randomly selected seeds.
 static const std::array<unsigned, 3> seeds = { {317'024'741, 870'078'684, 1'192'447'748} };
 
-TEST_CASE( "weather realism", "[weather]" )
+TEST_CASE( "weather_realism", "[weather]" )
 // Check our simulated weather against numbers from real data
 // from a few years in a few locations in New England. The numbers
 // are based on NOAA's Local Climatological Data (LCD). Analysis code
@@ -178,7 +178,7 @@ TEST_CASE( "eternal_season", "[weather]" )
     }
 }
 
-TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
+TEST_CASE( "local_wind_chill_calculation", "[weather][wind_chill]" )
 {
     // `get_local_windchill` returns degrees F offset from current temperature,
     // representing the amount of temperature difference from wind chill alone.

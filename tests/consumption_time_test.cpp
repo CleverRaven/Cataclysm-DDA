@@ -2,7 +2,7 @@
 #include "item.h"
 #include "cata_catch.h"
 
-TEST_CASE( "characters with no mutations take at least 1 second to consume comestibles",
+TEST_CASE( "characters_with_no_mutations_take_at_least_1_second_to_consume_comestibles",
            "[character][item][food][time]" )
 {
     GIVEN( "a character with no mutations and a comestible" ) {

@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-static-declarations %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-static-declarations %t -- --load=%cata_plugin --
 
 static void f0()
 // CHECK-MESSAGES: warning: Declaration 'f0' should not be declared static in a header.  Either move the definition to a cpp file or declare it inline instead. [cata-static-declarations]

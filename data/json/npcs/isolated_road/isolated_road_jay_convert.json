@@ -26,350 +26,213 @@
       },
       {
         "text": "[1 day] 200 rounds.",
-        "effect": [ { "u_add_var": "gunsmith_ammo_ammount", "type": "number", "context": "artisans", "value": "200" } ],
+        "effect": [ { "math": [ "u_number_artisans_gunsmith_ammo_amount", "=", "200" ] } ],
         "topic": "TALK_GUNSMITH_CONVERT_FROM_TYPE"
       },
       {
         "text": "[5 days] 800 rounds.",
-        "effect": [ { "u_add_var": "gunsmith_ammo_ammount", "type": "number", "context": "artisans", "value": "800" } ],
+        "effect": [ { "math": [ "u_number_artisans_gunsmith_ammo_amount", "=", "800" ] } ],
         "topic": "TALK_GUNSMITH_CONVERT_FROM_TYPE"
       }
     ]
   },
   {
-    "id": "EOC_gunsmith_556_value",
     "type": "effect_on_condition",
-    "effect": { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "556" }
+    "id": "EOC_gunsmith_take_source_succeed",
+    "effect": { "math": [ "u_number_artisans_failed_to_convert_ammo", "=", "0" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gunsmith_failed_to_provide",
+    "effect": { "math": [ "u_number_artisans_failed_to_convert_ammo", "=", "1" ] }
+  },
+  {
+    "id": "EOC_gunsmith_set_source_type",
+    "type": "effect_on_condition",
+    "effect": [
+      { "math": [ "u_number_artisans_gunsmith_ammo_from", "=", "_key1" ] },
+      {
+        "switch": { "math": [ "_key1" ] },
+        "cases": [
+          {
+            "case": 300,
+            "effect": [
+              { "set_string_var": "300 BLK", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } },
+              { "set_string_var": "300blk", "target_var": { "u_val": "artisans_gunsmith_ammo_source_item" } }
+            ]
+          },
+          {
+            "case": 545,
+            "effect": [
+              { "set_string_var": "5.45x39", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } },
+              { "set_string_var": "545", "target_var": { "u_val": "artisans_gunsmith_ammo_source_item" } }
+            ]
+          },
+          {
+            "case": 556,
+            "effect": [
+              { "set_string_var": "5.56x45", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } },
+              { "set_string_var": "556", "target_var": { "u_val": "artisans_gunsmith_ammo_source_item" } }
+            ]
+          },
+          {
+            "case": 76239,
+            "effect": [
+              { "set_string_var": "7.62x39", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } },
+              { "set_string_var": "762_m87", "target_var": { "u_val": "artisans_gunsmith_ammo_source_item" } }
+            ]
+          },
+          {
+            "case": 76251,
+            "effect": [
+              { "set_string_var": "7.62x51", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } },
+              { "set_string_var": "762_51", "target_var": { "u_val": "artisans_gunsmith_ammo_source_item" } }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gunsmith_take_source",
+    "effect": {
+      "u_sell_item": { "u_val": "artisans_gunsmith_ammo_source_item" },
+      "count": { "u_val": "number_artisans_gunsmith_ammo_amount" },
+      "true_eocs": [ "EOC_gunsmith_take_source_succeed" ],
+      "false_eocs": "EOC_gunsmith_failed_to_provide"
+    }
   },
   {
     "id": "TALK_GUNSMITH_CONVERT_FROM_TYPE",
     "type": "talk_topic",
-    "dynamic_line": {
-      "u_compare_var": "gunsmith_ammo_ammount",
-      "type": "number",
-      "context": "artisans",
-      "op": "==",
-      "value": 200,
-      "yes": "Alright, 200 rounds.  First off, what are you looking to give me?",
-      "no": "Alright, 800 rounds.  First off, what are you looking to give me?"
-    },
+    "dynamic_line": "Alright, <u_val:number_artisans_gunsmith_ammo_amount> rounds.  First off, what are you looking to give me?",
     "responses": [
       {
         "text": "5.56x45.",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "556", "count": 200 } },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [ { "u_sell_item": "556", "count": 200, "true_eocs": "EOC_gunsmith_556_value" } ],
-        "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
-      },
-      {
-        "text": "5.56x45.",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "556", "count": 800 } },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
+        "condition": { "u_has_items": { "item": "556", "count": { "u_val": "number_artisans_gunsmith_ammo_amount" } } },
         "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "556" },
-          { "u_sell_item": "556", "count": 800, "true_eocs": "EOC_gunsmith_556_value" }
-        ],
-        "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
-      },
-      {
-        "text": "7.62x51",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "762_51", "count": 200 } },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76251" },
-          { "u_sell_item": "762_51", "count": 200 }
+          { "run_eoc_with": "EOC_gunsmith_set_source_type", "variables": { "key1": "556" } },
+          { "run_eocs": "EOC_gunsmith_take_source" }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
         "text": "7.62x51.",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "762_51", "count": 800 } },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
+        "condition": { "u_has_items": { "item": "762_51", "count": { "u_val": "number_artisans_gunsmith_ammo_amount" } } },
         "effect": [
-          {
-            "u_sell_item": "762_51",
-            "count": 800,
-            "true_eocs": {
-              "id": "EOC_gunsmith_762_51",
-              "effect": { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76251" }
-            }
-          }
+          { "run_eoc_with": "EOC_gunsmith_set_source_type", "variables": { "key1": "76251" } },
+          { "run_eocs": "EOC_gunsmith_take_source" }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
         "text": "7.62x39.",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "762_m87", "count": 200 } },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
+        "condition": { "u_has_items": { "item": "762_m87", "count": { "u_val": "number_artisans_gunsmith_ammo_amount" } } },
         "effect": [
-          {
-            "u_sell_item": "762_m87",
-            "count": 200,
-            "true_eocs": {
-              "id": "EOC_gunsmith_762_5m87",
-              "effect": { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76239" }
-            }
-          }
-        ],
-        "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
-      },
-      {
-        "text": "7.62x39.",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "762_m87", "count": 800 } },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76239" },
-          { "u_sell_item": "762_m87", "count": 800 }
+          { "run_eoc_with": "EOC_gunsmith_set_source_type", "variables": { "key1": "76239" } },
+          { "run_eocs": "EOC_gunsmith_take_source" }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
         "text": "5.45x39.",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "545", "count": 200 } },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
+        "condition": { "u_has_items": { "item": "545", "count": { "u_val": "number_artisans_gunsmith_ammo_amount" } } },
         "effect": [
-          {
-            "u_sell_item": "545",
-            "count": 200,
-            "true_eocs": {
-              "id": "EOC_gunsmith_545",
-              "effect": { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "545" }
-            }
-          }
-        ],
-        "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
-      },
-      {
-        "text": "5.45x39.",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "545", "count": 800 } },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [ { "u_sell_item": "545", "count": 800, "true_eocs": "EOC_gunsmith_545" } ],
-        "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
-      },
-      {
-        "text": ".300 AAC.",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "300blk", "count": 200 } },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          {
-            "u_sell_item": "300blk",
-            "count": 200,
-            "true_eocs": {
-              "id": "EOC_gunsmith_300blk",
-              "effect": { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "300" }
-            }
-          }
+          { "run_eoc_with": "EOC_gunsmith_set_source_type", "variables": { "key1": "545" } },
+          { "run_eocs": "EOC_gunsmith_take_source" }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
         "text": ".300 AAC.",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "300blk", "count": 800 } },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [ { "u_sell_item": "300blk", "count": 800, "true_eocs": "EOC_gunsmith_300blk" } ],
+        "condition": { "u_has_items": { "item": "300blk", "count": { "u_val": "number_artisans_gunsmith_ammo_amount" } } },
+        "effect": [
+          { "run_eoc_with": "EOC_gunsmith_set_source_type", "variables": { "key1": "300" } },
+          { "run_eocs": "EOC_gunsmith_take_source" }
+        ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       { "text": "Forget it.", "topic": "TALK_GUNSMITH_SERVICES" }
     ]
   },
   {
+    "type": "effect_on_condition",
+    "id": "EOC_gunsmith_set_convert_target",
+    "effect": [
+      { "math": [ "u_number_artisans_gunsmith_ammo_to", "=", "_key1" ] },
+      { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" },
+      { "u_add_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "time": true }
+    ]
+  },
+  {
     "id": "TALK_GUNSMITH_CONVERT_TO_TYPE",
     "type": "talk_topic",
-    "dynamic_line": {
-      "u_compare_var": "gunsmith_ammo_from",
-      "type": "number",
-      "context": "artisans",
-      "op": "==",
-      "value": 556,
-      "yes": "Sure, 5.56x45 to what?",
-      "no": {
-        "u_compare_var": "gunsmith_ammo_from",
-        "type": "number",
-        "context": "artisans",
-        "op": "==",
-        "value": 76251,
-        "yes": "Sure, 7.62x51 to what?",
-        "no": {
-          "u_compare_var": "gunsmith_ammo_from",
-          "type": "number",
-          "context": "artisans",
-          "op": "==",
-          "value": 76239,
-          "yes": "Sure, 7.62x39 to what?",
-          "no": {
-            "u_compare_var": "gunsmith_ammo_from",
-            "type": "number",
-            "context": "artisans",
-            "op": "==",
-            "value": 545,
-            "yes": "Sure, 5.45x39 to what?",
-            "no": {
-              "u_compare_var": "gunsmith_ammo_from",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 300,
-              "yes": "Sure, 300 BLK to what?",
-              "no": "If you are seeing this I am bugged and confused.  You should report this fact on the GitHub."
-            }
-          }
-        }
-      }
-    },
+    "dynamic_line": "Sure, <u_val:artisans_gunsmith_ammo_source_name> to what?",
     "responses": [
       {
         "text": "5.56x45.",
-        "condition": { "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 } },
-        "effect": [
-          { "u_add_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "value": "556" },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_add_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "time": true }
-        ],
+        "condition": {
+          "and": [
+            { "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 } },
+            { "math": [ "u_number_artisans_failed_to_convert_ammo", "==", "0" ] }
+          ]
+        },
+        "effect": { "run_eoc_with": "EOC_gunsmith_set_convert_target", "variables": { "key1": "556" } },
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
         "text": "7.62x51.",
         "condition": {
-          "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 }
+          "and": [
+            {
+              "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 }
+            },
+            { "math": [ "u_number_artisans_failed_to_convert_ammo", "==", "0" ] }
+          ]
         },
-        "effect": [
-          { "u_add_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "value": "76251" },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_add_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "time": true }
-        ],
+        "effect": { "run_eoc_with": "EOC_gunsmith_set_convert_target", "variables": { "key1": "76251" } },
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
         "text": "7.62x39.",
         "condition": {
-          "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 }
+          "and": [
+            {
+              "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 }
+            },
+            { "math": [ "u_number_artisans_failed_to_convert_ammo", "==", "0" ] }
+          ]
         },
-        "effect": [
-          { "u_add_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "value": "76239" },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_add_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "time": true }
-        ],
+        "effect": { "run_eoc_with": "EOC_gunsmith_set_convert_target", "variables": { "key1": "76239" } },
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
         "text": "5.45x39.",
-        "condition": { "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 } },
-        "effect": [
-          { "u_add_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "value": "545" },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_add_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "time": true }
-        ],
+        "condition": {
+          "and": [
+            { "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 } },
+            { "math": [ "u_number_artisans_failed_to_convert_ammo", "==", "0" ] }
+          ]
+        },
+        "effect": { "run_eoc_with": "EOC_gunsmith_set_convert_target", "variables": { "key1": "545" } },
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
         "text": ".300 AAC.",
-        "condition": { "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 } },
-        "effect": [
-          { "u_add_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "value": "300" },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_add_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "time": true }
-        ],
+        "condition": {
+          "and": [
+            { "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 } },
+            { "math": [ "u_number_artisans_failed_to_convert_ammo", "==", "0" ] }
+          ]
+        },
+        "effect": { "run_eoc_with": "EOC_gunsmith_set_convert_target", "variables": { "key1": "300" } },
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
+      },
+      {
+        "text": "See you then.",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "u_number_artisans_failed_to_convert_ammo", "==", "1" ] }
       }
     ]
   },
@@ -377,7 +240,7 @@
     "id": "TALK_GUNSMITH_CONVERT_CONFIRM",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_compare_var": "gunsmith_ammo_ammount",
+      "u_compare_var": "gunsmith_ammo_amount",
       "type": "number",
       "context": "artisans",
       "op": "==",
@@ -400,947 +263,128 @@
     ]
   },
   {
+    "type": "effect_on_condition",
+    "id": "EOC_gunsmith_get_convert_coeff",
+    "effect": {
+      "switch": { "math": [ "u_number_artisans_gunsmith_ammo_from" ] },
+      "cases": [
+        {
+          "case": 300,
+          "effect": {
+            "switch": { "math": [ "u_number_artisans_gunsmith_ammo_to" ] },
+            "cases": [
+              { "case": 545, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "140" ] } },
+              { "case": 556, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "100" ] } },
+              { "case": 76239, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "120" ] } },
+              { "case": 76251, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "60" ] } }
+            ]
+          }
+        },
+        {
+          "case": 545,
+          "effect": {
+            "switch": { "math": [ "u_number_artisans_gunsmith_ammo_to" ] },
+            "cases": [
+              { "case": 300, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "220" ] } },
+              { "case": 556, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "140" ] } },
+              { "case": 76239, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "160" ] } },
+              { "case": 76251, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "80" ] } }
+            ]
+          }
+        },
+        {
+          "case": 556,
+          "effect": {
+            "switch": { "math": [ "u_number_artisans_gunsmith_ammo_to" ] },
+            "cases": [
+              { "case": 300, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "280" ] } },
+              { "case": 545, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "240" ] } },
+              { "case": 76239, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "200" ] } },
+              { "case": 76251, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "120" ] } }
+            ]
+          }
+        },
+        {
+          "case": 76239,
+          "effect": {
+            "switch": { "math": [ "u_number_artisans_gunsmith_ammo_to" ] },
+            "cases": [
+              { "case": 300, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "260" ] } },
+              { "case": 545, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "220" ] } },
+              { "case": 556, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "160" ] } },
+              { "case": 76251, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "100" ] } }
+            ]
+          }
+        },
+        {
+          "case": 76251,
+          "effect": {
+            "switch": { "math": [ "u_number_artisans_gunsmith_ammo_to" ] },
+            "cases": [
+              { "case": 300, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "440" ] } },
+              { "case": 545, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "360" ] } },
+              { "case": 556, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "280" ] } },
+              { "case": 76239, "effect": { "math": [ "u_number_artisans_gunsmith_ammo_convert_coeff", "=", "320" ] } }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gunsmith_get_convert_target_item",
+    "effect": {
+      "switch": { "math": [ "u_number_artisans_gunsmith_ammo_to" ] },
+      "cases": [
+        {
+          "case": 300,
+          "effect": { "set_string_var": "300blk", "target_var": { "u_val": "artisans_gunsmith_ammo_convert_target" } }
+        },
+        {
+          "case": 545,
+          "effect": { "set_string_var": "545", "target_var": { "u_val": "artisans_gunsmith_ammo_convert_target" } }
+        },
+        {
+          "case": 556,
+          "effect": { "set_string_var": "556", "target_var": { "u_val": "artisans_gunsmith_ammo_convert_target" } }
+        },
+        {
+          "case": 76239,
+          "effect": { "set_string_var": "762_m87", "target_var": { "u_val": "artisans_gunsmith_ammo_convert_target" } }
+        },
+        {
+          "case": 76251,
+          "effect": { "set_string_var": "762_51", "target_var": { "u_val": "artisans_gunsmith_ammo_convert_target" } }
+        }
+      ]
+    }
+  },
+  {
+    "type": "var_migration",
+    "from": "npctalk_var_number_artisans_gunsmith_ammo_ammount",
+    "to": "npctalk_var_number_artisans_gunsmith_ammo_amount"
+  },
+  {
     "id": "TALK_GUNSMITH_BULLET_PICKUP",
     "type": "talk_topic",
     "dynamic_line": "The transaction is complete, here are your items.",
     "responses": [
-      { "//": "ALL 556 Converts" },
       {
         "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 },
-            {
-              "u_compare_var": "gunsmith_ammo_to",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 76239
-            },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
         "effect": [
-          { "u_spawn_item": "762_m87", "count": 200 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 },
-            {
-              "u_compare_var": "gunsmith_ammo_to",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 76239
-            },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "762_m87", "count": 800 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 545 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "545", "count": 240 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 545 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "545", "count": 960 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 },
-            {
-              "u_compare_var": "gunsmith_ammo_to",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 76251
-            },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "762_51", "count": 120 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 },
-            {
-              "u_compare_var": "gunsmith_ammo_to",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 76251
-            },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "762_51", "count": 480 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 300 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "300blk", "count": 280 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 300 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "300blk", "count": 1120 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      { "//": "ALL 762x39 Converts" },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 556 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "556", "count": 160 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 556 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "556", "count": 640 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 545 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "545", "count": 220 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 545 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "545", "count": 880 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 },
-            {
-              "u_compare_var": "gunsmith_ammo_to",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 76251
-            },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "762_51", "count": 100 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 },
-            {
-              "u_compare_var": "gunsmith_ammo_to",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 76251
-            },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "762_51", "count": 400 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 300 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "300blk", "count": 260 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 300 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "300blk", "count": 1040 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      { "//": "ALL 545 Converts" },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 556 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "556", "count": 140 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 556 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "556", "count": 560 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 },
-            {
-              "u_compare_var": "gunsmith_ammo_to",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 76239
-            },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "762_m87", "count": 160 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 },
-            {
-              "u_compare_var": "gunsmith_ammo_to",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 76239
-            },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "762_m87", "count": 640 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 },
-            {
-              "u_compare_var": "gunsmith_ammo_to",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 76251
-            },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "762_51", "count": 80 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 },
-            {
-              "u_compare_var": "gunsmith_ammo_to",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 76251
-            },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "762_51", "count": 320 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 300 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "300blk", "count": 220 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 300 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "300blk", "count": 880 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      { "//": "ALL 762 NATO Converts" },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 556 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "556", "count": 280 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 556 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "556", "count": 1120 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 },
-            {
-              "u_compare_var": "gunsmith_ammo_to",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 76239
-            },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "762_m87", "count": 320 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 },
-            {
-              "u_compare_var": "gunsmith_ammo_to",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 76239
-            },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "762_m87", "count": 1280 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 545 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "545", "count": 360 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 545 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "545", "count": 1440 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 300 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "300blk", "count": 440 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 300 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "300blk", "count": 1760 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      { "//": "ALL Blackout Converts" },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 556 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "556", "count": 100 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 556 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "556", "count": 400 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 },
-            {
-              "u_compare_var": "gunsmith_ammo_to",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 76239
-            },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "762_m87", "count": 120 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 },
-            {
-              "u_compare_var": "gunsmith_ammo_to",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 76239
-            },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "762_m87", "count": 480 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 545 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "545", "count": 140 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 },
-            { "u_compare_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "op": "==", "value": 545 },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "545", "count": 560 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 },
-            {
-              "u_compare_var": "gunsmith_ammo_to",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 76251
-            },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "762_51", "count": 60 },
-          { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Take your new ammo.] Thanks.",
-        "condition": {
-          "and": [
-            { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 },
-            {
-              "u_compare_var": "gunsmith_ammo_to",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 76251
-            },
-            {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
-            }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "762_51", "count": 240 },
+          { "run_eocs": [ "EOC_gunsmith_get_convert_coeff", "EOC_gunsmith_get_convert_target_item" ] },
+          {
+            "math": [
+              "u_number_artisans_gunsmith_ammo_convert_result",
+              "=",
+              "u_number_artisans_gunsmith_ammo_convert_coeff * u_number_artisans_gunsmith_ammo_amount / 200"
+            ]
+          },
+          {
+            "u_spawn_item": { "u_val": "artisans_gunsmith_ammo_convert_target" },
+            "count": { "u_val": "number_artisans_gunsmith_ammo_convert_result", "default": 200 }
+          },
           { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "no" }
         ],
         "topic": "TALK_DONE"

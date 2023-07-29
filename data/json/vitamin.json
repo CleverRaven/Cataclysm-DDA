@@ -53,19 +53,24 @@
     "disease_excess": [ [ 1, 2500 ] ],
     "decays_into": [
       [ "mutagen", 8 ],
+      [ "mutagen_batrachian", 1 ],
       [ "mutagen_bird", 1 ],
       [ "mutagen_cattle", 1 ],
+      [ "mutagen_cephalopod", 1 ],
+      [ "mutagen_crustacean", 1 ],
       [ "mutagen_feline", 1 ],
       [ "mutagen_fish", 1 ],
       [ "mutagen_gastropod", 1 ],
       [ "mutagen_insect", 1 ],
       [ "mutagen_lizard", 1 ],
       [ "mutagen_lupine", 1 ],
-      [ "mutagen_medical", 1 ],
       [ "mutagen_mouse", 1 ],
+      [ "mutagen_plant", 1 ],
+      [ "mutagen_rabbit", 1 ],
       [ "mutagen_rat", 1 ],
+      [ "mutagen_spider", 1 ],
       [ "mutagen_troglobite", 1 ],
-      [ "mutagen_crustacean", 1 ],
+      [ "mutagen_ursine", 1 ],
       [ "instability", 1 ],
       [ "mutant_toxin", 2 ]
     ]
@@ -89,6 +94,7 @@
       [ "mutagen_cattle", -1 ],
       [ "mutagen_cephalopod", -1 ],
       [ "mutagen_chimera", -1 ],
+      [ "mutagen_crustacean", -1 ],
       [ "mutagen_elfa", -1 ],
       [ "mutagen_feline", -1 ],
       [ "mutagen_fish", -1 ],
@@ -106,8 +112,7 @@
       [ "mutagen_slime", -1 ],
       [ "mutagen_spider", -1 ],
       [ "mutagen_troglobite", -1 ],
-      [ "mutagen_ursine", -1 ],
-      [ "mutagen_crustacean", -1 ]
+      [ "mutagen_ursine", -1 ]
     ]
   },
   {
@@ -193,6 +198,17 @@
     "vit_type": "counter",
     "name": { "str": "Chimera Primer" },
     "excess": "mutagen_chimera",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_crustacean",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Crustacean Primer" },
+    "excess": "mutagen_crustacean",
     "min": 0,
     "max": 2500,
     "rate": "1 h",
@@ -391,17 +407,6 @@
     "vit_type": "counter",
     "name": { "str": "Ursine Primer" },
     "excess": "mutagen_ursine",
-    "min": 0,
-    "max": 2500,
-    "rate": "1 h",
-    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
-  },
-  {
-    "id": "mutagen_crustacean",
-    "type": "vitamin",
-    "vit_type": "counter",
-    "name": { "str": "Crustacean Primer" },
-    "excess": "mutagen_crustacean",
     "min": 0,
     "max": 2500,
     "rate": "1 h",

@@ -137,7 +137,7 @@ class item_reader : public generic_typed_reader<item_reader>
                 return profession::itypedec( jv.get_string() );
             }
             JsonArray jarr = jv.get_array();
-            const auto id = jarr.get_string( 0 );
+            const std::string id = jarr.get_string( 0 );
             const snippet_id snippet( jarr.get_string( 1 ) );
             return profession::itypedec( id, snippet );
         }
@@ -440,9 +440,7 @@ static void clear_faults( item &it )
     if( it.get_var( "dirt", 0 ) > 0 ) {
         it.set_var( "dirt", 0 );
     }
-    if( it.is_faulty() ) {
-        it.faults.clear();
-    }
+    it.faults.clear();
 }
 
 std::list<item> profession::items( bool male, const std::vector<trait_id> &traits ) const

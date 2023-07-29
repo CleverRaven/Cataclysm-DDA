@@ -1750,7 +1750,7 @@
     "type": "terrain",
     "id": "t_adobe_brick_wall",
     "name": "adobe wall",
-    "description": "A solid adobe brick wall, sturdy enough to support a roof with enough walls and to keep out any unwanted visitors.",
+    "description": "A solid adobe brick wall that’s both sturdy enough to support a roof and keep out any unwanted visitors.",
     "symbol": "LINE_OXOX",
     "color": "brown",
     "looks_like": "t_brick_wall",

@@ -260,7 +260,7 @@
         {
           "item": {
             "entries": [
-              { "item": "coal_lump", "prob": 20, "count": [ 10, 200 ] },
+              { "item": "coal_lump", "prob": 20, "count": [ 2, 20 ] },
               { "item": "rock", "prob": 40, "count": [ 1, 10 ] },
               { "item": "rock_large", "prob": 10, "count": [ 1, 10 ] },
               { "item": "rock_flaking", "prob": 20, "count": [ 1, 10 ] },

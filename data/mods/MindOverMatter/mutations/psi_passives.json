@@ -1,0 +1,515 @@
+[
+  {
+    "type": "mutation",
+    "id": "NO_PSIONICS",
+    "name": { "str": "Headblind" },
+    "description": "You have a normal human (lack of) capacity for psionic powers.",
+    "player_display": false,
+    "points": 0,
+    "dummy": true,
+    "category": [ "HUMAN" ],
+    "cancels": [
+      "BIOKIN_NEEDS",
+      "CLAIR_SENSES",
+      "PYROGLOW_WEAK",
+      "PYROGLOW_STRONG",
+      "TELEKINETIC_CARRY",
+      "TELEPATHIC_SUGGESTION",
+      "TELEPORTER_PROTECT",
+      "VITAKINETIC_HEALTH"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIOKIN_NEEDS",
+    "name": { "str": "Efficient System" },
+    "points": 0,
+    "description": "Thanks to your powers, you need less food and drink than the average person and are more efficient at processing it.",
+    "vitamins_absorb_multi": [ [ "all", [ [ "vitA", 1.05 ], [ "vitB", 1.05 ], [ "vitC", 1.05 ], [ "calcium", 1.05 ], [ "iron", 1.05 ] ] ] ],
+    "player_display": true,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "HUNGER", "multiply": { "math": [ "(-0.03 - (0.015 * u_val('spell_level', 'school: BIOKINETIC')))" ] } },
+          {
+            "value": "THIRST",
+            "multiply": { "math": [ "(-0.03 - (0.015 * u_val('spell_level', 'school: BIOKINETIC')))" ] }
+          },
+          {
+            "value": "METABOLISM",
+            "multiply": { "math": [ "(-0.03 - (0.015 * u_val('spell_level', 'school: BIOKINETIC')))" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "CLAIR_SENSES",
+    "name": { "str": "Psionic Senses" },
+    "points": 0,
+    "description": "Your powers enhance your mundane senses and allow you to detect creatures from beyond.",
+    "hearing_modifier": 1.2,
+    "flags": [ "ENHANCED_VISION", "WATCH" ],
+    "player_display": true,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(2 + (1.5 * u_val('spell_level', 'school: CLAIRSENTIENT')))" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "PYROGLOW_WEAK",
+    "name": { "str": "Pyrokinetic Radiance [soft]" },
+    "points": 0,
+    "description": "You can make the air around you emit light.",
+    "active": true,
+    "player_display": true,
+    "purifiable": false,
+    "cost": 0,
+    "transform": {
+      "target": "PYROGLOW_WEAK_A",
+      "msg_transform": "The air around you starts glowing softly.",
+      "active": true,
+      "moves": 10
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "PYROGLOW_WEAK_A",
+    "name": { "str": "Pyrokinetic Radiance [soft] (on)" },
+    "description": "The air around you is emitting light.",
+    "copy-from": "PYROGLOW_WEAK",
+    "valid": false,
+    "transform": { "target": "PYROGLOW_WEAK", "msg_transform": "The air around you loses its radiance.", "active": false, "moves": 10 },
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 20 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "PYROGLOW_STRONG",
+    "name": { "str": "Pyrokinetic Radiance [bright]" },
+    "points": 0,
+    "description": "You can make the air around you emit a strong light.",
+    "active": true,
+    "player_display": true,
+    "purifiable": false,
+    "cost": 0,
+    "transform": {
+      "target": "PYROGLOW_STRONG_A",
+      "msg_transform": "The air around you starts glowing brightly.",
+      "active": true,
+      "moves": 10
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "PYROGLOW_STRONG_A",
+    "name": { "str": "Pyrokinetic Radiance [bright] (on)" },
+    "description": "The air around you is emitting a bright light.",
+    "copy-from": "PYROGLOW_STRONG",
+    "valid": false,
+    "transform": { "target": "PYROGLOW_STRONG", "msg_transform": "The air around you loses its radiance.", "active": false, "moves": 10 },
+    "enchantments": [
+      {
+        "values": [ { "value": "LUMINATION", "add": { "math": [ "(50 + (20 * u_val('spell_level', 'school: PYROKINETIC')))" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_1",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_1" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_2",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_2" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_3",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_3" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_4",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_4" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_5",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_5" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_6",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_6" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_7",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_7" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_8",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_8" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_9",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_9" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_10",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_10" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_11",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_11" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_12",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_12" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_13",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_13" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_14",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_14" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_15",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_15" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_16",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_16" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_17",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_17" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_18",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_18" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_19",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_19" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_20",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_20" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_21",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_21" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_22",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_22" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_23",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_23" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_24",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_24" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_25",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_25" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_26",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_26" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_27",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_27" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_28",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_28" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_29",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_29" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC_LIFTER_30",
+    "name": { "str": "Lifting Hand" },
+    "points": 0,
+    "description": "With a modicum of concentration you can carry a single item with your powers.  As your powers increase, you may meditate on it to expand its capacity.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "integrated_armor": [ "telekinetic_container_30" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEPATHIC_SUGGESTION",
+    "name": { "str": "Telepathic Suggestion" },
+    "points": 0,
+    "description": "You are subtly influencing the minds of the people you speak to.",
+    "social_modifiers": { "lie": 15, "persuade": 15, "intimidate": 15 },
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SOCIAL_INTIMIDATE", "add": { "math": [ "(5 + (1.5 * u_val('spell_level', 'school: TELEPATHIC')))" ] } },
+          { "value": "SOCIAL_LIE", "add": { "math": [ "(5 + (1.5 * u_val('spell_level', 'school: TELEPATHIC')))" ] } },
+          {
+            "value": "SOCIAL_PERSUADE",
+            "add": { "math": [ "(5 + (1.5 * u_val('spell_level', 'school: TELEPATHIC')))" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEPORTER_PROTECT",
+    "name": { "str": "Spacial Recalibration" },
+    "points": 0,
+    "description": "You can keep otherworldly eyes off you to some extent, and you will sometimes instinctively teleport to avoid danger.",
+    "flags": [ "TELESTOP" ],
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "values": [ { "value": "EVASION", "add": { "math": [ "(0.01 + (0.005 * u_val('spell_level', 'school: TELEPORTER')))" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "VITAKINETIC_HEALTH",
+    "name": { "str": "Bloom of Vitality" },
+    "points": 0,
+    "description": "Your psionic powers speed your healing slightly and increase your overall resilience, and any broken limbs you have mend straight and true.",
+    "vitamin_rates": [ [ "mutant_toxin", 180 ] ],
+    "flags": [ "MEND_ALL" ],
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "REGEN_HP", "multiply": { "math": [ "(0.1 + (0.01 * u_val('spell_level', 'school: VITAKINETIC')))" ] } },
+          {
+            "value": "MAX_HP",
+            "multiply": { "math": [ "(0.05 + (0.01 * u_val('spell_level', 'school: VITAKINETIC')))" ] }
+          }
+        ]
+      }
+    ]
+  }
+]
