@@ -1222,8 +1222,7 @@
     "volume": "130 ml",
     "description": "A large clump of very large frog eggs. They're gelatinous, transparent and larger even than chicken's eggs. ",
     "rot_spawn": "GROUP_EGG_GIANT_FROG",
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ],
-    "rot_spawn_chance": 50
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ]
   },
   {
     "type": "COMESTIBLE",

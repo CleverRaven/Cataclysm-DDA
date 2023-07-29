@@ -660,7 +660,7 @@
     "id": "mon_strange_frog",
     "type": "MONSTER",
     "copy-from": "mon_bullfrog_frog",
-    "description": "Based on its vestigial tail, you might call it a polliwog. That is if it weren't so large and didn't already move like an adult frog. Whatever species it is, it looks to have some growing left to do.",
+    "description": "Based on its vestigial tail, you might call it a polliwog. That is if it weren't so large and didn't already move like an adult frog. In any case, it looks to have some growing left to do.",
     "name": { "str": "strange bullfrog" },
     "upgrades": { "age_grow": 120, "into": "mon_frog_small" },
     "reproduction": { "baby_egg": "egg_strange_frog", "baby_count": 16, "baby_timer": 60 }
