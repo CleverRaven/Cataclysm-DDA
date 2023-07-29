@@ -1411,7 +1411,7 @@ void suffer::from_bad_bionics( Character &you )
             you.activate_bionic( **bio_opt );
         } else {
             you.mod_stamina( -2000 );
-            you.add_msg_if_player( m_bad, _( "Emergency! User's lungs are not powered!" ) );
+            you.add_msg_if_player( m_bad, _( "Emergency!  User's lungs are not powered!" ) );
         }
     }
     if( you.has_bionic( bio_dis_shock ) && you.get_power_level() > bio_dis_shock->power_trigger &&
