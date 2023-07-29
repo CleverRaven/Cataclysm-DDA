@@ -11,6 +11,7 @@
     "building_type": "SMITH",
     "recipes": [
       { "id": "brick", "description": " Craft: Brick" },
+      { "id": "crucible_clay", "description": " Craft: Crucible, Clay" },
       { "id": "clay_canister", "description": " Craft: Canister, Clay" },
       { "id": "fire_brick", "description": " Craft: Brick, Fire" },
       { "id": "pebble_clay", "description": " Craft: Pellet, Clay" }
