@@ -1455,7 +1455,7 @@ class npc_template
             female
         };
         gender gender_override = gender::random;
-        static constexpr int random = INT_MIN;
+        static constexpr int8_t random = _I8_MIN;
         int age = random;
         int height = random;
         int str = random;
