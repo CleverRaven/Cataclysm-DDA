@@ -2820,7 +2820,7 @@ void map::drop_items( const tripoint &p )
     Creature *creature_below = get_creature_tracker().creature_at( below );
     if( creature_below ) {
         float dodge_mod = creature_below->dodge_roll();
-        dodge_mod = dodge_mod == 0 ? 1 : dodge_mod / 2;
+        dodge_mod = ( dodge_mod / 5 ) + 0.625;
 
         int creature_hit_chance = rng( 0, 100 );
         creature_hit_chance *= dodge_mod / occupied_tile_fraction( creature_below->get_size() );
@@ -2842,7 +2842,7 @@ void map::drop_items( const tripoint &p )
 
     // Bash items at bottom since currently bash_items only bash glass items
     map_stack bash_items = i_at( below );
-    for( auto &bash_item : bash_items ) {
+    for( item &bash_item : bash_items ) {
         int chance = static_cast<int>( 200 * bash_item.resist( damage_bash, true ) / damage + 1 );
         if( one_in( chance ) ) {
             bash_item.inc_damage();
