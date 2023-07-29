@@ -1588,13 +1588,7 @@
     "cant_remove_reason": "The CBM has replaced the patient's lungs and cannot be removed.",
     "canceled_mutations": [ "GOODCARDIO", "BADCARDIO", "GOODCARDIO2", "PERSISTENCE_HUNTER", "PERSISTENCE_HUNTER2", "ASTHMA" ],
     "enchantments": [
-      {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "MOD_HEALTH", "add": -1 },
-          { "value": "MOD_HEALTH_CAP", "add": -20 }
-        ]
-      }
+      { "condition": "ALWAYS", "values": [ { "value": "MOD_HEALTH", "add": -1 }, { "value": "MOD_HEALTH_CAP", "add": -20 } ] }
     ]
   },
   {
