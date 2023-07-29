@@ -229,7 +229,7 @@
     "nested_mapgen_id": "24x24_road_tee_vehicles",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
+      "rotation": [ 0 ],
       "place_nested": [
         {
           "chunks": [ [ "24x24_road_tee_vehicles_city", 67 ], [ "null", 33 ] ],
@@ -270,7 +270,7 @@
     "nested_mapgen_id": "24x24_road_tee_vehicles_country",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
+      "rotation": [ 0 ],
       "place_nested": [
         {
           "chunks": [
@@ -290,7 +290,7 @@
     "nested_mapgen_id": "24x24_road_tee_vehicles_city",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
+      "rotation": [ 0 ],
       "place_nested": [
         {
           "chunks": [

@@ -187,7 +187,7 @@
     "nested_mapgen_id": "24x24_road_straight_vehicles",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
+      "rotation": [ 0 ],
       "place_nested": [
         {
           "chunks": [ [ "24x24_road_straight_vehicles_city", 67 ], [ "null", 33 ] ],
@@ -228,7 +228,7 @@
     "nested_mapgen_id": "24x24_road_straight_vehicles_country",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
+      "rotation": [ 0 ],
       "place_nested": [
         {
           "chunks": [ "24x24_road_vehicles_country_out_of_fuel_north", "24x24_road_vehicles_country_out_of_fuel_south" ],
@@ -244,7 +244,7 @@
     "nested_mapgen_id": "24x24_road_straight_vehicles_city",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
+      "rotation": [ 0 ],
       "place_nested": [
         {
           "chunks": [
