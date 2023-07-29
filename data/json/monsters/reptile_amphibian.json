@@ -602,7 +602,7 @@
     "upgrades": { "age_grow": 60, "into": "mon_shift_frog" }
   },
   {
-    "id": "mon_proxy_frog",
+    "abstract": "mon_proxy_frog",
     "type": "MONSTER",
     "description": "A hypothetical frog, if you're seeing this there's a problem.",
     "name": { "str": "proxy frog" },
