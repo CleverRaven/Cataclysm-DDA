@@ -25,7 +25,9 @@
 #include "flag.h"
 #include "enum_conversions.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "input.h"
+#include "itype.h"
 #include "localized_comparator.h"
 #include "mutation.h"
 #include "options.h"
@@ -632,14 +634,25 @@ static void draw_traits_tab( ui_adaptor &ui, const catacurses::window &w_traits,
 }
 
 static void draw_traits_info( const catacurses::window &w_info, const unsigned line,
-                              const std::vector<trait_and_var> &traitslist )
+                              const std::vector<trait_and_var> &traitslist, const unsigned info_line )
 {
     werase( w_info );
     if( line < traitslist.size() ) {
         const trait_and_var &cur = traitslist[line];
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, string_format( "%s: %s",
-                        colorize( cur.name(), cur.trait->get_display_color() ), cur.desc() ) );
+        std::vector<std::string> desc =
+            foldstring( string_format( "%s: %s", colorize( cur.name(), cur.trait->get_display_color() ),
+                                       cur.desc() ), FULL_SCREEN_WIDTH - 3 );
+        const int winh = catacurses::getmaxy( w_info );
+        const bool do_scroll = desc.size() > static_cast<unsigned>( std::abs( winh ) );
+        const int fline = do_scroll ? info_line % ( desc.size() + 1 - winh ) : 0;
+        const int lline = do_scroll ? fline + winh : desc.size();
+        for( int i = fline; i < lline; i++ ) {
+            trim_and_print( w_info, point( 1, i - fline ), FULL_SCREEN_WIDTH - 3, c_light_gray, desc[i] );
+        }
+        if( do_scroll ) {
+            draw_scrollbar( w_info, fline, winh, desc.size(), point( FULL_SCREEN_WIDTH - 3, 0 ), c_white,
+                            true );
+        }
     }
     wnoutrefresh( w_info );
 }
@@ -817,11 +830,12 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
             center_print( w_skills, y_pos, c_yellow, type_name );
         } else {
             const SkillLevel &level = you.get_skill_level_object( aSkill->ident() );
+            int exercise = level.knowledgeExperience();
+            int level_num = level.knowledgeLevel();
             const bool can_train = level.can_train();
             const bool training = level.isTraining();
-            const bool rusty = level.isRusty();
-            int exercise = level.exercise();
-            int level_num = level.level();
+            const bool skill_gap = level_num > level.level();
+            const bool skill_small_gap = exercise > level.exercise();
             bool locked = false;
             if( you.has_active_bionic( bio_cqb ) && is_cqb_skill( aSkill->ident() ) ) {
                 level_num = 5;
@@ -834,11 +848,11 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                 if( locked ) {
                     cstatus = h_yellow;
                 } else if( !can_train ) {
-                    cstatus = rusty ? h_light_red : h_white;
+                    cstatus = h_white;
                 } else if( exercise >= 100 ) {
                     cstatus = training ? h_pink : h_magenta;
-                } else if( rusty ) {
-                    cstatus = training ? h_light_red : h_red;
+                } else if( skill_gap || skill_small_gap ) {
+                    cstatus = training ? h_light_cyan : h_cyan;
                 } else {
                     cstatus = training ? h_light_blue : h_blue;
                 }
@@ -846,8 +860,8 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
             } else {
                 if( locked ) {
                     cstatus = c_yellow;
-                } else if( rusty ) {
-                    cstatus = training ? c_light_red : c_red;
+                } else if( skill_gap || skill_small_gap ) {
+                    cstatus = training ? c_light_cyan : c_cyan;
                 } else if( !can_train ) {
                     cstatus = c_white;
                 } else {
@@ -931,9 +945,22 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
     if( selectedSkill ) {
         const SkillLevel &level = you.get_skill_level_object( selectedSkill->ident() );
         std::string info_text = selectedSkill->description();
+        float level_gap = 100.0f * std::max( level.knowledgeLevel(), 1 ) / std::max( level.level(), 1 );
+        if( level.knowledgeLevel() == 1 && level.level() == 0 ) {
+            level_gap = 150.0f;
+        }
+        float learning_bonus = 100.0f * std::max( ( 1.0f + you.get_int() / 40.0f ) - 0.1f *
+                               level.exercise() / level.knowledgeExperience(), 1.0f );
         if( level.isRusty() ) {
-            info_text = string_format( _( "%s\n\nKnowledge level: %d (%d%%)" ), info_text,
-                                       level.knowledgeLevel(), level.knowledgeExperience() );
+            info_text = string_format( _( "%s\n\nPractical level: %d (%d%%) " ), info_text,
+                                       level.level(), level.exercise() );
+            if( level.knowledgeLevel() > level.level() ) {
+                info_text = string_format( _( "%s| Learning bonus: %g%%" ), info_text,
+                                           level_gap );
+            } else {
+                info_text = string_format( _( "%s| Learning bonus: %g%%" ), info_text,
+                                           learning_bonus );
+            }
         }
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, info_text );
@@ -1007,7 +1034,7 @@ static void draw_speed_tab( ui_adaptor &ui, const catacurses::window &w_speed,
         if( highlight_line ) {
             ui.set_cursor( w_speed, pos );
         }
-        const speedlist_entry entry = speedlist[i];
+        const speedlist_entry &entry = speedlist[i];
 
         // +speed is good, -movecost is good
         const nc_color col = entry.is_speed == ( entry.val > 0 ) ? c_light_green : c_red;
@@ -1057,7 +1084,7 @@ static void draw_info_window( const catacurses::window &w_info, const Character 
             draw_skills_info( w_info, you, line, skillslist );
             break;
         case player_display_tab::traits:
-            draw_traits_info( w_info, line, traitslist );
+            draw_traits_info( w_info, line, traitslist, info_line );
             break;
         case player_display_tab::bionics:
             draw_bionics_info( w_info, line, bionicslist );
@@ -1163,6 +1190,46 @@ static void on_customize_character( Character &you )
             } else {
                 you.play_name = filterstring;
             }
+        }
+    }
+}
+
+static void change_armor_sprite( avatar &you )
+{
+    item_location target_loc;
+    target_loc = game_menus::inv::change_sprite( you );
+    if( target_loc && target_loc.get_item() ) {
+        item *target_item = target_loc.get_item();
+
+        uilist menu;
+        menu.title = _( "Change sprite" );
+        menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Select sprite from items" ) );
+        menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Restore default sprite" ) );
+        menu.addentry( 2, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+
+        menu.query();
+        if( menu.ret == 0 ) {
+            item_location sprite_loc;
+            avatar *you = get_player_character().as_avatar();
+            auto armor_filter = [&]( const item & i ) {
+                return i.is_armor();
+            };
+            if( you != nullptr ) {
+                sprite_loc = game_menus::inv::titled_filter_menu( armor_filter,
+                             *you,
+                             _( "Select appearance of this armor:" ),
+                             -1,
+                             _( "You have nothing to wear." ) );
+            }
+            if( sprite_loc && sprite_loc.get_item() ) {
+                const item *sprite_item = sprite_loc.get_item();
+                const std::string variant = sprite_item->has_itype_variant() ? sprite_item->itype_variant().id : "";
+                target_item->set_var( "sprite_override", sprite_item->typeId().str() );
+                target_item->set_var( "sprite_override_variant", variant );
+            }
+        } else if( menu.ret == 1 ) {
+            target_item->erase_var( "sprite_override" );
+            target_item->erase_var( "sprite_override_variant" );
         }
     }
 }
@@ -1422,6 +1489,10 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         if( you.is_avatar() ) {
             you.as_avatar()->disp_medical();
         }
+    } else if( action == "CHANGE_ARMOR_SPRITE" ) {
+        if( you.as_avatar() ) {
+            change_armor_sprite( *you.as_avatar() );
+        }
     }
     return done;
 }
@@ -1633,6 +1704,7 @@ void Character::disp_info( bool customize_character )
     ctxt.register_action( "SELECT_TRAIT_VARIANT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "MEDICAL_MENU" );
+    ctxt.register_action( "CHANGE_ARMOR_SPRITE" );
 
     std::map<std::string, int> speed_effects;
     for( auto &elem : *effects ) {

@@ -19,6 +19,7 @@
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
+#include "field_type.h"
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "talker.h"
@@ -53,7 +54,7 @@ class time_duration;
 struct point;
 struct tripoint;
 
-enum m_flag : int;
+struct mon_flag;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct projectile;
@@ -221,6 +222,12 @@ enum class get_body_part_flags : int {
 template<>
 struct enum_traits<get_body_part_flags> {
     static constexpr bool is_flag_enum = true;
+};
+
+enum class body_part_filter : int {
+    strict = 0,
+    equivalent = 1,
+    next_best = 2
 };
 
 using scheduled_effect = struct scheduled_effect_t {
@@ -487,11 +494,24 @@ class Creature : public viewer
         */
         void longpull( const std::string &name, const tripoint &p );
 
+        bool dodge_check( float hit_roll, bool force_try = false );
+        bool dodge_check( monster *z );
+        bool dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst );
+
+        // Temporarily reveals an invisible player when a monster tries to enter their location
+        bool stumble_invis( const Creature &player, bool stumblemsg = true );
+        // Attack an empty location
+        bool attack_air( const tripoint &p );
+
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
          * Players should train dodge, monsters may use some special defenses.
          */
         virtual void on_dodge( Creature *source, float difficulty ) = 0;
+        /**
+         * Invoked when the creature attempts to dodge, regardless of success or failure.
+         */
+        virtual void on_try_dodge() = 0;
         /**
          * This creature just got hit by an attack - possibly special/ranged attack - from source.
          * Players should train dodge, possibly counter-attack somehow.
@@ -499,9 +519,7 @@ class Creature : public viewer
         virtual void on_hit( Creature *source, bodypart_id bp_hit,
                              float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
 
-        /** Returns true if this monster has any sort of ranged attack. This doesn't necessarily mean direct damage ranged attack,
-        * but also includes any sort of potentially dangerous ranged interaction, e.g. monster with RANGED_PULL special attack will fit here too.
-         */
+        /** Returns true if this monster has a gun-type attack or the RANGED_ATTACKER flag*/
         virtual bool is_ranged_attacker() const;
 
         virtual bool digging() const;
@@ -518,6 +536,9 @@ class Creature : public viewer
         // returns true if the creature has an electric field
         virtual bool is_electrical() const = 0;
 
+        // returns true if the creature has an electric field
+        virtual bool is_nether() const = 0;
+
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
 
@@ -531,10 +552,16 @@ class Creature : public viewer
         bool is_dangerous_fields( const field &fld ) const;
         /** Returns true if the given field entry is dangerous to us. */
         bool is_dangerous_field( const field_entry &entry ) const;
-        /** Returns true if we are immune to the field type with the given fid. Does not
-         *  handle intensity, so this function should only be called through is_dangerous_field().
+        /** Returns true if we are immune to the field type with the given fid. Can handle intensity if field intensity data is specified for the effect
+        , so this function should only be called through is_dangerous_field().
          */
         virtual bool is_immune_field( const field_type_id & ) const {
+            return false;
+        }
+
+
+        // check if the creature is immune to the effect / field based on the immunity data
+        virtual bool check_immunity_data( const field_immunity_data & ) const {
             return false;
         }
 
@@ -613,9 +640,11 @@ class Creature : public viewer
         /** Check if creature has any effect with the given flag. */
         bool has_effect_with_flag( const flag_id &flag, const bodypart_id &bp ) const;
         bool has_effect_with_flag( const flag_id &flag ) const;
-        std::vector<effect> get_effects_with_flag( const flag_id &flag ) const;
-        std::vector<effect> get_effects_from_bp( const bodypart_id &bp ) const;
-        std::vector<effect> get_effects() const;
+        std::vector<std::reference_wrapper<const effect>> get_effects_with_flag(
+                    const flag_id &flag ) const;
+        std::vector<std::reference_wrapper<const effect>> get_effects_from_bp(
+                    const bodypart_id &bp ) const;
+        std::vector<std::reference_wrapper<const effect>> get_effects() const;
 
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id,
@@ -705,7 +734,7 @@ class Creature : public viewer
         virtual field_type_id bloodType() const = 0;
         virtual field_type_id gibType() const = 0;
         // TODO: replumb this to use a std::string along with monster flags.
-        virtual bool has_flag( const m_flag ) const {
+        virtual bool has_flag( const mon_flag_id & ) const {
             return false;
         }
         virtual bool uncanny_dodge() {
@@ -760,14 +789,15 @@ class Creature : public viewer
                                 int dex_max = 0,  int per_max = 0,  int int_max = 0, int healthy_mod = 0,
                                 int fat_to_max_hp = 0 );
         // Does not fire debug message if part does not exist
-        bool has_part( const bodypart_id &id ) const;
+        bool has_part( const bodypart_id &id, body_part_filter filter = body_part_filter::strict ) const;
         // A debug message will be fired if part does not exist.
         // Check with has_part first if a part may not exist.
         bodypart *get_part( const bodypart_id &id );
         const bodypart *get_part( const bodypart_id &id ) const;
 
         // get the body part id that matches for the character
-        bodypart_id get_part_id( const bodypart_id &id ) const;
+        bodypart_id get_part_id( const bodypart_id &id,
+                                 body_part_filter filter = body_part_filter::next_best, bool suppress_debugmsg = false ) const;
 
         int get_part_hp_cur( const bodypart_id &id ) const;
         int get_part_hp_max( const bodypart_id &id ) const;

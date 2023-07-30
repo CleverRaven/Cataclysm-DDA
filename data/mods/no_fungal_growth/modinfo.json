@@ -2,7 +2,7 @@
   {
     "type": "MOD_INFO",
     "id": "no_fungal_growth",
-    "name": "No Fungal Growth",
+    "name": "Slowdown Fungal Growth",
     "authors": [ "eltank" ],
     "description": "Removes the exponential growth ability of fungaloids.",
     "category": "rebalance",

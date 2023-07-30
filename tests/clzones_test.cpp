@@ -47,7 +47,7 @@ int count_items_or_charges( const tripoint src, const itype_id &id,
                             const std::optional<vpart_reference> &vp )
 {
     if( vp ) {
-        return _count_items_or_charges( vp->vehicle().get_items( vp->part_index() ), id );
+        return _count_items_or_charges( vp->vehicle().get_items( vp->part() ), id );
     }
     return _count_items_or_charges( get_map().i_at( src ), id );
 }
@@ -61,7 +61,7 @@ void create_tile_zone( const std::string &name, const zone_type_id &zone_type, t
 
 } // namespace
 
-TEST_CASE( "zone unloading ammo belts", "[zones][items][ammo_belt][activities][unload]" )
+TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][unload]" )
 {
     avatar &dummy = get_avatar();
     map &here = get_map();
@@ -77,9 +77,8 @@ TEST_CASE( "zone unloading ammo belts", "[zones][items][ammo_belt][activities][u
     dummy.set_location( start );
 
     if( in_vehicle ) {
-        REQUIRE(
-            here.add_vehicle( vehicle_prototype_shopping_cart, tripoint_east, 0_degrees, 0, 0 ) );
-        vp = here.veh_at( start ).part_with_feature( "CARGO", true );
+        REQUIRE( here.add_vehicle( vehicle_prototype_shopping_cart, tripoint_east, 0_degrees, 0, 0 ) );
+        vp = here.veh_at( start ).cargo();
         REQUIRE( vp );
         vp->vehicle().set_owner( dummy );
     }
@@ -95,7 +94,7 @@ TEST_CASE( "zone unloading ammo belts", "[zones][items][ammo_belt][activities][u
 
     WHEN( "unloading ammo belts using zone_unload_all " ) {
         if( in_vehicle ) {
-            vp->vehicle().add_item( vp->part_index(), ammo_belt );
+            vp->vehicle().add_item( vp->part(), ammo_belt );
         } else {
             here.add_item_or_charges( tripoint_east, ammo_belt );
         }
@@ -119,7 +118,7 @@ TEST_CASE( "zone unloading ammo belts", "[zones][items][ammo_belt][activities][u
 // Comestibles sorting is a bit awkward. Unlike other loot, they're almost
 // always inside of a container, and their sort zone changes based on their
 // shelf life and whether the container prevents rotting.
-TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
+TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
 {
     clear_map();
     zone_manager &zm = zone_manager::get_manager();

@@ -1,4 +1,4 @@
-# Effect data
+# Effects
 
 ## How to give effects in-game?
 ### Comestibles
@@ -164,6 +164,9 @@ if it doesn't exist.
     "rating": "good"        - Defaults to "neutral" if missing
 ```
 This is used for how the messages when the effect is applied and removed are displayed. Also this affects "blood_analysis_description" (see below) field: effects with "good" rating will be colored green, effects with any other rating will be colored red when character conducts a blood analysis through some means.
+
+If [apply_message](#advanced-apply_message) is an array you can't include this entry (it is handled with apply message).
+
 Valid entries are:
 ```C++
 "good"
@@ -180,6 +183,17 @@ Valid entries are:
 If the "apply_message" or "remove_message" fields exist, the respective message will be
 displayed upon the addition or removal of the effect. Note: "apply_message" will only display
 if the effect is being added, not if it is simply incrementing a current effect (so only new bites, etc.).
+
+### advanced apply_message
+```C++
+    "apply_message": [
+        ["Your effect is applied", "good"],
+        ["You took way too much effect", "bad"],
+    ] 
+```
+You can instead of having a string for apply_message and including a [rating](#rating) can do advanced apply_message. This is an array of arrays with each inner array matching up with an intensity level and including the message and rating. This is useful for effects that too much of is a bad thing.
+
+When using an advanced apply_message you can not include a [rating: ""](#rating) entry.
 
 ### Memorial Log
 ```C++
@@ -201,7 +215,7 @@ Effects can only have one "resist_trait" and one "resist_effect" at a time.
 
 ### Immunity Flags
 ```JSON
-"immunity_flags": [ "INFECTION_IMMUNE", "YOUR_FLAG" ]
+"immune_flags": [ "INFECTION_IMMUNE", "YOUR_FLAG" ]
 ```
 Having any of the defined character flags (See JSON_FLAGS.md#Character flags) will make you immune to the effect. Note that these are completely JSON-driven, so you can add a custom flag for your effect without C++ changes.
 

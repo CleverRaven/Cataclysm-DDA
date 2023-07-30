@@ -45,7 +45,7 @@
       [ "camera_bag", 10 ],
       { "item": "eink_tablet_pc", "prob": 30, "charges": [ 0, 100 ] },
       { "item": "laptop", "prob": 15, "charges": [ 0, 500 ] },
-      [ "mobile_memory_card", 50 ],
+      [ "memory_card_unread", 50 ],
       [ "usb_drive", 50 ],
       { "item": "mp3", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 50, "charges": [ 0, 100 ] },
@@ -64,7 +64,8 @@
       [ "hairbrush", 25 ],
       [ "comb_pocket", 50 ],
       [ "ankle_wallet_pouch", 1 ],
-      { "group": "lunchbox_with_contents", "prob": 50 }
+      { "group": "lunchbox_with_contents", "prob": 50 },
+      { "item": "teargas_sprayer", "prob": 10, "charges": [ 1, 10 ] }
     ]
   },
   {
@@ -193,6 +194,7 @@
       { "item": "hat_ball", "prob": 10 },
       { "item": "hat_golf", "prob": 5 },
       { "item": "helmet_bike", "prob": 70 },
+      { "item": "helmet_riding", "prob": 5 },
       { "group": "helmet_bike_modified", "prob": 10 }
     ]
   },
@@ -305,6 +307,7 @@
       { "item": "soldering_iron", "prob": 70, "charges": [ 0, 50 ] },
       [ "solder_wire", 70 ],
       [ "textbook_weapwest", 2 ],
+      [ "textbook_weparabic", 5 ],
       [ "textbook_weapeast", 2 ],
       [ "textbook_armwest", 2 ],
       [ "textbook_armeast", 2 ],
@@ -346,6 +349,7 @@
       [ "jacket_windbreaker", 25 ],
       [ "jacket_jean", 30 ],
       [ "jacket_leather", 30 ],
+      [ "leather_police_jacket", 10 ],
       [ "bra", 30 ],
       [ "undershirt", 30 ],
       [ "boxer_shorts", 30 ],
@@ -389,7 +393,8 @@
       { "item": "tinderbox", "prob": 1, "charges": [ 0, 100 ] },
       [ "flint_steel", 5 ],
       [ "bottle_metal", 5 ],
-      [ "wallet_travel", 10 ]
+      [ "wallet_travel", 10 ],
+      { "item": "teargas_sprayer", "prob": 5, "charges": 10 }
     ]
   }
 ]

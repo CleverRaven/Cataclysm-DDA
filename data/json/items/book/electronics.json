@@ -140,7 +140,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Augmentative Tech Review", "str_pl": "issues of Augmentative Tech Review" },
-    "description": "This annual publication covers the various ways in which people use technology to improve their bodies.  There are a few in-depth and thoroughly illustrated articles on bionic systems, though they tend to use too much jargon.",
+    "description": "This annual publication covers the various ways in which people use technology to improve their bodies.  There are a few in-depth and thoroughly illustrated articles on prosthetics, though they tend to use too much jargon.",
     "weight": "1909 g",
     "volume": "500 ml",
     "price": 3000,
@@ -303,7 +303,6 @@
     "category": "manuals",
     "name": { "str_sp": "schematics" },
     "description": "seeing this is a bug",
-    "looks_like": "schematics_eyebot",
     "weight": "30 g",
     "volume": "250 ml",
     "price": 100000,
@@ -333,20 +332,6 @@
     "copy-from": "schematics_generic"
   },
   {
-    "id": "schematics_copbot",
-    "type": "BOOK",
-    "name": { "str_sp": "police bot schematics" },
-    "description": "Assembly plans, design specs, and technical drawings for the police bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
-    "copy-from": "schematics_generic"
-  },
-  {
-    "id": "schematics_eyebot",
-    "type": "BOOK",
-    "name": { "str_sp": "eyebot schematics" },
-    "description": "Assembly plans, design specs, and technical drawings for the eyebot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
-    "copy-from": "schematics_generic"
-  },
-  {
     "id": "schematics_secubot",
     "type": "BOOK",
     "name": { "str_sp": "security bot schematics" },
@@ -372,13 +357,6 @@
     "type": "BOOK",
     "name": { "str_sp": "miner bot schematics" },
     "description": "Assembly plans, design specs, and technical drawings for the miner bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
-    "copy-from": "schematics_generic"
-  },
-  {
-    "id": "schematics_riotbot",
-    "type": "BOOK",
-    "name": { "str_sp": "riot control bot schematics" },
-    "description": "Assembly plans, design specs, and technical drawings for the riot control bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {

@@ -47,6 +47,7 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "point.h"
 #include "projectile.h"
@@ -86,9 +87,12 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sap( "sap" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
+
+static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
@@ -105,6 +109,18 @@ static const material_id material_stone( "stone" );
 static const material_id material_veggy( "veggy" );
 static const material_id material_wood( "wood" );
 static const material_id material_wool( "wool" );
+
+static const mon_flag_str_id mon_flag_ALL_SEEING( "ALL_SEEING" );
+static const mon_flag_str_id mon_flag_ALWAYS_SEES_YOU( "ALWAYS_SEES_YOU" );
+static const mon_flag_str_id mon_flag_ALWAYS_VISIBLE( "ALWAYS_VISIBLE" );
+static const mon_flag_str_id mon_flag_AQUATIC( "AQUATIC" );
+static const mon_flag_str_id mon_flag_CAMOUFLAGE( "CAMOUFLAGE" );
+static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
+static const mon_flag_str_id mon_flag_MECH_DEFENSIVE( "MECH_DEFENSIVE" );
+static const mon_flag_str_id mon_flag_NIGHT_INVISIBILITY( "NIGHT_INVISIBILITY" );
+static const mon_flag_str_id mon_flag_RANGED_ATTACKER( "RANGED_ATTACKER" );
+static const mon_flag_str_id mon_flag_SMALL_HIDER( "SMALL_HIDER" );
+static const mon_flag_str_id mon_flag_WATER_CAMOUFLAGE( "WATER_CAMOUFLAGE" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
@@ -276,12 +292,12 @@ bool Creature::is_underwater() const
 bool Creature::is_likely_underwater() const
 {
     return is_underwater() ||
-           ( has_flag( MF_AQUATIC ) && get_map().has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) );
+           ( has_flag( mon_flag_AQUATIC ) && get_map().has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) );
 }
 
 bool Creature::is_ranged_attacker() const
 {
-    if( has_flag( MF_RANGED_ATTACKER ) ) {
+    if( has_flag( mon_flag_RANGED_ATTACKER ) ) {
         return true;
     }
 
@@ -337,13 +353,13 @@ bool Creature::sees( const Creature &critter ) const
 
     map &here = get_map();
 
-    if( critter.has_flag( MF_ALWAYS_VISIBLE ) || ( has_flag( MF_ALWAYS_SEES_YOU ) &&
+    if( critter.has_flag( mon_flag_ALWAYS_VISIBLE ) || ( has_flag( mon_flag_ALWAYS_SEES_YOU ) &&
             critter.is_avatar() ) ) {
         return true;
     }
 
     const int wanted_range = rl_dist( pos(), critter.pos() );
-    if( this->has_flag( MF_ALL_SEEING ) ) {
+    if( this->has_flag( mon_flag_ALL_SEEING ) ) {
         const monster *m = this->as_monster();
         return wanted_range < std::max( m->type->vision_day, m->type->vision_night );
     }
@@ -362,6 +378,12 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
 
+    // Creature has stumbled into an invisible player and is now aware of them
+    if( has_effect( effect_stumbled_into_invisible ) &&
+        here.has_field_at( critter.pos(), field_fd_last_known ) && critter.is_avatar() ) {
+        return true;
+    }
+
     // This check is ridiculously expensive so defer it to after everything else.
     auto visible = []( const Character * ch ) {
         return ch == nullptr || !ch->is_invisible();
@@ -375,19 +397,24 @@ bool Creature::sees( const Creature &critter ) const
         return visible( ch );
     } else if( ( wanted_range > 1 && critter.digging() &&
                  here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, critter.pos() ) ) ||
-               ( critter.has_flag( MF_CAMOUFLAGE ) && wanted_range > this->get_eff_per() ) ||
-               ( critter.has_flag( MF_WATER_CAMOUFLAGE ) &&
+               ( critter.has_flag( mon_flag_CAMOUFLAGE ) && wanted_range > this->get_eff_per() ) ||
+               ( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ) &&
                  wanted_range > this->get_eff_per() &&
                  ( critter.is_likely_underwater() ||
                    here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos() ) ||
                    ( here.has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER, critter.pos() ) &&
                      critter.get_size() < creature_size::medium ) ) ) ||
-               ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && here.light_at( critter.pos() ) <= lit_level::LOW ) ||
+               ( critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) &&
+                 here.light_at( critter.pos() ) <= lit_level::LOW ) ||
                ( !is_likely_underwater() && critter.is_likely_underwater() &&
-                 majority_rule( critter.has_flag( MF_WATER_CAMOUFLAGE ),
+                 majority_rule( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ),
                                 here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos() ),
                                 posz() != critter.posz() ) ) ||
                ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_HIDE_PLACE, critter.pos() ) &&
+                 !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
+                    std::abs( posz() - critter.posz() ) <= 1 ) ) ||
+               ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SMALL_HIDE, critter.pos() ) &&
+                 critter.has_flag( mon_flag_SMALL_HIDER ) &&
                  !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
                     std::abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
@@ -713,15 +740,18 @@ float Creature::get_crit_factor( const bodypart_id &bp ) const
 
 int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
+
+    const float dodge = dodge_roll();
+    on_try_dodge();
+
+    int hit_spread = hitroll - dodge - size_melee_penalty();
+
     add_msg_debug( debugmode::DF_CREATURE, "Base hitroll %d",
                    hitroll );
-
-    float dodge = dodge_roll();
     add_msg_debug( debugmode::DF_CREATURE, "Dodge roll %.1f",
                    dodge );
 
-    int hit_spread = hitroll - dodge - size_melee_penalty();
-    if( has_flag( MF_IMMOBILE ) ) {
+    if( has_flag( mon_flag_IMMOBILE ) ) {
         // Under normal circumstances, even a clumsy person would
         // not miss a turret.  It should, however, be possible to
         // miss a smaller target, especially when wielding a
@@ -754,7 +784,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     if( has_effect( effect_ridden ) ) {
         monster *mons = dynamic_cast<monster *>( this );
         if( mons && mons->mounted_player ) {
-            if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
+            if( !mons->has_flag( mon_flag_MECH_DEFENSIVE ) &&
                 one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
                 mons->mounted_player->deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam, attack );
                 return;
@@ -1070,7 +1100,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     if( has_effect( effect_ridden ) ) {
         monster *mons = as_monster();
         if( mons && mons->mounted_player ) {
-            if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
+            if( !mons->has_flag( mon_flag_MECH_DEFENSIVE ) &&
                 one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
                 mons->mounted_player->deal_projectile_attack( source, attack, print_messages, wp_attack );
                 return;
@@ -1085,6 +1115,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     const bool u_see_this = player_view.sees( *this );
 
     const double goodhit = accuracy_projectile_attack( attack );
+    on_try_dodge(); // There's a doge roll in accuracy_projectile_attack()
 
     if( goodhit >= 1.0 && !magic ) {
         attack.missed_by = 1.0; // Arbitrary value
@@ -1185,6 +1216,9 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
             total_damage += cur_damage;
         }
     }
+    // get eocs for all damage effects
+    d.ondamage_effects( source, this, dam, bp.id() );
+
     if( total_base_damage < total_damage ) {
         // Only deal more HP than remains if damage not including crit multipliers is higher.
         total_damage = clamp( get_hp( bp ), total_base_damage, total_damage );
@@ -1318,6 +1352,116 @@ void Creature::longpull( const std::string &name, const tripoint &p )
     }
 }
 
+bool Creature::stumble_invis( const Creature &player, const bool stumblemsg )
+{
+    if( !fov_3d && posz() != player.posz() ) {
+        return false;
+    }
+    if( stumblemsg ) {
+        const bool player_sees = player.sees( *this );
+        add_msg( m_bad, _( "%s stumbles into you!" ), player_sees ? this->disp_name( false,
+                 true ) : _( "Something" ) );
+    }
+    add_effect( effect_stumbled_into_invisible, 6_seconds );
+    map &here = get_map();
+    // Mark last known location, or extend duration if exists
+    if( here.has_field_at( player.pos(), field_fd_last_known ) ) {
+        here.set_field_age( player.pos(), field_fd_last_known, 0_seconds );
+    } else {
+        here.add_field( player.pos(), field_fd_last_known );
+    }
+    moves = 0;
+    return true;
+}
+
+bool Creature::attack_air( const tripoint &p )
+{
+    // Calculate move cost differently for monsters and npcs
+    int move_cost = 100;
+    if( is_monster() ) {
+        move_cost = as_monster()->type->attack_cost;
+    } else if( is_npc() ) {
+        // Simplified moves calculation from Character::melee_attack_abstract
+        item_location cur_weapon = as_character()->used_weapon();
+        item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
+        move_cost = as_character()->attack_speed( cur_weap ) * ( 1 /
+                    as_character()->exertion_adjusted_move_multiplier( EXTRA_EXERCISE ) );
+    }
+    mod_moves( -move_cost );
+
+    // Attack animation
+    if( get_option<bool>( "ANIMATIONS" ) ) {
+        std::map<tripoint, nc_color> area_color;
+        area_color[p] = c_black;
+        explosion_handler::draw_custom_explosion( p, area_color, "animation_hit" );
+    }
+
+    // Chance to remove last known location
+    if( one_in( 2 ) ) {
+        get_map().set_field_intensity( p, field_fd_last_known, 0 );
+    }
+
+    add_msg_if_player_sees( *this, _( "%s attacks, but there is nothing there!" ),
+                            disp_name( false, true ) );
+    return true;
+}
+
+bool Creature::dodge_check( float hit_roll, bool force_try )
+{
+    // If successfully uncanny dodged, no need to calculate dodge chance
+    if( uncanny_dodge() ) {
+        return true;
+    }
+
+    const float dodge_ability = dodge_roll();
+    // center is 5 - 0 / 2
+    // stddev is 5 - 0 / 4
+    const float dodge_chance = 1 - normal_roll_chance( 2.5f, 1.25f, dodge_ability - hit_roll );
+    if( dodge_chance >= 0.8f || force_try ) {
+        on_try_dodge();
+        float attack_roll = hit_roll + rng_normal( 0, 5 );
+        return dodge_ability > attack_roll;
+    }
+    add_msg_if_player( m_warning,
+                       _( "You don't think you could dodge this attack, and decide to conserve stamina." ) );
+
+    return false;
+}
+
+bool Creature::dodge_check( monster *z )
+{
+    return dodge_check( z->get_hit() );
+}
+
+bool Creature::dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst )
+{
+
+    if( is_monster() ) {
+        return dodge_check( z );
+    }
+
+    Character *guy_target = as_character();
+
+    float potential_damage = 0.0f;
+    for( const damage_unit &dmg : dam_inst.damage_units ) {
+        potential_damage += dmg.amount - guy_target->worn.damage_resist( dmg.type, bp );
+    }
+    int part_hp = guy_target->get_part_hp_cur( bp );
+    float dmg_ratio = 0.0f; // if the part is already destroyed it can't take more damage
+    if( part_hp > 0 ) {
+        dmg_ratio = potential_damage / part_hp;
+    }
+
+    //If attack might remove more than half of the part's hp, dodge no matter the odds
+    if( dmg_ratio >= 0.5f ) {
+        return dodge_check( z->get_hit(), true );
+    } else if( dmg_ratio > 0.0f ) { // else apply usual rules
+        return dodge_check( z->get_hit() );
+    }
+
+    return false;
+}
+
 /*
  * State check functions
  */
@@ -1406,10 +1550,10 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
             if( e.get_int_dur_factor() > 0_turns ) {
                 // Set intensity if value is given
             } else if( intensity > 0 ) {
-                e.set_intensity( intensity );
+                e.set_intensity( intensity, is_avatar() );
                 // Else intensity uses the type'd step size if it already exists
             } else if( e.get_int_add_val() != 0 ) {
-                e.mod_intensity( e.get_int_add_val() );
+                e.mod_intensity( e.get_int_add_val(), is_avatar() );
             }
 
             // Bound intensity by [1, max intensity]
@@ -1462,8 +1606,8 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
         ( *effects )[eff_id][bp] = e;
         if( Character *ch = as_character() ) {
             get_event_bus().send<event_type::character_gains_effect>( ch->getID(), eff_id );
-            if( is_avatar() && !type.get_apply_message().empty() ) {
-                add_msg( type.gain_game_message_type(), type.get_apply_message() );
+            if( is_avatar() ) {
+                eff_id->add_apply_msg( e.get_intensity() );
             }
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
@@ -1545,7 +1689,8 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
     if( Character *ch = as_character() ) {
         if( is_avatar() ) {
             if( !type.get_remove_message().empty() ) {
-                add_msg( type.lose_game_message_type(), type.get_remove_message() );
+                add_msg( type.lose_game_message_type( get_effect( eff_id, bp.id() ).get_intensity() ),
+                         type.get_remove_message() );
             }
         }
         get_event_bus().send<event_type::character_loses_effect>( ch->getID(), eff_id );
@@ -1619,39 +1764,40 @@ bool Creature::has_effect_with_flag( const flag_id &flag ) const
     } );
 }
 
-std::vector<effect> Creature::get_effects_with_flag( const flag_id &flag ) const
+std::vector<std::reference_wrapper<const effect>> Creature::get_effects_with_flag(
+            const flag_id &flag ) const
 {
-    std::vector<effect> effs;
+    std::vector<std::reference_wrapper<const effect>> effs;
     for( auto &elem : *effects ) {
         if( !elem.first->has_flag( flag ) ) {
             continue;
         }
         for( const std::pair<const bodypart_id, effect> &_it : elem.second ) {
-            effs.push_back( _it.second );
+            effs.emplace_back( _it.second );
         }
     }
     return effs;
 }
 
-std::vector<effect> Creature::get_effects() const
+std::vector<std::reference_wrapper<const effect>> Creature::get_effects() const
 {
-    std::vector<effect> effs;
+    std::vector<std::reference_wrapper<const effect>> effs;
     for( auto &elem : *effects ) {
         for( const std::pair<const bodypart_id, effect> &_it : elem.second ) {
-            effs.push_back( _it.second );
+            effs.emplace_back( _it.second );
         }
     }
     return effs;
 }
 
-std::vector<effect> Creature::get_effects_from_bp( const bodypart_id &bp ) const
+std::vector<std::reference_wrapper<const effect>> Creature::get_effects_from_bp(
+            const bodypart_id &bp ) const
 {
-    std::vector<effect> effs;
+    std::vector<std::reference_wrapper<const effect>> effs;
     for( auto &elem : *effects ) {
-        for( const std::pair<const bodypart_id, effect> &_it : elem.second ) {
-            if( _it.first == bp ) {
-                effs.push_back( _it.second );
-            }
+        const auto iter = elem.second.find( bp );
+        if( iter != elem.second.end() ) {
+            effs.emplace_back( iter->second );
         }
     }
     return effs;
@@ -1985,9 +2131,9 @@ void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max
     }
 }
 
-bool Creature::has_part( const bodypart_id &id ) const
+bool Creature::has_part( const bodypart_id &id, body_part_filter filter ) const
 {
-    return body.count( id.id() );
+    return get_part_id( id, filter, true ) != body_part_bp_null;
 }
 
 bodypart *Creature::get_part( const bodypart_id &id )
@@ -2045,38 +2191,41 @@ static void set_part_helper( Creature &c, const bodypart_id &id,
     }
 }
 
-bodypart_id Creature::get_part_id( const bodypart_id &id ) const
+bodypart_id Creature::get_part_id( const bodypart_id &id,
+                                   body_part_filter filter, bool suppress_debugmsg ) const
 {
     auto found = body.find( id.id() );
-    if( found == body.end() ) {
-        // try to find an equivalent part in the body map
+    if( found != body.end() ) {
+        return found->first;
+    }
+    // try to find an equivalent part in the body map
+    if( filter >= body_part_filter::equivalent ) {
         for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
             if( id->part_side == bp.first->part_side &&
                 id->primary_limb_type() == bp.first->primary_limb_type() ) {
                 return bp.first;
             }
         }
-
-        // try to find the next best thing
-        std::pair<bodypart_id, float> best = { body_part_bp_null, 0.0 };
+    }
+    // try to find the next best thing
+    std::pair<bodypart_id, float> best = { body_part_bp_null, 0.0f };
+    if( filter >= body_part_filter::next_best ) {
         for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
             for( const std::pair<const body_part_type::type, float> &mp : bp.first->limbtypes ) {
                 // if the secondary limb type matches and is better than the current
                 if( mp.first == id->primary_limb_type() && mp.second > best.second ) {
                     // give an inflated bonus if the part sides match
-                    float bonus = id->part_side == bp.first->part_side ? 1.0 : 0.0;
+                    float bonus = id->part_side == bp.first->part_side ? 1.0f : 0.0f;
                     best = { bp.first, mp.second + bonus };
                 }
             }
         }
-
-        if( best.first == body_part_bp_null ) {
-            debugmsg( "Could not find equivalent bodypart id %s in %s's body", id.id().c_str(), get_name() );
-        }
-
-        return best.first;
     }
-    return found->first;
+    if( best.first == body_part_bp_null && !suppress_debugmsg ) {
+        debugmsg( "Could not find equivalent bodypart id %s in %s's body", id.id().c_str(), get_name() );
+    }
+
+    return best.first;
 }
 
 int Creature::get_part_hp_cur( const bodypart_id &id ) const

@@ -47,7 +47,7 @@ static float brute_special_probability( monster &attacker, Creature &target, con
 {
     size_t hits = 0;
     for( size_t i = 0; i < iters; i++ ) {
-        if( !mattack::dodge_check( &attacker, &target ) ) {
+        if( !target.dodge_check( &attacker ) ) {
             hits++;
         }
     }
@@ -88,7 +88,7 @@ static const int num_iters = 10000;
 
 static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
 
-TEST_CASE( "Character attacking a zombie", "[.melee]" )
+TEST_CASE( "Character_attacking_a_zombie", "[.melee]" )
 {
     monster zed( mon_zombie );
     INFO( "Zombie has get_dodge() == " + std::to_string( zed.get_dodge() ) );
@@ -117,7 +117,7 @@ TEST_CASE( "Character attacking a zombie", "[.melee]" )
     }
 }
 
-TEST_CASE( "Character attacking a manhack", "[.melee]" )
+TEST_CASE( "Character_attacking_a_manhack", "[.melee]" )
 {
     monster manhack( mon_manhack );
     INFO( "Manhack has get_dodge() == " + std::to_string( manhack.get_dodge() ) );
@@ -146,7 +146,7 @@ TEST_CASE( "Character attacking a manhack", "[.melee]" )
     }
 }
 
-TEST_CASE( "Zombie attacking a character", "[.melee]" )
+TEST_CASE( "Zombie_attacking_a_character", "[.melee]" )
 {
     monster zed( mon_zombie );
     INFO( "Zombie has get_hit() == " + std::to_string( zed.get_hit() ) );
@@ -185,7 +185,7 @@ TEST_CASE( "Zombie attacking a character", "[.melee]" )
     }
 }
 
-TEST_CASE( "Manhack attacking a character", "[.melee]" )
+TEST_CASE( "Manhack_attacking_a_character", "[.melee]" )
 {
     monster manhack( mon_manhack );
     INFO( "Manhack has get_hit() == " + std::to_string( manhack.get_hit() ) );
@@ -219,7 +219,7 @@ TEST_CASE( "Manhack attacking a character", "[.melee]" )
     }
 }
 
-TEST_CASE( "Hulk smashing a character", "[.], [melee], [monattack]" )
+TEST_CASE( "Hulk_smashing_a_character", "[.], [melee], [monattack]" )
 {
     monster zed( mon_zombie_hulk );
     INFO( "Hulk has get_hit() == " + std::to_string( zed.get_hit() ) );
@@ -253,7 +253,7 @@ TEST_CASE( "Hulk smashing a character", "[.], [melee], [monattack]" )
     }
 }
 
-TEST_CASE( "Charcter can dodge" )
+TEST_CASE( "Charcter_can_dodge" )
 {
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     monster zed( mon_zombie );
@@ -261,17 +261,17 @@ TEST_CASE( "Charcter can dodge" )
     dude.clear_effects();
     REQUIRE( dude.get_dodge() > 0.0 );
 
-    const int dodges_left = dude.dodges_left;
+    const int dodges_left = dude.get_dodges_left();
     for( int i = 0; i < 10000; ++i ) {
         dude.deal_melee_attack( &zed, 1 );
-        if( dodges_left < dude.dodges_left ) {
-            CHECK( dodges_left < dude.dodges_left );
+        if( dodges_left < dude.get_dodges_left() ) {
+            CHECK( dodges_left < dude.get_dodges_left() );
             break;
         }
     }
 }
 
-TEST_CASE( "Incapacited character can't dodge" )
+TEST_CASE( "Incapacited_character_can_not_dodge" )
 {
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     monster zed( mon_zombie );
@@ -280,14 +280,14 @@ TEST_CASE( "Incapacited character can't dodge" )
     dude.add_effect( effect_sleep, 1_hours );
     REQUIRE( dude.get_dodge() == 0.0 );
 
-    const int dodges_left = dude.dodges_left;
+    const int dodges_left = dude.get_dodges_left();
     for( int i = 0; i < 10000; ++i ) {
         dude.deal_melee_attack( &zed, 1 );
-        CHECK( dodges_left == dude.dodges_left );
+        CHECK( dodges_left == dude.get_dodges_left() );
     }
 }
 
-TEST_CASE( "Melee skill training caps", "[melee], [melee_training_cap], [skill]" )
+TEST_CASE( "Melee_skill_training_caps", "[melee], [melee_training_cap], [skill]" )
 {
     standard_npc dude( "TestCharacter", dude_pos, {} );
     monster dummy_1( debug_mon );
@@ -347,9 +347,35 @@ static void check_damage_from_test_fire( const std::string &mon_id, int expected
             }
         }
     }
+    Messages::clear_messages();
     CHECK( total_hits == Approx( 1000 ).margin( 50 ) );
     CHECK( set_on_fire == total_hits );
     CHECK( total_dmg / static_cast<float>( total_hits ) == Approx( expected_avg_dmg ).epsilon( 0.05 ) );
+}
+
+static void check_eocs_from_test_fire( const std::string &mon_id )
+{
+    int eoc_total_dmg = 0;
+    clear_creatures();
+    standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
+    monster &mon = spawn_test_monster( mon_id, dude.pos() + tripoint_east );
+    REQUIRE( mon.pos() == dude.pos() + tripoint_east );
+    REQUIRE( mon.get_hp() == mon.get_hp_max() );
+    REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
+    REQUIRE( mon.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
+    item firesword( "test_fire_sword" );
+    dude.set_wielded_item( firesword );
+    while( !dude.melee_attack( mon, false ) ) {}
+    if( mon.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "target" ) {
+        REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "source" );
+    }
+
+    eoc_total_dmg = std::round( std::stod(
+                                    dude.get_value( "npctalk_var_test_damage_taken" ) ) );
+    REQUIRE( !dude.get_value( "npctalk_var_test_bp" ).empty() );
+
+    Messages::clear_messages();
+    CHECK( eoc_total_dmg == firesword.damage_melee( damage_test_fire ) );
 }
 
 static void check_damage_from_test_fire( const std::vector<std::string> &armor_items,
@@ -383,12 +409,14 @@ static void check_damage_from_test_fire( const std::vector<std::string> &armor_i
             }
         }
     }
+    Messages::clear_messages();
     CHECK( total_hits == Approx( 1000 ).margin( 100 ) );
     CHECK( set_on_fire == total_hits );
-    CHECK( total_dmg / static_cast<float>( total_hits ) == Approx( expected_avg_dmg ).epsilon( 0.05 ) );
+    const float avg_dmg = total_dmg / static_cast<float>( total_hits );
+    CHECK( avg_dmg == Approx( expected_avg_dmg ).epsilon( 0.075 ) );
 }
 
-TEST_CASE( "Damage type effectiveness vs. monster resistance", "[melee][damage]" )
+TEST_CASE( "Damage_type_effectiveness_vs_monster_resistance", "[melee][damage][eoc]" )
 {
     clear_map();
 
@@ -410,7 +438,7 @@ TEST_CASE( "Damage type effectiveness vs. monster resistance", "[melee][damage]"
 
     SECTION( "Attacking an NPC with no resistance to test_fire" ) {
         check_damage_from_test_fire( std::vector<std::string> { "test_zentai" },
-                                     body_part_torso, 0, false, 13.75f );
+                                     body_part_torso, 0, false, 14.84f );
     }
 
     SECTION( "Attacking an NPC that is resistant to test_fire" ) {
@@ -420,6 +448,16 @@ TEST_CASE( "Damage type effectiveness vs. monster resistance", "[melee][damage]"
 
     SECTION( "Attacking an NPC that is immune to test_fire" ) {
         check_damage_from_test_fire( std::vector<std::string> { "test_zentai_immune_test_fire" },
-                                     body_part_torso, 0, true, 5.7f );
+                                     body_part_torso, 0, true, 6.87f );
     }
+}
+
+TEST_CASE( "Damage_type_EOCs", "[damage][eoc]" )
+{
+    clear_map();
+
+    SECTION( "Attacking a monster" ) {
+        check_eocs_from_test_fire( "mon_test_zombie_only_fire" );
+    }
+
 }

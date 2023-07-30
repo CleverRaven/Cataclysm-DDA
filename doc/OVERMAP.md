@@ -578,11 +578,26 @@ phases are processed strictly in order.
 Each *phase* is a list of rules.  Each *rule* specifies an overmap and an
 integer `max` and/or `weight`.
 
-Weight must always be a simple integer, but `max` may also be an object
+Weight must always be a simple integer, but `max` may also be an object or array
 defining a probability distribution over integers.  Each time the special is
-spawned, a value is sampled from that distribution.  Currently only a Poisson
-distribution is supported, specified via an object such as `{ "poisson": 5 }`
-where 5 will be the mean of the distribution (λ).
+spawned, a value is sampled from that distribution.  Currently uniform, binomial
+and Poisson distributions are supported.  Uniform is specified by using an
+array such as `"max": [ 1, 5 ]` resulting in an evenly distributed 20% chance for each
+number from 1 to 5 being picked as the max.  Poisson and binomial are specified
+via an object such as `"max": { "poisson": 5 }` where 5 will be the mean of the
+poisson distribution (λ) or `"max": { "binomial": [ 5, 0.3 ] }` where 5 will be
+the number of trials and 0.3 the success probability of the binomial distribution
+( n, p ).  Both have a higher chance for values to fall closer to the mean
+(λ in the case of Poisson and n x p in the case of binomial) with Poisson being more
+symetrical while binomial can be skewed by altering p to result in most values being
+on the lower end of the range 0-n or vice versa useful to produce more consistent results
+with rarer chances of large or small values or just one kind respectively.  Hard bounds
+may be specified in addition to poisson or binomial to limit the range of possibilities,
+useful for guarenteeing a max of at least 1 or to prevent large values making overall
+size management difficult.  To do this add an array `bounds` such as
+`"max": { "poisson": 5, "bounds": [ 1, -1 ] }` in this case guarenteeing at least a max
+of 1 without bounding upper values.  Any value that would fall outside of these bounds
+becomes the relevant bound (as opposed to being rerolled).
 
 Within each phase, the game looks for unsatisfied joins from the existing
 overmaps and attempts to find an overmap from amongst those available in its
@@ -741,28 +756,27 @@ the final phase, in some situations you can make this easier using optional
 joins.  This feature can also be used in other phases.
 
 When specifying the joins associated with an overmap in a mutable special, you
-can elaborate with a type, like this example from the `Crater` overmap special:
+can elaborate with a type, like this example from the [`homeless_camp_mutable`](../data/json/overmap/overmap_mutable/homeless_camp_mutable.json) overmap special:
 
 ```json
 "overmaps": {
-  "crater_core": {
-    "overmap": "crater_core",
-    "north": "crater_to_crater",
-    "east": "crater_to_crater",
-    "south": "crater_to_crater",
-    "west": "crater_to_crater"
-  },
-  "crater_edge": {
-    "overmap": "crater",
-    "north": "crater_to_crater",
-    "east": { "id": "crater_to_crater", "type": "available" },
-    "south": { "id": "crater_to_crater", "type": "available" },
-    "west": { "id": "crater_to_crater", "type": "available" }
-  }
-},
+      "camp_core": {
+        "overmap": "homelesscamp_north",
+        "north": "camp_to_camp",
+        "east": "camp_to_camp",
+        "south": "camp_to_camp",
+        "west": "camp_to_camp"
+      },
+      "camp_edge": {
+        "overmap": "homelesscamp_north",
+        "north": "camp_to_camp",
+        "east": { "id": "camp_to_camp", "type": "available" },
+        "south": { "id": "camp_to_camp", "type": "available" },
+        "west": { "id": "camp_to_camp", "type": "available" }
+      }
 ```
 
-The definition of `crater_edge` has one mandatory join to the north, and three
+The definition of `camp_edge` has one mandatory join to the north, and three
 'available' joins to the other cardinal directions.  The semantics of an
 'available' join are that it will not be considered an unresolved join, and
 therefore will never cause more overmaps to be placed, but it can satisfy other
@@ -773,8 +787,8 @@ The overmap will always be rotated in such a way that as many of its mandatory
 joins as possible are satisfied and available joins are left to point in other
 directions that don't currently need joins.
 
-As such, this `crater_edge` overmap can satisfy any unresolved joins for the
-`Crater` special without generating any new unresolved joins of its own.  This
+As such, this `camp_edge` overmap can satisfy any unresolved joins for the
+`homeless_camp_mutable` special without generating any new unresolved joins of its own.  This
 makes it great to finish off the special in the final phase.
 
 #### Asymmetric joins

@@ -67,7 +67,7 @@
         "text": "I'm here about the scarf.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_want_scarf", "type": "general", "context": "trade" },
+            { "npc_has_var": "u_want_scarf", "type": "general", "context": "trade", "value": "yes" },
             {
               "npc_compare_time_since_var": "knitting",
               "type": "timer",
@@ -84,7 +84,7 @@
         "text": "I'm here about the blanket.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_want_blanket", "type": "general", "context": "trade" },
+            { "npc_has_var": "u_want_blanket", "type": "general", "context": "trade", "value": "yes" },
             {
               "npc_compare_time_since_var": "knitting",
               "type": "timer",
@@ -101,7 +101,7 @@
         "text": "I'm here about the quilt.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_want_quilt", "type": "general", "context": "trade" },
+            { "npc_has_var": "u_want_quilt", "type": "general", "context": "trade", "value": "yes" },
             {
               "npc_compare_time_since_var": "knitting",
               "type": "timer",

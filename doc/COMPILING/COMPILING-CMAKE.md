@@ -1,3 +1,4 @@
+# Compiling CMAKE
 # Disclaimer
 
 **WARNING**: CMake build is **NOT** official and should be used for *dev purposes ONLY*.

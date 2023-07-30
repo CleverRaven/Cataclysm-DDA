@@ -175,10 +175,9 @@ tripoint_abs_omt mission_util::target_closest_lab_entrance(
 }
 
 static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
-    const tripoint_abs_omt &origin_pos, const mission_target_params &params )
+    const tripoint_abs_omt &origin_pos, const mission_target_params &params, dialogue &d )
 {
     tripoint_abs_omt target_pos = overmap::invalid_tripoint;
-    dialogue d( get_talker_for( get_avatar() ), nullptr );
 
     if( params.target_var.has_value() ) {
         return project_to<coords::omt>( get_tripoint_from_var( params.target_var.value(), d ) );
@@ -262,11 +261,10 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     return target_pos;
 }
 
-static tripoint_abs_omt get_mission_om_origin( const mission_target_params &params )
+static tripoint_abs_omt get_mission_om_origin( const mission_target_params &params, dialogue &d )
 {
     // use the player or NPC's current position, adjust for the z value if any
     tripoint_abs_omt origin_pos = get_player_character().global_omt_location();
-    dialogue d( get_talker_for( get_avatar() ), nullptr );
     if( !params.origin_u ) {
         npc *guy = nullptr;
 
@@ -286,13 +284,12 @@ static tripoint_abs_omt get_mission_om_origin( const mission_target_params &para
 }
 
 std::optional<tripoint_abs_omt> mission_util::assign_mission_target(
-    const mission_target_params &params )
+    const mission_target_params &params, dialogue &d )
 {
     // use the player or NPC's current position, adjust for the z value if any
-    tripoint_abs_omt origin_pos = get_mission_om_origin( params );
+    tripoint_abs_omt origin_pos = get_mission_om_origin( params, d );
 
-    std::optional<tripoint_abs_omt> target_pos = find_or_create_om_terrain( origin_pos, params );
-    dialogue d( get_talker_for( get_avatar() ), nullptr );
+    std::optional<tripoint_abs_omt> target_pos = find_or_create_om_terrain( origin_pos, params, d );
     if( target_pos ) {
         if( params.offset ) {
             *target_pos += *params.offset;
@@ -310,16 +307,16 @@ std::optional<tripoint_abs_omt> mission_util::assign_mission_target(
     return target_pos;
 }
 
-tripoint_abs_omt mission_util::get_om_terrain_pos( const mission_target_params &params )
+tripoint_abs_omt mission_util::get_om_terrain_pos( const mission_target_params &params,
+        dialogue &d )
 {
     // use the player or NPC's current position, adjust for the z value if any
-    tripoint_abs_omt origin_pos = get_mission_om_origin( params );
-    dialogue d( get_talker_for( get_avatar() ), nullptr );
+    tripoint_abs_omt origin_pos = get_mission_om_origin( params, d );
     tripoint_abs_omt target_pos = origin_pos;
     if( ( params.overmap_terrain.default_val.has_value() ||
           params.overmap_terrain.str_val.has_value() || params.overmap_terrain.var_val.has_value() ) &&
         !params.overmap_terrain.evaluate( d ).empty() ) {
-        std::optional<tripoint_abs_omt> temp_pos = find_or_create_om_terrain( origin_pos, params );
+        std::optional<tripoint_abs_omt> temp_pos = find_or_create_om_terrain( origin_pos, params, d );
         if( temp_pos ) {
             target_pos = *temp_pos;
         }
@@ -468,7 +465,8 @@ void mission_util::set_assign_om_target( const JsonObject &jo,
     const auto mission_func = [p]( mission * miss ) {
         mission_target_params mtp = p;
         mtp.mission_pointer = miss;
-        assign_mission_target( mtp );
+        dialogue d( get_talker_for( get_avatar() ), nullptr );
+        assign_mission_target( mtp, d );
     };
     funcs.emplace_back( mission_func );
 }

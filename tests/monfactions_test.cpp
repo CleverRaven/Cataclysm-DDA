@@ -41,7 +41,7 @@ static std::string att_enum_to_string( mf_attitude att )
 // generates a file in current directory that contains dump of all inter-faction attitude
 TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
 {
-    cata::ofstream outfile;
+    std::ofstream outfile;
     outfile.open( fs::u8path( "monfactions.txt" ) );
     for( const monfaction &f : monfactions::get_all() ) {
         for( const monfaction &f1 : monfactions::get_all() ) {

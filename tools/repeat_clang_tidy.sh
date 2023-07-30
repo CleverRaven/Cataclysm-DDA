@@ -38,7 +38,7 @@ else
 fi
 
 list_of_files=$(grep '"file": "' build/compile_commands.json | \
-    sed "s+.*$PWD/++;s+\"$++" | \
+    sed "s+.*$PWD/++;s+\",\?$++" | \
     sort -u | \
     egrep "$file_regex")
 

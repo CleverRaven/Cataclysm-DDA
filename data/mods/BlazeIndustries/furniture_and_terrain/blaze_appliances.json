@@ -4,7 +4,6 @@
     "id": "blaze_washing_machine",
     "copy-from": "washing_machine",
     "name": { "str": "full-size washing machine" },
-    "symbol": "W",
     "categories": [ "cargo" ],
     "color": "light_blue",
     "looks_like": "f_washer",
@@ -12,6 +11,7 @@
     "description": "A medium-sized household washing machine, converted to utilize vehicle power.  When turned on, filthy items will be laundered.",
     "epower": "-400 W",
     "size": "135 L",
-    "item": "household_washing_machine"
+    "item": "household_washing_machine",
+    "variants": [ { "symbols": "W", "symbols_broken": "#" } ]
   }
 ]

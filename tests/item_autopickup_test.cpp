@@ -192,7 +192,7 @@ static void clear_everything()
     options.get_option( "AUTO_PICKUP_OWNED" ).setValue( "false" );
 }
 
-TEST_CASE( "auto pickup should recognize container content", "[autopickup][item]" )
+TEST_CASE( "auto_pickup_should_recognize_container_content", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     map &here = get_map();
@@ -270,7 +270,7 @@ TEST_CASE( "auto pickup should recognize container content", "[autopickup][item]
     }
 }
 
-TEST_CASE( "auto pickup should improve your life", "[autopickup][item]" )
+TEST_CASE( "auto_pickup_should_improve_your_life", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     map &here = get_map();
@@ -312,7 +312,7 @@ TEST_CASE( "auto pickup should improve your life", "[autopickup][item]" )
     }
 }
 
-TEST_CASE( "auto pickup should consider item rigidness and seal", "[autopickup][item]" )
+TEST_CASE( "auto_pickup_should_consider_item_rigidness_and_seal", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     clear_everything();
@@ -433,7 +433,7 @@ TEST_CASE( "auto pickup should consider item rigidness and seal", "[autopickup][
     }
 }
 
-TEST_CASE( "auto pickup should respect volume and weight limits", "[autopickup][item]" )
+TEST_CASE( "auto_pickup_should_respect_volume_and_weight_limits", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     clear_everything();
@@ -509,7 +509,7 @@ TEST_CASE( "auto pickup should respect volume and weight limits", "[autopickup][
     }
 }
 
-TEST_CASE( "auto pickup should consider item ownership", "[autopickup][item]" )
+TEST_CASE( "auto_pickup_should_consider_item_ownership", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     clear_everything();
@@ -570,7 +570,7 @@ TEST_CASE( "auto pickup should consider item ownership", "[autopickup][item]" )
     }
 }
 
-TEST_CASE( "auto pickup should not implicitly pickup corpses", "[autopickup][item]" )
+TEST_CASE( "auto_pickup_should_not_implicitly_pickup_corpses", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
     clear_everything();

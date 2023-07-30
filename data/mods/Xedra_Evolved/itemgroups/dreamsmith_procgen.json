@@ -8,7 +8,7 @@
         "item": "dreamforged_q_staff",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -23,7 +23,7 @@
         "item": "dreamforged_longsword",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -38,7 +38,7 @@
         "item": "dreamforged_warhammer",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -53,7 +53,7 @@
         "item": "dreamforged_spear",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -68,7 +68,7 @@
         "item": "dreamforged_halberd",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -83,7 +83,7 @@
         "item": "dreamforged_glaive",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -98,7 +98,7 @@
         "item": "dreamforged_naginata",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -113,7 +113,7 @@
         "item": "dreamforged_mace",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -128,7 +128,7 @@
         "item": "dreamforged_morningstar",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -143,7 +143,7 @@
         "item": "dreamforged_estoc",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -158,7 +158,7 @@
         "item": "dreamforged_arming_sword",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -173,7 +173,7 @@
         "item": "dreamforged_broadsword",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -188,7 +188,7 @@
         "item": "dreamforged_battleaxe",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -203,7 +203,7 @@
         "item": "dreamforged_katana",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -218,7 +218,7 @@
         "item": "dreamforged_knife_combat",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -233,7 +233,7 @@
         "item": "dreamforged_kris",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -248,7 +248,7 @@
         "item": "dreamforged_kukri",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -263,7 +263,7 @@
         "item": "dreamforged_nodachi",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -278,7 +278,7 @@
         "item": "dreamforged_rapier",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -293,7 +293,7 @@
         "item": "dreamforged_tanto",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -308,7 +308,7 @@
         "item": "dreamforged_wakizashi",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -323,7 +323,7 @@
         "item": "dreamforged_zweihander",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -338,7 +338,7 @@
         "item": "dreamforged_khopesh",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -353,7 +353,7 @@
         "item": "dreamforged_lucerne",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -368,7 +368,7 @@
         "item": "dreamforged_knuckle",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_atk",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -381,9 +381,10 @@
     "entries": [
       {
         "item": "dreamforged_fullhelmet",
+        "custom-flags": "FIT",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_def",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -396,9 +397,10 @@
     "entries": [
       {
         "item": "dreamforged_helmet",
+        "custom-flags": "FIT",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_def",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -411,9 +413,10 @@
     "entries": [
       {
         "item": "dreamforged_plate_armor",
+        "custom-flags": "FIT",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_def",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -426,9 +429,10 @@
     "entries": [
       {
         "item": "dreamforged_armguard_plate",
+        "custom-flags": "FIT",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_def",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }
@@ -441,9 +445,10 @@
     "entries": [
       {
         "item": "dreamforged_boots",
+        "custom-flags": "FIT",
         "artifact": {
           "procgen_id": "dreamsmith_lottery_def",
-          "rules": { "power_level": 3000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
+          "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
       }

@@ -77,10 +77,10 @@ std::shared_ptr<mmap_file> mmap_file::map_file( const fs::path &file_path )
                              file_path.native().c_str(),
                              GENERIC_READ,
                              FILE_SHARE_READ | FILE_SHARE_DELETE,
-                             NULL,
+                             nullptr,
                              OPEN_EXISTING,
                              0,
-                             NULL
+                             nullptr
                          );
     if( file_handle == INVALID_HANDLE_VALUE ) {
         // Failed to open file.
@@ -93,13 +93,13 @@ std::shared_ptr<mmap_file> mmap_file::map_file( const fs::path &file_path )
     }
     HANDLE file_mapping_handle = CreateFileMappingW(
                                      file_handle,
-                                     NULL,
+                                     nullptr,
                                      PAGE_READONLY,
                                      0,
                                      0,
-                                     NULL
+                                     nullptr
                                  );
-    if( file_mapping_handle == NULL ) {
+    if( file_mapping_handle == nullptr ) {
         return mapped_file;
     }
     void *map_base = MapViewOfFile(
@@ -122,7 +122,7 @@ std::shared_ptr<mmap_file> mmap_file::map_file( const fs::path &file_path )
 #else
     const std::string &file_path_string = file_path.native();
     std::error_code ec;
-    size_t file_size = fs::file_size( file_path_string.c_str(), ec );
+    size_t file_size = fs::file_size( file_path, ec );
     if( ec ) {
         return mapped_file;
     }

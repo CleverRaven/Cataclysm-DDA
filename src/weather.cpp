@@ -976,7 +976,7 @@ units::temperature weather_manager::get_temperature( const tripoint &location )
         temp += temp_mod;
     }
 
-    temperature_cache.emplace( std::make_pair( location, temp ) );
+    temperature_cache.emplace( location, temp );
     return temp;
 }
 

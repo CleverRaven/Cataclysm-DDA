@@ -30,6 +30,8 @@ Several new CBMs
 Dozens of new spells
 1 Vehicle
 1 new skill
+Perks for Bombastic Perks and Xedra Evolved.
+Alchemy requires that you also be running bombastic perks. The level five alchemy recipes are taking their time and this PR has gotten too large as it is, for other people to review. There are four levels of Alchemy, level one is slightly buffed versions of common materials and medicines. Level two are more advanced versions of what is available already with on. Some of these substances might allow the imbiber to exceed his normal physical limits or to gain access to more mystical senses. Level three you can make substances that enhance their target to superhuman levels or create materials that exceed normal limitations (supernaturally strong alloys, etc). Level four should have single mutations and attribute increases. Level 5 should have character defining post thresh mutations and effects that transform the PC. Cold Iron is an example of a branching Alchemy specialty that focuses on building gear that targets fae.
 And a plethora of other effects, furniture/terrain, missions, lore and other things necessary to support the above.
 
 

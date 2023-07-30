@@ -44,7 +44,7 @@ static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 
 // Test cases for `Character::modify_morale` defined in `src/consumption.cpp`
 
-TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
+TEST_CASE( "food_enjoyability", "[food][modify_morale][fun]" )
 {
     avatar dummy;
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
@@ -73,7 +73,7 @@ TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
     }
 }
 
-TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" )
+TEST_CASE( "dining_with_table_and_chair", "[food][modify_morale][table][chair]" )
 {
     clear_map();
     map &here = get_map();
@@ -191,7 +191,7 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
     }
 }
 
-TEST_CASE( "eating hot food", "[food][modify_morale][hot]" )
+TEST_CASE( "eating_hot_food", "[food][modify_morale][hot]" )
 {
     avatar dummy;
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
@@ -340,7 +340,7 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
     }
 }
 
-TEST_CASE( "sweet junk food", "[food][modify_morale][junk][sweet]" )
+TEST_CASE( "sweet_junk_food", "[food][modify_morale][junk][sweet]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -394,7 +394,7 @@ TEST_CASE( "sweet junk food", "[food][modify_morale][junk][sweet]" )
     }
 }
 
-TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" )
+TEST_CASE( "junk_food_that_is_not_ingested", "[modify_morale][junk][no_ingest]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -460,7 +460,7 @@ TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" 
     }
 }
 
-TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
+TEST_CASE( "food_allergies_and_intolerances", "[food][modify_morale][allergy]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -547,7 +547,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
     }
 }
 
-TEST_CASE( "saprophage character", "[food][modify_morale][saprophage]" )
+TEST_CASE( "saprophage_character", "[food][modify_morale][saprophage]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -584,7 +584,7 @@ TEST_CASE( "saprophage character", "[food][modify_morale][saprophage]" )
     }
 }
 
-TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey]" )
+TEST_CASE( "ursine_honey", "[food][modify_morale][ursine][honey]" )
 {
     avatar dummy;
     dummy.set_body();

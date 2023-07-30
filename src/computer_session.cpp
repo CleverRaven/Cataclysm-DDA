@@ -87,6 +87,8 @@ static const mission_type_id
 mission_MISSION_OLD_GUARD_NEC_COMMO_4( "MISSION_OLD_GUARD_NEC_COMMO_4" );
 static const mission_type_id mission_MISSION_REACH_REFUGEE_CENTER( "MISSION_REACH_REFUGEE_CENTER" );
 
+static const mon_flag_str_id mon_flag_CONSOLE_DESPAWN( "CONSOLE_DESPAWN" );
+
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_secubot( "mon_secubot" );
 
@@ -273,7 +275,7 @@ static void remove_submap_turrets()
         // Check 1) same overmap coords, 2) turret, 3) hostile
         if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs(
                     player_character.pos() ) ) &&
-            critter.has_flag( MF_CONSOLE_DESPAWN ) &&
+            critter.has_flag( mon_flag_CONSOLE_DESPAWN ) &&
             critter.attitude_to( player_character ) == Creature::Attitude::HOSTILE ) {
             g->remove_zombie( critter );
         }
@@ -732,7 +734,7 @@ void computer_session::action_miss_launch()
             !( p.x() == target.x() - 2 && p.y() == target.y() + 2 ) &&
             !( p.x() == target.x() + 2 && p.y() == target.y() - 2 ) &&
             !( p.x() == target.x() + 2 && p.y() == target.y() + 2 ) ) {
-            overmap_buffer.ter_set( p, oter_id( "crater" ) );
+            overmap_buffer.ter_set( p, oter_id( "field" ) );
         }
     }
     explosion_handler::nuke( target );
@@ -1488,10 +1490,6 @@ void computer_session::failure_alarm()
     sounds::sound( player_character.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
                    "environment",
                    "alarm" );
-    if( get_map().get_abs_sub().z() > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
-        get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                player_character.get_location() );
-    }
 }
 
 void computer_session::failure_manhacks()

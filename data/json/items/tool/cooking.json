@@ -132,7 +132,8 @@
     "charges_per_use": 0,
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
-    "use_action": [ "CARVER_ON" ],
+    "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
+    "tick_action": [ "CARVER_ON" ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 2, "cut": 30 }
   },
@@ -295,7 +296,16 @@
     "flags": [ "WATER_BREAK" ],
     "charges_per_use": 25,
     "qualities": [ [ "BOIL", 1 ] ],
-    "use_action": [ "HOTPLATE" ],
+    "use_action": [
+      "HOTPLATE",
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 2,
+        "charge_rate": "1 kW"
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -321,6 +331,7 @@
     "color": "blue",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "600 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -421,6 +432,7 @@
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "450 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -499,7 +511,16 @@
     "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "charges_per_use": 35,
-    "use_action": [ "HOTPLATE" ],
+    "use_action": [
+      "HOTPLATE",
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 3,
+        "charge_rate": "1 kW"
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -528,7 +549,16 @@
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "ammo": [ "battery" ],
     "charges_per_use": 25,
-    "use_action": [ "HOTPLATE" ],
+    "use_action": [
+      "HOTPLATE",
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 3,
+        "charge_rate": "1500 W"
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -555,6 +585,7 @@
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 4, "charge_rate": "55 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -570,17 +601,19 @@
     "type": "TOOL",
     "name": { "str": "mess kit" },
     "description": "A self-contained camping mess kit, containing everything you might need for wilderness cooking.",
-    "weight": "500 g",
-    "volume": "1100 ml",
-    "longest_side": "12 cm",
+    "weight": "520 g",
+    "volume": "2100 ml",
+    "//": "This item is based off https://www.amazon.com/gp/product/B01743BX1A/ref=as_li_ss_tl?ie=UTF8&linkCode=sl1&language=en_US&th=1 ",
+    "longest_side": "15 cm",
     "price": 3000,
     "price_postapoc": 100,
     "to_hit": -1,
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "green",
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "use_action": [ "HEAT_FOOD" ],
+    "pocket_data": [ { "max_contains_volume": "1000 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "melee_damage": { "bash": 4 }
   },
   {
@@ -659,7 +692,16 @@
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "power_draw": "100 W",
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": [ "MULTICOOKER" ],
+    "use_action": [
+      "MULTICOOKER",
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 2,
+        "charge_rate": "1000 W"
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -684,7 +726,7 @@
     "copy-from": "multi_cooker",
     "name": { "str": "multi-cooker - cooking", "str_pl": "multi-cookers - cooking" },
     "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  There is a dish cooking inside it.",
-    "delete": { "qualities": [ [ "CONTAIN", 1 ] ] }
+    "delete": { "qualities": [ "CONTAIN" ] }
   },
   {
     "id": "oil_cooker",
@@ -720,6 +762,7 @@
     "symbol": ";",
     "color": "green",
     "ammo": [ "battery" ],
+    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "1 kW" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -977,6 +1020,7 @@
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "110 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1022,7 +1066,16 @@
     "color": "light_blue",
     "ammo": [ "battery" ],
     "charges_per_use": 14,
-    "use_action": [ "WATER_PURIFIER" ],
+    "use_action": [
+      "WATER_PURIFIER",
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 2,
+        "charge_rate": "30 W"
+      }
+    ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
@@ -1090,7 +1143,17 @@
     "material": [ "steel", "plastic" ],
     "weight": "11339 g",
     "volume": "9 L",
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "use_action": [
+      "HOTPLATE",
+      "HEAT_FOOD",
+      {
+        "type": "link_up",
+        "menu_text": "Plug in / Unplug",
+        "ammo_scale": 0,
+        "cable_length": 2,
+        "charge_rate": "1800 W"
+      }
+    ],
     "qualities": [ [ "COOK", 1 ], [ "OVEN", 1 ] ],
     "flags": [ "WATER_BREAK" ],
     "charges_per_use": 25,
@@ -1101,6 +1164,27 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_HEAVY" ],
         "default_magazine": "heavy_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "makeshift_pressure_cooker",
+    "type": "TOOL",
+    "name": { "str": "makeshift pressure cooker" },
+    "description": "A large pot with 20 gauge walls and a thick aluminum bottom, modified to serve as a bulky but passable pressure cooker.",
+    "copy-from": "stock_pot",
+    "material": [ "steel", "aluminum" ],
+    "color": "light_gray",
+    "weight": "2590 g",
+    "volume": "12800 ml",
+    "longest_side": "30 cm",
+    "pocket_data": [
+      {
+        "max_contains_volume": "12 L",
+        "max_contains_weight": "12 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
       }
     ]
   }

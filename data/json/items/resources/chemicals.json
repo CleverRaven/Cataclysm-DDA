@@ -141,6 +141,25 @@
     "charges": 250
   },
   {
+    "type": "COMESTIBLE",
+    "id": "chem_potassium",
+    "category": "chems",
+    "price": 30,
+    "price_postapoc": 10,
+    "name": { "str_sp": "potassium" },
+    "symbol": "~",
+    "color": "light_gray",
+    "description": "A chunk of potassium, a highly reactive soft gray metal, immersed in anhydrous mineral oil to prevent it from oxidizing in the air during storage.",
+    "comestible_type": "INVALID",
+    "material": [ "powder", "oil" ],
+    "volume": "250 ml",
+    "weight": "860 mg",
+    "phase": "liquid",
+    "container": "flask_glass",
+    "freezing_point": -50,
+    "charges": 250
+  },
+  {
     "type": "AMMO",
     "id": "chem_lead_azide",
     "category": "chems",

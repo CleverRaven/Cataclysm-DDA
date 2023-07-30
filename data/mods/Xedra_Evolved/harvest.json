@@ -23,5 +23,10 @@
     "id": "pomegranate_harv",
     "type": "harvest",
     "entries": [ { "drop": "pomegranate", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "elder_ginseng_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "xe_elder_ginseng", "base_num": [ 1, 1 ] } ]
   }
 ]

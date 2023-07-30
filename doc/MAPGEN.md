@@ -27,6 +27,7 @@
   * [Spawn npcs with "place_npcs"](#spawn-npcs-with-place_npcs)
   * [Set variables with "place_variables"](#set-variables-with-place_variables)
   * [Spawn specific items with a "place_item" array](#spawn-specific-items-with-a-place_item-array)
+  * [Set the owner of items in a given area with "faction_owner"](#apply-faction-ownership)
   * [Extra map features with specials](#extra-map-features-with-specials)
     * [Place smoke, gas, or blood with "fields"](#place-smoke-gas-or-blood-with-fields)
     * [Place NPCs with "npcs"](#place-npcs-with-npcs)
@@ -244,9 +245,21 @@ in [`ants.json`](../data/json/mapgen/bugs/ants.json).
 (optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 1000
 is the default, so adding something with weight '500' will make it appear about half as often as others using the default weight. (An insanely high value like 10000000 is useful for testing.)
 
-Values: number - *0 disables*
+Values: number or [variable object](NPCs.md#variable-object) - *0 disables*
 
 Default: 1000
+
+Examples:
+```json
+    "//": "disable this variant"
+    "weight": 0,
+    "//2": "constant weight"
+    "weight": 500,
+    "//3": "evaluated dynamically from global variable"
+    "weight": { "global_val": "my_weight" },
+    "//4": "evaluated dynamically from math expression"
+    "weight": { "math": [ "my_weight * u_val('time_since_cataclysm: days')" ] }
+```
 
 
 ## How "overmap_terrain" variables affect mapgen
@@ -655,6 +668,21 @@ Example:
 
 The special custom flag "ACTIVATE_ON_PLACE" causes the item to be activated as it is placed.  This is useful to have noisemakers that are already turned on as the avatar approaches.  It can also be used with explosives with a 1 second countdown to have locations explode as the avatar approaches, creating uniquely ruined terrain.
 
+## Set the owner of items in a given area with "faction_owner"
+**optional** Define an area where mapgen-spawned items will have faction ownership applied
+
+Example:
+```json
+"faction_owner": [ { "id": "exodii", "x": [ 5, 17 ], "y": [ 5, 18 ] } ],
+```
+
+| Field  | Description
+| ---    | ---
+| id     | (required) ID of the faction to apply ownership to.
+| x, y   | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
+
+This is an array, so multiple entries can be defined.
+
 ## Extra map features with specials
 **optional** Special map features that do more than just placing furniture / terrain.
 
@@ -814,10 +842,11 @@ Example:
 "signs": { "P": { "signage": "Subway map: <city> stop" } }
 ```
 
-| Field   | Description
-| ---     | ---
-| signage | (optional, string) the message that should appear on the sign.
-| snippet | (optional, string) a category of snippets that can appear on the sign.
+| Field     | Description
+| ---       | ---
+| signage   | (optional, string) the message that should appear on the sign.
+| snippet   | (optional, string) a category of snippets that can appear on the sign.
+| furniture | (optional, string) the furniture used to display the message, defaults to f_sign.  Furniture used needs the SIGN flag and the sign examine_action if you want the message to popup on examine (still displays in look around otherwise).
 
 
 ### Place a vending machine and items with "vendingmachines"
@@ -1118,8 +1147,10 @@ Place_nested allows for limited conditional spawning of chunks based on the `"id
 | ---                | ---
 | chunks/else_chunks | (required, string) the nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise.
 | x and y            | (required, int) the cardinal position in which the chunk will be placed.
-| neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.
+| neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.  See [JSON_INFO.md](JSON_INFO.md#Starting-locations) "terrain" section to do more advanced searches.
 | joins              | (optional) Any mutable overmap special joins that should be checked before placing the chunk.  Each direction is associated with a list of join `"id"` strings.
+| flags              | (optional) Any overmap terrain flags that should be checked before placing the chunk.  Each direction is associated with a list of `oter_flags` flags.
+| flags_any          | (optional) Identical to flags except only requires a single direction to pass.  Useful to check if there's at least one of a flag in cardinal or orthoganal directions etc.
 
 
 The adjacent overmaps which can be checked in this manner are:
@@ -1133,16 +1164,19 @@ Example:
 
 ```json
   "place_nested": [
-    { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
-    { "chunks": [ "gate_north" ], "x": 0, "y": 0, "joins": { "north": [ "interior_to_exterior" ] } },
-    { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "north_west": [ "field", "microlab" ] } }
+    { "chunks": [ "nest1" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
+    { "chunks": [ "nest2" ], "x": 0, "y": 0, "neighbors": { "north": [ { "om_terrain": "fort", "om_terrain_match_type": "PREFIX" }, "mansion" ] } },
+    { "chunks": [ "nest3" ], "x": 0, "y": 0, "joins": { "north": [ "interior_to_exterior" ] } },
+    { "chunks": [ "nest4" ], "x": 0, "y": 0, "flags": { "north": [ "RIVER" ] }, "flags_any": { "north_east": [ "RIVER" ], "north_west": [ "RIVER" ] } },
+    { "else_chunks": [ "nest5" ], "x": 0, "y": 0, "flags": { "north_west": [ "RIVER", "LAKE", "LAKE_SHORE" ] } }
   ],
 ```
 The code excerpt above will place chunks as follows:
-* `"concrete_wall_ew"` if the north neighbor is either a field or solid rock
-* `"gate_north"` if the join `"interior_to_exterior"` was used to the north
-  during mutable overmap placement.
-* `"concrete_wall_ns"`if the north west neighbor is neither a field nor any of the microlab overmaps.
+* `"nest1"` if the north neighbor's om terrain contains `"field"` or `"empty_rock"`.
+* `"nest2"` if the north neighbor has the prefix `"fort"` or contains `"mansion"`, so for example `"fort_1a_north"` and `"mansion_t2u"` would match but `"house_fortified"` wouldn't.
+* `"nest3"` if the join `"interior_to_exterior"` was used to the north during mutable overmap placement.
+* `"nest4"` if the north neighboring overmap terrain has a flag `"RIVER"` and either of the north east or north west neighboring overmap terrains have a `"RIVER"` flag.
+* `"nest5"` if the north west neighboring overmap terrain has neither the `"RIVER"`, `"LAKE"` nor `"LAKE_SHORE"` flags.
 
 
 ### Place monster corpse from a monster group with "place_corpses"

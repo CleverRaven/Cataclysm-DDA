@@ -357,7 +357,7 @@
     "//": "this was using 20 bones (2.3kg), so it was lowered.  Bone broth uses 1:2-1:4 bone:water per weight.",
     "using": [ [ "canning_high_heat", 1, "LIST" ] ],
     "//1": "pressure canning is measured in 0.5 liter quantities, so 1u of canning_high_heat.",
-    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "water_clean", 2 ] ], [ [ "bone_edible", 2, "LIST" ] ] ]
+    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "water_clean", 2 ] ], [ [ "bone_edible", 2, "LIST" ] ], [ [ "vinegar", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -629,7 +629,12 @@
     "//": "this was using 120 bones (13.8kg), so it was lowered.  Bone broth uses 1:2-1:4 bone:water per weight.",
     "using": [ [ "canning_high_heat", 6, "LIST" ] ],
     "//1": "pressure canning is measured in 0.5 liter quantities, so 6u of canning_high_heat.",
-    "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "water_clean", 12 ] ], [ [ "bone_edible", 12, "LIST" ] ] ]
+    "components": [
+      [ [ "jar_3l_glass_sealed", 1 ] ],
+      [ [ "water_clean", 12 ] ],
+      [ [ "bone_edible", 12, "LIST" ] ],
+      [ [ "vinegar", 12 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -758,9 +763,9 @@
     "components": [
       [ [ "jar_3l_glass_sealed", 1 ] ],
       [ [ "water_clean", 6 ] ],
-      [ [ "irradiated_tomato", 4 ], [ "can_tomato", 4 ], [ "tomato", 4 ] ],
+      [ [ "irradiated_tomato", 4 ], [ "can_tomato", 4 ], [ "tomato_cut", 4 ], [ "tomato", 4 ] ],
       [ [ "irradiated_broccoli", 4 ], [ "broccoli", 4 ] ],
-      [ [ "irradiated_zucchini", 4 ], [ "zucchini", 4 ] ],
+      [ [ "irradiated_zucchini", 4 ], [ "zucchini", 4 ], [ "zucchini_cut", 4 ] ],
       [ [ "canning_acid_large", 1, "LIST" ] ]
     ]
   },
@@ -787,7 +792,7 @@
     "components": [
       [ [ "jar_3l_glass_sealed", 1 ] ],
       [ [ "water_clean", 12 ] ],
-      [ [ "can_tomato", 24 ], [ "tomato", 24 ], [ "irradiated_tomato", 24 ] ],
+      [ [ "can_tomato", 24 ], [ "tomato", 24 ], [ "tomato_cut", 24 ], [ "irradiated_tomato", 24 ] ],
       [ [ "canning_acid_large", 1, "LIST" ] ]
     ]
   },
@@ -813,7 +818,7 @@
     "//2": "pressure canning is measured in 0.5 liter quantities, so 1u of canning_high_heat.",
     "components": [
       [ [ "jar_glass_sealed", 1 ] ],
-      [ [ "can_tomato", 4 ], [ "tomato", 4 ], [ "irradiated_tomato", 4 ] ],
+      [ [ "can_tomato", 4 ], [ "tomato", 4 ], [ "tomato_cut", 4 ], [ "irradiated_tomato", 4 ] ],
       [ [ "water_clean", 2 ] ],
       [ [ "canning_acid_small", 1, "LIST" ] ]
     ]
@@ -841,7 +846,7 @@
     "components": [
       [ [ "water_clean", 1 ] ],
       [ [ "jar_glass_sealed", 1 ] ],
-      [ [ "tomato", 4 ], [ "irradiated_tomato", 4 ] ],
+      [ [ "tomato", 4 ], [ "irradiated_tomato", 4 ], [ "tomato_cut", 4 ] ],
       [ [ "canning_acid_small", 1, "LIST" ] ]
     ]
   },
@@ -868,7 +873,7 @@
     "components": [
       [ [ "water_clean", 6 ] ],
       [ [ "jar_3l_glass_sealed", 1 ] ],
-      [ [ "tomato", 24 ], [ "irradiated_tomato", 24 ] ],
+      [ [ "tomato", 24 ], [ "irradiated_tomato", 24 ], [ "tomato_cut", 24 ] ],
       [ [ "canning_acid_large", 1, "LIST" ] ]
     ]
   },
@@ -949,11 +954,14 @@
         [ "veggy_wild", 2 ],
         [ "mushroom", 2 ],
         [ "tomato", 2 ],
+        [ "tomato_cut", 2 ],
         [ "irradiated_tomato", 2 ],
         [ "broccoli", 2 ],
         [ "irradiated_broccoli", 2 ],
+        [ "zucchini_cut", 2 ],
         [ "zucchini", 2 ],
         [ "irradiated_zucchini", 2 ],
+        [ "cucumber_cut", 2 ],
         [ "cucumber", 2 ],
         [ "irradiated_cucumber", 2 ],
         [ "veggy_potatolike", 2, "LIST" ],
@@ -995,11 +1003,14 @@
         [ "veggy_wild", 12 ],
         [ "mushroom", 12 ],
         [ "tomato", 12 ],
+        [ "tomato_cut", 12 ],
         [ "irradiated_tomato", 12 ],
         [ "broccoli", 12 ],
         [ "irradiated_broccoli", 12 ],
+        [ "zucchini_cut", 12 ],
         [ "zucchini", 12 ],
         [ "irradiated_zucchini", 12 ],
+        [ "cucumber_cut", 12 ],
         [ "cucumber", 12 ],
         [ "irradiated_cucumber", 12 ],
         [ "veggy_potatolike", 12, "LIST" ],
@@ -1420,7 +1431,6 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "charges": 24,
-    "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "using": [ [ "canning_low_heat", 6, "LIST" ] ],
     "//": "Acidic enough on their own that no canning_acid is needed",
@@ -1987,7 +1997,7 @@
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "charges": 2,
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "tomato", 2 ], [ "irradiated_tomato", 2 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "tomato", 2 ], [ "tomato_cut", 2 ], [ "irradiated_tomato", 2 ] ] ],
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 1u of canning_metal.",
     "byproducts": [ [ "water_clean", 1 ] ]
@@ -2007,7 +2017,7 @@
     "container": "can_medium",
     "batch_time_factors": [ 83, 5 ],
     "charges": 4,
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "tomato", 4 ], [ "irradiated_tomato", 4 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "tomato", 4 ], [ "tomato_cut", 4 ], [ "irradiated_tomato", 4 ] ] ],
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "byproducts": [ [ "water_clean", 1 ] ]
@@ -2027,7 +2037,7 @@
     "container": "can_food_big",
     "batch_time_factors": [ 83, 5 ],
     "charges": 24,
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "tomato", 24 ], [ "irradiated_tomato", 24 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "tomato", 24 ], [ "tomato_cut", 24 ], [ "irradiated_tomato", 24 ] ] ],
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "byproducts": [ [ "water_clean", 6 ] ]
@@ -2240,7 +2250,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "components": [ [ [ "can_tomato", 4 ], [ "tomato", 4 ], [ "irradiated_tomato", 4 ] ], [ [ "water_clean", 5 ] ] ],
+    "components": [ [ [ "can_tomato", 4 ], [ "tomato", 4 ], [ "tomato_cut", 4 ], [ "irradiated_tomato", 4 ] ], [ [ "water_clean", 5 ] ] ],
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "byproducts": [ [ "water_clean", 1 ] ]
@@ -2260,7 +2270,7 @@
     "container": "can_food",
     "charges": 4,
     "batch_time_factors": [ 83, 5 ],
-    "components": [ [ [ "can_tomato", 2 ], [ "tomato", 2 ], [ "irradiated_tomato", 2 ] ], [ [ "water_clean", 3 ] ] ],
+    "components": [ [ [ "can_tomato", 2 ], [ "tomato", 2 ], [ "tomato_cut", 2 ], [ "irradiated_tomato", 2 ] ], [ [ "water_clean", 3 ] ] ],
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 1u of canning_metal.",
     "byproducts": [ [ "water_clean", 1 ] ]
@@ -2280,7 +2290,10 @@
     "container": "can_food_big",
     "charges": 48,
     "batch_time_factors": [ 83, 5 ],
-    "components": [ [ [ "can_tomato", 24 ], [ "tomato", 24 ], [ "irradiated_tomato", 24 ] ], [ [ "water_clean", 30 ] ] ],
+    "components": [
+      [ [ "can_tomato", 24 ], [ "tomato", 24 ], [ "tomato_cut", 24 ], [ "irradiated_tomato", 24 ] ],
+      [ [ "water_clean", 30 ] ]
+    ],
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "byproducts": [ [ "water_clean", 6 ] ]
@@ -2445,7 +2458,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "components": [ [ [ "bone_edible", 2, "LIST" ] ], [ [ "water_clean", 3 ] ] ],
+    "components": [ [ [ "bone_edible", 2, "LIST" ] ], [ [ "water_clean", 3 ] ], [ [ "vinegar", 2 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ]
   },
@@ -2465,7 +2478,7 @@
     "container": "can_food",
     "charges": 1,
     "batch_time_factors": [ 83, 5 ],
-    "components": [ [ [ "bone_edible", 2, "LIST" ] ], [ [ "water_clean", 2 ] ] ],
+    "components": [ [ [ "bone_edible", 2, "LIST" ] ], [ [ "water_clean", 2 ] ], [ [ "vinegar", 2 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 1u of canning_metal.",
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ]
   },
@@ -2485,7 +2498,7 @@
     "container": "can_food_big",
     "charges": 12,
     "batch_time_factors": [ 83, 5 ],
-    "components": [ [ [ "bone_edible", 12, "LIST" ] ], [ [ "water_clean", 16 ] ] ],
+    "components": [ [ [ "bone_edible", 12, "LIST" ] ], [ [ "water_clean", 16 ] ], [ [ "vinegar", 12 ] ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ]
   },

@@ -46,6 +46,7 @@ void advanced_inventory_pane::restore_area()
 void advanced_inventory_pane::save_settings() const
 {
     save_state->container = container;
+    save_state->container_base_loc = container_base_loc;
     save_state->in_vehicle = in_vehicle();
     save_state->area_idx = get_area();
     save_state->selected_idx = index;
@@ -62,8 +63,7 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     const aim_location location = static_cast<aim_location>( i_location );
     const advanced_inv_area &square = squares[location];
     // determine the square's vehicle/map item presence
-    bool has_veh_items = square.can_store_in_vehicle() ?
-                         !square.veh->get_items( square.vstor ).empty() : false;
+    bool has_veh_items = square.can_store_in_vehicle() && !square.get_vehicle_stack().empty();
     bool has_map_items = !get_map().i_at( square.pos ).empty();
     // determine based on map items and settings to show cargo
     bool show_vehicle = false;
@@ -79,6 +79,7 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     index = save_state->selected_idx;
     filter = save_state->filter;
     container = save_state->container;
+    container_base_loc = static_cast<aim_location>( save_state->container_base_loc );
 }
 
 bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) const
@@ -216,7 +217,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         }
 
         u.worn.add_AIM_items_from_area( u, square, *this );
-    } else if( square.id == AIM_CONTAINER || square.id == AIM_CONTAINER2 ) {
+    } else if( square.id == AIM_CONTAINER ) {
         square.volume = 0_ml;
         square.weight = 0_gram;
         if( container ) {
@@ -233,7 +234,6 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
                     }
                 }
             }
-            square.desc[0] = container->tname( 1, false );
         }
     } else {
         bool is_in_vehicle = square.can_store_in_vehicle() && ( in_vehicle() || vehicle_override );
@@ -245,7 +245,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
             square.weight = 0_gram;
         }
         const advanced_inv_area::itemstack &stacks = is_in_vehicle ?
-                square.i_stacked( square.veh->get_items( square.vstor ) ) :
+                square.i_stacked( square.get_vehicle_stack() ) :
                 square.i_stacked( m.i_at( square.pos ) );
 
         map_cursor loc_cursor( square.pos );

@@ -13,30 +13,6 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmc_radio_tower_controls_room_wood",
-    "method": "json",
-    "object": {
-      "set": [
-        { "point": "terrain", "id": "t_wall_wood", "x": 19, "y": 15 },
-        { "point": "terrain", "id": "t_wall_wood", "x": 16, "y": 16 },
-        { "point": "terrain", "id": "t_wall_wood", "x": 17, "y": 16 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmc_radio_tower_controls_room_migo_resin",
-    "method": "json",
-    "object": {
-      "set": [
-        { "point": "terrain", "id": "t_wall_resin", "x": 19, "y": 15 },
-        { "point": "terrain", "id": "t_wall_resin", "x": 16, "y": 16 },
-        { "point": "terrain", "id": "t_wall_resin", "x": 17, "y": 16 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
     "update_mapgen_id": "fbmc_radio_tower_fix_controls",
     "method": "json",
     "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }

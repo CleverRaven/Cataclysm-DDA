@@ -658,5 +658,27 @@
         "intermittent_activation": { "effects": [ { "frequency": "30 seconds", "spell_effects": [ { "id": "flask_regeneration_effect" } ] } ] }
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "technomancer_cl_booster_effect",
+    "name": [ "Technomancer boost" ],
+    "desc": [ "Your technomancer spells are empowered." ],
+    "remove_message": "Your technomancer boost fades.",
+    "rating": "good",
+    "show_intensity": true,
+    "max_intensity": 25,
+    "int_add_val": 1
+  },
+  {
+    "type": "effect_type",
+    "id": "biomancer_cl_booster_effect",
+    "name": [ "Biomancer boost" ],
+    "desc": [ "Your biomancer spells are empowered." ],
+    "remove_message": "Your biomancer boost fades.",
+    "rating": "good",
+    "show_intensity": true,
+    "max_intensity": 25,
+    "int_add_val": 1
   }
 ]

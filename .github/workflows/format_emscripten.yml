@@ -1,0 +1,63 @@
+name: JSON Formatter in HTML
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+    - 'tools/format/**'
+    - 'tools/format_emscripten/**'
+    - '.github/workflows/format_emscripten.yml'
+
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v3
+
+    - name: install dependencies (ubuntu)
+      run: |
+          sudo apt-get update
+          sudo apt-get install emscripten
+
+    - name: Build with emcc (emscripten)
+      run: tools/format_emscripten/build.sh
+
+    - name: Display files
+      run: ls -Rah
+
+    - name: Upload zipped html as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: formatter
+        path: formatter.html
+
+    - uses: actions/checkout@v3
+      with:
+        ref: gh-pages
+
+    - uses: actions/download-artifact@v3
+      with:
+        name: formatter
+
+    - name: Display files
+      run: ls -Rah
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.TX_PR_CREATOR_JSON_LINTER }}
+        commit-message: JSON linter gh-pages file update
+        base: gh-pages
+        branch: gh-pages-json-linter-update
+        branch-suffix: short-commit-hash
+        delete-branch: true
+        add-paths: formatter.html
+        title: Update Github Pages JSON linter page
+        body: "#### Summary\nNone\n\n#### Additional context\nAutomatically generated PR from emscripten compile output"
+        labels: Organization,<Documentation>
+        # create as a draft to allow maintainers to cull the changes before merging
+        draft: true

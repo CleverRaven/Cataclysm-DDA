@@ -82,6 +82,11 @@ static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
+static const mon_flag_str_id mon_flag_ELECTRIC_FIELD( "ELECTRIC_FIELD" );
+static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
+static const mon_flag_str_id mon_flag_HEARS( "HEARS" );
+static const mon_flag_str_id mon_flag_SEES( "SEES" );
+
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
 static const species_id species_ROBOT( "ROBOT" );
@@ -184,7 +189,7 @@ static void do_blast( const Creature *source, const tripoint &p, const float pow
     std::set<tripoint> closed;
     std::set<tripoint> bashed{ p };
     std::map<tripoint, float> dist_map;
-    open.push( std::make_pair( 0.0f, p ) );
+    open.emplace( 0.0f, p );
     dist_map[p] = 0.0f;
     // Find all points to blast
     while( !open.empty() ) {
@@ -258,7 +263,7 @@ static void do_blast( const Creature *source, const tripoint &p, const float pow
             }
 
             if( dist_map.count( dest ) == 0 || dist_map[dest] > next_dist ) {
-                open.push( std::make_pair( next_dist, dest ) );
+                open.emplace( next_dist, dest );
                 dist_map[dest] = next_dist;
             }
         }
@@ -582,10 +587,10 @@ void flashbang( const tripoint &p, bool player_immune )
             if( dist <= 4 ) {
                 critter.add_effect( effect_stunned, time_duration::from_turns( 10 - dist ) );
             }
-            if( critter.has_flag( MF_SEES ) && here.sees( critter.pos(), p, 8 ) ) {
+            if( critter.has_flag( mon_flag_SEES ) && here.sees( critter.pos(), p, 8 ) ) {
                 critter.add_effect( effect_blind, time_duration::from_turns( 18 - dist ) );
             }
-            if( critter.has_flag( MF_HEARS ) ) {
+            if( critter.has_flag( mon_flag_HEARS ) ) {
                 critter.add_effect( effect_deaf, time_duration::from_turns( 60 - dist * 4 ) );
             }
         }
@@ -634,7 +639,7 @@ void scrambler_blast( const tripoint &p )
 {
     if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
-        if( critter.has_flag( MF_ELECTRONIC ) ) {
+        if( critter.has_flag( mon_flag_ELECTRONIC ) ) {
             critter.make_friendly();
         }
         add_msg( m_warning, _( "The %s sparks and begins searching for a target!" ),
@@ -684,9 +689,9 @@ void emp_blast( const tripoint &p )
     }
     if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
-        if( critter.has_flag( MF_ELECTRONIC ) ) {
+        if( critter.has_flag( mon_flag_ELECTRONIC ) ) {
             int deact_chance = 0;
-            const auto mon_item_id = critter.type->revert_to_itype;
+            const itype_id mon_item_id = critter.type->revert_to_itype;
             switch( critter.get_size() ) {
                 case creature_size::tiny:
                     deact_chance = 6;
@@ -721,7 +726,7 @@ void emp_blast( const tripoint &p )
                     critter.make_friendly();
                 }
             }
-        } else if( critter.has_flag( MF_ELECTRIC_FIELD ) ) {
+        } else if( critter.has_flag( mon_flag_ELECTRIC_FIELD ) ) {
             if( !critter.has_effect( effect_emp ) ) {
                 if( sight ) {
                     add_msg( m_good, _( "The %s's electrical field momentarily goes out!" ), critter.name() );

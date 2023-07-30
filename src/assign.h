@@ -17,11 +17,6 @@
 #include "json.h"
 #include "units.h"
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 namespace detail
 {
 template<typename ...T>
@@ -129,7 +124,7 @@ bool assign( const JsonObject &jo, const std::string_view name, std::pair<T, T> 
     return true;
 }
 
-// Note: is_optional excludes any types based on cata::optional, which is
+// Note: is_optional excludes any types based on std::optional, which is
 // handled below in a separate function.
 template < typename T, typename std::enable_if < std::is_class<T>::value &&!is_optional<T>::value,
            int >::type = 0 >
@@ -234,7 +229,8 @@ bool assign( const JsonObject &jo, std::string_view name, units::power &val,
              units::power lo = units::power_min,
              units::power hi = units::power_max );
 
-bool assign( const JsonObject &jo, const std::string &name, nc_color &val );
+bool assign( const JsonObject &jo, const std::string &name, nc_color &val,
+             bool strict = false );
 
 class time_duration;
 

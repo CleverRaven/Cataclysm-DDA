@@ -112,9 +112,7 @@
       "<": "t_wood_stairs_down",
       "Z": "t_floor",
       ".": "t_flat_roof",
-      "~": "t_flat_roof",
       "=": "t_flat_roof",
-      "v": "t_flat_roof",
       "%": "t_gutter_downspout",
       "2": "t_gutter_north",
       "-": "t_gutter_south",
@@ -128,9 +126,7 @@
       "h": "f_bathtub",
       "O": "f_sofa",
       "Z": "f_fireplace",
-      "~": "f_chimney",
       "=": "f_vent_pipe",
-      "v": "f_wind_vane",
       "é": "f_freezer"
     },
     "items": {

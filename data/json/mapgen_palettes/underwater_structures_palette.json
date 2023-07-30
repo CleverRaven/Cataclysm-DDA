@@ -49,40 +49,5 @@
     "toilets": { "t": {  } },
     "gaspumps": { "!": {  } },
     "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
-  },
-  {
-    "type": "palette",
-    "id": "underwater_structure_roof",
-    "terrain": {
-      " ": "t_open_air",
-      "_": "t_metal_flat_roof",
-      ".": "t_flat_roof",
-      "#": "t_grate",
-      "≷": "t_ladder_up_down",
-      ">": "t_ladder_down",
-      "<": "t_ladder_up",
-      "|": "t_wall_bulkhead",
-      "+": "t_door_metal_bulkhead_c",
-      "o": "t_porthole",
-      "F": "t_chainfence",
-      "G": "t_chaingate_c",
-      "L": "t_chaingate_l",
-      "1": "t_gutter_north",
-      "2": "t_gutter_east",
-      "3": "t_gutter_south",
-      "4": "t_gutter_west",
-      "5": "t_gutter_downspout",
-      "6": "t_gutter_drop"
-    },
-    "furniture": {
-      "&": "f_roof_turbine_vent",
-      "N": "f_TV_antenna",
-      ":": "f_cellphone_booster",
-      "X": "f_small_satelitte_dish",
-      "=": "f_vent_pipe"
-    },
-    "toilets": { "t": {  } },
-    "gaspumps": { "!": {  } },
-    "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
   }
 ]

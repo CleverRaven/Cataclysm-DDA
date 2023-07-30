@@ -27,6 +27,7 @@ diary_page::diary_page() = default;
 std::vector<std::string> diary::get_pages_list()
 {
     std::vector<std::string> result;
+    result.reserve( pages.size() );
     for( std::unique_ptr<diary_page> &n : pages ) {
         result.push_back( get_diary_time_str( n->turn, n->time_acc ) );
     }
@@ -657,7 +658,7 @@ void diary::delete_page()
 
 void diary::export_to_txt( bool lastexport )
 {
-    cata::ofstream myfile;
+    std::ofstream myfile;
     std::string path = lastexport ? PATH_INFO::memorialdir() : PATH_INFO::world_base_save_path();
     path += "/" + owner + "s_diary.txt";
     myfile.open( fs::u8path( path ) );

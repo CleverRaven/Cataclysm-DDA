@@ -102,6 +102,7 @@ static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_venom_dmg( "venom_dmg" );
 static const efftype_id effect_venom_player1( "venom_player1" );
@@ -115,6 +116,7 @@ static const itype_id itype_rag( "rag" );
 
 static const json_character_flag json_flag_CBQ_LEARN_BONUS( "CBQ_LEARN_BONUS" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
+static const json_character_flag json_flag_GRAB_FILTER( "GRAB_FILTER" );
 static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
@@ -134,14 +136,15 @@ static const matec_id tec_none( "tec_none" );
 static const material_id material_glass( "glass" );
 static const material_id material_steel( "steel" );
 
+static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+
 static const move_mode_id move_mode_prone( "prone" );
 
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_spellcraft( "spellcraft" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_unarmed( "unarmed" );
-
-static const species_id species_HUMAN( "HUMAN" );
 
 static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
 static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
@@ -550,7 +553,7 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
 bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
-                              bool allow_unarmed )
+                              bool allow_unarmed, int forced_movecost )
 {
     if( has_effect( effect_incorporeal ) ) {
         add_msg_if_player( m_info, _( "You lack the substance to affect anything." ) );
@@ -564,14 +567,14 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     recoil = MAX_RECOIL;
     last_target_pos = std::nullopt;
 
-    return melee_attack_abstract( t, allow_special, force_technique, allow_unarmed );
+    return melee_attack_abstract( t, allow_special, force_technique, allow_unarmed, forced_movecost );
 }
 
 bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                                        const matec_id &force_technique,
-                                       bool allow_unarmed )
+                                       bool allow_unarmed, int forced_movecost )
 {
-    if( get_working_leg_count() < 2 ) {
+    if( !enough_working_legs() ) {
         if( !movement_mode_is( move_mode_prone ) ) {
             add_msg_if_player( m_bad, _( "Your broken legs cannot hold you and you fall down." ) );
             set_movement_mode( move_mode_prone );
@@ -587,7 +590,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     }
     if( is_mounted() ) {
         auto *mons = mounted_creature.get();
-        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
+        if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "The %s has dead batteries and will not move its arms." ),
                          mons->get_name() );
@@ -601,7 +604,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                 mons->use_mech_power( 2_kJ );
                 mons->melee_attack( t );
             }
-            mod_moves( -mons->type->attack_cost );
+            mod_moves( forced_movecost >= 0 ? -forced_movecost : -mons->type->attack_cost );
             return true;
         }
     }
@@ -680,7 +683,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             }
         } else if( player_character.sees( *this ) ) {
             if( miss_recovery.id != tec_none ) {
-                add_msg( miss_recovery.npc_message.translated(), t.disp_name() );
+                add_msg_if_npc( miss_recovery.npc_message.translated(), t.disp_name() );
             } else if( stumble_pen >= 60 ) {
                 add_msg( _( "%s misses and stumbles with the momentum." ), get_name() );
             } else if( stumble_pen >= 10 ) {
@@ -924,7 +927,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                    total_stam + deft_bonus );
     // Weariness handling - 1 / the value, because it returns what % of the normal speed
     const float weary_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
-    mod_moves( -move_cost * ( 1 / weary_mult ) );
+    mod_moves( forced_movecost >= 0 ? -forced_movecost : -move_cost * ( 1 / weary_mult ) );
     // trigger martial arts on-attack effects
     martial_arts_data->ma_onattack_effects( *this );
     // some things (shattering weapons) can harm the attacking creature.
@@ -951,7 +954,7 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
     return std::min( -50, mod_sta + melee - stance_malus );
 }
 
-void Character::reach_attack( const tripoint &p )
+void Character::reach_attack( const tripoint &p, int forced_movecost )
 {
     matec_id force_technique = tec_none;
     /** @EFFECT_MELEE >5 allows WHIP_DISARM technique */
@@ -988,6 +991,15 @@ void Character::reach_attack( const tripoint &p )
             !x_in_y( ( target_size * target_size + 1 ) * skill,
                      ( inter->get_size() * inter->get_size() + 1 ) * 10 ) ) {
             // Even if we miss here, low roll means weapon is pushed away or something like that
+            if( inter->has_effect( effect_pet ) || ( inter->is_npc() &&
+                    inter->as_npc()->is_friendly( get_player_character() ) ) ) {
+                if( query_yn( _( "Your attack may cause accidental injury, continue?" ) ) ) {
+                    critter = inter;
+                    break;
+                } else {
+                    return;
+                }
+            }
             critter = inter;
             break;
             /** @EFFECT_STABBING increases ability to reach attack through fences */
@@ -998,7 +1010,7 @@ void Character::reach_attack( const tripoint &p )
             /** @ARM_STR increases bash effects when reach attacking past something */
             here.bash( path_point, get_arm_str() + weapon.damage_melee( damage_bash ) );
             handle_melee_wear( get_wielded_item() );
-            mod_moves( -move_cost );
+            mod_moves( forced_movecost >= 0 ? -forced_movecost : -move_cost );
             return;
         }
     }
@@ -1013,12 +1025,12 @@ void Character::reach_attack( const tripoint &p )
             // Communicate this with a different message?
         }
 
-        mod_moves( -move_cost );
+        mod_moves( forced_movecost >= 0 ? -forced_movecost : -move_cost );
         return;
     }
 
     reach_attacking = true;
-    melee_attack_abstract( *critter, false, force_technique, false );
+    melee_attack_abstract( *critter, false, force_technique, false, forced_movecost );
     reach_attacking = false;
 }
 
@@ -1138,16 +1150,7 @@ int Character::get_spell_resist() const
 
 float Character::get_dodge() const
 {
-    //If we're asleep or busy we can't dodge
-    if( in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( effect_winded ) || is_driving() ) {
-        add_msg_debug( debugmode::DF_MELEE, "Unable to dodge (sleeping, winded, or driving)" );
-        return 0.0f;
-    }
-
-    // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
-    if( dodges_left <= 0 ) {
-        add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
+    if( !can_try_doge().success() ) {
         return 0.0f;
     }
 
@@ -1175,12 +1178,11 @@ float Character::get_dodge() const
         add_msg_debug( debugmode::DF_MELEE, "Dodge after speed penalty %.1f", ret );
     }
 
-    //Dodge decreases linearly to 0 when below 50% stamina.
-    const float stamina_ratio = static_cast<float>( get_stamina() ) / get_stamina_max();
-    if( stamina_ratio <= .5 ) {
-        ret *= 2 * stamina_ratio;
-        add_msg_debug( debugmode::DF_MELEE, "Dodge after stamina penalty %.1f", ret );
-    }
+    //Dodge decreases logisticaly with stamina.
+    const double stamina_logistic = get_stamina_dodge_modifier();
+    ret *= stamina_logistic;
+
+    add_msg_debug( debugmode::DF_MELEE, "Dodge after stamina penalty %.1f", ret );
 
     // Reaction score of limbs influences dodge chances
     ret *= get_limb_score( limb_score_reaction );
@@ -1201,7 +1203,7 @@ float Character::dodge_roll() const
 {
     // if your character has evasion then try rolling that first
     double evasion = enchantment_cache->modify_value( enchant_vals::mod::EVASION, 0.0 );
-    if( rng( 0, 99 ) < evasion * 100 ) {
+    if( rng( 0, 99 ) < evasion * 100.0 ) {
         // arbitrarily high number without being max float
         return 999999.0f;
     }
@@ -1468,17 +1470,21 @@ void Character::roll_damage( const damage_type_id &dt, bool crit, damage_instanc
         di.add_damage( dt, other_dam, arpen, armor_mult, other_mul );
     }
 }
-
 matec_id Character::pick_technique( Creature &t, const item_location &weap, bool crit,
-                                    bool dodge_counter, bool block_counter )
+                                    bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist )
+{
+    std::vector<matec_id> possible = evaluate_techniques( t, weap, crit,
+                                     dodge_counter,  block_counter, blacklist );
+    return random_entry( possible, tec_none );
+}
+std::vector<matec_id> Character::evaluate_techniques( Creature &t, const item_location &weap,
+        bool crit, bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist )
 {
 
     const std::vector<matec_id> all = martial_arts_data->get_all_techniques( weap, *this );
 
     std::vector<matec_id> possible;
 
-    bool downed = t.has_effect( effect_downed );
-    bool stunned = t.has_effect( effect_stunned );
     bool wall_adjacent = get_map().is_wall_adjacent( pos() );
     // this could be more robust but for now it should work fine
     bool is_loaded = weap && weap->is_magazine_full();
@@ -1486,28 +1492,49 @@ matec_id Character::pick_technique( Creature &t, const item_location &weap, bool
     // first add non-aoe tecs
     for( const matec_id &tec_id : all ) {
         const ma_technique &tec = tec_id.obj();
+        add_msg_debug( debugmode::DF_MELEE, "Evaluating technique %s", tec.name );
+
+        // skip techniques on the blacklist
+        if( find( blacklist.begin(), blacklist.end(), tec_id ) != blacklist.end() ) {
+            add_msg_debug( debugmode::DF_MELEE, "Technique is on the blacklist, discarded" );
+            continue;
+        }
 
         // ignore "dummy" techniques like WBLOCK_1
         if( tec.dummy ) {
+            add_msg_debug( debugmode::DF_MELEE, "Dummy technique, attack discarded" );
             continue;
         }
 
         // skip defensive techniques
         if( tec.defensive ) {
+            add_msg_debug( debugmode::DF_MELEE, "Defensive technique, attack discarded" );
             continue;
+        }
+
+        // Ignore this technique if we fail the doalog conditions
+        if( tec.has_condition ) {
+            dialogue d( get_talker_for( this ), get_talker_for( t ) );
+            if( !tec.condition( d ) ) {
+                add_msg_debug( debugmode::DF_MELEE, "Conditionas failed, attack discarded" );
+                continue;
+            }
         }
 
         // skip wall adjacent techniques if not next to a wall
         if( tec.wall_adjacent && !wall_adjacent ) {
+            add_msg_debug( debugmode::DF_MELEE, "No adjacent walls found, attack discarded" );
             continue;
         }
 
         // skip dodge counter techniques if it's not a dodge count, and vice versa
         if( dodge_counter != tec.dodge_counter ) {
+            add_msg_debug( debugmode::DF_MELEE, "Not a dodge counter, attack discarded" );
             continue;
         }
         // likewise for block counters
         if( block_counter != tec.block_counter ) {
+            add_msg_debug( debugmode::DF_MELEE, "Not a block counter, attack discarded" );
             continue;
         }
 
@@ -1520,6 +1547,8 @@ matec_id Character::pick_technique( Creature &t, const item_location &weap, bool
             float move_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
             move_cost *= ( 1.0f / move_mult );
             if( get_moves() + get_speed() - move_cost < 0 ) {
+                add_msg_debug( debugmode::DF_MELEE,
+                               "Counter technique would exhaust remaining moves, attack discarded" );
                 continue;
             }
         }
@@ -1527,26 +1556,13 @@ matec_id Character::pick_technique( Creature &t, const item_location &weap, bool
         // if critical then select only from critical tecs
         // but allow the technique if its crit ok
         if( !tec.crit_ok && ( crit != tec.crit_tec ) ) {
+            add_msg_debug( debugmode::DF_MELEE, "Attack is%s critical, attack discarded", crit ? "" : "n't" );
             continue;
         }
 
         // if the technique needs a loaded weapon and it isn't loaded skip it
         if( tec.needs_ammo && !is_loaded ) {
-            continue;
-        }
-
-        // don't apply downing techniques to someone who's already downed
-        if( downed && tec.down_dur > 0 ) {
-            continue;
-        }
-
-        // don't apply "downed only" techniques to someone who's not downed
-        if( !downed && tec.downed_target ) {
-            continue;
-        }
-
-        // don't apply "stunned only" techniques to someone who's not stunned
-        if( !stunned && tec.stunned_target ) {
+            add_msg_debug( debugmode::DF_MELEE, "No ammo, attack discarded" );
             continue;
         }
 
@@ -1555,24 +1571,27 @@ matec_id Character::pick_technique( Creature &t, const item_location &weap, bool
         // dice(   dex_cur +    get_skill_level("unarmed"),  8) >
         // dice(p->dex_cur + p->get_skill_level("melee"),   10))
         if( tec.disarms && !t.has_weapon() ) {
+            add_msg_debug( debugmode::DF_MELEE,
+                           "Disarming technique against unarmed opponent, attack discarded" );
             continue;
         }
 
         if( tec.take_weapon && ( has_weapon() || !t.has_weapon() ) ) {
+            add_msg_debug( debugmode::DF_MELEE, "Weapon-taking technique %s, attack discarded",
+                           has_weapon() ? "while armed" : "against an unarmed opponent" );
             continue;
         }
 
-        // Don't apply humanoid-only techniques to non-humanoids
-        if( tec.human_target && !t.in_species( species_HUMAN ) ) {
-            continue;
-        }
         // if aoe, check if there are valid targets
         if( !tec.aoe.empty() && !valid_aoe_technique( t, tec ) ) {
+            add_msg_debug( debugmode::DF_MELEE, "AoE technique witout valid AoE targets, attack discarded" );
             continue;
         }
 
         // If we have negative weighting then roll to see if it's valid this time
         if( tec.weighting < 0 && !one_in( std::abs( tec.weighting ) ) ) {
+            add_msg_debug( debugmode::DF_MELEE,
+                           "Negative technique weighting failed weight roll, attack discarded" );
             continue;
         }
 
@@ -1581,6 +1600,7 @@ matec_id Character::pick_technique( Creature &t, const item_location &weap, bool
         std::shuffle( shuffled_attack_vectors.begin(), shuffled_attack_vectors.end(), rng_get_engine() );
         if( martial_arts_data->get_valid_attack_vector( *this, tec.attack_vectors ) == "NONE" &&
             martial_arts_data->get_valid_attack_vector( *this, shuffled_attack_vectors ) == "NONE" ) {
+            add_msg_debug( debugmode::DF_MELEE, "No valid attack vector found, attack discarded" );
             continue;
         }
 
@@ -1596,7 +1616,7 @@ matec_id Character::pick_technique( Creature &t, const item_location &weap, bool
         }
     }
 
-    return random_entry( possible, tec_none );
+    return possible;
 }
 
 bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique )
@@ -1749,10 +1769,11 @@ static void print_damage_info( const damage_instance &di )
     add_msg_debug( debugmode::DF_MELEE, "%stotal: %d", ss, total );
 }
 
-void Character::perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
+void Character::perform_technique( const ma_technique &technique, Creature &t,
+                                   damage_instance &di,
                                    int &move_cost, item_location &cur_weapon )
 {
-    add_msg_debug( debugmode::DF_MELEE, "dmg before tec:" );
+    add_msg_debug( debugmode::DF_MELEE, "Chose technique %s\ndmg before tec:", technique.name );
     print_damage_info( di );
     int rep = rng( technique.repeat_min, technique.repeat_max );
     add_msg_debug( debugmode::DF_MELEE, "Tech repeats %d times", rep );
@@ -1832,7 +1853,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         }
     }
 
-    if( technique.side_switch && !t.has_flag( MF_IMMOBILE ) ) {
+    if( technique.side_switch && !t.has_flag( mon_flag_IMMOBILE ) ) {
         const tripoint b = t.pos();
         point new_;
 
@@ -1858,7 +1879,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         }
     }
     map &here = get_map();
-    if( technique.knockback_dist && !t.has_flag( MF_IMMOBILE ) ) {
+    if( technique.knockback_dist && !t.has_flag( mon_flag_IMMOBILE ) ) {
         const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
         const point kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
                                rng( -technique.knockback_spread, technique.knockback_spread ) );
@@ -1892,6 +1913,20 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
                 if( t.pos() != prev_pos ) {
                     g->place_player( prev_pos );
                     g->on_move_effects();
+                }
+            }
+        }
+        // Remove our grab if we knocked back our grabber (if we can do so is handled by tech conditions)
+        if( has_flag( json_flag_GRAB ) && t.has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
+            for( const effect &eff : get_effects_with_flag( json_flag_GRAB ) ) {
+                if( t.is_monster() ) {
+                    monster *m = t.as_monster();
+                    if( m->is_grabbing( eff.get_bp().id() ) ) {
+                        m->remove_grab( eff.get_bp().id() );
+                        remove_effect( eff.get_id(), eff.get_bp() );
+                        add_msg_debug( debugmode::DF_MELEE, "Grabber %s knocked back, grab on %s removed", t.get_name(),
+                                       eff.get_bp()->name );
+                    }
                 }
             }
         }
@@ -2465,7 +2500,8 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
     return ret;
 }
 
-std::string melee_message( const ma_technique &tec, Character &p, const dealt_damage_instance &ddi )
+std::string melee_message( const ma_technique &tec, Character &p,
+                           const dealt_damage_instance &ddi )
 {
     // Those could be extracted to a json
 
@@ -2615,7 +2651,7 @@ void player_hit_message( Character *attacker, const std::string &message,
         //Player won't see exact numbers of damage dealt by NPC unless player has DEBUG_NIGHTVISION trait
         if( attacker->is_npc() && !player_character.has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something (critical)
-            msg = string_format( _( "%s. Critical!" ), message );
+            msg = string_format( _( "%s.  Critical!" ), message );
         } else if( technique && !wp_hit.empty() ) {
             //~ %1$s: "someone hits something", %2$d: damage dealt, %3$s: the weakpoint hit
             msg = string_format( _( "%1$s for %2$d damage, and hit it in %3$s.  Critical!" ), message, dam,
@@ -2708,7 +2744,7 @@ int Character::attack_speed( const item &weap ) const
 
 double Character::weapon_value( const item &weap, int ammo ) const
 {
-    if( is_wielding( weap ) ) {
+    if( is_wielding( weap ) || ( !get_wielded_item() && weap.is_null() ) ) {
         auto cached_value = cached_info.find( "weapon_value" );
         if( cached_value != cached_info.end() ) {
             return cached_value->second;
@@ -2723,7 +2759,7 @@ double Character::weapon_value( const item &weap, int ammo ) const
     const double my_val = more + ( less / 2.0 );
     add_msg_debug( debugmode::DF_MELEE, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(),
                    ammo, my_val );
-    if( is_wielding( weap ) ) {
+    if( is_wielding( weap ) || ( !get_wielded_item() && weap.is_null() ) ) {
         cached_info.emplace( "weapon_value", my_val );
     }
     return my_val;

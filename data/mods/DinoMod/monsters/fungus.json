@@ -115,6 +115,26 @@
     "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
+    "id": "mon_ziganotosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal giganotosaurus zombie" },
+    "description": "Once a huge predatory bipedal dinosaur showing teeth curved and serrated like sawblades, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "copy-from": "mon_ziganotosaurus",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "bash": 3 } },
+    "bleed_rate": 0,
+    "vision_day": 5,
+    "vision_night": 5,
+    "grab_strength": 100,
+    "special_attacks": [ { "id": "bite_grab" }, [ "FUNGUS", 200 ], [ "LUNGE", 20 ] ],
+    "upgrades": {  },
+    "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
+  },
+  {
     "id": "mon_ziats_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal siats zombie" },
@@ -129,7 +149,13 @@
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 5,
-    "special_attacks": [ [ "FUNGUS", 200 ], [ "BIO_OP_TAKEDOWN", 20 ], { "id": "ranged_pull", "cooldown": 20 }, [ "GRAB_DRAG", 10 ] ],
+    "special_attacks": [
+      [ "FUNGUS", 200 ],
+      [ "BIO_OP_TAKEDOWN", 20 ],
+      { "id": "ranged_pull", "cooldown": 20 },
+      { "id": "grab_drag" },
+      { "id": "drag_followup" }
+    ],
     "upgrades": {  },
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
