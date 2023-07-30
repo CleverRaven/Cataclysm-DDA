@@ -3025,7 +3025,7 @@
   {
     "type": "keybinding",
     "id": "diary",
-    "name": "Open diary",
+    "name": "Open diary / achievements / scores",
     "category": "DEFAULTMODE",
     "bindings": [ { "input_method": "keyboard_char", "key": ")" }, { "input_method": "keyboard_code", "key": "0", "mod": [ "shift" ] } ]
   },
