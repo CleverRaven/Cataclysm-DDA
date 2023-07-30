@@ -67,42 +67,6 @@ void vehicle_part::set_base( item &&new_base )
     base.set_flag( flag_VEHICLE );
 }
 
-item vehicle_part::properties_to_item() const
-{
-    item tmp = base;
-    tmp.unset_flag( flag_VEHICLE );
-
-    // Cables get special handling: their target coordinates need to remain
-    // stored, and if a cable actually drops, it should be half-connected.
-    if( tmp.has_flag( flag_CABLE_SPOOL ) ) {
-        map &here = get_map();
-        tmp.link = cata::make_value<item::link_data>();
-
-        // Tow cables have these variables assigned in invalidate_towing, which calls properties_to_item.
-        if( !tmp.has_flag( flag_TOW_CABLE ) ) {
-            const tripoint local_pos = here.getlocal( target.first );
-            const optional_vpart_position target_vp = here.veh_at( local_pos );
-            if( !target_vp ) {
-                // That vehicle ain't there no more.
-                tmp.set_flag( flag_NO_DROP );
-            } else {
-                tmp.link->t_mount = target_vp->mount();
-            }
-            tmp.link->t_abs_pos = tripoint_abs_ms( target.second );
-            tmp.link->s_state = link_state::no_link;
-            tmp.link->t_state = link_state::vehicle_port;
-        }
-
-        tmp.set_link_traits();
-        tmp.link->last_processed = calendar::turn;
-    }
-
-    // quantize damage and degradation to the middle of each damage_level so that items will stack nicely
-    tmp.set_damage( ( tmp.damage_level() - 0.5 ) * itype::damage_scale );
-    tmp.set_degradation( ( tmp.damage_level() - 0.5 ) * itype::damage_scale );
-    return tmp;
-}
-
 std::string vehicle_part::name( bool with_prefix ) const
 {
     std::string res;

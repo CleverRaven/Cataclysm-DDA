@@ -544,11 +544,6 @@ struct vehicle_part {
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
         /**
-         * Generate the corresponding item from this vehicle part. It includes
-         * the hp (item damage), fuel charges (battery or liquids), aspect, ...
-         */
-        item properties_to_item() const;
-        /**
          * Returns an ItemList of the pieces that should arise from breaking
          * this part.
          */
@@ -2090,6 +2085,12 @@ class vehicle
         // Updates active state on all fake_mounts based on whether they can fill a gap
         // map.cpp calls this in displace_vehicle
         void update_active_fakes();
+
+        /**
+        * Generate the corresponding item from this vehicle part. It includes
+        * the hp (item damage), fuel charges (battery or liquids), aspect, ...
+        */
+        item part_to_item( const vehicle_part &vp ) const;
 
         // Updates the internal precalculated mount offsets after the vehicle has been displaced
         // used in map::displace_vehicle()

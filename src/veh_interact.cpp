@@ -1757,7 +1757,7 @@ bool veh_interact::can_remove_part( int idx, const Character &you )
         nmsg += string_format( _( "<color_white>Removing the %1$s may yield:</color>\n> %2$s\n" ),
                                sel_vehicle_part->name(), enumerate_as_string( removed_names ) );
     } else {
-        item result_of_removal = sel_vehicle_part->properties_to_item();
+        item result_of_removal = veh->part_to_item( *sel_vehicle_part );
         nmsg += string_format(
                     _( "<color_white>Removing the %1$s will yield:</color>\n> %2$s\n" ),
                     sel_vehicle_part->name(), result_of_removal.display_name() );
@@ -3308,7 +3308,7 @@ void veh_interact::complete_vehicle( Character &you )
             }
 
             if( wall_wire_removal ) {
-                vp.properties_to_item(); // what's going on here? this line isn't doing anything...
+                veh.part_to_item( vp ); // what's going on here? this line isn't doing anything...
             } else if( vpi.has_flag( "TOW_CABLE" ) ) {
                 veh.invalidate_towing( true, &you );
             } else if( broken ) {
@@ -3319,7 +3319,7 @@ void veh_interact::complete_vehicle( Character &you )
                     item_group::ItemList pieces = vp.pieces_for_broken_part();
                     resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );
                 } else {
-                    resulting_items.push_back( vp.properties_to_item() );
+                    resulting_items.push_back( veh.part_to_item( vp ) );
                 }
                 for( const std::pair<const skill_id, int> &sk : vpi.install_skills ) {
                     // removal is half as educational as installation

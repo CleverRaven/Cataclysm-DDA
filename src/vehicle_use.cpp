@@ -2080,7 +2080,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             for( vehicle_part *vp_part : vp_parts )
             {
                 if( vp_part->info().has_flag( "POWER_TRANSFER" ) ) {
-                    item drop = vp_part->properties_to_item();
+                    item drop = part_to_item( *vp_part );
                     if( !magic && !drop.has_flag( STATIC( flag_id( "NO_DROP" ) ) ) ) {
                         get_player_character().i_add_or_drop( drop );
                     }
@@ -2105,7 +2105,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                     add_msg( _( "You detached the %s's cables." ), vp_part->name( false ) );
                 }
                 if( vp_part->info().has_flag( "TOW_CABLE" ) ) {
-                    item drop = vp_part->properties_to_item();
+                    item drop = part_to_item( *vp_part );
                     if( !magic && !drop.has_flag( STATIC( flag_id( "NO_DROP" ) ) ) ) {
                         get_player_character().i_add_or_drop( drop );
                     }
