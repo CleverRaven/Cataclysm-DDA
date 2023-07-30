@@ -21,7 +21,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
-    "armor": { "bash": 5, "cut": 5, "fire": 8, "bullet": 3 },
+    "armor": { "bash": 5, "cut": 5, "heat": 8, "bullet": 3 },
     "vision_night": 3,
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
@@ -96,9 +96,9 @@
         "ranges": [ [ 0, 5, "BURST" ] ]
       }
     ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "STAY", "RANGED_ATTACKER", "PATH_AVOID_DANGER_1", "CLIMBS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "RANGED_ATTACKER", "PATH_AVOID_DANGER_1", "CLIMBS" ],
     "harvest": "fae_furred",
-    "dissect": "dissect_undine_tiny",
+    "dissect": "dissect_undine_small",
     "vision_day": 20,
     "vision_night": 5,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_DIED" ]
@@ -130,7 +130,7 @@
     "hp": 20,
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "RANGED_ATTACKER", "PATH_AVOID_DANGER_1", "HARDTOSHOOT" ],
     "harvest": "water_elemental",
-    "dissect": "dissect_undine_tiny",
+    "dissect": "dissect_undine_small",
     "special_attacks": [ { "id": "ice_spray" } ],
     "death_drops": [ { "item": "water", "charges": 25, "prob": 100 } ]
   },
@@ -159,7 +159,7 @@
     "harvest": "rat_with_skull_arvore",
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
-    "dissect": "dissect_tiny_arvore",
+    "dissect": "dissect_arvore_small",
     "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "anger_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "HIT_AND_RUN", "WARM" ]
@@ -189,7 +189,7 @@
     "dodge": 5,
     "bleed_rate": 10,
     "harvest": "triffid_small",
-    "dissect": "dissect_arvore",
+    "dissect": "dissect_arvore_small",
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "HARDTOSHOOT", "GRABS", "SWIMS", "PLASTIC", "WATER_CAMOUFLAGE" ]
   },
   {
@@ -222,7 +222,7 @@
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "mon_salamander_glob", "min_level": 1 }, "cooldown": 20 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "RANGED_ATTACKER", "PATH_AVOID_DANGER_1", "CLIMBS" ],
     "harvest": "fae_furred",
-    "dissect": "dissect_salamander_tiny",
+    "dissect": "dissect_salamander_small",
     "vision_day": 20,
     "vision_night": 5,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_DIED" ]
@@ -254,8 +254,7 @@
     "hp": 20,
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "PATH_AVOID_DANGER_1", "HARDTOSHOOT" ],
     "harvest": "smoke_mephit",
-    "dissect": "dissect_salamander_tiny",
-    "emit_fields": [ { "emit_id": "emit_smoke_plume", "delay": "1 s" } ],
-    "death_drops": [ { "item": "water", "charges": 25, "prob": 100 } ]
+    "dissect": "dissect_salamander_small",
+    "emit_fields": [ { "emit_id": "emit_smoke_plume", "delay": "1 s" } ]
   }
 ]
