@@ -157,6 +157,7 @@
         "materials": [
           "iron",
           "steel",
+          "budget_steel",
           "lc_steel",
           "mc_steel",
           "hc_steel",
