@@ -2083,8 +2083,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                     item drop = part_to_item( *vp_part );
                     if( !magic && !drop.has_flag( STATIC( flag_id( "NO_DROP" ) ) ) ) {
                         get_player_character().i_add_or_drop( drop );
+                        add_msg( _( "You detach the %s and take it." ), drop.type_name() );
+                    } else {
+                        add_msg( _( "You detached the %s." ), drop.type_name() );
                     }
-                    add_msg( _( "You detached the %s." ), drop.type_name() );
                     remove_remote_part( *vp_part );
                     remove_part( *vp_part );
                 }
@@ -2108,8 +2110,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                     item drop = part_to_item( *vp_part );
                     if( !magic && !drop.has_flag( STATIC( flag_id( "NO_DROP" ) ) ) ) {
                         get_player_character().i_add_or_drop( drop );
+                        add_msg( _( "You detach the %s and take it." ), drop.type_name() );
+                    } else {
+                        add_msg( _( "You detached the %s." ), drop.type_name() );
                     }
-                    add_msg( _( "You detached the %s." ), drop.type_name() );
                     remove_remote_part( *vp_part );
                     remove_part( *vp_part );
                 }
