@@ -1192,6 +1192,7 @@ float Character::get_stamina_dodge_modifier() const
 
 float Character::tally_organic_size() const
 {
+    //tally up the hitsize of body parts that are not cybernetic (100 by default)
     float total_size = 0.0f;
     for( const bodypart_id &bp : get_all_body_parts() ) {
         if( !part->is_cybernetic ) {
