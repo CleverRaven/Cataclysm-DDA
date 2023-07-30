@@ -6563,21 +6563,30 @@ bool vehicle::no_towing_slack() const
 
 }
 
-void vehicle::remove_remote_part( const vehicle_part &vp_local ) const
+std::optional<std::pair<vehicle *, vehicle_part *>> vehicle::get_remote_part( const vehicle_part &vp_local ) const
 {
     map &here = get_map();
-    vehicle *veh = here.find_vehicle( tripoint_abs_ms( vp_local.target.second ) );
-
+    vehicle *veh = find_vehicle( tripoint_abs_ms( vp_local.target.second ), &here );
     // If the target vehicle is still there, ask it to remove its part
     if( veh != nullptr ) {
         const tripoint local_abs = here.getabs( global_part_pos3( vp_local ) );
         for( const int remote_partnum : veh->loose_parts ) {
             vehicle_part &vp_remote = veh->parts[remote_partnum];
             if( vp_remote.info().has_flag( "POWER_TRANSFER" ) && vp_remote.target.first == local_abs ) {
-                veh->remove_part( vp_remote );
-                return;
+                return std::make_pair( veh, &vp_remote );
             }
         }
+    }
+    return std::nullopt;
+}
+
+void vehicle::remove_remote_part( const vehicle_part &vp_local ) const
+{
+    std::optional<std::pair<vehicle *, vehicle_part *>> part = get_remote_part( vp_local );
+    if( part ) {
+        part->first->remove_part( *part->second );
+        // Rebuild vehicle cache to avoid creating an illusion of the remote car.
+        get_map().rebuild_vehicle_level_caches();
     }
 }
 

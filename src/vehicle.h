@@ -1085,8 +1085,12 @@ class vehicle
         item_location part_base( int p );
 
         /**
-         * Remove a part from a targeted remote vehicle. Useful for, e.g. power cables that have
-         * a vehicle part on both sides.
+         * Get the remote vehicle and part that a part is targeting.
+         * Useful for, e.g. power cables that have a vehicle part on both sides.
+         */
+        std::optional<std::pair<vehicle *, vehicle_part *>> get_remote_part( const vehicle_part &vp_local ) const;
+        /**
+         * Remove the part on a targeted remote vehicle that a part is targeting.
          */
         void remove_remote_part( const vehicle_part &vp_local ) const;
         /**
