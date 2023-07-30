@@ -313,7 +313,7 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5,
-    "learn_spells": { "telekinetic_push": 4, "telekinetic_wave": 6 }
+    "learn_spells": { "telekinetic_push": 4, "telekinetic_wave": 6, "telekinetic_aegis": 8 }
   },
   {
     "id": "telekinetic_explosion",
@@ -390,5 +390,33 @@
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_aoe": 30
+  },
+  {
+    "id": "telekinetic_aegis",
+    "type": "SPELL",
+    "name": "[Ψ]Aegis",
+    "description": "Create a shield impenetrable to physical damage around yourself.  It will only last a few moments.",
+    "message": "The air around you becomes as hard as diamond.",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_telekinetic_aegis",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_nine", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": 100,
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_aegis') * 20) + 200) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 9500,
+    "final_energy_cost": 6000,
+    "energy_increment": -250,
+    "base_casting_time": 125,
+    "final_casting_time": 55,
+    "casting_time_increment": -5
   }
 ]

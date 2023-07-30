@@ -766,6 +766,27 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_telekinetic_aegis",
+    "name": [ "Aegis" ],
+    "desc": [ "You are nearly invincible." ],
+    "apply_message": "",
+    "remove_message": "The air loses its structure and you are vulnerable once again.",
+    "rating": "good",
+    "max_duration": "20 seconds",
+    "removes_effects": [ "grabbed" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_CUT", "add": -100000 },
+          { "value": "ARMOR_BASH", "add": -100000 },
+          { "value": "ARMOR_STAB", "add": -100000 },
+          { "value": "ARMOR_BULLET", "add": -100000 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_telepathic_learning_bonus",
     "name": [ "Trance State" ],
     "desc": [ "You are in a focused mental state, increasing the ease of learning." ],

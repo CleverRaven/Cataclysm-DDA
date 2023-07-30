@@ -4,12 +4,13 @@
     "id": "EOC_SPELL_PYROKIN_CALL_FLAME_SELECTOR",
     "effect": [
       {
-        "run_eoc_selector": [ "EOC_SPELL_PYROKIN_CALL_FLAME_SHORT", "EOC_SPELL_PYROKIN_CALL_FLAME_LONG" ],
-        "names": [ "Banked Flame (short-term)", "Banked Flame (long-term)" ],
-        "keys": [ "1", "2" ],
+        "run_eoc_selector": [ "EOC_SPELL_PYROKIN_CALL_FLAME_SHORT", "EOC_SPELL_PYROKIN_CALL_FLAME_LONG", "EOC_PORTAL_NULL_AWAKENING" ],
+        "names": [ "Banked Flame (short-term)", "Banked Flame (long-term)", "Nevermind" ],
+        "keys": [ "1", "2", "3" ],
         "descriptions": [
           "Summon a banked flame for a short period of time, perhaps 5-10 minutes.",
-          "Summon a banked flame for a longer period of time, over an hour.  This is of necessity more draining than summoning it for a short period of time."
+          "Summon a banked flame for a longer period of time, over an hour.  This is of necessity more draining than summoning it for a short period of time.",
+          "Do nothing for now."
         ]
       }
     ]
