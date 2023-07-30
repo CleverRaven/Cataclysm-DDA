@@ -398,7 +398,7 @@
     "type": "recipe",
     "copy-from": "seed_extraction_base",
     "components": [ [ [ "sunflower", 1 ] ] ],
-    "charges": 16
+    "charges": 4
   },
   {
     "result": "seed_beans",
