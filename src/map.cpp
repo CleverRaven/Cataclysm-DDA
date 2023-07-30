@@ -1306,32 +1306,6 @@ vehicle *map::veh_at_internal( const tripoint &p, int &part_num )
     return const_cast<vehicle *>( const_cast<const map *>( this )->veh_at_internal( p, part_num ) );
 }
 
-vehicle *map::find_vehicle( const tripoint_abs_ms &where ) const
-{
-    // Is it in the reality bubble?
-    if( const optional_vpart_position vp = veh_at( where ) ) {
-        return &vp->vehicle();
-    }
-    // Nope. Load up its submap...
-    point_sm_ms veh_in_sm;
-    tripoint_abs_sm veh_sm;
-    std::tie( veh_sm, veh_in_sm ) = project_remain<coords::sm>( where );
-    const submap *sm = MAPBUFFER.lookup_submap( veh_sm );
-    if( sm == nullptr ) {
-        return nullptr;
-    }
-
-    for( const auto &elem : sm->vehicles ) {
-        vehicle *found_veh = elem.get();
-        // TODO: fix point types
-        if( veh_in_sm.raw() == found_veh->pos ) {
-            return found_veh;
-        }
-    }
-
-    return nullptr;
-}
-
 void map::board_vehicle( const tripoint &pos, Character *p )
 {
     if( p == nullptr ) {

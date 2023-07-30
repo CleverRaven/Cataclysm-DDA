@@ -13071,9 +13071,10 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
         link->s_bub_pos = pos;
         check_length = true;
     }
+
     // Re-establish vehicle pointer if it got lost or if this item just got loaded.
     if( !link->t_veh_safe ) {
-        vehicle *found_veh = here.find_vehicle( link->t_abs_pos );
+        vehicle *found_veh = vehicle::find_vehicle( link->t_abs_pos );
         if( !found_veh ) {
             return reset_link( carrier, -2, true, pos );
         }

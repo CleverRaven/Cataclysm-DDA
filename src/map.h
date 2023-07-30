@@ -696,12 +696,6 @@ class map
         optional_vpart_position veh_at( const tripoint_bub_ms &p ) const;
         vehicle *veh_at_internal( const tripoint &p, int &part_num );
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
-        /**
-        * Find a possibly off-map vehicle. If necessary, loads up its submap through
-        * the global MAPBUFFER and pulls it from there.
-        * @param where Absolute coordinates of the target vehicle's origin tile.
-        */
-        vehicle *find_vehicle( const tripoint_abs_ms &where ) const;
         // Put player on vehicle at x,y
         void board_vehicle( const tripoint &p, Character *pl );
         // Remove given passenger from given vehicle part.

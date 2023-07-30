@@ -848,6 +848,13 @@ class vehicle
         template<typename Vehicle>
         static std::map<Vehicle *, float> search_connected_vehicles( Vehicle *start );
     public:
+        /**
+         * Find a possibly off-map vehicle. If necessary, loads up its submap through
+         * the global MAPBUFFER and pulls it from there. For this reason, you should only
+         * give it the coordinates of the origin tile of a target vehicle.
+         * @param where Location of the other vehicle's origin tile.
+         */
+        static vehicle *find_vehicle( const tripoint_abs_ms &where );
         //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
         std::map<vehicle *, float> search_connected_vehicles();
         //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
@@ -1088,7 +1095,8 @@ class vehicle
          * Get the remote vehicle and part that a part is targeting.
          * Useful for, e.g. power cables that have a vehicle part on both sides.
          */
-        std::optional<std::pair<vehicle *, vehicle_part *>> get_remote_part( const vehicle_part &vp_local ) const;
+        std::optional<std::pair<vehicle *, vehicle_part *>> get_remote_part( const vehicle_part &vp_local )
+                const;
         /**
          * Remove the part on a targeted remote vehicle that a part is targeting.
          */
