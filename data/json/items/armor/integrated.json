@@ -1523,7 +1523,6 @@
           { "type": "superalloy", "covered_by_mat": 95, "thickness": 4.0 }
         ],
         "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
-        "//": "covers": [ "bionic_basic_arm_l", "bionic_basic_arm_r", "bionic_basic_hand_l", "bionic_basic_hand_r" ],
         "coverage": 100,
         "encumbrance": 10,
         "cover_vitals": 100
@@ -1556,7 +1555,6 @@
           { "type": "superalloy", "covered_by_mat": 95, "thickness": 4.0 }
         ],
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
-        "//": "covers": [ "bionic_basic_leg_l", "bionic_basic_leg_r", "bionic_basic_foot_l", "bionic_basic_foot_r" ],
         "coverage": 100,
         "encumbrance": 10,
         "cover_vitals": 100
