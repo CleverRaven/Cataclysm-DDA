@@ -89,7 +89,7 @@
     "weight": "360 g",
     "volume": "528 ml",
     "price": 2000,
-    "price_postapoc": 8000,
+    "price_postapoc": 250,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "manual_gun",

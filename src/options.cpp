@@ -2239,7 +2239,7 @@ void options_manager::add_options_graphics()
                                          to_translation( "Font display settings.  To change font type or source file, edit fonts.json in config directory." ) ),
     [&]( const std::string & page_id ) {
         add( "FONT_BLENDING", page_id, to_translation( "Font blending" ),
-             to_translation( "If true, fonts will look better." ),
+             to_translation( "If true, vector fonts may look better." ),
              false, COPT_CURSES_HIDE
            );
 
