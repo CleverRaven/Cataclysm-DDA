@@ -1299,44 +1299,6 @@ void npc::starting_weapon( const npc_class_id &type )
     }
 }
 
-bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
-{
-    if( !book.is_book() ) {
-        fail_reasons.push_back( string_format( _( "This %s is not good reading material." ),
-                                               book.tname() ) );
-        return false;
-    }
-    Character *pl = dynamic_cast<Character *>( this );
-    if( !pl ) {
-        return false;
-    }
-    const auto &type = book.type->book;
-    const skill_id &skill = type->skill;
-    const int skill_level = pl->get_knowledge_level( skill );
-    if( skill && skill_level < type->req ) {
-        fail_reasons.push_back( string_format( _( "I'm not smart enough to read this book." ) ) );
-        return false;
-    }
-    if( !skill || skill_level >= type->level ) {
-        fail_reasons.push_back( string_format( _( "I won't learn anything from this book." ) ) );
-        return false;
-    }
-
-    // Check for conditions that disqualify us
-    if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
-        fail_reasons.emplace_back( _( "I can't read!" ) );
-    } else if( has_flag( json_flag_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
-               !has_effect( effect_contacts ) &&
-               !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
-        fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
-    } else if( fine_detail_vision_mod() > 4 ) {
-        // Too dark to read only applies if the player can read to himself
-        fail_reasons.emplace_back( _( "It's too dark to read!" ) );
-        return false;
-    }
-    return true;
-}
-
 time_duration npc::time_to_read( const item &book, const Character &reader ) const
 {
     const auto &type = book.type->book;

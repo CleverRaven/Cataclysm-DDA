@@ -2149,6 +2149,12 @@ class Character : public Creature, public visitable
          */
         ret_val<void> can_wear( const item &it, bool with_equip_change = false ) const;
         /**
+         * Check if the character needs and be able to read a book.
+         * @param book Thing to be read.
+         * @param fail_reasons Why the character cannot read.
+         */
+        bool can_read( const item &book, std::vector<std::string> &fail_reasons );
+        /**
          * Returns true if the character is wielding something.
          * Note: this item may not actually be used to attack.
          */

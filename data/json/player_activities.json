@@ -67,6 +67,17 @@
     "multi_activity": true
   },
   {
+    "id": "ACT_MULTIPLE_READ",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "reading",
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true,
+    "auto_needs": true
+  },
+  {
     "id": "ACT_MOP",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
