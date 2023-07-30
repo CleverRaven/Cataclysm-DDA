@@ -234,6 +234,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_math_test_inline_condition",
+    "condition": { "math": [ "u_val('stamina') == 500" ] },
+    "effect": [ { "math": [ "_noop", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_math_test_greater_increment",
     "condition": { "math": [ "math_test", ">", "0" ] },
     "effect": [ { "math": [ "math_test", "+=", "1" ] } ],

@@ -10357,6 +10357,8 @@ int item::gun_range( const Character *p ) const
         ret += std::max( 0.0, ( p->get_str() - get_min_str() ) * 0.5 );
     }
 
+    ret = p->enchantment_cache->modify_value( enchant_vals::mod::RANGE, ret );
+
     return std::max( 0, ret );
 }
 
