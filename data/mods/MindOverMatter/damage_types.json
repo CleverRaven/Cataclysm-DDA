@@ -8,12 +8,18 @@
     "skill": "metaphysics",
     "derived_from": [ "bash", 0.9 ],
     "immune_flags": { "character": [ "TELEKIN_SHIELD" ], "monster": [ "TELEKIN_IMMUNE" ] },
-    "ondamage_eocs": [ "EOC_TELEKINETIC_DAMAGE_KNOCKDOWN_CHANCE" ]
+    "ondamage_eocs": [ "EOC_TELEKINETIC_DAMAGE_KNOCKDOWN_CHANCE", "EOC_TELEKINETIC_DAMAGE_STAGGER_CHANCE" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_DAMAGE_STAGGER_CHANCE",
+    "condition": { "and": [ { "x_in_y_chance": { "x": 45, "y": 100 } }, { "math": [ "_damage_taken", ">", "0" ] } ] },
+    "effect": [ { "npc_add_effect": "staggered", "duration": "2 s" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKINETIC_DAMAGE_KNOCKDOWN_CHANCE",
-    "condition": { "x_in_y_chance": { "x": 40, "y": 100 } },
+    "condition": { "and": [ { "x_in_y_chance": { "x": 20, "y": 100 } }, { "math": [ "_damage_taken", ">", "0" ] } ] },
     "effect": [ { "npc_add_effect": "downed", "duration": "1 s" } ]
   },
   {
@@ -35,18 +41,24 @@
     "name": "telepathic",
     "skill": "metaphysics",
     "immune_flags": { "character": [ "TEEPSHIELD" ], "monster": [ "TEEP_IMMUNE" ] },
-    "ondamage_eocs": [ "EOC_TELEPATHIC_DAMAGE_STUN_CHANCE", "EOC_TELEPATHIC_DAMAGE_DAZED_CHANCE" ]
+    "ondamage_eocs": [ "EOC_TELEPATHIC_DAMAGE_STUN_CHANCE", "EOC_TELEPATHIC_DAMAGE_DAZED_CHANCE", "EOC_TELEPATHIC_DAMAGE_KNOCKDOWN_CHANCE" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATHIC_DAMAGE_KNOCKDOWN_CHANCE",
+    "condition": { "x_in_y_chance": { "x": 5, "y": 100 } },
+    "effect": [ { "npc_add_effect": "downed", "duration": "1 s" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATHIC_DAMAGE_STUN_CHANCE",
-    "condition": { "x_in_y_chance": { "x": 33, "y": 100 } },
+    "condition": { "and": [ { "x_in_y_chance": { "x": 33, "y": 100 } }, { "math": [ "_damage_taken", ">", "0" ] } ] },
     "effect": [ { "npc_add_effect": "stunned", "duration": "1 s" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATHIC_DAMAGE_DAZED_CHANCE",
-    "condition": { "x_in_y_chance": { "x": 66, "y": 100 } },
+    "condition": { "and": [ { "x_in_y_chance": { "x": 66, "y": 100 } }, { "math": [ "_damage_taken", ">", "0" ] } ] },
     "effect": [ { "npc_add_effect": "psi_dazed", "duration": "2 s" } ]
   },
   {
