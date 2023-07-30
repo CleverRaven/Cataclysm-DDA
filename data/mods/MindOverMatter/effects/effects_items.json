@@ -29,6 +29,6 @@
     "remove_message": "The world snaps back into focus.",
     "rating": "good",
     "max_duration": "1 minutes",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FORCEFIELD", "add": 0.96 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FORCEFIELD", "add": 0.94 } ] } ]
   }
 ]
