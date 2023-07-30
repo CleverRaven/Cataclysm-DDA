@@ -14,7 +14,8 @@ Details on how to use `ui_adaptor` can be found within `ui_manager.h`.
 
 ## SDL version requirement of the tiles build 
 
-In theory, any version of SDL2 is supported. However, newer versions of SDL adds
+Some functions used by this project require SDL 2.0.6, and the actual version
+requirement might be higher. While using a newer version is optional, new versions add
 several hints that are used to fix some incorrect behaviors of older SDL versions.
 These hints and the minimum SDL version requirements can be found within `InitSDL`
 in `sdltiles.cpp`. For example, SDL 2.0.20 is required for IME candidate list

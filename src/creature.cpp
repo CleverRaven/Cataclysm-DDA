@@ -2131,9 +2131,9 @@ void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max
     }
 }
 
-bool Creature::has_part( const bodypart_id &id ) const
+bool Creature::has_part( const bodypart_id &id, body_part_filter filter ) const
 {
-    return body.count( id.id() );
+    return get_part_id( id, filter, true ) != body_part_bp_null;
 }
 
 bodypart *Creature::get_part( const bodypart_id &id )
@@ -2191,20 +2191,25 @@ static void set_part_helper( Creature &c, const bodypart_id &id,
     }
 }
 
-bodypart_id Creature::get_part_id( const bodypart_id &id ) const
+bodypart_id Creature::get_part_id( const bodypart_id &id,
+                                   body_part_filter filter, bool suppress_debugmsg ) const
 {
     auto found = body.find( id.id() );
-    if( found == body.end() ) {
-        // try to find an equivalent part in the body map
+    if( found != body.end() ) {
+        return found->first;
+    }
+    // try to find an equivalent part in the body map
+    if( filter >= body_part_filter::equivalent ) {
         for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
             if( id->part_side == bp.first->part_side &&
                 id->primary_limb_type() == bp.first->primary_limb_type() ) {
                 return bp.first;
             }
         }
-
-        // try to find the next best thing
-        std::pair<bodypart_id, float> best = { body_part_bp_null, 0.0f };
+    }
+    // try to find the next best thing
+    std::pair<bodypart_id, float> best = { body_part_bp_null, 0.0f };
+    if( filter >= body_part_filter::next_best ) {
         for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
             for( const std::pair<const body_part_type::type, float> &mp : bp.first->limbtypes ) {
                 // if the secondary limb type matches and is better than the current
@@ -2215,14 +2220,12 @@ bodypart_id Creature::get_part_id( const bodypart_id &id ) const
                 }
             }
         }
-
-        if( best.first == body_part_bp_null ) {
-            debugmsg( "Could not find equivalent bodypart id %s in %s's body", id.id().c_str(), get_name() );
-        }
-
-        return best.first;
     }
-    return found->first;
+    if( best.first == body_part_bp_null && !suppress_debugmsg ) {
+        debugmsg( "Could not find equivalent bodypart id %s in %s's body", id.id().c_str(), get_name() );
+    }
+
+    return best.first;
 }
 
 int Creature::get_part_hp_cur( const bodypart_id &id ) const

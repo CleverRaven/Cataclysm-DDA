@@ -10357,6 +10357,8 @@ int item::gun_range( const Character *p ) const
         ret += std::max( 0.0, ( p->get_str() - get_min_str() ) * 0.5 );
     }
 
+    ret = p->enchantment_cache->modify_value( enchant_vals::mod::RANGE, ret );
+
     return std::max( 0, ret );
 }
 
@@ -11839,7 +11841,8 @@ void item::set_item_temperature( units::temperature new_temperature )
 int item::fill_with( const item &contained, const int amount,
                      const bool unseal_pockets,
                      const bool allow_sealed,
-                     const bool ignore_settings )
+                     const bool ignore_settings,
+                     const bool into_bottom )
 {
     if( amount <= 0 ) {
         return 0;
@@ -11883,7 +11886,7 @@ int item::fill_with( const item &contained, const int amount,
             }
         }
 
-        if( !pocket->insert_item( contained_item ).success() ) {
+        if( !pocket->insert_item( contained_item, into_bottom ).success() ) {
             if( count_by_charges ) {
                 debugmsg( "charges per remaining pocket volume does not fit in that very volume" );
             } else {

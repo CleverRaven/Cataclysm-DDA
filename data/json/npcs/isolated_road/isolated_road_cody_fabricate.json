@@ -169,7 +169,7 @@
           ]
         },
         "effect": [
-          { "u_spawn_item": "armor_hc_chainmail" },
+          { "u_spawn_item": "hc_chainmail_suit" },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" }
         ],
@@ -184,7 +184,7 @@
           ]
         },
         "effect": [
-          { "u_spawn_item": "armor_qt_chainmail" },
+          { "u_spawn_item": "qt_chainmail_suit" },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" }
         ],

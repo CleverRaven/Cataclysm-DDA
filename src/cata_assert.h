@@ -1,3 +1,4 @@
+#pragma once
 // NOLINTNEXTLINE(cata-header-guard)
 // Due to an inability to suppress assert popups when building against mingw-w64
 // and running on wine, and to suppress unused variable warnings in release builds,

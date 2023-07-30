@@ -3608,7 +3608,7 @@ class jmapgen_nested : public jmapgen_piece
                             }
                         }
                     }
-                    return false;
+                    return neighbors.empty();
                 }
         };
 
