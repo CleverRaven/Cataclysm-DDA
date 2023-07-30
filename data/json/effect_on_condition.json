@@ -830,9 +830,9 @@
         { "not": { "u_near_om_location": "smallscrapyard_ocu", "range": 4 } }
       ]
     },
-    "effect": [ 
+    "effect": [
       { "mapgen_update": "bandit_killer_add" },
-      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+", { "const": 1 } ] } 
+      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+", { "const": 1 } ] }
     ]
   },
   {
@@ -853,10 +853,10 @@
         { "not": { "u_near_om_location": "smallscrapyard_ocu", "range": 4 } }
       ]
     },
-    "effect": [ 
-      { "mapgen_update": "bandit_killer_add" }, 
+    "effect": [
       { "mapgen_update": "bandit_killer_add" },
-      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+", { "const": 2 } ] }  
+      { "mapgen_update": "bandit_killer_add" },
+      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+", { "const": 2 } ] }
     ]
   },
   {
@@ -900,9 +900,9 @@
         { "not": { "u_near_om_location": "smallscrapyard_ocu", "range": 4 } }
       ]
     },
-    "effect": [ 
+    "effect": [
       { "mapgen_update": "government_killteam_add" },
-      { "arithmetic": [ { "u_val": "var", "var_name": "government_assassins_sent" }, "+", { "const": 2 } ] } 
+      { "arithmetic": [ { "u_val": "var", "var_name": "government_assassins_sent" }, "+", { "const": 2 } ] }
     ]
   },
   {
