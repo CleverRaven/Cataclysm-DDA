@@ -199,5 +199,11 @@
     "id": "survivor_light_on",
     "type": "MIGRATION",
     "replace": "wearable_light_on"
+  },
+  {
+    "id": "bodypillow_makeshift",
+    "type": "MIGRATION",
+    "replace": "bodypillow",
+    "variant": "bodypillow_makeshift"
   }
 ]

@@ -4183,7 +4183,8 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
                 int result = holster->fill_with( it, charges,
                                                  /*unseal_pockets=*/true,
                                                  /*allow_sealed=*/true,
-                                                 /*ignore_settings*/true );
+                                                 /*ignore_settings*/true,
+                                                 /*into_bottom*/true );
                 success = result > 0;
 
                 if( success ) {

@@ -1712,7 +1712,9 @@
     "occupied_bodyparts": [ [ "torso", 2 ], [ "mouth", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ],
     "social_modifiers": { "persuade": -20, "lie": 10, "intimidate": 20 },
-    "canceled_mutations": [ "GROWL", "SNARL", "HISS", "CROAK" ]
+    "//": "bird mutants might have an entirely different vocal chord structure rather than just a different tone of voice",
+    "canceled_mutations": [ "GROWL", "SNARL", "HISS", "CROAK" ],
+    "mutation_conflicts": [ "SCREECH" ]
   },
   {
     "id": "bio_watch",

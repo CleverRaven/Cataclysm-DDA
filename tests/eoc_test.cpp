@@ -45,6 +45,8 @@ effect_on_condition_EOC_math_test_equals_assign( "EOC_math_test_equals_assign" )
 static const effect_on_condition_id
 effect_on_condition_EOC_math_test_greater_increment( "EOC_math_test_greater_increment" );
 static const effect_on_condition_id
+effect_on_condition_EOC_math_test_inline_condition( "EOC_math_test_inline_condition" );
+static const effect_on_condition_id
 effect_on_condition_EOC_math_var( "EOC_math_var" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
@@ -170,8 +172,10 @@ TEST_CASE( "EOC_math_integration", "[eoc][math_parser]" )
     CHECK( effect_on_condition_EOC_math_var->test_condition( d ) );
 
     CHECK_FALSE( effect_on_condition_EOC_math_test_equals_assign->test_condition( d ) );
+    CHECK_FALSE( effect_on_condition_EOC_math_test_inline_condition->test_condition( d ) );
     get_avatar().set_stamina( 500 );
     CHECK( effect_on_condition_EOC_math_test_equals_assign->test_condition( d ) );
+    CHECK( effect_on_condition_EOC_math_test_inline_condition->test_condition( d ) );
     effect_on_condition_EOC_math_test_equals_assign->activate( d );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_math_test" ) ) == Approx( 9 ) );
     effect_on_condition_EOC_math_switch_math->activate( d );
