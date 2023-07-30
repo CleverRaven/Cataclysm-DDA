@@ -12,6 +12,7 @@
 
 static const activity_id ACT_ADD_VARIABLE_COMPLETE( "ACT_ADD_VARIABLE_COMPLETE" );
 static const activity_id ACT_ADD_VARIABLE_DURING( "ACT_ADD_VARIABLE_DURING" );
+static const activity_id ACT_GENERIC_EOC( "ACT_GENERIC_EOC" );
 
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_LINE( "EOC_TEST_TRANSFORM_LINE" );
@@ -676,7 +677,7 @@ TEST_CASE( "EOC_run_with_test_queue", "[eoc]" )
     CHECK( d.get_value( "npctalk_var_key3" ).empty() );
 }
 
-TEST_CASE( "EOC_spell_event", "[eoc]" )
+TEST_CASE( "EOC_event_test", "[eoc]" )
 {
     clear_avatar();
     clear_map();
@@ -689,6 +690,7 @@ TEST_CASE( "EOC_spell_event", "[eoc]" )
     REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
 
+    // character_casts_spell
     spell temp_spell( spell_test_eoc_spell );
     temp_spell.set_level( get_avatar(), 5 );
     temp_spell.cast_all_effects( get_avatar(), tripoint() );
@@ -696,6 +698,21 @@ TEST_CASE( "EOC_spell_event", "[eoc]" )
     CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "45" );
     CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "100" );
     CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "5" );
+
+    // character_starts_activity
+    globvars.clear_global_values();
+    get_avatar().assign_activity( ACT_GENERIC_EOC, 1 );
+
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "ACT_GENERIC_EOC" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "0" );
+    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "activity start" );
+
+    // character_finished_activity
+    get_avatar().cancel_activity();
+
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "ACT_GENERIC_EOC" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "1" );
+    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "activity finished" );
 }
 
 TEST_CASE( "EOC_spell_exp", "[eoc]" )
