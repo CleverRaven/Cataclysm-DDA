@@ -19,27 +19,27 @@ The devcontainer was introduced in [#65748](https://github.com/CleverRaven/Catac
 5. Visual Studio Code will show a pup-up in the bottom right with recommended extentions. Install those.
 6. Now restart visual studio code. When prompted, click "Reopen in container":
    
-  ![add user to devcontainer image](https://i.imgur.com/N9FcZtZ.png)
+  ![Re-open devcontainer in vscode](../img/Devcontainer-Re-Open-In-Container.png)
 
   6.1 Linux only: You may see this message:
-
-  ![add user to devcontainer image](https://i.imgur.com/mEQhFSF.png)
+  
+  ![User does not have access to group, add user to docker group first](../img/Devcontainer-User-Does-Not-Have-Access-Add-To-Group-First.png)
   
   In that case, add the user to the docker group using the terminal:
-
-  ![add user to devcontainer image](https://i.imgur.com/jZNNoYM.png)
+  
+  ![Add user to docker group in terminal](../img/Devcontainer-Add-User-To-Docker-Group.png)
 
   After that, log out of your account and log back in so the permissions are updated. If that doesn't work, reboot your computer.
 
   
 7. Allow the container to build and for VSCode to Reopen. If everything goes well, you will see the container running:
 
-  ![add user to devcontainer image](https://i.imgur.com/ADLUFgP.png)
+  ![Image showing the container is running in vscode](../img/Devcontainer-Running-Cataclysm-Devcontainer.png)
 
 
 8. Select the makefile extension on the bottom left and choose your desired configuration. Press the "Play" button to build the project
 
-  ![add user to devcontainer image](https://i.imgur.com/SVi8xAN.png)
+  ![Image the buttons to press in the makefile extention](../img/Devcontainer-Make-File-Configs.png)
   
 The build result should be located in the folder where you cloned your fork to (e.g. /workspaces/Cataclysm-DDA)
 
