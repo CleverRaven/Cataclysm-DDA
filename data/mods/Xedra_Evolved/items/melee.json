@@ -147,7 +147,7 @@
     "id": "dreamdross_bo",
     "symbol": "/",
     "color": "light_gray",
-    "name": { "str_sp": "dreamdrossed quarterstaff" },
+    "name": { "str": "dreamdrossed quarterstaff", "str_pl": "dreamdrossed quarterstaves" },
     "description": "Piece of stick, that was covered with dreamdross.  Pretty long, so you can reach far target with it, but it has lack of magical properties.",
     "copy-from": "bo",
     "volume": "1500 ml",
