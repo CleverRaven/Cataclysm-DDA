@@ -24,7 +24,7 @@
     "type": "TOOL",
     "category": "other",
     "name": { "str": "device labeled OS647-P", "str_pl": "devices labeled OS647-P" },
-    "description": "A small plastic device about the size of two smartphones stacked on top of each other, with a toggle on one end and \"OS647-P\" written prominently on one side above the XEDRA logo.  There is an indention on the other side the right size to contain a matrix crystal.",
+    "description": "A small plastic device about the size of two smartphones stacked on top of each other, with a toggle on one end and \"OS647-P\" written prominently on one side above the XEDRA logo.  There is an indentation on the other side the right size to contain a matrix crystal.",
     "weight": "500 g",
     "volume": "200 ml",
     "material": [
