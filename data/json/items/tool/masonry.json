@@ -93,8 +93,7 @@
         "charge_rate": "2200 W"
       }
     ],
-    "//3": "We don't have the electric masonry saw tick action, so I'll use this as a placeholder…",
-    "tick_action": [ "ELEC_CHAINSAW_ON" ],
+    "tick_action": [ "ELECTRIC_CIRCSAW_ON" ],
     "flags": [
       "MESSY",
       "TRADER_AVOID",
