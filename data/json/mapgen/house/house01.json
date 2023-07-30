@@ -120,7 +120,7 @@
         "D": [ [ "t_door_b", 5 ], [ "t_door_frame", 8 ] ],
         "W": "t_window_frame",
         "c": "t_dirtmound",
-        "d": [ [ "t_region_soil", 3 ], [ "t_thconc_floor", 6 ] ],
+        "d": "t_thconc_floor",
         "w": { "param": "wall_type", "fallback": "t_wall_w" },
         "{": [ [ "t_door_b", 5 ], [ "t_door_frame", 8 ] ],
         "o": [ [ "t_window_empty", 8 ], [ "t_window_frame", 9 ], [ "t_window_boarded", 1 ] ]
