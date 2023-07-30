@@ -1175,7 +1175,7 @@
   {
     "id": "mon_mutant_salmon",
     "type": "MONSTER",
-    "name": { "str": "giant salmon" },
+    "name": { "str_sp": "giant salmon" },
     "description": "A mutated salmon roughly the size of a person.  Quite dangerous to the inexperienced angler.",
     "default_faction": "mutant",
     "bodytype": "fish",
@@ -1206,7 +1206,7 @@
   {
     "id": "mon_mutant_salmon_huge",
     "type": "MONSTER",
-    "name": { "str": "huge salmon" },
+    "name": { "str_sp": "huge salmon" },
     "description": "A huge mutant salmon grown almost to the size of an alligator.",
     "default_faction": "mutant",
     "bodytype": "fish",
