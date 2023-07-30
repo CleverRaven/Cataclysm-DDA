@@ -27,7 +27,7 @@
   },
   {
     "id": "pressure_tank",
-    "type": "TOOL",
+    "type": "GENERIC",
     "copy-from": "pressure_tank",
     "name": { "str": "pressurized tank" },
     "flags": [ "NO_UNLOAD", "MAG_BULKY" ]
