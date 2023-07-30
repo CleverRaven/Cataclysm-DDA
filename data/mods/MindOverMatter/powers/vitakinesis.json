@@ -108,7 +108,7 @@
     "base_casting_time": 100,
     "final_casting_time": 25,
     "casting_time_increment": -7.5,
-    "learn_spells": { "vita_sleeping_trance": 7, "vita_banish_illness": 13, "vita_healing_trance": 15 }
+    "learn_spells": { "vita_health_power_ally": 5, "vita_sleeping_trance": 7, "vita_healing_trance": 15, "vita_banish_illness": 18 }
   },
   {
     "id": "vita_hurt_touch",
@@ -144,7 +144,43 @@
     "base_casting_time": 85,
     "final_casting_time": 55,
     "casting_time_increment": -3,
-    "learn_spells": { "vita_pain_split": 7, "vita_healing_trance": 15 }
+    "learn_spells": { "vita_pain_split": 7, "vita_health_power_ally": 9, "vita_healing_trance": 15 }
+  },
+  {
+    "id": "vita_health_power_ally",
+    "type": "SPELL",
+    "name": "[Ψ]Medicinal Touch",
+    "description": "You can apply your Healthy Glow power to a follower or ally.  This can stop an asthma attack.",
+    "message": "Your touch your target and they seem to perk up.",
+    "valid_targets": [ "ally" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_vita_health",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "min_range": 1,
+    "base_energy_cost": 3500,
+    "final_energy_cost": 2000,
+    "energy_increment": -75,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_health_power_ally') * 2100) + 18000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_health_power_ally') * 2700) + 145000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "base_casting_time": 100,
+    "final_casting_time": 25,
+    "casting_time_increment": -7.5,
+    "learn_spells": { "vita_pain_split": 4, "vita_blood_purge": 13 }
   },
   {
     "id": "vita_pain_split",
