@@ -832,7 +832,7 @@
     },
     "effect": [
       { "mapgen_update": "bandit_killer_add" },
-      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+", { "const": 1 } ] }
+      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
     ]
   },
   {
@@ -856,7 +856,7 @@
     "effect": [
       { "mapgen_update": "bandit_killer_add" },
       { "mapgen_update": "bandit_killer_add" },
-      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+", { "const": 2 } ] }
+      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 2 } ] }
     ]
   },
   {
@@ -880,7 +880,7 @@
       { "mapgen_update": "bandit_killer_add" },
       { "mapgen_update": "bandit_killer_add" },
       { "mapgen_update": "bandit_killer_add" },
-      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+", { "const": 3 } ] }
+      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 3 } ] }
     ]
   },
   {
@@ -902,7 +902,7 @@
     },
     "effect": [
       { "mapgen_update": "government_killteam_add" },
-      { "arithmetic": [ { "u_val": "var", "var_name": "government_assassins_sent" }, "+", { "const": 2 } ] }
+      { "arithmetic": [ { "u_val": "var", "var_name": "government_assassins_sent" }, "+=", { "const": 2 } ] }
     ]
   },
   {
