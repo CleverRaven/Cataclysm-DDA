@@ -592,7 +592,8 @@ static int npc_activities_menu()
     nmenu.addentry( NPC_CHAT_ACTIVITIES_FISHING, true, 'F', _( "Fishing in a zone" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_MINING, true, 'M', _( "Mining out tiles" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_MOPPING, true, 'm', _( "Mopping up stains" ) );
-    nmenu.addentry( NPC_CHAT_ACTIVITIES_READ_REPEATEDLY, true, 'R', _( "Study from books you have in order" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_READ_REPEATEDLY, true, 'R',
+                    _( "Study from books you have in order" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_VEHICLE_DECONSTRUCTION, true, 'v',
                     _( "Deconstructing vehicles" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_VEHICLE_REPAIR, true, 'V', _( "Repairing vehicles" ) );
