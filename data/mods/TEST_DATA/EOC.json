@@ -336,6 +336,28 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_character_finished_activity_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "effect": [
+      { "set_string_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
+      { "math": [ "key2", "=", "_canceled" ] },
+      { "set_string_var": "activity finished", "target_var": { "global_val": "key3" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_starts_activity_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "effect": [
+      { "set_string_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
+      { "math": [ "key2", "=", "_resume" ] },
+      { "set_string_var": "activity start", "target_var": { "global_val": "key3" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_increment_var_var",
     "//": "tests adding a variable, that's in another variable",
     "effect": [

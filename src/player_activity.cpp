@@ -12,6 +12,7 @@
 #include "construction.h"
 #include "effect_on_condition.h"
 #include "field.h"
+#include "event_bus.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -214,6 +215,7 @@ void player_activity::start_or_resume( Character &who, bool resuming )
     }
     // last, as start function may have changed the type
     synchronize_type_with_actor();
+    get_event_bus().send<event_type::character_starts_activity>( who.getID(), type, resuming );
 }
 
 void player_activity::do_turn( Character &you )
@@ -366,6 +368,7 @@ void player_activity::do_turn( Character &you )
                 debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
             }
         }
+        get_event_bus().send<event_type::character_finished_activity>( you.getID(), type, false );
         if( actor ) {
             actor->finish( *this, you );
         } else {
@@ -391,6 +394,7 @@ void player_activity::canceled( Character &who )
     if( *this && actor ) {
         actor->canceled( *this, who );
     }
+    get_event_bus().send<event_type::character_finished_activity>( who.getID(), type, true );
 }
 
 float player_activity::exertion_level() const
