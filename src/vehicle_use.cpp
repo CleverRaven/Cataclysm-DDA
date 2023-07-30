@@ -2168,8 +2168,8 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
 
     if( vp.part_with_tool( itype_water_purifier ) ) {
         menu.add( _( "Purify water in vehicle tank" ) )
-        .enable( true/*fuel_left( itype_water ) &&
-                 fuel_left( itype_battery ) >= itype_water_purifier->charges_to_use() */)
+        .enable( fuel_left( itype_water ) &&
+                 fuel_left( itype_battery ) >= itype_water_purifier->charges_to_use() )
         .hotkey( "PURIFY_WATER" )
         .on_submit( [this] {
             const auto sel = []( const vehicle_part & pt )

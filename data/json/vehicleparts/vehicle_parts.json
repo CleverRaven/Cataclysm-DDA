@@ -470,7 +470,6 @@
     "durability": 100,
     "description": "A computer system hooked up to the steering and engine of the vehicle to allow it to follow simple paths.",
     "item": "programmable_autopilot",
-    "folded_volume": "2500 ml",
     "looks_like": "cam_control",
     "epower": "-15 W",
     "flags": [ "ENABLED_DRAINS_EPOWER", "AUTOPILOT" ],
