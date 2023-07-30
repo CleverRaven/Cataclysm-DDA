@@ -130,13 +130,13 @@
           "type": "ter_str_id",
           "default": {
             "distribution": [
-              [ "t_wall_b", 1 ],
-              [ "t_wall_g", 1 ],
-              [ "t_wall_p", 1 ],
-              [ "t_wall_P", 1 ],
-              [ "t_wall_r", 1 ],
-              [ "t_wall_half", 6 ],
-              [ "t_wall_y", 1 ]
+              [ "t_wall_b", 2 ],
+              [ "t_wall_g", 2 ],
+              [ "t_wall_p", 2 ],
+              [ "t_wall_P", 2 ],
+              [ "t_wall_r", 2 ],
+              [ "t_wall_half", 1 ],
+              [ "t_wall_y", 2 ]
             ]
           }
         }
