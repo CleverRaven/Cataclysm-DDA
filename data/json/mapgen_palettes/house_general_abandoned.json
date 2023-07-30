@@ -30,16 +30,16 @@
             [ "t_window_domestic", 1 ],
             [ "t_window_no_curtains", 1 ],
             [ "t_window_no_curtains_open", 1 ],
-            [ "t_window_taped", 3 ],
-            [ "t_window_no_curtains_taped", 2 ],
-            [ "t_window_domestic_taped", 2 ],
-            [ "t_window_empty", 12 ],
-            [ "t_window_frame", 14 ],
-            [ "t_window_boarded", 2 ],
-            [ "t_window_boarded_noglass", 4 ],
-            [ "t_window_reinforced", 1 ],
-            [ "t_window_reinforced_noglass", 2 ],
-            [ "t_plastic_window", 2 ]
+            [ "t_window_taped", 5 ],
+            [ "t_window_no_curtains_taped", 5 ],
+            [ "t_window_domestic_taped", 5 ],
+            [ "t_window_empty", 7 ],
+            [ "t_window_frame", 7 ],
+            [ "t_window_boarded", 7 ],
+            [ "t_window_boarded_noglass", 5 ],
+            [ "t_window_reinforced", 6 ],
+            [ "t_window_reinforced_noglass", 5 ],
+            [ "t_plastic_window", 7 ]
           ]
         }
       },

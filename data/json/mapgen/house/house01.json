@@ -122,7 +122,8 @@
         "c": "t_dirtmound",
         "d": [ [ "t_region_soil", 1 ], [ "t_thconc_floor", 6 ] ],
         "w": "t_wall_half",
-        "{": [ [ "t_door_b", 5 ], [ "t_door_frame", 8 ] ]
+        "{": [ [ "t_door_b", 5 ], [ "t_door_frame", 8 ] ],
+        "o": [ [ "t_window_empty", 8 ], [ "t_window_frame", 9 ], [ "t_window_boarded", 1 ] ]
       },
       "place_item": [
         { "chance": 5, "item": "2x4", "repeat": 1, "x": 3, "y": 7 },
