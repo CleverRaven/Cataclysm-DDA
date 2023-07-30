@@ -580,6 +580,38 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_clair_ranged_enhance",
+    "name": [ "Marksman's Eye" ],
+    "desc": [ "Ranged attacks are much easier for you." ],
+    "apply_message": "",
+    "remove_message": "The world lurches as apparent distances snap back into place.",
+    "decay_messages": [ [ "Your range of vision is narrowing rapidly.", "bad" ], [ "Your enhanced sight is fading.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "max_intensity": 46,
+    "dur_add_perc": 15,
+    "int_dur_factor": "41 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "RANGE",
+            "add": {
+              "math": [ "(1 + ( u_val('spell_level', 'spell: clair_ranged_enhance') * 0.5 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "WEAPON_DISPERSION",
+            "multiply": {
+              "math": [ "( ( u_val('spell_level', 'spell: clair_ranged_enhance') * -0.025) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_clair_dodge",
     "name": [ "Anticipating Attack" ],
     "desc": [ "You can see your enemies' attacks in advance." ],
