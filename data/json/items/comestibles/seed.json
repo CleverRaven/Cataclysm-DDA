@@ -428,10 +428,10 @@
     "quench": -1,
     "calories": 11,
     "description": "Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or eaten raw.",
-    "//": "30 grams of hemp seeds have ~166 calories. as this is 2g worth it has 11.  Seed production from hemp plants are wildly variable.",
+    "//": "30 grams of hemp seeds have ~166 calories. as this is 2g worth it has 11.  Seed production from hemp plants are wildly variable, from the hundreds to thousand+.",
     "price": 100,
     "weight": "2 g",
-    "charges": 50,
+    "charges": 40,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "cannabis", "fruit": "cannabis", "grow": "91 days" },
     "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
