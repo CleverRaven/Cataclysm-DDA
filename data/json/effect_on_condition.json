@@ -852,28 +852,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_BANDIT_ASSASSIN_3",
-    "recurrence": [ "60 days", "100 days" ],
-    "condition": {
-      "and": [
-        { "compare_int": [ { "faction_like": "hells_raiders" }, "<", { "const": -90 } ] },
-        { "days_since_cataclysm": 21 },
-        { "not": { "is_weather": "portal_storm" } },
-        { "not": { "u_near_om_location": "godco_enter", "range": 4 } },
-        { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
-        { "not": { "u_near_om_location": "pagan_cult_enter", "range": 4 } },
-        { "not": { "u_near_om_location": "lumbermill_0_0_ocu", "range": 4 } },
-        { "not": { "u_near_om_location": "smallscrapyard_ocu", "range": 4 } }
-      ]
-    },
-    "effect": [
-      { "mapgen_update": "bandit_killer_add" },
-      { "mapgen_update": "bandit_killer_add" },
-      { "mapgen_update": "bandit_killer_add" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_OLD_GUARD_ASSASSIN",
     "recurrence": [ "60 days", "100 days" ],
     "condition": {
