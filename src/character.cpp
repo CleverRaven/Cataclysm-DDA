@@ -1193,8 +1193,8 @@ float Character::get_stamina_dodge_modifier() const
 float Character::tally_organic_size() const
 {
     float total_size = 0.0f;
-    for( const bodypart_id &part : get_all_body_parts() ) {
-        if( !part.type->is_cybernetic ) {
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( !part->is_cybernetic ) {
             total_size += get_part( part )->get_hit_size();
         }
     }
