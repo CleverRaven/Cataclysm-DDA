@@ -2107,15 +2107,12 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                     add_msg( _( "You detached the %s's cables." ), vp_part->name( false ) );
                 }
                 if( vp_part->info().has_flag( "TOW_CABLE" ) ) {
-                    item drop = part_to_item( *vp_part );
-                    if( !magic && !drop.has_flag( STATIC( flag_id( "NO_DROP" ) ) ) ) {
-                        get_player_character().i_add_or_drop( drop );
-                        add_msg( _( "You detach the %s and take it." ), drop.type_name() );
+                    invalidate_towing( true, &get_player_character() );
+                    if( get_player_character().can_stash( vp_part->get_base() ) ) {
+                        add_msg( _( "You detach the %s and take it." ), vp_part->name( false ) );
                     } else {
-                        add_msg( _( "You detached the %s." ), drop.type_name() );
+                        add_msg( _( "You detached the %s." ), vp_part->name( false ) );
                     }
-                    remove_remote_part( *vp_part );
-                    remove_part( *vp_part );
                 }
             }
             get_player_character().pause();

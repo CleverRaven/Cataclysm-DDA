@@ -1458,8 +1458,9 @@ class item : public visitable
          * @brief Sets max_length and efficiency of a link, taking cable extensions into account.
          * @brief max_length is set to the sum of all cable lengths.
          * @brief efficiency is set to the product of all efficiencies multiplied together.
+         * @param assign_t_state If true, set the t_state based on the parts at the connection point. Defaults to false.
          */
-        void set_link_traits();
+        void set_link_traits( bool assign_t_state = false );
 
         /**
          * @return The link's current length.

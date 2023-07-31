@@ -12950,7 +12950,7 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
     return false;
 }
 
-void item::set_link_traits()
+void item::set_link_traits( const bool assign_t_state )
 {
     if( !link || !type->can_use( "link_up" ) ) {
         return;
@@ -12973,6 +12973,17 @@ void item::set_link_traits()
                             actor->cable_length;
         link->efficiency = link->efficiency < MIN_LINK_EFFICIENCY ? 0.0f :
                            link->efficiency * actor->efficiency;
+    }
+
+    if( assign_t_state && link->t_veh_safe ) {
+        // Assign t_state based on the parts available at the connected mount point.
+        if( it_actor->targets.find( link_state::vehicle_port ) != it_actor->targets.end() &&
+            link->t_veh_safe->avail_part_with_feature( link->t_mount, "CABLE_PORTS" ) != -1 ) {
+            link->t_state = link_state::vehicle_port;
+        } else if( it_actor->targets.find( link_state::vehicle_battery ) != it_actor->targets.end() &&
+                   link->t_veh_safe->avail_part_with_feature( link->t_mount, "BATTERY" ) != -1 ) {
+            link->t_state = link_state::vehicle_battery;
+        }
     }
 }
 

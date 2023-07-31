@@ -3293,11 +3293,6 @@ void veh_interact::complete_vehicle( Character &you )
             resulting_items.insert( resulting_items.end(), contents.begin(), contents.end() );
             contents.clear();
 
-            // Power cables must remove parts from the target vehicle, too.
-            if( vpi.has_flag( "POWER_TRANSFER" ) ) {
-                veh.remove_remote_part( vp );
-            }
-
             if( broken ) {
                 you.add_msg_if_player( _( "You remove the broken %1$s from the %2$s." ), vp.name(), veh.name );
             } else if( smash_remove ) {
@@ -3325,6 +3320,11 @@ void veh_interact::complete_vehicle( Character &you )
                     // removal is half as educational as installation
                     you.practice( sk.first, veh_utils::calc_xp_gain( vpi, sk.first, you ) / 2 );
                 }
+            }
+
+            // Power cables must remove parts from the target vehicle, too.
+            if( vpi.has_flag( "POWER_TRANSFER" ) ) {
+                veh.remove_remote_part( vp );
             }
 
             // Remove any leftover power cords from the appliance

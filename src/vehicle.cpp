@@ -7830,19 +7830,18 @@ item vehicle::part_to_item( const vehicle_part &vp ) const
 
         // Tow cables have these variables assigned in invalidate_towing, which calls part_to_item.
         if( !tmp.has_flag( flag_TOW_CABLE ) ) {
-            const auto remote_part = get_remote_part( vp );
-            if( remote_part ) {
-                tmp.link->t_mount = remote_part->second->mount;
+            const auto remote = get_remote_part( vp );
+            if( remote ) {
+                tmp.link->t_veh_safe = remote->first->get_safe_reference();
+                tmp.link->t_mount = remote->second->mount;
             } else {
                 // The linked vehicle can't be found, so this part shouldn't exist.
                 tmp.set_flag( flag_NO_DROP );
             }
             tmp.link->t_abs_pos = tripoint_abs_ms( vp.target.second );
-            tmp.link->s_state = link_state::no_link;
-            tmp.link->t_state = link_state::vehicle_port;
         }
 
-        tmp.set_link_traits();
+        tmp.set_link_traits( true );
         tmp.link->last_processed = calendar::turn;
     }
 
