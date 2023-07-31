@@ -1446,11 +1446,6 @@
     "specific_heat_solid": 3.7,
     "latent_heat": 210,
     "edible": true,
-    "bash_resist": 0,
-    "cut_resist": 0,
-    "bullet_resist": 0,
-    "acid_resist": 0,
-    "fire_resist": 0,
     "chip_resist": 0,
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "repaired_with": "wax",
@@ -1473,11 +1468,6 @@
     "specific_heat_liquid": 2.9,
     "specific_heat_solid": 3.7,
     "latent_heat": 210,
-    "bash_resist": 0,
-    "cut_resist": 0,
-    "bullet_resist": 0,
-    "acid_resist": 0,
-    "fire_resist": 0,
     "chip_resist": 0,
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "repaired_with": "wax_paraffin",
@@ -1488,7 +1478,8 @@
       { "fuel": 150, "smoke": 0, "burn": 1 },
       { "fuel": 300, "smoke": 0, "burn": 2 },
       { "fuel": 450, "smoke": 0, "burn": 3 }
-    ]
+    ],
+    "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 0 }
   },
   {
     "type": "material",
