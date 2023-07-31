@@ -206,6 +206,7 @@
     "price": 26000,
     "price_postapoc": 3500,
     "material": [ "ch_steel" ],
+    "repairs_with": [ "lc_steel" ],
     "symbol": "[",
     "looks_like": "armor_lamellar_lc",
     "color": "light_gray",
@@ -435,6 +436,7 @@
     "name": { "str": "case hardened sheet metal chest guard" },
     "description": "A chest guard made of hammered sheet metal, case hardened for added protection.  It's not any easier to move in, but it is much sturdier now.",
     "material": [ "ch_steel" ],
+    "repairs_with": [ "lc_steel" ],
     "extend": { "flags": [ "STURDY" ] }
   },
   {
@@ -467,7 +469,8 @@
     "copy-from": "chestguard_metal_sheets_heavy",
     "name": { "str": "case hardened heavy sheet metal chest guard" },
     "description": "Double-thick, case hardened sheet metal hammered to fit your torso.  Offers the best protection a junkyard knight could ask for.",
-    "material": [ "ch_steel" ]
+    "material": [ "ch_steel" ],
+    "repairs_with": [ "lc_steel" ]
   },
   {
     "id": "chestguard_metal_sheets_light",
@@ -510,6 +513,7 @@
     "name": { "str": "case hardened light sheet metal chest guard" },
     "description": "Sheet metal cut to only cover your upper torso and case hardened for extra protection.  Provides a decent compromise between protection and being able to move.",
     "material": [ "ch_steel" ],
+    "repairs_with": [ "lc_steel" ],
     "extend": { "flags": [ "STURDY" ] }
   },
   {
@@ -1302,6 +1306,7 @@
     "copy-from": "jacket_leather_mod",
     "price_postapoc": 3500,
     "material": [ "leather", "ch_steel" ],
+    "repairs_with": [ "leather", "lc_steel" ],
     "looks_like": "jacket_leather_mod",
     "armor": [
       {
@@ -1637,6 +1642,7 @@
     "price_postapoc": 2000,
     "copy-from": "vest_leather_mod",
     "material": [ "leather", "ch_steel" ],
+    "repairs_with": [ "leather", "lc_steel" ],
     "looks_like": "vest_leather_mod",
     "armor": [
       {
@@ -2633,6 +2639,7 @@
     "price_postapoc": 4000,
     "to_hit": -1,
     "material": [ "ch_steel", "leather" ],
+    "repairs_with": [ "lc_steel", "leather" ],
     "symbol": "[",
     "looks_like": "chestguard_hard",
     "color": "light_gray",
@@ -2681,6 +2688,7 @@
     "price_postapoc": 4000,
     "to_hit": -1,
     "material": [ "qt_steel", "leather" ],
+    "repairs_with": [ "mc_steel", "leather" ],
     "use_action": [ "CHANGE_EYES", "CHANGE_SKIN" ],
     "symbol": "[",
     "looks_like": "chestguard_hard",

@@ -428,6 +428,7 @@
     "name": { "str": "pair of case hardened sheet metal arm guards", "str_pl": "pairs of case hardened sheet metal arm guards" },
     "description": "A pair of arm guards hammered out from sheet metal, case hardened for extra protection.  Still manages that Post-Apocalyptic Warrior look.",
     "material": [ "ch_steel" ],
+    "repairs_with": [ "lc_steel" ],
     "extend": { "flags": [ "STURDY" ] }
   },
   {
@@ -470,6 +471,7 @@
     "name": { "str": "pair of hardened sheet metal bracers", "str_pl": "pairs of hardened sheet metal bracers" },
     "description": "A pair of forearm guards hammered out from sheet metal, case hardened for extra protection.",
     "material": [ "ch_steel" ],
+    "repairs_with": [ "lc_steel" ],
     "extend": { "flags": [ "STURDY" ] }
   },
   {
@@ -509,6 +511,7 @@
     "name": { "str": "pair of case hardened sheet metal pauldrons", "str_pl": "pairs of case hardened sheet metal pauldrons" },
     "description": "A pair of crude pauldrons made out of sheet metal and case hardened for reinforcement.",
     "material": [ "ch_steel" ],
+    "repairs_with": [ "lc_steel" ],
     "extend": { "flags": [ "STURDY" ] }
   },
   {
@@ -549,6 +552,7 @@
     "name": { "str": "pair of case hardened sheet metal elbow guards", "str_pl": "pairs of case hardened sheet metal elbow guards" },
     "description": "Elbow guards of sheet metal, case hardened to make sure you never bang your funny bone on the table again.",
     "material": [ "ch_steel" ],
+    "repairs_with": [ "lc_steel" ],
     "extend": { "flags": [ "STURDY" ] }
   },
   {
