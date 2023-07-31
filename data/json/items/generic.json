@@ -3790,6 +3790,7 @@
         "rigid": false,
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
+        "max_item_length": "85 mm",
         "moves": 100,
         "flag_restriction": [ "CREDIT_CARD_SHAPED" ]
       },
@@ -3847,6 +3848,7 @@
         "rigid": false,
         "max_contains_weight": "80 g",
         "max_contains_volume": "175 ml",
+        "max_item_length": "10 cm",
         "moves": 100,
         "flag_restriction": [ "CREDIT_CARD_SHAPED" ]
       },
