@@ -51,11 +51,11 @@
     "items": [
       { "item": "RobofacCoin", "count-min": 5, "count-max": 30, "prob": 90 },
       { "item": "jerky", "count-min": 10, "count-max": 25, "prob": 100 },
-      { "item": "tallow", "count-min": 10, "count-max": 25, "prob": 100 },
+      { "item": "tallow", "prob": 100, "count-min": 20, "count-max": 50 },
       { "item": "pemmican", "count-min": 10, "count-max": 25, "prob": 100 },
       { "item": "dry_meat", "count-min": 10, "count-max": 25, "prob": 100 },
       { "item": "dry_fish", "count-min": 10, "count-max": 25, "prob": 100 },
-      { "item": "dry_veggy", "count-min": 10, "count-max": 25, "prob": 100 },
+      { "item": "dry_veggy", "prob": 100, "count-min": 20, "count-max": 50 },
       { "item": "dry_fruit", "count-min": 10, "count-max": 25, "prob": 100 },
       { "item": "trenchcoat", "prob": 25 },
       { "item": "trenchcoat_leather", "prob": 20 },
@@ -78,10 +78,10 @@
       { "item": "wristwatch", "prob": 30 },
       { "item": "bandana", "prob": 20 },
       { "item": "scarf", "prob": 15 },
-      { "item": "fungicide", "prob": 20 },
-      { "item": "insecticide", "prob": 20 },
-      { "item": "antifungal", "prob": 20 },
-      { "item": "antiparasitic", "prob": 20 },
+      { "prob": 20, "group": "fungicide_bag_plastic_400" },
+      { "prob": 20, "group": "insecticide_bag_plastic_400" },
+      { "prob": 20, "group": "antifungal_bottle_plastic_pill_prescription_5" },
+      { "prob": 20, "group": "antiparasitic_bottle_plastic_pill_prescription_5" },
       { "group": "robofac_basic_trade", "count": [ 1, 5 ], "prob": 20 },
       { "group": "robofac_armor_pieces", "count": [ 1, 2 ], "prob": 20 }
     ]

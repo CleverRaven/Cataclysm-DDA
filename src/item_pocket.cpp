@@ -1681,7 +1681,7 @@ static void move_to_parent_pocket_recursive( const tripoint &pos, item &it,
         if( parent_pocket && parent_pocket->can_contain( it ).success() ) {
             add_msg( m_bad, _( "Your %1$s falls into your %2$s." ), it.display_name(),
                      loc.parent_item()->label( 1 ) );
-            loc.parent_pocket()->insert_item( it );
+            parent_pocket->insert_item( it );
             return;
         }
         if( loc.where() == item_location::type::container ) {

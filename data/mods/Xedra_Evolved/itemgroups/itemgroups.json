@@ -72,7 +72,7 @@
       { "item": "eclipse_glasses", "prob": 1 },
       { "group": "writing_utensils", "prob": 20 },
       { "group": "softdrugs", "prob": 20 },
-      { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false },
+      { "prob": 15, "sealed": false, "group": "wyld_candy_wrapper_wyld_20" },
       { "item": "laptop_xedra", "prob": 3 }
     ]
   },
@@ -132,7 +132,7 @@
       [ "camera_control", 2 ],
       [ "eclipse_glasses", 1 ],
       { "group": "writing_utensils", "prob": 20 },
-      { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false },
+      { "prob": 15, "sealed": false, "group": "wyld_candy_wrapper_wyld_20" },
       { "item": "laptop_xedra", "prob": 3 }
     ]
   },
@@ -357,5 +357,13 @@
       { "item": "blood", "prob": 5, "container-item": "blood_camel" },
       { "item": "blood", "prob": 1, "container-item": "blood_bank" }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "wyld_candy_wrapper_wyld_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "wrapper_wyld",
+    "entries": [ { "item": "wyld_candy", "container-item": "null", "count": 20 } ]
   }
 ]

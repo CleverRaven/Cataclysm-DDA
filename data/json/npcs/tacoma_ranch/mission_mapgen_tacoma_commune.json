@@ -2,7 +2,7 @@
   {
     "type": "item_group",
     "id": "ranch_nurse_clinic_aspirin",
-    "items": [ { "item": "aspirin", "prob": 1, "charges": 20 } ]
+    "items": [ { "prob": 1, "group": "aspirin_bottle_plastic_pill_painkiller_20" } ]
   },
   {
     "type": "item_group",
@@ -35,8 +35,8 @@
     "id": "ranch_nurse_clinic_surgery",
     "items": [
       { "item": "saline", "prob": 20, "container-item": "bag_iv" },
-      { "item": "iodine", "prob": 5, "charges": [ 1, 10 ] },
-      { "item": "prussian_blue", "prob": 5, "charges": [ 1, 10 ] },
+      { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
+      { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
       { "item": "bandages", "prob": 50, "count": [ 1, 3 ] },
       { "group": "adhesive_bandages_box_used", "prob": 20 },
       { "group": "cotton_ball_bag_used", "prob": 50 },
@@ -52,7 +52,7 @@
       { "item": "oxygen_tank", "prob": 50, "charges": [ 0, 24 ] },
       { "item": "smoxygen_tank", "prob": 25, "charges": [ 0, 12 ] },
       [ "bfipowder", 15 ],
-      { "item": "quikclot", "prob": 10, "charges": [ 1, 6 ] }
+      { "prob": 10, "group": "quikclot_bag_plastic_1_6" }
     ]
   },
   {

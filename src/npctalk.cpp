@@ -3033,11 +3033,13 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
                                    project_to<coords::ms>( omt_pos ).z() );
         }
         const tripoint_abs_ms abs_ms( target_pos );
-        map distant_map;
-        distant_map.load( project_to<coords::sm>( abs_ms ), false );
-
-        map &here = get_map().inbounds( abs_ms ) ? get_map() : distant_map;
-
+        map *here_ptr = &get_map();
+        std::unique_ptr<map> distant_map = std::make_unique<map>();
+        if( !get_map().inbounds( abs_ms ) ) {
+            distant_map->load( project_to<coords::sm>( abs_ms ), false );
+            here_ptr = distant_map.get();
+        }
+        map &here = *here_ptr;
         if( search_target.has_value() ) {
             if( search_type.value() == "monster" && !get_map().inbounds( abs_ms ) ) {
                 here.spawn_monsters( true, true );
@@ -3218,9 +3220,16 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
                                     //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
                                     -1, target_pos, radius, transform.evaluate( d ), key.evaluate( d ) );
         } else {
-            map tm;
-            tm.load( project_to<coords::sm>( target_pos - point{ radius, radius} ), false );
-            tm.transform_radius( ter_furn_transform_id( transform.evaluate( d ) ), radius, target_pos );
+            // Use the main map when possible to reduce performance overhead.
+            if( get_map().inbounds( target_pos - point{ radius, radius} ) &&
+                get_map().inbounds( target_pos + point{ radius, radius} ) ) {
+                get_map().transform_radius( ter_furn_transform_id( transform.evaluate( d ) ), radius, target_pos );
+            } else {
+                map tm;
+                tm.load( project_to<coords::sm>( target_pos - point{ radius, radius} ), false );
+                tm.transform_radius( ter_furn_transform_id( transform.evaluate( d ) ), radius, target_pos );
+            }
+
         }
     };
 }
