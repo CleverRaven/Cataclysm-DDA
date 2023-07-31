@@ -2,7 +2,7 @@
   {
     "id": "carbine_flintlock",
     "copy-from": "rifle_flintlock",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "price": 40000,
     "price_postapoc": 2250,
@@ -69,7 +69,7 @@
   },
   {
     "id": "rifle_flintlock",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "flintlock musket" },
