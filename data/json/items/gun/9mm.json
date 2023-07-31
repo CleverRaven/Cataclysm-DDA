@@ -52,7 +52,7 @@
   },
   {
     "id": "cx4",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "9x19mm pistol-caliber carbine" },
@@ -672,7 +672,7 @@
   },
   {
     "id": "rifle_9mm",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "pipe rifle: 9x19mm", "str_pl": "pipe rifles: 9x19mm" },
@@ -1289,7 +1289,7 @@
   {
     "id": "colt_ro635",
     "copy-from": "smg_base",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Colt Model 635" },
     "description": "A 9x19mm submachine gun based on the M16 rifle design, it is a closed bolt, blowback operated firearm.  There is a large plastic brass deflector mounted by the ejection port, and no forward assist.  It looks very similar to an M4 carbine, except for the magazine well that accepts Uzi-style magazines.",
@@ -1334,7 +1334,7 @@
   {
     "id": "bt_apc9k",
     "copy-from": "smg_base",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "B&T APC9 PRO K" },
     "description": "The Brügger & Thomet APC9 PRO K is a closed bolt blowback submachine gun in 9x19mm Parabellum.  It has a collapsible shoulder stock and a red dot sight.",
