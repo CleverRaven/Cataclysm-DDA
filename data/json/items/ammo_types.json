@@ -43,6 +43,18 @@
   },
   {
     "type": "ammunition_type",
+    "id": "65mm_arisaka",
+    "name": "6.5x50mm Japanese",
+    "default": "65mm_arisaka_jsp"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "77mm_arisaka",
+    "name": "7.7x58mm Japanese",
+    "default": "77mm_arisaka_jsp"
+  },
+  {
+    "type": "ammunition_type",
     "id": "nail",
     "name": "nails",
     "default": "nail"

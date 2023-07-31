@@ -376,6 +376,28 @@
     "volume": "12ml"
   },
   {
+    "id": "65arisaka_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "GENERIC",
+    "name": { "str": "6.5mm Arisaka casing" },
+    "description": "An empty casing from a 6.5x50mm Japanese round.",
+    "weight": "4 g",
+    "volume": "5ml",
+    "longest_side": "50 mm"
+  },
+  {
+    "id": "77arisaka_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "GENERIC",
+    "name": { "str": "7.7mm Arisaka casing" },
+    "description": "An empty casing from a 7.7x58mm Japanese round.",
+    "weight": "5 g",
+    "volume": "7ml",
+    "longest_side": "58 mm"
+  },
+  {
     "id": "545_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",

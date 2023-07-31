@@ -1,0 +1,51 @@
+[
+  {
+    "id": "65mm_arisaka_jsp",
+    "type": "AMMO",
+    "name": { "str_sp": "6.5x50mmSR JSP" },
+    "description": "A 6.5x50mm Arisaka cartridge, loaded with a round-nosed 156gr soft-point bullet.  Excellent against medium game, the 6.5mm Arisaka was the standard combat cartridge of the Japanese empire from 1897 until the end of the Second World War.  Often overlooked before the Cataclysm, largely due to its rarity, and sometimes criticised for lacking sufficient man-stopping potential, the cartridge is nevertheless, for a battle rifle round, soft-recoiling and flat-shooting.",
+    "weight": "15 g",
+    "volume": "152 ml",
+    "longest_side": "75 mm",
+    "price": 225,
+    "price_postapoc": 350,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "brass", "lead", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 20,
+    "stack_size": 20,
+    "ammo_type": "65mm_arisaka",
+    "casing": "65arisaka_casing",
+    "range": 38,
+    "damage": { "damage_type": "bullet", "amount": 42, "armor_penetration": 4 },
+    "dispersion": 12,
+    "recoil": 2000,
+    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+  },
+  {
+    "id": "bp_65mm_arisaka_jsp",
+    "copy-from": "65mm_arisaka_jsp",
+    "type": "AMMO",
+    "name": { "str_sp": "6.5x50mmSR JSP, black powder" },
+    "description": "A 6.5x50mm Arisaka cartridge, loaded with a round-nosed 156gr soft-point bullet.  Excellent against medium game, the 6.5mm Arisaka was the standard combat cartridge of the Japanese empire from 1897 until the end of the Second World War.  Often overlooked before the Cataclysm, largely due to its rarity, and sometimes criticised for lacking sufficient man-stopping potential, the cartridge is nevertheless, for a battle rifle round, soft-recoiling and flat-shooting.  That being said, someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder: expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.7, "armor_penetration": 0.5 },
+      "recoil": 0.7,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "reloaded_65mm_arisaka_jsp",
+    "copy-from": "65mm_arisaka_jsp",
+    "type": "AMMO",
+    "name": { "str_sp": "6.5x50mmSR JSP, reloaded" },
+    "description": "A 6.5x50mm Arisaka cartridge, loaded with a round-nosed 156gr soft-point bullet.  Excellent against medium game, the 6.5mm Arisaka was the standard combat cartridge of the Japanese empire from 1897 until the end of the Second World War.  Sometimes criticised for lacking sufficient man-stopping potential, the cartridge is nevertheless, for a battle rifle round, soft-recoiling and flat-shooting.  Considering the rarity of modern rounds and the prevalence of Arisaka rifles themselves, the 6.5mm Japanese was a popular target among reloaders, and this particular cartridge is the fruit of such labour.  Hand-reloaded by a survivor or a pre-Cataclysm hobbyist, expect slightly inferior performance to factory-produced ammunition.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  }
+]
