@@ -281,7 +281,7 @@
         "popup": true
       },
       { "math": [ "has_set_difficulty", "=", "0" ] },
-      { "run_eocs": [ "EOC_difficultycheck0" ] },
+      { "run_eocs": [ "EOC_difficultycheck" ] },
       { "u_location_variable": { "global_val": "OM_HQ_origin" } },
       { "math": [ "timeawayfromhome", "=", "0" ] },
       { "math": [ "raidstotal", "=", "0" ] },
@@ -301,71 +301,64 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_difficultycheck0",
-    "//": "Want to play normal?",
-    "condition": {
-      "u_query": "In Normal Difficulty, pulses occur every 45 minutes.  This means on every expedition, you will have 6 hours to explore, fight, loot, and find the exit before warp sickness sets in, and 8 hours total before disintegration begins.\nThis is the intended way to play.  Getting to the exit is not a cakewalk, but you should have time to explore while earthside.\n\nDo you wish to play Normal Difficulty?  Choosing no will provide other options.",
-      "default": true
-    },
+    "id": "EOC_difficultycheck",
     "effect": [
       {
-        "u_message": "Difficulty set to Normal.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
-      },
-      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "45 m" } ] },
-      { "math": [ "has_set_difficulty", "=", "1" ] }
-    ],
-    "false_effect": [ { "run_eocs": [ "EOC_difficultycheck1" ] } ]
+        "run_eoc_selector": [ "EOC_difficulty0", "EOC_difficulty1", "EOC_difficulty2", "EOC_difficulty3" ],
+        "names": [ "Casual", "Normal", "Hard", "Impossible" ],
+        "keys": [ "1", "2", "3", "4" ],
+        "descriptions": [
+          "In Casual difficulty, time limits are more relaxed.\nWarp pulses occur every 90 minutes.  This means warp sickness sets in after 12 hours of being earthside, and disintegration at 18 hours.  You will have more time for activities and reaching the extract should generally not be a problem.",
+          "In Normal Difficulty, pulses occur every 45 minutes.  This means on every expedition, you will have 6 hours to explore, fight, loot, and find the exit before warp sickness sets in, and 8 hours total before disintegration begins.\nThis is the intended way to play.  Getting to the exit is not a cakewalk, but you should have time to explore while earthside.",
+          "In Hard difficulty, time limits are strict.\nWarp pulses occur every 30 minutes.  This means warp sickness sets in after only 4 hours of being earthside, and disintegration at 6 hours.  You will have much less time to spare and must make getting to the exit your immediate priority.",
+          "In Impossible difficulty, time limits are extremely tight.\nWarp pulses occur every 15 minutes.  This means warp sickness sets in after only 2 hours of being earthside, and disintegration at 3 hours.  Reaching the extract alive will take all the time you can spare, and warp sickness will be common.  You will not be given mercy!"
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_difficultycheck1",
-    "//": "Want to play casual?",
-    "condition": {
-      "u_query": "In Casual difficulty, time limits are more relaxed.\nWarp pulses occur every 90 minutes.  This means warp sickness sets in after 12 hours of being earthside, and disintegration at 18 hours.  You will have more time for activities and reaching the extract should generally not be a problem.\n\nDo you wish to play in Casual Difficulty?  Choosing no will provide other options.",
-      "default": false
-    },
+    "id": "EOC_difficulty0",
     "effect": [
       {
         "u_message": "Difficulty set to Casual.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "90 m" } ] },
       { "math": [ "has_set_difficulty", "=", "1" ] }
-    ],
-    "false_effect": [ { "run_eocs": [ "EOC_difficultycheck2" ] } ]
+    ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_difficultycheck2",
-    "//": "Want to play hard?",
-    "condition": {
-      "u_query": "In Hard difficulty, time limits are strict.\nWarp pulses occur every 30 minutes.  This means warp sickness sets in after only 4 hours of being earthside, and disintegration at 6 hours.  You will have much less time to spare and must make getting to the exit your immediate priority.\n\nDo you wish to play in Hard Difficulty?  Choosing no will provide other options.",
-      "default": false
-    },
+    "id": "EOC_difficulty1",
+    "effect": [
+      {
+        "u_message": "Difficulty set to Casual.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "90 m" } ] },
+      { "math": [ "has_set_difficulty", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_difficulty2",
     "effect": [
       {
         "u_message": "Difficulty set to Hard.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "30 m" } ] },
       { "math": [ "has_set_difficulty", "=", "1" ] }
-    ],
-    "false_effect": [ { "run_eocs": [ "EOC_difficultycheck3" ] } ]
+    ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_difficultycheck3",
-    "//": "Want to play impossible?",
-    "condition": {
-      "u_query": "In Impossible difficulty, time limits are extremely tight.\nWarp pulses occur every 15 minutes.  This means warp sickness sets in after only 2 hours of being earthside, and disintegration at 3 hours.  Reaching the extract alive will take all the time you can spare, and warp sickness will be common.  You will not be given mercy!\n\nDo you wish to play in Impossible Difficulty?  Choosing no will restart this menu.",
-      "default": false
-    },
+    "id": "EOC_difficulty3",
     "effect": [
       {
         "u_message": "Difficulty set to Impossible.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "15 m" } ] },
       { "math": [ "has_set_difficulty", "=", "1" ] }
-    ],
-    "false_effect": [ { "run_eocs": [ "EOC_difficultycheck0" ] } ]
+    ]
   },
   {
     "type": "effect_on_condition",
