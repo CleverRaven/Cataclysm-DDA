@@ -2,7 +2,7 @@
   {
     "id": "m107a1",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "Barrett M107A1" },
     "//": "Price based on unit cost quote for fiscal year 2005 listed at inetres.com, with gunmod modifiers to be added later.",
