@@ -3720,12 +3720,11 @@ void Item_factory::add_special_pockets( itype &def )
     if( !has_pocket_type( def.pockets, item_pocket::pocket_type::MIGRATION ) ) {
         def.pockets.emplace_back( item_pocket::pocket_type::MIGRATION );
     }
-    if( !has_pocket_type( def.pockets, item_pocket::pocket_type::CABLE ) ) {
-        if( def.get_use( "link_up" ) != nullptr ) {
-            pocket_data cable_pocket( item_pocket::pocket_type::CABLE );
-            cable_pocket.rigid = false;
-            def.pockets.emplace_back( cable_pocket );
-        }
+    if( !has_pocket_type( def.pockets, item_pocket::pocket_type::CABLE ) &&
+        def.get_use( "link_up" ) != nullptr ) {
+        pocket_data cable_pocket( item_pocket::pocket_type::CABLE );
+        cable_pocket.rigid = false;
+        def.pockets.emplace_back( cable_pocket );
     }
 }
 

@@ -5048,7 +5048,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it ) co
     item_location extended = is_cable_item ? selected : form_loc( *p, tripoint_min, it );
     std::optional<item> extended_copy;
 
-    // We'll make a copy the extended item and check pocket weight/volume capacity if:
+    // We'll make a copy of the extended item and check pocket weight/volume capacity if:
     //   1. The extended item is in a container,
     //   2. The extended item and extension cord(s) aren't in the same pocket, and
     //   3. The extended item is in a pocket without enough remaining room for the extension cord(s).
@@ -5060,7 +5060,6 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it ) co
         extended_copy = *extended;
     }
 
-    //item *extended_ptr = has_to_move ? &extended_copy.value() : &*extended;
     item *extended_ptr = extended_copy ? &extended_copy.value() : &*extended;
 
     // Put the extension cable and all of its attached cables, if any, into the extended item's CABLE pocket.
@@ -5091,9 +5090,6 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it ) co
                                                  item_pocket::pocket_type::CONTAINER ).success() ) {
                 debugmsg( "Failed to put %s inside %s!", extended_ptr->type_name(),
                           extended.parent_item()->type_name() );
-                it.get_contents().clear_pockets_if( []( item_pocket const & pocket ) {
-                    return pocket.is_type( item_pocket::pocket_type::CABLE );
-                } );
                 return std::nullopt;
             }
             extended.remove_item();
