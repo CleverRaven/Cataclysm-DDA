@@ -1581,27 +1581,21 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
                  book_type::martial_art : book_type::normal;
     }
 
-    if( who.is_avatar() ) {
-        // he following check doesn't work for NPCs
-        // because it is counted for player's submap and z-level only
-        if( who.fine_detail_vision_mod() > 4 ) {
-            // It got too dark during the process of reading, bail out.
-            act.set_to_null();
-            who.add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
-            return;
-        }
+    if( who.fine_detail_vision_mod() > 4 ) {
+        // It got too dark during the process of reading, bail out.
+        act.set_to_null();
+        who.add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
+        return;
+    }
 
-        if( bktype.value() == book_type::martial_art && one_in( 3 ) ) {
-            who.mod_stamina( -1 );
-        }
+    if( bktype.value() == book_type::martial_art && one_in( 3 ) ) {
+        who.mod_stamina( -1 );
+    }
 
-        // do not spam the message log
-        if( calendar::once_every( 5_minutes ) ) {
-            add_msg_debug( debugmode::DF_ACT_READ, "reading time = %s",
-                           to_string_writable( time_duration::from_moves( act.moves_left ) ) );
-        }
-    } else {
-        who.moves = 0;
+    // do not spam the message log
+    if( calendar::once_every( 5_minutes ) ) {
+        add_msg_debug( debugmode::DF_ACT_READ, "%s reading time = %s",
+                       who.name, to_string_writable( time_duration::from_moves( act.moves_left ) ) );
     }
 
     if( using_ereader && !ereader ) {
