@@ -40,6 +40,10 @@ Apply different messages at different effect intensity levels
 Player character now can get sick with common cold or flu only after contacts with NPCs or ferals
 Generate vehicle prototypes from in-game vehicles
 In-game Armor sprite change
+Cockroaches flee light, hide under furniture, eat corpses, and breed faster when fed
+Add some dialog function
+Auto Eat/Drink zones now prioritize less-fresh items
+Player activity related event
 
 
 ## Content:
@@ -72,6 +76,23 @@ Adds new skateboard vehicle
 Most scenarios now provide vision of the nearest city on start
 Alternative resolution to clean back bay quest
 Add a synagogue
+Hub 01 robots and gear
+Adds a mutable stream to the mapgen
+Adds chat topics to the futile fighter and overconfident officer
+Slightly mutated dog variants
+New unique overmap special with associated one-time dungeon event.
+[Innawoods] Stream mapgen followup
+stun gun bionic
+Remove not used `welding component kit` item
+Updated the description for Chelsea Boots to use the correct usage of 'donning' vs. the incorrect 'dawning'
+Make bone broth better by extracting more calcium using acified water
+adding nylon quivers with MOLLE capabilities
+house roadmap: update house_01 in-construction variant to use modern code
+Miscellaneous recipe category fixes/additions
+More zombie harvest snippets
+Solar Farm
+Two new civilians: Parent and hospitalized varieties
+Add Electric Masonry Saw
 
 
 ## Interface:
@@ -89,6 +110,7 @@ Adds the 'Mark as dangerous' keybinding to the overmap
 NPC selects melee style
 Add sundial, wind and radiation badge to "spacebar" sidebar
 fix widget error if player has no body part
+AIM: Add key to step outside containers; AIM: mark container that the other pane is looking inside
 
 
 ## Mods:
@@ -122,6 +144,14 @@ Add the Mind Over Matter mod to the CDDA repository
 [MoM] Add additional portal storm remnant map extras
 [Sky Island] Mainline Sky Island mod
 [Magiclysm] Add a spell-using feral human to Magiclysm
+Blood Purge removes mutagens, you can heal followers' diseases
+Change the Utility Molding spell to allow selecting the starting tool
+Fix monster power messages
+Allow telekinetics to push very heavy objects and lift cars
+Add u_message to the extremely important note
+Add psionic civilians to the initial Cataclysm chaos waves
+Convert recipe powers into spell powers, add new powers
+Add three new powers
 
 
 ## Balance:
@@ -147,6 +177,19 @@ Lycra is less protective
 BMI has a less all consuming impact on how healthy you are
 Being badly wounded will always allow you to swap characters in camp while you heal
 Intelligence provides a multiplier to current focus rather than adding to its value
+Rebalance most of our blacksmithing recipes
+Stab weave and ballistic weave kevlar are now distinct
+Audit AR-15 upper receivers + .450 bugfix
+Adjusts ranges of SMGs and pistol caliber carbines
+More storage for belts
+Reduce energy requirements for making powdered milk
+Workshop Elves will fight back in the off chance they are pushed into a corner
+More monsters fight back if cornered
+Adjusts Bovine Bulk description to portray it as a defensive mutation
+Make bone inedible
+Price changes for various items as per the documentation
+Balance steel flak helmets
+higher dodge skill lowers the stamina cost to dodge
 
 
 ## Bugfixes:
@@ -206,6 +249,30 @@ Don't get randomly sick anymore
 Itemgroups can seal containers
 Spawned corpses should now spawn with and contain their clothes
 Can no longer get stuck for days thinking about working out if you're a WIMP with NEGATIVE WORKOUT TIME
+prevent car from spawning into a house wall
+Tailed mutants can use leg tourniquets
+reduce the amount of  out-of-city motel spawns
+Allow more mutants to eat grain
+Broken Exodii Quadrupeds no longer drop an m4a1 and stun gun
+Fix combat tools crashing on drop
+prying with integrated multitool doesn't use power
+Improve pocket overflow messages
+Removed redundant recipe for milk powder
+special lakeside cabin version has a lower chance to spawn
+HP widgets gets equivalent bodypart
+Nested maps spawn again
+Adjusts 45-70 BFR
+Screeching voice is removed by the voice remodulator
+Correct some wrong IDs for Cody's armor projects
+Stop aphids from eating their own honeydew
+Fix grainy glyphs in blended font rendering mode
+Fix feral PKer message
+kevlar jumpsuits use the correct requirement
+non integer additive values for enchants work
+AIM: Fix some instances of stack changing list positions while moving items
+Improvement & renovation to house_01 abandoned version
+Stop dodging good spells, fix uncanny dodge spell crash
+Items that can only be repaired with Budget Steel can be repaired
 
 
 ## Performance:
@@ -229,11 +296,14 @@ Refactor timer items to be a bit more time based
 Support for material replacement in items
 Carrier for items on ground is nullptr
 Tick_action as a separate thing from use_action
+New documentation on how to test proposed changes
 
 
 ## Build:
 Support Mac arm64 build
 Adds VS Code Dev Containers & Workspace Config
+Add more '#pragma once' guards
+Add documentation for using devcontainers in VSCode
 
 
 ## I18N and A11Y:
