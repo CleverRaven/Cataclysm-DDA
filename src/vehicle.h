@@ -1089,9 +1089,10 @@ class vehicle
         /**
          * Get the remote vehicle and part that a part is targeting.
          * Useful for, e.g. power cables that have a vehicle part on both sides.
+         * @param vp_local Vehicle part that is connected to the remote part.
          */
-        std::optional<std::pair<vehicle *, vehicle_part *>> get_remote_part( const vehicle_part &vp_local )
-                const;
+        std::optional<std::pair<vehicle *, vehicle_part *>> get_remote_part(
+                    const vehicle_part &vp_local ) const;
         /**
          * Remove the part on a targeted remote vehicle that a part is targeting.
          */
@@ -1813,8 +1814,15 @@ class vehicle
         void shift_parts( map &here, const point &delta );
         bool shift_if_needed( map &here );
 
-        void shed_loose_parts( bool can_shed_cables = true, const tripoint_bub_ms *src = nullptr,
-                               const tripoint_bub_ms *dst = nullptr, tripoint drop_offset = tripoint_zero );
+        /**
+         * Drop parts with UNMOUNT_ON_MOVE onto the ground.
+         * @param shed_cables If cable parts should also be dropped.
+         * @param - If set to trinary::NONE, the default, don't drop any cables.
+         * @param - If set to trinary::SOME, calculate cable length, updating remote parts, and drop if it's too long.
+         * @param - If set to trinary::ALL, drop all cables.
+         * @param dst Future vehicle position, used for calculating cable length when shed_cables == trinary::SOME.
+         */
+        void shed_loose_parts( trinary shed_cables = trinary::NONE, const tripoint_bub_ms *dst = nullptr );
 
         /**
          * @name Vehicle turrets

@@ -4793,8 +4793,8 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
             return std::nullopt;
         }
         const std::pair<tripoint, tripoint> prev_target = std::make_pair(
-                    here.getabs( prev_veh->mount_to_tripoint( it.link->t_mount ) ),
-                    prev_veh->global_square_location().raw() );
+                    ( it.link->t_abs_pos + prev_veh->coord_translate( it.link->t_mount ) ).raw(),
+                    it.link->t_abs_pos.raw() );
         for( const vpart_reference &vpr : target_veh->get_any_parts( "POWER_TRANSFER" ) ) {
             if( vpr.part().target.first == prev_target.first &&
                 vpr.part().target.second == prev_target.second ) {
@@ -4843,8 +4843,8 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         prev_veh->precalc_mounts( 1, prev_veh->pivot_rotation[1], prev_veh->pivot_anchor[1] );
 
         vehicle_part target_part( vpid, item( it ) );
-        target_part.target.first = here.getabs( prev_veh->mount_to_tripoint( it.link->t_mount ) );
-        target_part.target.second = prev_veh->global_square_location().raw();
+        target_part.target.first = prev_target.first;
+        target_part.target.second = prev_target.second;
         target_veh->install_part( vcoords2, std::move( target_part ) );
         target_veh->precalc_mounts( 1, target_veh->pivot_rotation[1], target_veh->pivot_anchor[1] );
 
@@ -4976,8 +4976,11 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
         prev_veh->precalc_mounts( 1, prev_veh->pivot_rotation[1], prev_veh->pivot_anchor[1] );
 
         vehicle_part target_part( vpid, item( it ) );
-        target_part.target.first = here.getabs( prev_veh->mount_to_tripoint( it.link->t_mount ) );
-        target_part.target.second = prev_veh->global_square_location().raw();
+        const std::pair<tripoint, tripoint> prev_target = std::make_pair(
+                    ( it.link->t_abs_pos + prev_veh->coord_translate( it.link->t_mount ) ).raw(),
+                    it.link->t_abs_pos.raw() );
+        target_part.target.first = prev_target.first;
+        target_part.target.second = prev_target.second;
         target_veh->install_part( vcoords2, std::move( target_part ) );
         target_veh->precalc_mounts( 1, target_veh->pivot_rotation[1], target_veh->pivot_anchor[1] );
 

@@ -5709,7 +5709,7 @@ void vehicle::gain_moves()
     const bool pl_control = player_in_control( get_player_character() );
     if( is_moving() || is_falling ) {
         if( !loose_parts.empty() ) {
-            shed_loose_parts( false );
+            shed_loose_parts();
         }
         of_turn = 1 + of_turn_carry;
         const int vslowdown = slowdown( velocity );
@@ -6608,7 +6608,7 @@ std::optional<std::pair<vehicle *, vehicle_part *>> vehicle::get_remote_part(
 
 void vehicle::remove_remote_part( const vehicle_part &vp_local ) const
 {
-    std::optional<std::pair<vehicle *, vehicle_part *>> part = get_remote_part( vp_local );
+    const auto part = get_remote_part( vp_local );
     if( part ) {
         part->first->remove_part( *part->second );
         // Rebuild vehicle cache to avoid creating an illusion of the remote car.
@@ -6616,8 +6616,7 @@ void vehicle::remove_remote_part( const vehicle_part &vp_local ) const
     }
 }
 
-void vehicle::shed_loose_parts( const bool can_shed_cables, const tripoint_bub_ms *src,
-                                const tripoint_bub_ms *dst, const tripoint drop_offset )
+void vehicle::shed_loose_parts( const trinary shed_cables, const tripoint_bub_ms *dst )
 {
     map &here = get_map();
     // remove_part rebuilds the loose_parts vector, so iterate over a copy to preserve
@@ -6626,43 +6625,42 @@ void vehicle::shed_loose_parts( const bool can_shed_cables, const tripoint_bub_m
     for( const int elem : lp ) {
         vehicle_part &vp_loose = part( elem );
         const vpart_info &vpi_loose = vp_loose.info();
+        bool remove_remote = false;
         if( std::find( loose_parts.begin(), loose_parts.end(), elem ) == loose_parts.end() ) {
             // part was removed elsewhere
             continue;
         }
         if( vpi_loose.has_flag( "POWER_TRANSFER" ) ) {
-            if( !can_shed_cables ) {
+            if( shed_cables == trinary::NONE ) {
+                // Skip cables if we're only calling shed_loose_parts to remove parts with UNMOUNT_ON_MOVE.
                 continue;
             }
-            int distance = rl_dist( here.getabs( bub_part_pos( vp_loose ) ), vp_loose.target.second );
-            int max_dist = vp_loose.get_base().max_link_length();
-            if( src ) {
-                vehicle *veh = find_vehicle( tripoint_abs_ms( vp_loose.target.second ) );
-                if( veh != nullptr ) {
-                    for( int remote_lp : veh->loose_parts ) {
-                        vehicle_part &vp_remote = veh->part( remote_lp );
-                        if( vp_remote.info().has_flag( "POWER_TRANSFER" ) &&
-                            vp_remote.target.first == here.getabs( *src ) ) {
-                            // update remote part's target to new position
-                            vp_remote.target.first = here.getabs( dst ? *dst : bub_part_pos( vp_loose ) );
-                            vp_remote.target.second = vp_remote.target.first;
-                        }
-                    }
+            tripoint vp_loose_dst = here.getabs( dst ? *dst + vp_loose.precalc[1] : bub_part_pos( vp_loose ) );
+            const int distance = rl_dist( vp_loose_dst, vp_loose.target.first );
+            const int max_dist = vp_loose.get_base().max_link_length();
+
+            if( distance > max_dist || shed_cables == trinary::ALL ) {
+                add_msg_if_player_sees( global_part_pos3( vp_loose ), m_warning,
+                                        _( "The %s's %s was detached!" ), name, vp_loose.name( false ) );
+                remove_remote = true;
+            } else {
+                // cable still has some slack to it, so update the remote part's target and continue.
+                const auto remote = get_remote_part( vp_loose );
+                if( remote ) {
+                    remote->second->target.first = vp_loose_dst;
+                    remote->second->target.second = here.getabs( dst ? *dst : pos_bub() );
                 }
-                if( distance <= max_dist ) {
-                    // power line still has some slack to it, so keep it attached for now
-                    continue;
-                }
+                continue;
             }
-            add_msg_if_player_sees( global_part_pos3( vp_loose ), m_warning,
-                                    _( "The %s's power connection was detached!" ), name );
-            remove_remote_part( vp_loose );
         }
         const item drop = part_to_item( vp_loose );
         if( !magic ) {
-            here.add_item_or_charges( global_part_pos3( vp_loose ) + drop_offset, drop );
+            here.add_item_or_charges( global_part_pos3( vp_loose ), drop );
         }
 
+        if( remove_remote ) {
+            remove_remote_part( vp_loose );
+        }
         remove_part( vp_loose );
     }
 }
@@ -7828,7 +7826,7 @@ item vehicle::part_to_item( const vehicle_part &vp ) const
 
         // Tow cables have these variables assigned in invalidate_towing, which calls part_to_item.
         if( !tmp.has_flag( flag_TOW_CABLE ) ) {
-            std::optional<std::pair<vehicle *, vehicle_part *>> remote_part = get_remote_part( vp );
+            const auto remote_part = get_remote_part( vp );
             if( remote_part ) {
                 tmp.link->t_mount = remote_part->second->mount;
             } else {

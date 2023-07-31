@@ -1523,6 +1523,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
         }
     }
 
+    veh.shed_loose_parts( trinary::SOME, &dst );
     smzs = veh.advance_precalc_mounts( dst_offset, src.raw(), dp, ramp_offset,
                                        adjust_pos, parts_to_move );
     veh.update_active_fakes();
@@ -1535,7 +1536,6 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
         src_submap->vehicles.erase( src_submap_veh_it );
         invalidate_max_populated_zlev( dst.z() );
     }
-    veh.shed_loose_parts( true, &src, &dst, tripoint( -dp.xy(), -ramp_offset ) );
     if( need_update ) {
         g->update_map( player_character );
     }
