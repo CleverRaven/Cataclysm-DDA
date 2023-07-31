@@ -9768,6 +9768,24 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
     } );
 }
 
+int Character::get_mutation_visibility_cap( const Character *observed ) const
+{
+    // as of now, visibility of mutations is between 0 and 10
+    // 10 perception and 10 distance would see all mutations - cap 0
+    // 10 perception and 30 distance - cap 5, some mutations visible
+    // 3 perception and 3 distance would see all mutations - cap 0
+    // 3 perception and 15 distance - cap 5, some mutations visible
+    // 3 perception and 20 distance would be barely able to discern huge antlers on a person - cap 10
+    const int dist = rl_dist( pos(), observed->pos() );
+    int visibility_cap;
+    if( per_cur <= 1 ) {
+        visibility_cap = INT_MAX;
+    } else {
+        visibility_cap = std::round( dist * dist / 20.0 / ( per_cur - 1 ) );
+    }
+    return visibility_cap;
+}
+
 std::vector<Creature *> Character::get_hostile_creatures( int range ) const
 {
     return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {

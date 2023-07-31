@@ -2840,21 +2840,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         return line;
     }
 
-    // as of now, visibility of mutations is between 0 and 10
-    // 10 perception and 10 distance would see all mutations - cap 0
-    // 10 perception and 30 distance - cap 5, some mutations visible
-    // 3 perception and 3 distance would see all mutations - cap 0
-    // 3 perception and 15 distance - cap 5, some mutations visible
-    // 3 perception and 20 distance would be barely able to discern huge antlers on a person - cap 10
-    const int per = player_character.get_per();
-    const int dist = rl_dist( player_character.pos(), pos() );
-    int visibility_cap;
-    if( per <= 1 ) {
-        visibility_cap = INT_MAX;
-    } else {
-        visibility_cap = std::round( dist * dist / 20.0 / ( per - 1 ) );
-    }
-
+    int visibility_cap = player_character.get_mutation_visibility_cap( this );
     const std::string trait_str = visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
         std::vector<std::string> trait_lines = foldstring( _( "Traits: " ) + trait_str, iWidth );
