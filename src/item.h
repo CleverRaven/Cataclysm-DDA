@@ -851,7 +851,8 @@ class item : public visitable
         int fill_with( const item &contained, int amount = INFINITE_CHARGES,
                        bool unseal_pockets = false,
                        bool allow_sealed = false,
-                       bool ignore_settings = false );
+                       bool ignore_settings = false,
+                       bool into_bottom = false );
 
         /**
          * How much more of this liquid (in charges) can be put in this container.

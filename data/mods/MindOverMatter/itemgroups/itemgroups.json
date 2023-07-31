@@ -4,13 +4,13 @@
     "subtype": "distribution",
     "id": "dist_matrix_crystals",
     "items": [
-      [ "matrix_crystal_biokinesis", 5 ],
-      [ "matrix_crystal_clairsentience", 5 ],
-      [ "matrix_crystal_pyrokinesis", 5 ],
-      [ "matrix_crystal_telekinesis", 5 ],
-      [ "matrix_crystal_telepathy", 5 ],
-      [ "matrix_crystal_teleportation", 5 ],
-      [ "matrix_crystal_vitakinesis", 5 ],
+      [ "matrix_crystal_biokinesis", 10 ],
+      [ "matrix_crystal_clairsentience", 10 ],
+      [ "matrix_crystal_pyrokinesis", 10 ],
+      [ "matrix_crystal_telekinesis", 10 ],
+      [ "matrix_crystal_telepathy", 10 ],
+      [ "matrix_crystal_teleportation", 10 ],
+      [ "matrix_crystal_vitakinesis", 10 ],
       [ "matrix_crystal_coruscating", 1 ]
     ]
   },
@@ -98,6 +98,7 @@
     "id": "psionic_recipes_advanced",
     "items": [
       [ "phavian_report_psionic_drain", 15 ],
+      [ "schematics_noetic_resilience", 5 ],
       [ "schematics_instability_remover", 5 ],
       [ "schematics_psionic_purifier", 1 ]
     ]
@@ -124,7 +125,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "psionic_recipes_medicine",
-    "items": [ [ "schematics_instability_remover", 5 ], [ "schematics_psionic_purifier", 1 ] ]
+    "items": [ [ "schematics_instability_remover", 5 ], [ "schematics_noetic_resilience", 3 ], [ "schematics_psionic_purifier", 1 ] ]
   },
   {
     "type": "item_group",
@@ -171,6 +172,7 @@
       { "item": "deck_of_cards", "prob": 15 },
       { "item": "magic_8_ball", "prob": 10 },
       { "item": "cards_magic", "prob": 5 },
+      { "group": "psi_testing_materials", "prob": 50 },
       { "item": "apron_plastic", "prob": 30 },
       { "item": "apron_cotton", "prob": 10 },
       { "item": "salt_water", "prob": 20, "charges-min": 1 },
@@ -185,14 +187,11 @@
       { "item": "manual_meditation", "prob": 20 },
       { "item": "manual_meditation_int", "prob": 12 },
       { "item": "manual_psionics_advan", "prob": 4 },
-      { "item": "schematics_matrix_crystal_ground", "prob": 7 },
-      { "item": "schematics_reactant_liquid_base", "prob": 7 },
-      { "item": "schematics_matrix_channeling", "prob": 4 },
-      { "item": "schematics_everglow_lamp", "prob": 5 },
-      { "item": "schematics_matrix_aligning", "prob": 2 },
-      { "item": "schematics_instability_remover", "prob": 2 },
-      { "item": "schematics_anchoring_crown", "prob": 2 },
-      { "item": "schematics_psionic_purifier", "prob": 2 },
+      { "item": "phavian_report_psionic_drain", "prob": 3 },
+      { "group": "psionic_recipes_beginner", "prob": 5 },
+      { "group": "psionic_recipes_tools", "prob": 5 },
+      { "group": "psionic_recipes_medicine", "prob": 2 },
+      { "group": "psionic_recipes_advanced", "prob": 1 },
       { "group": "dist_matrix_crystals", "prob": 1 }
     ]
   },
@@ -201,6 +200,26 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [ { "item": "lab_postit_portal", "prob": 3 }, { "item": "lab_postit_psi", "prob": 3 } ]
+  },
+  {
+    "id": "psi_testing_materials",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "cards_zener", "prob": 30 },
+      { "item": "file", "prob": 50 },
+      { "item": "deck_of_cards", "prob": 30 },
+      { "item": "pen", "prob": 30 },
+      { "item": "blue_pen", "prob": 20 },
+      { "item": "green_pen", "prob": 20 },
+      { "item": "red_pen", "prob": 30 },
+      { "item": "envelope", "prob": 30 },
+      { "item": "paper", "prob": 40 },
+      { "item": "blindfold", "prob": 20 },
+      { "item": "coin_quarter", "prob": 5 },
+      { "item": "coin_dime", "prob": 2 },
+      { "item": "coin_penny", "prob": 3 }
+    ]
   },
   {
     "type": "item_group",

@@ -54,7 +54,7 @@ class time_duration;
 struct point;
 struct tripoint;
 
-enum m_flag : int;
+struct mon_flag;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct projectile;
@@ -222,6 +222,12 @@ enum class get_body_part_flags : int {
 template<>
 struct enum_traits<get_body_part_flags> {
     static constexpr bool is_flag_enum = true;
+};
+
+enum class body_part_filter : int {
+    strict = 0,
+    equivalent = 1,
+    next_best = 2
 };
 
 using scheduled_effect = struct scheduled_effect_t {
@@ -728,7 +734,7 @@ class Creature : public viewer
         virtual field_type_id bloodType() const = 0;
         virtual field_type_id gibType() const = 0;
         // TODO: replumb this to use a std::string along with monster flags.
-        virtual bool has_flag( const m_flag ) const {
+        virtual bool has_flag( const mon_flag_id & ) const {
             return false;
         }
         virtual bool uncanny_dodge() {
@@ -783,14 +789,15 @@ class Creature : public viewer
                                 int dex_max = 0,  int per_max = 0,  int int_max = 0, int healthy_mod = 0,
                                 int fat_to_max_hp = 0 );
         // Does not fire debug message if part does not exist
-        bool has_part( const bodypart_id &id ) const;
+        bool has_part( const bodypart_id &id, body_part_filter filter = body_part_filter::strict ) const;
         // A debug message will be fired if part does not exist.
         // Check with has_part first if a part may not exist.
         bodypart *get_part( const bodypart_id &id );
         const bodypart *get_part( const bodypart_id &id ) const;
 
         // get the body part id that matches for the character
-        bodypart_id get_part_id( const bodypart_id &id ) const;
+        bodypart_id get_part_id( const bodypart_id &id,
+                                 body_part_filter filter = body_part_filter::next_best, bool suppress_debugmsg = false ) const;
 
         int get_part_hp_cur( const bodypart_id &id ) const;
         int get_part_hp_max( const bodypart_id &id ) const;

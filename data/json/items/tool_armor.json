@@ -98,7 +98,7 @@
     "sided": true,
     "material": [ "wood", "leather" ],
     "use_action": { "target": "tourniquet_lower_XL", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
-    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET" ],
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "ALLOWS_TAIL" ],
     "armor": [ { "encumbrance": 70, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
@@ -110,7 +110,7 @@
     "looks_like": "tourniquet_lower",
     "sided": true,
     "use_action": { "target": "tourniquet_lower_XS", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
-    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "OVERSIZE", "ALLOWS_TAIL" ]
   },
   {
     "id": "tourniquet_lower_XS",
@@ -121,7 +121,7 @@
     "looks_like": "tourniquet_lower",
     "sided": true,
     "use_action": { "target": "tourniquet_upper", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
-    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "UNDERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "UNDERSIZE", "ALLOWS_TAIL" ]
   },
   {
     "id": "makeshift_blindfold",
@@ -2968,7 +2968,6 @@
     "symbol": "[",
     "use_action": {
       "type": "manualnoise",
-      "no_charges_message": "Seeing this is an error.",
       "use_message": "You blow the whistle.",
       "//": "Use of %s not currently supported.",
       "noise_message": "FWEEEET!",
@@ -3173,7 +3172,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "riot helmet" },
-    "description": "A helmet with a plastic shield that covers your entire face.  Activate to raise the face shield.",
+    "description": "A riot helmet with a plastic face shield that covers your entire face.  Activate to raise the face shield.",
     "use_action": { "type": "transform", "target": "helmet_riot_raised", "menu_text": "Raise visor", "msg": "You raise your visor." },
     "weight": "1450 g",
     "volume": "2250 ml",

@@ -1343,6 +1343,29 @@
     ]
   },
   {
+    "id": "test_zentai_resist_stab_cut",
+    "type": "ARMOR",
+    "name": { "str": "test zentai" },
+    "description": "Full-body suit completely covering all body parts, including the head, mouth, and eyes.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": 2500,
+    "price_postapoc": 50,
+    "material": [ "lycra_resist_override_stab" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 20,
+    "material_thickness": 1,
+    "environmental_protection": 10,
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
     "id": "test_zentai_resist_test_fire",
     "type": "ARMOR",
     "name": { "str": "test zentai" },
@@ -1429,6 +1452,116 @@
           { "type": "qt_steel", "covered_by_mat": 5, "thickness": 1 }
         ],
         "encumbrance": 7
+      }
+    ]
+  },
+  {
+    "id": "test_waist_apron_long",
+    "type": "ARMOR",
+    "name": { "str": "long waist apron" },
+    "description": "A long waist apron made of cotton.",
+    "price_postapoc": 50,
+    "to_hit": 1,
+    "symbol": "[",
+    "looks_like": "vest_leather",
+    "volume": "1750 ml",
+    "weight": "226 g",
+    "price": 1000,
+    "material": [ "cotton" ],
+    "color": "white",
+    "warmth": 2,
+    "material_thickness": 2,
+    "environmental_protection": 1,
+    "flags": [ "POCKETS", "BELTED" ],
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 70,
+        "encumbrance": 2,
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_apron_cotton",
+        "name": { "str": "long waist apron" },
+        "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
+        "weight": 50,
+        "append": true
+      },
+      {
+        "id": "black_apron_cotton",
+        "name": { "str": "black long waist apron" },
+        "description": "It's colored black, commonly used by chefs working in the night or who just want to look cool.",
+        "color": "dark_gray",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "blue_apron_cotton",
+        "name": { "str": "blue long waist apron" },
+        "description": "It's a royal blue color, commonly used by supermarket workers around the world.",
+        "color": "blue",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "red_apron_cotton",
+        "name": { "str": "red long waist apron" },
+        "description": "It's colored red.",
+        "color": "red",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pink_apron_cotton",
+        "name": { "str": "pink long waist apron" },
+        "description": "It's colored neon pink, commonly used by women or men who like pink.",
+        "color": "pink",
+        "weight": 3,
+        "append": true
+      },
+      {
+        "id": "floral_apron_cotton",
+        "name": { "str": "floral long waist apron" },
+        "description": "It has a floral design and colored yellow, perfect for cooking outdoors.",
+        "color": "yellow",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "camo_apron_cotton",
+        "name": { "str": "camo long waist apron" },
+        "description": "It has a camouflage pattern, perfect for chefs who want to hide in the wild.",
+        "color": "green",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "skull_apron",
+        "name": { "str": "skull long waist apron" },
+        "description": "It's colored black with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
+        "color": "dark_gray",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "maid_apron",
+        "name": { "str": "maid long waist apron" },
+        "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "gothic_apron",
+        "name": { "str": "gothic long waist apron" },
+        "description": "It has a jet-black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
+        "color": "light_red",
+        "weight": 1,
+        "append": true
       }
     ]
   },

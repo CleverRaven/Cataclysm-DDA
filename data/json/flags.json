@@ -192,6 +192,11 @@
     "inherit": false
   },
   {
+    "id": "GEMSTONE",
+    "type": "json_flag",
+    "info": "This item is a precious gemstone, used for ornamentation.  This is mostly useless post-Cataclysm."
+  },
+  {
     "id": "DIG_TOOL",
     "type": "json_flag",
     "info": "While wielded, this item allows you to mine through rocks and other hard obstacles by moving into tiles with them.  Note that automatic mining option should be set to true for this to work."
@@ -369,6 +374,12 @@
     "type": "json_flag",
     "info": "This item is attachable to metal cap helmets as a face and neck protective layer.",
     "restriction": "Item must be some kind of chainmail veil"
+  },
+  {
+    "id": "EXTRA_PLATING",
+    "type": "json_flag",
+    "info": "This item is wearable over some armors as an extra layer of plating.",
+    "restriction": "Item must be some kind of strapped additional plating"
   },
   {
     "id": "COLD_IMMUNE",
@@ -2158,6 +2169,16 @@
     "info": "This is meant for exosuit foot plating."
   },
   {
+    "id": "ROBOFAC_ROBOT_MEDIUM",
+    "type": "json_flag",
+    "info": "A medium drone sold by Hub 01."
+  },
+  {
+    "id": "ROBOFAC_ROBOT_SMALL",
+    "type": "json_flag",
+    "info": "A small drone sold by Hub 01."
+  },
+  {
     "id": "VOLTMETER",
     "type": "json_flag",
     "info": "This tool can test for voltage."
@@ -2231,6 +2252,16 @@
     "restriction": "Item must be shaped like a bank note strap"
   },
   {
+    "id": "FRESH_GRAIN",
+    "type": "json_flag",
+    "//": "This item is fresh-cut grain, and can be dried in a stook."
+  },
+  {
+    "id": "CUT_HARVEST",
+    "type": "json_flag",
+    "//": "This seed will grow into a plant which needs a grass-cutting tool such as a sickle to harvest."
+  },
+  {
     "id": "GASFILTER_SM",
     "type": "json_flag",
     "info": "A small-sized gasmask filter.",
@@ -2257,5 +2288,17 @@
     "id": "USE_POWER_WHEN_HIT",
     "type": "json_flag",
     "info": "This armor <info>expends energy when hit</info>."
+  },
+  {
+    "id": "RAT",
+    "type": "json_flag"
+  },
+  {
+    "id": "MOUSE",
+    "type": "json_flag"
+  },
+  {
+    "id": "RABBIT",
+    "type": "json_flag"
   }
 ]

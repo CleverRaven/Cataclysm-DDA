@@ -13,7 +13,7 @@
   "tiles-new": [
     {
       "file": "ASCIITiles.png",
-      "//": "range 1 to 175",
+      "//": "range 1 to 191",
       "tiles": [
         {
           "id": [
@@ -112,6 +112,20 @@
             "bungalow06",
             "bungalow07",
             "bungalow08",
+            "bungalow09",
+            "bungalow10",
+            "bungalow11",
+            "bungalow12",
+            "bungalow13",
+            "bungalow14",
+            "bungalow15",
+            "bungalow16",
+            "bungalow17",
+            "bungalow18",
+            "bungalow19",
+            "bungalow20",
+            "bungalow21",
+            "bungalow22",
             "duplex",
             "garden_house_1_floor_1",
             "garden_house_1_floor_2",
@@ -238,6 +252,20 @@
             "bungalow06_roof",
             "bungalow07_roof",
             "bungalow08_roof",
+            "bungalow09_roof",
+            "bungalow10_roof",
+            "bungalow11_roof",
+            "bungalow12_roof",
+            "bungalow13_roof",
+            "bungalow14_roof",
+            "bungalow15_roof",
+            "bungalow16_roof",
+            "bungalow17_roof",
+            "bungalow18_roof",
+            "bungalow19_roof",
+            "bungalow20_roof",
+            "bungalow21_roof",
+            "bungalow22_roof",
             "duplex_roof",
             "garden_house_1_roof",
             "house_01_roof",
@@ -382,7 +410,22 @@
         },
         { "id": "acid_drizzle", "fg": 23, "bg": 103 },
         { "id": "acid_rain", "fg": 26, "bg": 103 },
-        { "id": "afs_crashed_escape_pod", "fg": 133, "bg": 115 },
+        {
+          "id": [
+            "afs_crashed_escape_pod",
+            "crashing_ship_3",
+            "crashing_ship_2",
+            "crashing_ship_1",
+            "crashing_ship_6",
+            "crashing_ship_5",
+            "crashing_ship_4",
+            "crashing_ship_9",
+            "crashing_ship_8",
+            "crashing_ship_7"
+          ],
+          "fg": 133,
+          "bg": 115
+        },
         { "id": "afs_flurries", "fg": 8, "bg": 99 },
         { "id": "afs_lightning", "fg": 21, "bg": 99 },
         { "id": "afs_shelter_1", "fg": 51, "bg": 96, "rotates": true },
@@ -608,7 +651,7 @@
         { "id": "cs_internet_cafe", "fg": 47, "bg": 101 },
         { "id": [ "cs_internet_cafe_roof", "cs_internet_cafe_upper_roof" ], "fg": 47, "bg": 101 },
         { "id": "cs_market_small", "fg": 159, "bg": 108 },
-        { "id": "cs_open_sewer", "fg": 162, "bg": 105 },
+        { "id": [ "cs_open_sewer", "cs_open_sewer_undergound" ], "fg": 162, "bg": 105 },
         { "id": "cs_private_park", "fg": 48, "bg": 115 },
         { "id": "cs_private_park_roof", "fg": 48, "bg": 115 },
         { "id": "cs_public_art_piece", "fg": 155, "bg": 123 },
@@ -632,7 +675,12 @@
         { "id": "dinozoo_2_0", "fg": 148, "bg": 103 },
         { "id": [ "dirt_road_3way", "dirt_road_3way_forest" ], "fg": 38, "bg": 96, "rotates": true },
         { "id": "dirt_road_4way", "fg": 40, "bg": 96, "rotates": true },
-        { "id": [ "dirt_road", "dirt_road_forest" ], "fg": 35, "bg": 96, "rotates": true },
+        {
+          "id": [ "dirt_road", "dirt_road_forest", "dirt_road_farm_parking", "dirt_road_turnback", "godco_enter" ],
+          "fg": 35,
+          "bg": 96,
+          "rotates": true
+        },
         { "id": "dirt_road_turn1", "fg": 42, "bg": 96, "rotates": true },
         { "id": "dirt_road_turn1_forest", "fg": 42, "bg": 96, "rotates": true },
         { "id": [ "dirt_road_turn", "dirt_road_turn_forest" ], "fg": 36, "bg": 96, "rotates": true },
@@ -669,11 +717,22 @@
           "rotates": true
         },
         { "id": "evac_center_1", "fg": 127, "bg": 96, "rotates": true },
-        { "id": "evac_center_21", "fg": 117, "bg": 96, "rotates": true },
+        { "id": [ "evac_center_21", "mil_base_4j" ], "fg": 117, "bg": 96, "rotates": true },
         { "id": "evac_center_23", "fg": 119, "bg": 96, "rotates": true },
         { "id": "evac_center_25", "fg": 126, "bg": 96, "rotates": true },
         {
-          "id": [ "evac_center_2", "evac_center_3", "evac_center_4", "evac_center_22", "evac_center_24" ],
+          "id": [
+            "evac_center_2",
+            "evac_center_3",
+            "evac_center_4",
+            "evac_center_22",
+            "evac_center_24",
+            "mil_base_5f",
+            "mil_base_5j",
+            "mil_base_6f",
+            "mil_base_6j",
+            "mil_base_7j"
+          ],
           "fg": 121,
           "bg": 96,
           "rotates": true
@@ -691,7 +750,16 @@
             "refctr_S3b",
             "refctr_S3c",
             "refctr_S3d",
-            "refctr_S3e"
+            "refctr_S3e",
+            "mil_base_4b",
+            "mil_base_4c",
+            "mil_base_4d",
+            "mil_base_4e",
+            "mil_base_4g",
+            "mil_base_4h",
+            "mil_base_4i",
+            "mil_base_road_entrance",
+            "refctr_road"
           ],
           "fg": 113,
           "bg": 96,
@@ -785,7 +853,10 @@
             "farm_stills_3_roof",
             "farm_dairy_twd_3",
             "farm_dairy_twd_4",
-            "2farm_roof_11"
+            "2farm_roof_11",
+            "farm_horse_house_1",
+            "farm_horse_house_1_2ndfloor",
+            "farm_horse_house_1_roof"
           ],
           "fg": 154,
           "bg": 100,
@@ -822,6 +893,11 @@
           "bg": 100,
           "rotates": true
         },
+        { "id": [ "farm_horse_track_1", "farm_horse_track_2" ], "fg": 170, "bg": 108 },
+        { "id": "farm_horse_track_large_1", "fg": 169, "bg": 108, "rotates": true },
+        { "id": "farm_horse_track_large_2", "fg": 167, "bg": 108, "rotates": true },
+        { "id": "farm_horse_track_large_3", "fg": 168, "bg": 108, "rotates": true },
+        { "id": "farm_horse_track_large_4", "fg": 3, "bg": 108, "rotates": true },
         { "id": "farm_isherwood_2_cellar", "fg": 147, "bg": 100 },
         { "id": "farm_isherwood_3_hayloft", "fg": 129, "bg": 100 },
         {
@@ -931,10 +1007,31 @@
         { "id": [ "horse_farm_10", "farm_1_coop", "horse_farm_isherwood_10" ], "fg": 160, "bg": 100 },
         { "id": [ "horse_farm_10_roof", "farm_1_coop_roof", "horse_farm_isherwood_10_roof" ], "fg": 160, "bg": 100 },
         { "id": [ "horse_farm_2", "horse_farm_isherwood_2" ], "fg": 129, "bg": 100 },
-        { "id": [ "horse_farm_4", "horse_farm_isherwood_4" ], "fg": 160, "bg": 100 },
+        {
+          "id": [
+            "horse_farm_4",
+            "horse_farm_isherwood_4",
+            "farm_horse_carriage_house_1",
+            "farm_horse_carriage_house_1_roof",
+            "farm_horse_greenhouse",
+            "farm_horse_greenhouse_roof"
+          ],
+          "fg": 160,
+          "bg": 100
+        },
         { "id": [ "horse_farm_4_roof", "horse_farm_isherwood_4_roof" ], "fg": 160, "bg": 100 },
         { "id": [ "horse_farm_7_hayloft", "horse_farm_isherwood_7_hayloft" ], "fg": 132, "bg": 100 },
-        { "id": [ "horse_farm_7", "horse_farm_isherwood_7" ], "fg": 132, "bg": 100 },
+        {
+          "id": [
+            "horse_farm_7",
+            "horse_farm_isherwood_7",
+            "farm_horse_stable_1",
+            "farm_horse_stable_1_hayloft",
+            "farm_horse_stable_1_roof"
+          ],
+          "fg": 132,
+          "bg": 100
+        },
         { "id": [ "horse_farm_7_roof", "horse_farm_isherwood_7_roof" ], "fg": 132, "bg": 100 },
         { "id": [ "horse_farm_9", "farm_1_greenhouse", "horse_farm_isherwood_9" ], "fg": 160, "bg": 100 },
         {
@@ -1276,16 +1373,20 @@
           "rotates": true
         },
         { "id": [ "mi-go_scout_tower_dino_1", "mi-go_scout_tower_dino_3" ], "fg": 82, "bg": 96, "rotates": true },
+        { "id": [ "mil_base_4a", "mil_base_4f" ], "fg": 171, "bg": 96, "rotates": true },
+        { "id": [ "mil_base_minefield_nw", "refctr_fence_NW" ], "fg": 176, "bg": 96, "rotates": true },
+        { "id": [ "mil_base_minefield_se", "refctr_fence_SE", "speedway_8_7" ], "fg": 175, "bg": 96, "rotates": true },
+        { "id": [ "mil_base_minefield_sw", "refctr_fence_SW" ], "fg": 173, "bg": 96, "rotates": true },
         { "id": [ "mil_surplus", "mil_surplus_1", "mil_surplus_2" ], "fg": 146, "bg": 108 },
         { "id": [ "mil_surplus_roof", "mil_surplus_roof_1", "mil_surplus_roof_2" ], "fg": 146, "bg": 108 },
         { "id": "mission_arrow_down", "fg": 15, "bg": 96, "rotates": true },
         { "id": "mission_arrow_e", "fg": 11, "bg": 96, "rotates": true },
         { "id": "mission_arrow_n", "fg": 14, "bg": 96, "rotates": true },
-        { "id": "mission_arrow_ne", "fg": 16, "bg": 96, "rotates": true },
-        { "id": "mission_arrow_nw", "fg": 20, "bg": 96, "rotates": true },
+        { "id": [ "mission_arrow_ne", "speedway_1_4" ], "fg": 16, "bg": 96, "rotates": true },
+        { "id": [ "mission_arrow_nw", "speedway_1_0", "speedway_0_1" ], "fg": 20, "bg": 96, "rotates": true },
         { "id": "mission_arrow_s", "fg": 15, "bg": 96, "rotates": true },
-        { "id": "mission_arrow_se", "fg": 19, "bg": 96, "rotates": true },
-        { "id": "mission_arrow_sw", "fg": 17, "bg": 96, "rotates": true },
+        { "id": [ "mission_arrow_se", "speedway_7_4", "speedway_6_5" ], "fg": 19, "bg": 96, "rotates": true },
+        { "id": [ "mission_arrow_sw", "speedway_6_1" ], "fg": 17, "bg": 96, "rotates": true },
         { "id": "mission_arrow_up", "fg": 14, "bg": 96, "rotates": true },
         { "id": "mission_arrow_w", "fg": 10, "bg": 96, "rotates": true },
         { "id": "mission_cursor", "fg": 9, "bg": 96 },
@@ -1379,7 +1480,24 @@
         { "id": "necropolis_a_71", "fg": 126, "bg": 96, "rotates": true },
         { "id": "necropolis_a_74", "fg": 154, "bg": 111, "rotates": true },
         { "id": "necropolis_a_75", "fg": 25, "bg": 111, "rotates": true },
-        { "id": "necropolis_a_78", "fg": 73, "bg": 96, "rotates": true },
+        {
+          "id": [
+            "necropolis_a_78",
+            "speedway_1_6",
+            "speedway_2_6",
+            "speedway_3_6",
+            "speedway_4_6",
+            "speedway_5_6",
+            "speedway_1_6_1",
+            "speedway_2_6_1",
+            "speedway_3_6_1",
+            "speedway_4_6_1",
+            "speedway_5_6_1"
+          ],
+          "fg": 73,
+          "bg": 96,
+          "rotates": true
+        },
         {
           "id": [
             "necropolis_b_11",
@@ -1497,7 +1615,20 @@
         { "id": "nursing_home_sh12", "fg": 114, "bg": 96, "rotates": true },
         { "id": "nursing_home_sh4", "fg": 116, "bg": 96, "rotates": true },
         { "id": "nursing_home_sh8", "fg": 113, "bg": 96, "rotates": true },
-        { "id": [ "office_cubical", "office_cubical_1", "small_office" ], "fg": 85, "bg": 96, "rotates": true },
+        {
+          "id": [
+            "office_cubical",
+            "office_cubical_1",
+            "small_office",
+            "office_cubical_phavian",
+            "office_cubical_phavian_roof",
+            "office_cubical_phavian_basement",
+            "office_cubical_phavian_subbasement"
+          ],
+          "fg": 85,
+          "bg": 96,
+          "rotates": true
+        },
         {
           "id": [ "office_cubical_roof", "office_cubical_roof_1", "small_office_roof", "small_office_upper_roof" ],
           "fg": 85,
@@ -1520,7 +1651,23 @@
             "office_tower_2_b3",
             "office_tower_collapse_a1",
             "office_tower_collapse_b_a1",
-            "office_tower_2_a1_tower_lab"
+            "office_tower_2_a1_tower_lab",
+            "office_tower_2_a1_1",
+            "office_tower_2_a2_1",
+            "office_tower_2_a3_1",
+            "office_tower_2_b1_1",
+            "office_tower_2_b2_1",
+            "office_tower_2_b3_1",
+            "office_tower_2_a1_2",
+            "office_tower_2_a2_2",
+            "office_tower_2_b1_2",
+            "office_tower_2_b2_2",
+            "office_tower_2_b3_2",
+            "office_tower_2_a1_roof",
+            "office_tower_2_a2_roof",
+            "office_tower_2_b1_roof",
+            "office_tower_2_b2_roof",
+            "office_tower_2_b3_roof"
           ],
           "fg": 163,
           "bg": 108
@@ -1564,7 +1711,8 @@
         { "id": "overgrownlot", "fg": 147, "bg": 103 },
         { "id": "overmap_remembered_vehicle", "fg": 66, "bg": 96 },
         { "id": "overtakenlot", "fg": 147, "bg": 103 },
-        { "id": "pagan_cult_henge", "fg": 31, "bg": 96, "rotates": true },
+        { "id": [ "paddock_trailhead_5", "paddock_trailhead_8" ], "fg": 53, "bg": 96, "rotates": true },
+        { "id": [ "pagan_cult_henge", "drug_lab", "drug_lab_roof" ], "fg": 31, "bg": 96, "rotates": true },
         { "id": [ "pavilion", "pavilion_1" ], "fg": 138, "bg": 103 },
         { "id": [ "pavilion_roof", "pavilion_roof_1", "trailer_public_10_roof" ], "fg": 138, "bg": 103 },
         { "id": [ "pawn", "pawn_1", "pawn_pf", "pawn_pf_under" ], "fg": 28, "bg": 96, "rotates": true },
@@ -1755,7 +1903,6 @@
           "fg": 161,
           "bg": 105
         },
-        { "id": [ "pump_station_3", "pump_station_4", "pump_station_5" ], "fg": 53, "bg": 96, "rotates": true },
         { "id": "railroad_bridge", "fg": 68, "bg": 96, "rotates": true },
         { "id": "railroad_level_crossing", "fg": 18, "bg": 96, "rotates": true },
         {
@@ -2005,7 +2152,31 @@
         { "id": "ruined_chunks", "fg": 135 },
         { "id": [ "runway_fuel", "runway_fuel2" ], "fg": 91, "bg": 96, "rotates": true },
         {
-          "id": [ "runway", "runway_carts", "runway_hangar", "runway_hangar2", "runway_wild", "runway_start", "runway_end" ],
+          "id": [
+            "runway",
+            "runway_carts",
+            "runway_hangar",
+            "runway_hangar2",
+            "runway_wild",
+            "runway_start",
+            "runway_end",
+            "mil_base_minefield_n",
+            "mil_base_minefield_s",
+            "refctr_fence_h",
+            "refctr_fence_entrance_L",
+            "refctr_fence_entrance_R",
+            "s_air_runway_l",
+            "s_air_runway_B",
+            "s_air_runway_term",
+            "s_air_runway",
+            "s_air_runway_hangars",
+            "s_air_runway_r",
+            "speedway_7_5",
+            "speedway_6_7",
+            "speedway_7_7",
+            "speedway_6_7_1",
+            "speedway_6_7_2"
+          ],
           "fg": 91,
           "bg": 96,
           "rotates": true
@@ -2128,7 +2299,12 @@
         { "id": [ "s_laundromat_roof", "s_laundromat_roof_1" ], "fg": 28, "bg": 108, "rotates": true },
         { "id": [ "s_laundromat", "s_laundromat_1" ], "fg": 28, "bg": 108, "rotates": true },
         { "id": [ "s_library_roof", "s_library_roof_1", "s_library_roof_2" ], "fg": 154, "bg": 100, "rotates": true },
-        { "id": [ "s_library", "s_library_1", "s_library_2" ], "fg": 154, "bg": 100, "rotates": true },
+        {
+          "id": [ "s_library", "s_library_1", "s_library_2", "s_library_3", "s_library_roof_3" ],
+          "fg": 154,
+          "bg": 100,
+          "rotates": true
+        },
         { "id": [ "s_lightindustry_road_0", "s_lightindustry_road_1" ], "fg": 121, "bg": 96, "rotates": true },
         {
           "id": [ "s_lightindustry_scen_road_0", "s_lightindustry_scen_road_1" ],
@@ -2204,6 +2380,25 @@
         { "id": [ "small_wooded_trail", "small_wooded_trail_2" ], "fg": 150, "bg": 103 },
         { "id": "snowing", "fg": 94, "bg": 101 },
         { "id": "snowstorm", "fg": 4, "bg": 101 },
+        { "id": [ "speedway_0_3", "speedway_7_2" ], "fg": 177, "bg": 96, "rotates": true },
+        { "id": [ "speedway_0_4", "speedway_1_5" ], "fg": 180, "bg": 96, "rotates": true },
+        { "id": "speedway_1_1", "fg": 182, "bg": 96, "rotates": true },
+        {
+          "id": [ "speedway_2_0", "speedway_4_0", "speedway_3_5", "speedway_5_5" ],
+          "fg": 181,
+          "bg": 96,
+          "rotates": true
+        },
+        {
+          "id": [ "speedway_3_0", "speedway_5_0", "speedway_2_5", "speedway_4_5" ],
+          "fg": 178,
+          "bg": 96,
+          "rotates": true
+        },
+        { "id": "speedway_5_7", "fg": 174, "bg": 96, "rotates": true },
+        { "id": [ "speedway_6_0", "speedway_7_1" ], "fg": 179, "bg": 96, "rotates": true },
+        { "id": "speedway_6_4", "fg": 183, "bg": 96, "rotates": true },
+        { "id": [ "speedway_8_5", "speedway_5_8" ], "fg": 172, "bg": 96, "rotates": true },
         { "id": "stadium_football_0_0", "fg": 127, "bg": 96, "rotates": true },
         {
           "id": [
@@ -2330,12 +2525,29 @@
         { "id": "trailer_public_10", "fg": 138, "bg": 103 },
         { "id": "trailer_road_3way", "fg": 90, "bg": 96, "rotates": true },
         {
-          "id": [ "trailer_road", "trailer_road_1parkway", "trailer_road_2parkway" ],
+          "id": [
+            "trailer_road",
+            "trailer_road_1parkway",
+            "trailer_road_2parkway",
+            "mil_base_minefield_e",
+            "mil_base_minefield_w",
+            "refctr_fence_v",
+            "speedway_8_2",
+            "speedway_8_3",
+            "speedway_8_4",
+            "speedway_8_6",
+            "speedway_5_9"
+          ],
           "fg": 88,
           "bg": 96,
           "rotates": true
         },
-        { "id": "trailer_road_turn", "fg": 89, "bg": 96, "rotates": true },
+        {
+          "id": [ "trailer_road_turn", "mil_base_minefield_ne", "refctr_fence_NE", "speedway_8_1" ],
+          "fg": 89,
+          "bg": 96,
+          "rotates": true
+        },
         {
           "id": [ "trailerparksmall0_roof", "trailerparksmall1_roof", "trailerparksmall2_roof" ],
           "fg": 129,

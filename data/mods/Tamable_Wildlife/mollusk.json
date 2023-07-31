@@ -36,5 +36,43 @@
     "copy-from": "mon_snail_giant",
     "name": { "str": "colossal snail" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_slug_larva",
+    "type": "MONSTER",
+    "copy-from": "mon_slug_larva",
+    "name": { "str": "slug larva", "str_pl": "slug larvae" },
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a mollusk could like you.",
+      "pet": "The %s slides slowly around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_slug_forest",
+    "type": "MONSTER",
+    "copy-from": "mon_slug_forest",
+    "name": { "str": "big slug" },
+    "petfood": {
+      "food": [ "BUGFOOD" ],
+      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant mollusk could like you.",
+      "pet": "The %s slides slowly around your feet."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_slug_small",
+    "type": "MONSTER",
+    "copy-from": "mon_slug_small",
+    "name": { "str": "giant slug" },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_slug_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_slug_giant",
+    "name": { "str": "colossal slug" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   }
 ]

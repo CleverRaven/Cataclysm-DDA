@@ -549,9 +549,13 @@ bool effect_type::has_flag( const flag_id &flag ) const
     return flags.count( flag );
 }
 
-effect_rating effect_type::get_rating() const
+game_message_type effect_type::get_rating( int intensity ) const
 {
-    return rating;
+    if( apply_msgs.size() < static_cast<size_t>( intensity ) ) {
+        return apply_msgs[intensity - 1].second;
+    } else {
+        return apply_msgs[0].second;
+    }
 }
 
 bool effect_type::use_name_ints() const
@@ -568,41 +572,35 @@ bool effect_type::use_desc_ints( bool reduced ) const
     }
 }
 
-game_message_type effect_type::gain_game_message_type() const
+game_message_type effect_type::lose_game_message_type( int intensity ) const
 {
-    switch( rating ) {
-        case e_good:
-            return m_good;
-        case e_bad:
+    switch( get_rating( intensity ) ) {
+        case m_good:
             return m_bad;
-        case e_neutral:
+        case m_bad:
+            return m_good;
+        case m_neutral:
             return m_neutral;
-        case e_mixed:
+        case m_mixed:
             return m_mixed;
         default:
             // Should never happen
             return m_neutral;
     }
 }
-game_message_type effect_type::lose_game_message_type() const
+void effect_type::add_apply_msg( int intensity ) const
 {
-    switch( rating ) {
-        case e_good:
-            return m_bad;
-        case e_bad:
-            return m_good;
-        case e_neutral:
-            return m_neutral;
-        case e_mixed:
-            return m_mixed;
-        default:
-            // Should never happen
-            return m_neutral;
+    if( intensity == 0 ) {
+        return;
     }
-}
-std::string effect_type::get_apply_message() const
-{
-    return apply_message.translated();
+    if( intensity - 1 < static_cast<int>( apply_msgs.size() ) ) {
+        add_msg( apply_msgs[intensity - 1].second,
+                 apply_msgs[intensity - 1].first.translated() );
+    } else if( !apply_msgs.empty() && !apply_msgs[0].first.empty() ) {
+        // if the apply message is empty we shouldn't show the message
+        add_msg( apply_msgs[0].second,
+                 apply_msgs[0].first.translated() );
+    }
 }
 std::string effect_type::get_apply_memorial_log( const memorial_gender gender ) const
 {
@@ -644,30 +642,68 @@ bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string_view m
 {
     return jo.read( member, miss_msgs );
 }
+
+static std::optional<game_message_type> process_rating( const std::string &r )
+{
+    if( r == "good" ) {
+        return m_good;
+    } else if( r == "neutral" ) {
+        return m_neutral;
+    } else if( r == "bad" ) {
+        return m_bad;
+    } else if( r == "mixed" ) {
+        return m_mixed;
+    } else {
+        // handle errors for returning nothing above
+        return {};
+    }
+}
+
+// helps load the internal message arrays for decay and apply into the msgs vector
+static void load_msg_help( const JsonArray &ja,
+                           std::vector<std::pair<translation, game_message_type>> &apply_msgs )
+{
+    translation msg;
+    ja.read( 0, msg );
+    std::string r = ja.get_string( 1 );
+    std::optional<game_message_type> rate = process_rating( r );
+    if( !rate.has_value() ) {
+        ja.throw_error(
+            1, string_format( "Unexpected message type \"%s\"; expected \"good\", "
+                              "\"neutral\", " "\"bad\", or \"mixed\"", r ) );
+        rate = m_neutral;
+    }
+    apply_msgs.emplace_back( msg, rate.value() );
+}
+
 bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string_view member )
 {
     if( jo.has_array( member ) ) {
         for( JsonArray inner : jo.get_array( member ) ) {
-            translation msg;
-            inner.read( 0, msg );
-            std::string r = inner.get_string( 1 );
-            game_message_type rate = m_neutral;
-            if( r == "good" ) {
-                rate = m_good;
-            } else if( r == "neutral" ) {
-                rate = m_neutral;
-            } else if( r == "bad" ) {
-                rate = m_bad;
-            } else if( r == "mixed" ) {
-                rate = m_mixed;
-            } else {
-                inner.throw_error(
-                    1, string_format( "Unexpected message type \"%s\"; expected \"good\", "
-                                      "\"neutral\", " "\"bad\", or \"mixed\"", r ) );
-            }
-            decay_msgs.emplace_back( msg, rate );
+            load_msg_help( inner, decay_msgs );
         }
         return true;
+    }
+    return false;
+}
+
+bool effect_type::load_apply_msgs( const JsonObject &jo, const std::string_view member )
+{
+    if( jo.has_array( member ) ) {
+        JsonArray ja = jo.get_array( member );
+        for( JsonArray inner : jo.get_array( member ) ) {
+            load_msg_help( inner, apply_msgs );
+        }
+        return true;
+    } else {
+        translation msg;
+        optional( jo, false, member, msg );
+        if( jo.has_string( "rating" ) ) {
+            std::optional<game_message_type> rate = process_rating( jo.get_string( "rating" ) );
+            apply_msgs.emplace_back( msg, rate.value() );
+        } else {
+            apply_msgs.emplace_back( msg, game_message_type::m_neutral );
+        }
     }
     return false;
 }
@@ -1135,6 +1171,8 @@ int effect::set_intensity( int val, bool alert )
         val - 1 < static_cast<int>( eff_type->decay_msgs.size() ) ) {
         add_msg( eff_type->decay_msgs[ val - 1 ].second,
                  eff_type->decay_msgs[ val - 1 ].first.translated() );
+    } else if( alert && val != 0 ) {
+        eff_type->add_apply_msg( val );
     }
 
     if( val == 0 && !eff_type->int_decay_remove ) {
@@ -1443,26 +1481,6 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.part_descs = jo.get_bool( "part_descs", false );
 
-    if( jo.has_member( "rating" ) ) {
-        std::string r = jo.get_string( "rating" );
-        if( r == "good" ) {
-            new_etype.rating = e_good;
-        } else if( r == "neutral" ) {
-            new_etype.rating = e_neutral;
-        } else if( r == "bad" ) {
-            new_etype.rating = e_bad;
-        } else if( r == "mixed" ) {
-            new_etype.rating = e_mixed;
-        } else {
-            jo.throw_error_at(
-                "rating",
-                string_format( "Unexpected rating \"%s\"; expected \"good\", \"neutral\", "
-                               "\"bad\", or \"mixed\"", r ) );
-        }
-    } else {
-        new_etype.rating = e_neutral;
-    }
-    jo.read( "apply_message", new_etype.apply_message );
     jo.read( "remove_message", new_etype.remove_message );
     optional( jo, false, "apply_memorial_log", new_etype.apply_memorial_log,
               text_style_check_reader() );
@@ -1511,6 +1529,7 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.load_miss_msgs( jo, "miss_messages" );
     new_etype.load_decay_msgs( jo, "decay_messages" );
+    new_etype.load_apply_msgs( jo, "apply_message" );
 
     new_etype.main_parts_only = jo.get_bool( "main_parts_only", false );
     new_etype.show_in_info = jo.get_bool( "show_in_info", false );

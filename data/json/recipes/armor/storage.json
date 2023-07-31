@@ -750,7 +750,13 @@
     "time": "2 h 30 m",
     "autolearn": true,
     "reversible": { "time": "10 m" },
-    "using": [ [ "tailoring_cotton_patchwork", 4 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
+    "using": [
+      [ "tailoring_canvas_patchwork", 4 ],
+      [ "filament_canvas", 2 ],
+      [ "fastener_small", 1 ],
+      [ "strap_small", 1 ],
+      [ "clasps", 1 ]
+    ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -1434,6 +1440,24 @@
       { "proficiency": "prof_leatherworking_basic" }
     ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "nylon_quiver",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "archery", 2 ],
+    "time": "11 h",
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 1 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 8 ], [ "fastener_large", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
+    "components": [ [ [ "strap_large", 2, "LIST" ] ] ]
   },
   {
     "result": "quiver_birchbark",

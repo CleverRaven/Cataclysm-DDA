@@ -795,11 +795,11 @@
     "nested_mapgen_id": "corpse_crossbow_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
-      "place_item": [
-        { "item": "corpse_generic_human", "x": 0, "y": 0, "chance": 100 },
-        { "item": "compcrossbow", "x": 0, "y": 0, "chance": 100 }
+      "place_item": [ { "item": "compcrossbow", "x": 0, "y": 0, "chance": 100 } ],
+      "place_items": [
+        { "item": "corpses", "x": 0, "y": 0, "chance": 100 },
+        { "item": "bolt_makeshift", "x": 0, "y": 0, "repeat": [ 1, 3 ], "chance": 66 }
       ],
-      "place_items": [ { "item": "bolt_makeshift", "x": 0, "y": 0, "repeat": [ 1, 3 ], "chance": 66 } ],
       "place_fields": [ { "field": "fd_blood", "x": 0, "y": 0, "intensity": [ 1, 3 ], "age": 10 } ]
     }
   },

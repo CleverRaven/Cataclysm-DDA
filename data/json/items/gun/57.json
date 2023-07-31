@@ -73,6 +73,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
+    "range": 4,
     "ammo": [ "57" ],
     "skill": "smg",
     "dispersion": 260,
@@ -118,6 +119,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
+    "range": 3,
     "ammo": [ "57" ],
     "skill": "pistol",
     "dispersion": 380,
@@ -213,6 +215,7 @@
     "price": 199500,
     "price_postapoc": 3000,
     "skill": "rifle",
+    "range": 6,
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "valid_mod_locations": [

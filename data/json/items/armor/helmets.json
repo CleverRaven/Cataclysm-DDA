@@ -898,7 +898,7 @@
     "category": "armor",
     "name": { "str_sp": "kabuto" },
     "//": "Leaving this at $500 as it's either antique/priceless or player-made/Bartered, leastwise on the initial search.",
-    "description": "A medieval Japanese helmet with a scowling facemask that provides excellent protection to the entire head and face.",
+    "description": "A medieval Japanese helmet with a scowling face mask that provides excellent protection to the entire head and face.",
     "weight": "1625 g",
     "volume": "3500 ml",
     "price": 50000,
@@ -947,7 +947,7 @@
     "type": "ARMOR",
     "copy-from": "helmet_kabuto",
     "name": { "str": "XL kabuto" },
-    "description": "A medieval Japanese helmet with a scowling facemask, fit for an Oni.",
+    "description": "A medieval Japanese helmet with a scowling face mask, fit for an Oni.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -957,7 +957,7 @@
     "copy-from": "helmet_kabuto",
     "looks_like": "helmet_kabuto",
     "name": { "str": "XS kabuto" },
-    "description": "A medieval Japanese helmet with a scowling facemask that provides excellent protection to the entire head and face.",
+    "description": "A medieval Japanese helmet with a scowling face mask that provides excellent protection to the entire head and face.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "STURDY", "UNDERSIZE" ]
   },
@@ -1274,7 +1274,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.",
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.",
     "weight": "907 g",
     "volume": "2 L",
     "price": 26000,
@@ -1337,7 +1337,7 @@
     "copy-from": "helmet_nasal",
     "looks_like": "helmet_nasal",
     "name": { "str": "XS nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.",
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -1346,7 +1346,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of mild steel.",
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of mild steel.",
     "weight": "1507 g",
     "volume": "2 L",
     "price": 26000,
@@ -1418,7 +1418,7 @@
     "copy-from": "lc_helmet_nasal",
     "looks_like": "helmet_nasal",
     "name": { "str": "mild steel XS nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of mild steel.",
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of mild steel.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -1427,7 +1427,7 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_nasal",
     "name": { "str": "medium steel nasal helmet" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of medium steel.",
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of medium steel.",
     "armor": [
       {
         "covers": [ "head" ],
@@ -1474,7 +1474,7 @@
     "copy-from": "mc_helmet_nasal",
     "looks_like": "helmet_nasal",
     "name": { "str": "medium steel XS nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of medium steel.",
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of medium steel.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -1483,7 +1483,7 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_nasal",
     "name": { "str": "high steel nasal helmet" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of high steel.",
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of high steel.",
     "armor": [
       {
         "covers": [ "head" ],
@@ -1530,7 +1530,7 @@
     "copy-from": "hc_helmet_nasal",
     "looks_like": "helmet_nasal",
     "name": { "str": "high steel XS nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of high steel.",
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of high steel.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -1539,7 +1539,7 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_nasal",
     "name": { "str": "tempered steel nasal helmet" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of tempered steel.",
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of tempered steel.",
     "armor": [
       {
         "covers": [ "head" ],
@@ -1586,7 +1586,7 @@
     "copy-from": "qt_helmet_nasal",
     "looks_like": "helmet_nasal",
     "name": { "str": "tempered steel XS nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of tempered steel.",
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of tempered steel.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -1595,7 +1595,7 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_nasal",
     "name": { "str": "hardened steel nasal helmet" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of hardened steel.",
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of hardened steel.",
     "armor": [
       {
         "covers": [ "head" ],
@@ -1642,7 +1642,7 @@
     "copy-from": "ch_helmet_nasal",
     "looks_like": "helmet_nasal",
     "name": { "str": "hardened steel XS nasal helm" },
-    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of hardened steel.",
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Viking gear, unlike the stereotypical horned helm.  This one is made in modern times out of hardened steel.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
@@ -1936,6 +1936,7 @@
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 4,
+    "flags": [ "PADDED" ],
     "techniques": [ "WBLOCK_1" ],
     "armor": [
       {
@@ -3730,7 +3731,7 @@
     "id": "lc_helmet_turban",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "mild steel turban helm" },
+    "name": { "str": "mild steel turban helmet" },
     "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of mild steel.",
     "weight": "2400g",
     "volume": "1500ml",
@@ -3793,7 +3794,7 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_turban",
     "looks_like": "helmet_turban",
-    "name": { "str": "mild steel XS turban helm" },
+    "name": { "str": "mild steel XS turban helmet" },
     "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of mild steel and is fitted to a smaller head.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
@@ -3831,7 +3832,7 @@
     "id": "xl_mc_helmet_turban",
     "type": "ARMOR",
     "copy-from": "mc_helmet_turban",
-    "name": { "str": "medium steel XL turban helm" },
+    "name": { "str": "medium steel XL turban helmet" },
     "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of medium steel and is fitted to a larger head.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -3841,7 +3842,7 @@
     "type": "ARMOR",
     "copy-from": "mc_helmet_turban",
     "looks_like": "helmet_turban",
-    "name": { "str": "medium steel XS turban helm" },
+    "name": { "str": "medium steel XS turban helmet" },
     "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of medium steel and is fitted to a smaller head.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
@@ -3879,7 +3880,7 @@
     "id": "xl_hc_helmet_turban",
     "type": "ARMOR",
     "copy-from": "hc_helmet_turban",
-    "name": { "str": "high steel XL turban helm" },
+    "name": { "str": "high steel XL turban helmet" },
     "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of high steel and is fitted to a larger head.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -3889,7 +3890,7 @@
     "type": "ARMOR",
     "copy-from": "hc_helmet_turban",
     "looks_like": "helmet_turban",
-    "name": { "str": "high steel XS turban helm" },
+    "name": { "str": "high steel XS turban helmet" },
     "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of high steel and is fitted to a smaller head.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
@@ -3927,7 +3928,7 @@
     "id": "xl_qt_helmet_turban",
     "type": "ARMOR",
     "copy-from": "qt_helmet_turban",
-    "name": { "str": "tempered steel XL turban helm" },
+    "name": { "str": "tempered steel XL turban helmet" },
     "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of tempered steel and is fitted to a larger head.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -3937,7 +3938,7 @@
     "type": "ARMOR",
     "copy-from": "qt_helmet_turban",
     "looks_like": "helmet_turban",
-    "name": { "str": "tempered steel XS turban helm" },
+    "name": { "str": "tempered steel XS turban helmet" },
     "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of tempered steel and is fitted to a smaller head.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
@@ -3975,7 +3976,7 @@
     "id": "xl_ch_helmet_turban",
     "type": "ARMOR",
     "copy-from": "ch_helmet_turban",
-    "name": { "str": "hardened steel XL turban helm" },
+    "name": { "str": "hardened steel XL turban helmet" },
     "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of hardened steel and is fitted to a larger head.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -3985,7 +3986,7 @@
     "type": "ARMOR",
     "copy-from": "ch_helmet_turban",
     "looks_like": "helmet_turban",
-    "name": { "str": "hardened steel XS turban helm" },
+    "name": { "str": "hardened steel XS turban helmet" },
     "description": "A middle eastern helmet, cylindrical on the top with protection for the nose and ears but nothing lower.  This one is made in modern times out of hardened steel and is fitted to a smaller head.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]

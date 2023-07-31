@@ -513,11 +513,11 @@ class cata_tiles
         static int get_rotation_edge_ew( char rot_to );
 
         /** Map memory */
-        bool has_memory_at( const tripoint &p ) const;
-        const memorized_tile &get_terrain_memory_at( const tripoint &p ) const;
-        const memorized_tile &get_furniture_memory_at( const tripoint &p ) const;
-        const memorized_tile &get_trap_memory_at( const tripoint &p ) const;
-        const memorized_tile &get_vpart_memory_at( const tripoint &p ) const;
+        bool has_memory_at( const tripoint_abs_ms &p ) const;
+        const memorized_tile &get_terrain_memory_at( const tripoint_abs_ms &p ) const;
+        const memorized_tile &get_furniture_memory_at( const tripoint_abs_ms &p ) const;
+        const memorized_tile &get_trap_memory_at( const tripoint_abs_ms &p ) const;
+        const memorized_tile &get_vpart_memory_at( const tripoint_abs_ms &p ) const;
 
         /** Drawing Layers */
         bool would_apply_vision_effects( visibility_type visibility ) const;
@@ -549,6 +549,8 @@ class cata_tiles
                               const std::array<bool, 5> &invisible, bool memorize_only );
         bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d,
                                     const std::array<bool, 5> &invisible, bool memorize_only );
+        bool draw_critter_above( const tripoint &p, lit_level ll, int &height_3d,
+                                 const std::array<bool, 5> &invisible );
         bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
                              const std::array<bool, 5> &invisible, bool memorize_only );
         bool draw_zombie_revival_indicators( const tripoint &pos, lit_level ll, int &height_3d,

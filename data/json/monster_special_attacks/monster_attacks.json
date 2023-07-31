@@ -105,8 +105,8 @@
     "grab_data": { "exclusive_grab": true, "pull_chance": 100, "pull_weight_ratio": 0.75 },
     "no_dmg_msg_u": "",
     "no_dmg_msg_npc": "",
-    "miss_msg_u": "The %s's arms fly out at you, but you dodge!",
-    "miss_msg_npc": "The %s's arms fly out at <npcname>, but they dodge!"
+    "miss_msg_u": "%s's arms fly out at you, but you dodge!",
+    "miss_msg_npc": "%s's arms fly out at <npcname>, but they dodge!"
   },
   {
     "type": "monster_attack",
@@ -193,7 +193,7 @@
     "no_adjacent": true,
     "effects": [ { "id": "downed", "chance": 33, "duration": [ 1, 3 ] } ],
     "condition": { "not": { "u_has_effect": "maimed_tail" } },
-    "dodgeable": false,
+    "dodgeable": true,
     "uncanny_dodgeable": true,
     "hitsize_min": 4,
     "hit_dmg_u": "%1$s's clubbed tail whips out and hits your %2$s!",
@@ -490,7 +490,7 @@
     "damage_max_instance": [ { "damage_type": "stab", "amount": 14, "armor_multiplier": 0.3 } ],
     "range": 2,
     "effects": [ { "id": "venom_dmg", "duration": 250, "affect_hit_bp": true } ],
-    "dodgeable": false,
+    "dodgeable": true,
     "uncanny_dodgeable": true,
     "hit_dmg_u": "%1$s's stinger tail whips out and hits your %2$s!",
     "hit_dmg_npc": "%1$s's tail stings <npcname>!",
@@ -524,7 +524,7 @@
     "damage_max_instance": [ { "damage_type": "bash", "amount": 17 } ],
     "hitsize_min": 4,
     "throw_strength": 20,
-    "dodgeable": false,
+    "dodgeable": true,
     "uncanny_dodgeable": true,
     "hit_dmg_u": "%1$s kicks your %2$s!",
     "hit_dmg_npc": "%1$s kicks <npcname>!",

@@ -482,7 +482,7 @@ Will stop fleeing if at max hp, and regen anger and morale.
 ## "flags"
 (array of strings, optional)
 
-Monster flags. See [JSON_FLAGS.md](JSON_FLAGS.md) for a full list.
+Monster flags. See [JSON_FLAGS.md](JSON_FLAGS.md) for a full list. These are IDs that point to a `"monster_flag"` object, which usually can be found in `data/json/monsters/monster_flags.json`.
 
 ## "fear_triggers", "anger_triggers", "placate_triggers"
 (array of strings, optional)
@@ -660,11 +660,3 @@ Field                | Description
 ## "special_attacks"
 
 See [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md)
-# Testing Monsters
-
-To help facilitate playtesting monsters use the loadouts from the Standard Combat Testing mod (included under Misc), and document your results in the PR's Testing section.
-
-Important test tips:
- - A spawned and saved monster will **not** change for any reason, even if you change the underlying monster definition.  Always use freshly spawned monsters!
- - Evolution, growth, and reproduction happen on monster load, so the sequence of testing is Spawn monster -> Teleport away to unload it -> Teleport back to load it and start the timers -> Teleport away -> Set time forward via the debug menu -> Teleport back
- - Activating Debug Mode's monster filter allows you to examine monsters using x->e and get additional information

@@ -1887,7 +1887,7 @@
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 5 },
-    "//": "Based on https://www.amazon.com/CZFWin-Container-Airtight-Storage-Cookies/dp/B0936RC7M1/ref=sr_1_10?keywords=3l%2Bglass%2Bjar&qid=1684576671&sr=8-10&th=1"
+    "//": "Based on https://www.amazon.com/dp/B0936RC7M1"
   },
   {
     "id": "jar_glass_sealed",
@@ -2036,13 +2036,14 @@
     "name": { "str": "gallon can" },
     "looks_like": "jerrycan_big",
     "description": "A large tin with a handle and a cap, meant for holding camp fuel or some other oil.  Looks like it could store just over a gallon.",
-    "weight": "36 g",
-    "volume": "4000 ml",
-    "price": 4000,
+    "weight": "363 g",
+    "volume": "4290 ml",
+    "price": "12 USD",
+    "//1": "Price calculated from https://www.uline.com/Product/Detail/S-22157/Hazardous-Materials-Packaging/Metal-F-Style-Can-with-Cap-1-Gallon",
     "price_postapoc": 400,
-    "to_hit": 1,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
-    "longest_side": "22 cm",
+    "longest_side": "24 cm",
     "symbol": ")",
     "color": "red",
     "pocket_data": [
@@ -2055,7 +2056,8 @@
         "max_contains_weight": "14 kg"
       }
     ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "//2": "Based on https://www.pipelinepackaging.com/1-gallon-f-style-can-unlined-42-mm-rel-610x907-un-rated-bulk-pallet"
   },
   {
     "id": "keg",
@@ -3346,7 +3348,7 @@
     "name": { "str": "first aid kit box", "str_pl": "first aid kit boxes" },
     "looks_like": "ifak_pouch",
     "description": "A plastic box designed to contain a first aid kit.",
-    "weight": "50 g",
+    "weight": "200 g",
     "volume": "2900 ml",
     "price": 0,
     "price_postapoc": 0,
@@ -3358,6 +3360,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "2700 ml",
         "max_contains_weight": "3 kg",
+        "max_item_length": "20 cm",
         "rigid": true,
         "moves": 100
       }
@@ -3372,7 +3375,8 @@
     "name": { "str": "IFAK pouch", "str_pl": "IFAK pouches" },
     "looks_like": "1st_aid_box",
     "description": "A fabric pouch designed to contain a personalized trauma kit.  These supplies are used to address immediate life-threatening conditions.",
-    "weight": "5 g",
+    "//": "Was introduced without anchoring to a real example, but is similar to this: https://www.amazon.com/Livans-Tactical-Rip-Away-Military-Emergency/dp/B07Y7BRB83",
+    "weight": "329 g",
     "volume": "1250 ml",
     "price": 0,
     "price_postapoc": 10,
@@ -3382,8 +3386,10 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "magazine_well": "400 ml",
         "max_contains_volume": "3200 ml",
         "max_contains_weight": "4000 g",
+        "max_item_length": "20 cm",
         "moves": 100,
         "rigid": false
       }

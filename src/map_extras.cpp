@@ -101,17 +101,14 @@ static const itype_id itype_vodka( "vodka" );
 static const itype_id itype_wheel( "wheel" );
 static const itype_id itype_withered( "withered" );
 
-static const map_extra_id map_extra_mx_bandits_block( "mx_bandits_block" );
 static const map_extra_id map_extra_mx_burned_ground( "mx_burned_ground" );
 static const map_extra_id map_extra_mx_casings( "mx_casings" );
 static const map_extra_id map_extra_mx_city_trap( "mx_city_trap" );
 static const map_extra_id map_extra_mx_clay_deposit( "mx_clay_deposit" );
-static const map_extra_id map_extra_mx_clearcut( "mx_clearcut" );
 static const map_extra_id map_extra_mx_corpses( "mx_corpses" );
 static const map_extra_id map_extra_mx_dead_vegetation( "mx_dead_vegetation" );
 static const map_extra_id map_extra_mx_grove( "mx_grove" );
 static const map_extra_id map_extra_mx_helicopter( "mx_helicopter" );
-static const map_extra_id map_extra_mx_house_wasp( "mx_house_wasp" );
 static const map_extra_id map_extra_mx_jabberwock( "mx_jabberwock" );
 static const map_extra_id map_extra_mx_looters( "mx_looters" );
 static const map_extra_id map_extra_mx_mayhem( "mx_mayhem" );
@@ -125,7 +122,6 @@ static const map_extra_id map_extra_mx_reed( "mx_reed" );
 static const map_extra_id map_extra_mx_roadworks( "mx_roadworks" );
 static const map_extra_id map_extra_mx_shrubbery( "mx_shrubbery" );
 
-static const mongroup_id GROUP_DERMATIK( "GROUP_DERMATIK" );
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
 static const mongroup_id GROUP_JABBERWOCK( "GROUP_JABBERWOCK" );
@@ -135,8 +131,6 @@ static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 static const mongroup_id GROUP_TURRET_SPEAKER( "GROUP_TURRET_SPEAKER" );
-static const mongroup_id GROUP_WASP_GUARD( "GROUP_WASP_GUARD" );
-static const mongroup_id GROUP_WASP_QUEEN( "GROUP_WASP_QUEEN" );
 
 static const mtype_id mon_wolf( "mon_wolf" );
 
@@ -145,8 +139,6 @@ static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" )
 static const oter_type_str_id oter_type_road( "road" );
 
 static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" );
-
-static const string_id<class npc_template> npc_template_bandit( "bandit" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
@@ -157,9 +149,7 @@ static const ter_str_id ter_t_tree_deadpine( "t_tree_deadpine" );
 static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
 
-static const trap_str_id tr_caltrops( "tr_caltrops" );
 static const trap_str_id tr_engine( "tr_engine" );
-static const trap_str_id tr_nailboard( "tr_nailboard" );
 
 static const vgroup_id VehicleGroup_crashed_helicopters( "crashed_helicopters" );
 
@@ -288,43 +278,12 @@ static void dead_vegetation_parser( map &m, const tripoint &loc )
     }
 }
 
-static bool mx_house_wasp( map &m, const tripoint &/*loc*/ )
+static void delete_items_at_mount( vehicle &veh, const point &pt )
 {
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( m.ter( point( i, j ) ) == t_door_c || m.ter( point( i, j ) ) == t_door_locked ) {
-                m.ter_set( point( i, j ), t_door_frame );
-            }
-            if( m.ter( point( i, j ) ) == t_window_domestic && !one_in( 3 ) ) {
-                m.ter_set( point( i, j ), t_window_frame );
-            }
-            if( m.ter( point( i, j ) ) == t_wall && one_in( 8 ) ) {
-                m.ter_set( point( i, j ), t_paper );
-            }
-        }
+    for( const int idx_cargo : veh.parts_at_relative( pt, /* use_cache = */ true ) ) {
+        vehicle_part &vp_cargo = veh.part( idx_cargo );
+        veh.get_items( vp_cargo ).clear();
     }
-    const int num_pods = rng( 8, 12 );
-    for( int i = 0; i < num_pods; i++ ) {
-        const point pod( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
-        point non;
-        while( non.x == 0 && non.y == 0 ) {
-            non.x = rng( -1, 1 );
-            non.y = rng( -1, 1 );
-        }
-        for( int x = -1; x <= 1; x++ ) {
-            for( int y = -1; y <= 1; y++ ) {
-                if( ( x != non.x || y != non.y ) && ( x != 0 || y != 0 ) ) {
-                    m.ter_set( pod + point( x, y ), t_paper );
-                }
-            }
-        }
-        m.place_spawns( GROUP_WASP_GUARD, 1, pod, pod, 1, true );
-    }
-    m.place_spawns( GROUP_WASP_QUEEN, 1, point_zero, point( SEEX, SEEY ), 1, true );
-    m.place_spawns( GROUP_DERMATIK, 5, { SEEX * 2 - 1, SEEY * 2 - 1 }, { SEEX * 2 - 1, SEEY * 2 - 1 },
-                    0.1f );
-
-    return true;
 }
 
 static bool mx_helicopter( map &m, const tripoint &abs_sub )
@@ -417,15 +376,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     } else {
                         m.place_spawns( GROUP_MIL_PASSENGER, 1, pos.xy(), pos.xy(), 1, true );
                     }
-
-                    // Delete the items that would have spawned here from a "corpse"
-                    for( int sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
-                        vehicle_stack here = wreckage->get_items( sp );
-
-                        for( auto iter = here.begin(); iter != here.end(); ) {
-                            iter = here.erase( iter );
-                        }
-                    }
+                    delete_items_at_mount( *wreckage, vp.mount() ); // delete corpse items
                 }
                 break;
             case 4:
@@ -439,15 +390,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     } else {
                         m.place_spawns( GROUP_MIL_WEAK, 2, pos.xy(), pos.xy(), 1, true );
                     }
-
-                    // Delete the items that would have spawned here from a "corpse"
-                    for( int sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
-                        vehicle_stack here = wreckage->get_items( sp );
-
-                        for( auto iter = here.begin(); iter != here.end(); ) {
-                            iter = here.erase( iter );
-                        }
-                    }
+                    delete_items_at_mount( *wreckage, vp.mount() ); // delete corpse items
                 }
                 break;
             case 6:
@@ -455,15 +398,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
                     const tripoint pos = vp.pos();
                     m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), 1, true );
-
-                    // Delete the items that would have spawned here from a "corpse"
-                    for( int sp : wreckage->parts_at_relative( vp.mount(), true ) ) {
-                        vehicle_stack here = wreckage->get_items( sp );
-
-                        for( auto iter = here.begin(); iter != here.end(); ) {
-                            iter = here.erase( iter );
-                        }
-                    }
+                    delete_items_at_mount( *wreckage, vp.mount() ); // delete corpse items
                 }
                 break;
             case 7:
@@ -482,98 +417,6 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
     }
 
     return true;
-}
-
-static bool mx_bandits_block( map &m, const tripoint &abs_sub )
-{
-    const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
-    const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
-    const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
-    const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
-    const oter_id &east = overmap_buffer.ter( abs_omt + point_east );
-
-    const bool forest_at_north = is_ot_match( "forest", north, ot_match_type::prefix );
-    const bool forest_at_south = is_ot_match( "forest", south, ot_match_type::prefix );
-    const bool forest_at_west = is_ot_match( "forest", west, ot_match_type::prefix );
-    const bool forest_at_east = is_ot_match( "forest", east, ot_match_type::prefix );
-
-    const bool road_at_north = north->get_type_id() == oter_type_road;
-    const bool road_at_south = south->get_type_id() == oter_type_road;
-    const bool road_at_west = west->get_type_id() == oter_type_road;
-    const bool road_at_east = east->get_type_id() == oter_type_road;
-
-    if( forest_at_north && forest_at_south &&
-        road_at_west && road_at_east ) {
-        if( one_in( 2 ) ) {
-            line( &m, t_trunk, point( 1, 3 ), point( 1, 6 ) );
-            line( &m, t_trunk, point( 1, 8 ), point( 1, 13 ) );
-            line( &m, t_trunk, point( 2, 14 ), point( 2, 17 ) );
-            line( &m, t_trunk, point( 1, 18 ), point( 2, 22 ) );
-            m.ter_set( point( 1, 2 ), t_stump );
-            m.ter_set( point( 1, 20 ), t_stump );
-            m.ter_set( point_south_east, t_improvised_shelter );
-            m.place_npc( point( 2, 19 ), npc_template_bandit );
-            if( one_in( 2 ) ) {
-                m.place_npc( point_south_east, npc_template_bandit );
-            }
-        } else {
-            trap_str_id trap_type = one_in( 2 ) ? tr_nailboard : tr_caltrops;
-            for( int x = SEEX - 1; x < SEEX + 1; x++ ) {
-                for( int y = 0; y < SEEY * 2 - 1; y += 2 ) {
-                    if( x_in_y( 8, 10 ) ) {
-                        m.trap_set( tripoint_bub_ms{ x, y, abs_sub.z }, trap_type );
-                    }
-                }
-            }
-
-            rough_circle( &m, t_underbrush, point( 8, 2 ), 2 );
-            m.ter_set( point( 8, 2 ), t_dirt );
-            m.place_npc( point( 8, 2 ), npc_template_bandit );
-
-            rough_circle( &m, t_underbrush, point( 16, 22 ), 2 );
-            m.ter_set( point( 16, 22 ), t_dirt );
-            m.place_npc( point( 16, 22 ), npc_template_bandit );
-        }
-
-        return true;
-    }
-
-    if( forest_at_west && forest_at_east && road_at_north && road_at_south ) {
-        if( one_in( 2 ) ) {
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            line( &m, t_trunk, point( 1, 1 ), point( 3, 1 ) );
-            line( &m, t_trunk, point( 5, 1 ), point( 10, 1 ) );
-            line( &m, t_trunk, point( 11, 3 ), point( 16, 3 ) );
-            line( &m, t_trunk, point( 17, 2 ), point( 21, 2 ) );
-            m.ter_set( point( 22, 2 ), t_stump );
-            m.ter_set( point_south, t_improvised_shelter );
-            m.place_npc( point( 20, 3 ), npc_template_bandit );
-            if( one_in( 2 ) ) {
-                m.place_npc( point_south, npc_template_bandit );
-            }
-        } else {
-            trap_str_id trap_type = one_in( 2 ) ? tr_nailboard : tr_caltrops;
-            for( int x = 0; x < SEEX * 2 - 1; x += 2 ) {
-                for( int y = SEEY - 1; y < SEEY + 1; y++ ) {
-                    if( x_in_y( 8, 10 ) ) {
-                        m.trap_set( tripoint_bub_ms{ x, y, abs_sub.z }, trap_type );
-                    }
-                }
-            }
-
-            rough_circle( &m, t_underbrush, point( 1, 8 ), 2 );
-            m.ter_set( point( 1, 8 ), t_dirt );
-            m.place_npc( point( 1, 8 ), npc_template_bandit );
-
-            rough_circle( &m, t_underbrush, point( 22, 15 ), 2 );
-            m.ter_set( point( 22, 15 ), t_dirt );
-            m.place_npc( point( 22, 15 ), npc_template_bandit );
-        }
-
-        return true;
-    }
-
-    return false;
 }
 
 static void place_trap_if_clear( map &m, const point &target, trap_id trap_type )
@@ -1347,33 +1190,6 @@ static bool mx_shrubbery( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_clearcut( map &m, const tripoint &abs_sub )
-{
-    // From wikipedia - Clearcutting, clearfelling or clearcut logging is a forestry/logging
-    // practice in which most or all trees in an area are uniformly cut down.
-
-    // This map extra converts all trees and young trees in the area to stumps.
-
-    ter_id stump( "t_stump" );
-
-    bool did_something = false;
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            const tripoint location( i, j, abs_sub.z );
-            if( m.has_flag_ter( ter_furn_flag::TFLAG_TREE, location ) ||
-                m.has_flag_ter( ter_furn_flag::TFLAG_YOUNG, location ) ) {
-                if( !did_something ) {
-                    did_something = true;
-                }
-                m.ter_set( location, stump );
-            }
-        }
-    }
-
-    return did_something;
-}
-
 static bool mx_pond( map &m, const tripoint &abs_sub )
 {
     // This map extra creates small ponds using a simple cellular automaton.
@@ -2081,12 +1897,11 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
         case 3: {
             vehicle *veh = m.add_vehicle( vehicle_prototype_car, tripoint( 18, 12, abs_sub.z ), 270_degrees );
 
-            for( const vpart_reference &vp : veh->get_any_parts( "CARGO" ) ) {
-                const size_t p = vp.part_index();
-                for( item &elem : veh->get_items( p ) ) {
+            for( const vpart_reference &vpr : veh->get_any_parts( VPFLAG_CARGO ) ) {
+                for( item &elem : vpr.items() ) {
                     if( elem.typeId() == itype_wheel || elem.typeId() == itype_lug_wrench ||
                         elem.typeId() == itype_jack_small ) {
-                        veh->remove_item( p, &elem );
+                        veh->remove_item( vpr.part(), &elem );
                     }
                 }
             }
@@ -2410,15 +2225,12 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_null, mx_null },
     { map_extra_mx_roadworks, mx_roadworks },
     { map_extra_mx_mayhem, mx_mayhem },
-    { map_extra_mx_bandits_block, mx_bandits_block },
     { map_extra_mx_minefield, mx_minefield },
     { map_extra_mx_helicopter, mx_helicopter },
     { map_extra_mx_portal_in, mx_portal_in },
-    { map_extra_mx_house_wasp, mx_house_wasp },
     { map_extra_mx_jabberwock, mx_jabberwock },
     { map_extra_mx_grove, mx_grove },
     { map_extra_mx_shrubbery, mx_shrubbery },
-    { map_extra_mx_clearcut, mx_clearcut },
     { map_extra_mx_pond, mx_pond },
     { map_extra_mx_clay_deposit, mx_clay_deposit },
     { map_extra_mx_dead_vegetation, mx_dead_vegetation },

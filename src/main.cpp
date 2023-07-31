@@ -40,15 +40,15 @@
 #include "game_constants.h"
 #include "game_ui.h"
 #include "get_version.h"
+#include "help.h"
 #include "input.h"
 #include "loading_ui.h"
 #include "main_menu.h"
 #include "mapsharing.h"
 #include "memory_fast.h"
 #include "options.h"
-#include "output.h"
-#include "help.h"
 #include "ordered_static_globals.h"
+#include "output.h"
 #include "path_info.h"
 #include "rng.h"
 #include "system_locale.h"
@@ -634,6 +634,8 @@ int main( int argc, const char *argv[] )
     }
 
     setupDebug( DebugOutput::file );
+    // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+    json_error_output_colors = json_error_output_colors_t::color_tags;
 
     /**
      * OS X does not populate locale env vars correctly (they usually default to

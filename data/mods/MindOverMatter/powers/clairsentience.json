@@ -14,19 +14,17 @@
     "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 1,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
     "base_energy_cost": 1000,
     "final_energy_cost": 500,
     "energy_increment": -50,
     "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * ( ( u_val('intelligence') + 10) / 20 ) )"
-      ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * ( ( u_val('intelligence') + 10) / 20 ) )"
+        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     },
     "base_casting_time": 50,
@@ -62,16 +60,14 @@
     "effect": "attack",
     "effect_str": "effect_clair_night_eyes_1",
     "shape": "blast",
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 0,
     "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * ( ( u_val('intelligence') + 10) / 20 ) )"
-      ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * ( ( u_val('intelligence') + 10) / 20 ) )"
+        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     }
   },
@@ -86,16 +82,14 @@
     "effect": "attack",
     "effect_str": "effect_clair_night_eyes_2",
     "shape": "blast",
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 0,
     "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * ( ( u_val('intelligence') + 10) / 20 ) )"
-      ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * ( ( u_val('intelligence') + 10) / 20 ) )"
+        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     }
   },
@@ -110,16 +104,14 @@
     "effect": "attack",
     "effect_str": "effect_clair_night_eyes_3",
     "shape": "blast",
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 0,
     "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * ( ( u_val('intelligence') + 10) / 20 ) )"
-      ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * ( ( u_val('intelligence') + 10) / 20 ) )"
+        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     }
   },
@@ -134,16 +126,14 @@
     "effect": "attack",
     "effect_str": "effect_clair_night_eyes_4",
     "shape": "blast",
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 0,
     "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * ( ( u_val('intelligence') + 10) / 20 ) )"
-      ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * ( ( u_val('intelligence') + 10) / 20 ) )"
+        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     }
   },
@@ -158,16 +148,14 @@
     "effect": "attack",
     "effect_str": "effect_clair_night_eyes_5",
     "shape": "blast",
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 0,
     "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * ( ( u_val('intelligence') + 10) / 20 ) )"
-      ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * ( ( u_val('intelligence') + 10) / 20 ) )"
+        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     }
   },
@@ -182,16 +170,14 @@
     "effect": "attack",
     "effect_str": "effect_clair_night_eyes_6",
     "shape": "blast",
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 0,
     "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * ( ( u_val('intelligence') + 10) / 20 ) )"
-      ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * ( ( u_val('intelligence') + 10) / 20 ) )"
+        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     }
   },
@@ -206,16 +192,14 @@
     "effect": "attack",
     "effect_str": "effect_clair_night_eyes_7",
     "shape": "blast",
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 0,
     "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * ( ( u_val('intelligence') + 10) / 20 ) )"
-      ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * ( ( u_val('intelligence') + 10) / 20 ) )"
+        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     }
   },
@@ -230,16 +214,14 @@
     "effect": "attack",
     "effect_str": "effect_clair_night_eyes_8",
     "shape": "blast",
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 0,
     "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * ( ( u_val('intelligence') + 10) / 20 ) )"
-      ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 15000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * ( ( u_val('intelligence') + 10) / 20 ) )"
+        "( (u_val('spell_level', 'spell: clair_night_vision') * 20000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
       ]
     }
   },
@@ -259,15 +241,15 @@
     "shape": "blast",
     "energy_source": "STAMINA",
     "difficulty": 2,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "base_energy_cost": 1500,
     "final_energy_cost": 450,
     "energy_increment": -125,
     "min_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: clair_danger_sense') * 6000) + 12000) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_danger_sense') * 6000) + 12000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: clair_danger_sense') * 6000) + 90000) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_danger_sense') * 6000) + 90000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "base_casting_time": 85,
     "final_casting_time": 25,
@@ -290,19 +272,19 @@
     "shape": "blast",
     "energy_source": "STAMINA",
     "difficulty": 3,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_range": {
-      "math": [ "( ( (u_val('spell_level', 'spell: clair_spot_weakness') * 1.5) + 1) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_spot_weakness') * 1.5) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_range": 70,
     "base_energy_cost": 2500,
     "final_energy_cost": 500,
     "energy_increment": -125,
     "min_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: clair_spot_weakness') * 150) + 1350) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_spot_weakness') * 150) + 1350) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: clair_spot_weakness') * 150) + 3000) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_spot_weakness') * 150) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "base_casting_time": 150,
     "final_casting_time": 75,
@@ -325,15 +307,15 @@
     "shape": "blast",
     "energy_source": "STAMINA",
     "difficulty": 4,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "base_energy_cost": 3500,
     "final_energy_cost": 850,
     "energy_increment": -175,
     "min_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: clair_dodge_power') * 1200) + 3000) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_dodge_power') * 1200) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: clair_dodge_power') * 1200) + 45000) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_dodge_power') * 1200) + 45000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "base_casting_time": 150,
     "final_casting_time": 70,
@@ -355,13 +337,13 @@
     "shape": "blast",
     "energy_source": "STAMINA",
     "difficulty": 5,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_range": {
-      "math": [ "( ( (u_val('spell_level', 'spell: clair_voyance') * 1.5) + 1.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_voyance') * 1.5) + 1.5) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_range": 80,
     "min_aoe": {
-      "math": [ "( ( (u_val('spell_level', 'spell: clair_voyance') * 1.5) + 1.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_voyance') * 1.5) + 1.5) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_aoe": 50,
     "field_id": "fd_clairvoyant",
@@ -371,10 +353,10 @@
     "final_energy_cost": 1500,
     "energy_increment": -250,
     "min_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: clair_voyance') * 50) + 250) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_voyance') * 50) + 250) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: clair_voyance') * 50) + 1500) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_voyance') * 50) + 1500) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "base_casting_time": 1000,
     "final_casting_time": 500,
@@ -396,11 +378,9 @@
     "shape": "blast",
     "energy_source": "STAMINA",
     "difficulty": 7,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
-    "min_aoe": { "math": [ "( ( (u_val('spell_level', 'spell: clair_see_map') * 1) + 4) * ( ( u_val('intelligence') + 10) / 20 ) )" ] },
-    "max_aoe": {
-      "math": [ "( ( (u_val('spell_level', 'spell: clair_see_map') * 1) + 11) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
-    },
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_aoe": { "math": [ "( (u_val('spell_level', 'spell: clair_see_map') * 1) + 4) * (scaling_factor(u_val('intelligence') ) )" ] },
+    "max_aoe": { "math": [ "( (u_val('spell_level', 'spell: clair_see_map') * 1) + 11) * (scaling_factor(u_val('intelligence') ) )" ] },
     "base_energy_cost": 9000,
     "base_casting_time": 6000,
     "learn_spells": { "clair_danger_sense": 5 }
@@ -421,12 +401,12 @@
     "shape": "blast",
     "energy_source": "STAMINA",
     "difficulty": 6,
-    "max_level": { "math": [ "( u_val('intelligence') * 1.5 )" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "min_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: clair_clear_sight') * 1000) + 8000) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_clear_sight') * 1000) + 8000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [ "( ( (u_val('spell_level', 'spell: clair_clear_sight') * 1000) + 45000) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: clair_clear_sight') * 1000) + 45000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "base_energy_cost": 3000,
     "final_energy_cost": 1250,
