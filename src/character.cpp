@@ -11021,15 +11021,12 @@ read_condition_result Character::check_read_condition( const item &book ) const
         return read_condition_result::NOT_BOOK;
     }
 
+    const bool book_requires_intelligence = book.type->book->intel > 0;
+
     const optional_vpart_position vp = get_map().veh_at( pos() );
     if( vp && vp->vehicle().player_in_control( *this ) ) {
         return read_condition_result::DRIVING;
     }
-
-    const cata::value_ptr<islot_book> &type = book.type->book;
-    const skill_id &book_skill = type->skill;
-    const int book_skill_requirement = type->req;
-    const bool book_requires_intelligence = type->intel > 0;
 
     if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
         return read_condition_result::MORALE_LOW;
