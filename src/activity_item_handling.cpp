@@ -2893,7 +2893,6 @@ static bool generic_multi_activity_do(
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_BOOK_TO_LEARN ) {
-        std::vector<std::string> dummy;
         const item_filter filter = [ &you ]( const item & i ) {
             return you.check_read_condition( i ) == read_condition_result::SUCCESS;
         };
