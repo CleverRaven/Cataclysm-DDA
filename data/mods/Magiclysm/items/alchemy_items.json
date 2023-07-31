@@ -79,6 +79,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
     "name": "superior potion starter",
+    "charges": 1,
     "description": "Pure ethanol saturated with magical energy.  The sheer power concentrated within causes the surface of the potion to ripple continuously."
   },
   {

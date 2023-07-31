@@ -480,7 +480,7 @@
         "max_contains_weight": "2500 g",
         "max_item_length": "70 cm",
         "moves": 110,
-        "description": "lipped directly to the back of the belt.",
+        "description": "Clipped directly to the back of the belt.",
         "flag_restriction": [ "BELT_CLIP" ]
       }
     ],

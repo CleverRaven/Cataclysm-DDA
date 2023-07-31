@@ -2058,7 +2058,8 @@
     "components": [ [ [ "water_clean", 1 ] ], [ [ "beans_cooked", 2 ], [ "dry_beans", 2 ], [ "raw_beans", 2 ] ] ],
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
-    "byproducts": [ [ "water_clean", 1 ] ]
+    "byproducts": [ [ "water_clean", 1 ] ],
+    "charges": 2
   },
   {
     "type": "recipe",

@@ -611,7 +611,7 @@
         "fake_str": 11,
         "require_targeting_player": false,
         "ranges": [ [ 2, 10, "DEFAULT" ] ],
-        "description": "%1$s stares at %3$s and one of the rocks around them suddenly launches like a bullet!"
+        "description": "%1$s makes a throwing motion and one of the rocks around them suddenly launches like a bullet!"
       },
       {
         "id": "smash",

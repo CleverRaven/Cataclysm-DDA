@@ -930,6 +930,7 @@
     "id": "chunk_rubber",
     "category": "spare_parts",
     "price": 75,
+    "price_postapoc": 2,
     "name": { "str": "chunk of rubber", "str_pl": "chunks of rubber" },
     "symbol": "*",
     "color": "dark_gray",

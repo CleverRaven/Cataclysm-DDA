@@ -3019,18 +3019,15 @@
         "name": { "str": "VTuber body pillow" },
         "description": "A big, body-sized pillow with a print of a popular anime VTuber on the front and their scantily-clad version on the back.",
         "weight": 1
+      },
+      {
+        "id": "bodypillow_makeshift",
+        "name": { "str": "makeshift body pillow" },
+        "description": "A big, body-sized pillow.  Someone drew a vaguely humanoid figure on it.  Its heartwarming smile fills you with joy.",
+        "weight": 0
       }
     ],
     "category": "other"
-  },
-  {
-    "type": "GENERIC",
-    "id": "bodypillow_makeshift",
-    "copy-from": "bodypillow",
-    "name": { "str": "makeshift body pillow" },
-    "description": "A big, body-sized pillow.  Someone drew a vaguely humanoid figure on it.  Its heartwarming smile fills you with joy.",
-    "price": 100,
-    "price_postapoc": 50
   },
   {
     "type": "GENERIC",

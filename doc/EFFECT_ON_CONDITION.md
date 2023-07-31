@@ -85,6 +85,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_casts_spell |  | { "character", `character_id` }, { "spell", `spell_id` }, { "difficulty", `int` }, { "cost", `int` }, { "cast_time", `int` }, { "damage", `int` }, |
 | character_consumes_item |  | { "character", `character_id` }, { "itype", `itype_id` }, |
 | character_eats_item |  | { "character", `character_id` }, { "itype", `itype_id` }, |
+| character_finished_activity | Triggered when character finished or chanceled activity | { "character", `character_id` }, { "activity", `activity_id` }, { "canceled", `bool` } |
 | character_forgets_spell |  | { "character", `character_id` }, { "spell", `spell_id` } |
 | character_gains_effect |  | { "character", `character_id` }, { "effect", `efftype_id` }, |
 | character_gets_headshot |  | { "character", `character_id` } |
@@ -98,6 +99,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_ranged_attacks_character | |  { "attacker", `character_id` },  { "weapon", `itype_id` }, { "victim", `character_id` }, { "victim_name", `string` }, |
 | character_ranged_attacks_monster | | { "attacker", `character_id` }, { "weapon", `itype_id` }, { "victim_type", `mtype_id` }, |
 | character_smashes_tile | | { "character", `character_id` },  { "terrain", `ter_str_id` },  { "furniture", `furn_str_id` }, |
+| character_starts_activity | Triggered when character starts or resumes activity | { "character", `character_id` }, { "activity", `activity_id` }, { "resume", `bool` } |
 | character_takes_damage | | { "character", `character_id` }, { "damage", `int` }, |
 | character_triggers_trap | | { "character", `character_id` }, { "trap", `trap_str_id` }, |
 | character_wakes_up | | { "character", `character_id` }, |

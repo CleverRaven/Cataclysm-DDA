@@ -19,7 +19,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "clair_night_vision", 2 ], [ "clair_danger_sense", 2 ], [ "clair_spot_weakness", 2 ] ]
+    "spells_learned": [ [ "clair_night_vision", 2 ], [ "clair_danger_sense", 2 ], [ "clair_speed_reading", 2 ] ]
   },
   {
     "type": "mutation",
