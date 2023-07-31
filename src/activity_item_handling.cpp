@@ -2897,10 +2897,8 @@ static bool generic_multi_activity_do(
         }
     } else if( reason == do_activity_reason::NEEDS_BOOK_TO_LEARN ) {
         const item_filter filter = [ &you ]( const item & i ) {
-            // Check well lit after
             read_condition_result condition = you.check_read_condition( i );
-            return condition == read_condition_result::SUCCESS ||
-                   condition == read_condition_result::TOO_DARK;
+            return condition == read_condition_result::SUCCESS;
         };
         std::vector<item *> books = you.items_with( filter );
         if( !books.empty() && books[0] ) {
