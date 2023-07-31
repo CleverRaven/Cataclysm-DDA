@@ -45,6 +45,11 @@
     "//": "Immune to telekinetic damage"
   },
   {
+    "id": "HIVE_MIND",
+    "type": "monster_flag",
+    "//": "This monster is part of a hive mind"
+  },
+  {
     "id": "TEEP_IMMUNE",
     "type": "monster_flag",
     "//": "Immune to telepathic damage"

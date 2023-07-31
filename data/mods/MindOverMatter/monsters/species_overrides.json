@@ -43,7 +43,14 @@
     "id": "FUNGUS",
     "description": "a fungus",
     "fear_triggers": [ "HURT", "FIRE" ],
-    "flags": [ "TEEP_IMMUNE" ]
+    "flags": [ "HIVE_MIND" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "MIGO",
+    "description": "a creature from the mi-go homeworld",
+    "fear_triggers": [ "HURT" ],
+    "flags": [ "HIVE_MIND" ]
   },
   {
     "type": "SPECIES",
