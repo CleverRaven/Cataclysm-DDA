@@ -3912,7 +3912,7 @@
     "price": 10,
     "price_postapoc": 1,
     "material": [ "plastic" ],
-    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS", "POWERARMOR_COMPATIBLE", "PADDED" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "POWERARMOR_COMPATIBLE", "PADDED" ],
     "weight": "250 g",
     "volume": "250 ml",
     "longest_side": "5 cm",
@@ -3924,6 +3924,7 @@
         "rigid": false,
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
+        "max_item_length": "85 mm",
         "moves": 100,
         "flag_restriction": [ "BANK_NOTE_SHAPED", "CREDIT_CARD_SHAPED" ]
       }
