@@ -150,22 +150,39 @@ Format:
   "mission": 7,
   "chat": "TALK_EXAMPLE",
   "faction": "no_faction",
-  "death_eocs": [ "EOC_DEATH_NPC_TEST" ]
+  "death_eocs": [ "EOC_DEATH_NPC_TEST" ],
+  "age": 30,
+  "height": 180,
+  "str": 7,
+  "dex": 8,
+  "int": 9,
+  "per": 10,
+  "personality": {
+    "aggression": -1,
+    "bravery":  2,
+    "collector":  -3,
+    "altruism":  4
+  }
 }
 ```
-This is the JSON that creates the NPC ID that is used to spawn an NPC in "mapgen" (map generation).
+This is the JSON that creates the NPC ID that is used to spawn an NPC in "mapgen" (map generation). If optional fields are omitted, values are defined randomly.
 
-Attitude is based on the enum in `npc.h`. The important ones are `0=NPCATT_NULL`, `1=NPCATT_TALK`, `3=NPCATT_FOLLOW`, `10=NPCATT_KILL`, and `11=NPCATT_FLEE`.
-
-Mission is based on the enum in `npc.h`.  The important ones are `0=NPC_MISSION_NULL`, `3=NPC_MISSION_SHOPKEEP`, `7=NPC_MISSION_GUARD`, and `8=NPC_MISSION_GUARD_PATROL`.
-
-Chat is covered in the dialogue examples below.
-
-Faction determines what faction, if any, the NPC belongs to.  Some examples are the Free Traders, Old Guard, Marloss Evangelists, and Hell's raiders but could include a brand new faction you create!
-
-`death_eocs` are string `effect_on_condition` ids and/or inline `effect_on_condition`s (see [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)).  When the npc dies all of these `eoc`s are run with the victim as u and the killer as npc.
-
-`age` and `height` are optional fields that can be used to define the age and height (in cm) of the NPC respectively.
+| field | Description
+|---    | ---
+| `name_unique` | Set name of NPC.
+| `name_suffix` | Set name suffix of NPC.
+| `attitude`    | _(mandatory)_ Based on the enum in `npc.h`. The important ones are `0=NPCATT_NULL`, `1=NPCATT_TALK`, `3=NPCATT_FOLLOW`, `10=NPCATT_KILL`, and `11=NPCATT_FLEE`.
+| `mission`     | _(mandatory)_ Based on the enum in `npc.h`. The important ones are `0=NPC_MISSION_NULL`, `3=NPC_MISSION_SHOPKEEP`, `7=NPC_MISSION_GUARD`, and `8=NPC_MISSION_GUARD_PATROL`.
+| `chat`        | _(mandatory)_ Covered in the dialogue examples below.
+| `faction`     | Set faction NPC belongs to (see [FACTIONS.md](FACTIONS.md)).
+| `death_eocs`  | String `effect_on_condition` ids and/or inline `effect_on_condition`s (see [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)). When the npc dies all of these `eoc`s are run with the victim as u and the killer as npc.
+| `age`         | Set age of NPC.
+| `height`      | Set height of NPC. (in cm)
+| `str`         | Set strength of NPC.
+| `dex`         | Set dexterity of NPC.
+| `int`         | Set intelligence of NPC.
+| `per`         | Set perception of NPC.
+| `personality` | Set personality of NPC. For example, positive value of `aggression` means NPC is aggressive, negative value means NPC is defensive.
 
 ---
 
