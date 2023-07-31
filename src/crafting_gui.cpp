@@ -1148,20 +1148,10 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
         const unsigned int header_info_width = std::max( width / 4, width - FULL_SCREEN_WIDTH - 1 );
         const int wStart = ( TERMX - width ) / 2;
 
-        // Keybinding tips
-        static const translation inline_fmt = to_translation(
-                //~ %1$s: action description text before key,
-                //~ %2$s: key description,
-                //~ %3$s: action description text after key.
-                "keybinding", "%1$s[<color_yellow>%2$s</color>]%3$s" );
-        static const translation separate_fmt = to_translation(
-                //~ %1$s: key description,
-                //~ %2$s: action description.
-                "keybinding", "[<color_yellow>%1$s</color>]%2$s" );
         std::vector<std::string> act_descs;
         const auto add_action_desc = [&]( const std::string & act, const std::string & txt ) {
-            act_descs.emplace_back( ctxt.get_desc( act, txt, input_context::allow_all_keys,
-                                                   inline_fmt, separate_fmt ) );
+            act_descs.emplace_back(
+                ctxt.get_desc( act, txt, input_context::allow_all_keys ) );
         };
         add_action_desc( "CONFIRM", pgettext( "crafting gui", "Craft" ) );
         add_action_desc( "HELP_RECIPE", pgettext( "crafting gui", "Describe" ) );
