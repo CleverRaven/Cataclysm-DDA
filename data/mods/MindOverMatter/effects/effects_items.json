@@ -19,5 +19,16 @@
       "h_mod_chance_bot": [ 5 ],
       "h_mod_tick": [ 3600 ]
     }
+  },
+  {
+    "id": "force_field_generated",
+    "type": "effect_type",
+    "name": [ "Rippling Air" ],
+    "desc": [ "The air around you is wavering strangely." ],
+    "apply_message": "The world takes on a slightly bent look, as though you're a straw inserted into a glass of water.",
+    "remove_message": "The world snaps back into focus.",
+    "rating": "good",
+    "max_duration": "1 minutes",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FORCEFIELD", "add": 0.94 } ] } ]
   }
 ]

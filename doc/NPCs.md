@@ -1393,7 +1393,7 @@ If `operator` is `=`, `+=`, `-=`, `*=`, `/=`, or `%=` the operation is an assign
 `lhs` must be an [assignment target](#assignment-target). `rhs` is evaluated and stored in the assignment target from `lhs`.
 
 
-If `operator` is `==`, `>=`, `<=`, `>`, or `<`, the operation is a comparison:
+If `operator` is `==`, `!=`, `>=`, `<=`, `>`, or `<`, the operation is a comparison:
 ```JSON
 "condition": { "math": [ "u_val('stamina') * 2", ">=", "5000 + rand( 300 )" ] },
 ```
@@ -1439,7 +1439,7 @@ Common math functions are supported:
 Function composition is also supported, for example `sin( rng(0, max( 0.5, u_sin_var ) ) )`
 
 #### Ternary and inline boolean operators
-Inline comparison operators evaluate as 1 for true and 0 for false.
+Inline [comparison operators](#three-strings--assignment-or-comparison) evaluate as 1 for true and 0 for false.
 
 Ternary operators take the form `condition ? true_value : false_value`. They are right-associative so a chained ternary like `a ? b : c ? d :e` is parsed as `a ? b : (c ? d : e)`.
 

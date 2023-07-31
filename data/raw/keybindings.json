@@ -3025,7 +3025,7 @@
   {
     "type": "keybinding",
     "id": "diary",
-    "name": "Open diary",
+    "name": "Open diary / achievements / scores",
     "category": "DEFAULTMODE",
     "bindings": [ { "input_method": "keyboard_char", "key": ")" }, { "input_method": "keyboard_code", "key": "0", "mod": [ "shift" ] } ]
   },
@@ -3726,6 +3726,17 @@
       { "input_method": "keyboard_any", "key": "c" },
       { "input_method": "keyboard_char", "key": "C" },
       { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ITEMS_PARENT",
+    "category": "ADVANCED_INVENTORY",
+    "name": "Exit container to parent",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "x" },
+      { "input_method": "keyboard_char", "key": "X" },
+      { "input_method": "keyboard_code", "key": "x", "mod": [ "shift" ] }
     ]
   },
   {

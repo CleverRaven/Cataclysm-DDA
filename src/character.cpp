@@ -587,7 +587,6 @@ Character::Character() :
     leak_level_dirty = true;
     volume = 0;
     set_value( "THIEF_MODE", "THIEF_ASK" );
-	last_pc_zlev = 0; // Z-level on the last turn (used in character.cpp for "fine_detail_vision_mod" NPCs function override)																										  
     for( const auto &v : vitamin::all() ) {
         vitamin_levels[ v.first ] = 0;
         daily_vitamins[v.first] = { 0,0 };
@@ -1839,7 +1838,8 @@ void Character::on_try_dodge()
     consume_dodge_attempts();
 
     const int base_burn_rate = get_option<int>( STATIC( "PLAYER_BASE_STAMINA_BURN_RATE" ) );
-    mod_stamina( -base_burn_rate * 6 );
+    const float dodge_skill_modifier = ( 20.0f - get_skill_level( skill_dodge ) ) / 20.0f;
+    mod_stamina( std::floor( -static_cast<float>( base_burn_rate ) * 6.0f * dodge_skill_modifier ) );
     set_activity_level( EXTRA_EXERCISE );
 }
 
@@ -2692,13 +2692,14 @@ float Character::fine_detail_vision_mod( const tripoint &p ) const
     float own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - active_light() - 2.0f );
 
     // Same calculation as above, but with a result 3 lower.
-    float ambient_light;
-    // Light is calculated for player's z-level; NPC actions on different Z-level would stop
-    // Check if NPC is on the same z-level - if not overwrite light level for it
-    // Additional check for "last_pc_zlev" value - solve edge case on first turn after changing player z-level
-    if( ( p.z == get_player_character().pos().z ) && ( p.z == get_player_character().last_pc_zlev ) ) {
+    float ambient_light{};
+    tripoint const check_p = p == tripoint_min ? pos() : p;
+    tripoint const avatar_p = get_avatar().pos();
+    // Light might not have been calculated on the NPC's z-level
+    if( is_avatar() || check_p.z == avatar_p.z ||
+        ( fov_3d && std::abs( avatar_p.z - check_p.z ) <= fov_3d_z_range ) ) {
         ambient_light = std::max( 1.0f,
-                                  LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0f );
+                                  LIGHT_AMBIENT_LIT - get_map().ambient_light_at( check_p ) + 1.0f );
     } else {
         ambient_light = 1.0f;
     }
@@ -3436,8 +3437,6 @@ void Character::do_skill_rust()
 
         const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::SKILL_RUST_RESIST, 0 );
         if( skill_level_obj.rust( rust_resist, mutation_value( "skill_rust_multiplier" ) ) ) {
-            add_msg_if_player( m_warning,
-                               _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
             mod_power_level( -bio_memory->power_trigger );
         }
     }

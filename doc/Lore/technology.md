@@ -14,7 +14,7 @@ See [the timeline](./lore-background.md) for lore explanations of the divergent 
 In terms of civilian technology there are a handful of things that differ from our world.  All of these are very rare and expensive.
 
 ### Cybernetics
-Cybernetics were not available on CDDA-Earth prior to the portal storms.  Note that this is a recent major change to the lore, and not yet borne out in play.
+Cybernetics were not available on CDDA-Earth prior to the portal storms.  Note that this is a recent major change to the lore. There are two gameplay reasons for this change. Firstly: too much good loot was concentrated in one "dungeon" - secret labs. [The plan is to make a new different "dungeon" and move cybernetic loot there.](https://www.reddit.com/r/cataclysmdda/comments/wbgtll/comment/iiav21w/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button). Secondly [it was decided to make cybernetic power generation, power storage, low-impact cybernetics and the ability to install cybernetics available without clearing a dangerous location and less dependent on random loot luck](https://www.reddit.com/r/cataclysmdda/comments/t3xum7/comment/hyxhiew/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button).
 
 #### Prosthetics
 Prosthetic limbs available to civilians are not markedly above the level available on our Earth.  Note that the level available on our Earth has gotten quite impressive, so this is a pretty high bar.

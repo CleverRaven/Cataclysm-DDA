@@ -1240,8 +1240,7 @@
     "weight": "1519 g",
     "copy-from": "chaps_leather",
     "price": 7800,
-    "material": [ "kevlar" ],
-    "material_thickness": 1
+    "material": [ "kevlar" ]
   },
   {
     "id": "fencing_pants",

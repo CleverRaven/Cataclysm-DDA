@@ -2903,7 +2903,7 @@ void eoc_math::_validate_type( JsonArray const &objects, type_t type_ ) const
         if( action == oper::assign ) {
             objects.throw_error(
                 R"(Assignment operator "=" can't be used in a conditional statement.  Did you mean to use "=="? )" );
-        } else {
+        } else if( action != oper::ret ) {
             objects.throw_error( "Only comparison operators can be used in conditional statements" );
         }
     } else if( type_ == type_t::ret && action > oper::ret ) {
