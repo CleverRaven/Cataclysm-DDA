@@ -197,5 +197,11 @@
       { "item": "bolt_wood_bodkin", "prob": 50 },
       { "item": "bolt_cf", "prob": 100 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "archery_quivers",
+    "subtype": "distribution",
+    "entries": [ { "item": "quiver", "prob": 100 }, { "item": "quiver_large", "prob": 50 }, { "item": "nylon_quiver", "prob": 10 } ]
   }
 ]
