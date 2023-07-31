@@ -48,8 +48,8 @@ RUN ln /usr/bin/python3 /usr/bin/python
 # Builds windows version of SDL2 which is required to later cross-compile CDDA.
 RUN make -j4 MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' \
     MXE_PLUGIN_DIRS=plugins/gcc12 sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
-RUN cd ../libbacktrace/
+WORKDIR /opt/libbacktrace
 RUN wget https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-x86_64-w64-mingw32.tar.gz
 RUN wget https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-i686-w64-mingw32.tar.gz
-RUN tar -xzf libbacktrace-x86_64-w64-mingw32.tar.gz --exclude=LICENSE -C ~/src/mxe/usr/x86_64-w64-mingw32.static
-RUN tar -xzf libbacktrace-i686-w64-mingw32.tar.gz --exclude=LICENSE -C ~/src/mxe/usr/i686-w64-mingw32.static
+RUN tar -xzf libbacktrace-x86_64-w64-mingw32.tar.gz --exclude=LICENSE -C /opt/mxe/usr/x86_64-w64-mingw32.static
+RUN tar -xzf libbacktrace-i686-w64-mingw32.tar.gz --exclude=LICENSE -C /opt/mxe/usr/i686-w64-mingw32.static
