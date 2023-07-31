@@ -7825,7 +7825,6 @@ item vehicle::part_to_item( const vehicle_part &vp ) const
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
     if( tmp.has_flag( flag_CABLE_SPOOL ) ) {
-        map &here = get_map();
         tmp.link = cata::make_value<item::link_data>();
 
         // Tow cables have these variables assigned in invalidate_towing, which calls part_to_item.
