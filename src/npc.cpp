@@ -1295,6 +1295,40 @@ void npc::starting_weapon( const npc_class_id &type )
     }
 }
 
+bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
+{
+    Character *pl = dynamic_cast<Character *>( this );
+    if( !pl ) {
+        return false;
+    }
+    read_condition_result condition = check_read_condition( book );
+    if( condition == read_condition_result::NOT_BOOK ) {
+        fail_reasons.push_back( string_format( _( "This %s is not good reading material." ),
+                                               book.tname() ) );
+        return false;
+    }
+    if( condition == read_condition_result::CANT_UNDERSTAND ) {
+        fail_reasons.push_back( string_format( _( "I'm not smart enough to read this book." ) ) );
+        return false;
+    }
+    if( condition == read_condition_result::MASTERED ) {
+        fail_reasons.push_back( string_format( _( "I won't learn anything from this book." ) ) );
+        return false;
+    }
+
+    // Check for conditions that disqualify us
+    if( condition == read_condition_result::ILLITERATE ) {
+        fail_reasons.emplace_back( _( "I can't read!" ) );
+    } else if( condition == read_condition_result::NEED_GLASSES ) {
+        fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
+    } else if( condition == read_condition_result::TOO_DARK ) {
+        // Too dark to read only applies if the player can read to himself
+        fail_reasons.emplace_back( _( "It's too dark to read!" ) );
+        return false;
+    }
+    return true;
+}
+
 time_duration npc::time_to_read( const item &book, const Character &reader ) const
 {
     const auto &type = book.type->book;

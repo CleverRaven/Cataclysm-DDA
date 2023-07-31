@@ -1221,9 +1221,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
     }
     if( act == ACT_MULTIPLE_READ ) {
-        std::vector<std::string> dummy;
-        const item_filter filter = [ &you, &dummy ]( const item & i ) {
-            return you.can_read( i, dummy );
+        const item_filter filter = [ &you ]( const item & i ) {
+            return you.check_read_condition( i ) == read_condition_result::SUCCESS;
         };
         if( !you.items_with( filter ).empty() ) {
             return activity_reason_info::ok( do_activity_reason::NEEDS_BOOK_TO_LEARN );
@@ -2895,8 +2894,8 @@ static bool generic_multi_activity_do(
         }
     } else if( reason == do_activity_reason::NEEDS_BOOK_TO_LEARN ) {
         std::vector<std::string> dummy;
-        const item_filter filter = [ &you, &dummy ]( const item & i ) {
-            return you.can_read( i, dummy );
+        const item_filter filter = [ &you ]( const item & i ) {
+            return you.check_read_condition( i ) == read_condition_result::SUCCESS;
         };
         std::vector<item *> books = you.items_with( filter );
         if( !books.empty() && books[0] ) {

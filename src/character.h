@@ -387,6 +387,19 @@ enum class book_mastery {
     MASTERED // can no longer increase skill by reading
 };
 
+enum class read_condition_result {
+    SUCCESS,
+    NOT_BOOK,
+    CANT_UNDERSTAND,
+    MASTERED,
+    DRIVING,
+    ILLITERATE,
+    NEED_GLASSES,
+    TOO_DARK,
+    MORALE_LOW,
+    BLIND
+};
+
 /** @relates ret_val */
 template<>
 struct ret_val<edible_rating>::default_success : public
@@ -2149,12 +2162,6 @@ class Character : public Creature, public visitable
          */
         ret_val<void> can_wear( const item &it, bool with_equip_change = false ) const;
         /**
-         * Check if the character needs and be able to read a book.
-         * @param book Thing to be read.
-         * @param fail_reasons Why the character cannot read.
-         */
-        bool can_read( const item &book, std::vector<std::string> &fail_reasons );
-        /**
          * Returns true if the character is wielding something.
          * Note: this item may not actually be used to attack.
          */
@@ -2329,6 +2336,13 @@ class Character : public Creature, public visitable
          */
         time_duration time_to_read( const item &book, const Character &reader,
                                     const Character *learner = nullptr ) const;
+
+        /**
+         * Helper function for get_book_reader
+         *
+         * @param book The book being read
+         */
+        read_condition_result check_read_condition( const item &book ) const;
 
         /** Calls Creature::normalize()
          *  nulls out the player's weapon
