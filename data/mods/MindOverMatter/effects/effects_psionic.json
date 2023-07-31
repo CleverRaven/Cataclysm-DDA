@@ -581,8 +581,8 @@
   {
     "type": "effect_type",
     "id": "effect_clair_ranged_enhance",
-    "name": [ "Marksman's Eye" ],
-    "desc": [ "Ranged attacks are much easier for you." ],
+    "name": [ "Dead Aim" ],
+    "desc": [ "Your powers make aiming much easier for you." ],
     "apply_message": "",
     "remove_message": "The world lurches as apparent distances snap back into place.",
     "decay_messages": [ [ "Your range of vision is narrowing rapidly.", "bad" ], [ "Your enhanced sight is fading.", "bad" ] ],
@@ -853,7 +853,9 @@
           { "value": "ARMOR_BULLET", "add": -100000 }
         ]
       }
-    ]
+    ],
+    "limb_score_mods": [ { "limb_score": "lift", "modifier": 0.51 }, { "limb_score": "grip", "modifier": 0.25 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_IMPEDING" ]
   },
   {
     "type": "effect_type",

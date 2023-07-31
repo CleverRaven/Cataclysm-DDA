@@ -130,7 +130,16 @@
     "valid_targets": [ "hostile" ],
     "spell_class": "TELEPATH",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "NO_PROJECTILE", "SILENT", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "PERCENTAGE_DAMAGE" ],
+    "flags": [
+      "CONCENTRATE",
+      "NO_PROJECTILE",
+      "SILENT",
+      "RANDOM_DAMAGE",
+      "NO_HANDS",
+      "NO_LEGS",
+      "NO_EXPLOSION_SFX",
+      "PERCENTAGE_DAMAGE"
+    ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -138,12 +147,11 @@
     "shape": "blast",
     "damage_type": "psi_telepathic_damage",
     "min_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: telepathic_blast') * 1) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_blast') * 1.5) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: telepathic_blast') * 2) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_blast') * 3) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
     },
-    "damage_increment": 1,
     "min_range": {
       "math": [ "( (u_val('spell_level', 'spell: telepathic_blast') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -263,7 +271,7 @@
     "valid_targets": [ "hostile", "ally" ],
     "spell_class": "TELEPATH",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "PERCENTAGE_DAMAGE" ],
+    "flags": [ "CONCENTRATE", "SILENT", "RANDOM_DAMAGE", "NO_HANDS", "NO_EXPLOSION_SFX", "NO_LEGS", "PERCENTAGE_DAMAGE" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
