@@ -259,7 +259,7 @@
     "type": "SPELL",
     "name": "[Ψ]Psychic Scream",
     "description": "Emit an uncontrolled psychic scream, attacking the mind of anyone nearby.  This power does not distinguish between friend and foe.",
-    "message": "You unleash an mind-piercing psionic shriek!",
+    "message": "You unleash a mind-piercing psionic shriek!",
     "valid_targets": [ "hostile", "ally" ],
     "spell_class": "TELEPATH",
     "skill": "metaphysics",
@@ -276,9 +276,8 @@
     "max_damage": {
       "math": [ "( (u_val('spell_level', 'spell: telepathic_blast_radius') * 2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
     },
-    "damage_increment": 1,
     "min_aoe": {
-      "math": [ "( (u_val('spell_level', 'spell: telepathic_blast') * 1.2 ) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_blast_radius') * 1.2 ) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 5000,
