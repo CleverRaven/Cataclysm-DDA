@@ -6503,8 +6503,12 @@ void vehicle::invalidate_towing( bool first_vehicle, Character *remover )
             }
 
             if( remover != nullptr ) {
-                std::list<item> drops{ drop };
-                put_into_vehicle_or_drop( *remover, item_drop_reason::deliberate, drops );
+                if( !drop.has_flag( flag_NO_DROP ) && remover->can_stash( drop ) ) {
+                    remover->i_add_or_drop( drop );
+                } else {
+                    std::list<item> drops{ drop };
+                    put_into_vehicle_or_drop( *remover, item_drop_reason::deliberate, drops );
+                }
             } else {
                 get_map().add_item_or_charges( global_part_pos3( vp ), drop );
             }
