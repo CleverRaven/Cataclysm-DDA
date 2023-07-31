@@ -3236,6 +3236,7 @@
     "type": "TOOL",
     "symbol": ",",
     "color": "cyan",
+    "name": { "str": "abstract plastic card" },
     "description": "A generic plastic card item template with numbers based off a credit card.",
     "price": 0,
     "price_postapoc": 0,
