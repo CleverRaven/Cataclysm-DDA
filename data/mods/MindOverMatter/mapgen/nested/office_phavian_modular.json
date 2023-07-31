@@ -316,6 +316,10 @@
       ],
       "palettes": [ "office_phavian_palette" ],
       "furniture": { "Ć": "f_counter" },
+      "place_item": [
+        { "item": "force_field_generator_broken", "x": 3, "y": 4, "chance": 50 },
+        { "item": "force_field_generator", "x": 3, "y": 4, "chance": 10 }
+      ],
       "items": {
         "l": [
           { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] },
@@ -358,6 +362,10 @@
       ],
       "palettes": [ "office_phavian_palette" ],
       "furniture": { "Ć": "f_counter" },
+      "place_item": [
+        { "item": "force_field_generator_broken", "x": 4, "y": 3, "chance": 50 },
+        { "item": "force_field_generator", "x": 4, "y": 3, "chance": 10 }
+      ],
       "items": {
         "l": [
           { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] },

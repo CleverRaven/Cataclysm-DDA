@@ -12,6 +12,7 @@
 #include "character.h"
 #include "item.h"
 #include "itype.h"
+#include "map_helpers.h"
 #include "morale_types.h"
 #include "player_helpers.h"
 #include "skill.h"
@@ -288,9 +289,12 @@ TEST_CASE( "estimated_reading_time_for_a_book", "[reading][book][time]" )
 
 TEST_CASE( "reasons_for_not_being_able_to_read", "[reading][reasons]" )
 {
-    avatar dummy;
+    clear_avatar();
+    clear_map();
+    Character &dummy = get_avatar();
     dummy.set_body();
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
+    set_time_to_day();
     std::vector<std::string> reasons;
     std::vector<std::string> expect_reasons;
 
@@ -308,12 +312,19 @@ TEST_CASE( "reasons_for_not_being_able_to_read", "[reading][reasons]" )
     }
 
     SECTION( "you cannot read in darkness" ) {
-        dummy.add_env_effect( effect_darkness, bodypart_id( "eyes" ), 3, 1_hours );
+        if( GENERATE( true, false ) ) {
+            dummy.add_env_effect( effect_darkness, bodypart_id( "eyes" ), 3, 1_hours );
+            CAPTURE( "darkness effect" );
+        } else {
+            set_time( calendar::turn - time_past_midnight( calendar::turn ) );
+            CAPTURE( "actual darkness" );
+        }
         REQUIRE( dummy.fine_detail_vision_mod() > 4 );
 
         CHECK( dummy.get_book_reader( *child, reasons ) == nullptr );
         expect_reasons = { "It's too dark to read!" };
         CHECK( reasons == expect_reasons );
+        set_time_to_day();
     }
 
     GIVEN( "some identified books and plenty of light" ) {
