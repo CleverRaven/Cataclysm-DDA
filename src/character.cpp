@@ -11017,46 +11017,45 @@ bool Character::beyond_final_warning( const faction_id &id )
 
 read_condition_result Character::check_read_condition( const item &book ) const
 {
+    read_condition_result result = read_condition_result::SUCCESS;
     if( !book.is_book() ) {
-        return read_condition_result::NOT_BOOK;
-    }
+        result |= read_condition_result::NOT_BOOK;
+    } else {
+        const optional_vpart_position vp = get_map().veh_at( pos() );
+        if( vp && vp->vehicle().player_in_control( *this ) ) {
+            result |= read_condition_result::DRIVING;
+        }
 
-    const bool book_requires_intelligence = book.type->book->intel > 0;
+        if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
+            result |= read_condition_result::MORALE_LOW;
+        }
 
-    const optional_vpart_position vp = get_map().veh_at( pos() );
-    if( vp && vp->vehicle().player_in_control( *this ) ) {
-        return read_condition_result::DRIVING;
-    }
+        const book_mastery mastery = get_book_mastery( book );
+        if( mastery == book_mastery::CANT_UNDERSTAND ) {
+            result |= read_condition_result::CANT_UNDERSTAND;
+        }
+        if( mastery == book_mastery::MASTERED ) {
+            result |= read_condition_result::MASTERED;
+        }
 
-    if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
-        return read_condition_result::MORALE_LOW;
+        const bool book_requires_intelligence = book.type->book->intel > 0;
+        if( book_requires_intelligence && has_trait( trait_ILLITERATE ) ) {
+            result |= read_condition_result::ILLITERATE;
+        }
+        if( has_flag( json_flag_HYPEROPIC ) &&
+            !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
+            !has_effect( effect_contacts ) &&
+            !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
+            result |= read_condition_result::NEED_GLASSES;
+        }
+        if( fine_detail_vision_mod() > 4 ) {
+            result |= read_condition_result::TOO_DARK;
+        }
+        if( is_blind() ) {
+            result |= read_condition_result::BLIND;
+        }
     }
-
-    const book_mastery mastery = get_book_mastery( book );
-    if( mastery == book_mastery::CANT_UNDERSTAND ) {
-        return read_condition_result::CANT_UNDERSTAND;
-    }
-    if( mastery == book_mastery::MASTERED ) {
-        return read_condition_result::MASTERED;
-    }
-
-    if( book_requires_intelligence && has_trait( trait_ILLITERATE ) ) {
-        return read_condition_result::ILLITERATE;
-    }
-    if( has_flag( json_flag_HYPEROPIC ) &&
-        !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
-        !has_effect( effect_contacts ) &&
-        !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
-        return read_condition_result::NEED_GLASSES;
-    }
-    if( fine_detail_vision_mod() > 4 ) {
-        return read_condition_result::TOO_DARK;
-    }
-    if( is_blind() ) {
-        return read_condition_result::BLIND;
-    }
-
-    return read_condition_result::SUCCESS;
+    return result;
 }
 
 const Character *Character::get_book_reader( const item &book,
@@ -11078,18 +11077,18 @@ const Character *Character::get_book_reader( const item &book,
 
     // Check for conditions that immediately disqualify the player from reading:
     read_condition_result condition = check_read_condition( book );
-    if( condition == read_condition_result::DRIVING ) {
+    if( condition & read_condition_result::DRIVING ) {
         reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
         return nullptr;
     }
-    if( condition == read_condition_result::MORALE_LOW ) {
+    if( condition & read_condition_result::MORALE_LOW ) {
         // Low morale still permits skimming
         reasons.emplace_back( is_avatar() ?
                               _( "What's the point of studying?  (Your morale is too low!)" )  :
                               string_format( _( "What's the point of studying?  (%s)'s morale is too low!)" ), disp_name() ) );
         return nullptr;
     }
-    if( condition == read_condition_result::CANT_UNDERSTAND ) {
+    if( condition & read_condition_result::CANT_UNDERSTAND ) {
         reasons.push_back( is_avatar() ? string_format( _( "%s %d needed to understand.  You have %d" ),
                            book_skill->name(), book_skill_requirement, get_knowledge_level( book_skill ) ) :
                            string_format( _( "%s %d needed to understand.  %s has %d" ), book_skill->name(),
@@ -11098,13 +11097,13 @@ const Character *Character::get_book_reader( const item &book,
     }
 
     // Check for conditions that disqualify us only if no NPCs can read to us
-    if( condition == read_condition_result::ILLITERATE ) {
+    if( condition & read_condition_result::ILLITERATE ) {
         reasons.emplace_back( is_avatar() ? _( "You're illiterate!" ) : string_format(
                                   _( "%s is illiterate!" ), disp_name() ) );
-    } else if( condition == read_condition_result::NEED_GLASSES ) {
+    } else if( condition & read_condition_result::NEED_GLASSES ) {
         reasons.emplace_back( is_avatar() ? _( "Your eyes won't focus without reading glasses." ) :
                               string_format( _( "%s's eyes won't focus without reading glasses." ), disp_name() ) );
-    } else if( condition == read_condition_result::TOO_DARK ) {
+    } else if( condition & read_condition_result::TOO_DARK ) {
         // Too dark to read only applies if the player can read to himself
         reasons.emplace_back( _( "It's too dark to read!" ) );
         return nullptr;
@@ -11130,27 +11129,27 @@ const Character *Character::get_book_reader( const item &book,
     for( const npc *elem : candidates ) {
         // Check for disqualifying factors:
         condition = elem->check_read_condition( book );
-        if( condition == read_condition_result::ILLITERATE ) {
+        if( condition & read_condition_result::ILLITERATE ) {
             reasons.push_back( string_format( _( "%s is illiterate!" ),
                                               elem->disp_name() ) );
-        } else if( condition == read_condition_result::CANT_UNDERSTAND ) {
+        } else if( condition & read_condition_result::CANT_UNDERSTAND ) {
             reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
                                               book_skill->name(), book_skill_requirement, elem->disp_name(),
                                               elem->get_knowledge_level( book_skill ) ) );
-        } else if( condition == read_condition_result::NEED_GLASSES ) {
+        } else if( condition & read_condition_result::NEED_GLASSES ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
                                               elem->disp_name() ) );
-        } else if( condition == read_condition_result::TOO_DARK ) {
+        } else if( condition & read_condition_result::TOO_DARK ) {
             reasons.push_back( string_format(
                                    _( "It's too dark for %s to read!" ),
                                    elem->disp_name() ) );
         } else if( !elem->sees( *this ) ) {
             reasons.push_back( string_format( _( "%s could read that to you, but they can't see you." ),
                                               elem->disp_name() ) );
-        } else if( condition == read_condition_result::MORALE_LOW ) {
+        } else if( condition & read_condition_result::MORALE_LOW ) {
             // Low morale still permits skimming
             reasons.push_back( string_format( _( "%s morale is too low!" ), elem->disp_name( true ) ) );
-        } else if( condition == read_condition_result::BLIND ) {
+        } else if( condition & read_condition_result::BLIND ) {
             reasons.push_back( string_format( _( "%s is blind." ), elem->disp_name() ) );
         } else {
             time_duration proj_time = time_to_read( book, *elem );

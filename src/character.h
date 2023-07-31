@@ -388,16 +388,21 @@ enum class book_mastery {
 };
 
 enum class read_condition_result {
-    SUCCESS,
-    NOT_BOOK,
-    CANT_UNDERSTAND,
-    MASTERED,
-    DRIVING,
-    ILLITERATE,
-    NEED_GLASSES,
-    TOO_DARK,
-    MORALE_LOW,
-    BLIND
+    SUCCESS = 0,
+    NOT_BOOK = 1 << 0,
+    CANT_UNDERSTAND = 1 << 1,
+    MASTERED = 1 << 2,
+    DRIVING = 1 << 3,
+    ILLITERATE = 1 << 4,
+    NEED_GLASSES = 1 << 5,
+    TOO_DARK = 1 << 6,
+    MORALE_LOW = 1 << 7,
+    BLIND = 1 << 8
+};
+
+template<>
+struct enum_traits<read_condition_result> {
+    static constexpr bool is_flag_enum = true;
 };
 
 /** @relates ret_val */
