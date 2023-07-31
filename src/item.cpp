@@ -12978,10 +12978,12 @@ void item::set_link_traits( const bool assign_t_state )
     if( assign_t_state && link->t_veh_safe ) {
         // Assign t_state based on the parts available at the connected mount point.
         if( it_actor->targets.find( link_state::vehicle_port ) != it_actor->targets.end() &&
-            link->t_veh_safe->avail_part_with_feature( link->t_mount, "CABLE_PORTS" ) != -1 ) {
+            ( link->t_veh_safe->avail_part_with_feature( link->t_mount, "CABLE_PORTS" ) != -1 ||
+            link->t_veh_safe->avail_part_with_feature( link->t_mount, "APPLIANCE" ) != -1 ) ) {
             link->t_state = link_state::vehicle_port;
         } else if( it_actor->targets.find( link_state::vehicle_battery ) != it_actor->targets.end() &&
-                   link->t_veh_safe->avail_part_with_feature( link->t_mount, "BATTERY" ) != -1 ) {
+                   ( link->t_veh_safe->avail_part_with_feature( link->t_mount, "BATTERY" ) != -1 ||
+                   link->t_veh_safe->avail_part_with_feature( link->t_mount, "APPLIANCE" ) != -1 ) ) {
             link->t_state = link_state::vehicle_battery;
         }
     }
