@@ -7,7 +7,7 @@
       { "group": "adhesive_bandages_box_used", "prob": 25 },
       { "item": "liq_bandage_spray", "prob": 10, "charges-min": 1 },
       { "group": "cotton_ball_bag_used", "prob": 50 },
-      { "item": "aspirin", "prob": 85, "charges": [ 1, 20 ] },
+      { "prob": 85, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
       [ "bat", 60 ],
       [ "bat_nerf", 60 ],
       [ "pom_poms", 40 ],
@@ -119,13 +119,7 @@
       [ "rollerskates", 10 ],
       [ "wheel_skate", 50 ],
       [ "manual_throw", 12 ],
-      {
-        "item": "protein_powder",
-        "prob": 12,
-        "container-item": "bottle_plastic_small",
-        "charges-min": 1,
-        "charges-max": 9
-      },
+      { "prob": 12, "group": "protein_powder_bottle_plastic_small_1_9" },
       [ "airhorn", 40 ],
       [ "whistle", 10 ],
       [ "boots_hiking", 10 ],
@@ -210,8 +204,8 @@
       { "item": "book_archery", "prob": 12 },
       { "item": "protein_shake", "prob": 15 },
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
-      { "item": "quikclot", "prob": 10, "charges": [ 1, 6 ] },
-      { "item": "bfipowder", "prob": 15, "charges": [ 1, 4 ] },
+      { "prob": 10, "group": "quikclot_bag_plastic_1_6" },
+      { "prob": 15, "group": "bfipowder_bottle_plastic_small_1_4" },
       { "item": "speargun", "prob": 10 },
       { "item": "minispeargun", "prob": 10 },
       { "item": "doublespeargun", "prob": 8 },
@@ -406,7 +400,7 @@
       [ "pocketwatch", 5 ],
       [ "boots_hiking", 20 ],
       [ "runner_bag", 15 ],
-      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
+      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_15" },
       [ "e_tool", 10 ],
       [ "knife_trench", 7 ],
       [ "flaregun", 20 ],
@@ -540,7 +534,7 @@
       [ "pocketwatch", 5 ],
       [ "boots_hiking", 20 ],
       [ "runner_bag", 15 ],
-      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
+      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_15" },
       [ "e_tool", 10 ],
       [ "knife_trench", 7 ],
       [ "flaregun", 20 ],
@@ -667,5 +661,45 @@
       "battleship",
       "clue"
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "aspirin_bottle_plastic_pill_painkiller_1_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_painkiller",
+    "entries": [ { "item": "aspirin", "container-item": "null", "count": [ 1, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_powder_bottle_plastic_small_1_9",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "protein_powder", "container-item": "null", "count-min": 1, "count-max": 9 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "quikclot_bag_plastic_1_6",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "quikclot", "container-item": "null", "count": [ 1, 6 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bfipowder_bottle_plastic_small_1_4",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "bfipowder", "container-item": "null", "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pur_tablets_bottle_plastic_small_1_15",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "pur_tablets", "count": [ 1, 15 ] } ]
   }
 ]

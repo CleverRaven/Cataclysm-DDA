@@ -2027,6 +2027,12 @@ void Item_factory::check_definitions() const
             }
         }
 
+        if( !type->can_have_charges() && type->charges_default() > 0 ) {
+            msg += "charges defined but can not have any\n";
+        } else if( type->comestible && type->can_have_charges() && type->charges_default() <= 0 ) {
+            msg += "charges expected but not defined or <= 0\n";
+        }
+
         if( type->weight < 0_gram ) {
             msg += "negative weight\n";
         }

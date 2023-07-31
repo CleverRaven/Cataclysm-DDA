@@ -336,11 +336,19 @@ void iuse_transform::do_transform( Character *p, item &it ) const
             }
         }
     } else {
-        it.convert( container );
-        obj_it = item( target, calendar::turn, std::max( ammo_qty, 1 ) );
-        obj = &obj_it;
-        if( !it.put_in( *obj, item_pocket::pocket_type::CONTAINER ).success() ) {
-            it.put_in( *obj, item_pocket::pocket_type::MIGRATION );
+        obj = &it.convert( container );
+        int count = std::max( ammo_qty, 1 );
+        item cont;
+        if( target->count_by_charges() ) {
+            cont = item( target, calendar::turn, count );
+            count = 1;
+        } else {
+            cont = item( target, calendar::turn );
+        }
+        for( int i = 0; i < count; i++ ) {
+            if( !it.put_in( cont, item_pocket::pocket_type::CONTAINER ).success() ) {
+                it.put_in( cont, item_pocket::pocket_type::MIGRATION );
+            }
         }
         if( sealed ) {
             it.seal();
@@ -410,11 +418,8 @@ void iuse_transform::finalize( const itype_id & )
             debugmsg( "Invalid transform container: %s", container.c_str() );
         }
 
-        item dummy( target );
-        if( ammo_qty > 1 && !dummy.count_by_charges() ) {
-            debugmsg( "Transform target with container must be an item with charges, got non-charged: %s",
-                      target.c_str() );
-        }
+        // todo: check contents fit container?
+        // transform uses migration pocket if not
     }
 }
 

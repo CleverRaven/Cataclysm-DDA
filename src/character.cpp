@@ -11965,11 +11965,11 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
                 moves = pre_obtain_moves;
                 return;
             }
-            u->assign_activity( consume_activity_actor( item_location( *u, &used ) ) );
+            u->assign_activity( consume_activity_actor( loc ) );
         } else  {
             const time_duration &consume_time = get_consume_time( used );
             moves -= to_moves<int>( consume_time );
-            consume( used );
+            consume( loc );
         }
     } else if( used.is_book() ) {
         // TODO: Handle this with dynamic dispatch.

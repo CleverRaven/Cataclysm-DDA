@@ -15,8 +15,7 @@
     "price": 400,
     "price_postapoc": 1000,
     "material": [ "wheat", "junk" ],
-    "volume": "1 L",
-    "charges": 8,
+    "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "iron", 10 ] ],
     "fun": 20
@@ -61,8 +60,7 @@
     "price": 400,
     "price_postapoc": 125,
     "material": [ "wheat", "junk" ],
-    "volume": "250 ml",
-    "charges": 2,
+    "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -10,
     "vitamins": [ [ "iron", 10 ] ]
@@ -109,8 +107,7 @@
     "price": 100,
     "price_postapoc": 400,
     "material": [ "junk" ],
-    "volume": "1 L",
-    "charges": 8,
+    "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 6
   },
@@ -147,9 +144,8 @@
     "price": 185,
     "price_postapoc": 300,
     "material": [ "wheat", "junk" ],
-    "volume": "250 ml",
+    "volume": "83 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 3,
     "vitamins": [ [ "iron", 16 ] ],
     "fun": 4
   },
@@ -169,9 +165,8 @@
     "price": 200,
     "price_postapoc": 350,
     "material": [ "wheat", "junk" ],
-    "volume": "300 ml",
+    "volume": "100 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 3,
     "fun": 6
   },
   {
@@ -189,8 +184,7 @@
     "price": 130,
     "price_postapoc": 200,
     "material": [ "junk" ],
-    "volume": "250 ml",
-    "charges": 3,
+    "volume": "83 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "calcium", 8 ], [ "iron", 8 ] ],
     "fun": 10
@@ -208,10 +202,9 @@
     "calories": 168,
     "description": "A handful of squishy, fluffy, puffy, delicious marshmallows.",
     "price": 250,
-    "charges": 5,
     "price_postapoc": 100,
     "material": [ "junk" ],
-    "volume": "250 ml",
+    "volume": "50 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 10
   },
@@ -252,9 +245,8 @@
     "price": 180,
     "price_postapoc": 150,
     "material": [ "junk" ],
-    "volume": "90 ml",
+    "volume": "30 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 3,
     "fun": 4
   },
   {
@@ -273,9 +265,8 @@
     "price": 180,
     "price_postapoc": 400,
     "material": [ "junk" ],
-    "volume": "90 ml",
+    "volume": "30 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 3,
     "vitamins": [ [ "iron", 9 ] ],
     "fun": 3
   },
@@ -295,9 +286,8 @@
     "price": 180,
     "price_postapoc": 200,
     "material": [ "junk" ],
-    "volume": "90 ml",
+    "volume": "30 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 3,
     "fun": 3
   },
   {
@@ -316,9 +306,8 @@
     "price": 180,
     "price_postapoc": 200,
     "material": [ "junk", "flesh" ],
-    "volume": "100 ml",
+    "volume": "33 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 3,
     "fun": 5
   },
   {
@@ -337,9 +326,8 @@
     "price": 180,
     "price_postapoc": 200,
     "material": [ "junk", "veggy" ],
-    "volume": "90 ml",
+    "volume": "30 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 3,
     "fun": 4
   },
   {
@@ -364,7 +352,7 @@
     "name": { "str": "licorice" },
     "container": "bag_plastic",
     "symbol": "%",
-    "volume": "40 ml",
+    "volume": "10 ml",
     "weight": "78 g",
     "spoils_in": "230 days",
     "color": "red",
@@ -374,7 +362,6 @@
     "price": 340,
     "quench": -1,
     "calories": 135,
-    "charges": 4,
     "stim": 1,
     "fun": 7,
     "flags": [ "EDIBLE_FROZEN" ]
@@ -395,9 +382,8 @@
     "price": 120,
     "price_postapoc": 300,
     "material": [ "junk" ],
-    "volume": "250 ml",
+    "volume": "50 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 5,
     "fun": 6
   },
   {
@@ -428,9 +414,8 @@
     "price": 600,
     "price_postapoc": 50,
     "material": [ "junk" ],
-    "volume": "100 ml",
+    "volume": "50 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 2,
     "fun": 10
   },
   {
@@ -449,9 +434,8 @@
     "price": 110,
     "price_postapoc": 300,
     "material": [ "wheat", "junk" ],
-    "volume": "750 ml",
+    "volume": "93 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 8,
     "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
     "fun": 2
   },
@@ -478,10 +462,8 @@
     "price": 195,
     "price_postapoc": 150,
     "material": [ "wheat", "junk" ],
-    "volume": "250 ml",
-    "charges": 4,
+    "volume": "12 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "stack_size": 20,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
     "fun": 7
   },
@@ -548,8 +530,7 @@
     "price": 120,
     "price_postapoc": 200,
     "material": [ "wheat", "junk" ],
-    "volume": "2 L",
-    "charges": 12,
+    "volume": "166 ml",
     "vitamins": [ [ "calcium", 3 ], [ "iron", 6 ] ],
     "fun": 15
   },
@@ -593,9 +574,7 @@
     "price": 300,
     "price_postapoc": 300,
     "material": [ "veggy", "junk" ],
-    "volume": "250 ml",
-    "charges": 5,
-    "stack_size": 30,
+    "volume": "8 ml",
     "fun": 2,
     "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ]
   },
@@ -646,9 +625,8 @@
     "price": 130,
     "price_postapoc": 150,
     "material": [ "junk" ],
-    "volume": "250 ml",
+    "volume": "83 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 3,
     "fun": 4
   },
   {
@@ -668,8 +646,7 @@
     "price": 100,
     "price_postapoc": 100,
     "material": [ "junk" ],
-    "volume": "40 ml",
-    "charges": 3,
+    "volume": "13 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 4
   },
@@ -690,9 +667,8 @@
     "price": 130,
     "price_postapoc": 100,
     "material": [ "junk" ],
-    "volume": "90 ml",
+    "volume": "30 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 3,
     "fun": 4
   },
   {
@@ -711,8 +687,7 @@
     "price": 150,
     "price_postapoc": 500,
     "material": [ "junk" ],
-    "volume": "150 ml",
-    "charges": 5,
+    "volume": "30 ml",
     "vitamins": [ [ "calcium", 9 ] ],
     "fun": 2
   },
@@ -751,9 +726,8 @@
     "price": 180,
     "price_postapoc": 200,
     "material": [ "junk" ],
-    "volume": "250 ml",
+    "volume": "83 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 3,
     "vitamins": [ [ "vitC", 7 ], [ "calcium", 1 ], [ "iron", 2 ] ],
     "fun": 6
   },
@@ -773,8 +747,7 @@
     "price": 170,
     "price_postapoc": 150,
     "material": [ "junk" ],
-    "volume": "250 ml",
-    "charges": 3,
+    "volume": "83 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "calcium", 5 ], [ "iron", 3 ] ],
     "fun": 8
@@ -874,7 +847,7 @@
     "price_postapoc": 600,
     "container": "bag_plastic",
     "material": [ "junk", "veggy" ],
-    "volume": "750 ml",
+    "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 16,
     "vitamins": [ [ "calcium", 8 ], [ "iron", 17 ] ]
@@ -895,7 +868,7 @@
     "price_postapoc": 500,
     "material": [ "veggy", "milk", "junk" ],
     "primary_material": "processed_food",
-    "volume": "500 ml",
+    "volume": "166 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 20,
     "vitamins": [ [ "calcium", 13 ], [ "iron", 17 ] ]
@@ -916,9 +889,8 @@
     "price": 220,
     "price_postapoc": 200,
     "material": [ "flesh", "junk" ],
-    "volume": "250 ml",
+    "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 4,
     "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
     "fun": 4
   },
@@ -962,8 +934,7 @@
     "price_postapoc": 300,
     "material": [ "flesh", "junk" ],
     "primary_material": "processed_food",
-    "volume": "1 L",
-    "charges": 2,
+    "volume": "500 ml",
     "fun": -3
   },
   {
@@ -983,8 +954,7 @@
     "price_postapoc": 300,
     "material": [ "flesh", "junk" ],
     "primary_material": "processed_food",
-    "volume": "1 L",
-    "charges": 2,
+    "volume": "500 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 2
   },
@@ -1004,8 +974,7 @@
     "price": 550,
     "price_postapoc": 200,
     "material": [ "flesh", "junk" ],
-    "volume": "1 L",
-    "charges": 4,
+    "volume": "250 ml",
     "fun": 12,
     "vitamins": [ [ "iron", 4 ] ]
   },
@@ -1025,8 +994,7 @@
     "price": 900,
     "price_postapoc": 150,
     "material": [ "flesh", "junk", "wheat" ],
-    "volume": "400 ml",
-    "charges": 2,
+    "volume": "200 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 15,
     "vitamins": [ [ "vitC", 46 ], [ "calcium", 14 ], [ "iron", 21 ] ]
@@ -1047,8 +1015,7 @@
     "price": 900,
     "price_postapoc": 150,
     "material": [ "flesh", "junk", "veggy" ],
-    "volume": "400 ml",
-    "charges": 2,
+    "volume": "200 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 15,
     "vitamins": [ [ "vitC", 46 ], [ "calcium", 14 ], [ "iron", 21 ] ]
@@ -1068,8 +1035,7 @@
     "price": 900,
     "price_postapoc": 150,
     "material": [ "flesh", "junk" ],
-    "volume": "250 ml",
-    "charges": 2,
+    "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -18,
     "vitamins": [ [ "calcium", 6 ], [ "iron", 8 ] ]
@@ -1091,10 +1057,10 @@
     "name": { "str": "homemade corn dog" },
     "copy-from": "corndogs_frozen",
     "spoils_in": "1 day",
-    "charges": 1,
     "description": "A homemade sausage, dipped in batter and deep fried.",
     "fun": 18,
-    "calories": 250
+    "calories": 250,
+    "volume": "250 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -1147,8 +1113,7 @@
     "price_postapoc": 300,
     "material": [ "milk", "junk" ],
     "primary_material": "cheese",
-    "volume": "250 ml",
-    "charges": 8,
+    "volume": "31 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
     "vitamins": [ [ "calcium", 15 ] ]
@@ -1212,8 +1177,7 @@
     "price": 800,
     "price_postapoc": 450,
     "material": [ "flesh", "junk" ],
-    "volume": "750 ml",
-    "charges": 10,
+    "volume": "75 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -6,
     "vitamins": [ [ "iron", 3 ] ]
@@ -1224,8 +1188,8 @@
     "name": { "str": "campfire hot dog" },
     "copy-from": "hotdogs_frozen",
     "description": "A simple hot dog, cooked over an open fire.  Would be better on a bun, but it's quite an improvement over eating it uncooked.",
-    "stack_size": 4,
-    "fun": 5
+    "fun": 5,
+    "volume": "187 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -1315,9 +1279,8 @@
     "price_postapoc": 300,
     "material": [ "junk", "milk" ],
     "primary_material": "processed_food",
-    "volume": "200 ml",
+    "volume": "50 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 4,
     "vitamins": [ [ "calcium", 4 ] ],
     "fun": 6
   },
@@ -1338,8 +1301,7 @@
     "//": "Based on a New England candy called Boston Baked Beans",
     "price": 150,
     "price_postapoc": 600,
-    "volume": "250 ml",
-    "charges": 2,
+    "volume": "125 ml",
     "material": [ "junk", "nut" ],
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 6,
