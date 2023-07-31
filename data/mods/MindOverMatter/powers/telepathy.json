@@ -81,7 +81,7 @@
     "base_casting_time": 100,
     "final_casting_time": 10,
     "casting_time_increment": -7.5,
-    "learn_spells": { "telepathic_invisibility": 10, "telepathic_mind_control": 15 }
+    "learn_spells": { "telepathic_invisibility": 13, "telepathic_mind_control": 18 }
   },
   {
     "id": "telepathic_morale",
@@ -126,7 +126,7 @@
     "type": "SPELL",
     "name": "[Ψ]Synaptic Overload",
     "description": "Short-circuit and overwhelm a target's brain, causing extreme damage or death.",
-    "message": "You unleash a psionic scream at your target!",
+    "message": "You assault the mind of your target!",
     "valid_targets": [ "hostile" ],
     "spell_class": "TELEPATH",
     "skill": "metaphysics",
@@ -155,7 +155,7 @@
     "base_casting_time": 75,
     "final_casting_time": 30,
     "casting_time_increment": -2.5,
-    "learn_spells": { "telepathic_blast_radius": 7, "telepathic_confusion": 12 }
+    "learn_spells": { "telepathic_confusion": 7, "telepathic_blast_radius": 12 }
   },
   {
     "id": "telepathic_confusion",
