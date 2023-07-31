@@ -307,26 +307,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_sidewalk_ns_corner_double",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
-      "place_nested": [ { "chunks": [ "4x4_sidewalk_corner" ], "x": 0, "y": 0 }, { "chunks": [ "4x4_sidewalk_corner" ], "x": 20, "y": 0 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "24x24_sidewalk_ew_corner_double",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
-      "place_nested": [ { "chunks": [ "4x4_sidewalk_corner" ], "x": 0, "y": 0 }, { "chunks": [ "4x4_sidewalk_corner" ], "x": 0, "y": 20 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_four_way_crossroad_vehicles",
     "object": {
       "mapgensize": [ 24, 24 ],

@@ -131,57 +131,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_sidewalk_ew_long",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
-      "place_nested": [
-        { "chunks": [ "12x12_sidewalk_ew_half" ], "x": 0, "y": 0 },
-        { "chunks": [ "12x12_sidewalk_ew_half" ], "x": 12, "y": 0 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "12x12_sidewalk_ew_half",
-    "object": {
-      "mapgensize": [ 12, 12 ],
-      "rotation": [ 0, 3 ],
-      "rows": [
-        "____________",
-        "____________",
-        "____________",
-        "____________",
-        "            ",
-        "            ",
-        "            ",
-        "            ",
-        "            ",
-        "            ",
-        "            ",
-        "            "
-      ],
-      "palettes": [ "road_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "24x24_sidewalk_end_straight",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
-      "place_nested": [
-        { "chunks": [ "24x24_sidewalk_ns_long" ], "x": 0, "y": 0 },
-        { "chunks": [ "24x24_sidewalk_ns_long" ], "x": 20, "y": 0 },
-        { "chunks": [ "24x24_sidewalk_ew_long" ], "x": 0, "y": 0 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_end_vehicles",
     "object": {
       "mapgensize": [ 24, 24 ],

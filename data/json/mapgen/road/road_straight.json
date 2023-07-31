@@ -134,56 +134,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_sidewalk_ns_long",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
-      "place_nested": [
-        { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 0 },
-        { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 12 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "24x24_sidewalk_ns_double",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
-      "place_nested": [
-        { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 0 },
-        { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 20, "y": 0 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "12x12_sidewalk_ns_half",
-    "object": {
-      "mapgensize": [ 12, 12 ],
-      "rotation": [ 0, 3 ],
-      "rows": [
-        "____        ",
-        "____        ",
-        "____        ",
-        "____        ",
-        "____        ",
-        "____        ",
-        "____        ",
-        "____        ",
-        "____        ",
-        "____        ",
-        "____        ",
-        "____        "
-      ],
-      "palettes": [ "road_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_straight_vehicles",
     "object": {
       "mapgensize": [ 24, 24 ],
