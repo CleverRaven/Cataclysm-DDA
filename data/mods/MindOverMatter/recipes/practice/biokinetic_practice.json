@@ -315,7 +315,7 @@
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
-        "id": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL",
+        "id": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY",
         "condition": {
           "and": [
             { "compare_num": [ { "u_val": "spell_level", "spell": "biokin_enhance_mobility" }, ">=", { "const": 1 } ] },
@@ -339,7 +339,7 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL_FALSE",
+              "id": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "practice_biokin_climate_control" }, ">=", { "const": 1 } ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
