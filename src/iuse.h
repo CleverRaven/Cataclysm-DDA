@@ -120,6 +120,7 @@ std::optional<int> firecracker( Character *, item *, bool, const tripoint & );
 std::optional<int> firecracker_pack( Character *, item *, bool, const tripoint & );
 std::optional<int> firecracker_pack_act( Character *, item *, bool, const tripoint & );
 std::optional<int> fish_trap( Character *, item *, bool, const tripoint & );
+std::optional<int> fish_trap_tick( Character *, item *, bool, const tripoint & );
 std::optional<int> fishing_rod( Character *, item *, bool, const tripoint & );
 std::optional<int> fitness_check( Character *p, item *it, bool, const tripoint & );
 std::optional<int> foodperson( Character *, item *, bool, const tripoint & );

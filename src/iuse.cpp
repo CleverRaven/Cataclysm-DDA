@@ -1778,136 +1778,138 @@ std::optional<int> iuse::fishing_rod( Character *p, item *it, bool, const tripoi
     return 0;
 }
 
-std::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::fish_trap( Character *p, item *it, bool, const tripoint & )
 {
     map &here = get_map();
-    if( !t ) {
-        // Handle deploying fish trap.
-        if( it->active ) {
-            it->active = false;
-            return 0;
-        }
-
-        if( p->cant_do_mounted() ) {
-            return std::nullopt;
-        }
-        if( p->cant_do_underwater() ) {
-            return std::nullopt;
-        }
-
-        if( it->ammo_remaining() == 0 ) {
-            p->add_msg_if_player( _( "Fish aren't foolish enough to go in here without bait." ) );
-            return std::nullopt;
-        }
-
-        const std::optional<tripoint> pnt_ = choose_adjacent( _( "Put fish trap where?" ) );
-        if( !pnt_ ) {
-            return std::nullopt;
-        }
-        const tripoint pnt = *pnt_;
-
-        if( !here.has_flag( ter_furn_flag::TFLAG_FISHABLE, pnt ) ) {
-            p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
-            return std::nullopt;
-        }
-        if( !good_fishing_spot( pnt, p ) ) {
-            return std::nullopt;
-        }
-        it->active = true;
-        it->set_age( 0_turns );
-        here.add_item_or_charges( pnt, *it );
-        p->i_rem( it );
-        p->add_msg_if_player( m_info,
-                              _( "You place the fish trap; in three hours or so, you may catch some fish." ) );
-
-        return 0;
-
-    } else {
-        // Handle processing fish trap over time.
-        if( it->ammo_remaining() == 0 ) {
-            it->active = false;
-            return 0;
-        }
-        if( it->age() > 3_hours ) {
-            it->active = false;
-
-            if( !here.has_flag( ter_furn_flag::TFLAG_FISHABLE, pos ) ) {
-                return 0;
-            }
-
-            avatar &player = get_avatar();
-
-            int success = -50;
-            const float surv = player.get_skill_level( skill_survival );
-            const int attempts = rng( it->ammo_remaining(), it->ammo_remaining() * it->ammo_remaining() );
-            for( int i = 0; i < attempts; i++ ) {
-                /** @EFFECT_SURVIVAL randomly increases number of fish caught in fishing trap */
-                success += rng( round( surv ), round( surv * surv ) );
-            }
-
-            int bait_consumed = rng( 0, it->ammo_remaining() + 1 );
-            if( bait_consumed > it->ammo_remaining() ) {
-                bait_consumed = it->ammo_remaining();
-            }
-
-            int fishes = 0;
-
-            if( success < 0 ) {
-                fishes = 0;
-            } else if( success < 300 ) {
-                fishes = 1;
-            } else if( success < 1500 ) {
-                fishes = 2;
-            } else {
-                fishes = rng( 3, 5 );
-            }
-
-            if( fishes == 0 ) {
-                it->ammo_consume( it->ammo_remaining(), pos, p );
-                player.practice( skill_survival, rng( 5, 15 ) );
-
-                return 0;
-            }
-
-            //get the fishables around the trap's spot
-            std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos );
-            std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
-            for( int i = 0; i < fishes; i++ ) {
-                player.practice( skill_survival, rng( 3, 10 ) );
-                if( !fishables.empty() ) {
-                    monster *chosen_fish = random_entry( fishables );
-                    // reduce the abstract fish_population marker of that fish
-                    chosen_fish->fish_population -= 1;
-                    if( chosen_fish->fish_population <= 0 ) {
-                        g->catch_a_monster( chosen_fish, pos, p, 300_hours ); //catch the fish!
-                    } else {
-                        here.add_item_or_charges( pos, item::make_corpse( chosen_fish->type->id,
-                                                  calendar::turn + rng( 0_turns,
-                                                          3_hours ) ) );
-                    }
-                } else {
-                    //there will always be a chance that the player will get lucky and catch a fish
-                    //not existing in the fishables vector. (maybe it was in range, but wandered off)
-                    //lets say it is a 5% chance per fish to catch
-                    if( one_in( 20 ) ) {
-                        const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
-                                    GROUP_FISH, true );
-                        const mtype_id &fish_mon = random_entry_ref( fish_group );
-                        //Yes, we can put fishes in the trap like knives in the boot,
-                        //and then get fishes via activation of the item,
-                        //but it's not as comfortable as if you just put fishes in the same tile with the trap.
-                        //Also: corpses and comestibles do not rot in containers like this, but on the ground they will rot.
-                        //we don't know when it was caught so use a random turn
-                        here.add_item_or_charges( pos, item::make_corpse( fish_mon, it->birthday() + rng( 0_turns,
-                                                  3_hours ) ) );
-                        break; //this can happen only once
-                    }
-                }
-            }
-            it->ammo_consume( bait_consumed, pos, p );
-        }
+    // Handle deploying fish trap.
+    if( it->active ) {
+        it->active = false;
         return 0;
     }
+
+    if( p->cant_do_mounted() ) {
+        return std::nullopt;
+    }
+    if( p->cant_do_underwater() ) {
+        return std::nullopt;
+    }
+
+    if( it->ammo_remaining() == 0 ) {
+        p->add_msg_if_player( _( "Fish aren't foolish enough to go in here without bait." ) );
+        return std::nullopt;
+    }
+
+    const std::optional<tripoint> pnt_ = choose_adjacent( _( "Put fish trap where?" ) );
+    if( !pnt_ ) {
+        return std::nullopt;
+    }
+    const tripoint pnt = *pnt_;
+
+    if( !here.has_flag( ter_furn_flag::TFLAG_FISHABLE, pnt ) ) {
+        p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
+        return std::nullopt;
+    }
+    if( !good_fishing_spot( pnt, p ) ) {
+        return std::nullopt;
+    }
+    it->active = true;
+    it->set_age( 0_turns );
+    here.add_item_or_charges( pnt, *it );
+    p->i_rem( it );
+    p->add_msg_if_player( m_info,
+                          _( "You place the fish trap; in three hours or so, you may catch some fish." ) );
+
+    return 0;
+
+}
+
+std::optional<int> iuse::fish_trap_tick( Character *p, item *it, bool, const tripoint &pos )
+{
+    map &here = get_map();
+    // Handle processing fish trap over time.
+    if( it->ammo_remaining() == 0 ) {
+        it->active = false;
+        return 0;
+    }
+    if( it->age() > 3_hours ) {
+        it->active = false;
+
+        if( !here.has_flag( ter_furn_flag::TFLAG_FISHABLE, pos ) ) {
+            return 0;
+        }
+
+        avatar &player = get_avatar();
+
+        int success = -50;
+        const float surv = player.get_skill_level( skill_survival );
+        const int attempts = rng( it->ammo_remaining(), it->ammo_remaining() * it->ammo_remaining() );
+        for( int i = 0; i < attempts; i++ ) {
+            /** @EFFECT_SURVIVAL randomly increases number of fish caught in fishing trap */
+            success += rng( round( surv ), round( surv * surv ) );
+        }
+
+        int bait_consumed = rng( 0, it->ammo_remaining() + 1 );
+        if( bait_consumed > it->ammo_remaining() ) {
+            bait_consumed = it->ammo_remaining();
+        }
+
+        int fishes = 0;
+
+        if( success < 0 ) {
+            fishes = 0;
+        } else if( success < 300 ) {
+            fishes = 1;
+        } else if( success < 1500 ) {
+            fishes = 2;
+        } else {
+            fishes = rng( 3, 5 );
+        }
+
+        if( fishes == 0 ) {
+            it->ammo_consume( it->ammo_remaining(), pos, nullptr );
+            player.practice( skill_survival, rng( 5, 15 ) );
+
+            return 0;
+        }
+
+        //get the fishables around the trap's spot
+        std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos );
+        std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
+        for( int i = 0; i < fishes; i++ ) {
+            player.practice( skill_survival, rng( 3, 10 ) );
+            if( !fishables.empty() ) {
+                monster *chosen_fish = random_entry( fishables );
+                // reduce the abstract fish_population marker of that fish
+                chosen_fish->fish_population -= 1;
+                if( chosen_fish->fish_population <= 0 ) {
+                    g->catch_a_monster( chosen_fish, pos, p, 300_hours ); //catch the fish!
+                } else {
+                    here.add_item_or_charges( pos, item::make_corpse( chosen_fish->type->id,
+                                              calendar::turn + rng( 0_turns,
+                                                      3_hours ) ) );
+                }
+            } else {
+                //there will always be a chance that the player will get lucky and catch a fish
+                //not existing in the fishables vector. (maybe it was in range, but wandered off)
+                //lets say it is a 5% chance per fish to catch
+                if( one_in( 20 ) ) {
+                    const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
+                                GROUP_FISH, true );
+                    const mtype_id &fish_mon = random_entry_ref( fish_group );
+                    //Yes, we can put fishes in the trap like knives in the boot,
+                    //and then get fishes via activation of the item,
+                    //but it's not as comfortable as if you just put fishes in the same tile with the trap.
+                    //Also: corpses and comestibles do not rot in containers like this, but on the ground they will rot.
+                    //we don't know when it was caught so use a random turn
+                    here.add_item_or_charges( pos, item::make_corpse( fish_mon, it->birthday() + rng( 0_turns,
+                                              3_hours ) ) );
+                    break; //this can happen only once
+                }
+            }
+        }
+        it->ammo_consume( bait_consumed, pos, nullptr );
+    }
+    return 0;
 }
 
 std::optional<int> iuse::extinguisher( Character *p, item *it, bool, const tripoint & )
