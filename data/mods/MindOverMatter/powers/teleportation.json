@@ -138,7 +138,7 @@
     "effect": "area_pull",
     "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 4,
+    "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
       "math": [ "( (u_val('spell_level', 'spell: teleport_collapse') * -0.15) - 1) * (scaling_factor(u_val('intelligence') ) )" ]
