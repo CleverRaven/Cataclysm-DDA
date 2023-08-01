@@ -87,7 +87,6 @@
 #include "name.h"
 
 static const efftype_id effect_bouldering( "bouldering" );
-static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_high( "high" );
@@ -114,8 +113,6 @@ static const item_group_id Item_spawn_data_npc_eyes( "npc_eyes" );
 static const item_group_id Item_spawn_data_survivor_bashing( "survivor_bashing" );
 static const item_group_id Item_spawn_data_survivor_cutting( "survivor_cutting" );
 static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing" );
-
-static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 
 static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_human( "human" );
@@ -151,7 +148,6 @@ static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
-static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_NO_BASH( "NO_BASH" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
@@ -1340,35 +1336,31 @@ void npc::starting_weapon( const npc_class_id &type )
 
 bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
 {
-    if( !book.is_book() ) {
-        fail_reasons.push_back( string_format( _( "This %s is not good reading material." ),
-                                               book.tname() ) );
-        return false;
-    }
     Character *pl = dynamic_cast<Character *>( this );
     if( !pl ) {
         return false;
     }
-    const auto &type = book.type->book;
-    const skill_id &skill = type->skill;
-    const int skill_level = pl->get_knowledge_level( skill );
-    if( skill && skill_level < type->req ) {
+    read_condition_result condition = check_read_condition( book );
+    if( condition & read_condition_result::NOT_BOOK ) {
+        fail_reasons.push_back( string_format( _( "This %s is not good reading material." ),
+                                               book.tname() ) );
+        return false;
+    }
+    if( condition & read_condition_result::CANT_UNDERSTAND ) {
         fail_reasons.push_back( string_format( _( "I'm not smart enough to read this book." ) ) );
         return false;
     }
-    if( !skill || skill_level >= type->level ) {
+    if( condition & read_condition_result::MASTERED ) {
         fail_reasons.push_back( string_format( _( "I won't learn anything from this book." ) ) );
         return false;
     }
 
     // Check for conditions that disqualify us
-    if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
+    if( condition & read_condition_result::ILLITERATE ) {
         fail_reasons.emplace_back( _( "I can't read!" ) );
-    } else if( has_flag( json_flag_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
-               !has_effect( effect_contacts ) &&
-               !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
+    } else if( condition & read_condition_result::NEED_GLASSES ) {
         fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
-    } else if( fine_detail_vision_mod() > 4 ) {
+    } else if( condition & read_condition_result::TOO_DARK ) {
         // Too dark to read only applies if the player can read to himself
         fail_reasons.emplace_back( _( "It's too dark to read!" ) );
         return false;
