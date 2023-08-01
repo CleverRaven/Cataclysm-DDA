@@ -1,6 +1,7 @@
 [
   {
     "type": "vehicle_placement",
+    "//": "Regular road vehicles are now handled in mapgen/nested/road_vehicles_nested.json",
     "id": "highway",
     "locations": [ { "x": [ 10, 12 ], "y": [ 10, 12 ], "facing": [ 90, 270 ] } ]
   },
@@ -23,18 +24,6 @@
         "//": "Vehicle on the bridge",
         "weight": 20,
         "vehicle_json": { "vehicle": "highway", "placement": "highway", "number": 1, "fuel": -1, "status": -1 }
-      }
-    ]
-  },
-  {
-    "type": "vehicle_spawn",
-    "id": "default_highway",
-    "spawn_types": [
-      { "//": "Clear section of highway", "weight": 50, "vehicle_function": "no_vehicles" },
-      {
-        "//": "Vehicle on the highway",
-        "weight": 50,
-        "vehicle_json": { "vehicle": "highway", "placement": "highway", "number": 1, "fuel": 0, "status": -1 }
       }
     ]
   },

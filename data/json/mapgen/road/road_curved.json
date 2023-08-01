@@ -63,8 +63,7 @@
             ]
           }
         }
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      ]
     }
   },
   {
@@ -77,7 +76,7 @@
       "//": "Make singular bends curved",
       "place_nested": [
         {
-          "chunks": [ "24x24_road_curved_straight" ],
+          "chunks": [ "24x24_road_curved_diagonal" ],
           "x": 0,
           "y": 0,
           "neighbors": {
@@ -114,7 +113,7 @@
       "rotation": [ 0, 3 ],
       "place_nested": [
         {
-          "chunks": [ "24x24_road_curved_straight" ],
+          "chunks": [ "24x24_road_curved_diagonal" ],
           "x": 0,
           "y": 0,
           "neighbors": {
@@ -176,15 +175,36 @@
         "    .......**.......    "
       ],
       "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
-        { "chunks": [ "24x24_sidewalk_es_curvy_outer" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
-        { "chunks": [ "24x24_sidewalk_es_curvy_outer" ], "x": 0, "y": 0, "flags": { "north_east": [ "SIDEWALK" ] } },
-        { "chunks": [ "24x24_sidewalk_es_curvy_double" ], "x": 0, "y": 0, "flags": { "east": [ "SIDEWALK" ] } },
-        { "chunks": [ "4x4_sidewalk_es_curvy_inner" ], "x": 20, "y": 20, "flags": { "south_east": [ "SIDEWALK" ] } },
-        { "chunks": [ "24x24_sidewalk_es_curvy_double" ], "x": 0, "y": 0, "flags": { "south": [ "SIDEWALK" ] } },
-        { "chunks": [ "24x24_sidewalk_es_curvy_outer" ], "x": 0, "y": 0, "flags": { "south_west": [ "SIDEWALK" ] } },
-        { "chunks": [ "24x24_sidewalk_es_curvy_outer" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
-        { "chunks": [ "24x24_sidewalk_es_curvy_outer" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } },
+        { "chunks": [ "24x24_sidewalk_curved_curvy_outer" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
+        {
+          "chunks": [ "24x24_sidewalk_curved_curvy_outer" ],
+          "x": 0,
+          "y": 0,
+          "flags": { "north_east": [ "SIDEWALK" ] }
+        },
+        { "chunks": [ "24x24_sidewalk_curved_curvy_double" ], "x": 0, "y": 0, "flags": { "east": [ "SIDEWALK" ] } },
+        {
+          "chunks": [ "4x4_sidewalk_curved_curvy_inner" ],
+          "x": 20,
+          "y": 20,
+          "flags": { "south_east": [ "SIDEWALK" ] }
+        },
+        { "chunks": [ "24x24_sidewalk_curved_curvy_double" ], "x": 0, "y": 0, "flags": { "south": [ "SIDEWALK" ] } },
+        {
+          "chunks": [ "24x24_sidewalk_curved_curvy_outer" ],
+          "x": 0,
+          "y": 0,
+          "flags": { "south_west": [ "SIDEWALK" ] }
+        },
+        { "chunks": [ "24x24_sidewalk_curved_curvy_outer" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
+        {
+          "chunks": [ "24x24_sidewalk_curved_curvy_outer" ],
+          "x": 0,
+          "y": 0,
+          "flags": { "north_west": [ "SIDEWALK" ] }
+        },
         { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_curved_vehicles" ], "x": 0, "y": 0 }
@@ -194,158 +214,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_sidewalk_es_curvy_outer",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
-      "rows": [
-        "      __________________",
-        "    ____________________",
-        "   _____________________",
-        "  _____ggggg____________",
-        " _____ggggg___________  ",
-        " ____ggggg________      ",
-        "____ggggg______         ",
-        "___ggggg_____           ",
-        "___gggg____             ",
-        "___ggg____              ",
-        "___gg____               ",
-        "___g____                ",
-        "________                ",
-        "_______                 ",
-        "_______                 ",
-        "______                  ",
-        "______                  ",
-        "______                  ",
-        "_____                   ",
-        "_____                   ",
-        "_____                   ",
-        "_____                   ",
-        "____                    ",
-        "____                    "
-      ],
-      "palettes": [ "road_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "24x24_sidewalk_es_curvy_outer",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
-      "rows": [
-        "________________________",
-        "________________________",
-        "__gggggggggg____________",
-        "__gggggggggg____________",
-        "__ggggggggg___________  ",
-        "__gggggggg________      ",
-        "__ggggggg______         ",
-        "__gggggg_____           ",
-        "__ggggg____             ",
-        "__gggg____              ",
-        "__ggg____               ",
-        "__gg____                ",
-        "________                ",
-        "_______                 ",
-        "_______                 ",
-        "______                  ",
-        "______                  ",
-        "______                  ",
-        "_____                   ",
-        "_____                   ",
-        "_____                   ",
-        "_____                   ",
-        "____                    ",
-        "____                    "
-      ],
-      "palettes": [ "road_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "24x24_road_curved_vehicles",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
-      "place_nested": [
-        {
-          "chunks": [ [ "24x24_road_curved_vehicles_city", 67 ], [ "null", 33 ] ],
-          "x": 0,
-          "y": 0,
-          "flags_any": {
-            "north": [ "SIDEWALK" ],
-            "north_east": [ "SIDEWALK" ],
-            "east": [ "SIDEWALK" ],
-            "south_east": [ "SIDEWALK" ],
-            "south": [ "SIDEWALK" ],
-            "south_west": [ "SIDEWALK" ],
-            "west": [ "SIDEWALK" ],
-            "north_west": [ "SIDEWALK" ]
-          }
-        },
-        {
-          "else_chunks": [ [ "24x24_road_curved_vehicles_country", 1 ], [ "null", 39 ] ],
-          "x": 0,
-          "y": 0,
-          "flags_any": {
-            "north": [ "SIDEWALK" ],
-            "north_east": [ "SIDEWALK" ],
-            "east": [ "SIDEWALK" ],
-            "south_east": [ "SIDEWALK" ],
-            "south": [ "SIDEWALK" ],
-            "south_west": [ "SIDEWALK" ],
-            "west": [ "SIDEWALK" ],
-            "north_west": [ "SIDEWALK" ]
-          }
-        }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "24x24_road_curved_vehicles_country",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
-      "place_nested": [
-        {
-          "chunks": [ "24x24_road_vehicles_country_out_of_fuel_east", "24x24_road_vehicles_country_out_of_fuel_south" ],
-          "x": 0,
-          "y": 0
-        }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "24x24_road_curved_vehicles_city",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
-      "place_nested": [
-        {
-          "chunks": [
-            [ "24x24_road_vehicles_city_wrecks_east", 132 ],
-            [ "24x24_road_vehicles_city_wrecks_south", 132 ],
-            [ "24x24_road_vehicles_city_parked_east", 264 ],
-            [ "24x24_road_vehicles_city_parked_south", 264 ],
-            [ "24x24_road_vehicles_special", 12 ]
-          ],
-          "x": 0,
-          "y": 0
-        }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "24x24_road_curved_straight",
+    "nested_mapgen_id": "24x24_road_curved_diagonal",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -377,6 +246,7 @@
       ],
       "//": "No SIDEWALK bc shouldn't occur in cities",
       "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
         {
           "chunks": [ "3x3_road_corner_se" ],
