@@ -1196,7 +1196,7 @@ float Character::tally_organic_size() const
     float total_size = 0.0f;
     for( const bodypart_id &bp : get_all_body_parts() ) {
         //if( !bp->is_cybernetic ) {
-        total_size += get_part( bp )->get_hit_size();
+        total_size += static_cast<float>( bp->hit_size );
         //}
     }
     return total_size;
