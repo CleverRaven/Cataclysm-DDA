@@ -13049,9 +13049,9 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
 
     const bool last_t_abs_pos_is_oob = !here.inbounds( link->t_abs_pos );
 
-    // Lambda function for checking if a cable's been stretched too long, resetting it if so.
+    // Lambda function for setting a cable's length, then checking if it's now stretched too long, resetting it if so.
     // @return True if the cable is disconnected.
-    const auto is_cable_too_long = [this, carrier, pos, last_t_abs_pos_is_oob,
+    const auto set_length_and_check = [this, carrier, pos, last_t_abs_pos_is_oob,
           is_cable_item]( float new_length ) {
         link->length = new_length;
         if( debug_mode ) {
@@ -13108,12 +13108,12 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
             return false;
         }
         if( trigdist ) {
-            if( is_cable_too_long( trig_dist( here.getabs( pos ), link->t_abs_pos.raw() ) +
-                                   link->t_mount.abs().x + link->t_mount.abs().y ) ) {
+            if( set_length_and_check( trig_dist( here.getabs( pos ), link->t_abs_pos.raw() ) +
+                                      link->t_mount.abs().x + link->t_mount.abs().y ) ) {
                 return reset_link( carrier );
             }
-        } else if( is_cable_too_long( square_dist( here.getabs( pos ), link->t_abs_pos.raw() ) +
-                                      link->t_mount.abs().x + link->t_mount.abs().y ) ) {
+        } else if( set_length_and_check( square_dist( here.getabs( pos ), link->t_abs_pos.raw() ) +
+                                         link->t_mount.abs().x + link->t_mount.abs().y ) ) {
             return reset_link( carrier );
         }
         return false;
@@ -13172,12 +13172,12 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     // If either of the link's connected sides moved, check the cable's length.
     if( check_length ) {
         if( trigdist ) {
-            if( is_cable_too_long( trig_dist( pos, t_veh_bub_pos +
-                                              t_veh->part( link_vp_index ).precalc[0] ) ) ) {
+            if( set_length_and_check( trig_dist( pos, t_veh_bub_pos +
+                                                 t_veh->part( link_vp_index ).precalc[0] ) ) ) {
                 return reset_link( carrier, link_vp_index );
             }
-        } else if( is_cable_too_long( square_dist( pos, t_veh_bub_pos +
-                                      t_veh->part( link_vp_index ).precalc[0] ) ) ) {
+        } else if( set_length_and_check( square_dist( pos, t_veh_bub_pos +
+                                         t_veh->part( link_vp_index ).precalc[0] ) ) ) {
             return reset_link( carrier, link_vp_index );
         }
     }
