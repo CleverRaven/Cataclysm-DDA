@@ -1188,18 +1188,30 @@
       "palettes": [ "road_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
-        { "chunks": [ "4x4_rotary_sidewalk_ne" ], "x": 20, "y": 0, "flags": { "north_east": [ "SIDEWALK" ] } },
-        { "chunks": [ "4x4_rotary_sidewalk_ne" ], "x": 20, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
-        { "chunks": [ "4x4_rotary_sidewalk_ne" ], "x": 20, "y": 0, "flags": { "east": [ "SIDEWALK" ] } },
-        { "chunks": [ "4x4_rotary_sidewalk_se" ], "x": 20, "y": 20, "flags": { "south_east": [ "SIDEWALK" ] } },
-        { "chunks": [ "4x4_rotary_sidewalk_se" ], "x": 20, "y": 20, "flags": { "south": [ "SIDEWALK" ] } },
-        { "chunks": [ "4x4_rotary_sidewalk_se" ], "x": 20, "y": 20, "flags": { "east": [ "SIDEWALK" ] } },
-        { "chunks": [ "4x4_rotary_sidewalk_sw" ], "x": 0, "y": 20, "flags": { "south_west": [ "SIDEWALK" ] } },
-        { "chunks": [ "4x4_rotary_sidewalk_sw" ], "x": 0, "y": 20, "flags": { "south": [ "SIDEWALK" ] } },
-        { "chunks": [ "4x4_rotary_sidewalk_sw" ], "x": 0, "y": 20, "flags": { "west": [ "SIDEWALK" ] } },
-        { "chunks": [ "4x4_rotary_sidewalk_nw" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } },
-        { "chunks": [ "4x4_rotary_sidewalk_nw" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
-        { "chunks": [ "4x4_rotary_sidewalk_nw" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
+        {
+          "chunks": [ "4x4_rotary_sidewalk_ne" ],
+          "x": 20,
+          "y": 0,
+          "flags_any": { "north_east": [ "SIDEWALK" ], "north": [ "SIDEWALK" ], "east": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_rotary_sidewalk_se" ],
+          "x": 20,
+          "y": 20,
+          "flags_any": { "south_east": [ "SIDEWALK" ], "south": [ "SIDEWALK" ], "east": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_rotary_sidewalk_sw" ],
+          "x": 0,
+          "y": 20,
+          "flags_any": { "south_west": [ "SIDEWALK" ], "south": [ "SIDEWALK" ], "west": [ "SIDEWALK" ] }
+        },
+        {
+          "chunks": [ "4x4_rotary_sidewalk_nw" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": { "north_west": [ "SIDEWALK" ], "north": [ "SIDEWALK" ], "west": [ "SIDEWALK" ] }
+        },
         {
           "chunks": [ "24x24_traffic_lights_rotary", "null" ],
           "x": 0,
