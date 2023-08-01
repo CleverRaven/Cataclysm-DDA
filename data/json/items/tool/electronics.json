@@ -131,6 +131,7 @@
     "max_charges": 3000,
     "turns_per_charge": 1,
     "use_action": [ "EHANDCUFFS" ],
+    "tick_action": [ "EHANDCUFFS_TICK" ],
     "//": "Don't add ELECTRONIC flag here, since these handcuffs have their own behavior when affected by EMP blast",
     "flags": [ "ALWAYS_TWOHAND", "TRADER_AVOID", "WATER_BREAK" ],
     "melee_damage": { "cut": 1 }

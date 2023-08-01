@@ -107,6 +107,7 @@ std::optional<int> dog_whistle( Character *, item *, bool, const tripoint & );
 std::optional<int> e_combatsaw_off( Character *, item *, bool, const tripoint & );
 std::optional<int> e_combatsaw_on( Character *, item *, bool, const tripoint & );
 std::optional<int> ehandcuffs( Character *, item *, bool, const tripoint & );
+std::optional<int> ehandcuffs_tick( Character *, item *, bool, const tripoint & );
 std::optional<int> einktabletpc( Character *, item *, bool, const tripoint & );
 std::optional<int> elec_chainsaw_off( Character *, item *, bool, const tripoint & );
 std::optional<int> elec_chainsaw_on( Character *, item *, bool, const tripoint & );

@@ -6997,102 +6997,92 @@ std::optional<int> iuse::camera( Character *p, item *it, bool, const tripoint & 
     return 1;
 }
 
-std::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, bool t, const tripoint &pos )
 {
 
-    if( t ) {
+    if( get_map().has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos.xy() ) ) {
+        it->unset_flag( flag_NO_UNWIELD );
+        it->ammo_unset();
+        it->active = false;
+        add_msg( m_good, _( "%s automatically turned off!" ), it->tname() );
+        return 1;
+    }
 
-        if( get_map().has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos.xy() ) ) {
-            it->unset_flag( flag_NO_UNWIELD );
-            it->ammo_unset();
-            it->active = false;
-            add_msg( m_good, _( "%s automatically turned off!" ), it->tname() );
-            return 1;
+    if( !p ) {
+        // Active but not in use. Deactivate
+        sounds::sound( pos, 2, sounds::sound_t::combat, "Click.", true, "tools", "handcuffs" );
+        it->unset_flag( flag_NO_UNWIELD );
+        it->active = false;
+        return 1;
+    }
+
+    if( it->charges == 0 ) {
+        sounds::sound( pos, 2, sounds::sound_t::combat, "Click.", true, "tools", "handcuffs" );
+        it->unset_flag( flag_NO_UNWIELD );
+        it->active = false;
+
+        if( p ) {
+            add_msg( m_good, _( "%s on your wrists opened!" ), it->tname() );
         }
 
-        if( !p ) {
-            // Active but not in use. Deactivate
-            sounds::sound( pos, 2, sounds::sound_t::combat, "Click.", true, "tools", "handcuffs" );
-            it->unset_flag( flag_NO_UNWIELD );
-            it->active = false;
-            return 1;
-        }
+        return 1;
+    }
 
-        if( it->charges == 0 ) {
+    if( p->has_active_bionic( bio_shock ) && p->get_power_level() >= bio_shock->power_trigger &&
+        one_in( 5 ) ) {
+        p->mod_power_level( -bio_shock->power_trigger );
 
-            sounds::sound( pos, 2, sounds::sound_t::combat, "Click.", true, "tools", "handcuffs" );
-            it->unset_flag( flag_NO_UNWIELD );
-            it->active = false;
+        it->unset_flag( flag_NO_UNWIELD );
+        it->charges = 0;
+        it->active = false;
+        add_msg( m_good, _( "The %s crackle with electricity from your bionic, then come off your hands!" ),
+                 it->tname() );
 
-            if( p->has_item( *it ) && p->get_wielded_item() &&
-                p->get_wielded_item()->typeId() == itype_e_handcuffs ) {
-                add_msg( m_good, _( "%s on your wrists opened!" ), it->tname() );
+        return 1;
+    }
+
+    if( calendar::once_every( 1_minutes ) ) {
+        sounds::sound( pos, 10, sounds::sound_t::alarm, _( "a police siren, whoop WHOOP." ), true,
+                       "environment", "police_siren" );
+    }
+
+    const point p2( it->get_var( "HANDCUFFS_X", 0 ), it->get_var( "HANDCUFFS_Y", 0 ) );
+
+    if( ( it->ammo_remaining() > it->type->maximum_charges() - 1000 ) && ( p2.x != pos.x ||
+            p2.y != pos.y ) ) {
+
+
+        if( p->is_elec_immune() ) {
+            if( one_in( 10 ) ) {
+                add_msg( m_good, _( "The cuffs try to shock you, but you're protected from electricity." ) );
             }
+        } else {
+            add_msg( m_bad, _( "Ouch, the cuffs shock you!" ) );
 
-            return 1;
-        }
-
-        if( p->has_item( *it ) ) {
-            if( p->has_active_bionic( bio_shock ) && p->get_power_level() >= bio_shock->power_trigger &&
-                one_in( 5 ) ) {
-                p->mod_power_level( -bio_shock->power_trigger );
-
-                it->unset_flag( flag_NO_UNWIELD );
-                it->ammo_unset();
-                it->active = false;
-                add_msg( m_good, _( "The %s crackle with electricity from your bionic, then come off your hands!" ),
-                         it->tname() );
-
-                return 1;
-            }
-        }
-
-        if( calendar::once_every( 1_minutes ) ) {
-            sounds::sound( pos, 10, sounds::sound_t::alarm, _( "a police siren, whoop WHOOP." ), true,
-                           "environment", "police_siren" );
-        }
-
-        const point p2( it->get_var( "HANDCUFFS_X", 0 ), it->get_var( "HANDCUFFS_Y", 0 ) );
-
-        if( ( it->ammo_remaining() > it->type->maximum_charges() - 1000 ) && ( p2.x != pos.x ||
-                p2.y != pos.y ) ) {
-
-            if( p->has_item( *it ) && p->get_wielded_item() &&
-                p->get_wielded_item()->typeId() == itype_e_handcuffs ) {
-
-                if( p->is_elec_immune() ) {
-                    if( one_in( 10 ) ) {
-                        add_msg( m_good, _( "The cuffs try to shock you, but you're protected from electricity." ) );
-                    }
-                } else {
-                    add_msg( m_bad, _( "Ouch, the cuffs shock you!" ) );
-
-                    p->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 0, 2 ) );
-                    p->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 0, 2 ) );
-                    p->mod_pain( rng( 2, 5 ) );
-
-                }
-
-            } else {
-                add_msg( m_bad, _( "The %s spark with electricity!" ), it->tname() );
-            }
-
-            it->charges -= 50;
-            if( it->charges < 1 ) {
-                it->charges = 1;
-            }
-
-            it->set_var( "HANDCUFFS_X", pos.x );
-            it->set_var( "HANDCUFFS_Y", pos.y );
-
-            return 1;
+            p->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 0, 2 ) );
+            p->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 0, 2 ) );
+            p->mod_pain( rng( 2, 5 ) );
 
         }
+
+
+        it->charges -= 50;
+        if( it->charges < 1 ) {
+            it->charges = 1;
+        }
+
+        it->set_var( "HANDCUFFS_X", pos.x );
+        it->set_var( "HANDCUFFS_Y", pos.y );
 
         return 1;
 
     }
 
+    return 1;
+}
+
+std::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const tripoint &pos )
+{
     if( it->active ) {
         add_msg( _( "The %s are clamped tightly on your wrists.  You can't take them off." ),
                  it->tname() );
