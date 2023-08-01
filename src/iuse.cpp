@@ -7234,12 +7234,7 @@ std::optional<int> iuse::radiocar( Character *p, item *it, bool, const tripoint 
 
 std::optional<int> iuse::radiocaron( Character *p, item *it, bool t, const tripoint &pos )
 {
-    if( t ) {
-        //~Sound of a radio controlled car moving around
-        sounds::sound( pos, 6, sounds::sound_t::movement, _( "buzzz…" ), true, "misc", "rc_car_drives" );
-
-        return 1;
-    } else if( !it->ammo_sufficient( p ) ) {
+    if( !it->ammo_sufficient( p ) ) {
         // Deactivate since other mode has an iuse too.
         it->convert( itype_radio_car ).active = false;
         return 0;

@@ -65,6 +65,7 @@
     "turns_per_charge": 5,
     "revert_to": "radio_car",
     "use_action": [ "RADIOCARON" ],
+    "tick_action": [ { "type": "sound", "sound_message": "buzzz…", "sound_volume": 0, "sound_id": "misc", "sound_variant": "rc_car_drives" } ],
     "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID", "RADIOCAR", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
