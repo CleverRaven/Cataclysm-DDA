@@ -13562,6 +13562,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             }
             if( has_flag( flag_CABLE_SPOOL ) && mark_flag() ) {
                 // DO NOT process this as a tool! It really isn't!
+                // Cables have been reworked and shouldn't be active items anymore.
                 active = false;
                 return false;
             }
