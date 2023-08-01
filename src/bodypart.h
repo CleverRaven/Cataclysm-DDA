@@ -313,9 +313,7 @@ struct body_part_type {
         int wet_morale = 0;
         int technique_enc_limit = 50;
 
-        // flag limbs for being bionics. if true it doesn't contribute bodyweight and uses bionic power instead of stamina
-        bool is_cybernetic = false;
-        // this is the number of millijoules used per stamina point, divided by the total # of limbs that are cybernetic
+        // this is the number of millijoules used per stamina point
         int power_efficiency = 0;
 
     private:
@@ -501,7 +499,6 @@ class bodypart
         int get_temp_conv() const;
         int get_bmi_encumbrance_threshold() const;
         float get_bmi_encumbrance_scalar() const;
-        bool get_is_cybernetic() const;
         int get_power_efficiency() const;
 
         std::array<int, NUM_WATER_TOLERANCE> get_mut_drench() const;
