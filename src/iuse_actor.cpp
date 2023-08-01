@@ -4734,10 +4734,10 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
     if( !can_link( selection ) ) {
         if( to_ports && s_vp && s_vp->vehicle().has_part( "CABLE_PORTS" ) ) {
             p->add_msg_if_player( m_info,
-                                  _( "You can't attach it there; try the dashboard or electronics controls." ) );
-        } else if( !to_ports && s_vp && s_vp->vehicle().batteries.empty() ) {
+                                  _( "You can't attach it there - try the dashboard or electronics controls." ) );
+        } else if( !to_ports && s_vp && !s_vp->vehicle().batteries.empty() ) {
             p->add_msg_if_player( m_info,
-                                  _( "You can't attach it there; try the battery." ) );
+                                  _( "You can't attach it there - try the battery." ) );
         } else {
             p->add_msg_if_player( m_info, _( "You can't attach it there." ) );
         }
@@ -4751,19 +4751,19 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         !it.link->has_state( link_state::vehicle_battery ) ) {
         // Starting a new connection to a vehicle or connecting a cable CBM to a vehicle.
 
-        std::optional<vpart_reference> s_vp_ref( s_vp.avail_part_with_feature( "APPLIANCE" ) );
-        if( to_ports ) {
-            s_vp_ref = s_vp.avail_part_with_feature( "CABLE_PORTS" );
-        } else {
-            s_vp_ref = s_vp.avail_part_with_feature( "BATTERY" );
+        // Get the part name for the connection message, using the vehicle name as a fallback.
+        std::string s_vp_name = s_vp->vehicle().name;
+        std::optional<vpart_reference> s_vp_ref;
+        if( ( s_vp_ref = s_vp.avail_part_with_feature( "APPLIANCE" ) ) ||
+            ( s_vp_ref = s_vp.avail_part_with_feature( "CABLE_PORTS" ) ) ||
+            ( s_vp_ref = s_vp.avail_part_with_feature( "BATTERY" ) ) ) {
+            s_vp_name = s_vp_ref->part().name( false );
         }
 
         if( it.link->has_no_links() ) {
-            p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.type_name(),
-                                  s_vp_ref->part().name( false ) );
+            p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.type_name(), s_vp_name );
         } else if( it.link->has_state( link_state::bio_cable ) ) {
-            p->add_msg_if_player( m_good, _( "You are now plugged into the %s." ),
-                                  s_vp_ref->part().name( false ) );
+            p->add_msg_if_player( m_good, _( "You are now plugged into the %s." ), s_vp_name );
             it.link->s_state = link_state::bio_cable;
         } else {
             debugmsg( "Failed to connect the %s, it tried to make an invalid connection!", it.tname() );
