@@ -12979,11 +12979,11 @@ void item::set_link_traits( const bool assign_t_state )
         // Assign t_state based on the parts available at the connected mount point.
         if( it_actor->targets.find( link_state::vehicle_port ) != it_actor->targets.end() &&
             ( link->t_veh_safe->avail_part_with_feature( link->t_mount, "CABLE_PORTS" ) != -1 ||
-            link->t_veh_safe->avail_part_with_feature( link->t_mount, "APPLIANCE" ) != -1 ) ) {
+              link->t_veh_safe->avail_part_with_feature( link->t_mount, "APPLIANCE" ) != -1 ) ) {
             link->t_state = link_state::vehicle_port;
         } else if( it_actor->targets.find( link_state::vehicle_battery ) != it_actor->targets.end() &&
                    ( link->t_veh_safe->avail_part_with_feature( link->t_mount, "BATTERY" ) != -1 ||
-                   link->t_veh_safe->avail_part_with_feature( link->t_mount, "APPLIANCE" ) != -1 ) ) {
+                     link->t_veh_safe->avail_part_with_feature( link->t_mount, "APPLIANCE" ) != -1 ) ) {
             link->t_state = link_state::vehicle_battery;
         }
     }
@@ -13133,6 +13133,15 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
             if( t_veh->part( idx ).mount == link->t_mount ) {
                 link_vp_index = idx;
                 break;
+            }
+        }
+        if( link_vp_index == -1 ) {
+            // Check cable_ports, since that includes appliances
+            for( int idx : t_veh->cable_ports ) {
+                if( t_veh->part( idx ).mount == link->t_mount ) {
+                    link_vp_index = idx;
+                    break;
+                }
             }
         }
     } else if( link->t_state == link_state::vehicle_tow || link->s_state == link_state::vehicle_tow ) {
