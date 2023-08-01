@@ -68,7 +68,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "teleport_blink", 2 ], [ "teleport_slow", 2 ], [ "teleport_transpose", 2 ] ]
+    "spells_learned": [ [ "teleport_blink", 2 ], [ "teleport_slow", 2 ], [ "teleport_stride", 2 ] ]
   },
   {
     "type": "mutation",
