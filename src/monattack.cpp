@@ -163,6 +163,8 @@ static const itype_id itype_bot_mininuke_hack( "bot_mininuke_hack" );
 static const itype_id itype_bot_pacification_hack( "bot_pacification_hack" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+
 static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_reaction( "reaction" );
 
@@ -294,7 +296,7 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
     if( atk.dealt_dam.total_damage() > 0 ) {
         target->add_msg_if_player( m_bad, _( "The %s shoots a dart into you!" ), z->name() );
         // whether this function returns true determines whether it applies a status effect like paralysis or mutation
-        if( atk.dealt_dam.bp_hit->is_cybernetic ) {
+        if( atk.dealt_dam.bp_hit->has_flag( json_flag_BIONIC_LIMB ) ) {
             return false;
         } else {
             return true;
@@ -1955,7 +1957,7 @@ bool mattack::fungus_inject( monster *z )
         add_msg( m_bad, _( "The %1$s sinks its point into your %2$s!" ), z->name(),
                  body_part_name_accusative( hit ) );
         // do not fungal infect a bionic limb
-        if( !hit->is_cybernetic && one_in( 10 - dam ) ) {
+        if( !hit->has_flag( json_flag_BIONIC_LIMB ) && one_in( 10 - dam ) ) {
             player_character.add_effect( effect_fungus, 10_minutes, true );
             add_msg( m_warning, _( "You feel thousands of live spores pumping into you…" ) );
         }
@@ -2010,7 +2012,7 @@ bool mattack::fungus_bristle( monster *z )
         target->add_msg_if_player( m_bad, _( "The %1$s sinks several needlelike barbs into your %2$s!" ),
                                    z->name(), body_part_name_accusative( hit ) );
         // no fungal infection if it is a bionic limb
-        if( !hit->is_cybernetic && one_in( 15 - dam ) ) {
+        if( !hit->has_flag( json_flag_BIONIC_LIMB ) && one_in( 15 - dam ) ) {
             target->add_effect( effect_fungus, 20_minutes, true );
             target->add_msg_if_player( m_warning,
                                        _( "You feel thousands of live spores pumping into you…" ) );
@@ -2173,8 +2175,8 @@ bool mattack::fungus_fortify( monster *z )
     target->block_hit( z, hit, dam_inst );
 
     int dam = player_character.deal_damage( z, hit, dam_inst ).total_damage();
-    // no way to pump spores into a cybernetic limb
-    if( !hit->is_cybernetic && dam > 0 ) {
+    // no way to pump spores into a bionic limb
+    if( !hit->has_flag( json_flag_BIONIC_LIMB ) && dam > 0 ) {
         //~ 1$s is monster name, 2$s bodypart in accusative
         add_msg( m_bad, _( "The %1$s sinks its point into your %2$s!" ), z->name(),
                  body_part_name_accusative( hit ) );
@@ -2303,7 +2305,7 @@ bool mattack::dermatik( monster *z )
 
     // Can the bug penetrate our armor? Or is the limb a bionic one?
     const bodypart_id targeted = target->get_random_body_part();
-    if( !targeted->is_cybernetic && 4 < player_character.get_armor_type( damage_cut, targeted ) / 3 ) {
+    if( !targeted->has_flag( json_flag_BIONIC_LIMB ) && 4 < player_character.get_armor_type( damage_cut, targeted ) / 3 ) {
         //~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
         target->add_msg_if_player( _( "The %1$s lands on your %2$s, but can't penetrate your armor." ),
                                    z->name(), body_part_name_accusative( targeted ) );
@@ -4130,7 +4132,7 @@ bool mattack::stretch_bite( monster *z )
                                        z->name(),
                                        body_part_name_accusative( hit ) );
 
-        if( !hit->is_cybernetic && one_in( 16 - dam ) ) {
+        if( !hit->has_flag( json_flag_BIONIC_LIMB ) && one_in( 16 - dam ) ) {
             if( target->has_effect( effect_bite, hit.id() ) ) {
                 target->add_effect( effect_bite, 40_minutes, hit, true );
             } else if( target->has_effect( effect_infected, hit.id() ) ) {
