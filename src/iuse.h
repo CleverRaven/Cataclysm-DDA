@@ -90,7 +90,7 @@ std::optional<int> change_skin( Character *, item *, const tripoint & );
 std::optional<int> chop_logs( Character *, item *, const tripoint & );
 std::optional<int> chop_tree( Character *, item *, const tripoint & );
 std::optional<int> circsaw_on( Character *, item *, const tripoint & );
-std::optional<int> e_circsaw_on( Character *, item *, bool, const tripoint & );
+std::optional<int> e_circsaw_on( Character *, item *, const tripoint & );
 std::optional<int> clear_rubble( Character *, item *, const tripoint & );
 std::optional<int> coin_flip( Character *, item *, const tripoint & );
 std::optional<int> combatsaw_off( Character *, item *, const tripoint & );

@@ -3167,7 +3167,7 @@ std::optional<int> iuse::circsaw_on( Character *p, item *it, const tripoint &pos
     return toolweapon_running( p, *it, pos,  true, 15, 7, _( "Your circular saw buzzes." ) );
 }
 
-std::optional<int> iuse::e_circsaw_on( Character *p, item *it, bool, const tripoint &pos )
+std::optional<int> iuse::e_circsaw_on( Character *p, item *it, const tripoint &pos )
 {
     return toolweapon_running( p, *it, pos,  true, 15, 7, _( "Your electric circular saw buzzes." ) );
 }
