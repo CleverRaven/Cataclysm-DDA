@@ -1,0 +1,17 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_ENHANCE_MOBILITY_SWITCHER",
+    "effect": {
+      "switch": { "math": [ "u_val('spell_level', 'spell: biokin_enhance_mobility')" ] },
+      "cases": [
+        { "case": 0, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_1" } } ] },
+        { "case": 4, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_2" } } ] },
+        { "case": 8, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_3" } } ] },
+        { "case": 12, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_4" } } ] },
+        { "case": 16, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_5" } } ] },
+        { "case": 20, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_5" } } ] }
+      ]
+    }
+  }
+]
