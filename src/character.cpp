@@ -293,6 +293,7 @@ static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const json_character_flag json_flag_ACIDBLOOD( "ACIDBLOOD" );
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_ALWAYS_HEAL( "ALWAYS_HEAL" );
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_BLIND( "BLIND" );
 static const json_character_flag json_flag_CLAIRVOYANCE( "CLAIRVOYANCE" );
 static const json_character_flag json_flag_CLAIRVOYANCE_PLUS( "CLAIRVOYANCE_PLUS" );
@@ -1192,10 +1193,10 @@ float Character::get_stamina_dodge_modifier() const
 
 float Character::tally_organic_size() const
 {
-    //tally up the hitsize of body parts that are not cybernetic (100 by default but can get bigger too)
+    //tally up the hitsize of body parts that are not bionic (100 by default but can get bigger too)
     float total_size = 0.0f;
     for( const bodypart_id &bp : get_all_body_parts() ) {
-        //if( !bp->is_cybernetic ) {
+        //if( !bp->has_flag( json_flag_BIONIC_LIMB ) ) {
         total_size += static_cast<float>( bp->hit_size );
         //}
     }
@@ -7815,7 +7816,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
         hurt = body_part_torso;
     }
 
-    if( !hurt->is_cybernetic ) {
+    if( !hurt->has_flag( json_flag_BIONIC_LIMB ) ) {
         mod_pain( dam / 2 );
     }
 
@@ -7893,7 +7894,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     bool u_see = player_character.sees( *this );
     // FIXME: Hardcoded damage type
     int cut_dam = dealt_dams.type_damage( damage_cut );
-    if( source && has_flag( json_flag_ACIDBLOOD ) && !bp->is_cybernetic && !one_in( 3 ) &&
+    if( source && has_flag( json_flag_ACIDBLOOD ) && !bp->has_flag( json_flag_BIONIC_LIMB ) && !one_in( 3 ) &&
         ( dam >= 4 || cut_dam > 0 ) && ( rl_dist( player_character.pos(), source->pos() ) <= 1 ) ) {
         if( is_avatar() ) {
             add_msg( m_good, _( "Your acidic blood splashes %s in mid-attack!" ),
@@ -7947,7 +7948,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     // i.e. if the body part has a sum of 100 coverage from filthy clothing,
     // each point of damage has a 1% change of causing infection.
     // if the bodypart doesn't bleed, it doesn't have blood, and cannot get infected
-    if( sum_cover > 0 && !bp->is_cybernetic ) {
+    if( sum_cover > 0 && !bp->has_flag( json_flag_BIONIC_LIMB ) ) {
         // FIXME: Hardcoded damage types
         const int cut_type_dam = dealt_dams.type_damage( damage_cut ) +
                                  dealt_dams.type_damage( damage_stab );
