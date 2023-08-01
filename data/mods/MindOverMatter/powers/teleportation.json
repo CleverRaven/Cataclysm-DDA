@@ -27,7 +27,7 @@
     "base_casting_time": 50,
     "final_casting_time": 0,
     "casting_time_increment": -4,
-    "learn_spells": { "teleport_transpose": 5, "teleport_farstep": 12, "teleport_gateway": 18 }
+    "learn_spells": { "teleport_phase": 5, "teleport_transpose": 8, "teleport_farstep": 12, "teleport_gateway": 18 }
   },
   {
     "id": "teleport_slow",
@@ -68,6 +68,34 @@
     "learn_spells": { "teleport_collapse": 7, "teleport_banish": 15 }
   },
   {
+    "id": "teleport_phase",
+    "type": "SPELL",
+    "name": "[Ψ]Phase",
+    "description": "By stepping for a moment into the void between dimensions, you can bypass a wall or walk from the ground to the roof of a house.",
+    "message": "There is a brief moment of darkness and terrible cold, and you are somewhere else.",
+    "valid_targets": [ "ground" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "IGNORE_WALLS" ],
+    "effect": "short_range_teleport",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: teleport_phase') * 0.1) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 4,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 1500,
+    "final_energy_cost": 650,
+    "energy_increment": -65,
+    "base_casting_time": 65,
+    "final_casting_time": 15,
+    "casting_time_increment": -3,
+    "learn_spells": { "teleport_transpose": 4, "teleport_gateway": 14 }
+  },
+  {
 			"id": "teleport_stride",
 			"type": "SPELL",
 			"name": "[Ψ]Extended Stride",
@@ -96,7 +124,7 @@
 			"base_casting_time": 85,
 			"final_casting_time": 25,
 			"casting_time_increment": -7,
-			"learn_spells": { "teleport_collapse": 6, "teleport_farstep": 10 }
+			"learn_spells": { "teleport_collapse": 6, "teleport_phase": 8, "teleport_farstep": 14 }
   },
   {
     "id": "teleport_transpose",
