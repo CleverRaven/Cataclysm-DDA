@@ -262,7 +262,7 @@
     "volume": "18320 ml",
     "weight": "3 kg",
     "reproduction": { "baby_egg": "egg_brown_trout", "baby_count": 2, "baby_timer": 17 },
-    "baby_flags": [ "AUTUMN" ],
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_brown_trout",
@@ -281,7 +281,7 @@
     "volume": "900 ml",
     "weight": "1650 g",
     "reproduction": { "baby_egg": "egg_brook_trout", "baby_count": 2, "baby_timer": 17 },
-    "baby_flags": [ "AUTUMN" ],
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_brook_trout",
@@ -300,7 +300,7 @@
     "volume": "6140 ml",
     "weight": "4 kg",
     "reproduction": { "baby_egg": "egg_lake_trout", "baby_count": 2, "baby_timer": 17 },
-    "baby_flags": [ "AUTUMN" ],
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_lake_trout",
@@ -319,7 +319,7 @@
     "volume": "10600 ml",
     "weight": "3 kg",
     "reproduction": { "baby_egg": "egg_rainbow_trout", "baby_count": 2, "baby_timer": 17 },
-    "baby_flags": [ "AUTUMN" ],
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_rainbow_trout",
@@ -337,7 +337,7 @@
     "volume": "10600 ml",
     "weight": "4 kg",
     "reproduction": { "baby_egg": "egg_salmon", "baby_count": 2, "baby_timer": 17 },
-    "baby_flags": [ "AUTUMN" ],
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_salmon",
@@ -356,7 +356,7 @@
     "volume": "4470 ml",
     "weight": "3500 g",
     "reproduction": { "baby_egg": "egg_kokanee_salmon", "baby_count": 2, "baby_timer": 17 },
-    "baby_flags": [ "AUTUMN" ],
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_kokanee_salmon",
@@ -374,7 +374,7 @@
     "volume": "7730 ml",
     "weight": "2 kg",
     "reproduction": { "baby_egg": "egg_whitefish", "baby_count": 2, "baby_timer": 17 },
-    "baby_flags": [ "AUTUMN" ],
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_whitefish",
@@ -393,7 +393,7 @@
     "volume": "850 ml",
     "weight": "355 g",
     "reproduction": { "baby_egg": "egg_whitefish_round", "baby_count": 2, "baby_timer": 17 },
-    "baby_flags": [ "AUTUMN" ],
+    "baby_flags": [ "AUTUMN" ]
   },
   {
     "id": "mon_fry_whitefish_round",
