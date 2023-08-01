@@ -3398,7 +3398,7 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
-    "use_action": [ "DIVE_TANK" ],
+    "use_action": [ "DIVE_TANK_ACTIVATE" ],
     "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
     "melee_damage": { "bash": 10 }
   },
@@ -3423,11 +3423,13 @@
     ],
     "charges_per_use": 1,
     "turns_per_charge": 60,
+    "revert_to": "scuba_tank",
     "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
     "environmental_protection": 3,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
-    "use_action": [ "DIVE_TANK" ],
+    "use_action": [ "DIVE_TANK_ACTIVATE" ],
+    "tick_action": [ "DIVE_TANK" ],
     "armor": [
       { "encumbrance": 30, "coverage": 50, "covers": [ "torso", "mouth" ], "specifically_covers": [ "torso_hanging_back" ] }
     ],
@@ -3456,7 +3458,7 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
-    "use_action": [ "DIVE_TANK" ],
+    "use_action": [ "DIVE_TANK_ACTIVATE" ],
     "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
     "melee_damage": { "bash": 6 }
   },
@@ -3481,11 +3483,13 @@
     ],
     "charges_per_use": 1,
     "turns_per_charge": 60,
+    "revert_to": "small_scuba_tank",
     "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
     "environmental_protection": 3,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
-    "use_action": [ "DIVE_TANK" ],
+    "use_action": [ "DIVE_TANK_ACTIVATE" ],
+    "tick_action": [ "DIVE_TANK" ],
     "armor": [
       { "encumbrance": 30, "coverage": 50, "covers": [ "torso", "mouth" ], "specifically_covers": [ "torso_hanging_back" ] }
     ],

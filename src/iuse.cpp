@@ -4072,42 +4072,41 @@ std::optional<int> iuse::rpgdie( Character *you, item *die, bool, const tripoint
 
 std::optional<int> iuse::dive_tank( Character *p, item *it, bool t, const tripoint & )
 {
-    if( t ) { // Normal use
-        if( p && p->is_worn( *it ) ) {
-            if( p->is_underwater() && p->oxygen < 10 ) {
-                p->oxygen += 20;
-            }
-            if( one_in( 15 ) ) {
-                p->add_msg_if_player( m_bad, _( "You take a deep breath from your %s." ), it->tname() );
-            }
-            if( it->ammo_remaining() == 0 ) {
-                p->add_msg_if_player( m_bad, _( "Air in your %s runs out." ), it->tname() );
-                it->set_var( "overwrite_env_resist", 0 );
-                it->convert( itype_id( it->typeId().str().substr( 0,
-                                       it->typeId().str().size() - 3 ) ) ).active = false; // 3 = "_on"
-            }
-        } else { // not worn = off thanks to on-demand regulator
-            it->set_var( "overwrite_env_resist", 0 );
-            it->convert( itype_id( it->typeId().str().substr( 0,
-                                   it->typeId().str().size() - 3 ) ) ).active = false; // 3 = "_on"
+    if( p && p->is_worn( *it ) ) {
+        if( p->is_underwater() && p->oxygen < 10 ) {
+            p->oxygen += 20;
         }
-
-    } else { // Turning it on/off
+        if( one_in( 15 ) ) {
+            p->add_msg_if_player( m_bad, _( "You take a deep breath from your %s." ), it->tname() );
+        }
         if( it->ammo_remaining() == 0 ) {
-            p->add_msg_if_player( _( "Your %s is empty." ), it->tname() );
-        } else if( it->active ) { //off
-            p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
-            it->set_var( "overwrite_env_resist", 0 );
-            it->convert( itype_id( it->typeId().str().substr( 0,
-                                   it->typeId().str().size() - 3 ) ) ).active = false; // 3 = "_on"
-        } else { //on
-            if( !p->is_worn( *it ) ) {
-                p->add_msg_if_player( _( "You should wear it first." ) );
-            } else {
-                p->add_msg_if_player( _( "You turn on the regulator and open the air valve." ) );
-                it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
-                it->convert( itype_id( it->typeId().str() + "_on" ) ).active = true;
-            }
+            p->add_msg_if_player( m_bad, _( "Air in your %s runs out." ), it->tname() );
+            it->erase_var( "overwrite_env_resist" );
+            it->convert( *it->type->revert_to ).active = false;
+        }
+    } else { // not worn = off thanks to on-demand regulator
+        it->erase_var( "overwrite_env_resist" );
+        it->convert( *it->type->revert_to ).active = false;
+    }
+
+    return 1;
+}
+
+std::optional<int> iuse::dive_tank_activate( Character *p, item *it, bool t, const tripoint & )
+{
+    if( it->ammo_remaining() == 0 ) {
+        p->add_msg_if_player( _( "Your %s is empty." ), it->tname() );
+    } else if( it->active ) { //off
+        p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
+        it->erase_var( "overwrite_env_resist" );
+        it->convert( *it->type->revert_to ).active = false;
+    } else { //on
+        if( !p->is_worn( *it ) ) {
+            p->add_msg_if_player( _( "You should wear it first." ) );
+        } else {
+            p->add_msg_if_player( _( "You turn on the regulator and open the air valve." ) );
+            it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
+            it->convert( itype_id( it->typeId().str() + "_on" ) ).active = true;
         }
     }
     return 1;

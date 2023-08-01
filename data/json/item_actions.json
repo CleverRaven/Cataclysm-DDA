@@ -655,7 +655,7 @@
   },
   {
     "type": "item_action",
-    "id": "DIVE_TANK",
+    "id": "DIVE_TANK_ACTIVATE",
     "name": { "str": "Use regulator" }
   },
   {

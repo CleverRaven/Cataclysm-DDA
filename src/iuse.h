@@ -102,6 +102,7 @@ std::optional<int> dig( Character *, item *, bool, const tripoint & );
 std::optional<int> dig_channel( Character *, item *, bool, const tripoint & );
 std::optional<int> directional_antenna( Character *, item *, bool, const tripoint & );
 std::optional<int> directional_hologram( Character *, item *, bool, const tripoint & );
+std::optional<int> dive_tank_activate( Character *, item *, bool, const tripoint & );
 std::optional<int> dive_tank( Character *, item *, bool, const tripoint & );
 std::optional<int> dog_whistle( Character *, item *, bool, const tripoint & );
 std::optional<int> e_combatsaw_off( Character *, item *, bool, const tripoint & );

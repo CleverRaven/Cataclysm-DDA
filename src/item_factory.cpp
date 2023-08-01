@@ -1657,6 +1657,7 @@ void Item_factory::init()
     add_iuse( "DATURA", &iuse::datura );
     add_iuse( "DIG", &iuse::dig );
     add_iuse( "DIVE_TANK", &iuse::dive_tank );
+    add_iuse( "DIVE_TANK_ACTIVATE", &iuse::dive_tank_activate );
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
     add_iuse( "DISASSEMBLE", &iuse::disassemble );
     add_iuse( "CRAFT", &iuse::craft );
