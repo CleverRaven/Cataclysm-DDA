@@ -121,9 +121,10 @@
             ]
           }
         },
-        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 },
-        { "chunks": [ "24x24_road_end_vehicles" ], "x": 0, "y": 0 }
+        { "chunks": [ "24x24_street_lights_end_straight" ], "x": 0, "y": 0 },
+        { "chunks": [ "24x24_road_end_vehicles" ], "x": 0, "y": 0 },
+        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -164,10 +165,10 @@
       "palettes": [ "road_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
-        { "chunks": [ "24x24_street_lights_cul_de_sac" ], "x": 0, "y": 0 },
-        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 },
-        { "chunks": [ "24x24_road_end_vehicles" ], "x": 0, "y": 0 }
+        { "chunks": [ "24x24_street_lights_cul_de_sac" ], "x": 0, "y": 0 },
+        { "chunks": [ "24x24_road_end_vehicles" ], "x": 0, "y": 0 },
+        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 }
       ]
     }
   },
@@ -204,6 +205,7 @@
         "    .......**.......    "
       ],
       "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
         { "chunks": [ "24x24_sidewalk_ns_double" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
         { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 20, "y": 0, "flags": { "north_east": [ "SIDEWALK" ] } },
@@ -213,13 +215,6 @@
         { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 12, "flags": { "south_west": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_ns_long" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
         { "chunks": [ "12x12_sidewalk_ns_half" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } },
-        {
-          "chunks": [ [ "24x24_marked_crosswalk_and_traffic_lights", 1 ], [ "null", 9 ] ],
-          "x": 0,
-          "y": 0,
-          "//": "( north_east || east || south_east ) && ( north_west || west || south_west )",
-          "flags_any": { "north_east": [ "SIDEWALK" ], "east": [ "SIDEWALK" ], "south_east": [ "SIDEWALK" ] }
-        },
         {
           "chunks": [ "3x3_road_corner_ne" ],
           "x": 1,
@@ -297,10 +292,17 @@
           }
         },
         { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 },
-        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 },
-        { "chunks": [ "24x24_road_straight_vehicles" ], "x": 0, "y": 0 }
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+        { "chunks": [ "24x24_street_lights_straight" ], "x": 0, "y": 0 },
+        {
+          "chunks": [ [ "24x24_marked_crosswalk_and_lights", 1 ], [ "null", 9 ] ],
+          "x": 0,
+          "y": [ 9, 15 ],
+          "//": "( north_east || east || south_east ) && ( north_west || west || south_west )",
+          "flags_any": { "north_east": [ "SIDEWALK" ], "east": [ "SIDEWALK" ], "south_east": [ "SIDEWALK" ] }
+        },
+        { "chunks": [ "24x24_road_straight_vehicles" ], "x": 0, "y": 0 },
+        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 }
+      ]
     }
   },
   {
@@ -510,8 +512,8 @@
           "flags": { "north_west": [ "SIDEWALK" ] }
         },
         { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 },
-        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 },
-        { "chunks": [ "24x24_road_curved_vehicles" ], "x": 0, "y": 0 }
+        { "chunks": [ "24x24_road_curved_vehicles" ], "x": 0, "y": 0 },
+        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 }
       ]
     }
   },
@@ -548,7 +550,7 @@
         "    .........**.........",
         "    ........**.........."
       ],
-      "//": "No SIDEWALK bc shouldn't occur in cities",
+      "//": "Neither sidewalk nor street lights bc shouldn't occur in cities",
       "palettes": [ "road_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
@@ -691,28 +693,6 @@
         { "chunks": [ "24x24_sidewalk_esw_corner_half_w" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
         { "chunks": [ "12x12_sidewalk_ew_half" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } },
         {
-          "chunks": [ "24x24_traffic_lights", "null" ],
-          "x": 0,
-          "y": 0,
-          "flags": {
-            "north_east": [ "SIDEWALK" ],
-            "south_east": [ "SIDEWALK" ],
-            "south_west": [ "SIDEWALK" ],
-            "north_west": [ "SIDEWALK" ]
-          }
-        },
-        {
-          "chunks": [ "24x24_marked_crosswalks" ],
-          "x": 0,
-          "y": 0,
-          "flags": {
-            "north_east": [ "SIDEWALK" ],
-            "south_east": [ "SIDEWALK" ],
-            "south_west": [ "SIDEWALK" ],
-            "north_west": [ "SIDEWALK" ]
-          }
-        },
-        {
           "chunks": [ "3x3_road_corner_se" ],
           "x": 1,
           "y": 21,
@@ -827,8 +807,42 @@
           }
         },
         { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 },
-        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 },
-        { "chunks": [ "24x24_road_tee_vehicles" ], "x": 0, "y": 0 }
+        {
+          "chunks": [ "1x1_street_light" ],
+          "x": [ 11, 12 ],
+          "y": 3,
+          "flags": {
+            "north": [ "SIDEWALK" ],
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
+        {
+          "chunks": [ "24x24_traffic_lights", "null" ],
+          "x": 0,
+          "y": 0,
+          "flags": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
+        {
+          "chunks": [ "24x24_marked_crosswalks" ],
+          "x": 0,
+          "y": 0,
+          "flags": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
+        { "chunks": [ "24x24_road_tee_vehicles" ], "x": 0, "y": 0 },
+        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -966,19 +980,6 @@
         { "chunks": [ "4x4_sidewalk" ], "x": 0, "y": 20, "flags": { "south_west": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_ew_corner_double" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
         { "chunks": [ "4x4_sidewalk" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } },
-        { "chunks": [ "24x24_traffic_lights", "null" ], "x": 0, "y": 0 },
-        {
-          "chunks": [ "24x24_marked_crosswalks" ],
-          "x": 0,
-          "y": 0,
-          "//": "Move these to the nest itself?",
-          "flags": {
-            "north_east": [ "SIDEWALK" ],
-            "south_east": [ "SIDEWALK" ],
-            "south_west": [ "SIDEWALK" ],
-            "north_west": [ "SIDEWALK" ]
-          }
-        },
         {
           "chunks": [ "3x3_road_corner_ne" ],
           "x": 1,
@@ -1132,8 +1133,20 @@
           }
         },
         { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 },
-        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 },
-        { "chunks": [ "24x24_road_four_way_crossroad_vehicles" ], "x": 0, "y": 0 }
+        {
+          "chunks": [ "24x24_traffic_lights", "null" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
+        { "chunks": [ "24x24_marked_crosswalks" ], "x": 0, "y": 0 },
+        { "chunks": [ "24x24_road_four_way_crossroad_vehicles" ], "x": 0, "y": 0 },
+        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -1212,6 +1225,7 @@
           "y": 0,
           "flags_any": { "north_west": [ "SIDEWALK" ], "north": [ "SIDEWALK" ], "west": [ "SIDEWALK" ] }
         },
+        { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 },
         {
           "chunks": [ "24x24_traffic_lights_rotary", "null" ],
           "x": 0,
@@ -1240,8 +1254,7 @@
             "north_west": [ "SIDEWALK" ]
           }
         },
-        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 },
-        { "chunks": [ "24x24_road_trash" ], "x": 0, "y": 0 }
+        { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 }
       ]
     }
   }
