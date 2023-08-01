@@ -62,6 +62,8 @@ static const efftype_id effect_zombie_virus( "zombie_virus" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+
 static const mon_flag_str_id mon_flag_DEADLY_VIRUS( "DEADLY_VIRUS" );
 static const mon_flag_str_id mon_flag_HIT_AND_RUN( "HIT_AND_RUN" );
 static const mon_flag_str_id mon_flag_VAMP_VIRUS( "VAMP_VIRUS" );
@@ -864,7 +866,7 @@ bool melee_actor::call( monster &z ) const
             for( const mon_effect_data &eff : effects ) {
                 if( x_in_y( eff.chance, 100 ) ) {
                     const bodypart_id affected_bp = eff.affect_hit_bp ? bp_id : eff.bp.id();
-                    if( !( effects_require_organic && affected_bp->is_cybernetic ) ) {
+                    if( !( effects_require_organic && affected_bp->has_flag( json_flag_BIONIC_LIMB ) ) ) {
                         target->add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
                                             eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
                                                     eff.intensity.second ) );
@@ -926,7 +928,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     for( const mon_effect_data &eff : effects ) {
         if( x_in_y( eff.chance, 100 ) ) {
             const bodypart_id affected_bp = eff.affect_hit_bp ? bp : eff.bp.id();
-            if( !( effects_require_organic && affected_bp->is_cybernetic ) ) {
+            if( !( effects_require_organic && affected_bp->has_flag( json_flag_BIONIC_LIMB ) ) ) {
                 target.add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
                                    eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
                                            eff.intensity.second ) );
@@ -971,7 +973,7 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
     const bodypart_id &hit = dealt.bp_hit;
 
     // only do bitey things if the limb is fleshy
-    if( !hit->is_cybernetic ) {
+    if( !hit->has_flag( json_flag_BIONIC_LIMB ) ) {
         // first, do regular zombie infections
         if( x_in_y( infection_chance, 100 ) ) {
             if( target.has_effect( effect_bite, hit.id() ) ) {
