@@ -411,7 +411,6 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "bmi_encumbrance_threshold", bmi_encumbrance_threshold, 999 );
     optional( jo, was_loaded, "bmi_encumbrance_scalar", bmi_encumbrance_scalar, 0 );
 
-    optional( jo, was_loaded, "is_cybernetic", is_cybernetic, false );
     optional( jo, was_loaded, "power_efficiency", power_efficiency, 0 );
 
     if( jo.has_member( "limb_scores" ) ) {
