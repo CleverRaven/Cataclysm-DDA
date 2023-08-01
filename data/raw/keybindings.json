@@ -3950,7 +3950,7 @@
     "type": "keybinding",
     "id": "QUIT",
     "category": "YESNOQUIT",
-    "name": "Quit",
+    "name": "Cancel",
     "bindings": [
       { "input_method": "keyboard_char", "key": "Q" },
       { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
