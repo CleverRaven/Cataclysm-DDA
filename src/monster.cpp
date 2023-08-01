@@ -128,6 +128,8 @@ static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_milk_raw( "milk_raw" );
 
@@ -1887,7 +1889,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
                 // don't make a pain yelp if our limb is a bionic
-                if( !dealt_dam.bp_hit->is_cybernetic ) {
+                if( !dealt_dam.bp_hit->has_flag( json_flag_BIONIC_LIMB ) ) {
                     sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
                 }
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
