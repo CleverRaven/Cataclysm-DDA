@@ -169,6 +169,7 @@ static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 static const bionic_id bio_soporific( "bio_soporific" );
+static const bionic_id bio_synlungs( "bio_synlungs" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id bio_voice( "bio_voice" );
@@ -657,13 +658,14 @@ void Character::set_wielded_item( const item &to_wield )
 
 int Character::get_oxygen_max() const
 {
-    return 30 + 2 * str_cur;
+    return 30 + ( has_bionic( bio_synlungs ) ? 30 : 2 * str_cur );
 }
 
 bool Character::can_recover_oxygen() const
 {
     return get_limb_score( limb_score_breathing ) > 0.5f && !is_underwater() &&
-           !has_effect_with_flag( json_flag_GRAB );
+           !has_effect_with_flag( json_flag_GRAB ) && !( has_bionic( bio_synlungs ) &&
+                   !has_active_bionic( bio_synlungs ) );
 }
 
 void Character::randomize_heartrate()
@@ -6689,24 +6691,26 @@ void Character::update_stamina( int turns )
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
                         effective_regen_rate * get_modifier( character_modifier_stamina_recovery_breathing_mod ) );
-    stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
-                       stamina_recovery );
-    // TODO: recovering stamina causes hunger/thirst/fatigue.
-    // TODO: Tiredness slowing recovery
+    // only apply stim-related and mutant stamina boosts if you don't have bionic lungs
+    if( !has_bionic( bio_synlungs ) ) {
+        stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
+                           stamina_recovery );
+        // TODO: recovering stamina causes hunger/thirst/fatigue.
+        // TODO: Tiredness slowing recovery
 
-    // stim recovers stamina (or impairs recovery)
-    if( current_stim > 0 ) {
-        // TODO: Make stamina recovery with stims cost health
-        stamina_recovery += std::min( 5.0f, current_stim / 15.0f );
-    } else if( current_stim < 0 ) {
-        // Affect it less near 0 and more near full
-        // Negative stim kill at -200
-        // At -100 stim it inflicts -20 malus to regen at 100%  stamina,
-        // effectivly countering stamina gain of default 20,
-        // at 50% stamina its -10 (50%), cuts by 25% at 25% stamina
-        stamina_recovery += current_stim / 5.0f * get_stamina() / get_stamina_max();
+        // stim recovers stamina (or impairs recovery)
+        if( current_stim > 0 ) {
+            // TODO: Make stamina recovery with stims cost health
+            stamina_recovery += std::min( 5.0f, current_stim / 15.0f );
+        } else if( current_stim < 0 ) {
+            // Affect it less near 0 and more near full
+            // Negative stim kill at -200
+            // At -100 stim it inflicts -20 malus to regen at 100%  stamina,
+            // effectivly countering stamina gain of default 20,
+            // at 50% stamina its -10 (50%), cuts by 25% at 25% stamina
+            stamina_recovery += current_stim / 5.0f * get_stamina() / get_stamina_max();
+        }
     }
-
     const int max_stam = get_stamina_max();
     if( get_power_level() >= 3_kJ && has_active_bionic( bio_gills ) ) {
         int bonus = std::min<int>( units::to_kilojoule( get_power_level() ) / 3,
@@ -6735,6 +6739,11 @@ int Character::get_cardiofit() const
     if( is_npc() ) {
         // No point in doing a bunch of checks on NPCs for now since they can't use cardio.
         return 2 * get_cardio_acc_base();
+    }
+
+    if( has_bionic( bio_synlungs ) ) {
+        // If you have the synthetic lungs bionic your cardioacc is forced to a specific value
+        return 3 * get_cardio_acc_base();
     }
 
     const int cardio_base = get_cardio_acc();
