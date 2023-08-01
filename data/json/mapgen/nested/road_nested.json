@@ -730,7 +730,7 @@
       "rotation": [ 0 ],
       "place_nested": [
         {
-          "chunks": [ "24x24_road_zombies_placement" ],
+          "chunks": [ "24x24_road_zombies_placement", "null" ],
           "x": 0,
           "y": 0,
           "flags_any": {
@@ -754,7 +754,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
-      "place_monster": [ { "group": "GROUP_ZOMBIE", "chance": 2, "repeat": 576, "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }
   }
 ]
