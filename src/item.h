@@ -1600,6 +1600,12 @@ class item : public visitable
                                    const item_location &parent_it = item_location(),
                                    units::volume remaining_parent_volume = 10000000_ml,
                                    bool allow_nested = true ) const;
+        int can_contain_copies( const item &it, int copies, bool nested = false,
+                                bool ignore_rigidity = false,
+                                bool ignore_pkt_settings = true,
+                                const item_location &parent_it = item_location(),
+                                units::volume remaining_parent_volume = 10000000_ml,
+                                bool allow_nested = true ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         ret_val<void> can_contain_directly( const item &it ) const;

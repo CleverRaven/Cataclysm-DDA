@@ -1524,6 +1524,113 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
     return ret_val<item_pocket::contain_code>::make_success();
 }
 
+int item_pocket::can_contain_copies( const item &it, const int copies ) const
+{
+    int remaining = copies;
+    ret_val<item_pocket::contain_code> compatible = is_compatible( it );
+
+    if( data->type == item_pocket::pocket_type::CORPSE ) {
+        // corpses can't have items stored in them the normal way,
+        // we simply don't want them to "spill"
+        return 0;//return ret_val<item_pocket::contain_code>::make_success(); // NOLINT: temp
+    }
+    // To prevent debugmsg. Casings can only be inserted in a magazine during firing.
+    if( data->type == item_pocket::pocket_type::MAGAZINE && it.has_flag( flag_CASING ) ) {
+        return 0;//return ret_val<item_pocket::contain_code>::make_success(); // NOLINT: temp
+    }
+
+    if( !compatible.success() ) {
+        return copies;//return compatible; // NOLINT: temp
+    }
+
+    if( data->type == item_pocket::pocket_type::MAGAZINE && !empty() ) {
+        for( const item &contained : contents ) {
+            if( contained.has_flag( flag_CASING ) ) {
+                continue;
+            } else if( contained.ammo_type() != it.ammo_type() ) {
+                return copies;//return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_NO_SPACE, _( "can't mix different ammo" ) ); // NOLINT: temp
+            }
+        }
+    }
+
+    if( data->ablative && !contents.empty() ) {
+        if( contents.front().can_combine( it ) ) {
+            //TODOkama
+            return 0;//return ret_val<item_pocket::contain_code>::make_success(); // NOLINT: temp
+        } else {
+            return copies;//return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_NO_SPACE, _( "ablative pocket already contains a plate" ) ); // NOLINT: temp
+        }
+    }
+
+    if( data->ablative ) {
+        if( it.is_rigid() ) {
+            for( const sub_bodypart_id &sbp : it.get_covered_sub_body_parts() ) {
+                if( it.is_bp_rigid( sbp ) && std::count( no_rigid.begin(), no_rigid.end(), sbp ) != 0 ) {
+                    return copies;//return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_NO_SPACE, _( "ablative pocket is being worn with hard armor can't support hard plate" ) ); // NOLINT: temp
+                }
+            }
+        }
+        //TODOkama
+        //return 0;//return ret_val<item_pocket::contain_code>::make_success(); // NOLINT: temp
+    }
+
+    if( data->holster && !contents.empty() ) {
+        if( contents.front().can_combine( it ) ) {
+            return 0;//return ret_val<item_pocket::contain_code>::make_success(); // NOLINT: temp
+        } else {
+            return copies;//return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_NO_SPACE, _( "holster already contains an item" ) ); // NOLINT: temp
+        }
+    }
+
+    if( it.made_of( phase_id::LIQUID ) ) {
+        if( size() != 0 && !contents.front().can_combine( it ) && data->watertight ) {
+            return copies;//return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_LIQUID, _( "can't mix liquid with contained item" ) ); // NOLINT: temp
+        }
+    } else if( size() == 1 && !it.is_frozen_liquid() &&
+               contents.front().made_of( phase_id::LIQUID ) && data->watertight ) {
+        return copies;//return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_LIQUID, _( "can't put non liquid into pocket with liquid" ) ); // NOLINT: temp
+    }
+
+    if( it.is_frozen_liquid() ) {
+        if( size() != 0 && !contents.front().can_combine( it ) && data->watertight ) {
+            return copies;//return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_LIQUID, _( "can't mix frozen liquid with contained item in the watertight container" ) ); // NOLINT: temp
+        }
+    } else if( data->watertight ) {
+        if( size() == 1 && contents.front().is_frozen_liquid() && !contents.front().can_combine( it ) ) {
+            return copies;//return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_LIQUID, _( "can't mix item with contained frozen liquid in the watertight container" ) ); // NOLINT: temp
+        }
+    }
+
+    if( it.made_of( phase_id::GAS ) ) {
+        if( size() != 0 && !contents.front().can_combine( it ) ) {
+            return copies;//return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_GAS, _( "can't mix gas with contained item" ) ); // NOLINT: temp
+        }
+    } else if( size() == 1 && contents.front().made_of( phase_id::GAS ) ) {
+        return copies;//return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_GAS, _( "can't put non gas into pocket with gas" ) ); // NOLINT: temp
+    }
+
+    if( !data->ammo_restriction.empty() ) {
+        const ammotype it_ammo = it.ammo_type();
+        if( it.count() > remaining_ammo_capacity( it_ammo ) ) {
+            return copies;//return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_NO_SPACE, _( "tried to put too many charges of ammo in item" ) ); // NOLINT: temp
+        }
+        // ammo restriction overrides item volume/weight and watertight/airtight data
+        return 0;//return ret_val<item_pocket::contain_code>::make_success(); // NOLINT: temp
+    }
+
+    if( it.weight() > weight_capacity() ) {
+        return copies;//return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_TOO_HEAVY, _( "item is too heavy" ) ); // NOLINT: temp
+    }
+    if( it.volume() > volume_capacity() ) {
+        return copies;//return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_TOO_BIG, _( "item too big" ) ); // NOLINT: temp
+    }
+
+    int copy_weight_capacity = it.weight() > 0_gram ? charges_per_remaining_weight( it ) : INT_MAX;
+    int copy_volume_capacity = it.volume() > 0_ml ? charges_per_remaining_volume( it ) : INT_MAX;
+    int copy_capacity = std::min( copy_weight_capacity, copy_volume_capacity );
+    return( std::max( copies - copy_capacity, 0 ) );
+}
+
 bool item_pocket::can_contain_liquid( bool held_or_ground ) const
 {
     if( held_or_ground ) {

@@ -876,7 +876,7 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
                 pocket.settings.priority() > 0 ) ) {
             ignore_rigidity = true;
         }
-        if( !pocket.can_contain( it ).success() || ( !ignore_rigidity && nested && !pocket.rigid() ) ) {
+        if( ( !ignore_rigidity && nested && !pocket.rigid() ) || !pocket.can_contain( it ).success() ) {
             // non-rigid nested pocket makes no sense, item should also be able to fit in parent.
             continue;
         }
@@ -1034,6 +1034,30 @@ ret_val<void> item_contents::can_contain_rigid( const item &it,
     return ret;
 }
 
+int item_contents::can_contain_copies_rigid( const item &it, const int copies,
+    const bool ignore_pkt_settings ) const
+{
+    int remaining = copies;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MOD ) ||
+            pocket.is_type( item_pocket::pocket_type::CORPSE ) ||
+            pocket.is_type( item_pocket::pocket_type::MIGRATION ) ) {
+            continue;
+        }
+        if( !pocket.rigid() ) {
+            continue;
+        }
+        if( !ignore_pkt_settings && !pocket.settings.accepts_item( it ) ) {
+            continue;
+        }
+        remaining = pocket.can_contain_copies( it, remaining );
+        if( remaining <= 0 ) {
+            return 0;
+        }
+    }
+    return remaining;
+}
+
 ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_settings,
         units::volume remaining_parent_volume ) const
 {
@@ -1060,6 +1084,32 @@ ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_
         ret = ret_val<void>::make_failure( pocket_contain_code.str() );
     }
     return ret;
+}
+
+int item_contents::can_contain_copies( const item &it, const int copies, const bool ignore_pkt_settings,
+        units::volume remaining_parent_volume ) const
+{
+    int remaining = copies;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_forbidden() ) {
+            continue;
+        }
+        // mod, migration, corpse, and software aren't regular pockets.
+        if( !pocket.is_standard_type() ) {
+            continue;
+        }
+        if( !ignore_pkt_settings && !pocket.settings.accepts_item( it ) ) {
+            continue;
+        }
+        if( !pocket.rigid() && it.volume() > remaining_parent_volume ) {
+            continue;
+        }
+        remaining = pocket.can_contain_copies( it, remaining );
+        if( remaining <= 0 ) {
+            return 0;
+        }
+    }
+    return remaining;
 }
 
 bool item_contents::can_contain_liquid( bool held_or_ground ) const

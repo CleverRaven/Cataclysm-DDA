@@ -1439,6 +1439,19 @@ bool Character::can_stash( const item &it, bool ignore_pkt_settings )
     return best_pocket( it, nullptr, ignore_pkt_settings ).second != nullptr;
 }
 
+int Character::can_stash_copies( const item &it, const int copies, bool ignore_pkt_settings )
+{
+    int remaining = copies;
+
+    for( item_location loc : all_items_loc() ) {
+        remaining = loc->can_contain_copies( it, remaining, false, false, false );
+        if( remaining <= 0 ) {
+            return 0;
+        }
+    }
+    return remaining;
+}
+
 bool Character::can_stash_partial( const item &it, bool ignore_pkt_settings )
 {
     item copy = it;
