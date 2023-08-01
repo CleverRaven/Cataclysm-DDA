@@ -334,10 +334,7 @@
             "multiply": {
               "math": [ "( ( u_val('spell_level', 'spell: biokin_combat_dance') * -0.03) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
             }
-          },
-          { "value": "FATIGUE", "add": 5 },
-          { "value": "HUNGER", "multiply": 3 },
-          { "value": "THIRST", "multiply": 3 }
+          }
         ]
       }
     ]
