@@ -4783,8 +4783,13 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         // Connecting one vehicle/appliance to another.
 
         if( !it.link->t_veh_safe ) {
-            debugmsg( "Failed to connect the %s, it lost its vehicle pointer!", it.tname() );
-            return std::nullopt;
+            vehicle *found_veh = vehicle::find_vehicle( it.link->t_abs_pos );
+            if( found_veh ) {
+                it.link->t_veh_safe = found_veh->get_safe_reference();
+            } else {
+                debugmsg( "Failed to connect the %s, it lost its vehicle pointer!", it.tname() );
+                return std::nullopt;
+            }
         }
         vehicle *const sel_veh = &s_vp->vehicle();
         vehicle *const prev_veh = it.link->t_veh_safe.get();
@@ -4938,8 +4943,13 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
         // Connecting two vehicles with tow cable.
 
         if( !it.link->t_veh_safe ) {
-            debugmsg( "Failed to connect the %s, it lost its vehicle pointer!", it.tname() );
-            return std::nullopt;
+            vehicle *found_veh = vehicle::find_vehicle( it.link->t_abs_pos );
+            if( found_veh ) {
+                it.link->t_veh_safe = found_veh->get_safe_reference();
+            } else {
+                debugmsg( "Failed to connect the %s, it lost its vehicle pointer!", it.tname() );
+                return std::nullopt;
+            }
         }
         vehicle *const prev_veh = it.link->t_veh_safe.get();
         if( prev_veh == sel_veh ) {
