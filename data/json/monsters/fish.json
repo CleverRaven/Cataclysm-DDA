@@ -261,7 +261,8 @@
     "description": "A brown trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "18320 ml",
     "weight": "3 kg",
-    "reproduction": { "baby_egg": "egg_brown_trout", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_brown_trout", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ],
   },
   {
     "id": "mon_fry_brown_trout",
@@ -279,7 +280,8 @@
     "description": "A brook trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "900 ml",
     "weight": "1650 g",
-    "reproduction": { "baby_egg": "egg_brook_trout", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_brook_trout", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ],
   },
   {
     "id": "mon_fry_brook_trout",
@@ -297,7 +299,8 @@
     "description": "A lake trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "6140 ml",
     "weight": "4 kg",
-    "reproduction": { "baby_egg": "egg_lake_trout", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_lake_trout", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ],
   },
   {
     "id": "mon_fry_lake_trout",
@@ -315,7 +318,8 @@
     "description": "A rainbow trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "10600 ml",
     "weight": "3 kg",
-    "reproduction": { "baby_egg": "egg_rainbow_trout", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_rainbow_trout", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ],
   },
   {
     "id": "mon_fry_rainbow_trout",
@@ -332,7 +336,8 @@
     "description": "An Atlantic salmon.  A very fatty, nutritious fish.  Tastes great smoked.",
     "volume": "10600 ml",
     "weight": "4 kg",
-    "reproduction": { "baby_egg": "egg_salmon", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_salmon", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ],
   },
   {
     "id": "mon_fry_salmon",
@@ -350,7 +355,8 @@
     "description": "A Kokanee salmon.  A very fatty, nutritious fish.  Tastes great smoked.",
     "volume": "4470 ml",
     "weight": "3500 g",
-    "reproduction": { "baby_egg": "egg_kokanee_salmon", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_kokanee_salmon", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ],
   },
   {
     "id": "mon_fry_kokanee_salmon",
@@ -367,7 +373,8 @@
     "description": "A lake whitefish, closely related to salmon.  One can assume they taste just as nice when smoked.",
     "volume": "7730 ml",
     "weight": "2 kg",
-    "reproduction": { "baby_egg": "egg_whitefish", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_whitefish", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ],
   },
   {
     "id": "mon_fry_whitefish",
@@ -385,7 +392,8 @@
     "description": "A round whitefish, closely related to salmon.  One can assume they taste just as nice when smoked.",
     "volume": "850 ml",
     "weight": "355 g",
-    "reproduction": { "baby_egg": "egg_whitefish_round", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_egg": "egg_whitefish_round", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "AUTUMN" ],
   },
   {
     "id": "mon_fry_whitefish_round",
@@ -1223,8 +1231,9 @@
     "harvest": "mutant_fish",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dissect": "dissect_fish_sample_small",
-    "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 150 },
+    "reproduction": { "baby_egg": "egg_mutant_salmon", "baby_count": 3, "baby_timer": 30 },
     "baby_flags": [ "AUTUMN" ],
+    "upgrades": { "half_life": 30, "into": "mon_mutant_salmon_huge" },
     "anger_triggers": [ "HURT" ],
     "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
   },
@@ -1253,8 +1262,9 @@
     "dodge": 4,
     "harvest": "mutant_fish",
     "dissect": "dissect_fish_sample_large",
-    "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 150 },
+    "reproduction": { "baby_egg": "egg_mutant_salmon", "baby_count": 3, "baby_timer": 30 },
     "baby_flags": [ "AUTUMN" ],
+    "upgrades": { "half_life": 42, "into": "mon_mutant_salmon_mega" },
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
   },
@@ -1263,7 +1273,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fry_mutant",
     "default_faction": "mutant",
-    "upgrades": { "age_grow": 45, "into": "mon_mutant_salmon_huge" }
+    "upgrades": { "age_grow": 30, "into": "mon_mutant_salmon" }
   },
   {
     "id": "mon_mutant_salmon_mega",
@@ -1291,7 +1301,7 @@
     "dodge": 5,
     "harvest": "mutant_fish",
     "dissect": "dissect_fish_sample_large",
-    "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 150 },
+    "reproduction": { "baby_egg": "egg_mutant_salmon", "baby_count": 5, "baby_timer": 50 },
     "baby_flags": [ "AUTUMN" ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
