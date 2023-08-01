@@ -2305,7 +2305,8 @@ bool mattack::dermatik( monster *z )
 
     // Can the bug penetrate our armor? Or is the limb a bionic one?
     const bodypart_id targeted = target->get_random_body_part();
-    if( !targeted->has_flag( json_flag_BIONIC_LIMB ) && 4 < player_character.get_armor_type( damage_cut, targeted ) / 3 ) {
+    if( !targeted->has_flag( json_flag_BIONIC_LIMB ) &&
+        4 < player_character.get_armor_type( damage_cut, targeted ) / 3 ) {
         //~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
         target->add_msg_if_player( _( "The %1$s lands on your %2$s, but can't penetrate your armor." ),
                                    z->name(), body_part_name_accusative( targeted ) );
