@@ -666,17 +666,18 @@ tripoint_abs_ms zone_data::get_center_point() const
 
 tripoint_abs_ms zone_data::get_nearest_point( const tripoint_abs_ms &where ) const
 {
-    int x = std::max( std::min( get_start_point().x(), where.x() ), get_end_point().x() );
-    int y = std::max( std::min( get_start_point().y(), where.y() ), get_end_point().y() );
-    int z = std::max( std::min( get_start_point().z(), where.z() ), get_end_point().z() );
-    return tripoint_abs_ms( x, y, z );
+    tripoint_abs_ms res;
+    res.x() = std::max( std::min( get_start_point().x(), where.x() ), get_end_point().x() );
+    res.y() = std::max( std::min( get_start_point().y(), where.y() ), get_end_point().y() );
+    res.z() = std::max( std::min( get_start_point().z(), where.z() ), get_end_point().z() );
+    return res;
 }
 
 std::unordered_set<tripoint> zone_data::get_point_set() const
 {
     map &here = get_map();
     std::unordered_set<tripoint> point_set;
-    for( auto point : here.points_in_rectangle( here.getlocal( get_start_point() ),
+    for( tripoint point : here.points_in_rectangle( here.getlocal( get_start_point() ),
             here.getlocal( get_end_point() ) ) ) {
         point_set.emplace( point );
     }
@@ -803,7 +804,7 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_ab
         int radius, bool npc_search, const faction_id &fac ) const
 {
     auto const check = [&where, radius, npc_search, &fac]( const zone_data & z ) {
-        auto type = z.get_type();
+        zone_type_id type = z.get_type();
         return z.get_faction() == fac && type.str().substr( 0, 4 ) == "LOOT" &&
                ( npc_search && type != zone_type_NO_NPC_PICKUP ) &&
                square_dist( where, z.get_nearest_point( where ) ) <= radius;
