@@ -42,6 +42,7 @@ static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
+static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 static const activity_id ACT_NULL( "ACT_NULL" );
@@ -147,6 +148,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         type == ACT_CONSUME_FOOD_MENU ||
         type == ACT_CONSUME_MEDS_MENU ||
         type == ACT_EAT_MENU ||
+        type == ACT_INVOKE_ITEM ||
         type == ACT_PICKUP_MENU ||
         type == ACT_VIEW_RECIPE ) {
         return std::nullopt;
