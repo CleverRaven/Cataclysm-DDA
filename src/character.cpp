@@ -1196,9 +1196,10 @@ float Character::tally_organic_size() const
     //tally up the hitsize of body parts that are not bionic (100 by default but can get bigger too)
     float total_size = 0.0f;
     for( const bodypart_id &bp : get_all_body_parts() ) {
-        //if( !bp->has_flag( json_flag_BIONIC_LIMB ) ) {
-        total_size += static_cast<float>( bp->hit_size );
-        //}
+        if( !bp->has_flag( json_flag_BIONIC_LIMB ) ) {
+            bodypart *body_part = get_part( bp );  
+            total_size += body_part->get_hit_size();
+        }
     }
     return total_size;
 }
