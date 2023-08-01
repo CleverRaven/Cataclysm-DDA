@@ -2,7 +2,7 @@
   {
     "id": "1895sbl",
     "copy-from": "rifle_manual",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Marlin 1895 SBL" },
     "description": "A handy but powerful lever-action rifle chambered for .45-70 Government.  Designed for wilderness guides for defense against large predators such as grizzly bears, moose, and dinosaurs.",
@@ -72,7 +72,7 @@
   {
     "id": "sharps",
     "copy-from": "gun_base",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "1874 Sharps" },
     "//": "Specs from Uberti 32in barrel Special",

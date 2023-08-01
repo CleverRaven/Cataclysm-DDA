@@ -61,7 +61,7 @@
         "id": "smash",
         "move_cost": 80,
         "cooldown": 8,
-        "damage_max_instance": [ { "damage_type": "bash", "amount": 20, "armor_penetration": 10 } ],
+        "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 20, "armor_penetration": 10 } ],
         "hitsize_min": 12,
         "range": 8,
         "throw_strength": 100,
@@ -85,7 +85,8 @@
       "HUMAN",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE"
+      "PATH_AVOID_FIRE",
+      "TEEP_IMMUNE"
     ]
   },
   {

@@ -2866,11 +2866,12 @@ void item::link_data::serialize( JsonOut &jsout ) const
     jsout.member( "link_t_state", t_state );
     jsout.member( "link_t_abs_pos", t_abs_pos );
     jsout.member( "link_t_mount", t_mount );
+    jsout.member( "link_length", length );
     jsout.member( "link_max_length", max_length );
     jsout.member( "link_last_processed", last_processed );
     jsout.member( "link_charge_rate", charge_rate );
     jsout.member( "link_charge_interval", charge_interval );
-    jsout.member( "link_charge_efficiency", charge_efficiency );
+    jsout.member( "link_charge_efficiency", efficiency );
     jsout.end_object();
 }
 
@@ -2882,11 +2883,12 @@ void item::link_data::deserialize( const JsonObject &data )
     data.read( "link_t_state", t_state );
     data.read( "link_t_abs_pos", t_abs_pos );
     data.read( "link_t_mount", t_mount );
-    max_length = data.get_int( "link_max_length" );
+    data.read( "link_length", length );
+    data.read( "link_max_length", max_length );
     data.read( "link_last_processed", last_processed );
-    charge_rate = data.get_int( "link_charge_rate" );
-    charge_interval = data.get_int( "link_charge_interval" );
-    charge_efficiency = data.get_int( "link_charge_efficiency" );
+    data.read( "link_charge_rate", charge_rate );
+    data.read( "link_charge_efficiency", efficiency );
+    data.read( "link_charge_interval", charge_interval );
 }
 
 // Template parameter because item::craft_data is private and I don't want to make it public.
@@ -2977,7 +2979,6 @@ void item::io( Archive &archive )
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
     archive.io( "countdown_point", countdown_point, calendar::turn_max );
     archive.io( "wetness", wetness, 0 );
-    archive.io( "contents_linked", contents_linked, false );
     archive.io( "dropped_from", dropped_from, harvest_drop_type_id::NULL_ID() );
     archive.io( "rot", rot, 0_turns );
     archive.io( "last_temp_check", last_temp_check, calendar::start_of_cataclysm );
@@ -3357,6 +3358,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     data.read( "target_second_z", target.second.z );
     data.read( "ammo_pref", ammo_pref );
     data.read( "locked", locked );
+    data.read( "last_disconnected", last_disconnected );
 
     if( migration != nullptr ) {
         for( const itype_id &it : migration->add_veh_tools ) {
@@ -3409,6 +3411,7 @@ void vehicle_part::serialize( JsonOut &json ) const
     }
     json.member( "ammo_pref", ammo_pref );
     json.member( "locked", locked );
+    json.member( "last_disconnected", last_disconnected );
     json.end_object();
 }
 
