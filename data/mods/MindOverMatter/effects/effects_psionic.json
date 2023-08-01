@@ -881,6 +881,30 @@
     "immune_flags": [ "DIMENSIONAL_ANCHOR", "TELESTOP" ]
   },
   {
+			"type": "effect_type",
+			"id": "effect_teleport_stride",
+			"name": [ "Extended Stride" ],
+			"desc": [ "Every step takes you further than it should." ],
+			"apply_message": "",
+			"remove_message": "Your steps are normal once again.",
+			"decay_messages": [ 
+				[ "Your warped movement are almost gone.", "bad" ], 
+        [ "Your steps are no longer taking you quite so far.", "bad"]
+			],
+			"rating": "good",
+			"max_duration": "10 minutes", 
+			"max_intensity": 16,
+			"dur_add_perc": 10,
+			"int_dur_factor": "37 s",
+			"enchantments": [
+				{
+					"values": [
+						{ "value": "MOVE_COST", "multiply": { "math": [ "( ( ( u_val('spell_level', 'spell: teleport_stride') * -0.02 ) - 0.05 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]  }} 
+					] 
+				} 
+			] 
+		}
+  {
     "type": "effect_type",
     "id": "effect_vita_health",
     "name": [ "Healthy Glow" ],
