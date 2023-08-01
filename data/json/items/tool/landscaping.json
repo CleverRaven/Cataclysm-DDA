@@ -151,7 +151,7 @@
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
-    "name": { "str": "scythe" },
+    "name": { "str": "replica scythe" },
     "description": "A dull, cheaply-made replica of an old-fashioned farming tool used to cut tall grass.",
     "proportional": { "melee_damage": { "bash": 1.8, "cut": 0.064 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
