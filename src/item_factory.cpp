@@ -1697,6 +1697,7 @@ void Item_factory::init()
                             ) );
     add_iuse( "GASMASK", &iuse::gasmask );
     add_iuse( "GEIGER", &iuse::geiger );
+    add_iuse( "GEIGER_ACTIVE", &iuse::geiger_active );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
     add_iuse( "GUN_REPAIR", &iuse::gun_repair );

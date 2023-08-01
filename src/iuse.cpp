@@ -3331,48 +3331,8 @@ std::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint &
 
 }
 
-std::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::geiger( Character *p, item *it, bool, const tripoint & )
 {
-    map &here = get_map();
-    if( t ) { // Every-turn use when it's on
-        const int rads = here.get_radiation( pos );
-        if( rads == 0 ) {
-            return 1;
-        }
-        std::string description = rads > 50 ? _( "buzzing" ) :
-                                  rads > 25 ? _( "rapid clicking" ) : _( "clicking" );
-        std::string sound_var = rads > 50 ? _( "geiger_high" ) :
-                                rads > 25 ? _( "geiger_medium" ) : _( "geiger_low" );
-
-        sounds::sound( pos, 6, sounds::sound_t::alarm, description, true, "tool", sound_var );
-        if( !get_avatar().can_hear( pos, 6 ) ) {
-            // can not hear it, but may have alarmed other creatures
-            return 1;
-        }
-        if( rads > 50 ) {
-            add_msg( m_warning, _( "The geiger counter buzzes intensely." ) );
-        } else if( rads > 35 ) {
-            add_msg( m_warning, _( "The geiger counter clicks wildly." ) );
-        } else if( rads > 25 ) {
-            add_msg( m_warning, _( "The geiger counter clicks rapidly." ) );
-        } else if( rads > 15 ) {
-            add_msg( m_warning, _( "The geiger counter clicks steadily." ) );
-        } else if( rads > 8 ) {
-            add_msg( m_warning, _( "The geiger counter clicks slowly." ) );
-        } else if( rads > 4 ) {
-            add_msg( _( "The geiger counter clicks intermittently." ) );
-        } else {
-            add_msg( _( "The geiger counter clicks once." ) );
-        }
-        return 1;
-    }
-    // Otherwise, we're activating the geiger counter
-    if( it->typeId() == itype_geiger_on ) {
-        add_msg( _( "The geiger counter's SCANNING LED turns off." ) );
-        it->convert( itype_geiger_off ).active = false;
-        return 0;
-    }
-
     int ch = uilist( _( "Geiger counter:" ), {
         _( "Scan yourself or other person" ), _( "Scan the ground" ), _( "Turn continuous scan on" )
     } );
@@ -3404,7 +3364,7 @@ std::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint 
         }
         case 1:
             p->add_msg_if_player( m_info, _( "The ground's radiation level: %d mSv/h" ),
-                                  here.get_radiation( p->pos() ) );
+                                  get_map().get_radiation( p->pos() ) );
             break;
         case 2:
             p->add_msg_if_player( _( "The geiger counter's scan LED turns on." ) );
@@ -3415,6 +3375,40 @@ std::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint 
     }
     p->mod_moves( -100 );
 
+    return 1;
+}
+
+std::optional<int> iuse::geiger_active( Character *, item *, bool, const tripoint &pos )
+{
+    const int rads = get_map().get_radiation( pos );
+    if( rads == 0 ) {
+        return 1;
+    }
+    std::string description = rads > 50 ? _( "buzzing" ) :
+                              rads > 25 ? _( "rapid clicking" ) : _( "clicking" );
+    std::string sound_var = rads > 50 ? _( "geiger_high" ) :
+                            rads > 25 ? _( "geiger_medium" ) : _( "geiger_low" );
+
+    sounds::sound( pos, 6, sounds::sound_t::alarm, description, true, "tool", sound_var );
+    if( !get_avatar().can_hear( pos, 6 ) ) {
+        // can not hear it, but may have alarmed other creatures
+        return 1;
+    }
+    if( rads > 50 ) {
+        add_msg( m_warning, _( "The geiger counter buzzes intensely." ) );
+    } else if( rads > 35 ) {
+        add_msg( m_warning, _( "The geiger counter clicks wildly." ) );
+    } else if( rads > 25 ) {
+        add_msg( m_warning, _( "The geiger counter clicks rapidly." ) );
+    } else if( rads > 15 ) {
+        add_msg( m_warning, _( "The geiger counter clicks steadily." ) );
+    } else if( rads > 8 ) {
+        add_msg( m_warning, _( "The geiger counter clicks slowly." ) );
+    } else if( rads > 4 ) {
+        add_msg( _( "The geiger counter clicks intermittently." ) );
+    } else {
+        add_msg( _( "The geiger counter clicks once." ) );
+    }
     return 1;
 }
 

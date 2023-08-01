@@ -283,7 +283,13 @@
     "description": "A tool for measuring radiation.  It is in continuous scan mode, and will produce quiet clicking sounds in the presence of ambient radiation.  Using it allows you to turn it off, or scan yourself or the ground.",
     "power_draw": "200 mW",
     "revert_to": "geiger_off",
-    "use_action": [ "GEIGER" ],
+    "use_action": {
+      "target": "geiger_off",
+      "msg": "The geiger counter's SCANNING LED turns off.",
+      "menu_text": "Turn off",
+      "type": "transform"
+    },
+    "tick_action": [ "GEIGER_ACTIVE" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ]
   },
   {

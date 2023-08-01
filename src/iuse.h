@@ -127,6 +127,7 @@ std::optional<int> foodperson_voice( Character *, item *, bool, const tripoint &
 std::optional<int> gasmask( Character *, item *, bool, const tripoint & );
 std::optional<int> gasmask_activate( Character *, item *, bool, const tripoint & );
 std::optional<int> geiger( Character *, item *, bool, const tripoint & );
+std::optional<int> geiger_active( Character *, item *, bool, const tripoint & );
 std::optional<int> granade_act( Character *, item *, bool, const tripoint & );
 std::optional<int> grenade_inc_act( Character *, item *, bool, const tripoint & );
 std::optional<int> gun_repair( Character *, item *, bool, const tripoint & );
