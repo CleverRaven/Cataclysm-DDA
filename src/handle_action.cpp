@@ -1401,6 +1401,9 @@ static void loot()
     menu.query();
     flags = ( menu.ret >= 0 ) ? menu.ret : None;
     bool recache = false;
+    // clear fetch history previous multiple activity.
+    player_character.fetch_history.clear();
+    player_character.fetch_history_lifetime = calendar::turn + 10_minutes;
 
     switch( flags ) {
         case None:

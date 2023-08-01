@@ -419,6 +419,8 @@ class zone_data
             cached_shift = player_loc;
         }
         tripoint_abs_ms get_center_point() const;
+        tripoint_abs_ms get_nearest_point( const tripoint_abs_ms &where ) const;
+        std::unordered_set<tripoint> get_point_set() const;
         bool has_options() const {
             return options->has_options();
         }
