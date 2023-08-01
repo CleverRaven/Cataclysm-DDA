@@ -1309,7 +1309,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                 y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
                                      _( "- Chance of successful decrypting memory cards" ) );
                 y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of of bypassing vehicle security system" ) );
+                                     _( "- Chance of bypassing vehicle security system" ) );
                 y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
                                      _( "- Chance to get better results when disassembling items" ) );
                 y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
