@@ -4168,7 +4168,7 @@ std::optional<int> iuse::solarpack_off( Character *p, item *it, bool, const trip
     return 0;
 }
 
-std::optional<int> iuse::gasmask_activate( Character *p, item *it, bool, const tripoint &pos )
+std::optional<int> iuse::gasmask_activate( Character *p, item *it, bool, const tripoint & )
 {
     if( it->ammo_remaining() == 0 ) {
         p->add_msg_if_player( _( "Your %s doesn't have a filter." ), it->tname() );
@@ -5692,7 +5692,7 @@ std::optional<int> iuse::epic_music( Character *p, item *it, bool, const tripoin
     return std::nullopt;
 }
 
-std::optional<int> iuse::einktabletpc( Character *p, item *it, bool, const tripoint &pos )
+std::optional<int> iuse::einktabletpc( Character *p, item *it, bool, const tripoint & )
 {
 
     if( p->cant_do_mounted() ) {
@@ -6996,7 +6996,7 @@ std::optional<int> iuse::camera( Character *p, item *it, bool, const tripoint & 
     return 1;
 }
 
-std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, bool, const tripoint &pos )
 {
 
     if( get_map().has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos.xy() ) ) {
@@ -7080,7 +7080,7 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, bool t, const 
     return 1;
 }
 
-std::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::ehandcuffs( Character *, item *it, bool, const tripoint & )
 {
     if( it->active ) {
         add_msg( _( "The %s are clamped tightly on your wrists.  You can't take them off." ),
@@ -7120,7 +7120,7 @@ std::optional<int> iuse::afs_translocator( Character *p, item *it, bool, const t
     }
 }
 
-std::optional<int> iuse::foodperson_voice( Character *p, item *it, bool, const tripoint &pos )
+std::optional<int> iuse::foodperson_voice( Character *, item *, bool, const tripoint &pos )
 {
     if( calendar::once_every( 1_minutes ) ) {
         const SpeechBubble &speech = get_speech( "foodperson_mask" );
@@ -7130,7 +7130,7 @@ std::optional<int> iuse::foodperson_voice( Character *p, item *it, bool, const t
     return 0;
 }
 
-std::optional<int> iuse::foodperson( Character *p, item *it, bool, const tripoint &pos )
+std::optional<int> iuse::foodperson( Character *p, item *it, bool, const tripoint & )
 {
     // Prevent crash if battery was somehow removed.
     if( !it->magazine_current() ) {
@@ -7222,7 +7222,7 @@ std::optional<int> iuse::radiocar( Character *p, item *it, bool, const tripoint 
     return 1;
 }
 
-std::optional<int> iuse::radiocaron( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::radiocaron( Character *p, item *it, bool, const tripoint & )
 {
     if( !it->ammo_sufficient( p ) ) {
         // Deactivate since other mode has an iuse too.
