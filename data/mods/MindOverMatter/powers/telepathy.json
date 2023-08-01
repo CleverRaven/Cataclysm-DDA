@@ -306,7 +306,6 @@
     "message": "",
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "SILENT", "NO_HANDS", "NO_EXPLOSION_SFX" ],
-    "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "shape": "blast",
