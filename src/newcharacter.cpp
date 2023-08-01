@@ -1190,7 +1190,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                 y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
                                      _( "- Throwing range, accuracy, and damage" ) );
                 y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Reload speed for weapons using muscle power to reload: -20 moves per point of strength" ) );
+                                     _( "- Reload speed for weapons using muscle power to reload" ) );
                 y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
                                      _( "- Pull strength of some mutations" ) );
                 y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
