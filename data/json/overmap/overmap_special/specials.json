@@ -3505,6 +3505,18 @@
   },
   {
     "type": "overmap_special",
+    "id": "solar_farm",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "solar_farm_north" } ],
+    "connections": [ { "point": [ 0, 1, 0 ], "terrain": "road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ -1, 2 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 2 ],
+    "spawns": { "group": "GROUP_SMALL_STATION", "population": [ 4, 10 ], "radius": [ 0, 0 ] },
+    "flags": [ "CLASSIC", "URBAN", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "power_station_small",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pwr_sub_s_north" }, { "point": [ 0, 0, 1 ], "overmap": "pwr_sub_s_roof_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],

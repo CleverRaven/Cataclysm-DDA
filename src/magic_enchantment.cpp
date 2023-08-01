@@ -147,6 +147,7 @@ namespace io
             case enchant_vals::mod::FORCEFIELD: return "FORCEFIELD";
             case enchant_vals::mod::EVASION: return "EVASION";
             case enchant_vals::mod::OVERKILL_DAMAGE: return "OVERKILL_DAMAGE";
+            case enchant_vals::mod::RANGE: return "RANGE";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );
@@ -525,7 +526,7 @@ bool enchant_cache::add( const enchant_cache &rhs )
 
 void enchant_cache::force_add( const enchant_cache &rhs )
 {
-    for( const std::pair<const enchant_vals::mod, int> &pair_values :
+    for( const std::pair<const enchant_vals::mod, double> &pair_values :
          rhs.values_add ) {
         values_add[pair_values.first] += pair_values.second;
     }
@@ -650,7 +651,7 @@ void enchant_cache::add_hit_you( const fake_spell &sp )
     hit_you_effect.push_back( sp );
 }
 
-int enchantment::get_value_add( const enchant_vals::mod value, const Character &guy ) const
+double enchantment::get_value_add( const enchant_vals::mod value, const Character &guy ) const
 {
     const auto found = values_add.find( value );
     if( found == values_add.cend() ) {
@@ -670,7 +671,7 @@ double enchantment::get_value_multiply( const enchant_vals::mod value, const Cha
     return found->second.evaluate( d );
 }
 
-int enchant_cache::get_value_add( const enchant_vals::mod value ) const
+double enchant_cache::get_value_add( const enchant_vals::mod value ) const
 {
     const auto found = values_add.find( value );
     if( found == values_add.cend() ) {
@@ -723,7 +724,7 @@ double enchant_cache::modify_value( const skill_id &mod_val, double value ) cons
 units::energy enchant_cache::modify_value( const enchant_vals::mod mod_val,
         units::energy value ) const
 {
-    value += units::from_millijoule<int>( get_value_add( mod_val ) );
+    value += units::from_millijoule<double>( get_value_add( mod_val ) );
     value *= 1.0 + get_value_multiply( mod_val );
     return value;
 }
@@ -731,7 +732,7 @@ units::energy enchant_cache::modify_value( const enchant_vals::mod mod_val,
 units::mass enchant_cache::modify_value( const enchant_vals::mod mod_val,
         units::mass value ) const
 {
-    value += units::from_gram<int>( get_value_add( mod_val ) );
+    value += units::from_gram<double>( get_value_add( mod_val ) );
     value *= 1.0 + get_value_multiply( mod_val );
     return value;
 }

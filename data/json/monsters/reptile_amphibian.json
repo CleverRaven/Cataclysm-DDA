@@ -124,7 +124,13 @@
     "zombify_into": "mon_frog_mother",
     "grab_strength": 50,
     "special_attacks": [
-      { "id": "ranged_pull", "cooldown": 10, "range": 3 },
+      {
+        "id": "ranged_pull",
+        "cooldown": 10,
+        "range": 3,
+        "miss_msg_u": "%s's tongue flies out at you, but you dodge!",
+        "miss_msg_npc": "%s's tongue flies out at <npcname>, but they dodge!"
+      },
       { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 12, "min_consider_range": 2 }
     ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],

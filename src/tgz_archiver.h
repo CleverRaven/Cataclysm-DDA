@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_MAP_TGZ_ARCHIVER_H
 #define CATA_SRC_MAP_TGZ_ARCHIVER_H
 #include <array>

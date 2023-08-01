@@ -450,22 +450,22 @@ const time_duration &npc_class::get_shop_restock_interval() const
 
 int npc_class::roll_strength() const
 {
-    return dice( 4, 3 ) + bonus_str.roll();
+    return bonus_str.roll();
 }
 
 int npc_class::roll_dexterity() const
 {
-    return dice( 4, 3 ) + bonus_dex.roll();
+    return bonus_dex.roll();
 }
 
 int npc_class::roll_intelligence() const
 {
-    return dice( 4, 3 ) + bonus_int.roll();
+    return bonus_int.roll();
 }
 
 int npc_class::roll_perception() const
 {
-    return dice( 4, 3 ) + bonus_per.roll();
+    return bonus_per.roll();
 }
 
 int npc_class::roll_skill( const skill_id &sid ) const

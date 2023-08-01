@@ -6,6 +6,7 @@
       { "u_learn_recipe": "practice_biokin_physical_enhance" },
       { "u_learn_recipe": "practice_biokin_overcome_pain" },
       { "u_learn_recipe": "practice_biokin_flexibility" },
+      { "u_learn_recipe": "practice_biokin_climate_control" },
       { "u_learn_recipe": "practice_biokin_armor_skin" },
       { "u_learn_recipe": "practice_biokin_reflex_enhance" },
       { "u_learn_recipe": "practice_biokin_sealed_system" },
@@ -18,6 +19,7 @@
     "effect": [
       { "u_learn_recipe": "practice_clair_night_vision" },
       { "u_learn_recipe": "practice_clair_danger_sense" },
+      { "u_learn_recipe": "practice_clair_speed_reading" },
       { "u_learn_recipe": "practice_clair_spot_weakness" },
       { "u_learn_recipe": "practice_clair_voyance" },
       { "u_learn_recipe": "practice_clair_dodge_power" },
@@ -87,6 +89,7 @@
     "effect": [
       { "u_learn_recipe": "practice_vita_health_power" },
       { "u_learn_recipe": "practice_vita_stop_bleeding" },
+      { "u_learn_recipe": "practice_vita_healing_touch" },
       { "u_learn_recipe": "practice_vita_hurt_touch" },
       { "u_learn_recipe": "practice_vita_sleeping_trance" },
       { "u_learn_recipe": "practice_vita_pain_split" },

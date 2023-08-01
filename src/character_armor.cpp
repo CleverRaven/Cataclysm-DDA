@@ -167,7 +167,7 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 
     double forcefield = enchantment_cache->modify_value( enchant_vals::mod::FORCEFIELD, 0.0 );
 
-    if( rng( 0, 99 ) < forcefield * 100 ) {
+    if( rng( 0, 99 ) < forcefield * 100.0 ) {
         add_msg_if_player( m_good,
                            _( "The incoming attack was made ineffective." ) );
         damage_mitigated = true;
