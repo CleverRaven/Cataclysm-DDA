@@ -2669,28 +2669,10 @@ std::optional<int> iuse::radio_on( Character *, item *it, bool, const tripoint &
     return 1;
 }
 
-std::optional<int> iuse::noise_emitter_off( Character *p, item *it, bool, const tripoint & )
+std::optional<int> iuse::noise_emitter_on( Character *, item *, bool, const tripoint &pos )
 {
-    if( !it->ammo_sufficient( p ) ) {
-        p->add_msg_if_player( _( "It's dead." ) );
-        return std::nullopt;
-    } else {
-        p->add_msg_if_player( _( "You turn the noise emitter on." ) );
-        it->convert( itype_noise_emitter_on ).active = true;
-    }
-    return 1;
-}
-
-std::optional<int> iuse::noise_emitter_on( Character *p, item *it, bool t, const tripoint &pos )
-{
-    if( t ) { // Normal use
-        //~ the sound of a noise emitter when turned on
-        sounds::sound( pos, 30, sounds::sound_t::alarm, _( "KXSHHHHRRCRKLKKK!" ), true, "tool",
-                       "noise_emitter" );
-    } else { // Turning it off
-        p->add_msg_if_player( _( "The infernal racket dies as the noise emitter turns off." ) );
-        it->convert( itype_noise_emitter ).active = false;
-    }
+    sounds::sound( pos, 30, sounds::sound_t::alarm, _( "KXSHHHHRRCRKLKKK!" ), true, "tool",
+                   "noise_emitter" );
     return 1;
 }
 

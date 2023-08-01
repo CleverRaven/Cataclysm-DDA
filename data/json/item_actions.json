@@ -680,11 +680,6 @@
   },
   {
     "type": "item_action",
-    "id": "NOISE_EMITTER_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
     "id": "NOISE_EMITTER_ON",
     "name": { "str": "Turn off" }
   },
