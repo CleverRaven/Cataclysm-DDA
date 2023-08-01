@@ -4210,14 +4210,8 @@ std::optional<int> iuse::gasmask( Character *p, item *it, bool t, const tripoint
     return 1;
 }
 
-std::optional<int> iuse::portable_game( Character *p, item *it, bool active, const tripoint & )
+std::optional<int> iuse::portable_game( Character *p, item *it, bool, const tripoint & )
 {
-    if( active ) {
-        // Multi-turn usage of portable games is implemented via ACT_GAME and ACT_GENERIC_GAME.
-        // Complex devices (e.g. laptops) may use 'active' for other iuse functions
-        // (e.g. playing music), so we bail here to avoid conflicts.
-        return 0;
-    }
     if( p->is_npc() ) {
         // Long action
         return std::nullopt;
