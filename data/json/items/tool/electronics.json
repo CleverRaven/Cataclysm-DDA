@@ -479,9 +479,10 @@
     "power_draw": "1 W",
     "revert_to": "mp3",
     "use_action": [
-      "MP3_ON",
+      "MP3_DEACTIVATE",
       { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 4, "charge_rate": "5 W" }
     ],
+    "tick_action": [ "MP3_ON" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -678,7 +679,7 @@
     "power_draw": "300 mW",
     "revert_to": "smart_phone",
     "use_action": [
-      "MP3_ON",
+      "MP3_DEACTIVATE",
       "PORTABLE_GAME",
       "EINKTABLETPC",
       "EBOOKSAVE",
@@ -691,7 +692,7 @@
         "charge_rate": "20 W"
       }
     ],
-    "tick_action": [ "EPIC_MUSIC" ],
+    "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
   },
   {

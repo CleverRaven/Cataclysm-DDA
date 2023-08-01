@@ -640,7 +640,7 @@
   },
   {
     "type": "item_action",
-    "id": "MP3_ON",
+    "id": "MP3_DEACTIVATE",
     "name": { "str": "Turn off music" }
   },
   {

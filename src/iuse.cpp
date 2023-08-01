@@ -4020,32 +4020,35 @@ void iuse::play_music( Character *p, const tripoint &source, const int volume,
 
 std::optional<int> iuse::mp3_on( Character *p, item *it, bool t, const tripoint &pos )
 {
-    if( t ) { // Normal use
-        if( p ) {
-            // mp3 player in inventory, we can listen
-            play_music( p, pos, 0, 20 );
-            music::activate_music_id( music::music_id::mp3 );
-        }
-    } else { // Turning it off
-        if( it->typeId() == itype_mp3_on ) {
-            p->add_msg_if_player( _( "The mp3 player turns off." ) );
-            it->convert( itype_mp3 ).active = false;
-        } else if( it->typeId() == itype_smartphone_music ) {
-            p->add_msg_if_player( _( "The phone turns off." ) );
-            it->convert( itype_smart_phone ).active = false;
-        } else if( it->typeId() == itype_afs_atomic_smartphone_music ) {
-            p->add_msg_if_player( _( "The phone turns off." ) );
-            it->convert( itype_afs_atomic_smartphone ).active = false;
-        } else if( it->typeId() == itype_afs_atomic_wraitheon_music ) {
-            p->add_msg_if_player( _( "The phone turns off." ) );
-            it->convert( itype_afs_wraitheon_smartphone ).active = false;
-        }
-        p->mod_moves( -200 );
-        music::deactivate_music_id( music::music_id::mp3 );
-
-        return 0;
+    if( p ) {
+        // mp3 player in inventory, we can listen
+        play_music( p, pos, 0, 20 );
+        music::activate_music_id( music::music_id::mp3 );
     }
     return 1;
+}
+
+std::optional<int> iuse::mp3_deactivate( Character *p, item *it, bool t, const tripoint &pos )
+{
+
+    if( it->typeId() == itype_mp3_on ) {
+        p->add_msg_if_player( _( "The mp3 player turns off." ) );
+        it->convert( itype_mp3 ).active = false;
+    } else if( it->typeId() == itype_smartphone_music ) {
+        p->add_msg_if_player( _( "The phone turns off." ) );
+        it->convert( itype_smart_phone ).active = false;
+    } else if( it->typeId() == itype_afs_atomic_smartphone_music ) {
+        p->add_msg_if_player( _( "The phone turns off." ) );
+        it->convert( itype_afs_atomic_smartphone ).active = false;
+    } else if( it->typeId() == itype_afs_atomic_wraitheon_music ) {
+        p->add_msg_if_player( _( "The phone turns off." ) );
+        it->convert( itype_afs_wraitheon_smartphone ).active = false;
+    }
+    p->mod_moves( -200 );
+    music::deactivate_music_id( music::music_id::mp3 );
+
+    return 0;
+
 }
 
 std::optional<int> iuse::rpgdie( Character *you, item *die, bool, const tripoint & )

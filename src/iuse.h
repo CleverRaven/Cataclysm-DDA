@@ -156,6 +156,7 @@ std::optional<int> molotov_lit( Character *, item *, bool, const tripoint & );
 std::optional<int> mop( Character *, item *, bool, const tripoint & );
 std::optional<int> mp3( Character *, item *, bool, const tripoint & );
 std::optional<int> mp3_on( Character *, item *, bool, const tripoint & );
+std::optional<int> mp3_deactivate( Character *, item *, bool, const tripoint & );
 std::optional<int> noise_emitter_off( Character *, item *, bool, const tripoint & );
 std::optional<int> noise_emitter_on( Character *, item *, bool, const tripoint & );
 std::optional<int> oxygen_bottle( Character *, item *, bool, const tripoint & );
