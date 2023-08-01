@@ -182,7 +182,7 @@ int itype::tick( Character *p, item &it, const tripoint &pos ) const
 {
     int charges_to_use = 0;
     for( const auto &method : tick_action ) {
-        charges_to_use += method.second.call( p, it, true, pos ).value_or( 0 );
+        charges_to_use += method.second.call( p, it, pos ).value_or( 0 );
     }
 
 
@@ -213,7 +213,7 @@ std::optional<int> itype::invoke( Character *p, item &it, const tripoint &pos,
     if( p ) {
         p->invalidate_weight_carried_cache();
 
-        const auto ret = use->can_call( *p, it, false, pos );
+        const auto ret = use->can_call( *p, it, pos );
 
         if( !ret.success() ) {
             p->add_msg_if_player( m_info, ret.str() );
@@ -221,7 +221,7 @@ std::optional<int> itype::invoke( Character *p, item &it, const tripoint &pos,
         }
     }
 
-    return use->call( p, it, false, pos );
+    return use->call( p, it, pos );
 }
 
 std::string gun_type_type::name() const
