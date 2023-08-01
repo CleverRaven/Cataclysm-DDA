@@ -45,8 +45,8 @@
           "chunks": [ [ "24x24_marked_crosswalk_and_traffic_lights", 1 ], [ "null", 9 ] ],
           "x": 0,
           "y": 0,
-          "//": "TODO ( north_east || east || south_east ) && ( north_west || west || south_west )",
-          "flags": { "east": [ "SIDEWALK" ], "west": [ "SIDEWALK" ] }
+          "//": "( north_east || east || south_east ) && ( north_west || west || south_west )",
+          "flags_any": { "north_east": [ "SIDEWALK" ], "east": [ "SIDEWALK" ], "south_east": [ "SIDEWALK" ] }
         },
         {
           "chunks": [ "3x3_road_corner_ne" ],

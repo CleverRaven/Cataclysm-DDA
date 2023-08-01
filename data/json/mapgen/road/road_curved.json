@@ -5,10 +5,10 @@
     "om_terrain": "road_curved",
     "object": {
       "fallback_predecessor_mapgen": "field",
-      "//": "Replace chunks road_es_bend with a truck layby to deal with bad road spawns",
+      "//": "Replace chunks road_curved_bend with a truck layby to deal with bad road spawns",
       "place_nested": [
         {
-          "chunks": [ "24x24_road_es_layby" ],
+          "chunks": [ "24x24_road_curved_layby" ],
           "x": 0,
           "y": 0,
           "neighbors": {
@@ -36,7 +36,7 @@
           }
         },
         {
-          "else_chunks": [ "road_es_bend" ],
+          "else_chunks": [ "road_curved_bend" ],
           "x": 0,
           "y": 0,
           "neighbors": {
@@ -70,89 +70,14 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "road_es_bend",
+    "nested_mapgen_id": "road_curved_bend",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
-      "//": "These nesting passes try to place curvy bends when there's just one turn or it doubles back and straight diagonal road when there's more than one while not being able to search for sepcific rotations relative to this one due to the linear id forming",
-      "//1": "Check if both connections are also bends",
+      "//": "Make singular bends curved",
       "place_nested": [
         {
-          "chunks": [ "road_es_bend_second_pass_A" ],
-          "x": 0,
-          "y": 0,
-          "neighbors": {
-            "east": [
-              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
-            ],
-            "south": [
-              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
-            ]
-          }
-        },
-        {
-          "else_chunks": [ "road_es_bend_second_pass_B" ],
-          "x": 0,
-          "y": 0,
-          "neighbors": {
-            "east": [
-              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
-            ],
-            "south": [
-              { "om_terrain": "road_ne", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_es", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_sw", "om_terrain_match_type": "EXACT" },
-              { "om_terrain": "road_wn", "om_terrain_match_type": "EXACT" }
-            ]
-          }
-        }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "road_es_bend_second_pass_A",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
-      "//": "Check if it doubles back",
-      "place_nested": [
-        {
-          "chunks": [ "24x24_road_es_curvy" ],
-          "x": 0,
-          "y": 0,
-          "neighbors": { "south_east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
-        },
-        {
-          "else_chunks": [ "24x24_road_es_straight" ],
-          "x": 0,
-          "y": 0,
-          "neighbors": { "south_east": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ] }
-        }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "road_es_bend_second_pass_B",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
-      "//": "Check if one direction is a bend",
-      "place_nested": [
-        {
-          "chunks": [ "24x24_road_es_straight" ],
+          "chunks": [ "24x24_road_curved_straight" ],
           "x": 0,
           "y": 0,
           "neighbors": {
@@ -165,7 +90,7 @@
           }
         },
         {
-          "else_chunks": [ "road_es_bend_third_pass" ],
+          "else_chunks": [ "road_curved_bend_not_connected_bend_east" ],
           "x": 0,
           "y": 0,
           "neighbors": {
@@ -183,14 +108,13 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "road_es_bend_third_pass",
+    "nested_mapgen_id": "road_curved_bend_not_connected_bend_east",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
-      "//": "Check if the other direction is a bend",
       "place_nested": [
         {
-          "chunks": [ "24x24_road_es_straight" ],
+          "chunks": [ "24x24_road_curved_straight" ],
           "x": 0,
           "y": 0,
           "neighbors": {
@@ -203,7 +127,7 @@
           }
         },
         {
-          "else_chunks": [ "24x24_road_es_curvy" ],
+          "else_chunks": [ "24x24_road_curved_curvy" ],
           "x": 0,
           "y": 0,
           "neighbors": {
@@ -221,7 +145,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_road_es_curvy",
+    "nested_mapgen_id": "24x24_road_curved_curvy",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -421,7 +345,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_road_es_straight",
+    "nested_mapgen_id": "24x24_road_curved_straight",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -489,7 +413,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_road_es_layby",
+    "nested_mapgen_id": "24x24_road_curved_layby",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],

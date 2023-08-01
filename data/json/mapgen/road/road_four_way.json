@@ -125,13 +125,13 @@
       "palettes": [ "road_palette" ],
       "place_nested": [
         { "chunks": [ "24x24_sidewalk_ns_corner_double" ], "x": 0, "y": 0, "flags": { "north": [ "SIDEWALK" ] } },
-        { "chunks": [ "4x4_sidewalk_corner" ], "x": 20, "y": 0, "flags": { "north_east": [ "SIDEWALK" ] } },
+        { "chunks": [ "4x4_sidewalk" ], "x": 20, "y": 0, "flags": { "north_east": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_ew_corner_double" ], "x": 20, "y": 0, "flags": { "east": [ "SIDEWALK" ] } },
-        { "chunks": [ "4x4_sidewalk_corner" ], "x": 20, "y": 20, "flags": { "south_east": [ "SIDEWALK" ] } },
+        { "chunks": [ "4x4_sidewalk" ], "x": 20, "y": 20, "flags": { "south_east": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_ns_corner_double" ], "x": 0, "y": 20, "flags": { "south": [ "SIDEWALK" ] } },
-        { "chunks": [ "4x4_sidewalk_corner" ], "x": 0, "y": 20, "flags": { "south_west": [ "SIDEWALK" ] } },
+        { "chunks": [ "4x4_sidewalk" ], "x": 0, "y": 20, "flags": { "south_west": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_sidewalk_ew_corner_double" ], "x": 0, "y": 0, "flags": { "west": [ "SIDEWALK" ] } },
-        { "chunks": [ "4x4_sidewalk_corner" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } },
+        { "chunks": [ "4x4_sidewalk" ], "x": 0, "y": 0, "flags": { "north_west": [ "SIDEWALK" ] } },
         { "chunks": [ "24x24_traffic_lights", "null" ], "x": 0, "y": 0 },
         {
           "chunks": [ "24x24_marked_crosswalks" ],

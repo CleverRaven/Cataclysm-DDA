@@ -15,23 +15,39 @@
       "s": "t_region_shrub_decorative"
     },
     "furniture": { "Y": "f_street_light", "T": "f_traffic_light", "f": [ [ "f_region_flower_decorative", 2 ], [ "f_null", 1 ] ] },
-    "signs": {
-      "@": {
-        "signage": "Statue in commemoration of <full_name> who <statue_worthy_act> and will always be remembered.",
-        "furniture": "f_statue"
-      }
-    }
+    "signs": { "@": { "signage": "<statue_plaque>", "furniture": "f_statue" } }
+  },
+  {
+    "type": "snippet",
+    "category": "<statue_plaque>",
+    "//": "Please add more (happily scrap existing)",
+    "text": [ "Statue in commemoration of <full_name> who <statue_worthy_act> and will always be remembered." ]
   },
   {
     "type": "snippet",
     "category": "<statue_worthy_act>",
-    "text": [ "provided for our city in a time of need", "founded our great city" ],
-    "//": "Idk, what do peeps get statues for?"
+    "text": [ "provided for our city in a time of need", "founded our great city" ]
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "24x24_marked_crosswalk_and_traffic_lights",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_marked_crosswalk_and_traffic_lights_placement" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": { "north_west": [ "SIDEWALK" ], "west": [ "SIDEWALK" ], "south_west": [ "SIDEWALK" ] }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_marked_crosswalk_and_traffic_lights_placement",
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_nested": [
@@ -360,7 +376,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
-      "place_nested": [ { "chunks": [ "4x4_sidewalk_corner" ], "x": 0, "y": 0 }, { "chunks": [ "4x4_sidewalk_corner" ], "x": 20, "y": 0 } ]
+      "place_nested": [ { "chunks": [ "4x4_sidewalk" ], "x": 0, "y": 0 }, { "chunks": [ "4x4_sidewalk" ], "x": 20, "y": 0 } ]
     }
   },
   {
@@ -422,7 +438,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
-      "place_nested": [ { "chunks": [ "4x4_sidewalk_corner" ], "x": 0, "y": 0 }, { "chunks": [ "4x4_sidewalk_corner" ], "x": 0, "y": 20 } ]
+      "place_nested": [ { "chunks": [ "4x4_sidewalk" ], "x": 0, "y": 0 }, { "chunks": [ "4x4_sidewalk" ], "x": 0, "y": 20 } ]
     }
   },
   {
@@ -432,10 +448,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
-      "place_nested": [
-        { "chunks": [ "12x12_sidewalk_ew_half" ], "x": 12, "y": 0 },
-        { "chunks": [ "4x4_sidewalk_corner" ], "x": 20, "y": 20 }
-      ]
+      "place_nested": [ { "chunks": [ "12x12_sidewalk_ew_half" ], "x": 12, "y": 0 }, { "chunks": [ "4x4_sidewalk" ], "x": 20, "y": 20 } ]
     }
   },
   {
@@ -445,16 +458,16 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
-      "place_nested": [ { "chunks": [ "12x12_sidewalk_ew_half" ], "x": 0, "y": 0 }, { "chunks": [ "4x4_sidewalk_corner" ], "x": 0, "y": 20 } ]
+      "place_nested": [ { "chunks": [ "12x12_sidewalk_ew_half" ], "x": 0, "y": 0 }, { "chunks": [ "4x4_sidewalk" ], "x": 0, "y": 20 } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "4x4_sidewalk_corner",
+    "nested_mapgen_id": "4x4_sidewalk",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "rotation": [ 0, 3 ],
+      "rotation": [ 0 ],
       "rows": [
         "____",
         "____",
