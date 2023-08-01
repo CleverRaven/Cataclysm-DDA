@@ -1665,6 +1665,7 @@ void Item_factory::init()
     add_iuse( "ECIG", &iuse::ecig );
     add_iuse( "EHANDCUFFS", &iuse::ehandcuffs );
     add_iuse( "EHANDCUFFS_TICK", &iuse::ehandcuffs_tick );
+    add_iuse( "EPIC_MUSIC", &iuse::epic_music );
     add_iuse( "EINKTABLETPC", &iuse::einktabletpc );
     add_iuse( "ELECTRICSTORAGE", &iuse::electricstorage );
     add_iuse( "EBOOKSAVE", &iuse::ebooksave );

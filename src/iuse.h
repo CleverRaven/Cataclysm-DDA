@@ -108,6 +108,7 @@ std::optional<int> e_combatsaw_off( Character *, item *, bool, const tripoint & 
 std::optional<int> e_combatsaw_on( Character *, item *, bool, const tripoint & );
 std::optional<int> ehandcuffs( Character *, item *, bool, const tripoint & );
 std::optional<int> ehandcuffs_tick( Character *, item *, bool, const tripoint & );
+std::optional<int> epic_music( Character *, item *, bool, const tripoint & );
 std::optional<int> einktabletpc( Character *, item *, bool, const tripoint & );
 std::optional<int> elec_chainsaw_off( Character *, item *, bool, const tripoint & );
 std::optional<int> elec_chainsaw_on( Character *, item *, bool, const tripoint & );
@@ -231,7 +232,7 @@ std::optional<int> disassemble( Character *, item *, bool, const tripoint & );
 
 // Helper functions for other iuse functions
 void cut_log_into_planks( Character & );
-void play_music( Character &p, const tripoint &source, int volume, int max_morale );
+void play_music( Character *p, const tripoint &source, int volume, int max_morale );
 int towel_common( Character *, item *, bool );
 
 // Helper for validating a potential target of robot control

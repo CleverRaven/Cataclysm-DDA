@@ -218,6 +218,7 @@
         "charge_rate": "10 W"
       }
     ],
+    "tick_action": [ "EPIC_MUSIC" ],
     "//": "LIGHT_10 is the bare minimum for reading without penalties",
     "flags": [ "LIGHT_10", "TRADER_AVOID", "WATCH", "WATER_BREAK", "ELECTRONIC" ]
   },
@@ -437,6 +438,7 @@
         "charge_rate": "140 W"
       }
     ],
+    "tick_action": [ "EPIC_MUSIC" ],
     "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -689,6 +691,7 @@
         "charge_rate": "20 W"
       }
     ],
+    "tick_action": [ "EPIC_MUSIC" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
   },
   {

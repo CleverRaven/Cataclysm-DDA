@@ -3983,13 +3983,14 @@ static std::string get_music_description()
     return _( "a sweet guitar solo!" );
 }
 
-void iuse::play_music( Character &p, const tripoint &source, const int volume,
+void iuse::play_music( Character *p, const tripoint &source, const int volume,
                        const int max_morale )
 {
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
-    const bool do_effects = p.can_hear( source, volume ) && !p.in_sleep_state();
+    const bool do_effects = p && p->can_hear( source, volume ) && !p->in_sleep_state();
     std::string sound = "music";
+
     if( calendar::once_every( time_duration::from_minutes(
                                   get_option<int>( "DESCRIBE_MUSIC_FREQUENCY" ) ) ) ) {
         // Every X minutes, describe the music
@@ -3997,21 +3998,22 @@ void iuse::play_music( Character &p, const tripoint &source, const int volume,
         if( !music.empty() ) {
             sound = music;
             // descriptions aren't printed for sounds at our position
-            if( p.pos() == source && do_effects ) {
-                p.add_msg_if_player( _( "You listen to %s" ), music );
+            if( do_effects && p->pos() == source ) {
+                p->add_msg_if_player( _( "You listen to %s" ), music );
             }
         }
     }
-    // do not process mp3 player
+
     if( volume != 0 ) {
         sounds::ambient_sound( source, volume, sounds::sound_t::music, sound );
     }
+
     if( do_effects ) {
-        p.add_effect( effect_music, 1_turns );
-        p.add_morale( MORALE_MUSIC, 1, max_morale, 5_minutes, 2_minutes, true );
+        p->add_effect( effect_music, 1_turns );
+        p->add_morale( MORALE_MUSIC, 1, max_morale, 5_minutes, 2_minutes, true );
         // mp3 player reduces hearing
         if( volume == 0 ) {
-            p.add_effect( effect_earphones, 1_turns );
+            p->add_effect( effect_earphones, 1_turns );
         }
     }
 }
@@ -4021,7 +4023,7 @@ std::optional<int> iuse::mp3_on( Character *p, item *it, bool t, const tripoint 
     if( t ) { // Normal use
         if( p ) {
             // mp3 player in inventory, we can listen
-            play_music( *p, pos, 0, 20 );
+            play_music( p, pos, 0, 20 );
             music::activate_music_id( music::music_id::mp3 );
         }
     } else { // Turning it off
@@ -5682,21 +5684,25 @@ void item::extended_photo_def::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::epic_music( Character *p, item *it, bool, const tripoint &pos )
 {
-    if( t ) {
-        if( !it->get_var( "EIPC_MUSIC_ON" ).empty() &&
-            it->ammo_sufficient( p ) ) {
-            if( calendar::once_every( 5_minutes ) ) {
-                it->ammo_consume( 1, p->pos(), p );
-            }
-
-            //the more varied music, the better max mood.
-            const int songs = it->get_var( "EIPC_MUSIC", 0 );
-            play_music( *p, pos, 8, std::min( 25, songs ) );
+    if( !it->get_var( "EIPC_MUSIC_ON" ).empty() &&
+        it->ammo_sufficient( p ) ) {
+        if( calendar::once_every( 5_minutes ) ) {
+            it->ammo_consume( 1, pos, p );
         }
-        return std::nullopt;
-    } else if( p->cant_do_mounted() ) {
+
+        //the more varied music, the better max mood.
+        const int songs = it->get_var( "EIPC_MUSIC", 0 );
+        play_music( p, pos, 8, std::min( 25, songs ) );
+    }
+    return std::nullopt;
+}
+
+std::optional<int> iuse::einktabletpc( Character *p, item *it, bool, const tripoint &pos )
+{
+
+    if( p->cant_do_mounted() ) {
         return std::nullopt;
     } else if( !p->is_npc() ) {
 

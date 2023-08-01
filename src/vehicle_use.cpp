@@ -950,7 +950,7 @@ void vehicle::play_music() const
 {
     Character &player_character = get_player_character();
     for( const vpart_reference &vp : get_enabled_parts( "STEREO" ) ) {
-        iuse::play_music( player_character, vp.pos(), 15, 30 );
+        iuse::play_music( &player_character, vp.pos(), 15, 30 );
     }
 }
 

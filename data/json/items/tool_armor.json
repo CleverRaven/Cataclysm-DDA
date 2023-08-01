@@ -1068,6 +1068,7 @@
     "ammo": "battery",
     "charges_per_use": 1,
     "use_action": [ "CAMERA", "PORTABLE_GAME", "EINKTABLETPC", "ELECTRICSTORAGE", "EBOOKSAVE", "EBOOKREAD" ],
+    "tick_action": [ "EPIC_MUSIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
