@@ -18,7 +18,8 @@
     ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "chem_ethanol", 1 ] ], [ [ "aspirin", 1 ] ], [ [ "faewild", 1 ] ] ]
+    "components": [ [ [ "chem_ethanol", 1 ] ], [ [ "aspirin", 1 ] ], [ [ "faewild", 1 ] ] ],
+    "charges": 20
   },
   {
     "type": "recipe",
@@ -131,7 +132,8 @@
       [ [ "oxy_powder", 100 ] ],
       [ [ "scrap_dreamdross", 5 ] ],
       [ [ "lotus_blossom", 2 ] ]
-    ]
+    ],
+    "charges": 5
   },
   {
     "type": "recipe",

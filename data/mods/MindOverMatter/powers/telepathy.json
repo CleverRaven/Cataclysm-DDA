@@ -209,7 +209,7 @@
     "effect": "attack",
     "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
-    "damage_type": "biological",
+    "damage_type": "psi_telepathic_damage",
     "min_damage": 25,
     "max_damage": 120,
     "damage_increment": 1,
@@ -240,6 +240,7 @@
     "effect": "charm_monster",
     "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
     "shape": "blast",
+    "damage_type": "psi_telepathic_damage",
     "min_damage": {
       "math": [ "( (u_val('spell_level', 'spell: telepathic_mind_control') * 4) + 30) * (scaling_factor(u_val('intelligence') ) )" ]
     },

@@ -208,7 +208,7 @@
       { "item": "mess_kit", "prob": 20 },
       [ "multitool", 10 ],
       [ "pockknife", 30 ],
-      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
+      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_15" },
       { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
       [ "rope_30", 20 ],
       [ "flint_steel", 10 ],
@@ -393,7 +393,7 @@
       { "item": "whistle_multitool" },
       { "item": "glowstick", "charges": 1400 },
       { "item": "handflare", "count": 4, "charges": 300 },
-      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": 15 },
+      { "group": "pur_tablets_bottle_plastic_small_15" },
       { "item": "pocket_survival" }
     ]
   },
@@ -408,7 +408,7 @@
       { "item": "whistle_multitool", "prob": 70 },
       { "item": "glowstick", "charges": 1400, "prob": 60 },
       { "item": "handflare", "count": [ 0, 4 ], "charges": 300 },
-      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": [ 0, 15 ] },
+      { "group": "pur_tablets_bottle_plastic_small_0_15" },
       { "item": "pocket_survival", "prob": 40 }
     ]
   },
@@ -451,7 +451,7 @@
     "container-item": "1st_aid_box",
     "items": [
       { "item": "medical_tape", "charges": 20 },
-      { "item": "aspirin", "charges": 10 },
+      { "group": "aspirin_bottle_plastic_pill_painkiller_10" },
       { "item": "disinfectant" },
       { "item": "saline" },
       { "item": "adhesive_bandages", "count": 6 },
@@ -480,7 +480,7 @@
     "container-item": "1st_aid_box",
     "items": [
       { "item": "medical_tape", "charges": [ 0, 20 ] },
-      { "item": "aspirin", "charges": [ 0, 10 ] },
+      { "group": "aspirin_bottle_plastic_pill_painkiller_0_10" },
       { "item": "disinfectant", "charges": [ 0, 5 ] },
       { "item": "saline", "prob": 60 },
       { "item": "adhesive_bandages", "count": [ 0, 6 ] },
@@ -512,11 +512,11 @@
     "items": [
       { "item": "medical_tape", "charges": 20 },
       { "item": "tourniquet_upper" },
-      { "item": "quikclot", "charges": 5 },
+      { "group": "quikclot_bag_plastic_5" },
       { "item": "bandages", "count": 9 },
       { "item": "medical_gauze", "count": 3 },
       { "item": "adhesive_bandages", "count": 3 },
-      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": [ 0, 3 ] },
+      { "group": "pur_tablets_bottle_plastic_small_0_3" },
       { "item": "gloves_medical" },
       { "item": "scissors_medical" }
     ]
@@ -529,11 +529,11 @@
     "items": [
       { "item": "medical_tape", "charges": [ 0, 20 ] },
       { "item": "tourniquet_upper", "prob": 20 },
-      { "item": "quikclot", "charges": [ 0, 5 ] },
+      { "group": "quikclot_bag_plastic_0_5" },
       { "item": "bandages", "count": [ 0, 9 ] },
       { "item": "medical_gauze", "count": [ 0, 3 ] },
       { "item": "adhesive_bandages", "count": [ 0, 3 ] },
-      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": [ 0, 3 ] },
+      { "group": "pur_tablets_bottle_plastic_small_0_3" },
       { "item": "gloves_medical", "prob": 50 },
       { "item": "scissors_medical", "prob": 30 }
     ]
@@ -597,7 +597,7 @@
       [ "multitool", 5 ],
       [ "pockknife", 50 ],
       [ "knife_folding", 30 ],
-      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 75, 100 ] },
+      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_75_100" },
       { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
       {
         "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 350, 400 ] } ],
@@ -844,7 +844,8 @@
       { "item": "cordless_impact_wrench", "prob": 30, "charges": [ 0, 500 ] },
       { "item": "circsaw_off", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "angle_grinder", "prob": 20, "charges": [ 0, 500 ] },
-      { "item": "masonrysaw_off", "prob": 50, "charges": [ 0, 450 ] }
+      { "item": "masonrysaw_off", "prob": 50, "charges": [ 0, 450 ] },
+      { "item": "electric_masonrysaw_off", "prob": 50, "charges": [ 0, 495 ] }
     ]
   },
   {
@@ -890,5 +891,69 @@
     "subtype": "distribution",
     "//": "Post-cataclysm makeshift fishing implements",
     "items": [ [ "fishing_rod_basic", 100 ], [ "fish_trap_basket", 100 ], [ "fishing_hook_bone", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "pur_tablets_bottle_plastic_small_15",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "pur_tablets", "count": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pur_tablets_bottle_plastic_small_0_15",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "pur_tablets", "count": [ 0, 15 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "aspirin_bottle_plastic_pill_painkiller_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_painkiller",
+    "entries": [ { "item": "aspirin", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "aspirin_bottle_plastic_pill_painkiller_0_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_painkiller",
+    "entries": [ { "item": "aspirin", "container-item": "null", "count": [ 0, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "quikclot_bag_plastic_5",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "quikclot", "container-item": "null", "count": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pur_tablets_bottle_plastic_small_0_3",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "pur_tablets", "count": [ 0, 3 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "quikclot_bag_plastic_0_5",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "quikclot", "container-item": "null", "count": [ 0, 5 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pur_tablets_bottle_plastic_small_75_100",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "pur_tablets", "count": [ 75, 100 ] } ]
   }
 ]

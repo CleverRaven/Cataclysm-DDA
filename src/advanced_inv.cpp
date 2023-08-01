@@ -643,19 +643,11 @@ struct advanced_inv_sorter {
                 }
                 break;
         }
-        // secondary sort by name
-        const std::string *n1;
-        const std::string *n2;
-        if( d1.name_without_prefix == d2.name_without_prefix ) {
-            //if names without prefix equal, compare full name
-            n1 = &d1.name;
-            n2 = &d2.name;
-        } else {
-            //else compare name without prefix
-            n1 = &d1.name_without_prefix;
-            n2 = &d2.name_without_prefix;
-        }
-        return localized_compare( *n1, *n2 );
+        // secondary sort by name and link length
+        auto const sort_key = []( advanced_inv_listitem const & d ) {
+            return std::make_tuple( d.name_without_prefix, d.name, d.items.front()->link_sort_key() );
+        };
+        return localized_compare( sort_key( d1 ), sort_key( d2 ) );
     }
 };
 

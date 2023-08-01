@@ -443,8 +443,7 @@
     "healthy": -2,
     "description": "A magical powder that can be scattered on growing crops and make them grow faster.",
     "material": [ "powder" ],
-    "volume": "2 L",
-    "charges": 60,
+    "volume": "33 ml",
     "category": "chems",
     "fun": -15
   },
