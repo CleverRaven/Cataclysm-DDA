@@ -5531,12 +5531,8 @@ bool iuse::robotcontrol_can_target( Character *p, const monster &m )
            && rl_dist( p->pos(), m.pos() ) <= 10;
 }
 
-std::optional<int> iuse::robotcontrol( Character *p, item *it, bool active, const tripoint & )
+std::optional<int> iuse::robotcontrol( Character *p, item *it, bool, const tripoint & )
 {
-    if( active ) {
-        // To avoid multi-usage conflicts.
-        return 0;
-    }
     if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( _( "The %s's batteries are dead." ), it->tname() );
         return std::nullopt;
