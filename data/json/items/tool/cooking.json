@@ -296,16 +296,7 @@
     "flags": [ "WATER_BREAK" ],
     "charges_per_use": 25,
     "qualities": [ [ "BOIL", 1 ] ],
-    "use_action": [
-      "HOTPLATE",
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "1 kW"
-      }
-    ],
+    "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -331,7 +322,7 @@
     "color": "blue",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
-    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "600 W" },
+    "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "600 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -432,7 +423,7 @@
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
-    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "450 W" },
+    "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "450 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -511,16 +502,7 @@
     "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "charges_per_use": 35,
-    "use_action": [
-      "HOTPLATE",
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 3,
-        "charge_rate": "1 kW"
-      }
-    ],
+    "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 3, "charge_rate": "1 kW" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -549,16 +531,7 @@
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "ammo": [ "battery" ],
     "charges_per_use": 25,
-    "use_action": [
-      "HOTPLATE",
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 3,
-        "charge_rate": "1500 W"
-      }
-    ],
+    "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 3, "charge_rate": "1500 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -585,7 +558,7 @@
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 4, "charge_rate": "55 W" },
+    "use_action": { "type": "link_up", "cable_length": 4, "charge_rate": "55 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -692,17 +665,8 @@
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "power_draw": "100 W",
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": [
-      "MULTICOOKER",
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "1000 W"
-      }
-    ],
     "tick_action": "MULTICOOKER_TICK",
+    "use_action": [ "MULTICOOKER", { "type": "link_up", "cable_length": 2, "charge_rate": "1000 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -727,7 +691,7 @@
     "copy-from": "multi_cooker",
     "name": { "str": "multi-cooker - cooking", "str_pl": "multi-cookers - cooking" },
     "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  There is a dish cooking inside it.",
-    "delete": { "qualities": [ [ "CONTAIN", 1 ] ] }
+    "delete": { "qualities": [ "CONTAIN" ] }
   },
   {
     "id": "oil_cooker",
@@ -763,7 +727,7 @@
     "symbol": ";",
     "color": "green",
     "ammo": [ "battery" ],
-    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "1 kW" },
+    "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1021,7 +985,7 @@
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "use_action": { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "110 W" },
+    "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "110 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1067,16 +1031,7 @@
     "color": "light_blue",
     "ammo": [ "battery" ],
     "charges_per_use": 14,
-    "use_action": [
-      "WATER_PURIFIER",
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "30 W"
-      }
-    ],
+    "use_action": [ "WATER_PURIFIER", { "type": "link_up", "cable_length": 2, "charge_rate": "30 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
@@ -1144,17 +1099,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "11339 g",
     "volume": "9 L",
-    "use_action": [
-      "HOTPLATE",
-      "HEAT_FOOD",
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "1800 W"
-      }
-    ],
+    "use_action": [ "HOTPLATE", "HEAT_FOOD", { "type": "link_up", "cable_length": 2, "charge_rate": "1800 W" } ],
     "qualities": [ [ "COOK", 1 ], [ "OVEN", 1 ] ],
     "flags": [ "WATER_BREAK" ],
     "charges_per_use": 25,

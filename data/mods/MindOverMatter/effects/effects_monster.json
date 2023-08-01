@@ -1,6 +1,59 @@
 [
   {
     "type": "effect_type",
+    "id": "psi_blind",
+    "name": [ "Blind" ],
+    "desc": [ "Range of Sight: 0.  You cannot see anything." ],
+    "removes_effects": [ "glare", "snow_glare", "darkness" ],
+    "apply_message": "You're blinded!",
+    "remove_message": "Your sight returns!",
+    "rating": "bad",
+    "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.0 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.2 }
+    ],
+    "immune_flags": [ "TEEPSHIELD" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "BLIND" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "psi_dazed",
+    "//": "Seperate id to change the apply message.",
+    "name": [ "Dazed" ],
+    "desc": [ "You're visibly shaken up, and are having a hard time focusing on what's going on around you." ],
+    "apply_message": "A roar fills your mind and you stagger!",
+    "rating": "bad",
+    "max_intensity": 10,
+    "max_duration": "10 m",
+    "int_add_val": 2,
+    "scaling_mods": { "speed_mod": [ -3 ] },
+    "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.5 },
+      { "limb_score": "reaction", "modifier": 0.35 },
+      { "limb_score": "vision", "modifier": 0.75 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "psi_deaf",
+    "name": [ "Deaf" ],
+    "desc": [ "You can't hear anything and your head aches from all the noise.  You can't converse with NPCs." ],
+    "apply_message": "Your ears ring!",
+    "remove_message": "You can hear again!",
+    "rating": "bad",
+    "max_intensity": 3,
+    "int_dur_factor": "300 s",
+    "base_mods": { "pain_min": [ 1 ], "pain_max_val": [ 10 ], "pain_chance": [ 250 ], "pain_chance_bot": [ 1000 ] },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.5 } ],
+    "immune_flags": [ "TEEPSHIELD" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_riftwalker_teleport",
     "name": [ "Dimensionally Unstable" ],
     "desc": [ "You feel like you're barely part of the world." ],

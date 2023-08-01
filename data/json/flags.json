@@ -1242,10 +1242,6 @@
     "type": "json_flag"
   },
   {
-    "id": "AUTO_DELETE_CABLE",
-    "type": "json_flag"
-  },
-  {
     "id": "CAMERA_PRO",
     "type": "json_flag"
   },
@@ -2169,6 +2165,16 @@
     "info": "This is meant for exosuit foot plating."
   },
   {
+    "id": "ROBOFAC_ROBOT_MEDIUM",
+    "type": "json_flag",
+    "info": "A medium drone sold by Hub 01."
+  },
+  {
+    "id": "ROBOFAC_ROBOT_SMALL",
+    "type": "json_flag",
+    "info": "A small drone sold by Hub 01."
+  },
+  {
     "id": "VOLTMETER",
     "type": "json_flag",
     "info": "This tool can test for voltage."
@@ -2278,5 +2284,17 @@
     "id": "USE_POWER_WHEN_HIT",
     "type": "json_flag",
     "info": "This armor <info>expends energy when hit</info>."
+  },
+  {
+    "id": "RAT",
+    "type": "json_flag"
+  },
+  {
+    "id": "MOUSE",
+    "type": "json_flag"
+  },
+  {
+    "id": "RABBIT",
+    "type": "json_flag"
   }
 ]

@@ -117,6 +117,7 @@ class monster : public Creature
         void try_reproduce();
         void try_biosignature();
         void refill_udders();
+        void digest_food();
         void spawn( const tripoint &p );
         void spawn( const tripoint_abs_ms &loc );
         std::vector<material_id> get_absorb_material() const;
@@ -329,6 +330,7 @@ class monster : public Creature
         bool is_on_ground() const override;
         bool is_warm() const override;
         bool in_species( const species_id &spec ) const override;
+        void respond_to_light( float light_level );
 
         bool has_weapon() const override;
         bool is_dead_state() const override; // check if we should be dead or not
@@ -528,6 +530,8 @@ class monster : public Creature
         int friendly = 0;
         int anger = 0;
         int morale = 0;
+        int stomach_size = 0;
+        int amount_eaten = 0;
         // Our faction (species, for most monsters)
         mfaction_id faction;
         // If we're related to a mission
@@ -610,6 +614,7 @@ class monster : public Creature
         bool biosignatures = false;
         std::optional<time_point> biosig_timer;
         time_point udder_timer;
+        time_point stomach_timer;
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;

@@ -216,7 +216,8 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "coffee_pod", 1 ] ] ]
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "coffee_pod", 1 ] ] ],
+    "charges": 5
   },
   {
     "type": "recipe",
@@ -518,7 +519,8 @@
     "qualities": [ { "id": "CHURN", "level": 1 } ],
     "book_learn": [ [ "dairy_book", 3 ] ],
     "//": "Book Things to do with milk.  Add curdled milk and cheese recipes to the book.  Also consider adding to brewing json Airag from this book.",
-    "components": [ [ [ "milk_cream", 5 ] ] ]
+    "components": [ [ [ "milk_cream", 5 ] ] ],
+    "charges": 33
   },
   {
     "type": "recipe",
@@ -536,7 +538,8 @@
     "book_learn": [ [ "dairy_book", 3 ] ],
     "//": "Book Things to do with milk.  Add curdled milk and cheese recipes to the book.  Also consider adding to brewing json Airag from this book.",
     "tools": [ [ [ "jar_glass_sealed", -1 ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "milk_cream", 3 ] ] ]
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "milk_cream", 3 ] ] ],
+    "charges": 33
   },
   {
     "result": "offal_pickled",
@@ -606,7 +609,8 @@
       [ [ "batter", 3, "LIST" ] ],
       [ [ "salt", 1 ] ],
       [ [ "seasoning_mild", 4, "LIST" ] ]
-    ]
+    ],
+    "charges": 3
   },
   {
     "type": "recipe",
@@ -685,7 +689,8 @@
       [ [ "sweet_fruit_like", 8, "LIST" ] ],
       [ [ "sugar", 20 ], [ "syrup", 4 ], [ "beet_syrup", 4 ], [ "molasses", 4 ], [ "artificial_sweetener", 20 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
-    ]
+    ],
+    "charges": 8
   },
   {
     "type": "recipe",
@@ -751,7 +756,8 @@
     "book_learn": [ [ "cookbook", 1 ], [ "scots_cookbook", 2 ] ],
     "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 45, "LIST" ] ] ],
-    "components": [ [ [ "flour_any", 20, "LIST" ] ], [ [ "meat_offal", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "flour_any", 20, "LIST" ] ], [ [ "meat_offal", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "charges": 3
   },
   {
     "type": "recipe",

@@ -38,6 +38,9 @@ Expand grain farming and adjust seeds
 Creatures above cast shadows onto tiles below
 Apply different messages at different effect intensity levels
 Player character now can get sick with common cold or flu only after contacts with NPCs or ferals
+Generate vehicle prototypes from in-game vehicles
+In-game Armor sprite change
+Cockroaches flee light, hide under furniture, eat corpses, and breed faster when fed
 
 
 ## Content:
@@ -68,6 +71,8 @@ New location: speedway
 You can now choose a new leader for your faction without dying
 Adds new skateboard vehicle
 Most scenarios now provide vision of the nearest city on start
+Alternative resolution to clean back bay quest
+Add a synagogue
 
 
 ## Interface:
@@ -83,6 +88,9 @@ Display why vehicle parts cannot be installed
 Open multiple containers in Advanced Inventory Manager
 Adds the 'Mark as dangerous' keybinding to the overmap
 NPC selects melee style
+Add sundial, wind and radiation badge to "spacebar" sidebar
+fix widget error if player has no body part
+AIM: Add key to step outside containers; AIM: mark container that the other pane is looking inside
 
 
 ## Mods:
@@ -113,6 +121,9 @@ Bombastic Perks adds Playstyle Perks
 Disable the Bionic Professions mod by default
 Add the Mind Over Matter mod to the CDDA repository
 [Tamable Wildlife] More tamable creatures
+[MoM] Add additional portal storm remnant map extras
+[Sky Island] Mainline Sky Island mod
+[Magiclysm] Add a spell-using feral human to Magiclysm
 
 
 ## Balance:
@@ -138,6 +149,9 @@ Lycra is less protective
 BMI has a less all consuming impact on how healthy you are
 Being badly wounded will always allow you to swap characters in camp while you heal
 Intelligence provides a multiplier to current focus rather than adding to its value
+More monsters fight back if cornered
+Higher dodge skill lowers the stamina cost to dodge
+Adds a mutable stream to the mapgen
 
 
 ## Bugfixes:
@@ -193,6 +207,14 @@ Fix tow cables being unable to connect different vehicles
 Smashing now incorporates any MELEE_DAMAGE and STRENGTH enchantments
 'w'ield menu will now correctly trigger a steal warning when wielding an item that does not belong to player
 Allow crafting tools to use linked electricity
+Don't get randomly sick anymore
+Itemgroups can seal containers
+Spawned corpses should now spawn with and contain their clothes
+Can no longer get stuck for days thinking about working out if you're a WIMP with NEGATIVE WORKOUT TIME
+Prevent car from spawning into a house wall
+HP widgets gets equivalent bodypart
+Fix grainy glyphs in blended font rendering mode
+Stop dodging good spells, fix uncanny dodge spell crash
 
 
 ## Performance:
@@ -215,6 +237,8 @@ Allow C++ standard includes in clang-tidy tests
 Refactor timer items to be a bit more time based
 Support for material replacement in items
 Carrier for items on ground is nullptr
+Tick_action as a separate thing from use_action
+New documentation on how to test proposed changes
 
 
 ## Build:

@@ -835,6 +835,7 @@
       "CONTAINER",
       "SEALED",
       "ALLOW_FIELD_EFFECT",
+      "SMALL_HIDE",
       "SHORT",
       "RUBBLE"
     ],
@@ -861,6 +862,7 @@
       "SEALED",
       "ALLOW_FIELD_EFFECT",
       "SHORT",
+      "SMALL_HIDE",
       "RUBBLE"
     ],
     "examine_action": "rubble"
@@ -887,6 +889,7 @@
       "CONTAINER",
       "SEALED",
       "ALLOW_FIELD_EFFECT",
+      "SMALL_HIDE",
       "SHORT",
       "RUBBLE"
     ]
@@ -900,7 +903,7 @@
     "color": "light_gray",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "NOCOLLIDE", "CONTAINER", "SEALED", "PLACE_ITEM", "RUBBLE" ],
+    "flags": [ "TRANSPARENT", "NOCOLLIDE", "CONTAINER", "SEALED", "PLACE_ITEM", "RUBBLE", "SMALL_HIDE" ],
     "examine_action": "rubble"
   },
   {

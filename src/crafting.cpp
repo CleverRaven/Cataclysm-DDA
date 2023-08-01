@@ -134,7 +134,7 @@ static bool crafting_allowed( const Character &p, const recipe &rec )
 float Character::lighting_craft_speed_multiplier( const recipe &rec ) const
 {
     // negative is bright, 0 is just bright enough, positive is dark, +7.0f is pitch black
-    float darkness = fine_detail_vision_mod( this->pos() ) - 4.0f;
+    float darkness = fine_detail_vision_mod() - 4.0f;
     if( darkness <= 0.0f ) {
         return 1.0f; // it's bright, go for it
     }
@@ -1978,6 +1978,8 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     }
     for( item &it : ret ) {
         it.spill_contents( *this );
+        // todo: make a proper solution that overflows with the proper item_location
+        it.overflow( pos() );
     }
     empty_buckets( *this );
     return ret;

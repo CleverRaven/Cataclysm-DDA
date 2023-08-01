@@ -144,6 +144,7 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
     "tools": [ [ [ "surface_heat", 11, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
     "//": "7u heat to process the flour plus 4u to dry it out a bit",
     "components": [ [ [ "flour_any", 7, "LIST" ] ], [ [ "water_clean", 1 ] ] ]
@@ -158,6 +159,7 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
     "//": "5u heat to process the flour plus 3u to dry it out a bit",
     "components": [ [ [ "flour_any", 5, "LIST" ] ], [ [ "water_clean", 1 ] ] ]
@@ -172,6 +174,7 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
     "//": "5u heat to process the flour plus 3u to dry it out a bit",
     "components": [ [ [ "flour_any", 5, "LIST" ] ], [ [ "water_clean", 1 ] ] ]
@@ -186,6 +189,7 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
     "//": "5u heat to process the flour plus 3u to dry it out a bit",
     "components": [ [ [ "flour_any", 5, "LIST" ] ], [ [ "water_clean", 1 ] ] ]

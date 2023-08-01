@@ -2091,7 +2091,7 @@ drop_locations game_menus::inv::smoke_food( Character &you, units::volume total_
     ( const std::vector<std::pair<item_location, int>> &locs ) {
         units::volume added_volume = 0_ml;
         for( std::pair<item_location, int> loc : locs ) {
-            added_volume += loc.first->volume() * loc.second / loc.first->charges;
+            added_volume += loc.first->volume() * loc.second / loc.first->count();
         }
         std::string volume_caption = string_format( _( "Volume (%s):" ), volume_units_abbr() );
         return inventory_selector::stats{

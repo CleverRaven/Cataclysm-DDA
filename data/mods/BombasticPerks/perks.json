@@ -292,6 +292,15 @@
   },
   {
     "type": "mutation",
+    "id": "perk_long_shot",
+    "name": { "str": "Long shot" },
+    "points": 0,
+    "description": "You always ate your carrots, that good eyesight is paying off.  You can use ranged weapons effectively up to 4 more tiles away.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RANGE", "add": 4 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_crafty_hands",
     "name": { "str": "Crafty hands" },
     "points": 0,

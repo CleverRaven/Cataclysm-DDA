@@ -15,11 +15,11 @@
       [ "mutagen", 8 ],
       [ "mutagen_chelator", 7 ],
       [ "purifier", 5 ],
-      { "item": "iodine", "prob": 5, "charges": [ 1, 10 ] },
-      { "item": "prussian_blue", "prob": 5, "charges": [ 1, 10 ] },
+      { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
+      { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
       { "item": "inhaler", "prob": 14, "charges-min": 10, "charges-max": 100 },
       [ "eyedrops", 20 ],
-      { "item": "adderall", "prob": 10, "charges": [ 1, 10 ] },
+      { "prob": 10, "group": "adderall_bottle_plastic_pill_prescription_1_10" },
       { "group": "wallets_science", "prob": 2 },
       { "item": "chem_ethanol", "prob": 10, "charges-min": 250 },
       [ "badge_doctor", 2 ],
@@ -98,13 +98,13 @@
       { "item": "oxy_powder", "prob": 8, "charges": [ 100, 200 ] },
       [ "fungicide", 10 ],
       [ "insecticide", 10 ],
-      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
+      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_15" },
       [ "optical_cloak", 1 ],
       [ "holo_cloak", 1 ],
-      { "item": "antiparasitic", "prob": 2, "charges": [ 1, 10 ] },
+      { "prob": 2, "group": "antiparasitic_bottle_plastic_pill_prescription_1_10" },
       [ "survnote", 1 ],
       { "group": "tools_toolbox", "prob": 1 },
-      { "item": "diazepam", "prob": 1, "charges": [ 1, 10 ] },
+      { "prob": 1, "group": "diazepam_bottle_plastic_pill_prescription_1_10" },
       [ "magnifying_glass", 1 ],
       [ "material_quicklime", 10 ],
       [ "tin", 5 ],
@@ -125,7 +125,7 @@
       { "item": "butane_tank", "prob": 15, "charges-min": 15000 },
       { "item": "vac_oven_small", "prob": 5 },
       { "item": "butane_can", "prob": 2, "charges-min": 300 },
-      { "item": "chem_citric_acid", "prob": 16 }
+      { "prob": 16, "group": "chem_citric_acid_bottle_glass_50" }
     ]
   },
   {
@@ -134,12 +134,9 @@
     "items": [
       [ "schematics_nursebot", 10 ],
       [ "schematics_grocerybot", 20 ],
-      [ "schematics_copbot", 50 ],
-      [ "schematics_eyebot", 50 ],
       [ "schematics_secubot", 50 ],
       [ "schematics_skitterbot", 50 ],
       [ "schematics_hazmatbot", 50 ],
-      [ "schematics_riotbot", 50 ],
       [ "schematics_sciencebot", 10 ],
       [ "schematics_molebot", 20 ],
       [ "schematics_dispatch", 25 ],
@@ -156,8 +153,8 @@
     "items": [
       { "group": "supplies_reagents_lab", "prob": 60 },
       { "item": "ether", "prob": 5, "charges-min": 100 },
-      { "item": "iodine", "prob": 5, "charges": [ 1, 10 ] },
-      { "item": "prussian_blue", "prob": 5, "charges": [ 1, 10 ] },
+      { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
+      { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
       [ "adv_chemistry", 4 ],
       [ "decoy_elfa", 6 ],
       [ "file", 10 ],
@@ -198,7 +195,7 @@
       [ "apron_plastic", 20 ],
       [ "apron_cotton", 2 ],
       [ "apron_leather", 2 ],
-      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 5, "charges": [ 1, 15 ] },
+      { "prob": 5, "group": "pur_tablets_bottle_plastic_small_1_15" },
       { "item": "lye_powder", "prob": 10, "charges": [ 100, 200 ] },
       { "item": "oxy_powder", "prob": 12, "charges": [ 100, 200 ] },
       { "item": "magnesium", "prob": 12, "charges": [ 50, 100 ] },
@@ -210,7 +207,7 @@
       [ "thermometer", 3 ],
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
-      { "item": "chem_sulphur", "prob": 10, "charges-min": 100 },
+      { "prob": 10, "group": "chem_sulphur_bottle_plastic_small_100_inf" },
       [ "chem_aluminium_powder", 10 ],
       [ "chem_hexamine", 10 ],
       [ "chem_saltpetre", 15 ],
@@ -222,7 +219,7 @@
       { "item": "chem_chromium_oxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
-      { "item": "chem_citric_acid", "prob": 16, "charges-min": 100 },
+      { "prob": 16, "group": "chem_citric_acid_bottle_glass_100_inf" },
       { "item": "denat_alcohol", "prob": 6, "charges-min": 250 },
       { "item": "methed_alcohol", "prob": 4, "charges-min": 250 },
       { "item": "red_phosphorous", "prob": 10 },
@@ -420,7 +417,7 @@
       [ "software_electronics_reference", 2 ],
       [ "recipe_lab_cvd", 8 ],
       [ "teleporter", 10 ],
-      { "item": "antiparasitic", "prob": 5, "charges": [ 1, 10 ] },
+      { "prob": 5, "group": "antiparasitic_bottle_plastic_pill_prescription_1_10" },
       [ "usb_drive", 5 ]
     ]
   },
@@ -457,8 +454,8 @@
     "items": [
       [ "blood", 20 ],
       { "item": "saline", "prob": 20, "container-item": "bag_iv" },
-      { "item": "iodine", "prob": 5, "charges": [ 1, 10 ] },
-      { "item": "prussian_blue", "prob": 5, "charges": [ 1, 10 ] },
+      { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
+      { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
       [ "autoclave", 5 ],
       { "item": "bandages", "prob": 50, "count": [ 1, 3 ] },
       { "group": "adhesive_bandages_box_used", "prob": 20 },
@@ -481,7 +478,7 @@
       { "item": "oxygen_tank", "prob": 50, "charges": [ 0, 24 ] },
       { "item": "smoxygen_tank", "prob": 25, "charges": [ 0, 12 ] },
       [ "bfipowder", 15 ],
-      { "item": "quikclot", "prob": 10, "charges": [ 1, 6 ] },
+      { "prob": 10, "group": "quikclot_bag_plastic_1_6" },
       [ "anesthetic", 20 ],
       { "item": "rocuronium", "prob": 10, "count-min": 2, "count-max": 8 },
       { "item": "anesthetic_kit", "prob": 10, "charges-min": 0 }
@@ -504,8 +501,8 @@
     "id": "dissection",
     "items": [
       { "group": "supplies_reagents_lab", "prob": 20 },
-      { "item": "iodine", "prob": 5, "charges": [ 1, 10 ] },
-      { "item": "prussian_blue", "prob": 5, "charges": [ 1, 10 ] },
+      { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
+      { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
       [ "textbook_firstaid", 2 ],
       [ "emergency_book", 1 ],
       [ "recipe_creepy", 2 ],
@@ -543,5 +540,45 @@
       [ "beaker", 10 ],
       [ "test_tube", 10 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "adderall_bottle_plastic_pill_prescription_1_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "adderall", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "antiparasitic_bottle_plastic_pill_prescription_1_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "antiparasitic", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "diazepam_bottle_plastic_pill_prescription_1_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "diazepam", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chem_sulphur_bottle_plastic_small_100_inf",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "chem_sulphur", "container-item": "null", "count-min": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chem_citric_acid_bottle_glass_100_inf",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_glass",
+    "entries": [ { "item": "chem_citric_acid", "container-item": "null", "count-min": 100 } ]
   }
 ]

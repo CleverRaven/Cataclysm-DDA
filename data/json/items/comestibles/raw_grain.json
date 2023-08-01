@@ -37,7 +37,7 @@
     "smoking_result": "dry_corn",
     "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
     "petfood": [ "CATTLEFOOD" ],
-    "flags": [ "EDIBLE_FROZEN", "EATEN_HOT", "SMOKABLE", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
+    "flags": [ "EDIBLE_FROZEN", "EATEN_HOT", "SMOKABLE", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "BIRD", "RAT", "MOUSE" ],
     "seed_data": { "plant_name": "corn", "fruit": "corn", "seeds": false, "byproducts": [ "withered" ], "grow": "80 days" }
   },
   {
@@ -75,7 +75,7 @@
     "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
     "smoking_result": "kernels",
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [ "NUTRIENT_OVERRIDE", "EATEN_HOT", "SMOKABLE", "RAW", "PLANTABLE_SEED", "CATTLE" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "EATEN_HOT", "SMOKABLE", "RAW", "PLANTABLE_SEED", "CATTLE", "BIRD", "RAT", "MOUSE" ],
     "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_raw", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
@@ -93,10 +93,9 @@
     "price_postapoc": 400,
     "material": [ "junk" ],
     "volume": "250 ml",
-    "charges": 8,
     "fun": -6,
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [ "NUTRIENT_OVERRIDE", "EDIBLE_FROZEN", "PLANTABLE_SEED", "INEDIBLE", "CATTLE" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "EDIBLE_FROZEN", "PLANTABLE_SEED", "INEDIBLE", "CATTLE", "BIRD", "RAT", "MOUSE" ],
     "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_raw", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
@@ -115,8 +114,7 @@
     "price": 115,
     "price_postapoc": 25,
     "material": [ "veggy" ],
-    "volume": "1 L",
-    "charges": 4,
+    "volume": "62 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
     "vitamins": [ [ "iron", 2 ] ]
@@ -193,7 +191,7 @@
     "symbol": ",",
     "quench": -10,
     "calories": 677,
-    "flags": [ "INEDIBLE", "CATTLE" ],
+    "flags": [ "INEDIBLE", "CATTLE", "BIRD", "RAT", "MOUSE" ],
     "petfood": [ "CATTLEFOOD" ],
     "description": "Wheat with the chaff still mixed in.  It will have to be winnowed before it's usable.",
     "price": 25,
@@ -213,7 +211,7 @@
     "symbol": ",",
     "quench": -1,
     "calories": 10,
-    "flags": [ "INEDIBLE", "CATTLE" ],
+    "flags": [ "INEDIBLE", "CATTLE", "BIRD" ],
     "description": "Loose bits of dried straw and seed casings from winnowed grain.  There are a few fragments of seeds still mixed in, a big enough pile of this stuff could be made into bird food or cattle fodder.",
     "price": 0,
     "price_postapoc": 0,
@@ -238,7 +236,7 @@
     "volume": "250 ml",
     "vitamins": [ [ "calcium", 4 ], [ "iron", 40 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
     "seed_data": { "plant_name": "wheat", "fruit": "wheat_stalks", "seeds": false, "grow": "120 days" }
   },
   {
@@ -280,12 +278,11 @@
     "price": 20,
     "price_postapoc": 250,
     "material": [ "veggy" ],
-    "volume": "1 L",
+    "volume": "250 ml",
     "milling": { "into": "flour", "conversion_rate": 15 },
-    "charges": 4,
     "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
     "seed_data": { "plant_name": "barley", "fruit": "barley_stalks", "seeds": false, "grow": "70 days" }
   },
   {
@@ -339,7 +336,18 @@
     "milling": { "into": "flour_wheat_free", "conversion_rate": 3.75 },
     "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "NUTRIENT_OVERRIDE", "PLANTABLE_SEED", "CUT_HARVEST" ],
+    "flags": [
+      "EDIBLE_FROZEN",
+      "RAW",
+      "INEDIBLE",
+      "CATTLE",
+      "NUTRIENT_OVERRIDE",
+      "PLANTABLE_SEED",
+      "CUT_HARVEST",
+      "BIRD",
+      "RAT",
+      "MOUSE"
+    ],
     "seed_data": { "plant_name": "oats", "fruit": "oat_stalks", "seeds": false, "grow": "65 days" }
   },
   {
@@ -375,7 +383,7 @@
     "milling": { "into": "dry_wild_rice", "conversion_rate": 5 },
     "fun": -20,
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
     "seed_data": { "plant_name": "wild rice", "fruit": "wild_rice_stalks", "seeds": false, "grow": "91 days" }
   },
   {
@@ -392,12 +400,11 @@
     "price": 90,
     "price_postapoc": 400,
     "material": [ "veggy" ],
-    "volume": "500 ml",
+    "volume": "250 ml",
     "milling": { "into": "flour_wheat_free", "conversion_rate": 15 },
-    "charges": 2,
     "vitamins": [ [ "calcium", 3 ], [ "iron", 22 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
     "seed_data": { "plant_name": "buckwheat", "fruit": "buckwheat_stalks", "seeds": false, "grow": "91 days" }
   },
   {
@@ -458,7 +465,18 @@
     "volume": "250 ml",
     "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "NUTRIENT_OVERRIDE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST" ],
+    "flags": [
+      "EDIBLE_FROZEN",
+      "RAW",
+      "INEDIBLE",
+      "NUTRIENT_OVERRIDE",
+      "CATTLE",
+      "PLANTABLE_SEED",
+      "CUT_HARVEST",
+      "BIRD",
+      "RAT",
+      "MOUSE"
+    ],
     "seed_data": { "plant_name": "canola", "fruit": "canola_stalks", "seeds": false, "grow": "91 days" },
     "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
   },
@@ -503,11 +521,10 @@
     "price": 20,
     "price_postapoc": 150,
     "material": [ "veggy" ],
-    "volume": "250 ml",
-    "charges": 2,
+    "volume": "125 ml",
     "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
-    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "NUTRIENT_OVERRIDE", "CATTLE", "PLANTABLE_SEED" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "NUTRIENT_OVERRIDE", "CATTLE", "PLANTABLE_SEED", "BIRD", "RAT", "MOUSE" ],
     "seed_data": { "plant_name": "lentils", "fruit": "dry_lentil_stalks", "seeds": false, "grow": "91 days" }
   },
   {
@@ -559,7 +576,7 @@
     "symbol": ",",
     "quench": -10,
     "calories": 677,
-    "flags": [ "INEDIBLE", "CATTLE" ],
+    "flags": [ "INEDIBLE", "CATTLE", "BIRD", "RAT", "MOUSE" ],
     "petfood": [ "CATTLEFOOD" ],
     "description": "A pile of buckwheat seeds with some chaff still mixed in.  Once it's winnowed, it'll be ready for use.",
     "price": 25,

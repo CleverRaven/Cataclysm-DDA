@@ -31,7 +31,7 @@ const std::unordered_set<std::string> simple_string_conds = { {
     }
 };
 const std::unordered_set<std::string> complex_conds = { {
-        "u_has_any_trait", "npc_has_any_trait", "u_has_trait", "npc_has_trait",
+        "u_has_any_trait", "npc_has_any_trait", "u_has_trait", "npc_has_trait", "u_has_visible_trait", "npc_has_visible_trait",
         "u_has_flag", "npc_has_flag", "u_has_species", "npc_has_species", "u_bodytype", "npc_bodytype", "npc_has_class", "u_has_mission", "u_monsters_in_direction", "u_safe_mode_trigger",
         "u_has_strength", "npc_has_strength", "u_has_dexterity", "npc_has_dexterity",
         "u_has_intelligence", "npc_has_intelligence", "u_has_perception", "npc_has_perception",
@@ -57,6 +57,8 @@ const std::unordered_set<std::string> complex_conds = { {
 
 str_or_var get_str_or_var( const JsonValue &jv, const std::string &member, bool required = true,
                            const std::string &default_val = "" );
+translation_or_var get_translation_or_var( const JsonValue &jv, const std::string &member,
+        bool required = true, const translation &default_val = {} );
 dbl_or_var get_dbl_or_var( const JsonObject &jo, const std::string &member, bool required = true,
                            double default_val = 0.0 );
 dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, const std::string &member,
@@ -102,6 +104,7 @@ struct conditional_t {
 
         void set_has_any_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_visible_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_martial_art( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_species( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -204,6 +207,7 @@ struct conditional_t {
         void set_compare_num( const JsonObject &jo, std::string_view member );
         void set_math( const JsonObject &jo, std::string_view member );
         static std::function<std::string( const dialogue & )> get_get_string( const JsonObject &jo );
+        static std::function<translation( const dialogue & )> get_get_translation( const JsonObject &jo );
         template<class J>
         static std::function<double( dialogue & )> get_get_dbl( J const &jo );
         static std::function<double( dialogue & )> get_get_dbl( const std::string &value,

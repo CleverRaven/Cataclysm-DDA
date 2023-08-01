@@ -83,6 +83,11 @@ int talker_character_const::get_cur_hp( const bodypart_id &bp ) const
     return me_chr_const->get_hp( bp );
 }
 
+int talker_character_const::get_hp_max( const bodypart_id &bp ) const
+{
+    return me_chr_const->get_hp_max( bp );
+}
+
 int talker_character_const::get_cur_part_temp( const bodypart_id &bp ) const
 {
     return me_chr_const->get_part_temp_conv( bp );
@@ -940,6 +945,11 @@ int talker_character::get_part_hp_max( const bodypart_id &id ) const
 void talker_character::set_part_hp_cur( const bodypart_id &id, int set ) const
 {
     me_chr->set_part_hp_cur( id, set );
+}
+
+void talker_character::set_all_parts_hp_cur( int set ) const
+{
+    me_chr->set_all_parts_hp_cur( set );
 }
 
 bool talker_character::get_is_alive() const

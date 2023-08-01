@@ -842,10 +842,11 @@ Example:
 "signs": { "P": { "signage": "Subway map: <city> stop" } }
 ```
 
-| Field   | Description
-| ---     | ---
-| signage | (optional, string) the message that should appear on the sign.
-| snippet | (optional, string) a category of snippets that can appear on the sign.
+| Field     | Description
+| ---       | ---
+| signage   | (optional, string) the message that should appear on the sign.
+| snippet   | (optional, string) a category of snippets that can appear on the sign.
+| furniture | (optional, string) the furniture used to display the message, defaults to f_sign.  Furniture used needs the SIGN flag and the sign examine_action if you want the message to popup on examine (still displays in look around otherwise).
 
 
 ### Place a vending machine and items with "vendingmachines"
@@ -1149,6 +1150,7 @@ Place_nested allows for limited conditional spawning of chunks based on the `"id
 | neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.  See [JSON_INFO.md](JSON_INFO.md#Starting-locations) "terrain" section to do more advanced searches.
 | joins              | (optional) Any mutable overmap special joins that should be checked before placing the chunk.  Each direction is associated with a list of join `"id"` strings.
 | flags              | (optional) Any overmap terrain flags that should be checked before placing the chunk.  Each direction is associated with a list of `oter_flags` flags.
+| flags_any          | (optional) Identical to flags except only requires a single direction to pass.  Useful to check if there's at least one of a flag in cardinal or orthoganal directions etc.
 
 
 The adjacent overmaps which can be checked in this manner are:
@@ -1162,17 +1164,19 @@ Example:
 
 ```json
   "place_nested": [
-    { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
-    { "chunks": [ "gate_south" ], "x": 0, "y": 0, "neighbors": { "north": [ { "om_terrain": "fort", "om_terrain_match_type": "PREFIX" }, "mansion" ] } },
-    { "chunks": [ "gate_north" ], "x": 0, "y": 0, "joins": { "north": [ "interior_to_exterior" ] } },
-    { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "flags": { "north_west": [ "RIVER", "LAKE", "LAKE_SHORE" ] } }
+    { "chunks": [ "nest1" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
+    { "chunks": [ "nest2" ], "x": 0, "y": 0, "neighbors": { "north": [ { "om_terrain": "fort", "om_terrain_match_type": "PREFIX" }, "mansion" ] } },
+    { "chunks": [ "nest3" ], "x": 0, "y": 0, "joins": { "north": [ "interior_to_exterior" ] } },
+    { "chunks": [ "nest4" ], "x": 0, "y": 0, "flags": { "north": [ "RIVER" ] }, "flags_any": { "north_east": [ "RIVER" ], "north_west": [ "RIVER" ] } },
+    { "else_chunks": [ "nest5" ], "x": 0, "y": 0, "flags": { "north_west": [ "RIVER", "LAKE", "LAKE_SHORE" ] } }
   ],
 ```
 The code excerpt above will place chunks as follows:
-* `"concrete_wall_ew"` if the north neighbor's om terrain contains `"field"` or `"empty_rock"`.
-* `"gate_south"` if the north neighbor has the prefix `"fort"` or contains `"mansion"`, so for example "fort_1a_north" and "mansion_t2u" would match but "house_fortified" wouldn't.
-* `"gate_north"` if the join `"interior_to_exterior"` was used to the north during mutable overmap placement.
-* `"concrete_wall_ns"`if the north west neighboring overmap terrain has neither the "RIVER", "LAKE" nor "LAKE_SHORE" flags.
+* `"nest1"` if the north neighbor's om terrain contains `"field"` or `"empty_rock"`.
+* `"nest2"` if the north neighbor has the prefix `"fort"` or contains `"mansion"`, so for example `"fort_1a_north"` and `"mansion_t2u"` would match but `"house_fortified"` wouldn't.
+* `"nest3"` if the join `"interior_to_exterior"` was used to the north during mutable overmap placement.
+* `"nest4"` if the north neighboring overmap terrain has a flag `"RIVER"` and either of the north east or north west neighboring overmap terrains have a `"RIVER"` flag.
+* `"nest5"` if the north west neighboring overmap terrain has neither the `"RIVER"`, `"LAKE"` nor `"LAKE_SHORE"` flags.
 
 
 ### Place monster corpse from a monster group with "place_corpses"
