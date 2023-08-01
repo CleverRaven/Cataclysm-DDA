@@ -228,6 +228,31 @@
     "flags": [ "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
+    "abstract": "mon_fry_mutant",
+    "type": "MONSTER",
+    "name": { "str_sp": "mutant fish fry" },
+    "//": "a default fish type - does not appear in-game",
+    "description": "A half-translucent fish larva… though this one is far larger than the usual.  Impossible to identify which species it belongs to but you can safely tell that it is going to outgrow normal fish you're used to seeing.",
+    "default_faction": "fish",
+    "bodytype": "fish",
+    "species": [ "FISH" ],
+    "volume": "300 ml",
+    "weight": "275 g",
+    "hp": 3,
+    "speed": 150,
+    "dodge": 10,
+    "material": [ "flesh" ],
+    "symbol": "f",
+    "color": "white",
+    "aggression": -60,
+    "morale": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
+    "flags": [ "SEES", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+  },
+  {
     "id": "mon_fish_brown_trout",
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
@@ -1232,6 +1257,13 @@
     "baby_flags": [ "AUTUMN" ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
+  },
+  {
+    "id": "mon_fry_mutant_salmon",
+    "type": "MONSTER",
+    "copy-from": "mon_fry_mutant",
+    "default_faction": "mutant",
+    "upgrades": { "age_grow": 45, "into": "mon_mutant_salmon_huge" }
   },
   {
     "id": "mon_mutant_salmon_mega",
