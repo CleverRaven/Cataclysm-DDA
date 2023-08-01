@@ -4016,7 +4016,7 @@ void iuse::play_music( Character *p, const tripoint &source, const int volume,
     }
 }
 
-std::optional<int> iuse::mp3_on( Character *p, item *it, const tripoint &pos )
+std::optional<int> iuse::mp3_on( Character *p, item *, const tripoint &pos )
 {
     if( p ) {
         // mp3 player in inventory, we can listen
@@ -4026,7 +4026,7 @@ std::optional<int> iuse::mp3_on( Character *p, item *it, const tripoint &pos )
     return 1;
 }
 
-std::optional<int> iuse::mp3_deactivate( Character *p, item *it, const tripoint &pos )
+std::optional<int> iuse::mp3_deactivate( Character *p, item *it, const tripoint & )
 {
 
     if( it->typeId() == itype_mp3_on ) {
