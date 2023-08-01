@@ -803,27 +803,31 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_ab
 std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_abs_ms &where,
         int radius, bool npc_search, const faction_id &fac ) const
 {
+    map &here = get_map();
+    tripoint where_local = here.getlocal( where );
     auto const check = [&where, radius, npc_search, &fac]( const zone_data & z ) {
         zone_type_id type = z.get_type();
         return z.get_faction() == fac && type.str().substr( 0, 4 ) == "LOOT" &&
                ( npc_search && type != zone_type_NO_NPC_PICKUP ) &&
                square_dist( where, z.get_nearest_point( where ) ) <= radius;
     };
-
     std::unordered_set<tripoint> res;
     for( const zone_data &z : zones ) {
         if( check( z ) ) {
             for( tripoint point : z.get_point_set() ) {
-                res.emplace( point );
+                if( square_dist( where_local, point ) <= radius ) {
+                    res.emplace( point );
+                }
             }
         }
     }
-
     auto const vzones = get_map().get_vehicle_zones( get_map().get_abs_sub().z() );
     for( const zone_data *z : vzones ) {
         if( check( *z ) ) {
             for( tripoint point : z->get_point_set() ) {
-                res.emplace( point );
+                if( square_dist( where_local, point ) <= radius ) {
+                    res.emplace( point );
+                }
             }
         }
     }
