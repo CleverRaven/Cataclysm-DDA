@@ -275,7 +275,10 @@
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
+    "extra_effects": [
+      { "id": "telepathic_blast_radius_guaranteed", "hit_self": false },
+      { "id": "psionic_drained_difficulty_seven", "hit_self": true }
+    ],
     "shape": "blast",
     "damage_type": "psi_telepathic_damage",
     "min_damage": {
@@ -294,6 +297,26 @@
     "base_casting_time": 75,
     "final_casting_time": 30,
     "casting_time_increment": -2.5
+  },
+  {
+    "id": "telepathic_blast_radius_guaranteed",
+    "type": "SPELL",
+    "name": "[Ψ]Psychic Scream Additional Damage",
+    "description": "This exists to allow Psychic Scream to do minimal damage and kill small animals whose extremely low HP would otherwise be below the percentage threshold.  It's a bug if you have it directly..",
+    "message": "",
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "psi_telepathic_damage",
+    "min_damage": 1,
+    "max_damage": 2,
+    "damage_increment": 0.1,
+    "min_aoe": {
+      "math": [ "( (u_val('spell_level', 'spell: telepathic_blast_radius') * 1.2 ) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+    }
   },
   {
     "id": "telepathic_mind_control",
