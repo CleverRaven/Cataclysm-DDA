@@ -128,7 +128,13 @@
     "base_casting_time": 50,
     "final_casting_time": 10,
     "casting_time_increment": -4,
-    "learn_spells": { "telekinetic_strength": 3, "telekinetic_shield": 9, "telekinetic_hammer": 11, "telekinetic_explosion": 12, "telekinetic_aegis": 16 }
+    "learn_spells": {
+      "telekinetic_strength": 3,
+      "telekinetic_shield": 9,
+      "telekinetic_hammer": 11,
+      "telekinetic_explosion": 12,
+      "telekinetic_aegis": 16
+    }
   },
   {
     "id": "telekinetic_wavepush",
