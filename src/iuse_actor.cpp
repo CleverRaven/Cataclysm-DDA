@@ -4810,6 +4810,12 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
             }
         }
 
+        if( trigdist ? trig_dist( prev_part_target.first, sel_part_target.first ) > it.link->max_length :
+            square_dist( prev_part_target.first, sel_part_target.first ) > it.link->max_length ) {
+            p->add_msg_if_player( m_warning, _( "The %1$s can't stretch that far!" ), it.type_name() );
+            return std::nullopt;
+        }
+
         const itype_id item_id = it.typeId();
         vpart_id vpid = vpart_id::NULL_ID();
         for( const vpart_info &e : vehicles::parts::get_all() ) {
@@ -4943,6 +4949,20 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
             return std::nullopt;
         };
 
+        // Prepare target tripoints for the cable parts that'll be added to the selected/previous vehicles
+        const std::pair<tripoint, tripoint> prev_part_target = std::make_pair(
+                    here.getabs( selection ),
+                    sel_veh->global_square_location().raw() );
+        const std::pair<tripoint, tripoint> sel_part_target = std::make_pair(
+                    ( it.link->t_abs_pos + prev_veh->coord_translate( it.link->t_mount ) ).raw(),
+                    it.link->t_abs_pos.raw() );
+
+        if( trigdist ? trig_dist( prev_part_target.first, sel_part_target.first ) > it.link->max_length :
+            square_dist( prev_part_target.first, sel_part_target.first ) > it.link->max_length ) {
+            p->add_msg_if_player( m_warning, _( "The %1$s can't stretch that far!" ), it.type_name() );
+            return std::nullopt;
+        }
+
         const itype_id item_id = it.typeId();
         vpart_id vpid = vpart_id::NULL_ID();
         for( const vpart_info &e : vehicles::parts::get_all() ) {
@@ -4974,14 +4994,6 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
                                   it.type_name(), can_mount2.str() );
             return std::nullopt;
         }
-
-        // Prepare target tripoints for the cable parts that'll be added to the selected/previous vehicles
-        const std::pair<tripoint, tripoint> prev_part_target = std::make_pair(
-                    here.getabs( selection ),
-                    sel_veh->global_square_location().raw() );
-        const std::pair<tripoint, tripoint> sel_part_target = std::make_pair(
-                    ( it.link->t_abs_pos + prev_veh->coord_translate( it.link->t_mount ) ).raw(),
-                    it.link->t_abs_pos.raw() );
 
         vehicle_part prev_veh_part( vpid, item( it ) );
         prev_veh_part.target.first = prev_part_target.first;
