@@ -16,6 +16,7 @@
     "price": 6000,
     "price_postapoc": 250,
     "use_action": [ "RADIOCONTROL" ],
+    "tick_action": [ "RADIOCONTROL_TICK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

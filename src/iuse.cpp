@@ -7286,26 +7286,27 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
     }
 }
 
-std::optional<int> iuse::radiocontrol( Character *p, item *it, bool t, const tripoint & )
+std::optional<int> iuse::radiocontrol_tick( Character *p, item *it, bool, const tripoint & )
 {
-    if( t ) {
-        if( !p ) {
-            // Player has dropped the controller
-            avatar &player = get_avatar();
-            it->active = false;
-            player.remove_value( "remote_controlling" );
-            return 1;
-        }
-        if( !it->ammo_sufficient( p ) ) {
-            it->active = false;
-            p->remove_value( "remote_controlling" );
-        } else if( p->get_value( "remote_controlling" ).empty() ) {
-            it->active = false;
-        }
-
+    if( !p ) {
+        // Player has dropped the controller
+        avatar &player = get_avatar();
+        it->active = false;
+        player.remove_value( "remote_controlling" );
         return 1;
     }
+    if( !it->ammo_sufficient( p ) ) {
+        it->active = false;
+        p->remove_value( "remote_controlling" );
+    } else if( p->get_value( "remote_controlling" ).empty() ) {
+        it->active = false;
+    }
 
+    return 1;
+}
+
+std::optional<int> iuse::radiocontrol( Character *p, item *it, bool, const tripoint & )
+{
     const char *car_action = nullptr;
 
     if( !it->active ) {

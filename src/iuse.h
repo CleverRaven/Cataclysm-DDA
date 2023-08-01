@@ -215,6 +215,7 @@ std::optional<int> calories_intake_tracker( Character *p, item *, bool, const tr
 std::optional<int> radiocar( Character *, item *, bool, const tripoint & );
 std::optional<int> radiocaron( Character *, item *, bool, const tripoint & );
 std::optional<int> radiocontrol( Character *, item *, bool, const tripoint & );
+std::optional<int> radiocontrol_tick( Character *, item *, bool, const tripoint & );
 
 std::optional<int> multicooker( Character *, item *, bool, const tripoint & );
 std::optional<int> multicooker_tick( Character *, item *, bool, const tripoint & );
