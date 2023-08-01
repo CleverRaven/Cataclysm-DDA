@@ -650,7 +650,7 @@
   },
   {
     "type": "item_action",
-    "id": "GASMASK",
+    "id": "GASMASK_ACTIVATE",
     "name": { "str": "Prepare to use" }
   },
   {

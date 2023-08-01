@@ -4169,45 +4169,49 @@ std::optional<int> iuse::solarpack_off( Character *p, item *it, bool, const trip
     return 0;
 }
 
-std::optional<int> iuse::gasmask( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::gasmask_activate( Character *p, item *it, bool, const tripoint &pos )
 {
-    if( t ) { // Normal use
-        if( p && p->is_worn( *it ) ) {
-            // calculate amount of absorbed gas per filter charge
-            const field &gasfield = get_map().field_at( pos );
-            for( const auto &dfield : gasfield ) {
-                const field_entry &entry = dfield.second;
-                const int gas_abs_factor = entry.get_field_type()->gas_absorption_factor;
-                if( gas_abs_factor > 0 ) {
-                    it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + gas_abs_factor );
-                }
-            }
-            if( it->get_var( "gas_absorbed", 0 ) >= 100 ) {
-                it->ammo_consume( 1, p->pos(), p );
-                it->set_var( "gas_absorbed", 0 );
-            }
-            if( it->ammo_remaining() == 0 ) {
-                p->add_msg_player_or_npc(
-                    m_bad,
-                    _( "Your %s requires new filters!" ),
-                    _( "<npcname> needs new gas mask filters!" )
-                    , it->tname() );
+    if( it->ammo_remaining() == 0 ) {
+        p->add_msg_if_player( _( "Your %s doesn't have a filter." ), it->tname() );
+    } else {
+        p->add_msg_if_player( _( "You prepare your %s." ), it->tname() );
+        it->active = true;
+        it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
+    }
+
+    return 0;
+}
+
+std::optional<int> iuse::gasmask( Character *p, item *it, bool, const tripoint &pos )
+{
+    if( p && p->is_worn( *it ) ) {
+        // calculate amount of absorbed gas per filter charge
+        const field &gasfield = get_map().field_at( pos );
+        for( const auto &dfield : gasfield ) {
+            const field_entry &entry = dfield.second;
+            const int gas_abs_factor = entry.get_field_type()->gas_absorption_factor;
+            if( gas_abs_factor > 0 ) {
+                it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + gas_abs_factor );
             }
         }
-    } else { // activate
+        if( it->get_var( "gas_absorbed", 0 ) >= 100 ) {
+            it->ammo_consume( 1, pos, p );
+            it->set_var( "gas_absorbed", 0 );
+        }
         if( it->ammo_remaining() == 0 ) {
-            p->add_msg_if_player( _( "Your %s doesn't have a filter." ), it->tname() );
-        } else {
-            p->add_msg_if_player( _( "You prepare your %s." ), it->tname() );
-            it->active = true;
-            it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
+            p->add_msg_player_or_npc(
+                m_bad,
+                _( "Your %s requires new filters!" ),
+                _( "<npcname> needs new gas mask filters!" )
+                , it->tname() );
         }
     }
+
     if( it->ammo_remaining() == 0 ) {
         it->set_var( "overwrite_env_resist", 0 );
         it->active = false;
     }
-    return 1;
+    return 0;
 }
 
 std::optional<int> iuse::portable_game( Character *p, item *it, bool, const tripoint & )
