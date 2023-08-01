@@ -27,7 +27,7 @@
     "base_casting_time": 50,
     "final_casting_time": 0,
     "casting_time_increment": -4,
-    "learn_spells": { "teleport_farstep": 7, "teleport_slow": 9, "teleport_gateway": 15 }
+    "learn_spells": { "teleport_transpose": 5, "teleport_farstep": 12, "teleport_gateway": 18 }
   },
   {
     "id": "teleport_slow",
@@ -68,6 +68,36 @@
     "learn_spells": { "teleport_collapse": 7, "teleport_banish": 15 }
   },
   {
+			"id": "teleport_stride",
+			"type": "SPELL",
+			"name": "[Ψ]Extended Stride",
+			"description": "By warping space to shorten distances, you can make each of your movements carry you much further.",
+			"message": "Your steps devour the distance.",
+			"valid_targets": [ "self" ],
+			"spell_class": "TELEPORTER",
+		  "skill": "metaphysics",
+			"flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+			"effect": "attack",
+			"effect_str": "effect_teleport_stride",
+			"shape": "blast",
+			"energy_source": "STAMINA",
+			"difficulty": 3,
+			"max_level": { "math": [ "int_to_level(1)" ] },
+			"base_energy_cost": 2500,
+			"final_energy_cost": 750,
+			"energy_increment": -125,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: teleport_path') * 300) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: teleport_path') * 350) + 30000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+			"base_casting_time": 85,
+			"final_casting_time": 25,
+			"casting_time_increment": -7,
+			"learn_spells": { "teleport_collapse": 6, "teleport_farstep": 10 }
+  },
+  {
     "id": "teleport_transpose",
     "type": "SPELL",
     "name": "[Ψ]Transposition",
@@ -80,7 +110,7 @@
     "effect": "attack",
     "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
-    "difficulty": 3,
+    "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_range": {
       "math": [ "( (u_val('spell_level', 'spell: teleport_transpose') * 2.5) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
@@ -93,38 +123,7 @@
     "base_casting_time": 55,
     "final_casting_time": 0,
     "casting_time_increment": -2.75,
-    "learn_spells": { "teleport_farstep": 9, "teleport_banish": 12 }
-  },
-  {
-    "id": "teleport_farstep",
-    "type": "SPELL",
-    "name": "[Ψ]Farstep",
-    "description": "Skating along the void between dimensions, move to a specific place within line of sight.",
-    "message": "There is a moment of darkness and terrible cold, and you are somewhere else.",
-    "valid_targets": [ "ground" ],
-    "spell_class": "TELEPORTER",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "IGNORE_WALLS" ],
-    "effect": "short_range_teleport",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
-    "shape": "blast",
-    "difficulty": 5,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "min_aoe": 4,
-    "max_aoe": 1,
-    "aoe_increment": -0.25,
-    "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: teleport_farstep') * 2.5) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
-    "max_range": 80,
-    "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
-    "final_energy_cost": 1750,
-    "energy_increment": -105,
-    "base_casting_time": 75,
-    "final_casting_time": 30,
-    "casting_time_increment": -2.75,
-    "learn_spells": { "teleport_gateway": 9, "teleport_banish": 12 }
+    "learn_spells": { "teleport_farstep": 7, "teleport_banish": 12 }
   },
   {
     "id": "teleport_collapse",
@@ -163,29 +162,36 @@
     "casting_time_increment": -2,
     "learn_spells": { "teleport_banish": 9, "teleport_gateway": 12 }
   },
-  {
-    "id": "teleport_gateway",
+   {
+    "id": "teleport_farstep",
     "type": "SPELL",
-    "name": "[Ψ]Gateway",
-    "description": "Teleport to an attuned location [use the Construct menu to attune].",
-    "message": "There is a long moment of darkness and terrible cold that seems like it will freeze your heart, and then you are somewhere else.",
-    "valid_targets": [ "self" ],
+    "name": "[Ψ]Farstep",
+    "description": "Skating along the void between dimensions, move to a specific place within line of sight.",
+    "message": "There is a moment of darkness and terrible cold, and you are somewhere else.",
+    "valid_targets": [ "ground" ],
     "spell_class": "TELEPORTER",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
-    "effect": "translocate",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "IGNORE_WALLS" ],
+    "effect": "short_range_teleport",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_aoe": 4,
+    "max_aoe": 1,
+    "aoe_increment": -0.25,
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: teleport_farstep') * 2.5) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 80,
     "energy_source": "STAMINA",
-    "base_energy_cost": 10000,
-    "final_energy_cost": 5000,
-    "energy_increment": -300,
-    "base_casting_time": 200,
-    "final_casting_time": 75,
-    "casting_time_increment": -5.5,
-    "learn_spells": { "teleport_banish": 6 }
+    "base_energy_cost": 3500,
+    "final_energy_cost": 1750,
+    "energy_increment": -105,
+    "base_casting_time": 75,
+    "final_casting_time": 30,
+    "casting_time_increment": -2.75,
+    "learn_spells": { "teleport_gateway": 9, "teleport_banish": 12 }
   },
   {
     "id": "teleport_banish",
@@ -219,5 +225,29 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5.5
+  },
+   {
+    "id": "teleport_gateway",
+    "type": "SPELL",
+    "name": "[Ψ]Gateway",
+    "description": "Teleport to an attuned location [use the Construct menu to attune].",
+    "message": "There is a long moment of darkness and terrible cold that seems like it will freeze your heart, and then you are somewhere else.",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "translocate",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 10000,
+    "final_energy_cost": 5000,
+    "energy_increment": -300,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -5.5,
+    "learn_spells": { "teleport_banish": 6 }
   }
 ]
