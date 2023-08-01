@@ -420,7 +420,7 @@
     "color": "green",
     "use_action": [ "SEED" ],
     "quench": -1,
-    "stack_size": 1,
+    "volume": "250 ml",
     "calories": 11,
     "description": "Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or eaten raw.",
     "//": "1 cup of seeds, which grows into multiple hemps per tile.",
@@ -428,8 +428,7 @@
     "weight": "150 g",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "cannabis", "fruit": "cannabis", "grow": "91 days" },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.02 },
-    "volume": "2 ml"
+    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
   },
   {
     "type": "COMESTIBLE",
@@ -536,7 +535,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "pumpkin seeds" },
     "weight": "120 g",
-    "stack_size": 1,
+    "volume": "250 ml",
     "color": "green",
     "use_action": [ "SEED" ],
     "calories": 535,
@@ -553,7 +552,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "sunflower seeds" },
     "weight": "140 g",
-    "stack_size": 1,
+    "volume": "250 ml",
     "color": "green",
     "use_action": [ "SEED" ],
     "//": "this is 1 cup of seeds, which grows into multiple sunflowers per tile.",
@@ -562,8 +561,7 @@
     "price": 100,
     "flags": [ "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "sunflower", "fruit": "seed_sunflower", "byproducts": [ "withered" ], "grow": "91 days" },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.02 },
-    "volume": "2 ml"
+    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
   },
   {
     "type": "COMESTIBLE",
