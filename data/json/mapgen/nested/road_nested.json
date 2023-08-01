@@ -1,34 +1,5 @@
 [
   {
-    "type": "palette",
-    "id": "road_palette",
-    "terrain": {
-      ".": "t_pavement",
-      "_": "t_sidewalk",
-      "*": "t_pavement_y",
-      "│": "t_zebra_v",
-      "─": "t_zebra_h",
-      "O": "t_manhole_cover",
-      "g": "t_region_grass",
-      "#": "t_sconc_wall_halfway",
-      "~": "t_water_sh",
-      "s": "t_region_shrub_decorative"
-    },
-    "furniture": { "Y": "f_street_light", "T": "f_traffic_light", "f": [ [ "f_region_flower_decorative", 2 ], [ "f_null", 1 ] ] },
-    "signs": { "@": { "signage": "<statue_plaque>", "furniture": "f_statue" } }
-  },
-  {
-    "type": "snippet",
-    "category": "<statue_plaque>",
-    "//": "Please add more (happily scrap existing)",
-    "text": [ "Statue in commemoration of <full_name> who <statue_worthy_act> and will always be remembered." ]
-  },
-  {
-    "type": "snippet",
-    "category": "<statue_worthy_act>",
-    "text": [ "provided for our city in a time of need", "founded our great city" ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "24x24_marked_crosswalk_and_traffic_lights",
