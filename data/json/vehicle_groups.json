@@ -1002,6 +1002,11 @@
     ]
   },
   {
+    "id": "food_carts",
+    "type": "vehicle_group",
+    "vehicles": [ [ "ice_cream_cart", 100 ], [ "food_cart", 200 ] ]
+  },
+  {
     "id": "wagons_all",
     "type": "vehicle_group",
     "vehicles": [ [ "gig_carriage", 100 ], [ "stagecoach", 100 ], [ "covered_wagon", 100 ], [ "uncovered_wagon", 100 ] ]

@@ -626,10 +626,9 @@
         "b": "t_region_groundcover",
         "x": "t_region_groundcover",
         "X": "t_sidewalk",
-        "Y": "t_sidewalk",
-        "6": "t_region_tree"
+        "Y": "t_sidewalk"
       },
-      "furniture": { "t": "f_table", "b": "f_bench", "x": "f_trashcan", "X": "f_trashcan" },
+      "furniture": { "t": "f_table", "X": "f_trashcan" },
       "place_vehicles": [
         { "vehicle": "food_trucks", "x": 21, "y": 21, "fuel": -1, "status": -1, "chance": 75, "rotation": 90 },
         { "vehicle": "small_cars_only", "x": 10, "y": 8, "fuel": -1, "status": -1, "chance": 100, "rotation": 225 },
