@@ -3598,6 +3598,7 @@
     "turns_per_charge": 60,
     "revert_to": "foodperson_mask",
     "use_action": [ "FOODPERSON" ],
+    "tick_action": [ "FOODPERSON_VOICE" ],
     "flags": [ "OUTER", "SUN_GLASSES", "NO_TAKEOFF", "LIGHT_10", "WATCH", "NO_UNLOAD" ]
   },
   {

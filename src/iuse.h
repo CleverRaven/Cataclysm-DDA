@@ -120,6 +120,7 @@ std::optional<int> fish_trap( Character *, item *, bool, const tripoint & );
 std::optional<int> fishing_rod( Character *, item *, bool, const tripoint & );
 std::optional<int> fitness_check( Character *p, item *it, bool, const tripoint & );
 std::optional<int> foodperson( Character *, item *, bool, const tripoint & );
+std::optional<int> foodperson_voice( Character *, item *, bool, const tripoint & );
 std::optional<int> gasmask( Character *, item *, bool, const tripoint & );
 std::optional<int> geiger( Character *, item *, bool, const tripoint & );
 std::optional<int> granade_act( Character *, item *, bool, const tripoint & );

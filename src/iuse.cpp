@@ -7131,20 +7131,21 @@ std::optional<int> iuse::afs_translocator( Character *p, item *it, bool, const t
     }
 }
 
-std::optional<int> iuse::foodperson( Character *p, item *it, bool t, const tripoint &pos )
+std::optional<int> iuse::foodperson_voice( Character *p, item *it, bool, const tripoint &pos )
+{
+    if( calendar::once_every( 1_minutes ) ) {
+        const SpeechBubble &speech = get_speech( "foodperson_mask" );
+        sounds::sound( pos, speech.volume, sounds::sound_t::alarm, speech.text.translated(), true, "speech",
+                       "foodperson_mask" );
+    }
+    return 0;
+}
+
+std::optional<int> iuse::foodperson( Character *p, item *it, bool, const tripoint &pos )
 {
     // Prevent crash if battery was somehow removed.
     if( !it->magazine_current() ) {
         return std::nullopt;
-    }
-
-    if( t ) {
-        if( calendar::once_every( 1_minutes ) ) {
-            const SpeechBubble &speech = get_speech( "foodperson_mask" );
-            sounds::sound( pos, speech.volume, sounds::sound_t::alarm, speech.text.translated(), true, "speech",
-                           "foodperson_mask" );
-        }
-        return 1;
     }
 
     time_duration shift = time_duration::from_turns( it->magazine_current()->ammo_remaining() *
