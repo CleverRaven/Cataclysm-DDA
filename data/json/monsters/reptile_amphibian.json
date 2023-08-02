@@ -456,8 +456,8 @@
   {
     "id": "mon_turtle_big",
     "type": "MONSTER",
-    "name": { "str": "luminary's vision" },
-    "description": "A mutated, mostly aquatic freshwater turtle, about three times as large as the norm, its pace ponderous and carrying a shell covered in abnormal shapes and strange reflections.  It also seems somewhat more irritable than normal.",
+    "name": { "str": "caltrop turtle" },
+    "description": "A mutated, mostly aquatic freshwater turtle, about three times as large as the norm, its pace ponderous and carrying a shell bulging with a few sharp edges you wouldn't particularly want to brush against.  It seems somewhat more irritable than is normal for its kind.",
     "default_faction": "mutant",
     "bodytype": "turtle",
     "categories": [ "WILDLIFE" ],
@@ -492,8 +492,8 @@
   {
     "id": "mon_turtle_big_s",
     "type": "MONSTER",
-    "name": { "str_sp": "dement's mirror hatchling" },
-    "description": "A large, mostly aquatic mutated freshwater turtle having recently hatched, its shell already developing abnormal growths, grooves and reflections.",
+    "name": { "str_sp": "caltrop turtle hatchling" },
+    "description": "A large, mostly aquatic mutated freshwater turtle having recently hatched, its shell already bulging with abnormal growths, these seeming to have yet to develop the razor edge of an adult.",
     "copy-from": "mon_turtle_s",
     "default_faction": "mutant",
     "volume": "750 ml",
@@ -514,8 +514,8 @@
   {
     "id": "mon_turtle_giant",
     "type": "MONSTER",
-    "name": { "str": "lunatic's vision turtle" },
-    "description": "A massive, mostly aquatic freshwater turtle, about six times larger than the norm, ponderously moving about its obviously mutated and bulging shell exhibiting strange, almost hypnotic patterns and shapes filled with sharp edges.  It probably doesn't consider you as prey, but be careful around its large head.",
+    "name": { "str": "urchin turtle" },
+    "description": "A massive, mostly aquatic freshwater turtle, about six times larger than the norm, ponderously moving about its obviously mutated and bulging shell covered in uncomfortably sharp spikes and spines.  It doesn't seem to consider you as prey, but doesn't seem like it would demand much provocation to see you as a threat.",
     "copy-from": "mon_turtle_big",
     "proportional": { "hp": 4, "morale": 1.43, "melee_dice_sides": 1.5 },
     "volume": "226 L",
@@ -532,8 +532,8 @@
   {
     "id": "mon_turtle_mega",
     "type": "MONSTER",
-    "name": { "str": "madman's maze turtle" },
-    "description": "The shell of this enormous, mostly aquatic mutated turtle hurts to look at, filled with sharp edges, unnatural shapes and eye-bending reflections, the whole hosting its own ecosystem of aquatic fauna and flora. The creature itself moves at a crawling pace, but its hungry maw looks ready to snatch up any morsel within reach.",
+    "name": { "str": "razor maze turtle" },
+    "description": "The shell of this enormous, mostly aquatic mutated turtle teems with jagged spines, blades and spikes, quite a few being covered in gore or the impaled carcasses of small creatures having had the bad luck of encountering this ponderous behemoth. The creature itself moves at a crawling pace, but leaves you little doubt that its hungry maw looks ready to snatch up any morsel within reach.",
     "default_faction": "mutant",
     "bodytype": "turtle",
     "categories": [ "WILDLIFE" ],
