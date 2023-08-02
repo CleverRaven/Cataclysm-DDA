@@ -3041,7 +3041,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         // remind what you failed to fetch
         if( !check_only && !you.backlog.empty() ) {
             player_activity &act_prev = you.backlog.front();
-            for( auto what_we_need : act_prev.str_values ) {
+            for( const auto &what_we_need : act_prev.str_values ) {
                 you.fetch_history.emplace( what_we_need );
             }
         }
