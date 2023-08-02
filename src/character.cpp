@@ -7376,6 +7376,7 @@ int Character::vitamin_RDA( const vitamin_id &vitamin, int ammount ) const
 
 void Character::recalculate_bodyparts()
 {
+    const int prev_healthy_kcal = get_healthy_kcal();
     body_part_set body_set;
     for( const bodypart_id &bp : creature_anatomy->get_bodyparts() ) {
         body_set.set( bp.id() );
@@ -7395,6 +7396,7 @@ void Character::recalculate_bodyparts()
             body[bp] = bodypart( bp );
         }
     }
+    set_stored_kcal( get_stored_kcal() * ( get_healthy_kcal() / prev_healthy_kcal ) );
     calc_encumbrance();
 }
 
