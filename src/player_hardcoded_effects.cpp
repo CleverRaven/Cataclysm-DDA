@@ -1673,8 +1673,7 @@ void Character::hardcoded_effects( effect &it )
         // easily, leading to build-up in muscle and fat tissue through bioaccumulation.
         // Symptoms vary, and many are too long-term to be relevant in C:DDA (i.e. carcinogens),
         // but lowered immune response and neurotoxicity (i.e. seizures, migraines) are common.
-
-            // to do: make these interact with bionic limbs? if they are neurotoxins your brain might be sending faulty signals to your mecahnical limbs anyways however
+        // to do: make these interact with bionic limbs? if they are neurotoxins your brain might be sending faulty signals to your mecahnical limbs anyways however
 
         if( in_sleep_state() ) {
             return;
