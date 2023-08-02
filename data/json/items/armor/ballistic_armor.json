@@ -1147,9 +1147,9 @@
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 },
-          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1.5 }
+          { "type": "lc_steel", "covered_by_mat": 85, "thickness": 1.5 }
         ],
-        "encumbrance": 15,
+        "encumbrance": 14,
         "coverage": 100,
         "cover_vitals": 95,
         "covers": [ "torso" ],
