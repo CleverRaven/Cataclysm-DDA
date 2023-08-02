@@ -476,7 +476,6 @@
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "dodge": 0,
     "vision_day": 15,
     "vision_night": 7,
     "harvest": "mutant_animal_large_noskin",
