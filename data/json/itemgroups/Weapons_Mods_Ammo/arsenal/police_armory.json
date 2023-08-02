@@ -198,7 +198,7 @@
       { "group": "police_armory_box_some_9mm" },
       { "group": "police_armory_box_some_9mm", "prob": 75 },
       { "item": "ammunition_box_308", "count": [ 35, 50 ] },
-      { "group": "police_armory_box_full_9mm", "count": [ 0, 6 ] }
+      { "group": "police_armory_box_full_9mm", "count": [ 0, 5 ] }
     ]
   },
   {
@@ -209,7 +209,7 @@
       { "group": "police_armory_box_some_9mmfmj" },
       { "group": "police_armory_box_some_9mmfmj", "prob": 75 },
       { "item": "ammunition_box_308", "count": [ 35, 50 ] },
-      { "group": "police_armory_box_full_9mmfmj", "count": [ 0, 6 ] }
+      { "group": "police_armory_box_full_9mmfmj", "count": [ 0, 5 ] }
     ]
   },
   {
@@ -345,7 +345,7 @@
       { "group": "police_armory_box_some_57mm" },
       { "group": "police_armory_box_some_57mm", "prob": 60 },
       { "item": "ammunition_box_308", "count": [ 15, 25 ] },
-      { "group": "police_armory_box_full_57mm", "count": [ 0, 10 ] }
+      { "group": "police_armory_box_full_57mm", "count": [ 0, 8 ] }
     ]
   },
   {
@@ -547,7 +547,7 @@
       { "group": "police_armory_box_some_45_jhp" },
       { "group": "police_armory_box_some_45_jhp", "prob": 75 },
       { "item": "ammunition_box_308", "count": [ 30, 40 ] },
-      { "group": "police_armory_box_full_45_jhp", "count": [ 0, 6 ] }
+      { "group": "police_armory_box_full_45_jhp", "count": [ 0, 5 ] }
     ]
   },
   {
@@ -558,7 +558,7 @@
       { "group": "police_armory_box_some_45_acp" },
       { "group": "police_armory_box_some_45_acp", "prob": 75 },
       { "item": "ammunition_box_308", "count": [ 30, 40 ] },
-      { "group": "police_armory_box_full_45_acp", "count": [ 0, 6 ] }
+      { "group": "police_armory_box_full_45_acp", "count": [ 0, 5 ] }
     ]
   },
   {
@@ -654,7 +654,7 @@
       { "group": "police_armory_box_some_223" },
       { "group": "police_armory_box_some_223", "prob": 50 },
       { "item": "ammunition_box_308", "count": [ 50, 75 ] },
-      { "group": "police_armory_box_full_223", "count": [ 0, 15 ] }
+      { "group": "police_armory_box_full_223", "count": [ 0, 10 ] }
     ]
   },
   {
