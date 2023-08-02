@@ -662,7 +662,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
     "power_draw": "100 W",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": [ "MULTICOOKER", { "type": "link_up", "cable_length": 2, "charge_rate": "1000 W" } ],

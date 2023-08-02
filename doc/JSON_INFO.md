@@ -4035,6 +4035,7 @@ The contents of use_action fields can either be a string indicating a built-in f
 },
 "use_action": {
     "type": "link_up", // Connect item to a vehicle or appliance, such as plugging a chargeable device into a power source.
+                       // If the item has the CABLE_SPOOL flag, it has special behaviors available, like connecting vehicles together.
     "cable_length": 4 // Maximum length of the cable ( Optional, defaults to the item type's maximum charges ).
                       // If extended by other cables, will use the sum of all cables' lengths.
     "charge_rate": "60 W" // The charge rate of the plugged-in device's batteries in watts. ( Optional, defaults to "0 W" )

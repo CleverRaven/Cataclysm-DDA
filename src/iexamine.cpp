@@ -5964,21 +5964,24 @@ static void smoker_load_food( Character &you, const tripoint &examp,
     units::volume vol = remaining_capacity;
     for( const drop_location &dloc : locs ) {
         item_location original = dloc.first;
+        original.overflow();
         item copy( *original );
-        copy.charges = clamp( copy.charges_per_volume( vol ), 1, dloc.second );
+        if( copy.count_by_charges() ) {
+            copy.charges = clamp( copy.charges_per_volume( vol ), 1, dloc.second );
+        }
 
         if( vol < copy.volume() ) {
-            add_msg( m_info, _( "The %s doesn't fit in the rack." ), copy.tname( copy.charges ) );
+            add_msg( m_info, _( "The %s doesn't fit in the rack." ), copy.tname( copy.count() ) );
             continue;
         }
 
         here.add_item( examp, copy );
         you.mod_moves( -you.item_handling_cost( copy ) );
-        add_msg( m_info, _( "You carefully place %1$d %2$s in the rack." ), copy.charges,
-                 copy.tname( copy.charges ) );
+        add_msg( m_info, _( "You carefully place %1$d %2$s in the rack." ), copy.count(),
+                 copy.tname( copy.count() ) );
 
         vol -= copy.volume();
-        if( original->charges == copy.charges ) {
+        if( !copy.count_by_charges() || original->charges == copy.charges ) {
             original.remove_item();
         } else {
             original->charges -= copy.charges;

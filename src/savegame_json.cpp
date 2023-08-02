@@ -2870,8 +2870,8 @@ void item::link_data::serialize( JsonOut &jsout ) const
     jsout.member( "link_max_length", max_length );
     jsout.member( "link_last_processed", last_processed );
     jsout.member( "link_charge_rate", charge_rate );
-    jsout.member( "link_charge_interval", charge_interval );
     jsout.member( "link_charge_efficiency", efficiency );
+    jsout.member( "link_charge_interval", charge_interval );
     jsout.end_object();
 }
 

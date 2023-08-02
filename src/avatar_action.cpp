@@ -1154,9 +1154,10 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
     if( use_in_place ) {
         update_lum( loc, false );
         you.use( loc, pre_obtain_moves, method );
-        update_lum( loc, true );
-
-        loc.make_active();
+        if( loc ) {
+            update_lum( loc, true );
+            loc.make_active();
+        }
     } else {
         you.use( loc, pre_obtain_moves, method );
 
