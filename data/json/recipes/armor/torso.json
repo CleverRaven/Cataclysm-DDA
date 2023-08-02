@@ -4524,11 +4524,7 @@
         [ "molle_large_rucksack", 1 ],
         [ "molle_medium_rucksack", 1 ]
       ],
-      [
-        [ "light_load_bearing_vest", 1 ],
-        [ "webbing_belt", 1 ],
-        [ "molle_pack", 1 ]
-      ]
+      [ [ "light_load_bearing_vest", 1 ], [ "webbing_belt", 1 ], [ "molle_pack", 1 ] ]
     ]
   },
   {
