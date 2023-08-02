@@ -113,7 +113,9 @@
     "name": { "str_sp": ".38 Special, black powder" },
     "description": ".38 Special ammunition with a brass jacketed 130gr FMJ bullet.  This unfortunate bullet was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorus is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.  Are you sure you wouldn't rather just throw rocks?",
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
-    "looks_like": "bp_38_fmj"
+    "looks_like": "bp_38_fmj",
+    "extend": { "effects": [ "MATCHHEAD" ] },
+    "delete": { "effects": [ "MUZZLE_SMOKE" ] }
   },
   {
     "id": "matchhead_38_special",
@@ -123,6 +125,8 @@
     "name": { "str_sp": ".38 Special, black powder" },
     "description": ".38 Special ammunition with a 130gr FMJ bullet.  This unfortunate bullet was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorus is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.  Are you sure you wouldn't rather just throw rocks?",
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
-    "looks_like": "bp_38_special"
+    "looks_like": "bp_38_special",
+    "extend": { "effects": [ "MATCHHEAD" ] },
+    "delete": { "effects": [ "MUZZLE_SMOKE" ] }
   }
 ]
