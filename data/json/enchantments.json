@@ -136,11 +136,6 @@
     "type": "enchantment",
     "id": "ENCH_BIONICS_NOLEGS",
     "condition": "ALWAYS",
-    "modified_bodyparts": [
-      { "lose": "leg_l" },
-      { "lose": "leg_r" },
-      { "lose": "foot_l" },
-      { "lose": "foot_r" }
-    ]
+    "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "leg_r" }, { "lose": "foot_l" }, { "lose": "foot_r" } ]
   }
 ]
