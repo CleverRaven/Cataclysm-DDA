@@ -581,7 +581,6 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
         return ;
     }
 
-    tripoint target_global = here.getabs( target_pos );
     const vpart_id vpid( cord.typeId().str() );
 
     // Prepare target tripoints for the cable parts that'll be added to the selected/previous vehicles
