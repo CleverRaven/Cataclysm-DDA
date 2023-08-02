@@ -4387,7 +4387,7 @@ std::string link_up_actor::get_name() const
     return iuse_actor::get_name();
 }
 
-std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tripoint & ) const
+std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tripoint &pnt ) const
 {
     if( t ) {
         return std::nullopt;
@@ -4595,7 +4595,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, bool t, const tri
 
     } else if( choice == 30 ) {
         // Selection: Attach to another cable, resulting in a longer one.
-        return link_extend_cable( p, it );
+        return link_extend_cable( p, it, pnt );
 
     } else if( choice == 31 ) {
         // Selection: Remove all cable extensions and give the individual cables to the player.
@@ -5041,7 +5041,8 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
     }
 }
 
-std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it ) const
+std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
+        const tripoint &pnt ) const
 {
     avatar *you = p->as_avatar();
     if( !you ) {
@@ -5082,8 +5083,8 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it ) co
         return std::nullopt;
     }
 
-    item_location extension = is_cable_item ? form_loc( *p, tripoint_min, it ) : selected;
-    item_location extended = is_cable_item ? selected : form_loc( *p, tripoint_min, it );
+    item_location extension = is_cable_item ? form_loc( *p, pnt, it ) : selected;
+    item_location extended = is_cable_item ? selected : form_loc( *p, pnt, it );
     std::optional<item> extended_copy;
 
     // We'll make a copy of the extended item and check pocket weight/volume capacity if:
