@@ -1193,14 +1193,7 @@ float Character::get_stamina_dodge_modifier() const
 
 float Character::tally_organic_size() const
 {
-    //tally up the hitsize of body parts that are not bionic (100 by default but can get bigger too)
-    float total_size = 0.0f;
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        if( !bp->has_flag( json_flag_BIONIC_LIMB ) ) {
-            total_size += ( get_part( bp ) )->get_hit_size();
-        }
-    }
-    return total_size;
+    return creature_anatomy->get_organic_size_sum();
 }
 
 int Character::sight_range( float light_level ) const
