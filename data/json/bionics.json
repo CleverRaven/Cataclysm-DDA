@@ -1574,6 +1574,24 @@
     "passive_pseudo_items": [ "fake_goggles" ]
   },
   {
+    "id": "bio_synlungs",
+    "type": "bionic",
+    "name": { "str": "Synthetic Lungs" },
+    "description": "You have highly efficient artificial lungs which greatly increase your oxygen intake.  If they are not powered you will suffocate, and they weaken your immune system somewhat.",
+    "occupied_bodyparts": [ [ "torso", 5 ] ],
+    "flags": [ "BIONIC_SLEEP_FRIENDLY", "BIO_SHOCKPROOF", "BIONIC_TOGGLED" ],
+    "act_cost": "3 J",
+    "react_cost": "3 J",
+    "time": "1 s",
+    "activated_on_install": true,
+    "trigger_cost": "3 J",
+    "cant_remove_reason": "The CBM has replaced the patient's lungs and cannot be removed.",
+    "canceled_mutations": [ "GOODCARDIO", "BADCARDIO", "GOODCARDIO2", "PERSISTENCE_HUNTER", "PERSISTENCE_HUNTER2", "ASTHMA" ],
+    "enchantments": [
+      { "condition": "ALWAYS", "values": [ { "value": "MOD_HEALTH", "add": -1 }, { "value": "MOD_HEALTH_CAP", "add": -20 } ] }
+    ]
+  },
+  {
     "id": "bio_targeting",
     "type": "bionic",
     "name": { "str": "Targeting System" },
@@ -1712,7 +1730,9 @@
     "occupied_bodyparts": [ [ "torso", 2 ], [ "mouth", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ],
     "social_modifiers": { "persuade": -20, "lie": 10, "intimidate": 20 },
-    "canceled_mutations": [ "GROWL", "SNARL", "HISS", "CROAK" ]
+    "//": "bird mutants might have an entirely different vocal chord structure rather than just a different tone of voice",
+    "canceled_mutations": [ "GROWL", "SNARL", "HISS", "CROAK" ],
+    "mutation_conflicts": [ "SCREECH" ]
   },
   {
     "id": "bio_watch",

@@ -588,7 +588,7 @@
     "durability": 120,
     "description": "A power cord sticking out of an appliance.  You need to plug it into a powered grid for the appliance to work properly.",
     "item": "power_cord",
-    "flags": [ "NO_INSTALL_HIDDEN", "NO_UNINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "NO_UNINSTALL", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
     "variants": [ { "symbols": "{", "symbols_broken": "s" } ]
   },
   {

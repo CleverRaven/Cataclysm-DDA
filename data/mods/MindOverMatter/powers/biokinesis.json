@@ -68,7 +68,7 @@
     "base_casting_time": 125,
     "final_casting_time": 50,
     "casting_time_increment": -7,
-    "learn_spells": { "biokin_armor_skin": 7, "biokin_sealed_system": 15 }
+    "learn_spells": { "biokin_armor_skin": 7, "biokin_climate_control": 10, "biokin_sealed_system": 15 }
   },
   {
     "type": "effect_on_condition",
@@ -233,7 +233,7 @@
     "id": "biokin_flexibility",
     "type": "SPELL",
     "name": "[Ψ]Flexibility",
-    "description": "You can make your limbs move far beyond the normal human range of motion.",
+    "description": "You can make your limbs move far beyond the normal human range of motion, allowing you to twist out of others' grasp and reduce fall damage.",
     "message": "You body begins twisting in unbelivable ways.",
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
@@ -320,13 +320,65 @@
     "base_casting_time": 150,
     "final_casting_time": 50,
     "casting_time_increment": -8.5,
-    "learn_spells": { "biokin_sealed_system": 9, "biokin_physical_enhance": 12 }
+    "learn_spells": { "biokin_climate_control": 5, "biokin_sealed_system": 9, "biokin_physical_enhance": 12 }
+  },
+  {
+    "id": "biokin_climate_control",
+    "type": "SPELL",
+    "name": "[Ψ]Temperature Adaptability",
+    "description": "You can increase the heat dissipation and retention of your body, allowing you to function in a much wider range of temperatures.\n\nTemperature Adaptability and Sealed System will cancel each other.",
+    "message": "You feel much more comfortable.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_climate_control",
+    "extra_effects": [
+      { "id": "biokin_climate_remove_sealed", "hit_self": true },
+      { "id": "psionic_drained_difficulty_four", "hit_self": true }
+    ],
+    "shape": "blast",
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 1250,
+    "energy_increment": -175,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_climate_control') * 18000) + 30000 ) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_climate_control') * 36000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "base_casting_time": 250,
+    "final_casting_time": 150,
+    "casting_time_increment": -8.5,
+    "learn_spells": { "biokin_sealed_system": 4 }
+  },
+  {
+    "id": "biokin_climate_remove_sealed",
+    "type": "SPELL",
+    "name": "[Ψ]Temperature Adaptability Cancel Sealed System",
+    "description": "The part of Temperature Adaptability that cancels Sealed System.  It's a bug if you have it.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "remove_effect",
+    "effect_str": "biokin_sealed_system",
+    "shape": "blast",
+    "max_level": 1
   },
   {
     "id": "biokin_sealed_system",
     "type": "SPELL",
     "name": "[Ψ]Sealed System",
-    "description": "With a deep breath, you lock your body off from the outside world--nothing gets in, nothing gets out.",
+    "description": "With a deep breath, you lock your body off from the outside world--nothing gets in, nothing gets out.\n\nSealed System and Temperature Adaptability cannot be activate at the same time.",
     "message": "You take a deep breath and seal your lips.",
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
@@ -334,7 +386,10 @@
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "effect_str": "effect_biokin_sealed",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": false } ],
+    "extra_effects": [
+      { "id": "biokin_climate_remove_sealed", "hit_self": true },
+      { "id": "psionic_drained_difficulty_six", "hit_self": false }
+    ],
     "shape": "blast",
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
@@ -352,6 +407,20 @@
     "final_casting_time": 100,
     "casting_time_increment": -7.5,
     "learn_spells": { "biokin_overcome_pain": 4 }
+  },
+  {
+    "id": "biokin_sealed_removee_climate",
+    "type": "SPELL",
+    "name": "[Ψ]Sealed System Cancel Temperature Adaptability",
+    "description": "The part of Sealed System that cancels Temperature Adaptability.  It's a bug if you have it.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "remove_effect",
+    "effect_str": "biokin_climate_control",
+    "shape": "blast",
+    "max_level": 1
   },
   {
     "id": "biokin_combat_dance",

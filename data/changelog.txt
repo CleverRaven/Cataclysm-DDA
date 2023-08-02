@@ -40,6 +40,7 @@ Apply different messages at different effect intensity levels
 Player character now can get sick with common cold or flu only after contacts with NPCs or ferals
 Generate vehicle prototypes from in-game vehicles
 In-game Armor sprite change
+Cockroaches flee light, hide under furniture, eat corpses, and breed faster when fed
 
 
 ## Content:
@@ -89,6 +90,7 @@ Adds the 'Mark as dangerous' keybinding to the overmap
 NPC selects melee style
 Add sundial, wind and radiation badge to "spacebar" sidebar
 fix widget error if player has no body part
+AIM: Add key to step outside containers; AIM: mark container that the other pane is looking inside
 
 
 ## Mods:
@@ -147,6 +149,9 @@ Lycra is less protective
 BMI has a less all consuming impact on how healthy you are
 Being badly wounded will always allow you to swap characters in camp while you heal
 Intelligence provides a multiplier to current focus rather than adding to its value
+More monsters fight back if cornered
+Higher dodge skill lowers the stamina cost to dodge
+Adds a mutable stream to the mapgen
 
 
 ## Bugfixes:
@@ -206,6 +211,10 @@ Don't get randomly sick anymore
 Itemgroups can seal containers
 Spawned corpses should now spawn with and contain their clothes
 Can no longer get stuck for days thinking about working out if you're a WIMP with NEGATIVE WORKOUT TIME
+Prevent car from spawning into a house wall
+HP widgets gets equivalent bodypart
+Fix grainy glyphs in blended font rendering mode
+Stop dodging good spells, fix uncanny dodge spell crash
 
 
 ## Performance:
@@ -229,6 +238,7 @@ Refactor timer items to be a bit more time based
 Support for material replacement in items
 Carrier for items on ground is nullptr
 Tick_action as a separate thing from use_action
+New documentation on how to test proposed changes
 
 
 ## Build:

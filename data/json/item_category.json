@@ -134,6 +134,20 @@
     "sort_rank": -7
   },
   {
+    "id": "ma_manuals",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "MARTIAL ARTS MANUALS" },
+    "zone": "LOOT_MA_MANUALS",
+    "sort_rank": -6
+  },
+  {
+    "id": "traps",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "TRAPS" },
+    "zone": "LOOT_TRAPS",
+    "sort_rank": -5
+  },
+  {
     "id": "chems",
     "type": "ITEM_CATEGORY",
     "name": { "str": "CHEMICAL STUFF" },

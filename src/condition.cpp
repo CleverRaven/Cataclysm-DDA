@@ -39,6 +39,7 @@
 #include "math_parser_shim.h"
 #include "mission.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -458,6 +459,22 @@ void conditional_t::set_has_trait( const JsonObject &jo, const std::string &memb
     str_or_var trait_to_check = get_str_or_var( jo.get_member( member ), member, true );
     condition = [trait_to_check, is_npc]( dialogue const & d ) {
         return d.actor( is_npc )->has_trait( trait_id( trait_to_check.evaluate( d ) ) );
+    };
+}
+
+void conditional_t::set_has_visible_trait( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var trait_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [trait_to_check, is_npc]( dialogue const & d ) {
+        const talker *observer = d.actor( !is_npc );
+        const talker *observed = d.actor( is_npc );
+        int visibility_cap = observer->get_character()->get_mutation_visibility_cap(
+                                 observed->get_character() );
+        bool observed_has = observed->has_trait( trait_id( trait_to_check.evaluate( d ) ) );
+        const mutation_branch &mut_branch = trait_id( trait_to_check.evaluate( d ) ).obj();
+        bool is_visible = mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap;
+        return observed_has && is_visible;
     };
 }
 
@@ -1545,6 +1562,10 @@ static std::function<T( const dialogue & )> get_get_str_( const JsonObject &jo,
             tripoint_abs_ms char_pos = get_map().getglobal( d.actor( false )->pos() );
             tripoint_abs_ms target_pos = char_pos + tripoint::from_string( target.evaluate( d ) );
             return ret_func( target_pos.to_string() );
+        };
+    } else if( jo.get_string( "mutator" ) == "topic_item" ) {
+        return [ret_func]( const dialogue & d ) {
+            return ret_func( d.cur_item.str() );
         };
     }
 
@@ -2882,7 +2903,7 @@ void eoc_math::_validate_type( JsonArray const &objects, type_t type_ ) const
         if( action == oper::assign ) {
             objects.throw_error(
                 R"(Assignment operator "=" can't be used in a conditional statement.  Did you mean to use "=="? )" );
-        } else {
+        } else if( action != oper::ret ) {
             objects.throw_error( "Only comparison operators can be used in conditional statements" );
         }
     } else if( type_ == type_t::ret && action > oper::ret ) {
@@ -3208,6 +3229,10 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_has_trait( jo, "u_has_trait" );
     } else if( jo.has_member( "npc_has_trait" ) ) {
         set_has_trait( jo, "npc_has_trait", true );
+    } else if( jo.has_member( "u_has_visible_trait" ) ) {
+        set_has_visible_trait( jo, "u_has_visible_trait" );
+    } else if( jo.has_member( "npc_has_visible_trait" ) ) {
+        set_has_visible_trait( jo, "npc_has_visible_trait", true );
     } else if( jo.has_member( "u_has_martial_art" ) ) {
         set_has_martial_art( jo, "u_has_martial_art" );
     } else if( jo.has_member( "npc_has_martial_art" ) ) {

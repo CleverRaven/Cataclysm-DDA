@@ -851,7 +851,8 @@ class item : public visitable
         int fill_with( const item &contained, int amount = INFINITE_CHARGES,
                        bool unseal_pockets = false,
                        bool allow_sealed = false,
-                       bool ignore_settings = false );
+                       bool ignore_settings = false,
+                       bool into_bottom = false );
 
         /**
          * How much more of this liquid (in charges) can be put in this container.
@@ -1419,7 +1420,7 @@ class item : public visitable
             link_state s_state = link_state::no_link;
             /// State of the link's target, the end represented by t_abs_pos, @ref link_state.
             link_state t_state = link_state::no_link;
-            /// The last turn process_cable was called on this cable. Used for time the cable spends outside the bubble.
+            /// The last turn process_link was called on this cable. Used for time the cable spends outside the bubble.
             time_point last_processed = calendar::turn;
             /// Absolute position of the linked target vehicle/appliance.
             tripoint_abs_ms t_abs_pos = tripoint_abs_ms( tripoint_min );
@@ -1429,20 +1430,22 @@ class item : public visitable
             safe_reference<vehicle> t_veh_safe; // NOLINT(cata-serialize)
             /// The linked part's mount offset on the target vehicle.
             point t_mount = point_zero;
+            /// The current slack of the cable.
+            int length = 0;
             /// The maximum length of the cable. Set during initialization.
             int max_length = 2;
-            /// The cable's charge rate in watts. Set during initialization.
+            /// The cable's power capacity in watts, affects battery charge rate. Set during initialization.
             int charge_rate = 0;
+            /// (this) out of 1.0 chance to successfully add 1 charge every charge interval.
+            float efficiency = 0.0f;
             /// The turn interval between charges. Set during initialization.
-            int charge_interval = -1;
-            /// one_in(this) chance to fail adding 1 charge. Set during initialization.
-            int charge_efficiency = 7;
+            int charge_interval = 0;
 
             bool has_state( link_state state ) const {
                 return s_state == state || t_state == state;
             }
-            bool has_states( link_state i_state_, link_state t_state_ ) const {
-                return s_state == i_state_ && t_state == t_state_;
+            bool has_states( link_state s_state_, link_state t_state_ ) const {
+                return s_state == s_state_ && t_state == t_state_;
             }
             bool has_no_links() const {
                 return s_state == link_state::no_link && t_state == link_state::no_link;
@@ -1451,29 +1454,54 @@ class item : public visitable
             void serialize( JsonOut &jsout ) const;
             void deserialize( const JsonObject &data );
         };
-        cata::value_ptr<link_data> link;
+        /**
+         * @brief Sets max_length and efficiency of a link, taking cable extensions into account.
+         * @brief max_length is set to the sum of all cable lengths.
+         * @brief efficiency is set to the product of all efficiencies multiplied together.
+         * @param assign_t_state If true, set the t_state based on the parts at the connection point. Defaults to false.
+         */
+        void set_link_traits( bool assign_t_state = false );
+
+        /**
+         * @return The link's current length.
+         * @return `-1` if the item has link_data but needs reeling.
+         * @return `-2` if the item has no active link.
+         */
+        int link_length() const;
+
+        /**
+         * @return The item's maximum possible link length, including extensions. Item doesn't need an active link.
+         * @return `-2` if the item has no active link or extensions.
+         */
+        int max_link_length() const;
+
+        /**
+         * Value used for sorting linked items in inventory lists.
+         */
+        int link_sort_key() const;
+
         /**
          * Brings a cable item back to its initial state.
+         * @param p Set to character that's holding the linked item, nullptr if none.
+         * @param vpart_index The index of the vehicle part the cable is attached to, so it can have `linked_flag` removed.
+         * @param * At -1, the default, this function will look up the index itself. At -2, skip modifying the part's flags entirely.
+         * @param loose_message If there should be a notification that the link was disconnected.
+         * @param cable_position Position of the linked item, used to determine if the player can see the link becoming loose.
          * @return True if the cable should be deleted.
          */
-        bool reset_cable( Character *p = nullptr, item *parent_item = nullptr,
-                          bool loose_message = false, tripoint sees_point = tripoint_zero );
-        /**
-        * Resets all of an items cables.
-        */
-        void reset_cables( Character *p );
+        bool reset_link( Character *p = nullptr, int vpart_index = -1,
+                         bool loose_message = false, tripoint cable_position = tripoint_zero );
 
         /**
         * @brief Exchange power between an item's batteries and the vehicle/appliance it's linked to.
         * @brief A positive link.charge_rate will charge the item at the expense of the vehicle,
         * while a negative link.charge_rate will charge the vehicle at the expense of the item.
         *
-        * @param linked_item The item that contains the linking cable.
         * @param linked_veh The vehicle the item is connected to.
         * @param turns_elapsed The number of turns the link has spent outside the reality bubble. Default 1.
         * @return The amount of power given or taken to be displayed; ignores turns_elapsed and inefficiency.
         */
-        int charge_linked_batteries( item &linked_item, vehicle &linked_veh, int turns_elapsed = 1 );
+        int charge_linked_batteries( vehicle &linked_veh, int turns_elapsed = 1 );
 
         /**
          * Whether the item should be processed (by calling @ref process).
@@ -2304,15 +2332,17 @@ class item : public visitable
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.
          * @param carrier is used for UPS and bionic power for tools
-         * @param cable_links Add cable-linked vehicles' ammo to the ammo count
+         * @param include_linked Add cable-linked vehicles' ammo to the ammo count
          */
-        int ammo_remaining( const Character *carrier = nullptr, bool cable_links = false ) const;
-        int ammo_remaining( bool cable_links ) const;
+        int ammo_remaining( const Character *carrier = nullptr, bool include_linked = false ) const;
+        int ammo_remaining( bool include_linked ) const;
 
         /**
          * ammo capacity for a specific ammo
+         * @param ammo The ammo type to get the capacity for
+         * @param include_linked If linked up, return linked electricity grid's capacity
          */
-        int ammo_capacity( const ammotype &ammo ) const;
+        int ammo_capacity( const ammotype &ammo, bool include_linked = false ) const;
 
         /**
          * how much more ammo can fit into this item
@@ -2455,6 +2485,8 @@ class item : public visitable
         std::vector<const item *> softwares() const;
 
         std::vector<const item *> ebooks() const;
+
+        std::vector<const item *> cables() const;
 
         /** Get first attached gunmod matching type or nullptr if no such mod or item is not a gun */
         item *gunmod_find( const itype_id &mod );
@@ -2910,8 +2942,7 @@ class item : public visitable
         // Place conditions that should remove fake smoke item in this sub-function
         bool process_fake_smoke( map &here, Character *carrier, const tripoint &pos );
         bool process_fake_mill( map &here, Character *carrier, const tripoint &pos );
-        bool process_cable( map &here, Character *carrier, const tripoint &pos,
-                            item *parent_item = nullptr );
+        bool process_link( map &here, Character *carrier, const tripoint &pos );
         bool process_linked_item( Character *carrier, const tripoint &pos, link_state required_state );
         bool process_blackpowder_fouling( Character *carrier );
         bool process_tool( Character *carrier, const tripoint &pos );
@@ -2976,6 +3007,7 @@ class item : public visitable
     public:
         // any relic data specific to this item
         cata::value_ptr<relic> relic_data;
+        cata::value_ptr<link_data> link;
         int charges = 0;
         units::energy energy = 0_mJ; // Amount of energy currently stored in a battery
 
@@ -2997,9 +3029,6 @@ class item : public visitable
         int player_id = -1;        // Only give a mission to the right player!
         bool ethereal = false;
         int wetness = 0;           // Turns until this item is completely dry.
-
-        // This contains a cable with an active link. Is NOT true for linked cable items themselves.
-        bool contents_linked = false;
 
         int seed = rng( 0, INT_MAX );  // A random seed for layering and other options
 

@@ -137,7 +137,7 @@
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Fill container with water from faucet",
-    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "F" }, { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] } ]
   },
   {
     "id": "FAUCET_DRINK",
@@ -404,6 +404,13 @@
     "category": "VEHICLE",
     "name": "Set turret targeting modes",
     "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "id": "DISCONNECT_CABLES",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Disconnect attached cables",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
   },
   {
     "id": "ARCADE",

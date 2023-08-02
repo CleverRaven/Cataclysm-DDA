@@ -58,9 +58,9 @@
     "description": "A delicious serving of fried morsels of morel mushroom.",
     "price": 1500,
     "price_postapoc": 50,
-    "charges": 2,
     "fun": 12,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "volume": "125 ml"
   },
   {
     "type": "COMESTIBLE",

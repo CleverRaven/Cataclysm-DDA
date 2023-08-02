@@ -165,7 +165,8 @@
       { "proficiency": "prof_forage_cooking" }
     ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "jerusalem_artichoke_boiled", 2 ] ], [ [ "sweet_fruit", 1, "LIST" ] ] ]
+    "components": [ [ [ "jerusalem_artichoke_boiled", 2 ] ], [ [ "sweet_fruit", 1, "LIST" ] ] ],
+    "charges": 4
   },
   {
     "type": "recipe",

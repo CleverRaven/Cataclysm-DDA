@@ -7,9 +7,8 @@
     "description": "Roots of a pineapple plant, for growing your own.",
     "weight": "152 g",
     "price": 160,
-    "charges": 2,
-    "stack_size": 8,
-    "seed_data": { "plant_name": "pineapple", "fruit": "pineapple", "byproducts": [ "straw_pile" ], "grow": "280 days" }
+    "seed_data": { "plant_name": "pineapple", "fruit": "pineapple", "byproducts": [ "straw_pile" ], "grow": "280 days" },
+    "volume": "31 ml"
   },
   {
     "id": "seed_melon",

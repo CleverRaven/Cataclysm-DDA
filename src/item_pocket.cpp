@@ -1320,7 +1320,7 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
             return ret_val<item_pocket::contain_code>::make_success();
         } else {
             return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_MOD, _( "only certain cables can go into cable pocket" ) );
+                       contain_code::ERR_MOD, _( "only cables can go into cable pocket" ) );
         }
     }
 
@@ -1679,8 +1679,9 @@ static void move_to_parent_pocket_recursive( const tripoint &pos, item &it,
     if( loc ) {
         item_pocket *parent_pocket = loc.parent_pocket();
         if( parent_pocket && parent_pocket->can_contain( it ).success() ) {
-            add_msg( m_bad, _( "Your %1$s falls into your %2$s." ), it.tname(), loc.parent_item()->tname() );
-            loc.parent_pocket()->insert_item( it );
+            add_msg( m_bad, _( "Your %1$s falls into your %2$s." ), it.display_name(),
+                     loc.parent_item()->label( 1 ) );
+            parent_pocket->insert_item( it );
             return;
         }
         if( loc.where() == item_location::type::container ) {
@@ -1690,7 +1691,7 @@ static void move_to_parent_pocket_recursive( const tripoint &pos, item &it,
     }
 
     map &here = get_map();
-    add_msg( m_bad, _( "Your %s falls to the ground." ), it.tname() );
+    add_msg( m_bad, _( "Your %s falls to the ground." ), it.display_name() );
     here.add_item_or_charges( pos, it );
 }
 

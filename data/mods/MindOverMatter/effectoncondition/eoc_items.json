@@ -1,0 +1,32 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FORCE_FIELD_GENERATOR_ACTIVATION",
+    "condition": { "u_has_items": { "item": "matrix_crystal_drained", "count": 1 } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_FORCE_FIELD_GENERATOR_ACTIVATION_2",
+            "condition": { "math": [ "rng(0,99)", ">=", "3" ] },
+            "effect": [
+              { "u_consume_item": "matrix_crystal_drained", "count": 1 },
+              { "u_message": "The matrix crystal cracks into pieces as the device activates!", "type": "mixed" },
+              {
+                "u_add_effect": "force_field_generated",
+                "duration": { "math": [ "(u_val('time: 2 s') * rng(1,6)) " ] }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "The device makes a whining sound and there is a sharp smell of burnt plastic!", "type": "bad" },
+              { "u_consume_item": "matrix_crystal_drained", "count": 1 },
+              { "u_consume_item": "force_field_generator", "count": 1 },
+              { "u_spawn_item": "force_field_generator_broken", "suppress_message": true }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "Without a matrix crystal to power it, flipping the toggle does nothing.", "type": "bad" } ]
+  }
+]

@@ -168,6 +168,12 @@
     "flags": [ "IS_UPS" ]
   },
   {
+    "id": "generic_device_cable",
+    "type": "MIGRATION",
+    "replace": "oxygen",
+    "reset_item_vars": true
+  },
+  {
     "id": "rebreather_filter",
     "type": "MIGRATION",
     "replace": "rebreather_filler_soda_lime"
@@ -199,5 +205,11 @@
     "id": "survivor_light_on",
     "type": "MIGRATION",
     "replace": "wearable_light_on"
+  },
+  {
+    "id": "bodypillow_makeshift",
+    "type": "MIGRATION",
+    "replace": "bodypillow",
+    "variant": "bodypillow_makeshift"
   }
 ]

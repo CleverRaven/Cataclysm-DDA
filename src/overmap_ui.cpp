@@ -1561,7 +1561,7 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
             mvwprintz( w_editor, point( 1, 3 ), c_light_gray, "                         " );
             mvwprintz( w_editor, point( 1, 3 ), c_light_gray, _( "Rotation: %s %s" ), rotation,
                        can_rotate ? "" : _( "(fixed)" ) );
-            mvwprintz( w_editor, point( 1, 5 ), c_red, _( "Areas highlighted in red" ) );
+            mvwprintz( w_editor, point( 1, 5 ), c_red, _( "Highlighted regions" ) );
             mvwprintz( w_editor, point( 1, 6 ), c_red, _( "already have map content" ) );
             // NOLINTNEXTLINE(cata-text-style): single space after period for compactness
             mvwprintz( w_editor, point( 1, 7 ), c_red, _( "generated. Their overmap" ) );

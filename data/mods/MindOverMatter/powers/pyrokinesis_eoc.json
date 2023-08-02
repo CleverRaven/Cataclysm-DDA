@@ -1,0 +1,35 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_PYROKIN_CALL_FLAME_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_SPELL_PYROKIN_CALL_FLAME_SHORT", "EOC_SPELL_PYROKIN_CALL_FLAME_LONG" ],
+        "names": [ "Banked Flame (short-term)", "Banked Flame (long-term)" ],
+        "keys": [ "1", "2" ],
+        "descriptions": [
+          "Summon a banked flame for a short period of time, perhaps 5-10 minutes.",
+          "Summon a banked flame for a longer period of time, over an hour.  This is of necessity more draining than summoning it for a short period of time."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_PYROKIN_CALL_FLAME_SHORT",
+    "effect": [
+      { "u_remove_item_with": "pyrokinetic_fire_tool" },
+      { "u_cast_spell": { "id": "pyrokin_call_flame_short_term" } },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,1 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_PYROKIN_CALL_FLAME_LONG",
+    "effect": [
+      { "u_remove_item_with": "pyrokinetic_fire_tool" },
+      { "u_cast_spell": { "id": "pyrokin_call_flame_long_term" } },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 2,5 )" ] }
+    ]
+  }
+]

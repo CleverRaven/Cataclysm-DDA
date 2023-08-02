@@ -132,6 +132,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "TURRET_CONTROLS", VPFLAG_TURRET_CONTROLS },
     { "ROOF", VPFLAG_ROOF },
     { "CABLE_PORTS", VPFLAG_CABLE_PORTS },
+    { "BATTERY", VPFLAG_BATTERY }
 };
 
 static std::map<vpart_id, vpart_migration> vpart_migrations;

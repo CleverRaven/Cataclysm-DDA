@@ -13,7 +13,8 @@
     "qualities": [ { "id": "CHURN", "level": 1 } ],
     "book_learn": [ [ "dairy_book", 3 ] ],
     "//": "Book Things to do with milk.  Add curdled milk and cheese recipes to the book.  Also consider adding to brewing json Airag from this book.",
-    "components": [ [ [ "milk_cream", 5 ] ] ]
+    "components": [ [ [ "milk_cream", 5 ] ] ],
+    "charges": 33
   },
   {
     "type": "recipe",
@@ -30,7 +31,8 @@
     "book_learn": [ [ "dairy_book", 3 ] ],
     "//": "Book Things to do with milk.  Add curdled milk and cheese recipes to the book.  Also consider adding to brewing json Airag from this book.",
     "tools": [ [ [ "jar_glass_sealed", -1 ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "milk_cream", 3 ] ] ]
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "milk_cream", 3 ] ] ],
+    "charges": 33
   },
   {
     "type": "recipe",
