@@ -103,6 +103,7 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_winded( "winded" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
@@ -250,23 +251,38 @@ static void eff_fun_fungus( Character &u, effect &it )
                 }
                 // We're fucked
             } else if( one_in( 36000 + bonus * 240 ) ) {
-                if( u.is_limb_broken( bodypart_id( "arm_l" ) ) || u.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
-                    if( u.is_limb_broken( bodypart_id( "arm_l" ) ) && u.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
-                        u.add_msg_player_or_npc( m_bad,
-                                                 _( "The flesh on your broken arms bulges.  Fungus stalks burst through!" ),
-                                                 _( "<npcname>'s broken arms bulge.  Fungus stalks burst out of the bulges!" ) );
-                    } else {
-                        u.add_msg_player_or_npc( m_bad,
-                                                 _( "The flesh on your broken and unbroken arms bulge.  Fungus stalks burst through!" ),
-                                                 _( "<npcname>'s arms bulge.  Fungus stalks burst out of the bulges!" ) );
+                // determine if we have arms to channel the fungal stalks out of
+                bool has_arms_outlet = true;
+                for( const bodypart_id &part : get_all_body_parts_of_type( arm_type ) ) {
+                    if part->has_flag( json_flag_BIONIC_LIMB ) {
+                        has_arms_outlet = false;
                     }
-                } else {
-                    u.add_msg_player_or_npc( m_bad, _( "Your hands bulge.  Fungus stalks burst through the bulge!" ),
-                                             _( "<npcname>'s hands bulge.  Fungus stalks burst through the bulge!" ) );
                 }
-                u.apply_damage( nullptr, bodypart_id( "arm_l" ), 999 );
-                u.apply_damage( nullptr, bodypart_id( "arm_r" ), 999 );
-            }
+                if( has_arms_outlet ) {
+                    if( u.is_limb_broken( bodypart_id( "arm_l" ) ) || u.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
+                        if( u.is_limb_broken( bodypart_id( "arm_l" ) ) && u.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
+                            u.add_msg_player_or_npc( m_bad,
+                                                     _( "The flesh on your broken arms bulges.  Fungus stalks burst through!" ),
+                                                     _( "<npcname>'s broken arms bulge.  Fungus stalks burst out of the bulges!" ) );
+                        } else {
+                            u.add_msg_player_or_npc( m_bad,
+                                                     _( "The flesh on your broken and unbroken arms bulge.  Fungus stalks burst through!" ),
+                                                     _( "<npcname>'s arms bulge.  Fungus stalks burst out of the bulges!" ) );
+                        }
+                    } else {
+                        u.add_msg_player_or_npc( m_bad, _( "Your hands bulge.  Fungus stalks burst through the bulge!" ),
+                                                 _( "<npcname>'s hands bulge.  Fungus stalks burst through the bulge!" ) );
+                    }
+                    u.apply_damage( nullptr, bodypart_id( "arm_l" ), 999 );
+                    u.apply_damage( nullptr, bodypart_id( "arm_r" ), 999 );
+                } else {
+                    // we don't have viable arms, so the fungus does a little chestbursting
+                    u.add_msg_player_or_npc( m_bad,
+                                             _( "Your chest bulges, and fungal stalks burst out of your skin!" ),
+                                             _( "<npcname>'s chest bulges.  Fungus stalks burst out of their skin!" ) );
+                    u.apply_damage( nullptr, bodypart_id( "torso" ), 40 );
+                    you.add_effect( effect_bleed, 30_minutes, bodypart_id( "torso" ) );
+                }
             break;
     }
 }
@@ -1426,6 +1442,7 @@ void Character::hardcoded_effects( effect &it )
         if( one_in( 1536 ) ) {
             add_msg_if_player( m_bad, _( "Your muscles are tight and sore." ) );
         }
+        // to do: make muscle spasms not as dangerous if you have bionic limbs
         if( !has_effect( effect_valium ) ) {
             add_miss_reason( _( "Your muscles are locking up and you can't fight effectively." ), 4 );
             if( one_in( 3072 ) ) {
@@ -1655,6 +1672,8 @@ void Character::hardcoded_effects( effect &it )
         // easily, leading to build-up in muscle and fat tissue through bioaccumulation.
         // Symptoms vary, and many are too long-term to be relevant in C:DDA (i.e. carcinogens),
         // but lowered immune response and neurotoxicity (i.e. seizures, migraines) are common.
+
+        // to do: make these interact with bionic limbs? if they are neurotoxins your brain might be sending faulty signals to your mecahnical limbs anyways however
 
         if( in_sleep_state() ) {
             return;
