@@ -4648,10 +4648,8 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoin
             }
             p->add_msg_if_player( m_info, _( "…but acidic blood damages the %s!" ), it->tname() );
         }
-        return 1;
-    }
-     	if( vampire ) {
-     		p->vitamin_mod( vitamin_human_blood_vitamin, vitamin_human_blood_vitamin->min() - 500 );
+        if( vampire ) {
+            p->vitamin_mod( vitamin_human_blood_vitamin, vitamin_human_blood_vitamin->min() - 500 );
 
     if( !drew_blood ) {
         return std::nullopt;;
