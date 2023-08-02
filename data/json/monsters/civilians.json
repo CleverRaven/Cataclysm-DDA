@@ -152,7 +152,7 @@
         "ends": "2 days",
         "pack_size": [ 1, 2 ]
       },
-      { "monster": "mon_civilian_parent", "weight": 20, "cost_multiplier": 0, "starts": "2 days" },
+      { "monster": "mon_civilian_parent", "weight": 20, "cost_multiplier": 0, "starts": "2 days", "ends": "4 days" },
       { "monster": "mon_civilian_panic", "weight": 40, "cost_multiplier": 0, "ends": "2 days", "pack_size": [ 1, 5 ] },
       {
         "monster": "mon_civilian_panic",
