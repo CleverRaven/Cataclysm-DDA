@@ -371,13 +371,7 @@
         "menu_text": "Turn on",
         "type": "transform"
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "1 kW"
-      }
+      { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" }
     ],
     "pocket_data": [
       {
@@ -407,13 +401,7 @@
         "menu_text": "Turn off",
         "type": "transform"
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "1 kW"
-      }
+      { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" }
     ]
   },
   {
@@ -589,13 +577,7 @@
         "menu_text": "Turn on",
         "type": "transform"
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "500 W"
-      }
+      { "type": "link_up", "cable_length": 2, "charge_rate": "500 W" }
     ],
     "pocket_data": [
       {
@@ -625,13 +607,7 @@
         "menu_text": "Turn off",
         "type": "transform"
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "500 W"
-      }
+      { "type": "link_up", "cable_length": 2, "charge_rate": "500 W" }
     ]
   },
   {

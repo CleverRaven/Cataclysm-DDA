@@ -1978,6 +1978,8 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     }
     for( item &it : ret ) {
         it.spill_contents( *this );
+        // todo: make a proper solution that overflows with the proper item_location
+        it.overflow( pos() );
     }
     empty_buckets( *this );
     return ret;
