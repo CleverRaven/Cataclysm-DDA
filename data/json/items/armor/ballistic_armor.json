@@ -1162,7 +1162,7 @@
     "id": "xl_ballistic_vest_qt",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "XL ballistic vest (steel ballistic plates)", "str_pl": "XL ballistic vests (tempered steel plates)" },
+    "name": { "str": "XL ballistic vest (tempered steel plates)", "str_pl": "XL ballistic vests (tempered steel plates)" },
     "description": "An enormous handmade ballistic vest made of lots of salvaged ballistic Kevlar panels and ten NIJ IIIA plates inserted into custom-made pockets - four each for your front and back and one each for your sides.  Monstrously heavy but extremely protective.",
     "weight": "18000 g",
     "volume": "9 L",
