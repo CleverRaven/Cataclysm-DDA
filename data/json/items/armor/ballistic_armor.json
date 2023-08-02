@@ -1159,37 +1159,6 @@
     "looks_like": "ballistic_vest_esapi"
   },
   {
-    "id": "xl_ballistic_vest_ch",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "XL ballistic vest (hardened steel plates)", "str_pl": "XL ballistic vests (hardened steel plates)" },
-    "description": "An enormous handmade ballistic vest built with lots of salvaged ballistic Kevlar panels and homemade ballistic inserts made of case hardened steel.  Though the metal isn't as thick or protective as factory-made tempered plates it is a good deal less burdensome.",
-    "weight": "12500 g",
-    "volume": "9 L",
-    "price_postapoc": "25 USD",
-    "symbol": "[",
-    "material": [ "nylon", "kevlar_layered", "ch_steel" ],
-    "color": "light_gray",
-    "warmth": 20,
-    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "OVERSIZE" ],
-    "use_action": [ { "type": "attach_molle", "size": 12 }, { "type": "detach_molle" } ],
-    "armor": [
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 },
-          { "type": "ch_steel", "covered_by_mat": 90, "thickness": 1.5 }
-        ],
-        "encumbrance": 15,
-        "coverage": 100,
-        "cover_vitals": 95,
-        "covers": [ "torso" ],
-        "volume_encumber_modifier": 0.25
-      }
-    ],
-    "looks_like": "ballistic_vest_esapi"
-  },
-  {
     "id": "xl_ballistic_vest_qt",
     "type": "ARMOR",
     "category": "armor",
