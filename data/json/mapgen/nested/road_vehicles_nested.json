@@ -1073,8 +1073,8 @@
         },
         {
           "vehicle": "police_pileup",
-          "x": [ 4, 16 ],
-          "y": [ 4, 16 ],
+          "x": [ 5, 16 ],
+          "y": [ 5, 16 ],
           "fuel": -1,
           "status": 1,
           "chance": 50,
