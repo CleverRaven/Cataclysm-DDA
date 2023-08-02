@@ -125,12 +125,7 @@
     "type": "enchantment",
     "id": "ENCH_BIONICS_NOARMS",
     "condition": "ALWAYS",
-    "modified_bodyparts": [
-      { "lose": "arm_l" },
-      { "lose": "arm_r" },
-      { "lose": "hand_l" },
-      { "lose": "hand_r" }
-    ]
+    "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "arm_r" }, { "lose": "hand_l" }, { "lose": "hand_r" } ]
   },
   {
     "type": "enchantment",
