@@ -433,7 +433,6 @@
     "material": [ "flesh" ],
     "symbol": "t",
     "color": "green",
-    "aggression": 0,
     "morale": 10,
     "aggro_character": false,
     "melee_skill": 3,
