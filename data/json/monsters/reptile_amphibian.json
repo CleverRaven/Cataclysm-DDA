@@ -457,7 +457,7 @@
     "id": "mon_turtle_big",
     "type": "MONSTER",
     "name": { "str": "luminary's vision" },
-    "description": "A mutated, mostly aquatic freshwater turtle, about three times as large as the norm, its pace ponderous and carrying a shell covered in abnormal shapes and strange reflections. It also seems somewhat more irritable than normal.",
+    "description": "A mutated, mostly aquatic freshwater turtle, about three times as large as the norm, its pace ponderous and carrying a shell covered in abnormal shapes and strange reflections.  It also seems somewhat more irritable than normal.",
     "default_faction": "mutant",
     "bodytype": "turtle",
     "categories": [ "WILDLIFE" ],
