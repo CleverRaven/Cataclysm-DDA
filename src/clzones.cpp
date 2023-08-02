@@ -664,26 +664,6 @@ tripoint_abs_ms zone_data::get_center_point() const
     return midpoint( get_start_point(), get_end_point() );
 }
 
-tripoint_abs_ms zone_data::get_nearest_point( const tripoint_abs_ms &where ) const
-{
-    tripoint_abs_ms res;
-    res.x() = std::min( std::max( get_start_point().x(), where.x() ), get_end_point().x() );
-    res.y() = std::min( std::max( get_start_point().y(), where.y() ), get_end_point().y() );
-    res.z() = std::min( std::max( get_start_point().z(), where.z() ), get_end_point().z() );
-    return res;
-}
-
-std::unordered_set<tripoint> zone_data::get_point_set() const
-{
-    map &here = get_map();
-    std::unordered_set<tripoint> point_set;
-    for( tripoint point : here.points_in_rectangle( here.getlocal( get_start_point() ),
-            here.getlocal( get_end_point() ) ) ) {
-        point_set.emplace( point );
-    }
-    return point_set;
-}
-
 std::string zone_manager::get_name_from_type( const zone_type_id &type ) const
 {
     const auto &iter = types.find( type );
@@ -803,31 +783,37 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_ab
 std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_abs_ms &where,
         int radius, bool npc_search, const faction_id &fac ) const
 {
-    map &here = get_map();
-    tripoint where_local = here.getlocal( where );
-    auto const check = [&where, radius, npc_search, &fac]( const zone_data & z ) {
-        zone_type_id type = z.get_type();
-        return z.get_faction() == fac && type.str().substr( 0, 4 ) == "LOOT" &&
-               square_dist( where, z.get_nearest_point( where ) ) <= radius;
-    };
     std::unordered_set<tripoint> res;
-    for( const zone_data &z : zones ) {
-        if( check( z ) ) {
-            for( tripoint point : z.get_point_set() ) {
-                if( square_dist( where_local, point ) <= radius &&
-                    !( npc_search && has( zone_type_NO_NPC_PICKUP, where ) ) ) {
-                    res.emplace( point );
+    map &here = get_map();
+    for(const std::pair<std::string, std::unordered_set<tripoint_abs_ms>> cache : area_cache) {
+        zone_type_id type = zone_data::unhash_type(cache.first);
+        faction_id z_fac = zone_data::unhash_fac(cache.first);
+        if( fac == z_fac && type.str().substr( 0, 4 ) == "LOOT" ) {
+            for( tripoint_abs_ms point : cache.second ) {
+                if( square_dist( where, point ) <= radius ) {
+                    res.emplace( here.getlocal( point ) );
                 }
             }
         }
     }
-    auto const vzones = get_map().get_vehicle_zones( get_map().get_abs_sub().z() );
-    for( const zone_data *z : vzones ) {
-        if( check( *z ) ) {
-            for( tripoint point : z->get_point_set() ) {
-                if( square_dist( where_local, point ) <= radius &&
-                    !( npc_search && has( zone_type_NO_NPC_PICKUP, where ) ) ) {
-                    res.emplace( point );
+    for(const std::pair<std::string, std::unordered_set<tripoint_abs_ms>> cache : vzone_cache) {
+        zone_type_id type = zone_data::unhash_type(cache.first);
+        faction_id z_fac = zone_data::unhash_fac(cache.first);
+        if( fac == z_fac && type.str().substr( 0, 4 ) == "LOOT" ) {
+            for( tripoint_abs_ms point : cache.second ) {
+                if( square_dist( where, point ) <= radius ) {
+                    res.emplace( here.getlocal( point ) );
+                }
+            }
+        }
+    }
+
+    if( npc_search ) {
+        for(const std::pair<std::string, std::unordered_set<tripoint_abs_ms>> cache : vzone_cache) {
+            zone_type_id type = zone_data::unhash_type(cache.first);
+            if( type == zone_type_NO_NPC_PICKUP ) {
+                for( tripoint_abs_ms point : cache.second ) {
+                    res.erase( here.getlocal( point ) );
                 }
             }
         }

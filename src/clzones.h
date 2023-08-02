@@ -375,6 +375,13 @@ class zone_data
             }
             return zone_type_id( "" );
         }
+        static faction_id unhash_fac( const std::string_view hash_type ) {
+            size_t start = hash_type.find( type_fac_hash_str ) + type_fac_hash_str.size();
+            if( start != std::string::npos ) {
+                return faction_id( hash_type.substr( start ) );
+            }
+            return faction_id( "" );
+        }
         std::string get_name() const {
             return name;
         }
@@ -419,8 +426,6 @@ class zone_data
             cached_shift = player_loc;
         }
         tripoint_abs_ms get_center_point() const;
-        tripoint_abs_ms get_nearest_point( const tripoint_abs_ms &where ) const;
-        std::unordered_set<tripoint> get_point_set() const;
         bool has_options() const {
             return options->has_options();
         }
