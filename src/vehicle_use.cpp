@@ -550,6 +550,7 @@ item vehicle::init_cord( const tripoint &pos )
     cord.link->t_veh_safe = get_safe_reference();
     cord.link->t_abs_pos = get_map().getglobal( pos );
     cord.set_link_traits();
+    cord.link->max_length = 2;
 
     return cord;
 }
