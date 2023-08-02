@@ -253,7 +253,7 @@ static void eff_fun_fungus( Character &u, effect &it )
             } else if( one_in( 36000 + bonus * 240 ) ) {
                 // determine if we have arms to channel the fungal stalks out of
                 bool has_arms_outlet = true;
-                for( const bodypart_id &part : get_all_body_parts_of_type( arm_type ) ) {
+                for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::arm ) ) {
                     if part->has_flag( json_flag_BIONIC_LIMB ) {
                         has_arms_outlet = false;
                     }
@@ -281,7 +281,7 @@ static void eff_fun_fungus( Character &u, effect &it )
                                              _( "Your chest bulges, and fungal stalks burst out of your skin!" ),
                                              _( "<npcname>'s chest bulges.  Fungus stalks burst out of their skin!" ) );
                     u.apply_damage( nullptr, bodypart_id( "torso" ), 40 );
-                    you.add_effect( effect_bleed, 30_minutes, bodypart_id( "torso" ) );
+                    u.add_effect( effect_bleed, 30_minutes, bodypart_id( "torso" ) );
                 }
             }
             break;
