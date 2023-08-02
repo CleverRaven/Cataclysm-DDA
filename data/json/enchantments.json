@@ -120,5 +120,27 @@
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.67 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_BIONICS_NOARMS",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [
+      { "lose": "arm_l" },
+      { "lose": "arm_r" },
+      { "lose": "hand_l" },
+      { "lose": "hand_r" }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_BIONICS_NOLEGS",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [
+      { "lose": "leg_l" },
+      { "lose": "leg_r" },
+      { "lose": "foot_l" },
+      { "lose": "foot_r" }
+    ]
   }
 ]
