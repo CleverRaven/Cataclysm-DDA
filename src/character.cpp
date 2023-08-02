@@ -10055,29 +10055,21 @@ void Character::process_one_effect( effect &it, bool is_new )
             }
         }
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, mod ) ) {
-                if( bp == bodypart_str_id::NULL_ID() ) {
-                    if( val > 5 ) {
-                        add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( body_part_torso ) );
-                    } else {
-                        add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( body_part_torso ) );
-                    }
-                    apply_damage( nullptr, body_part_torso, val, true );
+            if( bp == bodypart_str_id::NULL_ID() ) {
+                if( val > 5 ) {
+                    add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( body_part_torso ) );
                 } else {
-                    if( bp->has_flag( json_flag_BIONIC_LIMB ) {
-                        if( val > 5 ) {
-                            add_msg_if_player( m_bad, _( "Your %s sustains major damage!" ), body_part_name_accusative( bp ) );
-                        } else {
-                            add_msg_if_player( m_bad, _( "Your %s suistains damage!" ), body_part_name_accusative( bp ) );
-                        }
-                    } else {
-                       if( val > 5 ) {
-                            add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
-                        } else {
-                            add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
-                        }
-                    }
-                    apply_damage( nullptr, bp, val, true );
+                    add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( body_part_torso ) );
                 }
+                apply_damage( nullptr, body_part_torso, val, true );
+            } else {
+                if( val > 5 ) {
+                    add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
+                } else {
+                    add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
+                }
+                apply_damage( nullptr, bp, val, true );
+            }
         }
     }
 
