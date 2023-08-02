@@ -137,7 +137,7 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
-    "description": "Your skin has has magickal flames flaring out of it on occasion.   You can operate in warmer climates than normal humans but begin to take damage from getting wet.",
+    "description": "Your skin has has magickal flames flaring out of it on occasion.  You can operate in warmer climates than normal humans but begin to take damage from getting wet.",
     "types": [ "SKIN" ],
     "category": [ "SALAMANDER" ],
     "prereqs": [ "SALAMANDER_SKIN_1" ],
