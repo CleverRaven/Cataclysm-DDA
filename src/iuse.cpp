@@ -4623,6 +4623,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoin
         blood_temp = units::from_celsius( 37 );
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
+ }
         if( p->has_trait( trait_VAMPIRE ) ) {
             vampire = true;
         }
