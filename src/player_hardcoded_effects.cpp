@@ -283,6 +283,7 @@ static void eff_fun_fungus( Character &u, effect &it )
                     u.apply_damage( nullptr, bodypart_id( "torso" ), 40 );
                     you.add_effect( effect_bleed, 30_minutes, bodypart_id( "torso" ) );
                 }
+            }
             break;
     }
 }
