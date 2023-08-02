@@ -10581,6 +10581,10 @@ bool item::ammo_sufficient( const Character *carrier, int qty ) const
         return ammo_remaining( carrier, true ) >= qty;
     }
 
+    if( is_comestible() ) {
+        return true;
+    }
+
     return shots_remaining( carrier ) >= qty;
 }
 
