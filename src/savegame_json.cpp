@@ -3507,6 +3507,7 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "is_alarm_on", is_alarm_on );
     data.read( "camera_on", camera_on );
     data.read( "autopilot_on", autopilot_on );
+    data.read( "precollision_on", precollision_on );
     data.read( "last_update_turn", last_update );
 
     units::angle fdir_angle = units::from_degrees( fdir );
@@ -3645,6 +3646,7 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "is_alarm_on", is_alarm_on );
     json.member( "camera_on", camera_on );
     json.member( "autopilot_on", autopilot_on );
+    json.member( "precollision_on", precollision_on );
     json.member( "last_update_turn", last_update );
     json.member( "pivot", pivot_anchor[0] );
     json.member( "is_on_ramp", is_on_ramp );

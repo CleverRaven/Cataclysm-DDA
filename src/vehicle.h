@@ -982,6 +982,7 @@ class vehicle
         void plug_in( const tripoint &pos );
         void connect( const tripoint &source_pos, const tripoint &target_pos );
 
+        bool precollision_check(units::angle &angle, map &here, bool follow_protocol);
         // Try select any fuel for engine, returns true if some fuel is available
         bool auto_select_fuel( vehicle_part &vp );
         // Attempt to start an engine
@@ -2298,6 +2299,7 @@ class vehicle
         bool is_alarm_on = false;
         bool camera_on = false;
         bool autopilot_on = false;
+        bool precollision_on = true;
         // skidding mode
         bool skidding = false;
         // has bloody or smoking parts

@@ -713,6 +713,9 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
 {
     Character &player_character = get_player_character();
     if( follow_protocol && player_character.in_vehicle ) {
+        sounds::sound( global_pos3(), 30, sounds::sound_t::alert,
+                       string_format( _( "the %s emitting a beep and saying \"Autonomous driving protocols suspended!\"" ),
+                                      name ) );
         stop_autodriving();
         return;
     }
@@ -720,6 +723,58 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     map &here = get_map();
     tripoint vehpos = global_square_location().raw();
     units::angle angle = get_angle_from_targ( target );
+
+    bool stop = precollision_check(angle, here, follow_protocol);
+    if( stop ) {
+        if( autopilot_on ) {
+            sounds::sound( global_pos3(), 30, sounds::sound_t::alert,
+                           string_format( _( "the %s emitting a beep and saying \"Obstacle detected!\"" ),
+                                          name ) );
+        }
+        stop_autodriving();
+        return;
+    }
+    int turn_x = get_turn_from_angle( angle, vehpos, target );
+    int accel_y = 0;
+    // best to cruise around at a safe velocity or 40mph, whichever is lowest
+    // accelerate when it doesn't need to turn.
+    // when following player, take distance to player into account.
+    // we really want to avoid running the player over.
+    // If its a helicopter, we dont need to worry about airborne obstacles so much
+    // And fuel efficiency is terrible at low speeds.
+    const int safe_player_follow_speed = 400 *
+                                         player_character.current_movement_mode()->move_speed_mult();
+    if( follow_protocol ) {
+        if( ( ( turn_x > 0 || turn_x < 0 ) && velocity > safe_player_follow_speed ) ||
+            rl_dist( vehpos, here.getabs( player_character.pos() ) ) < 7 + ( ( mount_max.y * 3 ) + 4 ) ) {
+            accel_y = 1;
+        }
+        if( ( velocity < std::min( safe_velocity(), safe_player_follow_speed ) && turn_x == 0 &&
+              rl_dist( vehpos, here.getabs( player_character.pos() ) ) > 8 + ( ( mount_max.y * 3 ) + 4 ) ) ||
+            velocity < 100 ) {
+            accel_y = -1;
+        }
+    } else {
+        if( ( turn_x > 0 || turn_x < 0 ) && velocity > 1000 ) {
+            accel_y = 1;
+        }
+        if( ( velocity < std::min( safe_velocity(), is_rotorcraft() &&
+                                   is_flying_in_air() ? 12000 : 32 * 100 ) && turn_x == 0 ) || velocity < 500 ) {
+            accel_y = -1;
+        }
+        if( is_patrolling && velocity > 400 ) {
+            accel_y = 1;
+        }
+    }
+    selfdrive( point( turn_x, accel_y ) );
+}
+
+bool vehicle::precollision_check(units::angle &angle, map &here, bool follow_protocol)
+{
+    if ( !precollision_on ) {
+        return false;
+    }
+    Character &player_character = get_player_character();
     // now we got the angle to the target, we can work out when we are heading towards disaster.
     // Check the tileray in the direction we need to head towards.
     std::set<point> points_to_check = immediate_path( angle );
@@ -764,48 +819,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
             }
         }
     }
-    if( stop ) {
-        if( autopilot_on ) {
-            sounds::sound( global_pos3(), 30, sounds::sound_t::alert,
-                           string_format( _( "the %s emitting a beep and saying \"Obstacle detected!\"" ),
-                                          name ) );
-        }
-        stop_autodriving();
-        return;
-    }
-    int turn_x = get_turn_from_angle( angle, vehpos, target );
-    int accel_y = 0;
-    // best to cruise around at a safe velocity or 40mph, whichever is lowest
-    // accelerate when it doesn't need to turn.
-    // when following player, take distance to player into account.
-    // we really want to avoid running the player over.
-    // If its a helicopter, we dont need to worry about airborne obstacles so much
-    // And fuel efficiency is terrible at low speeds.
-    const int safe_player_follow_speed = 400 *
-                                         player_character.current_movement_mode()->move_speed_mult();
-    if( follow_protocol ) {
-        if( ( ( turn_x > 0 || turn_x < 0 ) && velocity > safe_player_follow_speed ) ||
-            rl_dist( vehpos, here.getabs( player_character.pos() ) ) < 7 + ( ( mount_max.y * 3 ) + 4 ) ) {
-            accel_y = 1;
-        }
-        if( ( velocity < std::min( safe_velocity(), safe_player_follow_speed ) && turn_x == 0 &&
-              rl_dist( vehpos, here.getabs( player_character.pos() ) ) > 8 + ( ( mount_max.y * 3 ) + 4 ) ) ||
-            velocity < 100 ) {
-            accel_y = -1;
-        }
-    } else {
-        if( ( turn_x > 0 || turn_x < 0 ) && velocity > 1000 ) {
-            accel_y = 1;
-        }
-        if( ( velocity < std::min( safe_velocity(), is_rotorcraft() &&
-                                   is_flying_in_air() ? 12000 : 32 * 100 ) && turn_x == 0 ) || velocity < 500 ) {
-            accel_y = -1;
-        }
-        if( is_patrolling && velocity > 400 ) {
-            accel_y = 1;
-        }
-    }
-    selfdrive( point( turn_x, accel_y ) );
+    return stop;
 }
 
 units::angle vehicle::get_angle_from_targ( const tripoint &targ ) const

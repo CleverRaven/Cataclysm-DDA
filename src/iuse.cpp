@@ -7461,6 +7461,9 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
         add_msg( m_bad, _( "No vehicle available." ) );
         return nullptr;
     }
+    if (vehs.size() == 1) {
+        return vehs[0];
+    }
 
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
