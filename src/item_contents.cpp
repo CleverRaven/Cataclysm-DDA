@@ -1558,6 +1558,9 @@ const item &item_contents::only_item() const
 item *item_contents::get_item_with( const std::function<bool( const item &it )> &filter )
 {
     for( item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CABLE ) ) {
+            continue;
+        }
         item *it = pocket.get_item_with( filter );
         if( it != nullptr ) {
             return it;
