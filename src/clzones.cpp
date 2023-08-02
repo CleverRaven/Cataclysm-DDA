@@ -785,9 +785,9 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_ab
 {
     std::unordered_set<tripoint> res;
     map &here = get_map();
-    for(const std::pair<std::string, std::unordered_set<tripoint_abs_ms>> cache : area_cache) {
-        zone_type_id type = zone_data::unhash_type(cache.first);
-        faction_id z_fac = zone_data::unhash_fac(cache.first);
+    for( const std::pair<std::string, std::unordered_set<tripoint_abs_ms>> cache : area_cache ) {
+        zone_type_id type = zone_data::unhash_type( cache.first );
+        faction_id z_fac = zone_data::unhash_fac( cache.first );
         if( fac == z_fac && type.str().substr( 0, 4 ) == "LOOT" ) {
             for( tripoint_abs_ms point : cache.second ) {
                 if( square_dist( where, point ) <= radius ) {
@@ -796,9 +796,9 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_ab
             }
         }
     }
-    for(const std::pair<std::string, std::unordered_set<tripoint_abs_ms>> cache : vzone_cache) {
-        zone_type_id type = zone_data::unhash_type(cache.first);
-        faction_id z_fac = zone_data::unhash_fac(cache.first);
+    for( const std::pair<std::string, std::unordered_set<tripoint_abs_ms>> cache : vzone_cache ) {
+        zone_type_id type = zone_data::unhash_type( cache.first );
+        faction_id z_fac = zone_data::unhash_fac( cache.first );
         if( fac == z_fac && type.str().substr( 0, 4 ) == "LOOT" ) {
             for( tripoint_abs_ms point : cache.second ) {
                 if( square_dist( where, point ) <= radius ) {
@@ -809,8 +809,8 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_ab
     }
 
     if( npc_search ) {
-        for(const std::pair<std::string, std::unordered_set<tripoint_abs_ms>> cache : vzone_cache) {
-            zone_type_id type = zone_data::unhash_type(cache.first);
+        for( const std::pair<std::string, std::unordered_set<tripoint_abs_ms>> cache : vzone_cache ) {
+            zone_type_id type = zone_data::unhash_type( cache.first );
             if( type == zone_type_NO_NPC_PICKUP ) {
                 for( tripoint_abs_ms point : cache.second ) {
                     res.erase( here.getlocal( point ) );
