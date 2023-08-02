@@ -667,9 +667,9 @@ tripoint_abs_ms zone_data::get_center_point() const
 tripoint_abs_ms zone_data::get_nearest_point( const tripoint_abs_ms &where ) const
 {
     tripoint_abs_ms res;
-    res.x() = std::max( std::min( get_start_point().x(), where.x() ), get_end_point().x() );
-    res.y() = std::max( std::min( get_start_point().y(), where.y() ), get_end_point().y() );
-    res.z() = std::max( std::min( get_start_point().z(), where.z() ), get_end_point().z() );
+    res.x() = std::min( std::max( get_start_point().x(), where.x() ), get_end_point().x() );
+    res.y() = std::min( std::max( get_start_point().y(), where.y() ), get_end_point().y() );
+    res.z() = std::min( std::max( get_start_point().z(), where.z() ), get_end_point().z() );
     return res;
 }
 
@@ -808,14 +808,14 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_ab
     auto const check = [&where, radius, npc_search, &fac]( const zone_data & z ) {
         zone_type_id type = z.get_type();
         return z.get_faction() == fac && type.str().substr( 0, 4 ) == "LOOT" &&
-               ( npc_search && type != zone_type_NO_NPC_PICKUP ) &&
                square_dist( where, z.get_nearest_point( where ) ) <= radius;
     };
     std::unordered_set<tripoint> res;
     for( const zone_data &z : zones ) {
         if( check( z ) ) {
             for( tripoint point : z.get_point_set() ) {
-                if( square_dist( where_local, point ) <= radius ) {
+                if( square_dist( where_local, point ) <= radius &&
+                    !( npc_search && has( zone_type_NO_NPC_PICKUP, where ) ) ) {
                     res.emplace( point );
                 }
             }
@@ -825,7 +825,8 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_ab
     for( const zone_data *z : vzones ) {
         if( check( *z ) ) {
             for( tripoint point : z->get_point_set() ) {
-                if( square_dist( where_local, point ) <= radius ) {
+                if( square_dist( where_local, point ) <= radius &&
+                    !( npc_search && has( zone_type_NO_NPC_PICKUP, where ) ) ) {
                     res.emplace( point );
                 }
             }

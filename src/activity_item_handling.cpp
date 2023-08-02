@@ -2803,7 +2803,6 @@ static requirement_check_result generic_multi_activity_check_requirement(
                     check_npc_revert( you );
                     return requirement_check_result::SKIP_LOCATION;
                 }
-                you.fetch_history.emplace( what_we_need.str() );
                 you.backlog.emplace_front( act_id );
                 you.assign_activity( ACT_FETCH_REQUIRED );
                 player_activity &act_prev = you.backlog.front();
@@ -3039,6 +3038,13 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
     // may cause infinite loop if something goes wrong
     // Maybe it makes more harm than good? I don't know.
     if( activity_to_restore == activity_id( ACT_FETCH_REQUIRED ) && src_sorted.empty() ) {
+        // remind what you failed to fetch
+        if( !check_only && !you.backlog.empty() ) {
+            player_activity &act_prev = you.backlog.front();
+            for( auto what_we_need : act_prev.str_values ) {
+                you.fetch_history.emplace( what_we_need );
+            }
+        }
         return true;
     }
     for( const tripoint_abs_ms &src : src_sorted ) {
