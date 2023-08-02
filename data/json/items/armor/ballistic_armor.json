@@ -1112,7 +1112,6 @@
     "warmth": 15,
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "OVERSIZE" ],
     "use_action": [ { "type": "attach_molle", "size": 12 }, { "type": "detach_molle" } ],
-    ],
     "armor": [
       {
         "material": [
@@ -1143,7 +1142,6 @@
     "warmth": 20,
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "OVERSIZE" ],
     "use_action": [ { "type": "attach_molle", "size": 12 }, { "type": "detach_molle" } ],
-    ],
     "armor": [
       {
         "material": [
@@ -1174,7 +1172,6 @@
     "warmth": 20,
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "OVERSIZE" ],
     "use_action": [ { "type": "attach_molle", "size": 12 }, { "type": "detach_molle" } ],
-    ],
     "armor": [
       {
         "material": [
@@ -1206,7 +1203,6 @@
     "warmth": 20,
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "OVERSIZE" ],
     "use_action": [ { "type": "attach_molle", "size": 12 }, { "type": "detach_molle" } ],
-    ],
     "armor": [
       {
         "material": [
