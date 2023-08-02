@@ -195,11 +195,17 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         }
     }
 
-    if( type == "recipe" && jo.has_string( "id_suffix" ) ) {
-        if( abstract ) {
-            jo.throw_error_at( "id_suffix", "abstract recipe cannot specify id_suffix" );
+    if( type == "recipe" ) {
+        optional( jo, was_loaded, "variant", variant_ );
+        if( !variant_.empty() && !abstract ) {
+            ident_ = recipe_id( ident_.str() + "_" + variant_ );
         }
-        ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
+        if( jo.has_string( "id_suffix" ) ) {
+            if( abstract ) {
+                jo.throw_error_at( "id_suffix", "abstract recipe cannot specify id_suffix" );
+            }
+            ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
+        }
     }
 
     if( jo.has_bool( "obsolete" ) ) {
@@ -662,10 +668,6 @@ std::string recipe::get_consistency_error() const
         return "defines invalid result";
     }
 
-    if( charges && !item::count_by_charges( result_ ) ) {
-        return "specifies charges but result is not counted by charges";
-    }
-
     const auto is_invalid_bp = []( const std::pair<itype_id, int> &elem ) {
         return !item::type_is_defined( elem.first );
     };
@@ -706,6 +708,10 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
         item_components *used ) const
 {
     item newit( result_, calendar::turn, item::default_charges_tag{} );
+
+    if( !variant().empty() ) {
+        newit.set_itype_variant( variant() );
+    }
 
     if( newit.has_flag( flag_VARSIZE ) ) {
         newit.set_flag( flag_FIT );
@@ -1185,6 +1191,14 @@ std::string recipe::result_name( const bool decorated ) const
     std::string name;
     if( !name_.empty() ) {
         name = name_.translated();
+    } else if( !variant().empty() ) {
+        auto iter_var = std::find_if( result_->variants.begin(), result_->variants.end(),
+        [this]( const itype_variant_data & itvar ) {
+            return itvar.id == variant();
+        } );
+        if( iter_var != result_->variants.end() ) {
+            name = iter_var->alt_name.translated();
+        }
     } else {
         name = item::nname( result_ );
     }

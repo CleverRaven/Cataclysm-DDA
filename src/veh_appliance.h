@@ -135,12 +135,6 @@ class veh_app_interact
         */
         void plug();
         /**
-         * Function associated with the "UNPLUG" action.
-         * Removes all power connections to other appliances and vehicles and drops
-         * any used cable items on the ground.
-        */
-        void unplug();
-        /**
          * The main loop of the appliance UI. Redraws windows, checks for input, and
          * performs selected actions. The loop exits once an activity is assigned
          * (either directly to the player or to 'act'), or when QUIT input is received.

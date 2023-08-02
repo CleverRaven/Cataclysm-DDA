@@ -57,7 +57,7 @@
     "base_casting_time": 100,
     "final_casting_time": 25,
     "casting_time_increment": -7.5,
-    "learn_spells": { "vita_sleeping_trance": 7, "vita_healing_trance": 15 }
+    "learn_spells": { "vita_health_power_ally": 5, "vita_sleeping_trance": 7, "vita_healing_trance": 15, "vita_banish_illness": 18 }
   },
   {
     "id": "vita_hurt_touch",
@@ -93,7 +93,43 @@
     "base_casting_time": 85,
     "final_casting_time": 55,
     "casting_time_increment": -3,
-    "learn_spells": { "vita_pain_split": 7, "vita_healing_trance": 15 }
+    "learn_spells": { "vita_pain_split": 7, "vita_health_power_ally": 9, "vita_healing_trance": 15 }
+  },
+  {
+    "id": "vita_health_power_ally",
+    "type": "SPELL",
+    "name": "[Ψ]Medicinal Touch",
+    "description": "You can apply your Healthy Glow power to a follower or ally.  This can stop an asthma attack.",
+    "message": "Your touch your target and they seem to perk up.",
+    "valid_targets": [ "ally" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_vita_health",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "min_range": 1,
+    "base_energy_cost": 3500,
+    "final_energy_cost": 2000,
+    "energy_increment": -75,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_health_power_ally') * 2100) + 18000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: vita_health_power_ally') * 2700) + 145000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "base_casting_time": 100,
+    "final_casting_time": 25,
+    "casting_time_increment": -7.5,
+    "learn_spells": { "vita_pain_split": 4, "vita_blood_purge": 13 }
   },
   {
     "id": "vita_pain_split",
@@ -117,7 +153,7 @@
     "base_casting_time": 200,
     "final_casting_time": 75,
     "casting_time_increment": -12,
-    "learn_spells": { "vita_blood_purge": 9, "vita_healing_trance": 12, "vita_sleeping_trance": 14 }
+    "learn_spells": { "vita_healing_trance": 12, "vita_sleeping_trance": 14, "vita_blood_purge": 15 }
   },
   {
     "id": "vita_sleeping_trance",
@@ -149,7 +185,7 @@
     "base_casting_time": 360000,
     "final_casting_time": 90000,
     "casting_time_increment": -13500,
-    "learn_spells": { "vita_healing_trance": 9, "vita_blood_purge": 12 }
+    "learn_spells": { "vita_healing_trance": 9, "vita_blood_purge": 12, "vita_banish_illness": 15 }
   },
   {
     "id": "vita_no_sleep_dep",
@@ -161,11 +197,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITAKIN_SLEEP",
     "shape": "blast"
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_SLEEP",
-    "effect": [ { "math": [ "u_val('sleep_deprivation')", "-=", "500" ] } ]
   },
   {
     "id": "vita_healing_trance",
@@ -191,7 +222,7 @@
     "energy_source": "STAMINA",
     "base_energy_cost": 8000,
     "base_casting_time": 360000,
-    "learn_spells": { "vita_sleeping_trance": 4, "vita_blood_purge": 8 }
+    "learn_spells": { "vita_sleeping_trance": 4, "vita_banish_illness": 6, "vita_blood_purge": 8 }
   },
   {
     "id": "vita_blood_purge",
@@ -219,7 +250,7 @@
     "base_casting_time": 250,
     "final_casting_time": 100,
     "casting_time_increment": -8,
-    "learn_spells": { "vita_stop_bleeding": 4 }
+    "learn_spells": { "vita_stop_bleeding": 4, "vita_banish_illness": 3 }
   },
   {
     "id": "vita_blood_purge_no_mutagens",
@@ -233,40 +264,22 @@
     "shape": "blast"
   },
   {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_MUTAGEN_PURGE",
-    "effect": [
-      { "math": [ "u_val('vitamin', 'name: mutagen')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_alpha')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_batrachian')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_beast')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_bird')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_cattle')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_cephalopod')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_chelator')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_chimera')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_crustacean')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_elfa')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_feline')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_fish')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_gastropod')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_human')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_insect')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_lizard')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_lupine')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_medical')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_mouse')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_plant')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_rabbit')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_raptor')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_rat')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_slime')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_spider')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_troglobite')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_ursine')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagenic_slurry')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutant_toxin')", "=", "0" ] },
-      { "math": [ "u_val('vitamin', 'name: mutagen_crustacean')", "=", "0" ] }
-    ]
+    "id": "vita_banish_illness",
+    "type": "SPELL",
+    "name": "[Ψ]Banish Illness",
+    "description": "Enter a deep meditative trance and purge your body of illness, even serious ones like cancer or multiple sclerosis.  It will not cure mutation.  Some illnesses are more difficult to successfully eradicate than others.",
+    "message": "You attempt to cure your afflictions.",
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_BANISH_ILLNESS_SELECTOR",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 10000,
+    "base_casting_time": 500
   }
 ]

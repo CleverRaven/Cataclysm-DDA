@@ -1625,6 +1625,30 @@
     ]
   },
   {
+    "type": "talk_topic",
+    "id": "TALK_TEST_TOPIC_ITEM_MUTATOR",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ],
+    "repeat_responses": [
+      {
+        "for_item": "bottle_glass",
+        "response": { "text": "This is a repeated item bottle_glass test response", "topic": "TALK_TEST_TOPIC_ITEM_MUTATOR_2" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_TOPIC_ITEM_MUTATOR_2",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      {
+        "text": "This is a basic test response.",
+        "topic": "TALK_DONE",
+        "effect": { "set_string_var": { "mutator": "topic_item" }, "target_var": { "global_val": "key1" } }
+      }
+    ]
+  },
+  {
     "type": "npc_class",
     "id": "test_shop_class",
     "name": { "str": "Test NPC class" },

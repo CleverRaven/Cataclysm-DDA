@@ -3165,6 +3165,11 @@ std::optional<int> iuse::circsaw_on( Character *p, item *it, bool, const tripoin
     return toolweapon_running( p, *it, pos,  true, 15, 7, _( "Your circular saw buzzes." ) );
 }
 
+std::optional<int> iuse::e_circsaw_on( Character *p, item *it, bool, const tripoint &pos )
+{
+    return toolweapon_running( p, *it, pos,  true, 15, 7, _( "Your electric circular saw buzzes." ) );
+}
+
 std::optional<int> iuse::change_eyes( Character *p, item *, bool, const tripoint & )
 {
     if( p->is_avatar() ) {
@@ -3856,7 +3861,7 @@ std::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &po
 
 std::optional<int> iuse::tazer2( Character *p, item *it, bool b, const tripoint &pos )
 {
-    if( it->ammo_remaining( p ) >= 2 ) {
+    if( it->ammo_remaining( p, true ) >= 2 ) {
         // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
         // Ugly, but less so than copied blocks
         item fake( "tazer", calendar::turn_zero );
@@ -7609,7 +7614,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
 
     if( t ) {
         //stop action before power runs out and iuse deletes the cooker
-        if( it->ammo_remaining( p ) < charge_buffer ) {
+        if( it->ammo_remaining( p, true ) < charge_buffer ) {
             it->active = false;
             it->erase_var( "RECIPE" );
             it->convert( itype_multi_cooker );
@@ -7704,7 +7709,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
             menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
         } else {
             if( dish_it == nullptr ) {
-                if( it->ammo_remaining( p ) < charges_to_start ) {
+                if( it->ammo_remaining( p, true ) < charges_to_start ) {
                     p->add_msg_if_player( _( "Batteries are low." ) );
                     return 0;
                 }
@@ -7840,7 +7845,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
                 const int all_charges = charges_to_start + mealtime / 1000 * units::to_watt(
                                             it->type->tool->power_draw ) / 1000;
 
-                if( it->ammo_remaining( p ) < all_charges ) {
+                if( it->ammo_remaining( p, true ) < all_charges ) {
 
                     p->add_msg_if_player( m_warning,
                                           _( "The multi-cooker needs %d charges to cook this dish." ),

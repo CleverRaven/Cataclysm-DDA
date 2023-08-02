@@ -5,11 +5,10 @@
     "comestible_type": "FOOD",
     "name": { "str_sp": "seeds" },
     "category": "seeds",
-    "volume": "250 ml",
+    "volume": "2 ml",
     "weight": "1 g",
     "price": 120,
     "price_postapoc": 25,
-    "stack_size": 100,
     "material": [ "veggy" ],
     "symbol": ".",
     "color": "brown",
@@ -37,10 +36,9 @@
     "description": "Roots of a hop plant, for growing your own.",
     "weight": "19 g",
     "price": 160,
-    "charges": 2,
-    "stack_size": 8,
     "seed_data": { "plant_name": "hops", "fruit": "hops", "byproducts": [ "straw_pile" ], "grow": "120 days" },
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ]
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "volume": "31 ml"
   },
   {
     "id": "seed_blackberries",
@@ -173,7 +171,6 @@
     "description": "Some sugar beet seeds.",
     "volume": "1 ml",
     "weight": "5 g",
-    "stack_size": 40,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "sugar beet", "fruit": "sugar_beet", "grow": "90 days" }
   },
@@ -216,11 +213,10 @@
     "name": { "str_sp": "cotton seeds" },
     "description": "Some cotton seeds.  Can be processed to produce an edible oil.",
     "weight": "5 g",
-    "charges": 2,
-    "stack_size": 40,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "cotton", "fruit": "cotton_boll", "byproducts": [ "withered" ], "grow": "130 days" },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.05 }
+    "milling": { "into": "paste_seed", "conversion_rate": 0.05 },
+    "volume": "6 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -289,9 +285,9 @@
     "name": { "str_sp": "salsify seeds" },
     "color": "green",
     "description": "Some salsify seeds.",
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "salsify", "fruit": "salsify_raw", "grow": "91 days" }
+    "seed_data": { "plant_name": "salsify", "fruit": "salsify_raw", "grow": "91 days" },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -300,9 +296,9 @@
     "name": { "str_sp": "chicory seeds" },
     "color": "green",
     "description": "Some chicory seeds.",
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "chicory", "fruit": "chicory_raw", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "chicory", "fruit": "chicory_raw", "byproducts": [ "withered" ], "grow": "91 days" },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -347,10 +343,8 @@
     "calories": 4,
     "description": "Cloves of garlic.  Useful as a seasoning, or for planting.",
     "price": 50,
-    "charges": 6,
-    "stack_size": 6,
     "material": [ "garlic" ],
-    "volume": "150 ml",
+    "volume": "25 ml",
     "fun": -3,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
     "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "65 days" }
@@ -426,26 +420,26 @@
     "color": "green",
     "use_action": [ "SEED" ],
     "quench": -1,
-    "calories": 17,
+    "volume": "250 ml",
+    "calories": 11,
     "description": "Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or eaten raw.",
+    "//": "1 cup of seeds, which grows into multiple hemps per tile.",
     "price": 100,
-    "weight": "2 g",
-    "charges": 2,
+    "weight": "150 g",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "cannabis", "fruit": "cannabis", "grow": "91 days" },
     "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
     "id": "fungal_seeds",
     "copy-from": "seed",
     "price": 100,
     "name": { "str_sp": "fungal seeds" },
     "color": "dark_gray",
     "description": "Some fungal seeds.",
-    "ammo_type": "NULL",
-    "stack_size": 8,
-    "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "fungal flower", "grow": "91 days" }
+    "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "fungal flower", "grow": "91 days" },
+    "volume": "31 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -466,8 +460,7 @@
     "price": 0,
     "material": [ "fruit" ],
     "primary_material": "dried_vegetable",
-    "volume": "100 ml",
-    "stack_size": 10,
+    "volume": "10 ml",
     "fun": 30,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
     "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "Marloss berry", "grow": "91 days" }
@@ -477,12 +470,12 @@
     "id": "seed_beans",
     "copy-from": "dry_beans",
     "category": "seeds",
-    "charges": 1,
     "container": "null",
     "name": { "str_sp": "bean seeds" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE", "INEDIBLE" ] },
     "description": "Dry beans, ready for planting.",
-    "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" },
+    "volume": "250 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -514,9 +507,9 @@
     "name": { "str_sp": "thyme seeds" },
     "color": "green",
     "description": "Some thyme seeds.",
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "thyme", "fruit": "thyme", "grow": "91 days" }
+    "seed_data": { "plant_name": "thyme", "fruit": "thyme", "grow": "91 days" },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -541,10 +534,12 @@
     "id": "seed_pumpkin",
     "copy-from": "seed",
     "name": { "str_sp": "pumpkin seeds" },
-    "weight": "2 g",
+    "weight": "120 g",
+    "volume": "250 ml",
     "color": "green",
     "use_action": [ "SEED" ],
-    "calories": 17,
+    "calories": 535,
+    "//": "this is 1 cup of seeds, which grows into multiple pumpkins per tile.",
     "description": "Some raw pumpkin seeds.  Could be fried and eaten.",
     "price": 100,
     "flags": [ "PLANTABLE_SEED" ],
@@ -556,13 +551,14 @@
     "id": "seed_sunflower",
     "copy-from": "seed",
     "name": { "str_sp": "sunflower seeds" },
-    "weight": "2 g",
+    "weight": "140 g",
+    "volume": "250 ml",
     "color": "green",
     "use_action": [ "SEED" ],
-    "calories": 17,
+    "//": "this is 1 cup of seeds, which grows into multiple sunflowers per tile.",
+    "calories": 750,
     "description": "Some raw sunflower seeds.  Could be pressed into oil.",
     "price": 100,
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "sunflower", "fruit": "seed_sunflower", "byproducts": [ "withered" ], "grow": "91 days" },
     "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
@@ -574,9 +570,9 @@
     "name": { "str_sp": "dogbane seeds" },
     "color": "green",
     "description": "Some dogbane seeds.",
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "dogbane", "fruit": "dogbane", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "dogbane", "fruit": "dogbane", "byproducts": [ "withered" ], "grow": "91 days" },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -585,9 +581,9 @@
     "name": { "str_sp": "bee balm seeds" },
     "color": "green",
     "description": "Some bee balm seeds.",
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "bee balm", "fruit": "bee_balm", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "bee balm", "fruit": "bee_balm", "byproducts": [ "withered" ], "grow": "91 days" },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -596,9 +592,9 @@
     "name": { "str_sp": "mugwort seeds" },
     "color": "green",
     "description": "Some mugwort seeds.",
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "mugwort", "fruit": "mugwort", "grow": "91 days" }
+    "seed_data": { "plant_name": "mugwort", "fruit": "mugwort", "grow": "91 days" },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -617,9 +613,9 @@
     "name": { "str_sp": "wild herb seeds" },
     "color": "green",
     "description": "Some seeds harvested from wild herbs.",
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "wild herb", "fruit": "wild_herbs", "grow": "91 days" }
+    "seed_data": { "plant_name": "wild herb", "fruit": "wild_herbs", "grow": "91 days" },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -628,9 +624,9 @@
     "name": { "str_sp": "wild vegetable stems" },
     "color": "green",
     "description": "Some wild vegetable stems.",
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "wild vegetable", "fruit": "veggy_wild", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "wild vegetable", "fruit": "veggy_wild", "byproducts": [ "withered" ], "grow": "91 days" },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -639,9 +635,9 @@
     "name": { "str_sp": "dandelion seeds" },
     "color": "green",
     "description": "Some dandelion seeds.",
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "dandelion", "fruit": "raw_dandelion", "grow": "91 days" }
+    "seed_data": { "plant_name": "dandelion", "fruit": "raw_dandelion", "grow": "91 days" },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -650,9 +646,9 @@
     "name": { "str_sp": "burdock seeds" },
     "color": "green",
     "description": "Some burdock seeds.",
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "burdock", "fruit": "raw_burdock", "grow": "91 days" }
+    "seed_data": { "plant_name": "burdock", "fruit": "raw_burdock", "grow": "91 days" },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -660,14 +656,14 @@
     "copy-from": "seed",
     "name": { "str_sp": "Japanese knotweed stems" },
     "description": "Some Japanese knotweed stems, prepared for planting.",
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": {
       "plant_name": "Japanese knotweed",
       "fruit": "japanese_knotweed_stem",
       "byproducts": [ "withered" ],
       "grow": "91 days"
-    }
+    },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -676,9 +672,9 @@
     "name": { "str_sp": "wild rice seeds" },
     "description": "Some wild rice seeds, prepared for planting.",
     "weight": "5 g",
-    "stack_size": 10,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "wild rice", "fruit": "wild_rice_stalks", "seeds": false, "grow": "91 days" }
+    "seed_data": { "plant_name": "wild rice", "fruit": "wild_rice_stalks", "seeds": false, "grow": "91 days" },
+    "volume": "25 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -687,8 +683,8 @@
     "name": { "str_sp": "Jerusalem artichoke seeds" },
     "description": "Some Jerusalem artichoke seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "charges": 2,
-    "seed_data": { "plant_name": "Jerusalem artichoke", "fruit": "jerusalem_artichoke", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "Jerusalem artichoke", "fruit": "jerusalem_artichoke", "byproducts": [ "withered" ], "grow": "91 days" },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -696,7 +692,6 @@
     "copy-from": "seed",
     "name": { "str_sp": "starry false Solomon's seal seeds" },
     "description": "Some starry false Solomon's seal seeds.",
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": {
       "plant_name": "starry false Solomon's seal",
@@ -704,7 +699,8 @@
       "seeds": false,
       "byproducts": [ "withered" ],
       "grow": "91 days"
-    }
+    },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -712,14 +708,14 @@
     "copy-from": "seed",
     "name": { "str_sp": "wild sarsaparilla seeds" },
     "description": "Some wild sarsaparilla seeds.",
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": {
       "plant_name": "wild sarsaparilla",
       "fruit": "wild_sarsaparilla_root",
       "byproducts": [ "withered" ],
       "grow": "91 days"
-    }
+    },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -751,9 +747,9 @@
     "copy-from": "seed",
     "name": { "str_sp": "groundnut seeds" },
     "description": "Some groundnut seeds.",
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "groundnut", "fruit": "groundnut", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "groundnut", "fruit": "groundnut", "byproducts": [ "withered" ], "grow": "91 days" },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -762,8 +758,8 @@
     "name": { "str_sp": "wild garlic seeds" },
     "description": "Some wild garlic seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "charges": 2,
-    "seed_data": { "plant_name": "wild garlic", "fruit": "wild_garlic", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "wild garlic", "fruit": "wild_garlic", "byproducts": [ "withered" ], "grow": "91 days" },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -772,9 +768,9 @@
     "name": { "str_sp": "bamboo seeds" },
     "color": "green",
     "description": "Some bamboo seeds.",
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "CUT_HARVEST" ],
-    "seed_data": { "plant_name": "bamboo", "fruit": "raw_bamboo", "grow": "91 days" }
+    "seed_data": { "plant_name": "bamboo", "fruit": "raw_bamboo", "grow": "91 days" },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -783,9 +779,9 @@
     "name": { "str_sp": "rhubarb stems" },
     "color": "green",
     "description": "Some rhubarb stems.",
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "rhubarb", "fruit": "rhubarb", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "rhubarb", "fruit": "rhubarb", "byproducts": [ "withered" ], "grow": "91 days" },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -859,16 +855,16 @@
     "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 78,
+    "calories": 150,
     "description": "Some fried seeds of a sunflower, pumpkin or other plant.  Quite nutritious and tasty.",
+    "//": "4 per cup",
     "price": 80,
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
-    "volume": "250 ml",
+    "volume": "62 ml",
     "flags": [ "SMOKED" ],
     "freezing_point": -274,
-    "charges": 4,
     "fun": 3
   },
   {
@@ -888,8 +884,7 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
-    "volume": "250 ml",
-    "charges": 4,
+    "volume": "62 ml",
     "fun": -10,
     "flags": [ "HIDDEN_POISON", "RAW" ],
     "use_action": [ "POISON" ],
@@ -910,11 +905,10 @@
     "addiction_type": "caffeine",
     "addiction_potential": 1,
     "calories": 549,
-    "volume": "250 ml",
+    "volume": "6 ml",
     "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ] ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "NO_AUTO_CONSUME", "INEDIBLE", "NUTRIENT_OVERRIDE" ],
     "//": "You can technically eat 20 or 30 coffee beans before getting sick, but any more than that and you'll have a very bad time.  This is a negligible amount of calories so we either need to greatly reduce portion size here or find a way to simulate the agony someone would be in after eating an entire cup of the things.",
-    "stack_size": 40,
     "weight": "106 g"
   },
   {
@@ -977,9 +971,9 @@
     "fun": -3,
     "description": "Some mustard seeds.  Could be ground into mustard powder.",
     "price": 100,
-    "charges": 2,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "mustard", "fruit": "seed_mustard", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "mustard", "fruit": "seed_mustard", "byproducts": [ "withered" ], "grow": "91 days" },
+    "volume": "2 ml"
   },
   {
     "type": "COMESTIBLE",

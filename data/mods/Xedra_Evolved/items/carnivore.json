@@ -32,7 +32,6 @@
     "price_postapoc": 100,
     "vitamins": [ [ "underhill_essence", 15 ] ],
     "material": [ "fae_fur", "fae_flesh" ],
-    "stack_size": 1,
     "fun": -24
   },
   {

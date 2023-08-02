@@ -226,6 +226,34 @@
     }
   },
   {
+    "id": "clair_speed_reading",
+    "type": "SPELL",
+    "name": "[Ψ]Speed Reader",
+    "description": "Your powers make words fairly leap off the page directly into your mind, allowing you to read much faster and better absorb what you read.",
+    "message": "You feel like sitting down with a good book.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_SPEED_READING",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2500,
+    "final_energy_cost": 1000,
+    "energy_increment": -125,
+    "//": "Duration is fake--it's set in the EoC, this just makes the power display an accurate duration.",
+    "min_duration": 360000,
+    "max_duration": 1080000,
+    "base_casting_time": 500,
+    "final_casting_time": 250,
+    "casting_time_increment": -12,
+    "learn_spells": { "clair_spot_weakness": 5, "clair_voyance": 8, "clair_clear_sight": 15 }
+  },
+  {
     "id": "clair_danger_sense",
     "type": "SPELL",
     "name": "[Ψ]Premonition",
@@ -254,7 +282,7 @@
     "base_casting_time": 85,
     "final_casting_time": 25,
     "casting_time_increment": -7,
-    "learn_spells": { "clair_dodge_power": 7, "clair_night_vision": 9, "clair_clear_sight": 15 }
+    "learn_spells": { "clair_spot_weakness": 6, "clair_dodge_power": 8, "clair_night_vision": 9, "clair_clear_sight": 15 }
   },
   {
     "id": "clair_spot_weakness",
@@ -320,7 +348,7 @@
     "base_casting_time": 150,
     "final_casting_time": 70,
     "casting_time_increment": -9,
-    "learn_spells": { "clair_clear_sight": 9, "clair_voyance": 12 }
+    "learn_spells": { "clair_spot_weakness": 3, "clair_clear_sight": 9, "clair_voyance": 12 }
   },
   {
     "id": "clair_voyance",

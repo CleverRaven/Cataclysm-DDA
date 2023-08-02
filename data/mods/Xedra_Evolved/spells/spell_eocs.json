@@ -20,6 +20,13 @@
       "switch": { "u_val": "vitamin", "name": "dreamer_vit" },
       "cases": [
         {
+          "case": 0,
+          "effect": {
+            "u_message": "Your impatience is apparently a defining feature.  You're going to need a lot more time connecting with the universe to make this happen.",
+            "type": "bad"
+          }
+        },
+        {
           "case": 75,
           "effect": {
             "u_message": "You try to connect the item with another dimensions, but everything went wrong from the very beginning.  You feel you need much more patience to finish it.",

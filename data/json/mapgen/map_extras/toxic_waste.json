@@ -6,14 +6,8 @@
       { "item": "sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
       { "item": "water_sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
       { "item": "fetid_goop", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 200, "prob": 30 },
-      {
-        "item": "meat_mutant_tainted",
-        "container-item": "55gal_drum",
-        "charges-min": 3,
-        "charges-max": 15,
-        "prob": 1
-      },
-      { "item": "veggy_tainted", "container-item": "55gal_drum", "charges-min": 3, "charges-max": 50, "prob": 2 },
+      { "prob": 1, "group": "meat_mutant_tainted_55gal_drum_3_15" },
+      { "prob": 2, "group": "veggy_tainted_55gal_drum_3_50" },
       { "group": "toxic_waste_mx_chems", "prob": 35 },
       { "item": "55gal_drum", "prob": 50 },
       { "item": "canister_goo", "prob": 5 },
@@ -210,5 +204,21 @@
       "monsters": { "!": { "monster": "GROUP_TOXIC_WASTE", "density": 0.1, "chance": 40 } },
       "place_loot": [ { "group": "toxic_waste_mx", "x": [ 10, 13 ], "y": [ 10, 12 ], "repeat": [ 1, 2 ] } ]
     }
+  },
+  {
+    "type": "item_group",
+    "id": "meat_mutant_tainted_55gal_drum_3_15",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "55gal_drum",
+    "entries": [ { "item": "meat_mutant_tainted", "count-min": 3, "count-max": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "veggy_tainted_55gal_drum_3_50",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "55gal_drum",
+    "entries": [ { "item": "veggy_tainted", "count-min": 3, "count-max": 50 } ]
   }
 ]

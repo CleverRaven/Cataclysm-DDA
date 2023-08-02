@@ -14,6 +14,7 @@
     "price_postapoc": 50,
     "//": "Cheap for three liters of spread!",
     "material": [ "fruit" ],
+    "charges": 1,
     "phase": "liquid",
     "fun": 2,
     "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
@@ -68,9 +69,8 @@
     "price_postapoc": 250,
     "material": [ "fruit" ],
     "primary_material": "dried_vegetable",
-    "volume": "250 ml",
+    "volume": "50 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 5,
     "vitamins": [ [ "vitC", 21 ], [ "calcium", 2 ], [ "iron", 4 ] ],
     "fun": 3
   },
@@ -88,6 +88,7 @@
     "price": 50,
     "price_postapoc": 50,
     "material": [ "fruit" ],
+    "charges": 1,
     "phase": "liquid",
     "fun": 3,
     "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
@@ -129,9 +130,8 @@
     "price": 86,
     "price_postapoc": 150,
     "material": [ "fruit" ],
-    "volume": "500 ml",
+    "volume": "250 ml",
     "fun": 7,
-    "charges": 2,
     "vitamins": [ [ "vitC", 21 ], [ "calcium", 2 ], [ "iron", 5 ] ]
   },
   {
@@ -150,9 +150,8 @@
     "price_postapoc": 10,
     "material": [ "powder", "fruit" ],
     "primary_material": "powder",
-    "volume": "250 ml",
+    "volume": "25 ml",
     "flags": [ "EDIBLE_FROZEN", "SOFT" ],
-    "charges": 10,
     "vitamins": [ [ "vitC", 7 ] ],
     "fun": 1
   },
@@ -206,6 +205,7 @@
     "price_postapoc": 50,
     "material": [ "fruit" ],
     "volume": "250 ml",
+    "charges": 1,
     "phase": "liquid",
     "fun": 2,
     "//": "this item is intended to generally be inherited from the fruit that was cooked.",
@@ -424,8 +424,7 @@
     "description": "Fruit slices soaked in a sugar syrup to preserve freshness and appearance.",
     "price": 450,
     "material": [ "fruit" ],
-    "volume": "250 ml",
-    "charges": 4,
+    "volume": "62 ml",
     "fun": 3,
     "vitamins": [ [ "iron", 2 ] ]
   },
@@ -480,8 +479,7 @@
     "price_postapoc": 50,
     "sealed": true,
     "material": [ "fruit" ],
-    "volume": "250 ml",
-    "stack_size": 2,
+    "volume": "125 ml",
     "fun": 1,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 10 ] ]
   },
@@ -500,8 +498,7 @@
     "price": 220,
     "price_postapoc": 50,
     "material": [ "fruit" ],
-    "volume": "250 ml",
-    "stack_size": 24,
+    "volume": "10 ml",
     "fun": 3,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ] ]
   },
@@ -544,8 +541,7 @@
     "price": 50,
     "price_postapoc": 100,
     "material": [ "fruit", "veggy" ],
-    "volume": "320 ml",
-    "charges": 4,
+    "volume": "80 ml",
     "flags": [ "USE_EAT_VERB", "NUTRIENT_OVERRIDE" ],
     "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ] ]
   },
@@ -601,6 +597,7 @@
     "addiction_potential": 5,
     "material": [ "fruit", "alcohol" ],
     "volume": "250 ml",
+    "charges": 1,
     "phase": "liquid",
     "sealed": true,
     "fun": 9,
