@@ -5122,24 +5122,24 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
 
     if( extended_copy ) {
         // Check if there's another pocket on the same container that can hold the extended item, respecting pocket settings.
-        if( extended.has_parent() &&
-            extended.parent_item()->can_contain( *extended_ptr, false, false, false,
-                    item_location(), 10000000_ml, false ).success() ) {
-            if( !extended.parent_item()->put_in( *extended_ptr,
-                                                 item_pocket::pocket_type::CONTAINER ).success() ) {
+        item_location parent = extended.parent_item();
+        if( parent->can_contain( *extended_ptr, false, false, false,
+                                 item_location(), 10000000_ml, false ).success() ) {
+            if( !parent->put_in( *extended_ptr, item_pocket::pocket_type::CONTAINER ).success() ) {
                 debugmsg( "Failed to put %s inside %s!", extended_ptr->type_name(),
-                          extended.parent_item()->type_name() );
+                          parent->type_name() );
                 return std::nullopt;
             }
-            extended.remove_item();
         } else {
             if( !query_yn( _( "The %1$s can't contain the %2$s with the %3$s attached.  Continue?" ),
-                           extended.parent_item()->type_name(), extended_ptr->type_name(), extension->type_name() ) ) {
+                           parent->type_name(), extended_ptr->type_name(), extension->type_name() ) ) {
                 return std::nullopt;
             }
+            // Attach the cord, even though it won't fit, and let it spill out naturally.
             extended.parent_pocket()->add( *extended_ptr );
-            extended.remove_item();
         }
+        extended.make_active();
+        extended.remove_item();
     }
 
     p->add_msg_if_player( is_cable_item ? _( "You extend the %1$s with the %2$s." ) :
