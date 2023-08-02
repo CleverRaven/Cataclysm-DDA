@@ -517,7 +517,7 @@
     "name": { "str": "lunatic's vision turtle" },
     "description": "A massive, mostly aquatic freshwater turtle, about six times larger than the norm, ponderously moving about its obviously mutated and bulging shell exhibiting strange, almost hypnotic patterns and shapes filled with sharp edges. It probably doesn't consider you as prey, but be careful around its large head.",
     "copy-from": "mon_turtle_big",
-    "proportional": { "hp": 4, "speed": 1, "morale": 1.43, "melee_dice_sides": 1.5 },
+    "proportional": { "hp": 4, "morale": 1.43, "melee_dice_sides": 1.5 },
     "volume": "226 L",
     "weight": "50 kg",
     "aggression": -10,
