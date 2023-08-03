@@ -235,10 +235,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Uyen_Kaiju2",
     "dynamic_line": "Right.\"  Her grin fades slowly.  \"There's one ingredient you can't replace, and without her, I don't…\" her voice catches.  \"Sorry.  That's a sweet offer though, I really appreciate it.",
-    "responses": [
-      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
