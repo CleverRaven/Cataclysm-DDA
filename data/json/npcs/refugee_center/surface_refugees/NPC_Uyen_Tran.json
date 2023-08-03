@@ -69,7 +69,13 @@
   {
     "type": "talk_topic",
     "//": "common talk responses",
-    "id": [ "TALK_REFUGEE_Uyen_2", "TALK_REFUGEE_Uyen_Background", "TALK_REFUGEE_Uyen_Situation" ],
+    "id": [
+      "TALK_REFUGEE_Uyen_2",
+      "TALK_REFUGEE_Uyen_Background",
+      "TALK_REFUGEE_Uyen_Situation",
+      "TALK_REFUGEE_UYEN_World",
+      "TALK_REFUGEE_Uyen_Kaiju"
+    ],
     "responses": [
       {
         "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
@@ -92,6 +98,7 @@
         "condition": { "u_has_var": "Uyen_teach", "type": "knowledge", "context": "flag", "value": "yes" },
         "topic": "TALK_REFUGEE_Uyen_Teach"
       },
+      { "text": "What do you think happened to the world?", "topic": "TALK_REFUGEE_UYEN_World" },
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
@@ -148,8 +155,45 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Uyen_Background",
-    "dynamic_line": "\"I was a paramedic.\"  She idly touches her forehead to brush aside a bit of hair, then notices it's already tucked back.  \"I was there through some of the absolute worst of it, to this day I can't tell you how I made it out.  One thing led to another and I got pushed onto a bus to help take care of a couple people who needed assistance for travel.  Broken arms, that kinda stuff.  I got here early, I was one of the first to arrive.  Then, this woman in processing 'lost' my paperwork while I was busy helping a guy with a bad gash on his head.  If I hadn't made a stink about it, I'd probably be out in the lobby with those poor souls that couldn't get in at all.\"",
+    "dynamic_line": "I was a paramedic.\"  She idly touches her forehead to brush aside a bit of hair, then notices it's already tucked back.  \"I was there through some of the absolute worst of it, to this day I can't tell you how I made it out.  One thing led to another and I got pushed onto a bus to help take care of a couple people who needed assistance for travel.  Broken arms, that kinda stuff.  I got here early, I was one of the first to arrive.  Then, this woman in processing 'lost' my paperwork while I was busy helping a guy with a bad gash on his head.  If I hadn't made a stink about it, I'd probably be out in the lobby with those poor souls that couldn't get in at all.",
     "responses": [ { "text": "Could you teach me a bit about first aid?", "topic": "TALK_REFUGEE_Uyen_Teach" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Uyen_World",
+    "dynamic_line": "*smiles slightly.  \"Everyone's got some idea, hey?  I really don't know.  It seems crazy to even try to guess.  Can you believe we live in a world where corpses come back to life?  There's weirder stuff out there too.  In the hospital, people had all kinds of injuries and talked about seeing monsters.  On the way here, I saw huge creatures in the distance, the sort of thing that belongs in a kaiju movie, not stomping through suburban Worcester.\"  She shrugs.  \"I guess today I'll go with simulation theory.  None of this is real, we're all in a hyper-detailed computer simulation, and the creator is cruel and messing with us.\"  She briefly stares into space, as though looking directly into some imaginary camera.  \"Honestly I don't think any scientific explanation is ever going to get close to the sheer amount of mind-shattering madness around here.\"",
+    "responses": [ { "text": "Hey wait, are you a fan of kaiju stuff?", "topic": "TALK_REFUGEE_Uyen_Kaiju" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Uyen_Kaiju",
+    "dynamic_line": "*grins more broadly.  \"Busted!  Okay, I'm not like, a superfan.  My sister was huge into it, and I kinda picked it up through her, but yeah.  I'd do anything for a night on the couch with her, a copy of Pacific Rim, and a big bowl of popcorn.\"",
+    "responses": [
+      {
+        "text": "Maybe I could help.  There are lots of movie discs out there just collecting dust, and you've got electricity.",
+        "topic": "TALK_REFUGEE_Uyen_Kaiju2"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Uyen_Kaiju2",
+    "dynamic_line": "Right.\"  Her grin fades slowly.  \"There's one ingredient you can't replace, and without her, I don't…\" her voice catches.  \"Sorry.  That's a sweet offer though, I really appreciate it.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Uyen_Kaiju2",
+    "dynamic_line": "*grins more broadly.  \"Busted!  Okay, I'm not like, a superfan.  My sister was huge into it, and I kinda picked it up through her, but yeah.  I'd do anything for a night on the couch with her, a copy of Pacific Rim, and a big bowl of popcorn.",
+    "responses": [
+      {
+        "text": "Maybe I could help.  There are lots of movie discs out there just collecting dust, and you've got electricity.",
+        "topic": "TALK_REFUGEE_Uyen_Kaiju2"
+      }
+    ]
   },
   {
     "type": "talk_topic",
