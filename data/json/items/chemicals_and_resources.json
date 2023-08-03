@@ -29,12 +29,10 @@
     "container": "bottle_plastic_pill_supplement",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "charges": 10,
-    "stack_size": 10,
     "calories": 10,
     "description": "A pill for those looking to have children.  It is of no use to you.",
     "price": 10,
-    "volume": "100 ml"
+    "volume": "10 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -50,11 +48,10 @@
     "comestible_type": "MED",
     "description": "A handful of pure sulfur.  Primarily used to make battery acid, sulfur is sometimes used as fuel for explosives.  Can be burned to produce acidic smoke that is deadly to bacteria and humans alike, or oxidized to make paper-bleaching agents.  It is also a fungicide, and could be rubbed on your skin to treat fungal infection.",
     "material": [ "powder" ],
-    "volume": "16 ml",
+    "volume": "1 ml",
     "weight": "320 mg",
     "//": "Density: 2g/cm3.  NOTE: Weights for chemical powders are 1/100 mol.  Weights are given for ONE UNIT.  Volume is for all units.",
-    "container": "bottle_plastic_small",
-    "charges": 100
+    "container": "bottle_plastic_small"
   },
   {
     "type": "AMMO",
@@ -373,8 +370,7 @@
     "//2": "0.8  g/cm3",
     "price_postapoc": 1000,
     "material": [ "powder" ],
-    "volume": "2025 ml",
-    "charges": 60,
+    "volume": "33 ml",
     "category": "chems",
     "fun": -15
   },
@@ -397,10 +393,8 @@
     "price": 1100,
     "price_postapoc": 1000,
     "material": [ "powder" ],
-    "volume": "125ml",
-    "charges": 400,
+    "volume": "1 ml",
     "//2": "Previously 10 doses to a gram, so about 400 to the pound.",
-    "stack_size": 200,
     "fun": -15
   },
   {
@@ -419,9 +413,7 @@
     "price": 1100,
     "price_postapoc": 1000,
     "material": [ "powder" ],
-    "volume": "125ml",
-    "charges": 400,
-    "stack_size": 200
+    "volume": "1 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -441,6 +433,7 @@
     "price": 0,
     "price_postapoc": 0,
     "volume": "250 ml",
+    "charges": 1,
     "phase": "liquid",
     "category": "chems",
     "freezing_point": -2,
@@ -463,6 +456,7 @@
     "price": 0,
     "price_postapoc": 0,
     "volume": "250 ml",
+    "charges": 1,
     "phase": "liquid",
     "category": "chems",
     "freezing_point": -2,
@@ -483,6 +477,7 @@
     "price": 0,
     "price_postapoc": 0,
     "volume": "250 ml",
+    "charges": 1,
     "phase": "liquid",
     "category": "chems",
     "fun": -20
@@ -675,6 +670,7 @@
     "comestible_type": "INVALID",
     "volume": "250 ml",
     "weight": "460 g",
+    "charges": 1,
     "phase": "liquid",
     "container": "bottle_glass",
     "freezing_point": -36,
@@ -694,6 +690,7 @@
     "comestible_type": "INVALID",
     "volume": "250 ml",
     "weight": "460 g",
+    "charges": 1,
     "phase": "liquid",
     "container": "bottle_glass",
     "freezing_point": -50,
@@ -729,6 +726,7 @@
     "comestible_type": "INVALID",
     "volume": "250 ml",
     "weight": "375 g",
+    "charges": 1,
     "phase": "liquid",
     "container": "bottle_glass",
     "freezing_point": -42,
@@ -1148,8 +1146,7 @@
     "description": "Intended for the clarification and disinfection of unsafe drinking water, this halazone-based purification tablet removes dangerous contaminants using powerful chemicals.  The label says to use one tablet per unit of water (250ml).",
     "price": 900,
     "price_postapoc": 2000,
-    "volume": "250 ml",
-    "stack_size": 100,
+    "volume": "2 ml",
     "flags": [ "NO_INGEST" ]
   },
   {
@@ -1315,6 +1312,7 @@
     "description": "Turbid liquid from the sewers with an awful stench.",
     "comestible_type": "INVALID",
     "volume": "250 ml",
+    "charges": 1,
     "phase": "liquid",
     "category": "chems"
   },
@@ -1369,6 +1367,7 @@
     "price": 100,
     "price_postapoc": 100,
     "volume": "250 ml",
+    "charges": 1,
     "phase": "liquid",
     "category": "chems",
     "fun": -20
@@ -1389,6 +1388,7 @@
     "price": 100,
     "price_postapoc": 100,
     "volume": "250 ml",
+    "charges": 1,
     "phase": "liquid",
     "category": "chems",
     "fun": -20
@@ -1460,6 +1460,7 @@
     "description": "A useful industrial solvent, and the first inhalative anesthetic in widespread use.  Its uncomfortable side effects and tendency to explode caused it to fall out of favor decades ago in the developed world.  If you can't get the good stuff, however, it might make a passable substitute.",
     "comestible_type": "INVALID",
     "volume": "1 ml",
+    "charges": 1,
     "//": "0.7134 g/cm3",
     "weight": "713 mg",
     "phase": "liquid"
@@ -1480,6 +1481,7 @@
     "description": "Dimethyl sulfoxide, or DMSO, is a common and important aprotic solvent, capable of dissolving a huge range of things.  It has the unusual property of being absorbed very quickly through the skin, causing a garlic flavor in the mouth, even if it touched your arm.",
     "comestible_type": "INVALID",
     "volume": "1 ml",
+    "charges": 1,
     "//": "1.1004 g/cm3",
     "weight": "1100 mg",
     "phase": "liquid"
@@ -1500,6 +1502,7 @@
     "description": "Famous for its properties as an illicit sedative, this substance is also a very good solvent.  In particular, it's used a lot in nuclear magnetic resonance spectroscopy.",
     "comestible_type": "INVALID",
     "volume": "1 ml",
+    "charges": 1,
     "//": "1.489 g/cm3 at 25C",
     "weight": "1489 mg",
     "phase": "liquid"
@@ -1520,6 +1523,7 @@
     "description": "A useful and potent solvent with a wide range of reactive applications.  It can be used to make a huge number of plastics and polymers, it can be an antiseptic, it can strip paint and break down epoxy, and it can burn your skin away like tissue paper under a heat gun.  Wear gloves.",
     "comestible_type": "INVALID",
     "volume": "1 ml",
+    "charges": 1,
     "//": "1.07 g/cm3",
     "weight": "1070 mg",
     "phase": "liquid"
@@ -1539,6 +1543,7 @@
     "material": [ "oil" ],
     "volume": "1 ml",
     "weight": "877 mg",
+    "charges": 1,
     "phase": "liquid",
     "freezing_point": 5,
     "flags": [ "INEDIBLE" ]
@@ -1558,6 +1563,7 @@
     "material": [ "oil" ],
     "volume": "1 ml",
     "weight": "870 mg",
+    "charges": 1,
     "phase": "liquid",
     "freezing_point": -95,
     "flags": [ "INEDIBLE" ]
@@ -1578,6 +1584,7 @@
     "comestible_type": "INVALID",
     "volume": "15 ml",
     "weight": "20 g",
+    "charges": 1,
     "phase": "liquid"
   },
   {
@@ -1593,11 +1600,10 @@
     "color": "yellow",
     "container": "bottle_plastic_small",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 50,
     "description": "A pre-mixed salty solution of protein and sugar.  It's meant for bacteria to eat, but if you were desperate, you could eat it too; it's not much different from cup noodle stock.",
     "comestible_type": "INVALID",
     "material": [ "powder" ],
-    "volume": "100 ml",
+    "volume": "2 ml",
     "//": "Bulk density is around 0.5 g/mL",
     "weight": "1 g"
   },
@@ -1614,11 +1620,10 @@
     "color": "yellow",
     "container": "bottle_plastic_small",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 50,
     "description": "Clear flakes of processed seaweed that can be dissolved in boiling water to create a very sturdy, temperature-resistant gel.  Not only is it good for making gels to separate molecules by size, but it's a great cheat ingredient to make sure your jellies set properly.",
     "comestible_type": "INVALID",
     "material": [ "powder" ],
-    "volume": "90 ml",
+    "volume": "1 ml",
     "//": "Bulk density is around 0.55 g/mL",
     "weight": "1 g"
   },
@@ -1636,11 +1641,10 @@
     "color": "white",
     "container": "bottle_glass",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 50,
     "description": "A handful of highly carcinogenic white powder that can be readily polymerized into a whole bunch of useful water-soluble gels.",
     "comestible_type": "INVALID",
     "material": [ "powder" ],
-    "volume": "100 ml",
+    "volume": "2 ml",
     "//": "Bulk density is around 0.5 g/mL (because it's a powder, the actual density of 1.12 g/mL is not useful)",
     "weight": "1 g"
   },
@@ -1770,6 +1774,7 @@
     "material": [ "hydrocarbons" ],
     "symbol": "=",
     "color": "red",
+    "charges": 1,
     "stack_size": 100,
     "phase": "liquid",
     "explode_in_fire": true,
@@ -1788,6 +1793,7 @@
     "price_postapoc": 10,
     "symbol": "=",
     "color": "white",
+    "charges": 1,
     "stack_size": 100,
     "phase": "liquid",
     "explode_in_fire": true,
@@ -1806,6 +1812,7 @@
     "price_postapoc": 10,
     "symbol": "=",
     "color": "white",
+    "charges": 1,
     "stack_size": 100,
     "phase": "liquid",
     "looks_like": "milk"
@@ -1824,11 +1831,10 @@
     "color": "white",
     "container": "bottle_glass",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 50,
     "description": "A manufactured form of citric acid that is commonly used as an additive in food, cleaning agents, and nutritional supplements.",
     "comestible_type": "INVALID",
     "material": [ "powder" ],
-    "volume": "100 ml",
+    "volume": "2 ml",
     "//": "Bulk density is around 0.5 g/mL (because it's a powder, the actual density of 1.12 g/mL is not useful)",
     "weight": "1 g"
   },
@@ -1957,6 +1963,7 @@
     "use_action": [ "POISON", "BLECH" ],
     "fatigue_mod": -20,
     "volume": "50 ml",
+    "charges": 1,
     "quench": -99,
     "healthy": -20,
     "fun": -99,
@@ -2081,6 +2088,7 @@
     "color": "green",
     "description": "Blood mixed with acidic compounds, smells putrid, a means of refining this could net some useful chemicals.",
     "comestible_type": "INVALID",
+    "charges": 1,
     "delete": { "ammo_type": "components" },
     "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }

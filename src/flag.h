@@ -43,7 +43,6 @@ extern const flag_id flag_ALWAYS_TWOHAND;
 extern const flag_id flag_ANIMAL_PRODUCT;
 extern const flag_id flag_OLD_CURRENCY;
 extern const flag_id flag_AURA;
-extern const flag_id flag_AUTO_DELETE_CABLE;
 extern const flag_id flag_BAROMETER;
 extern const flag_id flag_BASH_IMMUNE;
 extern const flag_id flag_BELTED;

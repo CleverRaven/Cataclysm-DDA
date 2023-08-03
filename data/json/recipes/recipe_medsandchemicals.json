@@ -63,7 +63,8 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 20, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-    "components": [ [ [ "fat_tainted", 4 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "fat_tainted", 4 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "charges": 2
   },
   {
     "type": "recipe",
@@ -90,7 +91,8 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
-    "components": [ [ [ "tobacco_raw", 1 ] ] ]
+    "components": [ [ [ "tobacco_raw", 1 ] ] ],
+    "charges": 20
   },
   {
     "type": "recipe",
@@ -126,7 +128,8 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "coke", 12 ] ],
       [ [ "ammonia_liquid", 1 ], [ "chem_baking_soda", 20 ] ]
-    ]
+    ],
+    "charges": 4
   },
   {
     "type": "recipe",
@@ -154,7 +157,8 @@
     ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "poppy_bud", 2 ] ] ]
+    "components": [ [ [ "poppy_bud", 2 ] ] ],
+    "charges": 10
   },
   {
     "type": "recipe",
@@ -174,7 +178,8 @@
       [ "isherwood_herbal_remedies", 1 ]
     ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "meal_bone", 1 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "meal_bone", 1 ] ], [ [ "water_clean", 1 ] ] ],
+    "charges": 40
   },
   {
     "type": "recipe",
@@ -198,7 +203,8 @@
       [ [ "meal_bone", 1 ] ],
       [ [ "dry_fruit", 1 ], [ "sugar", 45 ], [ "artificial_sweetener", 45 ] ],
       [ [ "water_clean", 1 ] ]
-    ]
+    ],
+    "charges": 42
   },
   {
     "type": "recipe",
@@ -259,7 +265,8 @@
     ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "poppy_bud", 2 ] ] ]
+    "components": [ [ [ "poppy_bud", 2 ] ] ],
+    "charges": 10
   },
   {
     "type": "recipe",
@@ -289,7 +296,8 @@
     ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "disinfectant", 20 ], [ "oxy_powder", 100 ] ], [ [ "bleach", 5 ] ] ]
+    "components": [ [ [ "disinfectant", 20 ], [ "oxy_powder", 100 ] ], [ [ "bleach", 5 ] ] ],
+    "charges": 400
   },
   {
     "type": "recipe",
@@ -342,7 +350,8 @@
     ],
     "qualities": [ { "id": "CHEM", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [ [ [ "fungicide", 10 ] ], [ [ "ammonia_liquid", 2 ], [ "lye_powder", 200 ] ], [ [ "salt", 10 ] ] ]
+    "components": [ [ [ "fungicide", 10 ] ], [ [ "ammonia_liquid", 2 ], [ "lye_powder", 200 ] ], [ [ "salt", 10 ] ] ],
+    "charges": 5
   },
   {
     "type": "recipe",
@@ -372,7 +381,8 @@
       [ [ "silver_small", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
-    "components": [ [ [ "chem_ethanol", 46 ] ], [ [ "salt_water", 4 ] ], [ [ "chem_benzene", 90 ] ] ]
+    "components": [ [ [ "chem_ethanol", 46 ] ], [ [ "salt_water", 4 ] ], [ [ "chem_benzene", 90 ] ] ],
+    "charges": 400
   },
   {
     "type": "recipe",
@@ -403,7 +413,8 @@
       ],
       [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ], [ "liquid_soap", 1 ], [ "soapy_water", 1 ] ],
       [ [ "water_clean", 1 ], [ "water", 1 ] ]
-    ]
+    ],
+    "charges": 400
   },
   {
     "type": "recipe",
@@ -467,7 +478,8 @@
       { "proficiency": "prof_pharmaceutical" }
     ],
     "tools": [ [ [ "electrolysis_kit", 50 ] ], [ [ "lye", -1 ], [ "lye_potassium", -1 ] ], [ [ "platinum_grille", -1 ] ] ],
-    "components": [ [ [ "codeine", 10 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "codeine", 10 ] ], [ [ "water_clean", 1 ] ] ],
+    "charges": 10
   },
   {
     "type": "recipe",
@@ -619,7 +631,8 @@
       [ [ "chem_hydrogen_peroxide", 10 ] ],
       [ [ "any_blood", 2, "LIST" ], [ "scrap_leather", 500 ], [ "leather", 5 ] ],
       [ [ "paper", 5 ] ]
-    ]
+    ],
+    "charges": 10
   },
   {
     "type": "recipe",
@@ -647,7 +660,8 @@
     ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "acetic_anhydride", 1 ] ], [ [ "willowbark", 10 ] ] ]
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "acetic_anhydride", 1 ] ], [ [ "willowbark", 10 ] ] ],
+    "charges": 20
   },
   {
     "type": "recipe",

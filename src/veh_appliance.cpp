@@ -172,7 +172,6 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
     ctxt.register_action( "SIPHON" );
     ctxt.register_action( "RENAME" );
     ctxt.register_action( "REMOVE" );
-    ctxt.register_action( "UNPLUG" );
 }
 
 // @returns true if a battery part exists on any vehicle connected to veh
@@ -348,14 +347,6 @@ bool veh_app_interact::can_siphon()
         }
     }
     return false;
-}
-
-bool veh_app_interact::can_unplug()
-{
-    vehicle_part_range vpr = veh->get_all_parts();
-    return std::any_of( vpr.begin(), vpr.end(), []( const vpart_reference & ref ) {
-        return ref.info().has_flag( "POWER_TRANSFER" );
-    } );
 }
 
 // Helper function for selecting a part in the parts list.
@@ -535,28 +526,7 @@ void veh_app_interact::plug()
 {
     const int part = veh->part_at( a_point );
     const tripoint pos = veh->global_part_pos3( part );
-    veh->plug_in( get_map().getabs( pos ) );
-}
-
-void veh_app_interact::unplug()
-{
-    veh->shed_loose_parts();
-    int const part = veh->part_at( a_point );
-    vehicle_part &vp = veh->part( part >= 0 ? part : 0 );
-    act = player_activity( ACT_VEHICLE, 1, static_cast<int>( 'u' ) );
-    act.str_values.push_back( vp.info().id.str() );
-    const point q = veh->coord_translate( vp.mount );
-    map &here = get_map();
-    for( const tripoint &p : veh->get_points( true ) ) {
-        act.coord_set.insert( here.getabs( p ) );
-    }
-    act.values.push_back( here.getabs( veh->global_pos3() ).x + q.x );
-    act.values.push_back( here.getabs( veh->global_pos3() ).y + q.y );
-    act.values.push_back( a_point.x );
-    act.values.push_back( a_point.y );
-    act.values.push_back( -a_point.x );
-    act.values.push_back( -a_point.y );
-    act.values.push_back( veh->index_of_part( &vp ) );
+    veh->plug_in( pos );
 }
 
 void veh_app_interact::populate_app_actions()
@@ -596,13 +566,6 @@ void veh_app_interact::populate_app_actions()
     } );
     imenu.addentry( -1, true, ctxt.keys_bound_to( "PLUG" ).front(),
                     ctxt.get_action_name( "PLUG" ) );
-
-    // Unplug
-    app_actions.emplace_back( [this]() {
-        unplug();
-    } );
-    imenu.addentry( -1, can_unplug(), ctxt.keys_bound_to( "UNPLUG" ).front(),
-                    ctxt.get_action_name( "UNPLUG" ) );
 
     /*************** Get part-specific actions ***************/
     veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );

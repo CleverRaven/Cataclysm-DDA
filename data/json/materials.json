@@ -259,7 +259,7 @@
     "specific_heat_liquid": 1.2,
     "specific_heat_solid": 1.2,
     "latent_heat": 200,
-    "edible": false,
+    "edible": true,
     "rotting": true,
     "chip_resist": 8,
     "wind_resist": 90,

@@ -139,9 +139,8 @@
     "price": 51,
     "price_postapoc": 100,
     "material": [ "fruit" ],
-    "volume": "250 ml",
+    "volume": "83 ml",
     "fun": -5,
-    "charges": 3,
     "flags": [ "SMOKABLE", "RAW", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 14 ], [ "iron", 1 ] ]

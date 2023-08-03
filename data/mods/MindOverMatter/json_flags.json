@@ -38,5 +38,20 @@
     "id": "MATRIX_CRYSTAL_CORUSCATING",
     "type": "json_flag",
     "info": "This is a matrix crystal with an unclear attunement."
+  },
+  {
+    "id": "TELEKIN_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to telekinetic damage"
+  },
+  {
+    "id": "HIVE_MIND",
+    "type": "monster_flag",
+    "//": "This monster is part of a hive mind"
+  },
+  {
+    "id": "TEEP_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to telepathic damage"
   }
 ]

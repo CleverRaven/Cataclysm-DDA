@@ -388,6 +388,7 @@
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "eggs_bird", 4, "LIST" ] ],
       [ [ "water", 2 ] ]
-    ]
+    ],
+    "charges": 2
   }
 ]

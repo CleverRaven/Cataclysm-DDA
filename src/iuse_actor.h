@@ -1056,26 +1056,30 @@ class modify_gunmods_actor : public iuse_actor
 class link_up_actor : public iuse_actor
 {
     public:
-        /** True if the link_up action is called by the cable item itself, rather than by a device. */
-        bool is_cable_item = false;
-        /** The type of cable created with this action */
-        itype_id type = itype_id( "generic_device_cable" );
         /** Maximum length of the cable. At -1, will use the item type's max_charges. */
         int cable_length = -1;
         /** Charge rate in watts */
         units::power charge_rate = 0_W;
-        /** one_in(this) chance to fail adding 1 charge */
-        int charge_efficiency = 7;
-        /** (Optional) Text displayed in the activation screen, defaults to "Plug in / Unplug". */
+        /** (this) out of 1.0 chance to successfully add 1 charge every charge interval */
+        float efficiency = 0.85f;
+        /** (Optional) The move cost to attach the cable. */
+        int move_cost = 5;
+        /** (Optional) Text displayed in the activation screen, defaults to "Plug in / Manage cables". */
         translation menu_text;
 
         std::set<link_state> targets = { link_state::no_link, link_state::vehicle_port };
+        std::set<std::string> can_extend = {};
+
+        std::optional<int> link_to_veh_app( Character *p, item &it, bool to_ports ) const;
+        std::optional<int> link_tow_cable( Character *p, item &it, bool to_towing ) const;
+        std::optional<int> link_extend_cable( Character *p, item &it, const tripoint &pnt ) const;
+        std::optional<int> remove_extensions( Character *p, item &it ) const;
 
         link_up_actor() : iuse_actor( "link_up" ) {}
 
         ~link_up_actor() override = default;
         void load( const JsonObject &jo ) override;
-        std::optional<int> use( Character *p, item &it, bool t, const tripoint & ) const override;
+        std::optional<int> use( Character *p, item &it, bool t, const tripoint &pnt ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
         std::string get_name() const override;
