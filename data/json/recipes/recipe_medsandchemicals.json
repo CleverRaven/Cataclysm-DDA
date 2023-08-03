@@ -842,7 +842,7 @@
       [ [ "water", 4 ], [ "water_clean", 4 ] ],
       [ [ "meal_bone", 2 ], [ "meal_bone_tainted", 4 ] ],
       [ [ "meal_chitin_piece", 1 ] ],
-      [ [ "feces_bird", 10 ], [ "feces_cow", 4 ], [ "feces_manure", 6 ] ]
+      [ [ "feces_bird", 75 ], [ "feces_roach", 75 ], [ "feces_cow", 4 ], [ "feces_manure", 12 ] ]
     ]
   },
   {
