@@ -600,7 +600,7 @@
   {
     "type": "profession",
     "subtype": "hobby",
-    "id": "melee_training",
+    "id": "melee_training_expert",
     "name": "Melee Training (Expert)",
     "description": "Despite firearms making traditional melee weapons largely obsolete, you have extensive experience fighting in hand-to-hand combat with tools of war.  Maybe it was full-contact HEMA or SCA sparring, or maybe you're just a badass commando with a machete.  You start with your choice of Barbaran Montante, Bōjutsu, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pencak Silat, or Sōjutsu.",
     "points": 14,
