@@ -74,7 +74,7 @@
     "description": "5.56x45mm ammunition, loaded for precision from the Mk 12 SPR rifles, and later used by other SF units looking for more effective loadings for their M4A1 and Mk 18 carbines.  The Mk 262 Mod 1 is loaded with a 77 grain Open Tip Match bullet, enhancing lethality even at longer ranges when compared to older M855 loadings.",
     "price": 600,
     "price_postapoc": 2000,
-    "relative": { "damage": { "damage_type": "bullet", "amount": 1 } },
+    "relative": { "damage": { "damage_type": "bullet", "amount": 8 } },
     "proportional": { "recoil": 1.1 }
   },
   {
@@ -85,7 +85,7 @@
     "description": "5.56x45mm ammunition, developed due to SOF dissatisfaction with the M855 cartridge.  The Mk318 Mod 1 is loaded with a 62 grain Open Tip Match Rear Penetrator bullet, a copper slug enclosed inside an open-tipped brass projectile, providing for consistent loading, enhanced lethality and increased penetration.  When compared to M855, the Mk318 fragments consistently, even out of short-barreled carbines.",
     "price": 700,
     "price_postapoc": 2300,
-    "relative": { "damage": { "damage_type": "bullet", "amount": 1, "armor_penetration": 2 } },
+    "relative": { "damage": { "damage_type": "bullet", "amount": 1, "armor_penetration": 8 } },
     "proportional": { "recoil": 1.1 }
   },
   {
@@ -98,7 +98,7 @@
     "price": 290,
     "price_postapoc": 900,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 4 }, "dispersion": 140 },
+    "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 10 }, "dispersion": 140 },
     "proportional": { "recoil": 1.1 },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -111,7 +111,7 @@
     "price": 300,
     "price_postapoc": 1000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "relative": { "damage": { "damage_type": "bullet", "amount": -2, "armor_penetration": 5 }, "dispersion": 10 },
+    "relative": { "damage": { "damage_type": "bullet", "amount": -2, "armor_penetration": 11 }, "dispersion": 10 },
     "proportional": { "recoil": 1.1 },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },
