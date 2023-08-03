@@ -4534,6 +4534,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "time": "10 m",
+    "skill_used": "fabrication",
     "autolearn": true,
     "reversible": true,
     "components": [ [ [ "xl_ballistic_vest", 1 ] ], [ [ "sheet_metal_small", 20 ] ] ]
@@ -4545,6 +4546,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "time": "10 m",
+    "skill_used": "fabrication",
     "autolearn": true,
     "reversible": true,
     "components": [ [ [ "xl_ballistic_vest", 1 ] ], [ [ "steel_ballistic_plate", 10 ] ] ]
