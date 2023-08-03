@@ -9884,9 +9884,10 @@ ret_val<void> item::can_contain( const item &it, const bool nested, const bool i
            contents.can_contain( it, ignore_pkt_settings, remaining_parent_volume );
 }
 
-int item::can_contain_copies( const item &it, const int copies, const bool nested, const bool ignore_rigidity,
-                                 const bool ignore_pkt_settings, const item_location &parent_it,
-                                 units::volume remaining_parent_volume, const bool allow_nested ) const
+int item::can_contain( const item &it, const int copies, const bool nested,
+                       const bool ignore_rigidity,
+                       const bool ignore_pkt_settings, const item_location &parent_it,
+                       units::volume remaining_parent_volume, const bool allow_nested ) const
 {
     if( this == &it || ( parent_it.where() != item_location::type::invalid &&
                          this == parent_it.get_item() ) ) {
@@ -9927,8 +9928,8 @@ int item::can_contain_copies( const item &it, const int copies, const bool neste
                 if( !internal_it->is_container() ) {
                     continue;
                 }
-                remaining = internal_it->can_contain_copies( it, copies, true, ignore_nested_rigidity, ignore_pkt_settings,
-                                                             parent_it, pkt->remaining_volume() );
+                remaining = internal_it->can_contain( it, copies, true, ignore_nested_rigidity, ignore_pkt_settings,
+                                                      parent_it, pkt->remaining_volume() );
                 if( remaining <= 0 ) {
                     return 0;
                 }
@@ -9937,8 +9938,8 @@ int item::can_contain_copies( const item &it, const int copies, const bool neste
     }
 
     return nested && !ignore_rigidity ?
-           contents.can_contain_copies_rigid( it, remaining, ignore_pkt_settings ) :
-           contents.can_contain_copies( it, remaining, ignore_pkt_settings, remaining_parent_volume );
+           contents.can_contain_rigid( it, remaining, ignore_pkt_settings ) :
+           contents.can_contain( it, remaining, ignore_pkt_settings, remaining_parent_volume );
 }
 
 bool item::can_contain( const itype &tp ) const

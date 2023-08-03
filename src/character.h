@@ -2662,7 +2662,7 @@ class Character : public Creature, public visitable
                                    const player_activity &act_back = player_activity() );
         bool has_stashed_activity() const;
         bool can_stash( const item &it, bool ignore_pkt_settings = false );
-        int can_stash_copies( const item &it, int copies, bool ignore_pkt_settings = false );
+        int can_stash( const item &it, int copies, bool ignore_pkt_settings = false );
         bool can_stash_partial( const item &it, bool ignore_pkt_settings = false );
         void initialize_stomach_contents();
 

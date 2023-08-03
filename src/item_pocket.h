@@ -199,7 +199,7 @@ class item_pocket
          * @param it the item being put in
          */
         ret_val<contain_code> can_contain( const item &it ) const;
-        int can_contain_copies( const item &it, int copies ) const;
+        int can_contain( const item &it, int copies ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
 

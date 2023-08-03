@@ -1034,8 +1034,8 @@ ret_val<void> item_contents::can_contain_rigid( const item &it,
     return ret;
 }
 
-int item_contents::can_contain_copies_rigid( const item &it, const int copies,
-    const bool ignore_pkt_settings ) const
+int item_contents::can_contain_rigid( const item &it, const int copies,
+                                      const bool ignore_pkt_settings ) const
 {
     int remaining = copies;
     for( const item_pocket &pocket : contents ) {
@@ -1050,7 +1050,7 @@ int item_contents::can_contain_copies_rigid( const item &it, const int copies,
         if( !ignore_pkt_settings && !pocket.settings.accepts_item( it ) ) {
             continue;
         }
-        remaining = pocket.can_contain_copies( it, remaining );
+        remaining = pocket.can_contain( it, remaining );
         if( remaining <= 0 ) {
             return 0;
         }
@@ -1086,8 +1086,8 @@ ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_
     return ret;
 }
 
-int item_contents::can_contain_copies( const item &it, const int copies, const bool ignore_pkt_settings,
-        units::volume remaining_parent_volume ) const
+int item_contents::can_contain( const item &it, const int copies, const bool ignore_pkt_settings,
+                                units::volume remaining_parent_volume ) const
 {
     int remaining = copies;
     for( const item_pocket &pocket : contents ) {
@@ -1104,7 +1104,7 @@ int item_contents::can_contain_copies( const item &it, const int copies, const b
         if( !pocket.rigid() && it.volume() > remaining_parent_volume ) {
             continue;
         }
-        remaining = pocket.can_contain_copies( it, remaining );
+        remaining = pocket.can_contain( it, remaining );
         if( remaining <= 0 ) {
             return 0;
         }

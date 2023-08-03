@@ -1524,7 +1524,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
     return ret_val<item_pocket::contain_code>::make_success();
 }
 
-int item_pocket::can_contain_copies( const item &it, const int copies ) const
+int item_pocket::can_contain( const item &it, const int copies ) const
 {
     int remaining = copies;
     ret_val<item_pocket::contain_code> compatible = is_compatible( it );
