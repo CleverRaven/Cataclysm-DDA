@@ -959,9 +959,18 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_READ_LOCAL_FILES",
-    "condition": { "and": [ { "math": [ "u_skill('computer')", ">=", "2" ] }, { "one_in_chance": 15 } ] },
+    "condition": { "and": [ { "math": [ "u_skill('computer')", ">=", "2" ] }, { "one_in_chance": 2 } ] },
     "effect": [ { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true } ],
-    "false_effect": [ { "u_message": "You found nothing interesting in the local files." } ]
+    "false_effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_READ_LOCAL_FILES_MESSAGE",
+          "condition": { "math": [ "u_skill('computer')", ">=", "2" ] },
+          "effect": { "u_message": "You found nothing interesting" },
+          "false_effect": { "u_message": "You understanding of computer devices is not good enough to find anything.", "type": "bad" }
+        }
+      ]
+    }
   },
   {
     "type": "effect_on_condition",
