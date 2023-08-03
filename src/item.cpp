@@ -2414,7 +2414,7 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
 
     if( parts->test( iteminfo_parts::MED_PORTIONS ) ) {
         info.emplace_back( "MED", _( "Portions: " ),
-                           std::abs( static_cast<int>( med_item->charges ) * batch ) );
+                           std::abs( static_cast<int>( med_item->count() ) * batch ) );
     }
 
     if( parts->test( iteminfo_parts::MED_CONSUME_TIME ) ) {
