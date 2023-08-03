@@ -267,7 +267,7 @@
     "subtype": "hobby",
     "id": "baseball_expert",
     "name": "Baseball (Expert)",
-    "description": "You didn't quite make it into the big leagues, but you were close.  Now it's time to clutch up and grand slam or you'll be dealing with worse than a strike out.",
+    "description": "You didn't quite make it into the big leagues, but you were close.  Now it's time to go for the grand slam or you'll be dealing with worse than a strike out.",
     "points": 6,
     "skills": [ { "level": 6, "name": "bashing" }, { "level": 5, "name": "throw" }, { "level": 3, "name": "swimming" } ],
     "traits": [ "GOODCARDIO" ]
