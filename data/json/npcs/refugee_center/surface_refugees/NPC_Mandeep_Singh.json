@@ -87,6 +87,7 @@
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
       },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Mandeep_Background" },
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Mandeep_World" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Mandeep_Situation" }
     ]
   },
@@ -140,6 +141,39 @@
     "id": "TALK_REFUGEE_Mandeep_Background",
     "dynamic_line": "My story?  It is much the same as everyone's, I fear.  Loss and violence.  I have not lost as much as many; by the grace of the Lord I have still got my wife and son.  I could not be more grateful.",
     "responses": [
+      { "text": "Tell me about yourself.  What did you do before?", "topic": "TALK_REFUGEE_Mandeep_Background2" },
+      { "text": "How did you and your family make it here?", "topic": "TALK_REFUGEE_Mandeep_Survival" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mandeep_Background2",
+    "dynamic_line": "*he blinks, looking a bit surprised.  \"'Before'.  It sounds so dramatic, doesn't it?  I suppose drama is appropriate.  Well, in India, I was actually a junior university professor, in archaeology.  When I brought my family to the United States, I was to have a job at Emerson.\"  He smiles sadly.  \"Things don't always work out as we hope.  Most lately, I have been driving truck for UPS.\"",
+    "responses": [
+      { "text": "What happened with your professor job?", "topic": "TALK_REFUGEE_Mandeep_Background3" },
+      { "text": "How did you and your family make it here?", "topic": "TALK_REFUGEE_Mandeep_Survival" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mandeep_Background3",
+    "dynamic_line": "*shakes his head briefly.  \"I will not bore you with tales of a past that will never again matter.  Suffice to say that the offers I thought I had were not what I believed them to be.  I am fortunate at least that I was able to bring my family.  We made a good life for ourselves, though I often wonder what it would have been had we stayed.\"",
+    "responses": [
+      { "text": "How did you and your family make it here?", "topic": "TALK_REFUGEE_Mandeep_Survival" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mandeep_Survival",
+    "dynamic_line": "That is a hard question to ask a man, in these times.\"  He looks you up and down carefully for a moment, shifting a little on his feet.  \"To be honest with you, I made a delivery run here a few months ago to drop off some office supplies.  When I saw the state the world was in, I thought perhaps this would be a safer place to go than many, and so we made our way here.  It was a difficult journey, but I'm sure you've heard many tales of that time, and have your own.  We were nearly gunned down at a road stop, but I knew a back route and managed to slip away.  There was a pickup truck with a travel trailer that tried to take the back route, though, and overturned.  It nearly blocked the road, and the trailer had been full of people.  Many of them were now returned, and were stumbling around.  We made it through, barely.  Of course, that was just the beginning, but you get the idea.\"  He sighs, rubbing his beard idly, his expression flat.  \"Somehow, we made it.  What's more, all three of us made it, and again made it through the disaster in the back room here.  We were very lucky.",
+    "responses": [
+      { "text": "Tell me about yourself.  What did you do before?", "topic": "TALK_REFUGEE_Mandeep_Background2" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
