@@ -172,7 +172,24 @@
       {
         "text": "Maybe I could help.  There are lots of movie discs out there just collecting dust, and you've got electricity.",
         "topic": "TALK_REFUGEE_Uyen_Kaiju2"
+      },
+      {
+        "text": "Okay, seriously.  Pacific Rim 2 though… what the heck?",
+        "topic": "TALK_REFUGEE_Uyen_Pacific"
       }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Uyen_Pacific",
+    "dynamic_line": "*laughs and makes a waving gesture under her nose.  \"It's too bad they never made a sequel.  Can you imagine?  Oh well, they'd probably have done something *unconscionably stupid* like killing off Mako Mori in the first act.  Good thing *that* never happened.\"",
+    "responses": [
+      {
+        "text": "You know, there are lots of movie discs out there just collecting dust, and you've got electricity.  I could probably help you out.",
+        "topic": "TALK_REFUGEE_Uyen_Kaiju2"
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -182,17 +199,6 @@
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_REFUGEE_Uyen_Kaiju2",
-    "dynamic_line": "*grins more broadly.  \"Busted!  Okay, I'm not like, a superfan.  My sister was huge into it, and I kinda picked it up through her, but yeah.  I'd do anything for a night on the couch with her, a copy of Pacific Rim, and a big bowl of popcorn.",
-    "responses": [
-      {
-        "text": "Maybe I could help.  There are lots of movie discs out there just collecting dust, and you've got electricity.",
-        "topic": "TALK_REFUGEE_Uyen_Kaiju2"
-      }
     ]
   },
   {
