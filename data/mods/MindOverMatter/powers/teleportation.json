@@ -65,7 +65,7 @@
     "base_casting_time": 80,
     "final_casting_time": 35,
     "casting_time_increment": -4.5,
-    "learn_spells": { "teleport_collapse": 7, "teleport_banish": 15 }
+    "learn_spells": { "teleport_collapse": 7, "teleport_displacement": 12, "teleport_banish": 18 }
   },
   {
     "id": "teleport_phase",
@@ -152,7 +152,35 @@
     "base_casting_time": 55,
     "final_casting_time": 0,
     "casting_time_increment": -2.75,
-    "learn_spells": { "teleport_farstep": 7, "teleport_banish": 12 }
+    "learn_spells": { "teleport_displacement": 5, "teleport_farstep": 7, "teleport_banish": 12 }
+  },
+  {
+    "id": "teleport_displacement",
+    "type": "SPELL",
+    "name": "[Ψ]Displacement",
+    "description": "With a touch, you can send your target through the void to re-emerge somewhere nearby, further away from you.",
+    "message": "You touch your target and they are suddenly somewhere else.",
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
+    "shape": "blast",
+    "damage_type": "psi_teleporter_teleporting_damage",
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": 1,
+    "max_damage": 1,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2000,
+    "final_energy_cost": 750,
+    "energy_increment": -65,
+    "min_range": 1,
+    "base_casting_time": 75,
+    "final_casting_time": 25,
+    "casting_time_increment": -3,
+    "learn_spells": { "teleport_banish": 10 }
   },
   {
     "id": "teleport_collapse",
@@ -189,7 +217,7 @@
     "base_casting_time": 80,
     "final_casting_time": 45,
     "casting_time_increment": -2,
-    "learn_spells": { "teleport_banish": 9, "teleport_gateway": 12 }
+    "learn_spells": { "teleport_displace": 4, "teleport_banish": 9, "teleport_gateway": 12 }
   },
   {
     "id": "teleport_farstep",

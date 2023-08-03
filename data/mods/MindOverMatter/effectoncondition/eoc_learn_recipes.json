@@ -80,6 +80,7 @@
       { "u_learn_recipe": "practice_teleport_stride" },
       { "u_learn_recipe": "practice_teleport_phase" },
       { "u_learn_recipe": "practice_teleport_transpose" },
+      { "u_learn_recipe": "practice_teleport_displacement" },
       { "u_learn_recipe": "practice_teleport_farstep" },
       { "u_learn_recipe": "practice_teleport_collapse" },
       { "u_learn_recipe": "practice_teleport_gateway" },
