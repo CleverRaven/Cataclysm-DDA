@@ -4503,5 +4503,52 @@
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "xl_ballistic_vest",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "15 h",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 2 } ],
+    "using": [ [ "armor_kevlar_layered", 20 ], [ "tailoring_nylon_patchwork", 30 ] ],
+    "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures" } ],
+    "components": [
+      [
+        [ "heavy_load_bearing_vest", 1 ],
+        [ "load_bearing_vest", 1 ],
+        [ "molle_large_rucksack", 1 ],
+        [ "molle_medium_rucksack", 1 ]
+      ],
+      [ [ "light_load_bearing_vest", 1 ], [ "webbing_belt", 1 ], [ "molle_pack", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_ballistic_vest_lc",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "time": "10 m",
+    "skill_used": "fabrication",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "xl_ballistic_vest", 1 ] ], [ [ "sheet_metal_small", 20 ] ] ]
+  },
+  {
+    "result": "xl_ballistic_vest_qt",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "time": "10 m",
+    "skill_used": "fabrication",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "xl_ballistic_vest", 1 ] ], [ [ "steel_ballistic_plate", 10 ] ] ]
   }
 ]
