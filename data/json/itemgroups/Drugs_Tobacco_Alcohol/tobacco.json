@@ -3,11 +3,11 @@
     "type": "item_group",
     "id": "tobacco_products",
     "items": [
-      { "item": "cig", "prob": 60, "charges": [ 1, 20 ] },
-      { "item": "tobacco", "prob": 20, "charges": [ 1, 20 ] },
-      { "item": "chaw", "prob": 20, "charges": [ 1, 20 ] },
-      { "item": "cigar", "prob": 10, "charges": [ 1, 5 ] },
-      { "item": "ecig", "prob": 10, "charges": [ 1, 40 ] },
+      { "prob": 60, "group": "cig_box_cigarette_1_20" },
+      { "prob": 20, "group": "tobacco_bag_plastic_1_20" },
+      { "prob": 20, "group": "chaw_wrapper_1_20" },
+      { "item": "cigar", "prob": 10, "count": [ 1, 5 ] },
+      { "item": "ecig", "prob": 10, "count": [ 1, 40 ] },
       { "item": "advanced_ecig", "prob": 8, "charges": [ 1, 100 ] },
       [ "nicotine_liquid", 15 ],
       [ "pipe_tobacco", 10 ]
@@ -19,7 +19,7 @@
     "subtype": "collection",
     "container-item": "case_cigar",
     "items": [
-      { "item": "cigar", "charges": [ 0, 2 ] },
+      { "item": "cigar", "count": [ 0, 2 ] },
       {
         "distribution": [ { "item": "cigar_cutter", "prob": 50 }, { "item": "cigar_punch", "prob": 50 } ],
         "prob": 50
@@ -31,7 +31,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "box_small_wood",
-    "items": [ { "item": "cigar", "charges": [ 25, 25 ] }, { "item": "paper", "charges": [ 2, 2 ] } ]
+    "items": [ { "item": "cigar", "count": [ 25, 25 ] }, { "item": "paper", "charges": [ 2, 2 ] } ]
   },
   {
     "id": "cigar_box_opened",
@@ -39,7 +39,7 @@
     "subtype": "collection",
     "container-item": "box_small_wood",
     "entries": [
-      { "item": "cigar", "charges": [ 0, 25 ] },
+      { "item": "cigar", "count": [ 0, 25 ] },
       { "item": "paper", "charges": [ 2, 2 ], "prob": 90 },
       {
         "distribution": [ { "item": "cigar_cutter", "prob": 50 }, { "item": "cigar_punch", "prob": 50 } ],
@@ -76,5 +76,13 @@
         ]
       }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "chaw_wrapper_1_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "wrapper",
+    "entries": [ { "item": "chaw", "container-item": "null", "count": [ 1, 20 ] } ]
   }
 ]

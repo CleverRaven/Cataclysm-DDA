@@ -6,9 +6,9 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "item": "aspirin", "prob": 85, "charges": [ 1, 10 ] },
-      { "item": "caffeine", "prob": 25, "charges": [ 1, 10 ] },
-      { "item": "melatonin_tablet", "prob": 5, "charges": [ 1, 30 ] },
+      { "prob": 85, "group": "aspirin_bottle_plastic_pill_painkiller_1_10" },
+      { "prob": 25, "group": "caffeine_bottle_plastic_pill_supplement_1_10" },
+      { "prob": 5, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_30" },
       { "group": "tobacco_products", "prob": 161 },
       { "group": "cigar_box_unopened", "prob": 10, "count": [ 1, 4 ] },
       { "item": "cigar_cutter", "prob": 10 },
@@ -41,10 +41,10 @@
       { "item": "money_strap_ten", "prob": 25 },
       { "item": "gold_watch", "prob": 5 },
       { "item": "silver_watch", "prob": 10 },
-      { "item": "gum", "prob": 30, "charges": [ 1, 10 ] },
-      { "item": "caff_gum", "prob": 10, "charges": [ 1, 10 ] },
+      { "item": "gum", "prob": 30, "count": [ 1, 10 ] },
+      { "item": "caff_gum", "prob": 10, "count": [ 1, 10 ] },
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
-      { "item": "nic_gum", "prob": 2, "charges": [ 1, 10 ] },
+      { "item": "nic_gum", "prob": 2, "count": [ 1, 10 ] },
       { "item": "razor_blade", "prob": 3 },
       { "item": "knitting_needles", "prob": 1 },
       { "group": "newspaper_recent", "prob": 15 },
@@ -139,7 +139,7 @@
     "type": "item_group",
     "items": [
       { "group": "candy_chocolate", "prob": 45 },
-      { "item": "licorice", "prob": 15 },
+      { "prob": 15, "group": "licorice_bag_plastic_4" },
       { "group": "salty_snacks", "prob": 80 },
       [ "peanut_shelled", 20 ],
       [ "almond_shelled", 20 ],
@@ -158,7 +158,7 @@
       [ "dry_beans", 20 ],
       [ "dry_lentils", 50 ],
       [ "cookies", 25 ],
-      { "item": "bread", "charges": 14, "prob": 40 }
+      { "prob": 40, "group": "bread_bag_plastic_14" }
     ]
   },
   {
@@ -166,7 +166,7 @@
     "id": "coffee_shop",
     "items": [
       { "group": "candy_chocolate", "prob": 530 },
-      { "item": "licorice", "prob": 15 },
+      { "prob": 15, "group": "licorice_bag_plastic_4" },
       { "group": "softdrinks_canned", "prob": 470 },
       { "group": "snacks", "prob": 560 },
       [ "coffee_raw", 70 ],
@@ -731,7 +731,7 @@
       [ "helmet_liner", 20 ],
       [ "jacket_army", 40 ],
       [ "helmet_army_outdated", 10 ],
-      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
+      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_15" },
       [ "knife_trench", 14 ],
       [ "flaregun", 20 ],
       [ "signal_flare", 25 ],
@@ -857,10 +857,10 @@
       { "item": "atomic_light", "prob": 1 },
       { "item": "folded_inflatable_boat", "prob": 10 },
       { "item": "hand_pump", "prob": 15 },
-      { "item": "toastem", "prob": 45 },
-      { "item": "toastem2", "prob": 45 },
-      { "item": "toastem3", "prob": 45 },
-      { "item": "cookies", "prob": 45 },
+      { "prob": 45, "group": "toastem_box_small_8" },
+      { "prob": 45, "group": "toastem2_box_small_8" },
+      { "prob": 45, "group": "toastem3_box_small_8" },
+      { "prob": 45, "group": "cookies_box_snack_4" },
       { "item": "bat", "prob": 15 },
       { "item": "backpack", "prob": 20 },
       { "item": "hairpin", "prob": 10 },
@@ -876,7 +876,7 @@
       { "item": "mp3", "prob": 35, "charges": [ 0, 100 ] },
       { "item": "wolfsuit", "prob": 5 },
       { "item": "dinosuit", "prob": 5 },
-      { "item": "gum", "prob": 10 },
+      { "item": "gum", "prob": 10, "count": 10 },
       { "item": "talking_doll", "prob": 11, "charges": [ 0, 100 ] },
       { "item": "marble", "prob": 15 },
       { "item": "creepy_doll", "prob": 1 },
@@ -1032,7 +1032,7 @@
       { "item": "cranberry_juice", "prob": 35 },
       { "group": "softdrinks_canned", "prob": 95 },
       { "item": "V8", "prob": 15 },
-      { "item": "gum", "prob": 15 }
+      { "item": "gum", "prob": 15, "count": 10 }
     ]
   },
   {
@@ -1054,11 +1054,11 @@
       { "item": "mayonnaise", "prob": 3 },
       { "group": "ketchup_sealed_rng", "prob": 3 },
       { "group": "mustard_sealed_rng", "prob": 3 },
-      { "item": "pickle", "prob": 5, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "prob": 5, "group": "pickle_jar_glass_sealed_2" },
       { "item": "cheeseburger", "prob": 10 },
       { "item": "hamburger", "prob": 8 },
       { "item": "sloppyjoe", "prob": 6 },
-      { "item": "hotdogs_frozen", "prob": 6 }
+      { "prob": 6, "group": "hotdogs_frozen_bag_plastic_10" }
     ]
   },
   {
@@ -1066,7 +1066,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "cig", "prob": 50, "charges": [ 1, 20 ] },
+      { "prob": 50, "group": "cig_box_cigarette_1_20" },
       { "item": "matches", "prob": 45, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 45, "charges": [ 1, 32 ] },
       { "item": "rolling_paper", "prob": 10, "charges": [ 1, 30 ] },
@@ -1087,13 +1087,13 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "weed", "prob": 30, "charges": [ 1, 5 ] },
-      { "item": "coke", "prob": 30, "charges": [ 1, 8 ] },
-      { "item": "aspirin", "prob": 40, "charges": [ 1, 20 ] },
-      { "item": "cig", "prob": 20, "charges": [ 1, 20 ] },
+      { "item": "weed", "prob": 30, "count": [ 1, 5 ] },
+      { "prob": 30, "group": "coke_bag_zipper_1_8" },
+      { "prob": 40, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 20, "group": "cig_box_cigarette_1_20" },
       { "item": "syringe", "prob": 20 },
-      { "item": "meth", "prob": 10, "charges": [ 1, 6 ] },
-      { "item": "heroin", "prob": 5, "charges": [ 1, 4 ] },
+      { "prob": 10, "group": "meth_bag_zipper_1_6" },
+      { "prob": 5, "group": "heroin_bag_zipper_1_4" },
       { "item": "mag_porn", "prob": 35 },
       { "item": "hairpin", "prob": 5 },
       { "item": "purse", "prob": 15 },
@@ -1273,14 +1273,14 @@
       [ "flour", 30 ],
       [ "milk_powder", 30 ],
       [ "powder_eggs", 10 ],
-      { "item": "egg_bird_unfert", "charges": 10, "container-item": "carton_egg" },
+      { "group": "egg_bird_unfert_carton_egg_10" },
       [ "cooking_oil", 20 ],
       [ "irradiated_apple", 5 ],
       [ "irradiated_banana", 5 ],
       [ "irradiated_strawberries", 5 ],
       [ "chocolate", 20 ],
       [ "waffleiron", 60 ],
-      { "item": "bread", "charges": 14, "prob": 30 },
+      { "prob": 30, "group": "bread_bag_plastic_14" },
       [ "peanutbutter", 20 ],
       [ "pot", 80 ]
     ]
@@ -1321,8 +1321,8 @@
     "items": [
       { "item": "dogfood", "prob": 20, "container-item": "can_medium" },
       { "item": "catfood", "prob": 20, "container-item": "can_food" },
-      { "item": "dogfood_dry", "prob": 5, "charges": 24, "container-item": "bag_plastic" },
-      { "item": "catfood_dry", "prob": 5, "charges": 24, "container-item": "bag_plastic" },
+      { "prob": 5, "group": "dogfood_dry_bag_plastic_24" },
+      { "prob": 5, "group": "catfood_dry_bag_plastic_24" },
       [ "birdfood", 15 ],
       [ "dog_whistle", 15 ],
       { "item": "flashlight", "prob": 5, "charges": [ 0, 300 ] }
@@ -1334,8 +1334,8 @@
     "items": [
       { "item": "dogfood", "prob": 10, "container-item": "can_medium" },
       { "item": "catfood", "prob": 10, "container-item": "can_food" },
-      { "item": "dogfood_dry", "prob": 10, "charges": 24, "container-item": "bag_plastic" },
-      { "item": "catfood_dry", "prob": 10, "charges": 24, "container-item": "bag_plastic" },
+      { "prob": 10, "group": "dogfood_dry_bag_plastic_24" },
+      { "prob": 10, "group": "catfood_dry_bag_plastic_24" },
       { "item": "salt_water", "prob": 10, "container-item": "aquarium_medium" },
       { "item": "water", "prob": 10, "container-item": "aquarium_medium" },
       { "item": "salt_water", "prob": 10, "container-item": "aquarium_small" },
@@ -1361,7 +1361,7 @@
     "items": [
       { "group": "ammo_pocket_batteries_full", "prob": 30 },
       { "item": "radio", "prob": 10, "charges": [ 1, 100 ] },
-      { "item": "eyedrops", "prob": 10, "charges": [ 1, 10 ] },
+      { "item": "eyedrops", "prob": 10, "count": [ 1, 10 ] },
       [ "cotton_patchwork", 30 ],
       { "item": "paper", "prob": 30, "count": [ 10, 30 ] },
       [ "foon", 30 ],
@@ -1409,7 +1409,7 @@
     "items": [
       { "group": "ammo_pocket_batteries_full", "prob": 30 },
       { "item": "radio", "prob": 10, "charges": [ 0, 100 ] },
-      { "item": "eyedrops", "prob": 10, "charges": [ 1, 10 ] },
+      { "item": "eyedrops", "prob": 10, "count": [ 1, 10 ] },
       [ "cotton_patchwork", 30 ],
       { "item": "paper", "prob": 30, "count": [ 10, 30 ] },
       [ "foon", 30 ],
@@ -1692,11 +1692,11 @@
     "//": "for the employee backroom in cs_sex_shop",
     "subtype": "distribution",
     "entries": [
-      { "item": "weed", "prob": 10, "charges": [ 1, 5 ] },
-      { "item": "coke", "prob": 10, "charges": [ 1, 8 ] },
+      { "item": "weed", "prob": 10, "count": [ 1, 5 ] },
+      { "prob": 10, "group": "coke_bag_zipper_1_8" },
       { "group": "cigar_box_opened", "prob": 10, "count": [ 1, 2 ] },
-      { "item": "meth", "prob": 10, "charges": [ 1, 6 ] },
-      { "item": "aspirin", "prob": 10, "charges": [ 1, 20 ] },
+      { "prob": 10, "group": "meth_bag_zipper_1_6" },
+      { "prob": 10, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
       { "item": "mag_porn", "prob": 10 },
       { "item": "purse", "prob": 10 },
       { "item": "hairpin", "prob": 5 },
@@ -1956,8 +1956,8 @@
       { "item": "liq_bandage_spray", "prob": 5, "charges-min": 1 },
       { "group": "full_1st_aid", "prob": 10 },
       { "item": "saline", "prob": 20, "charges": [ 1, 5 ] },
-      { "item": "vitamins", "prob": 15, "charges": [ 1, 20 ] },
-      { "item": "calcium_tablet", "prob": 15, "charges": [ 1, 20 ] },
+      { "prob": 15, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
+      { "prob": 15, "group": "calcium_tablet_bottle_plastic_pill_supplement_1_20" },
       { "item": "nyquil", "prob": 5, "charges": [ 1, 5 ] },
       { "item": "disinfectant", "prob": 15, "charges": [ 1, 10 ] },
       [ "protein_powder", 15 ],
@@ -1977,7 +1977,7 @@
       [ "scalpel", 50 ],
       [ "gloves_medical", 50 ],
       [ "medical_gauze", 25 ],
-      { "item": "quikclot", "prob": 10, "charges": [ 1, 6 ] },
+      { "prob": 10, "group": "quikclot_bag_plastic_1_6" },
       [ "hacksaw", 5 ],
       [ "gloves_rubber", 25 ],
       [ "apron_plastic", 15 ],
@@ -2012,13 +2012,13 @@
     "type": "item_group",
     "items": [
       [ "syringe", 10 ],
-      { "item": "diazepam", "prob": 10, "charges": [ 1, 10 ] },
-      { "item": "antifungal", "prob": 30, "charges": [ 1, 10 ] },
-      { "item": "antiparasitic", "prob": 30, "charges": [ 1, 10 ] },
-      { "item": "antibiotics", "prob": 20, "charges": [ 1, 15 ] },
-      { "item": "thorazine", "prob": 7, "charges": [ 1, 10 ] },
-      { "item": "morphine", "prob": 10, "charges": [ 1, 4 ] },
-      { "item": "codeine", "prob": 15, "charges": [ 1, 10 ] },
+      { "prob": 10, "group": "diazepam_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 30, "group": "antifungal_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 30, "group": "antiparasitic_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 20, "group": "antibiotics_bottle_plastic_pill_prescription_1_15" },
+      { "prob": 7, "group": "thorazine_bottle_plastic_pill_prescription_1_10" },
+      { "item": "morphine", "prob": 10, "count": [ 1, 4 ] },
+      { "prob": 15, "group": "codeine_bottle_plastic_pill_painkiller_1_10" },
       { "item": "saline", "prob": 15, "charges": [ 1, 5 ] },
       { "item": "smoxygen_tank", "prob": 10, "charges": [ 0, 12 ] },
       { "group": "full_1st_aid", "prob": 30 },
@@ -2046,7 +2046,7 @@
     "items": [
       [ "oj", 35 ],
       [ "cooked_pumpkin", 25 ],
-      { "item": "bread", "charges": 14, "prob": 10 },
+      { "prob": 10, "group": "bread_bag_plastic_14" },
       [ "fruit_waffles", 5 ],
       [ "grahmcrackers", 5 ]
     ]
@@ -2070,12 +2070,12 @@
       [ "undershirt", 30 ],
       [ "hoodie", 20 ],
       [ "shorts", 30 ],
-      { "item": "coke", "prob": 3, "charges": [ 1, 8 ] },
+      { "prob": 3, "group": "coke_bag_zipper_1_8" },
       [ "longshirt", 30 ],
       { "group": "adhesive_bandages_box_used", "prob": 10 },
       { "item": "liq_bandage_spray", "prob": 2, "charges-min": 1 },
       [ "heatpack", 10 ],
-      { "item": "gum", "prob": 12, "charges": [ 1, 10 ] },
+      { "item": "gum", "prob": 12, "count": [ 1, 10 ] },
       { "item": "soap", "prob": 10, "charges": [ 1, 10 ] },
       [ "rashguard", 20 ],
       [ "sports_bra", 30 ],
@@ -2085,8 +2085,8 @@
       [ "bikini_top", 5 ],
       [ "bikini_bottom", 5 ],
       [ "yoghurt", 12 ],
-      { "item": "vitamins", "prob": 10, "charges": [ 1, 20 ] },
-      { "item": "aspirin", "prob": 10, "charges": [ 1, 20 ] },
+      { "prob": 10, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
+      { "prob": 10, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
       [ "fitness_band", 10 ]
     ]
   },
@@ -2193,10 +2193,7 @@
   {
     "id": "farm_supply_animal_feed",
     "type": "item_group",
-    "items": [
-      { "item": "cattlefodder", "prob": 50, "charges": 60, "container-item": "bag_canvas" },
-      { "item": "birdfood", "prob": 50, "charges": 60, "container-item": "bag_canvas" }
-    ]
+    "items": [ { "prob": 50, "group": "cattlefodder_bag_canvas_50" }, { "prob": 50, "group": "birdfood_bag_canvas_60" } ]
   },
   {
     "id": "farm_supply_riding_gear",
@@ -2226,5 +2223,61 @@
       { "item": "survnote", "prob": 1 },
       { "item": "touristmap", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "aspirin_bottle_plastic_pill_painkiller_1_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_painkiller",
+    "entries": [ { "item": "aspirin", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "egg_bird_unfert_carton_egg_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "carton_egg",
+    "entries": [ { "item": "egg_bird_unfert", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "dogfood_dry_bag_plastic_24",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "dogfood_dry", "container-item": "null", "count": 24 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "catfood_dry_bag_plastic_24",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "catfood_dry", "container-item": "null", "count": 24 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "antifungal_bottle_plastic_pill_prescription_1_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "antifungal", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cattlefodder_bag_canvas_50",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_canvas",
+    "entries": [ { "item": "cattlefodder", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "birdfood_bag_canvas_60",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_canvas",
+    "entries": [ { "item": "birdfood", "count": 60 } ]
   }
 ]

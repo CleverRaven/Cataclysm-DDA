@@ -234,6 +234,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_math_test_inline_condition",
+    "condition": { "math": [ "u_val('stamina') == 500" ] },
+    "effect": [ { "math": [ "_noop", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_math_test_greater_increment",
     "condition": { "math": [ "math_test", ">", "0" ] },
     "effect": [ { "math": [ "math_test", "+=", "1" ] } ],
@@ -326,6 +332,28 @@
       { "math": [ "key1", "=", "_damage" ] },
       { "math": [ "key2", "=", "_cast_time" ] },
       { "math": [ "key3", "=", "_difficulty" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_finished_activity_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "effect": [
+      { "set_string_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
+      { "math": [ "key2", "=", "_canceled" ] },
+      { "set_string_var": "activity finished", "target_var": { "global_val": "key3" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_starts_activity_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "effect": [
+      { "set_string_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
+      { "math": [ "key2", "=", "_resume" ] },
+      { "set_string_var": "activity start", "target_var": { "global_val": "key3" } }
     ]
   },
   {

@@ -52,8 +52,8 @@
     "id": "mre_dessert_pack",
     "subtype": "collection",
     "entries": [
-      { "item": "candy2", "charges": 1, "container-item": "wrapper" },
-      { "item": "cookies", "charges": 1, "container-item": "wrapper" },
+      { "group": "candy2_wrapper_1" },
+      { "group": "cookies_wrapper_1" },
       { "item": "dry_fruit", "container-item": "wrapper" }
     ]
   },
@@ -63,12 +63,12 @@
     "container-item": "bag_plastic",
     "subtype": "collection",
     "entries": [
-      { "item": "gummy_vitamins", "charges": 1 },
+      { "item": "gummy_vitamins" },
       { "item": "matches", "charges": 20 },
       { "item": "napkin", "count": 8 },
-      { "item": "gum", "charges": 2 },
-      { "item": "pur_tablets", "charges": 6, "container-item": "beverage_bag" },
-      { "item": "sugar", "charges": 2, "container-item": "beverage_bag" },
+      { "item": "gum", "count": 2 },
+      { "group": "pur_tablets_beverage_bag_6" },
+      { "group": "sugar_beverage_bag_2" },
       { "item": "spork" },
       {
         "distribution": [
@@ -97,7 +97,7 @@
           { "item": "spread_peanutbutter", "charges": 1, "container-item": "mre_bag_small", "sealed": true }
         ]
       },
-      { "item": "crackers", "charges": 2, "container-item": "mre_bag_small", "sealed": true },
+      { "sealed": true, "group": "crackers_mre_bag_small_2" },
       { "group": "mre_accessory_pack" },
       { "item": "mre_bag", "contents-group": "mre_dessert_pack", "sealed": true }
     ]
@@ -113,8 +113,8 @@
     "id": "mre_used_dessert_pack",
     "subtype": "collection",
     "entries": [
-      { "item": "candy2", "charges": [ 0, 1 ], "container-item": "wrapper" },
-      { "item": "cookies", "charges": [ 0, 1 ], "container-item": "wrapper" },
+      { "count": [ 0, 1 ], "group": "candy2_wrapper_1" },
+      { "count": [ 0, 1 ], "group": "cookies_wrapper_1" },
       { "item": "dry_fruit", "container-item": "wrapper" }
     ]
   },
@@ -124,12 +124,12 @@
     "container-item": "bag_plastic",
     "subtype": "collection",
     "entries": [
-      { "item": "gummy_vitamins", "charges": 1 },
+      { "item": "gummy_vitamins" },
       { "item": "matches", "charges": [ 0, 20 ] },
       { "item": "napkin", "count": [ 0, 8 ] },
-      { "item": "gum", "charges": [ 0, 2 ] },
-      { "item": "pur_tablets", "charges": [ 0, 6 ], "container-item": "beverage_bag" },
-      { "item": "sugar", "charges": [ 0, 2 ], "container-item": "beverage_bag" },
+      { "item": "gum", "count": [ 0, 2 ] },
+      { "group": "pur_tablets_beverage_bag_0_6" },
+      { "group": "sugar_beverage_bag_0_2" },
       { "item": "spork" },
       {
         "distribution": [
@@ -157,7 +157,7 @@
           { "item": "spread_peanutbutter", "container-item": "mre_bag_small", "prob": 40, "sealed": true }
         ]
       },
-      { "item": "crackers", "charges": [ 0, 2 ], "container-item": "mre_bag_small", "sealed": false },
+      { "sealed": false, "group": "crackers_mre_bag_small_0_2" },
       { "group": "mre_accessory_pack", "prob": 50 },
       { "item": "mre_bag", "contents-group": "mre_used_dessert_pack", "sealed": false }
     ]
@@ -167,5 +167,69 @@
     "id": "mre_used_pack",
     "subtype": "collection",
     "entries": [ { "item": "mre_package", "contents-group": "mre_used_contents", "sealed": false } ]
+  },
+  {
+    "type": "item_group",
+    "id": "candy2_wrapper_1",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "wrapper",
+    "entries": [ { "item": "candy2", "container-item": "null" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cookies_wrapper_1",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "wrapper",
+    "entries": [ { "item": "cookies", "container-item": "null" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pur_tablets_beverage_bag_6",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "beverage_bag",
+    "entries": [ { "item": "pur_tablets", "count": 6 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_beverage_bag_2",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "beverage_bag",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "crackers_mre_bag_small_2",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "mre_bag_small",
+    "entries": [ { "item": "crackers", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pur_tablets_beverage_bag_0_6",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "beverage_bag",
+    "entries": [ { "item": "pur_tablets", "count": [ 0, 6 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_beverage_bag_0_2",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "beverage_bag",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 0, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "crackers_mre_bag_small_0_2",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "mre_bag_small",
+    "entries": [ { "item": "crackers", "container-item": "null", "count": [ 0, 2 ] } ]
   }
 ]

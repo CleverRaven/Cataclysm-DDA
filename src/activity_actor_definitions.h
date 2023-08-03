@@ -1480,11 +1480,9 @@ class reel_cable_activity_actor : public activity_actor
     private:
         int moves_total;
         item_location cable;
-        item_location parent_item;
     public:
-        reel_cable_activity_actor( int moves_total, const item_location &cable,
-                                   const item_location &parent_item ) :
-            moves_total( moves_total ), cable( cable ), parent_item( parent_item ) {}
+        reel_cable_activity_actor( int moves_total, const item_location &cable ) :
+            moves_total( moves_total ), cable( cable ) {}
         activity_id get_type() const override {
             return activity_id( "ACT_REEL_CABLE" );
         }
@@ -1493,7 +1491,7 @@ class reel_cable_activity_actor : public activity_actor
                                        const Character &/*who*/ ) const override {
             const reel_cable_activity_actor &actor = static_cast<const reel_cable_activity_actor &>
                     ( other );
-            return actor.cable == cable && actor.parent_item == parent_item;
+            return actor.cable == cable;
         }
 
         void start( player_activity &act, Character & ) override;
@@ -1697,6 +1695,32 @@ class wield_activity_actor : public activity_actor
         item_location target_item;
         int quantity;
         contents_change_handler handler;
+};
+
+class invoke_item_activity_actor : public activity_actor
+{
+    public:
+        invoke_item_activity_actor( item_location item, std::string method ) :
+            item( std::move( item ) ),
+            method( std::move( method ) ) {};
+        activity_id get_type() const override {
+            return activity_id( "ACT_INVOKE_ITEM" );
+        }
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &, Character &who ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<invoke_item_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut & ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+
+    private:
+        item_location item;
+        std::string method;
 };
 
 class pickup_menu_activity_actor : public activity_actor

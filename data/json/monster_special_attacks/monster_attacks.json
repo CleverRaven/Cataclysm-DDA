@@ -105,8 +105,8 @@
     "grab_data": { "exclusive_grab": true, "pull_chance": 100, "pull_weight_ratio": 0.75 },
     "no_dmg_msg_u": "",
     "no_dmg_msg_npc": "",
-    "miss_msg_u": "The %s's arms fly out at you, but you dodge!",
-    "miss_msg_npc": "The %s's arms fly out at <npcname>, but they dodge!"
+    "miss_msg_u": "%s's arms fly out at you, but you dodge!",
+    "miss_msg_npc": "%s's arms fly out at <npcname>, but they dodge!"
   },
   {
     "type": "monster_attack",

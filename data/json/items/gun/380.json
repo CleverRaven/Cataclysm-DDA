@@ -133,7 +133,7 @@
   },
   {
     "id": "rifle_380",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "pipe rifle: .380 ACP", "str_pl": "pipe rifles: .380 ACP" },

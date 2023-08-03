@@ -697,7 +697,8 @@
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrating_heat", 3, "LIST" ] ] ],
     "//": "25g of stuff",
-    "components": [ [ [ "gelatin_fresh", 1 ] ] ]
+    "components": [ [ [ "gelatin_fresh", 1 ] ] ],
+    "charges": 25
   },
   {
     "type": "recipe",
