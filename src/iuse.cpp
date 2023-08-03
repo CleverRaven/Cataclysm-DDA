@@ -4651,9 +4651,9 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoin
         }
     }
 
-        if( vampire ) {
-            p->vitamin_mod( vitamin_human_blood_vitamin, -500 );
-            }
+    if( vampire ) {
+        p->vitamin_mod( vitamin_human_blood_vitamin, -500 );
+    }
 
     if( !drew_blood ) {
         return std::nullopt;;
