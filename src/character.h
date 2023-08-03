@@ -2512,8 +2512,6 @@ class Character : public Creature, public visitable
         bool hauling = false;
         tripoint view_offset;
 
-        time_point fetch_history_lifetime = calendar::turn_zero;
-        std::unordered_set<std::string> fetch_history;
         player_activity stashed_outbounds_activity;
         player_activity stashed_outbounds_backlog;
         player_activity activity;

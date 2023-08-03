@@ -2796,7 +2796,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
             return requirement_check_result::SKIP_LOCATION;
         } else {
             if( !check_only ) {
-                if( you.fetch_history.find( what_we_need.str() ) != you.fetch_history.end() ) {
+                if( you.as_npc() && you.as_npc()->job.fetch_history.count( what_we_need.str() ) != 0 &&
+                    you.as_npc()->job.fetch_history[what_we_need.str()] == calendar::turn ) {
                     // this may be faild fetch already. give up task for a while to avoid infinite loop.
                     you.activity = player_activity();
                     you.backlog.clear();
@@ -3020,10 +3021,6 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
     // Nuke the current activity, leaving the backlog alone
     if( !check_only ) {
         you.activity = player_activity();
-        if( calendar::turn >= you.fetch_history_lifetime ) {
-            you.fetch_history.clear();
-            you.fetch_history_lifetime = calendar::turn + 10_minutes;
-        }
     }
     // now we setup the target spots based on which activity is occurring
     // the set of target work spots - potentially after we have fetched required tools.
@@ -3041,8 +3038,8 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         // remind what you failed to fetch
         if( !check_only && !you.backlog.empty() ) {
             player_activity &act_prev = you.backlog.front();
-            for( const auto &what_we_need : act_prev.str_values ) {
-                you.fetch_history.emplace( what_we_need );
+            if( !act_prev.str_values.empty() && you.as_npc() ) {
+                you.as_npc()->job.fetch_history[act_prev.str_values.back()] = calendar::turn;
             }
         }
         return true;
