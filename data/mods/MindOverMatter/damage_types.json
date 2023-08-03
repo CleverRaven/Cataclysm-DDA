@@ -56,7 +56,8 @@
         { "x_in_y_chance": { "x": 1, "y": 20 } },
         { "math": [ "_damage_taken", ">", "0" ] },
         { "not": { "npc_has_flag": "HIVE_MIND" } },
-        { "not": { "npc_has_flag": "TEEP_IMMUNE" } }
+        { "not": { "npc_has_flag": "TEEP_IMMUNE" } },
+        { "not": { "npc_has_flag": "TEEPSHIELD" } }
       ]
     },
     "effect": [ { "npc_add_effect": "downed", "duration": "1 s" } ]
@@ -69,7 +70,8 @@
         { "x_in_y_chance": { "x": 1, "y": 3 } },
         { "math": [ "_damage_taken", ">", "0" ] },
         { "not": { "npc_has_flag": "HIVE_MIND" } },
-        { "not": { "npc_has_flag": "TEEP_IMMUNE" } }
+        { "not": { "npc_has_flag": "TEEP_IMMUNE" } },
+        { "not": { "npc_has_flag": "TEEPSHIELD" } }
       ]
     },
     "effect": [ { "npc_add_effect": "stunned", "duration": "1 s" } ]
@@ -82,7 +84,8 @@
         { "x_in_y_chance": { "x": 2, "y": 3 } },
         { "math": [ "_damage_taken", ">", "0" ] },
         { "not": { "npc_has_flag": "HIVE_MIND" } },
-        { "not": { "npc_has_flag": "TEEP_IMMUNE" } }
+        { "not": { "npc_has_flag": "TEEP_IMMUNE" } },
+        { "not": { "npc_has_flag": "TEEPSHIELD" } }
       ]
     },
     "effect": [ { "npc_add_effect": "psi_dazed", "duration": "2 s" } ]
