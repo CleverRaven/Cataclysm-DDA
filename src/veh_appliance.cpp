@@ -526,7 +526,7 @@ void veh_app_interact::plug()
 {
     const int part = veh->part_at( a_point );
     const tripoint pos = veh->global_part_pos3( part );
-    veh->plug_in( get_map().getabs( pos ) );
+    veh->plug_in( pos );
 }
 
 void veh_app_interact::populate_app_actions()

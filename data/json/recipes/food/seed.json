@@ -34,9 +34,10 @@
     "result": "seed_pumpkin",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "//p": "about 500 seeds per pumpkin, which is 167g, 740kcal raw. Each seed pile is 17 calories, 4 grams.",
     "components": [ [ [ "pumpkin", 1 ] ] ],
     "byproducts": [ [ "pumpkin_cut", 4 ] ],
-    "charges": 6
+    "charges": 2
   },
   {
     "result": "seed_watermelon",
@@ -418,7 +419,7 @@
     "type": "recipe",
     "copy-from": "seed_extraction_base",
     "components": [ [ [ "sunflower", 1 ] ] ],
-    "charges": 16
+    "charges": 4
   },
   {
     "result": "seed_beans",
