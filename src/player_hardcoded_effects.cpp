@@ -254,7 +254,7 @@ static void eff_fun_fungus( Character &u, effect &it )
                 // determine if we have arms to channel the fungal stalks out of
                 bool has_arms_outlet = true;
                 for( const bodypart_id &part : u.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
-                    if part->has_flag( json_flag_BIONIC_LIMB ) {
+                    if( part->has_flag( json_flag_BIONIC_LIMB ) ) {
                         has_arms_outlet = false;
                     }
                 }
