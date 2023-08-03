@@ -156,7 +156,42 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Uyen_Background",
     "dynamic_line": "I was a paramedic.\"  She idly touches her forehead to brush aside a bit of hair, then notices it's already tucked back.  \"I was there through some of the absolute worst of it, to this day I can't tell you how I made it out.  One thing led to another and I got pushed onto a bus to help take care of a couple people who needed assistance for travel.  Broken arms, that kinda stuff.  I got here early, I was one of the first to arrive.  Then, this woman in processing 'lost' my paperwork while I was busy helping a guy with a bad gash on his head.  If I hadn't made a stink about it, I'd probably be out in the lobby with those poor souls that couldn't get in at all.",
-    "responses": [ { "text": "Could you teach me a bit about first aid?", "topic": "TALK_REFUGEE_Uyen_Teach" } ]
+    "responses": [
+      {
+        "text": "You're medically trained?  Do you know if anyone's found any way to deal with zombie bites?",
+        "topic": "TALK_REFUGEE_Uyen_Bites"
+      },
+      { "text": "Could you teach me a bit about first aid?", "topic": "TALK_REFUGEE_Uyen_Teach" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Uyen_Bites",
+    "dynamic_line": "I'm not sure what you mean by 'deal with'.  I've been handling zombie bites the same way I handle any other bite.  Clean it and dress it, try to prevent infection.  There's no, like, venom or anything.  Once the wound is cleaned and dressed, it's not going to do anything special.  Zombie mouths are really dirty though, so you want to make sure you do a good job cleaning it out.",
+    "responses": [
+      { "text": "So if the bites aren't turning people into zombies, what is?", "topic": "TALK_REFUGEE_Uyen_Bites2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Uyen_Bites2",
+    "dynamic_line": "*shrugs.  \"Darned if I know, that's way past my training.  I don't think anyone figured it out anyway, but you'd want a doctor for ideas on that, not a paramedic.  I stabilize and package patients, I don't research cures and causes.\"",
+    "responses": [
+      { "text": "Did you ever think about going into nursing or medicine?", "topic": "TALK_REFUGEE_Uyen_Training" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Uyen_Training",
+    "dynamic_line": "I'm going to sound like a massive stereotype here, I know, but my parents always pushed hard for me to go into medicine and be a doctor.  I was still thinking it over when, well,\" she gestures expansively around her.  \"Things got complicated.  Honestly though, if the pay were better for being a paramedic I don't know if I'd want to change at all.  I hear there's a lot of burnout after a while, but I haven't seen it yet.  I really liked the work.\"",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
@@ -173,10 +208,7 @@
         "text": "Maybe I could help.  There are lots of movie discs out there just collecting dust, and you've got electricity.",
         "topic": "TALK_REFUGEE_Uyen_Kaiju2"
       },
-      {
-        "text": "Okay, seriously.  Pacific Rim 2 though… what the heck?",
-        "topic": "TALK_REFUGEE_Uyen_Pacific"
-      }
+      { "text": "Okay, seriously.  Pacific Rim 2 though… what the heck?", "topic": "TALK_REFUGEE_Uyen_Pacific" }
     ]
   },
   {
