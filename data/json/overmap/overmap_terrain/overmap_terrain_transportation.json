@@ -1,43 +1,13 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "hiway_ns",
-    "copy-from": "generic_transportation",
-    "name": "highway",
-    "sym": "H",
-    "color": "dark_gray",
-    "see_cost": 2,
-    "extras": "road",
-    "mapgen": [ { "method": "builtin", "name": "highway" } ],
-    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hiway_ew",
-    "copy-from": "generic_transportation",
-    "name": "highway",
-    "sym": "=",
-    "color": "dark_gray",
-    "see_cost": 2,
-    "extras": "road",
-    "mapgen": [ { "method": "builtin", "name": "highway" } ],
-    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "road",
     "name": "road",
     "copy-from": "generic_transportation",
     "color": "dark_gray",
     "see_cost": 2,
     "extras": "road",
-    "//": "the entries below are optional and serve as an example of mapgen for line_drawing tiles",
-    "mapgen_straight": [ { "method": "builtin", "name": "road_straight" } ],
-    "mapgen_curved": [ { "method": "builtin", "name": "road_curved" } ],
-    "mapgen_end": [ { "method": "builtin", "name": "road_end" } ],
-    "mapgen_tee": [ { "method": "builtin", "name": "road_tee" } ],
-    "mapgen_four_way": [ { "method": "builtin", "name": "road_four_way" } ],
-    "flags": [ "LINEAR", "IGNORE_ROTATION_FOR_ADJACENCY" ]
+    "flags": [ "LINEAR", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
@@ -48,7 +18,6 @@
     "color": "yellow",
     "see_cost": 2,
     "extras": "road_nesw_manhole",
-    "mapgen": [ { "method": "builtin", "name": "road_four_way" } ],
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
   },
   {
