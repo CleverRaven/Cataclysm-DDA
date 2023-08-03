@@ -243,7 +243,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Exodii2",
-    "dynamic_line": "*puts her hands on her hips and glares at you.  \"I thought I made it clear I wasn't willing to accept enticing tidbits of information.  What the actual fuck?  Interdimensional cyborgs?  I don't want to believe you, but also, I already kinda thought there might be some multidimensional hijinx going on here, so I kinda do want to believe you.  They speak English though?  Are you sure this isn't some kind of scam?  Are you just fucking with me?  Honestly this would be a great way to fuck with me.\"",
+    "dynamic_line": "*puts her hands on her hips and glares at you.  \"I thought I made it clear I wasn't willing to accept enticing tidbits of information.  What the actual fuck?  Interdimensional cyborgs?  I don't want to believe you, but also, I already kinda thought there might be some multidimensional hijinks going on here, so I kinda do want to believe you.  They speak English though?  Are you sure this isn't some kind of scam?  Are you just fucking with me?  Honestly this would be a great way to fuck with me.\"",
     "responses": [
       {
         "text": "(show her your bionic interface)",
