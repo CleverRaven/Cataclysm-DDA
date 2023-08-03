@@ -227,8 +227,8 @@
         "text": "You know, there are lots of movie discs out there just collecting dust, and you've got electricity.  I could probably help you out.",
         "topic": "TALK_REFUGEE_Uyen_Kaiju2"
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -236,8 +236,8 @@
     "id": "TALK_REFUGEE_Uyen_Kaiju2",
     "dynamic_line": "Right.\"  Her grin fades slowly.  \"There's one ingredient you can't replace, and without her, I don't…\" her voice catches.  \"Sorry.  That's a sweet offer though, I really appreciate it.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -247,8 +247,8 @@
     "speaker_effect": { "effect": { "u_add_var": "Uyen_teach", "type": "knowledge", "context": "flag", "value": "yes" } },
     "responses": [
       { "text": "All right, let's do it!", "topic": "TALK_TRAIN" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Actually, I had better go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
