@@ -826,44 +826,6 @@
   },
   {
     "type": "palette",
-    "id": "road",
-    "terrain": {
-      " ": [ [ "t_region_groundcover", 8 ], "t_region_shrub" ],
-      "_": "t_pavement",
-      "!": "t_pavement",
-      ".": "t_floor",
-      "#": "t_wall_w",
-      "+": "t_door_c",
-      "~": "t_door_locked",
-      "/": "t_door_glass_c",
-      "x": "t_wall_glass",
-      ":": "t_pavement_y",
-      "]": "t_sidewalk",
-      "*": "t_tree",
-      "A": "t_atm"
-    },
-    "furniture": {
-      "&": "f_trashcan",
-      "{": "f_glass_fridge",
-      "1": [ "f_indoor_plant", "f_indoor_plant_y" ],
-      "C": "f_counter",
-      "H": "f_sofa",
-      "c": "f_chair",
-      "s": "f_stool",
-      "t": "f_table",
-      "r": "f_rack",
-      "l": "f_locker",
-      "f": "f_fridge",
-      "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
-      "S": "f_sink",
-      "T": "f_toilet"
-    },
-    "toilets": { "T": {  } },
-    "gaspumps": { "!": { "fuel": "gasoline", "amount": [ 0, 5000 ] } },
-    "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
-  },
-  {
-    "type": "palette",
     "id": "bunker_ext",
     "terrain": {
       " ": [ [ "t_region_groundcover", 60 ], [ "t_region_shrub", 2 ], "t_region_tree" ],

@@ -668,10 +668,6 @@ std::string recipe::get_consistency_error() const
         return "defines invalid result";
     }
 
-    if( charges && !item::count_by_charges( result_ ) ) {
-        return "specifies charges but result is not counted by charges";
-    }
-
     const auto is_invalid_bp = []( const std::pair<itype_id, int> &elem ) {
         return !item::type_is_defined( elem.first );
     };
