@@ -358,9 +358,7 @@
     "points": 0,
     "description": "You've always had something to say about ripping apart things with chainsaws.  You can swing powered blades faster.",
     "category": [ "perk" ],
-    "enchantments": [
-      { "condition": { "u_has_wielded_with_flag": "MESSY" }, "values": [ { "value": "ATTACK_SPEED", "multiply": -0.20 } ] }
-    ]
+    "enchantments": [ { "condition": { "u_has_wielded_with_flag": "MESSY" }, "values": [ { "value": "ATTACK_SPEED", "multiply": -0.2 } ] } ]
   },
   {
     "type": "mutation",
