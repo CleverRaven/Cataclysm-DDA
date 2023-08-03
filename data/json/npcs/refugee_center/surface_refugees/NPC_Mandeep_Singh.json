@@ -182,7 +182,9 @@
       {
         "text": "Are you kidding?  That sounds like an amazing story.  What happened after you got past the trailer?",
         "topic": "TALK_REFUGEE_Mandeep_Survival2"
-      }
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
