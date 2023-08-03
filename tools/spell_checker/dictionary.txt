@@ -1395,6 +1395,7 @@ hygrometer
 hygroscope
 hygroscopes
 hygroscopic
+hygroscopy
 hyolith
 hypacrosaurus
 hyperaggressive
