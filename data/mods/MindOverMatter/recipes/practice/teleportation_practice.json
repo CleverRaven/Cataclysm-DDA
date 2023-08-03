@@ -130,7 +130,7 @@
       }
     ]
   },
-    {
+  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: phase",
@@ -184,7 +184,7 @@
       }
     ]
   },
-   {
+  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: extended stride",

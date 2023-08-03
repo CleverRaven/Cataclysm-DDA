@@ -96,35 +96,35 @@
     "learn_spells": { "teleport_transpose": 4, "teleport_gateway": 14 }
   },
   {
-			"id": "teleport_stride",
-			"type": "SPELL",
-			"name": "[Ψ]Extended Stride",
-			"description": "By warping space to shorten distances, you can make each of your movements carry you much further.",
-			"message": "Your steps devour the distance.",
-			"valid_targets": [ "self" ],
-			"spell_class": "TELEPORTER",
-		  "skill": "metaphysics",
-			"flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
-			"effect": "attack",
-			"effect_str": "effect_teleport_stride",
+    "id": "teleport_stride",
+    "type": "SPELL",
+    "name": "[Ψ]Extended Stride",
+    "description": "By warping space to shorten distances, you can make each of your movements carry you much further.",
+    "message": "Your steps devour the distance.",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_teleport_stride",
     "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
-			"shape": "blast",
-			"energy_source": "STAMINA",
-			"difficulty": 3,
-			"max_level": { "math": [ "int_to_level(1)" ] },
-			"base_energy_cost": 2500,
-			"final_energy_cost": 750,
-			"energy_increment": -125,
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "base_energy_cost": 2500,
+    "final_energy_cost": 750,
+    "energy_increment": -125,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: teleport_stride') * 300) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
       "math": [ "( (u_val('spell_level', 'spell: teleport_stride') * 350) + 30000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
-			"base_casting_time": 85,
-			"final_casting_time": 25,
-			"casting_time_increment": -7,
-			"learn_spells": { "teleport_collapse": 6, "teleport_phase": 8, "teleport_farstep": 14 }
+    "base_casting_time": 85,
+    "final_casting_time": 25,
+    "casting_time_increment": -7,
+    "learn_spells": { "teleport_collapse": 6, "teleport_phase": 8, "teleport_farstep": 14 }
   },
   {
     "id": "teleport_transpose",
@@ -191,7 +191,7 @@
     "casting_time_increment": -2,
     "learn_spells": { "teleport_banish": 9, "teleport_gateway": 12 }
   },
-   {
+  {
     "id": "teleport_farstep",
     "type": "SPELL",
     "name": "[Ψ]Farstep",
@@ -255,7 +255,7 @@
     "final_casting_time": 75,
     "casting_time_increment": -5.5
   },
-   {
+  {
     "id": "teleport_gateway",
     "type": "SPELL",
     "name": "[Ψ]Gateway",

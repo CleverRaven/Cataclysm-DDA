@@ -14,7 +14,7 @@
     "half_life": "20 minutes",
     "phase": "gas"
   },
-    {
+  {
     "id": "fd_pyrokinetic_summon_heat_2",
     "type": "field_type",
     "intensity_levels": [
@@ -29,7 +29,7 @@
     "half_life": "20 minutes",
     "phase": "gas"
   },
-    {
+  {
     "id": "fd_pyrokinetic_summon_heat_3",
     "type": "field_type",
     "intensity_levels": [
@@ -44,7 +44,7 @@
     "half_life": "20 minutes",
     "phase": "gas"
   },
-    {
+  {
     "id": "fd_pyrokinetic_summon_heat_4",
     "type": "field_type",
     "intensity_levels": [

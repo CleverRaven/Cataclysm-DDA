@@ -1,5 +1,5 @@
 [
- {
+  {
     "id": "biokin_enhance_mobility_item_1",
     "type": "ARMOR",
     "name": "enhanced mobility",
@@ -29,7 +29,7 @@
       }
     ]
   },
-   {
+  {
     "id": "biokin_enhance_mobility_item_2",
     "type": "ARMOR",
     "name": "enhanced mobility",
@@ -59,7 +59,7 @@
       }
     ]
   },
-   {
+  {
     "id": "biokin_enhance_mobility_item_3",
     "type": "ARMOR",
     "name": "enhanced mobility",
@@ -89,7 +89,7 @@
       }
     ]
   },
-   {
+  {
     "id": "biokin_enhance_mobility_item_4",
     "type": "ARMOR",
     "name": "enhanced mobility",
@@ -119,7 +119,7 @@
       }
     ]
   },
-   {
+  {
     "id": "biokin_enhance_mobility_item_5",
     "type": "ARMOR",
     "name": "enhanced mobility",
@@ -149,7 +149,7 @@
       }
     ]
   },
-   {
+  {
     "id": "biokin_enhance_mobility_item_6",
     "type": "ARMOR",
     "name": "enhanced mobility",
