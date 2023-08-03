@@ -803,6 +803,7 @@
     "max_intensity": 112,
     "dur_add_perc": 10,
     "int_dur_factor": "32 s",
+    "flags": [ "TELEKIN_SHIELD" ],
     "enchantments": [
       {
         "values": [

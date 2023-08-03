@@ -467,8 +467,8 @@
     "subtype": "collection",
     "entries": [
       { "group": "any_MRE", "count": [ 1, 3 ], "prob": 70 },
-      { "item": "chocolate", "prob": 20, "charges": [ 1, 3 ] },
-      { "item": "neccowafers", "prob": 20 },
+      { "prob": 20, "group": "chocolate_wrapper_1_3" },
+      { "prob": 20, "group": "neccowafers_bag_plastic_3" },
       { "item": "water_clean", "container-item": "canteen", "prob": 80, "charges": [ 0, 6 ] }
     ]
   },
@@ -498,9 +498,9 @@
     "subtype": "collection",
     "entries": [
       { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 90 },
-      { "item": "quikclot", "prob": 60, "charges": [ 1, 6 ] },
+      { "prob": 60, "group": "quikclot_bag_plastic_1_6" },
       { "collection": [ { "item": "morphine", "charges": [ 1, 4 ] }, { "item": "syringe" } ], "prob": 30 },
-      { "item": "prophylactic_antivenom", "prob": 10 }
+      { "item": "prophylactic_antivenom", "prob": 10, "count": 5 }
     ]
   },
   {
@@ -592,8 +592,8 @@
       { "item": "bandages", "prob": 30, "count": [ 1, 3 ] },
       { "group": "adhesive_bandages_box_used", "prob": 20 },
       { "group": "cotton_ball_bag_used", "prob": 20 },
-      { "item": "iodine", "prob": 5 },
-      { "item": "prussian_blue", "prob": 5 },
+      { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_10" },
+      { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_10" },
       { "item": "adrenaline_injector", "prob": 4 },
       { "group": "tobacco_products", "prob": 146 },
       { "item": "knife_combat", "prob": 14 },
@@ -722,9 +722,9 @@
       { "item": "tac_fullhelmet", "prob": 5 },
       { "item": "flight_helmet", "prob": 5 },
       { "item": "mil_flight_suit", "prob": 5 },
-      { "item": "gum", "prob": 90 },
-      { "item": "caff_gum", "prob": 10 },
-      { "item": "nic_gum", "prob": 1 },
+      { "item": "gum", "prob": 90, "count": 10 },
+      { "item": "caff_gum", "prob": 10, "count": 10 },
+      { "item": "nic_gum", "prob": 1, "count": 10 },
       { "item": "improve_sights", "prob": 10 },
       { "item": "waterproof_gunmod", "prob": 4 },
       { "item": "cleansuit", "prob": 5 },
@@ -736,7 +736,7 @@
       { "item": "militarymap", "prob": 4 },
       { "item": "halligan", "prob": 10 },
       { "item": "fire_ax", "prob": 5 },
-      { "item": "antiparasitic", "prob": 2 },
+      { "prob": 2, "group": "antiparasitic_bottle_plastic_pill_prescription_5" },
       { "item": "match_trigger", "prob": 2 },
       { "item": "grapnel", "prob": 1 },
       { "item": "bucket", "prob": 4 },
@@ -788,12 +788,12 @@
       { "item": "boots_combat", "prob": 50 },
       { "item": "bandages", "prob": 10, "count": [ 1, 3 ] },
       { "group": "adhesive_bandages_box_used", "prob": 10 },
-      { "item": "cig", "prob": 60, "charges-min": 1, "charges-max": 20 },
+      { "prob": 60, "group": "cig_box_cigarette_1_20" },
       { "item": "knife_combat", "prob": 30 },
       { "item": "pockknife", "prob": 30 },
       { "item": "knife_folding", "prob": 20 },
       { "item": "glasses_safety", "prob": 45 },
-      { "item": "eyedrops", "prob": 10, "charges-min": 1, "charges-max": 10 },
+      { "item": "eyedrops", "prob": 10, "count-min": 1, "count-max": 10 },
       { "item": "screwdriver", "prob": 5 },
       { "item": "glasses_eye", "prob": 30 },
       { "item": "tool_belt", "prob": 20 },
@@ -934,21 +934,21 @@
     "subtype": "distribution",
     "entries": [
       { "group": "mil_food_nodrugs", "prob": 1410 },
-      { "item": "codeine", "prob": 15, "charges": [ 1, 10 ] },
-      { "item": "antibiotics", "prob": 25, "charges": [ 1, 15 ] },
+      { "prob": 15, "group": "codeine_bottle_plastic_pill_painkiller_1_10" },
+      { "prob": 25, "group": "antibiotics_bottle_plastic_pill_prescription_1_15" },
       { "item": "purifier", "prob": 12 },
       { "item": "heatpack", "prob": 60 },
-      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 20, "charges": [ 1, 15 ] },
-      { "item": "fungicide", "prob": 5 },
-      { "item": "insecticide", "prob": 5 },
+      { "prob": 20, "group": "pur_tablets_bottle_plastic_small_1_15" },
+      { "prob": 5, "group": "fungicide_bag_plastic_400" },
+      { "prob": 5, "group": "insecticide_bag_plastic_400" },
       { "item": "rx12_injector", "prob": 8, "charges": [ 0, 2 ] },
       { "item": "rx11_stimpack", "prob": 8, "charges": [ 0, 5 ] },
       { "item": "oxygen_tank", "prob": 10, "charges": [ 0, 24 ] },
       { "item": "smoxygen_tank", "prob": 20, "charges": [ 0, 12 ] },
-      { "item": "bfipowder", "prob": 15, "charges": [ 1, 4 ] },
-      { "item": "quikclot", "prob": 10, "charges": [ 1, 6 ] },
-      { "item": "weak_antibiotic", "prob": 40, "charges": [ 1, 5 ] },
-      { "item": "prophylactic_antivenom", "prob": 5 }
+      { "prob": 15, "group": "bfipowder_bottle_plastic_small_1_4" },
+      { "prob": 10, "group": "quikclot_bag_plastic_1_6" },
+      { "prob": 40, "group": "weak_antibiotic_bottle_plastic_pill_prescription_1_5" },
+      { "item": "prophylactic_antivenom", "prob": 5, "count": 5 }
     ]
   },
   {
@@ -957,16 +957,16 @@
     "subtype": "distribution",
     "entries": [
       { "group": "MRE", "prob": 1035 },
-      { "item": "chocolate", "prob": 20 },
-      { "item": "neccowafers", "prob": 30 },
-      { "item": "can_beans", "prob": 40 },
-      { "item": "pork_beans", "prob": 40 },
+      { "prob": 20, "group": "chocolate_wrapper_3" },
+      { "prob": 30, "group": "neccowafers_bag_plastic_3" },
+      { "prob": 40, "group": "can_beans_can_medium_2" },
+      { "prob": 40, "group": "pork_beans_can_medium_2" },
       { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 35 },
       { "item": "saline", "prob": 10 },
       { "item": "instant_coffee", "prob": 25 },
       { "item": "con_milk", "prob": 10 },
       { "item": "milk_UHT", "prob": 25 },
-      { "item": "cereal", "prob": 20 },
+      { "prob": 20, "group": "cereal_box_small_4" },
       { "item": "sports_drink", "prob": 40 },
       { "item": "water_clean", "prob": 90 }
     ]
@@ -1144,5 +1144,77 @@
       [ "solar_panel", 3 ],
       [ "recharge_station", 8 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "chocolate_wrapper_1_3",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "wrapper",
+    "entries": [ { "item": "chocolate", "container-item": "null", "count": [ 1, 3 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "neccowafers_bag_plastic_3",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "neccowafers", "container-item": "null", "count": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "iodine_bottle_plastic_pill_supplement_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "iodine", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "prussian_blue_bottle_plastic_pill_supplement_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "prussian_blue", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "antiparasitic_bottle_plastic_pill_prescription_5",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "antiparasitic", "container-item": "null", "count": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "codeine_bottle_plastic_pill_painkiller_1_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_painkiller",
+    "entries": [ { "item": "codeine", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "antibiotics_bottle_plastic_pill_prescription_1_15",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "antibiotics", "container-item": "null", "count": [ 1, 15 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "weak_antibiotic_bottle_plastic_pill_prescription_1_5",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "weak_antibiotic", "container-item": "null", "count": [ 1, 5 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chocolate_wrapper_3",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "wrapper",
+    "entries": [ { "item": "chocolate", "container-item": "null", "count": 3 } ]
   }
 ]

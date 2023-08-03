@@ -14,6 +14,7 @@
     "shape": "blast",
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
+    "damage_type": "psi_telekinetic_damage",
     "min_damage": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_pull') * -1.5) - 1) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -48,6 +49,7 @@
     "shape": "blast",
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
+    "damage_type": "psi_telekinetic_damage",
     "min_damage": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_push') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -149,6 +151,7 @@
     "effect": "directed_push",
     "shape": "blast",
     "difficulty": 1,
+    "damage_type": "psi_telekinetic_damage",
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_wave') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
@@ -223,7 +226,7 @@
     ],
     "effect": "attack",
     "shape": "blast",
-    "damage_type": "bash",
+    "damage_type": "psi_telekinetic_damage",
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
@@ -384,7 +387,7 @@
     "flags": [ "LOUD", "RANDOM_DAMAGE", "IGNORE_WALLS" ],
     "effect": "attack",
     "shape": "blast",
-    "damage_type": "bash",
+    "damage_type": "psi_telekinetic_damage",
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": {
       "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 3) + 22) * (scaling_factor(u_val('intelligence') ) )" ]

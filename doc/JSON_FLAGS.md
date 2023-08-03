@@ -1344,7 +1344,6 @@ Melee flags are fully compatible with tool flags, and vice versa.
 
 - ```ACT_ON_RANGED_HIT```  The item should activate when thrown or fired, then immediately get processed if it spawns on the ground.
 - ```ALLOWS_REMOTE_USE``` This item can be activated or reloaded from adjacent tile without picking it up.
-- ```AUTO_DELETE_CABLE``` This cable is automatically created and deleted by their appliance or device and the player should never be able to directly interact with it.
 - ```BELT_CLIP``` The item can be clipped or hooked on to a belt loop of the appropriate size (belt loops are limited by their max_volume and max_weight properties)
 - ```BOMB``` It can be a remote controlled bomb.
 - ```CABLE_SPOOL``` This item is a cable spool and must be processed as such. It should usually have a "link_up" iuse_action that describes what it can be connected to and how.

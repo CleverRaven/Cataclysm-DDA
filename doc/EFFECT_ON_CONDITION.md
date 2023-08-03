@@ -1242,7 +1242,7 @@ You increase the HP of your minor parts to 50, if possible
 
 You heal your right leg for 10 HP; in detail, you set the HP of your right leg to be 10 HP bigger than it's current HP; what people could do to not add `u_adjust_hp` XD
 ```json
-{ "u_set_hp": { "math": { "u_val('hp', 'bodypart: leg_r') + 10" } }, "target_part": "leg_r" }
+{ "u_set_hp": { "math": { "u_hp('leg_r') + 10" } }, "target_part": "leg_r" }
 ```
 
 #### `u_die`, `npc_die`

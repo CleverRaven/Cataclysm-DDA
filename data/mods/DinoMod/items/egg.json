@@ -15,8 +15,7 @@
     "description": "Pale, round egg laid by a dinosaur.",
     "price": 500,
     "material": [ "egg" ],
-    "volume": "6800 ml",
-    "stack_size": 4,
+    "volume": "1700 ml",
     "fun": -6,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_DINO",
@@ -36,7 +35,7 @@
     "calories": 80,
     "description": "Pale, round egg laid by a smaller dinosaur.",
     "material": [ "egg" ],
-    "volume": "50 ml",
+    "volume": "12 ml",
     "rot_spawn": "GROUP_EGG_DINO_SMALL"
   },
   {
@@ -51,7 +50,7 @@
     "calories": 5200,
     "description": "Pale, round egg laid by a larger dinosaur.",
     "material": [ "egg" ],
-    "volume": "13600 ml",
+    "volume": "3400 ml",
     "rot_spawn": "GROUP_EGG_DINO_LARGE"
   },
   {
@@ -70,8 +69,7 @@
     "description": "Pale, football-shaped egg laid by a dinosaur.",
     "price": 500,
     "material": [ "egg" ],
-    "volume": "6800 ml",
-    "stack_size": 4,
+    "volume": "1700 ml",
     "fun": -6,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_THEROPOD",
@@ -99,7 +97,7 @@
     "calories": 5200,
     "description": "Pale, football-shaped egg laid by a larger dinosaur.",
     "material": [ "egg" ],
-    "volume": "13600 ml",
+    "volume": "3400 ml",
     "rot_spawn": "GROUP_EGG_THEROPOD_LARGE"
   },
   {

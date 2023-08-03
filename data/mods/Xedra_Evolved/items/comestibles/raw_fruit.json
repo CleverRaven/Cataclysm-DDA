@@ -14,8 +14,7 @@
     "price": 100,
     "price_postapoc": 50,
     "material": [ "veggy" ],
-    "volume": "850 ml",
-    "charges": 5,
+    "volume": "170 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 2 ] ]

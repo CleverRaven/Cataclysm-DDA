@@ -820,6 +820,7 @@
       "and": [
         { "compare_int": [ { "faction_like": "hells_raiders" }, "<", { "const": -40 } ] },
         { "compare_int": [ { "faction_like": "hells_raiders" }, ">", { "const": -60 } ] },
+        { "compare_num": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "<=", { "const": 10 } ] },
         { "days_since_cataclysm": 9 },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 4 } },
@@ -829,7 +830,10 @@
         { "not": { "u_near_om_location": "smallscrapyard_ocu", "range": 4 } }
       ]
     },
-    "effect": [ { "mapgen_update": "bandit_killer_add" } ]
+    "effect": [
+      { "mapgen_update": "bandit_killer_add" },
+      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -839,6 +843,7 @@
       "and": [
         { "compare_int": [ { "faction_like": "hells_raiders" }, "<", { "const": -60 } ] },
         { "compare_int": [ { "faction_like": "hells_raiders" }, ">", { "const": -90 } ] },
+        { "compare_num": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "<=", { "const": 10 } ] },
         { "days_since_cataclysm": 15 },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 4 } },
@@ -848,7 +853,11 @@
         { "not": { "u_near_om_location": "smallscrapyard_ocu", "range": 4 } }
       ]
     },
-    "effect": [ { "mapgen_update": "bandit_killer_add" }, { "mapgen_update": "bandit_killer_add" } ]
+    "effect": [
+      { "mapgen_update": "bandit_killer_add" },
+      { "mapgen_update": "bandit_killer_add" },
+      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 2 } ] }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -857,6 +866,7 @@
     "condition": {
       "and": [
         { "compare_int": [ { "faction_like": "hells_raiders" }, "<", { "const": -90 } ] },
+        { "compare_num": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "<=", { "const": 10 } ] },
         { "days_since_cataclysm": 21 },
         { "not": { "is_weather": "portal_storm" } },
         { "not": { "u_near_om_location": "godco_enter", "range": 4 } },
@@ -869,7 +879,8 @@
     "effect": [
       { "mapgen_update": "bandit_killer_add" },
       { "mapgen_update": "bandit_killer_add" },
-      { "mapgen_update": "bandit_killer_add" }
+      { "mapgen_update": "bandit_killer_add" },
+      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 3 } ] }
     ]
   },
   {
@@ -879,11 +890,20 @@
     "condition": {
       "and": [
         { "compare_int": [ { "faction_like": "old_guard" }, "<", { "const": -45 } ] },
+        { "compare_num": [ { "u_val": "var", "var_name": "government_assassins_sent" }, "<=", { "const": 6 } ] },
         { "days_since_cataclysm": 9 },
-        { "not": { "is_weather": "portal_storm" } }
+        { "not": { "is_weather": "portal_storm" } },
+        { "not": { "u_near_om_location": "godco_enter", "range": 4 } },
+        { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
+        { "not": { "u_near_om_location": "pagan_cult_enter", "range": 4 } },
+        { "not": { "u_near_om_location": "lumbermill_0_0_ocu", "range": 4 } },
+        { "not": { "u_near_om_location": "smallscrapyard_ocu", "range": 4 } }
       ]
     },
-    "effect": [ { "mapgen_update": "government_killteam_add" } ]
+    "effect": [
+      { "mapgen_update": "government_killteam_add" },
+      { "arithmetic": [ { "u_val": "var", "var_name": "government_assassins_sent" }, "+=", { "const": 2 } ] }
+    ]
   },
   {
     "type": "effect_on_condition",

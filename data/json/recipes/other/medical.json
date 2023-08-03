@@ -239,7 +239,8 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
-    "components": [ [ [ "meal_chitin_piece", 6 ] ], [ [ "lye_powder", 100 ], [ "lye", 3 ] ] ]
+    "components": [ [ [ "meal_chitin_piece", 6 ] ], [ [ "lye_powder", 100 ], [ "lye", 3 ] ] ],
+    "charges": 6
   },
   {
     "type": "recipe",
@@ -255,7 +256,8 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
-    "components": [ [ [ "alder_bark", 6 ] ], [ [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "alder_bark", 6 ] ], [ [ "water_clean", 10 ] ] ],
+    "charges": 6
   },
   {
     "type": "recipe",

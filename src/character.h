@@ -387,6 +387,24 @@ enum class book_mastery {
     MASTERED // can no longer increase skill by reading
 };
 
+enum class read_condition_result {
+    SUCCESS = 0,
+    NOT_BOOK = 1 << 0,
+    CANT_UNDERSTAND = 1 << 1,
+    MASTERED = 1 << 2,
+    DRIVING = 1 << 3,
+    ILLITERATE = 1 << 4,
+    NEED_GLASSES = 1 << 5,
+    TOO_DARK = 1 << 6,
+    MORALE_LOW = 1 << 7,
+    BLIND = 1 << 8
+};
+
+template<>
+struct enum_traits<read_condition_result> {
+    static constexpr bool is_flag_enum = true;
+};
+
 /** @relates ret_val */
 template<>
 struct ret_val<edible_rating>::default_success : public
@@ -2324,6 +2342,13 @@ class Character : public Creature, public visitable
         time_duration time_to_read( const item &book, const Character &reader,
                                     const Character *learner = nullptr ) const;
 
+        /**
+         * Helper function for get_book_reader
+         *
+         * @param book The book being read
+         */
+        read_condition_result check_read_condition( const item &book ) const;
+
         /** Calls Creature::normalize()
          *  nulls out the player's weapon
          *  Should only be called through player::normalize(), not on it's own!
@@ -2924,6 +2949,8 @@ class Character : public Creature, public visitable
          * with ranged weapons, e.g. with infrared vision.
          */
         std::vector<Creature *> get_targetable_creatures( int range, bool melee ) const;
+        /** Returns the mutation visibility threshold for the observer ( *this ) */
+        int get_mutation_visibility_cap( const Character *observed ) const;
         /** Returns an enumeration of visible mutations with colors */
         std::string visible_mutations( int visibility_cap ) const;
 

@@ -31,7 +31,7 @@ const std::unordered_set<std::string> simple_string_conds = { {
     }
 };
 const std::unordered_set<std::string> complex_conds = { {
-        "u_has_any_trait", "npc_has_any_trait", "u_has_trait", "npc_has_trait",
+        "u_has_any_trait", "npc_has_any_trait", "u_has_trait", "npc_has_trait", "u_has_visible_trait", "npc_has_visible_trait",
         "u_has_flag", "npc_has_flag", "u_has_species", "npc_has_species", "u_bodytype", "npc_bodytype", "npc_has_class", "u_has_mission", "u_monsters_in_direction", "u_safe_mode_trigger",
         "u_has_strength", "npc_has_strength", "u_has_dexterity", "npc_has_dexterity",
         "u_has_intelligence", "npc_has_intelligence", "u_has_perception", "npc_has_perception",
@@ -104,6 +104,7 @@ struct conditional_t {
 
         void set_has_any_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_visible_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_martial_art( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_species( const JsonObject &jo, const std::string &member, bool is_npc = false );
