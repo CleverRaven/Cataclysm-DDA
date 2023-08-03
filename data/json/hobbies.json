@@ -376,7 +376,12 @@
       "prof_welding_basic",
       "prof_carpentry_basic"
     ],
-    "skills": [ { "level": 6, "name": "fabrication" }, { "level": 2, "name": "tailor" }, { "level": 2, "name": "electronics" }, { "level": 2, "name": "mechanics" } ]
+    "skills": [
+      { "level": 6, "name": "fabrication" },
+      { "level": 2, "name": "tailor" },
+      { "level": 2, "name": "electronics" },
+      { "level": 2, "name": "mechanics" }
+    ]
   },
   {
     "type": "profession",
@@ -405,7 +410,17 @@
     "name": "Cooking (Expert)",
     "description": "You're an excellent chef capable of making delicious meals out of almost anything and have a wide array of culinary knowledge.  Sadly, the undead would rather eat you than your meals.",
     "points": 6,
-    "proficiencies": [ "prof_baking", "prof_baking_bread", "prof_baking_desserts_1", "prof_food_prep", "prof_knife_skills",  "prof_frying_dessert",  "prof_frying",  "prof_preservation",  "prof_scav_cooking" ],
+    "proficiencies": [
+      "prof_baking",
+      "prof_baking_bread",
+      "prof_baking_desserts_1",
+      "prof_food_prep",
+      "prof_knife_skills",
+      "prof_frying_dessert",
+      "prof_frying",
+      "prof_preservation",
+      "prof_scav_cooking"
+    ],
     "skills": [ { "level": 7, "name": "cooking" } ]
   },
   {
@@ -501,7 +516,18 @@
     "name": "Sewing (Expert)",
     "description": "Despite modern technology making career tailors obsolete you've spent much of your life hand-making clothing of all sorts, whether for historical purposes or to sell as artisinal goods.  Too bad you can't stitch the holes in reality closed.",
     "points": 8,
-    "proficiencies": [ "prof_closures", "prof_elastics", "prof_knitting", "prof_knitting_speed", "prof_quilting", "prof_closures_waterproofing", "prof_leatherworking_basic", "prof_furriery", "prof_spinning", "prof_weaving" ],
+    "proficiencies": [
+      "prof_closures",
+      "prof_elastics",
+      "prof_knitting",
+      "prof_knitting_speed",
+      "prof_quilting",
+      "prof_closures_waterproofing",
+      "prof_leatherworking_basic",
+      "prof_furriery",
+      "prof_spinning",
+      "prof_weaving"
+    ],
     "skills": [ { "level": 7, "name": "tailor" }, { "level": 2, "name": "fabrication" } ]
   },
   {
@@ -579,7 +605,12 @@
     "name": "Black Belt",
     "description": "You've been doing martial arts for years and have earned the coveted black belt in a martial art of your choice.",
     "points": 10,
-    "skills": [ { "level": 5, "name": "melee" }, { "level": 5, "name": "unarmed" }, { "level": 5, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
+    "skills": [
+      { "level": 5, "name": "melee" },
+      { "level": 5, "name": "unarmed" },
+      { "level": 5, "name": "dodge" },
+      { "level": 3, "name": "swimming" }
+    ],
     "traits": [ "PROF_MA_BLACK" ]
   },
   {
@@ -834,7 +865,12 @@
     "name": "Shooting (Beginner)",
     "description": "You've been to a gun range once or twice and maybe took a firearm safety class.  At the very least, you're confident you can point the gun in the correct direction.",
     "points": 2,
-    "skills": [ { "level": 1, "name": "shotgun" }, { "level": 1, "name": "pistol" }, { "level": 1, "name": "rifle" }, { "level": 2, "name": "gun" } ]
+    "skills": [
+      { "level": 1, "name": "shotgun" },
+      { "level": 1, "name": "pistol" },
+      { "level": 1, "name": "rifle" },
+      { "level": 2, "name": "gun" }
+    ]
   },
   {
     "type": "profession",
@@ -844,7 +880,13 @@
     "description": "You liked going to the local gun range and shooting at some targets or blasting cans off of fence posts with a variety of firearms.  Maybe if you just imagine targets on those undead, this could help.",
     "points": 2,
     "proficiencies": [ "prof_gun_cleaning" ],
-    "skills": [ { "level": 1, "name": "smg" }, { "level": 2, "name": "shotgun" }, { "level": 2, "name": "pistol" }, { "level": 2, "name": "rifle" }, { "level": 4, "name": "gun" } ]
+    "skills": [
+      { "level": 1, "name": "smg" },
+      { "level": 2, "name": "shotgun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "rifle" },
+      { "level": 4, "name": "gun" }
+    ]
   },
   {
     "type": "profession",
