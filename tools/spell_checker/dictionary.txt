@@ -1111,6 +1111,7 @@ forestock
 forgemaster
 forgnottedn
 forklifts
+formally
 forntget
 fortifiable
 foundress
