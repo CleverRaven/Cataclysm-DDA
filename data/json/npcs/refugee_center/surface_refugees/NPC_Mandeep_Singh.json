@@ -72,7 +72,13 @@
   {
     "type": "talk_topic",
     "//": "common talk responses",
-    "id": [ "TALK_REFUGEE_Mandeep_2", "TALK_REFUGEE_Mandeep_Background", "TALK_REFUGEE_Mandeep_Situation", TALK_REFUGEE_Mandeep_Survival3, TALK_REFUGEE_Mandeep_Background3 ],
+    "id": [
+      "TALK_REFUGEE_Mandeep_2",
+      "TALK_REFUGEE_Mandeep_Background",
+      "TALK_REFUGEE_Mandeep_Situation",
+      "TALK_REFUGEE_Mandeep_Survival3",
+      "TALK_REFUGEE_Mandeep_Background3"
+    ],
     "responses": [
       {
         "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
@@ -164,6 +170,7 @@
     "dynamic_line": "*shakes his head briefly.  \"I will not bore you with tales of a past that will never again matter.  Suffice to say that the offers I thought I had were not what I believed them to be.  I am fortunate at least that I was able to bring my family.  We made a good life for ourselves, though I often wonder what it would have been had we stayed.\"",
     "responses": [
       { "text": "How did you and your family make it here?", "topic": "TALK_REFUGEE_Mandeep_Survival" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -172,7 +179,10 @@
     "dynamic_line": "That is a hard question to ask a man, in these times.\"  He looks you up and down carefully for a moment, shifting a little on his feet.  \"To be honest with you, I made a delivery run here a few months ago to drop off some office supplies.  When I saw the state the world was in, I thought perhaps this would be a safer place to go than many, and so we made our way here.  It was a difficult journey, but I'm sure you've heard many tales of that time, and have your own.  We were nearly gunned down at a road stop, but I knew a back route and managed to slip away.  There was a pickup truck with a travel trailer that tried to take the back route, though, and overturned.  It nearly blocked the road, and the trailer had been full of people.  Many of them were now returned, and were stumbling around.  We made it through, barely, but the car was damaged then.  You get the idea.\"  He sighs, rubbing his beard idly, his expression flat.  \"Somehow, we made it.  What's more, all three of us made it, and again made it through the disaster in the back room here.  We were very lucky.",
     "responses": [
       { "text": "Tell me about yourself.  What did you do before?", "topic": "TALK_REFUGEE_Mandeep_Background2" },
-      { "text": "Are you kidding?  That sounds like an amazing story.  What happened after you got past the trailer?", "topic": "TALK_REFUGEE_Mandeep_Survival2" }
+      {
+        "text": "Are you kidding?  That sounds like an amazing story.  What happened after you got past the trailer?",
+        "topic": "TALK_REFUGEE_Mandeep_Survival2"
+      }
     ]
   },
   {
