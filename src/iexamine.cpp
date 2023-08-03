@@ -5858,13 +5858,11 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
             it.calc_rot_while_processing( milling_time );
             const islot_milling &mdata = *it.type->milling_data;
             const int charges = it.count() * mdata.conversion_rate_;
-            if( charges <= 0 ) {
-                // not enough material, just remove the item
-                // (may happen if the player did not add enough charges to the mill
-                // or if the conversion rate is changed between versions)
-                iter = items.erase( iter );
-            } else {
-                item result( mdata.into_, start_time + milling_time, charges );
+            // if not enough material, just remove the item (0 loops)
+            // (may happen if the player did not add enough charges to the mill
+            // or if the conversion rate is changed between versions)
+            for( int i = 0; i < charges; i++ ) {
+                item result( mdata.into_, start_time + milling_time );
                 result.components.add( it );
                 // copied from item::inherit_flags, which can not be called here because it requires a recipe.
                 for( const flag_id &f : it.type->get_flags() ) {
@@ -5877,9 +5875,9 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
                 result.set_flag( flag_PROCESSING_RESULT );
                 result.set_relative_rot( it.get_relative_rot() );
                 result.unset_flag( flag_PROCESSING_RESULT );
-                it = result;
-                ++iter;
+                here.add_item( examp, result );
             }
+            iter = items.erase( iter );
         } else {
             ++iter;
         }
@@ -6091,8 +6089,8 @@ static void mill_load_food( Character &you, const tripoint &examp,
     for( const item &m : moved ) {
         here.add_item( examp, m );
         you.mod_moves( -you.item_handling_cost( m ) );
-        add_msg( m_info, _( "You carefully place %1$d %2$s in the mill." ), m.charges,
-                 m.tname( m.charges ) );
+        add_msg( m_info, _( "You carefully place %1$d %2$s in the mill." ), m.count(),
+                 m.tname( m.count() ) );
     }
     you.invalidate_crafting_inventory();
 }
