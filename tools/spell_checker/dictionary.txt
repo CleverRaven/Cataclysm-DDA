@@ -2847,6 +2847,7 @@ suborder
 subplanar
 subplane
 subplots
+subsuming
 subterraenean
 subtypes
 sudo
