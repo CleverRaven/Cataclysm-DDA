@@ -350,15 +350,21 @@
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_ENHANCE_MOBILITY_SWITCHER",
-    "extra_effects": [
-      { "id": "psionic_drained_difficulty_five", "hit_self": true }
-    ],
+    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 1,
-    "min_duration": { "math": [ "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )" ] },
-    "max_duration": { "math": [ "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )" ] },
+    "min_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
     "energy_source": "STAMINA",
     "base_energy_cost": 4500,
     "final_energy_cost": 2000,

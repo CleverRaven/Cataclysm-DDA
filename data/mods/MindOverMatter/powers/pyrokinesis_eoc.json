@@ -38,13 +38,14 @@
     "effect": [
       {
         "run_eoc_selector": [
-          "EOC_SPELL_PYROKIN_SUMMON_HEAT_1", 
+          "EOC_SPELL_PYROKIN_SUMMON_HEAT_1",
           "EOC_SPELL_PYROKIN_SUMMON_HEAT_2",
-          "EOC_SPELL_PYROKIN_SUMMON_HEAT_3", 
-          "EOC_SPELL_PYROKIN_SUMMON_HEAT_4", 
+          "EOC_SPELL_PYROKIN_SUMMON_HEAT_3",
+          "EOC_SPELL_PYROKIN_SUMMON_HEAT_4",
           "EOC_SPELL_PYROKIN_BANISH_HEAT",
-          "EOC_PORTAL_NULL_AWAKENING" ],
-        "names": [ 
+          "EOC_PORTAL_NULL_AWAKENING"
+        ],
+        "names": [
           "Minor thermogenesis",
           "Lesser thermogenesis",
           "Greater thermogenesis",
@@ -64,43 +65,58 @@
       }
     ]
   },
-   {
+  {
     "type": "effect_on_condition",
     "id": "EOC_SPELL_PYROKIN_SUMMON_HEAT_1",
     "effect": [
-      { "u_cast_spell": { "id": "pyrokin_summon_thermogenesis_1", "message": "The air nearby grows slightly warmer." }, "targeted": true },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_two", "hit_self": true }
+      {
+        "u_cast_spell": { "id": "pyrokin_summon_thermogenesis_1", "message": "The air nearby grows slightly warmer." },
+        "targeted": true
+      },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_two", "hit_self": true } }
     ]
   },
-     {
+  {
     "type": "effect_on_condition",
     "id": "EOC_SPELL_PYROKIN_SUMMON_HEAT_1",
     "effect": [
-      { "u_cast_spell": { "id": "pyrokin_summon_thermogenesis_2", "message": "Warm air swirls from the spot." }, "targeted": true },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true }
+      {
+        "u_cast_spell": { "id": "pyrokin_summon_thermogenesis_2", "message": "Warm air swirls from the spot." },
+        "targeted": true
+      },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SPELL_PYROKIN_SUMMON_HEAT_3",
     "effect": [
-      { "u_cast_spell": { "id": "pyrokin_summon_thermogenesis_3", "message": "Hot air swirls from the spot." }, "targeted": true },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_six", "hit_self": true }
+      {
+        "u_cast_spell": { "id": "pyrokin_summon_thermogenesis_3", "message": "Hot air swirls from the spot." },
+        "targeted": true
+      },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_six", "hit_self": true } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SPELL_PYROKIN_SUMMON_HEAT_4",
     "effect": [
-      { "u_cast_spell": { "id": "pyrokin_summon_thermogenesis_4", "message": "The air grows as hot as a summer day." }, "targeted": true },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_eight", "hit_self": true }
+      {
+        "u_cast_spell": { "id": "pyrokin_summon_thermogenesis_4", "message": "The air grows as hot as a summer day." },
+        "targeted": true
+      },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_eight", "hit_self": true } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SPELL_PYROKIN_BANISH_HEAT",
     "effect": [
-      { "u_cast_spell": { "id": "pyrokin_banish_thermogenesis" }, "message": "The heated air you have been maintaining returns to normal." }
+      {
+        "u_cast_spell": { "id": "pyrokin_banish_thermogenesis" },
+        "message": "The heated air you have been maintaining returns to normal."
+      }
     ]
   }
 ]

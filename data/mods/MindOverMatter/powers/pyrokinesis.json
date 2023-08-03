@@ -258,7 +258,7 @@
     "casting_time_increment": -11,
     "learn_spells": { "pyrokinetic_thermogenesis": 8, "pyrokinetic_aura": 9, "pyrokinetic_eruption": 12 }
   },
-   {
+  {
     "id": "pyrokinetic_flamethrower",
     "type": "SPELL",
     "name": "[Ψ]Flamethrower",
@@ -323,11 +323,15 @@
     "shape": "blast",
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
-     "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 15000) + 360000) * (scaling_factor(u_val('intelligence') ) )" ]
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 15000) + 360000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 30000) + 720000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 30000) + 720000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 8000,
@@ -339,95 +343,111 @@
     "learn_spells": { "pyrokinetic_aura": 4, "pyrokinetic_blast": 8 }
   },
   {
-    "id": "pyrokin_summon_thermogenesis_1", 
+    "id": "pyrokin_summon_thermogenesis_1",
     "type": "SPELL",
     "name": "[Ψ]Thermogenesis #1",
     "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
     "valid_targets": [ "ground" ],
-     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-     "effect": "summon",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "summon",
     "effect_str": "mon_pyrokin_hotair_1",
-     "min_damage": 1,
+    "min_damage": 1,
     "max_damage": 1,
     "min_range": 3,
-         "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 15000) + 360000) * (scaling_factor(u_val('intelligence') ) )" ]
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 15000) + 360000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 30000) + 720000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 30000) + 720000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     }
   },
-    {
-    "id": "pyrokin_summon_thermogenesis_2", 
+  {
+    "id": "pyrokin_summon_thermogenesis_2",
     "type": "SPELL",
     "name": "[Ψ]Thermogenesis #2",
     "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
     "valid_targets": [ "ground" ],
-     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-     "effect": "summon",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "summon",
     "effect_str": "mon_pyrokin_hotair_2",
-     "min_damage": 1,
+    "min_damage": 1,
     "max_damage": 1,
     "min_range": 3,
-         "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 15000) + 360000) * (scaling_factor(u_val('intelligence') ) )" ]
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 15000) + 360000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 30000) + 720000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 30000) + 720000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     }
   },
-    {
-    "id": "pyrokin_summon_thermogenesis_3", 
+  {
+    "id": "pyrokin_summon_thermogenesis_3",
     "type": "SPELL",
     "name": "[Ψ]Thermogenesis #1",
     "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
     "valid_targets": [ "ground" ],
-     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-     "effect": "summon",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "summon",
     "effect_str": "mon_pyrokin_hotair_3",
-     "min_damage": 1,
+    "min_damage": 1,
     "max_damage": 1,
     "min_range": 3,
-         "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 15000) + 360000) * (scaling_factor(u_val('intelligence') ) )" ]
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 15000) + 360000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 30000) + 720000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 30000) + 720000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     }
   },
-    {
-    "id": "pyrokin_summon_thermogenesis_4", 
+  {
+    "id": "pyrokin_summon_thermogenesis_4",
     "type": "SPELL",
     "name": "[Ψ]Thermogenesis #1",
     "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
     "valid_targets": [ "ground" ],
-     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-     "effect": "summon",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "summon",
     "effect_str": "mon_pyrokin_hotair_4",
-     "min_damage": 1,
+    "min_damage": 1,
     "max_damage": 1,
     "min_range": 3,
-         "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 15000) + 360000) * (scaling_factor(u_val('intelligence') ) )" ]
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 15000) + 360000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     },
     "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 30000) + 720000) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [
+        "( (u_val('spell_level', 'spell: pyrokinetic_thermogenesis') * 30000) + 720000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
     }
   },
-   {
-    "id": "pyrokin_banish_thermogenesis", 
+  {
+    "id": "pyrokin_banish_thermogenesis",
     "type": "SPELL",
     "name": "[Ψ]Banish Thermogenesis",
     "description": "The spell to banish existing thermogenesis nodes.  It's a bug if you have it directly.",
     "valid_targets": [ "ground" ],
-     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX",  "NO_PROJECTILE", "IGNORE_WALLS" ],
-     "effect": "attack",
-     "shape": "blast",
-     "damage_type": "pure",
-     "min_damage": 100,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "NO_PROJECTILE", "IGNORE_WALLS" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "pure",
+    "min_damage": 100,
     "max_damage": 100,
     "min_aoe": 60,
-     "targeted_monster_ids": [ "mon_pyrokin_hotair_1", "mon_pyrokin_hotair_2", "mon_pyrokin_hotair_3", "mon_pyrokin_hotair_4" ]
+    "targeted_monster_ids": [ "mon_pyrokin_hotair_1", "mon_pyrokin_hotair_2", "mon_pyrokin_hotair_3", "mon_pyrokin_hotair_4" ]
   },
   {
     "id": "pyrokinetic_aura",
@@ -458,7 +478,7 @@
     "base_casting_time": 125,
     "final_casting_time": 50,
     "casting_time_increment": -6.5,
-    "learn_spells": { "pyrokinetic_eruption": 5, "pyrokinetic_thermogenesis": 6}
+    "learn_spells": { "pyrokinetic_eruption": 5, "pyrokinetic_thermogenesis": 6 }
   },
   {
     "id": "pyrokinetic_blast",
@@ -504,5 +524,5 @@
     "sound_type": "combat",
     "sound_description": "a crackle!",
     "learn_spells": { "pyrokinetic_cloak": 4, "pyrokinetic_flash": 6 }
-  },
+  }
 ]

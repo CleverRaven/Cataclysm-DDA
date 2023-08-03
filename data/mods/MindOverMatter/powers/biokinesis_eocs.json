@@ -27,10 +27,18 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )" ] },
-    "max_duration": { "math": [ "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+    "min_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    }
   },
-     {
+  {
     "id": "biokin_enhance_mobility_2",
     "type": "SPELL",
     "name": "[Ψ]Enhance Mobility #2",
@@ -43,10 +51,18 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )" ] },
-    "max_duration": { "math": [ "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+    "min_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    }
   },
-     {
+  {
     "id": "biokin_enhance_mobility_3",
     "type": "SPELL",
     "name": "[Ψ]Enhance Mobility #3",
@@ -59,10 +75,18 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )" ] },
-    "max_duration": { "math": [ "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+    "min_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    }
   },
-     {
+  {
     "id": "biokin_enhance_mobility_4",
     "type": "SPELL",
     "name": "[Ψ]Enhance Mobility #4",
@@ -75,10 +99,18 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )" ] },
-    "max_duration": { "math": [ "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+    "min_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    }
   },
-     {
+  {
     "id": "biokin_enhance_mobility_5",
     "type": "SPELL",
     "name": "[Ψ]Enhance Mobility #5",
@@ -91,10 +123,18 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )" ] },
-    "max_duration": { "math": [ "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+    "min_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    }
   },
-     {
+  {
     "id": "biokin_enhance_mobility_6",
     "type": "SPELL",
     "name": "[Ψ]Enhance Mobility #6",
@@ -107,7 +147,15 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )" ] },
-    "max_duration": { "math": [ "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+    "min_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    }
   }
 ]
