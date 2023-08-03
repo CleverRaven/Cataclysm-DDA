@@ -21,6 +21,7 @@
       { "u_learn_recipe": "practice_clair_danger_sense" },
       { "u_learn_recipe": "practice_clair_speed_reading" },
       { "u_learn_recipe": "practice_clair_spot_weakness" },
+      { "u_learn_recipe": "practice_clair_ranged_enhance" },
       { "u_learn_recipe": "practice_clair_voyance" },
       { "u_learn_recipe": "practice_clair_dodge_power" },
       { "u_learn_recipe": "practice_clair_clear_sight" },
@@ -54,6 +55,7 @@
       { "u_learn_recipe": "practice_telekinetic_vehicle_lift" },
       { "u_learn_recipe": "practice_telekinetic_shield" },
       { "u_learn_recipe": "practice_telekinetic_explosion" },
+      { "u_learn_recipe": "practice_telekinetic_aegis" },
       { "u_learn_recipe": "improve_telekinesis_lifting_field" }
     ]
   },
@@ -64,9 +66,10 @@
       { "u_learn_recipe": "practice_telepathic_concentration" },
       { "u_learn_recipe": "practice_telepathic_shield" },
       { "u_learn_recipe": "practice_telepathic_morale" },
-      { "u_learn_recipe": "practice_telepathic_invisibility" },
-      { "u_learn_recipe": "practice_telepathic_confusion" },
       { "u_learn_recipe": "practice_telepathic_blast" },
+      { "u_learn_recipe": "practice_telepathic_confusion" },
+      { "u_learn_recipe": "practice_telepathic_invisibility" },
+      { "u_learn_recipe": "practice_telepathic_scream" },
       { "u_learn_recipe": "practice_telepathic_mind_control" }
     ]
   },
@@ -93,6 +96,7 @@
       { "u_learn_recipe": "practice_vita_hurt_touch" },
       { "u_learn_recipe": "practice_vita_sleeping_trance" },
       { "u_learn_recipe": "practice_vita_pain_split" },
+      { "u_learn_recipe": "practice_vita_stop_infection" },
       { "u_learn_recipe": "practice_vita_healing_trance" },
       { "u_learn_recipe": "practice_vita_blood_purge" },
       { "u_learn_recipe": "practice_vita_banish_illness" }
