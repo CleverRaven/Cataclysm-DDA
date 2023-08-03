@@ -13,7 +13,33 @@
     "environmental_protection": 3,
     "flags": [ "WATERPROOF", "STURDY" ],
     "material": [ "leather" ],
-    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "encumbrance": 6,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "coverage": 100
+      }
+    ]
   },
   {
     "id": "mboots_haste",
@@ -34,7 +60,33 @@
     "environmental_protection": 3,
     "flags": [ "WATERPROOF", "STURDY" ],
     "material": [ "leather" ],
-    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "encumbrance": 6,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "coverage": 100
+      }
+    ]
   },
   {
     "id": "mboots_escape",
@@ -53,7 +105,33 @@
     "environmental_protection": 3,
     "flags": [ "WATERPROOF", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
     "material": [ "leather" ],
-    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "encumbrance": 6,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "coverage": 100
+      }
+    ]
   },
   {
     "id": "mboots_freerunner",
@@ -69,7 +147,33 @@
     "environmental_protection": 3,
     "flags": [ "WATERPROOF", "STURDY" ],
     "material": [ "leather" ],
-    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "encumbrance": 6,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "coverage": 100
+      }
+    ]
   },
   {
     "id": "mboots_grounding",
@@ -85,6 +189,32 @@
     "flags": [ "WATERPROOF", "STURDY" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ELEC", "add": -20 } ] } ] },
     "material": [ "leather" ],
-    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "encumbrance": 6,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "coverage": 100
+      }
+    ]
   }
 ]
