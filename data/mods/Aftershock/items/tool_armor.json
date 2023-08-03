@@ -35,7 +35,7 @@
     "warmth": 20,
     "environmental_protection": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "RAINPROOF", "STURDY", "WATERPROOF",  "PADDED" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "RAINPROOF", "STURDY", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "encumbrance": 5,
