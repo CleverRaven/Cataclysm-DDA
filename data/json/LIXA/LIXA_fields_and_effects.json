@@ -1,70 +1,97 @@
 [
   {
-      "id": "fd_congealed_light",
-      "type": "field_type",
-      "mopsafe": false,
-      "intensity_levels": [
-        {
-          "name": "smear of congealed light",
-          "sym": "5",
-          "color": "magenta",
-          "dangerous": true,
-          "effects": [ { "effect_id": "LIXA_illuminated", "min_duration": "2 seconds", "max_duration": "2 seconds","intensity": 1, "immune_in_vehicle": true, "is_environmental": false } ],
-          "light_emitted": 5
-        },
-        {
-          "name": "streak of congealed light",
-          "color": "pink",
-          "effects": [ { "effect_id": "LIXA_illuminated", "min_duration": "4 seconds", "max_duration": "4 seconds","intensity": 2, "immune_in_vehicle": true, "is_environmental": false } ],
-          "light_emitted": 15
-        },
-        {
-          "name": "pool of congealed light",
-          "color": "white",
-          "effects": [ { "effect_id": "LIXA_illuminated", "min_duration": "6 seconds", "max_duration": "6 seconds", "intensity": 3, "immune_in_vehicle": true, "is_environmental": false } ],
-          "light_emitted": 30
-        }
-      ],
-      "description_affix": "covered_in",
-      "is_splattering": true,
-      "priority": 2,
-      "half_life": "5 seconds",
-      "phase": "liquid",
-      "display_field": true,
-      "looks_like": "fd_sap"
-    },
-    {
-      "id": "emit_congealed_light",
-      "type": "emit",
-      "field": "fd_congealed_light",
-      "intensity": 2,
-      "qty": 20
-    },
-    {
-      "type": "effect_type",
-      "id": "LIXA_illuminated",
-      "name": [ "illuminated" ],
-      "desc": [ "You're covered in congealed light!" ],
-      "apply_message": "The sticky globs of light cover you, and begin to burn!",
-      "rating": "bad",
-      "max_duration": "6 seconds",
-      "max_intensity": 3,
-      "int_dur_factor": "2 seconds",
-      "base_mods": { "hurt_min": [ 2 ], "hurt_chance": [ 1 ]},
-      "scaling_mods": { "hurt_min": [ 2 ] },
-      "show_in_info": true
-    },
-    {
-      "type": "effect_type",
-      "id": "LIXA_decompressed",
-      "name": [ "In Decompressed Space" ],
-      "desc": [ "For an instant, every inch of this infinite space is itself infinite, slowing you drastically." ],
-      "apply_message": "Space unfolds and extends around you!",
-      "rating": "bad",
-      "miss_messages": [ [ "You cannot make any progress in all this vastness.", 4 ] ],
-      "max_intensity": 3,
+    "id": "fd_congealed_light",
+    "type": "field_type",
+    "mopsafe": false,
+    "intensity_levels": [
+      {
+        "name": "smear of congealed light",
+        "sym": "5",
+        "color": "magenta",
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "LIXA_illuminated",
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 5
+      },
+      {
+        "name": "streak of congealed light",
+        "color": "pink",
+        "effects": [
+          {
+            "effect_id": "LIXA_illuminated",
+            "min_duration": "4 seconds",
+            "max_duration": "4 seconds",
+            "intensity": 2,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 15
+      },
+      {
+        "name": "pool of congealed light",
+        "color": "white",
+        "effects": [
+          {
+            "effect_id": "LIXA_illuminated",
+            "min_duration": "6 seconds",
+            "max_duration": "6 seconds",
+            "intensity": 3,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 30
+      }
+    ],
+    "description_affix": "covered_in",
+    "is_splattering": true,
+    "priority": 2,
+    "half_life": "5 seconds",
+    "phase": "liquid",
+    "display_field": true,
+    "looks_like": "fd_sap"
+  },
+  {
+    "id": "emit_congealed_light",
+    "type": "emit",
+    "field": "fd_congealed_light",
+    "intensity": 2,
+    "qty": 20
+  },
+  {
+    "type": "effect_type",
+    "id": "LIXA_illuminated",
+    "name": [ "illuminated" ],
+    "desc": [ "You're covered in congealed light!" ],
+    "apply_message": "The sticky globs of light cover you, and begin to burn!",
+    "rating": "bad",
+    "max_duration": "6 seconds",
+    "max_intensity": 3,
     "int_dur_factor": "2 seconds",
-    "base_mods": { "speed_mod": [ -33 ]},
+    "base_mods": { "hurt_min": [ 2 ], "hurt_chance": [ 1 ] },
+    "scaling_mods": { "hurt_min": [ 2 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "LIXA_decompressed",
+    "name": [ "In Decompressed Space" ],
+    "desc": [ "For an instant, every inch of this infinite space is itself infinite, slowing you drastically." ],
+    "apply_message": "Space unfolds and extends around you!",
+    "rating": "bad",
+    "miss_messages": [ [ "You cannot make any progress in all this vastness.", 4 ] ],
+    "max_intensity": 3,
+    "int_dur_factor": "2 seconds",
+    "base_mods": { "speed_mod": [ -33 ] },
     "scaling_mods": { "speed_mod": [ -33 ], "hit_mod": [ -1 ], "dodge_mod": [ -1 ] },
     "show_in_info": true
   },
@@ -74,45 +101,45 @@
     "legacy_enum_id": 19,
     "intensity_levels": [
       {
-    "effects": [
+        "effects": [
+          {
+            "effect_id": "LIXA_decompressed",
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 5
+      },
       {
-        "effect_id": "LIXA_decompressed",
-        "min_duration": "2 seconds",
-        "max_duration": "2 seconds",
-        "intensity": 1,
-        "immune_in_vehicle": true,
-        "is_environmental": false
-      }
-    ],
-    "light_emitted": 5
-  },
-  {
-    "effects": [
+        "effects": [
+          {
+            "effect_id": "LIXA_decompressed",
+            "min_duration": "4 seconds",
+            "max_duration": "4 seconds",
+            "intensity": 2,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 15
+      },
       {
-        "effect_id": "LIXA_decompressed",
-        "min_duration": "4 seconds",
-        "max_duration": "4 seconds",
-        "intensity": 2,
-        "immune_in_vehicle": true,
-        "is_environmental": false
+        "effects": [
+          {
+            "effect_id": "LIXA_decompressed",
+            "min_duration": "6 seconds",
+            "max_duration": "6 seconds",
+            "intensity": 3,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 30
       }
-    ],
-    "light_emitted": 15
-  },
-  {
-    "effects": [
-      {
-        "effect_id": "LIXA_decompressed",
-        "min_duration": "6 seconds",
-        "max_duration": "6 seconds",
-        "intensity": 3,
-        "immune_in_vehicle": true,
-        "is_environmental": false
-      }
-    ],
-    "light_emitted": 30
-  }
-  ]
+    ]
   },
   {
     "type": "effect_type",
@@ -122,7 +149,7 @@
       "There is no longer an inside or outside of you.  It is all one side; flat, infinite, and everything you have ever been.  You wonder if you're having no trouble understanding it because your brain works better spread out like this."
     ],
     "max_intensity": 1,
-    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.0} ],
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.0 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true
   }
