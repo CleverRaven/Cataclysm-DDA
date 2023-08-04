@@ -231,7 +231,7 @@
     "id": "mon_smoke_mephit",
     "type": "MONSTER",
     "name": "Smoke Mephit",
-    "description": "A mischievous creature made of smoke and particulates, with a vaguely humanoid shape.  Its movements are sharp and jittery, and its voice is the sound of fire crackling.",
+    "description": "A mischievous creature surrounded by smoke and particulates, with a vaguely humanoid shape.  Its movements are sharp and jittery, and its voice is the sound of fire crackling.",
     "default_faction": "salamander",
     "symbol": "w",
     "color": "light_red_red",
@@ -253,7 +253,7 @@
     "families": [ "prof_alien_biology" ],
     "hp": 20,
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "PATH_AVOID_DANGER_1", "HARDTOSHOOT" ],
-    "harvest": "smoke_mephit",
+    "harvest": "fae_furred",
     "dissect": "dissect_salamander_single",
     "emit_fields": [ { "emit_id": "emit_smoke_plume", "delay": "1 s" } ]
   }
