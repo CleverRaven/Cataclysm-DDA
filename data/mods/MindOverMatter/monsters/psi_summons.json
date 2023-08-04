@@ -15,7 +15,7 @@
     "color": "cyan",
     "aggression": -99,
     "morale": 2,
-    "luminance": 5,
+    "luminance": 15,
     "dodge": 6,
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_pyrokinetic_summon_heat_1", "delay": "1 s" } ],
@@ -27,18 +27,21 @@
     "id": "mon_pyrokin_hotair_2",
     "type": "MONSTER",
     "copy-from": "mon_pyrokin_hotair_1",
+    "luminance": 30,
     "emit_fields": [ { "emit_id": "emit_pyrokinetic_summon_heat_2", "delay": "1 s" } ]
   },
   {
     "id": "mon_pyrokin_hotair_3",
     "type": "MONSTER",
     "copy-from": "mon_pyrokin_hotair_1",
+    "luminance": 50,
     "emit_fields": [ { "emit_id": "emit_pyrokinetic_summon_heat_3", "delay": "1 s" } ]
   },
   {
     "id": "mon_pyrokin_hotair_4",
     "type": "MONSTER",
     "copy-from": "mon_pyrokin_hotair_1",
+    "luminance": 80,
     "emit_fields": [ { "emit_id": "emit_pyrokinetic_summon_heat_4", "delay": "1 s" } ]
   }
 ]

@@ -2,7 +2,7 @@
   {
     "id": "biokin_enhance_mobility_item_1",
     "type": "ARMOR",
-    "name": "enhanced mobility",
+    "name": { "str_sp": "enhanced mobility" },
     "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
     "weight": "0g",
     "volume": "0ml",
@@ -32,7 +32,7 @@
   {
     "id": "biokin_enhance_mobility_item_2",
     "type": "ARMOR",
-    "name": "enhanced mobility",
+    "name": { "str_sp": "enhanced mobility" },
     "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
     "weight": "0g",
     "volume": "0ml",
@@ -62,7 +62,7 @@
   {
     "id": "biokin_enhance_mobility_item_3",
     "type": "ARMOR",
-    "name": "enhanced mobility",
+    "name": { "str_sp": "enhanced mobility" },
     "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
     "weight": "0g",
     "volume": "0ml",
@@ -92,7 +92,7 @@
   {
     "id": "biokin_enhance_mobility_item_4",
     "type": "ARMOR",
-    "name": "enhanced mobility",
+    "name": { "str_sp": "enhanced mobility" },
     "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
     "weight": "0g",
     "volume": "0ml",
@@ -122,7 +122,7 @@
   {
     "id": "biokin_enhance_mobility_item_5",
     "type": "ARMOR",
-    "name": "enhanced mobility",
+    "name": { "str_sp": "enhanced mobility" },
     "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
     "weight": "0g",
     "volume": "0ml",
