@@ -629,6 +629,7 @@ craftsfolk
 craftswoman
 craftwork
 crappie
+creasing
 creeply
 creped
 criniere
@@ -1666,6 +1667,7 @@ lithely
 litheness
 liturgies
 livingrooms
+livestream
 lizardfolk
 lizardlike
 ll
@@ -3079,6 +3081,7 @@ unbuckling
 unburnt
 uncleaned
 uncluttered
+uncoiling
 uncoils
 uncured
 undecipherable
@@ -3091,6 +3094,7 @@ underlayer
 underlayers
 undersides
 underslung
+understandingly
 underwelming
 undescribed
 undried
