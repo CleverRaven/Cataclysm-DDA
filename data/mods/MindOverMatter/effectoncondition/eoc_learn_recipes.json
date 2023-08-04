@@ -84,7 +84,8 @@
       { "u_learn_recipe": "practice_teleport_farstep" },
       { "u_learn_recipe": "practice_teleport_collapse" },
       { "u_learn_recipe": "practice_teleport_gateway" },
-      { "u_learn_recipe": "practice_teleport_banish" }
+      { "u_learn_recipe": "practice_teleport_banish" },
+      { "u_learn_recipe": "practice_teleport_breach" }
     ]
   },
   {

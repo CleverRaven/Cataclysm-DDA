@@ -142,5 +142,23 @@
       { "monster": "mon_civilian_teleporter", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_vitakinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" }
     ]
+  },
+  {
+    "name": "GROUP_NETHER_BREACH",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_blank", "weight": 135, "cost_multiplier": 0 },
+      { "monster": "mon_flying_polyp", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror", "weight": 240, "cost_multiplier": 0 },
+      { "monster": "mon_gracke", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_yugg", "weight": 70, "cost_multiplier": 0 },
+      { "monster": "mon_gelatin", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_flaming_eye", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "weight": 210, "cost_multiplier": 0 },
+      { "monster": "mon_nether_eater", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_gozu", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_shoggoth", "weight": 5, "cost_multiplier": 0 }
+    ]
   }
 ]
