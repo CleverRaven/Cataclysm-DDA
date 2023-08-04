@@ -314,7 +314,7 @@
     "name": "[Ψ]Breach",
     "description": "Open a brief passage to the Nether near yourself or an enemy and allow one (or more) of its inhabitants to come through to Earth.  You have no control over what finds the doorway and no ability to command it when it arrives.",
     "message": "The air nearby fractures and something comes through!",
-    "valid_targets": [ "self" ],
+    "valid_targets": [ "self", "hostile" ],
     "spell_class": "TELEPORTER",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
