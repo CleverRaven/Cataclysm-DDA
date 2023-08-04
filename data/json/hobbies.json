@@ -201,7 +201,7 @@
     "subtype": "hobby",
     "id": "archery_master",
     "name": "Archery (Master)",
-    "description": "You're a modern day Robin Hood and probably have hella back muscles.  Perhaps you're an olympic archer in training or maybe you're descended from the longbowmen of old.  In either case, sniping zombie heads should be as easy as pinning apples to trees for you.",
+    "description": "You're a modern day Robin Hood and probably have hella back muscles.  Perhaps you're an Olympic archer in training or maybe you're descended from the longbowmen of old.  In either case, sniping zombie heads should be as easy as pinning apples to trees for you.",
     "points": 8,
     "skills": [ { "level": 8, "name": "archery" }, { "level": 5, "name": "gun" } ],
     "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_bow_master" ]
