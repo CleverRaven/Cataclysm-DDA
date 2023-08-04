@@ -78,7 +78,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_SPELL_PYROKIN_SUMMON_HEAT_1",
+    "id": "EOC_SPELL_PYROKIN_SUMMON_HEAT_2",
     "effect": [
       {
         "u_cast_spell": { "id": "pyrokin_summon_thermogenesis_2", "message": "Warm air swirls from the spot." },
@@ -113,10 +113,8 @@
     "type": "effect_on_condition",
     "id": "EOC_SPELL_PYROKIN_BANISH_HEAT",
     "effect": [
-      {
-        "u_cast_spell": { "id": "pyrokin_banish_thermogenesis" },
-        "message": "The heated air you have been maintaining returns to normal."
-      }
+      { "u_cast_spell": { "id": "pyrokin_banish_thermogenesis" } },
+      { "u_message": "The heated air you have been maintaining returns to normal." }
     ]
   }
 ]

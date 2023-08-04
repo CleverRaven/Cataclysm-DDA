@@ -152,7 +152,7 @@
     "base_casting_time": 55,
     "final_casting_time": 0,
     "casting_time_increment": -2.75,
-    "learn_spells": { "teleport_displacement": 5, "teleport_farstep": 7, "teleport_banish": 12 }
+    "learn_spells": { "teleport_displacement": 5, "teleport_farstep": 9, "teleport_banish": 15 }
   },
   {
     "id": "teleport_displacement",
@@ -217,7 +217,7 @@
     "base_casting_time": 80,
     "final_casting_time": 45,
     "casting_time_increment": -2,
-    "learn_spells": { "teleport_displace": 4, "teleport_banish": 9, "teleport_gateway": 12 }
+    "learn_spells": { "teleport_displace": 4, "teleport_banish": 9, "teleport_gateway": 12, "teleport_summon": 15 }
   },
   {
     "id": "teleport_farstep",
@@ -255,7 +255,7 @@
     "type": "SPELL",
     "name": "[Ψ]Oubliette",
     "description": "Teleport the target through the nether to some other dimension.  They are technically not dead, but they are no longer your concern.  Oubliette will occasionally fail when used against very poweful enemies, or succeed but cause damage to the teleporter.",
-    "message": "With a tremendous mental exertation, you hurl your target to another dimension!",
+    "message": "With a tremendous mental exertion, you hurl your target to another dimension!",
     "valid_targets": [ "hostile" ],
     "spell_class": "TELEPORTER",
     "skill": "metaphysics",
@@ -281,7 +281,8 @@
     "energy_increment": -200,
     "base_casting_time": 150,
     "final_casting_time": 75,
-    "casting_time_increment": -5.5
+    "casting_time_increment": -5.5,
+    "learn_spells": { "teleport_summon": 7 }
   },
   {
     "id": "teleport_gateway",
@@ -306,5 +307,34 @@
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
     "learn_spells": { "teleport_banish": 6 }
+  },
+  {
+    "id": "teleport_summon",
+    "type": "SPELL",
+    "name": "[Ψ]Breach",
+    "description": "Open a brief passage to the Nether near yourself or an enemy and allow one (or more) of its inhabitants to come through to Earth.  You have no control over what finds the doorway and no ability to command it when it arrives.",
+    "message": "The air nearby fractures and something comes through!",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_SUMMON",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_nine", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": 1,
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: teleport_summon') * 1) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 80,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 8000,
+    "final_energy_cost": 4500,
+    "energy_increment": -250,
+    "base_casting_time": 250,
+    "final_casting_time": 125,
+    "casting_time_increment": -6.5
   }
 ]

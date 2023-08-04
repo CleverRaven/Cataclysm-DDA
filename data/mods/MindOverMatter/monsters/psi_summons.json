@@ -18,7 +18,7 @@
     "luminance": 5,
     "dodge": 6,
     "harvest": "exempt",
-    "emit_fields": [ { "emit_id": "fd_pyrokinetic_summon_heat_1", "delay": "1 s" } ],
+    "emit_fields": [ { "emit_id": "emit_pyrokinetic_summon_heat_1", "delay": "1 s" } ],
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
     "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT", "IMMOBILE" ]
@@ -27,18 +27,18 @@
     "id": "mon_pyrokin_hotair_2",
     "type": "MONSTER",
     "copy-from": "mon_pyrokin_hotair_1",
-    "emit_fields": [ { "emit_id": "fd_pyrokinetic_summon_heat_2", "delay": "1 s" } ]
+    "emit_fields": [ { "emit_id": "emit_pyrokinetic_summon_heat_2", "delay": "1 s" } ]
   },
   {
     "id": "mon_pyrokin_hotair_3",
     "type": "MONSTER",
     "copy-from": "mon_pyrokin_hotair_1",
-    "emit_fields": [ { "emit_id": "fd_pyrokinetic_summon_heat_3", "delay": "1 s" } ]
+    "emit_fields": [ { "emit_id": "emit_pyrokinetic_summon_heat_3", "delay": "1 s" } ]
   },
   {
     "id": "mon_pyrokin_hotair_4",
     "type": "MONSTER",
     "copy-from": "mon_pyrokin_hotair_1",
-    "emit_fields": [ { "emit_id": "fd_pyrokinetic_summon_heat_4", "delay": "1 s" } ]
+    "emit_fields": [ { "emit_id": "emit_pyrokinetic_summon_heat_4", "delay": "1 s" } ]
   }
 ]
