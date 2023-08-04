@@ -4811,7 +4811,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
                     ( it.link->t_abs_pos + prev_veh->coord_translate( it.link->t_mount ) ).raw(),
                     it.link->t_abs_pos.raw() );
 
-        for( const vpart_reference &vpr : prev_veh->get_any_parts( "POWER_TRANSFER" ) ) {
+        for( const vpart_reference &vpr : prev_veh->get_any_parts( VPFLAG_POWER_TRANSFER ) ) {
             if( vpr.part().target.first == prev_part_target.first &&
                 vpr.part().target.second == prev_part_target.second ) {
                 p->add_msg_if_player( m_warning, _( "The %1$s and %2$s are already connected." ),

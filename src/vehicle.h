@@ -854,6 +854,8 @@ class vehicle
         std::map<vehicle *, float> search_connected_vehicles();
         //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
         std::map<const vehicle *, float> search_connected_vehicles() const;
+        //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
+        void get_connected_vehicles( std::unordered_set<vehicle *> &dest );
 
         /// Returns a map of connected battery references to power loss factor
         /// Keys are batteries in vehicles (includes self) connected by POWER_TRANSFER parts
