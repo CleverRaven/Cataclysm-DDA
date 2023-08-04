@@ -123,14 +123,32 @@
   },
   {
     "type": "enchantment",
-    "id": "ENCH_BIONICS_NOARMS",
+    "id": "ENCH_BIONIC_ARMS",
     "condition": "ALWAYS",
-    "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "arm_r" }, { "lose": "hand_l" }, { "lose": "hand_r" } ]
+    "modified_bodyparts": [
+      { "lose": "arm_l" },
+      { "lose": "arm_r" },
+      { "lose": "hand_l" },
+      { "lose": "hand_r" },
+      { "gain": "bionic_basic_arm_l" },
+      { "gain": "bionic_basic_arm_r" },
+      { "gain": "bionic_basic_hand_l" },
+      { "gain": "bionic_basic_hand_r" }
+    ]
   },
   {
     "type": "enchantment",
-    "id": "ENCH_BIONICS_NOLEGS",
+    "id": "ENCH_BIONIC_LEGS",
     "condition": "ALWAYS",
-    "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "leg_r" }, { "lose": "foot_l" }, { "lose": "foot_r" } ]
+    "modified_bodyparts": [
+      { "lose": "leg_l" },
+      { "lose": "leg_r" },
+      { "lose": "foot_l" },
+      { "lose": "foot_r" },
+      { "gain": "bionic_basic_leg_l" },
+      { "gain": "bionic_basic_leg_r" },
+      { "gain": "bionic_basic_foot_l" },
+      { "gain": "bionic_basic_foot_r" }
+    ]
   }
 ]
