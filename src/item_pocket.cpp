@@ -1529,9 +1529,10 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
                    contain_code::ERR_TOO_BIG, _( "item too big" ) );
     }
 
-    int copy_weight_capacity = it.weight() <= 0_gram ? copies_remaining :
+    int fallback_capacity = it.count_by_charges() ? it.charges : copies_remaining;
+    int copy_weight_capacity = it.weight() <= 0_gram ? fallback_capacity :
                                charges_per_remaining_weight( it );
-    int copy_volume_capacity = it.volume() <= 0_ml ? copies_remaining :
+    int copy_volume_capacity = it.volume() <= 0_ml ? fallback_capacity :
                                charges_per_remaining_volume( it );
 
     if( copy_weight_capacity < it.count() ) {
