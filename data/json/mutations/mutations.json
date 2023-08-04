@@ -9214,5 +9214,5 @@
     "prereqs": [ "INT_ALPHA", "PER_ALPHA" ],
     "prereqs2": [ "STR_ALPHA", "DEX_ALPHA" ],
     "threshreq": [ "THRESH_ALPHA" ]
-  },
+  }
 ]
