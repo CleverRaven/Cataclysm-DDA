@@ -2486,14 +2486,14 @@ TEST_CASE( "repairable_and_with_what_tools", "[iteminfo][repair]" )
 
     CHECK( item_info_str( halligan, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using integrated multitool, arc welder, makeshift arc welder, or high-temperature welding kit.\n"
+           "<color_c_white>Repair</color> using integrated welder, arc welder, makeshift arc welder, or high-temperature welding kit.\n"
            "<color_c_white>With</color> <color_c_cyan>Steel</color>.\n"
          );
 
     // FIXME: Use an item that can only be repaired by test tools
     CHECK( item_info_str( hazmat, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using gunsmith repair kit, firearm repair kit, soldering iron, TEST soldering iron, or integrated multitool.\n"
+           "<color_c_white>Repair</color> using gunsmith repair kit, firearm repair kit, soldering iron, TEST soldering iron, or integrated welder.\n"
            "<color_c_white>With</color> <color_c_cyan>Plastic</color>.\n" );
 
     CHECK( item_info_str( rock, repaired ) ==
