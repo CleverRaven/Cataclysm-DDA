@@ -1,0 +1,1068 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "LIXA_surface_1a", "LIXA_surface_2a" ], [ "LIXA_surface_2a", "LIXA_surface_2b" ] ],
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        "//////////////////////}@@}}/////////////////////",
+        "/>D                                            /",
+        "///6                                           /",
+        "/                                              /",
+        "/                                              /",
+        "/            //////////////////////            }",
+        "/  Z...Z     /T/T/S|,/8888/,|S/T/T/            @",
+        "/  .....     /+/+/.+,/8888/,+./+/+/            }",
+        "/  .....     /..i..|,/888X/,|..i../            @",
+        "/  .....     /||||||,//DD//,||||||/            }",
+        "/  Z...Z     /$$$$$|,,,,,5,,|0BBB./            }",
+        "/            /,,j,,+,j,,,,j,|,,j,,w            /",
+        "/            /$$.$$|,,,,,,,,|,,:,,w            /",
+        "/            /||+|||,,,,h,,,|,h:h,/            /",
+        "}            /'#.#'|,,####,,|,h:h,/            /",
+        "@            wh,,,h|,j,,,,j,|,h:h,/   //////////",
+        "}            w',j,,+,,,,,,,,+,h:h,w   /l.!!!!.l/",
+        "}            wh,,,h|,,,,,,,,|,,h,,w   /l......l/",
+        "}            /'#,#'|,,,,,,,,|,,j,,/   /l.i..i.l/",
+        "/            //ww//////dd/////ww///   /......../",
+        "/                         P           /......../",
+        "/                                     ////DD////",
+        "/                                     /l.6...KK/",
+        "/                                     /l......./",
+        "/////d/////                           /l..i..KK/",
+        "/        e/                           /l......./",
+        "/C                                    /l.....KK/",
+        "/                                     /l......./",
+        "/C                                    /l.....KK/",
+        "/                                     w...i..../",
+        "/                                     /......KK/",
+        "/?    ____/                           +......../",
+        "/?    ____/                           /////+////",
+        "/?   X____/                           /RRcc..../",
+        "/?    ____/                           w......../",
+        "/         D                           /...t...A/",
+        "/         D                           /..it...A/",
+        "/C        D                           +...t...A/",
+        "/         D                           /......../",
+        "/         D                           w.H;;;.../",
+        "/   VV   e/                           /.H;;;H../",
+        "///////////                           ////////+/",
+        "/                                     ///S.S.../",
+        "/                  /      /////       /T+.....l/",
+        "/                  /DDDDDDDe../       ///..i.../",
+        "/                  /      w{../       ///....../",
+        "/                  /      w{H.d      7/T+.l/L/L/",
+        "////////////////////      //////////////////////"
+      ],
+      "palettes": [ "LIXA_ground_palette" ],
+      "items": {
+        "l": [
+          { "item": "army_personal_locker", "chance": 50, "repeat": [ 5, 10 ] },
+          { "item": "mil_base_coats", "chance": 10 },
+          { "item": "LIXA_mil_file", "chance": 30, "repeat": 1 }
+        ],
+        "K": [ { "item": "army_bed", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "!": [
+          { "item": "military_standard_assault_rifles", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "military_ballistic_vest_light", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "military_patrol_food", "chance": 40, "repeat": [ 3, 6 ] },
+          { "item": "military_patrol_food", "chance": 40, "repeat": [ 3, 6 ] },
+          { "item": "id_LIXA_mil", "chance": 40, "repeat": 1 }
+        ],
+        "R": [
+          { "item": "military_patrol_food", "chance": 40, "repeat": [ 5, 7 ] },
+          { "item": "foodintincan", "chance": 40, "repeat": [ 2, 4 ] },
+          { "item": "softdrinks_canned", "chance": 40, "repeat": [ 3, 6 ] },
+          { "item": "salty_snacks", "chance": 40, "repeat": [ 3, 6 ] },
+          { "item": "alcohol_bottled_canned", "chance": 40, "repeat": [ 3, 6 ] }
+        ],
+        "$": [
+          { "item": "LIXA_generic_file", "chance": 100, "repeat": [ 4, 8 ] },
+          { "item": "LIXA_lab_file", "chance": 10, "repeat": 1 },
+          { "item": "id_LIXA", "chance": 20, "repeat": 1 }
+        ],
+        "?": [
+          { "item": "tools_workshop", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "supplies_electronics", "chance": 40, "repeat": [ 1, 2 ] }
+        ],
+        "C": [
+          { "item": "tools_workshop", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "supplies_electronics", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "military_patrol_food", "chance": 40, "repeat": [ 5, 7 ] },
+          { "item": "foodintincan", "chance": 40, "repeat": [ 2, 4 ] }
+        ]
+      },
+      "computers": {
+        "0": {
+          "name": "Presentation Computer",
+          "eocs": [ "EOC_LIXA_presentation_computer" ],
+          "chat_topics": [ "LIXA_presentation_computer_main" ]
+        }
+      },
+      "place_items": [ { "item": "microwave", "x": 41, "y": 35, "chance": 100 } ],
+      "place_monsters": [
+        { "monster": "GROUP_MIL_STRONG", "x": [ 1, 13 ], "y": [ 14, 23 ], "repeat": [ 1, 3 ], "density": 0.1 },
+        { "monster": "GROUP_MIL_STRONG", "x": [ 35, 45 ], "y": [ 4, 15 ], "repeat": [ 1, 3 ], "density": 0.1 },
+        { "monster": "GROUP_MIL_STRONG", "x": [ 25, 37 ], "y": [ 25, 42 ], "repeat": [ 2, 4 ], "density": 0.1 },
+        { "monster": "GROUP_MIL_STRONG", "x": [ 40, 46 ], "y": [ 25, 32 ], "repeat": [ 3, 5 ], "density": 0.1 },
+        { "monster": "GROUP_MIL_STRONG", "x": [ 40, 46 ], "y": [ 35, 42 ], "repeat": [ 3, 5 ], "density": 0.1 },
+        { "monster": "GROUP_MIL_STRONG", "x": [ 3, 10 ], "y": [ 28, 41 ], "repeat": [ 2, 4 ], "density": 0.1 },
+        { "monster": "GROUP_CIVILIAN_NO_FERAL", "x": [ 14, 23 ], "y": [ 13, 21 ], "repeat": [ 3, 6 ], "density": 0.1 }
+      ],
+      "signs": { "P": { "signage": "LIXA" } },
+      "place_vehicles": [ { "vehicle": "military_cargo_truck", "x": 14, "y": 36, "chance": 100, "rotation": 270 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "LIXA_entry_1", "LIXA_entry_2" ] ],
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "rows": [
+        "                   ......                       ",
+        "                   ......                       ",
+        "                   ......                       ",
+        "               ////....................         ",
+        "               /ll/....................         ",
+        "               /,,/....................         ",
+        "               /,,w....................         ",
+        "               /,hw....................         ",
+        "               /,,/....................         ",
+        "               /,,w....................         ",
+        "               /,hw....................         ",
+        "               /,,/....................         ",
+        "               /d//....................         ",
+        "               ........................         ",
+        "                   .........yy.........         ",
+        "                    .........yy.........        ",
+        "                     .........yy.........       ",
+        "                      .........yy.........      ",
+        "                       .........yy.........     ",
+        "                        .........yy.........    ",
+        "                         .........yy.........   ",
+        "                          .........yy.........  ",
+        "                          .........yy.........  ",
+        "                          .........yy.........  "
+      ],
+      "terrain": {
+        ".": "t_pavement",
+        "y": "t_pavement_y",
+        ",": "t_thconc_floor",
+        "h": "t_thconc_floor",
+        "l": "t_thconc_floor",
+        "/": "t_strconc_wall",
+        "w": "t_window_bars",
+        "d": [ "t_door_metal_c", "t_door_metal_o" ]
+      },
+      "items": {
+        "l": [ { "item": "army_personal_locker", "chance": 50, "repeat": [ 5, 10 ] }, { "item": "mil_base_coats", "chance": 10 } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "LIXA_road_guard",
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "rows": [
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  /////d///yy........./ ",
+        "  /T/ll,,,eDDDDDDDDDDD/ ",
+        "  /,/,,,,,/yy........./ ",
+        "  /,d,,,,hwyy.........P ",
+        "  /s/,,,,,wyy.........  ",
+        "  //////ww/yy.........  ",
+        "  ....P....yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  "
+      ],
+      "terrain": {
+        ".": "t_pavement",
+        "y": "t_pavement_y",
+        ",": "t_thconc_floor",
+        "h": "t_thconc_floor",
+        "l": "t_thconc_floor",
+        "s": "t_thconc_floor",
+        "T": "t_thconc_floor",
+        "/": "t_strconc_wall",
+        "w": "t_window_bars",
+        "e": "t_gates_mech_control",
+        "D": "t_door_metal_locked",
+        "d": [ "t_door_metal_c", "t_door_metal_o" ]
+      },
+      "signs": { "P": { "signage": "NO TRESPASSING:  By order of the United States Department of Energy" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "LIXA_road",
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "rows": [
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  ",
+        "  .........yy.........  "
+      ],
+      "terrain": { ".": "t_pavement", "y": "t_pavement_y" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "LIXA_stairshaft_1",
+    "object": {
+      "rows": [
+        "////                    ",
+        "/<>/                    ",
+        "////                    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_rock", "<": "t_stairs_up", "_": "t_stairs_down", "/": "t_strconc_wall" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "LIXA_stairshaft_2",
+    "object": {
+      "rows": [
+        "////                    ",
+        "/></                    ",
+        "////                    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_rock", "<": "t_stairs_up", "_": "t_stairs_down", "/": "t_strconc_wall" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "LIXA_elevatorshaft",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     //////             ",
+        "     /____/             ",
+        "     /____/             ",
+        "     /____/             ",
+        "     //////             ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_rock", "_": "t_open_air_rooved", "/": "t_strconc_wall" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "LIXA__roof_1a", "LIXA_roof_1b" ], [ "LIXA_roof_2a", "LIXA_roof_2b" ] ],
+    "object": {
+      "rows": [
+        "ffffffffffffffffffffff     fffffffffffffffffffff",
+        "f..                                            f",
+        "f..                                            f",
+        "f                                              f",
+        "f                                              f",
+        "f            ......................             ",
+        "f  Z   Z     ......................             ",
+        "f            ......................             ",
+        "f            ......................             ",
+        "f            ......................             ",
+        "f  Z   Z     ......................             ",
+        "f            ......................            f",
+        "f            ......................            f",
+        "f            ......................            f",
+        "             ......................            f",
+        "             ......................   .........f",
+        "             ......................   .........f",
+        "             ......................   .........f",
+        "             ......................   .........f",
+        "f            ......................   .........f",
+        "f                                     .........f",
+        "f                                     .........f",
+        "f                                     .........f",
+        "f                                     .........f",
+        "f..........                           .........f",
+        "f..........                           .........f",
+        "f..........                           .........f",
+        "f..........                           .........f",
+        "f..........                           .........f",
+        "f..........                           .........f",
+        "f..........                           .........f",
+        "f..........                           .........f",
+        "f..........                           .........f",
+        "f..........                           .........f",
+        "f..........                           .........f",
+        "f..........                           .........f",
+        "f..........                           .........f",
+        "f..........                           .........f",
+        "f..........                           .........f",
+        "f..........                           .........f",
+        "f..........                           .........f",
+        "f..........                           .........f",
+        "f                         .....       .........f",
+        "f                  f      .....       .........f",
+        "f                  f      .....       .........f",
+        "f                  f      .....       .........f",
+        "f                  f      .....       .........f",
+        "ffffffffffffffffffff      ffffffffffffffffffffff"
+      ],
+      "terrain": { " ": "t_open_air", "f": "t_fence_barbed", ".": "t_flat_roof", "z": "t_radio_tower" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "LIXA_workfloor_1a", "LIXA_workfloor_1b" ], [ "LIXA_workfloor_2a", "LIXA_workfloor_2b" ] ],
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "//////////////////////                          ",
+        "/<D../       /#,K/qKK/                          ",
+        "///6./       /h,K/,,,/                          ",
+        "  //./       /,j,/,jP/                          ",
+        "   /./       /a,,/h,,/                          ",
+        "   /./       /B,q/#,B//////                     ",
+        "   /./ ////////+///+//8888/                     ",
+        "   /./ /KK,,B/A,,B,,A/8888/                     ",
+        "   /./ /,j,h,+,,jE,,A/888X/                     ",
+        "   /./ /q,,#,/,,h,,,A//dd//////////             ",
+        "   /./ ///////E,tth,4/6.../.llll../             ",
+        "   /./ /#h,,a/,,tth,o/i..i/......u/             ",
+        "   /./ /B,j,,+,,jh,,c/....d...i..u/             ",
+        "   /./ /qf,KK/Ba,,,FF/....d......u/             ",
+        "   /./ //////////+////...e/....7../             ",
+        "   /./ /T/T/./,!#,,$$/....///DD////             ",
+        " ///d///+/+/.+,,h,,,,d..../****7**/             ",
+        " /V...V/..i../,,,j,,,/i..i/*******/             ",
+        " /V...V/LL.SS/,,,#,,,/..../*******//////////////",
+        " /u...u////////////////dd//******7//////////////",
+        " /M.i........d.....i....../*******D...,.C.0...//",
+        " /...........d............/////////7..H...H...//",
+        " /w....uu...e//////////////////////.....i.....//",
+        " /w...M////////////////////////////...........//",
+        " /....M/****7/7////////////////////...........//",
+        " /....M/*****D.....i.....;__//____>-----------//",
+        " /....u/7****D...........;__//____>-----------//",
+        " /V...u//DD///////////////////________________//",
+        " /V.i...7..../              //________________//",
+        " /V........../              //________________//",
+        " /...//..//6./              //________________//",
+        " /////@@@@e///              //________________//",
+        "     /@@@@//                //________________//",
+        "     /@@@@/                 //________________//",
+        "     /@@@@/                 //________________//",
+        "     //////                 //________________//",
+        "                            //________________//",
+        "                            //________________//",
+        "                            //________________//",
+        "                            //________________//",
+        "                            //________________//",
+        "                            //________________//",
+        "                            //________________//",
+        "                            //________________//",
+        "                            //________________//",
+        "                            //________________//",
+        "                            //________________//",
+        "                            //________________//"
+      ],
+      "palettes": [ "LIXA_workfloor_palette" ],
+      "place_nested": [
+        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 22, "y": 7 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 14, "y": 18 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 15, "y": 14 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 22, "y": 14 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 14, "y": 29 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 2, "y": 21 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 27, "y": 11 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 23, "y": 9 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 19, "y": 14 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 22, "y": 18 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 11, "y": 21 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 27, "y": 11 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 14, "y": 15 },
+        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 29, "y": 23 },
+        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 32, "y": 23 },
+        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 35, "y": 16 },
+        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 35, "y": 24 },
+        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 45, "y": 21 },
+        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 47, "y": 27 },
+        { "chunks": [ [ "LIXA_goodbye_graffiti", 100 ] ], "x": 34, "y": 21 }
+      ],
+      "items": {
+        "B": [ { "item": "lab_bookshelves", "chance": 50, "repeat": [ 3, 6 ] } ],
+        "K": [ { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] } ],
+        "F": [ { "item": "SUS_fridge_bachelor", "chance": 70, "repeat": [ 4, 6 ] } ],
+        "f": [
+          { "item": "SUS_fridge_bachelor", "chance": 70, "repeat": [ 1, 3 ] },
+          { "item": "rootbeer", "chance": 100, "repeat": [ 8, 15 ] }
+        ],
+        "$": [
+          { "item": "LIXA_generic_file", "chance": 80, "repeat": [ 4, 8 ] },
+          { "item": "LIXA_lab_file", "chance": 50, "repeat": 2 }
+        ],
+        "#": [
+          { "item": "LIXA_lab_postit", "chance": 70, "repeat": 1 },
+          { "item": "LIXA_lab_file", "chance": 20, "repeat": 2 },
+          { "item": "SUS_office_desk", "chance": 60, "repeat": 3 },
+          { "item": "software_math", "chance": 60, "repeat": 1 },
+          { "item": "software_lab_data", "chance": 60, "repeat": 4 },
+          { "item": "software_electronics_reference", "chance": 60, "repeat": 1 }
+        ],
+        "q": [ { "item": "adderall", "chance": 100, "repeat": [ 2, 5 ] } ],
+        "u": [
+          { "item": "electronics", "chance": 70, "repeat": [ 3, 7 ] },
+          { "item": "tools_robotics", "chance": 30, "repeat": [ 3, 5 ] }
+        ],
+        "V": [ { "item": "tools_robotics", "chance": 30, "repeat": [ 1, 3 ] } ],
+        "l": [ { "item": "decontamination_room", "chance": 60, "repeat": [ 1, 3 ] } ],
+        "c": [
+          { "item": "SUS_dishes", "chance": 100, "repeat": [ 3, 6 ] },
+          { "item": "SUS_silverware", "chance": 100, "repeat": [ 3, 6 ] },
+          { "item": "SUS_cookware", "chance": 100, "repeat": [ 3, 6 ] }
+        ],
+        "E": [
+          { "item": "entertainment_center_loot", "chance": 100, "repeat": [ 2, 5 ] },
+          { "item": "television", "chance": 100, "repeat": 1 }
+        ]
+      },
+      "place_items": [
+        { "item": "heroin", "x": 10, "y": 15, "chance": 100, "repeat": [ 3, 7 ] },
+        { "item": "syringe", "x": 10, "y": 15, "chance": 100, "repeat": [ 1, 3 ] },
+        { "item": "SUS_book_nonf_hard", "x": 9, "y": 12, "chance": 100, "repeat": [ 1, 3 ] },
+        { "item": "SUS_book_nonf_hard", "x": 13, "y": 7, "chance": 100, "repeat": [ 2, 3 ] },
+        { "item": "SUS_book_fict_soft_scifi", "x": 15, "y": 5, "chance": 100, "repeat": [ 1, 3 ] },
+        { "item": "SUS_fiction_bookcase", "x": 21, "y": 5, "chance": 100, "repeat": [ 1, 3 ] },
+        { "item": "SUS_dresser_mens", "x": 9, "y": 13, "chance": 100, "repeat": [ 2, 4 ] },
+        { "item": "SUS_dresser_womens", "x": 9, "y": 9, "chance": 100, "repeat": [ 3, 5 ] },
+        { "item": "headscarf", "x": 9, "y": 9, "chance": 100, "repeat": 3 },
+        { "item": "teddy_bear", "x": 17, "y": 1, "chance": 100, "repeat": 1 },
+        { "item": "holybook_quran", "x": 13, "y": 7, "chance": 100, "repeat": 1 },
+        { "item": "holybook_hadith", "x": 13, "y": 7, "chance": 100, "repeat": 1 },
+        { "item": "quilt", "x": 9, "y": 11, "chance": 100, "repeat": 1 },
+        { "item": "transgender_pride_flag", "x": 19, "y": 1, "chance": 100, "repeat": 1 },
+        { "item": "long_knit_scarf", "x": 19, "y": 1, "chance": 100, "repeat": 1 },
+        { "item": "knit_scarf", "x": 19, "y": 1, "chance": 100, "repeat": 2 },
+        { "item": "jar_weed", "x": 19, "y": 1, "chance": 100, "repeat": 1 },
+        { "item": "stoner", "x": 19, "y": 5, "chance": 100, "repeat": [ 2, 6 ] },
+        { "item": "SUS_dresser_mens", "x": 19, "y": 1, "chance": 100, "repeat": [ 2, 4 ] },
+        { "item": "laptop", "x": 19, "y": 5, "chance": 100, "repeat": 1 },
+        { "item": "software_useless", "x": 19, "y": 5, "chance": 100, "repeat": [ 4, 7 ] },
+        { "item": "knitting_needles", "x": 19, "y": 5, "chance": 100, "repeat": [ 4, 8 ] },
+        { "item": "yarn", "x": 19, "y": 5, "chance": 100, "charges": [ 100, 200 ] },
+        { "item": "laptop", "x": 15, "y": 1, "chance": 100, "repeat": 1 },
+        { "item": "software_useless", "x": 15, "y": 1, "chance": 100, "repeat": [ 4, 7 ] },
+        { "item": "paint_brush", "x": 15, "y": 1, "repeat": 4 },
+        { "item": "pen", "x": 15, "y": 1, "charges-min": 70, "repeat": 6 },
+        { "item": "permanent_marker", "x": 15, "y": 1, "charges-min": 70, "repeat": 6 },
+        { "item": "paper", "x": 15, "y": 1, "charges": [ 10, 30 ] },
+        { "item": "stoner", "x": 15, "y": 1, "chance": 100, "repeat": [ 2, 6 ] },
+        { "item": "SUS_dresser_womens", "x": 17, "y": 5, "chance": 100, "repeat": [ 3, 5 ] },
+        { "item": "id_LIXA_2", "x": 11, "y": 17, "chance": 100, "repeat": 1 },
+        { "item": "id_LIXA_2", "x": 21, "y": 1, "chance": 100, "repeat": 1 },
+        { "item": "dnd", "x": 17, "y": 10, "chance": 100, "repeat": 2 },
+        { "item": "dnd_handbook", "x": 17, "y": 10, "chance": 100, "repeat": 1 },
+        { "item": "character_sheet", "x": 17, "y": 10, "chance": 100, "repeat": 4 },
+        { "item": "rpg_die", "x": 17, "y": 10, "chance": 100, "repeat": [ 6, 12 ] }
+      ],
+      "computers": {
+        "!": {
+          "name": "Personal Computer",
+          "access_denied": "Credentials Unrecognized.",
+          "security": 2,
+          "eocs": [ "EOC_LIXA_personal_computer" ],
+          "chat_topics": [ "LIXA_personal_computer_main" ]
+        },
+        "0": {
+          "name": "Experiment Control Computer",
+          "eocs": [ "EOC_LIXA_experiment_computer" ],
+          "chat_topics": [ "LIXA_experiment_computer_main" ]
+        }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 2, 6 ], "y": [ 19, 24 ], "repeat": [ 1, 3 ], "density": 0.1 },
+        { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 2, 6 ], "y": [ 25, 33 ], "repeat": [ 1, 3 ], "density": 0.1 },
+        { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 15, 21 ], "y": [ 18, 21 ], "repeat": [ 1, 2 ], "density": 0.1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "LIXA_device_1",
+    "object": {
+      "fill_ter": "t_rock",
+      "rows": [
+        "////////////////////////",
+        "/;..//....</////////////",
+        "/;..//....</////////////",
+        "//////................//",
+        "    //................//",
+        "    //i....--CC--....i//",
+        "    //.....-LLLL-.....//",
+        "    //.....--WW--.....//",
+        "    //.....--GG--.....//",
+        "    //.....-GEEG-.....//",
+        "    //Q...--ETTE--...Q//",
+        "    //LWwwwwETTEwwwwWL//",
+        "    //Q....--TT--....Q//",
+        "    //.i...--TT--...i.//",
+        "    //Q....--TT--....Q//",
+        "    //LWwwwwETTEwwwwWL//",
+        "    //Q....--TT--....Q//",
+        "    //.i...--TT--...i.//",
+        "    //Q....--TT--....Q//",
+        "    //LWwwwwETTEwwwwWL//",
+        "    //Q....--TT--....Q//",
+        "    //.i...--TT--...i.//",
+        "    //Q....--TT--....Q//",
+        "    //LWwwwwETTEwwwwWL//"
+      ],
+      "set": [ { "line": "trap", "id": "tr_LIXA_unfold_entry", "x": 6, "y": 9, "x2": 21, "y2": 9 } ],
+      "palettes": [ "LIXA_device_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "LIXA_device_2",
+    "object": {
+      "fill_ter": "t_rock",
+      "rows": [
+        "    //Q....--TT--....Q//",
+        "    //.i...--TT--...i.//",
+        "    //Q....--TT--....Q//",
+        "    //LWwwwwETTEwwwwWL//",
+        "    //Q....--TT--....Q//",
+        "    //.i...--TT--...i.//",
+        "    //Q....--TT--....Q//",
+        "    //LWwwwwETTEwwwwWL//",
+        "    //Q....--TT--....Q//",
+        "    //.i...--TT--...i.//",
+        "    //Q....--TT--....Q//",
+        "    //LWwwwwETTEwwwwWL//",
+        "    //Q....--TT--....Q//",
+        "    //.i...--TT--...i.//",
+        "    //Q....--TT--....Q//",
+        "    //LWwwwwETTEwwwwWL//",
+        "    //Q....--TT--....Q//",
+        "    //.i...--TT--...i.//",
+        "    //Q....--TT--....Q//",
+        "    //LWwwwwETTEwwwwWL//",
+        "    //Q....--TT--....Q//",
+        "    //.i...--TT--...i.//",
+        "    //Q....--TT--....Q//",
+        "    //LWwwwwETTEwwwwWL//"
+      ],
+      "palettes": [ "LIXA_device_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "LIXA_device_3",
+    "object": {
+      "fill_ter": "t_rock",
+      "rows": [
+        "    //Q....--TT--....Q//",
+        "    //.i...--TT--...i.//",
+        "    //Q....--TT--....Q//",
+        "    //LWwwwwETTEwwwwWL//",
+        "    //Q....--TT--....Q//",
+        "    //.i...--TT--...i.//",
+        "    //Q....--TT--....Q//",
+        "    //LWwwwwETTEwwwwWL//",
+        "    //Q....--TT--....Q//",
+        "    //.i...--TT--...i.//",
+        "    //Q....--TT--....Q//",
+        "    //LWwwwwETTEwwwwWL//",
+        "    //Q....-ETTE-....Q//",
+        "    //.i....GGGG....i.//",
+        "    //......-GG-......//",
+        "    //.....--EE--.....//",
+        "    ////////////////////",
+        "    ////////////////////",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "LIXA_device_palette" ],
+      "set": [ { "point": "variable", "id": "LIXA_return_tp", "x": 9, "y": 13 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "LIXA_device_2_roof",
+    "object": {
+      "fill_ter": "t_rock",
+      "rows": [
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//"
+      ],
+      "terrain": { "_": "t_open_air_rooved", "/": "t_strconc_wall" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "LIXA_device_3_roof",
+    "object": {
+      "fill_ter": "t_rock",
+      "rows": [
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    //________________//",
+        "    ////////////////////",
+        "    ////////////////////",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "_": "t_open_air_rooved", "/": "t_strconc_wall" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "LIXA_device_unfolded_noaccess",
+    "object": {
+      "fill_ter": "t_rock",
+      "rows": [
+        "    //Q....--TT--....Q//",
+        "    //.....--TT--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--TT--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--TT--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--TT--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--TT--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--TT--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//"
+      ],
+      "palettes": [ "LIXA_unfolded_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "LIXA_device_unfolded_A",
+    "object": {
+      "fill_ter": "t_rock",
+      "rows": [
+        "    //Q....--TT--....Q//",
+        "    //.....--T3--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--T2--.....//",
+        "    //Q....--T2--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--T3--....Q//",
+        "    //.....--TT--.....//",
+        "    //Q....--2T--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--T3--....Q//",
+        "    //.....--3T--.....//",
+        "    //Q....--T3--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--3T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//"
+      ],
+      "set": [
+        { "line": "variable", "id": "LIXA_forward_tp", "x": 6, "y": 1, "x2": 21, "y2": 1 },
+        { "line": "trap", "id": "tr_LIXA_back", "x": 6, "y": 2, "x2": 21, "y2": 2 }
+      ],
+      "palettes": [ "LIXA_unfolded_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "LIXA_device_unfolded_B",
+    "object": {
+      "fill_ter": "t_rock",
+      "rows": [
+        "    //Q....--TT--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--T2--.....//",
+        "    //Q....--3T--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--23--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--T3--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--2T--....Q//",
+        "    //.....--T2--.....//",
+        "    //Q....--3T--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--3T--....Q//",
+        "    //.....--T3--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//"
+      ],
+      "set": [
+        { "line": "variable", "id": "LIXA_back_tp", "x": 6, "y": 22, "x2": 21, "y2": 22 },
+        { "line": "trap", "id": "tr_LIXA_forward", "x": 6, "y": 23, "x2": 21, "y2": 23 }
+      ],
+      "palettes": [ "LIXA_unfolded_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "turn_off_LIXA",
+    "method": "json",
+    "object": {
+      "rows": [
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^"
+      ],
+      "ter_furn_transforms": [ { "^": { "transform": "LIXA_power_out" } } ],
+      "set": [ { "square": "trap_remove", "id": "tr_LIXA_unfold_entry", "x": 0, "y": 0, "x2": 23, "y2": 23 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "cleanup_LIXA",
+    "method": "json",
+    "object": {
+      "set": [
+        { "square": "creature_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 },
+        { "square": "field_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "spawn_LIXA_1",
+    "method": "json",
+    "object": {
+      "place_monsters": [ { "monster": "LIXA_eigenspectre_1", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 2, "density": 0.1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "spawn_LIXA_2a",
+    "method": "json",
+    "object": {
+      "place_monsters": [ { "monster": "LIXA_eigenspectre_1", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 2, "density": 0.1 } ],
+      "terrain": { "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "spawn_LIXA_2b",
+    "method": "json",
+    "object": {
+      "place_monsters": [
+        { "monster": "LIXA_eigenspectre_1", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 },
+        { "monster": "LIXA_eigenspectre_2", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 }
+      ],
+      "terrain": { "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "spawn_LIXA_3a",
+    "method": "json",
+    "object": {
+      "place_monsters": [
+        { "monster": "LIXA_eigenspectre_1", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 },
+        { "monster": "LIXA_eigenspectre_2", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 }
+      ],
+      "terrain": {
+        "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ],
+        "3": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "spawn_LIXA_3b",
+    "method": "json",
+    "object": {
+      "place_monsters": [
+        { "monster": "LIXA_eigenspectre_3", "x": [ 7, 18 ], "y": [ 7, 18 ], "repeat": 1, "density": 0.1 },
+        { "monster": "LIXA_eigenspectre_1", "x": [ 7, 18 ], "y": [ 7, 18 ], "repeat": 1, "density": 0.1 }
+      ],
+      "terrain": {
+        "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ],
+        "3": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "spawn_LIXA_4a",
+    "method": "json",
+    "object": {
+      "place_monsters": [
+        { "monster": "LIXA_eigenspectre_2", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 },
+        { "monster": "LIXA_eigenspectre_3", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 }
+      ],
+      "terrain": {
+        "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ],
+        "3": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "spawn_LIXA_4b",
+    "method": "json",
+    "object": {
+      "terrain": {
+        "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ],
+        "3": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "spawn_LIXA_5b",
+    "method": "json",
+    "object": {
+      "place_monsters": [
+        { "monster": "LIXA_eigenspectre_2", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 2, "density": 0.1 },
+        { "monster": "LIXA_eigenspectre_3", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 },
+        { "monster": "LIXA_eigenspectre_4", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 },
+        { "monster": "LIXA_living_vector", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 }
+      ],
+      "terrain": {
+        "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ],
+        "3": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "spawn_LIXA_5b",
+    "method": "json",
+    "object": {
+      "place_items": [
+        { "item": "id_LIXA_najma", "x": 9, "y": 12, "chance": 100, "repeat": 1 },
+        { "item": "id_LIXA_jason", "x": 9, "y": 12, "chance": 100, "repeat": 1 },
+        { "item": "id_LIXA_kai_mei", "x": 9, "y": 12, "chance": 100, "repeat": 1 },
+        { "item": "id_LIXA_rich", "x": 9, "y": 12, "chance": 100, "repeat": 1 }
+      ]
+    }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "LIXA_power_out",
+    "terrain": [
+      { "result": "t_carpet_concrete_green", "valid_terrain": [ "t_carpet_concrete_olight" ] },
+      { "result": "t_thconc_floor", "valid_terrain": [ "t_thconc_floor_olight" ] }
+    ],
+    "furniture": [ { "result": [ "f_console_broken" ], "valid_furniture": [ "f_console" ] } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "LIXA_sad_graffiti",
+    "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "LIXA_lab_graffiti_sad_snips", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "LIXA_bored_graffiti",
+    "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "LIXA_lab_graffiti_bored_snips", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "LIXA_raving_graffiti",
+    "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "LIXA_lab_graffiti_raving_snips", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "LIXA_goodbye_graffiti",
+    "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "LIXA_lab_graffiti_goodbye", "x": 0, "y": 0 } ] }
+  }
+]

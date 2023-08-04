@@ -1,0 +1,119 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "id_LIXA",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "LIXA ID badge" },
+    "description": "An ID badge for the LIXA facility, with a photo of an awkwardly smiling scientist on the front.  Instructions on the back explain that this will grant you access to the LIXA experiment floor.",
+    "flags": [ "LIXA_SCIENCE_CARD", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_LIXA_2",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "modified LIXA ID badge" },
+    "description": "An ID badge for the LIXA facility, with a photo of an awkwardly smiling scientist on the front.  It is heavily scratched, and there is a line on the back in black marker.",
+    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_LIXA_najma",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "LIXA ID badge:  Dr.  Najma Saed" },
+    "description": "An ID badge for the LIXA facility.  The photo is of a pleasantly smiling woman in a hijab.",
+    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_LIXA_jason",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "LIXA ID badge:  Dr.  Jason Mitchell" },
+    "description": "An ID badge for the LIXA facility.  The photo is of a confidently smiling young man.",
+    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_LIXA_kai_mei",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "LIXA ID badge:  Dr.  Kai-Mei Luo" },
+    "description": "An ID badge for the LIXA facility.  The photo is of an awkwardly smiling woman, who blinked during the picture.",
+    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_LIXA_rich",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "LIXA ID badge:  Dr.  Richard Raimes" },
+    "description": "An ID badge for the LIXA facility.  The photo is of a gently smiling older man, with kind eyes.",
+    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_LIXA_mil",
+    "symbol": ",",
+    "copy-from": "id_LIXA_mil",
+    "name": { "str": "LIXA military police badge" },
+    "description": "An id card bearing the name, rank, and serial number of a soldier stationed at LIXA.",
+    "flags": [ "LIXA_MILITARY_CARD", "LIXA_SCIENCE_CARD", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+  },
+  {
+    "id": "LIXA_SCIENCE_CARD",
+    "type": "json_flag",
+    "info": "This grants access to the LIXA facility."
+  },
+  {
+    "id": "LIXA_SCIENCE_CARD_2",
+    "type": "json_flag",
+    "info": "This grants access to the experiment chamber of the LIXA facility."
+  },
+  {
+    "id": "LIXA_MILITARY_CARD",
+    "type": "json_flag",
+    "info": "This grants access to locked-down areas of the LIXA facility."
+  },
+  {
+    "type": "GENERIC",
+    "id": "LIXA_lab_file",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "LIXA on-site staff notice" },
+    "snippet_category": "LIXA_lab_files",
+    "copy-from": "file",
+    "description": "A brief with the word LIXA on the official letterhead, for distribution to the onsite staff."
+  },
+  {
+    "type": "GENERIC",
+    "id": "LIXA_mil_file",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "LIXA military notice" },
+    "snippet_category": "LIXA_mil_files",
+    "copy-from": "file",
+    "description": "A signed and serialed notice distributed to LIXA's onsite military police."
+  },
+  {
+    "type": "GENERIC",
+    "id": "LIXA_lab_postit",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "post-it note" },
+    "snippet_category": "LIXA_lab_notes",
+    "description": "A cyan post-it note.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "12 mg",
+    "volume": "1 ml",
+    "copy-from": "lab_postit_bio"
+  }
+]
