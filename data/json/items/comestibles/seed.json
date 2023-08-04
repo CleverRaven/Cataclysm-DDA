@@ -421,7 +421,7 @@
     "use_action": [ "SEED" ],
     "quench": -1,
     "volume": "250 ml",
-    "calories": 11,
+    "calories": 750,
     "description": "Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or eaten raw.",
     "//": "1 cup of seeds, which grows into multiple hemps per tile.",
     "price": 100,
