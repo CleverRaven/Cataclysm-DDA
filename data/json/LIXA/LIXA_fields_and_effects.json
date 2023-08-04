@@ -59,6 +59,7 @@
       "type": "field_type",
       "legacy_enum_id": 19,
       "intensity_levels": [
+        {
       "effects": [
           {
             "effect_id": "LIXA_illuminated",
