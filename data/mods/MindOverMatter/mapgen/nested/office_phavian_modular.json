@@ -316,6 +316,10 @@
       ],
       "palettes": [ "office_phavian_palette" ],
       "furniture": { "Ć": "f_counter" },
+      "place_item": [
+        { "item": "force_field_generator_broken", "x": 3, "y": 4, "chance": 50 },
+        { "item": "force_field_generator", "x": 3, "y": 4, "chance": 10 }
+      ],
       "items": {
         "l": [
           { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] },
@@ -358,6 +362,10 @@
       ],
       "palettes": [ "office_phavian_palette" ],
       "furniture": { "Ć": "f_counter" },
+      "place_item": [
+        { "item": "force_field_generator_broken", "x": 4, "y": 3, "chance": 50 },
+        { "item": "force_field_generator", "x": 4, "y": 3, "chance": 10 }
+      ],
       "items": {
         "l": [
           { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] },
@@ -478,19 +486,15 @@
       ],
       "furniture": { "H": [ "f_treadmill", "f_treadmill_mechanical" ], "V": "f_exercise", "Ƀ": "f_bigmirror" },
       "palettes": [ "office_phavian_palette" ],
+      "place_items": [
+        { "item": "matrix_crystal_biokin_dust_group", "x": 0, "y": 3, "chance": 45, "repeat": [ 1, 3 ] },
+        { "item": "matrix_crystal_vitakin_dust_group", "x": 0, "y": 3, "chance": 45, "repeat": [ 1, 3 ] },
+        { "item": "matrix_crystal_biokin_dust_group", "x": 0, "y": 5, "chance": 45, "repeat": [ 1, 3 ] },
+        { "item": "matrix_crystal_vitakin_dust_group", "x": 0, "y": 5, "chance": 45, "repeat": [ 1, 3 ] },
+        { "item": "matrix_crystal_biokin_dust_group", "x": 0, "y": 7, "chance": 45, "repeat": [ 1, 3 ] },
+        { "item": "matrix_crystal_vitakin_dust_group", "x": 0, "y": 7, "chance": 45, "repeat": [ 1, 3 ] }
+      ],
       "place_item": [
-        { "item": "matrix_crystal_biokin_dust_refined", "x": 0, "y": 3, "chance": 20 },
-        { "item": "matrix_crystal_biokin_dust", "x": 0, "y": 3, "chance": 45 },
-        { "item": "matrix_crystal_biokin_dust_refined", "x": 0, "y": 5, "chance": 20 },
-        { "item": "matrix_crystal_biokin_dust", "x": 0, "y": 5, "chance": 45 },
-        { "item": "matrix_crystal_biokin_dust_refined", "x": 0, "y": 7, "chance": 20 },
-        { "item": "matrix_crystal_biokin_dust", "x": 0, "y": 7, "chance": 45 },
-        { "item": "matrix_crystal_vitakin_dust_refined", "x": 0, "y": 3, "chance": 8 },
-        { "item": "matrix_crystal_vitakin_dust", "x": 0, "y": 3, "chance": 30 },
-        { "item": "matrix_crystal_vitakin_dust_refined", "x": 0, "y": 5, "chance": 8 },
-        { "item": "matrix_crystal_vitakin_dust", "x": 0, "y": 5, "chance": 30 },
-        { "item": "matrix_crystal_vitakin_dust_refined", "x": 0, "y": 7, "chance": 8 },
-        { "item": "matrix_crystal_vitakin_dust", "x": 0, "y": 7, "chance": 30 },
         { "item": "matrix_crystal_biokinesis", "x": 0, "y": 5, "chance": 25 },
         { "item": "matrix_crystal_vitakinesis", "x": 0, "y": 5, "chance": 10 }
       ],
@@ -527,19 +531,15 @@
       ],
       "furniture": { "H": [ "f_treadmill", "f_treadmill_mechanical" ], "V": "f_exercise", "Ƀ": "f_bigmirror" },
       "palettes": [ "office_phavian_palette" ],
+      "place_items": [
+        { "item": "matrix_crystal_biokin_dust_group", "x": 7, "y": 2, "chance": 45, "repeat": [ 1, 3 ] },
+        { "item": "matrix_crystal_vitakin_dust_group", "x": 7, "y": 2, "chance": 45, "repeat": [ 1, 3 ] },
+        { "item": "matrix_crystal_biokin_dust_group", "x": 7, "y": 4, "chance": 45, "repeat": [ 1, 3 ] },
+        { "item": "matrix_crystal_vitakin_dust_group", "x": 7, "y": 4, "chance": 45, "repeat": [ 1, 3 ] },
+        { "item": "matrix_crystal_biokin_dust_group", "x": 7, "y": 6, "chance": 45, "repeat": [ 1, 3 ] },
+        { "item": "matrix_crystal_vitakin_dust_group", "x": 7, "y": 6, "chance": 45, "repeat": [ 1, 3 ] }
+      ],
       "place_item": [
-        { "item": "matrix_crystal_biokin_dust_refined", "x": 7, "y": 4, "chance": 20 },
-        { "item": "matrix_crystal_biokin_dust", "x": 7, "y": 4, "chance": 45 },
-        { "item": "matrix_crystal_biokin_dust_refined", "x": 7, "y": 2, "chance": 20 },
-        { "item": "matrix_crystal_biokin_dust", "x": 7, "y": 2, "chance": 45 },
-        { "item": "matrix_crystal_biokin_dust_refined", "x": 7, "y": 0, "chance": 20 },
-        { "item": "matrix_crystal_biokin_dust", "x": 7, "y": 0, "chance": 45 },
-        { "item": "matrix_crystal_vitakin_dust_refined", "x": 7, "y": 4, "chance": 8 },
-        { "item": "matrix_crystal_vitakin_dust", "x": 7, "y": 4, "chance": 30 },
-        { "item": "matrix_crystal_vitakin_dust_refined", "x": 7, "y": 2, "chance": 8 },
-        { "item": "matrix_crystal_vitakin_dust", "x": 7, "y": 2, "chance": 30 },
-        { "item": "matrix_crystal_vitakin_dust_refined", "x": 7, "y": 0, "chance": 8 },
-        { "item": "matrix_crystal_vitakin_dust", "x": 7, "y": 0, "chance": 30 },
         { "item": "matrix_crystal_biokinesis", "x": 7, "y": 2, "chance": 25 },
         { "item": "matrix_crystal_vitakinesis", "x": 7, "y": 2, "chance": 10 }
       ],
@@ -660,10 +660,7 @@
         "UU.....U"
       ],
       "palettes": [ "office_phavian_palette" ],
-      "place_item": [
-        { "item": "matrix_crystal_telepath_dust_refined", "x": 7, "y": 4, "chance": 20 },
-        { "item": "matrix_crystal_telepath_dust", "x": 7, "y": 4, "chance": 45 }
-      ],
+      "place_items": [ { "item": "matrix_crystal_telepath_dust_group", "x": 7, "y": 4, "chance": 40, "repeat": [ 1, 3 ] } ],
       "items": {
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] }, { "item": "SUS_bathroom_medicine", "chance": 100 } ],
@@ -694,10 +691,7 @@
         "CCSll&.."
       ],
       "palettes": [ "office_phavian_palette" ],
-      "place_item": [
-        { "item": "matrix_crystal_telepath_dust_refined", "x": 0, "y": 3, "chance": 20 },
-        { "item": "matrix_crystal_telepath_dust", "x": 0, "y": 3, "chance": 45 }
-      ],
+      "place_items": [ { "item": "matrix_crystal_telepath_dust_group", "x": 0, "y": 3, "chance": 40, "repeat": [ 1, 3 ] } ],
       "items": {
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] }, { "item": "SUS_bathroom_medicine", "chance": 100 } ],

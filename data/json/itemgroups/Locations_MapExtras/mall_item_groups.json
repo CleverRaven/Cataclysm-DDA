@@ -31,7 +31,7 @@
   {
     "id": "candy_shop",
     "type": "item_group",
-    "items": [ { "group": "candy_chocolate", "prob": 460 }, [ "cookies", 50 ], { "item": "licorice", "prob": 50 } ]
+    "items": [ { "group": "candy_chocolate", "prob": 460 }, [ "cookies", 50 ], { "prob": 50, "group": "licorice_bag_plastic_4" } ]
   },
   {
     "id": "tux_shop",
@@ -123,7 +123,7 @@
       { "item": "mp3", "prob": 40, "charges": 100 },
       [ "wolfsuit", 5 ],
       [ "dinosuit", 5 ],
-      { "item": "gum", "prob": 10, "charges": [ 1, 10 ] },
+      { "item": "gum", "prob": 10, "count": [ 1, 10 ] },
       [ "shuttlecock", 10 ],
       [ "baseball", 40 ],
       [ "football", 40 ],
@@ -301,17 +301,17 @@
     "subtype": "distribution",
     "items": [
       { "item": "pipe_tobacco", "prob": 60 },
-      { "item": "tobacco", "prob": 70 },
+      { "prob": 70, "group": "tobacco_bag_plastic_20" },
       { "group": "cigar_box_unopened", "prob": 15, "count": [ 1, 10 ] },
       { "item": "case_cigar", "prob": 20, "count": [ 1, 5 ] },
-      { "item": "weed", "prob": 5 },
+      { "item": "weed", "prob": 5, "count": 5 },
       { "item": "joint", "prob": 5 },
-      { "item": "seed_weed", "prob": 5 },
+      { "item": "seed_weed", "prob": 5, "count": 2 },
       { "item": "seed_tobacco", "prob": 5 },
       { "item": "rolling_paper", "prob": 45 },
       { "item": "pipe_glass", "prob": 20 },
-      { "item": "cig", "prob": 60 },
-      { "item": "chaw", "prob": 60 }
+      { "prob": 60, "group": "cig_box_cigarette_20" },
+      { "prob": 60, "group": "chaw_wrapper_20" }
     ]
   },
   {
@@ -365,5 +365,13 @@
       [ "hairbrush", 10 ],
       [ "mirror", 35 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "chaw_wrapper_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "wrapper",
+    "entries": [ { "item": "chaw", "container-item": "null", "count": 20 } ]
   }
 ]

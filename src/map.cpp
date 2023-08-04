@@ -635,6 +635,7 @@ void map::vehmove()
     }
     dirty_vehicle_list.clear();
     std::map<vehicle *, bool> vehs; // value true means in on map
+    std::unordered_set<vehicle *> connected_vehs;
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
         const level_cache *cache = get_cache_lazy( zlev );
         if( !cache ) {
@@ -642,10 +643,11 @@ void map::vehmove()
         }
         for( vehicle *veh : cache->vehicle_list ) {
             vehs[veh] = true; // force on map vehicles to true
-            for( const std::pair<vehicle *const, float> &pair : veh->search_connected_vehicles() ) {
-                vehs.emplace( pair.first, false ); // add with 'false' if does not exist (off map)
-            }
+            veh->get_connected_vehicles( connected_vehs );
         }
+    }
+    for( vehicle *connected_veh : connected_vehs ) {
+        vehs.emplace( connected_veh, false ); // add with 'false' if does not exist (off map)
     }
     for( const std::pair<vehicle *const, bool> &veh_pair : vehs ) {
         veh_pair.first->idle( /* on_map = */ veh_pair.second );
@@ -1523,7 +1525,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
         }
     }
 
-    veh.shed_loose_parts( &src, &dst );
+    veh.shed_loose_parts( trinary::SOME, &dst );
     smzs = veh.advance_precalc_mounts( dst_offset, src.raw(), dp, ramp_offset,
                                        adjust_pos, parts_to_move );
     veh.update_active_fakes();
@@ -5050,7 +5052,7 @@ item &map::add_item( const tripoint &p, item new_item )
 
     // Process foods and temperature tracked items when they are added to the map, here instead of add_item_at()
     // to avoid double processing food during active item processing.
-    if( new_item.has_temperature() && !new_item.is_corpse() ) {
+    if( new_item.link || ( new_item.has_temperature() && !new_item.is_corpse() ) ) {
         new_item.process( *this, nullptr, p );
     }
 

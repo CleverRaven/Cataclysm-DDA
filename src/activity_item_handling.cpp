@@ -85,6 +85,7 @@ static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
+static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
@@ -1218,6 +1219,19 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             }
         }
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
+    }
+    if( act == ACT_MULTIPLE_READ ) {
+        const item_filter filter = [ &you ]( const item & i ) {
+            // Check well lit after
+            read_condition_result condition = you.check_read_condition( i );
+            return condition == read_condition_result::SUCCESS ||
+                   condition == read_condition_result::TOO_DARK;
+        };
+        if( !you.items_with( filter ).empty() ) {
+            return activity_reason_info::ok( do_activity_reason::NEEDS_BOOK_TO_LEARN );
+        }
+        // TODO: find books from zone?
+        return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
     }
     if( act == ACT_MULTIPLE_CHOP_PLANKS ) {
         //are there even any logs there?
@@ -2503,6 +2517,11 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
                 }
             }
         }
+    } else if( act_id == ACT_MULTIPLE_READ ) {
+        // anywhere well lit
+        for( const tripoint_bub_ms &elem : here.points_in_radius( localpos, ACTIVITY_SEARCH_DISTANCE ) ) {
+            src_set.insert( here.getglobal( elem ) );
+        }
     } else if( act_id != ACT_FETCH_REQUIRED ) {
         zone_type_id zone_type = get_zone_for_act( tripoint_bub_ms{}, mgr, act_id, _fac_id( you ) );
         src_set = mgr.get_near( zone_type, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr, _fac_id( you ) );
@@ -2777,6 +2796,14 @@ static requirement_check_result generic_multi_activity_check_requirement(
             return requirement_check_result::SKIP_LOCATION;
         } else {
             if( !check_only ) {
+                if( you.as_npc() && you.as_npc()->job.fetch_history.count( what_we_need.str() ) != 0 &&
+                    you.as_npc()->job.fetch_history[what_we_need.str()] == calendar::turn ) {
+                    // this may be faild fetch already. give up task for a while to avoid infinite loop.
+                    you.activity = player_activity();
+                    you.backlog.clear();
+                    check_npc_revert( you );
+                    return requirement_check_result::SKIP_LOCATION;
+                }
                 you.backlog.emplace_front( act_id );
                 you.assign_activity( ACT_FETCH_REQUIRED );
                 player_activity &act_prev = you.backlog.front();
@@ -2874,6 +2901,20 @@ static bool generic_multi_activity_do(
                reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
         if( butcher_corpse_activity( you, src_loc, reason ) ) {
             you.backlog.emplace_front( act_id );
+            return false;
+        }
+    } else if( reason == do_activity_reason::NEEDS_BOOK_TO_LEARN ) {
+        const item_filter filter = [ &you ]( const item & i ) {
+            read_condition_result condition = you.check_read_condition( i );
+            return condition == read_condition_result::SUCCESS;
+        };
+        std::vector<item *> books = you.items_with( filter );
+        if( !books.empty() && books[0] ) {
+            const time_duration time_taken = you.time_to_read( *books[0], you );
+            item_location book = item_location( you, books[0] );
+            item_location ereader;
+            you.backlog.emplace_front( act_id );
+            you.assign_activity( read_activity_actor( time_taken, book, ereader, true ) );
             return false;
         }
     } else if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ) {
@@ -2994,6 +3035,13 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
     // may cause infinite loop if something goes wrong
     // Maybe it makes more harm than good? I don't know.
     if( activity_to_restore == activity_id( ACT_FETCH_REQUIRED ) && src_sorted.empty() ) {
+        // remind what you failed to fetch
+        if( !check_only && !you.backlog.empty() ) {
+            player_activity &act_prev = you.backlog.front();
+            if( !act_prev.str_values.empty() && you.as_npc() ) {
+                you.as_npc()->job.fetch_history[act_prev.str_values.back()] = calendar::turn;
+            }
+        }
         return true;
     }
     for( const tripoint_abs_ms &src : src_sorted ) {

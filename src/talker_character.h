@@ -247,6 +247,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         std::vector<bodypart_id> get_all_body_parts( bool all, bool main_only ) const override;
         int get_part_hp_cur( const bodypart_id &id ) const override;
         int get_part_hp_max( const bodypart_id &id ) const override;
+        void set_all_parts_hp_cur( int ) const override;
         void set_part_hp_cur( const bodypart_id &id, int set ) const override;
         bool get_is_alive() const override;
         void die() override;

@@ -2266,6 +2266,7 @@ prancer
 prateleiras
 prayerbook
 prayeres
+preconditions
 precooked
 predatorially
 predatorily
@@ -2846,6 +2847,7 @@ suborder
 subplanar
 subplane
 subplots
+subsuming
 subterraenean
 subtypes
 sudo
@@ -3018,6 +3020,7 @@ treelines
 trenchcoat
 trenchcoats
 trenchgun
+trenching
 triband
 tribesperson
 tribot

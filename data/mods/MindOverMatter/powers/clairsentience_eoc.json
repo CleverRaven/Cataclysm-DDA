@@ -1,0 +1,40 @@
+[
+  {
+    "type": "mutation",
+    "//": "This and following are all necessary because reading_speed_multiplier is hardcoded.  Redo the whole thing once it isn't.",
+    "id": "CLAIR_SPEED_READ",
+    "name": { "str": "Speed Reader" },
+    "points": 1,
+    "description": "Your powers allow you to absorb knowledge at a greatly accelerated pace.",
+    "reading_speed_multiplier": 0.66,
+    "valid": false,
+    "enchantments": [ "enchant_clair_speed_read" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_SPEED_READING",
+    "effect": [
+      { "u_add_trait": "CLAIR_SPEED_READ" },
+      { "queue_eocs": "EOC_CLAIR_SPEED_READING_REMOvE", "time_in_future": [ "60 minutes", "180 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_SPEED_READING_REMOvE",
+    "effect": [ { "u_lose_trait": "CLAIR_SPEED_READ" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_clair_speed_read",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "values": [
+      {
+        "value": "READING_EXP",
+        "add": {
+          "math": [ "( ( u_val('spell_level', 'spell: clair_speed_reading') * 0.15) * (scaling_factor(u_val('intelligence') )))" ]
+        }
+      }
+    ]
+  }
+]
