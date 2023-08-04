@@ -106,7 +106,7 @@
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_RECIPE_TEACHER",
     "eoc_type": "EVENT",
-    "required_event": "game_load",
+    "required_event": "game_begin",
     "condition": { "u_has_trait": "BIOKINETIC" },
     "effect": [ { "queue_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
   },
@@ -114,7 +114,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_RECIPE_TEACHER",
     "eoc_type": "EVENT",
-    "required_event": "game_load",
+    "required_event": "game_begin",
     "condition": { "u_has_trait": "CLAIRSENTIENT" },
     "effect": [ { "queue_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
   },
@@ -122,7 +122,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_RECIPE_TEACHER",
     "eoc_type": "EVENT",
-    "required_event": "game_load",
+    "required_event": "game_begin",
     "condition": { "u_has_trait": "PYROKINETIC" },
     "effect": [ { "queue_eocs": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
   },
@@ -130,7 +130,7 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_RECIPE_TEACHER",
     "eoc_type": "EVENT",
-    "required_event": "game_load",
+    "required_event": "game_begin",
     "condition": { "u_has_trait": "TELEKINETIC" },
     "effect": [ { "queue_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
   },
@@ -138,7 +138,7 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_RECIPE_TEACHER",
     "eoc_type": "EVENT",
-    "required_event": "game_load",
+    "required_event": "game_begin",
     "condition": { "u_has_trait": "TELEPATH" },
     "effect": [ { "queue_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
   },
@@ -146,7 +146,7 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_RECIPE_TEACHER",
     "eoc_type": "EVENT",
-    "required_event": "game_load",
+    "required_event": "game_begin",
     "condition": { "u_has_trait": "TELEPORTER" },
     "effect": [ { "queue_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
   },
@@ -154,7 +154,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_RECIPE_TEACHER",
     "eoc_type": "EVENT",
-    "required_event": "game_load",
+    "required_event": "game_begin",
     "condition": { "u_has_trait": "VITAKINETIC" },
     "effect": [ { "queue_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
   }
