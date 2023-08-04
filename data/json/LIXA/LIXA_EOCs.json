@@ -423,7 +423,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "vitrified_death",
+    "id": "unfolded_death",
     "eoc_type": "AVATAR_DEATH",
     "condition": { "u_has_effect": "LIXA_unfolded_eff" },
     "effect": {
