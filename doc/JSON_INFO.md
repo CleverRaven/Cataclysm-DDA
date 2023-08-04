@@ -144,6 +144,7 @@ Use the `Home` key to return to the top.
       - [`effects_activated`](#effects_activated)
     - [Software Data](#software-data)
     - [Use Actions](#use-actions)
+    - [Tick Actions](#tick-actions)
       - [Delayed Item Actions](#delayed-item-actions)
     - [Random Descriptions](#random-descriptions)
 - [`json/` JSONs](#json-jsons)
@@ -1090,6 +1091,7 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `social_modifiers`			     | (_optional_) Json object with optional members: persuade, lie, and intimidate which add or subtract that amount from those types of social checks
 | `dispersion_mod`             | (_optional_) Modifier to change firearm dispersion.
 | `activated_on_install`       | (_optional_) Auto-activates this bionic when installed.
+| `required_bionic`       | (_optional_) Bionic which is required to install this bionic, and which cannot be uninstalled if this bionic is installed
 
 ```JSON
 {
@@ -1123,7 +1125,19 @@ mod = min( max, ( limb_score / denominator ) - subtract );
       [ "hand_r", { "bash": 3, "cut": 3, "bullet": 3 } ]
     ],
     "flags": [ "BIONIC_NPC_USABLE" ]
-}
+},
+  {
+    "id": "bio_hydraulics",
+    "type": "bionic",
+    "name": { "str": "Hydraulic Muscles" },
+    "description": "While activated, your muscles will be greatly enhanced, increasing your strength by 20.",
+    "occupied_bodyparts": [ [ "torso", 10 ], [ "arm_l", 8 ], [ "arm_r", 8 ], [ "leg_l", 10 ], [ "leg_r", 10 ] ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "act_cost": "10 kJ",
+    "react_cost": "10 kJ",
+    "time": "1 s",
+    "required_bionic": "bio_weight"
+  }
 ```
 
 Bionics effects are defined in the code and new effects cannot be created through JSON alone.
@@ -1147,6 +1161,7 @@ When adding a new bionic, if it's not included with another one, you must also a
 | `magic_color`       | _(optional)_ Determines which color identifies this damage type when used in spells. (defaults to "black")
 | `derived_from`      | _(optional)_ An array that determines how this damage type should be calculated in terms of armor protection and monster resistance values. The first value is the source damage type and the second value is the modifier applied to source damage type calculations.
 | `onhit_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character hits another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target.
+| `ondamage_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character takes damage from another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target. Also have access to some [context vals](EFFECT_ON_CONDITION#context-variables-for-other-eocs)
 
 ```JSON
   {
@@ -1820,6 +1835,7 @@ Crafting recipes are defined as a JSON object with the following fields:
 "category": "CC_WEAPON",     // Category of crafting recipe. CC_NONCRAFT used for disassembly recipes
 "subcategory": "CSC_WEAPON_PIERCING",
 "id_suffix": "",             // Optional (default: empty string). Some suffix to make the ident of the recipe unique. The ident of the recipe is "<id-of-result><id_suffix>".
+"variant": "javelin_striped", // Optional (default: empty string). Specifies a variant of the result that this recipe will always produce. This will append the variant's id to the recipe ident "<id-of-result>_<variant_id>".
 "override": false,           // Optional (default: false). If false and the ident of the recipe is already used by another recipe, loading of recipes fails. If true and a recipe with the ident is already defined, the existing recipe is replaced by the new recipe.
 "delete_flags": [ "CANNIBALISM" ], // Optional (default: empty list). Flags specified here will be removed from the resultant item upon crafting. This will override flag inheritance, but *will not* delete flags that are part of the item type itself.
 "skill_used": "fabrication", // Skill trained and used for success checks
@@ -1862,6 +1878,7 @@ Crafting recipes are defined as a JSON object with the following fields:
 "contained": true, // Boolean value which defines if the resulting item comes in its designated container. Automatically set to true if any container is defined in the recipe. 
 "container": "jar_glass_sealed", //The resulting item will be contained by the item set here, overrides default container.
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
+"count": 2,                  // Number of resulting items/charges per craft. Uses default charges if not set. If a container is set, this is the amount that gets put inside it, capped by container capacity.
 "result_mult": 2,            // Multiplier for resulting items. Also multiplies container items.
 "flags": [                   // A set of strings describing boolean features of the recipe
   "BLIND_EASY",
@@ -1893,6 +1910,10 @@ Crafting recipes are defined as a JSON object with the following fields:
   [
     // ... any number of other component ingredients (see below)
   ]
+],
+"component_blacklist": [     // List of item types that don't get added to result item components. Reversible recipes won't recover these and comestibles will not include them in calorie calculations.
+  "item_a",
+  "item_b"
 ]
 ```
 
@@ -3951,9 +3972,6 @@ The contents of use_action fields can either be a string indicating a built-in f
 },
 "use_action": {
     "type": "explosion", // An item that explodes when it runs out of charges.
-    "sound_volume": 0, // Volume of a sound the item makes every turn.
-    "sound_msg": "Tick.", // Message describing sound the item makes every turn.
-    "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.", // Message to display if the player tries to activate the item, prevents activation from succeeding if defined.
     "explosion": { // Optional: physical explosion data
         // Specified like `"explosion"` field in generic items
     },
@@ -4017,13 +4035,18 @@ The contents of use_action fields can either be a string indicating a built-in f
 },
 "use_action": {
     "type": "link_up", // Connect item to a vehicle or appliance, such as plugging a chargeable device into a power source.
-    "cable_type": "generic_device_cable" // The item type of the cable created with this action ( Optional, defaults to "generic_device_cable" ).
-    "cable_length": 5 // Maximum length of the cable ( Optional, defaults to 2 ).
-    "charge_rate": "60 W" // Charge rate in watts. A positive value will charge the device's chargeable batteries at the expense of the connected power grid.
+                       // If the item has the CABLE_SPOOL flag, it has special behaviors available, like connecting vehicles together.
+    "cable_length": 4 // Maximum length of the cable ( Optional, defaults to the item type's maximum charges ).
+                      // If extended by other cables, will use the sum of all cables' lengths.
+    "charge_rate": "60 W" // The charge rate of the plugged-in device's batteries in watts. ( Optional, defaults to "0 W" )
+                          // A positive value will charge the device's chargeable batteries at the expense of the connected power grid.
                           // A negative value will charge the connected electrical grid's batteries at the expense of the device's. 
-                          // A value of 0 won't charge the device's batteries, but will still let the device operate off of the connected power grid ( Optional, defaults to "0 W" ).
-    "efficiency": 7 // one_in(this) chance to fail adding 1 charge every charge interval ( Optional, defaults to 7, which is around 85% efficiency ).
-    "menu_text": // Text displayed in the activation screen ( Optional, defaults to "Connect / Disconnect" ).
+                          // A value of 0 won't charge the device's batteries, but will still let the device operate off of the connected power grid.
+    "efficiency": 0.85f // (this) out of 1.0 chance to successfully add 1 charge every charge interval ( Optional, defaults to 0.85f, AKA 85% efficiency ).
+                        // A value less than 0.001 means the cable won't transfer any electricity at all.
+                        // If extended by other cables, will use the product of all cable's efficiencies multiplied together.
+    "menu_text": // Text displayed in the activation screen ( Optional, defaults to Plug in / Manage cables" ).
+    "move_cost": // Move cost of attaching the cable ( Optional, defaults to 5 ).
     "targets": [ // Array of link_states that are valid connection points of the cable ( Optional, defaults to only allowing disconnection ).
         "no_link",         // Must be included to allow letting the player manually disconnect the cable.
         "vehicle_port",    // Can connect to a vehicle's cable ports / electrical controls or an appliance.
@@ -4031,7 +4054,13 @@ The contents of use_action fields can either be a string indicating a built-in f
         "vehicle_tow",     // Can be used as a tow cable between two vehicles.
         "bio_cable",       // Can connect to a cable system bionic.
         "ups",             // Can link to a UPS.
-        "solarpack",       // Can link to a worn solar pack.
+        "solarpack"        // Can link to a worn solar pack.
+    ],
+    "can_extend": [ // Array of cable items that can be extended by this one ( Optional, defaults to none ).
+        "extension_cable",
+        "long_extension_cable",
+        "ELECTRICAL_DEVICES" // "ELECTRICAL_DEVICES" is a special keyword that lets this cable extend all electrical devices that have link_up actions.
+    ]
 },
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
@@ -4191,8 +4220,33 @@ The contents of use_action fields can either be a string indicating a built-in f
     "message": "Read this.",// Message that is shown
     "name": "Light fuse"    // Optional name for the action. Default "Activate".
 }
+"use_action": {
+    "type": "sound",         // Makes sound
+    "name": "Turn on"        // Optional name for the action. Default "Activate".
+    "sound_message": "Bzzzz.", // message shown to player if they are able to hear the sound. %s is replaced by item name.
+    "sound_id": "misc"       // ID of the audio to be played. Default "misc". See SOUNDPACKS.md for more details.
+	"sound_variant": "default" // Default "default"
+    "sound_volume": 5        // Loudness of the noise.
+}
+"use_action": {
+    "type": "manualnoise",   // Makes sound. Includes ammo checks and may take moves from player
+    "use_message": "You do the thing" // Shown to player who activated it
+    "noise_message": "Bzzz"  // Shown if player can hear the sound. Default "hsss".
+    "noise_id": "misc"       // ID of the audio to be played. Default "misc". See SOUNDPACKS.md for more details.
+	"noise_variant":         // Default "default"
+    "noise" : 6              // Loudness of the noise. Default 0.
+    "moves" : 40             // How long the action takes. Default 0.
+}
 ```
 
+  ### Tick Actions
+
+`"tick_action"` of active tools is executed once on every turn. This action can be any use action or iuse but some of them may not work properly when not executed by player.
+
+If `"tick_action"` is defined as array of multiple actions they all are executed in order. Multiple use actions of same type cannot be used at once.
+
+On items that do not have `"tick_action"` the `"use_action"` of active tools is executed on every turn. This is only for compatibility with old items and should not be used. This functionality will be removed in future.
+  
 #### Delayed Item Actions
 
 Item use actions can be used with a timer delay.

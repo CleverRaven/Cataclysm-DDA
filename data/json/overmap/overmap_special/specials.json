@@ -34,7 +34,7 @@
     "connections": [ { "point": [ 2, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ], "existing": true } ],
     "locations": [ "land" ],
     "city_distance": [ 8, 30 ],
-    "occurrences": [ 2, 4 ],
+    "occurrences": [ 1, 2 ],
     "flags": [ "CLASSIC", "MAN_MADE" ]
   },
   {
@@ -56,7 +56,7 @@
     "connections": [ { "point": [ 2, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ], "existing": true } ],
     "locations": [ "land" ],
     "city_distance": [ 8, 40 ],
-    "occurrences": [ 2, 4 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "URBAN", "MAN_MADE" ]
   },
   {
@@ -224,7 +224,7 @@
       { "point": [ -1, 0, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] }
     ],
     "city_distance": [ 5, -1 ],
-    "occurrences": [ 0, 1 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "LAKE", "MAN_MADE", "WILDERNESS" ]
   },
   {
@@ -488,8 +488,8 @@
     "locations": [ "forest" ],
     "city_distance": [ 30, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "occurrences": [ 10, 100 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -528,8 +528,8 @@
     "locations": [ "forest" ],
     "city_distance": [ 30, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "occurrences": [ 10, 100 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -3501,6 +3501,18 @@
     "city_distance": [ -1, 2 ],
     "city_sizes": [ 8, -1 ],
     "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "URBAN", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "solar_farm",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "solar_farm_north" } ],
+    "connections": [ { "point": [ 0, 1, 0 ], "terrain": "road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ -1, 2 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 2 ],
+    "spawns": { "group": "GROUP_SMALL_STATION", "population": [ 4, 10 ], "radius": [ 0, 0 ] },
     "flags": [ "CLASSIC", "URBAN", "MAN_MADE" ]
   },
   {

@@ -123,6 +123,7 @@ antihemorrhagic
 antimateriel
 antiparasitic
 antipodes
+antisemitism
 antiseptics
 antlered
 antlion
@@ -236,6 +237,7 @@ bardiche
 barding
 barebones
 barghest
+barleycorn
 barony
 barosaurus
 barotrarumatic
@@ -246,7 +248,6 @@ baselines
 basiliscus
 bassline
 basswood
-barleycorn
 batching
 batlike
 batrachian
@@ -350,6 +351,7 @@ bookplate
 bookstrap
 boomin
 boonie
+booo
 booorrrring
 bootable
 bootup
@@ -434,6 +436,7 @@ camelops
 camphine
 campin
 camptosaurus
+camspies
 camspy
 canadensis
 canid
@@ -751,6 +754,7 @@ devs
 dewlap
 dextrous
 dharmachakra
+diaspora
 dieselpunk
 diffract
 diffracting
@@ -1090,6 +1094,7 @@ flyable
 flyin
 foamcrete
 foldable
+folktales
 followup
 foodborne
 foodburger
@@ -1152,6 +1157,7 @@ fwoosh
 fzzzzzt
 g
 gachunk
+gadol
 gaits
 galea
 galena
@@ -1259,8 +1265,8 @@ gunmods
 gunshop
 gunsmithing
 gunsmoke
-gushingly
 gurkha
+gushingly
 gutskin
 guvnah
 gymnocladus
@@ -1291,6 +1297,8 @@ haori
 haplocanthosaurus
 haptic
 hardbound
+hardcover
+hardcovers
 hardhat
 hardpoint
 harmonically
@@ -1515,6 +1523,7 @@ kart
 karting
 kasaya
 kastane
+katan
 katanas
 katar
 kcal
@@ -1537,10 +1546,11 @@ khru
 kickboard
 kickin
 kickstand
+kilij
+kilijes
+kilijs
 killbasa
 killin
-kilij
-kilijs
 kilns
 kilroy
 kilted
@@ -1654,6 +1664,7 @@ linux
 listlessly
 lithely
 litheness
+liturgies
 livingrooms
 lizardfolk
 lizardlike
@@ -1776,6 +1787,8 @@ methacola
 methodologies
 methothexazole
 metrology
+mezuzah
+mezuzot
 miasaura
 micellular
 microbian
@@ -1821,8 +1834,11 @@ misc
 misjudgements
 misperceive
 misprogram
+misreadings
 misshaped
 misshapened
+mitzvah
+mitzvot
 mixup
 ml
 mm
@@ -2053,6 +2069,7 @@ otherlands
 otherworlds
 oud
 outgrowths
+outperforms
 outputting
 ovata
 overbore
@@ -2248,7 +2265,9 @@ powerplants
 powertool
 prancer
 prateleiras
+prayerbook
 prayeres
+preconditions
 precooked
 predatorially
 predatorily
@@ -2349,6 +2368,7 @@ quillbag
 quipping
 qwerty
 r
+rabbinic
 rabidly
 racketus
 radially
@@ -2681,6 +2701,7 @@ snuggie
 socketed
 socketing
 softcover
+softcovers
 sojourner
 solarpunk
 solderers
@@ -2792,11 +2813,11 @@ stompy
 stompy-clanker
 stonelike
 stoneskin
+stook
+stooking
 stopcock
 stoppered
 stoppeth
-stook
-stooking
 storable
 stormcaller
 stormshaper
@@ -2827,6 +2848,7 @@ suborder
 subplanar
 subplane
 subplots
+subsuming
 subterraenean
 subtypes
 sudo
@@ -2861,6 +2883,7 @@ swages
 swappable
 swashbucklers
 sweetish
+swipin
 switchgear
 swordmanship
 syde
@@ -2877,6 +2900,7 @@ tadfish
 taegeuk
 taitsu
 takedowns
+tallit
 talwar
 talwars
 tamable
@@ -2901,6 +2925,7 @@ technologist
 technomancer
 technomancy
 techo
+tefillin
 tegmental
 tegwazhi
 teil
@@ -2913,6 +2938,7 @@ tequini
 teravolt
 terpenes
 terranean
+teshuvah
 testbed
 tetradrachm
 tetrahedron
@@ -2995,6 +3021,7 @@ treelines
 trenchcoat
 trenchcoats
 trenchgun
+trenching
 triband
 tribesperson
 tribot
@@ -3187,6 +3214,8 @@ viperine
 virginica
 virions
 vises
+vitakinesis
+vitakinetic
 vivarium
 viviparous
 vivisect

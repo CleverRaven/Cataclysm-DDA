@@ -43,6 +43,31 @@
   },
   {
     "type": "GENERIC",
+    "id": "lab_file_OS647_P_item",
+    "name": { "str": "OS647-P Proposal Response", "str_pl": "copies of OS647-P Proposal Response" },
+    "category": "books",
+    "description": "A note written on official XEDRA letterhead.",
+    "weight": "15 g",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "50 ml",
+    "flags": [ "TRADER_AVOID" ],
+    "copy-from": "file",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate to read the file",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LAB_FILE_OS647_P_SNIPPET",
+          "effect": [ { "u_message": "lab_file_OS647_P", "snippet": true, "same_snippet": true, "popup": true } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "GENERIC",
     "id": "id_science_visitor_phavian",
     "symbol": ",",
     "color": "red",

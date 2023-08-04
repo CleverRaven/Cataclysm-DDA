@@ -142,7 +142,7 @@
   {
     "id": "rifle_38",
     "copy-from": "gun_base",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "pipe rifle: .38 Special", "str_pl": "pipe rifles: .38 Special" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",

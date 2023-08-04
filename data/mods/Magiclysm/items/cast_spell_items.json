@@ -339,10 +339,9 @@
     "category": "weapons",
     "material": [ "leather", "flesh", "bone" ],
     "weight": "225 g",
-    "volume": "700ml",
+    "volume": "700 ml",
     "symbol": "t",
     "color": "pink",
-    "stack_size": 1,
     "spoils_in": "4 days",
     "flags": [ "TRADER_AVOID", "INEDIBLE", "NUTRIENT_OVERRIDE" ]
   },

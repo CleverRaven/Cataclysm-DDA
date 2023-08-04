@@ -124,6 +124,7 @@ enum class mod : int {
     FORCEFIELD,
     EVASION,
     OVERKILL_DAMAGE,
+    RANGE,
     NUM_MOD
 };
 } // namespace enchant_vals
@@ -177,7 +178,7 @@ class enchantment
         const std::set<trait_id> &get_mutations() const {
             return mutations;
         }
-        int get_value_add( enchant_vals::mod value, const Character &guy ) const;
+        double get_value_add( enchant_vals::mod value, const Character &guy ) const;
         double get_value_multiply( enchant_vals::mod value, const Character &guy ) const;
 
         body_part_set modify_bodyparts( const body_part_set &unmodified ) const;
@@ -238,7 +239,7 @@ class enchant_cache : public enchantment
 
         // modifies character stats, or does other passive effects
         void activate_passive( Character &guy ) const;
-        int get_value_add( enchant_vals::mod value ) const;
+        double get_value_add( enchant_vals::mod value ) const;
         double get_value_multiply( enchant_vals::mod value ) const;
         int mult_bonus( enchant_vals::mod value_type, int base_value ) const;
 
@@ -275,7 +276,7 @@ class enchant_cache : public enchantment
 
 
     private:
-        std::map<enchant_vals::mod, int> values_add; // NOLINT(cata-serialize)
+        std::map<enchant_vals::mod, double> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
         // multipliers add to each other instead of multiply against themselves
         std::map<enchant_vals::mod, double> values_multiply; // NOLINT(cata-serialize)

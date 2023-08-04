@@ -147,7 +147,10 @@ static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_CATTLE( "THRESH_CATTLE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
+static const trait_id trait_THRESH_MOUSE( "THRESH_MOUSE" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
+static const trait_id trait_THRESH_RABBIT( "THRESH_RABBIT" );
+static const trait_id trait_THRESH_RAT( "THRESH_RAT" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 static const trait_id trait_VEGAN( "VEGAN" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
@@ -285,8 +288,10 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
         }
         for( const item_components::type_vector_pair &tvp : comest.components ) {
             for( const item &component : tvp.second ) {
-                nutrients component_value =
-                    compute_effective_nutrients( component ) * component.charges;
+                nutrients component_value = compute_effective_nutrients( component );
+                if( component.count_by_charges() ) {
+                    component_value *= component.charges;
+                }
                 if( component.has_flag( flag_BYPRODUCT ) ) {
                     tally -= component_value;
                 } else {
@@ -360,11 +365,11 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         tally_max -= byproduct_nutr;
     }
 
-    int charges = rec.makes_amount();
-    return { tally_min / charges, tally_max / charges };
+    int count = rec.makes_amount();
+    return { tally_min / count, tally_max / count };
 }
 
-// Calculate the range of nturients possible for a given item across all
+// Calculate the range of nutrients possible for a given item across all
 // possible recipes
 std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     const itype_id &comest_id, const cata::flat_set<flag_id> &extra_flags ) const
@@ -730,10 +735,15 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     const auto &comest = food.get_comestible();
 
     if( food.has_flag( flag_INEDIBLE ) ) {
-        if( ( food.has_flag( flag_CATTLE ) && !has_trait( trait_THRESH_CATTLE ) ) ||
-            ( food.has_flag( flag_FELINE ) && !has_trait( trait_THRESH_FELINE ) ) ||
-            ( food.has_flag( flag_LUPINE ) && !has_trait( trait_THRESH_LUPINE ) ) ||
-            ( food.has_flag( flag_BIRD ) && !has_trait( trait_THRESH_BIRD ) ) ) {
+        bool has_compatible_mutation =
+            ( food.has_flag( flag_CATTLE ) && has_trait( trait_THRESH_CATTLE ) ) ||
+            ( food.has_flag( flag_FELINE ) && has_trait( trait_THRESH_FELINE ) ) ||
+            ( food.has_flag( flag_LUPINE ) && has_trait( trait_THRESH_LUPINE ) ) ||
+            ( food.has_flag( flag_RABBIT ) && has_trait( trait_THRESH_RABBIT ) ) ||
+            ( food.has_flag( flag_MOUSE ) && has_trait( trait_THRESH_MOUSE ) ) ||
+            ( food.has_flag( flag_RAT ) && has_trait( trait_THRESH_RAT ) ) ||
+            ( food.has_flag( flag_BIRD ) && has_trait( trait_THRESH_BIRD ) );
+        if( !has_compatible_mutation ) {
             return ret_val<edible_rating>::make_failure( _( "That doesn't look edible to you." ) );
         }
         if( !food.has_flag( flag_CATTLE ) && !food.has_flag( flag_FELINE ) &&
@@ -1024,12 +1034,16 @@ static bool eat( item &food, Character &you, bool force )
     if( !you.consume_effects( food ) ) {
         // Already consumed by using `food.type->invoke`?
         if( charges_used > 0 ) {
-            food.mod_charges( -charges_used );
+            if( food.count_by_charges() ) {
+                food.mod_charges( -charges_used );
+            }
             return true;
         }
         return false;
     }
-    food.mod_charges( -1 );
+    if( food.count_by_charges() ) {
+        food.mod_charges( -1 );
+    }
 
     const bool amorphous = you.has_trait( trait_AMORPHOUS );
 
@@ -1759,7 +1773,9 @@ static bool consume_med( item &target, Character &you )
         }
     }
 
-    target.mod_charges( -amount_used );
+    if( target.count_by_charges() ) {
+        target.mod_charges( -amount_used );
+    }
     return true;
 }
 
@@ -1789,7 +1805,7 @@ trinary Character::consume( item &target, bool force )
         get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );
 
         target.on_contents_changed();
-        return target.charges <= 0 ? trinary::ALL : trinary::SOME;
+        return !target.count_by_charges() || target.charges <= 0 ? trinary::ALL : trinary::SOME;
     }
 
     return trinary::NONE;

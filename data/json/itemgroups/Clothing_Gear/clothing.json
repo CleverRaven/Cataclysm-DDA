@@ -885,7 +885,7 @@
       { "item": "jeans", "prob": 30 },
       { "item": "sports_bra", "prob": 25 },
       { "item": "jacket_leather", "prob": 20 },
-      { "item": "aspirin", "prob": 30 },
+      { "prob": 30, "group": "aspirin_bottle_plastic_pill_painkiller_20" },
       { "item": "water_clean", "prob": 30 },
       { "item": "sports_drink", "prob": 30 },
       { "group": "used_1st_aid", "prob": 20 },
@@ -1636,6 +1636,9 @@
       [ "holy_symbol", 20 ],
       [ "kufi", 5 ],
       [ "kippah", 5 ],
+      [ "tallit_katan", 5 ],
+      [ "tallit_gadol", 1 ],
+      { "group": "tefillin_sets", "prob": 1 },
       [ "headscarf", 5 ],
       { "item": "kirpan", "container-item": "sheath", "prob": 1 },
       { "item": "kirpan_cheap", "container-item": "sheath", "prob": 3 },
@@ -3376,9 +3379,9 @@
       [ "machete_gimmick", 3 ],
       [ "fungicide", 10 ],
       [ "insecticide", 10 ],
-      { "item": "antifungal", "prob": 1, "charges": [ 0, 10 ] },
-      { "item": "antiparasitic", "prob": 5, "charges": [ 0, 10 ] },
-      { "item": "diazepam", "prob": 1, "charges": [ 0, 10 ] },
+      { "prob": 1, "group": "antifungal_bottle_plastic_pill_prescription_0_10" },
+      { "prob": 5, "group": "antiparasitic_bottle_plastic_pill_prescription_0_10" },
+      { "prob": 1, "group": "diazepam_bottle_plastic_pill_prescription_0_10" },
       [ "throw_extinguisher", 2 ],
       { "item": "small_repairkit", "prob": 14, "charges": [ 0, 500 ] },
       [ "grapnel", 6 ],
@@ -4560,5 +4563,58 @@
       { "item": "ring_signet", "prob": 30 },
       { "item": "tie_skinny", "prob": 20 }
     ]
+  },
+  {
+    "id": "tefillin_sets",
+    "type": "item_group",
+    "//": "tefillin sets",
+    "subtype": "distribution",
+    "items": [ { "group": "tefillin_right_hand", "prob": 1 }, { "group": "tefillin_left_hand", "prob": 1 } ]
+  },
+  {
+    "id": "tefillin_right_hand",
+    "type": "item_group",
+    "//": "tefillin sets",
+    "subtype": "collection",
+    "items": [ { "item": "tefillin_hand_r", "prob": 100 }, { "item": "tefillin_head", "prob": 100 } ]
+  },
+  {
+    "id": "tefillin_left_hand",
+    "type": "item_group",
+    "//": "tefillin sets",
+    "subtype": "collection",
+    "items": [ { "item": "tefillin_hand_l", "prob": 100 }, { "item": "tefillin_head", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "aspirin_bottle_plastic_pill_painkiller_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_painkiller",
+    "entries": [ { "item": "aspirin", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "antifungal_bottle_plastic_pill_prescription_0_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "antifungal", "container-item": "null", "count": [ 0, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "antiparasitic_bottle_plastic_pill_prescription_0_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "antiparasitic", "container-item": "null", "count": [ 0, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "diazepam_bottle_plastic_pill_prescription_0_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "diazepam", "container-item": "null", "count": [ 0, 10 ] } ]
   }
 ]

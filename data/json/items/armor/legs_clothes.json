@@ -913,7 +913,7 @@
       {
         "id": "pants_chartreuse",
         "name": { "str": "chartreuse-green pants", "str_pl": "pairs of chartreuse-green pants" },
-        "description": "An almost florescent set of yellowish-green pants with two deep pockets.  Considering that chartreuse has better night-visibility than most other colors, these pants, apart from being a nightmare to match with other hues, would probably be an ill-advised choice to dawn if you wish to keep your legs attached to your boddy.",
+        "description": "An almost fluorescent set of yellowish-green pants with two deep pockets.  Considering that chartreuse has better night-visibility than most other colors, these pants, apart from being a nightmare to match with other hues, would probably be an ill-advised choice to don if you wish to keep your legs attached to your body.",
         "color": "green",
         "weight": 4
       },
@@ -991,7 +991,7 @@
     "volume": "2500 ml",
     "price": 3500,
     "price_postapoc": 250,
-    "material": [ { "type": "nylon", "portion": 7 }, { "type": "cotton", "portion": 3 } ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "pants_cargo",
     "color": "green",

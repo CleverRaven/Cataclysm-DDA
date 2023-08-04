@@ -4954,7 +4954,8 @@
     "price": 20000,
     "price_postapoc": 10000,
     "to_hit": -5,
-    "material": [ { "type": "kevlar_layered" }, { "type": "kevlar" } ],
+    "//": "real bite suits are made with linen, but we don't have linen, so denim is the closest approx. (canvas is always waterproofed and these suits are not)",
+    "material": [ "kevlar", "denim" ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_gray",
@@ -4965,8 +4966,8 @@
     "armor": [
       {
         "material": [
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3, "ignore_sheet_thickness": true },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 }
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 4 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 3 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -4974,8 +4975,8 @@
       },
       {
         "material": [
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3, "ignore_sheet_thickness": true },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 3 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
@@ -4984,8 +4985,8 @@
       },
       {
         "material": [
-          { "type": "kevlar_layered", "covered_by_mat": 70, "thickness": 3, "ignore_sheet_thickness": true },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 }
+          { "type": "kevlar", "covered_by_mat": 70, "thickness": 4 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 3 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
@@ -4995,8 +4996,8 @@
       },
       {
         "material": [
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3, "ignore_sheet_thickness": true },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 }
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 4 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 3 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,

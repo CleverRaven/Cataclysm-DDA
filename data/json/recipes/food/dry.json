@@ -565,25 +565,8 @@
     "time": "18 m",
     "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
-    "tools": [ [ [ "dehydrating_heat", 26, "LIST" ] ] ],
+    "tools": [ [ [ "dehydrating_heat", 13, "LIST" ] ] ],
     "//": "259g of stuff, liquids are naturally inefficient for this",
-    "components": [ [ [ "milk", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "result": "milk_powder",
-    "category": "CC_FOOD",
-    "id_suffix": "frozen_ingredients",
-    "subcategory": "CSC_FOOD_DRY",
-    "skill_used": "cooking",
-    "difficulty": 2,
-    "charges": 1,
-    "time": "20 m",
-    "batch_time_factors": [ 67, 5 ],
-    "autolearn": true,
-    "tools": [ [ [ "dehydrating_heat", 26, "LIST" ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
-    "//": "259g of stuff, liquids are naturally inefficient for this. 2u to heat",
     "components": [ [ [ "milk", 1 ] ] ]
   },
   {
@@ -714,7 +697,8 @@
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrating_heat", 3, "LIST" ] ] ],
     "//": "25g of stuff",
-    "components": [ [ [ "gelatin_fresh", 1 ] ] ]
+    "components": [ [ [ "gelatin_fresh", 1 ] ] ],
+    "charges": 25
   },
   {
     "type": "recipe",

@@ -564,6 +564,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
             }
             dirty_vehicle_list.erase( veh );
             rebuild_vehicle_level_caches();
+            set_pathfinding_cache_dirty( z );
             return result;
         }
     }
@@ -1522,7 +1523,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
         }
     }
 
-    veh.shed_loose_parts( &src, &dst );
+    veh.shed_loose_parts( trinary::SOME, &dst );
     smzs = veh.advance_precalc_mounts( dst_offset, src.raw(), dp, ramp_offset,
                                        adjust_pos, parts_to_move );
     veh.update_active_fakes();
@@ -3841,20 +3842,6 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         }
     }
 
-    // TODO: what if silent is true?
-    if( has_flag( ter_furn_flag::TFLAG_ALARMED, p ) &&
-        !get_timed_events().queued( timed_event_type::WANTED ) ) {
-        sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
-                       false, "environment", "alarm" );
-        Character &player_character = get_player_character();
-        // Blame nearby player
-        if( rl_dist( player_character.pos(), p ) <= 3 ) {
-            get_event_bus().send<event_type::triggers_alarm>( player_character.getID() );
-            get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                    tripoint_abs_ms( getabs( p ) ) );
-        }
-    }
-
     if( bash == nullptr || ( bash->destroy_only && !params.destroy ) ) {
         // Nothing bashable here
         if( impassable( p ) ) {
@@ -4325,12 +4312,9 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             }
             // bash_ter_furn already triggers the alarm
             // TODO: fix alarm event weirdness (not just here, also in bash, hack, etc)
-            if( !destroyed && data.has_flag( ter_furn_flag::TFLAG_ALARMED ) &&
-                !get_timed_events().queued( timed_event_type::WANTED ) ) {
+            if( !destroyed && data.has_flag( ter_furn_flag::TFLAG_ALARMED ) ) {
                 sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
                                false, "environment", "alarm" );
-                get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                        tripoint_abs_ms( getabs( p ) ) );
             }
             return true;
         }
@@ -5066,7 +5050,7 @@ item &map::add_item( const tripoint &p, item new_item )
 
     // Process foods and temperature tracked items when they are added to the map, here instead of add_item_at()
     // to avoid double processing food during active item processing.
-    if( new_item.has_temperature() && !new_item.is_corpse() ) {
+    if( new_item.link || ( new_item.has_temperature() && !new_item.is_corpse() ) ) {
         new_item.process( *this, nullptr, p );
     }
 

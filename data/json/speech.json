@@ -1981,163 +1981,127 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Stop where you are!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"You are under arrest!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Criminal activity detected!\"",
-    "volume": 10
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Criminal activity registered!\"",
-    "volume": 15
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Violation of law detected!\"",
-    "volume": 15
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Suspect on the move!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Suspect in sight!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"You are being detained!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"You have the right to remain silent!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Requesting assistance!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Requesting supervisor!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": "mon_eyebot",
-    "sound": "\"Requesting human officer!\"",
-    "volume": 15
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"No officer on scene.  Requesting backup!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Let me see your hands!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Stop resisting!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Code 10-66.  Copy 10-4.  Possible 10-55.\"",
-    "volume": 10
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Probable 10-70.\"",
-    "volume": 15
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Get on the ground!  Now!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Suspected felony!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Suspected misdemeanor!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Do not reach for your pockets!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Keep your hands up!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Get on your knees!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Hands in the air!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Wait for law enforcement officer!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Remain where you are!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Police inbound.  Stay where you are!\"",
     "volume": 15
   },
@@ -2820,5 +2784,29 @@
     "speaker": [ "mon_civilian_zombiefighter" ],
     "sound": "an unrestrained warcry.",
     "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_parent" ],
+    "sound": "\"Honey, where are you?\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_parent" ],
+    "sound": "\"Honey, you need to hurry!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_parent" ],
+    "sound": "\"I am not leaving without you!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_parent" ],
+    "sound": "someone calling for their child.",
+    "volume": 25
   }
 ]

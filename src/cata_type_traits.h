@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_CATA_TYPE_TRAITS_H
 #define CATA_SRC_CATA_TYPE_TRAITS_H
 

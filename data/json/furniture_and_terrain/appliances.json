@@ -588,7 +588,7 @@
     "durability": 120,
     "description": "A power cord sticking out of an appliance.  You need to plug it into a powered grid for the appliance to work properly.",
     "item": "power_cord",
-    "flags": [ "NO_INSTALL_HIDDEN", "NO_UNINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "NO_UNINSTALL", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
     "variants": [ { "symbols": "{", "symbols_broken": "s" } ]
   },
   {
@@ -601,10 +601,10 @@
     "broken_color": "blue",
     "durability": 20,
     "description": "A floor lamp that provides illumination when turned on.",
-    "epower": "-20 W",
+    "epower": "-10 W",
     "bonus": 200,
     "damage_modifier": 10,
-    "looks_like": "app_directed_floodlight",
+    "looks_like": "ap_standing_directed_floodlight",
     "breaks_into": [
       { "item": "cable", "charges": [ 1, 4 ] },
       { "item": "steel_chunk", "count": [ 0, 2 ] },
@@ -624,7 +624,7 @@
     "broken_color": "blue",
     "durability": 20,
     "description": "A tall floor lamp that provides illumination when turned on.",
-    "epower": "-20 W",
+    "epower": "-10 W",
     "bonus": 200,
     "damage_modifier": 10,
     "looks_like": "f_floor_lamp",

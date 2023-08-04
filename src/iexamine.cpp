@@ -4554,48 +4554,50 @@ void iexamine::sign( Character &you, const tripoint &examp )
     bool previous_signage_exists = !existing_signage.empty();
 
     // Display existing message, or lack thereof.
-    if( you.has_trait( trait_ILLITERATE ) ) {
-        popup( _( "You're illiterate, and can't read the message on the sign." ) );
-    } else if( previous_signage_exists ) {
-        popup( existing_signage );
-    } else {
-        you.add_msg_if_player( m_neutral, _( "Nothing legible on the sign." ) );
-    }
-
-    // Allow chance to modify message.
-    std::vector<tool_comp> tools;
-    std::vector<const item *> filter = you.crafting_inventory().items_with( []( const item & it ) {
-        return it.has_flag( flag_WRITE_MESSAGE ) && it.charges > 0;
-    } );
-    tools.reserve( filter.size() );
-    for( const item *writing_item : filter ) {
-        tools.emplace_back( writing_item->typeId(), 1 );
-    }
-
-    if( !tools.empty() ) {
-        // Different messages if the sign already has writing associated with it.
-        std::string query_message = previous_signage_exists ?
-                                    _( "Overwrite the existing message on the sign?" ) :
-                                    _( "Add a message to the sign?" );
-        std::string ignore_message = _( "You leave the sign alone." );
-        if( query_yn( query_message ) ) {
-            std::string signage = string_input_popup()
-                                  .title( _( "Write what?" ) )
-                                  .identifier( "signage" )
-                                  .query_string();
-            if( signage.empty() ) {
-                you.add_msg_if_player( m_neutral, ignore_message );
-            } else {
-                std::string spray_painted_message = previous_signage_exists ?
-                                                    _( "You overwrite the previous message on the sign with your graffiti." ) :
-                                                    _( "You graffiti a message onto the sign." );
-                here.set_signage( examp, signage );
-                you.add_msg_if_player( m_info, spray_painted_message );
-                you.mod_moves( - 20 * signage.length() );
-                you.consume_tools( tools, 1 );
-            }
+    if( here.furn( examp )->has_flag( ter_furn_flag::TFLAG_SIGN_ALWAYS ) || previous_signage_exists ) {
+        if( you.has_trait( trait_ILLITERATE ) ) {
+            popup( _( "You're illiterate, and can't read the message on the sign." ) );
+        } else if( previous_signage_exists ) {
+            popup( existing_signage );
         } else {
-            you.add_msg_if_player( m_neutral, ignore_message );
+            you.add_msg_if_player( m_neutral, _( "Nothing legible on the sign." ) );
+        }
+
+
+        // Allow chance to modify message.
+        std::vector<tool_comp> tools;
+        std::vector<const item *> filter = you.crafting_inventory().items_with( []( const item & it ) {
+            return it.has_flag( flag_WRITE_MESSAGE ) && it.charges > 0;
+        } );
+        tools.reserve( filter.size() );
+        for( const item *writing_item : filter ) {
+            tools.emplace_back( writing_item->typeId(), 1 );
+        }
+        if( !tools.empty() ) {
+            // Different messages if the sign already has writing associated with it.
+            std::string query_message = previous_signage_exists ?
+                                        _( "Overwrite the existing message on the sign?" ) :
+                                        _( "Add a message to the sign?" );
+            std::string ignore_message = _( "You leave the sign alone." );
+            if( query_yn( query_message ) ) {
+                std::string signage = string_input_popup()
+                                      .title( _( "Write what?" ) )
+                                      .identifier( "signage" )
+                                      .query_string();
+                if( signage.empty() ) {
+                    you.add_msg_if_player( m_neutral, ignore_message );
+                } else {
+                    std::string spray_painted_message = previous_signage_exists ?
+                                                        _( "You overwrite the previous message on the sign with your graffiti." ) :
+                                                        _( "You graffiti a message onto the sign." );
+                    here.set_signage( examp, signage );
+                    you.add_msg_if_player( m_info, spray_painted_message );
+                    you.mod_moves( - 20 * signage.length() );
+                    you.consume_tools( tools, 1 );
+                }
+            } else {
+                you.add_msg_if_player( m_neutral, ignore_message );
+            }
         }
     }
 }
@@ -5856,13 +5858,11 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
             it.calc_rot_while_processing( milling_time );
             const islot_milling &mdata = *it.type->milling_data;
             const int charges = it.count() * mdata.conversion_rate_;
-            if( charges <= 0 ) {
-                // not enough material, just remove the item
-                // (may happen if the player did not add enough charges to the mill
-                // or if the conversion rate is changed between versions)
-                iter = items.erase( iter );
-            } else {
-                item result( mdata.into_, start_time + milling_time, charges );
+            // if not enough material, just remove the item (0 loops)
+            // (may happen if the player did not add enough charges to the mill
+            // or if the conversion rate is changed between versions)
+            for( int i = 0; i < charges; i++ ) {
+                item result( mdata.into_, start_time + milling_time );
                 result.components.add( it );
                 // copied from item::inherit_flags, which can not be called here because it requires a recipe.
                 for( const flag_id &f : it.type->get_flags() ) {
@@ -5875,9 +5875,9 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
                 result.set_flag( flag_PROCESSING_RESULT );
                 result.set_relative_rot( it.get_relative_rot() );
                 result.unset_flag( flag_PROCESSING_RESULT );
-                it = result;
-                ++iter;
+                here.add_item( examp, result );
             }
+            iter = items.erase( iter );
         } else {
             ++iter;
         }
@@ -5962,21 +5962,24 @@ static void smoker_load_food( Character &you, const tripoint &examp,
     units::volume vol = remaining_capacity;
     for( const drop_location &dloc : locs ) {
         item_location original = dloc.first;
+        original.overflow();
         item copy( *original );
-        copy.charges = clamp( copy.charges_per_volume( vol ), 1, dloc.second );
+        if( copy.count_by_charges() ) {
+            copy.charges = clamp( copy.charges_per_volume( vol ), 1, dloc.second );
+        }
 
         if( vol < copy.volume() ) {
-            add_msg( m_info, _( "The %s doesn't fit in the rack." ), copy.tname( copy.charges ) );
+            add_msg( m_info, _( "The %s doesn't fit in the rack." ), copy.tname( copy.count() ) );
             continue;
         }
 
         here.add_item( examp, copy );
         you.mod_moves( -you.item_handling_cost( copy ) );
-        add_msg( m_info, _( "You carefully place %1$d %2$s in the rack." ), copy.charges,
-                 copy.tname( copy.charges ) );
+        add_msg( m_info, _( "You carefully place %1$d %2$s in the rack." ), copy.count(),
+                 copy.tname( copy.count() ) );
 
         vol -= copy.volume();
-        if( original->charges == copy.charges ) {
+        if( !copy.count_by_charges() || original->charges == copy.charges ) {
             original.remove_item();
         } else {
             original->charges -= copy.charges;
@@ -6086,8 +6089,8 @@ static void mill_load_food( Character &you, const tripoint &examp,
     for( const item &m : moved ) {
         here.add_item( examp, m );
         you.mod_moves( -you.item_handling_cost( m ) );
-        add_msg( m_info, _( "You carefully place %1$d %2$s in the mill." ), m.charges,
-                 m.tname( m.charges ) );
+        add_msg( m_info, _( "You carefully place %1$d %2$s in the mill." ), m.count(),
+                 m.tname( m.count() ) );
     }
     you.invalidate_crafting_inventory();
 }
