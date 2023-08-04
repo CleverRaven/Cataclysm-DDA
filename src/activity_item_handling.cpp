@@ -2796,6 +2796,14 @@ static requirement_check_result generic_multi_activity_check_requirement(
             return requirement_check_result::SKIP_LOCATION;
         } else {
             if( !check_only ) {
+                if( you.as_npc() && you.as_npc()->job.fetch_history.count( what_we_need.str() ) != 0 &&
+                    you.as_npc()->job.fetch_history[what_we_need.str()] == calendar::turn ) {
+                    // this may be faild fetch already. give up task for a while to avoid infinite loop.
+                    you.activity = player_activity();
+                    you.backlog.clear();
+                    check_npc_revert( you );
+                    return requirement_check_result::SKIP_LOCATION;
+                }
                 you.backlog.emplace_front( act_id );
                 you.assign_activity( ACT_FETCH_REQUIRED );
                 player_activity &act_prev = you.backlog.front();
@@ -3027,6 +3035,13 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
     // may cause infinite loop if something goes wrong
     // Maybe it makes more harm than good? I don't know.
     if( activity_to_restore == activity_id( ACT_FETCH_REQUIRED ) && src_sorted.empty() ) {
+        // remind what you failed to fetch
+        if( !check_only && !you.backlog.empty() ) {
+            player_activity &act_prev = you.backlog.front();
+            if( !act_prev.str_values.empty() && you.as_npc() ) {
+                you.as_npc()->job.fetch_history[act_prev.str_values.back()] = calendar::turn;
+            }
+        }
         return true;
     }
     for( const tripoint_abs_ms &src : src_sorted ) {
