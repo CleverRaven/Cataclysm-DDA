@@ -3638,7 +3638,7 @@
     "group": "carpet_floor_red",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "1 m",
+    "time": "15 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "nail", 5 ] ], [ [ "r_carpet", 1 ] ] ],
     "pre_terrain": "t_floor",
