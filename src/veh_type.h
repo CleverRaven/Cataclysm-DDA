@@ -108,6 +108,7 @@ enum vpart_bitflags : int {
     VPFLAG_ROOF,
     VPFLAG_CABLE_PORTS,
     VPFLAG_BATTERY,
+    VPFLAG_POWER_TRANSFER,
 
     NUM_VPFLAGS
 };
