@@ -173,6 +173,13 @@
   },
   {
     "type": "item_group",
+    "id": "type99_mods",
+    "//": "Default possible mods for Arisaka Type 99 rifles.",
+    "subtype": "distribution",
+    "entries": [ { "item": "arisaka_monopod", "prob": 25 }, { "item": "arisaka_bayonet", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
     "id": "sights_shotgun_readied",
     "subtype": "distribution",
     "//": "For non-static shotguns (not in stores, closets ).",

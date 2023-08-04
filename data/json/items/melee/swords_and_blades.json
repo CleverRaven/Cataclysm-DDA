@@ -3697,6 +3697,34 @@
     "weapon_category": [ "KNIVES" ]
   },
   {
+    "id": "arisaka_bayonet",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "Type 30 bayonet" },
+    "description": "An essential tool within any 20th-century Japanese soldier’s toolbox, the type 30 is a massive, single-edged sword-style bayonet intended for use with Arisaka rifles and even light machineguns.  Possessing a J-shaped quillon guard for hooking an opponent’s weapon during combat, the bayonet, when dismounted, acts like a particularly sizable machete.",
+    "weight": "700 g",
+    "volume": "380 ml",
+    "longest_side": "514 mm",
+    "price": 9200,
+    "price_postapoc": 3000,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
+    "material": [ "steel" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "gunmod_data": {
+      "location": "underbarrel",
+      "mod_targets": [ "type99" ],
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "install_time": "5 s"
+    },
+    "techniques": [ "WBLOCK_2" ],
+    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 15 ] ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 20 }
+  },
+  {
     "id": "lc_talwar",
     "type": "TOOL",
     "looks_like": "scimitar",

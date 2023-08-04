@@ -677,5 +677,50 @@
     "name": { "str": "modified underslung shotgun" },
     "description": "A short shotgun with 2 barrels, which can be mounted under the barrel of many rifles.  It allows two shotgun shells to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
+  },
+  {
+    "id": "arisaka_monopod",
+    "type": "GUNMOD",
+    "name": { "str": "wire monopod, collapsed" },
+    "description": "A folding wire monopod designed to attach to a Type 99 Arisaka’s front barrel band, intended to give soldiers a stabler platform from which to shoot while prone.  Less effective than an actual bipod and ungainly long, it was largely cut from active issue relatively soon into the Second World War.  This one is currently stowed in the folded position and cannot aid you while firing.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "integral_volume": "0 ml",
+    "integral_weight": "120 g",
+    "price": 20000,
+    "price_postapoc": 50,
+    "install_time": "2 m",
+    "to_hit": -1,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "brown",
+    "location": "underbarrel",
+    "mod_targets": [ "type99" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You flip out the monopod and lock it into position.",
+      "menu_text": "Fold out",
+      "target": "arisaka_monopod_deployed",
+      "moves": 120
+    },
+    "min_skills": [ [ "weapon", 2 ] ],
+    "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "arisaka_monopod_deployed",
+    "type": "GUNMOD",
+    "name": { "str": "wire monopod, deployed" },
+    "description": "A folding wire monopod designed to attach to a Type 99 Arisaka’s front barrel band, intended to give soldiers a stabler platform from which to shoot while prone.  Less effective than an actual bipod and ungainly long, it was largely cut from active issue relatively soon into the Second World War.  This one is currently locked in the unfolded position and will provide a measure of stability while firing.",
+    "copy-from": "arisaka_monopod",
+    "handling_modifier": 6,
+    "min_skills": [ [ "weapon", 2 ] ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You unlock the monopod and stow it in its folded position.",
+      "menu_text": "Put away",
+      "target": "arisaka_monopod",
+      "moves": 120
+    },
+    "flags": [ "BIPOD", "SLOW_WIELD" ]
   }
 ]
