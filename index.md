@@ -30,8 +30,10 @@ These are resources provided by third parties, or managed by *some* members of t
 * [Hitchhiker's Guide to the Cataclysm](https://cdda-guide.nornagon.net)
 * [Documentation For Developers](https://docs.cataclysmdda.org/)
 * [Game Launcher](https://github.com/Fris0uman/CDDA-Game-Launcher)
+* [Community Discord](https://discord.gg/byxwnAU) 
 * [Steam](https://store.steampowered.com/app/2330750/Cataclysm_Dark_Days_Ahead/)
 * [Android Play Store](https://play.google.com/store/apps/details?id=com.cleverraven.cataclysmdda)
+
 
 ## System Requirements
 ### Minimum
