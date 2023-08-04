@@ -56,8 +56,8 @@
     "spoils_in": "1 day 12 hours",
     "calories": 142,
     "description": "A delicious serving of fried morsels of morel mushroom.",
-    "price": 1500,
-    "price_postapoc": 50,
+    "price": "750 cent",
+    "price_postapoc": "25 cent",
     "fun": 12,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "volume": "125 ml"
