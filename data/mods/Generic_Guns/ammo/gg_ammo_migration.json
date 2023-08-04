@@ -192,6 +192,8 @@
       "300blk_ss",
       "303_bthp",
       "303_sp",
+      "65mm_arisaka_jsp",
+      "77mm_arisaka_jsp",
       "308",
       "4570_low",
       "4570_sp",
@@ -238,6 +240,8 @@
       "reloaded_545",
       "reloaded_303",
       "reloaded_303sp",
+      "reloaded_65mm_arisaka_jsp",
+      "reloaded_77mm_arisaka_jsp",
       "reloaded_762_54R",
       "reloaded_762_m87",
       "reloaded_30carbine"
@@ -259,6 +263,8 @@
       "bp_545",
       "bp_303",
       "bp_303sp",
+      "bp_65mm_arisaka_jsp",
+      "bp_77mm_arisaka_jsp",
       "bp_762_54R",
       "bp_762_m87",
       "bp_30carbine"
