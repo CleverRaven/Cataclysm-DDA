@@ -32,7 +32,7 @@
       {
         "text": "Power off.",
         "topic": "TALK_DONE",
-        "effect": [ { "u_sell_item": "usb_drive_nano" }, { "u_spawn_item": "train_data" } ]
+        "effect": [ { "u_consume_item": "usb_drive_nano" }, { "u_spawn_item": "train_data" } ]
       }
     ]
   }
