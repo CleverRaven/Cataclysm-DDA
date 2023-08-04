@@ -1448,7 +1448,7 @@
     "description": "Things just keep getting you down.  You tend to be unhappy, and it takes some doing to cheer you up.",
     "starting_trait": true,
     "types": [ "ATTITUDE" ],
-    "category": [ "URSINE", "LIZARD", "CHIMERA" ]
+    "category": [ "URSINE", "LIZARD", "CHIMERA", "ALPHA" ]
   },
   {
     "type": "mutation",
@@ -1513,7 +1513,7 @@
     "description": "You have a hard time falling asleep, even under the best circumstances!",
     "types": [ "SLEEPINESS" ],
     "starting_trait": true,
-    "category": [ "MEDICAL" ],
+    "category": [ "MEDICAL", "ALPHA" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": -12 } ] } ]
   },
   {
@@ -6198,6 +6198,7 @@
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "PRETTY" ],
     "changes_to": [ "BEAUTIFUL2" ],
+    "leads_to": [ "VANITY" ],
     "category": [ "ALPHA", "ELFA" ]
   },
   {
@@ -6211,6 +6212,7 @@
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "BEAUTIFUL" ],
     "changes_to": [ "BEAUTIFUL3" ],
+    "leads_to": [ "VANITY" ],
     "category": [ "ALPHA", "ELFA" ],
     "threshreq": [ "THRESH_ALPHA", "THRESH_ELFA" ]
   },
@@ -6224,6 +6226,7 @@
     "description": "You are incredibly beautiful.  People cannot help themselves due to your charms, and will do whatever they can to please you.",
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "BEAUTIFUL2" ],
+    "leads_to": [ "VANITY" ],
     "category": [ "ELFA" ],
     "threshreq": [ "THRESH_ELFA" ]
   },
@@ -6629,6 +6632,24 @@
     "description": "You feel as though you are slowly weakening and your body heals slower.",
     "types": [ "HEALING" ],
     "changes_to": [ "ROT2" ],
+    "prereqs2": [
+      "PER_UP",
+      "INT_UP",
+      "DEX_UP",
+      "STR_UP",
+      "PER_UP_2",
+      "INT_UP_2",
+      "DEX_UP_2",
+      "STR_UP_2",
+      "STR_UP_3",
+      "INT_UP_3",
+      "DEX_UP_3",
+      "PER_UP_3",
+      "PER_ALPHA",
+      "INT_ALPHA",
+      "STR_ALPHA",
+      "DEX_ALPHA"
+    ],
     "category": [ "ELFA", "CHIMERA", "ALPHA" ],
     "healing_awake": -0.166,
     "healing_multiplier": 0.75
@@ -6642,6 +6663,20 @@
     "description": "Your body is very slowly wasting away.",
     "types": [ "HEALING" ],
     "prereqs": [ "ROT1" ],
+    "prereqs2": [
+      "PER_UP_2",
+      "INT_UP_2",
+      "DEX_UP_2",
+      "STR_UP_2",
+      "STR_UP_3",
+      "INT_UP_3",
+      "DEX_UP_3",
+      "PER_UP_3",
+      "PER_ALPHA",
+      "INT_ALPHA",
+      "STR_ALPHA",
+      "DEX_ALPHA"
+    ],
     "changes_to": [ "ROT3" ],
     "category": [ "CHIMERA", "ALPHA" ],
     "healing_awake": -0.266,
@@ -6656,7 +6691,9 @@
     "description": "Your body is slowly wasting away!",
     "types": [ "HEALING" ],
     "prereqs": [ "ROT2" ],
+    "prereqs2": [ "STR_ALPHA", "DEX_ALPHA", "PER_ALPHA", "INT_ALPHA" ],
     "category": [ "ALPHA" ],
+    "threshreq": [ "THRESH_ALPHA" ],
     "healing_awake": -0.88,
     "healing_multiplier": 0.75
   },
@@ -9145,5 +9182,37 @@
     "category": [ "CEPHALOPOD" ],
     "prereqs": [ "INT_UP_4" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ]
-  }
+  },
+  {
+    "type": "mutation",
+    "id": "VANITY",
+    "name": { "str": "Highly Vain" },
+    "points": -1,
+    "description": "You know you're beautiful, and the world deserves to know it too.  You prefer to show off your stunningly good looks to the world and will be unhappy if you cover up your face.",
+    "category": [ "ALPHA" ],
+    "prereqs": [ "BEAUTIFUL2", "BEAUTIFUL3", "BEAUTIFUL4" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PICKYEATER",
+    "name": { "str": "Picky Eater" },
+    "points": -1,
+    "description": "You're a very picky eater.  You refuse to eat any food that tastes bad or neutral unless you're starving.",
+    "category": [ "ALPHA" ],
+    "cancels": [ "GOURMAND" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ALPHA_COMPLEX",
+    "name": { "str": "Superiority Complex" },
+    "points": 0,
+    "description": "You can't stand to prostrate yourself before your lessers and hate it when they don't immediately do what you say.  Persuasion is much more difficult, but you're better at lying and intimidating.",
+    "purifiable": false,
+    "types": [ "HUMAN_EMPATHY" ],
+    "social_modifiers": { "lie": 10, "persuade": -25, "intimidate": 10 },
+    "category": [ "ALPHA" ],
+    "prereqs": [ "INT_ALPHA", "PER_ALPHA" ],
+    "prereqs2": [ "STR_ALPHA", "DEX_ALPHA" ],
+    "threshreq": [ "THRESH_ALPHA" ]
+  },
 ]
