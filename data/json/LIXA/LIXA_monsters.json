@@ -191,7 +191,7 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "pure", "amount": 0, "armor_penetration": 1 } ],
     "special_attacks": [
-      { "id": "smash", "throw_strength": 50, "cooldown": 20 },
+      { "type": "smash", "throw_strength": 50, "cooldown": 20 },
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "LUNGE", 10 ]
     ],
