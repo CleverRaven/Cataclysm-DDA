@@ -9884,27 +9884,29 @@ ret_val<void> item::can_contain( const item &it, const bool nested, const bool i
            contents.can_contain( it, ignore_pkt_settings, remaining_parent_volume );
 }
 
-int item::can_contain( const item &it, const int copies, const bool nested,
-                       const bool ignore_rigidity,
-                       const bool ignore_pkt_settings, const item_location &parent_it,
-                       units::volume remaining_parent_volume, const bool allow_nested ) const
+ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bool nested,
+                                 const bool ignore_rigidity, const bool ignore_pkt_settings,
+                                 const item_location &parent_it, units::volume remaining_parent_volume,
+                                 const bool allow_nested ) const
 {
+    if( copies_remaining <= 0 ) {
+        return ret_val<void>::make_success();
+    }
     if( this == &it || ( parent_it.where() != item_location::type::invalid &&
                          this == parent_it.get_item() ) ) {
         // does the set of all sets contain itself?
         // or does this already contain it?
-        return copies;
+        return ret_val<void>::make_failure();
     }
     if( nested && !this->is_container() ) {
-        return copies;
+        return ret_val<void>::make_failure();
     }
     // disallow putting portable holes into bags of holding
     if( contents.bigger_on_the_inside( volume() ) &&
         it.contents.bigger_on_the_inside( it.volume() ) ) {
-        return copies;
+        return ret_val<void>::make_failure();
     }
 
-    int remaining = copies;
     if( allow_nested ) {
         for( const item_pocket *pkt : contents.get_all_contained_pockets() ) {
             if( pkt->empty() ) {
@@ -9928,18 +9930,18 @@ int item::can_contain( const item &it, const int copies, const bool nested,
                 if( !internal_it->is_container() ) {
                     continue;
                 }
-                remaining = internal_it->can_contain( it, copies, true, ignore_nested_rigidity, ignore_pkt_settings,
-                                                      parent_it, pkt->remaining_volume() );
-                if( remaining <= 0 ) {
-                    return 0;
+                auto ret = internal_it->can_contain( it, copies_remaining, true, ignore_nested_rigidity,
+                                                     ignore_pkt_settings, parent_it, pkt->remaining_volume() );
+                if( copies_remaining <= 0 ) {
+                    return ret;
                 }
             }
         }
     }
 
     return nested && !ignore_rigidity ?
-           contents.can_contain_rigid( it, remaining, ignore_pkt_settings ) :
-           contents.can_contain( it, remaining, ignore_pkt_settings, remaining_parent_volume );
+           contents.can_contain_rigid( it, copies_remaining, ignore_pkt_settings ) :
+           contents.can_contain( it, copies_remaining, ignore_pkt_settings, remaining_parent_volume );
 }
 
 bool item::can_contain( const itype &tp ) const

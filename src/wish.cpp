@@ -974,7 +974,9 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
                             }
                         }
                     } else {
-                        int stashable_copy_num = amount - you->can_stash( granted, amount ); // Min: 0, Max: amount
+                        int stashable_copy_num = amount;
+                        you->can_stash( granted, stashable_copy_num );
+                        // stashable_copy_num is Min: 0, Max: amount
                         for( int i = 0; i < amount; i++ ) {
                             if( i < stashable_copy_num ) {
                                 you->i_add( granted );
