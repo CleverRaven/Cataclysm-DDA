@@ -7117,20 +7117,21 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
     return ter( obstaclepos )->coverage;
 }
 
-int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p, const creature_size &viewer_size ) const
+int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
+                         const creature_size &viewer_size ) const
 {
-    if (viewer_p.z >= target_p.z) {
-    	return 0;
+    if( viewer_p.z >= target_p.z ) {
+        return 0;
     }
 
-	// Find ledge between viewer and target
+    // Find ledge between viewer and target
     // Only the first ledge found is calculated for performance reasons
     tripoint ledge_p = target_p;
-    for (tripoint p : line_to( tripoint(viewer_p.xy(), target_p.z), target_p ) ) {
-    	if ( dont_draw_lower_floor( p ) ) {
-	    	ledge_p = p;
-	    	break;
-	    }
+    for( tripoint p : line_to( tripoint( viewer_p.xy(), target_p.z ), target_p ) ) {
+        if( dont_draw_lower_floor( p ) ) {
+            ledge_p = p;
+            break;
+        }
     }
 
     const int ledge_height = target_p.z - viewer_p.z;
@@ -7159,7 +7160,8 @@ int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p, con
     }
     // Viewer eye level is higher when standing on furniture
     const furn_id viewer_furn = furn( viewer_p );
-    if( viewer_furn.obj().id || ( move_cost( viewer_p ) > 2 && !has_flag_ter( ter_furn_flag::TFLAG_FLAT, viewer_p ) ) ) {
+    if( viewer_furn.obj().id || ( move_cost( viewer_p ) > 2 &&
+                                  !has_flag_ter( ter_furn_flag::TFLAG_FLAT, viewer_p ) ) ) {
         const int viewer_furn_coverage = viewer_furn->coverage;
         eye_level += viewer_furn_coverage > 0 ? viewer_furn_coverage * 0.01f : 0.5f ;
     }
@@ -7176,7 +7178,8 @@ int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p, con
 
     // Target has a coverage penalty when standing on furniture
     const furn_id target_furn = furn( target_p );
-    if( target_furn.obj().id || ( move_cost( target_p ) > 2 && !has_flag_ter( ter_furn_flag::TFLAG_FLAT, target_p ) ) ) {
+    if( target_furn.obj().id || ( move_cost( target_p ) > 2 &&
+                                  !has_flag_ter( ter_furn_flag::TFLAG_FLAT, target_p ) ) ) {
         const int target_furn_coverage = target_furn->coverage;
         ledge_coverage -= target_furn_coverage > 0 ? target_furn_coverage : 50 ;
     }
