@@ -181,7 +181,7 @@
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 5, 100 ],
     "flags": [ "UNIQUE", "WILDERNESS" ],
-    "spawns": { "group": "GROUP_IERDE_SPIRITS", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
+    "spawns": { "group": "GROUP_GENIUS_IERDE", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
   },
   {
     "type": "overmap_special",
@@ -201,7 +201,7 @@
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 5, 100 ],
     "flags": [ "UNIQUE", "WILDERNESS" ],
-    "spawns": { "group": "GROUP_ARVORE_SPIRITS", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
+    "spawns": { "group": "GROUP_GENIUS_ARVORE", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
   },
   {
     "type": "overmap_special",
@@ -221,7 +221,7 @@
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 5, 100 ],
     "flags": [ "UNIQUE", "WILDERNESS" ],
-    "spawns": { "group": "GROUP_UNDINE_SPIRITS", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
+    "spawns": { "group": "GROUP_GENIUS_UNDINE", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
   },
   {
     "type": "overmap_special",
@@ -241,7 +241,7 @@
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 5, 100 ],
     "flags": [ "UNIQUE", "WILDERNESS" ],
-    "spawns": { "group": "GROUP_SALAMANDER_SPIRITS", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
+    "spawns": { "group": "GROUP_GENIUS_SALAMANDER", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
   },
   {
     "type": "overmap_special",
@@ -261,7 +261,7 @@
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 5, 100 ],
     "flags": [ "UNIQUE", "WILDERNESS" ],
-    "spawns": { "group": "GROUP_SYLPH_SPIRITS", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
+    "spawns": { "group": "GROUP_GENIUS_SYLPH", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
   },
   {
     "type": "overmap_special",
@@ -281,6 +281,6 @@
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 5, 100 ],
     "flags": [ "UNIQUE", "WILDERNESS" ],
-    "spawns": { "group": "GROUP_HOMULLUS_SPIRITS", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
+    "spawns": { "group": "GROUP_GENIUS_HOMULLUS", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
   }
 ]
