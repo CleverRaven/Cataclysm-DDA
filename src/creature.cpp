@@ -94,6 +94,7 @@ static const efftype_id effect_zapped( "zapped" );
 
 static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
@@ -1223,7 +1224,9 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         // Only deal more HP than remains if damage not including crit multipliers is higher.
         total_damage = clamp( get_hp( bp ), total_base_damage, total_damage );
     }
-    mod_pain( total_pain );
+    if( !bp->has_flag( json_flag_BIONIC_LIMB ) {
+        mod_pain( total_pain );
+    }
 
     apply_damage( source, bp, total_damage );
 
