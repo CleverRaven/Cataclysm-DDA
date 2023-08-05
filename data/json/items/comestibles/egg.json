@@ -1177,8 +1177,7 @@
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "weight": "20 g",
     "volume": "650 ml",
-    "description": "A large clump of frog eggs.  They're gelatinous and transparent.",
-    "rot_spawn": "GROUP_EGG_PROXY_FROG"
+    "description": "A large clump of frog eggs.  They're gelatinous and transparent."
   },
   {
     "type": "COMESTIBLE",

@@ -494,7 +494,6 @@
     "harvest": "mammal_tiny",
     "vision_night": 30,
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "HURT", "FRIEND_ATTACKED", "SOUND" ],
-    "upgrades": { "age_grow": 60, "into": "mon_proxy_frog" },
     "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
