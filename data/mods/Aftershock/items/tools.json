@@ -162,7 +162,8 @@
     "name": { "str": "atomic smartphone - music", "str_pl": "atomic smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": [ "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD" ],
+    "use_action": [ "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD", "MP3_DEACTIVATE" ],
+    "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
   },
   {
@@ -229,7 +230,7 @@
     "name": { "str": "Wraitheon executive's smartphone - music", "str_pl": "Wraitheon executive's smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": [ "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD" ],
+    "use_action": [ "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD", "MP3_DEACTIVATE" ],
     "extend": { "flags": [ "TRADER_AVOID" ] },
     "tick_action": [ "MP3_ON" ]
   },
