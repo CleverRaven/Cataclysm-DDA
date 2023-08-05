@@ -1251,8 +1251,8 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             if( mutate_towards( traits[mmenu.ret], cat, nullptr, use_vitamins ) ) {
                 add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
             }
+            return;
         }
-        return;
 
 
 
