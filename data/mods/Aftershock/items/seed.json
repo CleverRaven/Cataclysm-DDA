@@ -3,10 +3,10 @@
     "id": "seed_pineapple",
     "copy-from": "seed",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "pineapple stem" },
+    "name": { "str_sp": "pineapple roots" },
     "description": "Roots of a pineapple plant, for growing your own.",
     "weight": "152 g",
-    "price": 160,
+    "price": "20 cent",
     "seed_data": { "plant_name": "pineapple", "fruit": "pineapple", "byproducts": [ "straw_pile" ], "grow": "280 days" },
     "volume": "31 ml"
   },
@@ -30,15 +30,15 @@
     "id": "seed_orange",
     "copy-from": "seed_fruit",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "orange vine" },
-    "description": "Some orange vine.  Definitely GMO.",
+    "name": { "str_sp": "orange vines" },
+    "description": "Some orange vines.  Definitely GMO.",
     "seed_data": { "plant_name": "orange", "fruit": "orange", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "id": "seed_lemon",
     "copy-from": "seed_fruit",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "lemon vine" },
+    "name": { "str_sp": "lemon vines" },
     "description": "Some lemon vines.  Definitely GMO.",
     "seed_data": { "plant_name": "lemon", "fruit": "lemon", "byproducts": [ "withered" ], "grow": "91 days" }
   },
@@ -46,7 +46,7 @@
     "id": "seed_coconut",
     "copy-from": "seed_fruit",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "subterraenean coconut" },
+    "name": { "str": "subterraenean coconut" },
     "description": "Proof that man went too far before the Cataclysm.",
     "seed_data": { "plant_name": "coconut", "fruit": "coconut", "byproducts": [ "withered" ], "grow": "120 days" }
   }

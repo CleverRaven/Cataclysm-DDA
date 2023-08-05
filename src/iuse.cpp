@@ -382,9 +382,11 @@ static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
+static const trait_id trait_VAMPIRE( "VAMPIRE" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const vitamin_id vitamin_blood( "blood" );
+static const vitamin_id vitamin_human_blood_vitamin( "human_blood_vitamin" );
 static const vitamin_id vitamin_redcells( "redcells" );
 
 static const weather_type_id weather_portal_storm( "portal_storm" );
@@ -3857,7 +3859,7 @@ std::optional<int> iuse::tazer( Character *p, item *it, const tripoint &pos )
 
 std::optional<int> iuse::tazer2( Character *p, item *it, const tripoint &pos )
 {
-    if( it->ammo_remaining( p ) >= 2 ) {
+    if( it->ammo_remaining( p, true ) >= 2 ) {
         // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
         // Ugly, but less so than copied blocks
         item fake( "tazer", calendar::turn_zero );
@@ -4596,6 +4598,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint & )
     item blood( "blood", calendar::turn );
     bool drew_blood = false;
     bool acid_blood = false;
+    bool vampire = false;
     units::temperature blood_temp = units::from_kelvin( -1.0f ); //kelvins
     for( item &map_it : get_map().i_at( point( p->posx(), p->posy() ) ) ) {
         if( map_it.is_corpse() &&
@@ -4628,6 +4631,9 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint & )
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
+        if( p->has_trait( trait_VAMPIRE ) ) {
+            vampire = true;
+        }
         // From wikipedia,
         // "To compare, this (volume of blood loss that causes death) is five to eight times
         // as much blood as people usually give in a blood donation.[2]"
@@ -4650,7 +4656,10 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint & )
             }
             p->add_msg_if_player( m_info, _( "…but acidic blood damages the %s!" ), it->tname() );
         }
-        return 1;
+    }
+
+    if( vampire ) {
+        p->vitamin_mod( vitamin_human_blood_vitamin, -500 );
     }
 
     if( !drew_blood ) {
@@ -7620,7 +7629,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint &po
 
     enum {
         mc_start, mc_stop, mc_take, mc_upgrade, mc_empty
-    };
+    }
 
     if( p->cant_do_underwater() ) {
         return std::nullopt;
@@ -7657,7 +7666,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint &po
         menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
     } else {
         if( dish_it == nullptr ) {
-            if( it->ammo_remaining( p ) < charges_to_start ) {
+            if( it->ammo_remaining( p, true ) < charges_to_start ) {
                 p->add_msg_if_player( _( "Batteries are low." ) );
                 return 0;
             }
@@ -7794,7 +7803,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint &po
             const int all_charges = charges_to_start + mealtime / 1000 * units::to_watt(
                                         it->type->tool->power_draw ) / 1000;
 
-            if( it->ammo_remaining( p ) < all_charges ) {
+            if( it->ammo_remaining( p, true ) < all_charges ) {
 
                 p->add_msg_if_player( m_warning,
                                       _( "The multi-cooker needs %d charges to cook this dish." ),
@@ -7905,7 +7914,7 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
     const int charge_buffer = 2;
 
     //stop action before power runs out and iuse deletes the cooker
-    if( it->ammo_remaining( p ) < charge_buffer ) {
+    if( it->ammo_remaining( p, true ) < charge_buffer ) {
         it->active = false;
         it->erase_var( "RECIPE" );
         it->convert( itype_multi_cooker );

@@ -29,7 +29,7 @@
   {
     "id": "mon_impossible_shape",
     "type": "MONSTER",
-    "name": { "str": "Impossible shape" },
+    "name": { "str": "impossible shape" },
     "description": "A twisted shape floating in midair; its angles don't quite seem to add up - it hurts to look at. You can see through it, not as if it were transparent but as if it isn't quite fully there.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
@@ -56,7 +56,7 @@
   {
     "id": "mon_absence",
     "type": "MONSTER",
-    "name": { "str": "Absence" },
+    "name": { "str": "absence" },
     "description": "Every sense you have claims this space to be empty, but your mind is not fooled.  There is an emptiness here that is far from natural or safe.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
@@ -83,7 +83,7 @@
   {
     "id": "mon_giant_appendage",
     "type": "MONSTER",
-    "name": { "str": "Giant appendage" },
+    "name": { "str": "giant appendage" },
     "description": "A gigantic appendage reaching through what looks like a portal, as if this is merely a probing piece of something much larger.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
@@ -106,7 +106,7 @@
   {
     "id": "mon_memory",
     "type": "MONSTER",
-    "name": { "str": "Memory", "str_pl": "Memories" },
+    "name": { "str": "memory", "str_pl": "memories" },
     "description": "The shade of a human body reaching towards you like it needs help.  Though it has no eyes you feel as though it is staring through you.",
     "default_faction": "nether",
     "species": [ "NETHER" ],

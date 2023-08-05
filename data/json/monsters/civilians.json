@@ -66,7 +66,10 @@
     "melee_dice_sides": 4,
     "//2": "Uses a baton for melee attacks",
     "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
-    "death_drops": "mon_zombie_cop_death_drops",
+    "death_drops": {
+      "subtype": "collection",
+      "items": [ { "group": "mon_zombie_cop_death_drops", "prob": 100 }, { "item": "glock_22", "prob": 100, "charges": [ 0, 6 ] } ]
+    },
     "zombify_into": "mon_zombie_cop",
     "extend": { "flags": [ "DROPS_AMMO" ] },
     "starting_ammo": { "40fmj": 10 },
@@ -152,7 +155,7 @@
         "ends": "2 days",
         "pack_size": [ 1, 2 ]
       },
-      { "monster": "mon_civilian_parent", "weight": 20, "cost_multiplier": 0, "starts": "2 days" },
+      { "monster": "mon_civilian_parent", "weight": 20, "cost_multiplier": 0, "starts": "2 days", "ends": "4 days" },
       { "monster": "mon_civilian_panic", "weight": 40, "cost_multiplier": 0, "ends": "2 days", "pack_size": [ 1, 5 ] },
       {
         "monster": "mon_civilian_panic",

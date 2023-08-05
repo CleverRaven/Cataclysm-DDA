@@ -4401,7 +4401,7 @@ std::string link_up_actor::get_name() const
     return iuse_actor::get_name();
 }
 
-std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint & ) const
+std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &pnt ) const
 {
     if( !p ) {
         debugmsg( "%s called action that requires character but no character is present",
@@ -4611,7 +4611,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint & 
 
     } else if( choice == 30 ) {
         // Selection: Attach to another cable, resulting in a longer one.
-        return link_extend_cable( p, it );
+        return link_extend_cable( p, it, pnt );
 
     } else if( choice == 31 ) {
         // Selection: Remove all cable extensions and give the individual cables to the player.
@@ -4827,7 +4827,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
                     ( it.link->t_abs_pos + prev_veh->coord_translate( it.link->t_mount ) ).raw(),
                     it.link->t_abs_pos.raw() );
 
-        for( const vpart_reference &vpr : sel_veh->get_any_parts( "POWER_TRANSFER" ) ) {
+        for( const vpart_reference &vpr : prev_veh->get_any_parts( VPFLAG_POWER_TRANSFER ) ) {
             if( vpr.part().target.first == prev_part_target.first &&
                 vpr.part().target.second == prev_part_target.second ) {
                 p->add_msg_if_player( m_warning, _( "The %1$s and %2$s are already connected." ),
@@ -5057,7 +5057,8 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
     }
 }
 
-std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it ) const
+std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
+        const tripoint &pnt ) const
 {
     avatar *you = p->as_avatar();
     if( !you ) {
@@ -5098,8 +5099,8 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it ) co
         return std::nullopt;
     }
 
-    item_location extension = is_cable_item ? form_loc( *p, tripoint_min, it ) : selected;
-    item_location extended = is_cable_item ? selected : form_loc( *p, tripoint_min, it );
+    item_location extension = is_cable_item ? form_loc( *p, pnt, it ) : selected;
+    item_location extended = is_cable_item ? selected : form_loc( *p, pnt, it );
     std::optional<item> extended_copy;
 
     // We'll make a copy of the extended item and check pocket weight/volume capacity if:
@@ -5137,24 +5138,24 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it ) co
 
     if( extended_copy ) {
         // Check if there's another pocket on the same container that can hold the extended item, respecting pocket settings.
-        if( extended.has_parent() &&
-            extended.parent_item()->can_contain( *extended_ptr, false, false, false,
-                    item_location(), 10000000_ml, false ).success() ) {
-            if( !extended.parent_item()->put_in( *extended_ptr,
-                                                 item_pocket::pocket_type::CONTAINER ).success() ) {
+        item_location parent = extended.parent_item();
+        if( parent->can_contain( *extended_ptr, false, false, false,
+                                 item_location(), 10000000_ml, false ).success() ) {
+            if( !parent->put_in( *extended_ptr, item_pocket::pocket_type::CONTAINER ).success() ) {
                 debugmsg( "Failed to put %s inside %s!", extended_ptr->type_name(),
-                          extended.parent_item()->type_name() );
+                          parent->type_name() );
                 return std::nullopt;
             }
-            extended.remove_item();
         } else {
             if( !query_yn( _( "The %1$s can't contain the %2$s with the %3$s attached.  Continue?" ),
-                           extended.parent_item()->type_name(), extended_ptr->type_name(), extension->type_name() ) ) {
+                           parent->type_name(), extended_ptr->type_name(), extension->type_name() ) ) {
                 return std::nullopt;
             }
+            // Attach the cord, even though it won't fit, and let it spill out naturally.
             extended.parent_pocket()->add( *extended_ptr );
-            extended.remove_item();
         }
+        extended.make_active();
+        extended.remove_item();
     }
 
     p->add_msg_if_player( is_cable_item ? _( "You extend the %1$s with the %2$s." ) :
@@ -5162,6 +5163,8 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it ) co
                           extended_ptr->type_name(), extension->type_name() );
     extension.remove_item();
     p->invalidate_inventory_validity_cache();
+    p->invalidate_weight_carried_cache();
+    p->drop_invalid_inventory();
     p->moves -= move_cost;
     return 0;
 }

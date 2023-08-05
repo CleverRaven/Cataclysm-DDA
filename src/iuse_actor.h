@@ -1072,14 +1072,14 @@ class link_up_actor : public iuse_actor
 
         std::optional<int> link_to_veh_app( Character *p, item &it, bool to_ports ) const;
         std::optional<int> link_tow_cable( Character *p, item &it, bool to_towing ) const;
-        std::optional<int> link_extend_cable( Character *p, item &it ) const;
+        std::optional<int> link_extend_cable( Character *p, item &it, const tripoint &pnt ) const;
         std::optional<int> remove_extensions( Character *p, item &it ) const;
 
         link_up_actor() : iuse_actor( "link_up" ) {}
 
         ~link_up_actor() override = default;
         void load( const JsonObject &jo ) override;
-        std::optional<int> use( Character *p, item &it, const tripoint & ) const override;
+        std::optional<int> use( Character *p, item &it, const tripoint &pnt ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
         std::string get_name() const override;

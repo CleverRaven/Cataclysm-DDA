@@ -2143,6 +2143,7 @@ void job_data::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "task_priorities", task_priorities );
+    json.member( "fetch_history", fetch_history );
     json.end_object();
 }
 
@@ -2152,6 +2153,7 @@ void job_data::deserialize( const JsonValue &jv )
         JsonObject jo = jv;
         jo.allow_omitted_members();
         jo.read( "task_priorities", task_priorities );
+        jo.read( "fetch_history", fetch_history );
     }
 }
 
@@ -2870,8 +2872,8 @@ void item::link_data::serialize( JsonOut &jsout ) const
     jsout.member( "link_max_length", max_length );
     jsout.member( "link_last_processed", last_processed );
     jsout.member( "link_charge_rate", charge_rate );
-    jsout.member( "link_charge_interval", charge_interval );
     jsout.member( "link_charge_efficiency", efficiency );
+    jsout.member( "link_charge_interval", charge_interval );
     jsout.end_object();
 }
 

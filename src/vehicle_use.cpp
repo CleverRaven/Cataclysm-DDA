@@ -550,6 +550,7 @@ item vehicle::init_cord( const tripoint &pos )
     cord.link->t_veh_safe = get_safe_reference();
     cord.link->t_abs_pos = get_map().getglobal( pos );
     cord.set_link_traits();
+    cord.link->max_length = 2;
 
     return cord;
 }
@@ -568,34 +569,42 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     item cord = init_cord( source_pos );
     map &here = get_map();
 
-    const optional_vpart_position target_vp = here.veh_at( target_pos );
-    const optional_vpart_position source_vp = here.veh_at( source_pos );
+    const optional_vpart_position sel_vp = here.veh_at( target_pos );
+    const optional_vpart_position prev_vp = here.veh_at( source_pos );
 
-    if( !target_vp ) {
+    if( !sel_vp ) {
         return;
     }
-    vehicle *const target_veh = &target_vp->vehicle();
-    vehicle *const source_veh = &source_vp->vehicle();
-    if( source_veh == target_veh ) {
+    vehicle *const sel_veh = &sel_vp->vehicle();
+    vehicle *const prev_veh = &prev_vp->vehicle();
+    if( prev_veh == sel_veh ) {
         return ;
     }
 
-    tripoint target_global = here.getabs( target_pos );
     const vpart_id vpid( cord.typeId().str() );
 
-    point vcoords = source_vp->mount();
-    vehicle_part source_part( vpid, item( cord ) );
-    source_part.target.first = target_global;
-    source_part.target.second = target_veh->global_square_location().raw();
-    source_veh->install_part( vcoords, std::move( source_part ) );
-    source_veh->precalc_mounts( 1, source_veh->pivot_rotation[1], source_veh->pivot_anchor[1] );
+    // Prepare target tripoints for the cable parts that'll be added to the selected/previous vehicles
+    const std::pair<tripoint, tripoint> prev_part_target = std::make_pair(
+                here.getabs( target_pos ),
+                sel_veh->global_square_location().raw() );
+    const std::pair<tripoint, tripoint> sel_part_target = std::make_pair(
+                ( cord.link->t_abs_pos + prev_veh->coord_translate( cord.link->t_mount ) ).raw(),
+                cord.link->t_abs_pos.raw() );
 
-    vcoords = target_vp->mount();
-    vehicle_part target_part( vpid, item( cord ) );
-    target_part.target.first = cord.link->t_abs_pos.raw();
-    target_part.target.second = source_veh->global_square_location().raw();
-    target_veh->install_part( vcoords, std::move( target_part ) );
-    target_veh->precalc_mounts( 1, target_veh->pivot_rotation[1], target_veh->pivot_anchor[1] );
+    const point vcoords1 = cord.link->t_mount;
+    const point vcoords2 = sel_vp->mount();
+
+    vehicle_part prev_veh_part( vpid, item( cord ) );
+    prev_veh_part.target.first = prev_part_target.first;
+    prev_veh_part.target.second = prev_part_target.second;
+    prev_veh->install_part( vcoords1, std::move( prev_veh_part ) );
+    prev_veh->precalc_mounts( 1, prev_veh->pivot_rotation[1], prev_veh->pivot_anchor[1] );
+
+    vehicle_part sel_veh_part( vpid, item( cord ) );
+    sel_veh_part.target.first = sel_part_target.first;
+    sel_veh_part.target.second = sel_part_target.second;
+    sel_veh->install_part( vcoords2, std::move( sel_veh_part ) );
+    sel_veh->precalc_mounts( 1, sel_veh->pivot_rotation[1], sel_veh->pivot_anchor[1] );
 }
 
 double vehicle::engine_cold_factor( const vehicle_part &vp ) const
@@ -1855,7 +1864,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     bool power_linked = false;
     bool cable_linked = false;
     for( vehicle_part *vp_part : vp_parts ) {
-        power_linked = power_linked ? true : vp_part->info().has_flag( "POWER_TRANSFER" );
+        power_linked = power_linked ? true : vp_part->info().has_flag( VPFLAG_POWER_TRANSFER );
         cable_linked = cable_linked ? true : vp_part->has_flag( vp_flag::linked_flag ) ||
                        vp_part->info().has_flag( "TOW_CABLE" );
     }
@@ -2079,7 +2088,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .on_submit( [this, vp_parts] {
             for( vehicle_part *vp_part : vp_parts )
             {
-                if( vp_part->info().has_flag( "POWER_TRANSFER" ) ) {
+                if( vp_part->info().has_flag( VPFLAG_POWER_TRANSFER ) ) {
                     item drop = part_to_item( *vp_part );
                     if( !magic && !drop.has_flag( STATIC( flag_id( "NO_DROP" ) ) ) ) {
                         get_player_character().i_add_or_drop( drop );

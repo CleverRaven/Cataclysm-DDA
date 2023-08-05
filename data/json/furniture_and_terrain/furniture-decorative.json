@@ -108,7 +108,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": 10,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE" ],
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
     "bash": {
       "str_min": 16,
       "str_max": 40,

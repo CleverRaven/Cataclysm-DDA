@@ -14,6 +14,7 @@
       "practice_clair_danger_sense",
       "practice_clair_speed_reading",
       "practice_clair_spot_weakness",
+      "practice_clair_ranged_enhance",
       "practice_clair_voyance",
       "practice_clair_dodge_power",
       "practice_clair_clear_sight",
@@ -295,7 +296,62 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: clairoyance",
+    "name": "contemplation: marksman's eye",
+    "id": "practice_clair_ranged_enhance",
+    "description": "Contemplate your powers and improve your ability to aim ranged weapons with precision.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "clair_ranged_enhance" }, ">=", { "const": 1 } ] },
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "clair_ranged_enhance" }, "<=", { "const": 35278 } ] }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "clair_ranged_enhance" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "clair_ranged_enhance" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: clairvoyance",
     "id": "practice_clair_voyance",
     "description": "Contemplate your powers and improve your ability to extend your senses beyond your body.",
     "category": "CC_*",

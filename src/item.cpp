@@ -2414,7 +2414,7 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
 
     if( parts->test( iteminfo_parts::MED_PORTIONS ) ) {
         info.emplace_back( "MED", _( "Portions: " ),
-                           std::abs( static_cast<int>( med_item->charges ) * batch ) );
+                           std::abs( static_cast<int>( med_item->count() ) * batch ) );
     }
 
     if( parts->test( iteminfo_parts::MED_CONSUME_TIME ) ) {
@@ -10581,6 +10581,10 @@ bool item::ammo_sufficient( const Character *carrier, int qty ) const
         return ammo_remaining( carrier, true ) >= qty;
     }
 
+    if( is_comestible() ) {
+        return true;
+    }
+
     return shots_remaining( carrier ) >= qty;
 }
 
@@ -12965,7 +12969,7 @@ void item::set_link_traits( const bool assign_t_state )
     const link_up_actor *it_actor = static_cast<const link_up_actor *>
                                     ( get_use( "link_up" )->get_actor_ptr() );
     link->max_length = it_actor->cable_length == -1 ? type->maximum_charges() : it_actor->cable_length;
-    link->efficiency = it_actor->efficiency < MIN_LINK_EFFICIENCY ? 0.0f : link->efficiency;
+    link->efficiency = it_actor->efficiency < MIN_LINK_EFFICIENCY ? 0.0f : it_actor->efficiency;
     // Reset s_bub_pos to force the item to check the length during process_link.
     link->s_bub_pos = tripoint_min;
 
@@ -12980,6 +12984,13 @@ void item::set_link_traits( const bool assign_t_state )
         link->efficiency = link->efficiency < MIN_LINK_EFFICIENCY ? 0.0f :
                            link->efficiency * actor->efficiency;
     }
+
+    link->charge_rate = link->efficiency < MIN_LINK_EFFICIENCY ? 0 : it_actor->charge_rate.value();
+    // Convert charge_rate to how long it takes to charge 1 kW, the unit batteries use.
+    // 0 means batteries won't be charged, but it can still provide power to devices unless efficiency is also 0.
+    link->charge_interval = link->efficiency < MIN_LINK_EFFICIENCY || it_actor->charge_rate == 0_W ? 0 :
+                            std::max( static_cast<int>( std::floor( 1000000.0 / abs( it_actor->charge_rate.value() ) + 0.5 ) ),
+                                      1 );
 
     if( assign_t_state && link->t_veh_safe ) {
         // Assign t_state based on the parts available at the connected mount point.
@@ -13562,6 +13573,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             }
             if( has_flag( flag_CABLE_SPOOL ) && mark_flag() ) {
                 // DO NOT process this as a tool! It really isn't!
+                // Cables have been reworked and shouldn't be active items anymore.
                 active = false;
                 return false;
             }

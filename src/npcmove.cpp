@@ -2656,6 +2656,16 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
 
 bool npc::find_job_to_perform()
 {
+    // cleanup history
+    auto fetch_itr = job.fetch_history.begin();
+    while( fetch_itr != job.fetch_history.end() ) {
+        if( fetch_itr->second != calendar::turn ) {
+            fetch_itr = job.fetch_history.erase( fetch_itr );
+        } else {
+            fetch_itr++;
+        }
+    }
+
     for( activity_id &elem : job.get_prioritised_vector() ) {
         if( job.get_priority_of_job( elem ) == 0 ) {
             continue;
