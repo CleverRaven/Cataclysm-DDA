@@ -714,7 +714,7 @@
     "description": "Like a powered machine, this frog never stops making noise. When it calls, its whole torso expands like an inflatable suit.",
     "name": { "str": "vocal treefrog" },
     "reproduction": { "baby_egg": "egg_vocal_frog", "baby_count": 8, "baby_timer": 20 },
-    "extend": { "flags": [ "WHISTLE" ] }
+    "//": "When possible, add frequent parroting."
   },
   {
     "id": "mon_gray_frog",
