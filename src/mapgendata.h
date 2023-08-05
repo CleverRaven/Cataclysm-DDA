@@ -237,7 +237,6 @@ class mapgendata
         const oter_id &last_predecessor() const;
         void pop_last_predecessor();
         void erase_linear_predecessor_duplicates();
-        void erase_linear_terrain_duplicates( const oter_type_id ter_type );
 
         template<typename Result>
         Result get_arg( const std::string &name ) const {
