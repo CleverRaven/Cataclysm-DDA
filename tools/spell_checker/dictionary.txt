@@ -1977,7 +1977,7 @@ nigromancie
 nimbelemnite
 nimbleness
 nimbler
-nimue's
+nimue
 niter
 nitrox
 nittlebam
@@ -2647,6 +2647,7 @@ silage
 siloed
 siloing
 sinensis
+sinously
 sintering
 sithen
 sixdust

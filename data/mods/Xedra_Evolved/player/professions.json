@@ -469,7 +469,7 @@
         "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
         "entries": [
           { "item": "knife_baselard", "container-item": "sheath" },
-          { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
+          { "item": "earthkin_tablet", "custom-flags": [ "auto_wield" ] }
         ]
       },
       "female": [ "chestwrap" ]
@@ -489,7 +489,7 @@
         "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
         "entries": [
           { "item": "knife_baselard", "container-item": "sheath" },
-          { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
+          { "item": "plantkin_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },
       "female": [ "chestwrap" ]
@@ -509,7 +509,7 @@
         "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
         "entries": [
           { "item": "knife_baselard", "container-item": "sheath" },
-          { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
+          { "item": "waterkin_tablet", "custom-flags": [ "auto_wield" ] }
         ]
       },
       "female": [ "chestwrap" ]
@@ -529,7 +529,7 @@
         "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
         "entries": [
           { "item": "knife_baselard", "container-item": "sheath" },
-          { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
+          { "item": "flametouched_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },
       "female": [ "chestwrap" ]
@@ -569,7 +569,7 @@
         "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
         "entries": [
           { "item": "knife_baselard", "container-item": "sheath" },
-          { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
+          { "item": "sylph_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },
       "female": [ "chestwrap" ]
