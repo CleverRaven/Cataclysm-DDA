@@ -470,16 +470,8 @@
     "remove_message": "You catch your breath.",
     "rating": "bad",
     "max_duration": "30 s",
-    "base_mods": {
-      "per_mod": [ -1 ],
-      "speed_mod": [ -8 ],
-      "pain_min": [ 1 ],
-      "pain_chance": [ 5 ],
-      "pain_max_val": [ 20 ]
-    },
-    "limb_score_mods": [
-      { "limb_score": "reaction", "modifier": 0.5 }
-    ],
+    "base_mods": { "per_mod": [ -1 ], "speed_mod": [ -8 ], "pain_min": [ 1 ], "pain_chance": [ 5 ], "pain_max_val": [ 20 ] },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.5 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -489,12 +481,7 @@
     "desc": [ "You're short of breath.  Your left leg has impaired function until you recover." ],
     "rating": "bad",
     "max_duration": "30 s",
-    "base_mods": {
-      "speed_mod": [ -3 ],
-      "pain_min": [ 1 ],
-      "pain_chance": [ 10 ],
-      "pain_max_val": [ 20 ]
-    },
+    "base_mods": { "speed_mod": [ -3 ], "pain_min": [ 1 ], "pain_chance": [ 10 ], "pain_max_val": [ 20 ] },
     "limb_score_mods": [
       { "limb_score": "block", "modifier": 0.9 },
       { "limb_score": "swim", "modifier": 0.7 },
@@ -510,12 +497,7 @@
     "desc": [ "You're short of breath.  Your right leg has impaired function until you recover." ],
     "rating": "bad",
     "max_duration": "30 s",
-    "base_mods": {
-      "speed_mod": [ -3 ],
-      "pain_min": [ 1 ],
-      "pain_chance": [ 10 ],
-      "pain_max_val": [ 20 ]
-    },
+    "base_mods": { "speed_mod": [ -3 ], "pain_min": [ 1 ], "pain_chance": [ 10 ], "pain_max_val": [ 20 ] },
     "limb_score_mods": [
       { "limb_score": "block", "modifier": 0.9 },
       { "limb_score": "swim", "modifier": 0.7 },
