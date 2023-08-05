@@ -1,0 +1,37 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "forest_trail_end",
+    "object": {
+      "fallback_predecessor_mapgen": "forest_thick",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          ____          ",
+        "          ____          ",
+        "          ____          ",
+        "          ____          ",
+        "          ____          ",
+        "          ____          ",
+        "          ____          ",
+        "          ____          ",
+        "          ____          ",
+        "          ____          ",
+        "          ____          ",
+        "          ____          ",
+        "          ____          ",
+        "          ____          "
+      ],
+      "terrain": { "_": "t_floor" }
+    }
+  }
+]
