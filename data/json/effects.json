@@ -843,7 +843,7 @@
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
     "blood_analysis_description": "Systemic Inflammatory Agents",
-    "resist_limb_flags": [ "BIONIC_LIMB" ],  
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "speed_name": "Poisoned",
     "resist_effects": [ "prophylactic_antivenom" ],
     "max_intensity": 125,
@@ -970,7 +970,6 @@
     "miss_messages": [ [ "You feel stiff.", 3 ] ],
     "rating": "bad",
     "max_intensity": 20,
-    "resist_limb_flags": [ "BIONIC_LIMB" ],
     "immune_bp_flags": [ "BIONIC_LIMB" ],
     "resist_effects": [ "prophylactic_antivenom" ],
     "int_add_val": 1,
@@ -2686,6 +2685,7 @@
     "id": "frostbite_recovery",
     "name": [ "Defrosting" ],
     "desc": [ "Your %s is starting to feel the damage cold has wrought." ],
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "part_descs": true,
     "base_mods": { "pain_max_val": [ 40 ], "pain_chance": [ 2 ], "pain_min": [ 1 ] }
   },
@@ -2697,6 +2697,7 @@
     "main_parts_only": true,
     "part_descs": true,
     "miss_messages": [ [ "Your blisters distract you", 1 ] ],
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "base_mods": {
       "dex_mod": [ -1 ],
       "str_mod": [ -1 ],
@@ -2711,6 +2712,7 @@
   {
     "type": "effect_type",
     "id": "dermatik",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "blood_analysis_description": "Insect Parasite"
   },
   {
@@ -2721,6 +2723,7 @@
     "apply_message": "Your skin feels extremely itchy!",
     "rating": "bad",
     "main_parts_only": true,
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "max_intensity": 3,
     "base_mods": { "str_mod": [ -0.34 ], "int_mod": [ -1 ] },
     "scaling_mods": { "str_mod": [ -0.34 ], "int_mod": [ -1 ] }
