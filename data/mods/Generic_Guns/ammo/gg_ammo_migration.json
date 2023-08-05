@@ -115,7 +115,8 @@
       "matchhead_45_acp",
       "matchhead_9mmfmj",
       "matchhead_9x18mmfmj",
-      "matchhead_357mag_fmj"
+      "matchhead_357mag_fmj",
+      "matchhead_30carbine"
     ],
     "type": "MIGRATION",
     "replace": "matchhead_pistol_ball"
