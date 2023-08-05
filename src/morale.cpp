@@ -1136,8 +1136,8 @@ void player_morale::update_constrained_penalty()
     int pen = 0;
 
     if( has_mutation( trait_VANITY ) ) {
-        pen += bp_pen( bodypart_id( "MOUTH" ), 10 );
-        pen += bp_pen( bodypart_id( "EYES" ), 5 );
+        pen += bp_pen( bodypart_id( "mouth" ), 5 );
+        pen += bp_pen( bodypart_id( "eyes" ), 5 );
     }
     if( has_mutation( trait_FLOWERS ) ) {
         pen += bp_pen( bodypart_id( "head" ), 10 );
