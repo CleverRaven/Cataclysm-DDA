@@ -1196,11 +1196,12 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         }
 
         // Mutation selector
-        if( get_option<bool>("SHOW_MUTATION_SELECTOR") ) {
-        	
+        if( get_option<bool>( "SHOW_MUTATION_SELECTOR" ) ) {
+
             // Setup menu
             uilist mmenu;
-            mmenu.text = _( "As your body transforms, you realize that by asserting your willpower, you can guide these changes to an extent." );
+            mmenu.text =
+                _( "As your body transforms, you realize that by asserting your willpower, you can guide these changes to an extent." );
             auto make_entries = [this, &mmenu]( const std::vector<trait_id> &traits ) {
                 const size_t iterations = traits.size();
                 for( int i = 0; i < static_cast<int>( iterations ); ++i ) {
@@ -1212,18 +1213,18 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
 
             // Aggregate all prospective traits
             std::vector<trait_id> prospective_traits;
-            prospective_traits.insert(prospective_traits.end(), upgrades.begin(), upgrades.end());
-            prospective_traits.insert(prospective_traits.end(), valid.begin(), valid.end());
-            prospective_traits.insert(prospective_traits.end(), dummies.begin(), dummies.end());
+            prospective_traits.insert( prospective_traits.end(), upgrades.begin(), upgrades.end() );
+            prospective_traits.insert( prospective_traits.end(), valid.begin(), valid.end() );
+            prospective_traits.insert( prospective_traits.end(), dummies.begin(), dummies.end() );
 
             // Only allow traits with fulfilled prerequisites
             std::vector<trait_id> traits;
             for( trait_id trait : prospective_traits ) {
-            	const mutation_branch &mdata = trait.obj();
+                const mutation_branch &mdata = trait.obj();
 
                 // Check prereq 1
                 std::vector<trait_id> prereqs1 = mdata.prereqs;
-            	bool c_has_prereq1 = prereqs1.empty() ? true : false;
+                bool c_has_prereq1 = prereqs1.empty() ? true : false;
                 for( size_t i = 0; ( !c_has_prereq1 ) && i < prereqs1.size(); i++ ) {
                     if( has_trait( prereqs1[i] ) ) {
                         c_has_prereq1 = true;
@@ -1256,8 +1257,9 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                 }
 
                 // std::find function returns false on duplicate entry
-                if ( c_has_prereq1 && c_has_prereq2 && c_has_threshreq && std::find(traits.begin(), traits.end(), trait) == traits.end() ) {
-                	traits.push_back( trait );
+                if( c_has_prereq1 && c_has_prereq2 && c_has_threshreq &&
+                    std::find( traits.begin(), traits.end(), trait ) == traits.end() ) {
+                    traits.push_back( trait );
                 }
             }
             make_entries( traits );
