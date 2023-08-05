@@ -1197,6 +1197,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
 
         // Mutation selector
         if( get_option<bool>("SHOW_MUTATION_SELECTOR") ) {
+        	
             // Setup menu
             uilist mmenu;
             mmenu.text = _( "As your body transforms, you realize that by asserting your willpower, you can guide these changes to an extent." );
@@ -1219,41 +1220,41 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             std::vector<trait_id> traits;
             for( trait_id trait : prospective_traits ) {
             	const mutation_branch &mdata = trait.obj();
+
+                // Check prereq 1
                 std::vector<trait_id> prereqs1 = mdata.prereqs;
+            	bool c_has_prereq1 = prereqs1.empty() ? true : false;
+                for( size_t i = 0; ( !c_has_prereq1 ) && i < prereqs1.size(); i++ ) {
+                    if( has_trait( prereqs1[i] ) ) {
+                        c_has_prereq1 = true;
+                    }
+                }
+
+                // Check prereq 2
                 std::vector<trait_id> prereqs2 = mdata.prereqs2;
-            	bool c_has_prereq1 = false;
-                bool c_has_prereq2 = false;
-                if( prereqs1.empty() ) {
-                	c_has_prereq1 = true;
-                } else {
-                    for( size_t i = 0; ( !c_has_prereq1 ) && i < prereqs1.size(); i++ ) {
-                        if( has_trait( prereqs1[i] ) ) {
-                            c_has_prereq1 = true;
-                        }
+                bool c_has_prereq2 = prereqs2.empty() ? true : false;
+                for( size_t i = 0; ( !c_has_prereq2 ) && i < prereqs2.size(); i++ ) {
+                    if( has_trait( prereqs2[i] ) ) {
+                        c_has_prereq2 = true;
                     }
                 }
-                if( prereqs2.empty() ) {
-                	c_has_prereq2 = true;
-                } else {
-                    for( size_t i = 0; ( !c_has_prereq2 ) && i < prereqs2.size(); i++ ) {
-                        if( has_trait( prereqs2[i] ) ) {
-                            c_has_prereq2 = true;
-                        }
-                    }
-                }
-                
-                bool c_has_threshreq = false;
+
+                // Check threshold requirement
                 std::vector<trait_id> threshreq = mdata.threshreq;
-                if( threshreq.empty() ) {
-                	c_has_threshreq = true;
-                } else {
-                    for( size_t i = 0; !c_has_threshreq && i < threshreq.size(); i++ ) {
-                        if( has_trait( threshreq[i] ) ) {
-                            c_has_threshreq = true;
-                        }
+                bool c_has_threshreq = threshreq.empty() ? true : false;
+                for( size_t i = 0; !c_has_threshreq && i < threshreq.size(); i++ ) {
+                    if( has_trait( threshreq[i] ) ) {
+                        c_has_threshreq = true;
                     }
                 }
-    
+
+                // Check bionic conflicts
+                for( const bionic_id &bid : get_bionics() ) {
+                    if( bid->mutation_conflicts.count( trait ) != 0 ) {
+                        continue;
+                    }
+                }
+
                 // std::find function returns false on duplicate entry
                 if ( c_has_prereq1 && c_has_prereq2 && c_has_threshreq && std::find(traits.begin(), traits.end(), trait) == traits.end() ) {
                 	traits.push_back( trait );
