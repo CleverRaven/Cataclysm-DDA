@@ -532,7 +532,14 @@
       { "item": "m1carbine", "prob": 1, "charges-min": 0, "charges-max": 15 },
       { "item": "smle_mk3", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "number4_mki", "prob": 1, "charges-min": 0, "charges-max": 10 },
-      { "item": "type99", "prob": 1, "charges-min": 0, "charges-max": 5 },
+      {
+        "item": "type99",
+        "variant": "type99",
+        "contents-group": "type99_mods",
+        "prob": 1,
+        "charges-min": 0,
+        "charges-max": 5
+      },
       { "item": "ak556", "prob": 2, "charges-min": 0, "charges-max": 30 },
       { "item": "bren2_762", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "bren2_556", "prob": 1, "charges-min": 0, "charges-max": 30 },
@@ -603,6 +610,7 @@
       { "group": "nested_mk3", "prob": 10 },
       { "group": "nested_number4", "prob": 10 },
       { "group": "nested_type99", "prob": 6 },
+      { "group": "nested_type99_sniper", "prob": 1 },
       { "group": "nested_m1918", "prob": 30 },
       { "group": "nested_805_bren", "prob": 15 },
       { "group": "nested_mdrx", "prob": 30 },
@@ -634,7 +642,22 @@
       { "item": "m1903", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "smle_mk3", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "number4_mki", "prob": 10, "charges-min": 0, "charges-max": 0 },
-      { "item": "type99", "prob": 6, "charges-min": 0, "charges-max": 0 },
+      {
+        "item": "type99",
+        "variant": "type99",
+        "contents-group": "type99_mods",
+        "prob": 6,
+        "charges-min": 0,
+        "charges-max": 0
+      },
+      {
+        "item": "type99",
+        "variant": "type99_sniper",
+        "contents-group": "type99_sniper_mods",
+        "prob": 1,
+        "charges-min": 0,
+        "charges-max": 0
+      },
       { "item": "mosin44", "variant": "mosin44_ebr", "contents-group": "mosin_mods", "prob": 1, "charges": [ 0, 0 ] },
       {
         "item": "mosin91_30",

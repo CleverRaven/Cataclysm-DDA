@@ -2701,5 +2701,17 @@
       { "item": "clip_77mm_arisaka", "prob": 50 },
       { "group": "on_hand_77mm_arisaka" }
     ]
+  },
+  {
+    "id": "nested_type99_sniper",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "type99", "variant": "type99_sniper", "contents-group": "type99_sniper_mods", "charges": [ 0, 5 ] },
+      { "item": "clip_77mm_arisaka" },
+      { "item": "clip_77mm_arisaka", "prob": 50 },
+      { "group": "on_hand_77mm_arisaka" }
+    ]
   }
 ]
