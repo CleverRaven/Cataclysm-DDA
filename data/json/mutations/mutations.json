@@ -6666,7 +6666,8 @@
     "category": [ "ALPHA" ],
     "threshreq": [ "THRESH_ALPHA" ],
     "healing_awake": -0.88,
-    "healing_multiplier": 0.75
+    "healing_multiplier": 0.05,
+    "mending_modifier": 0.2
   },
   {
     "type": "mutation",
