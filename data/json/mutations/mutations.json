@@ -6663,9 +6663,8 @@
     "prereqs2": [ "STR_ALPHA", "DEX_ALPHA", "PER_ALPHA", "INT_ALPHA" ],
     "category": [ "ALPHA" ],
     "threshreq": [ "THRESH_ALPHA" ],
-    "healing_awake": -0.88,
-    "healing_multiplier": 0.05,
-    "mending_modifier": 0.2
+    "healing_awake": -1.0,
+    "healing_multiplier": 0.75
   },
   {
     "type": "mutation",
