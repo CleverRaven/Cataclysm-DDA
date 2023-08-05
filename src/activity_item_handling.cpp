@@ -1357,11 +1357,13 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         if( to_craft && to_craft->is_craft() ) {
             const inventory inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
             const recipe &r = to_craft->get_making();
-            std::vector<std::vector<item_comp>> item_comp_vector = to_craft->get_continue_reqs().get_components();
-            std::vector<std::vector<quality_requirement>> quality_comp_vector = r.simple_requirements().get_qualities();
+            std::vector<std::vector<item_comp>> item_comp_vector =
+                                                 to_craft->get_continue_reqs().get_components();
+            std::vector<std::vector<quality_requirement>> quality_comp_vector =
+                        r.simple_requirements().get_qualities();
             std::vector<std::vector<tool_comp>> tool_comp_vector = r.simple_requirements().get_tools();
-            requirement_data req = requirement_data(tool_comp_vector, quality_comp_vector, item_comp_vector);
-            if(req.can_make_with_inventory(inv, is_crafting_component) ) {
+            requirement_data req = requirement_data( tool_comp_vector, quality_comp_vector, item_comp_vector );
+            if( req.can_make_with_inventory( inv, is_crafting_component ) ) {
                 return activity_reason_info::ok( do_activity_reason::NEEDS_CRAFT );
             } else {
                 return activity_reason_info( do_activity_reason::NEEDS_CRAFT, false, req );
@@ -3008,7 +3010,7 @@ static bool generic_multi_activity_do(
     } else if( reason == do_activity_reason::NEEDS_CRAFT ) {
         auto to_craft = you.craft_task.get_item();
         if( to_craft && to_craft->is_craft() ) {
-            player_activity act = player_activity( craft_activity_actor(you.craft_task, false) );
+            player_activity act = player_activity( craft_activity_actor( you.craft_task, false ) );
             you.assign_activity( act );
             you.backlog.emplace_back( ACT_MULTIPLE_CRAFT );
         }

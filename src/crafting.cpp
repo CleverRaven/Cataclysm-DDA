@@ -880,7 +880,7 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
         return;
     }
 
-    if(is_npc()) {
+    if( is_npc() ) {
         craft_task = craft_in_world;
         assign_activity( ACT_MULTIPLE_CRAFT );
     } else {
