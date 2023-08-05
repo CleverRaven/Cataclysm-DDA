@@ -6626,8 +6626,8 @@ void Character::mod_stamina( int mod )
     stamina += mod;
     if( stamina < 0 ) {
         for( const bodypart_id &bp : get_all_body_parts() ) {
-            if( bp->windage_effect ) {
-                add_effect( bp->windage_effect, 10_turns );
+            if( bp.obj().get_windage_effect() ) {
+                add_effect( bp.obj().get_windage_effect(), 10_turns );
             }
         }
     }
