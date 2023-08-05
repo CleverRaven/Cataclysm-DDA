@@ -187,8 +187,8 @@
     "type": "monstergroup",
     "name": "GROUP_GENIUS_SYLPH",
     "monsters": [
-      { "monster": "mon_spider_disease", "weight": 40, "cost_multiplier": 0 },
-      { "monster": "mon_dragonfly_fae", "weight": 400, "cost_multiplier": 0 }
+      { "monster": "mon_skyglass_butterflies", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_dragonfly_fae", "weight": 40, "cost_multiplier": 0 }
     ]
   },
   {
