@@ -331,4 +331,56 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "CAN_OPEN_DOORS", "WARM", "BASHES" ],
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 1 }
   },
+  {
+    "id": "mon_dragonfly_fae",
+    "type": "MONSTER",
+    "name": { "str": "nimue's dragonfly", "str_pl": "nimue's dragonflies" },
+    "description": "A ferocious, iridescent multihued dragonfly, still lightning-fast despite growing to the size of a football.  Its head is little more than a palm-sized pair of rainbow compound eyes, and its legs - already specialized for grasping prey - end in curved talons.",
+    "default_faction": "sylph",
+    "bodytype": "flying insect",
+    "species": [ "SYLPH" ],
+    "volume": "20 L",
+    "weight": "20750 g",
+    "hp": 25,
+    "speed": 150,
+    "attack_cost": 150,
+    "material": [ "iflesh" ],
+    "symbol": "y",
+    "color": "light_green",
+    "aggro_character": false,
+    "aggression": 20,
+    "morale": 10,
+    "melee_skill": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4, "armor_penetration": 3 } ],
+    "grab_strength": 10,
+    "special_attacks": [
+      {
+        "id": "grab",
+        "cooldown": 100,
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_leg" } }, { "not": { "u_has_effect": "maimed_wings" } } ] }
+      },
+      {
+        "type": "bite",
+        "cooldown": 6,
+        "accuracy": 5,
+        "move_cost": 300,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 6, "armor_penetration": 20 } ],
+        "min_mul": 1,
+        "max_mul": 2,
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
+      }
+    ],
+    "dodge": 2,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
+    "families": [ "prof_wp_basic_bug" ],
+    "vision_day": 45,
+    "vision_night": 5,
+    "harvest": "fae_flying",
+    "dissect": "dissect_sylph_single",
+    "anger_triggers": [ "PLAYER_WEAK", "STALK" ],
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "SWARMS", "HEARS", "SEES", "FLIES", "GRABS", "PATH_AVOID_FIRE" ]
+  }
 ]
