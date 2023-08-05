@@ -128,7 +128,19 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "METABOLISM", "CARDIO", "CONSTITUTION", "DIET", "GRAZING", "THIRST" ],
-    "cancels": [ "ALCMET", "ANTIJUNK", "CARNIVORE_FAKE", "DEFT", "FAT", "GOURMAND", "HIBERNATE", "PROJUNK", "QUICK", "SAPROVORE", "PICKYEATER" ],
+    "cancels": [
+      "ALCMET",
+      "ANTIJUNK",
+      "CARNIVORE_FAKE",
+      "DEFT",
+      "FAT",
+      "GOURMAND",
+      "HIBERNATE",
+      "PROJUNK",
+      "QUICK",
+      "SAPROVORE",
+      "PICKYEATER"
+    ],
     "description": "Your digestive system and cardio health are standard for a human."
   },
   {

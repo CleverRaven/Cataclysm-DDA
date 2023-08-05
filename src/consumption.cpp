@@ -867,8 +867,11 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         }
     }
 
-    if( has_trait( trait_PICKYEATER ) && !( drinkable || food.is_medication() ) && fun_for( food ).first < 0 && !has_effect( effect_hunger_near_starving ) && !has_effect( effect_hunger_starving ) && !has_effect( effect_hunger_famished ) ) {
-        return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "You deserve better food than this." ) );
+    if( has_trait( trait_PICKYEATER ) && !( drinkable || food.is_medication() ) &&
+        fun_for( food ).first < 0 && !has_effect( effect_hunger_near_starving ) &&
+        !has_effect( effect_hunger_starving ) && !has_effect( effect_hunger_famished ) ) {
+        return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
+                _( "You deserve better food than this." ) );
     }
 
     return ret_val<edible_rating>::make_success();
