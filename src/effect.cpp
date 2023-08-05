@@ -1189,10 +1189,6 @@ int effect::mod_intensity( int mod, bool alert )
     return set_intensity( intensity + mod, alert );
 }
 
-const std::vector<flag_id> &effect::get_resist_limb_flags() const
-{
-    return eff_type->resist_limb_flags;
-}
 const std::vector<trait_id> &effect::get_resist_traits() const
 {
     return eff_type->resist_traits;
@@ -1493,9 +1489,6 @@ void load_effect_type( const JsonObject &jo )
 
     jo.read( "blood_analysis_description", new_etype.blood_analysis_description );
 
-    for( auto &&f : jo.get_string_array( "resist_limb_flags" ) ) { // *NOPAD*
-        new_etype.resist_limb_flags.emplace_back( f );
-    }    
     for( auto &&f : jo.get_string_array( "resist_traits" ) ) { // *NOPAD*
         new_etype.resist_traits.emplace_back( f );
     }
