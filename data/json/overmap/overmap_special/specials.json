@@ -4242,7 +4242,7 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "trailhead_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] }, { "point": [ 0, 1, 0 ], "terrain": "forest_trail", "connection": "forest_trail", "from": [ 0, 0, 0 ] } ],
     "city_sizes": [ 1, -1 ],
-    "occurrences": [ 0, 10 ],
+    "occurrences": [ 0, 0 ],
     "locations": [ "wilderness" ]
   },
   {
@@ -4254,7 +4254,7 @@
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] }, { "point": [ 0, 1, 0 ], "terrain": "forest_trail", "connection": "forest_trail", "from": [ 0, 0, 0 ] } ],
     "city_sizes": [ 1, -1 ],
-    "occurrences": [ 0, 10 ],
+    "occurrences": [ 0, 0 ],
     "locations": [ "wilderness" ]
   },
   {
@@ -4266,17 +4266,8 @@
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] }, { "point": [ 0, 1, 0 ], "terrain": "forest_trail", "connection": "forest_trail", "from": [ 0, 0, 0 ] } ],
     "city_sizes": [ 1, -1 ],
-    "occurrences": [ 0, 10 ],
+    "occurrences": [ 0, 0 ],
     "locations": [ "wilderness" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "trail_end",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "forest_trail_intersection_north" } ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "forest_trail", "connection": "forest_trail", "from": [ 0, 0, 0 ] } ],
-    "city_sizes": [ 1, -1 ],
-    "occurrences": [ 20, 30 ],
-    "locations": [ "forest_without_trail" ]
   },
   {
     "type": "overmap_special",
