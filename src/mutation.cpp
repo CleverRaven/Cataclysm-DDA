@@ -1225,19 +1225,25 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                 // Check prereq 1
                 std::vector<trait_id> prereqs1 = mdata.prereqs;
                 bool c_has_prereq1 = prereqs1.empty() ? true : false;
-                for( size_t i = 0; ( !c_has_prereq1 ) && i < prereqs1.size(); i++ ) {
+                for( size_t i = 0; !c_has_prereq1 && i < prereqs1.size(); i++ ) {
                     if( has_trait( prereqs1[i] ) ) {
                         c_has_prereq1 = true;
                     }
+                }
+                if( !c_has_prereq1 ) {
+                	continue;
                 }
 
                 // Check prereq 2
                 std::vector<trait_id> prereqs2 = mdata.prereqs2;
                 bool c_has_prereq2 = prereqs2.empty() ? true : false;
-                for( size_t i = 0; ( !c_has_prereq2 ) && i < prereqs2.size(); i++ ) {
+                for( size_t i = 0; !c_has_prereq2 && i < prereqs2.size(); i++ ) {
                     if( has_trait( prereqs2[i] ) ) {
                         c_has_prereq2 = true;
                     }
+                }
+                if( !c_has_prereq2 ) {
+                	continue;
                 }
 
                 // Check threshold requirement
@@ -1248,6 +1254,9 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                         c_has_threshreq = true;
                     }
                 }
+                if( !c_has_threshreq ) {
+                	continue;
+                }
 
                 // Check bionic conflicts
                 for( const bionic_id &bid : get_bionics() ) {
@@ -1257,8 +1266,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                 }
 
                 // std::find function returns false on duplicate entry
-                if( c_has_prereq1 && c_has_prereq2 && c_has_threshreq &&
-                    std::find( traits.begin(), traits.end(), trait ) == traits.end() ) {
+                if( std::find( traits.begin(), traits.end(), trait ) == traits.end() ) {
                     traits.push_back( trait );
                 }
             }
