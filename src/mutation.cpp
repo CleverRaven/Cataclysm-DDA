@@ -1199,7 +1199,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         if( get_option<bool>("SHOW_MUTATION_SELECTOR") ) {
             // Setup menu
             uilist mmenu;
-            mmenu.text = _( "Choose a mutation" );
+            mmenu.text = _( "As your body transforms, you realize that by asserting your willpower, you can guide these changes to an extent." );
             auto make_entries = [this, &mmenu]( const std::vector<trait_id> &traits ) {
                 const size_t iterations = traits.size();
                 for( int i = 0; i < static_cast<int>( iterations ); ++i ) {
