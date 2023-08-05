@@ -1197,8 +1197,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         // Setup menu
         uilist mmenu;
         mmenu.text = _( "Choose a mutation" );
-        trait_id current_trait;
-        auto make_entries = [this, &mmenu, &current_trait]( const std::vector<trait_id> &traits ) {
+        auto make_entries = [this, &mmenu]( const std::vector<trait_id> &traits ) {
             const size_t iterations = traits.size();
             for( int i = 0; i < static_cast<int>( iterations ); ++i ) {
                 const trait_id &trait = traits[i];
