@@ -8714,7 +8714,8 @@
     "name": { "str": "Squeamish" },
     "points": -1,
     "starting_trait": true,
-    "description": "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses."
+    "description": "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses.",
+    "category": [ "ALPHA" ]
   },
   {
     "type": "mutation",
