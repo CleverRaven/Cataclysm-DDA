@@ -1,0 +1,170 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_megafauna_body",
+    "weakpoints": [
+      {
+        "id": "head_normal",
+        "name": "the head",
+        "armor_mult": { "physical": 0.75 },
+        "damage_mult": { "all": 1.25 },
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "all": 4 },
+        "coverage_mult": { "ranged": 1.2, "stab": 1.5 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 3 ],
+            "chance": 7,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 3 ],
+            "chance": 18,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          },
+          {
+            "effect": "dazed",
+            "duration": [ 1, 3 ],
+            "chance": 10,
+            "message": "The %s is dazed!",
+            "damage_required": [ 10, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "head_down",
+        "//": "if animal is downed,  hitting the head should be way easier too!",
+        "name": "the downed %s head",
+        "armor_mult": { "physical": 0.75 },
+        "damage_mult": { "all": 1.25 },
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "all": 2 },
+        "coverage_mult": { "ranged": 0.3 },
+        "coverage": 10,
+        "required_effects": [ "downed" ],
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 3 ],
+            "chance": 7,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 3 ],
+            "chance": 18,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          },
+          {
+            "effect": "dazed",
+            "duration": [ 1, 3 ],
+            "chance": 10,
+            "message": "The %s is dazed!",
+            "damage_required": [ 10, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the belly",
+        "//": "this should be limited to downed animals and present opport. to hit vitals.  hitting belly per se is easier though, esp. with melee",
+        "armor_mult": { "physical": 0.5 },
+        "crit_mult": { "all": 1.2 },
+        "difficulty": { "melee": 2, "ranged": 4 },
+        "coverage_mult": { "ranged": 0.5 },
+        "coverage": 25,
+        "required_effects": [ "downed" ],
+        "effects": [
+          {
+            "effect": "nausea",
+            "permanent": true,
+            "chance": 10,
+            "message": "You have ripped the %s bowels!  The % is retching.",
+            "damage_required": [ 5, 25 ]
+          },
+          {
+            "effect": "winded",
+            "permanent": true,
+            "chance": 10,
+            "message": "You have punctured the %s lungs!  The % has trouble breathing.",
+            "damage_required": [ 5, 25 ]
+          }
+        ]
+      },
+      {
+        "name": "the downed %s eyes",
+        "//": "downed eye variant.  easier to hit with melee, but ranged unchanged",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "ranged": 4, "melee": 3 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the eyes",
+        "//": "standing animal, eyes are nigh impossible to hit (with non point weapons.  actually, reach weapons, but not possible here, so point it is)",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "ranged": 6, "melee": 10 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "//": "legs are the easiest target, but usually also hardy.",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "coverage": 8,
+        "effects": [
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "duration": [ 1, 2 ],
+            "message": "The %s is staggered!",
+            "damage_required": [ 10, 100 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 14,
+            "permanent": true,
+            "message": "You maim one of the %s legs!",
+            "damage_required": [ 10, 100 ]
+          },
+          {
+            "effect": "downed",
+            "chance": 20,
+            "message": "The %s is knocked down, leaving its vitals unprotected!",
+            "damage_required": [ 20, 100 ]
+          }
+        ]
+      }
+    ]
+  }
+]
