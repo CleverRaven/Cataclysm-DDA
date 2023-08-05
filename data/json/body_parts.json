@@ -1682,9 +1682,14 @@
         "duration_dmg_scaling": 0.5
       }
     ],
-    "sub_parts": [ "bionic_basic_leg_hip_l", "bionic_basic_leg_upper_l", "bionic_basic_leg_knee_l", "bionic_basic_leg_lower_l", "bionic_basic_leg_draped_l" ],
+    "sub_parts": [
+      "bionic_basic_leg_hip_l",
+      "bionic_basic_leg_upper_l",
+      "bionic_basic_leg_knee_l",
+      "bionic_basic_leg_lower_l",
+      "bionic_basic_leg_draped_l"
+    ],
     "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB" ],
-
     "power_efficiency": 1000,
     "feels_discomfort": false,
     "mend_rate": 0,
@@ -1720,7 +1725,13 @@
     "base_hp": 150,
     "drench_capacity": 1100,
     "smash_message": "You bring your knee down on the %s, smashing it.",
-    "sub_parts": [ "bionic_basic_leg_hip_r", "bionic_basic_leg_upper_r", "bionic_basic_leg_knee_r", "bionic_basic_leg_lower_r", "bionic_basic_leg_draped_r" ],
+    "sub_parts": [
+      "bionic_basic_leg_hip_r",
+      "bionic_basic_leg_upper_r",
+      "bionic_basic_leg_knee_r",
+      "bionic_basic_leg_lower_r",
+      "bionic_basic_leg_draped_r"
+    ],
     "effects_on_hit": [
       {
         "id": "bouldering",
@@ -1784,7 +1795,13 @@
     "base_hp": 150,
     "drench_capacity": 300,
     "smash_message": "You kick down the %s, smashing it.",
-    "sub_parts": [ "bionic_basic_foot_sole_l", "bionic_basic_foot_arch_l", "bionic_basic_foot_toes_l", "bionic_basic_foot_ankle_l", "bionic_basic_foot_heel_l" ],
+    "sub_parts": [
+      "bionic_basic_foot_sole_l",
+      "bionic_basic_foot_arch_l",
+      "bionic_basic_foot_toes_l",
+      "bionic_basic_foot_ankle_l",
+      "bionic_basic_foot_heel_l"
+    ],
     "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB" ],
     "power_efficiency": 1000,
     "feels_discomfort": false,
@@ -1818,7 +1835,13 @@
     "base_hp": 150,
     "drench_capacity": 300,
     "smash_message": "You kick down the %s, smashing it.",
-    "sub_parts": [ "bionic_basic_foot_sole_r", "bionic_basic_foot_arch_r", "bionic_basic_foot_toes_r", "bionic_basic_foot_ankle_r", "bionic_basic_foot_heel_r" ],
+    "sub_parts": [
+      "bionic_basic_foot_sole_r",
+      "bionic_basic_foot_arch_r",
+      "bionic_basic_foot_toes_r",
+      "bionic_basic_foot_ankle_r",
+      "bionic_basic_foot_heel_r"
+    ],
     "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB" ],
     "power_efficiency": 1000,
     "feels_discomfort": false,
