@@ -229,7 +229,7 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
         scale = iter->second;
     }
     if( !p ) {
-        debugmsg( "%s called action that requires character but no character is present",
+        debugmsg( "%s called action transform that requires character but no character is present",
                   it.typeId().str() );
         return std::nullopt; // invoked from active item processing, do nothing.
     }
@@ -1325,7 +1325,7 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
         const tripoint &spos ) const
 {
     if( !p ) {
-        debugmsg( "%s called action that requires character but no character is present",
+        debugmsg( "%s called action firestarter that requires character but no character is present",
                   it.typeId().str() );
         return std::nullopt;
     }
@@ -1386,7 +1386,7 @@ std::unique_ptr<iuse_actor> salvage_actor::clone() const
 std::optional<int> salvage_actor::use( Character *p, item &cutter, const tripoint & ) const
 {
     if( !p ) {
-        debugmsg( "%s called action that requires character but no character is present",
+        debugmsg( "%s called action salvage that requires character but no character is present",
                   cutter.typeId().str() );
         return std::nullopt;
     }
@@ -1799,6 +1799,8 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
 std::optional<int> inscribe_actor::use( Character *p, item &it, const tripoint & ) const
 {
     if( !p ) {
+        debugmsg( "%s called action inscribe that requires character but no character is present",
+                  it.typeId().str() );
         return std::nullopt;
     }
 
@@ -1867,7 +1869,7 @@ std::optional<int> fireweapon_off_actor::use( Character *p, item &it,
         const tripoint & ) const
 {
     if( !p ) {
-        debugmsg( "%s called action that requires character but no character is present",
+        debugmsg( "%s called action fireweapon_off that requires character but no character is present",
                   it.typeId().str() );
         return std::nullopt;
     }
@@ -3886,7 +3888,7 @@ void saw_barrel_actor::load( const JsonObject &jo )
 std::optional<int> saw_barrel_actor::use( Character *p, item &it, const tripoint & ) const
 {
     if( !p ) {
-        debugmsg( "%s called action that requires character but no character is present",
+        debugmsg( "%s called action saw_barrel that requires character but no character is present",
                   it.typeId().str() );
         return std::nullopt;
     }
@@ -3947,7 +3949,7 @@ void saw_stock_actor::load( const JsonObject &jo )
 std::optional<int> saw_stock_actor::use( Character *p, item &it, const tripoint & ) const
 {
     if( !p ) {
-        debugmsg( "%s called action that requires character but no character is present",
+        debugmsg( "%s called action saw_stock that requires character but no character is present",
                   it.typeId().str() );
         return std::nullopt;
     }
@@ -4023,7 +4025,7 @@ std::optional<int> molle_attach_actor::use( Character *p, item &it,
         const tripoint & ) const
 {
     if( !p ) {
-        debugmsg( "%s called action that requires character but no character is present",
+        debugmsg( "%s called action molle_attach that requires character but no character is present",
                   it.typeId().str() );
         return std::nullopt;
     }
@@ -4404,7 +4406,7 @@ std::string link_up_actor::get_name() const
 std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &pnt ) const
 {
     if( !p ) {
-        debugmsg( "%s called action that requires character but no character is present",
+        debugmsg( "%s called action link_up that requires character but no character is present",
                   it.typeId().str() );
         return std::nullopt;
     }
@@ -5650,7 +5652,7 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         const tripoint & ) const
 {
     if( !p ) {
-        debugmsg( "%s called action that requires character but no character is present",
+        debugmsg( "%s called action effect_on_conditons that requires character but no character is present",
                   it.typeId().str() );
         return std::nullopt;
     }
