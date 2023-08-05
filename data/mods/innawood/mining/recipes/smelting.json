@@ -259,7 +259,7 @@
     "skills_required": [ [ "chemistry", 3 ] ],
     "time": "2 h",
     "batch_time_factors": [ 20, 4 ],
-    "//": "handweaves crushing cinnabar to avoid extra micro and recipe, added an extra hour to simulate crushing",
+    "//": "handwaves crushing cinnabar to avoid extra micro and recipe, added an extra hour to simulate crushing",
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ] ] ],
