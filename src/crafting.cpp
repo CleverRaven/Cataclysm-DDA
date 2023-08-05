@@ -1239,10 +1239,7 @@ static void destroy_random_component( item &craft, const Character &crafter )
                                    _( "<npcname> messes up and destroys the %s" ), destroyed.tname() );
     if( crafter.has_trait( trait_INT_UP_ALPHA ) ) {
         crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ), _( "Ugh, this should be EASY with how smart you are!" ), _( "<npcname> seems to get really upset over this." ) );
-        Character &u = get_player_character();
-        if( crafter == u ) {
-            u.add_morale( MORALE_FAILURE, -10, -50, 6_hours, 3_hours );
-        }
+        crafter.add_morale( MORALE_FAILURE, -10, -50, 6_hours, 3_hours );
     }
 }
 
@@ -1284,10 +1281,7 @@ bool item::handle_craft_failure( Character &crafter )
         item_counter = clamp( item_counter - progress_loss, 0, 10000000 );
         if( crafter.has_trait( trait_INT_UP_ALPHA ) ) {
             crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ), _( "Ugh, this should be EASY with how smart you are!" ), _( "<npcname> seems to get really upset over this." ) );
-            Character &u = get_player_character();
-            if( crafter == u ) {
-                u.add_morale( MORALE_FAILURE, -10, -50, 6_hours, 3_hours );
-            }
+            crafter.add_morale( MORALE_FAILURE, -10, -50, 6_hours, 3_hours );
         }
     }
 
