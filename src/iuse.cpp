@@ -260,12 +260,10 @@ static const itype_id itype_cig( "cig" );
 static const itype_id itype_cigar( "cigar" );
 static const itype_id itype_cow_bell( "cow_bell" );
 static const itype_id itype_detergent( "detergent" );
-static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_ecig( "ecig" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_firecracker_act( "firecracker_act" );
 static const itype_id itype_firecracker_pack_act( "firecracker_pack_act" );
-static const itype_id itype_geiger_off( "geiger_off" );
 static const itype_id itype_geiger_on( "geiger_on" );
 static const itype_id itype_handrolled_cig( "handrolled_cig" );
 static const itype_id itype_heatpack_used( "heatpack_used" );
@@ -282,8 +280,6 @@ static const itype_id itype_mp3_on( "mp3_on" );
 static const itype_id itype_multi_cooker( "multi_cooker" );
 static const itype_id itype_multi_cooker_filled( "multi_cooker_filled" );
 static const itype_id itype_nicotine_liquid( "nicotine_liquid" );
-static const itype_id itype_noise_emitter( "noise_emitter" );
-static const itype_id itype_noise_emitter_on( "noise_emitter_on" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_radio_car( "radio_car" );
 static const itype_id itype_radio_car_on( "radio_car_on" );
@@ -4020,11 +4016,9 @@ void iuse::play_music( Character *p, const tripoint &source, const int volume,
 
 std::optional<int> iuse::mp3_on( Character *p, item *, const tripoint &pos )
 {
-    if( p ) {
-        // mp3 player in inventory, we can listen
-        play_music( p, pos, 0, 20 );
-        music::activate_music_id( music::music_id::mp3 );
-    }
+    // mp3 player in inventory, we can listen
+    play_music( p, pos, 0, 20 );
+    music::activate_music_id( music::music_id::mp3 );
     return 1;
 }
 
@@ -5691,9 +5685,6 @@ std::optional<int> iuse::epic_music( Character *p, item *it, const tripoint &pos
 {
     if( !it->get_var( "EIPC_MUSIC_ON" ).empty() &&
         it->ammo_sufficient( p ) ) {
-        if( calendar::once_every( 5_minutes ) ) {
-            it->ammo_consume( 1, pos, p );
-        }
 
         //the more varied music, the better max mood.
         const int songs = it->get_var( "EIPC_MUSIC", 0 );

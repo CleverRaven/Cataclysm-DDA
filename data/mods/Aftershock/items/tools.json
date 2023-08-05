@@ -20,6 +20,7 @@
         "type": "transform"
       },
       "CAMERA",
+      "MP3",
       "CALORIES_INTAKE_TRACKER",
       "PORTABLE_GAME",
       "EINKTABLETPC",
@@ -182,7 +183,7 @@
         "type": "transform"
       }
     ],
-    "tick_action": [ "EPIC_MUSIC" ],
+    "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID", "LIGHT_25" ] }
   },
   {
@@ -202,6 +203,7 @@
         "type": "transform"
       },
       "CAMERA",
+      "MP3",
       "ROBOTCONTROL",
       "CALORIES_INTAKE_TRACKER",
       "PORTABLE_GAME",
@@ -228,7 +230,8 @@
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
     "use_action": [ "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD" ],
-    "extend": { "flags": [ "TRADER_AVOID" ] }
+    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "tick_action": [ "MP3_ON" ]
   },
   {
     "id": "afs_atomic_wraitheon_flashlight",
@@ -247,8 +250,7 @@
         "menu_text": "Turn off flashlight",
         "type": "transform"
       }
-    ],
-    "tick_action": [ "EPIC_MUSIC" ]
+    ]
   },
   {
     "id": "afs_atompot",
