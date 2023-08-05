@@ -1356,7 +1356,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorus", 3 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorous", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "matchhead_40sw",
@@ -1374,7 +1374,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorus", 6 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorous", 6 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "matchhead_32_acp",
@@ -1392,7 +1392,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "32_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorus", 2 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "32_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorous", 2 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "matchhead_38_fmj",
@@ -1410,7 +1410,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorus", 3 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorous", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "matchhead_38_special",
@@ -1428,7 +1428,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorus", 3 ] ] ]
+    "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorous", 3 ] ] ]
   },
   {
     "result": "matchhead_45_acp",
@@ -1446,7 +1446,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "red_phosphorus", 3 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "red_phosphorous", 3 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "matchhead_45_jhp",
@@ -1464,7 +1464,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "red_phosphorus", 5 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "red_phosphorous", 5 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "matchhead_762_25",
@@ -1482,7 +1482,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_762_25", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "red_phosphorus", 4 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "red_phosphorous", 4 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "matchhead_9x18mm",
@@ -1500,7 +1500,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorus", 4 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorous", 4 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "matchhead_9x18mmfmj",
@@ -1518,7 +1518,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorus", 4 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "red_phosphorous", 4 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "matchhead_380_JHP",
@@ -1536,7 +1536,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_380", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "red_phosphorus", 3 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "red_phosphorous", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "matchhead_380_FMJ",
@@ -1554,7 +1554,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_380", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "red_phosphorus", 3 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "red_phosphorous", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "matchhead_357sig_fmj",
@@ -1572,7 +1572,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 7 ], [ "ammo_357sig", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "red_phosphorus", 4 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "red_phosphorous", 4 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "matchhead_357sig_jhp",
@@ -1590,7 +1590,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 8 ], [ "ammo_357sig", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "red_phosphorus", 5 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "red_phosphorous", 5 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "matchhead_357mag_fmj",
@@ -1608,7 +1608,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 3 ], [ "ammo_357mag", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "red_phosphorus", 5 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "red_phosphorous", 5 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "matchhead_357mag_jhp",
@@ -1626,7 +1626,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 4 ], [ "ammo_357mag", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "red_phosphorus", 5 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "red_phosphorous", 5 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "matchhead_10mm_fmj",
@@ -1644,7 +1644,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 3 ], [ "ammo_10mm", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "red_phosphorus", 3 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "red_phosphorous", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "matchhead_45colt_jhp",
@@ -1662,6 +1662,6 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 5 ], [ "ammo_45colt", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "red_phosphorus", 5 ] ], [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "red_phosphorous", 5 ] ], [ [ "copper", 2 ] ] ]
   }
 ]
