@@ -879,7 +879,7 @@ float bodypart::get_wetness_percentage() const
     }
 }
 
-efftype_id get_windage_effect() const
+efftype_id bodypart::get_windage_effect() const
 {
     return id->windage_effect;
 }
