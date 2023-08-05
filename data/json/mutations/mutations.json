@@ -6228,7 +6228,6 @@
     "description": "You are incredibly beautiful.  People cannot help themselves due to your charms, and will do whatever they can to please you.",
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "BEAUTIFUL2" ],
-    "leads_to": [ "VANITY" ],
     "category": [ "ELFA" ],
     "threshreq": [ "THRESH_ELFA" ]
   },
@@ -9161,7 +9160,7 @@
     "points": -1,
     "description": "You know you're beautiful, and the world deserves to know it too.  You prefer to show off your stunningly good looks to the world and will be unhappy if you cover up your face.",
     "category": [ "ALPHA" ],
-    "prereqs": [ "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ]
+    "prereqs": [ "BEAUTIFUL", "BEAUTIFUL2" ]
   },
   {
     "type": "mutation",
