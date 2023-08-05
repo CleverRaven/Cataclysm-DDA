@@ -1194,10 +1194,10 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             }
         }
 
-        //menu
+        // Setup menu
         uilist mmenu;
+        mmenu.text = _( "Choose a mutation" );
         trait_id current_trait;
-
         auto make_entries = [this, &mmenu, &current_trait]( const std::vector<trait_id> &traits ) {
             const size_t iterations = traits.size();
             for( int i = 0; i < static_cast<int>( iterations ); ++i ) {
@@ -1207,11 +1207,13 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             }
         };
 
-
+        // Aggregate all prospective traits
         std::vector<trait_id> prospective_traits;
         prospective_traits.insert(prospective_traits.end(), upgrades.begin(), upgrades.end());
         prospective_traits.insert(prospective_traits.end(), valid.begin(), valid.end());
         prospective_traits.insert(prospective_traits.end(), dummies.begin(), dummies.end());
+        
+        // Only allow traits with fulfilled prerequisites
         std::vector<trait_id> traits;
         for( trait_id trait : prospective_traits ) {
         	const mutation_branch &mdata = trait.obj();
@@ -1237,13 +1239,14 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                     }
                 }
             }
+            // std::find function returns false on duplicate entry
             if ( c_has_prereq1 && c_has_prereq2 && std::find(traits.begin(), traits.end(), trait) == traits.end() ) {
             	traits.push_back( trait );
             }
         }
-        
-        mmenu.text = _( "Choose a mutation" );
         make_entries( traits );
+        
+        // Display menu and handle selection
         mmenu.query();
         if( mmenu.ret >= 0 ) {
             if( mutate_towards( traits[mmenu.ret], cat, nullptr, use_vitamins ) ) {
