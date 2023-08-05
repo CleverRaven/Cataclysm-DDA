@@ -285,5 +285,19 @@
     "copy-from": "mosin44",
     "name": { "str": "Mosin carbine" },
     "extend": { "flags": [ "OLD_GUN" ] }
+  },
+  {
+    "id": "type99",
+    "type": "GUN",
+    "copy-from": "type99",
+    "name": { "str": "7.7mm battle rifle" },
+    "extend": { "flags": [ "OLD_GUN" ] }
+  },
+  {
+    "id": "type30",
+    "type": "GUN",
+    "copy-from": "type30",
+    "name": { "str": "Arisaka battle rifle" },
+    "extend": { "flags": [ "OLD_GUN" ] }
   }
 ]
