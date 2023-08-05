@@ -1182,6 +1182,64 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             }
         }
 
+        // Remove anything we already have, that we have a child of, that
+        // goes against our intention of a good/bad mutation, or that we lack resources for
+        for( size_t i = 0; i < valid.size(); i++ ) {
+            if( ( !mutation_ok( valid[i], allow_good, allow_bad, allow_neutral, mut_vit ) ) ||
+                ( !valid[i]->valid ) ) {
+                add_msg_debug( debugmode::DF_MUTATION, "mutate: trait %s removed from valid trait list",
+                               ( valid.begin() + i )->c_str() );
+                valid.erase( valid.begin() + i );
+                i--;
+            }
+        }
+
+        //menu
+        uilist mmenu;
+        trait_id current_trait;
+
+        auto make_entries = [this, &mmenu, &current_trait]( const std::vector<trait_id> &traits ) {
+            const size_t iterations = traits.size();
+            for( int i = 0; i < static_cast<int>( iterations ); ++i ) {
+                const trait_id &trait = traits[i];
+                const std::string &entry_name = mutation_name( trait );
+                mmenu.addentry( i, true, MENU_AUTOASSIGN, entry_name );
+            }
+        };
+
+        std::vector<trait_id> traits;
+        //traits.insert(traits.end(), upgrades.begin(), upgrades.end());
+        //traits.insert(traits.end(), valid.begin(), valid.end());
+        //traits.insert(traits.end(), dummies.begin(), dummies.end());
+        for( trait_id trait : upgrades ) {
+        	traits.push_back( trait );
+        	add_msg("upgrades: " + mutation_name( trait ));
+        }
+        for( trait_id trait : valid ) {
+        	traits.push_back( trait );
+        	add_msg("valid: " + mutation_name( trait ));
+        }
+        for( trait_id trait : dummies ) {
+        	traits.push_back( trait );
+        	add_msg("dummies: " + mutation_name( trait ));
+        }
+        mmenu.text = _( "Choose a mutation" );
+
+        make_entries( traits );
+
+        mmenu.query();
+        if( mmenu.ret >= 0 ) {
+            if( mutate_towards( valid[mmenu.ret], cat, nullptr, use_vitamins ) ) {
+                add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
+            }
+        }
+        return;
+
+
+
+
+
+
         // Prioritize upgrading existing mutations
         if( one_in( 2 ) ) {
             if( !upgrades.empty() ) {
@@ -1193,18 +1251,6 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                     mutate_towards( upgrades[roll], cat, nullptr, use_vitamins );
                     return;
                 }
-            }
-        }
-
-        // Remove anything we already have, that we have a child of, that
-        // goes against our intention of a good/bad mutation, or that we lack resources for
-        for( size_t i = 0; i < valid.size(); i++ ) {
-            if( ( !mutation_ok( valid[i], allow_good, allow_bad, allow_neutral, mut_vit ) ) ||
-                ( !valid[i]->valid ) ) {
-                add_msg_debug( debugmode::DF_MUTATION, "mutate: trait %s removed from valid trait list",
-                               ( valid.begin() + i )->c_str() );
-                valid.erase( valid.begin() + i );
-                i--;
             }
         }
 
