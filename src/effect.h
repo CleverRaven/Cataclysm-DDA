@@ -344,6 +344,8 @@ class effect
          */
         int mod_intensity( int mod, bool alert = false );
 
+        /** Returns the string id of the resist flag a limb can have to ignore this effect. */
+        const std::vector<flag_id> &get_resist_limb_flags() const;
         /** Returns the string id of the resist trait to be used in has_trait("id"). */
         const std::vector<trait_id> &get_resist_traits() const;
         /** Returns the string id of the resist effect to be used in has_effect("id"). */
