@@ -218,7 +218,7 @@
     "type": "GENERIC",
     "copy-from": "washing_machine",
     "id": "fridgetank_large",
-    "name": { "str": "refrigerated tank (100L)" },
+    "name": { "str": "refrigerated tank (100L)", "str_pl": "refrigerated tanks (100L)" },
     "description": "A 100L refrigerated tank for keeping liquids cool.  Provides some insulation from outside weather.",
     "looks_like": "fridgetank",
     "insulation": 10,
