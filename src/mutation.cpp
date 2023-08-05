@@ -1207,29 +1207,46 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             }
         };
 
+
+        std::vector<trait_id> prospective_traits;
+        prospective_traits.insert(prospective_traits.end(), upgrades.begin(), upgrades.end());
+        prospective_traits.insert(prospective_traits.end(), valid.begin(), valid.end());
+        prospective_traits.insert(prospective_traits.end(), dummies.begin(), dummies.end());
         std::vector<trait_id> traits;
-        //traits.insert(traits.end(), upgrades.begin(), upgrades.end());
-        //traits.insert(traits.end(), valid.begin(), valid.end());
-        //traits.insert(traits.end(), dummies.begin(), dummies.end());
-        for( trait_id trait : upgrades ) {
-        	traits.push_back( trait );
-        	add_msg("upgrades: " + mutation_name( trait ));
+        for( trait_id trait : prospective_traits ) {
+        	const mutation_branch &mdata = trait.obj();
+            std::vector<trait_id> prereqs1 = mdata.prereqs;
+            std::vector<trait_id> prereqs2 = mdata.prereqs2;
+        	bool c_has_prereq1 = false;
+            bool c_has_prereq2 = false;
+            if( prereqs1.empty() ) {
+            	c_has_prereq1 = true;
+            } else {
+                for( size_t i = 0; ( !c_has_prereq1 ) && i < prereqs1.size(); i++ ) {
+                    if( has_trait( prereqs1[i] ) ) {
+                        c_has_prereq1 = true;
+                    }
+                }
+            }
+            if( prereqs2.empty() ) {
+            	c_has_prereq2 = true;
+            } else {
+                for( size_t i = 0; ( !c_has_prereq2 ) && i < prereqs2.size(); i++ ) {
+                    if( has_trait( prereqs2[i] ) ) {
+                        c_has_prereq2 = true;
+                    }
+                }
+            }
+            if ( c_has_prereq1 && c_has_prereq2 && std::find(traits.begin(), traits.end(), trait) == traits.end() ) {
+            	traits.push_back( trait );
+            }
         }
-        for( trait_id trait : valid ) {
-        	traits.push_back( trait );
-        	add_msg("valid: " + mutation_name( trait ));
-        }
-        for( trait_id trait : dummies ) {
-        	traits.push_back( trait );
-        	add_msg("dummies: " + mutation_name( trait ));
-        }
+        
         mmenu.text = _( "Choose a mutation" );
-
         make_entries( traits );
-
         mmenu.query();
         if( mmenu.ret >= 0 ) {
-            if( mutate_towards( valid[mmenu.ret], cat, nullptr, use_vitamins ) ) {
+            if( mutate_towards( traits[mmenu.ret], cat, nullptr, use_vitamins ) ) {
                 add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
             }
         }
