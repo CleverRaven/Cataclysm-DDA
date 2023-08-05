@@ -80,6 +80,7 @@ static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
@@ -1351,6 +1352,22 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         // 1. before we even assign the fetch activity and;
         // 2. when we form the src_set to loop through at the beginning of the fetch activity.
         return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
+    } else if( act == ACT_MULTIPLE_CRAFT ) {
+        auto to_craft = you.craft_task.get_item();
+        if( to_craft && to_craft->is_craft() ) {
+            const inventory inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
+            const recipe &r = to_craft->get_making();
+            std::vector<std::vector<item_comp>> item_comp_vector = to_craft->get_continue_reqs().get_components();
+            std::vector<std::vector<quality_requirement>> quality_comp_vector = r.simple_requirements().get_qualities();
+            std::vector<std::vector<tool_comp>> tool_comp_vector = r.simple_requirements().get_tools();
+            requirement_data req = requirement_data(tool_comp_vector, quality_comp_vector, item_comp_vector);
+            if(req.can_make_with_inventory(inv, is_crafting_component) ) {
+                return activity_reason_info::ok( do_activity_reason::NEEDS_CRAFT );
+            } else {
+                return activity_reason_info( do_activity_reason::NEEDS_CRAFT, false, req );
+            }
+        }
+        return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
     } else if( act == ACT_MULTIPLE_DIS ) {
         // Is there anything to be disassembled?
         // TODO: fix point types
@@ -2517,7 +2534,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
                 }
             }
         }
-    } else if( act_id == ACT_MULTIPLE_READ ) {
+    } else if( act_id == ACT_MULTIPLE_READ || act_id == ACT_MULTIPLE_CRAFT ) {
         // anywhere well lit
         for( const tripoint_bub_ms &elem : here.points_in_radius( localpos, ACTIVITY_SEARCH_DISTANCE ) ) {
             src_set.insert( here.getglobal( elem ) );
@@ -2675,6 +2692,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
                reason == do_activity_reason::NEEDS_VEH_REPAIR ||
                reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
                reason == do_activity_reason::NEEDS_FISHING || reason == do_activity_reason::NEEDS_MINING ||
+               reason == do_activity_reason::NEEDS_CRAFT ||
                reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
         // we can do it, but we need to fetch some stuff first
         // before we set the task to fetch components - is it even worth it? are the components anywhere?
@@ -2736,7 +2754,9 @@ static requirement_check_result generic_multi_activity_check_requirement(
                    reason == do_activity_reason::NEEDS_BUTCHERING ||
                    reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
                    reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
-                   reason == do_activity_reason::NEEDS_FISHING || reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
+                   reason == do_activity_reason::NEEDS_FISHING ||
+                   reason == do_activity_reason::NEEDS_CRAFT ||
+                   reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
             std::vector<std::vector<item_comp>> requirement_comp_vector;
             std::vector<std::vector<quality_requirement>> quality_comp_vector;
             std::vector<std::vector<tool_comp>> tool_comp_vector;
@@ -2760,6 +2780,10 @@ static requirement_check_result generic_multi_activity_check_requirement(
 
             } else if( reason == do_activity_reason::NEEDS_FISHING ) {
                 quality_comp_vector.push_back( std::vector<quality_requirement> {quality_requirement( qual_FISHING_ROD, 1, 1 )} );
+            } else if( reason == do_activity_reason::NEEDS_CRAFT ) {
+                requirement_comp_vector = act_info.req.get_components();
+                quality_comp_vector = act_info.req.get_qualities();
+                tool_comp_vector = act_info.req.get_tools();
             } else if( reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
                 quality_comp_vector = act_info.req.get_qualities();
                 tool_comp_vector = act_info.req.get_tools();
@@ -2981,6 +3005,14 @@ static bool generic_multi_activity_do(
         }
 
         you.activity_vehicle_part_index = -1;
+    } else if( reason == do_activity_reason::NEEDS_CRAFT ) {
+        auto to_craft = you.craft_task.get_item();
+        if( to_craft && to_craft->is_craft() ) {
+            player_activity act = player_activity( craft_activity_actor(you.craft_task, false) );
+            you.assign_activity( act );
+            you.backlog.emplace_back( ACT_MULTIPLE_CRAFT );
+        }
+        return false;
     } else if( reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
         map_stack items = here.i_at( src_loc );
         for( item &elem : items ) {

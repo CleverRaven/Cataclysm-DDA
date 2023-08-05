@@ -81,6 +81,7 @@
 #include "weather.h"
 
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
+static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 
 static const efftype_id effect_contacts( "contacts" );
 
@@ -879,7 +880,12 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
         return;
     }
 
-    assign_activity( craft_activity_actor( craft_in_world, command.is_long() ) );
+    if(is_npc()) {
+        craft_task = craft_in_world;
+        assign_activity( ACT_MULTIPLE_CRAFT );
+    } else {
+        assign_activity( craft_activity_actor( craft_in_world, command.is_long() ) );
+    }
 
     add_msg_player_or_npc(
         pgettext( "in progress craft", "You start working on the %s." ),

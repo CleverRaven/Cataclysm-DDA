@@ -2601,6 +2601,7 @@ class Character : public Creature, public visitable
         int mounted_creature_id = 0;
         // for vehicle work
         int activity_vehicle_part_index = -1;
+        item_location craft_task;
 
         // Hauling items on the ground
         void start_hauling();

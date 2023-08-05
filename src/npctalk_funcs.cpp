@@ -335,6 +335,12 @@ void talk_function::revert_activity( npc &p )
 {
     p.revert_after_activity();
 }
+
+void talk_function::do_craft( npc &p )
+{
+    p.craft();
+}
+
 void talk_function::do_disassembly( npc &p )
 {
     p.assign_activity( ACT_MULTIPLE_DIS );
