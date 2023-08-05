@@ -6625,7 +6625,11 @@ void Character::mod_stamina( int mod )
 
     stamina += mod;
     if( stamina < 0 ) {
-        add_effect( effect_winded, 10_turns );
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            if( bp->windage_effect ) {
+                add_effect( bp->windage_effect, 10_turns );
+            }
+        }
     }
     stamina = clamp( stamina, 0, get_stamina_max() );
 }
