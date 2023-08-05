@@ -387,6 +387,8 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
     }
     mandatory( jo, was_loaded, "opposite_part", opposite_part );
 
+    optional( jo, was_loaded, "windage_effect", windage_effect, null );
+    
     optional( jo, was_loaded, "smash_message", smash_message );
     optional( jo, was_loaded, "smash_efficiency", smash_efficiency, 0.5f );
 
@@ -875,6 +877,11 @@ float bodypart::get_wetness_percentage() const
     } else {
         return static_cast<float>( wetness ) / id->drench_max;
     }
+}
+
+efftype_id get_windage_effect() const
+{
+    return id->windage_effect;
 }
 
 int bodypart::get_encumbrance_threshold() const
