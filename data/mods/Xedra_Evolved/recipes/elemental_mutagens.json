@@ -1,5 +1,5 @@
 [
-	{
+  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_earthkin",
@@ -14,8 +14,20 @@
     "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
     "components": [
       [ [ "water", 3 ] ],
-      [ [ "arvore_sample", 1 ], [ "undine_sample", 1 ], [ "homullus_sample", 1 ], [ "sylph_sample", 1 ], [ "salamander_sample", 1 ] ],
-      [ [ "arvore_sample", 1 ], [ "undine_sample", 1 ], [ "homullus_sample", 1 ], [ "sylph_sample", 1 ], [ "salamander_sample", 1 ] ]
+      [
+        [ "arvore_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "salamander_sample", 1 ]
+      ],
+      [
+        [ "arvore_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "salamander_sample", 1 ]
+      ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -34,8 +46,20 @@
     "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
     "components": [
       [ [ "water", 3 ] ],
-      [ [ "ierde_sample", 1 ], [ "undine_sample", 1 ], [ "homullus_sample", 1 ], [ "sylph_sample", 1 ], [ "salamander_sample", 1 ] ],
-      [ [ "ierde_sample", 1 ], [ "undine_sample", 1 ], [ "homullus_sample", 1 ], [ "sylph_sample", 1 ], [ "salamander_sample", 1 ] ]
+      [
+        [ "ierde_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "salamander_sample", 1 ]
+      ],
+      [
+        [ "ierde_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "salamander_sample", 1 ]
+      ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -54,8 +78,20 @@
     "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
     "components": [
       [ [ "water", 3 ] ],
-      [ [ "ierde_sample", 1 ], [ "undine_sample", 1 ], [ "homullus_sample", 1 ], [ "sylph_sample", 1 ], [ "arvore_sample", 1 ] ],
-      [ [ "ierde_sample", 1 ], [ "undine_sample", 1 ], [ "homullus_sample", 1 ], [ "sylph_sample", 1 ], [ "arvore_sample", 1 ] ]
+      [
+        [ "ierde_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "arvore_sample", 1 ]
+      ],
+      [
+        [ "ierde_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "arvore_sample", 1 ]
+      ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -74,8 +110,20 @@
     "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
     "components": [
       [ [ "water", 3 ] ],
-      [ [ "arvore_sample", 1 ], [ "ierde_sample", 1 ], [ "homullus_sample", 1 ], [ "sylph_sample", 1 ], [ "salamander_sample", 1 ] ],
-      [ [ "arvore_sample", 1 ], [ "ierde_sample", 1 ], [ "homullus_sample", 1 ], [ "sylph_sample", 1 ], [ "salamander_sample", 1 ] ]
+      [
+        [ "arvore_sample", 1 ],
+        [ "ierde_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "salamander_sample", 1 ]
+      ],
+      [
+        [ "arvore_sample", 1 ],
+        [ "ierde_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "salamander_sample", 1 ]
+      ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -94,8 +142,20 @@
     "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
     "components": [
       [ [ "water", 3 ] ],
-      [ [ "ierde_sample", 1 ], [ "undine_sample", 1 ], [ "arvore_sample", 1 ], [ "sylph_sample", 1 ], [ "salamander_sample", 1 ] ],
-      [ [ "ierde_sample", 1 ], [ "undine_sample", 1 ], [ "arvore_sample", 1 ], [ "sylph_sample", 1 ], [ "salamander_sample", 1 ] ]
+      [
+        [ "ierde_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "arvore_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "salamander_sample", 1 ]
+      ],
+      [
+        [ "ierde_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "arvore_sample", 1 ],
+        [ "sylph_sample", 1 ],
+        [ "salamander_sample", 1 ]
+      ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -114,8 +174,20 @@
     "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
     "components": [
       [ [ "water", 3 ] ],
-      [ [ "ierde_sample", 1 ], [ "undine_sample", 1 ], [ "homullus_sample", 1 ], [ "salamander_sample", 1 ], [ "arvore_sample", 1 ] ],
-      [ [ "ierde_sample", 1 ], [ "undine_sample", 1 ], [ "homullus_sample", 1 ], [ "salamander_sample", 1 ], [ "arvore_sample", 1 ] ]
+      [
+        [ "ierde_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "salamander_sample", 1 ],
+        [ "arvore_sample", 1 ]
+      ],
+      [
+        [ "ierde_sample", 1 ],
+        [ "undine_sample", 1 ],
+        [ "homullus_sample", 1 ],
+        [ "salamander_sample", 1 ],
+        [ "arvore_sample", 1 ]
+      ]
     ],
     "flags": [ "SECRET" ]
   }
