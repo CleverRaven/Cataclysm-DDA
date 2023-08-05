@@ -4244,8 +4244,6 @@ The contents of use_action fields can either be a string indicating a built-in f
 `"tick_action"` of active tools is executed once on every turn. This action can be any use action or iuse but some of them may not work properly when not executed by player.
 
 If `"tick_action"` is defined as array of multiple actions they all are executed in order. Multiple use actions of same type cannot be used at once.
-
-On items that do not have `"tick_action"` the `"use_action"` of active tools is executed on every turn. This is only for compatibility with old items and should not be used. This functionality will be removed in future.
   
 #### Delayed Item Actions
 

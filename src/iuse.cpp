@@ -7629,7 +7629,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint &po
 
     enum {
         mc_start, mc_stop, mc_take, mc_upgrade, mc_empty
-    }
+    };
 
     if( p->cant_do_underwater() ) {
         return std::nullopt;
