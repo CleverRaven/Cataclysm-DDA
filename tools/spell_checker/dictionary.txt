@@ -161,6 +161,7 @@ arthropod
 arthropodology
 artificer
 artisanals
+arvore
 asexuality
 askin
 aspirants
@@ -1355,6 +1356,7 @@ homebrewing
 homemaking
 homewrecker
 homovorus
+homullus
 homunculi
 homunculus
 honeygold
@@ -1408,6 +1410,7 @@ ibalalehu
 ichor
 ichthys
 idkont
+ierde
 ifoundramsesthecat
 ignitable
 ignto
@@ -1974,6 +1977,7 @@ nigromancie
 nimbelemnite
 nimbleness
 nimbler
+nimue's
 niter
 nitrox
 nittlebam
@@ -2656,6 +2660,7 @@ skulduggery
 skulker
 skullgun
 skybridge
+skyglass
 slackness
 slaked
 slamfire
@@ -3372,6 +3377,7 @@ zombified
 zomborg
 zombull
 zombullfrog
+zoomorphic
 zoonotic
 zpzzzzpzz
 zubon
