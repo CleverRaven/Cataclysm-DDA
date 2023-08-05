@@ -215,31 +215,6 @@ static void load_forest_trail_settings( const JsonObject &jo,
                                     forest_trail_settings.trailhead_chance, !overlay );
         read_and_set_or_throw<int>( forest_trail_settings_jo, "trailhead_road_distance",
                                     forest_trail_settings.trailhead_road_distance, !overlay );
-        read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_center_variance",
-                                    forest_trail_settings.trail_center_variance, !overlay );
-        read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_width_offset_min",
-                                    forest_trail_settings.trail_width_offset_min, !overlay );
-        read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_width_offset_max",
-                                    forest_trail_settings.trail_width_offset_max, !overlay );
-        read_and_set_or_throw<bool>( forest_trail_settings_jo, "clear_trail_terrain",
-                                     forest_trail_settings.clear_trail_terrain, !overlay );
-
-        if( forest_trail_settings.clear_trail_terrain ) {
-            forest_trail_settings.unfinalized_trail_terrain.clear();
-        }
-
-        if( !forest_trail_settings_jo.has_object( "trail_terrain" ) ) {
-            if( !overlay ) {
-                forest_trail_settings_jo.throw_error( "trail_terrain required" );
-            }
-        } else {
-            for( const JsonMember member : forest_trail_settings_jo.get_object( "trail_terrain" ) ) {
-                if( member.is_comment() ) {
-                    continue;
-                }
-                forest_trail_settings.unfinalized_trail_terrain[member.name()] = member.get_int();
-            }
-        }
 
         if( !forest_trail_settings_jo.has_object( "trailheads" ) ) {
             if( !overlay ) {
@@ -982,15 +957,6 @@ void forest_mapgen_settings::finalize()
 
 void forest_trail_settings::finalize()
 {
-    for( const std::pair<const std::string, int> &pr : unfinalized_trail_terrain ) {
-        const ter_str_id tid( pr.first );
-        if( !tid.is_valid() ) {
-            debugmsg( "Tried to add invalid terrain %s to forest_trail_settings trail_terrain.", tid.c_str() );
-            continue;
-        }
-        trail_terrain.add( tid.id(), pr.second );
-    }
-
     trailheads.finalize();
 }
 
