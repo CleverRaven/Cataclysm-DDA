@@ -481,7 +481,7 @@ class bodypart
         std::set<matec_id> get_limb_techs() const;
 
         /** Returns the string id of the effect to be used. */
-        const efftype_id get_windage_effect() const;
+        efftype_id get_windage_effect() const;
 
         // Get onhit effects
         std::vector<bp_onhit_effect> get_onhit_effects( damage_type_id dtype ) const;
