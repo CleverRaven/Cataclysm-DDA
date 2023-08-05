@@ -1241,8 +1241,21 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                         }
                     }
                 }
+                
+                bool c_has_threshreq = false;
+                std::vector<trait_id> threshreq = mdata.threshreq;
+                if( threshreq.empty() ) {
+                	c_has_threshreq = true;
+                } else {
+                    for( size_t i = 0; !c_has_threshreq && i < threshreq.size(); i++ ) {
+                        if( has_trait( threshreq[i] ) ) {
+                            c_has_threshreq = true;
+                        }
+                    }
+                }
+    
                 // std::find function returns false on duplicate entry
-                if ( c_has_prereq1 && c_has_prereq2 && std::find(traits.begin(), traits.end(), trait) == traits.end() ) {
+                if ( c_has_prereq1 && c_has_prereq2 && c_has_threshreq && std::find(traits.begin(), traits.end(), trait) == traits.end() ) {
                 	traits.push_back( trait );
                 }
             }
