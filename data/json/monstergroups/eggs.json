@@ -522,11 +522,6 @@
     "monsters": [ { "monster": "mon_strange_tadpole" } ]
   },
   {
-    "name": "GROUP_EGG_GIANT_FROG",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_giant_tadpole" } ]
-  },
-  {
     "name": "GROUP_EGG_FOWLER_TOAD",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fowler_tadpole" } ]

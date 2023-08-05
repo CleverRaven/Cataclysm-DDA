@@ -1178,14 +1178,14 @@
     "weight": "20 g",
     "volume": "650 ml",
     "description": "A large clump of frog eggs.  They're gelatinous and transparent.",
-    "rot_spawn": "GROUP_EGG_PROXY_FROG",
-    "rot_spawn_chance": 60
+    "rot_spawn": "GROUP_EGG_PROXY_FROG"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_leo_frog",
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "This is a dense cluster of dark frog's eggs, not dissimilar in appearance to caviar.",
     "rot_spawn": "GROUP_EGG_LEO_FROG"
   },
   {
@@ -1193,42 +1193,29 @@
     "id": "egg_pattern_frog",
     "copy-from": "egg_leo_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "rot_spawn": "GROUP_EGG_PATTERN_FROG",
-    "rot_spawn_chance": 70
+    "rot_spawn": "GROUP_EGG_PATTERN_FROG"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_bullfrog_frog",
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "spoils_in": "14 days",
-    "rot_spawn": "GROUP_EGG_BULLFROG_FROG",
-    "rot_spawn_chance": 50
+    "description": "A thin film of frog eggs floats together atop the water in a roughly circular mass.",
+    "rot_spawn": "GROUP_EGG_BULLFROG_FROG"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_strange_frog",
     "copy-from": "egg_bullfrog_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "rot_spawn": "GROUP_EGG_STRANGE_FROG",
-    "rot_spawn_chance": 80
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_giant_frog",
-    "copy-from": "egg_bullfrog_frog",
-    "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
-    "weight": "143 g",
-    "volume": "130 ml",
-    "description": "A large clump of very large frog eggs. They're gelatinous, transparent and larger even than chicken's eggs. ",
-    "rot_spawn": "GROUP_EGG_GIANT_FROG",
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ]
+    "rot_spawn": "GROUP_EGG_STRANGE_FROG"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_fowler_toad",
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "These eggs float in long strands, drifting in the still water.",
     "rot_spawn": "GROUP_EGG_FOWLER_TOAD"
   },
   {
@@ -1236,15 +1223,14 @@
     "id": "egg_foul_toad",
     "copy-from": "egg_fowler_toad",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "spoils_in": "9 days",
-    "rot_spawn": "GROUP_EGG_FOUL_TOAD",
-    "rot_spawn_chance": 70
+    "rot_spawn": "GROUP_EGG_FOUL_TOAD"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_freedom_toad",
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "A spiral strand of frog eggs adorns a patch of underwater vegetation.",
     "rot_spawn": "GROUP_EGG_FREEDOM_TOAD"
   },
   {
@@ -1252,44 +1238,36 @@
     "id": "egg_odd_toad",
     "copy-from": "egg_freedom_toad",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "spoils_in": "9 days",
-    "rot_spawn": "GROUP_EGG_ODD_TOAD",
-    "rot_spawn_chance": 70
+    "rot_spawn": "GROUP_EGG_ODD_TOAD"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_peeper_frog",
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "spoils_in": "4 days",
-    "rot_spawn": "GROUP_EGG_PEEPER_FROG",
-    "rot_spawn_chance": 75
+    "description": "A loose grouping of surprisingly few frog's eggs, anchored to submerged vegetation.",
+    "rot_spawn": "GROUP_EGG_PEEPER_FROG"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_vocal_frog",
     "copy-from": "egg_peeper_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "spoils_in": "7 days",
-    "rot_spawn": "GROUP_EGG_VOCAL_FROG",
-    "rot_spawn_chance": 90
+    "rot_spawn": "GROUP_EGG_VOCAL_FROG"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_gray_frog",
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "spoils_in": "4 days",
-    "rot_spawn": "GROUP_EGG_GRAY_FROG",
-    "rot_spawn_chance": 75
+    "description": "A small patch of frog's eggs rests on the water's surface.",
+    "rot_spawn": "GROUP_EGG_GRAY_FROG"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_shift_frog",
     "copy-from": "egg_gray_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "spoils_in": "7 days",
-    "rot_spawn": "GROUP_EGG_SHIFT_FROG",
-    "rot_spawn_chance": 90
+    "rot_spawn": "GROUP_EGG_SHIFT_FROG"
   }
 ]
