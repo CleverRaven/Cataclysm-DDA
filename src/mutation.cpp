@@ -1216,10 +1216,10 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             prospective_traits.insert( prospective_traits.end(), upgrades.begin(), upgrades.end() );
             prospective_traits.insert( prospective_traits.end(), valid.begin(), valid.end() );
             for( trait_id dummy_trait : dummies ) {
-            	// Only dummy traits with conflicts are considered
-            	if( has_conflicting_trait( dummy_trait ) ) {
-            		prospective_traits.push_back( dummy_trait );
-            	}
+                // Only dummy traits with conflicts are considered
+                if( has_conflicting_trait( dummy_trait ) ) {
+                    prospective_traits.push_back( dummy_trait );
+                }
             }
 
             // Only allow traits with fulfilled prerequisites
@@ -1236,7 +1236,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                     }
                 }
                 if( !c_has_prereq1 ) {
-                	continue;
+                    continue;
                 }
 
                 // Check prereq 2
@@ -1248,7 +1248,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                     }
                 }
                 if( !c_has_prereq2 ) {
-                	continue;
+                    continue;
                 }
 
                 // Check threshold requirement
@@ -1260,7 +1260,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                     }
                 }
                 if( !c_has_threshreq ) {
-                	continue;
+                    continue;
                 }
 
                 // Check bionic conflicts
