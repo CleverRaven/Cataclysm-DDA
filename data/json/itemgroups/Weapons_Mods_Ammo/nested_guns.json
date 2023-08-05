@@ -2693,8 +2693,15 @@
     "entries": [
       {
         "distribution": [
-          { "item": "type99", "charges-min": 0, "charges-max": 5, "prob": 70 },
-          { "item": "type99", "charges-min": 0, "charges-max": 5, "contents-group": [ "type99_mods" ], "prob": 30 }
+          { "item": "type99", "variant": "type99", "charges-min": 0, "charges-max": 5, "prob": 70 },
+          {
+            "item": "type99",
+            "variant": "type99",
+            "charges-min": 0,
+            "charges-max": 5,
+            "contents-group": [ "type99_mods" ],
+            "prob": 30
+          }
         ]
       },
       { "item": "clip_77mm_arisaka" },
@@ -2723,8 +2730,40 @@
     "entries": [
       {
         "distribution": [
-          { "item": "type30", "charges-min": 0, "charges-max": 5, "prob": 70 },
-          { "item": "type30", "charges-min": 0, "charges-max": 5, "contents-item": [ "arisaka_bayonet" ], "prob": 30 }
+          { "item": "type30", "variant": "type30", "charges-min": 0, "charges-max": 5, "prob": 70 },
+          {
+            "item": "type30",
+            "variant": "type30",
+            "charges-min": 0,
+            "charges-max": 5,
+            "contents-item": [ "arisaka_bayonet" ],
+            "prob": 30
+          }
+        ]
+      },
+      { "item": "clip_65mm_arisaka" },
+      { "item": "clip_65mm_arisaka", "prob": 50 },
+      { "group": "on_hand_65mm_arisaka" }
+    ]
+  },
+  {
+    "id": "nested_type35",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      {
+        "distribution": [
+          { "item": "type30", "variant": "type35", "charges-min": 0, "charges-max": 5, "prob": 70 },
+          {
+            "item": "type30",
+            "variant": "type35",
+            "charges-min": 0,
+            "charges-max": 5,
+            "contents-item": [ "arisaka_bayonet" ],
+            "prob": 30
+          }
         ]
       },
       { "item": "clip_65mm_arisaka" },

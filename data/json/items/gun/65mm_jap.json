@@ -11,8 +11,13 @@
       {
         "id": "type30",
         "name": { "str_sp": "Arisaka Type 30" },
-        "description": "A big and burly old-world rifle, the Type 30 Arisaka was the standard infantry weapon of the Japanese army from 1897 until its partial replacement in 1905, serving in various roles in the hands of Japanese, Russian, and even limited British forces during World War I and even beyond.  Possessing an iconic dust cover that rides with the bolt and a semi-pistol grip arrangement, the rifle was quickly disliked by soldiers for its far too cumbersome heft and its relatively weak 6.5x50mm chambering.",
+        "description": "A big and burly old-world rifle, the Type 30 Arisaka was the standard infantry weapon of the Japanese army from 1897 until its partial replacement in 1905, serving in various roles in the hands of Japanese, Russian, and even limited British forces during World War I and even beyond.  Possessing an iconic hook-style safety and a semi-pistol grip arrangement, the rifle was quickly disliked by soldiers for its far too cumbersome heft and its relatively weak 6.5x50mm chambering.",
         "weight": 1
+      },
+      {
+        "id": "type35",
+        "name": { "str_sp": "Arisaka Type 35" },
+        "description": "Spiritually similar to its infantry sister, the Japanese Type 30, the Arisaka Type 35 was a modified version of the weapon issued to marine units of the Japanese navy in 1902, following complaints that arose during naval testing of the rifles.  Featuring modified rear sights and an independently manipulated dust cover, requiring the user to slide it free of the action before cycling, the rifle was chambered for the same 6.5x50mm cartridge as the earlier Type 30."
       }
     ],
     "weight": "3950 g",

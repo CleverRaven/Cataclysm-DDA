@@ -612,6 +612,7 @@
       { "group": "nested_type99", "prob": 6 },
       { "group": "nested_type99_sniper", "prob": 1 },
       { "group": "nested_type30", "prob": 1 },
+      { "group": "nested_type35", "prob": 1 },
       { "group": "nested_m1918", "prob": 30 },
       { "group": "nested_805_bren", "prob": 15 },
       { "group": "nested_mdrx", "prob": 30 },
@@ -659,6 +660,22 @@
         "charges-min": 0,
         "charges-max": 0
       },
+      {
+        "item": "type30",
+        "variant": "type30",
+        "contents-item": "arisaka_bayonet",
+        "prob": 1,
+        "charges-min": 0,
+        "charges-max": 0
+      },
+      {
+        "item": "type30",
+        "variant": "type35",
+        "contents-group": "arisaka_bayonet",
+        "prob": 1,
+        "charges-min": 0,
+        "charges-max": 0
+      },
       { "item": "mosin44", "variant": "mosin44_ebr", "contents-group": "mosin_mods", "prob": 1, "charges": [ 0, 0 ] },
       {
         "item": "mosin91_30",
@@ -667,7 +684,6 @@
         "prob": 1,
         "charges": [ 0, 0 ]
       },
-      { "item": "type30", "contents-item": "arisaka_bayonet", "prob": 1, "charges-min": 0, "charges-max": 0 },
       { "item": "iwi_tavor_x95_300blk", "prob": 15 },
       { "item": "1895sbl", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "hk_usc45", "prob": 10, "charges-min": 0, "charges-max": 0 },
