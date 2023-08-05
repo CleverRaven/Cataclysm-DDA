@@ -1,0 +1,14 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_trail",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0 ],
+      "rows": [ "." ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]
