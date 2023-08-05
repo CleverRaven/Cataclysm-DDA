@@ -1,55 +1,5 @@
 [
   {
-    "id": "mon_frog",
-    "type": "MONSTER",
-    "name": { "str": "bullfrog" },
-    "description": "The American bullfrog, in its natural habitat.  It feeds on insects, mice, lizards and any other living thing it can stuff down its gullet.",
-    "default_faction": "frog",
-    "bodytype": "frog",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "AMPHIBIAN" ],
-    "volume": "750 ml",
-    "weight": "500 g",
-    "hp": 3,
-    "speed": 80,
-    "material": [ "flesh" ],
-    "symbol": "b",
-    "color": "green",
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 6,
-    "reproduction": { "baby_egg": "egg_frog", "baby_count": 8, "baby_timer": 26 },
-    "harvest": "mammal_tiny",
-    "dissect": "dissect_batrachian_sample_single",
-    "special_attacks": [ { "type": "leap", "cooldown": 4, "max_range": 5, "allow_no_target": true } ],
-    "fear_triggers": [ "PLAYER_CLOSE" ],
-    "upgrades": { "half_life": 34, "into": "mon_frog_small" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS", "WATER_CAMOUFLAGE" ]
-  },
-  {
-    "id": "mon_tadpole",
-    "type": "MONSTER",
-    "name": { "str_sp": "tadpole" },
-    "description": "An American bullfrog in its larval stage.  It will eventually grow legs and start breathing air.",
-    "default_faction": "frog",
-    "bodytype": "fish",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "AMPHIBIAN" ],
-    "volume": "500 ml",
-    "weight": "600 g",
-    "hp": 2,
-    "speed": 70,
-    "dodge": 5,
-    "material": [ "flesh" ],
-    "symbol": "t",
-    "color": "green",
-    "aggression": -60,
-    "morale": -5,
-    "upgrades": { "age_grow": 365, "into": "mon_frog" },
-    "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "harvest": "mammal_tiny",
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
-  },
-  {
     "id": "mon_frog_small",
     "type": "MONSTER",
     "name": { "str": "mutant bullfrog" },
@@ -417,23 +367,6 @@
     "flags": [ "SEES", "SMELLS", "WARM", "VENOM", "SWIMS" ]
   },
   {
-    "id": "mon_toad",
-    "type": "MONSTER",
-    "name": { "str": "toad" },
-    "description": "Toads are a diverse and varied family of amphibians sister to frogs.  Very distinguishable for their warty and dry skin.",
-    "copy-from": "mon_frog",
-    "reproduction": { "baby_egg": "egg_toad", "baby_count": 8, "baby_timer": 26 }
-  },
-  {
-    "id": "mon_tadpole_brown",
-    "type": "MONSTER",
-    "name": { "str": "toad tadpole" },
-    "description": "Toad tadpoles looks exactly like a frog tadpoles at birth.  The main difference is that they keep this color during their whole larval stage.",
-    "copy-from": "mon_tadpole",
-    "color": "brown",
-    "upgrades": { "age_grow": 365, "into": "mon_toad" }
-  },
-  {
     "id": "mon_toad_small",
     "type": "MONSTER",
     "name": { "str": "huge toad" },
@@ -494,6 +427,7 @@
     "harvest": "mammal_tiny",
     "vision_night": 30,
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "HURT", "FRIEND_ATTACKED", "SOUND" ],
+    "upgrades": { "age_grow": 60, "into": "mon_proxy_frog" },
     "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
@@ -567,7 +501,7 @@
     "copy-from": "mon_proxy_tadpole",
     "name": { "str": "tadpole" },
     "description": "A tiny larval frog. Almost solid black, this one is barely a speck in the water around it.",
-    "color": "black",
+    "color": "dark_gray",
     "upgrades": { "age_grow": 60, "into": "mon_peeper_frog" }
   },
   {

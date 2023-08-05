@@ -227,11 +227,6 @@
     "monsters": [ { "monster": "mon_snail_larva" } ]
   },
   {
-    "name": "GROUP_EGG_FROG",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_tadpole" } ]
-  },
-  {
     "name": "GROUP_EGG_GOOSE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_goose_chick" } ]
@@ -270,11 +265,6 @@
     "name": "GROUP_EGG_GREBE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_grebe_chick" } ]
-  },
-  {
-    "name": "GROUP_EGG_TOAD",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_tadpole_brown" } ]
   },
   {
     "name": "GROUP_EGG_WATER_BEETLE",

@@ -113,8 +113,6 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
         "starts": "90 days"
       },
-      { "monster": "mon_frog", "weight": 3, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_toad", "weight": 3, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
       {
         "monster": "mon_rattlesnake",
         "weight": 3,
@@ -307,7 +305,6 @@
         "pack_size": [ 1, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
-      { "monster": "mon_frog", "weight": 5, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
       { "monster": "mon_zhark", "weight": 1, "cost_multiplier": 25, "starts": "3 days", "pack_size": [ 1, 3 ] },
       { "monster": "mon_zhark", "weight": 2, "cost_multiplier": 25, "starts": "28 days", "pack_size": [ 1, 3 ] },
       { "monster": "mon_fish_eel", "weight": 6, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
@@ -363,7 +360,6 @@
       { "monster": "mon_moorhen", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 6 ] },
       { "monster": "mon_cormorant", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
       { "monster": "mon_grebe", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_toad", "weight": 5, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
       { "monster": "mon_diving_larva", "weight": 10, "cost_multiplier": 2, "starts": "3 days" },
       { "monster": "mon_diving_larva", "weight": 20, "cost_multiplier": 3, "starts": "7 days", "pack_size": [ 1, 3 ] },
       { "monster": "mon_water_scorpion_larva", "weight": 10, "cost_multiplier": 2, "ends": "7 days" },
@@ -429,8 +425,6 @@
         "cost_multiplier": 2,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
-      { "monster": "mon_frog", "weight": 30, "cost_multiplier": 2, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
-      { "monster": "mon_toad", "weight": 50, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
       { "group": "GROUP_TADPOLES_SWAMP", "weight": 200, "pack_size": [ 3, 6 ] },
       { "group": "GROUP_FROGS_SWAMP", "weight": 250, "pack_size": [ 1, 3 ] }
     ]
@@ -526,8 +520,6 @@
       { "monster": "mon_rabbit", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_squirrel_red", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_squirrel", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_frog", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_toad", "weight": 50, "cost_multiplier": 0 },
       { "group": "GROUP_FROGS_ALL", "weight": 100, "cost_multiplier": 0 }
     ]
   },
