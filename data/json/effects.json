@@ -472,19 +472,103 @@
     "max_duration": "30 s",
     "base_mods": {
       "per_mod": [ -1 ],
-      "dex_mod": [ -1 ],
-      "str_mod": [ -3 ],
-      "speed_mod": [ -30 ],
+      "speed_mod": [ -8 ],
       "pain_min": [ 1 ],
-      "pain_chance": [ 1 ],
+      "pain_chance": [ 5 ],
       "pain_max_val": [ 20 ]
     },
     "limb_score_mods": [
-      { "limb_score": "reaction", "modifier": 0.5 },
-      { "limb_score": "lift", "modifier": 0.75 },
-      { "limb_score": "block", "modifier": 0.75 },
-      { "limb_score": "manip", "modifier": 0.5 },
-      { "limb_score": "swim", "modifier": 0.3 }
+      { "limb_score": "reaction", "modifier": 0.5 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "winded_leg_l",
+    "name": [ "Winded (Left Leg)" ],
+    "desc": [ "You're short of breath.  Your left leg has impaired function until you recover." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": {
+      "speed_mod": [ -3 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 10 ],
+      "pain_max_val": [ 20 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.9 },
+      { "limb_score": "swim", "modifier": 0.7 },
+      { "limb_score": "move_speed", "modifier": 0.8 },
+      { "limb_score": "footing", "modifier": 0.8 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "winded_leg_r",
+    "name": [ "Winded (Right Leg)" ],
+    "desc": [ "You're short of breath.  Your right leg has impaired function until you recover." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": {
+      "speed_mod": [ -3 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 10 ],
+      "pain_max_val": [ 20 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.9 },
+      { "limb_score": "swim", "modifier": 0.7 },
+      { "limb_score": "move_speed", "modifier": 0.8 },
+      { "limb_score": "footing", "modifier": 0.8 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "winded_arm_l",
+    "name": [ "Winded (Left Arm)" ],
+    "desc": [ "You're short of breath.  Your left arm has impaired function until you recover." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": {
+      "dex_mod": [ -1 ],
+      "str_mod": [ -1 ],
+      "speed_mod": [ -3 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 10 ],
+      "pain_max_val": [ 20 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 0.8 },
+      { "limb_score": "block", "modifier": 0.8 },
+      { "limb_score": "swim", "modifier": 0.8 },
+      { "limb_score": "manip", "modifier": 0.8 },
+      { "limb_score": "grip", "modifier": 0.8 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "winded_arm_r",
+    "name": [ "Winded (Right Arm)" ],
+    "desc": [ "You're short of breath.  Your right arm has impaired function until you recover." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": {
+      "dex_mod": [ -1 ],
+      "str_mod": [ -1 ],
+      "speed_mod": [ -3 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 10 ],
+      "pain_max_val": [ 20 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 0.8 },
+      { "limb_score": "block", "modifier": 0.8 },
+      { "limb_score": "swim", "modifier": 0.8 },
+      { "limb_score": "manip", "modifier": 0.8 },
+      { "limb_score": "grip", "modifier": 0.8 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
