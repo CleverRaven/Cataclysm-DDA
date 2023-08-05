@@ -185,7 +185,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
-    "item": "train_data_card",
+    "item": "train_data",
     "start": {
       "assign_mission_target": {
         "om_terrain": "underground_lab_cargo_stationA",
@@ -195,7 +195,7 @@
         "search_range": 200,
         "z": -4
       },
-      "effect": [ { "u_spawn_item": "data_card" } ]
+      "effect": [ { "u_spawn_item": "usb_drive_nano" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

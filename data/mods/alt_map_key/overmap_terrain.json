@@ -73,22 +73,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hiway_ns",
-    "copy-from": "hiway_ns",
-    "name": "highway",
-    "sym": "H",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hiway_ew",
-    "copy-from": "hiway_ew",
-    "name": "highway",
-    "sym": "=",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "road",
     "copy-from": "road",
     "name": "road",

@@ -89,6 +89,7 @@ class recipe
 
     private:
         itype_id result_ = itype_id::NULL_ID();
+        std::string variant_;
 
         int64_t time = 0; // in movement points (100 per turn)
 
@@ -108,6 +109,10 @@ class recipe
 
         const itype_id &result() const {
             return result_;
+        }
+
+        const std::string &variant() const {
+            return variant_;
         }
 
         const itype_id &container_id() const {

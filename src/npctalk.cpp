@@ -343,6 +343,7 @@ enum npc_chat_menu {
     NPC_CHAT_ACTIVITIES_FISHING,
     NPC_CHAT_ACTIVITIES_MINING,
     NPC_CHAT_ACTIVITIES_MOPPING,
+    NPC_CHAT_ACTIVITIES_READ_REPEATEDLY,
     NPC_CHAT_ACTIVITIES_VEHICLE_DECONSTRUCTION,
     NPC_CHAT_ACTIVITIES_VEHICLE_REPAIR,
     NPC_CHAT_ACTIVITIES_UNASSIGN
@@ -591,6 +592,8 @@ static int npc_activities_menu()
     nmenu.addentry( NPC_CHAT_ACTIVITIES_FISHING, true, 'F', _( "Fishing in a zone" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_MINING, true, 'M', _( "Mining out tiles" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_MOPPING, true, 'm', _( "Mopping up stains" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_READ_REPEATEDLY, true, 'R',
+                    _( "Study from books you have in order" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_VEHICLE_DECONSTRUCTION, true, 'v',
                     _( "Deconstructing vehicles" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_VEHICLE_REPAIR, true, 'V', _( "Repairing vehicles" ) );
@@ -1036,6 +1039,10 @@ void game::chat()
                     }
                     case NPC_CHAT_ACTIVITIES_FISHING: {
                         talk_function::do_fishing( *selected_npc );
+                        break;
+                    }
+                    case NPC_CHAT_ACTIVITIES_READ_REPEATEDLY: {
+                        talk_function::do_read_repeatedly( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_MINING: {
@@ -3026,11 +3033,13 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
                                    project_to<coords::ms>( omt_pos ).z() );
         }
         const tripoint_abs_ms abs_ms( target_pos );
-        map distant_map;
-        distant_map.load( project_to<coords::sm>( abs_ms ), false );
-
-        map &here = get_map().inbounds( abs_ms ) ? get_map() : distant_map;
-
+        map *here_ptr = &get_map();
+        std::unique_ptr<map> distant_map = std::make_unique<map>();
+        if( !get_map().inbounds( abs_ms ) ) {
+            distant_map->load( project_to<coords::sm>( abs_ms ), false );
+            here_ptr = distant_map.get();
+        }
+        map &here = *here_ptr;
         if( search_target.has_value() ) {
             if( search_type.value() == "monster" && !get_map().inbounds( abs_ms ) ) {
                 here.spawn_monsters( true, true );
@@ -3211,9 +3220,16 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
                                     //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
                                     -1, target_pos, radius, transform.evaluate( d ), key.evaluate( d ) );
         } else {
-            map tm;
-            tm.load( project_to<coords::sm>( target_pos - point{ radius, radius} ), false );
-            tm.transform_radius( ter_furn_transform_id( transform.evaluate( d ) ), radius, target_pos );
+            // Use the main map when possible to reduce performance overhead.
+            if( get_map().inbounds( target_pos - point{ radius, radius} ) &&
+                get_map().inbounds( target_pos + point{ radius, radius} ) ) {
+                get_map().transform_radius( ter_furn_transform_id( transform.evaluate( d ) ), radius, target_pos );
+            } else {
+                map tm;
+                tm.load( project_to<coords::sm>( target_pos - point{ radius, radius} ), false );
+                tm.transform_radius( ter_furn_transform_id( transform.evaluate( d ) ), radius, target_pos );
+            }
+
         }
     };
 }
@@ -5398,6 +5414,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( do_mopping ),
             WRAP( do_read ),
             WRAP( do_eread ),
+            WRAP( do_read_repeatedly ),
             WRAP( do_butcher ),
             WRAP( do_farming ),
             WRAP( assign_guard ),

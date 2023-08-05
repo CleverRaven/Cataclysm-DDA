@@ -46,9 +46,9 @@
     "id": "NC_ISHERWOOD_EDDIE_misc",
     "subtype": "distribution",
     "entries": [
-      { "item": "cheese_hard", "prob": 55 },
-      { "item": "cheese", "prob": 55 },
-      { "item": "butter", "prob": 55 },
+      { "prob": 55, "group": "cheese_hard_wrapper_8" },
+      { "prob": 55, "group": "cheese_bag_plastic_8" },
+      { "prob": 55, "group": "butter_wrapper_32" },
       { "item": "meat_smoked", "prob": 45 },
       { "item": "fish_smoked", "prob": 25 },
       { "item": "milk", "prob": 70, "charges": 12, "container-item": "jar_3l_glass_sealed" }
@@ -131,7 +131,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_EDDIE2",
-    "dynamic_line": "Barry and Carlos went to hunt down something that killed our livestock, they tracked it into the forest.  It grabbed Barry and ran off, Carlos might be willing to tell you the story, he managed to allude it.",
+    "dynamic_line": "Barry and Carlos went to hunt down something that killed our livestock, they tracked it into the forest.  It grabbed Barry and ran off, you might be able to get Carlos to tell you the story, if he can bring himself to share what happened.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
