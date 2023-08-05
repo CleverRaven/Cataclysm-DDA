@@ -65,11 +65,7 @@
     "copy-from": "bp_pistol_ball",
     "type": "AMMO",
     "name": { "str_sp": "pistol ammo, ball (matchhead powder)" },
-    "proportional": {
-      "price": 0.5,
-      "damage": { "damage_type": "bullet", "amount": 0.85 },
-      "dispersion": 1.1
-    },
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "extend": { "effects": [ "MATCHHEAD" ] }
   },
   {
@@ -77,11 +73,7 @@
     "copy-from": "bp_pistol_jhp",
     "type": "AMMO",
     "name": { "str_sp": "pistol ammo, JHP (matchhead powder)" },
-    "proportional": {
-      "price": 0.5,
-      "damage": { "damage_type": "bullet", "amount": 0.85 },
-      "dispersion": 1.1
-    },
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "extend": { "effects": [ "MATCHHEAD" ] }
   }
 ]
