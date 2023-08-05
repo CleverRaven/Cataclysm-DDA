@@ -1237,11 +1237,6 @@ static void destroy_random_component( item &craft, const Character &crafter )
     crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ),
                                    _( "You mess up and destroy the %s." ),
                                    _( "<npcname> messes up and destroys the %s" ), destroyed.tname() );
-    if( crafter.has_trait( trait_INT_UP_ALPHA ) ) {
-        Character *unhappy_alpha = crafter;
-        crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ), _( "Ugh, this should be EASY with how smart you are!" ), _( "<npcname> seems to get really upset over this." ) );
-        unhappy_alpha->add_morale( MORALE_FAILURE, -10, -50, 6_hours, 3_hours );
-    }
 }
 
 bool item::handle_craft_failure( Character &crafter )
@@ -1265,6 +1260,10 @@ bool item::handle_craft_failure( Character &crafter )
             continue;
         }
         destroy_random_component( *this, crafter );
+        if( crafter.has_trait( trait_INT_UP_ALPHA ) ) {
+            crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ), _( "Ugh, this should be EASY with how smart you are!" ), _( "<npcname> seems to get really upset over this." ) );
+            crafter.add_morale( MORALE_FAILURE, -10, -5, 10_hours, 5_hours );
+        }
     }
     if( starting_components > 0 && this->components.empty() ) {
         // The craft had components and all of them were destroyed.
@@ -1281,9 +1280,8 @@ bool item::handle_craft_failure( Character &crafter )
                                        _( "<npcname> messes up and loses %d%% progress." ), progress_loss / 100000 );
         item_counter = clamp( item_counter - progress_loss, 0, 10000000 );
         if( crafter.has_trait( trait_INT_UP_ALPHA ) ) {
-            Character *unhappy_alpha = crafter;
             crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ), _( "Ugh, this should be EASY with how smart you are!" ), _( "<npcname> seems to get really upset over this." ) );
-            unhappy_alpha.add_morale( MORALE_FAILURE, -10, -50, 6_hours, 3_hours );
+            crafter.add_morale( MORALE_FAILURE, -5, -50, 10_hours, 5_hours );
         }
     }
 
