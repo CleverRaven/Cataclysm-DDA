@@ -1,0 +1,17 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "mutation_selector",
+    "name": "Mutation Selector",
+    "authors": [ "Rewryte" ],
+    "description": "When mutating, displays a menu which allows you to pick from a list of possible mutations.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SHOW_MUTATION_SELECTOR",
+    "stype": "bool",
+    "value": true
+  }
+]
