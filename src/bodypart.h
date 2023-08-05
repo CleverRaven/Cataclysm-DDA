@@ -239,7 +239,7 @@ struct body_part_type {
         std::set<matec_id> techniques;
 
         // Effects to trigger on being winded
-        efftype_id windage_effect;
+        std::vector<efftype_id> windage_effects;
 
         // Effects to trigger on getting hit
         std::vector<bp_onhit_effect> effects_on_hit;
@@ -480,8 +480,8 @@ class bodypart
         // Get our limb attacks
         std::set<matec_id> get_limb_techs() const;
 
-        // Get windage effect
-        efftype_id get_windage_effect() const;
+        /** Returns the string id of the effect to be used. */
+        const std::vector<efftype_id> &get_windage_effects() const;
 
         // Get onhit effects
         std::vector<bp_onhit_effect> get_onhit_effects( damage_type_id dtype ) const;
