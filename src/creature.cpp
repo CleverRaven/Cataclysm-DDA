@@ -1224,7 +1224,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         // Only deal more HP than remains if damage not including crit multipliers is higher.
         total_damage = clamp( get_hp( bp ), total_base_damage, total_damage );
     }
-    if( !bp->has_flag( json_flag_BIONIC_LIMB ) {
+    if( !bp->has_flag( json_flag_BIONIC_LIMB ) ) {
         mod_pain( total_pain );
     }
 
