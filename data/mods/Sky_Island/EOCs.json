@@ -332,9 +332,9 @@
     "id": "EOC_difficulty1",
     "effect": [
       {
-        "u_message": "Difficulty set to Casual.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+        "u_message": "Difficulty set to Normal.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "90 m" } ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "45 m" } ] },
       { "math": [ "has_set_difficulty", "=", "1" ] }
     ]
   },
