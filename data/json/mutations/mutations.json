@@ -929,8 +929,7 @@
     "category": [ "MOUSE", "LUPINE" ],
     "starting_trait": true,
     "active": true,
-    "stomach_size_multiplier": 2.0,
-    "cancels": [ "PICKYEATER" ]
+    "stomach_size_multiplier": 2.0
   },
   {
     "type": "mutation",
@@ -9171,7 +9170,7 @@
     "points": -1,
     "description": "You're a very picky eater.  You refuse to eat any food that tastes bad unless you're starving.",
     "category": [ "ALPHA" ],
-    "cancels": [ "GOURMAND" ]
+    "starting_trait": true
   },
   {
     "type": "mutation",
