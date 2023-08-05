@@ -220,6 +220,7 @@
     "id": "fridgetank_large",
     "name": { "str": "refrigerated tank (100L)" },
     "description": "A 100L refrigerated tank for keeping liquids cool.  Provides some insulation from outside weather.",
+    "looks_like": "fridgetank",
     "insulation": 10,
     "volume": "112 L",
     "weight": "67 kg",
