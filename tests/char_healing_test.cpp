@@ -61,7 +61,7 @@ TEST_CASE( "baseline_healing_rate_with_no_healing_traits", "[heal][baseline]" )
     REQUIRE( normal > 1.0f * hp_per_day );
 
     // Ensure baseline hidden health stat
-    REQUIRE( dummy.tally_organic_size() == 1.0 );
+    REQUIRE( dummy.cached_organic_size() == 1.0 );
     REQUIRE( dummy.get_lifestyle() == 0 );
 
     GIVEN( "character with no healing traits" ) {
