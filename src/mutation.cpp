@@ -1207,20 +1207,6 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
 
         // Mutation selector
         if( select_mutation ) {
-
-            // Setup menu
-            uilist mmenu;
-            mmenu.text =
-                _( "As your body transforms, you realize that by asserting your willpower, you can guide these changes to an extent." );
-            auto make_entries = [this, &mmenu]( const std::vector<trait_id> &traits ) {
-                const size_t iterations = traits.size();
-                for( int i = 0; i < static_cast<int>( iterations ); ++i ) {
-                    const trait_id &trait = traits[i];
-                    const std::string &entry_name = mutation_name( trait );
-                    mmenu.addentry( i, true, MENU_AUTOASSIGN, entry_name );
-                }
-            };
-
             // Aggregate all prospective traits
             std::vector<trait_id> prospective_traits;
             prospective_traits.insert( prospective_traits.end(), upgrades.begin(), upgrades.end() );
@@ -1232,69 +1218,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                 }
             }
 
-            // Only allow traits with fulfilled prerequisites
-            std::vector<trait_id> traits;
-            for( trait_id trait : prospective_traits ) {
-                const mutation_branch &mdata = trait.obj();
-
-                // Check prereq 1
-                std::vector<trait_id> prereqs1 = mdata.prereqs;
-                bool c_has_prereq1 = prereqs1.empty() ? true : false;
-                for( size_t i = 0; !c_has_prereq1 && i < prereqs1.size(); i++ ) {
-                    if( has_trait( prereqs1[i] ) ) {
-                        c_has_prereq1 = true;
-                    }
-                }
-                if( !c_has_prereq1 ) {
-                    continue;
-                }
-
-                // Check prereq 2
-                std::vector<trait_id> prereqs2 = mdata.prereqs2;
-                bool c_has_prereq2 = prereqs2.empty() ? true : false;
-                for( size_t i = 0; !c_has_prereq2 && i < prereqs2.size(); i++ ) {
-                    if( has_trait( prereqs2[i] ) ) {
-                        c_has_prereq2 = true;
-                    }
-                }
-                if( !c_has_prereq2 ) {
-                    continue;
-                }
-
-                // Check threshold requirement
-                std::vector<trait_id> threshreq = mdata.threshreq;
-                bool c_has_threshreq = threshreq.empty() ? true : false;
-                for( size_t i = 0; !c_has_threshreq && i < threshreq.size(); i++ ) {
-                    if( has_trait( threshreq[i] ) ) {
-                        c_has_threshreq = true;
-                    }
-                }
-                if( !c_has_threshreq ) {
-                    continue;
-                }
-
-                // Check bionic conflicts
-                for( const bionic_id &bid : get_bionics() ) {
-                    if( bid->mutation_conflicts.count( trait ) != 0 ) {
-                        continue;
-                    }
-                }
-
-                // std::find function returns false on duplicate entry
-                if( std::find( traits.begin(), traits.end(), trait ) == traits.end() ) {
-                    traits.push_back( trait );
-                }
-            }
-            make_entries( traits );
-
-            // Display menu and handle selection
-            mmenu.query();
-            if( mmenu.ret >= 0 ) {
-                if( mutate_towards( traits[mmenu.ret], cat, nullptr, use_vitamins ) ) {
-                    add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
-                }
-                return;
-            }
+            mutation_selector( prospective_traits, cat, use_vitamins );
         }
 
         // Prioritize upgrading existing mutations
@@ -1396,6 +1320,88 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
 void Character::mutate_category( const mutation_category_id &cat )
 {
     mutate_category( cat, !mutation_category_trait::get_category( cat ).vitamin.is_null() );
+}
+
+bool Character::mutation_selector( const std::vector<trait_id> &prospective_traits,
+                                   const mutation_category_id &cat, const bool &use_vitamins )
+{
+    // Setup menu
+    uilist mmenu;
+    mmenu.text =
+        _( "As your body transforms, you realize that by asserting your willpower, you can guide these changes to an extent." );
+    auto make_entries = [this, &mmenu]( const std::vector<trait_id> &traits ) {
+        const size_t iterations = traits.size();
+        for( int i = 0; i < static_cast<int>( iterations ); ++i ) {
+            const trait_id &trait = traits[i];
+            const std::string &entry_name = mutation_name( trait );
+            mmenu.addentry( i, true, MENU_AUTOASSIGN, entry_name );
+        }
+    };
+
+    // Only allow traits with fulfilled prerequisites
+    std::vector<trait_id> traits;
+    for( trait_id trait : prospective_traits ) {
+        const mutation_branch &mdata = trait.obj();
+
+        // Check prereq 1
+        std::vector<trait_id> prereqs1 = mdata.prereqs;
+        bool c_has_prereq1 = prereqs1.empty() ? true : false;
+        for( size_t i = 0; !c_has_prereq1 && i < prereqs1.size(); i++ ) {
+            if( has_trait( prereqs1[i] ) ) {
+                c_has_prereq1 = true;
+            }
+        }
+        if( !c_has_prereq1 ) {
+            continue;
+        }
+
+        // Check prereq 2
+        std::vector<trait_id> prereqs2 = mdata.prereqs2;
+        bool c_has_prereq2 = prereqs2.empty() ? true : false;
+        for( size_t i = 0; !c_has_prereq2 && i < prereqs2.size(); i++ ) {
+            if( has_trait( prereqs2[i] ) ) {
+                c_has_prereq2 = true;
+            }
+        }
+        if( !c_has_prereq2 ) {
+            continue;
+        }
+
+        // Check threshold requirement
+        std::vector<trait_id> threshreq = mdata.threshreq;
+        bool c_has_threshreq = threshreq.empty() ? true : false;
+        for( size_t i = 0; !c_has_threshreq && i < threshreq.size(); i++ ) {
+            if( has_trait( threshreq[i] ) ) {
+                c_has_threshreq = true;
+            }
+        }
+        if( !c_has_threshreq ) {
+            continue;
+        }
+
+        // Check bionic conflicts
+        for( const bionic_id &bid : get_bionics() ) {
+            if( bid->mutation_conflicts.count( trait ) != 0 ) {
+                continue;
+            }
+        }
+
+        // std::find function returns false on duplicate entry
+        if( std::find( traits.begin(), traits.end(), trait ) == traits.end() ) {
+            traits.push_back( trait );
+        }
+    }
+    make_entries( traits );
+
+    // Display menu and handle selection
+    mmenu.query();
+    if( mmenu.ret >= 0 ) {
+        if( mutate_towards( traits[mmenu.ret], cat, nullptr, use_vitamins ) ) {
+            add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
+        }
+        return true;
+    }
+    return false;
 }
 
 static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
