@@ -70,7 +70,8 @@
       ],
       "palettes": [ "trail_palette" ]
     }
-  },{
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": "forest_trail_end",
