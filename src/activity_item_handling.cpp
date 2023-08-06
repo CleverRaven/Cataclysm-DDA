@@ -1353,7 +1353,14 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         // 2. when we form the src_set to loop through at the beginning of the fetch activity.
         return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
     } else if( act == ACT_MULTIPLE_CRAFT ) {
-        item *to_craft = you.craft_task.get_item();
+        item *to_craft = nullptr;
+        you.visit_items( [ &you, &to_craft ]( item * e, item * ) {
+            if( e->get_var( "crafter", "" ) == you.name ) {
+                to_craft = e;
+                return VisitResponse::ABORT;
+            }
+            return VisitResponse::NEXT;
+        } );
         if( to_craft && to_craft->is_craft() ) {
             const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
             const recipe &r = to_craft->get_making();
@@ -3008,15 +3015,23 @@ static bool generic_multi_activity_do(
 
         you.activity_vehicle_part_index = -1;
     } else if( reason == do_activity_reason::NEEDS_CRAFT ) {
-        item *to_craft = you.craft_task.get_item();
-        bool is_dark = you.fine_detail_vision_mod( here.getlocal( src ) ) > 4.0;
-        if( !is_dark && to_craft && to_craft->is_craft() ) {
-            player_activity act = player_activity( craft_activity_actor( you.craft_task, false ) );
+        item *to_craft = nullptr;
+        you.visit_items( [ &you, &to_craft ]( item * e, item * ) {
+            if( e->get_var( "crafter", "" ) == you.name ) {
+                to_craft = e;
+                return VisitResponse::ABORT;
+            }
+            return VisitResponse::NEXT;
+        } );
+        if( to_craft && to_craft->is_craft() &&
+            you.lighting_craft_speed_multiplier( to_craft->get_making() ) > 0 ) {
+            item_location target = item_location( you, to_craft );
+            player_activity act = player_activity( craft_activity_actor( target, false ) );
             you.assign_activity( act );
             you.backlog.emplace_front( ACT_MULTIPLE_CRAFT );
             you.backlog.front().auto_resume = true;
+            return false;
         }
-        return false;
     } else if( reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
         map_stack items = here.i_at( src_loc );
         for( item &elem : items ) {

@@ -82,6 +82,7 @@
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
@@ -994,6 +995,21 @@ void npc::move()
             } else {
                 action = npc_worker_downtime;
                 goal = global_omt_location();
+            }
+        }
+        if( calendar::once_every( 10_minutes ) ) {
+            // if there is item to craft
+            item *to_craft = nullptr;
+            visit_items( [ this, &to_craft ]( item * e, item * ) {
+                if( e->get_var( "crafter", "" ) == name ) {
+                    to_craft = e;
+                    return VisitResponse::ABORT;
+                }
+                return VisitResponse::NEXT;
+            } );
+            if( to_craft ) {
+                assign_activity( ACT_MULTIPLE_CRAFT );
+                action = npc_player_activity;
             }
         }
         if( is_stationary( true ) && !assigned_camp ) {

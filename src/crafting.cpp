@@ -132,10 +132,10 @@ static bool crafting_allowed( const Character &p, const recipe &rec )
     return true;
 }
 
-float Character::lighting_craft_speed_multiplier( const recipe &rec ) const
+float Character::lighting_craft_speed_multiplier( const recipe &rec, const tripoint &p ) const
 {
     // negative is bright, 0 is just bright enough, positive is dark, +7.0f is pitch black
-    float darkness = fine_detail_vision_mod() - 4.0f;
+    float darkness = fine_detail_vision_mod( p ) - 4.0f;
     if( darkness <= 0.0f ) {
         return 1.0f; // it's bright, go for it
     }
@@ -343,7 +343,12 @@ void Character::craft( const std::optional<tripoint> &loc, const recipe_id &goto
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size, goto_recipe );
     if( rec ) {
-        if( crafting_allowed( *this, *rec ) ) {
+        if( is_npc() && rec->is_practice() ) {
+            add_msg( m_info, _( "Ordering plactice to NPC is not implemented yet!" ) );
+            return;
+        }
+        if( crafting_allowed( *this, *rec ) || is_npc() ) {
+            // NPC looks for place to craft later
             make_craft( rec->ident(), batch_size, loc );
         }
     }
@@ -882,7 +887,12 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
     }
 
     if( is_npc() ) {
-        craft_task = craft_in_world;
+        // set flag to craft
+        visit_items( []( item * e, item * ) {
+            e->erase_var( "crafter" );
+            return VisitResponse::NEXT;
+        } );
+        craft_in_world.get_item()->set_var( "crafter", name );
         assign_activity( ACT_MULTIPLE_CRAFT );
     } else {
         assign_activity( craft_activity_actor( craft_in_world, command.is_long() ) );

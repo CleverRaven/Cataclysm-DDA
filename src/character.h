@@ -2601,7 +2601,6 @@ class Character : public Creature, public visitable
         int mounted_creature_id = 0;
         // for vehicle work
         int activity_vehicle_part_index = -1;
-        item_location craft_task;
 
         // Hauling items on the ground
         void start_hauling();
@@ -3200,7 +3199,7 @@ class Character : public Creature, public visitable
 
         // crafting.cpp
         float morale_crafting_speed_multiplier( const recipe &rec ) const;
-        float lighting_craft_speed_multiplier( const recipe &rec ) const;
+        float lighting_craft_speed_multiplier( const recipe &rec, const tripoint &p = tripoint_min ) const;
         float crafting_speed_multiplier( const recipe &rec ) const;
         float workbench_crafting_speed_multiplier( const item &craft,
                 const std::optional<tripoint> &loc )const;
