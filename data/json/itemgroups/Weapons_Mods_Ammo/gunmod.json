@@ -180,18 +180,6 @@
   },
   {
     "type": "item_group",
-    "id": "type99_sniper_mods",
-    "//": "Default possible mods for Arisaka Type 99 sniper rifles.",
-    "subtype": "collection",
-    "entries": [
-      { "item": "arisaka_monopod", "prob": 25 },
-      { "item": "rail_mount" },
-      { "item": "offset_sight_rail" },
-      { "item": "type99_scope" }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "sights_shotgun_readied",
     "subtype": "distribution",
     "//": "For non-static shotguns (not in stores, closets ).",

@@ -294,10 +294,24 @@
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
+    "id": "type99_sniper",
+    "type": "GUN",
+    "copy-from": "type99_sniper",
+    "name": { "str": "7.7mm sniper rifle" },
+    "extend": { "flags": [ "OLD_GUN" ] }
+  },
+  {
     "id": "type30",
     "type": "GUN",
     "copy-from": "type30",
     "name": { "str": "Arisaka battle rifle" },
+    "extend": { "flags": [ "OLD_GUN" ] }
+  },
+  {
+    "id": "type97",
+    "type": "GUN",
+    "copy-from": "type97",
+    "name": { "str": "Arisaka sniper rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }
   }
 ]

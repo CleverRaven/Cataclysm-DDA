@@ -18,6 +18,11 @@
         "id": "type35",
         "name": { "str_sp": "Arisaka Type 35" },
         "description": "Spiritually similar to its infantry sister, the Japanese Type 30, the Arisaka Type 35 was a modified version of the weapon issued to marine units of the Japanese navy in 1902, following complaints that arose during naval testing of the rifles.  Featuring modified rear sights and an independently manipulated dust cover, requiring the user to slide it free of the action before cycling, the rifle was chambered for the same 6.5x50mm cartridge as the earlier Type 30."
+      },
+      {
+        "id": "type38",
+        "name": { "str_sp": "Arisaka Type 38" },
+        "description": "Quite possibly the most iconic and prolific of Japanese rifles, the Arisaka Type 38 was the standard service arm of the imperial Japanese army from its introduction in 1905 up to the Second World War, where it served alongside the Type 99.  Fitted with a signature cycling dust cover and built to solve the issues left behind by its predecessor, the Type 30, the 38 was a common sight among American war trophies from the Pacific theatre and was generally sporterized in the US for use as hunting rifles."
       }
     ],
     "weight": "3950 g",
@@ -30,8 +35,8 @@
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "65mm_arisaka" ],
-    "dispersion": 200,
-    "durability": 8,
+    "dispersion": 180,
+    "durability": 9,
     "blackpowder_tolerance": 24,
     "clip_size": 5,
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "EASY_CLEAN" ],
@@ -57,5 +62,23 @@
       }
     ],
     "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "type97",
+    "copy-from": "type30",
+    "type": "GUN",
+    "//": "The only reason this exists as its own item rather than a variant of the Type 30 is so players wouldn’t be able to mount the scope on Type 30, 35, and 38 rifles and could only use it on the 97.",
+    "name": { "str": "Arisaka sniper rifle" },
+    "description": "A bolt-action sniper rifle hailing from imperial Japan’s Second World War arsenal and feeding via 5-round stripper clips, this weapon is fundamentally a slightly modified Arisaka battle rifle fitted with a telescopic optic and firing the same 6.5x50mm cartridge as its infantry brethren.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "type97",
+        "name": { "str_sp": "Arisaka Type 97" },
+        "description": "Introduced in 1937 and proven to be the bane of all Pacific Theatre soldiers, the Arisaka Type 97 was a modified version of imperial Japan’s Type 38 service rifle, pressed into duty as a precision sniper’s weapon.  Fundamentally a stock standard Type 38 with a fitted 2.5x telescopic sight and a turned-down bolt handle for ease of cycling, the 97, with its combination of a long barrel decreasing muzzle flash and its flat-shooting 6.5x50mm chambering, was a formidable weapon in the hands of trained Japanese marksmen.",
+        "weight": 1
+      }
+    ],
+    "default_mods": [ "rail_mount", "offset_sight_rail", "type97_scope" ]
   }
 ]
