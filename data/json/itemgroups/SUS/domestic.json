@@ -523,7 +523,7 @@
         "distribution": [
           { "item": "coffee_raw", "prob": 30 },
           { "item": "instant_coffee", "prob": 40, "count": [ 1, 5 ] },
-          { "item": "coffee_raw", "prob": 30, "charges": [ 1, 200 ], "container-item": "can_food_big" }
+          { "item": "coffee_raw", "prob": 30, "count": [ 1, 200 ], "container-item": "can_food_big" }
         ],
         "prob": 80
       },
@@ -534,7 +534,7 @@
       { "prob": 90, "sealed": false, "group": "sugar_jar_glass_sealed_10_120" },
       {
         "distribution": [
-          { "item": "milk_powder", "charges": [ 5, 20 ], "container-item": "jar_glass_sealed", "prob": 60, "sealed": false },
+          { "item": "milk_powder", "count": [ 5, 20 ], "container-item": "jar_glass_sealed", "prob": 60, "sealed": false },
           { "item": "con_milk", "count": [ 1, 6 ], "prob": 10 },
           { "item": "milk_evap", "count": [ 1, 6 ], "prob": 20 },
           { "item": "milk_UHT", "prob": 10 }
@@ -562,16 +562,16 @@
           { "item": "toaster" },
           {
             "distribution": [
-              { "item": "bread", "charges": [ 2, 14 ], "prob": 70 },
-              { "item": "sourdough_bread", "charges": [ 2, 12 ], "prob": 30 }
+              { "item": "bread", "count": [ 2, 14 ], "prob": 70 },
+              { "item": "sourdough_bread", "count": [ 2, 12 ], "prob": 30 }
             ],
             "prob": 80
           },
           {
             "distribution": [
-              { "item": "toastem", "charges": [ 1, 8 ], "prob": 40 },
-              { "item": "toastem2", "charges": [ 1, 8 ], "prob": 30 },
-              { "item": "toastem3", "charges": [ 1, 8 ], "prob": 30 }
+              { "item": "toastem", "count": [ 1, 8 ], "prob": 40 },
+              { "item": "toastem2", "count": [ 1, 8 ], "prob": 30 },
+              { "item": "toastem3", "count": [ 1, 8 ], "prob": 30 }
             ],
             "prob": 60
           }
@@ -590,7 +590,7 @@
       },
       {
         "distribution": [
-          { "item": "milk_powder", "charges": [ 5, 20 ], "container-item": "jar_glass_sealed", "prob": 60, "sealed": false },
+          { "item": "milk_powder", "count": [ 5, 20 ], "container-item": "jar_glass_sealed", "prob": 60, "sealed": false },
           { "item": "milk_evap", "count": [ 1, 6 ], "prob": 20 },
           { "item": "milk_UHT", "prob": 20 }
         ],
@@ -624,10 +624,10 @@
       {
         "distribution": [
           { "item": "pot", "prob": 20 },
-          { "item": "tuna_noodle_casserole", "charges": 8, "container-item": "casserole", "prob": 10 },
-          { "item": "hot_corn_casserole", "charges": 8, "container-item": "casserole", "prob": 10 },
-          { "item": "cheesy_spinach_casserole", "charges": 8, "container-item": "casserole", "prob": 5 },
-          { "item": "lazy_lobster_casserole", "charges": 8, "container-item": "casserole", "prob": 2 },
+          { "item": "tuna_noodle_casserole", "count": 8, "container-item": "casserole", "prob": 10 },
+          { "item": "hot_corn_casserole", "count": 8, "container-item": "casserole", "prob": 10 },
+          { "item": "cheesy_spinach_casserole", "count": 8, "container-item": "casserole", "prob": 5 },
+          { "item": "lazy_lobster_casserole", "count": 8, "container-item": "casserole", "prob": 2 },
           { "item": "pot_copper", "prob": 5 },
           { "item": "iron_pot", "prob": 5 }
         ],
