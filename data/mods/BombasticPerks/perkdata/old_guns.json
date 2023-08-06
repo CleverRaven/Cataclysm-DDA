@@ -313,5 +313,19 @@
     "copy-from": "type97",
     "name": { "str": "Arisaka sniper rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }
+  },
+  {
+    "id": "type30_carbine",
+    "type": "GUN",
+    "copy-from": "type30_carbine",
+    "name": { "str": "Arisaka carbine" },
+    "extend": { "flags": [ "OLD_GUN" ] }
+  },
+  {
+    "id": "type44",
+    "type": "GUN",
+    "copy-from": "type44",
+    "name": { "str": "Arisaka cavalry rifle" },
+    "extend": { "flags": [ "OLD_GUN" ] }
   }
 ]

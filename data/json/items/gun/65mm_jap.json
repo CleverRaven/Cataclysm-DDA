@@ -79,6 +79,51 @@
         "weight": 1
       }
     ],
-    "default_mods": [ "rail_mount", "offset_sight_rail", "type97_scope" ]
+    "built_in_mods": [ "rail_mount", "offset_sight_rail" ],
+    "default_mods": [ "type97_scope" ]
+  },
+  {
+    "id": "type30_carbine",
+    "copy-from": "type30",
+    "type": "GUN",
+    "name": { "str": "Arisaka carbine" },
+    "description": "A shortened version of imperial Japan’s standard infantry service arm, standing at a commendable 12 inches shorter than its full-sized brethren and firing the same 6.5x50mm round, the carbine was intended to arm cavalry and rear echelon troops where a full-length rifle would have proven a hindrance.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "type30_carbine",
+        "name": { "str_sp": "Arisaka Type 30 carbine" },
+        "description": "A version of the Japanese Type 30 rifle modified for issue to cavalry troops, made 12 inches shorter than its full-sized brethren, lacking a handguard over the barrel, and with its sling swivels moved to the weapon’s left side to avoid digging into a rider’s back, this carbine is far more handy than its rifle iteration.  Issued in 1897 alongside the regular rifles, the Type 30 carbine is chambered for the same 6.5x50mm cartridge.",
+        "weight": 1
+      },
+      {
+        "id": "type38_carbine",
+        "name": { "str_sp": "Arisaka Type 38 carbine" },
+        "description": "Introduced alongside the regular Type 38 long rifle in 1905 and issued to rear echelon troops who didn’t require a full-sized battle rifle, the Type 38 carbine is essentially a shortened Arisaka in both its fit and finish, serving shoulder to shoulder with the Type 44 cavalry rifle and remaining Type 30 carbines still in inventory."
+      }
+    ],
+    "weight": "3200 g",
+    "volume": "2304 ml",
+    "longest_side": "964 mm",
+    "barrel_length": "480 mm",
+    "price": 69900
+  },
+  {
+    "id": "type44",
+    "copy-from": "type30_carbine",
+    "type": "GUN",
+    "name": { "str": "Arisaka cavalry rifle" },
+    "description": "Intended for Japanese cavalry units, this is a shortened, carbine version of imperial Japan’s standard infantry rifle, made different by the inclusion of an under-folding bayonet and a hook on the right side of the rifle’s muzzle housing for use in bayonet fencing.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "type44",
+        "name": { "str_sp": "Arisaka Type 44" },
+        "description": "A purpose-built carbine for 20th-century Japanese cavalry, intended to supplant the Type 38 carbine and lighten the load for mounted troopers, the carbine is functionally similar to its predecessor save for the inclusion of an under-folding bayonet, precluding the need for a separate sabre to be carried upon one’s person.  A hook is also located on the front right side of the carbine for use in rifle stacking and bayonet fencing.",
+        "weight": 1
+      }
+    ],
+    "price": 69900,
+    "built_in_mods": [ "inter_bayonet" ]
   }
 ]

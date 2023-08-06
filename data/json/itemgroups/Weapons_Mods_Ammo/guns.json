@@ -484,6 +484,7 @@
       { "group": "nested_number4", "prob": 1 },
       { "group": "nested_type99", "prob": 1 },
       { "group": "nested_type38", "prob": 1 },
+      { "group": "nested_type38_carbine", "prob": 1 },
       { "group": "nested_ak556", "prob": 2 },
       { "group": "nested_bren2_762", "prob": 1 },
       { "group": "nested_bren2_556", "prob": 1 },
@@ -549,6 +550,7 @@
         "charges-min": 0,
         "charges-max": 5
       },
+      { "item": "type30_carbine", "variant": "type38_carbine", "prob": 1, "charges-min": 0, "charges-max": 5 },
       { "item": "ak556", "prob": 2, "charges-min": 0, "charges-max": 30 },
       { "item": "bren2_762", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "bren2_556", "prob": 1, "charges-min": 0, "charges-max": 30 },
@@ -624,6 +626,9 @@
       { "group": "nested_type35", "prob": 1 },
       { "group": "nested_type38", "prob": 2 },
       { "group": "nested_type97", "prob": 1 },
+      { "group": "nested_type30_carbine", "prob": 1 },
+      { "group": "nested_type38_carbine", "prob": 2 },
+      { "group": "nested_type44", "prob": 1 },
       { "group": "nested_m1918", "prob": 30 },
       { "group": "nested_805_bren", "prob": 15 },
       { "group": "nested_mdrx", "prob": 30 },
@@ -684,11 +689,21 @@
         "item": "type30",
         "variant": "type38",
         "contents-item": "arisaka_bayonet",
-        "prob": 1,
+        "prob": 2,
         "charges-min": 0,
         "charges-max": 0
       },
       { "item": "type97", "contents-item": "arisaka_monopod", "prob": 1, "charges-min": 0, "charges-max": 0 },
+      {
+        "item": "type30_carbine",
+        "variant": "type30_carbine",
+        "contents-item": "arisaka_bayonet",
+        "prob": 1,
+        "charges-min": 0,
+        "charges-max": 0
+      },
+      { "item": "type30_carbine", "variant": "type38_carbine", "prob": 2, "charges-min": 0, "charges-max": 0 },
+      { "item": "type44", "prob": 1, "charges-min": 0, "charges-max": 0 },
       { "item": "mosin44", "variant": "mosin44_ebr", "contents-group": "mosin_mods", "prob": 1, "charges": [ 0, 0 ] },
       {
         "item": "mosin91_30",

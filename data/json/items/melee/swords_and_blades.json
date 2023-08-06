@@ -281,6 +281,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "gunmod_data": {
+      "integral_longest_side": "20 cm",
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
@@ -301,6 +302,7 @@
     "name": { "str": "modified combat knife", "str_pl": "modified combat knives" },
     "description": "A military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
     "gunmod_data": {
+      "integral_longest_side": "20 cm",
       "location": "underbarrel",
       "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
@@ -544,6 +546,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "gunmod_data": {
+      "integral_longest_side": "35 cm",
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle" ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
@@ -1900,6 +1903,7 @@
     "symbol": "/",
     "color": "light_gray",
     "gunmod_data": {
+      "integral_longest_side": "30 cm",
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
@@ -3685,6 +3689,7 @@
     "symbol": "/",
     "color": "light_gray",
     "gunmod_data": {
+      "integral_longest_side": "15 cm",
       "location": "underbarrel",
       "mod_targets": [ "number4_mki" ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
@@ -3712,6 +3717,7 @@
     "symbol": "/",
     "color": "light_gray",
     "gunmod_data": {
+      "integral_longest_side": "40 cm",
       "location": "underbarrel",
       "mod_targets": [ "type99" ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],

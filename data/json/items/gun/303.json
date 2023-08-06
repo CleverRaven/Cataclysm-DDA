@@ -52,7 +52,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "updated Enfield rifle" },
-    "description": "An evolution of Britten’s First World War battle rifle, this bolt-action firearm uses the same .303-caliber cartridge as its forerunner.  Much beloved across the globe by collectors, rifles like this served as England’s infantry rifle well into the 1950s, with a specialized sniper variant remaining in service until the early nineties.",
+    "description": "An evolution of Brittain’s First World War battle rifle, this bolt-action firearm uses the same .303-caliber cartridge as its forerunner.  Much beloved across the globe by collectors, rifles like this served as England’s infantry rifle well into the 1950s, with a specialized sniper variant remaining in service until the early nineties.",
     "variant_type": "gun",
     "variants": [
       {
