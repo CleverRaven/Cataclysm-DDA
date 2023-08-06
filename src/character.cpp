@@ -519,6 +519,7 @@ Character::Character() :
     last_climate_control_ret( false )
 {
     randomize_blood();
+    cached_organic_size = 1.0f;
     str_cur = 8;
     str_max = 8;
     dex_cur = 8;
@@ -1192,7 +1193,7 @@ float Character::get_stamina_dodge_modifier() const
     return stamina_logistic;
 }
 
-float Character::tally_organic_size() const
+void Character::tally_organic_size()
 {
     float ret = 0.0;
     for( const bodypart_id &part : get_all_body_parts() ) {
@@ -1200,8 +1201,13 @@ float Character::tally_organic_size() const
             ret += part->hit_size;
         }
     }
-    return ret / 100.0f;
+    cached_organic_size = ret / 100.0f;
     //return creature_anatomy->get_organic_size_sum() / 100.0f;
+}
+
+float Character::cached_organic_size() const
+{
+    return cached_organic_size;
 }
 
 int Character::sight_range( float light_level ) const
@@ -4285,7 +4291,7 @@ void Character::set_stored_calories( int cal )
 
 int Character::get_healthy_kcal() const
 {
-    float healthy_weight = tally_organic_size() * 5.0f * std::pow( height() / 100.0f, 2 );
+    float healthy_weight = cached_organic_size() * 5.0f * std::pow( height() / 100.0f, 2 );
     return std::floor( KCAL_PER_KG * healthy_weight );
 }
 
@@ -6150,7 +6156,7 @@ float Character::get_bmi_lean() const
 float Character::get_bmi_fat() const
 {
     return ( get_stored_kcal() / KCAL_PER_KG ) / ( std::pow( height() / 100.0f,
-            2 ) * tally_organic_size() );
+            2 ) * cached_organic_size() );
 }
 
 units::mass Character::bodyweight() const
@@ -6169,7 +6175,7 @@ units::mass Character::bodyweight_lean() const
     //this is multiplied by our total hit size from mutated body parts (or lack of parts thereof)
     //for example a tail with a hit size of 10 means our lean mass is 10% greater
     //or if we chop off our arms and legs to get bionic replacements, we're down to about 42% of our original lean mass
-    return tally_organic_size() * units::from_kilogram( get_bmi_lean() * std::pow( height() / 100.0f,
+    return cached_organic_size() * units::from_kilogram( get_bmi_lean() * std::pow( height() / 100.0f,
             2 ) );
 }
 
@@ -7422,7 +7428,7 @@ void Character::recalculate_bodyparts()
     add_msg_debug( debugmode::DF_ANATOMY_BP, "New stored kcal %d",
                    get_stored_kcal() );
     add_msg_debug( debugmode::DF_ANATOMY_BP, "New organic size %.1f",
-                   tally_organic_size() );
+                   cached_organic_size() );
 }
 
 void Character::recalculate_enchantment_cache()
