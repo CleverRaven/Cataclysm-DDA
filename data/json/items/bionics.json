@@ -269,7 +269,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Close Quarters Battle CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A set of bionic processors and databanks, loaded with martial arts combat programs.  While active, the CQB module will improve the user's hand-to-hand combat skills, but prevents them from improving them through combat experience.",
+    "description": "A set of bionic processors and databanks, including a martial art developed by bionics users.  While active, the CQB module will improve the user's hand-to-hand combat skills, but prevents them from improving them through combat experience.",
     "price": 220000,
     "price_postapoc": 3000,
     "weight": "250 g",
