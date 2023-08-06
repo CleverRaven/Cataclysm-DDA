@@ -3013,7 +3013,7 @@ static bool generic_multi_activity_do(
         if( !is_dark && to_craft && to_craft->is_craft() ) {
             player_activity act = player_activity( craft_activity_actor( you.craft_task, false ) );
             you.assign_activity( act );
-            you.backlog.emplace_back( ACT_MULTIPLE_CRAFT );
+            you.backlog.emplace_front( ACT_MULTIPLE_CRAFT );
             you.backlog.front().auto_resume = true;
         }
         return false;
