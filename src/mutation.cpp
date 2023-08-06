@@ -1092,7 +1092,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
     bool allow_neutral = true;
 
     if( select_mutation ) {
-        // Mutation selector overrrides good / bad mutation rolls
+        // Mutation selector overrides good / bad mutation rolls
         allow_good = true;
         allow_bad = true;
     } else if( roll_bad_mutation() ) {
@@ -1290,11 +1290,23 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
         return;
     }
 
-    bool picked_bad = roll_bad_mutation();
+    bool select_mutation = is_avatar() && get_option<bool>( "SHOW_MUTATION_SELECTOR" );
 
-    bool allow_good = true_random || !picked_bad;
-    bool allow_bad = true_random || picked_bad;
+    bool allow_good = false;
+    bool allow_bad = false;
     bool allow_neutral = true;
+
+    if( select_mutation || true_random ) {
+        // Mutation selector and true_random overrides good / bad mutation rolls
+        allow_good = true;
+        allow_bad = true;
+    } else if( roll_bad_mutation() ) {
+        // If we picked bad, mutation can be bad or neutral
+        allow_bad = true;
+    } else {
+        // Otherwise, can be good or neutral
+        allow_good = true;
+    }
 
     // Pull the category's list for valid mutations
     std::vector<trait_id> valid = mutations_category[cat];
@@ -1314,6 +1326,10 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
     }
 
     add_msg_debug( debugmode::DF_MUTATION, "mutate_category: mutate_towards category %s", cat.c_str() );
+    if( select_mutation || mutation_selector( valid, cat, use_vitamins ) ) {
+        // Stop if mutation properly handled by mutation selector
+        return;
+    }
     mutate_towards( valid, cat, 2, use_vitamins );
 }
 
