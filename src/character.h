@@ -515,6 +515,8 @@ class Character : public Creature, public visitable
         // Level-up points spent on Stats through Kills
         int spent_upgrade_points = 0;
 
+        float cached_organic_size;
+
         const profession *prof;
         std::set<const profession *> hobbies;
 
