@@ -6175,8 +6175,9 @@ units::mass Character::bodyweight_lean() const
     //this is multiplied by our total hit size from mutated body parts (or lack of parts thereof)
     //for example a tail with a hit size of 10 means our lean mass is 10% greater
     //or if we chop off our arms and legs to get bionic replacements, we're down to about 42% of our original lean mass
-    return get_cached_organic_size() * units::from_kilogram( get_bmi_lean() * std::pow( height() / 100.0f,
-            2 ) );
+    return get_cached_organic_size() * units::from_kilogram( get_bmi_lean() * std::pow(
+                height() / 100.0f,
+                2 ) );
 }
 
 float Character::fat_ratio() const
