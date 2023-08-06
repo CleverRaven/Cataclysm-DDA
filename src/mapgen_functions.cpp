@@ -39,7 +39,6 @@
 
 static const item_group_id Item_spawn_data_field( "field" );
 
-static const oter_str_id oter_forest_thick( "forest_thick" );
 static const oter_str_id oter_hellmouth( "hellmouth" );
 static const oter_str_id oter_rift( "rift" );
 static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
