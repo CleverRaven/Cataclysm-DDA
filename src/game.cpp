@@ -767,8 +767,7 @@ void game::setup()
 
     weather.weather_id = WEATHER_CLEAR;
     // Weather shift in 30
-    weather.nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
-                              get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
+    weather.nextweather = calendar::start_of_game + 30_minutes;
 
     turnssincelastmon = 0_turns; //Auto safe mode init
 
@@ -12799,7 +12798,7 @@ void game::start_calendar()
     calendar::start_of_game = scen->start_of_game();
     calendar::turn = calendar::start_of_game;
     calendar::initial_season = static_cast<season_type>( ( to_days<int>( calendar::start_of_game -
-                               calendar::turn_zero ) / get_option<int>( "SEASON_LENGTH" ) ) % 4 );
+                               calendar::turn_zero ) / get_option<int>( "SEASON_LENGTH" ) ) % season_type::NUM_SEASONS );
 }
 
 overmap &game::get_cur_om() const
@@ -13271,7 +13270,6 @@ const scenario *get_scenario()
 }
 void set_scenario( const scenario *new_scenario )
 {
-    new_scenario->rerandomize();
     g->scen = new_scenario;
 }
 

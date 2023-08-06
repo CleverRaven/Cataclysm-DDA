@@ -5,124 +5,92 @@
 #include "options.h"
 #include "options_helpers.h"
 
-static const string_id<scenario> scenario_ambushed( "ambushed" );
+static const string_id<scenario> scenario_test_custom_both( "test_custom_both" );
+static const string_id<scenario> scenario_test_custom_cataclysm( "test_custom_cataclysm" );
+static const string_id<scenario> scenario_test_custom_game( "test_custom_game" );
+static const string_id<scenario> scenario_test_custom_game_invalid( "test_custom_game_invalid" );
 static const string_id<scenario> scenario_test_random_day( "test_random_day" );
 static const string_id<scenario> scenario_test_random_hour( "test_random_hour" );
 static const string_id<scenario> scenario_test_random_year( "test_random_year" );
 
 TEST_CASE( "Test_start_dates" )
 {
-    int default_initial_day = 60;
-    int default_initial_time = 8;  // Note that the default for scenario time is same
-    int default_spawn_delay = 0;
+    int default_initial_day = 0;
     int default_season_length = 91;
+    int default_year_length = default_season_length * 4;
 
-    SECTION( "Default start date with no scenario" ) {
-        set_scenario( scenario::generic() );
-        REQUIRE( get_option<int>( "INITIAL_DAY" ) == default_initial_day );
-        REQUIRE( get_option<int>( "INITIAL_TIME" ) == default_initial_time );
-        REQUIRE( get_option<int>( "SPAWN_DELAY" ) == default_spawn_delay );
+    SECTION( "Default game start date with no scenario" ) {
+        scenario scen = *scenario::generic();
 
+        set_scenario( &scen );
+        scen.rerandomize();
         g->start_calendar();
 
-        CHECK( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * default_initial_day );
-        CHECK( calendar::start_of_game == calendar::turn_zero + 1_days * default_initial_day + 1_hours *
-               default_initial_time );
+        CHECK( calendar::start_of_game >= calendar::turn_zero + 1_days * default_initial_day + 0_hours );
+        CHECK( calendar::start_of_game <= calendar::turn_zero + 1_days * default_initial_day + 23_hours );
     }
 
-    SECTION( "Customized start date" ) {
-        override_option initial_day( "INITIAL_DAY", "100" );
-        override_option initial_time( "INITIAL_TIME", "13" );
-        override_option spawn_delay( "SPAWN_DELAY", "10" );
+    SECTION( "Scenario with custom game start date" ) {
+        scenario scen = scenario_test_custom_game.obj();
 
-        set_scenario( scenario::generic() );
-        REQUIRE( get_option<int>( "INITIAL_DAY" ) == 100 );
-        REQUIRE( get_option<int>( "INITIAL_TIME" ) == 13 );
-        REQUIRE( get_option<int>( "SPAWN_DELAY" ) == 10 );
-
+        set_scenario( &scen );
+        scen.rerandomize();
         g->start_calendar();
 
-        CHECK( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * 100 );
-        CHECK( calendar::start_of_game == calendar::turn_zero + 1_days * ( 100 + 10 ) + 1_hours * 13 );
+        CHECK( calendar::start_of_cataclysm == calendar::turn_zero );
+        CHECK( calendar::start_of_game == calendar::turn_zero +
+               1_hours * 18 +
+               1_days * 7 +
+               1_days * default_season_length * season_type::SUMMER +
+               1_days * default_year_length * 3
+             );
     }
 
-    SECTION( "Scenario with start date" ) {
-        // Initial time and spawn delay should not affect scenario dates
-        override_option initial_time( "INITIAL_TIME", "13" );
-        override_option spawn_delay( "SPAWN_DELAY", "10" );
-        set_scenario( &scenario_ambushed.obj() );
-        // Ambushed scenario starts on winter day 1 (day 273 with default season length)
+    SECTION( "Scenario has game start date before cataclysm start date" ) {
+        scenario scen = scenario_test_custom_game_invalid.obj();
 
-        REQUIRE( get_option<int>( "INITIAL_DAY" ) == default_initial_day );
-        REQUIRE( get_option<int>( "SEASON_LENGTH" ) == default_season_length );
-
+        set_scenario( &scen );
+        scen.rerandomize();
         g->start_calendar();
 
-        CHECK( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * default_initial_day );
-        CHECK( calendar::start_of_game == calendar::turn_zero + 1_days * 273 + 1_hours *
-               default_initial_time );
+        CHECK( calendar::start_of_cataclysm == calendar::turn_zero );
+        CHECK( calendar::start_of_game == calendar::turn_zero );
     }
 
-    SECTION( "Scenario with start date tries to start before cataclysm" ) {
-        override_option initial_day( "INITIAL_DAY", "350" );
-        set_scenario( &scenario_ambushed.obj() );
-        // Ambushed scenario starts on winter day 1 (day 273 with default season length)
+    SECTION( "Scenario with custom cataclysm start date" ) {
+        scenario scen = scenario_test_custom_cataclysm.obj();
 
-        REQUIRE( get_option<int>( "INITIAL_DAY" ) == 350 );
-        REQUIRE( get_option<int>( "INITIAL_TIME" ) == default_initial_time );
-        REQUIRE( get_option<int>( "SPAWN_DELAY" ) == default_spawn_delay );
-        REQUIRE( get_option<int>( "SEASON_LENGTH" ) == default_season_length );
-
+        set_scenario( &scen );
+        scen.rerandomize();
         g->start_calendar();
 
-        CHECK( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * 350 );
-
-        // Start should be moved forwards by one year from normal to avoid too early start
-        CHECK( calendar::start_of_game == calendar::turn_zero + 1_days * 273 + 1_hours *
-               default_initial_time + calendar::year_length() );
+        CHECK( calendar::start_of_cataclysm == calendar::turn_zero +
+               1_hours * 1 +
+               1_days * 9 +
+               1_days * default_season_length * season_type::AUTUMN +
+               1_days * default_year_length * 6
+             );
     }
 
-    // Reset dates so other tests won't fail
-    calendar::start_of_game = calendar::turn_zero;
-    calendar::start_of_cataclysm = calendar::turn_zero;
-    calendar::turn = calendar::turn_zero;
-}
+    SECTION( "Scenario with custom cataclysm start date and game start date" ) {
+        scenario scen = scenario_test_custom_both.obj();
 
-TEST_CASE( "Random_dates" )
-{
-    int default_initial_time = 8;
-
-    SECTION( "Random start date" ) {
-        override_option initial_day( "INITIAL_DAY", "-1" );
-        override_option spawn_delay( "SPAWN_DELAY", "1" );
-
-        set_scenario( scenario::generic() );
-        REQUIRE( get_option<int>( "INITIAL_DAY" ) == -1 );
-        REQUIRE( get_option<int>( "INITIAL_TIME" ) == default_initial_time );
-        REQUIRE( get_option<int>( "SPAWN_DELAY" ) == 1 );
-
+        set_scenario( &scen );
+        scen.rerandomize();
         g->start_calendar();
 
-        time_point start_of_cataclysm_1 = calendar::start_of_cataclysm;
-
-        // Even with random time of cataclysm the game starts set amount of time later
-        CHECK( calendar::start_of_game == calendar::start_of_cataclysm + 1_hours * default_initial_time +
-               1_days );
-
-        // Generate up to 10 worlds to check that randomness makes different dates.
-        // If even one of them is different everything is fine.
-        bool all_same = true;
-        for( int i = 0; i < 10; i++ ) {
-            set_scenario( scenario::generic() );
-            g->start_calendar();
-            all_same = start_of_cataclysm_1 == calendar::start_of_cataclysm;
-            if( !all_same ) {
-                break;
-            }
-        }
-
-        // There is astronomically low chance for this to fail even if everything is working right.
-        CHECK_FALSE( all_same );
+        CHECK( calendar::start_of_cataclysm == calendar::turn_zero +
+               1_hours * 6 +
+               1_days * 4 +
+               1_days * default_season_length * season_type::WINTER +
+               1_days * default_year_length * 5
+             );
+        CHECK( calendar::start_of_game == calendar::turn_zero +
+               1_hours * 13 +
+               1_days * 19 +
+               1_days * default_season_length * season_type::AUTUMN +
+               1_days * default_year_length * 8
+             );
     }
 
     // Reset dates so other tests won't fail
@@ -139,8 +107,10 @@ TEST_CASE( "Random_scenario_dates" )
     time_duration default_start_hour = 1_hours * 8;
 
     SECTION( "Random hour" ) {
-        set_scenario( &scenario_test_random_hour.obj() );
+        scenario scen = scenario_test_random_hour.obj();
 
+        set_scenario( &scen );
+        scen.rerandomize();
         g->start_calendar();
 
         // Random hour should result in something between day default_first_day_of_summer hour 0 - day first_day_of_summer hour 23
@@ -154,7 +124,8 @@ TEST_CASE( "Random_scenario_dates" )
         // If even one of them is different everything is fine.
         bool all_same = true;
         for( int i = 0; i < 10; i++ ) {
-            set_scenario( &scenario_test_random_hour.obj() );
+            set_scenario( &scen );
+            scen.rerandomize();
             g->start_calendar();
             all_same = start_of_game_1 == calendar::start_of_game;
             if( !all_same ) {
@@ -167,8 +138,10 @@ TEST_CASE( "Random_scenario_dates" )
     }
 
     SECTION( "Random day" ) {
-        set_scenario( &scenario_test_random_day.obj() );
+        scenario scen = scenario_test_random_day.obj();
 
+        set_scenario( &scen );
+        scen.rerandomize();
         g->start_calendar();
 
         // Random day should result in something between day first_day_of_summer hour 8 - day last_day_of_summer hour 8
@@ -183,7 +156,8 @@ TEST_CASE( "Random_scenario_dates" )
         // If even one of them is different everything is fine.
         bool all_same = true;
         for( int i = 0; i < 10; i++ ) {
-            set_scenario( &scenario_test_random_day.obj() );
+            set_scenario( &scen );
+            scen.rerandomize();
             g->start_calendar();
             all_same = start_of_game_1 == calendar::start_of_game;
             if( !all_same ) {
@@ -196,8 +170,10 @@ TEST_CASE( "Random_scenario_dates" )
     }
 
     SECTION( "Random year" ) {
-        set_scenario( &scenario_test_random_year.obj() );
+        scenario scen = scenario_test_random_year.obj();
 
+        set_scenario( &scen );
+        scen.rerandomize();
         g->start_calendar();
 
         // Random year should result in something between year 0 day first_day_of_summer hour 8 - year 11 day first_day_of_summer hour 8
@@ -205,7 +181,7 @@ TEST_CASE( "Random_scenario_dates" )
         CHECK( calendar::start_of_game >= calendar::turn_zero + first_day_of_summer +
                default_start_hour );
         CHECK( calendar::start_of_game <= calendar::turn_zero + first_day_of_summer +
-               calendar::year_length() * 11 + default_start_hour );
+               calendar::year_length() * 10 + default_start_hour );
 
         time_point start_of_game_1 = calendar::start_of_game;
 
@@ -213,7 +189,8 @@ TEST_CASE( "Random_scenario_dates" )
         // If even one of them is different everything is fine.
         bool all_same = true;
         for( int i = 0; i < 10; i++ ) {
-            set_scenario( &scenario_test_random_year.obj() );
+            set_scenario( &scen );
+            scen.rerandomize();
             g->start_calendar();
             all_same = start_of_game_1 == calendar::start_of_game;
             if( !all_same ) {
