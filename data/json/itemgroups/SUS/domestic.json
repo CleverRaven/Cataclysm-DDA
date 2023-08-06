@@ -561,10 +561,7 @@
         "collection": [
           { "item": "toaster" },
           {
-            "distribution": [
-              { "item": "bread", "count": [ 2, 14 ], "prob": 70 },
-              { "item": "sourdough_bread", "count": [ 2, 12 ], "prob": 30 }
-            ],
+            "distribution": [ { "item": "bread", "count": [ 2, 14 ], "prob": 70 }, { "item": "sourdough_bread", "count": [ 2, 12 ], "prob": 30 } ],
             "prob": 80
           },
           {
@@ -723,8 +720,8 @@
       { "group": "alcohol_wipes_box_used", "prob": 60 },
       {
         "distribution": [
-          { "item": "pills_sleep", "prob": 60, "charges": [ 1, 10 ] },
-          { "item": "melatonin_tablet", "prob": 40, "charges": [ 1, 30 ] }
+          { "item": "pills_sleep", "prob": 60, "count": [ 1, 10 ] },
+          { "item": "melatonin_tablet", "prob": 40, "count": [ 1, 30 ] }
         ],
         "prob": 10
       },
@@ -744,7 +741,7 @@
       },
       {
         "distribution": [
-          { "item": "vitamins", "prob": 60, "charges-min": 1, "charges-max": 40, "container-item": "bottle_plastic_small" },
+          { "item": "vitamins", "prob": 60, "count": [ 1, 40 ], "container-item": "bottle_plastic_small" },
           {
             "item": "gummy_vitamins",
             "prob": 20,
