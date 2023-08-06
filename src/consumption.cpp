@@ -394,21 +394,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         nutrients this_min;
         nutrients this_max;
 
-        std::vector<item> results = rec->create_results();
-        item result_it = results.front();
-        for( item &it : results ) {
-            if( it.typeId() == comest_it.typeId() ) {
-                result_it = it;
-                break;
-            }
-            if( !it.is_container_empty() ) {
-                const item alt_result = it.legacy_front();
-                if( alt_result.typeId() == comest_it.typeId() ) {
-                    result_it = alt_result;
-                    break;
-                }
-            }
-        }
+        item result_it( rec->result() );
         if( result_it.typeId() != comest_it.typeId() ) {
             debugmsg( "When creating recipe result expected %s, got %s\n",
                       comest_it.typeId().str(), result_it.typeId().str() );

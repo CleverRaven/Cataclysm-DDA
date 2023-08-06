@@ -781,15 +781,20 @@ std::vector<item> recipe::create_results( int batch, item_components *used ) con
             item_components mult_comps = batch_comps.split( result_mult, j, is_cooked );
             std::vector<item> newits = create_result( set_components, temp.is_food(), &mult_comps );
 
-            for( const item &it : newits ) {
-                // try to combine batch results for liquid handling
-                auto found = std::find_if( items.begin(), items.end(), [it]( const item & rhs ) {
-                    return it.can_combine( rhs );
-                } );
-                if( found != items.end() ) {
-                    found->combine( it );
-                } else {
-                    items.emplace_back( it );
+            if( !result_->count_by_charges() ) {
+                items.reserve( items.size() + newits.size() );
+                items.insert( items.end(), newits.begin(), newits.end() );
+            } else {
+                for( const item &it : newits ) {
+                    // try to combine batch results for liquid handling
+                    auto found = std::find_if( items.begin(), items.end(), [it]( const item & rhs ) {
+                        return it.can_combine( rhs );
+                    } );
+                    if( found != items.end() ) {
+                        found->combine( it );
+                    } else {
+                        items.emplace_back( it );
+                    }
                 }
             }
         }

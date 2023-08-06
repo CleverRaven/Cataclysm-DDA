@@ -3323,7 +3323,7 @@ void veh_interact::complete_vehicle( Character &you )
             }
 
             // Power cables must remove parts from the target vehicle, too.
-            if( vpi.has_flag( "POWER_TRANSFER" ) ) {
+            if( vpi.has_flag( VPFLAG_POWER_TRANSFER ) ) {
                 veh.remove_remote_part( vp );
             }
 

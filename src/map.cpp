@@ -635,6 +635,7 @@ void map::vehmove()
     }
     dirty_vehicle_list.clear();
     std::map<vehicle *, bool> vehs; // value true means in on map
+    std::unordered_set<vehicle *> connected_vehs;
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
         const level_cache *cache = get_cache_lazy( zlev );
         if( !cache ) {
@@ -642,10 +643,11 @@ void map::vehmove()
         }
         for( vehicle *veh : cache->vehicle_list ) {
             vehs[veh] = true; // force on map vehicles to true
-            for( const std::pair<vehicle *const, float> &pair : veh->search_connected_vehicles() ) {
-                vehs.emplace( pair.first, false ); // add with 'false' if does not exist (off map)
-            }
+            veh->get_connected_vehicles( connected_vehs );
         }
+    }
+    for( vehicle *connected_veh : connected_vehs ) {
+        vehs.emplace( connected_veh, false ); // add with 'false' if does not exist (off map)
     }
     for( const std::pair<vehicle *const, bool> &veh_pair : vehs ) {
         veh_pair.first->idle( /* on_map = */ veh_pair.second );

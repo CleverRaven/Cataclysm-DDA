@@ -353,6 +353,15 @@
   },
   {
     "type": "mutation",
+    "id": "perk_chainsaw",
+    "name": { "str": "The Great Communicator" },
+    "points": 0,
+    "description": "You've always had something to say about ripping apart things with chainsaws.  You can swing powered blades faster.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": { "u_has_wielded_with_flag": "MESSY" }, "values": [ { "value": "ATTACK_SPEED", "multiply": -0.2 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_olde_guns",
     "name": { "str": "Olde Reliables" },
     "points": 0,

@@ -251,7 +251,7 @@
     "base_casting_time": 500,
     "final_casting_time": 250,
     "casting_time_increment": -12,
-    "learn_spells": { "clair_spot_weakness": 5, "clair_voyance": 8, "clair_clear_sight": 15 }
+    "learn_spells": { "clair_spot_weakness": 5, "clair_ranged_enhance": 7, "clair_voyance": 9, "clair_clear_sight": 15 }
   },
   {
     "id": "clair_danger_sense",
@@ -317,7 +317,7 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
-    "learn_spells": { "clair_voyance": 7, "clair_clear_sight": 12 }
+    "learn_spells": { "clair_ranged_enhance": 4, "clair_voyance": 7, "clair_clear_sight": 12 }
   },
   {
     "id": "clair_dodge_power",
@@ -348,7 +348,38 @@
     "base_casting_time": 150,
     "final_casting_time": 70,
     "casting_time_increment": -9,
-    "learn_spells": { "clair_spot_weakness": 3, "clair_clear_sight": 9, "clair_voyance": 12 }
+    "learn_spells": { "clair_spot_weakness": 3, "clair_ranged_enhance": 5, "clair_clear_sight": 9, "clair_voyance": 12 }
+  },
+  {
+    "id": "clair_ranged_enhance",
+    "type": "SPELL",
+    "name": "[Ψ]Marksman's Eye",
+    "description": "With your enhanced senses, you can increase the effective range and accuracy of your attacks.",
+    "message": "Distances seem to narrow and your enemies' movements seem to slow.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_clair_ranged_enhance",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "base_energy_cost": 4000,
+    "final_energy_cost": 1500,
+    "energy_increment": -175,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_dodge_power') * 800) + 10000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_dodge_power') * 1500) + 60000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "base_casting_time": 200,
+    "final_casting_time": 125,
+    "casting_time_increment": -10,
+    "learn_spells": { "clair_spot_weakness": 5, "clair_see_map": 9, "clair_clear_sight": 12 }
   },
   {
     "id": "clair_voyance",
