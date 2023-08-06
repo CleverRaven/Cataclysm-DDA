@@ -1205,7 +1205,7 @@ void Character::tally_organic_size()
     //return creature_anatomy->get_organic_size_sum() / 100.0f;
 }
 
-float Character::cached_organic_size() const
+float Character::get_cached_organic_size() const
 {
     return cached_organic_size;
 }
