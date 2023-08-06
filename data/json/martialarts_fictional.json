@@ -25,7 +25,7 @@
       {
         "id": "buff_biojutsu_onblock",
         "name": "Optimized Deflection",
-        "description": "Whenever you're about to be struck, you reposition sligtly to make the strike come at anangle.\n+3 bash, cut, and stab armor.\nLasts 4 turns.  Stacks 3 times.",
+        "description": "Whenever you're about to be struck, you reposition slightly to make the strike come at an angle.\n+3 bash, cut, and stab armor.\nLasts 4 turns.  Stacks 3 times.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 4 } ],

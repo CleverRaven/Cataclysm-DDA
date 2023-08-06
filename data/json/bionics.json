@@ -694,9 +694,7 @@
     "act_cost": "20 J",
     "react_cost": "20 J",
     "time": "1 s",
-    "known_ma_styles": [
-      "style_biojutsu"
-    ],
+    "known_ma_styles": [ "style_biojutsu" ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
