@@ -13528,7 +13528,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
         if( calendar::turn >= countdown_point ) {
             active = false;
             if( type->countdown_action ) {
-                type->countdown_action.call( carrier, *this, false, pos );
+                type->countdown_action.call( carrier, *this, pos );
             }
             countdown_point = calendar::turn_max;
             if( type->revert_to ) {
@@ -14090,7 +14090,7 @@ bool item::on_drop( const tripoint &pos, map &m )
     avatar &player_character = get_avatar();
     player_character.flag_encumbrance();
     player_character.invalidate_weight_carried_cache();
-    return type->drop_action && type->drop_action.call( &player_character, *this, false, pos );
+    return type->drop_action && type->drop_action.call( &player_character, *this, pos );
 }
 
 time_duration item::age() const

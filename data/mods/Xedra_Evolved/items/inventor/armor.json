@@ -438,7 +438,8 @@
         "need_charges": 0,
         "type": "transform"
       }
-    ]
+    ],
+    "tick_action": [ "EPIC_MUSIC" ]
   },
   {
     "type": "ARMOR",

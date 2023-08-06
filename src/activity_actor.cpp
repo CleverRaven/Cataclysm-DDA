@@ -1821,7 +1821,7 @@ bool read_activity_actor::player_readma( avatar &you )
 
     if( one_in( difficulty ) ) {
         // learn martial art
-        mart_iter->second.call( &you, *book, false, you.pos() );
+        mart_iter->second.call( &you, *book, you.pos() );
         return true;
     } else if( continuous ) {
         switch( rng( 1, 5 ) ) {
