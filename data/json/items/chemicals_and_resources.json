@@ -37,6 +37,7 @@
   {
     "type": "AMMO",
     "id": "chem_sulphur",
+    "ammo_type": "components",
     "category": "chems",
     "price": 50,
     "price_postapoc": 250,
