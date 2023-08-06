@@ -3316,7 +3316,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         }
         last_time = calendar::turn;
     }
-    while( assumed_turns-- > 0 && craft.item_counter < 10'000'000 && crafter.activity ) {
+    do {
         // Current progress in moves
         const double current_progress = craft.item_counter * base_total_moves / 10'000'000.0 +
                                         delta_progress;
@@ -3399,7 +3399,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
                 }
             }
         }
-    }
+    } while( --assumed_turns > 0 && craft.item_counter < 10'000'000 && crafter.activity );
 }
 
 void craft_activity_actor::finish( player_activity &act, Character & )

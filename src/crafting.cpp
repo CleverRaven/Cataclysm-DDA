@@ -383,10 +383,14 @@ bool Character::making_would_work( const recipe_id &id_to_make, int batch_size )
     }
 
     if( !can_make( &making, batch_size ) ) {
-        std::string buffer = _( "You can no longer make that craft!" );
-        buffer += "\n";
-        buffer += making.simple_requirements().list_missing();
-        popup( buffer, PF_NONE );
+        if( is_avatar() ) {
+            std::string buffer = _( "You can no longer make that craft!" );
+            buffer += "\n";
+            buffer += making.simple_requirements().list_missing();
+            popup( buffer, PF_NONE );
+        } else {
+            add_msg_if_npc( _( "<npcname> can no longer make that craft!" ) );
+        }
         return false;
     }
 
@@ -1500,10 +1504,14 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
         const int batch_size = 1;
 
         if( !continue_reqs.can_make_with_inventory( crafting_inventory(), std_filter, batch_size ) ) {
-            std::string buffer = _( "You don't have the required components to continue crafting!" );
-            buffer += "\n";
-            buffer += continue_reqs.list_missing();
-            popup( buffer, PF_NONE );
+            if( is_avatar() ) {
+                std::string buffer = _( "You don't have the required components to continue crafting!" );
+                buffer += "\n";
+                buffer += continue_reqs.list_missing();
+                popup( buffer, PF_NONE );
+            } else {
+                add_msg_if_npc( _( "<npcname> don't have the required components to continue crafting!" ) );
+            }
             return false;
         }
 
@@ -1583,10 +1591,14 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
                 std::vector<std::vector<item_comp>>() );
 
         if( !tool_continue_reqs.can_make_with_inventory( crafting_inventory(), return_true<item> ) ) {
-            std::string buffer = _( "You don't have the necessary tools to continue crafting!" );
-            buffer += "\n";
-            buffer += tool_continue_reqs.list_missing();
-            popup( buffer, PF_NONE );
+            if( is_avatar() ) {
+                std::string buffer = _( "You don't have the necessary tools to continue crafting!" );
+                buffer += "\n";
+                buffer += tool_continue_reqs.list_missing();
+                popup( buffer, PF_NONE );
+            } else {
+                add_msg_if_npc( _( "<npcname> don't have the necessary tools to continue crafting!" ) );
+            }
             return false;
         }
 
@@ -1879,7 +1891,12 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
 
         // Get the selection via a menu popup
         cmenu.title = _( "Use which component?" );
-        cmenu.query();
+        if( is_avatar() ) {
+            cmenu.query();
+        } else {
+            // NPC always picks the first candidate
+            cmenu.ret = 0;
+        }
 
         if( cmenu.ret < 0 ||
             static_cast<size_t>( cmenu.ret ) >= map_has.size() + player_has.size() + mixed.size() ) {
@@ -2137,7 +2154,12 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
 
         // Get selection via a popup menu
         tmenu.title = _( "Use which tool?" );
-        tmenu.query();
+        if( is_avatar() ) {
+            tmenu.query();
+        } else {
+            // NPC always picks the first candidate
+            tmenu.ret = 0;
+        }
 
         if( tmenu.ret < 0 || static_cast<size_t>( tmenu.ret ) >= map_has.size()
             + player_has.size() + both_has.size() ) {
