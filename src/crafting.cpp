@@ -338,35 +338,14 @@ bool Character::has_morale_to_craft() const
     return get_morale_level() >= -50;
 }
 
-static bool npc_can_craft( const recipe *rec )
-{
-    if( rec->is_practice() ) {
-        add_msg( m_info, _( "Ordering practice to NPC is not implemented yet!" ) );
-        return false;
-    }
-    if( rec->result()->phase != phase_id::SOLID ) {
-        add_msg( m_info, _( "Ordering no solid item to NPC is not implemented yet!" ) );
-        return false;
-    }
-    if( !rec->get_byproducts().empty() ) {
-        const auto res = std::find_if( rec->get_byproducts().begin(),
-        rec->get_byproducts().end(), []( std::pair<const itype_id, int> it ) {
-            return it.first->phase != phase_id::SOLID;
-        } );
-        if( res != rec->get_byproducts().end() ) {
-            add_msg( m_info, _( "Ordering no solid item to NPC is not implemented yet!" ) );
-            return false;
-        }
-    }
-    return true;
-}
-
 void Character::craft( const std::optional<tripoint> &loc, const recipe_id &goto_recipe )
 {
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size, goto_recipe, *this );
     if( rec ) {
-        if( is_npc() && !npc_can_craft( rec ) ) {
+        std::string reason;
+        if( is_npc() && !rec->npc_can_craft( reason ) ) {
+            add_msg( m_info, reason );
             return;
         }
         if( crafting_allowed( *this, *rec ) || is_npc() ) {

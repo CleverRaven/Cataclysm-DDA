@@ -187,6 +187,10 @@ struct availability {
                 can_craft = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
                             req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
             }
+            std::string reason;
+            if( crafter.is_npc() && !r->npc_can_craft( reason ) ) {
+                can_craft = false;
+            }
             would_use_rotten = !req.can_make_with_inventory( inv, no_rotten_filter, batch_size,
                                craft_flags::start_only );
             would_use_favorite = !req.can_make_with_inventory( inv, no_favorite_filter, batch_size,
@@ -418,6 +422,10 @@ static std::vector<std::string> recipe_info(
     if( !can_craft_this && avail.apparently_craftable && !recp.is_nested() ) {
         oss << _( "<color_red>Cannot be crafted because the same item is needed "
                   "for multiple components</color>\n" );
+    }
+    std::string reason;
+    if( !can_craft_this && avail.crafter.is_npc() && !recp.npc_can_craft( reason ) ) {
+        oss << reason << "\n";
     }
 
     const bool disp_prof_msg = avail.has_proficiencies && !recp.is_nested();

@@ -1292,6 +1292,27 @@ std::function<bool( const item & )> recipe::get_component_filter(
     };
 }
 
+bool recipe::npc_can_craft( std::string &reason ) const
+{
+    if( is_practice() ) {
+        reason = _( "Ordering practice to NPC is not implemented yet." );
+        return false;
+    }
+    if( result()->phase != phase_id::SOLID ) {
+        reason = _( "Ordering no solid item to NPC is not implemented yet." );
+        return false;
+    }
+    if( !get_byproducts().empty() ) {
+        for( const std::pair<const itype_id, int> &bp : get_byproducts() ) {
+            if( bp.first->phase != phase_id::SOLID ) {
+                reason = _( "Ordering no solid item to NPC is not implemented yet." );
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 bool recipe::is_practice() const
 {
     return practice_data.has_value();
