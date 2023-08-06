@@ -34,5 +34,133 @@
       ],
       "palettes": [ "trail_palette" ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "forest_trail_straight",
+    "weight": 100,
+    "object": {
+      "fallback_predecessor_mapgen": "forest_thick",
+      "rows": [
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        4321012344      ",
+        "        43210123334     ",
+        "        432101222234    ",
+        "        4332011111234   ",
+        "        44330000001234  ",
+        "         44ntt11101234  ",
+        "              tt101234  ",
+        "             432101234  ",
+        "             432101234  ",
+        "            432101234   ",
+        "           432101234    ",
+        "          432101234     ",
+        "         432101234      ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       "
+      ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "forest_trail_straight",
+    "weight": 100,
+    "object": {
+      "fallback_predecessor_mapgen": "forest_thick",
+      "rows": [
+        "        432101234       ",
+        "        432101234       ",
+        "         432101234      ",
+        "        S432101234      ",
+        "      ****432101234     ",
+        "     *m***432101234     ",
+        "    **ad*S*432101234    ",
+        "   ********432101234    ",
+        "  ********S432101234    ",
+        "  *********432101234    ",
+        "  *****ad**S432101234   ",
+        "  **A****m**432101234   ",
+        "  **********432101234   ",
+        "  ***adm****432101234   ",
+        "   ******S*432101234    ",
+        "   *****d**432101234    ",
+        "   *****am*432101234    ",
+        "     ****S*432101234    ",
+        "      *****432101234    ",
+        "           432101234    ",
+        "          432101234     ",
+        "         432101234      ",
+        "         432101234      ",
+        "        432101234       "
+      ],
+      "parameters": {
+        "den_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              [ "trail_small_den_empty_palette", 20 ],
+              [ "trail_small_den_groundhog_palette", 500 ],
+              [ "trail_small_den_hare_palette", 5 ],
+              [ "trail_large_den_empty_palette", 10 ],
+              [ "trail_large_den_fox_gray_palette", 2 ],
+              [ "trail_large_den_fox_red_palette", 2 ],
+              [ "trail_large_den_bear_palette", 200 ]
+            ]
+          }
+        }
+      },
+      "palettes": [ "trail_palette", { "param": "den_palette" } ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "forest_trail_straight",
+    "weight": 100,
+    "object": {
+      "fallback_predecessor_mapgen": "forest_thick",
+      "rows": [
+        "       4332101234       ",
+        "      4322101234        ",
+        "     4321101234         ",
+        "    43210012344         ",
+        "   43210112333344       ",
+        "    43210112222334      ",
+        "     43210011112234     ",
+        "         __000011234    ",
+        "           ____001234   ",
+        "               __01234  ",
+        "       44332221101234   ",
+        "     443322111001234    ",
+        "    4332211000__        ",
+        "   43221100___          ",
+        "  4321100__             ",
+        " 43210011122222234      ",
+        "     __000111111234     ",
+        "       __00000001234    ",
+        "         ______001234   ",
+        "               __01234  ",
+        "           433211101234 ",
+        "          432210001234  ",
+        "         432110111234   ",
+        "        432100122234    "
+      ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
   }
 ]

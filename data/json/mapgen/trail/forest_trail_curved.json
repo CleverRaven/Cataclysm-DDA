@@ -3,6 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "forest_trail_curved",
+    "weight": 100,
     "object": {
       "fallback_predecessor_mapgen": "forest_thick",
       "rows": [
@@ -32,6 +33,43 @@
         "        432101234       "
       ],
       "palettes": [ "trail_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "forest_trail_curved",
+    "weight": 100,
+    "object": {
+      "fallback_predecessor_mapgen": "forest_thick",
+      "rows": [
+        "                        ",
+        "                        ",
+        "            44          ",
+        "         4443344        ",
+        "        433322334       ",
+        "       43222112234      ",
+        "      4321110011234     ",
+        "     4321000110012344   ",
+        "    43210111221101233444",
+        "   432101222332210122333",
+        "   432101233SS3321011222",
+        "   43210123SSSSS32100111",
+        "  43210123SSSSSSS3211000",
+        "  43210123SSSSSSSS322111",
+        "   43210123SSSSSSSS33222",
+        "   43210123SSSSSSSS  333",
+        "    43210123SSSSSS      ",
+        "     43210123SSSS       ",
+        "      43210123SS        ",
+        "       43210123         ",
+        "       43210123         ",
+        "        43210123        ",
+        "        43210123        ",
+        "        43210123        "
+      ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   }
 ]

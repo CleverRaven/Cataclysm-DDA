@@ -3,6 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "forest_trail_four_way",
+    "weight": 100,
     "object": {
       "fallback_predecessor_mapgen": "forest_thick",
       "rows": [
@@ -16,11 +17,11 @@
         "        432101234       ",
         "444444444321012344444444",
         "333333333321012333333333",
-        "222222222221012222222222",
+        "2222222222B101I222222222",
         "111111111111011111111111",
         "000000000000000000000000",
         "111111111111011111111111",
-        "222222222221012222222222",
+        "2222222222B101I222222222",
         "333333333321012333333333",
         "444444444321012344444444",
         "        432101234       ",
@@ -32,6 +33,56 @@
         "        432101234       "
       ],
       "palettes": [ "trail_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "forest_trail_four_way",
+    "weight": 100,
+    "object": {
+      "fallback_predecessor_mapgen": "forest_thick",
+      "rows": [
+        "                        ",
+        "                        ",
+        "         ??????         ",
+        "       ??????????       ",
+        "      ????....????      ",
+        "     ???........???     ",
+        "    ???..........???    ",
+        "   ???............???   ",
+        "   ??..............??   ",
+        "  ???..............???  ",
+        "  ??................??  ",
+        "  ??................??  ",
+        "  ??................??  ",
+        "  ??................??  ",
+        "  ???..............???  ",
+        "   ??..............??   ",
+        "   ???............???   ",
+        "    ???..........???    ",
+        "     ???........???     ",
+        "      ????....????      ",
+        "       ??????????       ",
+        "         ??????         ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "trail_palette" ],
+      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_region_soil", 6 ], [ "t_grass_dead", 3 ] ] },
+      "place_nested": [
+        { "chunks": [ "14x14_forest_trail_intersection_north" ], "x": 5, "y": 0 },
+        { "chunks": [ "14x14_forest_trail_intersection_east" ], "x": 10, "y": 5 },
+        { "chunks": [ "14x14_forest_trail_intersection_south" ], "x": 5, "y": 10 },
+        { "chunks": [ "14x14_forest_trail_intersection_west" ], "x": 0, "y": 5 },
+        {
+          "chunks": [ [ "null", 25 ], [ "3x3_firering", 25 ], [ "3x3_trunks", 50 ] ],
+          "x": [ 11, 12 ],
+          "y": [ 11, 12 ]
+        },
+        { "chunks": [ [ "null", 50 ], [ "3x3_tree_benches", 50 ] ], "x": 16, "y": 7 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]
