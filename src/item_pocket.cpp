@@ -567,7 +567,10 @@ int item_pocket::remaining_capacity_for_item( const item &it ) const
             return 0;
         }
     } else if( can_contain( it ).success() ) {
-        return 1;
+        return std::min( {
+            charges_per_remaining_volume( it ),
+            charges_per_remaining_weight( it )
+        } );
     } else {
         return 0;
     }
@@ -2012,6 +2015,16 @@ void item_pocket::add( const item &it, item **ret )
         restack();
     } else {
         *ret = restack( &contents.back() );
+    }
+}
+
+void item_pocket::add( const item &it, const int copies, item **ret )
+{
+    std::list<item>::iterator first = contents.insert( contents.end(), copies, it );
+    if( ret == nullptr ) {
+        restack();
+    } else {
+        *ret = restack( &*first );
     }
 }
 

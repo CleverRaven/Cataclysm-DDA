@@ -331,6 +331,7 @@ class item_pocket
           * may create a new pocket
           */
         void add( const item &it, item **ret = nullptr );
+        void add( const item &it, int copies, item **ret );
         bool can_unload_liquid() const;
 
         int fill_with( const item &contained, Character &guy, int amount = 0,
