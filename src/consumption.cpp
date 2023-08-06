@@ -309,6 +309,7 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
 // the given recipe
 std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     const item &comest, const recipe_id &recipe_i,
+    std::map<recipe_id, std::pair<nutrients, nutrients>> &rec_cache,
     const cata::flat_set<flag_id> &extra_flags ) const
 {
     if( !comest.is_comestible() ) {
@@ -319,6 +320,11 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     if( comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
         nutrients result = compute_default_effective_nutrients( comest, *this );
         return { result, result };
+    }
+
+    auto cache_it = rec_cache.find( recipe_i );
+    if( cache_it != rec_cache.end() ) {
+        return cache_it->second;
     }
 
     nutrients tally_min;
@@ -342,7 +348,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         bool first = true;
         for( const item_comp &component_option : component_options ) {
             std::pair<nutrients, nutrients> component_option_range =
-                compute_nutrient_range( component_option.type, our_extra_flags );
+                compute_nutrient_range( component_option.type, rec_cache, our_extra_flags );
             component_option_range.first *= component_option.count;
             component_option_range.second *= component_option.count;
 
@@ -366,20 +372,26 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     }
 
     int count = rec.makes_amount();
-    return { tally_min / count, tally_max / count };
+    rec_cache[recipe_i] = { tally_min / count, tally_max / count };
+    return rec_cache[recipe_i];
 }
 
 // Calculate the range of nutrients possible for a given item across all
 // possible recipes
 std::pair<nutrients, nutrients> Character::compute_nutrient_range(
-    const itype_id &comest_id, const cata::flat_set<flag_id> &extra_flags ) const
+    const itype_id &comest_id,
+    std::map<recipe_id, std::pair<nutrients, nutrients>> &rec_cache,
+    const cata::flat_set<flag_id> &extra_flags ) const
 {
     const itype *comest = item::find_type( comest_id );
     if( !comest->comestible ) {
         return {};
     }
 
-    item comest_it( comest, calendar::turn, 1 );
+    item comest_it( comest, calendar::turn );
+    if( comest->count_by_charges() ) {
+        comest_it.charges = 1;
+    }
     // The default nutrients are always a possibility
     nutrients min_nutr = compute_default_effective_nutrients( comest_it, *this, extra_flags );
 
@@ -399,12 +411,13 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
             debugmsg( "When creating recipe result expected %s, got %s\n",
                       comest_it.typeId().str(), result_it.typeId().str() );
         }
-        std::tie( this_min, this_max ) = compute_nutrient_range( result_it, rec, extra_flags );
+        std::tie( this_min, this_max ) = compute_nutrient_range( result_it, rec, rec_cache, extra_flags );
         min_nutr.min_in_place( this_min );
         max_nutr.max_in_place( this_max );
     }
 
     return { min_nutr, max_nutr };
+
 }
 
 int Character::nutrition_for( const item &comest ) const
