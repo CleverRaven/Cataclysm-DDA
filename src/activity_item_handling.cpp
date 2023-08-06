@@ -1353,9 +1353,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         // 2. when we form the src_set to loop through at the beginning of the fetch activity.
         return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
     } else if( act == ACT_MULTIPLE_CRAFT ) {
-        auto to_craft = you.craft_task.get_item();
+        item *to_craft = you.craft_task.get_item();
         if( to_craft && to_craft->is_craft() ) {
-            const inventory inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
+            const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
             const recipe &r = to_craft->get_making();
             std::vector<std::vector<item_comp>> item_comp_vector =
                                                  to_craft->get_continue_reqs().get_components();
@@ -1373,7 +1373,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
     } else if( act == ACT_MULTIPLE_DIS ) {
         // Is there anything to be disassembled?
         // TODO: fix point types
-        const inventory inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
+        const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
         requirement_data req;
         for( item &i : here.i_at( src_loc ) ) {
             // Skip items marked by other ppl.
@@ -3008,11 +3008,13 @@ static bool generic_multi_activity_do(
 
         you.activity_vehicle_part_index = -1;
     } else if( reason == do_activity_reason::NEEDS_CRAFT ) {
-        auto to_craft = you.craft_task.get_item();
-        if( to_craft && to_craft->is_craft() ) {
+        item *to_craft = you.craft_task.get_item();
+        bool is_dark = you.fine_detail_vision_mod( here.getlocal( src ) ) > 4.0;
+        if( !is_dark && to_craft && to_craft->is_craft() ) {
             player_activity act = player_activity( craft_activity_actor( you.craft_task, false ) );
             you.assign_activity( act );
             you.backlog.emplace_back( ACT_MULTIPLE_CRAFT );
+            you.backlog.front().auto_resume = true;
         }
         return false;
     } else if( reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
@@ -3109,7 +3111,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
             return true;
         }
         std::vector<tripoint_bub_ms> route_workbench;
-        if( activity_to_restore == activity_id( ACT_MULTIPLE_DIS ) ) {
+        if( activity_to_restore == ACT_MULTIPLE_CRAFT || activity_to_restore == ACT_MULTIPLE_DIS ) {
             // returns empty vector if we can't reach best tile
             // or we are already on the best tile
             route_workbench = route_best_workbench( you, src_loc );
@@ -3118,7 +3120,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         if( square_dist( you.pos_bub(), src_loc ) > 1 || !route_workbench.empty() ) {
             std::vector<tripoint_bub_ms> route;
             // find best workbench if possible
-            if( activity_to_restore == activity_id( ACT_MULTIPLE_DIS ) ) {
+            if( !route_workbench.empty() ) {
                 route = route_workbench;
             } else {
                 route = route_adjacent( you, src_loc );
