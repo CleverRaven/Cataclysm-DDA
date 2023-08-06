@@ -1085,13 +1085,23 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
     mutation_category_id cat;
     weighted_int_list<mutation_category_id> cat_list = get_vitamin_weighted_categories();
 
-    //If we picked bad, mutation can be bad or neutral
-    //Otherwise, can be good or neutral
-    bool picked_bad = roll_bad_mutation();
+    bool select_mutation = is_avatar() && get_option<bool>( "SHOW_MUTATION_SELECTOR" );
 
-    bool allow_good = !picked_bad;
-    bool allow_bad = picked_bad;
+    bool allow_good = false;
+    bool allow_bad = false;
     bool allow_neutral = true;
+
+    if( select_mutation ) {
+        // Mutation selector overrrides good / bad mutation rolls
+        allow_good = true;
+        allow_bad = true;
+    } else if( roll_bad_mutation() ) {
+        // If we picked bad, mutation can be bad or neutral
+        allow_bad = true;
+    } else {
+        // Otherwise, can be good or neutral
+        allow_good = true;
+    }
 
     add_msg_debug( debugmode::DF_MUTATION, "mutate: true_random_chance %d",
                    true_random_chance );
@@ -1196,7 +1206,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         }
 
         // Mutation selector
-        if( is_avatar() && get_option<bool>( "SHOW_MUTATION_SELECTOR" ) ) {
+        if( select_mutation ) {
 
             // Setup menu
             uilist mmenu;
