@@ -1281,7 +1281,7 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "components": [
-      [ [ "30gal_drum_aluminum", 1 ] ],
+      [ [ "30gal_drum", 1 ] ],
       [ [ "condensor_coil", 1 ] ],
       [ [ "evaporator_coil", 1 ] ],
       [ [ "thermostat", 1 ] ],
