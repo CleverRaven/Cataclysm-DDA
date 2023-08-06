@@ -10896,19 +10896,22 @@ point game::place_player( const tripoint &dest_loc, bool quick )
                         and_the_rest += counts[i];
                     }
                 }
-                if( names.size() == 1 ) {
-                    add_msg( _( "You see here %s." ), names[0] );
-                } else if( names.size() == 2 ) {
-                    add_msg( _( "You see here %s and %s." ), names[0], names[1] );
-                } else if( names.size() == 3 ) {
-                    add_msg( _( "You see here %s, %s, and %s." ), names[0], names[1], names[2] );
-                } else if( and_the_rest < 7 ) {
-                    add_msg( n_gettext( "You see here %s, %s and %d more item.",
-                                        "You see here %s, %s and %d more items.",
-                                        and_the_rest ),
-                             names[0], names[1], and_the_rest );
-                } else {
-                    add_msg( _( "You see here %s and many more items." ), names[0] );
+
+                if( get_option<bool>( "LOG_ITEMS_ON_THE_GROUND" ) ) {
+                    if( names.size() == 1 ) {
+                        add_msg( _( "You see here %s." ), names[0] );
+                    } else if( names.size() == 2 ) {
+                        add_msg( _( "You see here %s and %s." ), names[0], names[1] );
+                    } else if( names.size() == 3 ) {
+                        add_msg( _( "You see here %s, %s, and %s." ), names[0], names[1], names[2] );
+                    } else if( and_the_rest < 7 ) {
+                        add_msg( n_gettext( "You see here %s, %s and %d more item.",
+                                            "You see here %s, %s and %d more items.",
+                                            and_the_rest ),
+                                 names[0], names[1], and_the_rest );
+                    } else {
+                        add_msg( _( "You see here %s and many more items." ), names[0] );
+                    }
                 }
             }
         }
