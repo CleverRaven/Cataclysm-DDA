@@ -13435,13 +13435,14 @@ bool item::process_blackpowder_fouling( Character *carrier )
 {
     // rust is deterministic. 12 hours for first rust, then 24 (36 total), then 36 (72 total) and finally 48 (120 hours to go to XX)
     // this speeds up by the amount the gun is dirty, 2-6x as fast depending on dirt level.
-    set_var( "rust_timer", get_var( "rust_timer", 0 ) + 1 + static_cast<int>( get_var( "dirt",
-             0 ) / 2000 ) );
-    if( damage() < max_damage() && get_var( "rust_timer", 0 ) > 43200.0 / ( damage() + 1 ) ) {
+    set_var( "rust_timer", get_var( "rust_timer", 0 ) + 1 + get_var( "dirt", 0 ) / 2000 );
+    double time_mult = 1.0 + ( 4.0 * static_cast<double>( damage() ) ) / static_cast<double>
+                       ( max_damage() );
+    if( damage() < max_damage() && get_var( "rust_timer", 0 ) > 43200.0 * time_mult ) {
         inc_damage();
         set_var( "rust_timer", 0 );
         if( carrier ) {
-            carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ), tname() );
+            carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to corrosive powder fouling." ), tname() );
         }
     }
     return false;
@@ -13527,7 +13528,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
         if( calendar::turn >= countdown_point ) {
             active = false;
             if( type->countdown_action ) {
-                type->countdown_action.call( carrier, *this, false, pos );
+                type->countdown_action.call( carrier, *this, pos );
             }
             countdown_point = calendar::turn_max;
             if( type->revert_to ) {
@@ -14089,7 +14090,7 @@ bool item::on_drop( const tripoint &pos, map &m )
     avatar &player_character = get_avatar();
     player_character.flag_encumbrance();
     player_character.invalidate_weight_carried_cache();
-    return type->drop_action && type->drop_action.call( &player_character, *this, false, pos );
+    return type->drop_action && type->drop_action.call( &player_character, *this, pos );
 }
 
 time_duration item::age() const

@@ -119,5 +119,20 @@
     "//": "One liter, roughly 5.04 grams per cubic centimeter.",
     "weight": "5040 g",
     "melee_damage": { "bash": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "chunk_cinnabar",
+    "category": "spare_parts",
+    "price": 250,
+    "name": { "str": "chunk of cinnabar ", "str_pl": "chunks of cinnabar" },
+    "symbol": "*",
+    "color": "brown",
+    "description": "A large chunk of cinnabar, an ore of mercury.  It is also the historic source for vermilion pigment.",
+    "material": "stone",
+    "volume": "1 L",
+    "//": "One liter, roughly 8.1 grams per cubic centimeter.",
+    "weight": "8100 g",
+    "melee_damage": { "bash": 2 }
   }
 ]

@@ -372,7 +372,7 @@ void vehicle::build_electronics_menu( veh_menu &menu )
             menu.add( _( "Play arcade machine" ) )
             .hotkey( "ARCADE" )
             .enable( !!arc_itm )
-            .on_submit( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, false, tripoint_zero ); } );
+            .on_submit( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, tripoint_zero ); } );
             break;
         }
     }
@@ -560,7 +560,7 @@ void vehicle::plug_in( const tripoint &pos )
     item cord = init_cord( pos );
 
     if( cord.get_use( "link_up" ) ) {
-        cord.type->get_use( "link_up" )->call( &get_player_character(), cord, false, pos );
+        cord.type->get_use( "link_up" )->call( &get_player_character(), cord, pos );
     }
 }
 
@@ -961,7 +961,7 @@ void vehicle::play_music() const
 {
     Character &player_character = get_player_character();
     for( const vpart_reference &vp : get_enabled_parts( "STEREO" ) ) {
-        iuse::play_music( player_character, vp.pos(), 15, 30 );
+        iuse::play_music( &player_character, vp.pos(), 15, 30 );
     }
 }
 
