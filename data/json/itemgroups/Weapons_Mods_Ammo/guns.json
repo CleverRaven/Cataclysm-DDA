@@ -680,7 +680,7 @@
       {
         "item": "type30",
         "variant": "type35",
-        "contents-group": "arisaka_bayonet",
+        "contents-item": "arisaka_bayonet",
         "prob": 1,
         "charges-min": 0,
         "charges-max": 0
