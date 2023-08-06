@@ -1217,8 +1217,10 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                     prospective_traits.push_back( dummy_trait );
                 }
             }
-
-            mutation_selector( prospective_traits, cat, use_vitamins );
+            if( mutation_selector( prospective_traits, cat, use_vitamins ) ) {
+                // Stop if mutation properly handled by mutation selector
+                return;
+            }
         }
 
         // Prioritize upgrading existing mutations
