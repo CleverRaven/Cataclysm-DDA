@@ -1194,7 +1194,14 @@ float Character::get_stamina_dodge_modifier() const
 
 float Character::tally_organic_size() const
 {
-    return creature_anatomy->get_organic_size_sum() / 100.0f;
+	float ret = 0.0;
+	for( const bodypart_id &part : get_all_body_parts() ) {
+        if( !( part->has_flag( json_flag_BIONIC_LIMB ) ) ) {
+			ret += part->hit_size;
+        }
+    }
+	return ret / 100.0f;
+    //return creature_anatomy->get_organic_size_sum() / 100.0f;
 }
 
 int Character::sight_range( float light_level ) const
@@ -6142,7 +6149,7 @@ float Character::get_bmi_lean() const
 
 float Character::get_bmi_fat() const
 {
-    return ( get_stored_kcal() / KCAL_PER_KG ) / std::pow( height() / 100.0f, 2 );
+    return ( get_stored_kcal() / KCAL_PER_KG ) / ( std::pow( height() / 100.0f, 2 ) * tally_organic_size() );
 }
 
 units::mass Character::bodyweight() const
@@ -7389,7 +7396,6 @@ int Character::vitamin_RDA( const vitamin_id &vitamin, int ammount ) const
 
 void Character::recalculate_bodyparts()
 {
-    const int prev_healthy_kcal = get_healthy_kcal();
     body_part_set body_set;
     for( const bodypart_id &bp : creature_anatomy->get_bodyparts() ) {
         body_set.set( bp.id() );
@@ -7409,8 +7415,13 @@ void Character::recalculate_bodyparts()
             body[bp] = bodypart( bp );
         }
     }
-    set_stored_kcal( get_stored_kcal() * ( get_healthy_kcal() / prev_healthy_kcal ) );
+    add_msg_debug( debugmode::DF_ANATOMY_BP, "New healthy kcal %d",
+                   get_healthy_kcal() );
     calc_encumbrance();
+    add_msg_debug( debugmode::DF_ANATOMY_BP, "New stored kcal %d",
+                   get_stored_kcal() );
+    add_msg_debug( debugmode::DF_ANATOMY_BP, "New organic size %.1f",
+                   tally_organic_size() );
 }
 
 void Character::recalculate_enchantment_cache()
