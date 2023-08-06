@@ -597,7 +597,7 @@ class recipe_result_info_cache
         void insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec,
                                               const std::string &title ) const;
     public:
-        recipe_result_info_cache( Character &_crafter ) : crafter( _crafter ) {};
+        explicit recipe_result_info_cache( Character &_crafter ) : crafter( _crafter ) {};
         item_info_data get_result_data( const recipe *rec, int batch_size, int &scroll_pos,
                                         const catacurses::window &window );
 };
