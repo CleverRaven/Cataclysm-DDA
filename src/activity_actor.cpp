@@ -5667,14 +5667,15 @@ std::unique_ptr<activity_actor> wear_activity_actor::deserialize( JsonValue &jsi
 
 void invoke_item_activity_actor::do_turn( player_activity &, Character &who )
 {
+    item_location _item = item;
+    std::string _method = method;
     if( method.empty() ) {
         who.cancel_activity();
-        who.invoke_item( item.get_item() );
+        who.invoke_item( _item.get_item() );
         return;
     }
-    std::string _method = method;
     who.cancel_activity();
-    who.invoke_item( item.get_item(), _method );
+    who.invoke_item( _item.get_item(), _method );
 }
 
 void invoke_item_activity_actor::serialize( JsonOut &jsout ) const

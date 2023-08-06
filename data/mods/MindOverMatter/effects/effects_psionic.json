@@ -580,6 +580,38 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_clair_ranged_enhance",
+    "name": [ "Dead Aim" ],
+    "desc": [ "Your powers make aiming much easier for you." ],
+    "apply_message": "",
+    "remove_message": "The world lurches as apparent distances snap back into place.",
+    "decay_messages": [ [ "Your range of vision is narrowing rapidly.", "bad" ], [ "Your enhanced sight is fading.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "max_intensity": 46,
+    "dur_add_perc": 15,
+    "int_dur_factor": "41 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "RANGE",
+            "add": {
+              "math": [ "(1 + ( u_val('spell_level', 'spell: clair_ranged_enhance') * 0.5 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "WEAPON_DISPERSION",
+            "multiply": {
+              "math": [ "( ( u_val('spell_level', 'spell: clair_ranged_enhance') * -0.025) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_clair_dodge",
     "name": [ "Anticipating Attack" ],
     "desc": [ "You can see your enemies' attacks in advance." ],
@@ -802,6 +834,29 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telekinetic_aegis",
+    "name": [ "Aegis" ],
+    "desc": [ "You are nearly invincible." ],
+    "apply_message": "",
+    "remove_message": "The air loses its structure and you are vulnerable once again.",
+    "rating": "good",
+    "max_duration": "20 seconds",
+    "removes_effects": [ "grabbed" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_CUT", "add": -100000 },
+          { "value": "ARMOR_BASH", "add": -100000 },
+          { "value": "ARMOR_STAB", "add": -100000 },
+          { "value": "ARMOR_BULLET", "add": -100000 }
+        ]
+      }
+    ],
+    "limb_score_mods": [ { "limb_score": "lift", "modifier": 0.51 }, { "limb_score": "grip", "modifier": 0.25 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_IMPEDING" ]
   },
   {
     "type": "effect_type",

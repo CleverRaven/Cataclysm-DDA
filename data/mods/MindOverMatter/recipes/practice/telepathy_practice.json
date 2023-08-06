@@ -13,9 +13,10 @@
       "practice_telepathic_concentration",
       "practice_telepathic_shield",
       "practice_telepathic_morale",
-      "practice_telepathic_invisibility",
-      "practice_telepathic_confusion",
       "practice_telepathic_blast",
+      "practice_telepathic_confusion",
+      "practice_telepathic_invisibility",
+      "practice_telepathic_scream",
       "practice_telepathic_mind_control"
     ],
     "difficulty": 1
@@ -187,9 +188,9 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: obscurity",
-    "id": "practice_telepathic_invisibility",
-    "description": "Contemplate your powers and improve your ability to make your enemies ignore you.",
+    "name": "contemplation: synaptic overload",
+    "id": "practice_telepathic_blast",
+    "description": "Contemplate your powers and improve your mental strength to telepathically assault your enemies.",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -201,20 +202,18 @@
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
-        "id": "EOC_PRACTICE_TELEPATH_OBSCURITY",
+        "id": "EOC_PRACTICE_TELEPATHIC_BLAST",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "spell_level", "spell": "telepathic_invisibility" }, ">=", { "const": 1 } ] },
-            {
-              "compare_num": [ { "u_val": "spell_exp", "spell": "telepathic_invisibility" }, "<=", { "const": 35278 } ]
-            }
+            { "compare_num": [ { "u_val": "spell_level", "spell": "telepathic_blast" }, ">=", { "const": 1 } ] },
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "telepathic_blast" }, "<=", { "const": 49417 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           {
             "arithmetic": [
-              { "u_val": "spell_exp", "spell": "telepathic_invisibility" },
+              { "u_val": "spell_exp", "spell": "telepathic_blast" },
               "+=",
               { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
             ]
@@ -225,8 +224,8 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_TELEPATH_OBSCURITY_FALSE",
-              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "telepathic_invisibility" }, ">=", { "const": 1 } ] },
+              "id": "EOC_PRACTICE_TELEPATHIC_BLAST_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "telepathic_blast" }, ">=", { "const": 1 } ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -299,9 +298,9 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: synaptic overload",
-    "id": "practice_telepathic_blast",
-    "description": "Contemplate your powers and improve your mental strength to telepathically assault your enemies.",
+    "name": "contemplation: obscurity",
+    "id": "practice_telepathic_invisibility",
+    "description": "Contemplate your powers and improve your ability to make your enemies ignore you.",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -313,18 +312,20 @@
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
-        "id": "EOC_PRACTICE_TELEPATHIC_BLAST",
+        "id": "EOC_PRACTICE_TELEPATH_OBSCURITY",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "spell_level", "spell": "telepathic_blast" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "telepathic_blast" }, "<=", { "const": 20513 } ] }
+            { "compare_num": [ { "u_val": "spell_level", "spell": "telepathic_invisibility" }, ">=", { "const": 1 } ] },
+            {
+              "compare_num": [ { "u_val": "spell_exp", "spell": "telepathic_invisibility" }, "<=", { "const": 20513 } ]
+            }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           {
             "arithmetic": [
-              { "u_val": "spell_exp", "spell": "telepathic_blast" },
+              { "u_val": "spell_exp", "spell": "telepathic_invisibility" },
               "+=",
               { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
             ]
@@ -335,8 +336,65 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_TELEPATHIC_BLAST_FALSE",
-              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "telepathic_blast" }, ">=", { "const": 1 } ] },
+              "id": "EOC_PRACTICE_TELEPATH_OBSCURITY_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "telepathic_invisibility" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: psychic scream",
+    "id": "practice_telepathic_scream",
+    "description": "Contemplate your powers and improve the volume of your undirected psionic shrieking.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 6,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEPATH_SCREAM_RADIUS",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "telepathic_blast_radius" }, ">=", { "const": 1 } ] },
+            {
+              "compare_num": [ { "u_val": "spell_exp", "spell": "telepathic_blast_radius" }, "<=", { "const": 20513 } ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "telepathic_blast_radius" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_TELEPATH_SCREAM_RADIUS_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "telepathic_blast_radius" }, ">=", { "const": 1 } ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -360,7 +418,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 7,
     "time": "30 m",
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],

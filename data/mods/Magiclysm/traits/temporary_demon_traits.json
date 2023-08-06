@@ -36,8 +36,8 @@
     "restricts_gear": [ "foot_l", "foot_r" ],
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 }, { "parts": [ "leg_l", "leg_r" ], "cut": 1 } ],
     "attacks": {
-      "attack_text_u": "You kick %s with your hooves",
-      "attack_text_npc": "%1$s kicks %2$s with their hooves",
+      "attack_text_u": "You kick %s with your hooves!",
+      "attack_text_npc": "%1$s kicks %2$s with their hooves!",
       "chance": 15,
       "strength_damage": { "damage_type": "bash", "amount": 3 }
     }

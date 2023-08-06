@@ -70,5 +70,22 @@
     "type": "effect_on_condition",
     "id": "EOC_OBSOLETE",
     "effect": [ { "u_message": "This is an obsolete recipe--check your powers", "type": "mixed" } ]
+  },
+  {
+    "id": "vita_bandages",
+    "type": "GENERIC",
+    "name": { "str": "Vitakinetic Wound Staunching" },
+    "looks_like": "bandage",
+    "description": "The power to stop bleeding",
+    "//": "relic-data exists to make the item purple so it stands out in the inventory.  Shouldn't clutter the inventory or the purple item space since the summon lasts 5 turns max.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "!",
+    "color": "magenta",
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 20, "move_cost": 0 },
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   }
 ]

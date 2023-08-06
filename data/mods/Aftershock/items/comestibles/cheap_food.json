@@ -11,7 +11,7 @@
     "healthy": 3,
     "quench": -5,
     "description": "A crumbly white biscuit half the size of your thumb, packed with vitamins and calories.  Provides a whole meal's nutrition in portable form, but it's a little hard to keep down, thanks to the rancid taste and chalky texture.",
-    "price": 10000,
+    "price": "20 USD",
     "volume": "1 ml",
     "looks_like": "vitamins",
     "fun": -8,

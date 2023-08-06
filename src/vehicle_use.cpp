@@ -1864,7 +1864,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     bool power_linked = false;
     bool cable_linked = false;
     for( vehicle_part *vp_part : vp_parts ) {
-        power_linked = power_linked ? true : vp_part->info().has_flag( "POWER_TRANSFER" );
+        power_linked = power_linked ? true : vp_part->info().has_flag( VPFLAG_POWER_TRANSFER );
         cable_linked = cable_linked ? true : vp_part->has_flag( vp_flag::linked_flag ) ||
                        vp_part->info().has_flag( "TOW_CABLE" );
     }
@@ -2088,7 +2088,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .on_submit( [this, vp_parts] {
             for( vehicle_part *vp_part : vp_parts )
             {
-                if( vp_part->info().has_flag( "POWER_TRANSFER" ) ) {
+                if( vp_part->info().has_flag( VPFLAG_POWER_TRANSFER ) ) {
                     item drop = part_to_item( *vp_part );
                     if( !magic && !drop.has_flag( STATIC( flag_id( "NO_DROP" ) ) ) ) {
                         get_player_character().i_add_or_drop( drop );
