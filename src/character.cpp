@@ -1194,13 +1194,13 @@ float Character::get_stamina_dodge_modifier() const
 
 float Character::tally_organic_size() const
 {
-	float ret = 0.0;
-	for( const bodypart_id &part : get_all_body_parts() ) {
+    float ret = 0.0;
+    for( const bodypart_id &part : get_all_body_parts() ) {
         if( !( part->has_flag( json_flag_BIONIC_LIMB ) ) ) {
-			ret += part->hit_size;
+            ret += part->hit_size;
         }
     }
-	return ret / 100.0f;
+    return ret / 100.0f;
     //return creature_anatomy->get_organic_size_sum() / 100.0f;
 }
 
@@ -6149,7 +6149,8 @@ float Character::get_bmi_lean() const
 
 float Character::get_bmi_fat() const
 {
-    return ( get_stored_kcal() / KCAL_PER_KG ) / ( std::pow( height() / 100.0f, 2 ) * tally_organic_size() );
+    return ( get_stored_kcal() / KCAL_PER_KG ) / ( std::pow( height() / 100.0f,
+            2 ) * tally_organic_size() );
 }
 
 units::mass Character::bodyweight() const
