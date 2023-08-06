@@ -305,6 +305,7 @@
     "effect": {
       "weighted_list_eocs": [
         [ "EOC_PORTAL_GRASS_CHANGE", { "const": 10 } ],
+        [ "EOC_PORTAL_LIGHNING", { "const": 6 } ],
         [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
         [ "EOC_PORTAL_ABSENCE", { "const": 4 } ],
         [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 5 } ],
@@ -670,6 +671,99 @@
       { "u_teleport": { "u_val": "stuck_teleport" }, "success_message": "You feel an intense sense of deja vu." },
       { "queue_eocs": "EOC_PORTAL_TELEPORT_STUCK_LOOP", "time_in_future": [ "3 seconds", "5 seconds" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_LIGHNING",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "portal_storm_lightning_0" },
+        "x_adjust": { "math": [ "rng(-60, 60)" ] },
+        "y_adjust": { "math": [ "rng(-60, 60)" ] },
+        "z_adjust": { "math": [ "rng(-7, 7)" ] }
+      },
+      {
+        "u_location_variable": { "global_val": "portal_storm_lightning_1" },
+        "x_adjust": { "math": [ "rng(-60, 60)" ] },
+        "y_adjust": { "math": [ "rng(-60, 60)" ] },
+        "z_adjust": { "math": [ "rng(-7, 7)" ] }
+      },
+      {
+        "u_location_variable": { "global_val": "portal_storm_lightning_2" },
+        "x_adjust": { "math": [ "rng(-60, 60)" ] },
+        "y_adjust": { "math": [ "rng(-60, 60)" ] },
+        "z_adjust": { "math": [ "rng(-7, 7)" ] }
+      },
+      {
+        "u_location_variable": { "global_val": "portal_storm_lightning_3" },
+        "x_adjust": { "math": [ "rng(-60, 60)" ] },
+        "y_adjust": { "math": [ "rng(-60, 60)" ] },
+        "z_adjust": { "math": [ "rng(-7, 7)" ] }
+      },
+      {
+        "u_location_variable": { "global_val": "portal_storm_lightning_4" },
+        "x_adjust": { "math": [ "rng(-60, 60)" ] },
+        "y_adjust": { "math": [ "rng(-60, 60)" ] },
+        "z_adjust": { "math": [ "rng(-7, 7)" ] }
+      },
+      {
+        "u_location_variable": { "global_val": "portal_storm_lightning_5" },
+        "x_adjust": { "math": [ "rng(-60, 60)" ] },
+        "y_adjust": { "math": [ "rng(-60, 60)" ] }
+      },
+      {
+        "u_location_variable": { "global_val": "portal_storm_lightning_6" },
+        "x_adjust": { "math": [ "rng(-60, 60)" ] },
+        "y_adjust": { "math": [ "rng(-60, 60)" ] },
+        "z_adjust": { "math": [ "rng(-7, 7)" ] }
+      },
+      {
+        "u_location_variable": { "global_val": "portal_storm_lightning_7" },
+        "x_adjust": { "math": [ "rng(-60, 60)" ] },
+        "y_adjust": { "math": [ "rng(-60, 60)" ] },
+        "z_adjust": { "math": [ "rng(-7, 7)" ] }
+      },
+      {
+        "transform_line": "clairvoyant_field",
+        "first": { "global_val": "portal_storm_lightning_0" },
+        "second": { "global_val": "portal_storm_lightning_1" }
+      },
+      {
+        "transform_line": "clairvoyant_field",
+        "first": { "global_val": "portal_storm_lightning_1" },
+        "second": { "global_val": "portal_storm_lightning_2" }
+      },
+      {
+        "transform_line": "clairvoyant_field",
+        "first": { "global_val": "portal_storm_lightning_2" },
+        "second": { "global_val": "portal_storm_lightning_3" }
+      },
+      {
+        "transform_line": "clairvoyant_field",
+        "first": { "global_val": "portal_storm_lightning_3" },
+        "second": { "global_val": "portal_storm_lightning_4" }
+      },
+      {
+        "transform_line": "clairvoyant_field",
+        "first": { "global_val": "portal_storm_lightning_4" },
+        "second": { "global_val": "portal_storm_lightning_5" }
+      },
+      {
+        "transform_line": "clairvoyant_field",
+        "first": { "global_val": "portal_storm_lightning_5" },
+        "second": { "global_val": "portal_storm_lightning_6" }
+      },
+      {
+        "transform_line": "clairvoyant_field",
+        "first": { "global_val": "portal_storm_lightning_6" },
+        "second": { "global_val": "portal_storm_lightning_7" }
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "clairvoyant_field",
+    "field": [ { "result": "fd_clairvoyant", "valid_field": [ "fd_null" ] } ]
   },
   {
     "type": "effect_on_condition",
