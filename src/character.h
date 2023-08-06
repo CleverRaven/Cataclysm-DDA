@@ -760,7 +760,7 @@ class Character : public Creature, public visitable
 
         // total hitsize of all non cybernetic body parts
         void tally_organic_size();
-        float cached_organic_size(); const
+        float get_cached_organic_size(); const
 
         /** Returns the player's sight range */
         int sight_range( float light_level ) const override;
