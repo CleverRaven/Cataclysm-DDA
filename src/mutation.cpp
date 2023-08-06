@@ -1196,7 +1196,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         }
 
         // Mutation selector
-        if( get_option<bool>( "SHOW_MUTATION_SELECTOR" ) ) {
+        if( is_avatar() && get_option<bool>( "SHOW_MUTATION_SELECTOR" ) ) {
 
             // Setup menu
             uilist mmenu;
