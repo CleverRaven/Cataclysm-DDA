@@ -1341,6 +1341,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_stationary_solar_panel",
+    "name": "Place Stationary Solar Panel"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_stationary_solar_panel_v2",
+    "name": "Place Advanced Stationary Solar Panel"
+  },
+  {
+    "type": "construction_group",
     "id": "place_wind_turbine",
     "name": "Place Wind Turbine"
   },
