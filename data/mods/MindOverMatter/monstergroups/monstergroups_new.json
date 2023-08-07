@@ -142,5 +142,28 @@
       { "monster": "mon_civilian_teleporter", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_vitakinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" }
     ]
+  },
+  {
+    "name": "GROUP_NETHER_BREACH",
+    "type": "monstergroup",
+    "//": "Weights slightly adjusted from base Nether group, additional things added",
+    "monsters": [
+      { "monster": "mon_blank", "weight": 135, "cost_multiplier": 0 },
+      { "monster": "mon_flying_polyp", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_gracke", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_yugg", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_gelatin", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_breather_hub", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_nether_leech", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_flaming_eye", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "weight": 210, "cost_multiplier": 0 },
+      { "monster": "mon_nether_eater", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_hanging_roper", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_gozu", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_darkman", "weight": 15, "cost_multiplier": 0 },
+      { "monster": "mon_shoggoth", "weight": 5, "cost_multiplier": 0 }
+    ]
   }
 ]
