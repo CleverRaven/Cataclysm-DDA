@@ -110,6 +110,7 @@ void wishitem( Character *you = nullptr );
 void wishitem( Character *you, const tripoint & );
 void wishmonster( const std::optional<tripoint> &p );
 void wishmutate( Character *you );
+void wishbionics( Character *you );
 void wishskill( Character *you, bool change_theory = false );
 void wishproficiency( Character *you );
 
