@@ -6859,7 +6859,6 @@ void game::zones_manager()
     } );
     ui.mark_resize();
 
-    std::string action;
     input_context ctxt( "ZONES_MANAGER" );
     ctxt.register_navigate_ui_list();
     ctxt.register_action( "CONFIRM" );
@@ -7089,9 +7088,34 @@ void game::zones_manager()
     } );
 
     const int scroll_rate = zone_cnt > 20 ? 10 : 3;
+    bool quit = false;
+    bool save = false;
     zones_manager_open = true;
     zone_manager::get_manager().save_zones( "zmgr-temp" );
-    do {
+    while( !quit ) {
+        if( zone_cnt > 0 ) {
+            blink = !blink;
+            const zone_data &zone = zones[active_index].get();
+            zone_start = m.getlocal( zone.get_start_point() );
+            zone_end = m.getlocal( zone.get_end_point() );
+            ctxt.set_timeout( get_option<int>( "BLINK_SPEED" ) );
+        } else {
+            blink = false;
+            zone_start = zone_end = std::nullopt;
+            ctxt.reset_timeout();
+        }
+
+        // Actually accessed from the terrain overlay callback `zone_cb` in the
+        // call to `ui_manager::redraw`.
+        //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
+        zone_blink = blink;
+        invalidate_main_ui_adaptor();
+
+        ui_manager::redraw();
+
+        //Wait for input
+        const std::string action = ctxt.handle_input();
+
         if( action == "ADD_ZONE" ) {
             do { // not a loop, just for quick bailing out if canceled
                 const auto maybe_id = mgr.query_type();
@@ -7186,6 +7210,25 @@ void game::zones_manager()
             .edit( facname );
             zones_faction = faction_id( facname );
             zones = get_zones();
+        } else if( action == "QUIT" ) {
+            if( stuff_changed ) {
+                const query_ynq_result res = query_ynq( _( "Save changes?" ) );
+                switch( res ) {
+                    case query_ynq_result::quit:
+                        break;
+                    case query_ynq_result::no:
+                        save = false;
+                        quit = true;
+                        break;
+                    case query_ynq_result::yes:
+                        save = true;
+                        quit = true;
+                        break;
+                }
+            } else {
+                save = false;
+                quit = true;
+            }
         } else if( zone_cnt > 0 ) {
             if( navigate_ui_list( action, active_index, scroll_rate, zone_cnt, true ) ) {
                 blink = false;
@@ -7354,37 +7397,14 @@ void game::zones_manager()
                 stuff_changed = zones_changed;
             }
         }
-
-        if( zone_cnt > 0 ) {
-            blink = !blink;
-            const zone_data &zone = zones[active_index].get();
-            zone_start = m.getlocal( zone.get_start_point() );
-            zone_end = m.getlocal( zone.get_end_point() );
-            ctxt.set_timeout( get_option<int>( "BLINK_SPEED" ) );
-        } else {
-            blink = false;
-            zone_start = zone_end = std::nullopt;
-            ctxt.reset_timeout();
-        }
-
-        // Actually accessed from the terrain overlay callback `zone_cb` in the
-        // call to `ui_manager::redraw`.
-        //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-        zone_blink = blink;
-        invalidate_main_ui_adaptor();
-
-        ui_manager::redraw();
-
-        //Wait for input
-        action = ctxt.handle_input();
-    } while( action != "QUIT" );
+    }
     zones_manager_open = false;
     ctxt.reset_timeout();
     zone_cb = nullptr;
 
     if( stuff_changed ) {
         zone_manager &zones = zone_manager::get_manager();
-        if( !query_yn( _( "Save changes?" ) ) ) {
+        if( !save ) {
             zones.load_zones( "zmgr-temp" );
         }
 

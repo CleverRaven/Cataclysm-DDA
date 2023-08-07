@@ -849,6 +849,35 @@ bool query_yn( const std::string &text )
            .action == "YES";
 }
 
+query_ynq_result query_ynq( const std::string &text )
+{
+    // TODO: android native UI
+    const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
+                            : input_context::allow_all_keys;
+
+    const std::string action =
+        query_popup()
+        .context( "YESNOQUIT" )
+        .message( force_uc && !is_keycode_mode_supported()
+                  ? pgettext( "query_yn", "%s (Case Sensitive)" )
+                  : pgettext( "query_yn", "%s" ), text )
+        .option( "YES", allow_key )
+        .option( "NO", allow_key )
+        .option( "QUIT", allow_key )
+        .allow_cancel( true )
+        .cursor( 2 )
+        .default_color( c_light_red )
+        .query()
+        .action;
+    if( action == "NO" ) {
+        return query_ynq_result::no;
+    } else if( action == "YES" ) {
+        return query_ynq_result::yes;
+    }
+    return query_ynq_result::quit;
+}
+
 bool query_int( int &result, const std::string &text )
 {
     string_input_popup popup;
