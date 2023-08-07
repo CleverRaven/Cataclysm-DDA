@@ -317,7 +317,7 @@ item_location Character::i_add( item it, int &copies_remaining,
                 here.add_item_or_charges( pos(), it );
             }
             item last_added = here.add_item_or_charges( pos(), it );
-            added = added ? added : item_location( map_cursor( pos() ), &last_added ); 
+            added = added ? added : item_location( map_cursor( pos() ), &last_added );
         }
     }
     return added;

@@ -975,16 +975,7 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
                         }
                     } else {
                         int stashable_copy_num = amount;
-                        you->can_stash( granted, stashable_copy_num );
-
-                        // stashable_copy_num is Min: 0, Max: amount
-                        const int map_copy_num = stashable_copy_num;
-                        stashable_copy_num = amount - stashable_copy_num;
-
-                        you->i_add( granted, stashable_copy_num, true, nullptr, nullptr, false, false );
-                        for( int i = 0; i < map_copy_num; i++ ) {
-                            get_map().add_item_or_charges( you->pos(), granted );
-                        }
+                        you->i_add( granted, stashable_copy_num, true, nullptr, nullptr, true, false );
                     }
                     you->invalidate_crafting_inventory();
                 } else if( pos.x >= 0 && pos.y >= 0 ) {
