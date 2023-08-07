@@ -10,7 +10,6 @@
     "color": "pink",
     "flags": [
       "AURA",
-      "SEMITANGIBLE",
       "OVERSIZE",
       "ONLY_ONE",
       "TRADER_AVOID",
@@ -40,7 +39,6 @@
     "color": "pink",
     "flags": [
       "AURA",
-      "SEMITANGIBLE",
       "OVERSIZE",
       "ONLY_ONE",
       "TRADER_AVOID",
@@ -70,7 +68,6 @@
     "color": "pink",
     "flags": [
       "AURA",
-      "SEMITANGIBLE",
       "OVERSIZE",
       "ONLY_ONE",
       "TRADER_AVOID",
@@ -100,7 +97,6 @@
     "color": "pink",
     "flags": [
       "AURA",
-      "SEMITANGIBLE",
       "OVERSIZE",
       "ONLY_ONE",
       "TRADER_AVOID",
@@ -130,7 +126,6 @@
     "color": "pink",
     "flags": [
       "AURA",
-      "SEMITANGIBLE",
       "OVERSIZE",
       "ONLY_ONE",
       "TRADER_AVOID",
@@ -160,7 +155,6 @@
     "color": "pink",
     "flags": [
       "AURA",
-      "SEMITANGIBLE",
       "OVERSIZE",
       "ONLY_ONE",
       "TRADER_AVOID",
