@@ -893,7 +893,6 @@ class craft_activity_actor : public activity_actor
         double cached_cur_total_moves; // NOLINT(cata-serialize)
         float cached_workbench_multiplier; // NOLINT(cata-serialize)
         bool use_cached_workbench_multiplier; // NOLINT(cata-serialize)
-        time_point last_time;
         bool check_if_craft_okay( item_location &craft_item, Character &crafter );
     public:
         craft_activity_actor( item_location &it, bool is_long );

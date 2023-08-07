@@ -3248,7 +3248,6 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
     cached_crafting_speed = 0;
     cached_workbench_multiplier = 0;
     use_cached_workbench_multiplier = false;
-    last_time = calendar::turn;
 }
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
@@ -3303,103 +3302,88 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     int spent_moves = crafter.get_moves() * crafter.exertion_adjusted_move_multiplier(
                           exertion_level() );
     const double delta_progress = spent_moves * base_total_moves / cur_total_moves;
-    int assumed_turns = 1;
-    if( crafter.is_npc() ) {
-        // Emulate craft while NPC is inactive.
-        // If more than 1 hour has passed since the last check,
-        // calculate assuming that 1/4 of the elapsed time has been spent on work.
-        time_duration delta_time = calendar::turn - last_time;
-        if( delta_time > 1_hours ) {
-            assumed_turns = std::max( to_turns<int>( delta_time ) / 4, to_turns<int>( 1_hours ) );
-        } else {
-            assumed_turns = to_turns<int>( delta_time );
-        }
-        last_time = calendar::turn;
+    // Current progress in moves
+    const double current_progress = craft.item_counter * base_total_moves / 10'000'000.0 +
+                                    delta_progress;
+    // Current progress as a percent of base_total_moves to 2 decimal places
+    craft.item_counter = std::round( current_progress / base_total_moves * 10'000'000.0 );
+    crafter.set_moves( 0 );
+
+    // This is to ensure we don't over count skill steps
+    craft.item_counter = std::min( craft.item_counter, 10'000'000 );
+
+    // This nominal craft time is also how many practice ticks to perform
+    // spread out evenly across the actual duration.
+    const double total_practice_ticks = rec.time_to_craft_moves( crafter,
+                                        recipe_time_flag::ignore_proficiencies ) / 100.0;
+
+    const int ticks_per_practice = 10'000'000.0 / total_practice_ticks;
+    int num_practice_ticks = craft.item_counter / ticks_per_practice -
+                             old_counter / ticks_per_practice;
+    bool level_up = false;
+    if( num_practice_ticks > 0 ) {
+        level_up |= crafter.craft_skill_gain( craft, num_practice_ticks );
     }
-    do {
-        // Current progress in moves
-        const double current_progress = craft.item_counter * base_total_moves / 10'000'000.0 +
-                                        delta_progress;
-        // Current progress as a percent of base_total_moves to 2 decimal places
-        craft.item_counter = std::round( current_progress / base_total_moves * 10'000'000.0 );
-        crafter.set_moves( 0 );
+    // Proficiencies and tools are gained/consumed after every 5% progress
+    int five_percent_steps = craft.item_counter / 500'000 - old_counter / 500'000;
+    if( five_percent_steps > 0 ) {
+        // Divide by 100 for seconds, 20 for 5%
+        const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
+        level_up |= crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
+        // Invalidate the crafting time cache because proficiencies may have changed
+        cached_crafting_speed = 0;
+        // Also reset the multiplier
+        use_cached_workbench_multiplier = false;
+    }
 
-        // This is to ensure we don't over count skill steps
-        craft.item_counter = std::min( craft.item_counter, 10'000'000 );
+    // Unlike skill, tools are consumed once at the start and should not be consumed at the end
+    if( craft.item_counter >= 10'000'000 ) {
+        --five_percent_steps;
+    }
 
-        // This nominal craft time is also how many practice ticks to perform
-        // spread out evenly across the actual duration.
-        const double total_practice_ticks = rec.time_to_craft_moves( crafter,
-                                            recipe_time_flag::ignore_proficiencies ) / 100.0;
-
-        const int ticks_per_practice = 10'000'000.0 / total_practice_ticks;
-        int num_practice_ticks = craft.item_counter / ticks_per_practice -
-                                 old_counter / ticks_per_practice;
-        bool level_up = false;
-        if( num_practice_ticks > 0 ) {
-            level_up |= crafter.craft_skill_gain( craft, num_practice_ticks );
-        }
-        // Proficiencies and tools are gained/consumed after every 5% progress
-        int five_percent_steps = craft.item_counter / 500'000 - old_counter / 500'000;
-        if( five_percent_steps > 0 ) {
-            // Divide by 100 for seconds, 20 for 5%
-            const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
-            level_up |= crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
-            // Invalidate the crafting time cache because proficiencies may have changed
-            cached_crafting_speed = 0;
-            // Also reset the multiplier
-            use_cached_workbench_multiplier = false;
-        }
-
-        // Unlike skill, tools are consumed once at the start and should not be consumed at the end
-        if( craft.item_counter >= 10'000'000 ) {
-            --five_percent_steps;
-        }
-
-        if( five_percent_steps > 0 ) {
-            if( !crafter.craft_consume_tools( craft, five_percent_steps, false ) ) {
-                // So we don't skip over any tool comsuption
-                craft.item_counter -= craft.item_counter % 500'000 + 1;
-                crafter.cancel_activity();
-                return;
-            }
-        }
-
-        // if item_counter has reached 100% or more
-        if( craft.item_counter >= 10'000'000 ) {
-            if( rec.is_practice() && !is_long && craft.get_making_batch_size() == 1 ) {
-                if( query_yn( _( "Keep practicing until proficiency increases?" ) ) ) {
-                    is_long = true;
-                    *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, location );
-                }
-            }
-            item craft_copy = craft;
-            craft_item.remove_item();
-            // We need to cache this before we cancel the activity else we risk Use After Free
-            const bool will_continue = is_long;
+    if( five_percent_steps > 0 ) {
+        if( !crafter.craft_consume_tools( craft, five_percent_steps, false ) ) {
+            // So we don't skip over any tool comsuption
+            craft.item_counter -= craft.item_counter % 500'000 + 1;
             crafter.cancel_activity();
-            crafter.complete_craft( craft_copy, location );
-            if( will_continue ) {
-                if( crafter.making_would_work( crafter.lastrecipe, craft_copy.get_making_batch_size() ) ) {
-                    crafter.last_craft->execute( location );
-                }
-            }
-        } else {
-            if( level_up && craft.get_making().is_practice() &&
-                query_yn( _( "Your proficiency has increased.  Stop practicing?" ) ) ) {
-                crafter.cancel_activity();
-            } else if( craft.item_counter >= craft.get_next_failure_point() ) {
-                bool destroy = craft.handle_craft_failure( crafter );
-                // If the craft needs to be destroyed, do it and stop crafting.
-                if( destroy ) {
-                    crafter.add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
-                                                   _( "There is nothing left of the %s <npcname> was crafting." ), craft.tname() );
-                    craft_item.remove_item();
-                    crafter.cancel_activity();
-                }
+            return;
+        }
+    }
+
+    // if item_counter has reached 100% or more
+    if( craft.item_counter >= 10'000'000 ) {
+        if( rec.is_practice() && !is_long && craft.get_making_batch_size() == 1 ) {
+            if( query_yn( _( "Keep practicing until proficiency increases?" ) ) ) {
+                is_long = true;
+                *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, location );
             }
         }
-    } while( --assumed_turns > 0 && craft.item_counter < 10'000'000 && crafter.activity );
+        item craft_copy = craft;
+        craft_item.remove_item();
+        // We need to cache this before we cancel the activity else we risk Use After Free
+        const bool will_continue = is_long;
+        crafter.cancel_activity();
+        crafter.complete_craft( craft_copy, location );
+        if( will_continue ) {
+            if( crafter.making_would_work( crafter.lastrecipe, craft_copy.get_making_batch_size() ) ) {
+                crafter.last_craft->execute( location );
+            }
+        }
+    } else {
+        if( level_up && craft.get_making().is_practice() &&
+            query_yn( _( "Your proficiency has increased.  Stop practicing?" ) ) ) {
+            crafter.cancel_activity();
+        } else if( craft.item_counter >= craft.get_next_failure_point() ) {
+            bool destroy = craft.handle_craft_failure( crafter );
+            // If the craft needs to be destroyed, do it and stop crafting.
+            if( destroy ) {
+                crafter.add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
+                                               _( "There is nothing left of the %s <npcname> was crafting." ), craft.tname() );
+                craft_item.remove_item();
+                crafter.cancel_activity();
+            }
+        }
+    }
 }
 
 void craft_activity_actor::finish( player_activity &act, Character & )
@@ -3442,7 +3426,6 @@ void craft_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "craft_loc", craft_item );
     jsout.member( "long", is_long );
     jsout.member( "activity_override", activity_override );
-    jsout.member( "last_time", last_time );
 
     jsout.end_object();
 }
@@ -3456,7 +3439,6 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonValue &js
     data.read( "craft_loc", actor.craft_item );
     data.read( "long", actor.is_long );
     data.read( "activity_override", actor.activity_override );
-    data.read( "last_time", actor.last_time );
 
     return actor.clone();
 }
