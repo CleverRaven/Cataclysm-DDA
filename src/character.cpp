@@ -1443,7 +1443,7 @@ bool Character::can_stash( const item &it, int &copies_remaining, bool ignore_pk
 {
     bool stashed_any = false;
 
-    for( item_location loc : all_items_loc() ) {
+    for( item_location loc : top_items_loc() ) {
         if( loc->can_contain( it, copies_remaining, false, false, false ).success() ) {
             stashed_any = true;
         }
