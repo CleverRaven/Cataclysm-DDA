@@ -115,8 +115,28 @@
     },
     "deactivate_condition": { "compare_int": [ { "global_val": "var", "var_name": "godco_met_merchants" }, "==", { "const": 1 } ] },
     "effect": [
-      { "mapgen_update": "godco_permanent_trader_add", "om_terrain": "godco_enter" },
+      { "mapgen_update": "godco_permanent_trader_predatory_add", "om_terrain": "godco_enter" },
       { "arithmetic": [ { "global_val": "var", "var_name": "godco_met_merchants" }, "=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "godco_change_trader",
+    "recurrence": 100,
+    "global": false,
+    "condition": {
+      "and": [
+        { "compare_int": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "==", { "const": 1 } ] },
+        { "u_near_om_location": "godco_enter", "range": 2 },
+        { "not": { "u_near_om_location": "godco_enter", "range": 1 } }
+      ]
+    },
+    "deactivate_condition": { "compare_int": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "==", { "const": 2 } ] },
+    "effect": [
+      { "mapgen_update": "godco_permanent_trader_change", "om_terrain": "godco_enter" },
+      {
+        "arithmetic": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "=", { "const": 2 } ]
+      }
     ]
   }
 ]
