@@ -448,5 +448,70 @@
     "reversible": { "time": "5 m" },
     "autolearn": true,
     "components": [ [ [ "pointy_stick", 2 ] ], [ [ "rock", 1 ] ], [ [ "string_36", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "weather_glass",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "chemistry", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
+    "difficulty": 6,
+    "time": "2 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [
+      [ [ "metalworking_tongs", -1 ] ],
+      [ [ "pipe", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 150 ] ],
+      [ [ "casting_mold", -1 ] ]
+    ],
+    "components": [ [ [ "glass_shard", 27 ], [ "flask_glass", 40 ], [ "test_tube", 40 ] ], [ [ "water", 15 ], [ "water_clean", 15 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "glass_thermometer",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "chemistry", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
+    "difficulty": 5,
+    "time": "2 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [
+      [ [ "metalworking_tongs", -1 ] ],
+      [ [ "pipe", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 150 ] ]
+    ],
+    "components": [ [ [ "glass_shard", 27 ], [ "flask_glass", 40 ], [ "test_tube", 40 ] ], [ [ "mercury", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "hygroscope",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "chemistry", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_carving" } ],
+    "difficulty": 5,
+    "time": "2 h",
+    "autolearn": true,
+    "qualities": [
+      { "id": "CHISEL", "level": 3 },
+      { "id": "CHISEL_WOOD", "level": 3 },
+      { "id": "ANVIL", "level": 3 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "using": [ [ "blacksmithing_standard", 13 ], [ "steel_standard", 1 ] ],
+    "components": [ [ [ "2x4", 2 ] ] ]
   }
 ]

@@ -154,7 +154,7 @@ item_action_map item_action_generator::map_actions_to_items( Character &you,
 
             const use_function *func = actual_item->get_use( use );
             if( !( func && func->get_actor_ptr() &&
-                   func->get_actor_ptr()->can_use( you, *actual_item, false, you.pos() ).success() ) ) {
+                   func->get_actor_ptr()->can_use( you, *actual_item, you.pos() ).success() ) ) {
                 continue;
             }
 
@@ -396,7 +396,7 @@ std::string use_function::get_type() const
     }
 }
 
-ret_val<void> iuse_actor::can_use( const Character &, const item &, bool, const tripoint & ) const
+ret_val<void> iuse_actor::can_use( const Character &, const item &, const tripoint & ) const
 {
     return ret_val<void>::make_success();
 }
