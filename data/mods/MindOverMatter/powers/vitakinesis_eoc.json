@@ -124,7 +124,7 @@
     "id": "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA_RESULT",
     "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 12 },
     "effect": [
-      { "u_message": "You breath easily once again.", "type": "good" },
+      { "u_message": "You breathe easily once again.", "type": "good" },
       { "u_lose_trait": "ASTHMA" },
       { "u_lose_effect": "effect_asthma_disease_absorbed" },
       { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 20,45 )" ] }
