@@ -40,7 +40,12 @@
     "subtype": "collection",
     "id": "six_pack_beer",
     "entries": [
-      { "item": "beer" }, { "item": "beer" }, { "item": "beer" }, { "item": "beer" }, { "item": "beer" }, { "item": "beer" }
+      { "item": "beer" },
+      { "item": "beer" },
+      { "item": "beer" },
+      { "item": "beer" },
+      { "item": "beer" },
+      { "item": "beer" }
     ]
   },
   {
