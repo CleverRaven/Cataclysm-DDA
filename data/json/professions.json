@@ -38,6 +38,14 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "six_pack_beer",
+    "entries": [
+      { "item": "beer" }, { "item": "beer" }, { "item": "beer" }, { "item": "beer" }, { "item": "beer" }, { "item": "beer" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "army_mags_300blk",
     "entries": [
       { "item": "stanag30", "ammo-item": "300blk_ss", "charges": 30 },
@@ -2628,7 +2636,7 @@
       "entries": [
         { "group": "charged_smart_phone" },
         { "item": "shot_00", "charges": 25 },
-        { "item": "beer", "charges": 6 },
+        { "group": "six_pack_beer" },
         { "item": "remington_870", "ammo-item": "shot_00", "charges": 5, "contents-item": "shoulder_strap" }
       ]
     },
