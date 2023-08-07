@@ -2543,11 +2543,15 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
                 }
             }
         }
-    } else if( act_id == ACT_MULTIPLE_READ || act_id == ACT_MULTIPLE_CRAFT ) {
+    } else if( act_id == ACT_MULTIPLE_READ ) {
         // anywhere well lit
         for( const tripoint_bub_ms &elem : here.points_in_radius( localpos, ACTIVITY_SEARCH_DISTANCE ) ) {
             src_set.insert( here.getglobal( elem ) );
         }
+    } else if( act_id == ACT_MULTIPLE_CRAFT ) {
+        // Craft only with what is on the spot
+        // TODO: add zone type like zone_type_CRAFT?
+        src_set.insert( here.getglobal( localpos ) );
     } else if( act_id != ACT_FETCH_REQUIRED ) {
         zone_type_id zone_type = get_zone_for_act( tripoint_bub_ms{}, mgr, act_id, _fac_id( you ) );
         src_set = mgr.get_near( zone_type, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr, _fac_id( you ) );
