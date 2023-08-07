@@ -1197,7 +1197,7 @@ void Character::tally_organic_size()
 {
     float ret = 0.0;
     for( const bodypart_id &part : get_all_body_parts() ) {
-        if( !( part->has_flag( json_flag_BIONIC_LIMB ) ) ) {
+        if( !part->has_flag( json_flag_BIONIC_LIMB ) ) {
             ret += part->hit_size;
         }
     }
