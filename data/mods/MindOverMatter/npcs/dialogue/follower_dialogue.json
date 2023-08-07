@@ -122,7 +122,13 @@
       {
         "text": "Hold still.  *Remove <npc_name>'s asthma*",
         "topic": "TALK_DONE",
-        "condition": { "and": [ { "npc_has_trait": "ASTHMA" }, { "not": { "u_has_trait": "ASTHMA" } }, { "not": { "u_has_bionics": "bio_synlungs" } } ] },
+        "condition": {
+          "and": [
+            { "npc_has_trait": "ASTHMA" },
+            { "not": { "u_has_trait": "ASTHMA" } },
+            { "not": { "u_has_bionics": "bio_synlungs" } }
+          ]
+        },
         "effect": [
           { "npc_lose_trait": "ASTHMA" },
           { "u_add_trait": "ASTHMA" },
@@ -136,7 +142,13 @@
       {
         "text": "Hold still.  *Remove <npc_name>'s asthma*",
         "topic": "TALK_DONE",
-        "condition": { "and": [ { "npc_has_trait": "ASTHMA" }, { "not": { "u_has_trait": "ASTHMA" } }, { "u_has_bionics": "bio_synlungs" } ] },
+        "condition": {
+          "and": [
+            { "npc_has_trait": "ASTHMA" },
+            { "not": { "u_has_effect": "effect_asthma_disease_absorbed" } },
+            { "u_has_bionics": "bio_synlungs" }
+          ]
+        },
         "effect": [
           { "npc_lose_trait": "ASTHMA" },
           { "u_add_effect": "effect_asthma_disease_absorbed", "duration": "60 days" },

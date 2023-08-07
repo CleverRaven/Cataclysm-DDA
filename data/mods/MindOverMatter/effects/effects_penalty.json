@@ -288,7 +288,7 @@
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.8 }, { "limb_score": "manip", "modifier": 0.8 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
-   {
+  {
     "type": "effect_type",
     "id": "effect_asthma_disease_absorbed",
     "name": [ "Difficulty Breathing" ],
