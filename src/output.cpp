@@ -875,7 +875,7 @@ query_ynq_result query_ynq( const std::string &text )
     } else if( action == "YES" ) {
         return query_ynq_result::yes;
     }
-    return query_ynq_result::cancel;
+    return query_ynq_result::quit;
 }
 
 bool query_int( int &result, const std::string &text )

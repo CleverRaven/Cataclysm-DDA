@@ -429,7 +429,7 @@ inline bool query_yn( const char *const msg, Args &&... args )
 }
 
 enum class query_ynq_result {
-    cancel, no, yes
+    quit, no, yes
 };
 query_ynq_result query_ynq( const std::string &text );
 template<typename ...Args>

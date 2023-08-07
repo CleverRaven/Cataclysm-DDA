@@ -7214,7 +7214,7 @@ void game::zones_manager()
             if( stuff_changed ) {
                 const query_ynq_result res = query_ynq( _( "Save changes?" ) );
                 switch( res ) {
-                    case query_ynq_result::cancel:
+                    case query_ynq_result::quit:
                         break;
                     case query_ynq_result::no:
                         save = false;
