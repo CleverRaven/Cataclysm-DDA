@@ -147,7 +147,7 @@
   {
     "id": "biokin_enhance_mobility_item_6",
     "type": "ARMOR",
-    "name": "enhanced mobility",
+    "name": { "str_sp": "enhanced mobility" },
     "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
     "weight": "0g",
     "volume": "0ml",
