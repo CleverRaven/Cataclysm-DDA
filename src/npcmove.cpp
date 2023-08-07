@@ -999,15 +999,7 @@ void npc::move()
         }
         if( calendar::once_every( 10_minutes ) ) {
             // if there is item to craft
-            item *to_craft = nullptr;
-            visit_items( [ this, &to_craft ]( item * e, item * ) {
-                if( e->get_var( "crafter", "" ) == name ) {
-                    to_craft = e;
-                    return VisitResponse::ABORT;
-                }
-                return VisitResponse::NEXT;
-            } );
-            if( to_craft ) {
+            if( get_item_to_craft() ) {
                 assign_activity( ACT_MULTIPLE_CRAFT );
                 action = npc_player_activity;
             }

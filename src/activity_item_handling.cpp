@@ -1353,27 +1353,24 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         // 2. when we form the src_set to loop through at the beginning of the fetch activity.
         return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
     } else if( act == ACT_MULTIPLE_CRAFT ) {
-        item *to_craft = nullptr;
-        you.visit_items( [ &you, &to_craft ]( item * e, item * ) {
-            if( e->get_var( "crafter", "" ) == you.name ) {
-                to_craft = e;
-                return VisitResponse::ABORT;
-            }
-            return VisitResponse::NEXT;
-        } );
-        if( to_craft && to_craft->is_craft() ) {
-            const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
-            const recipe &r = to_craft->get_making();
-            std::vector<std::vector<item_comp>> item_comp_vector =
-                                                 to_craft->get_continue_reqs().get_components();
-            std::vector<std::vector<quality_requirement>> quality_comp_vector =
-                        r.simple_requirements().get_qualities();
-            std::vector<std::vector<tool_comp>> tool_comp_vector = r.simple_requirements().get_tools();
-            requirement_data req = requirement_data( tool_comp_vector, quality_comp_vector, item_comp_vector );
-            if( req.can_make_with_inventory( inv, is_crafting_component ) ) {
-                return activity_reason_info::ok( do_activity_reason::NEEDS_CRAFT );
-            } else {
-                return activity_reason_info( do_activity_reason::NEEDS_CRAFT, false, req );
+        // only npc is supported
+        npc *p = you.as_npc();
+        if( p ) {
+            item_location to_craft = p->get_item_to_craft();
+            if( to_craft && to_craft->is_craft() ) {
+                const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
+                const recipe &r = to_craft->get_making();
+                std::vector<std::vector<item_comp>> item_comp_vector =
+                                                     to_craft->get_continue_reqs().get_components();
+                std::vector<std::vector<quality_requirement>> quality_comp_vector =
+                            r.simple_requirements().get_qualities();
+                std::vector<std::vector<tool_comp>> tool_comp_vector = r.simple_requirements().get_tools();
+                requirement_data req = requirement_data( tool_comp_vector, quality_comp_vector, item_comp_vector );
+                if( req.can_make_with_inventory( inv, is_crafting_component ) ) {
+                    return activity_reason_info::ok( do_activity_reason::NEEDS_CRAFT );
+                } else {
+                    return activity_reason_info( do_activity_reason::NEEDS_CRAFT, false, req );
+                }
             }
         }
         return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
@@ -3019,21 +3016,17 @@ static bool generic_multi_activity_do(
 
         you.activity_vehicle_part_index = -1;
     } else if( reason == do_activity_reason::NEEDS_CRAFT ) {
-        item *to_craft = nullptr;
-        you.visit_items( [ &you, &to_craft ]( item * e, item * ) {
-            if( e->get_var( "crafter", "" ) == you.name ) {
-                to_craft = e;
-                return VisitResponse::ABORT;
+        // only npc is supported
+        npc *p = you.as_npc();
+        if( p ) {
+            item_location to_craft = p->get_item_to_craft();
+            if( to_craft && to_craft->is_craft() &&
+                you.lighting_craft_speed_multiplier( to_craft->get_making() ) > 0 ) {
+                player_activity act = player_activity( craft_activity_actor( to_craft, false ) );
+                you.assign_activity( act );
+                you.backlog.emplace_front( ACT_MULTIPLE_CRAFT );
+                return false;
             }
-            return VisitResponse::NEXT;
-        } );
-        if( to_craft && to_craft->is_craft() &&
-            you.lighting_craft_speed_multiplier( to_craft->get_making() ) > 0 ) {
-            item_location target = item_location( you, to_craft );
-            player_activity act = player_activity( craft_activity_actor( target, false ) );
-            you.assign_activity( act );
-            you.backlog.emplace_front( ACT_MULTIPLE_CRAFT );
-            return false;
         }
     } else if( reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
         map_stack items = here.i_at( src_loc );

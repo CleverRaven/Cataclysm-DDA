@@ -864,6 +864,37 @@ static item_location place_craft_or_disassembly(
     return craft_in_world;
 }
 
+item_location npc::get_item_to_craft()
+{
+    // check inventory
+    item_location to_craft;
+    visit_items( [ this, &to_craft ]( item * itm, item * ) {
+        if( itm->get_var( "crafter", "" ) == name ) {
+            to_craft = item_location( *this, itm );
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+    if( to_craft ) {
+        return to_craft;
+    }
+
+    // check items around npc
+    map &here = get_map();
+    for( const tripoint &adj : here.points_in_radius( pos(), 1 ) ) {
+        if( here.dangerous_field_at( adj ) ) {
+            continue;
+        }
+        for( item &itm : here.i_at( adj ) ) {
+            if( itm.get_var( "crafter", "" ) == name ) {
+                to_craft = item_location( map_cursor( adj ), &itm );
+                return to_craft;
+            }
+        }
+    }
+    return to_craft;
+}
+
 void Character::start_craft( craft_command &command, const std::optional<tripoint> &loc )
 {
     if( command.empty() ) {
