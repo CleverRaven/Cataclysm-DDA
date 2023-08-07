@@ -93,12 +93,6 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "godco_permanent_trader_add",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "godco_permanent_trader" ], "x": 1, "y": 8 } ] }
-  },
-  {
-    "type": "mapgen",
     "update_mapgen_id": "godco_permanent_trader_change",
     "method": "json",
     "object": { "place_nested": [ { "chunks": [ "godco_permanent_trader_predatory_remove" ], "x": 1, "y": 8 } ] }
