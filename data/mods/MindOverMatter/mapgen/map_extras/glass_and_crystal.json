@@ -50,7 +50,7 @@
         "  GGG  "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "G": [ [ "t_nether_stone", 2 ], [ "t_nether_crystal_structure", 1 ], [ "t_region_groundcover", 2 ] ], " ": "t_null" }
+      "terrain": { "G": [ [ "t_nether_stone", 2 ], [ "t_nether_crystal_structure", 1 ], [ "t_null", 2 ] ], " ": "t_null" }
     }
   }
 ]
