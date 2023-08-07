@@ -138,5 +138,15 @@
         "arithmetic": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "=", { "const": 2 } ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "GODCO_TRADER_MISSION_DEATHFAIL",
+    "eoc_type": "NPC_DEATH",
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "godco_freemerch_representative_dead" }, "=", { "const": 0 } ] },
+      { "u_lose_var": "u_think_suspicious_price", "type": "general", "context": "trade" },
+      { "finish_mission": "MISSION_INVESTIGATE_TRADER", "success": false }
+    ]
   }
 ]

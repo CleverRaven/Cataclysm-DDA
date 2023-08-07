@@ -7,6 +7,7 @@
     "class": "NC_TEAMSTER",
     "attitude": 0,
     "mission": 3,
+    "death_eocs": [ "GODCO_TRADER_MISSION_DEATHFAIL" ],
     "chat": "TALK_FREE_MERCHANT_TEAMSTER",
     "faction": "free_merchants"
   },
@@ -95,6 +96,9 @@
         "text": "Do you know anything about a trader near the New England Church Community, claims to be from here?",
         "condition": {
           "and": [
+            {
+              "not": { "compare_num": [ { "global_val": "var", "var_name": "godco_freemerch_representative_dead" }, "==", { "const": 0 } ] }
+            },
             { "u_has_var": "u_think_suspicious_price", "type": "general", "context": "trade", "value": "yes" },
             { "not": { "u_has_mission": "MISSION_INVESTIGATE_TRADER" } }
           ]
@@ -104,14 +108,26 @@
       {
         "text": "I think I've got the evidence you were looking for.",
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_INVESTIGATE_TRADER" }, { "u_has_item": "godcotrader_accounting_records_dirty" } ]
+          "and": [
+            {
+              "not": { "compare_num": [ { "global_val": "var", "var_name": "godco_freemerch_representative_dead" }, "==", { "const": 0 } ] }
+            },
+            { "u_has_mission": "MISSION_INVESTIGATE_TRADER" },
+            { "u_has_item": "godcotrader_accounting_records_dirty" }
+          ]
         },
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Mission_Success"
       },
       {
         "text": "I think I've got the evidence you were looking for.",
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_INVESTIGATE_TRADER" }, { "u_has_item": "godcotrader_accounting_records_clean" } ]
+          "and": [
+            {
+              "not": { "compare_num": [ { "global_val": "var", "var_name": "godco_freemerch_representative_dead" }, "==", { "const": 0 } ] }
+            },
+            { "u_has_mission": "MISSION_INVESTIGATE_TRADER" },
+            { "u_has_item": "godcotrader_accounting_records_clean" }
+          ]
         },
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Mission_Fail"
       },

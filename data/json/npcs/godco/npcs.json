@@ -302,6 +302,7 @@
     "class": "NC_TRADER_PREDATORY",
     "attitude": 0,
     "mission": 3,
+    "death_eocs": [ "GODCO_TRADER_MISSION_DEATHFAIL" ],
     "chat": "TALK_CARAVAN_MERCHANT_PREDATORY_1",
     "faction": "free_merchants"
   },
