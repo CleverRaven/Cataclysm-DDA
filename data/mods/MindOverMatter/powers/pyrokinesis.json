@@ -443,7 +443,7 @@
     "type": "SPELL",
     "name": "[Ψ]Banish Thermogenesis",
     "description": "The spell to banish existing thermogenesis nodes.  It's a bug if you have it directly.",
-    "valid_targets": [ "ground" ],
+    "valid_targets": [ "ally" ],
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "effect": "attack",
     "shape": "blast",
@@ -451,6 +451,7 @@
     "min_damage": 100,
     "max_damage": 100,
     "min_aoe": 60,
+    "max_aoe": 60,
     "targeted_monster_ids": [ "mon_pyrokin_hotair_1", "mon_pyrokin_hotair_2", "mon_pyrokin_hotair_3", "mon_pyrokin_hotair_4" ]
   },
   {
