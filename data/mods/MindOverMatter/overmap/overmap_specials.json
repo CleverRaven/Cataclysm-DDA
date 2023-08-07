@@ -171,7 +171,7 @@
     "occurrences": [ 30, 100 ],
     "flags": [ "UNIQUE", "LAB", "MAN_MADE" ]
   },
-   {
+  {
     "type": "overmap_special",
     "id": "lab_surface_big",
     "overmaps": [
