@@ -1764,5 +1764,25 @@
     "price": 16000,
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 22, "stab": 23 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "exodii_club",
+    "name": "crusher",
+    "description": "Resembling a tetsubo or baseball bat studded with metal spikes, this is a simple and brutal weapon used by Exodii when the ammo runs low.",
+    "weight": "10 kg",
+    "min_strength": 10,
+    "price_postapoc": 400,
+    "color": "grey",
+    "symbol": "|",
+    "material": "qt_steel",
+    "techniques": [ "WBLOCK_1", "SPIN", "WIDE", "BRUTAL", "SWEEP" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "MACES", "GREAT_HAMMERS" ],
+    "volume": "2250 ml",
+    "longest_side": "120 cm",
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "uneven" },
+    "qualities": { "HAMMER": 1 },
+    "melee_damage": { "bash": 40, "pierce": 20 }
   }
 ]
