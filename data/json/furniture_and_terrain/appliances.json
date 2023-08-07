@@ -714,6 +714,30 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_stationary_solar_panel",
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
+    "description": "A stationary solar panel, mounted on a frame and ready to power other appliances.",
+    "name": { "str": "stationary solar panel" },
+    "categories": [ "energy" ],
+    "color": "blue",
+    "broken_color": "blue",
+    "damage_modifier": 10,
+    "durability": 20,
+    "epower": "400 W",
+    "item": "stationary_solar_panel",
+    "requirements": { "removal": { "time": "6 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } },
+    "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_stationary_solar_panel_v2",
+    "copy-from": "ap_stationary_solar_panel",
+    "description": "A high-performance stationary solar panel, mounted on a frame and ready to power other appliances.",
+    "item": "stationary_solar_panel_v2",
+    "epower": "800 W"
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_wind_turbine",
     "location": "structure",
     "flags": [ "WIND_TURBINE", "OBSTACLE", "APPLIANCE" ],
