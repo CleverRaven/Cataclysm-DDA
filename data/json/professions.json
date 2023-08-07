@@ -2612,28 +2612,30 @@
     "missions": [ "MISSION_HUNTER" ]
   },
   {
-    "type": "profession",
-    "id": "hillbilly",
-    "name": "Hillbilly",
-    "description": "You n' yer kin always figured shit would hit the fan some day, but never like this!  When they turned on you, you grabbed yer gun and a six pack, and hauled ass in the family truck.",
-    "points": 5,
-    "skills": [ { "level": 1, "name": "mechanics" }, { "level": 2, "name": "driving" } ],
-    "vehicle": "extended_pickup",
-    "items": {
-      "both": {
-        "items": [ "hoodie", "socks", "boots_steel", "jeans", "multitool", "jacket_flannel" ],
-        "entries": 
-        [ 
+  "type": "profession",
+  "id": "hillbilly",
+  "name": "Hillbilly",
+  "description": "You n' yer kin always figured shit would hit the fan some day, but never like this!  When they turned on you, you grabbed yer gun and a six pack, and hauled ass in the family truck.",
+  "points": 5,
+  "skills": [
+    { "level": 1, "name": "mechanics" },
+    { "level": 2, "name": "driving" }
+  ],
+  "vehicle": "extended_pickup",
+  "items": {
+    "both": {
+      "items": [ "hoodie", "socks", "boots_steel", "jeans", "multitool", "jacket_flannel" ],
+      "entries": [
         { "group": "charged_smart_phone" },
-        { "item" : "shot_00", "charges": 25 },
-        { "item" : "beer", "charges": 6},
-        { "item": "remington_870", "ammo-item": "shot_00", "charges": 5, "contents-item": "shoulder_strap"}
-        ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
-    }
-  },
+        { "item": "shot_00", "charges": 25 },
+        { "item": "beer", "charges": 6 },
+        { "item": "remington_870", "ammo-item": "shot_00", "charges": 5, "contents-item": "shoulder_strap" }
+      ]
+    },
+    "male": [ "boxer_shorts" ],
+    "female": [ "bra", "panties" ]
+  }
+},
   {
     "type": "profession",
     "id": "construction_worker",
