@@ -2447,8 +2447,9 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     if( recipe_exemplar.empty() ) {
         min_nutr = max_nutr = player_character.compute_effective_nutrients( *food_item );
     } else {
+        std::map<recipe_id, std::pair<nutrients, nutrients>> rec_cache;
         std::tie( min_nutr, max_nutr ) =
-            player_character.compute_nutrient_range( *food_item, recipe_id( recipe_exemplar ) );
+            player_character.compute_nutrient_range( *food_item, recipe_id( recipe_exemplar ), rec_cache );
     }
 
     bool show_nutr = parts->test( iteminfo_parts::FOOD_NUTRITION ) ||
