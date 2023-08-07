@@ -36,7 +36,7 @@
     "type": "GENERIC",
     "id": "stationary_solar_panel_v2",
     "name": { "str": "disconnected stationary advanced solar panel" },
-    "description": "An electronic device that can convert solar radiation into electric power. It is mot mountable on a vehicle and is intended to be mounted on a rooftop as an appliance. This model uses high-performsnce monocrystalline silicon cells.",
+    "description": "An electronic device that can convert solar radiation into electric power. It is mot mountable on a vehicle and is intended to be mounted on a rooftop as an appliance. This model uses high-performance monocrystalline silicon cells.",
     "weight": "21000 g",
     "to_hit": -6,
     "color": "blue",
