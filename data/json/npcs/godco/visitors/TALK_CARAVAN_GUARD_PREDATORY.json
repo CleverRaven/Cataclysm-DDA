@@ -1,5 +1,5 @@
 [
- {
+  {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_GUARD_PREDATORY",
     "dynamic_line": "*looks up at you in uninterested fashion.  \"What do you want?  I'm working.",
@@ -249,6 +249,44 @@
         "success": { "topic": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_INTIMSUCCESS", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" }
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BRIBE_20_FALSE_EFFECT",
+    "global": false,
+    "effect": [
+      { "npc_add_var": "u_owe_20", "type": "general", "context": "trade", "value": "yes" },
+      { "npc_make_sound": "Come back later when you have the money, then we'll talk.", "volume": 2, "type": "speech" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BRIBE_50_FALSE_EFFECT",
+    "global": false,
+    "effect": [
+      { "npc_add_var": "u_owe_50", "type": "general", "context": "trade", "value": "yes" },
+      { "npc_make_sound": "Come back later when you have the money, then we'll talk.", "volume": 2, "type": "speech" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BRIBE_150_FALSE_EFFECT",
+    "global": false,
+    "effect": [
+      { "npc_add_var": "u_owe_150", "type": "general", "context": "trade", "value": "yes" },
+      { "npc_make_sound": "Come back later when you have the money, then we'll talk.", "volume": 2, "type": "speech" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BRIBE_LATER_TRUE_EFFECT",
+    "global": false,
+    "effect": [
+      { "npc_lose_var": "u_owe_20", "type": "general", "context": "trade" },
+      { "npc_lose_var": "u_owe_50", "type": "general", "context": "trade" },
+      { "npc_lose_var": "u_owe_150", "type": "general", "context": "trade" },
+      { "npc_make_sound": "A pleasure doin' business with you.", "volume": 1, "type": "speech" }
     ]
   }
 ]
