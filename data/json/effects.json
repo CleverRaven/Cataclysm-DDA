@@ -486,7 +486,8 @@
       { "limb_score": "block", "modifier": 0.9 },
       { "limb_score": "swim", "modifier": 0.7 },
       { "limb_score": "move_speed", "modifier": 0.8 },
-      { "limb_score": "footing", "modifier": 0.8 }
+      { "limb_score": "footing", "modifier": 0.8 },
+      { "limb_score": "balance", "modifier": 0.8 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
@@ -502,7 +503,8 @@
       { "limb_score": "block", "modifier": 0.9 },
       { "limb_score": "swim", "modifier": 0.7 },
       { "limb_score": "move_speed", "modifier": 0.8 },
-      { "limb_score": "footing", "modifier": 0.8 }
+      { "limb_score": "footing", "modifier": 0.8 },
+      { "limb_score": "balance", "modifier": 0.8 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
@@ -2882,7 +2884,22 @@
     "rating": "good",
     "max_intensity": 2,
     "int_dur_factor": "50 s",
-    "removes_effects": [ "infected", "bite", "bleed", "fungus", "dermatik", "winded", "poison", "badpoison", "venom_dmg", "venom_weaken" ],
+    "removes_effects": [
+      "infected",
+      "bite",
+      "bleed",
+      "fungus",
+      "dermatik",
+      "poison",
+      "badpoison",
+      "venom_dmg",
+      "venom_weaken",
+      "winded",
+      "winded_leg_l",
+      "winded_leg_r",
+      "winded_arm_l",
+      "winded_arm_r"
+    ],
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -2 ], "per_mod": [ -2 ], "int_mod": [ -1 ] },
     "scaling_mods": { "str_mod": [ 2 ], "dex_mod": [ 3 ], "per_mod": [ 3 ], "int_mod": [ 1 ] },
     "blood_analysis_description": "Healing Medication"
@@ -2897,7 +2914,7 @@
     "rating": "good",
     "max_intensity": 2,
     "int_dur_factor": "50 s",
-    "removes_effects": [ "winded" ],
+    "removes_effects": [ "winded", "winded_leg_l", "winded_leg_r", "winded_arm_l", "winded_arm_r" ],
     "base_mods": { "speed_mod": [ -5 ], "dex_mod": [ -2 ], "per_mod": [ -1 ], "int_mod": [ -2 ] },
     "scaling_mods": {
       "speed_mod": [ 15 ],
@@ -2921,7 +2938,7 @@
     "miss_messages": [ [ "Your comedown throws you off.", 1 ] ],
     "max_intensity": 2,
     "int_dur_factor": "150 s",
-    "removes_effects": [ "winded" ],
+    "removes_effects": [ "winded", "winded_leg_l", "winded_leg_r", "winded_arm_l", "winded_arm_r" ],
     "base_mods": {
       "speed_mod": [ -10 ],
       "str_mod": [ -2 ],
