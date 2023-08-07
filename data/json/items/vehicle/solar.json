@@ -20,7 +20,7 @@
     "type": "GENERIC",
     "id": "stationary_solar_panel",
     "name": { "str": "disconnected stationary solar panel" },
-    "description": "An electronic device that can convert solar radiation into electric power. It is mot mountable on a vehicle and is intended to be mounted on a rooftop as an appliance.",
+    "description": "An electronic device that can convert solar radiation into electric power.  It is mot mountable on a vehicle and is intended to be mounted on a rooftop as an appliance.",
     "weight": "21000 g",
     "to_hit": -6,
     "color": "blue",
