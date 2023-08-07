@@ -247,7 +247,7 @@
       { "proficiency": "prof_elec_circuits" },
       { "proficiency": "prof_elec_semiconductors" }
     ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "amplifier", 2 ] ], [ [ "solar_cell", 12 ] ], [ [ "cable", 20 ] ] ]
+    "components": [ [ [ "power_supply", 2 ] ], [ [ "amplifier", 2 ] ], [ [ "solar_cell", 8 ] ], [ [ "cable", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -480,7 +480,7 @@
       { "proficiency": "prof_elec_circuits" },
       { "proficiency": "prof_elec_semiconductors" }
     ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "amplifier", 2 ] ], [ [ "solar_cell_v2", 12 ] ], [ [ "cable", 20 ] ] ]
+    "components": [ [ [ "power_supply", 2 ] ], [ [ "amplifier", 2 ] ], [ [ "solar_cell_v2", 8 ] ], [ [ "cable", 20 ] ] ]
   },
   {
     "type": "recipe",
