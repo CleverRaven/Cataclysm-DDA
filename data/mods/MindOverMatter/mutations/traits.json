@@ -80,5 +80,14 @@
     "purifiable": false,
     "valid": false,
     "spells_learned": [ [ "vita_stop_bleeding", 2 ], [ "vita_health_power", 2 ], [ "vita_hurt_touch", 2 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "KI_STRIKE",
+    "name": { "str": "VERDANT HAND Combat Protocols" },
+    "points": 2,
+    "description": "Who needs weapons?  Thanks to your biokinesis, you deal more melee damage while fighting barehanded and without gloves.  This damage improves as your unarmed skill increases.",
+    "starting_trait": false,
+    "valid": false
   }
 ]

@@ -3,7 +3,6 @@
     "name": "GROUP_FERAL_PSYCHIC",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_null", "weight": 2 },
       { "monster": "mon_feral_human_bio", "weight": 1, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_clair", "weight": 1 },
       { "monster": "mon_feral_human_pyrokin", "weight": 1, "cost_multiplier": 3 },
@@ -66,11 +65,12 @@
       { "monster": "mon_feral_labsecurity_flashlight", "weight": 18, "cost_multiplier": 2 },
       { "monster": "mon_feral_scientist_scalpel", "weight": 20, "cost_multiplier": 0 },
       { "monster": "mon_feral_scientist_psychic", "weight": 5, "cost_multiplier": 5 },
-      { "monster": "mon_feral_security_captain_psychic", "weight": 8, "cost_multiplier": 8 },
+      { "monster": "mon_feral_security_captain_psychic", "weight": 8, "cost_multiplier": 10 },
       { "monster": "mon_feral_security_psychic", "weight": 25, "cost_multiplier": 5 },
+      { "group": "GROUP_FERAL_PSYCHIC", "weight": 25, "cost_multiplier": 3 },
       { "monster": "mon_zombie_labsecurity", "weight": 400, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_zombie_scientist", "weight": 300 },
-      { "monster": "mon_zombie_scientist", "weight": 150, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_zombie_scientist", "weight": 100 },
+      { "monster": "mon_zombie_scientist", "weight": 40, "pack_size": [ 1, 5 ] },
       { "monster": "mon_zombie_scientist_phavian", "weight": 300 },
       { "monster": "mon_zombie_scientist_phavian", "weight": 150, "pack_size": [ 1, 5 ] },
       { "monster": "mon_zombie_technician", "weight": 100, "cost_multiplier": 2 },
@@ -141,6 +141,29 @@
       { "monster": "mon_civilian_telepath", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_teleporter", "weight": 1, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_vitakinetic", "weight": 1, "cost_multiplier": 0, "ends": "3 days" }
+    ]
+  },
+  {
+    "name": "GROUP_NETHER_BREACH",
+    "type": "monstergroup",
+    "//": "Weights slightly adjusted from base Nether group, additional things added",
+    "monsters": [
+      { "monster": "mon_blank", "weight": 135, "cost_multiplier": 0 },
+      { "monster": "mon_flying_polyp", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_gracke", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_yugg", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_gelatin", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_breather_hub", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_nether_leech", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_flaming_eye", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "weight": 210, "cost_multiplier": 0 },
+      { "monster": "mon_nether_eater", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_hanging_roper", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_gozu", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_darkman", "weight": 15, "cost_multiplier": 0 },
+      { "monster": "mon_shoggoth", "weight": 5, "cost_multiplier": 0 }
     ]
   }
 ]

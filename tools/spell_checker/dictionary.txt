@@ -290,6 +290,8 @@ biofuel
 biofuels
 biographic
 biohacker
+biokinesis
+biokinetic
 biollante
 biomachine
 biomancer
@@ -1642,6 +1644,7 @@ lemony
 lemure
 lense
 leptoceratops
+lessers
 letal
 lettin
 leuchtet
@@ -2344,6 +2347,8 @@ pushmower
 pussywillows
 putrescent
 pwn
+pyrokinesis
+pyrokinetic
 pyrolusite
 pyrolysis
 pyrometer

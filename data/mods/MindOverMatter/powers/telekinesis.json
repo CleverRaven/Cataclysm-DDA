@@ -188,8 +188,12 @@
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_strength') * 3000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_strength') * 10000)" ] },
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_strength') * 3000)  * (scaling_factor(u_val('intelligence') ) ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_strength') * 10000) * (scaling_factor(u_val('intelligence') ) ) )" ]
+    },
     "energy_source": "STAMINA",
     "base_energy_cost": 4000,
     "final_energy_cost": 2000,

@@ -1,5 +1,179 @@
 [
   {
+    "id": "biokin_enhance_mobility_item_1",
+    "type": "ARMOR",
+    "name": { "str_sp": "enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": -2,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "biokin_enhance_mobility_item_2",
+    "type": "ARMOR",
+    "name": { "str_sp": "enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": -4,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "biokin_enhance_mobility_item_3",
+    "type": "ARMOR",
+    "name": { "str_sp": "enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": -8,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "biokin_enhance_mobility_item_4",
+    "type": "ARMOR",
+    "name": { "str_sp": "enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": -12,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "biokin_enhance_mobility_item_5",
+    "type": "ARMOR",
+    "name": { "str_sp": "enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": -16,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "biokin_enhance_mobility_item_6",
+    "type": "ARMOR",
+    "name": { "str_sp": "enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": -20,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
     "id": "pyrokinetic_fire_tool",
     "type": "TOOL",
     "name": { "str": "pyrokinetic fire" },

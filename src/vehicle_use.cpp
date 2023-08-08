@@ -1874,7 +1874,11 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .skip_theft_check()
         .skip_locked_check()
         .hotkey( "EXAMINE_VEHICLE" )
-        .on_submit( [this] { g->exam_vehicle( *this ); } );
+        .on_submit( [this, vp] {
+            const vpart_position non_fake( *this, get_non_fake_part( vp.part_index() ) );
+            const point start_pos = non_fake.mount().rotate( 2 );
+            g->exam_vehicle( *this, start_pos );
+        } );
 
         menu.add( tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ) )
         .skip_theft_check()

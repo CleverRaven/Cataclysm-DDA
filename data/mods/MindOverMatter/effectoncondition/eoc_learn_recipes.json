@@ -7,6 +7,7 @@
       { "u_learn_recipe": "practice_biokin_overcome_pain" },
       { "u_learn_recipe": "practice_biokin_flexibility" },
       { "u_learn_recipe": "practice_biokin_climate_control" },
+      { "u_learn_recipe": "practice_biokin_enhance_mobility" },
       { "u_learn_recipe": "practice_biokin_armor_skin" },
       { "u_learn_recipe": "practice_biokin_reflex_enhance" },
       { "u_learn_recipe": "practice_biokin_sealed_system" },
@@ -37,6 +38,7 @@
       { "u_learn_recipe": "practice_pyrokinetic_call_flames" },
       { "u_learn_recipe": "practice_pyrokinetic_quell_flames" },
       { "u_learn_recipe": "practice_pyrokinetic_cloak" },
+      { "u_learn_recipe": "practice_pyrokinetic_thermogenesis" },
       { "u_learn_recipe": "practice_pyrokinetic_flamethrower" },
       { "u_learn_recipe": "practice_pyrokinetic_aura" },
       { "u_learn_recipe": "practice_pyrokinetic_blast" }
@@ -79,11 +81,15 @@
     "effect": [
       { "u_learn_recipe": "practice_teleport_blink" },
       { "u_learn_recipe": "practice_teleport_slow" },
+      { "u_learn_recipe": "practice_teleport_stride" },
+      { "u_learn_recipe": "practice_teleport_phase" },
       { "u_learn_recipe": "practice_teleport_transpose" },
+      { "u_learn_recipe": "practice_teleport_displacement" },
       { "u_learn_recipe": "practice_teleport_farstep" },
       { "u_learn_recipe": "practice_teleport_collapse" },
       { "u_learn_recipe": "practice_teleport_gateway" },
-      { "u_learn_recipe": "practice_teleport_banish" }
+      { "u_learn_recipe": "practice_teleport_banish" },
+      { "u_learn_recipe": "practice_teleport_breach" }
     ]
   },
   {

@@ -428,6 +428,16 @@ inline bool query_yn( const char *const msg, Args &&... args )
     return query_yn( string_format( msg, std::forward<Args>( args )... ) );
 }
 
+enum class query_ynq_result {
+    quit, no, yes
+};
+query_ynq_result query_ynq( const std::string &text );
+template<typename ...Args>
+inline query_ynq_result query_ynq( const char *const msg, Args &&... args )
+{
+    return query_ynq( string_format( msg, std::forward<Args>( args )... ) );
+}
+
 bool query_int( int &result, const std::string &text );
 template<typename ...Args>
 inline bool query_int( int &result, const char *const msg, Args &&... args )
