@@ -41,7 +41,7 @@
     "type": "GENERIC",
     "copy-from": "stationary_solar_panel",
     "id": "stationary_solar_panel_v2",
-    "name": { "str": "disconnected stationary advanced solar panel" },
+    "name": { "str": "disconnected advanced stationary solar panel" },
     "description": "An electronic device that can convert solar radiation into electric power.  It is mot mountable on a vehicle and is intended to be mounted on a rooftop as an appliance.  This model uses high-performance monocrystalline silicon cells.",
     "price": 360000,
     "price_postapoc": 6000
