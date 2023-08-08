@@ -235,11 +235,16 @@ item_location Character::try_add( item it, int &copies_remaining, const item *av
             break;
         }
 
-        const int pocket_max_copies = pocket.second->remaining_capacity_for_item( temp_it );
-        const int parent_max_copies = !pocket.first.has_parent() ? INT_MAX :
-                                      !pocket.first.parents_can_contain_recursive( &temp_it ) ? 0 :
-                                      pocket.first.max_charges_by_parent_recursive( temp_it );
-        const int max_copies = std::min( { copies_remaining, pocket_max_copies, parent_max_copies } );
+        int max_copies;
+        if( !temp_it.is_null() ) {
+            const int pocket_max_copies = pocket.second->remaining_capacity_for_item( temp_it );
+            const int parent_max_copies = !pocket.first.has_parent() ? INT_MAX :
+                                          !pocket.first.parents_can_contain_recursive( &temp_it ) ? 0 :
+                                          pocket.first.max_charges_by_parent_recursive( temp_it );
+            max_copies = std::min( { copies_remaining, pocket_max_copies, parent_max_copies } );
+        } else {
+            max_copies = copies_remaining;
+        }
 
         item *newit = nullptr;
 
