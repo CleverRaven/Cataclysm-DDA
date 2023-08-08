@@ -35,7 +35,23 @@
       { "name": "post-it", "id": "lab_postit_psi_14", "text": "Animal testing approved.  Try the TK on the mice" },
       { "name": "post-it", "id": "lab_postit_psi_15", "text": "Can't wait for cross-testing.  Will PE050 boost it?" },
       { "name": "post-it", "id": "lab_postit_psi_16", "text": "She tried to scan Y65-08.  Now in a coma" },
-      { "name": "post-it", "id": "lab_postit_psi_17", "text": "Scanning them doesn't work.  It's just static" }
+      { "name": "post-it", "id": "lab_postit_psi_17", "text": "Scanning them doesn't work.  It's just static" },
+      { "name": "post-it", "id": "lab_postit_psi_18", "text": "Stay away from those GRAY DAWN guys.  Creepy" },
+      { "name": "post-it", "id": "lab_postit_psi_19", "text": "Need to up monitoring of GRAY DAWN candidates.  But who watches the watchers?" },
+      { "name": "post-it", "id": "lab_postit_psi_20", "text": "<given_name> is up for awakening.  Ban her from the poker game" },
+      { "name": "post-it", "id": "lab_postit_psi_21", "text": "A better lightbulb.  What's next, a matrix mousetrap?" },
+      { "name": "post-it", "id": "lab_postit_psi_22", "text": "What does PHAVIAN even stand for?" },
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_biokinesis",
+    "text": [
+      {
+        "name": "AAR ID# V78-08 ",
+        "id": "lab_file_biokinesis_01",
+        "text": "At 1756 (dive time), Sergeant Eric Collins's team came under attack by a TIAMAT entity near the end of the scheduled immersion dive.  Despite the expenditure of most of their ordinance, TIAMAT suffered no significant damage and continued its attack.  Despite the known combat capabilities of TIAMAT and with no regard for his own safety, Sergeant Collins ordered his team to retreat to the dive headquarters and engaged it in hand-to-hand combat, holding it off for several minutes while his team exited the dive.  The apeture was held open for an additional minute afterward, allowing just enough time for a severely-injured Sergeant Collins to exit the dive and preventing the exit of TIAMAT.  Sergeant Collins suffered severe lacerations, the loss of two fingers, and burns across fifty percent of his arms and upper body; he has volunteered to be a test subject for SMOKE USHER.  In lieu of a medal, we have authorized a meritorious service bonus to be applied retroactive to the beginning of the year."
+      }
     ]
   },
   {
@@ -43,7 +59,7 @@
     "category": "lab_file_telepathy",
     "text": [
       {
-        "name": "testing report",
+        "name": "testing report C3-6204",
         "id": "lab_file_telepathy_01",
         "text": "Subject is female, of East Asian descent, age 35 years.  In good health.\n\nInitial test using standard deck of playing cards.  Subject and experimenter facing away from each other, with opaque curtain blocking line of sight.  Prompt was triggered by a light on subject's desk to prevent drawing any information from experimenter's tone of voice or word choice.  Experimenter drew ten cards and asked subject to state number and suit.  Cards are shuffled back into the deck after each guess to prevent already-drawn cards from affecting future guesses.\n\nResults: Subject guessed two of ten correct on the first test and three of ten correct on the second test, versus control who guessed a single card correct on the first test and zero correct on the second test.  Very promising initial results."
       },
@@ -51,6 +67,11 @@
         "name": "incident report",
         "id": "lab_file_telepathy_02",
         "text": "INCIDENT REPORT: 897237\n\nDuring a routine visit by Dr. Davies, at 1134 a COLD BELOW mathematician diverted from their standard schedule and entered the room where Dr. Davies was being briefed about netherum mathematics developments.  The mathematician stared at Dr. Davies for approximately three seconds and then, before security could intervene, physically attacked the doctor with their bare hands.  Witnesses report the mathematician incoherently screaming, mixed with statements such as \"You'll kill us all\" and \"Stop, stop stop\".  The mathematician continued to scream until restrained and sedated.\n\nFollow-up: COLD BELOW overseers received official reprimand and required to attend additional training.  Mathematician diverted to project SUBSTRATE."
+      },
+      {
+        "name": "testing report C3-6204",
+        "id": "lab_file_telepathy_03",
+        "text": 
       }
     ]
   },
@@ -62,6 +83,23 @@
         "name": "OS647-P Response",
         "id": "lab_file_item_OS647_P_01",
         "text": "Dr. Zweidler, I understand your excitement at your breakthroughs in matrix technology, but I hope you understand there is no way I can approve OS647-P for general usage.  You write here that the effect field has a \"94% effectiveness rate\" but this is not comparable to ballistic performance standards because it has no ablative properties.  What if the first shot fired is part of that 6%?  How can an operative trust their life to your device when every possible shot might be the one to penetrate?  That fact that your data shows it provides complete protection against rifle rounds, grenades, and even anti-tank weapons is immaterial in the face of the effect field's failure rate.\n\nSecond, you write that currently OS647-P has a 2.67% device failure rate, over and above the chance of the effect field failing!  You want me to recommend this for general usage when our field operatives could end up not only with a bullet in the chest, but also a box full of burnt plastic while some horror is charging at them on an immersion dive?n\nFurthermore, the active time is simply unacceptable.  Ballistic protection works because it provides passive protection with no additional effort necessary.  When in danger, an operative would need to insert the matrix crystal, flip the toggle, and then hope that the attack occurs within the \"5.65 second median protection time\" in order to gain any benefit at all!  You've read those immersion dive reports too, Matthew.  If an operative is face to face with a shoggoth, what happens on the sixth second?\n\nI'll be frank with you.  I'm amazed that you asked me to approve this given its current device specs.  Matrix crystals--even depleted ones--are extremely valuable, and given their already unacceptably-high failure rate in training new mathematicians, Dr. Liu is not going to accept anything less than 100% effectiveness from an alternative use case.  You're simply going to have to refine OS647-P until it's more reliable.\n\nYours,\nAnna Stephenson\nDirector of Research"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_matrix_research",
+    "text": [
+      {
+        "name": "Response to Proposal 96255-R",
+        "id": "lab_file_matrix_research_01",
+        "text": "Yes, I saw your design specs for the \"Everglow Lamp\" and I understand that it provides a greatly-increased efficiency over standard off-the-shelf lighting.  But may I remind you that off-the-shelf lighting literally comes from a shelf and you can go down to the hardware store and buy a dozen LED bulbs for $50 and they'll last you ten years.  There is no use case for a matrix-powered lightbulb that makes any sort of sense, even in hostile or immersion environments.  Until you can achieve a similar cost-benefit ratio using matrix technology--check the budget for a single immersion dive if you need the data--I strongly advise you to take your research in a different direction.\n\nYours,\nAnna Stephenson\nDirector of Research"
+      },
+      {
+        "name": "Hastily-scribbled note on XEDRA stationary",
+        "id": "lab_file_matrix_research_02",
+        "//": "Hank here is Dr. Harold Liu, the director of Project PHAVIAN",
+        "text": "Dammit, Hank, what the hell is wrong with these researchers?  Matrix-powered lamp, matrix-powered car, matrix-powered oven, next they'll want a matrix-powered vibrator.  Do they even understand how expensive a single matrix crystal is?  I keep trying to get them to work on something new and they bring me this.  We need force fields, jetpacks, laser guns, lightsabers, I don't know, something!  It's all I can do to stop them from trying to make us the Amazon of XEDRA.  Do the XE037 reseachers have this problem?"
       }
     ]
   }
