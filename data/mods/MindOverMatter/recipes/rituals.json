@@ -10,7 +10,7 @@
     "skill_used": "unarmed",
     "difficulty": 5,
     "time": "5 h",
-    "autolearn": false,
+    "book_learn": [ [ "phavian_psionic_martial_power_book", 5 ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {

@@ -187,6 +187,7 @@
       { "group": "psionic_recipes_beginner", "prob": 5 },
       { "group": "psionic_recipes_tools", "prob": 5 },
       { "group": "psionic_recipes_medicine", "prob": 2 },
+      { "group": "psionic_recipes_powers", "prob": 2 },
       { "group": "psionic_recipes_advanced", "prob": 1 },
       { "group": "dist_matrix_crystals", "prob": 1 }
     ]
@@ -212,6 +213,12 @@
       [ "schematics_instability_remover", 5 ],
       [ "schematics_psionic_purifier", 1 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "psionic_recipes_powers",
+    "items": [ [ "phavian_psionic_martial_power_book", 1 ] ]
   },
   {
     "type": "item_group",
