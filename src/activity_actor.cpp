@@ -3218,7 +3218,7 @@ bool craft_activity_actor::check_if_craft_okay( item_location &craft_item, Chara
     item *craft = craft_item.get_item();
 
     // item_location::get_item() will return nullptr if the item is lost
-    if( !craft ) {
+    if( !craft || square_dist( craft_item.pos_bub(), crafter.pos_bub() ) > 1 ) {
         crafter.add_msg_player_or_npc(
             _( "You no longer have the in progress craft in your possession.  "
                "You stop crafting.  "

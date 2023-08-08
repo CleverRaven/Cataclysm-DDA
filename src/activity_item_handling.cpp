@@ -3025,6 +3025,7 @@ static bool generic_multi_activity_do(
                 player_activity act = player_activity( craft_activity_actor( to_craft, false ) );
                 you.assign_activity( act );
                 you.backlog.emplace_front( ACT_MULTIPLE_CRAFT );
+                you.backlog.front().auto_resume = true;
                 return false;
             }
         }

@@ -80,6 +80,7 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 
@@ -2936,16 +2937,17 @@ std::vector<npc *> Character::get_crafting_helpers() const
 {
     return g->get_npcs_if( [this]( const npc & guy ) {
         // NPCs can help craft if awake, taking orders, within pickup range and have clear path
-        return !guy.in_sleep_state() && guy.is_obeying( *this ) &&
+        return getID() != guy.getID() && !guy.in_sleep_state() && guy.is_obeying( *this ) &&
                rl_dist( guy.pos(), pos() ) < PICKUP_RANGE &&
                get_map().clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
     } );
 }
 
-static bool is_anyone_crafting( item_location &itm )
+static bool is_anyone_crafting( const item_location &itm, const Character *you = nullptr )
 {
     for( const npc &guy : g->all_npcs() ) {
-        if( guy.activity.id() == ACT_MULTIPLE_CRAFT ) {
+        if( !( you && you->getID() == guy.getID() ) &&
+            guy.activity.id() == ACT_CRAFT ) {
             item_location target = guy.activity.targets.back();
             if( target == itm ) {
                 return true;
@@ -2962,7 +2964,7 @@ item_location npc::get_item_to_craft()
     visit_items( [ this, &to_craft ]( item * itm, item * ) {
         if( itm->get_var( "crafter", "" ) == name ) {
             to_craft = item_location( *this, itm );
-            if( !is_anyone_crafting( to_craft ) ) {
+            if( !is_anyone_crafting( to_craft, this ) ) {
                 return VisitResponse::ABORT;
             }
         }
@@ -2981,7 +2983,7 @@ item_location npc::get_item_to_craft()
         for( item &itm : here.i_at( adj ) ) {
             if( itm.get_var( "crafter", "" ) == name ) {
                 to_craft = item_location( map_cursor( adj ), &itm );
-                if( !is_anyone_crafting( to_craft ) ) {
+                if( !is_anyone_crafting( to_craft, this ) ) {
                     return to_craft;
                 }
             }
@@ -2998,7 +3000,7 @@ void npc::do_npc_craft( const std::optional<tripoint> &loc, const recipe_id &got
     visit_items( [ this, &craft_item_list, &dummy ]( item * itm, item * ) {
         if( itm->is_craft() && itm->get_making().npc_can_craft( dummy ) ) {
             item_location to_craft = item_location( *this, itm );
-            if( !is_anyone_crafting( to_craft ) ) {
+            if( !is_anyone_crafting( to_craft, this ) ) {
                 craft_item_list.push_back( to_craft );
             }
         }
@@ -3013,7 +3015,7 @@ void npc::do_npc_craft( const std::optional<tripoint> &loc, const recipe_id &got
         for( item &itm : here.i_at( adj ) ) {
             if( itm.is_craft() && itm.get_making().npc_can_craft( dummy ) ) {
                 item_location to_craft = item_location( map_cursor( adj ), &itm );
-                if( !is_anyone_crafting( to_craft ) ) {
+                if( !is_anyone_crafting( to_craft, this ) ) {
                     craft_item_list.push_back( to_craft );
                 }
             }
