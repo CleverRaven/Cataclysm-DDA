@@ -5117,11 +5117,11 @@
       { "level": 3, "name": "pistol" },
       { "level": 3, "name": "melee" },
       { "level": 3, "name": "bashing" },
-	  { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "stabbing" },
       { "level": 2, "name": "dodge" },
       { "level": 3, "name": "firstaid" },
       { "level": 2, "name": "survival" },
-	  { "level": 3, "name": "throw" },
+      { "level": 3, "name": "throw" },
       { "level": 2, "name": "swimming" }
     ],
     "items": {
@@ -5169,13 +5169,13 @@
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 5, "name": "rifle" },
-	  { "level": 4, "name": "pistol" },
+      { "level": 4, "name": "pistol" },
       { "level": 3, "name": "melee" },
       { "level": 3, "name": "stabbing" },
       { "level": 2, "name": "dodge" },
       { "level": 3, "name": "firstaid" },
       { "level": 2, "name": "survival" },
-	  { "level": 3, "name": "throw" },
+      { "level": 3, "name": "throw" },
       { "level": 2, "name": "swimming" }
     ],
     "items": {
@@ -5226,14 +5226,14 @@
     "skills": [
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "smg" },
-	  { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "pistol" },
       { "level": 3, "name": "melee" },
       { "level": 3, "name": "stabbing" },
       { "level": 2, "name": "dodge" },
       { "level": 3, "name": "firstaid" },
       { "level": 2, "name": "survival" },
       { "level": 4, "name": "throw" },
-	  { "level": 2, "name": "swimming" },
+      { "level": 2, "name": "swimming" },
       { "level": 5, "name": "electronics" },
       { "level": 7, "name": "computer" }
     ],
@@ -5290,7 +5290,7 @@
       { "level": 3, "name": "firstaid" },
       { "level": 2, "name": "survival" },
       { "level": 2, "name": "swimming" },
-	  { "level": 2, "name": "throw" },
+      { "level": 2, "name": "throw" },
       { "level": 4, "name": "speech" }
     ],
     "items": {
@@ -5330,11 +5330,11 @@
     "skills": [
       { "level": 6, "name": "driving" },
       { "level": 3, "name": "gun" },
-	  { "level": 3, "name": "pistol" },
-	  { "level": 2, "name": "melee" },
-	  { "level": 2, "name": "stabbing" },
+      { "level": 3, "name": "pistol" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "stabbing" },
       { "level": 4, "name": "mechanics" },
-	  { "level": 3, "name": "throw" },
+      { "level": 3, "name": "throw" },
       { "level": 1, "name": "swimming" }
     ],
     "proficiencies": [ "prof_helicopter_pilot", "prof_spotting", "prof_gun_cleaning" ],
@@ -5451,13 +5451,13 @@
     "skills": [
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "rifle" },
-	  { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "pistol" },
       { "level": 2, "name": "melee" },
       { "level": 3, "name": "stabbing" },
       { "level": 2, "name": "dodge" },
-	  { "level": 2, "name": "survival" },
+      { "level": 2, "name": "survival" },
       { "level": 5, "name": "firstaid" },
-	  { "level": 4, "name": "throw" },
+      { "level": 4, "name": "throw" },
       { "level": 2, "name": "swimming" }
     ],
     "traits": [ "PROF_MED" ],
@@ -5621,9 +5621,9 @@
     "points": 5,
     "skills": [
       { "level": 4, "name": "gun" },
-	  { "level": 4, "name": "pistol" },
+      { "level": 4, "name": "pistol" },
       { "level": 3, "name": "smg" },
-	  { "level": 3, "name": "melee" },
+      { "level": 3, "name": "melee" },
       { "level": 3, "name": "unarmed" },
       { "level": 5, "name": "speech" }
     ],
@@ -5737,7 +5737,7 @@
     "points": 5,
     "skills": [
       { "level": 4, "name": "melee" },
-	  { "level": 4, "name": "cutting" },
+      { "level": 4, "name": "cutting" },
       { "level": 3, "name": "dodge" },
       { "level": 1, "name": "swimming" },
       { "level": 3, "name": "throw" }
@@ -5804,12 +5804,12 @@
     "name": "Prepped Patriot",
     "description": "Does the American dream still exist?  Well, recent events have put that to the test.  Does it still proudly live in your beating heart?  Yes.  Yes, it does.  A patriot to the bitter end, you’ve readied yourself to go toe to toe with the Cataclysm that would seek to do harm to your darling USA.  That is to say, you grabbed your gun… and nothing more.  God bless America, soldier.",
     "points": 1,
-    "skills": [ 
-	  { "level": 3, "name": "gun" },
-	  { "level": 2, "name": "pistol" },
-	  { "level": 2, "name": "shotgun" }, 
-	  { "level": 3, "name": "rifle" } 
-	],
+    "skills": [
+      { "level": 3, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "shotgun" },
+      { "level": 3, "name": "rifle" }
+    ],
     "items": {
       "both": {
         "items": [ "american_flag", "slippers" ],
@@ -5997,8 +5997,8 @@
     "skills": [
       { "level": 3, "name": "dodge" },
       { "level": 3, "name": "melee" },
-	  { "level": 3, "name": "stabbing" },
-	  { "level": 3, "name": "unarmed" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "unarmed" },
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "pistol" }
     ],
@@ -6108,9 +6108,9 @@
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "rifle" },
-	  { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "pistol" },
       { "level": 2, "name": "firstaid" },
-	  { "level": 2, "name": "throw" },
+      { "level": 2, "name": "throw" },
       { "level": 2, "name": "survival" }
     ],
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_gun_cleaning" ],
