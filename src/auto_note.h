@@ -18,9 +18,9 @@ namespace auto_notes
 class custom_symbol
 {
     private:
-        cata::optional<uint32_t> symbol;
+        std::optional<uint32_t> symbol;
 
-        cata::optional<nc_color> color;
+        std::optional<nc_color> color;
 
     public:
         std::string get_symbol_string() const {
@@ -115,7 +115,7 @@ class auto_note_settings
 
         bool was_discovered( const map_extra_id &mapExtId ) const;
 
-        cata::optional<custom_symbol> get_custom_symbol( const map_extra_id &mapExtId ) const;
+        std::optional<custom_symbol> get_custom_symbol( const map_extra_id &mapExtId ) const;
 
         void set_custom_symbol( const map_extra_id &mapExtId, const custom_symbol &symbol,
                                 bool bCharacter );

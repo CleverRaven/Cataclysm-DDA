@@ -3,6 +3,7 @@
 #define CATA_SRC_CATA_SMALL_LITERAL_VECTOR_H
 
 #include <cstdlib>
+#include <limits>
 #include <memory>
 #include <stdexcept>
 #include <type_traits>
@@ -20,7 +21,10 @@ template<typename T, size_t kInlineCount = 4, typename SizeT = uint8_t>
 struct alignas( T * ) small_literal_vector {
     // To avoid having to invoke constructors and destructors when copying Elements
     // around or inserting new ones, we enforce it is a literal type.
-    static_assert( std::is_literal_type<T>::value, "T must be literal." );
+    static_assert( std::is_trivially_destructible_v<T>, "T must be trivially destructible." );
+    static_assert( std::is_trivially_copyable_v<T>, "T must be trivially copyable." );
+    static_assert( std::is_trivially_default_constructible_v<T>,
+                   "T must be trivially default constuctible." );
 
     small_literal_vector() : heap_( nullptr ), capacity_( kInlineCount ), len_( 0 ) {}
     small_literal_vector( const small_literal_vector &other ) : capacity_( kInlineCount ), len_( 0 ) {

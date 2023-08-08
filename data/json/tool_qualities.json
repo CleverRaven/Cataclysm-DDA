@@ -60,6 +60,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "TREE_TAP",
+    "name": { "str": "tree tapping" }
+  },
+  {
+    "type": "tool_quality",
     "id": "SMOOTH",
     "name": { "str": "smoothing" }
   },
@@ -356,6 +361,12 @@
   },
   {
     "type": "tool_quality",
+    "id": "JUMPSTART",
+    "//": "A tool that is capable of charging something with electricity.",
+    "name": { "str": "jump starting" }
+  },
+  {
+    "type": "tool_quality",
     "id": "FABRIC_CUT",
     "//": "A tool that shares a large number of qualities with cutting tools, with the added benefit of being suitable for cutting fabric to patterned shapes for tailoring.",
     "name": { "str": "fabric cutting" },
@@ -404,5 +415,20 @@
     "type": "tool_quality",
     "id": "CUT_GLASS",
     "name": { "str": "glass cutting" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "MOP",
+    "name": { "str": "mopping" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "BLOW_AIR",
+    "name": { "str": "air blowing" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "BLOW_HOT_AIR",
+    "name": { "str": "hot air blowing" }
   }
 ]

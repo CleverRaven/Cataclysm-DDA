@@ -43,7 +43,7 @@ bool string_id<ammunition_type>::is_valid() const
 template<>
 const ammunition_type &string_id<ammunition_type>::obj() const
 {
-    const auto &the_map = all_ammunition_types();
+    const ammo_map_t &the_map = all_ammunition_types();
 
     const auto it = the_map.find( *this );
     if( it != the_map.end() ) {

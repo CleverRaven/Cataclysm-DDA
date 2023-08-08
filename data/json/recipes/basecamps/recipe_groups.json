@@ -355,7 +355,7 @@
     "recipes": [
       { "id": "chisel", "description": " Craft: Metalworking Chisel" },
       { "id": "hammer", "description": " Craft: Hammer" },
-      { "id": "tongs", "description": " Craft: Metal Tongs" },
+      { "id": "tongs", "description": " Craft: Pair of kitchen tongs" },
       { "id": "nail", "description": " Craft: Nail" },
       { "id": "wire", "description": " Craft: Wire" },
       { "id": "swage", "description": " Craft: Swage and Die Set" },
@@ -376,6 +376,7 @@
       { "id": "sheet_metal", "description": " Craft: Sheet Metal" },
       { "id": "chain", "description": " Craft: Chain" },
       { "id": "shovel", "description": " Craft: Shovel" },
+      { "id": "welding_rod_steel", "description": " Craft: Steel Welding Rod" },
       { "id": "rebar", "description": " Craft: Rebar" },
       { "id": "gold_ring", "description": " Craft: Gold Ring" },
       { "id": "hammer_sledge", "description": " Craft: Hammer, Sledge" },
@@ -561,7 +562,7 @@
       { "id": "xl_armor_qt_lightplate", "description": " Craft: Armor, XL Tempered Light Plate" },
       { "id": "xl_armor_qt_plate", "description": " Craft: Armor, XL Tempered Plate" },
       { "id": "broadsword", "description": " Craft: Sword, Broadsword" },
-      { "id": "scimitar", "description": " Craft: Sword, Scimitar" },
+      { "id": "scimitar", "description": " Craft: Sword, Shamshir" },
       { "id": "fire_ax", "description": " Craft: Axe, Fire" },
       { "id": "hacksaw", "description": " Craft: Hacksaw" },
       { "id": "saw", "description": " Craft: Woodsaw" },
@@ -604,9 +605,9 @@
     "id": "fishing_recipes",
     "building_type": "COOK",
     "recipes": [
-      { "id": "fish_npc_fish_trap", "description": " Fishing: fish, plastic fish trap" },
-      { "id": "fish_npc_fish_rod", "description": " Fishing: fish, basic fishing rod" },
-      { "id": "fish_npc_fish_rod_pro", "description": " Fishing: fish, pro fishing rod" }
+      { "id": "fish_npc_fish_trap", "description": " Fishing: fish, fish trap" },
+      { "id": "fish_npc_fish_rod_lvl1", "description": " Fishing: fish, level 1 fishing rod" },
+      { "id": "fish_npc_fish_rod_lvl2", "description": " Fishing: fish, level 2 fishing rod" }
     ]
   },
   {
@@ -614,7 +615,7 @@
     "id": "hack_recipes_general",
     "building_type": "BASE",
     "recipes": [
-      { "id": "mobile_memory_card_npc_hack", "description": " Hack & Download: random data, SD-Memory card" },
+      { "id": "memory_card_unread_npc_hack", "description": " Hack & Download: random data, SD-Memory card" },
       { "id": "software_useless_npc_hack", "description": " Hack & Download: misc software, USB drive" },
       { "id": "software_math_npc_hack", "description": " Hack & Download: MatheMAX, USB drive" }
     ]
@@ -636,7 +637,7 @@
     "id": "hack_recipes_science",
     "building_type": "BASE",
     "recipes": [
-      { "id": "mobile_memory_card_science_npc_hack", "description": " Hack & Download: science data, SD-Memory card" },
+      { "id": "memory_card_science_npc_hack", "description": " Hack & Download: science data, SD-Memory card" },
       { "id": "software_medical_npc_hack", "description": " Hack & Download: MediSoft, USB drive" },
       {
         "id": "software_electronics_reference_npc_hack",

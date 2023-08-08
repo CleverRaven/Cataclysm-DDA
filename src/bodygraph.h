@@ -44,8 +44,8 @@ struct bodygraph_info {
 
 struct bodygraph {
     bodygraph_id id;
-    cata::optional<bodypart_id> parent_bp;
-    cata::optional<bodygraph_id> mirror;
+    std::optional<bodypart_id> parent_bp;
+    std::optional<bodygraph_id> mirror;
     std::vector<std::vector<std::string>> rows;
     std::vector<std::vector<std::string>> fill_rows;
     std::map<std::string, bodygraph_part> parts;
@@ -58,7 +58,7 @@ struct bodygraph {
     static void check_all();
     static void reset();
     static const std::vector<bodygraph> &get_all();
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
     void finalize();
     void check() const;
 };

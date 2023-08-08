@@ -1,0 +1,46 @@
+[
+  {
+    "id": "integrated_stegoskin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "stego skin" },
+    "description": "Thick, bulky and heavy.  This skin withstands punishment from even the biggest beasts.",
+    "weight": "10 kg",
+    "volume": "3600 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "leather", "flesh", "bone", "chitin" ],
+    "symbol": "x",
+    "color": "light_red",
+    "warmth": 10,
+    "environmental_protection": 3,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "bone", "covered_by_mat": 95, "thickness": 5 },
+          { "type": "chitin", "covered_by_mat": 95, "thickness": 5 }
+        ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "breathability": "POOR"
+      },
+      {
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "bone", "covered_by_mat": 60, "thickness": 4.5 },
+          { "type": "chitin", "covered_by_mat": 60, "thickness": 4.5 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 5,
+        "breathability": "POOR",
+        "layers": [ "SKINTIGHT" ]
+      }
+    ]
+  }
+]

@@ -9,6 +9,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -56,7 +57,6 @@
 #include "move_mode.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -94,6 +94,7 @@ static const efftype_id effect_happy( "happy" );
 static const efftype_id effect_irradiated( "irradiated" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pkill( "pkill" );
+static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_sad( "sad" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_sleep_deprived( "sleep_deprived" );
@@ -108,6 +109,7 @@ static const itype_id itype_guidebook( "guidebook" );
 static const itype_id itype_mut_longpull( "mut_longpull" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
 
 static const move_mode_id move_mode_crouch( "crouch" );
@@ -129,7 +131,6 @@ static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
@@ -149,7 +150,7 @@ avatar::avatar()
     show_map_memory = true;
     active_mission = nullptr;
     grab_type = object_type::NONE;
-    calorie_diary.push_front( daily_calories{} );
+    calorie_diary.emplace_front( );
     a_diary = nullptr;
 }
 
@@ -159,24 +160,11 @@ avatar::avatar( avatar && ) = default;
 // NOLINTNEXTLINE(performance-noexcept-move-constructor)
 avatar &avatar::operator=( avatar && ) = default;
 
-static void swap_npc( npc &one, npc &two, npc &tmp )
-{
-    tmp = std::move( one );
-    one = std::move( two );
-    two = std::move( tmp );
-}
-
-void avatar::control_npc( npc &np )
+void avatar::control_npc( npc &np, const bool debug )
 {
     if( !np.is_player_ally() ) {
         debugmsg( "control_npc() called on non-allied npc %s", np.name );
         return;
-    }
-    if( !shadow_npc ) {
-        shadow_npc = std::make_unique<npc>();
-        shadow_npc->op_of_u.trust = 10;
-        shadow_npc->op_of_u.value = 10;
-        shadow_npc->set_attitude( NPCATT_FOLLOW );
     }
     character_id new_character = np.getID();
     const std::function<void( npc & )> update_npc = [new_character]( npc & guy ) {
@@ -184,13 +172,12 @@ void avatar::control_npc( npc &np )
     };
     overmap_buffer.foreach_npc( update_npc );
     mission().update_world_missions_character( get_avatar().getID(), new_character );
-    npc tmp;
     // move avatar character data into shadow npc
-    swap_character( *shadow_npc, tmp );
+    swap_character( get_shadow_npc() );
     // swap target npc with shadow npc
-    swap_npc( *shadow_npc, np, tmp );
+    std::swap( get_shadow_npc(), np );
     // move shadow npc character data into avatar
-    swap_character( *shadow_npc, tmp );
+    swap_character( get_shadow_npc() );
     // the avatar character is no longer a follower NPC
     g->remove_npc_follower( getID() );
     // the previous avatar character is now a follower
@@ -202,9 +189,13 @@ void avatar::control_npc( npc &np )
     const bool z_level_changed = g->vertical_shift( posz() );
     g->update_map( *this, z_level_changed );
     character_mood_face( true );
+
+    profession_id prof_id = prof ? prof->ident() : profession::generic()->ident();
+    get_event_bus().send<event_type::game_avatar_new>( /*is_new_game=*/false, debug,
+            getID(), name, male, prof_id, custom_profession );
 }
 
-void avatar::control_npc_menu()
+void avatar::control_npc_menu( const bool debug )
 {
     std::vector<shared_ptr_fast<npc>> followers;
     uilist charmenu;
@@ -225,7 +216,7 @@ void avatar::control_npc_menu()
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
         return;
     }
-    get_avatar().control_npc( *followers[charmenu.ret] );
+    get_avatar().control_npc( *followers[charmenu.ret], debug );
 }
 
 void avatar::longpull( const std::string &name )
@@ -246,6 +237,11 @@ void avatar::toggle_map_memory()
     show_map_memory = !show_map_memory;
 }
 
+bool avatar::is_map_memory_valid() const
+{
+    return player_map_memory->is_valid();
+}
+
 bool avatar::should_show_map_memory() const
 {
     if( get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
@@ -256,43 +252,47 @@ bool avatar::should_show_map_memory() const
 
 bool avatar::save_map_memory()
 {
-    return player_map_memory->save( get_map().getabs( pos() ) );
+    return player_map_memory->save( get_map().getglobal( pos() ) );
 }
 
 void avatar::load_map_memory()
 {
-    player_map_memory->load( get_map().getabs( pos() ) );
+    player_map_memory->load( get_map().getglobal( pos() ) );
 }
 
-void avatar::prepare_map_memory_region( const tripoint &p1, const tripoint &p2 )
+void avatar::prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 )
 {
     player_map_memory->prepare_region( p1, p2 );
 }
 
-const memorized_terrain_tile &avatar::get_memorized_tile( const tripoint &pos ) const
+const memorized_tile &avatar::get_memorized_tile( const tripoint_abs_ms &p ) const
 {
-    return player_map_memory->get_tile( pos );
+    if( should_show_map_memory() ) {
+        return player_map_memory->get_tile( p );
+    }
+    return mm_submap::default_tile;
 }
 
-void avatar::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
-                            const int rotation )
+void avatar::memorize_terrain( const tripoint_abs_ms &p, const std::string_view id,
+                               int subtile, int rotation )
 {
-    player_map_memory->memorize_tile( pos, ter, subtile, rotation );
+    player_map_memory->set_tile_terrain( p, id, subtile, rotation );
 }
 
-void avatar::memorize_symbol( const tripoint &pos, const int symbol )
+void avatar::memorize_decoration( const tripoint_abs_ms &p, const std::string_view id,
+                                  int subtile, int rotation )
 {
-    player_map_memory->memorize_symbol( pos, symbol );
+    player_map_memory->set_tile_decoration( p, id, subtile, rotation );
 }
 
-int avatar::get_memorized_symbol( const tripoint &p ) const
+void avatar::memorize_symbol( const tripoint_abs_ms &p, char32_t symbol )
 {
-    return player_map_memory->get_symbol( p );
+    player_map_memory->set_tile_symbol( p, symbol );
 }
 
-void avatar::clear_memorized_tile( const tripoint &pos )
+void avatar::memorize_clear_decoration( const tripoint_abs_ms &p, std::string_view prefix )
 {
-    player_map_memory->clear_memorized_tile( pos );
+    player_map_memory->clear_tile_decoration( p, prefix );
 }
 
 std::vector<mission *> avatar::get_active_missions() const
@@ -423,7 +423,7 @@ bool avatar::read( item_location &book, item_location ereader )
     // spells are handled in a different place
     // src/iuse_actor.cpp -> learn_spell_actor::use
     if( book->get_use( "learn_spell" ) ) {
-        book->get_use( "learn_spell" )->call( *this, *book, book->active, pos() );
+        book->get_use( "learn_spell" )->call( this, *book, pos() );
         return true;
     }
 
@@ -439,15 +439,7 @@ bool avatar::read( item_location &book, item_location ereader )
             add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
         }
 
-        assign_activity(
-            player_activity(
-                read_activity_actor(
-                    to_moves<int>( time_taken ),
-                    book,
-                    ereader,
-                    false
-                ) ) );
-
+        assign_activity( read_activity_actor( time_taken, book, ereader, false ) );
         return true;
     }
 
@@ -672,51 +664,41 @@ bool avatar::read( item_location &book, item_location ereader )
         return false;
     }
 
-    assign_activity(
-        player_activity(
-            read_activity_actor(
-                to_moves<int>( time_taken ),
-                book,
-                ereader,
-                continuous,
-                learner_id
-            ) ) );
+    assign_activity( read_activity_actor( time_taken, book, ereader, continuous, learner_id ) );
 
     return true;
 }
 
-void avatar::grab( object_type grab_type, const tripoint &grab_point )
+void avatar::grab( object_type grab_type_new, const tripoint &grab_point_new )
 {
     const auto update_memory =
     [this]( const object_type gtype, const tripoint & gpoint, const bool erase ) {
         map &m = get_map();
         if( gtype == object_type::VEHICLE ) {
-            const optional_vpart_position vp = m.veh_at( pos() + gpoint );
-            if( vp ) {
-                const vehicle &veh = vp->vehicle();
-                for( const tripoint &target : veh.get_points() ) {
+            if( const optional_vpart_position ovp = m.veh_at( pos() + gpoint ) ) {
+                for( const tripoint &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
-                        clear_memorized_tile( m.getabs( target ) );
+                        memorize_clear_decoration( m.getglobal( target ), /* prefix = */ "vp_" );
                     }
-                    m.set_memory_seen_cache_dirty( target );
+                    m.memory_cache_dec_set_dirty( target, true );
                 }
             }
         } else if( gtype != object_type::NONE ) {
             if( erase ) {
-                clear_memorized_tile( m.getabs( pos() + gpoint ) );
+                memorize_clear_decoration( m.getglobal( pos() + gpoint ) );
             }
-            m.set_memory_seen_cache_dirty( pos() + gpoint );
+            m.memory_cache_dec_set_dirty( pos() + gpoint, true );
         }
     };
     // Mark the area covered by the previous vehicle/furniture/etc for re-memorizing.
-    update_memory( this->grab_type, this->grab_point, false );
+    update_memory( grab_type, grab_point, /* erase = */ false );
+
+    grab_type = grab_type_new;
+    grab_point = grab_point_new;
+
     // Clear the map memory for the area covered by the vehicle/furniture/etc to
     // eliminate ghost vehicles/furnitures/etc.
-    // FIXME: change map memory to memorize all memorizable objects and only erase vehicle part memory.
-    update_memory( grab_type, grab_point, true );
-
-    this->grab_type = grab_type;
-    this->grab_point = grab_point;
+    update_memory( grab_type, grab_point, /* erase = */ true );
 
     path_settings->avoid_rough_terrain = grab_type != object_type::NONE;
 }
@@ -808,6 +790,13 @@ void avatar::identify( const item &item )
     }
 }
 
+void avatar::clear_nutrition()
+{
+    calorie_diary.clear();
+    calorie_diary.emplace_front();
+    consumption_history.clear();
+}
+
 void avatar::clear_identified()
 {
     items_identified.clear();
@@ -871,6 +860,21 @@ void avatar::vomit()
     Character::vomit();
 }
 
+bool avatar::try_break_relax_gas( const std::string &msg_success, const std::string &msg_failure )
+{
+    const effect &pacify = get_effect( effect_relax_gas, body_part_mouth );
+    if( pacify.is_null() ) {
+        return true;
+    } else if( one_in( pacify.get_intensity() ) ) {
+        add_msg( m_good, msg_success );
+        return true;
+    } else {
+        mod_moves( std::max( 0, pacify.get_intensity() * 10 + rng( -30, 30 ) ) );
+        add_msg( m_bad, msg_failure );
+        return false;
+    }
+}
+
 nc_color avatar::basic_symbol_color() const
 {
     bool in_shell = has_active_mutation( trait_SHELL2 ) ||
@@ -927,28 +931,6 @@ void avatar::disp_morale()
     }
 
     morale->display( equilibrium, pain_penalty, fatigue_penalty );
-}
-
-int avatar::limb_dodge_encumbrance() const
-{
-    std::map<body_part_type::type, std::vector<bodypart_id>> bps;
-    for( const auto &bp : body ) {
-        if( bp.first->encumb_impacts_dodge ) {
-            bps[bp.first->primary_limb_type()].emplace_back( bp.first );
-        }
-    }
-
-    float total = 0.0f;
-    for( auto &bp : bps ) {
-        float sub_total = 0.0f;
-        for( auto &b : bp.second ) {
-            sub_total += encumb( b );
-        }
-        sub_total /= bp.second.size() * 10.0f;
-        total += sub_total;
-    }
-
-    return std::floor( total );
 }
 
 void avatar::reset_stats()
@@ -1033,14 +1015,16 @@ void avatar::reset_stats()
         set_fake_effect_dur( effect_stim_overdose, 1_turns * ( current_stim - 30 ) );
     }
     // Starvation
-    const float bmi = get_bmi();
-    if( bmi < character_weight_category::underweight ) {
-        const int str_penalty = std::floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() );
+    const float bmi = get_bmi_fat();
+    if( bmi < character_weight_category::normal ) {
+        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
+                                              character_weight_category::normal ) ) * str_max );
+        const int dexint_penalty = std::floor( ( character_weight_category::normal - bmi ) * 3.0f );
         add_miss_reason( _( "You're weak from hunger." ),
                          static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
-        mod_str_bonus( -str_penalty );
-        mod_dex_bonus( -( str_penalty / 2 ) );
-        mod_int_bonus( -( str_penalty / 2 ) );
+        mod_str_bonus( -1 * str_penalty );
+        mod_dex_bonus( -1 * dexint_penalty );
+        mod_int_bonus( -1 * dexint_penalty );
     }
     // Thirst
     if( get_thirst() >= 200 ) {
@@ -1059,7 +1043,7 @@ void avatar::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() - limb_dodge_encumbrance() );
+    mod_dodge_bonus( mabuff_dodge_bonus() );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !natural_attack_restricted_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1 );
@@ -1359,6 +1343,7 @@ bool avatar::wield( item_location target )
 bool avatar::wield( item &target )
 {
     invalidate_inventory_validity_cache();
+    invalidate_leak_level_cache();
     return wield( target,
                   item_handling_cost( target, true,
                                       is_worn( target ) ? INVENTORY_HANDLING_PENALTY / 2 :
@@ -1456,7 +1441,7 @@ bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
     umenu.hilight_disabled = true;
 
     for( const auto &e : use_methods ) {
-        const auto res = e.second.can_call( *this, *used, false, pt );
+        const auto res = e.second.can_call( *this, *used, pt );
         umenu.addentry_desc( MENU_AUTOASSIGN, res.success(), MENU_AUTOASSIGN, e.second.get_name(),
                              res.str() );
     }
@@ -1536,7 +1521,7 @@ void avatar::update_cardio_acc()
 
 void avatar::advance_daily_calories()
 {
-    calorie_diary.push_front( daily_calories{} );
+    calorie_diary.emplace_front( );
     if( calorie_diary.size() > 30 ) {
         calorie_diary.pop_back();
     }
@@ -1809,7 +1794,7 @@ void avatar::reassign_item( item &it, int invlet )
 
 void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
 {
-    if( has_trait( trait_NOPAIN ) ) {
+    if( has_flag( json_flag_PAIN_IMMUNE ) ) {
         return;
     }
     if( bp == bodypart_id( "bp_null" ) ) {
@@ -1842,92 +1827,6 @@ void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
                                body_part_name_accusative( bp ) );
         }
     }
-}
-
-bool character_martial_arts::pick_style( const avatar &you ) // Style selection menu
-{
-    enum style_selection {
-        KEEP_HANDS_FREE = 0,
-        STYLE_OFFSET
-    };
-
-    // Check for martial art styles known from active bionics
-    std::set<matype_id> bio_styles;
-    for( const bionic &bio : *you.my_bionics ) {
-        const std::vector<matype_id> &bio_ma_list = bio.id->ma_styles;
-        if( !bio_ma_list.empty() && you.has_active_bionic( bio.id ) ) {
-            bio_styles.insert( bio_ma_list.begin(), bio_ma_list.end() );
-        }
-    }
-    std::vector<matype_id> selectable_styles;
-    if( bio_styles.empty() ) {
-        selectable_styles = ma_styles;
-    } else {
-        selectable_styles.insert( selectable_styles.begin(), bio_styles.begin(), bio_styles.end() );
-    }
-
-    // If there are style already, cursor starts there
-    // if no selected styles, cursor starts from no-style
-
-    // Any other keys quit the menu
-    input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keycode );
-    ctxt.register_action( "SHOW_DESCRIPTION" );
-
-    uilist kmenu;
-    kmenu.text = string_format( _( "Select a style.\n"
-                                   "\n"
-                                   "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
-                                   "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
-                                   "Press [<color_yellow>%s</color>] for more info.\n" ),
-                                you.get_str(), you.get_dex(), you.get_per(), you.get_int(),
-                                ctxt.get_desc( "SHOW_DESCRIPTION" ) );
-    ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
-    kmenu.callback = &callback;
-    kmenu.input_category = "MELEE_STYLE_PICKER";
-    kmenu.additional_actions.emplace_back( "SHOW_DESCRIPTION", translation() );
-    kmenu.desc_enabled = true;
-    kmenu.addentry_desc( KEEP_HANDS_FREE, true, 'h',
-                         keep_hands_free ? _( "Keep hands free (on)" ) : _( "Keep hands free (off)" ),
-                         _( "When this is enabled, player won't wield things unless explicitly told to." ) );
-
-    kmenu.selected = STYLE_OFFSET;
-
-    // +1 to keep "No Style" at top
-    std::sort( selectable_styles.begin() + 1, selectable_styles.end(),
-    []( const matype_id & a, const matype_id & b ) {
-        return localized_compare( a->name.translated(), b->name.translated() );
-    } );
-
-    for( size_t i = 0; i < selectable_styles.size(); i++ ) {
-        const martialart &style = selectable_styles[i].obj();
-        //Check if this style is currently selected
-        const bool selected = selectable_styles[i] == style_selected;
-        std::string entry_text = style.name.translated();
-        if( selected ) {
-            kmenu.selected = i + STYLE_OFFSET;
-            entry_text = colorize( entry_text, c_pink );
-        }
-        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, style.description.translated() );
-    }
-
-    kmenu.query();
-    int selection = kmenu.ret;
-
-    if( selection >= STYLE_OFFSET ) {
-        // If the currect style is selected, do not change styles
-
-        avatar &u = const_cast<avatar &>( you );
-        style_selected->remove_all_buffs( u );
-        style_selected = selectable_styles[selection - STYLE_OFFSET];
-        ma_static_effects( u );
-        martialart_use_message( you );
-    } else if( selection == KEEP_HANDS_FREE ) {
-        keep_hands_free = !keep_hands_free;
-    } else {
-        return false;
-    }
-
-    return true;
 }
 
 bool avatar::wield_contents( item &container, item *internal_item, bool penalties, int base_cost )
@@ -2075,7 +1974,7 @@ void avatar::try_to_sleep( const time_duration &dur )
             add_msg_if_player( m_bad, _( "Your soporific inducer doesn't have enough power to operate." ) );
         }
     }
-    assign_activity( player_activity( try_sleep_activity_actor( dur ) ) );
+    assign_activity( try_sleep_activity_actor( dur ) );
 }
 
 bool avatar::query_yn( const std::string &mes ) const
@@ -2086,6 +1985,24 @@ bool avatar::query_yn( const std::string &mes ) const
 void avatar::set_location( const tripoint_abs_ms &loc )
 {
     Creature::set_location( loc );
+}
+
+npc &avatar::get_shadow_npc()
+{
+    if( !shadow_npc ) {
+        shadow_npc = std::make_unique<npc>();
+        shadow_npc->op_of_u.trust = 10;
+        shadow_npc->op_of_u.value = 10;
+        shadow_npc->set_attitude( NPCATT_FOLLOW );
+    }
+    return *shadow_npc;
+}
+
+void avatar::export_as_npc( const cata_path &path )
+{
+    swap_character( get_shadow_npc() );
+    get_shadow_npc().export_to( path );
+    swap_character( get_shadow_npc() );
 }
 
 void monster_visible_info::remove_npc( npc *n )

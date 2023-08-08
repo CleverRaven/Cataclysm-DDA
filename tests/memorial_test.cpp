@@ -219,13 +219,13 @@ TEST_CASE( "memorials", "[memorial]" )
     check_memorial<event_type::gains_skill_level>(
         m, b, "Reached skill level 8 in vehicles.", ch, skill_driving, 8 );
 
-    check_memorial<event_type::game_over>(
-        m, b, u_name + " was killed.\nLast words: last_words", false, "last_words",
-        std::chrono::seconds( 100 ) );
+    check_memorial<event_type::game_avatar_death>(
+        m, b, u_name + " was killed.\nLast words: last_words", ch, u_name, player_character.male, false,
+        "last_words" );
 
-    check_memorial<event_type::game_start>(
-        m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, player_character.male,
-        player_character.prof->ident(), player_character.custom_profession, "VERSION_STRING" );
+    check_memorial<event_type::game_avatar_new>(
+        m, b, u_name + " began their journey into the Cataclysm.", true, false, ch, u_name,
+        player_character.male, player_character.prof->ident(), player_character.custom_profession );
 
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );

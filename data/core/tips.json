@@ -632,6 +632,13 @@
   {
     "type": "snippet",
     "category": "tip",
+    "text": [
+      "If you don't have a certain proficiency, having a related book is a good idea.  More books make you less likely to fail, but not as good as knowing the subject for yourself."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
     "text": [ "You can set priority levels for pockets in your inventory, letting you decide where your loot goes." ]
   },
   {

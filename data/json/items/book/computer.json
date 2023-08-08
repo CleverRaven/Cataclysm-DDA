@@ -15,24 +15,22 @@
       {
         "id": "SICP_1",
         "name": { "str": "Introduction to Algorithms", "str_pl": "copies of Introduction to Algorithms" },
-        "description": "Also known as CLRS, this book contain a deep explanation range of algorithms divided across several self-contained chapters, with pseudocode presentation.",
+        "description": "Also known as CLRS - a letter for the last names of each author - this book contains deep explanations for a range of algorithms divided across several self-contained chapters, with pseudocode presentation.",
         "//": "978-0262046305",
         "weight": 1
       },
       {
         "id": "SICP_2",
         "name": { "str": "The Art of Computer Programming, Vol. 1", "str_pl": "copies of The Art of Computer Programming, Vol. 1" },
-        "description": "Huge reference  manual about fundamental algorithms, with lot of examples and math.",
+        "description": "A huge reference manual about fundamental algorithms, with a lot of examples and math.",
         "//": "978-0137935109",
-        "fun": -2,
         "weight": 1
       },
       {
         "id": "SICP_3",
         "name": { "str": "The Art of Computer Programming, Vol. 3", "str_pl": "copies of The Art of Computer Programming, Vol. 3" },
-        "description": "Huge reference manual about sorting and searching algorithms, with lot of examples and math.",
+        "description": "A huge reference manual about sorting and searching algorithms, with a lot of examples and math.",
         "//": "978-0137935109",
-        "fun": -2,
         "weight": 1
       }
     ],
@@ -40,7 +38,6 @@
     "volume": "1500 ml",
     "price": 7800,
     "price_postapoc": 500,
-    "bashing": 6,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "textbook_traps",
@@ -50,7 +47,8 @@
     "max_level": 8,
     "intelligence": 12,
     "time": "50 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "computer_science",
@@ -68,7 +66,7 @@
       {
         "id": "computer_science_1",
         "name": { "str": "Computer Science: An Overview", "str_pl": "copies of Computer Science: An Overview" },
-        "description": "13th edition, this book gives bottom-up, concrete-to-abstract foundation in the subject, covering encourages a practical and realistic understanding of computer science.",
+        "description": "The 13th edition, this book gives a bottom-up, concrete-to-abstract foundation in the subject, and encourages a practical and realistic understanding of computer science.",
         "//": "978-1292263427",
         "weight": 1
       },
@@ -78,14 +76,14 @@
           "str": "Everything You Need to Ace Computer Science and Coding in One Big Fat Notebook",
           "str_pl": "copies of Everything You Need to Ace Computer Science and Coding in One Big Fat Notebook"
         },
-        "description": "Not as big as it describe himself, this book still contain lot of information for reader about key concepts, definitions, diagrams, and doodles about computer science.",
+        "description": "Not as big as the back cover suggests, this book still contains lots of information for the reader about key concepts, definitions, diagrams, and doodles about computer science.",
         "//": "978-0761196761",
         "weight": 1
       },
       {
         "id": "computer_science_3",
         "name": { "str": "The Self-Taught Computer Scientist", "str_pl": "copies of The Self-Taught Computer Scientist" },
-        "description": "Nice workbook, that contain information about computer science beyond the common college program, with lot of practical examples and additional tools.",
+        "description": "A nice workbook that contains information about computer science beyond the common college program, with lots of practical examples and additional tools.",
         "//": "978-1119724414",
         "weight": 1
       }
@@ -94,7 +92,6 @@
     "volume": "1750 ml",
     "price": 7900,
     "price_postapoc": 250,
-    "bashing": 5,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "textbook_traps",
@@ -104,7 +101,8 @@
     "max_level": 5,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -2
+    "fun": -2,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "howto_computer",
@@ -122,14 +120,14 @@
       {
         "id": "howto_computer_1",
         "name": { "str": "Computer Basics For The Over 50s", "str_pl": "copies of Computer Basics For The Over 50s" },
-        "description": "Colorful book with lot of images of how to perform simple task in computer system.",
+        "description": "A colorful book with lots of images detailing how to perform simple tasks in a computer system.",
         "//": "978-0273729174",
         "weight": 1
       },
       {
         "id": "howto_computer_2",
         "name": { "str": "Hand Book On Computer Basics", "str_pl": "copies of Hand Book On Computer Basics" },
-        "description": "Small book that describe the very foundation of how computers and internet works, with relevant examples.",
+        "description": "A small book that describes the very foundations of how computers and the internet work, with relevant examples.",
         "//": "978-3844333176",
         "weight": 1
       },
@@ -146,10 +144,8 @@
           "str": "Check Your English Vocabulary for Computers and Information Technology",
           "str_pl": "copies of Check Your English Vocabulary for Computers and Information Technology"
         },
-        "description": "This workbook is designed to help non-native English speakers improve their knowledge and understanding of core computing and IT terminology, with definitions and some using examples.",
+        "description": "This workbook is designed to help non-native English speakers improve their knowledge and understanding of core computing and IT terminology, with definitions and some examples.",
         "//": "978-0713679175",
-        "max_level": 1,
-        "intelligence": 6,
         "weight": 1
       }
     ],
@@ -176,40 +172,31 @@
       {
         "id": "mag_computer",
         "name": { "str": "Computer World", "str_pl": "issues of Computer World" },
-        "description": "An informative magazine all about computers, both hardware and software",
+        "description": "An informative magazine all about computers, both hardware and software.",
         "weight": 1
       },
       {
         "id": "mag_computer_1",
         "name": { "str": "PCMag", "str_pl": "issues of PCMag" },
-        "description": "Old, shabby magazine about hardware and software.  The last page says this is the last printed issue, as they going all digit.",
+        "description": "An old, shabby magazine about hardware and software.  The last page says this is the last printed issue, as they are going all digital.",
         "weight": 1
       },
       {
         "id": "mag_computer_2",
         "name": { "str": "ACM Computing Reviews", "str_pl": "issues of ACM Computing Reviews" },
-        "description": "Shiny scientific journal that reviews fresh literature in computer science field.",
-        "required_level": 4,
-        "max_level": 6,
-        "intelligence": 8,
+        "description": "A shiny scientific journal that reviews fresh literature in the computer science field.",
         "weight": 1
       },
       {
         "id": "mag_computer_3",
         "name": { "str": "IEEE Software", "str_pl": "issues of IEEE Software" },
         "description": "Journal that cover lot of aspects of software engineering, processes, and practices.",
-        "required_level": 4,
-        "max_level": 6,
-        "intelligence": 8,
         "weight": 1
       },
       {
         "id": "mag_computer_4",
         "name": { "str": "\"Computer\"", "str_pl": "issues of \"Computer\"" },
-        "description": "Practitioner-oriented magazine issued to all members of the society, and contain articles and columns about different computing-related issues ",
-        "required_level": 3,
-        "max_level": 5,
-        "intelligence": 8,
+        "description": "A practitioner-oriented magazine issued to all members of the society, containing articles and columns about different computing-related issues.",
         "weight": 1
       }
     ],
@@ -243,27 +230,27 @@
       {
         "id": "manual_computer_1",
         "name": { "str": "An Introduction to Computer Science", "str_pl": "copies of An Introduction to Computer Science" },
-        "description": "Introduction into computer world, based on simple computer language, it guides the reader toward deep computer world.",
+        "description": "An introduction into computer world, based on simple computer language.  It guides the reader toward deep computer world.",
         "//": "978-1590282755",
         "weight": 1
       },
       {
         "id": "manual_computer_2",
         "name": { "str": "Multimedia Computing", "str_pl": "copies of Multimedia Computing" },
-        "description": "Printouts, held together by a staple, that explain work in different applications, multimedia, web, and basic work with hardware.",
+        "description": "Printouts, held together by a staple, that explain work in different applications, multimedia, the web, and basic work with hardware.",
         "weight": 1
       },
       {
         "id": "manual_computer_3",
         "name": { "str": "Teaching Computing in Secondary Schools", "str_pl": "copies of Teaching Computing in Secondary Schools" },
-        "description": "Practical teacher's book about how to plan lessons and what they need to teach scholars about the computer science.",
+        "description": "A practical book for teachers about how to plan lessons and what they need to teach scholars about computer science.",
         "//": "978-1138238060",
         "weight": 1
       },
       {
         "id": "manual_computer_4",
-        "name": { "str": "The Elements of Computing System", "str_pl": "copies of The Elements of Computing System" },
-        "description": "A book, that describe how computers works, how they break big task on smaller and simpler tasks, and teaches how you can do the same.",
+        "name": { "str": "The Elements of Computing Systems", "str_pl": "copies of The Elements of Computing Systems" },
+        "description": "A book that describes how computers works, how they break big tasks into smaller and simpler tasks, and teaches how you can do the same.",
         "//": "978-0262539807",
         "weight": 1
       }
@@ -297,14 +284,14 @@
       {
         "id": "textbook_computer_1",
         "name": { "str": "Modern Software Engineering", "str_pl": "copies of Modern Software Engineering" },
-        "description": "The book illuminates durable principles at the heart of effective software development, with historic examples and personal experience.",
+        "description": "This book illuminates durable principles at the heart of effective software development, with historic examples and personal experience.",
         "//": "978-0137314911",
         "weight": 1
       },
       {
         "id": "textbook_computer_2",
         "name": { "str": "Fundamentals of Software Architecture", "str_pl": "copies of Fundamentals of Software Architecture" },
-        "description": "This book examine different architecture patterns and components of good application.",
+        "description": "This book examines different architecture patterns and components of good application.",
         "//": "978-1492043454",
         "weight": 1
       },
@@ -313,29 +300,26 @@
         "name": { "str": "Advanced Game Design: A Systems Approach", "str_pl": "copies of Advanced Game Design: A Systems Approach" },
         "description": "Author research how computer game works, how they build, and how to make proper gameplay parts and prototypes, with examples of real code.",
         "//": "978-0134667607",
-        "max_level": 5,
-        "fun": 0,
-        "required_level": 3,
         "weight": 1
       },
       {
         "id": "textbook_computer_4",
         "name": { "str": "Clean Code", "str_pl": "copies of Clean Code" },
-        "description": "The book describe the key features of popular computer language, with features you can use to enhance your working environment and experience, same as code.",
+        "description": "This book describes the key features of popular computer languages with features you can use to enhance your working environment and experience, as well as your code.",
         "//": "978-0132350884",
         "weight": 1
       },
       {
         "id": "textbook_computer_5",
         "name": { "str": "Mastering Apex Programming", "str_pl": "copies of Mastering Apex Programming" },
-        "description": "The book shows the most common pitfall inexperienced programmer may met in his work, and different solutions it can use to resolve or avoid them.",
+        "description": "This book shows the most common pitfalls inexperienced programmers may meet in their work, and different solutions one can use to resolve or avoid them.",
         "//": "978-1800200920",
         "weight": 1
       },
       {
-        "id": "textbook_computer_5",
+        "id": "textbook_computer_6",
         "name": { "str": "Data-Driven Science and Engineering", "str_pl": "copies of Data-Driven Science and Engineering" },
-        "description": "Guide for scientists and engineers of how to use modern computer systems and methods in their work.",
+        "description": "A guide for scientists and engineers describing how to use modern computer systems and methods in their work.",
         "//": "978-1009098489",
         "weight": 1
       }
@@ -344,7 +328,6 @@
     "volume": "1750 ml",
     "price": 8500,
     "price_postapoc": 500,
-    "bashing": 5,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "textbook_traps",
@@ -354,7 +337,8 @@
     "max_level": 6,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -2
+    "fun": -2,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "webbasics_computer",
@@ -373,9 +357,8 @@
       {
         "id": "webbasics_computer_1",
         "name": { "str": "Get Coding!", "str_pl": "copies of Get Coding!" },
-        "description": "Comics-like manual of how to perform simple code tasks, targeted at kids.",
+        "description": "A comics-like manual explaining how to perform simple code tasks, targeted at kids.",
         "//": "978-0763692766",
-        "required_level": 0,
         "weight": 1
       },
       {
@@ -384,14 +367,14 @@
           "str": "Computer Programming: Fundamentals for Absolute Beginners",
           "str_pl": "copies of Computer Programming: Fundamentals for Absolute Beginners"
         },
-        "description": "A book tries to teach reader the most common programmers activities - planning the work, making comfort workaround, designing the code schemes and writing them in the right way.",
+        "description": "A book that tries to teach the reader the most common programming activities - planning the work, making comfortable workarounds, designing the code schemes, and writing them in the right way.",
         "//": "979-8490556817",
         "weight": 1
       },
       {
         "id": "webbasics_computer_3",
         "name": { "str": "Head First Programming", "str_pl": "copies of Head First Programming" },
-        "description": "The handbook describe the very basics of code making - creating and using variables, loops, decisions, objects - and examples how and where to use them.",
+        "description": "This handbook describes the very basics of coding - creating and using variables, loops, decisions, objects - and examples of how and where to use them.",
         "//": "978-0596802370",
         "weight": 1
       },
@@ -401,7 +384,7 @@
           "str": "Computer Programming for Beginners: Fundamentals",
           "str_pl": "copies of Computer Programming for Beginners: Fundamentals"
         },
-        "description": "Small book, that explain different skills programmer need to make to be able to make code, in simple terms and with samples.",
+        "description": "A small book that explains different skills a programmer needs to be able to code, in simple terms and with samples.",
         "//": "978-1719439558",
         "weight": 1
       },
@@ -448,41 +431,29 @@
           "str": "First Steps in Coding: What's Decomposition?",
           "str_pl": "copies of First Steps in Coding: What's Decomposition?"
         },
-        "description": "Tiny book with childish images of robot, that explain what functional decomposition is, and how to use it properly.",
+        "description": "A tiny book with childish images of a robot, that explains what functional decomposition is, and how to use it properly.",
         "//": "978-1526315779",
-        "fun": 2,
-        "max_level": 1,
-        "intelligence": 6,
         "weight": 1
       },
       {
         "id": "hackerman_computer_2",
         "name": { "str": "Let's Get Coding", "str_pl": "copies of Let's Get Coding" },
-        "description": "Shiny book with lot of useful information about using code for different tasks inside the computer.  Sadly some big chunks of informations are hidden behind the QR code links, which you can't open.",
+        "description": "A shiny book with lot of useful information about using code for different tasks inside the computer.  Sadly some big chunks of information are hidden behind QR code links, which you can't open.",
         "//": "978-1913565541",
-        "max_level": 2,
-        "intelligence": 8,
-        "fun": -1,
         "weight": 1
       },
       {
         "id": "hackerman_computer_3",
         "name": { "str": "Grokking Algorithms", "str_pl": "copies of Grokking Algorithms" },
-        "description": "Fully illustrated, friendly guide how different algorithms are used to solve practical problems - both in real life and in programming.",
+        "description": "A fully illustrated, friendly guide describing how different algorithms are used to solve practical problems - both in real life and in programming.",
         "//": "978-1617292231",
-        "fun": 1,
-        "max_level": 2,
-        "intelligence": 7,
         "weight": 1
       },
       {
         "id": "hackerman_computer_4",
         "name": { "str": "Get Coding 2!", "str_pl": "copies of Get Coding 2!" },
-        "description": "Tiny book, that describe how games are created, and simple project to make your own simple games, with lot of illustrations and funny facts.",
+        "description": "A tiny book that describe how games are created, alongside simple projects to make your own simple games, with lot of illustrations and funny facts.",
         "//": "978-1536205411",
-        "fun": 1,
-        "max_level": 2,
-        "intelligence": 6,
         "weight": 1
       }
     ],

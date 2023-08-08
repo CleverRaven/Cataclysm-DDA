@@ -55,7 +55,7 @@ void scenario::load_scenario( const JsonObject &jo, const std::string &src )
     all_scenarios.load( jo, src );
 }
 
-void scenario::load( const JsonObject &jo, const std::string & )
+void scenario::load( const JsonObject &jo, const std::string_view )
 {
     // TODO: pretty much the same as in profession::load, but different contexts for pgettext.
     // TODO: maybe combine somehow?
@@ -100,6 +100,8 @@ void scenario::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "requirement", _requirement );
 
+    optional( jo, was_loaded, "reveal_locale", reveal_locale, true );
+
     optional( jo, was_loaded, "eoc", _eoc, auto_flags_reader<effect_on_condition_id> {} );
 
     if( !was_loaded ) {
@@ -139,7 +141,24 @@ const scenario *scenario::generic()
 {
     static const string_id<scenario> generic_scenario_id(
         get_option<std::string>( "GENERIC_SCENARIO_ID" ) );
-    return &generic_scenario_id.obj();
+
+    std::vector<const scenario *> all;
+    for( const scenario &scen : scenario::get_all() ) {
+        if( scen.scen_is_blacklisted() ) {
+            continue;
+        }
+        all.push_back( &scen );
+    }
+    if( find_if( all.begin(), all.end(), []( const scenario * s ) {
+    return s->ident() == generic_scenario_id;
+    } ) != all.end() ) {
+        // if the default scenario exists return it
+        return &generic_scenario_id.obj();
+    }
+
+    // if generic doesn't exist just return to the first scenario
+    return *all.begin();
+
 }
 
 // Strategy: a third of the time, return the generic scenario.  Otherwise, return a scenario,
@@ -293,12 +312,12 @@ bool scenario::scen_is_blacklisted() const
     return sc_blacklist.scenarios.count( id ) != 0;
 }
 
-void scen_blacklist::load_scen_blacklist( const JsonObject &jo, const std::string &src )
+void scen_blacklist::load_scen_blacklist( const JsonObject &jo, const std::string_view src )
 {
     sc_blacklist.load( jo, src );
 }
 
-void scen_blacklist::load( const JsonObject &jo, const std::string & )
+void scen_blacklist::load( const JsonObject &jo, const std::string_view )
 {
     if( !scenarios.empty() ) {
         DebugLog( D_INFO, DC_ALL ) <<
@@ -469,7 +488,7 @@ int scenario::start_location_targets_count() const
     return cnt;
 }
 
-cata::optional<achievement_id> scenario::get_requirement() const
+std::optional<achievement_id> scenario::get_requirement() const
 {
     return _requirement;
 }
@@ -477,6 +496,11 @@ cata::optional<achievement_id> scenario::get_requirement() const
 bool scenario::custom_start_date() const
 {
     return _custom_start_date;
+}
+
+bool scenario::get_reveal_locale() const
+{
+    return reveal_locale;
 }
 
 void scenario::rerandomize() const

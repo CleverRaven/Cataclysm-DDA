@@ -7,7 +7,6 @@
     "weight": "102 g",
     "volume": "250 ml",
     "price": 90000,
-    "bashing": 5,
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "color": "brown",
@@ -24,7 +23,8 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
     "flags": [ "BELTED", "WATER_FRIENDLY", "STURDY" ],
-    "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "TOOL_ARMOR",
@@ -261,8 +261,6 @@
     "material": [ "steel" ],
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP", "UNBREAKABLE_MELEE" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "WHIP_DISARM", "WRAP" ],
-    "cutting": 16,
-    "bashing": 8,
     "use_action": {
       "type": "transform",
       "menu_text": "Collapse",
@@ -270,6 +268,7 @@
       "active": false,
       "moves": 20,
       "msg": "You loop the whip in your hand and it coils back into a belt form in an instant."
-    }
+    },
+    "melee_damage": { "bash": 8, "cut": 16 }
   }
 ]

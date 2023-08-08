@@ -136,10 +136,10 @@ void mapbuffer::save( bool delete_after_save )
     std::set<tripoint_abs_omt> saved_submaps;
     std::list<tripoint_abs_sm> submaps_to_delete;
     static constexpr std::chrono::milliseconds update_interval( 500 );
-    auto last_update = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point last_update = std::chrono::steady_clock::now();
 
     for( auto &elem : submaps ) {
-        auto now = std::chrono::steady_clock::now();
+        std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
         if( last_update + update_interval < now ) {
             popup.message( _( "Please wait as the map saves [%d/%d]" ),
                            num_saved_submaps, num_total_submaps );

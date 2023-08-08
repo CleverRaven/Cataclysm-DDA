@@ -27,17 +27,23 @@ static void reset_time()
 {
     calendar::turn = calendar::start_of_cataclysm;
     Character &player_character = get_player_character();
-    player_character.set_stored_kcal( player_character.get_healthy_kcal() );
     player_character.set_hunger( 0 );
     clear_avatar();
 }
 
 static void pass_time( Character &p, time_duration amt )
 {
-    for( time_duration turns = 1_turns; turns < amt; turns += 1_turns ) {
-        calendar::turn += 1_turns;
-        p.update_body();
+    constexpr time_duration time_chunk = 1_minutes;
+
+    // make sure we start spinning aligned to minutes, so that calendar::once_every
+    // in Character::update_body works correctly, 997 is a randomly picked prime
+    REQUIRE( to_seconds<int64_t>( calendar::turn - calendar::turn_zero + 997 * time_chunk ) % 60 == 0 );
+
+    while( amt > 0_seconds ) {
+        p.update_body( calendar::turn, calendar::turn + time_chunk );
         p.update_health();
+        calendar::turn += time_chunk;
+        amt -= time_chunk;
     }
 }
 
@@ -108,8 +114,8 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     reset_time();
     clear_stomach( dummy );
     dummy.reset_activity_level();
-    calendar::turn += 1_seconds;
-    dummy.update_body( calendar::turn, calendar::turn );
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
+    dummy.update_body( calendar::turn, calendar::turn + 1_seconds );
     dummy.set_activity_level( 1.0 );
 
     CAPTURE( dummy.metabolic_rate_base() );
@@ -120,13 +126,15 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     CAPTURE( dummy.get_bmi() );
     CAPTURE( dummy.bodyweight() );
     CAPTURE( dummy.age() );
+    CAPTURE( dummy.base_bmr() );
+    CAPTURE( dummy.activity_history.average_activity() );
     CAPTURE( dummy.get_bmr() );
 
     // A specific BMR isn't the real target of this test, the number of days
     // is, but it helps to debug the test faster if this value is wrong.
     REQUIRE( dummy.get_bmr() == 1738 );
 
-    constexpr int expected_day = 36;
+    constexpr int expected_day = 75;
     int day = 0;
     std::vector<std::string> results;
 
@@ -287,11 +295,12 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
     Character &dummy = get_player_character();
     reset_time();
     clear_stomach( dummy );
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     while( !dummy.has_trait( trait_HUNGER3 ) ) {
         dummy.mutate_towards( trait_HUNGER3 );
     }
     clear_stomach( dummy );
-
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     CAPTURE( dummy.metabolic_rate_base() );
     CAPTURE( dummy.activity_level_str() );
     CAPTURE( dummy.base_height() );
@@ -313,9 +322,13 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
         day++;
     } while( dummy.get_stored_kcal() > 0 );
 
+    //you are burning through 5000 kcal a day out of a healthy base reserve of ~120000 kcal (15kg which is ~20% of your expected total weight of ~72kg)
+    //as your metabolism slows as you starve this puts your expected lifespan at about 25 days, which is likely too high for a super hungry mutant.
+    //however, you also start breaking down muscle below 3.5 fat BMIs (~50,000 kcal), which is hard to recover from, and 15kg is a fairly solid buffer.
+    //the system should probably account for the fact that fat ketones cannot power your whole body (brain can't think without food, stored kcal or not)
     CAPTURE( results );
-    CHECK( day <= 12 );
-    CHECK( day >= 10 );
+    CHECK( day <= 27 );
+    CHECK( day >= 23 );
 }
 
 // does eating enough food per day keep you alive

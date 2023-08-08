@@ -23,17 +23,6 @@
         "topic": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE"
       },
       {
-        "//": "Remove after 0.G - This is to prevent players who accepted the mission before its update from being unable to continue the questline",
-        "text": "I couldn't find your hard case.  Does this work?  [Hand over the data card.]",
-        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" }, { "u_has_item": "data_card" } ] },
-        "effect": [
-          { "u_consume_item": "data_card", "count": 1, "popup": true },
-          { "u_spawn_item": "RobofacCoin", "count": 4 },
-          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_2", "success": true }
-        ],
-        "topic": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE"
-      },
-      {
         "text": "I found it.  I found your template.  [Hand over the silicon photonics template.]",
         "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" }, { "u_has_item": "template_photonics" } ] },
         "effect": [
@@ -239,9 +228,10 @@
           "                        "
         ],
         "terrain": { "@": "t_grass", "b": "t_dirt", "M": "t_dirt" },
-        "fields": { "b": { "field": "fd_blood", "intensity": 1 } },
+        "fields": { "b": { "field": "fd_blood", "intensity": [ 1, 2 ] } },
         "items": { "@": { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 100 } },
-        "item": { "@": [ { "item": "grenade_emp", "amount": 2 }, { "item": "corpse" } ] },
+        "item": { "@": [ { "item": "corpse_generic_female" } ] },
+        "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
         "monster": { "M": { "monster": "mon_robofac_prototype" } }
       }
     },
@@ -724,7 +714,7 @@
         "text": "You've got a deal.  I'll track down your robot.",
         "effect": [
           { "assign_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" },
-          { "u_spawn_item": "UPS_off", "count": 1 },
+          { "u_spawn_item": "UPS_OFF", "count": 1 },
           { "u_spawn_item": "heavy_battery_cell", "count": 1 },
           { "u_spawn_item": "robofac_yrax_deactivation_manual", "count": 1 },
           { "u_spawn_item": "hm12", "count": 1 }
@@ -829,7 +819,7 @@
       "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Replacement"
     ],
     "type": "talk_topic",
-    "dynamic_line": "As we mentioned before, our research into the portal storm phenomena requires that we obtain additional data to verify our own local measurements.  Recording this data will require you to carry a scientific instrument called an NRE recorder on your person while outside in the storm for around six minutes.  The recording instrument will be provided at no cost if you choose to accept.\"\n\n\"We offer the standard hazard pay of 4 HGC for completion of this contract.",
+    "dynamic_line": "As we mentioned before, our research into the portal storm phenomena requires that we obtain additional data to verify our own local measurements.  Recording this data will require you to carry a scientific instrument called an NRE recorder on your person while outside in the storm for around six minutes.  The recording instrument will be provided at no cost if you choose to accept.\"\n\n\"We are willing to offer 1 HGC for each standard-length recording.  Higher-quality data may be obtained by collecting more data before printing a report, and as a result, we are willing to provide higher pay for better recordings.",
     "responses": [
       {
         "text": "Sure, why not?  Let's do some science.",

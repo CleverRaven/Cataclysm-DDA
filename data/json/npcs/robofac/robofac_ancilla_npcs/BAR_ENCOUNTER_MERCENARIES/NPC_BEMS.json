@@ -12,6 +12,26 @@
   },
   {
     "type": "npc",
+    "id": "BEM_drugrunner",
+    "name_unique": "the pill pusher",
+    "class": "NC_BEM_DRUGRUNNER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "BEM_DRUGRUNNER_1",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "type": "npc",
+    "id": "BEM_jabberwock",
+    "name_unique": "the traumatized traveler",
+    "class": "NC_ANCILLA_GRUNT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "BEM_JABBERWOCK_1",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "type": "npc",
     "id": "BEM_human_sample",
     "name_unique": "the shady mercenary",
     "class": "NC_ANCILLA_GRUNT",

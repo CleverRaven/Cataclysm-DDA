@@ -16,5 +16,40 @@
     "ammo_type": [ "762R" ],
     "flags": [ "SPEEDLOADER" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762R": 5 } } ]
+  },
+  {
+    "id": "pslmag5",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "PSL 5-round magazine" },
+    "description": "A compact 5-round magazine for 7.62x54R PSL designated marksman's rifle, made of stamped sheet metal.  Not compatible with a Dragunov despite similar appearances.",
+    "//": "Couldn't find much in the way of hard data for PSL mags, so I had to guesstimate based off measuring images.",
+    "weight": "60 g",
+    "volume": "320 ml",
+    "price": 3000,
+    "price_postapoc": 100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "762R" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 5 } } ]
+  },
+  {
+    "id": "pslmag10",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "PSL 10-round magazine" },
+    "description": "A compact 10-round magazine for 7.62x54R PSL designated marksman's rifle, made of stamped sheet metal.  Not compatible with a Dragunov despite similar appearances.",
+    "weight": "130 g",
+    "volume": "648 ml",
+    "price": 3000,
+    "price_postapoc": 100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "762R" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 10 } } ]
   }
 ]

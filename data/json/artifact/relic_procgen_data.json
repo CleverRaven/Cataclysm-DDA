@@ -261,26 +261,23 @@
     "type_weights": [
       { "weight": 100, "value": "passive_enchantment_add" },
       { "weight": 100, "value": "active_enchantment" },
-      { "weight": 20, "value": "passive_enchantment_mult" }
+      { "weight": 100, "value": "passive_enchantment_mult" }
     ],
     "items": [
-      { "weight": 100, "item": "art_sphere" },
-      { "weight": 100, "item": "art_rod" },
-      { "weight": 100, "item": "art_teardrop" },
-      { "weight": 100, "item": "art_lamp" },
-      { "weight": 100, "item": "art_snake" },
-      { "weight": 100, "item": "art_disc" },
-      { "weight": 100, "item": "art_beads" },
-      { "weight": 100, "item": "art_napkin" },
-      { "weight": 100, "item": "art_urchin" },
-      { "weight": 100, "item": "art_jelly" },
-      { "weight": 100, "item": "art_spiral" },
-      { "weight": 100, "item": "art_pin" },
-      { "weight": 100, "item": "art_tube" },
-      { "weight": 100, "item": "art_pyramid" },
-      { "weight": 100, "item": "art_crystal" },
-      { "weight": 100, "item": "art_knot" },
-      { "weight": 100, "item": "art_crescent" }
+      { "weight": 100, "item": "art_robe" },
+      { "weight": 100, "item": "art_cloak" },
+      { "weight": 100, "item": "art_coat" },
+      { "weight": 100, "item": "art_mask" },
+      { "weight": 100, "item": "art_helm" },
+      { "weight": 100, "item": "art_gloves" },
+      { "weight": 100, "item": "art_boots" },
+      { "weight": 100, "item": "art_ring" },
+      { "weight": 100, "item": "art_staff" },
+      { "weight": 100, "item": "art_sword" },
+      { "weight": 100, "item": "art_harp" },
+      { "weight": 100, "item": "art_dagger" },
+      { "weight": 100, "item": "art_spear" },
+      { "weight": 100, "item": "art_club" }
     ]
   },
   {
@@ -854,23 +851,14 @@
     "type": "relic_procgen_data",
     "id": "held_passive_bad",
     "passive_add_procgen_values": [
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 2,
-        "type": "STRENGTH",
-        "increment": 1,
-        "power_per_increment": 250,
-        "ench_has": "HELD"
-      },
+      { "weight": 100, "min_value": 1, "max_value": 2, "type": "STRENGTH", "increment": 1, "power_per_increment": 250 },
       {
         "weight": 100,
         "min_value": 1,
         "max_value": 2,
         "type": "DEXTERITY",
         "increment": 1,
-        "power_per_increment": 250,
-        "ench_has": "HELD"
+        "power_per_increment": 250
       },
       {
         "weight": 100,
@@ -878,8 +866,7 @@
         "max_value": 2,
         "type": "PERCEPTION",
         "increment": 1,
-        "power_per_increment": 250,
-        "ench_has": "HELD"
+        "power_per_increment": 250
       },
       {
         "weight": 100,
@@ -887,28 +874,18 @@
         "max_value": 2,
         "type": "INTELLIGENCE",
         "increment": 1,
-        "power_per_increment": 250,
-        "ench_has": "HELD"
+        "power_per_increment": 250
       }
     ],
     "passive_mult_procgen_values": [
-      {
-        "weight": 100,
-        "min_value": 0.4,
-        "max_value": 1,
-        "type": "THIRST",
-        "increment": 0.1,
-        "power_per_increment": -50,
-        "ench_has": "HELD"
-      },
+      { "weight": 100, "min_value": 0.4, "max_value": 1, "type": "THIRST", "increment": 0.1, "power_per_increment": -50 },
       {
         "weight": 100,
         "min_value": 0.5,
         "max_value": 1,
         "type": "HUNGER",
         "increment": 0.1,
-        "power_per_increment": -100,
-        "ench_has": "HELD"
+        "power_per_increment": -100
       },
       {
         "weight": 100,
@@ -916,8 +893,7 @@
         "max_value": -0.3,
         "type": "REGEN_HP",
         "increment": 0.1,
-        "power_per_increment": 100,
-        "ench_has": "HELD"
+        "power_per_increment": 100
       },
       {
         "weight": 100,
@@ -925,8 +901,7 @@
         "max_value": 0.8,
         "type": "FATIGUE",
         "increment": 0.1,
-        "power_per_increment": -100,
-        "ench_has": "HELD"
+        "power_per_increment": -100
       }
     ],
     "type_weights": [ { "weight": 100, "value": "passive_enchantment_mult" }, { "weight": 50, "value": "passive_enchantment_add" } ],
@@ -976,7 +951,7 @@
         "power_per_increment": -150
       }
     ],
-    "type_weights": [ { "weight": 10, "value": "passive_enchantment_add" }, { "weight": 100, "value": "active_enchantment" } ],
+    "type_weights": [ { "weight": 20, "value": "passive_enchantment_add" }, { "weight": 100, "value": "active_enchantment" } ],
     "items": [
       { "weight": 20, "item": "violin_golden" },
       { "weight": 100, "item": "altered_phone" },
@@ -984,7 +959,14 @@
       { "weight": 100, "item": "altered_teapot" },
       { "weight": 100, "item": "altered_comb" },
       { "weight": 100, "item": "altered_keyring" },
-      { "weight": 100, "item": "altered_rubicks_cube" }
+      { "weight": 100, "item": "altered_rubicks_cube" },
+      { "weight": 100, "item": "altered_shirt" },
+      { "weight": 100, "item": "altered_badge" },
+      { "weight": 100, "item": "altered_sunglasses" },
+      { "weight": 100, "item": "altered_scissors" },
+      { "weight": 100, "item": "altered_jacket" },
+      { "weight": 100, "item": "altered_necklace" },
+      { "weight": 100, "item": "altered_apron" }
     ]
   },
   {

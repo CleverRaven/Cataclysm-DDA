@@ -56,7 +56,6 @@
       [ "gasbomb_makeshift", 15 ],
       [ "smokebomb", 50 ],
       [ "dynamite", 50 ],
-      [ "mininuke", 5 ],
       [ "c4", 50 ]
     ]
   }

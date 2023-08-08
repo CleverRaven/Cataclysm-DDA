@@ -53,9 +53,10 @@ class scenario
         std::vector<effect_on_condition_id> _eoc;
 
         // does this scenario require a specific achiement to unlock
-        cata::optional<achievement_id> _requirement;
+        std::optional<achievement_id> _requirement;
 
         bool _custom_start_date = false;
+        bool reveal_locale = true;
         bool _is_random_hour = false;
         int _start_hour = 8;
         bool _is_random_day = false;
@@ -69,7 +70,7 @@ class scenario
 
         std::vector<std::pair<mongroup_id, float>> _surround_groups;
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         bool scenario_traits_conflict_with_profession_traits( const profession &p ) const;
 
     public:
@@ -99,9 +100,10 @@ class scenario
         int start_location_count() const;
         int start_location_targets_count() const;
 
-        cata::optional<achievement_id> get_requirement() const;
+        std::optional<achievement_id> get_requirement() const;
 
         bool custom_start_date() const;
+        bool get_reveal_locale() const;
         void rerandomize() const;
         bool is_random_hour() const;
         bool is_random_day() const;
@@ -162,8 +164,8 @@ struct scen_blacklist {
     std::set<string_id<scenario>> scenarios;
     bool whitelist = false;
 
-    static void load_scen_blacklist( const JsonObject &jo, const std::string &src );
-    void load( const JsonObject &jo, const std::string & );
+    static void load_scen_blacklist( const JsonObject &jo, std::string_view src );
+    void load( const JsonObject &jo, std::string_view );
     void finalize();
 };
 

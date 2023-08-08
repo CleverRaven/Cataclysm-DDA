@@ -2,7 +2,7 @@
   {
     "result": "orichalcum_ingot",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -12,7 +12,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_metallurgy" },
-      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "skill_penalty": 0.5 },
       { "proficiency": "prof_almetallurgy" }
     ],
     "book_learn": [ [ "metal_legends", 4 ] ],
@@ -23,7 +23,7 @@
     "result": "orichalcum_ingot",
     "id_suffix": "with_bronze",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -31,7 +31,7 @@
     "time": "180 m",
     "proficiencies": [
       { "proficiency": "prof_metallurgy" },
-      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "skill_penalty": 0.5 },
       { "proficiency": "prof_almetallurgy" }
     ],
     "batch_time_factors": [ 50, 2 ],
@@ -41,7 +41,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "fireproof_mortar",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -50,7 +50,7 @@
     "time": "40 m",
     "book_learn": [ [ "metal_legends", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "skill_penalty": 0.5 },
       { "proficiency": "prof_pottery" }
     ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
@@ -59,7 +59,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "alumentum",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -68,7 +68,7 @@
     "time": "45 m",
     "autolearn": true,
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "DISTILL", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 } ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "skill_penalty": 0.5 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "charcoal", 50 ] ], [ [ "crystallized_mana", 10 ] ], [ [ "denat_alcohol", 10 ], [ "chem_ethanol", 10 ] ] ]
   },
@@ -93,7 +93,7 @@
     "tools": [ [ [ "demon_forge", 30 ] ], [ [ "tongs", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_almetallurgy", "required": true },
-      { "proficiency": "prof_golemancy_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 2 }
+      { "proficiency": "prof_golemancy_basic", "required": false, "time_multiplier": 1.5, "skill_penalty": 1 }
     ],
     "components": [ [ [ "orichalcum_ingot", 4 ] ], [ [ "mercury", 4 ] ], [ [ "crystallized_mana", 100 ] ] ]
   }

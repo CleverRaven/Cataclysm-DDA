@@ -23,21 +23,20 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 4,
-    "armor_bash": 4,
-    "armor_cut": 12,
-    "armor_bullet": 10,
     "vision_day": 40,
     "vision_night": 15,
     "harvest": "zombie_meatslug",
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
-    "special_attacks": [ { "type": "bite", "cooldown": 6 }, { "id": "scratch" }, [ "GRAB", 20 ] ],
+    "grab_strength": 30,
+    "special_attacks": [ { "id": "bite_humanoid", "cooldown": 6 }, { "id": "scratch_humanoid" }, { "id": "grab", "cooldown": 20 } ],
     "flags": [
       "SEES",
       "SMELLS",
       "HEARS",
       "WARM",
       "BASHES",
+      "GRABS",
       "POISON",
       "NO_BREATHE",
       "ARTHROPOD_BLOOD",
@@ -46,7 +45,8 @@
       "PRIORITIZE_TARGETS",
       "SWIMS",
       "WATER_CAMOUFLAGE"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 12, "bullet": 10 }
   },
   {
     "id": "mon_rat_thing",
@@ -103,9 +103,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 4,
-    "armor_cut": 1,
-    "armor_bullet": 1,
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
@@ -122,7 +119,8 @@
       "NO_BREATHE",
       "LOUDMOVES",
       "PUSH_MON"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 1, "bullet": 1 }
   },
   {
     "id": "mon_dark_young",
@@ -145,16 +143,14 @@
     "melee_dice": 7,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 }, { "damage_type": "acid", "amount": 20 } ],
-    "armor_bash": 10,
-    "armor_cut": 30,
-    "armor_bullet": 24,
     "harvest": "exempt",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ { "id": "tentacle" }, { "id": "smash" } ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "regenerates": 50,
     "regen_morale": true,
-    "flags": [ "SMELLS", "HEARS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB", "GRABS" ]
+    "flags": [ "SMELLS", "HEARS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB", "GRABS" ],
+    "armor": { "bash": 10, "cut": 30, "bullet": 24 }
   },
   {
     "id": "mon_ghoul",
@@ -180,8 +176,13 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "vision_night": 3,
     "harvest": "demihuman",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "SWARMS", "PUSH_MON" ]
+    "grab_strength": 20,
+    "special_attacks": [
+      { "id": "bite_humanoid", "cooldown": 5 },
+      { "id": "grab", "cooldown": 7 },
+      { "id": "scratch_humanoid", "cooldown": 20 }
+    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "WARM", "BASHES", "GROUP_BASH", "SWARMS", "PUSH_MON" ]
   },
   {
     "id": "mon_ghast",
@@ -205,9 +206,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 5,
-    "armor_cut": 3,
-    "armor_bullet": 2,
     "weakpoints": [
       { "name": "the leg", "armor_mult": { "physical": 0.5 }, "coverage": 18 },
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
@@ -216,7 +214,8 @@
     "vision_night": 3,
     "harvest": "demihuman",
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.75 }, [ "scratch", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "SUNDEATH", "PUSH_MON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "SUNDEATH", "PUSH_MON" ],
+    "armor": { "bash": 5, "cut": 3, "bullet": 2 }
   },
   {
     "id": "mon_elder_thing",
@@ -239,14 +238,12 @@
     "melee_dice": 7,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 10,
-    "armor_cut": 30,
-    "armor_bullet": 24,
     "harvest": "elder_thing",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ { "id": "tentacle" }, { "id": "smash" } ],
     "regen_morale": true,
-    "flags": [ "SMELLS", "HEARS", "BASHES", "FLIES", "COLDPROOF", "NOHEAD", "NOGIB", "NO_BREATHE", "STUN_IMMUNE" ]
+    "flags": [ "SMELLS", "HEARS", "BASHES", "FLIES", "COLDPROOF", "NOHEAD", "NOGIB", "NO_BREATHE", "STUN_IMMUNE" ],
+    "armor": { "bash": 10, "cut": 30, "bullet": 24 }
   },
   {
     "id": "mon_nightgaunt",
@@ -273,8 +270,9 @@
     "vision_night": 3,
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts into wisps of darkness." },
-    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "SWARMS", "NIGHT_INVISIBILITY" ]
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab" }, [ "scratch", 20 ] ],
+    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "FLIES", "SWARMS", "NIGHT_INVISIBILITY" ]
   },
   {
     "id": "mon_outer_servitor",
@@ -298,14 +296,12 @@
     "melee_dice": 7,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 10,
-    "armor_cut": 30,
-    "armor_bullet": 24,
     "special_attacks": [ { "id": "tentacle" } ],
     "luminance": 25,
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s folds into itself and disappears." },
-    "flags": [ "SEES", "FLIES", "HARDTOSHOOT", "NO_BREATHE", "NOHEAD" ]
+    "flags": [ "SEES", "FLIES", "HARDTOSHOOT", "NO_BREATHE", "NOHEAD" ],
+    "armor": { "bash": 10, "cut": 30, "bullet": 24 }
   },
   {
     "id": "mon_flying_polyp",
@@ -330,7 +326,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 7,
-    "armor_bash": 8,
     "bleed_rate": 40,
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
@@ -347,7 +342,8 @@
       "NO_BREATHE",
       "HIT_AND_RUN",
       "NOGIB"
-    ]
+    ],
+    "armor": { "bash": 8 }
   },
   {
     "id": "mon_shoggoth",
@@ -369,9 +365,6 @@
     "melee_dice": 7,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 }, { "damage_type": "acid", "amount": 20 } ],
-    "armor_bash": 10,
-    "armor_cut": 30,
-    "armor_bullet": 24,
     "harvest": "exempt",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "PARROT", 400 ], [ "ABSORB_ITEMS", 0 ], [ "SPLIT", 0 ] ],
@@ -381,7 +374,8 @@
     "absorb_ml_per_hp": 250,
     "split_move_cost": 0,
     "absorb_move_cost_per_ml": 0.0,
-    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB" ]
+    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB" ],
+    "armor": { "bash": 10, "cut": 30, "bullet": 24 }
   },
   {
     "id": "mon_hunting_horror",

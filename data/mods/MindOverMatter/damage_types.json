@@ -1,0 +1,145 @@
+[
+  {
+    "id": "psi_telekinetic_damage",
+    "type": "damage_type",
+    "physical": false,
+    "magic_color": "yellow",
+    "name": "telekinetic",
+    "skill": "metaphysics",
+    "derived_from": [ "bash", 0.9 ],
+    "immune_flags": { "character": [ "TELEKIN_SHIELD" ], "monster": [ "TELEKIN_IMMUNE" ] },
+    "ondamage_eocs": [ "EOC_TELEKINETIC_DAMAGE_KNOCKDOWN_CHANCE", "EOC_TELEKINETIC_DAMAGE_STAGGER_CHANCE" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_DAMAGE_STAGGER_CHANCE",
+    "condition": { "and": [ { "x_in_y_chance": { "x": 2, "y": 5 } }, { "math": [ "_damage_taken", ">", "0" ] } ] },
+    "effect": [ { "npc_add_effect": "staggered", "duration": "2 s" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_DAMAGE_KNOCKDOWN_CHANCE",
+    "condition": { "and": [ { "x_in_y_chance": { "x": 1, "y": 5 } }, { "math": [ "_damage_taken", ">", "0" ] } ] },
+    "effect": [ { "npc_add_effect": "downed", "duration": "1 s" } ]
+  },
+  {
+    "id": "psi_telekinetic_damage",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "buffeting",
+    "bionic_info": { "order": 999899, "show_type": false },
+    "protection_info": { "order": 999899, "show_type": false },
+    "pet_prot_info": { "order": 999899, "show_type": false },
+    "melee_combat_info": { "order": 999899, "show_type": false },
+    "ablative_info": { "order": 999899, "show_type": false }
+  },
+  {
+    "id": "psi_telepathic_damage",
+    "type": "damage_type",
+    "physical": false,
+    "magic_color": "white",
+    "name": "telepathic",
+    "skill": "metaphysics",
+    "immune_flags": { "character": [ "TEEPSHIELD" ], "monster": [ "TEEP_IMMUNE" ] },
+    "ondamage_eocs": [
+      "EOC_TELEPATHIC_DAMAGE_STUN_CHANCE",
+      "EOC_TELEPATHIC_DAMAGE_DAZED_CHANCE",
+      "EOC_TELEPATHIC_DAMAGE_KNOCKDOWN_CHANCE",
+      "EOC_TELEPATHIC_DAMAGE_STUN_HIVE_CHANCE"
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATHIC_DAMAGE_KNOCKDOWN_CHANCE",
+    "condition": {
+      "and": [
+        { "x_in_y_chance": { "x": 1, "y": 20 } },
+        { "math": [ "_damage_taken", ">", "0" ] },
+        { "not": { "npc_has_flag": "HIVE_MIND" } },
+        { "not": { "npc_has_flag": "TEEP_IMMUNE" } },
+        { "not": { "npc_has_flag": "TEEPSHIELD" } }
+      ]
+    },
+    "effect": [ { "npc_add_effect": "downed", "duration": "1 s" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATHIC_DAMAGE_STUN_CHANCE",
+    "condition": {
+      "and": [
+        { "x_in_y_chance": { "x": 1, "y": 3 } },
+        { "math": [ "_damage_taken", ">", "0" ] },
+        { "not": { "npc_has_flag": "HIVE_MIND" } },
+        { "not": { "npc_has_flag": "TEEP_IMMUNE" } },
+        { "not": { "npc_has_flag": "TEEPSHIELD" } }
+      ]
+    },
+    "effect": [ { "npc_add_effect": "stunned", "duration": "1 s" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATHIC_DAMAGE_DAZED_CHANCE",
+    "condition": {
+      "and": [
+        { "x_in_y_chance": { "x": 2, "y": 3 } },
+        { "math": [ "_damage_taken", ">", "0" ] },
+        { "not": { "npc_has_flag": "HIVE_MIND" } },
+        { "not": { "npc_has_flag": "TEEP_IMMUNE" } },
+        { "not": { "npc_has_flag": "TEEPSHIELD" } }
+      ]
+    },
+    "effect": [ { "npc_add_effect": "psi_dazed", "duration": "2 s" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATHIC_DAMAGE_STUN_HIVE_CHANCE",
+    "condition": {
+      "and": [ { "x_in_y_chance": { "x": 1, "y": 6 } }, { "math": [ "_damage_taken", ">", "0" ] }, { "npc_has_flag": "HIVE_MIND" } ]
+    },
+    "effect": [ { "npc_add_effect": "stunned", "duration": "5 s" } ]
+  },
+  {
+    "id": "psi_telepathic_damage",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "mindblasting",
+    "bionic_info": { "order": 999900, "show_type": false },
+    "protection_info": { "order": 999900, "show_type": false },
+    "pet_prot_info": { "order": 999900, "show_type": false },
+    "melee_combat_info": { "order": 999900, "show_type": false },
+    "ablative_info": { "order": 999900, "show_type": false }
+  },
+  {
+    "id": "psi_teleporter_teleporting_damage",
+    "type": "damage_type",
+    "physical": false,
+    "magic_color": "blue",
+    "name": "spacial realignment",
+    "skill": "metaphysics",
+    "immune_flags": { "character": [ "DIMENSIONAL_ANCHOR", "TELESTOP" ], "monster": [ "TELEPORT_IMMUNE" ] },
+    "ondamage_eocs": [ "EOC_TELEPORTING_DAMAGE_TELEPORT" ]
+  },
+  {
+    "id": "psi_teleporter_teleporting_damage",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "recalibrating",
+    "bionic_info": { "order": 999901, "show_type": false },
+    "protection_info": { "order": 999901, "show_type": false },
+    "pet_prot_info": { "order": 999901, "show_type": false },
+    "melee_combat_info": { "order": 999901, "show_type": false },
+    "ablative_info": { "order": 999901, "show_type": false }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORTING_DAMAGE_TELEPORT",
+    "condition": {
+      "and": [
+        { "not": { "npc_has_flag": "TELEPORT_IMMUNE" } },
+        { "not": { "npc_has_flag": "DIMENSIONAL_ANCHOR" } },
+        { "not": { "npc_has_flag": "TELESTOP" } }
+      ]
+    },
+    "effect": [ { "npc_cast_spell": { "id": "teleport_blink", "min_level": 10 } } ]
+  }
+]

@@ -7,6 +7,7 @@
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
+    "sort_rank": 10500,
     "companion_skill_practice": [ { "skill": "combat", "weight": 25 } ]
   }
 ]

@@ -2,8 +2,8 @@
   {
     "id": "solar_blinding",
     "type": "SPELL",
-    "name": "Soul Pressure",
-    "description": "This is a spell that represents the Soulfire putting a burning pressure on nearby opponents.  If you are seeing this spell, you have debugged it in.",
+    "name": "Solar Blinding",
+    "description": "Make your enemies blind for a short time.",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
@@ -21,6 +21,8 @@
     "type": "enchantment",
     "id": "SUN_MAGE",
     "condition": "ALWAYS",
+    "name": { "str": "Solar Warrior" },
+    "description": "Your Sun Mage abilities blind everyone who are mean to you.",
     "hit_me_effect": [
       {
         "id": "solar_blinding",
@@ -32,7 +34,7 @@
   {
     "type": "effect_on_condition",
     "id": "SUN_MAGE_BUFF",
-    "recurrence": [ "5 m", "5 m" ],
+    "recurrence": [ "5 m", "10 m" ],
     "condition": {
       "or": [
         { "and": [ "is_day", "u_is_outside", { "u_has_trait": "SUN_MAGE" } ] },
@@ -40,7 +42,7 @@
       ]
     },
     "deactivate_condition": { "not": { "u_has_trait": "SUN_MAGE" } },
-    "effect": [ { "u_add_effect": "sun_mage_buff", "intensity": 1, "duration": "60 minutes" } ]
+    "effect": [ { "u_add_effect": "sun_mage_buff", "intensity": 1, "duration": "10 minutes" } ]
   },
   {
     "id": "sun_mage_buff",
@@ -49,7 +51,7 @@
     "desc": [ "You feel your mana connected to the Sun, and it makes you better than ever." ],
     "remove_message": "You don't feel a sun energy in your body anymore.",
     "rating": "good",
-    "max_duration": "60 m",
+    "max_duration": "10 m",
     "show_intensity": false,
     "enchantments": [
       {

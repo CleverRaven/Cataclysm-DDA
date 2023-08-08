@@ -52,6 +52,12 @@
         }
       },
       {
+        "group": "robofac_robots",
+        "rigid": true,
+        "strict": true,
+        "condition": { "u_has_var": "completed_robofac_intercom_portal_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" }
+      },
+      {
         "group": "robofac_gun_mags",
         "rigid": true,
         "condition": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
@@ -77,6 +83,12 @@
         }
       },
       {
+        "group": "NC_ROBOFAC_INTERCOM_trade_hm12",
+        "rigid": true,
+        "strict": true,
+        "condition": { "u_has_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+      },
+      {
         "group": "NC_ROBOFAC_INTERCOM_trade_envirosuit",
         "rigid": true,
         "condition": {
@@ -95,6 +107,12 @@
     "id": "NC_ROBOFAC_INTERCOM_trade",
     "subtype": "collection",
     "entries": [ { "group": "robofac_basic_trade", "count": [ 15, 25 ], "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_INTERCOM_trade_hm12",
+    "subtype": "collection",
+    "entries": [ { "item": "hm12", "count": 1, "prob": 50 } ]
   },
   {
     "type": "item_group",

@@ -15,7 +15,7 @@ struct overmap_location {
     public:
         using TerrColType = cata::flat_set<oter_type_str_id>;
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void check() const;
         void finalize();
 

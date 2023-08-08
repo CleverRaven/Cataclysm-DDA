@@ -1,0 +1,68 @@
+[
+  {
+    "type": "snippet",
+    "category": "lab_postit_psi",
+    "text": [
+      { "name": "post-it", "id": "lab_postit_psi_1", "text": "Pink for the body, grey for the eyes, green for…hmm" },
+      { "name": "post-it", "id": "lab_postit_psi_2", "text": "Don't look into the dull ones" },
+      { "name": "post-it", "id": "lab_postit_psi_3", "text": "If the mathematician asks for me, I was never here" },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_4",
+        "text": "Our clears keep waking up from screaming nightmares.  Higher-ups say it's nothing"
+      },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_5",
+        "text": "Subject can lift 14.82g.  15g or higher causes migraine"
+      },
+      { "name": "post-it", "id": "lab_postit_psi_6", "text": "Note: order some Zener cards" },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_7",
+        "text": "ONYX LIGHTNING?  GRAY DAWN?  COLD BELOW?  VERDANT HAND?  Oh come on"
+      },
+      { "name": "post-it", "id": "lab_postit_psi_8", "text": "I can't believe she wants to call them psi-cops" },
+      { "name": "post-it", "id": "lab_postit_psi_9", "text": "Two more subjects overloaded.  Need to request more" },
+      { "name": "post-it", "id": "lab_postit_psi_10", "text": "Maybe a teep can communicate with them" },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_11",
+        "text": "Reminder: Tell the immersion teams we need more samples"
+      },
+      { "name": "post-it", "id": "lab_postit_psi_12", "text": "It won't kill you but you'll wish it had" },
+      { "name": "post-it", "id": "lab_postit_psi_13", "text": "Brains show no physical differences" },
+      { "name": "post-it", "id": "lab_postit_psi_14", "text": "Animal testing approved.  Try the TK on the mice" },
+      { "name": "post-it", "id": "lab_postit_psi_15", "text": "Can't wait for cross-testing.  Will PE050 boost it?" },
+      { "name": "post-it", "id": "lab_postit_psi_16", "text": "She tried to scan Y65-08.  Now in a coma" },
+      { "name": "post-it", "id": "lab_postit_psi_17", "text": "Scanning them doesn't work.  It's just static" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_telepathy",
+    "text": [
+      {
+        "name": "testing report",
+        "id": "lab_file_telepathy_01",
+        "text": "Subject is female, of East Asian descent, age 35 years.  In good health.\n\nInitial test using standard deck of playing cards.  Subject and experimenter facing away from each other, with opaque curtain blocking line of sight.  Prompt was triggered by a light on subject's desk to prevent drawing any information from experimenter's tone of voice or word choice.  Experimenter drew ten cards and asked subject to state number and suit.  Cards are shuffled back into the deck after each guess to prevent already-drawn cards from affecting future guesses.\n\nResults: Subject guessed two of ten correct on the first test and three of ten correct on the second test, versus control who guessed a single card correct on the first test and zero correct on the second test.  Very promising initial results."
+      },
+      {
+        "name": "incident report",
+        "id": "lab_file_telepathy_02",
+        "text": "INCIDENT REPORT: 897237\n\nDuring a routine visit by Dr. Davies, at 1134 a COLD BELOW mathematician diverted from their standard schedule and entered the room where Dr. Davies was being briefed about netherum mathematics developments.  The mathematician stared at Dr. Davies for approximately three seconds and then, before security could intervene, physically attacked the doctor with their bare hands.  Witnesses report the mathematician incoherently screaming, mixed with statements such as \"You'll kill us all\" and \"Stop, stop stop\".  The mathematician continued to scream until restrained and sedated.\n\nFollow-up: COLD BELOW overseers received official reprimand and required to attend additional training.  Mathematician diverted to project SUBSTRATE."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_OS647_P",
+    "text": [
+      {
+        "name": "OS647-P Response",
+        "id": "lab_file_item_OS647_P_01",
+        "text": "Dr. Zweidler, I understand your excitement at your breakthroughs in matrix technology, but I hope you understand there is no way I can approve OS647-P for general usage.  You write here that the effect field has a \"94% effectiveness rate\" but this is not comparable to ballistic performance standards because it has no ablative properties.  What if the first shot fired is part of that 6%?  How can an operative trust their life to your device when every possible shot might be the one to penetrate?  That fact that your data shows it provides complete protection against rifle rounds, grenades, and even anti-tank weapons is immaterial in the face of the effect field's failure rate.\n\nSecond, you write that currently OS647-P has a 2.67% device failure rate, over and above the chance of the effect field failing!  You want me to recommend this for general usage when our field operatives could end up not only with a bullet in the chest, but also a box full of burnt plastic while some horror is charging at them on an immersion dive?n\nFurthermore, the active time is simply unacceptable.  Ballistic protection works because it provides passive protection with no additional effort necessary.  When in danger, an operative would need to insert the matrix crystal, flip the toggle, and then hope that the attack occurs within the \"5.65 second median protection time\" in order to gain any benefit at all!  You've read those immersion dive reports too, Matthew.  If an operative is face to face with a shoggoth, what happens on the sixth second?\n\nI'll be frank with you.  I'm amazed that you asked me to approve this given its current device specs.  Matrix crystals--even depleted ones--are extremely valuable, and given their already unacceptably-high failure rate in training new mathematicians, Dr. Liu is not going to accept anything less than 100% effectiveness from an alternative use case.  You're simply going to have to refine OS647-P until it's more reliable.\n\nYours,\nAnna Stephenson\nDirector of Research"
+      }
+    ]
+  }
+]

@@ -11,6 +11,7 @@
 #include <list>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -25,7 +26,6 @@
 #include "item_pocket.h"
 #include "map.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "translations.h"
 #include "units.h"
@@ -131,7 +131,7 @@ class inventory_entry
         /**
         *  Whether it is hidden in inventory screen.
         * */
-        bool is_hidden( cata::optional<bool> const &hide_entries_override ) const;
+        bool is_hidden( std::optional<bool> const &hide_entries_override ) const;
 
         /** Whether the entry can be selected */
         bool is_selectable() const {
@@ -185,9 +185,9 @@ class inventory_entry
         size_t generation = 0;
         bool chevron = false;
         int indent = 0;
-        void cache_denial( inventory_selector_preset const &preset ) const;
-        mutable cata::optional<std::string> denial;
         mutable bool enabled = true;
+        void cache_denial( inventory_selector_preset const &preset ) const;
+        mutable std::optional<std::string> denial;
 
         void set_custom_category( const item_category *category ) {
             custom_category = category;
@@ -199,12 +199,23 @@ class inventory_entry
             }
             collation_meta.reset();
         }
+        struct entry_cell_cache_t {
+            nc_color color = c_unset;
+            std::vector<std::string> text;
+            int lang_version = 0;
+        };
+
+        const entry_cell_cache_t &get_entry_cell_cache( inventory_selector_preset const &preset ) const;
+        void make_entry_cell_cache( inventory_selector_preset const &preset,
+                                    bool update_only = true ) const;
+        void reset_entry_cell_cache() const;
 
     private:
-        const item_category *custom_category = nullptr;
+        mutable item_category const *custom_category = nullptr;
     protected:
         // indents the entry if it is contained in an item
         bool _indent = true;
+        mutable std::optional<entry_cell_cache_t> entry_cell_cache;
 
 };
 
@@ -315,7 +326,7 @@ class inventory_holster_preset : public inventory_selector_preset
         explicit inventory_holster_preset( item_location holster, Character *c )
             : holster( std::move( holster ) ), who( c ) {
         }
-
+        const item_location &get_holster() const;
         /** Does this entry satisfy the basic preset conditions? */
         bool is_shown( const item_location &contained ) const override;
         std::string get_denial( const item_location &it ) const override;
@@ -397,7 +408,7 @@ class inventory_column
         inventory_entry *add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
         void clear();
-        void set_stack_favorite( std::vector<item_location> &locations, bool favorite );
+        void set_stack_favorite( inventory_entry &entry, bool favorite );
 
         void set_collapsed( inventory_entry &entry, bool collapse );
 
@@ -423,7 +434,7 @@ class inventory_column
             this->visibility = visibility;
         }
 
-        void set_width( size_t new_width, const std::vector<inventory_column *> &all_columns );
+        void set_width( size_t new_width );
         void set_height( size_t new_height );
         size_t get_width() const;
         size_t get_height() const;
@@ -433,7 +444,7 @@ class inventory_column
         virtual void reset_width( const std::vector<inventory_column *> &all_columns );
         /** Returns next custom inventory letter. */
         int reassign_custom_invlets( const Character &p, int min_invlet, int max_invlet );
-        int reassign_custom_invlets( int cur_idx, const std::string &pickup_chars );
+        int reassign_custom_invlets( int cur_idx, std::string_view pickup_chars );
         /** Reorder entries, repopulate titles, adjust to the new height. */
         virtual void prepare_paging( const std::string &filter = "" );
         /**
@@ -475,7 +486,7 @@ class inventory_column
         }
 
         void clear_indent_entries_override() {
-            indent_entries_override = cata::nullopt;
+            indent_entries_override = std::nullopt;
         }
 
         void invalidate_paging() {
@@ -486,21 +497,15 @@ class inventory_column
         void toggle_skip_unselectable( bool skip );
         void collate();
         void uncollate();
-        void cycle_hide_override();
+        virtual void cycle_hide_override();
 
     protected:
-        struct entry_cell_cache_t {
-            bool assigned = false;
-            nc_color color = c_unset;
-            std::string const *denial = nullptr;
-            std::vector<std::string> text;
-        };
-
         /**
          * Move the selection.
          */
         void move_selection( scroll_direction dir );
         void move_selection_page( scroll_direction dir );
+        void scroll_selection_page( scroll_direction dir );
 
         size_t next_highlightable_index( size_t index, scroll_direction dir ) const;
 
@@ -522,13 +527,9 @@ class inventory_column
          *  If corresponding cell is not empty (its width is greater than zero),
          *  then a value returned by  inventory_column::get_entry_indent() is added to the result.
          */
-        size_t get_entry_cell_width( size_t index, size_t cell_index ) const;
         size_t get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const;
         /** Sum of the cell widths */
         size_t get_cells_width() const;
-
-        entry_cell_cache_t make_entry_cell_cache( const inventory_entry &entry ) const;
-        const entry_cell_cache_t &get_entry_cell_cache( size_t index ) const;
 
         const inventory_selector_preset &preset;
 
@@ -546,6 +547,7 @@ class inventory_column
         size_t entries_per_page = std::numeric_limits<size_t>::max();
         size_t height = std::numeric_limits<size_t>::max();
         size_t reserved_width = 0;
+        std::optional<bool> hide_entries_override = std::nullopt;
 
     private:
         struct cell_t {
@@ -562,10 +564,8 @@ class inventory_column
         };
 
         std::vector<cell_t> cells;
-        mutable std::vector<entry_cell_cache_t> entries_cell_cache;
 
-        cata::optional<bool> indent_entries_override = cata::nullopt;
-        cata::optional<bool> hide_entries_override = cata::nullopt;
+        std::optional<bool> indent_entries_override = std::nullopt;
         /** @return Number of visible cells */
         size_t visible_cells() const;
         void _get_entries( get_entries_t *res, entries_t const &ent,
@@ -601,6 +601,7 @@ class selection_column : public inventory_column
         }
 
         void set_filter( const std::string &filter ) override;
+        void cycle_hide_override() override;
 
     private:
         const pimpl<item_category> selected_cat;
@@ -698,6 +699,8 @@ class inventory_selector
                             item_category const *children_category = nullptr,
                             item_location const &topmost_parent = {}, int indent = 0 );
 
+        bool drag_drop_item( item *sourceItem, item *destItem );
+
         inventory_input get_input();
         inventory_input process_input( const std::string &action, int ch );
 
@@ -717,16 +720,22 @@ class inventory_selector
          * @param val The default value to have set in the query prompt.
          * @return A tuple of a bool and string, bool is true if user confirmed.
          */
-        std::pair< bool, std::string > query_string( const std::string &val );
+        std::pair< bool, std::string > query_string( const std::string &val, bool end_with_toggle = false );
         /** Query the user for a filter and apply it. */
         void query_set_filter();
         /** Query the user for count and return it. */
-        int query_count();
+        int query_count( char init = 0, bool end_with_toggle = false );
 
         /** Tackles screen overflow */
         virtual void rearrange_columns( size_t client_width );
 
-        static stats get_weight_and_volume_stats(
+        static stat get_weight_and_length_stat( units::mass weight_carried,
+                                                units::mass weight_capacity, const units::length &longest_length );
+        static stat get_volume_stat( const units::volume
+                                     &volume_carried, const units::volume &volume_capacity, const units::volume &largest_free_volume );
+        static stat get_holster_stat( const units::volume
+                                      &holster_volume, int used_holsters, int total_holsters );
+        static stats get_weight_and_volume_and_holster_stats(
             units::mass weight_carried, units::mass weight_capacity,
             const units::volume &volume_carried, const units::volume &volume_capacity,
             const units::length &longest_length, const units::volume &largest_free_volume,
@@ -916,8 +925,10 @@ class inventory_pick_selector : public inventory_selector
     public:
         explicit inventory_pick_selector( Character &p,
                                           const inventory_selector_preset &preset = default_preset ) :
-            inventory_selector( p, preset ) {}
-
+            inventory_selector( p, preset ) {
+            drag_enabled = false;
+        }
+        bool drag_enabled;
         item_location execute();
 };
 
@@ -992,12 +1003,24 @@ class inventory_drop_selector : public inventory_multiselector
         bool warn_liquid;
 };
 
+class inventory_insert_selector : public inventory_drop_selector
+{
+    public:
+        explicit inventory_insert_selector(
+            Character &p,
+            const inventory_holster_preset &preset,
+            const std::string &selection_column_title = _( "ITEMS TO INSERT" ),
+            bool warn_liquid = true );
+    protected:
+        stats get_raw_stats() const override;
+};
+
 class pickup_selector : public inventory_multiselector
 {
     public:
         explicit pickup_selector( Character &p, const inventory_selector_preset &preset = default_preset,
                                   const std::string &selection_column_title = _( "ITEMS TO PICK UP" ),
-                                  const cata::optional<tripoint> &where = cata::nullopt );
+                                  const std::optional<tripoint> &where = std::nullopt );
         drop_locations execute();
         void apply_selection( std::vector<drop_location> selection );
     protected:
@@ -1008,7 +1031,7 @@ class pickup_selector : public inventory_multiselector
         bool wear();
         void remove_from_to_use( item_location &it );
         void add_reopen_activity();
-        const cata::optional<tripoint> where;
+        const std::optional<tripoint> where;
 };
 
 /**

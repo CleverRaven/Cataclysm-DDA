@@ -17,6 +17,8 @@
   {
     "type": "enchantment",
     "id": "ICE_ELEMENTAL",
+    "name": { "str": "Iceberg" },
+    "description": "Your Ice Elemental abilities grant you good resistance to temperature conditions and cold damage, your hands can emit small amount of cold, increasing your damage in melee, and enemies impale themselves on ice spikes when they attack you",
     "condition": "ALWAYS",
     "values": [
       { "value": "ARMOR_COLD", "multiply": -0.4 },

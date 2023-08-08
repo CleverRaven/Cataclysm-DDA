@@ -7,6 +7,7 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -39,7 +40,6 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "npctrade.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
@@ -73,12 +73,13 @@ static const flag_id json_flag_CALORIES_INTAKE( "CALORIES_INTAKE" );
 
 static const itype_id itype_fitness_band( "fitness_band" );
 
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
@@ -223,6 +224,7 @@ void game_menus::inv::common( avatar &you )
     std::string filter;
     do {
         you.inv->restack( you );
+        inv_s.drag_enabled = true;
         inv_s.clear_items();
         inv_s.add_character_items( you );
         inv_s.set_filter( filter );
@@ -314,25 +316,15 @@ class armor_inventory_preset: public inventory_selector_preset
                 return get_number_string( loc->get_warmth() );
             }, _( "WARMTH" ) );
 
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->bash_resist() );
-            }, _( "BASH" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->cut_resist() );
-            }, _( "CUT" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->bullet_resist() );
-            }, _( "BULLET" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->acid_resist() );
-            }, _( "ACID" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->fire_resist() );
-            }, _( "FIRE" ) );
+            for( const damage_type &dt : damage_type::get_all() ) {
+                if( dt.no_resist ) {
+                    continue;
+                }
+                const damage_type_id &dtid = dt.id;
+                append_cell( [ this, dtid ]( const item_location & loc ) {
+                    return get_decimal_string( loc->resist( dtid ) );
+                }, to_upper_case( dt.name.translated() ) );
+            }
 
             append_cell( [ this ]( const item_location & loc ) {
                 return get_number_string( loc->get_env_resist() );
@@ -707,7 +699,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 item_location temp = loc;
                 // check if at least one parent container is sealed
                 while( temp.has_parent() ) {
-                    item_pocket *pocket = temp.parent_item()->contained_where( *temp.get_item() );
+                    item_pocket *pocket = temp.parent_pocket();
                     if( pocket->sealed() ) {
                         sealed = _( "sealed" );
                         break;
@@ -795,7 +787,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             } else if( time == 0_turns ) {
                 return 4;
             } else if( loc.has_parent() &&
-                       loc.parent_item()->contained_where( *loc )->spoil_multiplier() == 0.0f ) {
+                       loc.parent_pocket()->spoil_multiplier() == 0.0f ) {
                 return 3;
             } else {
                 return 2;
@@ -866,7 +858,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
 static std::string get_consume_needs_hint( Character &you )
 {
-    auto hint = std::string();
+    std::string hint = std::string();
     auto desc = display::hunger_text_color( you );
     hint.append( string_format( "%s %s", _( "Food:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
@@ -1088,14 +1080,14 @@ class activatable_inventory_preset : public pickup_inventory_preset
 
             const use_function *smoking = it.type->get_use( "SMOKING" );
             if( smoking != nullptr ) {
-                cata::optional<std::string> litcig = iuse::can_smoke( you );
+                std::optional<std::string> litcig = iuse::can_smoke( you );
                 if( litcig.has_value() ) {
                     return _( litcig.value_or( "" ) );
                 }
             }
 
             if( uses.size() == 1 ) {
-                const auto ret = uses.begin()->second.can_call( you, it, false, you.pos() );
+                const auto ret = uses.begin()->second.can_call( you, it, you.pos() );
                 if( !ret.success() ) {
                     return trim_trailing_punctuations( ret.str() );
                 }
@@ -1134,7 +1126,10 @@ class activatable_inventory_preset : public pickup_inventory_preset
 
             if( uses.size() == 1 ) {
                 return uses.begin()->second.get_name();
-            } else if( uses.size() > 1 ) {
+            } else if( uses.size() == 2 ) {
+                return string_format( _( "%1$s</color> <color_dark_gray>or</color> <color_light_green>%2$s" ),
+                                      uses.begin()->second.get_name(), std::next( uses.begin() )->second.get_name() );
+            } else if( uses.size() > 2 ) {
                 return _( "…" );
             }
 
@@ -1221,6 +1216,58 @@ item_location game_menus::inv::gun_to_modify( Character &you, const item &gunmod
     return inv_internal( you, gunmod_inventory_preset( you, gunmod ),
                          _( "Select gun to modify" ), -1,
                          _( "You don't have any guns to modify." ) );
+}
+
+class ereader_inventory_preset : public pickup_inventory_preset
+{
+    public:
+        explicit ereader_inventory_preset( const Character &you ) : pickup_inventory_preset( you ),
+            you( you ) {
+            _collate_entries = true;
+            if( get_option<bool>( "INV_USE_ACTION_NAMES" ) ) {
+                append_cell( [ this ]( const item_location & loc ) {
+                    return string_format( "<color_light_green>%s</color>", get_action_name( *loc ) );
+                }, _( "ACTION" ) );
+            }
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_ebook_storage();
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const item &it = *loc;
+
+            if( it.is_broken() ) {
+                return _( "E-reader is broken and won't turn on." );
+            }
+
+            if( !it.ammo_sufficient( &you, "EBOOKREAD" ) ) {
+                return string_format(
+                           n_gettext( "Needs at least %d charge.",
+                                      "Needs at least %d charges.", loc->ammo_required() ),
+                           loc->ammo_required() );
+            }
+
+            if( !it.has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+                return pickup_inventory_preset::get_denial( loc );
+            }
+
+            return std::string();
+        }
+
+    protected:
+        std::string get_action_name( const item &it ) const {
+            return string_format( "Read on %s.", it.tname() );
+        }
+    private:
+        const Character &you;
+};
+
+item_location game_menus::inv::ereader_to_use( Character &you )
+{
+    const std::string msg = _( "You don't have any e-readers you can use." );
+    return inv_internal( you, ereader_inventory_preset( you ), _( "Select e-reader." ), 1, msg );
 }
 
 class read_inventory_preset: public pickup_inventory_preset
@@ -1487,17 +1534,15 @@ class weapon_inventory_preset: public inventory_selector_preset
                 }
             }, pgettext( "Shot as damage", "SHOT" ) );
 
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( damage_type::BASH ) );
-            }, _( "BASH" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( damage_type::CUT ) );
-            }, _( "CUT" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( damage_type::STAB ) );
-            }, _( "STAB" ) );
+            for( const damage_type &dt : damage_type::get_all() ) {
+                if( !dt.melee_only ) {
+                    continue;
+                }
+                const damage_type_id &dtid = dt.id;
+                append_cell( [ this, dtid ]( const item_location & loc ) {
+                    return get_damage_string( loc->damage_melee( dtid ) );
+                }, to_upper_case( dt.name.translated() ) );
+            }
 
             append_cell( [ this ]( const item_location & loc ) {
                 if( deals_melee_damage( *loc ) ) {
@@ -1536,8 +1581,12 @@ class weapon_inventory_preset: public inventory_selector_preset
 
     private:
         bool deals_melee_damage( const item &it ) const {
-            return it.damage_melee( damage_type::BASH ) || it.damage_melee( damage_type::CUT ) ||
-                   it.damage_melee( damage_type::STAB );
+            for( const damage_type &dt : damage_type::get_all() ) {
+                if( it.damage_melee( dt.id ) ) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         std::string get_damage_string( float damage, bool display_zeroes = false ) const {
@@ -1585,11 +1634,11 @@ drop_locations game_menus::inv::holster( avatar &you, const item_location &holst
 
     inventory_holster_preset holster_preset( holster, &get_avatar() );
 
-    inventory_drop_selector insert_menu( you, holster_preset, _( "ITEMS TO INSERT" ),
-                                         /*warn_liquid=*/false );
+    inventory_insert_selector insert_menu( you, holster_preset, _( "ITEMS TO INSERT" ),
+                                           /*warn_liquid=*/false );
     insert_menu.add_character_items( you );
     insert_menu.add_nearby_items( 1 );
-    insert_menu.set_display_stats( false );
+    insert_menu.set_display_stats( true );
 
     insert_menu.set_title( title );
     insert_menu.set_hint( hint );
@@ -1610,9 +1659,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
     drop_locations holstered_list = game_menus::inv::holster( you, holster );
 
     if( !holstered_list.empty() ) {
-        you.assign_activity(
-            player_activity(
-                insert_item_activity_actor( holster, holstered_list ) ) );
+        you.assign_activity( insert_item_activity_actor( holster, holstered_list ) );
     }
 }
 
@@ -1620,6 +1667,11 @@ static bool valid_unload_container( const item_location &container )
 {
     // Item must be a container.
     if( !container->is_container() ) {
+        return false;
+    }
+
+    // Item must be able to be unloaded
+    if( container->has_flag( flag_NO_UNLOAD ) ) {
         return false;
     }
 
@@ -1730,10 +1782,6 @@ class attach_molle_inventory_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
 
-            if( !loc.get_item()->empty() ) {
-                return "item needs to be empty.";
-            }
-
             if( actor->size - vest->get_contents().get_additional_space_used() < loc->get_pocket_size() ) {
                 return "not enough space left on the vest.";
             }
@@ -1746,6 +1794,30 @@ class attach_molle_inventory_preset : public inventory_selector_preset
     private:
         const molle_attach_actor *actor;
         const item *vest;
+};
+
+class attach_veh_tool_inventory_preset : public inventory_selector_preset
+{
+    public:
+        explicit attach_veh_tool_inventory_preset( const std::set<itype_id> &allowed_types )
+            : allowed_types( allowed_types ) { }
+
+        bool is_shown( const item_location &loc ) const override {
+            return allowed_types.count( loc->typeId() );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const item &it = *loc.get_item();
+
+            if( !it.empty() || !it.toolmods().empty() ) {
+                return "item needs to be empty.";
+            }
+
+            return std::string();
+        }
+
+    private:
+        const std::set<itype_id> allowed_types;
 };
 
 class salvage_inventory_preset: public inventory_selector_preset
@@ -1809,7 +1881,7 @@ class repair_inventory_preset: public inventory_selector_preset
                                                            num_comp ), num_comp < comp_needed ? c_red : c_unset ) );
                     }
                 }
-                std::string ret = join( material_list, ", " );
+                std::string ret = string_join( material_list, ", " );
                 if( ret.empty() ) {
                     ret = _( "<color_red>NONE</color>" );
                 }
@@ -1835,6 +1907,13 @@ class repair_inventory_preset: public inventory_selector_preset
                                          chance.first > 0 ? c_light_green : c_unset ) );
             },
             _( "DAMAGE CHANCE" ) );
+
+            append_cell( [actor, &you]( const item_location & loc ) {
+                const int difficulty = actor->repair_recipe_difficulty( *loc );
+                return colorize( string_format( "%d", difficulty ),
+                                 difficulty > you.get_skill_level( actor->used_skill ) ? c_red : c_unset );
+            },
+            _( "DIFFICULTY" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
@@ -1850,11 +1929,11 @@ class repair_inventory_preset: public inventory_selector_preset
 static std::string get_repair_hint( const Character &you, const repair_item_actor *actor,
                                     const item *main_tool )
 {
-    auto hint = std::string();
+    std::string hint = std::string();
     hint.append( string_format( _( "Tool: <color_cyan>%s</color>" ), main_tool->display_name() ) );
     hint.append( string_format( " | " ) );
     hint.append( string_format( _( "Skill used: <color_cyan>%s (%d)</color>" ),
-                                actor->used_skill.obj().name(), you.get_skill_level( actor->used_skill ) ) );
+                                actor->used_skill.obj().name(), static_cast<int>( you.get_skill_level( actor->used_skill ) ) ) );
     return hint;
 }
 
@@ -1930,7 +2009,19 @@ item_location game_menus::inv::molle_attach( Character &you, item &tool )
                        );
 }
 
-drop_locations game_menus::inv::multidrop( avatar &you )
+item_location game_menus::inv::veh_tool_attach( Character &you, const std::string &vp_name,
+        const std::set<itype_id> &allowed_types )
+{
+    return inv_internal( you, attach_veh_tool_inventory_preset( allowed_types ),
+                         string_format( _( "Attach an item to the %s" ), vp_name ), 1,
+                         string_format( _( "You don't have any items compatible with %s.\n\nAllowed equipment:\n%s" ),
+    vp_name, enumerate_as_string( allowed_types, []( const itype_id & it ) {
+        return it->nname( 1 );
+    } ) ),
+    string_format( _( "Choose a tool to attach to %s" ), vp_name ) );
+}
+
+drop_locations game_menus::inv::multidrop( Character &you )
 {
     you.inv->restack( you );
 
@@ -1955,7 +2046,7 @@ drop_locations game_menus::inv::multidrop( avatar &you )
 }
 
 drop_locations game_menus::inv::pickup( avatar &you,
-                                        const cata::optional<tripoint> &target, const std::vector<drop_location> &selection )
+                                        const std::optional<tripoint> &target, const std::vector<drop_location> &selection )
 {
     pickup_inventory_preset preset( you, /*skip_wield_check=*/true, /*ignore_liquidcont=*/true );
     preset.save_state = &pickup_ui_default_state;
@@ -2000,7 +2091,7 @@ drop_locations game_menus::inv::smoke_food( Character &you, units::volume total_
     ( const std::vector<std::pair<item_location, int>> &locs ) {
         units::volume added_volume = 0_ml;
         for( std::pair<item_location, int> loc : locs ) {
-            added_volume += loc.first->volume() * loc.second / loc.first->charges;
+            added_volume += loc.first->volume() * loc.second / loc.first->count();
         }
         std::string volume_caption = string_format( _( "Volume (%s):" ), volume_units_abbr() );
         return inventory_selector::stats{
@@ -2035,72 +2126,80 @@ drop_locations game_menus::inv::smoke_food( Character &you, units::volume total_
 bool game_menus::inv::compare_items( const item &first, const item &second,
                                      const std::string &confirm_message )
 {
-    std::vector<iteminfo> v_item_first;
-    std::vector<iteminfo> v_item_second;
-
-    first.info( true, v_item_first );
-    second.info( true, v_item_second );
-
+    std::string action;
+    input_context ctxt;
+    ui_adaptor ui;
+    item_info_data item_info_first;
+    item_info_data item_info_second;
+    int page_size = 0;
     int scroll_pos_first = 0;
     int scroll_pos_second = 0;
-
-    item_info_data item_info_first( first.tname(), first.type_name(),
-                                    v_item_first, v_item_second, scroll_pos_first );
-
-    item_info_data item_info_second( second.tname(), second.type_name(),
-                                     v_item_second, v_item_first, scroll_pos_second );
-
-    item_info_first.without_getch = true;
-    item_info_second.without_getch = true;
-
-    input_context ctxt;
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    if( !confirm_message.empty() ) {
-        ctxt.register_action( "CONFIRM" );
-    }
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "UP" );
-    ctxt.register_action( "DOWN" );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
-
-    catacurses::window wnd_first;
-    catacurses::window wnd_second;
-    catacurses::window wnd_message;
-
-    const int half_width = TERMX / 2;
-    const int height = TERMY;
-    const int offset_y = confirm_message.empty() ? 0 : 3;
-    const int page_size = TERMY - offset_y - 2;
-
-    ui_adaptor ui;
-    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        wnd_first = catacurses::newwin( height - offset_y, half_width, point_zero );
-        wnd_second = catacurses::newwin( height - offset_y, half_width, point( half_width, 0 ) );
-
-        if( !confirm_message.empty() ) {
-            wnd_message = catacurses::newwin( offset_y, TERMX, point( 0, height - offset_y ) );
-        }
-
-        ui.position( point_zero, point( half_width * 2, height ) );
-    } );
-    ui.mark_resize();
-    ui.on_redraw( [&]( const ui_adaptor & ) {
-        if( !confirm_message.empty() ) {
-            draw_border( wnd_message );
-            mvwputch( wnd_message, point( 3, 1 ), c_white, confirm_message
-                      + " " + ctxt.describe_key_and_name( "CONFIRM" )
-                      + " " + ctxt.describe_key_and_name( "QUIT" ) );
-            wnoutrefresh( wnd_message );
-        }
-
-        draw_item_info( wnd_first, item_info_first );
-        draw_item_info( wnd_second, item_info_second );
-    } );
-
-    std::string action;
-
+    bool first_execution = true;
+    static int lang_version = detail::get_current_language_version();
     do {
+        //lang check here is needed to redraw the menu when using "Toggle language to English" option
+        if( first_execution || lang_version != detail::get_current_language_version() ) {
+            std::vector<iteminfo> v_item_first;
+            std::vector<iteminfo> v_item_second;
+
+            first.info( true, v_item_first );
+            second.info( true, v_item_second );
+
+            item_info_first = item_info_data( first.tname(), first.type_name(),
+                                              v_item_first, v_item_second, scroll_pos_first );
+
+            item_info_second = item_info_data( second.tname(), second.type_name(),
+                                               v_item_second, v_item_first, scroll_pos_second );
+
+            item_info_first.without_getch = true;
+            item_info_second.without_getch = true;
+
+            ctxt.register_action( "HELP_KEYBINDINGS" );
+            if( !confirm_message.empty() ) {
+                ctxt.register_action( "CONFIRM" );
+            }
+            ctxt.register_action( "QUIT" );
+            ctxt.register_action( "UP" );
+            ctxt.register_action( "DOWN" );
+            ctxt.register_action( "PAGE_UP" );
+            ctxt.register_action( "PAGE_DOWN" );
+
+            catacurses::window wnd_first;
+            catacurses::window wnd_second;
+            catacurses::window wnd_message;
+
+            ui.reset();
+            ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+                const int half_width = TERMX / 2;
+                const int height = TERMY;
+                const int offset_y = confirm_message.empty() ? 0 : 3;
+                page_size = TERMY - offset_y - 2;
+                wnd_first = catacurses::newwin( height - offset_y, half_width, point_zero );
+                wnd_second = catacurses::newwin( height - offset_y, half_width, point( half_width, 0 ) );
+
+                if( !confirm_message.empty() ) {
+                    wnd_message = catacurses::newwin( offset_y, TERMX, point( 0, height - offset_y ) );
+                }
+
+                ui.position( point_zero, point( half_width * 2, height ) );
+            } );
+            ui.mark_resize();
+            ui.on_redraw( [&]( const ui_adaptor & ) {
+                if( !confirm_message.empty() ) {
+                    draw_border( wnd_message );
+                    mvwputch( wnd_message, point( 3, 1 ), c_white, confirm_message
+                              + " " + ctxt.describe_key_and_name( "CONFIRM" )
+                              + " " + ctxt.describe_key_and_name( "QUIT" ) );
+                    wnoutrefresh( wnd_message );
+                }
+
+                draw_item_info( wnd_first, item_info_first );
+                draw_item_info( wnd_second, item_info_second );
+            } );
+            lang_version = detail::get_current_language_version();
+            first_execution = false;
+        }
+
         ui_manager::redraw();
 
         action = ctxt.handle_input();
@@ -2123,7 +2222,7 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
     return action == "CONFIRM";
 }
 
-void game_menus::inv::compare( avatar &you, const cata::optional<tripoint> &offset )
+void game_menus::inv::compare( avatar &you, const std::optional<tripoint> &offset )
 {
     you.inv->restack( you );
 
@@ -2227,7 +2326,7 @@ static item_location autodoc_internal( Character &you, Character &patient,
     int drug_count = 0;
 
     if( !surgeon ) {//surgeon use their own anesthetic, player just need money
-        if( patient.has_trait( trait_NOPAIN ) ) {
+        if( patient.has_flag( json_flag_PAIN_IMMUNE ) ) {
             hint = _( "<color_yellow>Patient has deadened nerves.  Anesthesia unneeded.</color>" );
         } else if( patient.has_bionic( bio_painkiller ) ) {
             hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );
@@ -2445,4 +2544,39 @@ item_location game_menus::inv::install_bionic( Character &you, Character &patien
         return autodoc_internal( you, patient, bionic_install_preset( you, patient ), 5 );
     }
 
+}
+
+class change_sprite_inventory_preset: public inventory_selector_preset
+{
+    public:
+        explicit change_sprite_inventory_preset( Character &pl ) :
+            you( pl ) {
+            append_cell( []( const item_location & loc ) -> std::string {
+                if( loc->has_var( "sprite_override" ) ) {
+                    const itype_id sprite_override( std::string( loc->get_var( "sprite_override" ) ) );
+                    const std::string variant = loc->get_var( "sprite_override_variant" );
+                    if( !item::type_is_defined( sprite_override ) ) {
+                        return _( "Unknown" );
+                    }
+                    item tmp( sprite_override );
+                    tmp.set_itype_variant( variant );
+                    return tmp.tname();
+                }
+                return _( "Default" );
+            }, _( "Shown as" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_armor();
+        }
+
+    protected:
+        Character &you;
+};
+
+item_location game_menus::inv::change_sprite( Character &you )
+{
+    return inv_internal( you, change_sprite_inventory_preset( you ),
+                         _( "Change appearance of your armor:" ), -1,
+                         _( "You have nothing to wear." ) );
 }

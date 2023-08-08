@@ -299,6 +299,7 @@
     "name": { "str": "Fake Spell" },
     "description": "A spell that doesn't do anything.",
     "valid_targets": [ "hostile", "ally", "ground" ],
+    "message": "",
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
     "min_damage": 1,
@@ -442,7 +443,7 @@
     "flags": [ "RANDOM_DAMAGE", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS", "SILENT", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "mon_spider_cellar_small",
+    "effect_str": "mon_spider_cellar_giant_s",
     "min_aoe": 2,
     "max_aoe": 2
   },

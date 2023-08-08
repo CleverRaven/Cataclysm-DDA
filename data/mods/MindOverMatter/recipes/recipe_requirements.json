@@ -1,0 +1,27 @@
+[
+  {
+    "id": "matrix_dust_refined",
+    "type": "requirement",
+    "components": [
+      [
+        [ "matrix_crystal_biokin_dust_refined", 1 ],
+        [ "matrix_crystal_clair_dust_refined", 1 ],
+        [ "matrix_crystal_pyrokin_dust_refined", 1 ],
+        [ "matrix_crystal_telekin_dust_refined", 1 ],
+        [ "matrix_crystal_telepath_dust_refined", 1 ],
+        [ "matrix_crystal_teleport_dust_refined", 1 ],
+        [ "matrix_crystal_vitakin_dust_refined", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "surface_heat",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_fire_tool", -1 ] ] ] }
+  },
+  {
+    "id": "water_boiling_heat",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_fire_tool", -1 ] ] ] }
+  }
+]

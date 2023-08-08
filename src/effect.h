@@ -29,13 +29,6 @@ class JsonOut;
 /** Handles the large variety of weed messages. */
 void weed_msg( Character &p );
 
-enum effect_rating {
-    e_good,     // The effect is good for the one who has it.
-    e_neutral,  // There is no effect or the effect is very nominal. This is the default.
-    e_bad,      // The effect is bad for the one who has it.
-    e_mixed     // The effect has good and bad parts to the one who has it.
-};
-
 /** @relates string_id */
 template<>
 const effect_type &string_id<effect_type>::obj() const;
@@ -56,9 +49,9 @@ struct vitamin_rate_effect {
 };
 
 struct vitamin_applied_effect {
-    cata::optional<std::pair<int, int>> rate = cata::nullopt;
-    cata::optional<time_duration> tick = cata::nullopt;
-    cata::optional<float> absorb_mult = cata::nullopt;
+    std::optional<std::pair<int, int>> rate = std::nullopt;
+    std::optional<time_duration> tick = std::nullopt;
+    std::optional<float> absorb_mult = std::nullopt;
     vitamin_id vitamin;
 };
 
@@ -83,6 +76,20 @@ enum class mod_action : uint8_t {
     TICK,
 };
 
+// Limb score interactions
+struct limb_score_effect {
+    // Score id to affect
+    limb_score_id score_id;
+    // Multiplier to apply when not resisted
+    float mod;
+    float red_mod;
+    float scaling;
+    float red_scaling;
+
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
+};
+
 class effect_type
 {
         friend void load_effect_type( const JsonObject &jo );
@@ -98,7 +105,7 @@ class effect_type
         efftype_id id;
 
         /** Returns if an effect is good or bad for message display. */
-        effect_rating get_rating() const;
+        game_message_type get_rating( int intensity = 1 ) const;
 
         /** Returns true if there is a listed name in the JSON entry for each intensity from
          *  1 to max_intensity. */
@@ -107,15 +114,13 @@ class effect_type
          *  from 1 to max_intensity with the matching reduced value. */
         bool use_desc_ints( bool reduced ) const;
 
-        /** Returns the appropriate game_message_type when a new effect is obtained. This is equal to
-         *  an effect's "rating" value. */
-        game_message_type gain_game_message_type() const;
         /** Returns the appropriate game_message_type when an effect is lost. This is opposite to
          *  an effect's "rating" value. */
-        game_message_type lose_game_message_type() const;
+        game_message_type lose_game_message_type( int intensity = 1 ) const;
 
-        /** Returns the message displayed when a new effect is obtained. */
-        std::string get_apply_message() const;
+        // adds a message to the log for applying an effect
+        void add_apply_msg( int intensity ) const;
+
         /** Returns the memorial log added when a new effect is obtained. */
         std::string get_apply_memorial_log( memorial_gender gender ) const;
         /** Returns the message displayed when an effect is removed. */
@@ -135,8 +140,9 @@ class effect_type
 
         /** Loading helper functions */
         void load_mod_data( const JsonObject &jo );
-        bool load_miss_msgs( const JsonObject &jo, const std::string &member );
-        bool load_decay_msgs( const JsonObject &jo, const std::string &member );
+        bool load_miss_msgs( const JsonObject &jo, std::string_view member );
+        bool load_decay_msgs( const JsonObject &jo, std::string_view member );
+        bool load_apply_msgs( const JsonObject &jo, std::string_view member );
 
         /** Verifies data is accurate */
         static void check_consistency();
@@ -153,6 +159,7 @@ class effect_type
         }
         std::vector<enchantment_id> enchantments;
         cata::flat_set<json_character_flag> immune_flags;
+        cata::flat_set<json_character_flag> immune_bp_flags;
     protected:
         uint32_t get_effect_modifier_key( mod_action action, uint8_t reduction_level ) const {
             return static_cast<uint8_t>( action ) << 0 |
@@ -160,7 +167,7 @@ class effect_type
         }
 
         void extract_effect(
-            const JsonObject &j,
+            const std::array<std::optional<JsonObject>, 2> &j,
             const std::string &effect_name,
             const std::vector<std::pair<std::string, mod_action>> &action_keys );
 
@@ -211,9 +218,8 @@ class effect_type
 
         std::vector<std::pair<translation, game_message_type>> decay_msgs;
 
-        effect_rating rating = effect_rating::e_neutral;
+        std::vector<std::pair<translation, game_message_type>> apply_msgs;
 
-        translation apply_message;
         std::string apply_memorial_log;
         translation remove_message;
         std::string remove_memorial_log;
@@ -221,10 +227,11 @@ class effect_type
         translation blood_analysis_description;
 
         translation death_msg;
-        cata::optional<event_type> death_event;
+        std::optional<event_type> death_event;
 
         std::unordered_map<std::string, std::unordered_map<uint32_t, modifier_value_arr>> mod_data;
         std::vector<vitamin_rate_effect> vitamin_data;
+        std::vector<limb_score_effect> limb_score_data;
         std::vector<std::pair<int, int>> kill_chance;
         std::vector<std::pair<int, int>> red_kill_chance;
 };
@@ -367,6 +374,9 @@ class effect
         /** Check if the effect has the specified flag */
         bool has_flag( const flag_id &flag ) const;
 
+        // Extract limb score modifiers for descriptions
+        std::vector<limb_score_effect> get_limb_score_data() const;
+
         bool kill_roll( bool reduced ) const;
         std::string get_death_message() const;
         event_type death_event() const;
@@ -396,6 +406,8 @@ class effect
 
         /** Returns if the effect is supposed to be handed in Creature::movement */
         bool impairs_movement() const;
+
+        float get_limb_score_mod( const limb_score_id &score, bool reduced = false ) const;
 
         /** Returns the effect's matching effect_type id. */
         const efftype_id &get_id() const {

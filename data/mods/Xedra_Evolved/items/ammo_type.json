@@ -13,6 +13,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "moon_tears_fasteners",
+    "name": "moon tears fasteners",
+    "default": "moon_tears_fasteners"
+  },
+  {
+    "type": "ammunition_type",
     "id": "9x21mm",
     "name": "9x21mm",
     "default": "9x21mm"

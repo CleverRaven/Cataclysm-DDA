@@ -10,7 +10,7 @@
     "price": 3000,
     "price_postapoc": 250,
     "longest_side": "95 cm",
-    "volume": "112 L",
+    "volume": "30 L",
     "weight": "12 kg",
     "material": [ "wood" ],
     "to_hit": -3
@@ -28,7 +28,7 @@
     "longest_side": "110 cm",
     "volume": "570 L",
     "weight": "27 kg",
-    "material": [ { "type": "cotton", "portion": 75 }, { "type": "wood" } ],
+    "material": [ { "type": "cotton", "portion": 75 }, { "type": "wood", "portion": 25 } ],
     "to_hit": -4
   },
   {
@@ -73,9 +73,9 @@
     "price": 5000,
     "price_postapoc": 500,
     "longest_side": "80 cm",
-    "volume": "75 L",
+    "volume": "30 L",
     "weight": "7500 g",
-    "material": [ { "type": "steel", "portion": 97 }, { "type": "leather" } ],
+    "material": [ { "type": "steel", "portion": 975 }, { "type": "leather", "portion": 25 } ],
     "to_hit": -2
   },
   {
@@ -89,9 +89,9 @@
     "price": 3000,
     "price_postapoc": 500,
     "longest_side": "80 cm",
-    "volume": "94 L",
+    "volume": "30 L",
     "weight": "5 kg",
-    "material": [ { "type": "wood", "portion": 85 }, { "type": "steel" } ],
+    "material": [ { "type": "wood", "portion": 85 }, { "type": "steel", "portion": 15 } ],
     "to_hit": -3
   },
   {

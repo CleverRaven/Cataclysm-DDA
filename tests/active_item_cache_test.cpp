@@ -10,15 +10,8 @@
 
 TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
 {
-    clear_map();
+    clear_map( -OVERMAP_DEPTH, OVERMAP_HEIGHT );
     map &here = get_map();
-    for( int z = -OVERMAP_DEPTH; z < OVERMAP_HEIGHT; ++z ) {
-        for( int x = 0; x < MAPSIZE_X; ++x ) {
-            for( int y = 0; y < MAPSIZE_Y; ++y ) {
-                here.i_clear( { x, y, z } );
-            }
-        }
-    }
     REQUIRE( here.get_submaps_with_active_items().empty() );
     // An arbitrary active item.
     item active( "firecracker_act", calendar::turn_zero, item::default_charges_tag() );

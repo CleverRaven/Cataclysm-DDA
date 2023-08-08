@@ -4,12 +4,12 @@
     "type": "mission_definition",
     "name": { "str": "Join The Valhallists" },
     "goal": "MGOAL_KILL_MONSTER",
-    "description": "Kill the giant rat roaming the fields for the Valhallists.  Return to their leader when it is dead.",
+    "description": "Kill the giant wolf roaming the fields for the Valhallists.  Return to their leader when it is dead.",
     "difficulty": 5,
     "value": 0,
     "start": {
       "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 5, "z": 0 },
-      "update_mapgen": { "place_monster": [ { "monster": "mon_nakedmolerat_giant", "x": 11, "y": 11, "target": true } ] }
+      "update_mapgen": { "place_monster": [ { "monster": "mon_wolf_mutant_huge", "x": 11, "y": 11, "target": true } ] }
     },
     "end": {
       "effect": [
@@ -21,12 +21,12 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
-      "describe": "Kill a giant mole rat to join the Valhallists.",
+      "describe": "Kill a giant wolf to join the Valhallists.",
       "offer": ".",
       "accepted": ".",
       "rejected": ".",
       "advice": ".",
-      "inquire": "Any luck with the rat?",
+      "inquire": "Any luck with the wolf?",
       "success": "Welcome to the clan.  We'll get to making a helmet for you straight away.  Gudene vil det!",
       "success_lie": "My scouts say otherwise, liar.",
       "failure": "Not everyone is cut out for this life, I suppose."

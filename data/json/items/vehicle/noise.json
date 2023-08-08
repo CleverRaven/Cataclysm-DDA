@@ -11,11 +11,11 @@
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_1" ],
     "volume": "3500 ml",
-    "bashing": 19,
     "category": "veh_parts",
     "price": 3000,
     "price_postapoc": 100,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 19 }
   },
   {
     "type": "GENERIC",
@@ -28,11 +28,11 @@
     "material": [ "plastic", "aluminum" ],
     "volume": "250 ml",
     "to_hit": -1,
-    "bashing": 2,
     "category": "veh_parts",
     "price": 6000,
     "price_postapoc": 100,
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",

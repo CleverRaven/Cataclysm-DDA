@@ -198,6 +198,9 @@ bool mod_manager::set_default_mods( const mod_id &ident )
 
 void mod_manager::load_mods_from( const cata_path &path )
 {
+    if( !dir_exist( path.get_unrelative_path() ) ) {
+        return; // don't try to enumerate non-existing directories
+    }
     for( cata_path &mod_file : get_files_from_path( MOD_SEARCH_FILE, path, true ) ) {
         load_mod_info( mod_file );
     }
@@ -324,6 +327,7 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
         }
 
         // create needed directories
+        // NOLINTNEXTLINE(cata-translate-string-literal)
         const cata_path cur_mod_dir = output_base_path / string_format( "mod_%05d", i + 1 );
 
         std::queue<cata_path> dir_to_make;

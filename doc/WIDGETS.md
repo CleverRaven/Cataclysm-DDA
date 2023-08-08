@@ -1,3 +1,4 @@
+# Widgets
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
@@ -1023,6 +1024,7 @@ Many vars are numeric in nature. These may use style "number" or style "graph". 
 | `mana`            | available mana, 0-MAX_MANA
 | `morale_level`    | morale level, -100 to +100
 | `move`            | movement counter, 0-100+
+| `move_remainder`  | remaining moves for the current turn, 0-9999+
 | `pain`            | perceived pain, 0-80+
 | `sound`           | sound, 0-20+
 | `speed`           | speed, 0-500+

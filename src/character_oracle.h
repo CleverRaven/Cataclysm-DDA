@@ -21,14 +21,14 @@ class character_oracle_t : public oracle_t
         /**
          * Predicates used by AI to determine goals.
          */
-        status_t needs_warmth_badly( const std::string & ) const;
-        status_t needs_water_badly( const std::string & ) const;
-        status_t needs_food_badly( const std::string & ) const;
-        status_t can_wear_warmer_clothes( const std::string & ) const;
-        status_t can_make_fire( const std::string & ) const;
-        status_t can_take_shelter( const std::string & ) const;
-        status_t has_water( const std::string & ) const;
-        status_t has_food( const std::string & ) const;
+        status_t needs_warmth_badly( std::string_view ) const;
+        status_t needs_water_badly( std::string_view ) const;
+        status_t needs_food_badly( std::string_view ) const;
+        status_t can_wear_warmer_clothes( std::string_view ) const;
+        status_t can_make_fire( std::string_view ) const;
+        status_t can_take_shelter( std::string_view ) const;
+        status_t has_water( std::string_view ) const;
+        status_t has_food( std::string_view ) const;
     private:
         const Character *subject;
 };

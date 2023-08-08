@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <map>
+#include <optional>
 #include <string>
 #include <utility>
 
@@ -11,7 +12,6 @@
 #include "debug.h"
 #include "event_statistics.h"
 #include "json.h"
-#include "optional.h"
 
 static bool event_data_matches( const cata::event::data_type &data,
                                 const cata::event::data_type &criteria )
@@ -163,22 +163,22 @@ struct compare_times {
     }
 };
 
-cata::optional<event_multiset::summaries_type::value_type> event_multiset::first() const
+std::optional<event_multiset::summaries_type::value_type> event_multiset::first() const
 {
     auto minimum = std::min_element( summaries_.begin(), summaries_.end(),
                                      compare_times<&event_summary::first>() );
     if( minimum == summaries_.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return *minimum;
 }
 
-cata::optional<event_multiset::summaries_type::value_type> event_multiset::last() const
+std::optional<event_multiset::summaries_type::value_type> event_multiset::last() const
 {
     auto minimum = std::max_element( summaries_.begin(), summaries_.end(),
                                      compare_times<&event_summary::last>() );
     if( minimum == summaries_.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return *minimum;
 }

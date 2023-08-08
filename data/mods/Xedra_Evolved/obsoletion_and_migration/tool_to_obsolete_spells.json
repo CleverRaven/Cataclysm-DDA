@@ -1,0 +1,20 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MIGRATE_SPELL",
+    "effect": [
+      { "math": [ "u_val('spell_level', 'spell: summon_battery_gun')", "=", "-1" ] },
+      { "math": [ "u_val('spell_level', 'spell: summon_ray_gun')", "=", "-1" ] },
+      { "math": [ "u_val('spell_level', 'spell: summon_death_ray')", "=", "-1" ] },
+      { "math": [ "u_val('spell_level', 'spell: summon_mace_magic')", "=", "-1" ] },
+      { "math": [ "u_val('spell_level', 'spell: summon_bio_launcher')", "=", "-1" ] },
+      { "math": [ "u_val('spell_level', 'spell: summon_bio_warhead')", "=", "-1" ] },
+      { "math": [ "u_val('spell_level', 'spell: summon_rip_ticket')", "=", "-1" ] },
+      { "math": [ "u_val('spell_level', 'spell: summon_helmet_inventor')", "=", "-1" ] },
+      { "math": [ "u_val('spell_level', 'spell: summon_ion_gun')", "=", "-1" ] },
+      { "math": [ "u_val('spell_level', 'spell: spark_of_inspiration')", "=", "-1" ] },
+      { "math": [ "u_val('spell_level', 'spell: research_dreamdross')", "=", "-1" ] },
+      { "math": [ "u_val('spell_level', 'spell: forge_dreamdross')", "=", "-1" ] }
+    ]
+  }
+]

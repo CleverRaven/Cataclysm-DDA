@@ -380,77 +380,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "cave" ],
-    "weight": 50,
-    "object": {
-      "rotation": [ 0, 3 ],
-      "predecessor_mapgen": "forest_thick",
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "     %%%%%%%%%%%%%%%    ",
-        "    %%||||||||||||||%   ",
-        "    %|||,,,,,,||||||%   ",
-        "    %|||,,|||,,|||||%   ",
-        "    %|||,,||||,,||||%   ",
-        "    %||,,,|||||,,|||%   ",
-        "    %|@,,,|||||,,|||%   ",
-        "    %||||||,,,,,q|||%   ",
-        "    %|||||,,||||||||%   ",
-        "    %%|||;;||||||||%%   ",
-        "     %;;|;;;;;%%%%%%    ",
-        "      ~!?~~!RR?R!       ",
-        "     RR~~RR#?!~~R       ",
-        "    ! ??!~~RR~?!!       ",
-        "     ~#RR?RR?~R#?       ",
-        "     !?RR~~~R!RRR       ",
-        "     RR~?R!~~?          ",
-        "      !                 ",
-        "                        "
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_rock_floor_no_roof",
-        "!": "t_rock_floor_no_roof",
-        "?": "t_rock_floor_no_roof",
-        "#": "t_rock_floor_no_roof",
-        "~": "t_rock_floor_no_roof",
-        "@": "t_rock_floor",
-        ",": "t_rock_floor",
-        "q": "t_rock_floor",
-        "R": "t_rock_floor_no_roof"
-      },
-      "furniture": { "R": [ [ "f_boulder_small", 1 ], [ "f_null", 10 ] ] },
-      "item": {
-        "#": [
-          { "item": "helmet_plate", "chance": 100 },
-          { "item": "boots_plate", "chance": 100 },
-          { "item": "chainmail_arms", "chance": 100 },
-          { "item": "gloves_plate", "chance": 100 },
-          { "item": "chainmail_legs", "chance": 100 },
-          { "item": "chainmail_hauberk", "chance": 100 },
-          { "item": "longsword", "chance": 100 },
-          { "item": "corpse", "chance": 100 }
-        ],
-        "@": { "item": "mininuke", "chance": 100 },
-        "~": { "item": "bone", "chance": 50, "repeat": [ 1, 3 ] }
-      },
-      "fields": {
-        "!": { "field": "fd_gibs_flesh", "intensity": 2, "age": 10 },
-        "?": { "field": "fd_blood", "intensity": 2, "age": 10 },
-        "#": { "field": "fd_blood", "intensity": 3, "age": 10 }
-      },
-      "monster": { "q": { "monster": "mon_rabbit_dreadful" } }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "cave_underground" ],
     "weight": 50,
     "object": {
@@ -546,7 +475,7 @@
         "...    ... .......  ....",
         "... ..  ..  ..   ..  ...",
         "... ...  ..       ..  ..",
-        "... ....  ...  M   .. ..",
+        "... ....  ...      .. ..",
         "...  ....  ..      .. ..",
         "....  ....  ..    ..  ..",
         ".....  ....  ......  ...",
@@ -567,8 +496,7 @@
         "............>..........."
       ],
       "terrain": { ".": "t_soil", " ": "t_dirt_underground", ">": "t_slope_up" },
-      "furniture": {  },
-      "monster": { "M": { "monster": "mon_nakedmolerat_giant" }, " ": { "monster": "mon_nakedmolerat_giant", "chance": 2 } }
+      "furniture": {  }
     }
   },
   {
@@ -788,7 +716,7 @@
         ".%%%%||||rr   rr||||%%%.",
         ".%%%%||||rr   rr||||%%%.",
         ".%%%%||||       ||||%%%.",
-        ".%%%%||||   K   ||||%%%.",
+        ".%%%%||||       ||||%%%.",
         ".%%%%||||       ||||%%%.",
         ".%%%%||||rr   rr||||%%%.",
         "..%%%||||rr   rr||||%%%.",
@@ -809,7 +737,7 @@
         "<": "t_slope_up"
       },
       "furniture": {  },
-      "monster": { "K": { "monster": "mon_rat_king" }, "r": { "monster": "mon_sewer_rat" } },
+      "monster": { "r": { "monster": "mon_sewer_rat" } },
       "items": { "l": { "item": "gobag_contents", "chance": 75 } }
     }
   },

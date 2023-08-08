@@ -1,0 +1,54 @@
+[
+  {
+    "id": "mon_cat_mutant_prism",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "name": { "str": "iridescent cat" },
+    "description": "As it moves, this cat's colors shift unnaturally in the light.  You can't make out the breed, but its fur pattern seems to change with every step.",
+    "//": "Higher dodge due to the constantly changing fur pattern",
+    "dodge": 9
+  },
+  {
+    "id": "mon_cat_liquid",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "name": { "str": "liquid cat" },
+    "description": "It is universally known that cats are liquid, but this cat's body is actually quivering while it walks around.  It also enjoys resting while twisting its body in ways that would break a normal cat's bones.",
+    "phase": "LIQUID",
+    "harvest": "exempt",
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s's body splashes one last time." }
+  },
+  {
+    "id": "mon_cat_void",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "name": { "str": "void cat" },
+    "description": "Seeing how unnaturally dark this black cat's fur is, you are certain this is no ordinary cat.  Its fur seems to absorb light from the surroundings.",
+    "regenerates_in_dark": true
+  },
+  {
+    "id": "mon_dog_incorporeal",
+    "type": "MONSTER",
+    "copy-from": "mon_dog",
+    "name": { "str": "translucent dog" },
+    "description": "This dog doesn't cast a shadow, and if you squint hard enough you can see right through it.  Its condition doesn't appear to do any harm to it, though it seems to cause trouble when it tries to groom itself.",
+    "color": "white",
+    "vision_night": 4
+  },
+  {
+    "id": "mon_dog_telekenetic",
+    "type": "MONSTER",
+    "copy-from": "mon_dog",
+    "name": { "str": "triclopean dog" },
+    "description": "A rather average looking dog until you notice the third eye, right on its forehead, covered by a thick eyelid.  Whenever its open, small particles of dust from the ground rise and swirl around it.",
+    "default_faction": "dog",
+    "harvest": "dog_triclopean_with_skull"
+  },
+  {
+    "id": "mon_dog_antimemetic",
+    "type": "MONSTER",
+    "copy-from": "mon_dog",
+    "name": { "str": "unknowable dog" },
+    "description": "You are completely unable to recall anything about what this dog looks like.  You know it's a dog, you know it's there, you know you can see it, but any further information about it isn't retained in your mind."
+  }
+]

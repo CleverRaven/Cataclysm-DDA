@@ -9,7 +9,6 @@
     "volume": "2 L",
     "price": 9200,
     "price_postapoc": 1500,
-    "bashing": 8,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
@@ -19,7 +18,8 @@
     "intelligence": 10,
     "proficiencies": [ { "proficiency": "prof_wound_care_expert", "time_factor": 0.75, "fail_factor": 0.5 } ],
     "time": "55 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "mag_firstaid",
@@ -95,7 +95,6 @@
     "volume": "2 L",
     "price": 8500,
     "price_postapoc": 1250,
-    "bashing": 4,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
@@ -104,7 +103,8 @@
     "max_level": 6,
     "intelligence": 8,
     "proficiencies": [ { "proficiency": "prof_wound_care_expert", "time_factor": 0.75, "fail_factor": 0.5 } ],
-    "time": "30 m"
+    "time": "30 m",
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "booklet_firstaid",
@@ -135,14 +135,14 @@
     "volume": "2500 ml",
     "price": 10000,
     "price_postapoc": 2250,
-    "bashing": 7,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "blue",
     "intelligence": 4,
     "time": "30 m",
-    "fun": -2
+    "fun": -2,
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "reference_firstaid2",
@@ -154,13 +154,13 @@
     "volume": "2160 ml",
     "price": 8000,
     "price_postapoc": 750,
-    "bashing": 7,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "blue",
     "intelligence": 4,
-    "time": "30 m"
+    "time": "30 m",
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "textbook_toxicology",

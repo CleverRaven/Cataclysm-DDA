@@ -1,5 +1,6 @@
 #include "HeaderGuardCheck.h"
 
+#include <iostream>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -13,11 +14,7 @@
 
 #include "Utils.h"
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 CataHeaderGuardCheck::CataHeaderGuardCheck( StringRef Name,
@@ -313,7 +310,7 @@ class HeaderGuardPPCallbacks : public PPCallbacks
                 const FileInfo &Info = FileInfos.at( FileName );
                 const FileEntry *FE = Info.Entry;
                 if( !FE ) {
-                    fprintf( stderr, "No FileEntry for %s\n", FileName.c_str() );
+                    std::cerr << "No FileEntry for " << FileName << "\n";
                     continue;
                 }
                 FileID FID = SM.translateFile( FE );
@@ -387,6 +384,4 @@ void CataHeaderGuardCheck::registerPPCallbacks(
     PP->addPPCallbacks( std::make_unique<HeaderGuardPPCallbacks>( PP, this ) );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

@@ -40,6 +40,7 @@
         { "group": "magic_recipe_advanced", "prob": 1 },
         { "group": "dragon_books", "prob": 3 },
         { "item": "spellcraft_theory", "prob": 2 },
+        { "item": "caster_boosts_info", "prob": 2 },
         { "item": "alchemy_illegal", "prob": 1 },
         { "item": "alchemy_master", "prob": 1 }
       ]
@@ -78,7 +79,11 @@
   {
     "type": "item_group",
     "id": "spellcraft_books",
-    "items": [ { "item": "spellcraft_theory_basic", "prob": 70 }, { "item": "spellcraft_theory", "prob": 30 } ]
+    "items": [
+      { "item": "spellcraft_theory_basic", "prob": 70 },
+      { "item": "spellcraft_theory", "prob": 30 },
+      { "item": "caster_boosts_info", "prob": 30 }
+    ]
   },
   {
     "type": "item_group",
@@ -203,7 +208,7 @@
       { "group": "spell_scroll_tier_1", "prob": 60 },
       { "group": "spell_scroll_tier_2", "prob": 30 },
       { "group": "magic_recipe_basic", "prob": 50 },
-      { "group": "magic_recipe_advanced", "prob": 16 },
+      { "group": "magic_recipe_advanced", "prob": 20 },
       { "group": "spellcraft_books", "prob": 40 },
       { "item": "alchemy_master", "prob": 12 }
     ]
@@ -217,7 +222,8 @@
       { "group": "spellbook_tier_0", "prob": 80 },
       { "group": "spellbook_tier_0", "prob": 60 },
       { "group": "spellbook_tier_0", "prob": 20 },
-      { "item": "spellcraft_theory_basic", "prob": 10 }
+      { "item": "spellcraft_theory_basic", "prob": 10 },
+      { "item": "caster_boosts_info", "prob": 10 }
     ]
   },
   {
@@ -1023,14 +1029,14 @@
       {
         "distribution": [
           { "item": "spell_scroll_smite", "prob": 50 },
-          { "item": "spell_scroll_summon_zombie", "prob": 50 },
+          { "item": "spell_scroll_summon_undead", "prob": 50 },
           { "item": "spell_scroll_necrotic_gaze", "prob": 50 },
           { "item": "spell_scroll_summon_wisps", "prob": 50 }
         ],
         "prob": 45
       },
       {
-        "distribution": [ { "item": "priest_advanced", "prob": 10 }, { "item": "spell_scroll_summon_skeleton", "prob": 50 } ],
+        "distribution": [ { "item": "priest_advanced", "prob": 10 }, { "item": "spell_scroll_summon_undead", "prob": 50 } ],
         "prob": 35
       },
       {
@@ -1038,7 +1044,7 @@
           { "item": "recovery_spellbook", "prob": 5 },
           { "item": "winter_grasp", "prob": 10 },
           { "item": "spell_scroll_recover_mana", "prob": 50 },
-          { "item": "spell_scroll_summon_decayed_pouncer", "prob": 50 },
+          { "item": "spell_scroll_summon_undead_swarm", "prob": 50 },
           { "item": "spell_scroll_recover_pain", "prob": 50 }
         ],
         "prob": 10
@@ -1250,7 +1256,8 @@
           { "item": "recovery_spellbook", "prob": 10 },
           { "item": "spell_scroll_recover_fatigue", "prob": 100 },
           { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
-          { "item": "spell_scroll_druidic_healing", "prob": 100 }
+          { "item": "spell_scroll_druidic_healing", "prob": 100 },
+          { "item": "spell_scroll_druid_bandage", "prob": 100 }
         ],
         "prob": 10
       }

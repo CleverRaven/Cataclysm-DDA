@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "chemistry_set_basic",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -21,7 +21,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "chemistry_set",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -55,7 +55,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pipe_cleaner",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",

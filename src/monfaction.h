@@ -6,10 +6,10 @@
 #include <iosfwd>
 #include <limits>
 #include <map>
+#include <optional>
 #include <set>
 #include <vector>
 
-#include "optional.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -78,7 +78,7 @@ class monfaction
 
         // attitude calculation logic
         // used internally and results is stored in attitude_vec
-        cata::optional<mf_attitude> attitude_rec( const mfaction_str_id &other ) const;
+        std::optional<mf_attitude> attitude_rec( const mfaction_str_id &other ) const;
         bool detect_base_faction_cycle( ) const;
 
         // recursively inherit `attitude_map` elements from all children
@@ -91,7 +91,7 @@ class monfaction
         void populate_attitude_vec() const;
 
         /** Load from JSON */
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         friend void monfactions::finalize();
         friend class generic_factory<monfaction>;

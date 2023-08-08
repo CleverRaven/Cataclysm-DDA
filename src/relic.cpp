@@ -164,7 +164,7 @@ void relic_procgen_data::enchantment_active::deserialize( const JsonObject &jobj
     load( jobj );
 }
 
-void relic_procgen_data::load( const JsonObject &jo, const std::string & )
+void relic_procgen_data::load( const JsonObject &jo, const std::string_view )
 {
     for( const JsonObject jo_inner : jo.get_array( "passive_add_procgen_values" ) ) {
         int weight = 0;
@@ -353,7 +353,9 @@ void relic::load( const JsonObject &jo )
             enchant_cache ench;
             ench.load( jobj );
             if( !ench.id.is_empty() ) {
-                add_passive_effect( ench.id.obj() );
+                // for enchantments by id we need to wait till finalize to cast them to objects
+                // for now stash them
+                passive_enchant_ids.push_back( ench.id );
             } else {
                 add_passive_effect( ench );
             }
@@ -365,6 +367,14 @@ void relic::load( const JsonObject &jo )
     }
     jo.read( "name", item_name_override );
     moves = jo.get_int( "moves", 100 );
+}
+
+void relic::finalize()
+{
+    // add the enchantments that we couldn't earlier in the load
+    for( const enchantment_id &ench : passive_enchant_ids ) {
+        add_passive_effect( ench.obj() );
+    }
 }
 
 void relic::deserialize( const JsonObject &jobj )
@@ -411,7 +421,7 @@ int relic::activate( Creature &caster, const tripoint &target )
     }
     caster.moves -= moves;
     for( const fake_spell &sp : active_effects ) {
-        spell casting = sp.get_spell( sp.level );
+        spell casting = sp.get_spell( caster, sp.level );
         casting.cast_all_effects( caster, target );
         caster.add_msg_if_player( casting.message(), casting.name() );
     }

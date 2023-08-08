@@ -1,0 +1,60 @@
+[
+  {
+    "id": "emit_pyrokinetic_summon_heat_1",
+    "type": "emit",
+    "field": "fd_pyrokinetic_summon_heat_1",
+    "intensity": 3,
+    "qty": 50
+  },
+  {
+    "id": "emit_pyrokinetic_summon_heat_2",
+    "type": "emit",
+    "field": "fd_pyrokinetic_summon_heat_2",
+    "intensity": 3,
+    "qty": 50
+  },
+  {
+    "id": "emit_pyrokinetic_summon_heat_3",
+    "type": "emit",
+    "field": "fd_pyrokinetic_summon_heat_3",
+    "intensity": 3,
+    "qty": 50
+  },
+  {
+    "id": "emit_pyrokinetic_summon_heat_4",
+    "type": "emit",
+    "field": "fd_pyrokinetic_summon_heat_4",
+    "intensity": 3,
+    "qty": 50
+  },
+  {
+    "id": "emit_pyrokin_cloak",
+    "type": "emit",
+    "field": "fd_pyrokinetic_warmth",
+    "intensity": 3,
+    "qty": 20
+  },
+  {
+    "id": "emit_pyrokin_fever",
+    "type": "emit",
+    "field": "fd_pyrokinetic_heat",
+    "intensity": 3,
+    "qty": 20
+  },
+  {
+    "id": "emit_cold_nether_water",
+    "type": "emit",
+    "field": "fd_cold_air2",
+    "intensity": 3,
+    "qty": 25,
+    "chance": 50
+  },
+  {
+    "id": "emit_cold_deep_nether_water",
+    "type": "emit",
+    "field": "fd_cold_air_nether_deep",
+    "intensity": 3,
+    "qty": 25,
+    "chance": 50
+  }
+]

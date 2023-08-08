@@ -376,7 +376,15 @@
     "color": "light_blue",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "recover_mana", "recover_bionic_power", "recover_pain", "recover_fatigue", "recover_stamina", "druid_healing" ]
+      "spells": [
+        "recover_mana",
+        "recover_bionic_power",
+        "recover_pain",
+        "recover_fatigue",
+        "recover_stamina",
+        "druid_healing",
+        "convert"
+      ]
     }
   },
   {
@@ -498,7 +506,10 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "summon_zombie", "summon_skeleton", "summon_decayed_pouncer" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "summon_undead", "summon_undead_swarm", "convert", "dominate", "life_detonation" ]
+    }
   },
   {
     "id": "techno_fundamentals",

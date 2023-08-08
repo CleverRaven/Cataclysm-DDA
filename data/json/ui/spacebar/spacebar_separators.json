@@ -9,29 +9,19 @@
         "id": "light",
         "text": "]>=---=---=---=< >=---=----=<>=----=---=< >=---=---=---=<[",
         "color": "yellow",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "pain" }, ">=", { "const": 3 } ] },
-            { "compare_num": [ { "u_val": "pain" }, "<", { "const": 40 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_pain()", ">=", "3" ] }, { "math": [ "u_pain()", "<", "40" ] } ] }
       },
       {
         "id": "mid",
         "text": "]>=---=---=<>=---=<<>>=----=<>=----=<<>>=---=<>=---=---=<[",
         "color": "light_red",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "pain" }, ">=", { "const": 40 } ] },
-            { "compare_num": [ { "u_val": "pain" }, "<", { "const": 60 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_pain()", ">=", "40" ] }, { "math": [ "u_pain()", "<", "60" ] } ] }
       },
       {
         "id": "haevy",
         "text": "]>=---=---=<>=---=<<>>=---=<<>>=---=<<>>=---=<>=---=---=<[",
         "color": "red",
-        "condition": { "compare_num": [ { "u_val": "pain" }, ">=", { "const": 60 } ] }
+        "condition": { "math": [ "u_pain()", ">=", "60" ] }
       }
     ],
     "default_clause": { "text": "]>=---=---=---=---=---=---=----=---=---=---=---=---=---=<[", "color": "dark_gray" },
@@ -46,29 +36,19 @@
         "id": "light",
         "text": "]>=---=---=---=---=<<>>=---=---=---=---=<[",
         "color": "yellow",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "pain" }, ">=", { "const": 3 } ] },
-            { "compare_num": [ { "u_val": "pain" }, "<", { "const": 40 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_pain()", ">=", "3" ] }, { "math": [ "u_pain()", "<", "40" ] } ] }
       },
       {
         "id": "mid",
         "text": "]>=---=---=<<>>=----<>----=<<>>=---=---=<[",
         "color": "light_red",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "pain" }, ">=", { "const": 40 } ] },
-            { "compare_num": [ { "u_val": "pain" }, "<", { "const": 60 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_pain()", ">=", "40" ] }, { "math": [ "u_pain()", "<", "60" ] } ] }
       },
       {
         "id": "haevy",
         "text": "]>=--=---=<<>>=---=<<>>=---=<<>>=---=--=<[",
         "color": "red",
-        "condition": { "compare_num": [ { "u_val": "pain" }, ">=", { "const": 60 } ] }
+        "condition": { "math": [ "u_pain()", ">=", "60" ] }
       }
     ],
     "default_clause": { "text": "]>=---=---=---=---=----=---=---=---=---=<[", "color": "dark_gray" }

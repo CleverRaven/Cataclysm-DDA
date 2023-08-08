@@ -9,6 +9,7 @@
     "difficulty": 4,
     "time": "15 m",
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "recipe_bullets", 3 ], [ "textbook_anarch", 0 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "using": [ [ "surface_heat", 25 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "components": [ [ [ "magnesium", 100 ], [ "chem_aluminium_powder", 100 ] ], [ [ "oxy_powder", 200 ] ] ]
@@ -48,6 +49,8 @@
     "difficulty": 4,
     "time": "45 m",
     "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
+    "//": "Basic knowledge of chemicals handling is in order.",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
@@ -66,6 +69,7 @@
     "difficulty": 4,
     "time": "45 m",
     "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
@@ -84,6 +88,7 @@
     "difficulty": 4,
     "time": "45 m",
     "book_learn": [ [ "mag_rifle", 3 ], [ "recipe_bullets", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
@@ -102,6 +107,7 @@
     "difficulty": 4,
     "time": "45 m",
     "book_learn": [ [ "mag_rifle", 3 ], [ "recipe_bullets", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
@@ -120,6 +126,7 @@
     "difficulty": 4,
     "time": "45 m",
     "book_learn": [ [ "manual_shotgun", 3 ], [ "recipe_bullets", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [

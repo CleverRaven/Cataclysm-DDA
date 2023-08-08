@@ -74,6 +74,36 @@
   },
   {
     "type": "trap",
+    "id": "tr_mattress",
+    "name": "mattress",
+    "color": "white",
+    "symbol": "0",
+    "visibility": -1,
+    "avoidance": 0,
+    "difficulty": 0,
+    "comfort": 4,
+    "floor_bedding_warmth": 800,
+    "action": "none",
+    "drops": [ "mattress" ],
+    "benign": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_down_mattress",
+    "name": "down mattress",
+    "color": "white",
+    "symbol": "0",
+    "visibility": -1,
+    "avoidance": 0,
+    "difficulty": 0,
+    "comfort": 4,
+    "floor_bedding_warmth": 800,
+    "action": "none",
+    "drops": [ "down_mattress" ],
+    "benign": true
+  },
+  {
+    "type": "trap",
     "id": "tr_rollmat",
     "name": "roll mat",
     "color": "blue",
@@ -160,6 +190,17 @@
     "action": "telepad",
     "always_invisible": true,
     "benign": false
+  },
+  {
+    "type": "trap",
+    "id": "tr_light_snare",
+    "name": "light snare trap",
+    "color": "brown",
+    "symbol": "^",
+    "visibility": 1,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "snare_light"
   },
   {
     "type": "trap",

@@ -262,5 +262,15 @@
     "description": "A slurry of toughness.",
     "looks_like": "medical_sample",
     "material": [ "flesh", "fur", "gutskin" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "crustacean_sample",
+    "copy-from": "mutagen_sample",
+    "color": "red",
+    "name": { "str": "crustacean sample" },
+    "description": "A slurry of toughness.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "chitin" ]
   }
 ]

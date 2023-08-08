@@ -15,7 +15,7 @@ class translation;
 /*
  * Talker wrapper class for avatar.
  */
-class talker_avatar: public talker_character
+class talker_avatar: public talker_cloner<talker_avatar, talker_character>
 {
     public:
         explicit talker_avatar( avatar *new_me );

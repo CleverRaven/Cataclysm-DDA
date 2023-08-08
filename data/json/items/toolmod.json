@@ -17,7 +17,7 @@
     "type": "TOOLMOD",
     "category": "spare_parts",
     "name": { "str": "UPS conversion mod" },
-    "description": "This device replaces conventional battery connections with a connector port that can plug into a UPS.  Any device modified with this can be used without a battery as long as you have a charged UPS with you.",
+    "description": "A device that replaces conventional battery connections with a connector port that can plug into a UPS.  Any device modified with this can be used without a battery as long as you have a charged UPS with you.",
     "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -26,7 +26,7 @@
     "type": "TOOLMOD",
     "category": "spare_parts",
     "name": { "str": "bionic power conversion mod" },
-    "description": "This kit permanently replaces conventional battery connections with the circuitry and cable required to draw power from a Standard Neurobionics Interface (SNI).  Any device modified with this is powered by your own bionic power storage instead of conventional batteries.",
+    "description": "A kit that permanently replaces conventional battery connections with the circuitry and cables required to draw power from a Standard Neurobionics Interface (SNI).  Any device modified with this is powered by your own bionic power storage instead of conventional batteries.",
     "flags": [ "USES_BIONIC_POWER", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -42,6 +42,17 @@
       { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "small_storage_battery", "battery_car", "battery_motorbike" ] }
     ],
     "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "battery_car", "battery_motorbike" ] ] ]
+  },
+  {
+    "id": "pseudo_magazine_mod",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": { "str": "pseudo magazine mod" },
+    "description": "If you see this - you see a bug.",
+    "color": "light_green",
+    "flags": [ "PSEUDO" ],
+    "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_magazine", "item_restriction": [ "pseudo_magazine" ] } ]
   },
   {
     "id": "magazine_battery_light_mod",

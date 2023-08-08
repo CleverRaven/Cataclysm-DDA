@@ -4,7 +4,7 @@
     "type": "TOOL_ARMOR",
     "category": "container",
     "name": { "str": "internal gasoline tank" },
-    "description": "Internal tank for gasoline fuel cell bionic.",
+    "description": "The internal tank for a gasoline fuel cell bionic.",
     "volume": "501 ml",
     "weight": "1 g",
     "price": 0,
@@ -29,7 +29,7 @@
     "type": "TOOL_ARMOR",
     "category": "container",
     "name": { "str": "internal ethanol tank" },
-    "description": "Internal ethanol tank for ethanol burner bionic.",
+    "description": "The internal ethanol tank for an ethanol burner bionic.",
     "volume": "401 ml",
     "weight": "1 g",
     "price": 0,
@@ -54,7 +54,7 @@
     "type": "TOOL_ARMOR",
     "category": "container",
     "name": { "str": "internal oil tank" },
-    "description": "Internal oil tank for oil generator bionic.",
+    "description": "The internal oil tank for an oil generator bionic.",
     "volume": "751 ml",
     "weight": "1 g",
     "price": 0,
@@ -78,7 +78,7 @@
     "id": "internal_battery_compartment",
     "type": "TOOL_ARMOR",
     "name": { "str": "internal battery compartment" },
-    "description": "Internal compartment for holding medium sized batteries for battery system bionic.",
+    "description": "The internal compartment for holding medium sized batteries, for a battery system bionic.",
     "volume": "750 ml",
     "weight": "1 g",
     "price": 0,
@@ -98,10 +98,10 @@
   },
   {
     "id": "toolset",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "category": "armor",
-    "weight": "200 g",
-    "volume": "125 ml",
+    "weight": "100 g",
+    "volume": "75 ml",
     "price": 0,
     "price_postapoc": 0,
     "symbol": ",",
@@ -117,14 +117,11 @@
       "SOFT",
       "NO_REPAIR",
       "ALLOWS_NATURAL_ATTACKS",
-      "TRADER_AVOID",
-      "USES_BIONIC_POWER"
+      "TRADER_AVOID"
     ],
     "material": [ "superalloy", "copper" ],
     "name": { "str_sp": "integrated multitool" },
     "description": "Integrated bionic tools implanted in your fingers.",
-    "bashing": 1,
-    "cutting": 3,
     "to_hit": -1,
     "armor": [
       {
@@ -151,14 +148,45 @@
       [ "PRYING_NAIL", 1 ],
       [ "BUTCHER", -15 ]
     ],
+    "use_action": [ { "type": "CROWBAR", "ammo_scale": 0 } ],
+    "melee_damage": { "bash": 1, "cut": 3 }
+  },
+  {
+    "id": "integrated_welder",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "weight": "100 g",
+    "volume": "50 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": ",",
+    "color": "brown",
+    "warmth": 0,
+    "environmental_protection": 0,
+    "material_thickness": 0.5,
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "WATER_FRIENDLY",
+      "SOFT",
+      "NO_REPAIR",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID",
+      "USES_BIONIC_POWER"
+    ],
+    "material": [ "superalloy", "copper" ],
+    "name": { "str_sp": "integrated welder" },
+    "description": "Integrated bionic miniature welding tool implanted in your fingers.",
+    "to_hit": -1,
     "use_action": [
-      "CROWBAR",
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
         "materials": [
           "iron",
           "steel",
+          "budget_steel",
           "lc_steel",
           "mc_steel",
           "hc_steel",
@@ -185,6 +213,10 @@
         "move_cost": 1000,
         "tool_quality": 10
       }
-    ]
+    ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 20,
+    "charged_qualities": [ [ "WELD", 2 ] ],
+    "melee_damage": { "bash": 2, "cut": -1 }
   }
 ]

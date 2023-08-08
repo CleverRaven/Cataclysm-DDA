@@ -92,6 +92,7 @@
       { "item": "manual_stabbing", "prob": 40 },
       { "item": "manual_swimming", "prob": 30 },
       { "item": "manual_traps_mil", "prob": 30 },
+      { "item": "manual_traps_mil_basic", "prob": 30 },
       { "item": "pocket_firearms", "prob": 10 },
       { "item": "textbook_firstaid", "prob": 30 }
     ]
@@ -164,6 +165,8 @@
       { "item": "holybook_bible1", "prob": 1 },
       { "item": "holybook_bible2", "prob": 1 },
       { "item": "holybook_bible3", "prob": 1 },
+      { "item": "holybook_bible4", "prob": 1 },
+      { "item": "holybook_bible5", "prob": 1 },
       { "item": "holybook_quran", "prob": 1 },
       { "item": "holybook_hadith", "prob": 1 },
       { "item": "holybook_havamal", "prob": 1 },
@@ -180,7 +183,8 @@
       { "item": "holybook_slack", "prob": 1 },
       { "item": "holybook_kallisti", "prob": 1 },
       { "item": "holybook_scientology", "prob": 1 },
-      { "item": "holybook_satanic", "prob": 1 }
+      { "item": "holybook_satanic", "prob": 1 },
+      { "item": "book_judaica_siddur", "prob": 1 }
     ]
   },
   {
@@ -298,7 +302,9 @@
       { "item": "cookbook_eatyrway", "prob": 15 },
       { "item": "cookbook_foodfashions", "prob": 10 },
       { "item": "cookbook_indian", "prob": 10 },
+      { "item": "cookbook_native", "prob": 5 },
       { "item": "cookbook_mexican", "prob": 10 },
+      { "item": "cookbook_turkish", "prob": 5 },
       { "item": "sweets_book", "prob": 10 },
       { "item": "survnote", "prob": 1 },
       { "item": "arduino_experiments", "prob": 5 },
@@ -317,7 +323,9 @@
       { "item": "fermenting_book", "prob": 8 },
       { "item": "distilling_cookbook", "prob": 3 },
       { "item": "cookbook_bloodforgood", "prob": 2 },
-      { "group": "memorial", "prob": 10 }
+      { "group": "memorial", "prob": 10 },
+      { "item": "book_judaica_hardcover", "prob": 5 },
+      { "item": "book_judaica_softcover", "prob": 5 }
     ]
   },
   {
@@ -377,12 +385,12 @@
       { "item": "manual_computer", "prob": 20 },
       { "item": "webbasics_computer", "prob": 20 },
       { "item": "hackerman_computer", "prob": 10 },
-      { "item": "recipe_augs", "prob": 5 },
       { "item": "howto_computer", "prob": 10 },
       { "item": "cookbook", "prob": 35 },
       { "item": "offalcooking", "prob": 8 },
       { "item": "cookbook_italian", "prob": 25 },
       { "item": "cookbook_indian", "prob": 10 },
+      { "item": "cookbook_native", "prob": 5 },
       { "item": "cookbook_mexican", "prob": 10 },
       { "item": "sweets_book", "prob": 10 },
       { "item": "manual_electronics", "prob": 20 },
@@ -399,11 +407,9 @@
       { "item": "reference_firstaid2", "prob": 1 },
       { "item": "basic_chemistry", "prob": 10 },
       { "item": "survnote", "prob": 3 },
-      { "item": "winemaking_beginner", "prob": 10 },
       { "item": "manual_canning", "prob": 8 },
       { "item": "manual_sealing", "prob": 9 },
       { "item": "vacuum_sealing", "prob": 5 },
-      { "group": "catalyic_cracking_items", "prob": 7 },
       { "item": "arduino_experiments", "prob": 5 },
       { "item": "fermenting_book", "prob": 8 },
       { "item": "book_pneumatics", "prob": 3 },
@@ -450,6 +456,7 @@
       { "item": "textbook_chemistry", "prob": 11 },
       { "item": "brewing_cookbook", "prob": 3 },
       { "item": "cookbook_indian", "prob": 5 },
+      { "item": "cookbook_native", "prob": 3 },
       { "item": "cookbook_mexican", "prob": 3 },
       { "item": "sweets_book", "prob": 5 },
       { "item": "textbook_carpentry", "prob": 6 },
@@ -462,8 +469,6 @@
       { "item": "textbook_biodiesel", "prob": 12 },
       { "item": "textbook_fabrication", "prob": 12 },
       { "item": "welding_book", "prob": 2 },
-      { "item": "glassblowing_book", "prob": 2 },
-      { "group": "catalyic_cracking_items", "prob": 3 },
       { "item": "plastics_book", "prob": 4 },
       { "item": "concrete_book", "prob": 2 },
       { "item": "textbook_tailor", "prob": 12 },
@@ -482,6 +487,7 @@
       { "item": "textbook_fireman", "prob": 10 },
       { "item": "textbook_armschina", "prob": 3 },
       { "item": "textbook_weapwest", "prob": 3 },
+      { "item": "textbook_weparabic", "prob": 3 },
       { "item": "textbook_weapeast", "prob": 3 },
       { "item": "textbook_armwest", "prob": 3 },
       { "item": "textbook_armeast", "prob": 3 },
@@ -571,8 +577,7 @@
       { "item": "vacuum_sealing", "prob": 15 },
       { "item": "baking_book", "prob": 190 },
       { "item": "book_pneumatics", "prob": 8 },
-      { "item": "cookbook_bloodforgood", "prob": 50 },
-      { "group": "memorial_mansion", "prob": 10 }
+      { "item": "cookbook_bloodforgood", "prob": 50 }
     ]
   },
   {
@@ -582,6 +587,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "textbook_weapwest", "prob": 15 },
+      { "item": "textbook_weparabic", "prob": 15 },
       { "item": "textbook_weapeast", "prob": 15 },
       { "item": "textbook_armwest", "prob": 15 },
       { "item": "textbook_armeast", "prob": 15 },
@@ -594,6 +600,7 @@
       { "item": "collector_book", "prob": 10 },
       { "item": "brewing_cookbook", "prob": 24 },
       { "item": "cookbook_indian", "prob": 10 },
+      { "item": "cookbook_native", "prob": 10 },
       { "item": "sweets_book", "prob": 10 },
       { "item": "textbook_robots", "prob": 15 },
       { "item": "manual_dodge", "prob": 15 },
@@ -902,12 +909,104 @@
     "entries": [ { "group": "missing_poster_animal", "prob": 4 }, { "group": "missing_poster_human", "prob": 1 } ]
   },
   {
+    "id": "stand_flyer_maps",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "satellitemap", "prob": 1 },
+      { "item": "touristmap", "prob": 2 },
+      { "item": "trailmap", "prob": 2 },
+      { "item": "roadmap", "prob": 1 }
+    ]
+  },
+  {
+    "id": "pamphlets",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "buylocalpamphlet", "prob": 2 },
+      { "item": "getactivepamphlet", "prob": 1 },
+      { "item": "petpamphlet", "prob": 1 },
+      { "item": "nightlifepamphlet", "prob": 2 },
+      { "item": "gunnutpamphlet", "prob": 1 },
+      { "item": "petpamphlet", "prob": 1 }
+    ]
+  },
+  {
+    "id": "brochures",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "restaurantbrochure", "prob": 2 },
+      { "item": "grocerybrochure", "prob": 1 },
+      { "item": "historybrochure", "prob": 1 },
+      { "item": "mallbrochure", "prob": 2 },
+      { "item": "furniturebrochure", "prob": 1 },
+      { "item": "technologybrochure", "prob": 1 }
+    ]
+  },
+  {
+    "id": "stand_flyer_bad",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "flyer", "count": 3, "prob": 6 },
+          { "group": "pamphlets", "count": 3, "prob": 1 },
+          { "group": "brochures", "count": 3, "prob": 1 }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "flyer", "count": 3, "prob": 6 },
+          { "group": "pamphlets", "count": 3, "prob": 1 },
+          { "group": "brochures", "count": 3, "prob": 1 }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "flyer", "count": 3, "prob": 6 },
+          { "group": "pamphlets", "count": 3, "prob": 1 },
+          { "group": "brochures", "count": 3, "prob": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "stand_flyer_good",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "flyer", "count": 3, "prob": 1 }, { "group": "stand_flyer_maps", "count": 3, "prob": 1 } ]
+      },
+      {
+        "distribution": [ { "item": "flyer", "count": 3, "prob": 1 }, { "group": "stand_flyer_maps", "count": 3, "prob": 1 } ]
+      },
+      {
+        "distribution": [ { "item": "flyer", "count": 3, "prob": 1 }, { "group": "stand_flyer_maps", "count": 3, "prob": 1 } ]
+      }
+    ]
+  },
+  {
+    "id": "stand_flyer",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "stand_flyer",
+    "entries": [ { "group": "stand_flyer_good", "prob": 1 }, { "group": "stand_flyer_bad", "prob": 3 } ]
+  },
+  {
     "id": "bulletin_public",
     "type": "item_group",
     "//": "Public messages posted on bulletin boards in public spaces to advertise items wanted or for sale, announce events, or provide information.",
     "//2": "TO DO: local adverts, event announcements, job application posters, etc.",
     "subtype": "collection",
-    "entries": [ { "group": "missing_poster_all", "prob": 30 }, { "item": "flyer", "prob": 70, "count": [ 1, 2 ] } ]
+    "entries": [
+      { "group": "missing_poster_all", "prob": 30 },
+      { "item": "flyer", "prob": 70, "count": [ 1, 2 ] },
+      { "item": "buylocalpamphlet", "prob": 15 }
+    ]
   },
   {
     "id": "bulletin_police",

@@ -185,19 +185,7 @@
       "base_wind": 3.4,
       "base_wind_distrib_peaks": 80,
       "base_wind_season_variation": 50,
-      "weather_types": [
-        "clear",
-        "sunny",
-        "cloudy",
-        "light_drizzle",
-        "drizzle",
-        "rain",
-        "thunder",
-        "lightning",
-        "flurries",
-        "snowing",
-        "snowstorm"
-      ]
+      "weather_black_list": [ "early_portal_storm", "portal_storm" ]
     },
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [ "LAB" ], "clear_whitelist": false, "whitelist": [  ] }
   }

@@ -1,0 +1,8 @@
+[
+  {
+    "type": "effect_type",
+    "id": "asked_to_vitakinetic_heal",
+    "name": [ "Asked to heal" ],
+    "desc": [ "You were asked if you wanted your illness healed and you said no." ]
+  }
+]

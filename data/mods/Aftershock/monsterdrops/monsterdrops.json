@@ -10,7 +10,7 @@
     "id": "tripod",
     "items": [
       { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 3000 },
-      [ "kevlar_plate", 10 ],
+      [ "sheet_kevlar_layered", 10 ],
       [ "ceramic_armor", 15 ],
       [ "alloy_plate", 10 ],
       [ "robot_controls", 3 ]
@@ -46,7 +46,7 @@
       { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 3000 },
       [ "556", 8 ],
       [ "alloy_plate", 10 ],
-      [ "kevlar_plate", 10 ],
+      [ "sheet_kevlar_layered", 10 ],
       [ "ceramic_armor", 10 ],
       [ "hard_plate", 30 ],
       [ "robot_controls", 5 ]

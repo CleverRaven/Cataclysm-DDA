@@ -1314,7 +1314,7 @@
         "id": "skeletal",
         "text": "Skeletal",
         "color": "red",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 14000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
       },
       {
         "id": "emaciated",
@@ -1322,8 +1322,8 @@
         "color": "light_red",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 14000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 16000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
           ]
         }
       },
@@ -1333,8 +1333,8 @@
         "color": "yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 16000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 18500 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
           ]
         }
       },
@@ -1342,11 +1342,10 @@
         "id": "normal",
         "text": "Normal",
         "color": "light_gray",
-        "//": "Actually 18.5 - 25",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 18500 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 25000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
           ]
         }
       },
@@ -1356,8 +1355,8 @@
         "color": "yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 25000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
           ]
         }
       },
@@ -1367,8 +1366,8 @@
         "color": "light_red",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 35000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
           ]
         }
       },
@@ -1378,8 +1377,8 @@
         "color": "red",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 35000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 40000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
           ]
         }
       },
@@ -1387,7 +1386,7 @@
         "id": "morbidly_obese",
         "text": "Morbidly Obese",
         "color": "red",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 40000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
       }
     ]
   },
@@ -1401,22 +1400,22 @@
       {
         "text": "Skin and Bones",
         "color": "yellow",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 18000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
       },
       {
         "text": "Boring",
         "color": "white",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 18000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
           ]
         }
       },
       {
         "text": "C H O N K",
         "color": "pink",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] }
       }
     ]
   },

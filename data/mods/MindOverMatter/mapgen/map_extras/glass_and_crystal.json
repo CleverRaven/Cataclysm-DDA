@@ -1,0 +1,56 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_glass_and_crystal",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_nested": [ { "chunks": [ "glass_and_crystal_chunk" ], "x": [ 2, 15 ], "y": [ 2, 15 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "glass_and_crystal_chunk",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "  GGG  ",
+        " GGGGG ",
+        "GGGGGGG",
+        "GGGGGGG",
+        "GGGGGGG",
+        " GGGGG ",
+        "  GGG  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "G": [ [ "t_nether_stone", 2 ], [ "t_nether_crystal_structure", 1 ], [ "t_null", 2 ] ], " ": "t_null" }
+    }
+  }
+]

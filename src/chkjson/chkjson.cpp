@@ -18,6 +18,12 @@
 #include <string>
 #include <vector>
 
+#if defined(_MSC_VER)
+#include <io.h>
+#else
+#include <unistd.h>
+#endif
+
 #include "json.h"
 
 // copypasta: file_finder.cpp
@@ -166,11 +172,28 @@ static void load_json_dir( const std::string &dirname )
 
 int main( int, char ** )
 {
-    setlocale( LC_ALL, "" );
+#if defined(_MSC_VER)
+    bool supports_color = _isatty( _fileno( stdout ) );
+#else
+    bool supports_color = isatty( STDOUT_FILENO );
+#endif
+    // formatter stdout in github actions is redirected but still able to handle ANSI colors
+    supports_color |= std::getenv( "CI" ) != nullptr;
+
+    // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+    json_error_output_colors = supports_color
+                               ? json_error_output_colors_t::ansi_escapes
+                               : json_error_output_colors_t::no_colors;
+
+    char *result = setlocale( LC_ALL, "" );
+    if( !result ) {
+        std::cerr << "Failed to set locale\n";
+        return 1;
+    }
     try {
         load_json_dir( "data/json" );
     } catch( const std::exception &err ) {
-        printf( "Error: %s\n", err.what() );
+        std::cerr << "Error: " << err.what() << "\n";
         return 1;
     }
     return 0;

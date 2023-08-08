@@ -1,0 +1,407 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_difficultysafeguard",
+    "//": "This EOC gets called after a teleport is initialized but before it is finished.  It basically just checks if you're running an older save or somehow missed the difficulty assignment.",
+    "condition": { "math": [ "has_set_difficulty", "==", "0" ] },
+    "effect": [
+      {
+        "u_message": "You haven't selected a difficulty.  This could be because you're playing an old save.\n\nYour current difficulty has been set to Normal.  In this setting, you will have 4 hours in every expedition to reach the exit and leave safely.  After this, warp sickness sets in and applies heavy debuffs until you exit.  After 6 hours, warp disintegration begins, and you will rapidly lose health until you exit or die.",
+        "popup": true
+      },
+      { "run_eocs": [ "EOC_difficultycheck1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_warp_statue",
+    "//": "This EOC is triggered when activating the statue.  It grabs a random location of a certain type (here a field), saves it to a global variable, and then triggers the actual teleport-out EOC, which is separate so multiple different things can trigger it and potentially target different locations.",
+    "condition": {
+      "u_query": "Begin searching for a spot to teleport to?  This may take a moment while we scan the world.  Your game may appear to freeze for up to a few minutes, especially for your first expedition.",
+      "default": false
+    },
+    "effect": [ { "run_eocs": [ "EOC_Random_Loc_Warp", "EOC_difficultysafeguard", "EOC_initiate_randomport" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_initiate_randomport",
+    "//": "The actual EOC that teleports the player to the ground.  A target location must already be stored when this is called.  When this begins, it also memorizes the player's exact position on leaving, which is where they'll return to when the mission ends or they die.  It gives you a warp recharge cooldown, which must expire over time before you're able to voluntarily return home.  It also gives you the stable form of warp sickness, so that the player has a visual status reminder they can check.  Finally, it turns you invisible for 60 seconds so you can at least try to reach cover if you spawn in danger.",
+    "effect": [
+      { "u_location_variable": { "global_val": "OM_HQ_origin" } },
+      { "u_add_effect": "warpcloak", "intensity": 1, "duration": "60 s" },
+      {
+        "u_teleport": { "global_val": "OM_missionspot" },
+        "fail_message": "It seems the portal couldn't find a valid location.",
+        "force": true
+      },
+      {
+        "u_message": "You're still materializing and not fully visible yet.  In about 60 seconds, the world will be able to see you, so if you were warped into danger, now's your chance to get to cover.",
+        "popup": false
+      },
+      {
+        "u_message": "You've arrived!\nPress a key when ready and random missions will be generated for this expedition.  This may take another minute.",
+        "popup": true
+      },
+      { "run_eocs": [ "EOC_safely_landed" ] },
+      { "u_add_trait": "awayfromhome" },
+      { "u_add_effect": "warpsickness", "intensity": 6, "duration": "PERMANENT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_return_OM_teleport",
+    "//": "This is the EOC which actually returns you home.  It brings you home and removes all warp-related effects including warp sickness.  It also resets the awayfromhome counter to 0 so warp sickness can be tracked properly next time you're out.",
+    "effect": [
+      { "u_teleport": { "global_val": "OM_HQ_origin" }, "force": true },
+      { "u_remove_item_with": "warphome" },
+      { "math": [ "raidstotal", "++" ] },
+      { "u_lose_trait": "awayfromhome" },
+      { "u_lose_effect": "warpsickness" },
+      { "u_lose_effect": "warpdisintegration" },
+      {
+        "run_eocs": [ "EOC_clearmissions", "EOC_clearmissions", "EOC_clearmissions", "EOC_progressgate1", "EOC_progressgate2" ]
+      },
+      { "alter_timed_events": "return_portal_close" },
+      { "math": [ "timeawayfromhome", "=", "0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_progressgate1",
+    "//": "Checks to see if you have successfully completed 5 raids and unlocks higher difficulty.",
+    "condition": { "and": [ { "math": [ "isdifficult", "==", "0" ] }, { "math": [ "raidswon", ">=", "5" ] } ] },
+    "effect": [
+      {
+        "u_message": "You've proved you can survive a few excursions to the world below.  As if in response, the warpstream surges with new energies.  You may find yourself deploying to more dangerous places, or charged with harder missions.\nYour magical healing salve will no longer work.  Be cautious in your future endeavors.",
+        "popup": true
+      },
+      { "math": [ "isdifficult", "=", "1" ] },
+      { "math": [ "hardmissions", "=", "10" ] },
+      { "math": [ "hardermissions", "=", "5" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_progressgate2",
+    "//": "Checks to see if you have successfully completed 5 raids and unlocks higher difficulty.",
+    "condition": { "and": [ { "math": [ "isdifficult", "==", "1" ] }, { "math": [ "raidswon", ">=", "10" ] } ] },
+    "effect": [
+      {
+        "u_message": "You've proved sufficient understanding of the warpstream.  The hardest tier of missions is now available.  You never know what awaits earthside.",
+        "popup": true
+      },
+      { "math": [ "isdifficult", "=", "2" ] },
+      { "math": [ "hardmissions", "=", "15" ] },
+      { "math": [ "hardermissions", "=", "15" ] },
+      { "math": [ "hardestmissions", "=", "10" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_clearmissions",
+    "//": "This EOC wipes all missions you might have.  It's more or less a full list of any random missions you can be assigned.",
+    "effect": [
+      { "remove_active_mission": "MISSION_REACH_EXTRACT" },
+      { "remove_active_mission": "MISSION_BONUS_TREASURE" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_LIGHT" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_HORDE" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_MID" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_MID_HORDE" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_HARD" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_ELITE" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_BOSS" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_BOSS_GROUP" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_MIGO" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_MIGO_ELITE" },
+      { "finish_mission": "MISSION_BONUS_SLAUGHTER_ZED1", "success": false },
+      { "finish_mission": "MISSION_BONUS_SLAUGHTER_ZED2", "success": false },
+      { "finish_mission": "MISSION_BONUS_SLAUGHTER_ZED3", "success": false },
+      { "finish_mission": "MISSION_BONUS_SLAUGHTER_MIGO", "success": false },
+      { "finish_mission": "MISSION_BONUS_SLAUGHTER_NETHER", "success": false },
+      { "finish_mission": "MISSION_BONUS_SLAUGHTER_BIRD", "success": false },
+      { "finish_mission": "MISSION_BONUS_SLAUGHTER_MAMMAL", "success": false },
+      { "remove_active_mission": "MISSION_BONUS_ASSASSIN1" },
+      { "remove_active_mission": "MISSION_BONUS_ASSASSIN2" },
+      { "remove_active_mission": "MISSION_BONUS_ASSASSIN3" },
+      { "remove_active_mission": "MISSION_BONUS_ASSASSIN4" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_statue_return",
+    "//": "This EOC is activated by return portals.  It's just here to confirm that you want to return home, then triggers the actual teleport home.",
+    "condition": {
+      "u_query": "This will teleport you back home with only the items on your person.  Anything left behind will be as good as gone.  Are you ready to leave?",
+      "default": false
+    },
+    "effect": [ { "math": [ "raidswon", "++" ] }, { "run_eocs": [ "EOC_return_OM_teleport" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_homewardmote",
+    "//": "This EOC is activated by eating a return pill, the homeward mote.  Identical to statue return but with no query to avoid wasting the pill.  Also destroys any motes you were carrying.",
+    "effect": [ { "run_eocs": [ "EOC_return_OM_teleport" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_youdied",
+    "//": "This EOC is called when the player dies.  Before anything else happens, it checks if the player has a lifeshield mote.  If so, it warps you home safe and sound, counting as neither a loss nor a victory, and all your stuff comes with you.  Otherwise, it moves on to other death checks below.",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "u_has_item": "warphome" },
+    "effect": [
+      { "run_eocs": [ "EOC_homewardmote", "EOC_healall" ] },
+      {
+        "u_message": "Moments before your last breath leaves your body, the mote of warp essence on you jolts with a brilliant energy.  Its thin filament immediately snaps tight, reeling you home faster than you can process what it was that just saved your life.  The mote is spent, but you arrive home alive and well.",
+        "popup": true
+      }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_deathconfirmed" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_deathconfirmed",
+    "//": "The player's death is now confirmed and not protected.  The true effect is when you die on the island, and the false effect is when you die out in the world.  Both make you incorporeal, which saves you from damage but also makes you drop all items behind, then heal you slightly to prevent death.",
+    "condition": { "not": { "u_has_trait": "awayfromhome" } },
+    "effect": [
+      { "u_add_effect": "downed", "duration": 1 },
+      { "u_add_effect": "incorporeal", "duration": 500 },
+      { "run_eocs": [ "EOC_death_heal" ] },
+      {
+        "u_message": "You died at home?  What's the matter with you?  Stop this.  You are restored.  The powers that be have made you temporarily incorporeal, in case you were stuck in a deadly loop.",
+        "popup": true
+      }
+    ],
+    "false_effect": [
+      { "u_add_effect": "incorporeal", "duration": 1 },
+      { "u_add_effect": "downed", "duration": 1 },
+      { "run_eocs": [ "EOC_death_heal" ] },
+      { "u_spawn_item": "corpse_painful" },
+      { "math": [ "raidslost", "++" ] },
+      { "queue_eocs": "EOC_return_OM_teleport", "time_in_future": "1 s" },
+      {
+        "u_message": "You feel the icy grip of death begin to take you, and the world whirls and rushes past.  Reality bends and at the peak of your last mortal moment, something snags you and hauls you through space and time.  Your mind has been preserved, at cost, and your body is not far behind.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEAL_NEWBIE",
+    "//": "Runs when using newbie salve.  Free heals until you have 5 wins.",
+    "condition": { "math": [ "isdifficult", "==", "0" ] },
+    "effect": [ { "run_eocs": [ "EOC_healall" ] } ],
+    "false_effect": [
+      {
+        "u_message": "The salve has no effect.  It was only ever meant for the inexperienced and the innocent.  You've proved capable in your successful expeditions and must rely on yourself from now on."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_healall",
+    "//": "Just a simple EOC to bring all your HP to full, while not addressing most other health factors.  Can only be used at home.",
+    "condition": { "not": { "u_has_trait": "awayfromhome" } },
+    "effect": [
+      {
+        "u_message": "Your body mends itself in the blink of an eye.  Underlying health issues may persist, but your structural integrity is restored."
+      },
+      { "u_set_hp": 999, "only_increase": true },
+      { "run_eocs": [ "EOC_healextras" ] }
+    ],
+    "false_effect": [
+      {
+        "u_message": "The effect is wasted and you don't feel any better.  You have to be in your sanctuary to be healed by this!"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_healextras",
+    "//": "Clears up various conditions beyond just your hp.  Should cover most diseases and infections, prevent extreme thirst and starvation, wipe pain, and even cure a few edge cases like being covered in acid.",
+    "effect": [
+      { "math": [ "u_val('stored_kcal')", "=", "max( u_val('stored_kcal'), 9000)" ] },
+      { "math": [ "u_val('thirst')", "=", "min( u_val('thirst'), 800)" ] },
+      { "math": [ "u_val('vitamin', 'name: redcells')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: bad_food')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: blood')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: instability')", "=", "0" ] },
+      { "math": [ "u_pain()", "=", "0" ] },
+      { "math": [ "u_val('rad')", "=", "0" ] },
+      { "u_add_effect": "cureall", "duration": "1 s", "intensity": 1 },
+      { "u_add_effect": "panacea", "duration": "30 s", "intensity": 1 },
+      { "u_lose_effect": "corroding" },
+      { "u_lose_effect": "onfire" },
+      { "u_lose_effect": "dazed" },
+      { "u_lose_effect": "stunned" },
+      { "u_lose_effect": "venom_blind" },
+      { "u_lose_effect": "formication" },
+      { "u_lose_effect": "blisters" },
+      { "u_lose_effect": "frostbite" },
+      { "u_lose_effect": "frostbite_recovery" },
+      { "u_lose_effect": "wet" },
+      { "u_lose_effect": "slimed" },
+      { "u_lose_effect": "migo_atmosphere" },
+      { "u_lose_effect": "fetid_goop" },
+      { "u_lose_effect": "sap" },
+      { "u_lose_effect": "nausea" },
+      { "u_lose_effect": "bleed" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_death_heal",
+    "//": "This is the heal that is called when you die to make sure you have enough health to not-die.  It also lowers your hunger and thirst slightly if they're above an extreme limit.  Finally it sets your sub-parts to full health since they will otherwise get totally ruined and don't seem to have any natural way to heal.",
+    "effect": [
+      { "u_set_hp": 999, "only_increase": true },
+      { "u_set_hp": 15, "only_increase": false, "target_part": "torso" },
+      { "u_set_hp": 15, "only_increase": false, "target_part": "head" },
+      { "u_set_hp": 15, "only_increase": false, "target_part": "arm_l" },
+      { "u_set_hp": 15, "only_increase": false, "target_part": "arm_r" },
+      { "u_set_hp": 15, "only_increase": false, "target_part": "leg_r" },
+      { "u_set_hp": 15, "only_increase": false, "target_part": "leg_l" },
+      { "run_eocs": [ "EOC_healextras" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_warp_begins",
+    "//": "This EOC is triggered when the Warper scenario begins.  It initializes a few variables, and memorizes your spawn location for resurrection just in case you somehow die before using the warp obelisk.  Also learns your spell for emergencies.",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      {
+        "u_message": "Welcome to Sky Islands.  Here, you will have to make expeditions from your floating sanctuary base to the world below.  Fight your way to the exit within the time limit and bring back whatever you can carry, but if you die, you will be returned to the island injured, and lose all equipment you were carrying.",
+        "popup": true
+      },
+      {
+        "u_message": "While on expedition, you will be timed by 'warp pulses', which hit you at regular intervals.  After 8 pulses, you will suffer warp sickness, which results in reduced stats.  Every pulse after that will lower your stats even further.  After the 12th pulse, you will also begin disintegrating, taking damage until you die.\n\nGet home safely to reset the timer!",
+        "popup": true
+      },
+      {
+        "u_message": "Now, let's select your difficulty mode!\n\nThis only affects how long the expedition timer is.  It won't change combat difficulty or any other settings.",
+        "popup": true
+      },
+      { "math": [ "has_set_difficulty", "=", "0" ] },
+      { "run_eocs": [ "EOC_difficultycheck" ] },
+      { "u_location_variable": { "global_val": "OM_HQ_origin" } },
+      { "math": [ "timeawayfromhome", "=", "0" ] },
+      { "math": [ "raidstotal", "=", "0" ] },
+      { "math": [ "raidswon", "=", "0" ] },
+      { "math": [ "raidslost", "=", "0" ] },
+      { "math": [ "isdifficult", "=", "0" ] },
+      { "math": [ "missionswon", "=", "0" ] },
+      { "math": [ "slaughterswon", "=", "0" ] },
+      { "math": [ "hardmissions", "=", "0" ] },
+      { "math": [ "hardermissions", "=", "0" ] },
+      { "math": [ "hardestmissions", "=", "0" ] },
+      { "math": [ "distancetotarget", "=", "0" ] },
+      { "math": [ "mindistancetotarget", "=", "0" ] },
+      { "math": [ "u_val('spell_level', 'spell: warp_home')", "=", "0" ] },
+      { "math": [ "u_val('spell_exp', 'spell: warp_home')", "=", "0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_difficultycheck",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_difficulty0", "EOC_difficulty1", "EOC_difficulty2", "EOC_difficulty3" ],
+        "names": [ "Casual", "Normal", "Hard", "Impossible" ],
+        "keys": [ "1", "2", "3", "4" ],
+        "descriptions": [
+          "In Casual difficulty, time limits are more relaxed.\nWarp pulses occur every 90 minutes.  This means warp sickness sets in after 12 hours of being earthside, and disintegration at 18 hours.  You will have more time for activities and reaching the extract should generally not be a problem.",
+          "In Normal Difficulty, pulses occur every 45 minutes.  This means on every expedition, you will have 6 hours to explore, fight, loot, and find the exit before warp sickness sets in, and 8 hours total before disintegration begins.\nThis is the intended way to play.  Getting to the exit is not a cakewalk, but you should have time to explore while earthside.",
+          "In Hard difficulty, time limits are strict.\nWarp pulses occur every 30 minutes.  This means warp sickness sets in after only 4 hours of being earthside, and disintegration at 6 hours.  You will have much less time to spare and must make getting to the exit your immediate priority.",
+          "In Impossible difficulty, time limits are extremely tight.\nWarp pulses occur every 15 minutes.  This means warp sickness sets in after only 2 hours of being earthside, and disintegration at 3 hours.  Reaching the extract alive will take all the time you can spare, and warp sickness will be common.  You will not be given mercy!"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_difficulty0",
+    "effect": [
+      {
+        "u_message": "Difficulty set to Casual.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "90 m" } ] },
+      { "math": [ "has_set_difficulty", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_difficulty1",
+    "effect": [
+      {
+        "u_message": "Difficulty set to Normal.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "45 m" } ] },
+      { "math": [ "has_set_difficulty", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_difficulty2",
+    "effect": [
+      {
+        "u_message": "Difficulty set to Hard.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "30 m" } ] },
+      { "math": [ "has_set_difficulty", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_difficulty3",
+    "effect": [
+      {
+        "u_message": "Difficulty set to Impossible.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "15 m" } ] },
+      { "math": [ "has_set_difficulty", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_statcheck",
+    "//": "Displays the player's stats.",
+    "effect": [
+      { "math": [ "readablesicknessintervals", "=", "sicknessintervals / 60" ] },
+      {
+        "u_message": "Total expeditions: <global_val:raidstotal> \nWins: <global_val:raidswon> \nLosses: <global_val:raidslost> \nMissions complete: <u_val:missionswon> \nSlaughter missions complete: <global_val:slaughterswon>\n\nCurrent difficulty settings:\nWarpsickness at: 8 pulses.\nDisintegration at: 12 pulses.\nPulses every: <global_val:readablesicknessintervals> minutes."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_ISLANDSTORM",
+    "//": "Pre-portal-ending check that makes sure you're on the island first.  Called by wardstone.",
+    "condition": { "not": { "u_has_trait": "awayfromhome" } },
+    "effect": [
+      { "u_message": "The warding stone crackles with static electricity." },
+      { "run_eocs": [ "EOC_CANCEL_PORTAL_STORM" ] }
+    ],
+    "false_effect": [ { "u_message": "This stone can only be used in your sanctuary!" } ]
+  },
+  {
+    "id": "warp_home",
+    "type": "SPELL",
+    "name": "Warp Home",
+    "//": "A simple no-failure spell that can be cast with hands full and triggers the EOC to return home.  Flagged as verbal so you make noise while casting, increasing the need to find a safe spot to warp from.  This only exists in case of bugs.",
+    "description": "Take a full minute of concentration and return to the safety of your home base.  THIS SPELL IS FOR EMERGENCIES AND CHEATERS ONLY -- USE IN THE EVENT YOUR EXIT ROOM DID NOT SPAWN SUCCESSFULLY.",
+    "valid_targets": [ "self" ],
+    "spell_class": "NONE",
+    "flags": [ "NO_EXPLOSION_SFX", "NO_FAIL", "NO_LEGS", "NO_HANDS", "VERBAL" ],
+    "difficulty": 0,
+    "min_damage": 1,
+    "max_damage": 1,
+    "duration_increment": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_return_OM_teleport",
+    "shape": "blast",
+    "energy_source": "NONE",
+    "base_energy_cost": 0,
+    "final_energy_cost": 0,
+    "base_casting_time": 6000,
+    "final_casting_time": 6000
+  }
+]

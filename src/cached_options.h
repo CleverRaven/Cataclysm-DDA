@@ -1,5 +1,9 @@
+#pragma once
 #ifndef CATA_SRC_CACHED_OPTIONS_H
 #define CATA_SRC_CACHED_OPTIONS_H
+
+#include <string>
+#include <vector>
 
 // A collection of options which are accessed frequently enough that we don't
 // want to pay the overhead of a string lookup each time one is tested.
@@ -26,6 +30,11 @@ extern int pixel_minimap_r;
 extern int pixel_minimap_g;
 extern int pixel_minimap_b;
 extern int pixel_minimap_a;
+
+namespace cata::options
+{
+extern std::vector<std::string> damage_indicators;
+} // namespace cata::options
 
 // test_mode is not a regular game option; it's true when we are running unit
 // tests.

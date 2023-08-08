@@ -6,6 +6,7 @@
 #include <iterator>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <utility>
 
@@ -27,7 +28,6 @@
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "messages.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
@@ -169,6 +169,8 @@ std::string action_ident( action_id act )
             return "toggle_run";
         case ACTION_TOGGLE_CROUCH:
             return "toggle_crouch";
+        case ACTION_TOGGLE_PRONE:
+            return "toggle_prone";
         case ACTION_OPEN_MOVEMENT:
             return "open_movement";
         case ACTION_OPEN:
@@ -285,6 +287,8 @@ std::string action_ident( action_id act )
             return "autosafe";
         case ACTION_TOGGLE_THIEF_MODE:
             return "toggle_thief_mode";
+        case ACTION_TOGGLE_LANGUAGE_TO_EN:
+            return "toggle_language_to_en";
         case ACTION_IGNORE_ENEMY:
             return "ignore_enemy";
         case ACTION_WHITELIST_ENEMY:
@@ -309,8 +313,6 @@ std::string action_ident( action_id act )
             return "missions";
         case ACTION_FACTIONS:
             return "factions";
-        case ACTION_SCORES:
-            return "scores";
         case ACTION_MEDICAL:
             return "medical";
         case ACTION_BODYSTATUS:
@@ -440,7 +442,6 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_MAP:
         case ACTION_SKY:
         case ACTION_MISSIONS:
-        case ACTION_SCORES:
         case ACTION_FACTIONS:
         case ACTION_MORALE:
         case ACTION_MEDICAL:
@@ -537,13 +538,13 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound_pre, key_bound_suf, key_unbound );
 }
-cata::optional<std::string> press_x_if_bound( action_id act )
+std::optional<std::string> press_x_if_bound( action_id act )
 {
     input_context ctxt = get_default_mode_input_context();
     std::string description = action_ident( act );
     if( ctxt.keys_bound_to( description, /*maximum_modifier_count=*/ -1,
                             /*restrict_to_printable=*/false ).empty() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return press_x( act );
 }
@@ -601,14 +602,14 @@ point get_delta_from_movement_action( const action_id act, const iso_rotate rot 
     }
 }
 
-cata::optional<input_event> hotkey_for_action( const action_id action,
+std::optional<input_event> hotkey_for_action( const action_id action,
         const int maximum_modifier_count, const bool restrict_to_printable )
 {
     const std::vector<input_event> keys = keys_bound_to( action,
                                           maximum_modifier_count,
                                           restrict_to_printable );
     if( keys.empty() ) {
-        return cata::nullopt;
+        return std::nullopt;
     } else {
         return keys.front();
     }
@@ -616,11 +617,15 @@ cata::optional<input_event> hotkey_for_action( const action_id action,
 
 bool can_butcher_at( const tripoint &p )
 {
+    map_stack items = get_map().i_at( p );
+    // Early exit when there's definitely nothing to butcher
+    if( items.empty() ) {
+        return false;
+    }
     Character &player_character = get_player_character();
     // TODO: unify this with game::butcher
     const int factor = player_character.max_quality( qual_BUTCHER, PICKUP_RANGE );
     const int factorD = player_character.max_quality( qual_CUT_FINE, PICKUP_RANGE );
-    map_stack items = get_map().i_at( p );
     bool has_item = false;
     bool has_corpse = false;
 
@@ -694,16 +699,15 @@ bool can_examine_at( const tripoint &p, bool with_pickup )
 
 static bool can_pickup_at( const tripoint &p )
 {
-    bool veh_has_items = false;
     map &here = get_map();
-    const optional_vpart_position vp = here.veh_at( p );
-    if( vp ) {
-        const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
-        veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
+    if( const std::optional<vpart_reference> ovp = here.veh_at( p ).cargo() ) {
+        if( !ovp->items().empty() ) {
+            return true;
+        }
     }
-
-    return ( !here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) && here.has_items( p ) &&
-             !here.only_liquid_in_liquidcont( p ) ) || veh_has_items;
+    return !here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) &&
+           !here.only_liquid_in_liquidcont( p ) &&
+           here.has_items( p );
 }
 
 bool can_interact_at( action_id action, const tripoint &p )
@@ -776,6 +780,10 @@ action_id handle_action_menu()
     // If we're already crouching, make it simple to toggle crouching to off.
     if( player_character.is_crouching() ) {
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
+    }
+    // If we're already prone, make it simple to toggle prone to off.
+    if( player_character.is_prone() ) {
+        action_weightings[ACTION_TOGGLE_PRONE] = 300;
     }
 
     map &here = get_map();
@@ -939,6 +947,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_RESET_MOVE );
             REGISTER_ACTION( ACTION_TOGGLE_RUN );
             REGISTER_ACTION( ACTION_TOGGLE_CROUCH );
+            REGISTER_ACTION( ACTION_TOGGLE_PRONE );
             REGISTER_ACTION( ACTION_OPEN_MOVEMENT );
             REGISTER_ACTION( ACTION_FIRE );
             REGISTER_ACTION( ACTION_RELOAD_ITEM );
@@ -966,7 +975,6 @@ action_id handle_action_menu()
         } else if( category == _( "Info" ) ) {
             REGISTER_ACTION( ACTION_PL_INFO );
             REGISTER_ACTION( ACTION_MISSIONS );
-            REGISTER_ACTION( ACTION_SCORES );
             REGISTER_ACTION( ACTION_FACTIONS );
             REGISTER_ACTION( ACTION_MORALE );
             REGISTER_ACTION( ACTION_MEDICAL );
@@ -1041,10 +1049,11 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_HELP );
 
     // The hotkey is reserved for the uilist keybindings menu
-    entries.emplace_back( ACTION_KEYBINDINGS, true, cata::nullopt,
+    entries.emplace_back( ACTION_KEYBINDINGS, true, std::nullopt,
                           ctxt.get_action_name( action_ident( ACTION_KEYBINDINGS ) ) );
 
     REGISTER_ACTION( ACTION_OPTIONS );
+    REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
     REGISTER_ACTION( ACTION_AUTOPICKUP );
     REGISTER_ACTION( ACTION_AUTONOTES );
     REGISTER_ACTION( ACTION_SAFEMODE );
@@ -1069,7 +1078,7 @@ action_id handle_main_menu()
     }
 }
 
-cata::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
+std::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
 {
     input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
     ctxt.set_iso( true );
@@ -1090,7 +1099,7 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     do {
         ui_manager::redraw();
         action = ctxt.handle_input();
-        if( cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        if( std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             FacingDirection &facing = get_player_character().facing;
             // Make player's sprite face left/right if interacting with something to the left or right
             if( vec->x > 0 ) {
@@ -1109,27 +1118,28 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     } while( action != "QUIT" );
 
     add_msg( _( "Never mind." ) );
-    return cata::nullopt;
+    return std::nullopt;
 }
 
-cata::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
+std::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
 {
-    const cata::optional<tripoint> dir = choose_direction( message, allow_vertical );
+    const std::optional<tripoint> dir = choose_direction( message, allow_vertical );
     return dir ? *dir + get_player_character().pos() : dir;
 }
 
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, const action_id action, bool allow_vertical )
+std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+        const std::string &failure_message, const action_id action,
+        const bool allow_vertical, const bool allow_autoselect )
 {
     const std::function<bool( const tripoint & )> f = [&action]( const tripoint & p ) {
         return can_interact_at( action, p );
     };
-    return choose_adjacent_highlight( message, failure_message, f, allow_vertical );
+    return choose_adjacent_highlight( message, failure_message, f, allow_vertical, allow_autoselect );
 }
 
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
-        const bool allow_vertical )
+        const bool allow_vertical, const bool allow_autoselect )
 {
     std::vector<tripoint> valid;
     avatar &player_character = get_avatar();
@@ -1142,10 +1152,10 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         }
     }
 
-    const bool auto_select = get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" );
+    const bool auto_select = allow_autoselect && get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" );
     if( valid.empty() && auto_select ) {
         add_msg( failure_message );
-        return cata::nullopt;
+        return std::nullopt;
     } else if( valid.size() == 1 && auto_select ) {
         return valid.back();
     }

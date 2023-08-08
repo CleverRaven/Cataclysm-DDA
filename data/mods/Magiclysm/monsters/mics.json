@@ -44,15 +44,13 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "dodge": 6,
     "luminance": 16,
-    "armor_bash": 15,
-    "armor_cut": 15,
-    "armor_bullet": 15,
     "vision_day": 30,
     "vision_night": 30,
     "material": [ "steel" ],
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "flags": [ "SEES", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "PRIORITIZE_TARGETS", "NO_BREATHE", "NOGIB" ]
+    "flags": [ "SEES", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "PRIORITIZE_TARGETS", "NO_BREATHE", "NOGIB" ],
+    "armor": { "bash": 15, "cut": 15, "bullet": 15 }
   },
   {
     "id": "mon_battle_hologram",

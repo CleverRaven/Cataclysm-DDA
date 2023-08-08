@@ -303,7 +303,7 @@
     "id": "filament_canvas",
     "type": "requirement",
     "//": "Thread for sewing canvas.  Unlike filament_durable it's ok to use a single 10 inch canvas thread for this, but half-length aramid threads are still double.  Kept separate from filament_durable because canvas thread is doubled up for those to alleviate it being a bit weaker than kevlar threading.",
-    "components": [ [ [ "thread_canvas", 2 ], [ "thread_kevlar", 2 ], [ "thread_nomex", 2 ] ] ]
+    "components": [ [ [ "thread_canvas", 1 ], [ "thread_nomex", 2 ], [ "thread_kevlar", 2 ] ] ]
   },
   {
     "id": "glazing",
@@ -333,7 +333,7 @@
     "id": "rope_natural_short",
     "type": "requirement",
     "//": "Materials used for lashing, when choice of makeshift rope is sensible, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ], [ "seatbelt", 1 ] ] ]
   },
   {
     "id": "rope_any_short",
@@ -351,7 +351,7 @@
     "id": "rope_superior_short",
     "type": "requirement",
     "//": "Materials used for lashing, when extra durability and/or flexibility is needed, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "seatbelt", 1 ] ] ]
   },
   {
     "id": "steel_standard",
@@ -416,7 +416,7 @@
     "id": "weights",
     "type": "requirement",
     "//": "Materials used for adding weight to weapons and to other items. The materials should be malleable, ductile and dense.",
-    "components": [ [ [ "lead", 5 ], [ "silver_small", 5 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
+    "components": [ [ [ "lead", 3 ], [ "silver_small", 3 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
   },
   {
     "id": "plastics",
@@ -508,5 +508,10 @@
     "type": "requirement",
     "//": "Carbon resources, used for case hardening.",
     "components": [ [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
+  },
+  {
+    "id": "any_fresh_water",
+    "type": "requirement",
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   }
 ]

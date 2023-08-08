@@ -10,7 +10,7 @@
     "monsters": [
       { "group": "GROUP_BIO_DINO_HERB", "weight": 300 },
       { "group": "GROUP_BIO_DINO_PRED", "weight": 300 },
-      { "group": "GROUP_DINOSAUR_PREDATOR_WILDERNESS", "weight": 300 }
+      { "group": "GROUP_DINOSAUR_PREDATOR_SWAMP", "weight": 300 }
     ]
   },
   {
