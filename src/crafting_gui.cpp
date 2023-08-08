@@ -425,7 +425,7 @@ static std::vector<std::string> recipe_info(
     }
     std::string reason;
     if( !can_craft_this && avail.crafter.is_npc() && !recp.npc_can_craft( reason ) ) {
-        oss << reason << "\n";
+        oss << colorize( reason, c_red ) << "\n";
     }
 
     const bool disp_prof_msg = avail.has_proficiencies && !recp.is_nested();
