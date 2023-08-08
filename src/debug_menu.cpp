@@ -2551,10 +2551,10 @@ static void debug_menu_change_time()
     do {
         const int iSel = smenu.ret;
         smenu.reset();
-        smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), years( calendar::turn ) );
+        smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), years( calendar::turn ) + 1 );
         smenu.addentry( 1, !calendar::eternal_season(), 's', "%s: %d",
                         _( "season" ), static_cast<int>( season_of_year( calendar::turn ) ) );
-        smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
+        smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) + 1 );
         smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
         smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
         smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ),
@@ -2564,14 +2564,14 @@ static void debug_menu_change_time()
 
         switch( smenu.ret ) {
             case 0:
-                set_turn( years( calendar::turn ), calendar::year_length(), _( "Set year to?" ) );
+                set_turn( years( calendar::turn ) + 1, calendar::year_length(), _( "Set year to?" ) );
                 break;
             case 1:
                 set_turn( static_cast<int>( season_of_year( calendar::turn ) ), calendar::season_length(),
                           _( "Set season to?  (0 = spring)" ) );
                 break;
             case 2:
-                set_turn( day_of_season<int>( calendar::turn ), 1_days, _( "Set days to?" ) );
+                set_turn( day_of_season<int>( calendar::turn ) + 1, 1_days, _( "Set days to?" ) );
                 break;
             case 3:
                 set_turn( hour_of_day<int>( calendar::turn ), 1_hours, _( "Set hour to?" ) );
