@@ -2684,21 +2684,6 @@ void options_manager::add_options_world_default()
     add_option_group( "world_default", Group( "spawn_time_opts", to_translation( "Spawn Time Options" ),
                       to_translation( "Options regarding spawn time." ) ),
     [&]( const std::string & page_id ) {
-        add( "INITIAL_TIME", page_id, to_translation( "Initial time" ),
-             to_translation( "Initial starting time of day on character generation.  Value -1 randomizes the starting time and overrides scenario setting." ),
-             -1, 23, 8
-           );
-
-        add( "INITIAL_DAY", page_id, to_translation( "Initial day" ),
-             to_translation( "How many days into the year the Cataclysm ended.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
-             -1, 999, 60
-           );
-
-        add( "SPAWN_DELAY", page_id, to_translation( "Spawn delay" ),
-             to_translation( "How many days after the end of the Cataclysm the player spawns.  Day 0 is immediately after the end of the Cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
-             0, 9999, 0
-           );
-
         add( "SEASON_LENGTH", page_id, to_translation( "Season length" ),
              to_translation( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),
              14, 127, 91

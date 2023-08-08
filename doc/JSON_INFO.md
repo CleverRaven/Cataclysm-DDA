@@ -249,7 +249,8 @@ Use the `Home` key to return to the top.
   - [`reveal_locale`](#reveal_locale)
   - [`eocs`](#eocs)
   - [`missions`](#missions-1)
-  - [`custom_initial_date`](#custom_initial_date)
+  - [`start_of_cataclysm`](#start_of_cataclysm)
+  - [`start_of_game`](#start_of_game)
 - [Starting locations](#starting-locations)
   - [`name`](#name-3)
   - [`terrain`](#terrain)
@@ -5312,23 +5313,39 @@ A list of eocs that are triggered once for each new character on scenario start.
 
 A list of mission ids that will be started and assigned to the player at the start of the game. Only missions with the ORIGIN_GAME_START origin are allowed. The last mission in the list will be the active mission, if multiple missions are assigned.
 
-## `custom_initial_date`
+## `start_of_cataclysm`
 (optional, object with optional members "hour", "day", "season" and "year")
 
-Allows customizing start date. If `custom_initial_date` is not set the corresponding values from world options are used instead.
-
-If the start date of the scenario is before the date of cataclysm defined by map settings then the scenario date is moved forwards by one year.
+Allows customization of cataclysm start date. If `start_of_cataclysm` is not set the corresponding default values are used instead - 0 hour, 0 day (which is day 1), Spring season, 1 year.
 
 ```C++
-"custom_initial_date": { "hour": 3, "day": 10, "season": "winter", "year": 1 }
+"start_of_cataclysm": { "hour": "random", "day": 10, "season": "winter", "year": 1 }
 ```
 
  Identifier            | Description
 ---                    | ---
-`hour`                 | (optional, integer) Hour of the day for initial date. Default 8. -1 randomizes 0-23.
-`day`                  | (optional, integer) Day of the season for initial date. Default 0. -1 randomizes 0-season length.
-`season`               | (optional, integer) Season for initial date. Default `SPRING`.
-`year`                 | (optional, integer) Year for initial date. Default 1. -1 randomizes 1-11.
+`hour`                 | (optional, integer or `random` string) Hour of the day. Default value is 0. String `random` randomizes 0-23.
+`day`                  | (optional, integer or `random` string) Day of the season. Default value is 0 (which is day 1). String `random` randomizes 0-season length.
+`season`               | (optional, integer or `random` string) Season of the year. Default value is `SPRING`. String `random` randomizes to one of 4 season.
+`year`                 | (optional, integer or `random` string) Year. Default value is 1. String `random` randomizes 1-11.
+
+## `start_of_game`
+(optional, object with optional members "hour", "day", "season" and "year")
+
+Allows customization of game start date. If `start_of_game` is not set the corresponding default values are used instead - random hour (0-23), 0 day (which is day 1), Spring season, 1 year.
+
+If the scenario game start date is before the scenario cataclysm start date then the scenario game start would be automatically set to scenario cataclysm start date.
+
+```C++
+"start_of_game": { "hour": "random", "day": "random", "season": "winter", "year": 2 }
+```
+
+ Identifier            | Description
+---                    | ---
+`hour`                 | (optional, integer or `random` string) Hour of the day. Default value is 0. String `random` randomizes 0-23.
+`day`                  | (optional, integer or `random` string) Day of the season. Default value is 0 (which is day 1). String `random` randomizes 0-season length.
+`season`               | (optional, integer or `random` string) Season of the year. Default value is `SPRING`. String `random` randomizes to one of 4 season.
+`year`                 | (optional, integer or `random` string) Year. Default value is 1. String `random` randomizes 1-11.
 
 # Starting locations
 
