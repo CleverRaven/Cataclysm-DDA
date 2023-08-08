@@ -348,8 +348,7 @@ void Character::craft( const std::optional<tripoint> &loc, const recipe_id &goto
             add_msg( m_info, reason );
             return;
         }
-        if( crafting_allowed( *this, *rec ) || is_npc() ) {
-            // NPC looks for place to craft later
+        if( crafting_allowed( *this, *rec ) ) {
             make_craft( rec->ident(), batch_size, loc );
         }
     }
@@ -891,12 +890,12 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
         return;
     }
 
-    if( is_npc() ) {
+    if( is_avatar() ) {
+        assign_activity( craft_activity_actor( craft_in_world, command.is_long() ) );
+    } else {
         // set flag to craft
         craft_in_world.get_item()->set_var( "crafter", name );
         assign_activity( ACT_MULTIPLE_CRAFT );
-    } else {
-        assign_activity( craft_activity_actor( craft_in_world, command.is_long() ) );
     }
 
     add_msg_player_or_npc(
@@ -1883,24 +1882,25 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
             return selected;
         }
 
-        cmenu.allow_cancel = can_cancel;
-
-        // Get the selection via a menu popup
-        cmenu.title = _( "Use which component?" );
+        size_t uselection;
         if( is_avatar() ) {
+            cmenu.allow_cancel = can_cancel;
+
+            // Get the selection via a menu popup
+            cmenu.title = _( "Use which component?" );
             cmenu.query();
+
+            if( cmenu.ret < 0 ||
+                static_cast<size_t>( cmenu.ret ) >= map_has.size() + player_has.size() + mixed.size() ) {
+                selected.use_from = usage_from::cancel;
+                return selected;
+            }
+
+            uselection = static_cast<size_t>( cmenu.ret );
         } else {
             // NPC always picks the first candidate
-            cmenu.ret = 0;
+            uselection = 0;
         }
-
-        if( cmenu.ret < 0 ||
-            static_cast<size_t>( cmenu.ret ) >= map_has.size() + player_has.size() + mixed.size() ) {
-            selected.use_from = usage_from::cancel;
-            return selected;
-        }
-
-        size_t uselection = static_cast<size_t>( cmenu.ret );
         if( uselection < map_has.size() ) {
             selected.use_from = usage_from::map;
             selected.comp = map_has[uselection].first;
@@ -2146,24 +2146,25 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
             return selected;    // and the fire goes out.
         }
 
-        tmenu.allow_cancel = can_cancel;
-
-        // Get selection via a popup menu
-        tmenu.title = _( "Use which tool?" );
+        size_t uselection;
         if( is_avatar() ) {
+            tmenu.allow_cancel = can_cancel;
+
+            // Get selection via a popup menu
+            tmenu.title = _( "Use which tool?" );
             tmenu.query();
+
+            if( tmenu.ret < 0 || static_cast<size_t>( tmenu.ret ) >= map_has.size()
+                + player_has.size() + both_has.size() ) {
+                selected.use_from = usage_from::cancel;
+                return selected;
+            }
+
+            uselection = static_cast<size_t>( tmenu.ret );
         } else {
             // NPC always picks the first candidate
-            tmenu.ret = 0;
+            uselection = 0;
         }
-
-        if( tmenu.ret < 0 || static_cast<size_t>( tmenu.ret ) >= map_has.size()
-            + player_has.size() + both_has.size() ) {
-            selected.use_from = usage_from::cancel;
-            return selected;
-        }
-
-        size_t uselection = static_cast<size_t>( tmenu.ret );
         if( uselection < map_has.size() ) {
             selected.use_from = usage_from::map;
             selected.comp = map_has[uselection];
@@ -2941,7 +2942,7 @@ std::vector<npc *> Character::get_crafting_helpers() const
     } );
 }
 
-static bool is_anyone_crafting( item_location itm )
+static bool is_anyone_crafting( item_location &itm )
 {
     for( const npc &guy : g->all_npcs() ) {
         if( guy.activity.id() == ACT_MULTIPLE_CRAFT ) {
