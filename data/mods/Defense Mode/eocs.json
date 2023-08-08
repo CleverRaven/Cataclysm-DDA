@@ -1,5 +1,5 @@
 [
- {
+  {
     "type": "effect_on_condition",
     "id": "scenario_defense_mode",
     "eoc_type": "SCENARIO_SPECIFIC",

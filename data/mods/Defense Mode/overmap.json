@@ -1,5 +1,5 @@
 [
- {
+  {
     "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_CITIES",
     "info": "Allows to place cities during overmap generation.",
