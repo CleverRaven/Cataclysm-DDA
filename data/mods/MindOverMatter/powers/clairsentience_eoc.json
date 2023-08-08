@@ -15,12 +15,12 @@
     "id": "EOC_CLAIR_SPEED_READING",
     "effect": [
       { "u_add_trait": "CLAIR_SPEED_READ" },
-      { "queue_eocs": "EOC_CLAIR_SPEED_READING_REMOvE", "time_in_future": [ "60 minutes", "180 minutes" ] }
+      { "queue_eocs": "EOC_CLAIR_SPEED_READING_REMOVE", "time_in_future": [ "60 minutes", "180 minutes" ] }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_CLAIR_SPEED_READING_REMOvE",
+    "id": "EOC_CLAIR_SPEED_READING_REMOVE",
     "effect": [ { "u_lose_trait": "CLAIR_SPEED_READ" } ]
   },
   {
