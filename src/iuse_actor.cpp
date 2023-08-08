@@ -374,7 +374,6 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
     }
 
     if( need_charges && it.ammo_remaining( &p, true ) < need_charges ) {
-        //return ret_val<void>::make_failure( need_charges_msg, it.tname() );
         return ret_val<void>::make_failure( string_format( need_charges_msg, it.tname() ) );
     }
 
