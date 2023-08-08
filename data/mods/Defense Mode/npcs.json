@@ -1,0 +1,81 @@
+[
+  {
+    "type": "npc",
+    "id": "follower_liz",
+    "//": "Scenario specific unique NPC, should not spawn outside of trigger events.",
+    "name_unique": "Liz",
+    "gender": "female",
+    "age": 25,
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 3,
+    "mission": 0,
+    "chat": "TALK_FRIEND",
+    "faction": "your_followers"
+  },
+  {
+    "type": "npc",
+    "id": "follower_david",
+    "//": "Scenario specific unique NPC, should not spawn outside of trigger events.",
+    "name_unique": "David",
+    "gender": "male",
+    "age": 27,
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 3,
+    "mission": 0,
+    "chat": "TALK_FRIEND",
+    "faction": "your_followers"
+  },
+  {
+    "type": "npc",
+    "id": "follower_dianne",
+    "//": "Scenario specific unique NPC, should not spawn outside of trigger events.",
+    "name_unique": "Dianne",
+    "gender": "female",
+    "age": 26,
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 3,
+    "mission": 0,
+    "chat": "TALK_FRIEND",
+    "faction": "your_followers"
+  },
+  {
+    "type": "npc",
+    "id": "follower_ed",
+    "//": "Scenario specific unique NPC, should not spawn outside of trigger events.",
+    "name_unique": "Ed",
+    "gender": "male",
+    "age": 23,
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 3,
+    "mission": 0,
+    "chat": "TALK_FRIEND",
+    "faction": "your_followers"
+  },
+  {
+    "type": "npc",
+    "id": "follower_barbara",
+    "//": "Scenario specific unique NPC, should not spawn outside of trigger events.",
+    "name_unique": "Barbara",
+    "gender": "female",
+    "age": 80,
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 3,
+    "mission": 0,
+    "chat": "TALK_FRIEND",
+    "faction": "your_followers"
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "shaun_of_the_dead_spawns",
+    "method": "json",
+    "object": {
+      "place_npcs": [
+        { "class": "follower_liz", "x": 0, "y": 0 },
+        { "class": "follower_david", "x": 1, "y": 0 },
+        { "class": "follower_dianne", "x": 2, "y": 0 },
+        { "class": "follower_ed", "x": 1, "y": 0 },
+        { "class": "follower_barbara", "x": 1, "y": 0 }
+      ]
+    }
+  }
+]

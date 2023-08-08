@@ -1,0 +1,8 @@
+[
+ {
+    "type": "effect_on_condition",
+    "id": "scenario_defense_mode",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "open_dialogue": { "topic": "TALK_DEFENSE_MODE_MAIN_MENU" } } ]
+  }
+]
