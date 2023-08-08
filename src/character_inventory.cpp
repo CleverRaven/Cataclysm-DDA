@@ -247,9 +247,9 @@ item_location Character::try_add( item it, int &copies_remaining, const item *av
         }
 
         item *newit = nullptr;
+        pocket.second->add( it, max_copies, &newit );
 
         // Give invlet to the first item created.
-        pocket.second->add( it, max_copies, &newit );
         if( !first_item_added ) {
             first_item_added = item_location( pocket.first, newit );
             if( invlet ) {
