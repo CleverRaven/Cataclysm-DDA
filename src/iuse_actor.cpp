@@ -231,43 +231,11 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
     if( !p ) {
         debugmsg( "%s called action transform that requires character but no character is present",
                   it.typeId().str() );
-        return std::nullopt; // invoked from active item processing, do nothing.
+        return std::nullopt;
     }
 
     int result = 0;
 
-    if( need_worn && !p->is_worn( it ) ) {
-        p->add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
-        return std::nullopt;
-    }
-    if( need_wielding && !p->is_wielding( it ) ) {
-        p->add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
-        return std::nullopt;
-    }
-    if( need_empty && !it.empty() ) {
-        p->add_msg_if_player( m_info, _( "You need to empty the %1$s before activating it." ), it.tname() );
-        return std::nullopt;
-    }
-
-    if( p->is_worn( it ) ) {
-        item tmp = item( target );
-        if( !tmp.has_flag( flag_OVERSIZE ) && !tmp.has_flag( flag_SEMITANGIBLE ) ) {
-            for( const trait_id &mut : p->get_mutations() ) {
-                const mutation_branch &branch = mut.obj();
-                if( branch.conflicts_with_item( tmp ) ) {
-                    p->add_msg_if_player( m_info, _( "Your %1$s mutation prevents you from doing that." ),
-                                          p->mutation_name( mut ) );
-                    return std::nullopt;
-                }
-            }
-        }
-    }
-
-    if( need_charges && it.ammo_remaining( p, true ) < need_charges ) {
-
-        p->add_msg_if_player( m_info, need_charges_msg, it.tname() );
-        return std::nullopt;
-    }
 
     if( need_fire ) {
         if( !p->use_charges_if_avail( itype_fire, need_fire ) ) {
@@ -278,6 +246,7 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
             return std::nullopt;
         }
     }
+
 
     if( !msg_transform.empty() ) {
         p->add_msg_if_player( m_neutral, msg_transform, it.tname() );
@@ -374,9 +343,41 @@ void iuse_transform::do_transform( Character *p, item &it ) const
     }
 }
 
-ret_val<void> iuse_transform::can_use( const Character &p, const item &,
+ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
                                        const tripoint & ) const
 {
+    if( need_worn && !p.is_worn( it ) ) {
+        return ret_val<void>::make_failure( _( "You need to wear the %1$s before activating it." ),
+                                            it.tname() );
+    }
+    if( need_wielding && !p.is_wielding( it ) ) {
+        return ret_val<void>::make_failure( _( "You need to wield the %1$s before activating it." ),
+                                            it.tname() );
+    }
+    if( need_empty && !it.empty() ) {
+        return ret_val<void>::make_failure( _( "You need to empty the %1$s before activating it." ),
+                                            it.tname() );
+    }
+
+
+    if( p.is_worn( it ) ) {
+        item tmp = item( target );
+        if( !tmp.has_flag( flag_OVERSIZE ) && !tmp.has_flag( flag_SEMITANGIBLE ) ) {
+            for( const trait_id &mut : p.get_mutations() ) {
+                const mutation_branch &branch = mut.obj();
+                if( branch.conflicts_with_item( tmp ) ) {
+                    return ret_val<void>::make_failure( _( "Your %1$s mutation prevents you from doing that." ),
+                                                        p.mutation_name( mut ) );
+                }
+            }
+        }
+    }
+
+    if( need_charges && it.ammo_remaining( &p, true ) < need_charges ) {
+        //return ret_val<void>::make_failure( need_charges_msg, it.tname() );
+        return ret_val<void>::make_failure( string_format( need_charges_msg, it.tname() ) );
+    }
+
     if( qualities_needed.empty() ) {
         return ret_val<void>::make_success();
     }
