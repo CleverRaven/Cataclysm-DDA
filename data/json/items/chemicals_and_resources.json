@@ -40,7 +40,7 @@
     "ammo_type": "components",
     "category": "chems",
     "price": 50,
-    "price_postapoc": 250,
+    "price_postapoc": 50,
     "name": { "str_sp": "sulfur" },
     "symbol": "=",
     "color": "yellow",
