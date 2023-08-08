@@ -338,7 +338,7 @@ void talk_function::revert_activity( npc &p )
 
 void talk_function::do_craft( npc &p )
 {
-    p.craft();
+    p.do_npc_craft();
 }
 
 void talk_function::do_disassembly( npc &p )

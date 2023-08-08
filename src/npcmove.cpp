@@ -998,13 +998,6 @@ void npc::move()
                 goal = global_omt_location();
             }
         }
-        if( calendar::once_every( 10_minutes ) ) {
-            // if there is item to craft
-            if( get_item_to_craft() ) {
-                assign_activity( ACT_MULTIPLE_CRAFT );
-                action = npc_player_activity;
-            }
-        }
         if( is_stationary( true ) && !assigned_camp ) {
             // if we're in a vehicle, stay in the vehicle
             if( in_vehicle ) {

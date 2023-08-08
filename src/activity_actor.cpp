@@ -3248,6 +3248,8 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
     cached_crafting_speed = 0;
     cached_workbench_multiplier = 0;
     use_cached_workbench_multiplier = false;
+    act.targets.clear();
+    act.targets.push_back( craft_item );
 }
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )

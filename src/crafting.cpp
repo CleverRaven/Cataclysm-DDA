@@ -864,37 +864,6 @@ static item_location place_craft_or_disassembly(
     return craft_in_world;
 }
 
-item_location npc::get_item_to_craft()
-{
-    // check inventory
-    item_location to_craft;
-    visit_items( [ this, &to_craft ]( item * itm, item * ) {
-        if( itm->get_var( "crafter", "" ) == name ) {
-            to_craft = item_location( *this, itm );
-            return VisitResponse::ABORT;
-        }
-        return VisitResponse::NEXT;
-    } );
-    if( to_craft ) {
-        return to_craft;
-    }
-
-    // check items around npc
-    map &here = get_map();
-    for( const tripoint &adj : here.points_in_radius( pos(), 1 ) ) {
-        if( here.dangerous_field_at( adj ) ) {
-            continue;
-        }
-        for( item &itm : here.i_at( adj ) ) {
-            if( itm.get_var( "crafter", "" ) == name ) {
-                to_craft = item_location( map_cursor( adj ), &itm );
-                return to_craft;
-            }
-        }
-    }
-    return to_craft;
-}
-
 void Character::start_craft( craft_command &command, const std::optional<tripoint> &loc )
 {
     if( command.empty() ) {
@@ -924,10 +893,6 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
 
     if( is_npc() ) {
         // set flag to craft
-        visit_items( []( item * e, item * ) {
-            e->erase_var( "crafter" );
-            return VisitResponse::NEXT;
-        } );
         craft_in_world.get_item()->set_var( "crafter", name );
         assign_activity( ACT_MULTIPLE_CRAFT );
     } else {
@@ -2974,4 +2939,139 @@ std::vector<npc *> Character::get_crafting_helpers() const
                rl_dist( guy.pos(), pos() ) < PICKUP_RANGE &&
                get_map().clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
     } );
+}
+
+static bool is_anyone_crafting( item_location itm )
+{
+    for( const npc &guy : g->all_npcs() ) {
+        if( guy.activity.id() == ACT_MULTIPLE_CRAFT ) {
+            item_location target = guy.activity.targets.back();
+            if( target == itm ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+item_location npc::get_item_to_craft()
+{
+    // check inventory
+    item_location to_craft;
+    visit_items( [ this, &to_craft ]( item * itm, item * ) {
+        if( itm->get_var( "crafter", "" ) == name ) {
+            to_craft = item_location( *this, itm );
+            if( !is_anyone_crafting( to_craft ) ) {
+                return VisitResponse::ABORT;
+            }
+        }
+        return VisitResponse::NEXT;
+    } );
+    if( to_craft ) {
+        return to_craft;
+    }
+
+    // check items around npc
+    map &here = get_map();
+    for( const tripoint &adj : here.points_in_radius( pos(), 1 ) ) {
+        if( here.dangerous_field_at( adj ) ) {
+            continue;
+        }
+        for( item &itm : here.i_at( adj ) ) {
+            if( itm.get_var( "crafter", "" ) == name ) {
+                to_craft = item_location( map_cursor( adj ), &itm );
+                if( !is_anyone_crafting( to_craft ) ) {
+                    return to_craft;
+                }
+            }
+        }
+    }
+    return to_craft;
+}
+
+void npc::do_npc_craft( const std::optional<tripoint> &loc, const recipe_id &goto_recipe )
+{
+    std::vector<item_location> craft_item_list;
+    std::string dummy;
+
+    visit_items( [ this, &craft_item_list, &dummy ]( item * itm, item * ) {
+        if( itm->is_craft() && itm->get_making().npc_can_craft( dummy ) ) {
+            item_location to_craft = item_location( *this, itm );
+            if( !is_anyone_crafting( to_craft ) ) {
+                craft_item_list.push_back( to_craft );
+            }
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    map &here = get_map();
+    for( const tripoint &adj : here.points_in_radius( pos(), 1 ) ) {
+        if( here.dangerous_field_at( adj ) ) {
+            continue;
+        }
+        for( item &itm : here.i_at( adj ) ) {
+            if( itm.is_craft() && itm.get_making().npc_can_craft( dummy ) ) {
+                item_location to_craft = item_location( map_cursor( adj ), &itm );
+                if( !is_anyone_crafting( to_craft ) ) {
+                    craft_item_list.push_back( to_craft );
+                }
+            }
+        }
+    }
+
+    if( craft_item_list.empty() ) {
+        craft( loc, goto_recipe );
+    } else {
+        uilist menu;
+        menu.text = "Craft what?";
+        menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Craft new item" ) );
+        menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Work on craft" ) );
+        menu.query();
+
+        if( menu.ret == 0 ) {
+            craft( loc, goto_recipe );
+        } else if( menu.ret == 1 ) {
+            int selected = 0;
+            uilist item_selection;
+            do {
+                item_selection.init();
+                item_selection.text = "Craft what?";
+                item_selection.selected = selected;
+                item_selection.addentry( 0, true, MENU_AUTOASSIGN, "Start crafting" );
+                item_selection.addentry( 1, true, MENU_AUTOASSIGN, "Select all" );
+                int index = 2;
+
+                for( item_location &itm : craft_item_list ) {
+                    // set flag to craft
+                    std::string entry;
+                    bool enable = itm->get_var( "crafter", "" ) == name;
+                    if( selected == 1 ) {
+                        itm->set_var( "crafter", name );
+                        enable = true;
+                    } else if( selected == index ) {
+                        if( enable ) {
+                            itm->erase_var( "crafter" );
+                            enable = false;
+                        } else {
+                            itm->set_var( "crafter", name );
+                            enable = true;
+                        }
+                    }
+                    if( enable ) {
+                        entry = string_format( "[x] %s", itm->tname() );
+                    } else {
+                        entry = string_format( "[ ] %s", itm->tname() );
+                    }
+                    item_selection.addentry( index, true, MENU_AUTOASSIGN, entry );
+                    index++;
+                }
+                item_selection.query();
+
+                selected = item_selection.ret;
+                if( selected == 0 ) {
+                    assign_activity( ACT_MULTIPLE_CRAFT );
+                }
+            } while( selected >= 1 );
+        }
+    }
 }
