@@ -1128,13 +1128,14 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             add_msg_player_or_npc(
                 m_warning,
                 _( "You avoid %s projectile!" ),
-                _( "<npcname> avoids %s projectile." ),
+                get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? _( "<npcname> avoids %s projectile." ) : "",
                 source->disp_name( true ) );
         } else {
             add_msg_player_or_npc(
                 m_warning,
                 _( "You avoid an incoming projectile!" ),
-                _( "<npcname> avoids an incoming projectile." ) );
+                get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? _( "<npcname> avoids an incoming projectile." ) :
+                "" );
         }
         return;
     }

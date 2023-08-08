@@ -1909,13 +1909,15 @@ bool monster::melee_attack( Creature &target, float accuracy )
                     add_msg( m_good, _( "Your %1$s hits %2$s for %3$d damage!" ), get_name(), target.disp_name(),
                              total_dealt );
                 }
-                if( !u_see_me && u_see_target ) {
-                    add_msg( _( "Something hits the %1$s!" ), target.disp_name() );
-                } else if( !u_see_target ) {
-                    add_msg( _( "The %1$s hits something!" ), name() );
-                } else {
-                    //~ %1$s: attacker name, %2$s: target creature name
-                    add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
+                if( get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ) {
+                    if( !u_see_me && u_see_target ) {
+                        add_msg( _( "Something hits the %1$s!" ), target.disp_name() );
+                    } else if( !u_see_target ) {
+                        add_msg( _( "The %1$s hits something!" ), name() );
+                    } else {
+                        //~ %1$s: attacker name, %2$s: target creature name
+                        add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
+                    }
                 }
             }
         } else if( target.is_avatar() ) {
@@ -1941,7 +1943,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
                          body_part_name_accusative( dealt_dam.bp_hit ),
                          target.disp_name( true ),
                          target.skin_name() );
-            } else {
+            } else if( get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ) {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target armor name.
                 add_msg( _( "%1$s hits %2$s but is stopped by its %3$s." ),
@@ -2127,13 +2129,13 @@ bool monster::move_effects( bool )
         bool immediate_break = type->in_species( species_FISH ) || type->in_species( species_MOLLUSK ) ||
                                type->in_species( species_ROBOT ) || type->bodytype == "snake" || type->bodytype == "blob";
         if( !immediate_break && rng( 0, 900 ) > type->melee_dice * type->melee_sides * 1.5 ) {
-            if( u_see_me ) {
+            if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                 add_msg( _( "The %s struggles to break free of its bonds." ), name() );
             }
         } else if( immediate_break ) {
             remove_effect( effect_tied );
             if( tied_item ) {
-                if( u_see_me ) {
+                if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     add_msg( _( "The %s easily slips out of its bonds." ), name() );
                 }
                 here.add_item_or_charges( pos(), *tied_item );
@@ -2147,7 +2149,7 @@ bool monster::move_effects( bool )
                     here.add_item_or_charges( pos(), *tied_item );
                 }
                 tied_item.reset();
-                if( u_see_me ) {
+                if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     if( broken ) {
                         add_msg( _( "The %s snaps the bindings holding it down." ), name() );
                     } else {
@@ -2161,11 +2163,11 @@ bool monster::move_effects( bool )
     }
     if( has_effect( effect_downed ) ) {
         if( rng( 0, 40 ) > type->melee_dice * type->melee_sides * 1.5 ) {
-            if( u_see_me ) {
+            if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                 add_msg( _( "The %s struggles to stand." ), name() );
             }
         } else {
-            if( u_see_me ) {
+            if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                 add_msg( _( "The %s climbs to its feet!" ), name() );
             }
             remove_effect( effect_downed );
@@ -2174,7 +2176,7 @@ bool monster::move_effects( bool )
     }
     if( has_effect( effect_webbed ) ) {
         if( x_in_y( type->melee_dice * type->melee_sides, 6 * get_effect_int( effect_webbed ) ) ) {
-            if( u_see_me ) {
+            if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                 add_msg( _( "The %s breaks free of the webs!" ), name() );
             }
             remove_effect( effect_webbed );
@@ -2184,7 +2186,7 @@ bool monster::move_effects( bool )
     if( has_effect( effect_lightsnare ) ) {
         if( x_in_y( type->melee_dice * type->melee_sides, 12 ) ) {
             remove_effect( effect_lightsnare );
-            if( u_see_me ) {
+            if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                 add_msg( _( "The %s escapes the light snare!" ), name() );
             }
         }
@@ -2196,7 +2198,7 @@ bool monster::move_effects( bool )
                 remove_effect( effect_heavysnare );
                 here.spawn_item( pos(), "rope_6" );
                 here.spawn_item( pos(), "snare_trigger" );
-                if( u_see_me ) {
+                if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     add_msg( _( "The %s escapes the heavy snare!" ), name() );
                 }
             }
@@ -2207,7 +2209,7 @@ bool monster::move_effects( bool )
         if( type->melee_dice * type->melee_sides >= 18 ) {
             if( x_in_y( type->melee_dice * type->melee_sides, 200 ) ) {
                 remove_effect( effect_beartrap );
-                if( u_see_me ) {
+                if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     add_msg( _( "The %s escapes the bear trap!" ), name() );
                 }
             }
@@ -2217,7 +2219,7 @@ bool monster::move_effects( bool )
     if( has_effect( effect_crushed ) ) {
         if( x_in_y( type->melee_dice * type->melee_sides, 100 ) ) {
             remove_effect( effect_crushed );
-            if( u_see_me ) {
+            if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                 add_msg( _( "The %s frees itself from the rubble!" ), name() );
             }
         }
@@ -2233,7 +2235,7 @@ bool monster::move_effects( bool )
         if( rng( 0, 40 ) > type->melee_dice * type->melee_sides ) {
             return false;
         } else {
-            if( u_see_me ) {
+            if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                 add_msg( _( "The %s escapes the pit!" ), name() );
             }
             remove_effect( effect_in_pit );
@@ -2259,7 +2261,7 @@ bool monster::move_effects( bool )
             if( grabber == nullptr ) {
                 remove_effect( grab.get_id() );
                 add_msg_debug( debugmode::DF_MATTACK, "Orphan grab found and removed" );
-                if( u_see_me ) {
+                if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     add_msg( _( "The %s is no longer grabbed!" ), name() );
                 }
                 continue;
@@ -2271,7 +2273,7 @@ bool monster::move_effects( bool )
             if( !x_in_y( monster, grab_str ) ) {
                 return false;
             } else {
-                if( u_see_me ) {
+                if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     add_msg( _( "The %s breaks free from the %s's grab!" ), name(), grabber->name() );
                 }
                 remove_effect( grab.get_id() );
