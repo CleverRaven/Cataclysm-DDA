@@ -9,7 +9,7 @@
         "condition": { "u_has_trait": "TELEPATH" }
       }
       {
-        "text": "[Vitakinetic] I noticed that you're sick.",
+        "text": "[Vitakinesis] I noticed that you're sick.",
         "topic": "TALK_FRIEND_VITAKINETIC_CURE",
         "condition": {
           "and": [
