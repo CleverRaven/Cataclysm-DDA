@@ -66,7 +66,32 @@
       ]
     }
   },
-    {
+  {
+    "type": "GENERIC",
+    "id": "lab_file_vitakinesis_item",
+    "name": { "str": "report (vitakinesis)", "str_pl": "copies of report (vitakinesis)" },
+    "category": "books",
+    "description": "A folder full of what appear to be transcripts of experimental results or reports.  Most of it is rather trivial, but certain passages catch your eye…",
+    "weight": "15 g",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "50 ml",
+    "flags": [ "TRADER_AVOID" ],
+    "copy-from": "file",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate to read the file",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LAB_VITAKINESIS_FILE",
+          "effect": [ { "u_message": "lab_file_vitakinesis", "snippet": true, "same_snippet": true, "popup": true } ]
+        }
+      ]
+    }
+  },
+  {
     "type": "GENERIC",
     "id": "lab_file_matrix_research_item",
     "name": { "str": "report (matrix technology)", "str_pl": "copies of report (matrix technology)" },
