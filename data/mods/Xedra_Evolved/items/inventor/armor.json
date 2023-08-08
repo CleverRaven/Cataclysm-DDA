@@ -13,8 +13,21 @@
     "ammo": [ "battery" ],
     "color": "green",
     "warmth": 20,
-    "material_thickness": 0.6,
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ],
+    "material_thickness": 1.1,
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      },
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 50,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_l", "head_ear_r" ]
+      }
+    ],
     "charges_per_use": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "INTELLIGENCE", "add": 5 } ] } ] },
     "pocket_data": [
@@ -47,6 +60,7 @@
     "copy-from": "helmet_inventor",
     "name": { "str": "helmet of creative juices (on)", "str_pl": "helmets of creative juices (on)" },
     "power_draw": "7 W",
+    "revert_to": "helmet_inventor",
     "use_action": [ { "ammo_scale": 0, "target": "helmet_inventor", "msg": "The helmet turns off.", "type": "transform" } ]
   },
   {
@@ -68,6 +82,7 @@
         "magazine_well": "5 L",
         "weight_multiplier": 0.35,
         "//": "a bit smaller than i want, to compensate lack of weight multiplier in another pockets",
+        "volume_encumber_modifier": 0.5,
         "moves": 300
       },
       {
@@ -143,11 +158,11 @@
     "description": "Compact leg attachments, that distribute your weight onto ground nearby using some kind of force.  It makes you leave giant spherical footprints, but makes carrying heavy weight much easier.",
     "weight": "1657 g",
     "volume": "1500 ml",
-    "material": [ "steel", "copper" ],
+    "material": [ "steel", "copper", "leather" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "STURDY", "OUTER" ],
+    "flags": [ "STURDY", "OUTER", "BELTED" ],
     "ammo": "battery",
     "use_action": {
       "target": "inventor_leg_weight_on",
@@ -167,11 +182,21 @@
     ],
     "armor": [
       {
-        "material": [ { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.6 } ],
+        "covers": [ "torso" ],
+        "coverage": 50,
+        "specifically_covers": [ "torso_waist" ],
+        "encumbrance": 2,
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2 } ]
+      },
+      {
+        "material": [
+          { "type": "steel", "covered_by_mat": 100, "thickness": 0.6 },
+          { "type": "copper", "covered_by_mat": 100, "thickness": 0.6 }
+        ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "coverage": 70,
-        "encumbrance": 10
+        "coverage": 20,
+        "encumbrance": 7
       }
     ],
     "relic_data": {
@@ -195,11 +220,11 @@
     "description": "Heavily mechanized boots with small integrated battery slot inside.  Upon activation make you jump higher and farther.",
     "weight": "1657 g",
     "volume": "1500 ml",
-    "material": [ "steel", "copper" ],
+    "material": [ "leather", "kevlar", "rubber", "steel" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "STURDY", "OUTER" ],
+    "flags": [ "STURDY", "OUTER", "SOFT" ],
     "ammo": "battery",
     "charges_per_use": 150,
     "use_action": { "type": "cast_spell", "spell_id": "jump_boots_leap", "no_fail": true, "level": 0 },
@@ -215,11 +240,33 @@
     ],
     "armor": [
       {
-        "material": [ { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.7 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "coverage": 95,
-        "encumbrance": 7
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "steel", "covered_by_mat": 5, "thickness": 1.25 }
+        ],
+        "encumbrance": 7,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+        ],
+        "coverage": 100
       }
     ]
   },
@@ -229,9 +276,9 @@
     "category": "armor",
     "name": { "str": "force shield" },
     "description": "Small, thin torus with a huge battery case, and a belt.  You can activate it, to emit a field, that covers your whole body, and decelerate all objects that it touches.",
-    "weight": "36 g",
-    "volume": "55 ml",
-    "material": [ "steel", "copper" ],
+    "weight": "270 g",
+    "volume": "660 ml",
+    "material": [ "aluminum", "leather", "steel", "copper" ],
     "symbol": "[",
     "ammo": [ "battery" ],
     "color": "blue",
@@ -239,10 +286,17 @@
     "material_thickness": 3,
     "armor": [
       {
+        "covers": [ "torso" ],
+        "coverage": 50,
+        "specifically_covers": [ "torso_waist" ],
+        "encumbrance": 2,
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2 } ]
+      },
+      {
         "material": [ { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.7 } ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "coverage": 95,
+        "coverage": 25,
         "encumbrance": 7
       }
     ],
@@ -282,7 +336,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID" ]
+    "flags": [ "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID", "BELTED" ]
   },
   {
     "id": "aura_force_on",
@@ -290,6 +344,7 @@
     "copy-from": "aura_force",
     "name": { "str": "force shield (on)", "str_pl": "force shields (on)" },
     "power_draw": "250 W",
+    "revert_to": "aura_force",
     "use_action": [ { "ammo_scale": 0, "target": "aura_force", "msg": "Torus stops working.", "type": "transform" } ]
   },
   {
@@ -352,12 +407,14 @@
           "values": [
             { "value": "BONUS_DODGE", "add": 1 },
             { "value": "PERCEPTION", "add": 2 },
-            { "value": "MOTION_VISION_RANGE", "add": 30 }
+            { "value": "MOTION_VISION_RANGE", "add": 30 },
+            { "value": "RANGED_DAMAGE", "multiply": 0.33 },
+            { "value": "WEAPON_DISPERSION", "multiply": 0.33 }
           ]
         }
       ]
     },
-    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+    "armor": [ { "coverage": 10, "encumbrance": 1, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
   {
     "id": "vision_halo_on",
@@ -381,7 +438,63 @@
         "need_charges": 0,
         "type": "transform"
       }
-    ]
+    ],
+    "tick_action": [ "EPIC_MUSIC" ]
+  },
+  {
+    "type": "ARMOR",
+    "id": "inventor_fists",
+    "symbol": "3",
+    "color": "light_gray",
+    "name": { "str": "heavy CQC system" },
+    "description": "Heavyweight system, starting from your hands, that holds a square-ish steel frame with few bumps on the end, to increase damage output by concentrating the impact point.  It goes into your lower arms with thick piece of hardened steel to cover both your limbs and the hydraulic system, extends into the upper arm with aluminum tubes for hydraulics, and ends on your back, where the main part of hydraulic servos belong.  The energy consumption is recuperated from each move, but overall weight and bulkiness of the system makes it barely possible to use with anything in your hands.",
+    "material": [ "aluminum", "steel" ],
+    "volume": "11678 ml",
+    "weight": "3970 g",
+    "flags": [ "DURABLE_MELEE", "PADDED" ],
+    "techniques": [ "WBLOCK_3", "BRUTAL", "SWEEP" ],
+    "material_thickness": 1,
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 5 } ],
+        "encumbrance": 7,
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r", "hand_wrist_l", "hand_wrist_r" ],
+        "breathability": "GOOD"
+      },
+      {
+        "material": [
+          { "type": "aluminum", "covered_by_mat": 25, "thickness": 1.0 },
+          { "type": "steel", "covered_by_mat": 100, "thickness": 2.5 }
+        ],
+        "encumbrance": 7,
+        "coverage": 50,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r", "arm_elbow_l", "arm_elbow_r" ],
+        "breathability": "GOOD"
+      },
+      {
+        "material": [ { "type": "aluminum", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 7,
+        "coverage": 25,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_upper_r", "arm_shoulder_l", "arm_shoulder_r" ],
+        "breathability": "GOOD"
+      },
+      {
+        "material": [
+          { "type": "aluminum", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "steel", "covered_by_mat": 100, "thickness": 0.3 }
+        ],
+        "encumbrance": 11,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "breathability": "GOOD"
+      }
+    ],
+    "melee_damage": { "bash": 28 }
   },
   {
     "type": "TOOL_ARMOR",
@@ -390,7 +503,7 @@
     "color": "light_gray",
     "looks_like": "gauntlets_chitin",
     "name": { "str": "\"Overture\"", "str_pl": "\"Overtures\"" },
-    "description": "Thin piece of close with a lot of coils and wires, and a slot for a small battery.  Upon activation, it start to emit huge electrical charges, frying your enemies when you attack them in melee.",
+    "description": "A bulky mess of coils and wires that goes from your fists to your shoulder, and a slot for a small battery behind the elbow.  Upon activation, it start to emit huge electrical charges, frying your enemies when you attack them in melee.",
     "material": [ "aluminum", "copper" ],
     "volume": "155 ml",
     "weight": "300 g",
@@ -441,6 +554,7 @@
     "color": "light_gray",
     "name": { "str": "\"Overture\" (on)", "str_pl": "\"Overtures\" (on)" },
     "power_draw": "50 W",
+    "revert_to": "inventor_electric_fist",
     "use_action": [ { "ammo_scale": 0, "target": "inventor_electric_fist", "msg": "The fist turns off.", "type": "transform" } ]
   },
   {
@@ -459,11 +573,11 @@
     "material_thickness": 0.4,
     "environmental_protection": 4,
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "REGEN_STAMINA", "multiply": 0.3 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "REGEN_STAMINA", "multiply": 0.6 } ] } ]
     },
     "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 4 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 3 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 7 }
     ],
     "pocket_data": [
       {
@@ -495,6 +609,8 @@
     "copy-from": "wolf_mask",
     "name": { "str": "wolf's mask (on)", "str_pl": "a few wolf's mask (on)" },
     "power_draw": "5 W",
+    "environmental_protection": 25,
+    "revert_to": "wolf_mask",
     "use_action": [ { "ammo_scale": 0, "target": "wolf_mask", "msg": "The mask stops working.", "type": "transform" } ]
   },
   {

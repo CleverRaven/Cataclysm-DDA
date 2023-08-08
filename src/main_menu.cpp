@@ -1138,11 +1138,11 @@ void main_menu::world_tab( const std::string &worldname )
     }
 
     auto clear_world = [this, &worldname]( bool do_delete ) {
-        world_generator->delete_world( worldname, do_delete );
         // NOLINTNEXTLINE(cata-use-localized-sorting)
         if( last_world_pos > 0 && worldname <= world_generator->all_worldnames()[last_world_pos] ) {
             last_world_pos--;
         }
+        world_generator->delete_world( worldname, do_delete );
         savegames.clear();
         MAPBUFFER.clear();
         overmap_buffer.clear();

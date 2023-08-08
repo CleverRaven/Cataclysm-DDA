@@ -123,7 +123,7 @@ static int uncraft_yield( Character &they, const itype_id whole_itype, const ity
 //
 // Recovery may still fail if the original item was damaged; for that, see the [damage] test.
 //
-TEST_CASE( "uncraft difficulty and character skill", "[uncraft][difficulty][skill]" )
+TEST_CASE( "uncraft_difficulty_and_character_skill", "[uncraft][difficulty][skill]" )
 {
     Character &they = setup_uncraft_character();
 
@@ -170,7 +170,7 @@ TEST_CASE( "uncraft difficulty and character skill", "[uncraft][difficulty][skil
 }
 
 // Item damage_level (0-5) affects chance of successfully recovering components from disassembly.
-TEST_CASE( "uncraft from a damaged item", "[uncraft][damage]" )
+TEST_CASE( "uncraft_from_a_damaged_item", "[uncraft][damage]" )
 {
     Character &they = setup_uncraft_character();
 

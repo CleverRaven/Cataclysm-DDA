@@ -19,9 +19,7 @@
       },
       "e_wall_type": {
         "type": "ter_str_id",
-        "default": {
-          "distribution": [ [ "t_brick_wall", 6 ], [ "t_adobe_brick_wall", 2 ], [ "t_concrete_wall", 3 ], [ "t_strconc_wall", 5 ] ]
-        }
+        "default": { "distribution": [ [ "t_brick_wall", 6 ], [ "t_concrete_wall", 3 ], [ "t_strconc_wall", 5 ] ] }
       },
       "bush": {
         "type": "ter_str_id",
@@ -187,10 +185,10 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "item": "bread", "prob": 80, "count": [ 1, 3 ] },
-      { "item": "hotdogs_frozen", "prob": 60, "count": [ 1, 10 ] },
-      { "item": "bratwurst_sausage", "prob": 20, "count": [ 1, 4 ] },
-      { "item": "corndogs_frozen", "prob": 70, "count": [ 1, 10 ] },
+      { "prob": 80, "count": [ 1, 3 ], "group": "bread_bag_plastic_2" },
+      { "prob": 60, "count": [ 1, 10 ], "group": "hotdogs_frozen_bag_plastic_10" },
+      { "item": "bratwurst_sausage", "prob": 20, "count": [ 10, 40 ] },
+      { "prob": 70, "count": [ 1, 10 ], "group": "corndogs_frozen_bag_plastic_2" },
       { "item": "onion", "prob": 45, "count": [ 1, 8 ] },
       { "item": "ketchup", "prob": 55, "count": [ 1, 3 ] },
       { "item": "mustard", "prob": 55, "count": [ 1, 3 ] },
@@ -268,5 +266,13 @@
     "id": "football_vehicles",
     "type": "vehicle_group",
     "vehicles": [ [ "water_cart", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "bread_bag_plastic_2",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "bread", "container-item": "null", "count": 2 } ]
   }
 ]

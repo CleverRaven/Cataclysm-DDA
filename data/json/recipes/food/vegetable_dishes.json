@@ -165,7 +165,8 @@
       { "proficiency": "prof_forage_cooking" }
     ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "jerusalem_artichoke_boiled", 2 ] ], [ [ "sweet_fruit", 1, "LIST" ] ] ]
+    "components": [ [ [ "jerusalem_artichoke_boiled", 2 ] ], [ [ "sweet_fruit", 1, "LIST" ] ] ],
+    "charges": 4
   },
   {
     "type": "recipe",
@@ -436,10 +437,9 @@
         [ "raw_beans", 1 ],
         [ "can_beans", 1 ],
         [ "dry_beans", 1 ],
-        [ "raw_lentils", 1 ],
         [ "dry_lentils", 1 ],
         [ "soybean", 1 ],
-        [ "raw_edamame", 1 ]
+        [ "dry_soybean", 1 ]
       ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [
@@ -472,10 +472,9 @@
         [ "raw_beans", 1 ],
         [ "can_beans", 1 ],
         [ "dry_beans", 1 ],
-        [ "raw_lentils", 1 ],
         [ "dry_lentils", 1 ],
         [ "soybean", 1 ],
-        [ "raw_edamame", 1 ]
+        [ "dry_soybean", 1 ]
       ],
       [
         [ "onion", 2 ],
@@ -488,8 +487,11 @@
         [ "groundnut_prepared", 1 ],
         [ "potato", 1 ],
         [ "irradiated_potato", 1 ],
+        [ "zucchini", 1 ],
+        [ "zucchini_cut", 1 ],
         [ "bell_pepper", 1 ],
-        [ "pumpkin", 1 ]
+        [ "bell_pepper_cut", 1 ],
+        [ "pumpkin_cut", 1 ]
       ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [

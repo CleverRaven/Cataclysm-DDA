@@ -48,7 +48,7 @@ static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 //
 // TODO: Test 'pos' (position) parameter to fine_detail_vision_mod
 //
-TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision]" )
+TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision]" )
 {
     Character &dummy = get_player_character();
     map &here = get_map();
@@ -85,6 +85,11 @@ TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision
     // 6.0 is LIGHT_AMBIENT_DIM
 
     SECTION( "midnight with a new moon" ) {
+        // yes, surprisingly, we need to test for this
+        tripoint const z_shift = GENERATE( tripoint_above, tripoint_zero );
+        dummy.setpos( dummy.pos() + z_shift );
+        CAPTURE( z_shift );
+
         calendar::turn = calendar::turn_zero;
         here.build_map_cache( 0, false );
         REQUIRE_FALSE( g->is_in_sunlight( dummy.pos() ) );
@@ -92,6 +97,8 @@ TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision
 
         // 7.3 is LIGHT_AMBIENT_MINIMAL, a dark cloudy night, unlit indoors
         CHECK( dummy.fine_detail_vision_mod() == Approx( 7.3f ) );
+
+        dummy.setpos( dummy.pos() - z_shift );
     }
 
     SECTION( "blindfolded" ) {
@@ -103,6 +110,67 @@ TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision
     }
 }
 
+TEST_CASE( "npc_light_and_fine_detail_vision_mod", "[character][npc][sight][light][vision]" )
+{
+    Character &u = get_player_character();
+    standard_npc n( "Mr. Testerman" );
+    n.set_body();
+
+    clear_avatar();
+    clear_map();
+    tripoint const u_shift = GENERATE( tripoint_zero, tripoint_above );
+    CAPTURE( u_shift );
+    u.setpos( u.pos() + u_shift );
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+    restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
+    restore_on_out_of_scope<int> restore_fov_3d_z_range( fov_3d_z_range );
+
+    time_point time_dst;
+    float expected_vision{};
+    if( GENERATE( true, false ) ) {
+        time_dst = calendar::turn - time_past_midnight( calendar::turn ) + 12_hours;
+        CAPTURE( "daylight" );
+        expected_vision = 1.0;
+    } else {
+        time_dst = calendar::turn - time_past_midnight( calendar::turn );
+        CAPTURE( "darkness" );
+        expected_vision = 7.3;
+    }
+
+    SECTION( "3d fov off" ) {
+        fov_3d = false;
+        set_time( time_dst );
+        REQUIRE( u.fine_detail_vision_mod() == expected_vision );
+        SECTION( "NPC on same z-level" ) {
+            n.setpos( u.pos() + tripoint_east );
+            CHECK( n.fine_detail_vision_mod() == u.fine_detail_vision_mod() );
+        }
+        SECTION( "NPC on a different z-level" ) {
+            n.setpos( u.pos() + tripoint_above );
+            CHECK( n.fine_detail_vision_mod() == Approx( 1.0 ) ); // light not calculated
+        }
+    }
+
+    SECTION( "3d fov on" ) {
+        fov_3d = true;
+        fov_3d_z_range = 2;
+        set_time( time_dst );
+        REQUIRE( u.fine_detail_vision_mod() == expected_vision );
+        SECTION( "NPC on same z-level" ) {
+            n.setpos( u.pos() + tripoint_east );
+            CHECK( n.fine_detail_vision_mod() == u.fine_detail_vision_mod() );
+        }
+        SECTION( "NPC on a different z-level, but in 3d fov range" ) {
+            n.setpos( u.pos() + tripoint_above );
+            CHECK( n.fine_detail_vision_mod() == u.fine_detail_vision_mod() );
+        }
+        SECTION( "NPC on a different z-level, outside of 3d fov range" ) {
+            n.setpos( u.pos() + tripoint{ 0, 0, fov_3d_z_range + 1 } );
+            CHECK( n.fine_detail_vision_mod() == Approx( 1.0 ) ); // light not calculated
+        }
+    }
+}
+
 // Sight limits
 //
 // Character::unimpaired_range() returns the maximum sight range, factoring in the effects of
@@ -111,7 +179,7 @@ TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision
 //
 // Character::sight_impaired() returns true if sight is thus restricted.
 //
-TEST_CASE( "character sight limits", "[character][sight][vision]" )
+TEST_CASE( "character_sight_limits", "[character][sight][vision]" )
 {
     Character &dummy = get_player_character();
     map &here = get_map();
@@ -207,7 +275,7 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
 // FIXME: Rename unimpaired_range() to impaired_range()
 // (it specifically includes all the things that impair visibility)
 //
-TEST_CASE( "ursine vision", "[character][ursine][vision]" )
+TEST_CASE( "ursine_vision", "[character][ursine][vision]" )
 {
     Character &dummy = get_player_character();
     map &here = get_map();

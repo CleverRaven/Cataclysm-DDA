@@ -567,6 +567,24 @@
     ]
   },
   {
+    "type": "npc_class",
+    "id": "NC_TRADER_PREDATORY",
+    "name": { "str": "Trader" },
+    "job_description": "I'm collecting gear and selling it at a high interest.",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "shopkeeper_item_group": [ { "group": "NC_EVAC_SHOPKEEP_misc", "rigid": true } ],
+    "shopkeeper_price_rules": [
+      { "item": "icon", "price": 100 },
+      {
+        "group": "NC_EVAC_SHOPKEEP_misc",
+        "condition": { "not": { "npc_has_var": "u_paidoff", "type": "general", "context": "meeting", "value": "yes" } },
+        "markup": 3
+      }
+    ],
+    "bonus_int": { "one_in": 4 },
+    "bonus_per": { "one_in": 4 }
+  },
+  {
     "type": "item_group",
     "id": "GODCO_helena_worn",
     "subtype": "collection",
@@ -730,7 +748,7 @@
       { "item": "socks" },
       { "item": "boots_steel" },
       { "item": "pants_cargo" },
-      { "item": "army_top" },
+      { "item": "tank_top", "variant": "tank_top_camo" },
       { "item": "bandolier_rifle", "contents-group": "bandolier_rifle_hunter" },
       { "item": "jacket_army" },
       { "item": "knit_scarf" },
@@ -1006,7 +1024,7 @@
     "subtype": "collection",
     "//": "camping itemgroup modified to remove junk/common/lengthy items.",
     "items": [
-      { "item": "rebreather", "prob": 3, "charges-min": 30 },
+      { "item": "rebreather", "prob": 3, "ammo-item": "rebreather_cartridge_o2" },
       { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
       { "item": "misc_repairkit", "prob": 20, "charges-min": 25 },
       { "item": "bbgun", "prob": 15, "charges-min": 100 },
@@ -1018,7 +1036,7 @@
       { "item": "gasoline_lantern", "prob": 7, "charges-min": 100 },
       { "item": "oil_lamp", "prob": 7, "charges-min": 100 },
       { "item": "lamp_oil", "prob": 5, "charges-min": 100 },
-      { "item": "pur_tablets", "prob": 10, "charges": [ 5, 15 ] },
+      { "item": "pur_tablets", "prob": 10, "count": [ 5, 15 ] },
       { "item": "mess_kit", "prob": 33 },
       { "item": "popcan_stove", "prob": 33, "charges": [ 100, 500 ] },
       {
@@ -1095,11 +1113,11 @@
       [ "chem_hexamine", 5 ],
       [ "flint_steel", 10 ],
       [ "esbit_stove", 10 ],
-      { "item": "wild_herbs", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "wild_herbs", "prob": 100, "count": [ 20, 200 ] },
       { "item": "thyme", "prob": 75, "count": [ 1, 10 ] },
       { "item": "hickory_nut", "prob": 66, "count": [ 1, 10 ] },
-      { "item": "poppy_pain", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "poppy_sleep", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" }
+      { "prob": 80, "group": "poppy_pain_jar_glass_sealed_2" },
+      { "prob": 80, "group": "poppy_sleep_jar_glass_sealed_2" }
     ]
   },
   {
@@ -1286,5 +1304,21 @@
     "type": "item_group",
     "id": "NC_GODCO_MERCHANT_sell",
     "items": [ { "group": "NC_EVAC_SHOPKEEP_misc", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "poppy_pain_jar_glass_sealed_2",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "poppy_pain", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "poppy_sleep_jar_glass_sealed_2",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "poppy_sleep", "count": 2 } ]
   }
 ]

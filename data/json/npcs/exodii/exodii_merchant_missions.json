@@ -33,15 +33,10 @@
         "om_special": "hub_01",
         "reveal_radius": 1,
         "random": false,
-        "search_range": 240
+        "search_range": 2400
       }
     },
-    "end": {
-      "effect": [
-        { "u_add_var": "u_scouted_bunker", "type": "mission", "context": "completed", "value": "yes" },
-        { "arithmetic": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "=", { "const": 1 } ] }
-      ]
-    },
+    "end": { "effect": [ { "u_add_var": "u_scouted_bunker", "type": "mission", "context": "completed", "value": "yes" } ] },
     "difficulty": 2,
     "value": 0,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -201,6 +196,24 @@
         "topic": "TALK_DONE"
       },
       { "text": "I'm gonna need to think on this one.  I'll see you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_met_hub",
+    "type": "talk_topic",
+    "dynamic_line": "Ah, would ye be willin' ta yark with me about it?",
+    "//~": "Ah, would you be willing to tell me about it?",
+    "responses": [
+      {
+        "text": "*Tell him.",
+        "effect": [
+          { "u_add_faction_trust": 5 },
+          { "arithmetic": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "=", { "const": 1 } ] }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Maybe later, can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Not right now, I have to go.", "topic": "TALK_DONE" }
     ]
   },
   {

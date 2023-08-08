@@ -375,6 +375,13 @@ class zone_data
             }
             return zone_type_id( "" );
         }
+        static faction_id unhash_fac( const std::string_view hash_type ) {
+            size_t start = hash_type.find( type_fac_hash_str ) + type_fac_hash_str.size();
+            if( start != std::string::npos ) {
+                return faction_id( hash_type.substr( start ) );
+            }
+            return faction_id( "" );
+        }
         std::string get_name() const {
             return name;
         }
@@ -525,6 +532,9 @@ class zone_manager
         bool has_loot_dest_near( const tripoint_abs_ms &where ) const;
         bool custom_loot_has( const tripoint_abs_ms &where, const item *it,
                               const zone_type_id &ztype, const faction_id &fac = your_fac ) const;
+        std::vector<zone_data const *> get_near_zones( const zone_type_id &type,
+                const tripoint_abs_ms &where, int range,
+                const faction_id &fac = your_fac ) const;
         std::unordered_set<tripoint_abs_ms> get_near(
             const zone_type_id &type, const tripoint_abs_ms &where, int range = MAX_DISTANCE,
             const item *it = nullptr, const faction_id &fac = your_fac ) const;

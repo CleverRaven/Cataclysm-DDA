@@ -349,11 +349,11 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
 
     // Add compass, message log, and map to fill remaining space
     // TODO: Make these into proper widgets
-    ret.emplace_back( window_panel( draw_messages, "Log", to_translation( "Log" ),
-                                    -2, width, true ) );
+    ret.emplace_back( draw_messages, "Log", to_translation( "Log" ),
+                      -2, width, true );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
-                                    -1, width, true, default_render, true ) );
+    ret.emplace_back( draw_mminimap, "Map", to_translation( "Map" ),
+                      -1, width, true, default_render, true );
 #endif // TILES
 
     return ret;

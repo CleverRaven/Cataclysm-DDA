@@ -7,7 +7,7 @@
     "responses": [
       { "text": "Who are you, exactly?", "topic": "TALK_VALHALLIST_MEMBER_WHO" },
       { "text": "What's your deal here?", "topic": "TALK_VALHALLIST_MEMBER_Job" },
-      { "text": "I don't need anything, just gotta got.", "topic": "TALK_DONE" }
+      { "text": "I don't need anything, just gotta go.", "topic": "TALK_DONE" }
     ]
   },
   {

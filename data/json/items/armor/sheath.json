@@ -20,12 +20,13 @@
         "max_contains_weight": "5 kg",
         "max_item_length": "100 cm",
         "holster": true,
-        "flag_restriction": [ "SHEATH_AXE" ]
+        "flag_restriction": [ "SHEATH_AXE" ],
+        "volume_encumber_modifier": 0.3
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath axe", "holster_msg": "You sheath your %s" },
-    "flags": [ "NONCONDUCTIVE", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "flags": [ "NONCONDUCTIVE", "BELTED", "BELT_CLIP", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 0, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "baldric",
@@ -374,6 +375,43 @@
     "melee_damage": { "bash": 4 }
   },
   {
+    "id": "nylon_scabbard",
+    "type": "ARMOR",
+    "name": { "str": "nylon scabbard" },
+    "description": "A large, adjustable sheath for holding swords and other large blades, made with nylon.  Activate to sheathe/draw a weapon.",
+    "weight": "1360 g",
+    "volume": "1750 ml",
+    "price": 6000,
+    "price_postapoc": 500,
+    "material": [ "nylon", "wood" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "brown",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "magazine_well": "1250 ml",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "100 cm",
+        "holster": true,
+        "moves": 30,
+        "flag_restriction": [ "SHEATH_SWORD" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": [ 3, 4 ],
+        "coverage": 15,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ]
+  },
+  {
     "id": "sheath",
     "type": "ARMOR",
     "name": { "str": "sheath", "str_pl": "sheathes" },
@@ -400,7 +438,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_SMALL" ],
+    "flags": [ "BELTED", "BELT_CLIP", "OVERSIZE", "WATER_FRIENDLY", "PALS_SMALL" ],
     "armor": [
       {
         "coverage": 5,
@@ -408,7 +446,8 @@
         "encumbrance": [ 0, 1 ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "sheath_birchbark",
@@ -469,11 +508,12 @@
         "flag_restriction": [ "SHEATH_SPEAR" ],
         "max_contains_volume": "4000 ml",
         "max_contains_weight": "4 kg",
-        "max_item_length": "200 cm"
+        "max_item_length": "250 cm",
+        "volume_encumber_modifier": 0.5
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Holster spear", "holster_msg": "You holster your %s." },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   }
 ]

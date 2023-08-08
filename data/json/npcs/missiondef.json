@@ -843,6 +843,7 @@
         { "u_sell_item": "cattail_stalk", "count": 80 },
         { "npc_consume_item": "cattail_stalk", "count": 80 },
         { "u_learn_recipe": "cattail_jelly" },
+        { "u_message": "You learn how to craft cattail jelly.", "popup": true },
         { "u_spawn_item": "cattail_jelly", "container": "bag_zipper", "count": 7 }
       ]
     },
@@ -916,5 +917,85 @@
     "value": 0,
     "invisible_on_complete": true,
     "start": { "assign_mission_target": { "var": { "global_val": "portal_dungeon" } } }
+  },
+  {
+    "id": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER",
+    "type": "mission_definition",
+    "name": { "str": "Center of the storm" },
+    "goal": "MGOAL_CONDITION",
+    "description": "This is the center of the portal storm, you could find it upside down, dizzy and blindfolded.  Its presence is too altered to allow the mercy of ignorance.",
+    "difficulty": 0,
+    "value": 0,
+    "invisible_on_complete": true,
+    "start": { "assign_mission_target": { "var": { "global_val": "portal_storm_center" } } }
+  },
+  {
+    "id": "MISSION_CAMP_LEADERSHIP_CHANGE",
+    "type": "mission_definition",
+    "name": { "str": "Faction succession" },
+    "goal": "MGOAL_CONDITION",
+    "description": "You have some time left before the peaceful transfer of power can take place again.",
+    "difficulty": 0,
+    "value": 0,
+    "invisible_on_complete": true,
+    "start": {
+      "effect": [
+        { "u_add_var": "time_of_last_succession", "type": "timer", "time": true },
+        { "run_eocs": "EOC_FACTION_SUCCESSION_CHECK" }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FACTION_SUCCESSION_CHECK",
+    "recurrence": [ "5 minutes", "20 minutes" ],
+    "global": true,
+    "condition": { "u_compare_time_since_var": "time_of_last_succession", "type": "timer", "op": ">", "time": "90 d" },
+    "effect": [ { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }, { "u_lose_var": "time_of_last_succession" } ],
+    "deactivate_condition": { "not": { "u_has_var": "time_of_last_succession", "value": "yes" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FACTION_SUCCESSION_CHANGE_INIT",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "effect": [
+      { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
+      { "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FACTION_SUCCESSION_CHANGE_REINIT",
+    "eoc_type": "EVENT",
+    "required_event": "game_avatar_new",
+    "effect": [
+      { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
+      { "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FACTION_SUCCESSION_COOLDOWN",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "effect": [ { "math": [ "time_between_succession", "=", "u_val('time: 90 d')" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FACTION_SUCCESSION_IMMEDIATE",
+    "eoc_type": "EVENT",
+    "required_event": "broken_bone",
+    "//1": "Only run EOC if character is currently on succession cooldown!",
+    "condition": { "math": [ "u_val('time_since_var', 'var_name: timer_time_of_last_succession')", "<", "time_between_succession" ] },
+    "//2": "Remove the mission tracking that you can't change char, push the timer back by [cooldown length] so changing is immediately available.",
+    "effect": [
+      { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
+      {
+        "u_message": "You've been badly wounded.  It might be better to rest for a while and let someone else scavenge. (Changing characters is now available at any camp board.)",
+        "type": "mixed"
+      },
+      { "math": [ "u_timer_time_of_last_succession", "-=", "time_between_succession" ] }
+    ]
   }
 ]

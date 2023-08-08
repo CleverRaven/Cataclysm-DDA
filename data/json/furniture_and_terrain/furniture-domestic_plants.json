@@ -80,7 +80,17 @@
     "color": "light_green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
+    "flags": [
+      "PLANT",
+      "SEALED",
+      "TRANSPARENT",
+      "CONTAINER",
+      "NOITEM",
+      "TINY",
+      "DONT_REMOVE_ROTTEN",
+      "GROWTH_HARVEST",
+      "SMALL_HIDE"
+    ],
     "examine_action": "harvest_plant_ex",
     "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
     "plant_data": { "transform": "f_null", "base": "f_null" }
@@ -94,7 +104,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE", "SMALL_HIDE" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 3, "str_max": 8, "sound": "crunch.", "sound_fail": "whish." },
     "plant_data": { "transform": "f_plant_harvest", "base": "f_null" }
@@ -171,7 +181,17 @@
     "looks_like": "f_plant_harvest",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
+    "flags": [
+      "PLANT",
+      "SEALED",
+      "TRANSPARENT",
+      "CONTAINER",
+      "NOITEM",
+      "TINY",
+      "DONT_REMOVE_ROTTEN",
+      "GROWTH_HARVEST",
+      "SMALL_HIDE"
+    ],
     "examine_action": "harvest_plant_ex",
     "deconstruct": {
       "items": [
@@ -206,7 +226,7 @@
     "looks_like": "f_plant_mature",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE", "SMALL_HIDE" ],
     "examine_action": "aggie_plant",
     "deconstruct": {
       "items": [
@@ -296,5 +316,34 @@
       ]
     },
     "plant_data": { "transform": "f_planter_mature", "base": "f_planter" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_stook_full",
+    "name": "grain stook",
+    "description": "Sheaves of cut grain have been stood upright in a self-supporting A-frame to dry, keeping the seeds off the ground and out of reach of vermin.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 40,
+    "deconstruct": { "items": [  ] },
+    "required_str": 3,
+    "flags": [ "SEALED", "TRANSPARENT", "CONTAINER", "EASY_DECONSTRUCT", "DONT_REMOVE_ROTTEN", "FLAMMABLE_ASH" ],
+    "examine_action": "stook_full",
+    "bash": { "str_min": 3, "str_max": 60, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_stook_empty",
+    "name": "stooking spot",
+    "description": "A space has been cleared out here for grain drying.  Place fresh stalks of grain in this spot and examine to set up a stook.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost_mod": 0,
+    "deconstruct": { "items": [  ] },
+    "max_volume": "10 L",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "CONTAINER", "EASY_DECONSTRUCT", "NOCOLLIDE" ],
+    "examine_action": "stook_empty"
   }
 ]

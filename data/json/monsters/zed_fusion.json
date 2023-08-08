@@ -21,7 +21,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
     "families": [ "prof_intro_biology" ],
-    "harvest": "zombie_leather",
+    "harvest": "zombie_humanoid",
     "fear_triggers": [ "HURT", "FIRE" ],
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN" ],
     "armor": { "bash": 8, "electric": 2 }
@@ -51,7 +51,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_night": 3,
-    "harvest": "zombie",
+    "harvest": "zombie_humanoid",
     "//grab": "All these arms to grab you with",
     "grab_strength": 50,
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch" }, [ "ZOMBIE_FUSE", 80 ] ],
@@ -107,7 +107,8 @@
     "special_attacks": [
       { "id": "longswipe", "min_mul": 1, "max_mul": 2, "cooldown": 5 },
       { "id": "slam", "min_mul": 2, "max_mul": 3, "cooldown": 5 },
-      [ "GRAB_DRAG", 15 ],
+      { "id": "grab_drag", "cooldown": 15 },
+      { "id": "drag_followup" },
       [ "ZOMBIE_FUSE", 25 ],
       [ "SHRIEK_ALERT", 50 ],
       {
@@ -171,7 +172,8 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
     "harvest": "exempt",
-    "special_attacks": [ [ "FLESH_TENDRIL", 1 ] ],
+    "grab_strength": 100,
+    "special_attacks": [ [ "FLESH_TENDRIL", 1 ], { "id": "grab" }, { "id": "ranged_pull", "grab_data": { "pull_weight_ratio": 100 } } ],
     "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ],
     "armor": { "bash": 10, "cut": 20, "bullet": 16, "electric": 5 }

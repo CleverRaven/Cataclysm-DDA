@@ -64,8 +64,6 @@ static const mutation_category_id mutation_category_ANY( "ANY" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
-static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
-static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
 static const trait_id trait_GASTROPOD_EXTREMITY2( "GASTROPOD_EXTREMITY2" );
 static const trait_id trait_GASTROPOD_EXTREMITY3( "GASTROPOD_EXTREMITY3" );
@@ -273,12 +271,18 @@ void Character::unset_mutation( const trait_id &trait_ )
 }
 
 void Character::switch_mutations( const trait_id &switched, const trait_id &target,
-                                  bool start_powered )
+                                  bool start_powered, bool safe )
 {
+    // Always lose the transformed trait
     unset_mutation( switched );
-
-    set_mutation( target );
-    my_mutations[target].powered = start_powered;
+    if( safe ) {
+        mutate_towards( target, mutation_category_ANY, nullptr, false );
+    } else {
+        set_mutation( target );
+    }
+    if( has_trait( target ) ) {
+        my_mutations[target].powered = start_powered;
+    }
 }
 
 bool Character::can_power_mutation( const trait_id &mut ) const
@@ -626,20 +630,27 @@ bool Character::has_active_mutation( const trait_id &b ) const
 time_duration Character::get_cost_timer( const trait_id &mut ) const
 {
     const auto iter = my_mutations.find( mut );
+    const std::vector<trait_id> &all_mut = get_mutations();
+    const auto all_iter = std::find( all_mut.begin(), all_mut.end(), mut );
     if( iter != my_mutations.end() ) {
         return iter->second.charge;
-    } else {
+    } else if( all_iter == all_mut.end() ) {
+        // dont have the mutation personally and can't find it in enchantments (this shouldn't happen)
         debugmsg( "Tried to get cost timer of %s but doesn't have this mutation.", mut.c_str() );
     }
+    // if we have the mutation from an item or something non character skip the warning and just process every turn
     return 0_turns;
 }
 
 void Character::set_cost_timer( const trait_id &mut, time_duration set )
 {
     const auto iter = my_mutations.find( mut );
+    const std::vector<trait_id> &all_mut = get_mutations();
+    const auto all_iter = std::find( all_mut.begin(), all_mut.end(), mut );
     if( iter != my_mutations.end() ) {
         iter->second.charge = set;
-    } else {
+    } else if( all_iter == all_mut.end() ) {
+        // don't have the mutation and don't have it from an item
         debugmsg( "Tried to set cost timer of %s but doesn't have this mutation.", mut.c_str() );
     }
 }
@@ -788,6 +799,7 @@ void Character::activate_mutation( const trait_id &mut )
     if( !mut->activated_eocs.empty() ) {
         for( const effect_on_condition_id &eoc : mut->activated_eocs ) {
             dialogue d( get_talker_for( *this ), nullptr );
+            d.set_value( "npctalk_var_this", mut.str() );
             if( eoc->type == eoc_type::ACTIVATION ) {
                 eoc->activate( d );
             } else {
@@ -801,7 +813,7 @@ void Character::activate_mutation( const trait_id &mut )
     if( mdata.transform ) {
         const cata::value_ptr<mut_transform> trans = mdata.transform;
         mod_moves( - trans->moves );
-        switch_mutations( mut, trans->target, trans->active );
+        switch_mutations( mut, trans->target, trans->active, trans->safe );
 
         if( !mdata.transform->msg_transform.empty() ) {
             add_msg_if_player( m_neutral, mdata.transform->msg_transform );
@@ -899,19 +911,6 @@ void Character::activate_mutation( const trait_id &mut )
             activity.values.push_back( to_turns<int>( startup_time ) );
             return;
         }
-    } else if( mut == trait_DEBUG_BIONIC_POWER ) {
-        mod_max_power_level_modifier( 100_kJ );
-        add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
-        tdata.powered = false;
-        return;
-    } else if( mut == trait_DEBUG_BIONIC_POWERGEN ) {
-        int npower;
-        if( query_int( npower, "Modify bionic power by how much?  (Values are in millijoules)" ) ) {
-            mod_power_level( units::from_millijoule( npower ) );
-            add_msg_if_player( m_good, _( "Bionic power increased by %dmJ." ), npower );
-            tdata.powered = false;
-        }
-        return;
     } else if( !mdata.spawn_item.is_empty() ) {
         item tmpitem( mdata.spawn_item );
         i_add_or_drop( tmpitem );
@@ -937,7 +936,7 @@ void Character::deactivate_mutation( const trait_id &mut )
     if( mdata.transform ) {
         const cata::value_ptr<mut_transform> trans = mdata.transform;
         mod_moves( -trans->moves );
-        switch_mutations( mut, trans->target, trans->active );
+        switch_mutations( mut, trans->target, trans->active, trans->safe );
     }
 
     if( !mut->enchantments.empty() ) {
@@ -946,6 +945,7 @@ void Character::deactivate_mutation( const trait_id &mut )
 
     for( const effect_on_condition_id &eoc : mut->deactivated_eocs ) {
         dialogue d( get_talker_for( *this ), nullptr );
+        d.set_value( "npctalk_var_this", mut.str() );
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );
         } else {

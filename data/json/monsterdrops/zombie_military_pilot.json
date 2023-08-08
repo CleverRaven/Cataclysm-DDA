@@ -9,7 +9,7 @@
       { "group": "clothing_military_pilot", "damage": [ 1, 4 ] },
       { "item": "holster", "contents-group": "military_standard_pistols" },
       { "item": "two_way_radio", "prob": 30 },
-      { "item": "adderall", "prob": 40 },
+      { "prob": 40, "group": "adderall_bottle_plastic_pill_prescription_10" },
       { "group": "wallets_military", "prob": 25 },
       { "group": "military_patrol_food", "prob": 30 },
       { "group": "pocket_cigar", "prob": 15 },

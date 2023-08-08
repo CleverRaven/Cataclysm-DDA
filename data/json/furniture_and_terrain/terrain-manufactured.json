@@ -78,7 +78,8 @@
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 7 ] }
+        { "item": "scrap", "count": [ 3, 7 ] },
+        { "item": "hose", "count": 1 }
       ]
     }
   },
@@ -148,7 +149,8 @@
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
-        { "item": "scrap", "count": [ 3, 7 ] }
+        { "item": "scrap", "count": [ 3, 7 ] },
+        { "item": "hose", "count": 1 }
       ]
     }
   },
@@ -196,7 +198,8 @@
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
-        { "item": "scrap", "count": [ 3, 7 ] }
+        { "item": "scrap", "count": [ 3, 7 ] },
+        { "item": "hose", "count": 1 }
       ]
     }
   },
@@ -244,7 +247,8 @@
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
-        { "item": "scrap", "count": [ 3, 7 ] }
+        { "item": "scrap", "count": [ 3, 7 ] },
+        { "item": "hose", "count": 1 }
       ]
     }
   },
@@ -1483,6 +1487,64 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [ { "item": "scrap", "count": [ 8, 32 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_brick_oven_base",
+    "name": "brick oven base",
+    "symbol": "=",
+    "description": "A flat assembly of carefully stacked bricks that is not quite an oven.",
+    "color": "yellow",
+    "move_cost": 4,
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "fire_brick", "count": 30 } ] },
+    "bash": {
+      "str_min": 16,
+      "str_max": 25,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "fire_brick", "count": [ 15, 20 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_brick_oven_struct",
+    "looks_like": "f_fireplace",
+    "name": "exposed brick oven",
+    "symbol": "#",
+    "description": "A large brick oven that could make several pizzas at once.  This one seems to be missing its door, and cannot be used in such a state.",
+    "color": "yellow",
+    "move_cost": 0,
+    "flags": [ "REDUCE_SCENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PERMEABLE" ],
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "fire_brick", "count": 90 } ] },
+    "bash": {
+      "str_min": 25,
+      "str_max": 50,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "fire_brick", "count": [ 45, 75 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_brick_oven",
+    "looks_like": "f_fireplace",
+    "name": "brick oven",
+    "symbol": "#",
+    "description": "A large brick oven that could make several pizzas at once.",
+    "color": "red",
+    "move_cost": 0,
+    "flags": [ "REDUCE_SCENT", "NOITEM", "PERMEABLE", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE" ],
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "fire_brick", "count": 90 } ] },
+    "bash": {
+      "str_min": 25,
+      "str_max": 50,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "fire_brick", "count": [ 45, 75 ] } ]
     }
   }
 ]

@@ -339,18 +339,29 @@
     "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
     "sound_category": "portal_storm",
     "priority": 120,
-    "condition": { "compare_num": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 1 } ] }
+    "condition": {
+      "and": [
+        { "math": [ "cause_early_portal_storm", "==", "1" ] },
+        {
+          "compare_num": [
+            { "distance": [ { "context_val": "weather_location" }, { "global_val": "portal_storm_center" } ] },
+            "<=",
+            { "global_val": "var", "var_name": "portal_storm_distant_distance", "default": 200 }
+          ]
+        }
+      ]
+    }
   },
   {
-    "id": "portal_storm",
+    "id": "distant_portal_storm",
     "type": "weather_type",
-    "name": "Portal Storm",
+    "name": "Distant Portal Storm",
     "color": "red",
     "map_color": "red",
     "sym": "O",
     "ranged_penalty": 0,
     "sight_penalty": 1.0,
-    "light_modifier": -10,
+    "light_modifier": -8,
     "sun_multiplier": 0.7,
     "sound_attn": 0,
     "dangerous": true,
@@ -362,6 +373,85 @@
     "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
     "sound_category": "portal_storm",
     "priority": 130,
-    "condition": { "compare_num": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 1 } ] }
+    "condition": {
+      "and": [
+        { "math": [ "cause_portal_storm", "==", "1" ] },
+        {
+          "compare_num": [
+            { "distance": [ { "context_val": "weather_location" }, { "global_val": "portal_storm_center" } ] },
+            "<=",
+            { "global_val": "var", "var_name": "portal_storm_distant_distance", "default": 200 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "close_portal_storm",
+    "type": "weather_type",
+    "name": "Close Portal Storm",
+    "color": "red",
+    "map_color": "red",
+    "sym": "O",
+    "ranged_penalty": 0,
+    "sight_penalty": 1.0,
+    "light_modifier": -10,
+    "sun_multiplier": 0.6,
+    "sound_attn": 0,
+    "dangerous": true,
+    "precip": "none",
+    "rains": false,
+    "debug_cause_eoc": "EOC_CAUSE_PORTAL_STORM",
+    "debug_leave_eoc": "EOC_CANCEL_PORTAL_STORM",
+    "tiles_animation": "weather_portal_storm",
+    "weather_animation": { "factor": 0.02, "color": "red", "sym": "*" },
+    "sound_category": "portal_storm",
+    "priority": 131,
+    "condition": {
+      "and": [
+        { "math": [ "cause_portal_storm", "==", "1" ] },
+        {
+          "compare_num": [
+            { "distance": [ { "context_val": "weather_location" }, { "global_val": "portal_storm_center" } ] },
+            "<=",
+            { "global_val": "var", "var_name": "portal_storm_close_distance", "default": 100 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "portal_storm",
+    "type": "weather_type",
+    "name": "Portal Storm",
+    "color": "red",
+    "map_color": "red",
+    "sym": "O",
+    "ranged_penalty": 0,
+    "sight_penalty": 1.0,
+    "light_modifier": -14,
+    "sun_multiplier": 0.5,
+    "sound_attn": 0,
+    "dangerous": true,
+    "precip": "none",
+    "rains": false,
+    "debug_cause_eoc": "EOC_CAUSE_PORTAL_STORM",
+    "debug_leave_eoc": "EOC_CANCEL_PORTAL_STORM",
+    "tiles_animation": "weather_portal_storm",
+    "weather_animation": { "factor": 0.03, "color": "red", "sym": "*" },
+    "sound_category": "portal_storm",
+    "priority": 132,
+    "condition": {
+      "and": [
+        { "math": [ "cause_portal_storm", "==", "1" ] },
+        {
+          "compare_num": [
+            { "distance": [ { "context_val": "weather_location" }, { "global_val": "portal_storm_center" } ] },
+            "<=",
+            { "global_val": "var", "var_name": "portal_storm_distance", "default": 50 }
+          ]
+        }
+      ]
+    }
   }
 ]

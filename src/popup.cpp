@@ -237,10 +237,14 @@ void query_popup::show() const
     }
 
     for( size_t ind = 0; ind < buttons.size(); ++ind ) {
-        nc_color col = ind == cur ? hilite( c_white ) : c_white;
         const query_popup::button &btn = buttons[ind];
+        nc_color col = c_white;
+        std::string text = colorize( btn.text, col );
+        if( ind == cur ) {
+            text = hilite_string( text );
+        }
         print_colored_text( win, btn.pos + point( border_width, border_width ),
-                            col, col, btn.text );
+                            col, col, text );
     }
 
     wnoutrefresh( win );

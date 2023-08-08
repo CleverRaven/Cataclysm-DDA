@@ -235,7 +235,7 @@
     "id": "MISSION_Warrener_ISHERWOOD",
     "type": "mission_definition",
     "name": { "str": "Visit the Isherwoods" },
-    "description": "There is a family that nearby that I'd like you to check in on. After you talk to all of them come back to me and tell me how they are doing.",
+    "description": "There is a family nearby that I'd like you to check in on.  After you talk to all of them, come back to me and tell me how they are doing.",
     "goal": "MGOAL_CONDITION",
     "difficulty": 3,
     "start": {

@@ -220,10 +220,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
     optional( jo, was_loaded, "attack_override", attack_override, false );
-    optional( jo, was_loaded, "downed_target", downed_target, false );
-    optional( jo, was_loaded, "stunned_target", stunned_target, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
-    optional( jo, was_loaded, "human_target", human_target, false );
 
     optional( jo, was_loaded, "needs_ammo", needs_ammo, false );
 
@@ -258,6 +255,13 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     for( JsonValue jv : jo.get_array( "eocs" ) ) {
         eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
+
+    if( jo.has_member( "condition" ) ) {
+        read_condition( jo, "condition", condition, false );
+        optional( jo, was_loaded, "condition_desc", condition_desc );
+        has_condition = true;
+    }
+
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -531,7 +535,7 @@ class ma_buff_effect_type : public effect_type
             int_decay_remove = false;
             name.push_back( buff.name );
             desc.push_back( buff.description );
-            rating = e_good;
+            apply_msgs.emplace_back( no_translation( "" ), m_good );
         }
 };
 
@@ -594,6 +598,7 @@ bool ma_requirements::buff_requirements_satisfied( const Character &u ) const
 bool ma_requirements::is_valid_character( const Character &u ) const
 {
     if( !buff_requirements_satisfied( u ) ) {
+        add_msg_debug( debugmode::DF_MELEE, "Buff requirements not satisfied, attack discarded" );
         return false;
     }
 
@@ -627,6 +632,8 @@ bool ma_requirements::is_valid_character( const Character &u ) const
 
     for( const auto &pr : min_skill ) {
         if( ( cqb ? 5 : static_cast<int>( u.get_skill_level( pr.first ) ) ) < pr.second ) {
+            add_msg_debug( debugmode::DF_MELEE, "Skill level requirement %d not satisfied, attack discarded",
+                           pr.second );
             return false;
         }
     }
@@ -639,12 +646,14 @@ bool ma_requirements::is_valid_character( const Character &u ) const
             }
         }
         if( !has_flag ) {
+            add_msg_debug( debugmode::DF_MELEE, "Required flag(any) not found, attack discarded" );
             return false;
         }
     }
 
     for( const json_character_flag &flag : req_char_flags_all ) {
         if( !u.has_flag( flag ) ) {
+            add_msg_debug( debugmode::DF_MELEE, "Required flags(all) not found, attack discarded" );
             return false;
         }
     }
@@ -657,6 +666,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
             }
         }
         if( has_flag ) {
+            add_msg_debug( debugmode::DF_MELEE, "Forbidden flag found, attack discarded" );
             return false;
         }
     }
@@ -669,6 +679,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
             }
         }
         if( !valid_weap_cat ) {
+            add_msg_debug( debugmode::DF_MELEE, "Not using weapon from a valid category, attack discarded" );
             return false;
         }
     }
@@ -699,8 +710,8 @@ std::string ma_requirements::get_description( bool buff ) const
     if( std::any_of( min_skill.begin(), min_skill.end(), []( const std::pair<skill_id, int> &pr ) {
     return pr.second > 0;
 } ) ) {
-        dump += string_format( _( "<bold>%s required: </bold>" ),
-                               n_gettext( "Skill", "Skills", min_skill.size() ) );
+        dump += n_gettext( "<bold>Skill required: </bold>",
+                           "<bold>Skills required: </bold>", min_skill.size() );
 
         dump += enumerate_as_string( min_skill.begin(),
         min_skill.end(), []( const std::pair<skill_id, int>  &pr ) {
@@ -826,10 +837,7 @@ ma_technique::ma_technique()
     block_counter = false; // like tec_counter
 
     // conditional
-    downed_target = false;    // only works on downed enemies
-    stunned_target = false;   // only works on stunned enemies
     wall_adjacent = false;    // only works near a wall
-    human_target = false;     // only works on humanoid enemies
 
     needs_ammo = false;       // technique only works if the item is loaded with ammo
 
@@ -958,8 +966,8 @@ std::string ma_buff::get_description( bool passive ) const
 
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
-        dump += string_format( _( "<bold>%s:</bold> " ),
-                               n_gettext( "Bonus", "Bonus/stack", max_stacks ) ) + "\n" + temp;
+        dump += std::string( npgettext( "martial arts buff desc", "<bold>Bonus:</bold> ",
+                                        "<bold>Bonus/stack:</bold> ", max_stacks ) ) + "\n" + temp;
     }
 
     dump += reqs.get_description( true );
@@ -971,24 +979,38 @@ std::string ma_buff::get_description( bool passive ) const
 
     const int turns = to_turns<int>( buff_duration );
     if( !passive && turns ) {
-        dump += string_format( _( "* Will <info>last</info> for <stat>%d %s</stat>" ),
-                               turns, n_gettext( "turn", "turns", turns ) ) + "\n";
+        dump += string_format( n_gettext( "* Will <info>last</info> for <stat>%d turn</stat>",
+                                          "* Will <info>last</info> for <stat>%d turns</stat>",
+                                          turns ),
+                               turns ) + "\n";
     }
 
     if( dodges_bonus > 0 ) {
-        dump += string_format( _( "* Will give a <good>+%s</good> bonus to <info>dodge</info>%s" ),
-                               dodges_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+        dump += string_format(
+                    n_gettext( "* Will give a <good>+%s</good> bonus to <info>dodge</info> for the stack",
+                               "* Will give a <good>+%s</good> bonus to <info>dodge</info> per stack",
+                               max_stacks ),
+                    dodges_bonus ) + "\n";
     } else if( dodges_bonus < 0 ) {
-        dump += string_format( _( "* Will give a <bad>%s</bad> penalty to <info>dodge</info>%s" ),
-                               dodges_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+        dump += string_format(
+                    n_gettext( "* Will give a <bad>%s</bad> penalty to <info>dodge</info> for the stack",
+                               "* Will give a <bad>%s</bad> penalty to <info>dodge</info> per stack",
+                               max_stacks ),
+                    dodges_bonus ) + "\n";
     }
 
     if( blocks_bonus > 0 ) {
-        dump += string_format( _( "* Will give a <good>+%s</good> bonus to <info>block</info>%s" ),
-                               blocks_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+        dump += string_format(
+                    n_gettext( "* Will give a <good>+%s</good> bonus to <info>block</info> for the stack",
+                               "* Will give a <good>+%s</good> bonus to <info>block</info> per stack",
+                               max_stacks ),
+                    blocks_bonus ) + "\n";
     } else if( blocks_bonus < 0 ) {
-        dump += string_format( _( "* Will give a <bad>%s</bad> penalty to <info>block</info>%s" ),
-                               blocks_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+        dump += string_format(
+                    n_gettext( "* Will give a <bad>%s</bad> penalty to <info>block</info> for the stack",
+                               "* Will give a <bad>%s</bad> penalty to <info>block</info> per stack",
+                               max_stacks ),
+                    blocks_bonus ) + "\n";
     }
 
     if( quiet ) {
@@ -1828,6 +1850,8 @@ std::string ma_technique::get_description() const
 
     dump += reqs.get_description();
 
+    dump += string_format( _( condition_desc ) ) + "\n";
+
     if( weighting > 1 ) {
         dump += string_format( _( "* <info>Greater chance</info> to activate: <stat>+%s%%</stat>" ),
                                ( 100 * ( weighting - 1 ) ) ) + "\n";
@@ -1850,18 +1874,6 @@ std::string ma_technique::get_description() const
     if( wall_adjacent ) {
         dump += _( "* Will only activate while <info>near</info> to a <info>wall</info>" ) +
                 std::string( "\n" );
-    }
-
-    if( downed_target ) {
-        dump += _( "* Only works on a <info>downed</info> target" ) + std::string( "\n" );
-    }
-
-    if( stunned_target ) {
-        dump += _( "* Only works on a <info>stunned</info> target" ) + std::string( "\n" );
-    }
-
-    if( human_target ) {
-        dump += _( "* Only works on a <info>humanoid</info> target" ) + std::string( "\n" );
     }
 
     if( powerful_knockback ) {
@@ -1897,8 +1909,10 @@ std::string ma_technique::get_description() const
     }
 
     if( knockback_dist ) {
-        dump += string_format( _( "* Will <info>knock back</info> enemies <stat>%d %s</stat>" ),
-                               knockback_dist, n_gettext( "tile", "tiles", knockback_dist ) ) + "\n";
+        dump += string_format( n_gettext( "* Will <info>knock back</info> enemies <stat>%d tile</stat>",
+                                          "* Will <info>knock back</info> enemies <stat>%d tiles</stat>",
+                                          knockback_dist ),
+                               knockback_dist ) + "\n";
     }
 
     if( knockback_follow ) {
@@ -1906,13 +1920,17 @@ std::string ma_technique::get_description() const
     }
 
     if( down_dur ) {
-        dump += string_format( _( "* Will <info>down</info> enemies for <stat>%d %s</stat>" ),
-                               down_dur, n_gettext( "turn", "turns", down_dur ) ) + "\n";
+        dump += string_format( n_gettext( "* Will <info>down</info> enemies for <stat>%d turn</stat>",
+                                          "* Will <info>down</info> enemies for <stat>%d turns</stat>",
+                                          down_dur ),
+                               down_dur ) + "\n";
     }
 
     if( stun_dur ) {
-        dump += string_format( _( "* Will <info>stun</info> target for <stat>%d %s</stat>" ),
-                               stun_dur, n_gettext( "turn", "turns", stun_dur ) ) + "\n";
+        dump += string_format( n_gettext( "* Will <info>stun</info> target for <stat>%d turn</stat>",
+                                          "* Will <info>stun</info> target for <stat>%d turns</stat>",
+                                          stun_dur ),
+                               stun_dur ) + "\n";
     }
 
     if( disarms ) {

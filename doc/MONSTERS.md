@@ -44,7 +44,7 @@ Property                 | Description
 `scents_ignored`         | (array of strings) Monster ignores these scents
 `material`               | (array of strings) Materials the monster is made of
 `phase`                  | (string) Monster's body matter state, ex. SOLID, LIQUID, GAS, PLASMA, NULL
-`attack_cost`            | (integer) Number of moves per regular attack (??)
+`attack_cost`            | (integer) Number of moves per regular attack. If not defined defaults to `100`.
 `diff`                   | (integer) Additional monster difficulty for special and ranged attacks
 `aggression`             | (integer) Starting aggression, the monster will become hostile when it reaches 10
 `morale`                 | (integer) Starting morale, monster will flee when (current aggression + current morale) < 0
@@ -60,6 +60,7 @@ Property                 | Description
 `armor`                  | (object) Monster's protection from different types of damage
 `weakpoints`             | (array of objects) Weakpoints in the monster's protection
 `weakpoint_sets`         | (array of strings) Weakpoint sets to apply to the monster
+`status_chance_multiplier`| (float) Multiplier to chance to apply zapped when electric damage is dealt (no other effects are implemented at this time)
 `families`               | (array of objects or strings) Weakpoint families that the monster belongs to
 `vision_day`             | (integer) Vision range in full daylight, with `50` being the typical maximum
 `vision_night`           | (integer) Vision range in total darkness, ex. coyote `5`, bear `10`, sewer rat `30`, flaming eye `40`
@@ -71,6 +72,7 @@ Property                 | Description
 `emit_field`             | (array of objects) What field the monster emits, and how frequently
 `regenerates`            | (integer) Number of hit points the monster regenerates per turn
 `regenerates_in_dark`    | (boolean) True if monster regenerates quickly in the dark
+`regeneration_modifiers` | (effect id, integer) When monster has this effect, modify regenerates by integer value (i.e. -5 reduces a regen value of 40hp/turn to 35hp/turn).
 `regen_morale`           | (bool) True if monster will stop fleeing at max HP to regenerate anger and morale
 `special_attacks`        | (array of objects) Special attacks the monster has
 `flags`                  | (array of strings) Any number of attributes like SEES, HEARS, SMELLS, STUMBLES, REVIVES
@@ -79,7 +81,11 @@ Property                 | Description
 `placate_triggers`       | (array of strings) Triggers that lower monster aggression (same flags as fear)
 `chat_topics`            | (array of strings) Conversation topics if dialog is opened with the monster
 `revert_to_itype`        | (string) Item monster can be converted to when friendly (ex. to deconstruct turrets)
+`mech_weapon`            | (string) If this monster is a rideable mech with built-in weapons, this is the weapons id
+`mech_str_bonus`         | (integer) If this monster is a rideable mech with enhanced strength, this is the strength it gives to the player when ridden
+`mech_battery`           | (string) If this monster is a rideable mech, this is battery's id. Does not support objects or arrays (i.e. ONE battery id only)
 `starting_ammo`          | (object) Ammo that newly spawned monsters start with
+`mount_items`            | (array of objects) Mount-specific items this monster spawns with. Accepts entries for `tied`, `tack`, `armor`, and `storage`.
 `upgrades`               | (boolean or object) False if monster does not upgrade, or an object do define an upgrade
 `reproduction`           | (object) The monster's reproductive cycle and timing
 `baby_flags`             | (array of strings) Seasons during which this monster is capable of reproduction
@@ -228,7 +234,7 @@ Value           | Description
 ## "attack_cost"
 (integer, optional)
 
-Number of moves per regular attack.
+Number of moves per regular attack. Higher values means the monster attacks less often (e.g. a monster with a speed of 100 and an attack_cost of 1000 attacks about once every 10 seconds).
 
 ## "diff"
 (integer, optional)
@@ -476,7 +482,7 @@ Will stop fleeing if at max hp, and regen anger and morale.
 ## "flags"
 (array of strings, optional)
 
-Monster flags. See [JSON_FLAGS.md](JSON_FLAGS.md) for a full list.
+Monster flags. See [JSON_FLAGS.md](JSON_FLAGS.md) for a full list. These are IDs that point to a `"monster_flag"` object, which usually can be found in `data/json/monsters/monster_flags.json`.
 
 ## "fear_triggers", "anger_triggers", "placate_triggers"
 (array of strings, optional)
@@ -652,50 +658,5 @@ Field                | Description
 `avoid_sharp`        | (bool, default false) Monster may avoid sharp things like barbed wire
 
 ## "special_attacks"
-(array of special attack definitions, optional)
 
-Monster's special attacks. This should be an array, each element of it should be an object (new style) or an array (old style).
-
-The old style array should contain 2 elements: the id of the attack (see [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md) for a list) and the cooldown for that attack. Example:
-
-```JSON
-"special_attacks": [ [ "GRAB", 10 ] ]
-```
-
-The new style object can contain a "type" member (string) - "cooldown" member (integer) pair for the three types listed below, the "id" of an explicitly defined monster attack (from monster_attacks.json) or a spell (see [MAGIC.md]). It may contain additional members as required by the specific attack. Possible types are listed below. Example:
-
-```JSON
-"special_attacks": [
-  { "type": "leap", "cooldown": 10, "max_range": 4 }
-]
-```
-In the case of separately defined attacks the object has to contain at least an "id" member. In this case the attack will use the default attack data defined in monster_attacks.json, if a field is additionally defined it will overwrite those defaults. These attacks have the common "type": "monster_attack", see below for possible fields. Example:
-
-```JSON
-"special_attacks": [
-  { "id": "impale" }
-]
-```
-
-"special_attacks" may contain any mixture of old and new style entries:
-
-```JSON
-"special_attacks": [
-  [ "GRAB", 10 ],
-  { "type": "leap", "cooldown": 8, "max_range": 4 },
-  { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 }
-]
-```
-This monster can attempt a grab every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
-
-# Monster special attack types
-The listed attack types can be as monster special attacks (see [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md)).
-
-# Testing Monsters
-
-To help facilitate playtesting monsters use the loadouts from the Standard Combat Testing mod (included under Misc), and document your results in the PR's Testing section.
-
-Important test tips:
- - A spawned and saved monster will **not** change for any reason, even if you change the underlying monster definition.  Always use freshly spawned monsters!
- - Evolution, growth, and reproduction happen on monster load, so the sequence of testing is Spawn monster -> Teleport away to unload it -> Teleport back to load it and start the timers -> Teleport away -> Set time forward via the debug menu -> Teleport back
- - Activating Debug Mode's monster filter allows you to examine monsters using x->e and get additional information
+See [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md)

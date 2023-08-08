@@ -13,7 +13,7 @@
       {
         "text": "Download Train Data",
         "topic": "COMP_TRAIN_DATA_DOWNLOAD",
-        "condition": { "u_has_item": "data_card" }
+        "condition": { "u_has_item": "usb_drive_nano" }
       },
       { "text": "Power off.", "topic": "TALK_DONE" }
     ]
@@ -32,7 +32,7 @@
       {
         "text": "Power off.",
         "topic": "TALK_DONE",
-        "effect": [ { "u_sell_item": "data_card" }, { "u_spawn_item": "train_data_card" } ]
+        "effect": [ { "u_consume_item": "usb_drive_nano" }, { "u_spawn_item": "train_data" } ]
       }
     ]
   }

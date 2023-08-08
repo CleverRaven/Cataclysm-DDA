@@ -24,6 +24,7 @@
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_gray",
+    "range": 6,
     "ammo": [ "22" ],
     "skill": "smg",
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },
@@ -78,6 +79,7 @@
     "material": [ "iron", "wood" ],
     "symbol": "(",
     "color": "brown",
+    "range": 7,
     "ammo": [ "22" ],
     "skill": "rifle",
     "ranged_damage": { "damage_type": "bullet", "amount": 5 },
@@ -143,7 +145,7 @@
     "clip_size": 4,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "belt_clip", 1 ],
+      [ "belt clip", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 2 ],
@@ -152,7 +154,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 4 } } ],
     "melee_damage": { "bash": 1 }
   },
@@ -193,7 +195,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ],
+    "flags": [ "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 1 } } ],
     "melee_damage": { "bash": 10 }
   },
@@ -223,6 +225,8 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
+    "range": 6,
+    "//range": "It is a blowback action, like most non-target, sporting rifles of this caliber.",
     "ammo": [ "22" ],
     "skill": "rifle",
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },

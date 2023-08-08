@@ -49,6 +49,8 @@ MAKE_NULL_ID( zone_type, "null" )
 MAKE_NULL_ID( speed_description, "SPEED_DESCRIPTION_NULL_ID" )
 MAKE_NULL_ID( mood_face, "MOOD_FACE_NULL_ID" )
 MAKE_NULL_ID( move_mode, "null" )
+MAKE_NULL_ID( fault, "null" )
+MAKE_NULL_ID( fault_fix, "null" )
 
 #define MAKE_NULL_ID2( type, ... ) \
     struct type; \
@@ -74,6 +76,7 @@ MAKE_NULL_ID2( damage_type, "" )
 MAKE_NULL_ID2( effect_on_condition, "" )
 MAKE_NULL_ID2( field_type, "fd_null" )
 MAKE_NULL_ID2( furn_t, "f_null" )
+MAKE_NULL_ID2( mon_flag, "null" )
 MAKE_NULL_ID2( MonsterGroup, "GROUP_NULL" )
 MAKE_NULL_ID2( mission_type, "MISSION_NULL" )
 MAKE_NULL_ID2( option_slider, "" )

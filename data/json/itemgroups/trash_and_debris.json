@@ -26,8 +26,8 @@
       [ "glass_shard", 60 ],
       [ "2x4", 1 ],
       [ "bum_wine", 5 ],
-      { "item": "meth", "prob": 1, "charges": [ 1, 6 ] },
-      { "item": "heroin", "prob": 1, "charges": [ 1, 4 ] },
+      { "prob": 1, "group": "meth_bag_zipper_1_6" },
+      { "prob": 1, "group": "heroin_bag_zipper_1_4" },
       [ "wrapper", 40 ],
       [ "wrapper_foil", 2 ],
       { "item": "nail", "count": 5, "charges": [ 1, 100 ] },
@@ -138,6 +138,7 @@
       [ "wire", 5 ],
       [ "plastic_sheet", 5 ],
       [ "jug_plastic", 5 ],
+      [ "fuel_tin", 1 ],
       [ "jar_glass_sealed", 5 ],
       [ "jar_3l_glass_sealed", 5 ],
       [ "string_6", 5 ],
@@ -171,11 +172,11 @@
     "magazine": 50,
     "items": [
       [ "plastic_shopping_bag", 35 ],
-      { "item": "iodine", "prob": 5, "charges": [ 1, 10 ] },
-      { "item": "prussian_blue", "prob": 5, "charges": [ 1, 10 ] },
+      { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
+      { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
       [ "bum_wine", 5 ],
-      { "item": "meth", "prob": 2, "charges": [ 1, 6 ] },
-      { "item": "heroin", "prob": 1, "charges": [ 1, 4 ] },
+      { "prob": 2, "group": "meth_bag_zipper_1_6" },
+      { "prob": 1, "group": "heroin_bag_zipper_1_4" },
       [ "wrapper", 50 ],
       [ "wrapper_foil", 5 ],
       [ "cup_foil", 1 ],
@@ -222,19 +223,20 @@
       [ "decoy_elfa", 10 ],
       [ "recipe_elfa", 1 ],
       [ "jug_plastic", 10 ],
+      [ "fuel_tin", 8 ],
       [ "spray_can", 50 ],
       [ "jar_glass_sealed", 10 ],
       [ "jar_3l_glass_sealed", 8 ],
       [ "flyer", 10 ],
       [ "scorecard", 10 ],
-      [ "talking_doll", 60 ],
+      { "item": "talking_doll", "prob": 60, "charges": [ 0, 10 ] },
       { "item": "marble", "prob": 65, "charges": [ 1, 20 ] },
       [ "handflare_dead", 3 ],
-      [ "creepy_doll", 1 ],
+      { "item": "creepy_doll", "prob": 1, "charges": [ 0, 10 ] },
       [ "straw_doll", 1 ],
       [ "striped_shirt", 1 ],
       [ "striped_pants", 1 ],
-      [ "foodperson_mask", 1 ],
+      { "item": "foodperson_mask", "prob": 1, "charges": [ 0, 10 ] },
       [ "razor_blade", 10 ],
       [ "survnote", 5 ],
       [ "eclipse_glasses", 1 ],
@@ -245,6 +247,24 @@
       { "item": "inhaler", "prob": 8, "charges-min": 0, "charges-max": 10 },
       { "group": "tinware", "prob": 15 },
       { "group": "used_toy_box", "prob": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "trash_domestic",
+    "items": [
+      [ "bottle_plastic", 2 ],
+      [ "bottle_plastic_small", 3 ],
+      [ "bottle_glass", 2 ],
+      [ "can_drink", 20 ],
+      [ "wrapper", 20 ],
+      [ "wrapper_foil", 5 ],
+      [ "bag_zipper", 5 ],
+      [ "box_small", 20 ],
+      [ "bubblewrap", 3 ],
+      [ "survnote", 1 ],
+      { "item": "lighter", "prob": 3, "charges-min": 0, "charges-max": 10 },
+      [ "flyer", 3 ]
     ]
   },
   {
@@ -339,6 +359,29 @@
       { "item": "wood_panel", "count": [ 0, 1 ] },
       { "item": "nail", "charges": [ 4, 8 ] },
       { "item": "splinter", "count": 1 }
+    ]
+  },
+  {
+    "id": "door_destruction",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "2x4", "count": [ 1, 2 ] },
+      { "item": "nail", "charges": [ 1, 4 ] },
+      { "item": "splinter", "count": [ 1, 4 ] },
+      { "item": "hinge", "count": [ 1, 2 ] },
+      { "group": "door_damage" }
+    ]
+  },
+  {
+    "id": "door_damage",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "2x4", "prob": 25 },
+      { "item": "wood_panel", "prob": 10 },
+      { "item": "splinter", "count": [ 1, 2 ] },
+      { "item": "nail", "charges": [ 0, 2 ] }
     ]
   }
 ]

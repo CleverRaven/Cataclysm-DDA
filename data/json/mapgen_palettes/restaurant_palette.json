@@ -110,7 +110,7 @@
       "5": { "item": "SUS_kitchen_sink", "chance": 100 },
       "6": [
         { "item": "SUS_pantry", "chance": 25 },
-        { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "cannedfood_commercial", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "SUS_spice_collection", "chance": 100, "repeat": [ 1, 2 ] }
       ],
       "7": [ { "item": "coffee_display_2", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],

@@ -66,6 +66,7 @@
 #include "point.h"
 #include "ranged.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -75,6 +76,7 @@
 #include "skill.h"
 #include "timed_event.h"
 #include "translations.h"
+#include "try_parse_integer.h"
 #include "ui.h"
 #include "uistate.h"
 #include "units.h"
@@ -98,6 +100,7 @@ static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
+static const activity_id ACT_DATA_HANDLING( "ACT_DATA_HANDLING" );
 static const activity_id ACT_DISABLE( "ACT_DISABLE" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DROP( "ACT_DROP" );
@@ -114,6 +117,7 @@ static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_INSERT_ITEM( "ACT_INSERT_ITEM" );
+static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
 static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
 static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
@@ -129,6 +133,7 @@ static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_READ( "ACT_READ" );
+static const activity_id ACT_REEL_CABLE( "ACT_REEL_CABLE" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
@@ -188,6 +193,10 @@ static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+
+static const mon_flag_str_id mon_flag_INTERIOR_AMMO( "INTERIOR_AMMO" );
+static const mon_flag_str_id mon_flag_PAY_BOT( "PAY_BOT" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
@@ -775,10 +784,6 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
             get_event_bus().send<event_type::triggers_alarm>( who.getID() );
             sounds::sound( who.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
-            if( examp.z > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
-                get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                        who.get_location() );
-            }
             break;
         case hack_result::NOTHING:
             who.add_msg_if_player( _( "You fail the hack, but no alarms are triggered." ) );
@@ -873,7 +878,7 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
         std::vector<tool_comp> writing_tools;
         writing_tools.reserve( writing_tools_filter.size() );
         for( const item *tool : writing_tools_filter ) {
-            writing_tools.emplace_back( tool_comp( tool->typeId(), 1 ) );
+            writing_tools.emplace_back( tool->typeId(), 1 );
         }
 
         p.consume_tools( writing_tools, pages );
@@ -904,6 +909,230 @@ std::unique_ptr<activity_actor> bookbinder_copy_activity_actor::deserialize( Jso
     jsobj.read( "rec_id", actor.rec_id );
     jsobj.read( "pages", actor.pages );
 
+    return actor.clone();
+}
+
+data_handling_activity_actor::data_handling_activity_actor(
+    const item_location &recorder, const std::vector<item_location> &targets )
+    : recorder( recorder ), targets( targets ) {}
+
+static int get_quality_from_string( const std::string_view s )
+{
+    const ret_val<int> try_quality = try_parse_integer<int>( s, false );
+    if( try_quality.success() ) {
+        return try_quality.value();
+    } else {
+        debugmsg( "Error parsing photo quality: %s", try_quality.str() );
+        return 0;
+    }
+}
+
+void data_handling_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_left = act.moves_total = targets.size() * to_moves<int>( time_per_card );
+}
+
+void data_handling_activity_actor::do_turn( player_activity &act, Character &p )
+{
+    if( !recorder || !recorder->ammo_sufficient( &p ) ) {
+        p.cancel_activity();
+        p.add_msg_if_player( m_warning, _( "%s appears to have no energy." ), recorder->display_name() );
+        return;
+    }
+    if( calendar::once_every( 5_minutes ) ) {
+        recorder->ammo_consume( recorder->type->charges_to_use(), p.pos(), &p );
+    }
+    time_until_next_card -= 1_seconds;
+    if( time_until_next_card > 0_seconds ) {
+        return; // not yet
+    }
+    item &eink = *recorder;
+    item &mc = *targets.back();
+    targets.pop_back();
+    if( targets.empty() ) {
+        act.moves_left = 0;
+    }
+    time_until_next_card = time_per_card;
+    handled_cards++;
+
+    if( mc.has_var( "MC_EXTENDED_PHOTOS" ) ) {
+        std::vector<item::extended_photo_def> extended_photos;
+        try {
+            mc.read_extended_photos( extended_photos, "MC_EXTENDED_PHOTOS", false );
+            eink.read_extended_photos( extended_photos, "EIPC_EXTENDED_PHOTOS", true );
+            eink.write_extended_photos( extended_photos, "EIPC_EXTENDED_PHOTOS" );
+            downloaded_extended_photos++;
+        } catch( const JsonError &e ) {
+            debugmsg( "Error card reading photos (loaded photos = %i) : %s", extended_photos.size(),
+                      e.c_str() );
+        }
+    }
+
+    const std::string monster_photos = mc.get_var( "MC_MONSTER_PHOTOS" );
+    if( !monster_photos.empty() ) {
+        downloaded_monster_photos++;
+        std::string photos = eink.get_var( "EINK_MONSTER_PHOTOS" );
+        if( photos.empty() ) {
+            eink.set_var( "EINK_MONSTER_PHOTOS", monster_photos );
+        } else {
+            std::istringstream f( monster_photos );
+            std::string s;
+            while( getline( f, s, ',' ) ) {
+                if( s.empty() ) {
+                    continue;
+                }
+                const std::string mtype = s;
+                getline( f, s, ',' );
+                const int quality = get_quality_from_string( s );
+
+                const size_t eink_strpos = photos.find( "," + mtype + "," );
+
+                if( eink_strpos == std::string::npos ) {
+                    photos += mtype + "," + string_format( "%d", quality ) + ",";
+                } else {
+                    const size_t strqpos = eink_strpos + mtype.size() + 2;
+                    const size_t next_comma = photos.find( ',', strqpos );
+                    const int old_quality =
+                        get_quality_from_string( photos.substr( strqpos, next_comma ) );
+
+                    if( quality > old_quality ) {
+                        const std::string quality_s = string_format( "%d", quality );
+                        cata_assert( quality_s.size() == 1 );
+                        photos[strqpos] = quality_s.front();
+                    }
+                }
+
+            }
+            eink.set_var( "EINK_MONSTER_PHOTOS", photos );
+        }
+    }
+    const memory_card_info *mmd = mc.type->memory_card_data ? &*mc.type->memory_card_data : nullptr;
+    const bool failed_encrypted = mmd && mmd->data_chance < rng_float( 0.0, 1.0 );
+    if( mmd && mmd->on_read_convert_to.is_valid() ) {
+        mc.clear_vars();
+        mc.unset_flags();
+        mc.convert( mmd->on_read_convert_to );
+    } // mc is invalid past this point
+    if( !mmd || failed_encrypted ) {
+        encrypted_cards += failed_encrypted ? 1 : 0;
+        return;
+    }
+    if( mmd->photos_chance >= rng_float( 0.0, 1.0 ) ) {
+        const int new_photos = rng( 1, mmd->photos_amount );
+        eink.set_var( "EIPC_PHOTOS", eink.get_var( "EIPC_PHOTOS", 0 ) + new_photos );
+        downloaded_photos += new_photos;
+    }
+    if( mmd->songs_chance >= rng_float( 0.0, 1.0 ) ) {
+        const int new_songs = rng( 1, mmd->songs_amount );
+        eink.set_var( "EIPC_MUSIC", eink.get_var( "EIPC_MUSIC", 0 ) + new_songs );
+        downloaded_songs += new_songs;
+    }
+    if( mmd->recipes_chance >= rng_float( 0.0, 1.0 ) ) {
+        std::set<recipe_id> saved_recipes = eink.get_saved_recipes();
+        std::set<recipe_id> candidates;
+        for( const auto& [rid, r] : recipe_dict ) {
+            if( r.never_learn || r.obsolete || mmd->recipes_categories.count( r.category ) == 0 ||
+                saved_recipes.count( rid ) ||
+                r.difficulty > mmd->recipes_level_max || r.difficulty < mmd->recipes_level_min ) {
+                continue;
+            }
+            candidates.emplace( rid );
+        }
+
+        const int recipe_num = rng( 1, mmd->recipes_amount );
+        for( int i = 0; i < recipe_num && !candidates.empty(); i++ ) {
+            const recipe_id rid = random_entry_removed( candidates );
+            if( saved_recipes.emplace( rid ).second ) {
+                downloaded_recipes.emplace_back( rid );
+            } else {
+                debugmsg( "failed saving '%s' to '%s'", rid.str(), eink.display_name() );
+            }
+        }
+        eink.set_saved_recipes( saved_recipes );
+    }
+}
+
+static void print_data_handling_tally( Character &who, int encrypted_cards, int photos, int songs,
+                                       const std::vector<recipe_id> &recipes, int extended_photos, int monster_photos )
+{
+    if( !recipes.empty() ) {
+        who.add_msg_if_player( m_good, _( "Downloaded %d %s: %s." ), recipes.size(),
+                               n_gettext( "recipe", "recipes", recipes.size() ),
+        enumerate_as_string( recipes, []( const recipe_id & rid ) {
+            return rid->result_name();
+        } ) );
+    }
+    if( monster_photos > 0 ) {
+        who.add_msg_if_player( m_good, _( "You have updated your monster collection." ) );
+    }
+    if( extended_photos > 0 ) {
+        who.add_msg_if_player( m_good, _( "You have downloaded your photos." ) );
+    }
+    if( encrypted_cards > 0 ) {
+        who.add_msg_if_player( m_bad, _( "%d %s appeared to be encrypted or corrupted." ),
+                               encrypted_cards, n_gettext( "card", "cards", encrypted_cards ) );
+    }
+    if( photos > 0 && who.is_avatar() ) {
+        who.add_msg_if_player( m_good, _( "Downloaded %d new %s." ),
+                               photos, n_gettext( "photo", "photos", photos ) );
+    }
+    if( songs > 0 && who.is_avatar() ) {
+        who.add_msg_if_player( m_good, _( "Downloaded %d new %s." ),
+                               songs, n_gettext( "song", "songs", songs ) );
+    }
+    if( !( photos || songs || monster_photos || extended_photos || !recipes.empty() ) ) {
+        who.add_msg_if_player( m_warning, _( "No new data has been discovered." ) );
+    }
+}
+
+void data_handling_activity_actor::canceled( player_activity &act, Character &p )
+{
+    print_data_handling_tally( p, encrypted_cards, downloaded_photos, downloaded_songs,
+                               downloaded_recipes, downloaded_extended_photos, downloaded_monster_photos );
+    p.add_msg_if_player( m_info, _( "You stop downloading data after %d %s." ),
+                         handled_cards, n_gettext( "card", "cards", handled_cards ) );
+    act.set_to_null();
+}
+
+void data_handling_activity_actor::finish( player_activity &act, Character &p )
+{
+    print_data_handling_tally( p, encrypted_cards, downloaded_photos, downloaded_songs,
+                               downloaded_recipes, downloaded_extended_photos, downloaded_monster_photos );
+    p.add_msg_if_player( m_info, _( "You finish downloading data from %d %s." ),
+                         handled_cards, n_gettext( "card", "cards", handled_cards ) );
+    act.set_to_null();
+}
+
+void data_handling_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "recorder", recorder );
+    jsout.member( "targets", targets );
+    jsout.member( "time_until_next_action", time_until_next_card );
+    jsout.member( "handled_cards", handled_cards );
+    jsout.member( "encrypted_cards", encrypted_cards );
+    jsout.member( "downloaded_photos", downloaded_photos );
+    jsout.member( "downloaded_songs", downloaded_songs );
+    jsout.member( "downloaded_recipes", downloaded_recipes );
+    jsout.member( "downloaded_extended_photos", downloaded_extended_photos );
+    jsout.member( "downloaded_monster_photos", downloaded_monster_photos );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> data_handling_activity_actor::deserialize( JsonValue &jsin )
+{
+    data_handling_activity_actor actor;
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "recorder", actor.recorder );
+    jsobj.read( "targets", actor.targets );
+    jsobj.read( "time_until_next_action", actor.time_until_next_card );
+    jsobj.read( "handled_cards", actor.handled_cards );
+    jsobj.read( "encrypted_cards", actor.encrypted_cards );
+    jsobj.read( "downloaded_photos", actor.downloaded_photos );
+    jsobj.read( "downloaded_songs", actor.downloaded_songs );
+    jsobj.read( "downloaded_recipes", actor.downloaded_recipes );
+    jsobj.read( "downloaded_extended_photos", actor.downloaded_extended_photos );
+    jsobj.read( "downloaded_monster_photos", actor.downloaded_monster_photos );
     return actor.clone();
 }
 
@@ -1353,27 +1582,21 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
                  book_type::martial_art : book_type::normal;
     }
 
-    if( who.is_avatar() ) {
-        // he following check doesn't work for NPCs
-        // because it is counted for player's submap and z-level only
-        if( who.fine_detail_vision_mod() > 4 ) {
-            // It got too dark during the process of reading, bail out.
-            act.set_to_null();
-            who.add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
-            return;
-        }
+    if( who.fine_detail_vision_mod() > 4 ) {
+        // It got too dark during the process of reading, bail out.
+        act.set_to_null();
+        who.add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
+        return;
+    }
 
-        if( bktype.value() == book_type::martial_art && one_in( 3 ) ) {
-            who.mod_stamina( -1 );
-        }
+    if( bktype.value() == book_type::martial_art && one_in( 3 ) ) {
+        who.mod_stamina( -1 );
+    }
 
-        // do not spam the message log
-        if( calendar::once_every( 5_minutes ) ) {
-            add_msg_debug( debugmode::DF_ACT_READ, "reading time = %s",
-                           to_string_writable( time_duration::from_moves( act.moves_left ) ) );
-        }
-    } else {
-        who.moves = 0;
+    // do not spam the message log
+    if( calendar::once_every( 5_minutes ) ) {
+        add_msg_debug( debugmode::DF_ACT_READ, "%s reading time = %s",
+                       who.name, to_string_writable( time_duration::from_moves( act.moves_left ) ) );
     }
 
     if( using_ereader && !ereader ) {
@@ -1598,7 +1821,7 @@ bool read_activity_actor::player_readma( avatar &you )
 
     if( one_in( difficulty ) ) {
         // learn martial art
-        mart_iter->second.call( you, *book, false, you.pos() );
+        mart_iter->second.call( &you, *book, you.pos() );
         return true;
     } else if( continuous ) {
         switch( rng( 1, 5 ) ) {
@@ -2215,9 +2438,20 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     const tripoint target = here.getlocal( this->target );
     const ter_id ter_type = here.ter( target );
     const furn_id furn_type = here.furn( target );
+    optional_vpart_position const veh = here.veh_at( target );
+    int locked_part = -1;
     ter_id new_ter_type;
     furn_id new_furn_type;
     std::string open_message = _( "The lock opens…" );
+
+    if( veh ) {
+        std::vector<vehicle_part *> parts_at_target = veh->vehicle().get_parts_at(
+                    target, "LOCKABLE_DOOR", part_status_flag::available );
+        if( !parts_at_target.empty() ) {
+            locked_part = veh->vehicle().next_part_to_unlock(
+                              veh->vehicle().index_of_part( parts_at_target.front() ) );
+        }
+    }
 
     if( here.has_furn( target ) ) {
         if( furn_type->lockpick_result.is_null() ) {
@@ -2229,6 +2463,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         if( !furn_type->lockpick_message.empty() ) {
             open_message = furn_type->lockpick_message.translated();
         }
+    } else if( locked_part >= 0 ) {
+        // no-op.
     } else {
         if( ter_type->lockpick_result.is_null() ) {
             who.add_msg_if_player( m_bad, _( "You can't open this lock." ) );
@@ -2292,6 +2528,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         }
         if( here.has_furn( target ) ) {
             here.furn_set( target, new_furn_type );
+        } else if( locked_part >= 0 ) {
+            veh->vehicle().unlock( locked_part );
         } else {
             here.ter_set( target, new_ter_type );
         }
@@ -2327,10 +2565,6 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     if( !perfect && ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
-        if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
-            get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                    who.get_location() );
-        }
     }
 
     if( destroy && lockpick.has_value() ) {
@@ -2350,10 +2584,13 @@ std::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
     }
 
     const std::function<bool( const tripoint & )> is_pickable = [&you]( const tripoint & p ) {
+        const map &here = get_map();
+        const optional_vpart_position vpart = here.veh_at( p );
         if( p == you.pos() ) {
             return false;
         }
-        return get_map().has_flag( ter_furn_flag::TFLAG_PICKABLE, p );
+        return here.has_flag( ter_furn_flag::TFLAG_PICKABLE, p ) ||
+               ( vpart && vpart->vehicle().next_part_to_unlock( vpart->part_index() ) >= 0 );
     };
 
     std::optional<tripoint> target = choose_adjacent_highlight(
@@ -2972,6 +3209,8 @@ craft_activity_actor::craft_activity_actor( item_location &it, const bool is_lon
     cached_assistants = 0;
     cached_base_total_moves = 1;
     cached_cur_total_moves = 1;
+    cached_workbench_multiplier = 0;
+    use_cached_workbench_multiplier = false;
 }
 
 bool craft_activity_actor::check_if_craft_okay( item_location &craft_item, Character &crafter )
@@ -3007,6 +3246,8 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
     }
     activity_override = craft_item.get_item()->get_making().exertion_level();
     cached_crafting_speed = 0;
+    cached_workbench_multiplier = 0;
+    use_cached_workbench_multiplier = false;
 }
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
@@ -3022,7 +3263,13 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     const std::optional<tripoint> location = craft_item.where() == item_location::type::character
             ? std::optional<tripoint>() : std::optional<tripoint>( craft_item.position() );
     const recipe &rec = craft.get_making();
-    const float crafting_speed = crafter.crafting_speed_multiplier( craft, location );
+    if( !use_cached_workbench_multiplier ) {
+        cached_workbench_multiplier = crafter.workbench_crafting_speed_multiplier( craft, location );
+        use_cached_workbench_multiplier = true;
+    }
+    const float crafting_speed = crafter.crafting_speed_multiplier( craft, location,
+                                 use_cached_workbench_multiplier,
+                                 cached_workbench_multiplier );
     const int assistants = crafter.available_assistant_count( craft.get_making() );
 
     if( crafting_speed <= 0.0f ) {
@@ -3085,6 +3332,8 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         level_up |= crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
         // Invalidate the crafting time cache because proficiencies may have changed
         cached_crafting_speed = 0;
+        // Also reset the multiplier
+        use_cached_workbench_multiplier = false;
     }
 
     // Unlike skill, tools are consumed once at the start and should not be consumed at the end
@@ -3387,7 +3636,11 @@ bool workout_activity_actor::query_keep_training( player_activity &act, Characte
         default:
             query_int( length, _( "Train for how long (minutes): " ) );
             elapsed += act.moves_total - act.moves_left;
-            act.moves_total = to_moves<int>( length * 1_minutes );
+            duration = 0_minutes;
+            if( length > 0 ) {
+                duration = length * 1_minutes;
+            }
+            act.moves_total = to_moves<int>( duration );
             act.moves_left = act.moves_total;
             return true;
     }
@@ -3776,7 +4029,7 @@ void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
         }
     } else {
         get_map().add_item_or_charges( target, critter.to_item() );
-        if( !critter.has_flag( MF_INTERIOR_AMMO ) ) {
+        if( !critter.has_flag( mon_flag_INTERIOR_AMMO ) ) {
             for( std::pair<const itype_id, int> &ammodef : critter.ammo ) {
                 if( ammodef.second > 0 ) {
                     get_map().spawn_item( target.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
@@ -3797,8 +4050,8 @@ bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
     }
 
     return ( ( monster.friendly != 0 || monster.has_effect( effect_sensor_stun ) ) &&
-             !monster.has_flag( MF_RIDEABLE_MECH ) &&
-             !( monster.has_flag( MF_PAY_BOT ) && monster.has_effect( effect_paid ) ) ) &&
+             !monster.has_flag( mon_flag_RIDEABLE_MECH ) &&
+             !( monster.has_flag( mon_flag_PAY_BOT ) && monster.has_effect( effect_paid ) ) ) &&
            ( !monster.type->revert_to_itype.is_empty() || monster.type->id == mon_manhack );
 }
 
@@ -3925,7 +4178,8 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
                 int result = holster->fill_with( it, charges,
                                                  /*unseal_pockets=*/true,
                                                  /*allow_sealed=*/true,
-                                                 /*ignore_settings*/true );
+                                                 /*ignore_settings*/true,
+                                                 /*into_bottom*/true );
                 success = result > 0;
 
                 if( success ) {
@@ -4431,6 +4685,9 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
     target->set_var( "activity_var", who.name );
 
     activity_override = target->get_making().exertion_level();
+
+    cached_workbench_multiplier = 0;
+    use_cached_workbench_multiplier = false;
 }
 
 void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
@@ -4445,7 +4702,12 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
 
     const std::optional<tripoint> location = target.where() == item_location::type::character
             ? std::optional<tripoint>() : std::optional<tripoint>( target.position() );
-    const float crafting_speed = who.crafting_speed_multiplier( craft, location );
+    if( !use_cached_workbench_multiplier ) {
+        cached_workbench_multiplier = who.workbench_crafting_speed_multiplier( craft, location );
+        use_cached_workbench_multiplier = true;
+    }
+    const float crafting_speed = who.crafting_speed_multiplier( craft, location,
+                                 use_cached_workbench_multiplier, cached_workbench_multiplier );
 
     if( crafting_speed <= 0.0f ) {
         who.cancel_activity();
@@ -4773,6 +5035,45 @@ std::unique_ptr<activity_actor> tent_deconstruct_activity_actor::deserialize( Js
     return actor.clone();
 }
 
+void reel_cable_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void reel_cable_activity_actor::finish( player_activity &act, Character &who )
+{
+    cable->link->length = 0;
+    cable->link->s_state = link_state::no_link;
+    cable->link->t_state = link_state::no_link;
+    cable->reset_link( &who, -2 );
+    who.add_msg_if_player( m_info,
+                           string_format( cable->has_flag( flag_CABLE_SPOOL ) ? _( "You reel in the %s and wind it up." ) :
+                                          _( "You reel in the %s's cable and wind it up." ), cable->type_name() ) );
+    if( cable->has_flag( flag_NO_DROP ) ) {
+        cable.remove_item();
+    }
+    act.set_to_null();
+}
+
+void reel_cable_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "cable", cable );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> reel_cable_activity_actor::deserialize( JsonValue &jsin )
+{
+    reel_cable_activity_actor actor( 0, {} );
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+    data.read( "cable", actor.cable );
+
+    return actor.clone();
+}
+
 void meditate_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( 20_minutes );
@@ -5041,10 +5342,6 @@ void prying_activity_actor::handle_prying( Character &who )
         get_event_bus().send<event_type::triggers_alarm>( who.getID() );
         sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
-        if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
-            get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                    who.get_location() );
-        }
     }
 
     if( !data->message().empty() ) {
@@ -5219,11 +5516,19 @@ static bool check_stealing( Character &who, item &it )
             Pickup::query_thief();
         }
         if( who.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+            if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+                who.set_value( "THIEF_MODE", "THIEF_ASK" );
+            }
             return false;
         }
     }
 
     return true;
+}
+
+bool avatar_action::check_stealing( Character &who, item &weapon )
+{
+    return ::check_stealing( who, weapon );
 }
 
 void wield_activity_actor::do_turn( player_activity &, Character &who )
@@ -5356,6 +5661,41 @@ std::unique_ptr<activity_actor> wear_activity_actor::deserialize( JsonValue &jsi
     data.read( "target_items", actor.target_items );
     data.read( "quantities", actor.quantities );
     data.read( "handler", actor.handler );
+
+    return actor.clone();
+}
+
+void invoke_item_activity_actor::do_turn( player_activity &, Character &who )
+{
+    item_location _item = item;
+    std::string _method = method;
+    if( method.empty() ) {
+        who.cancel_activity();
+        who.invoke_item( _item.get_item() );
+        return;
+    }
+    who.cancel_activity();
+    who.invoke_item( _item.get_item(), _method );
+}
+
+void invoke_item_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "item", item );
+    jsout.member( "method", method );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> invoke_item_activity_actor::deserialize( JsonValue &jsin )
+{
+    invoke_item_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "item", actor.item );
+    data.read( "method", actor.method );
 
     return actor.clone();
 }
@@ -6186,7 +6526,8 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
         put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, dest );
         // Remove from map or vehicle.
         if( src_veh ) {
-            src_veh->remove_item( src_part, &it );
+            vehicle_part &vp_src = src_veh->part( src_part );
+            src_veh->remove_item( vp_src, &it );
         } else {
             here.i_rem( src, &it );
         }
@@ -6195,7 +6536,8 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     // If we didn't pick up a whole stack, put the remainder back where it came from.
     if( leftovers.charges > 0 ) {
         if( src_veh ) {
-            if( !src_veh->add_item( src_part, leftovers ) ) {
+            vehicle_part &vp_src = src_veh->part( src_part );
+            if( !src_veh->add_item( vp_src, leftovers ) ) {
                 debugmsg( "SortLoot: Source vehicle failed to receive leftover charges." );
             }
         } else {
@@ -6247,8 +6589,9 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         num_processed = 0;
         // TODO: fix point types
         std::vector<tripoint_abs_ms> src_set;
+        src_set.reserve( coord_set.size() );
         for( const tripoint &p : coord_set ) {
-            src_set.emplace_back( tripoint_abs_ms( p ) );
+            src_set.emplace_back( p );
         }
         // sort source tiles by distance
         const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
@@ -6292,10 +6635,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             }
 
             //nothing to sort?
-            const std::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
-                    false );
-            if( ( !vp || vp->vehicle().get_items( vp->part_index() ).empty() )
-                && here.i_at( src_loc ).empty() ) {
+            const std::optional<vpart_reference> ovp = here.veh_at( src_loc ).cargo();
+            if( ( !ovp || ovp->items().empty() ) && here.i_at( src_loc ).empty() ) {
                 continue;
             }
 
@@ -6364,11 +6705,10 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         //Check source for cargo part
         //map_stack and vehicle_stack are different types but inherit from item_stack
         // TODO: use one for loop
-        if( const std::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
-                false ) ) {
-            src_veh = &vp->vehicle();
-            src_part = vp->part_index();
-            for( item &it : src_veh->get_items( src_part ) ) {
+        if( const std::optional<vpart_reference> ovp = here.veh_at( src_loc ).cargo() ) {
+            src_veh = &ovp->vehicle();
+            src_part = ovp->part_index();
+            for( item &it : ovp->items() ) {
                 items.emplace_back( &it, true );
             }
         } else {
@@ -6437,7 +6777,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                                 if( it->first->type->magazine->linkage ) {
                                     item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
                                     if( this_veh != nullptr ) {
-                                        this_veh->add_item( this_part, link );
+                                        vehicle_part &vp_this = this_veh->part( this_part );
+                                        this_veh->add_item( vp_this, link );
                                     } else {
                                         here.add_item_or_charges( src_loc, link );
                                     }
@@ -6448,7 +6789,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
 
                             if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
                                 if( this_veh != nullptr ) {
-                                    this_veh->remove_item( this_part, it->first );
+                                    vehicle_part &vp_this = this_veh->part( this_part );
+                                    this_veh->remove_item( vp_this, it->first );
                                 } else {
                                     here.i_rem( src_loc, it->first );
                                 }
@@ -6534,9 +6876,10 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
         return false;
     }
 
+    const inventory &inv = p.crafting_inventory();
     for( const vpart_reference &vp : veh.get_all_parts() ) {
         for( const itype_id &tool : vp.info().get_folding_tools() ) {
-            if( !p.has_amount( tool, 1 ) ) {
+            if( !inv.has_tools( tool, 1 ) ) {
                 p.add_msg_if_player( _( "You need %s to do it!" ), item::nname( tool ) );
                 return false;
             }
@@ -6554,8 +6897,8 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
 
     // Drop cargo to ground
     // TODO: make cargo shuffling add time to activity
-    for( const vpart_reference &vp : veh.get_any_parts( "CARGO" ) ) {
-        vehicle_stack cargo = veh.get_items( vp.part_index() );
+    for( const vpart_reference &vpr : veh.get_any_parts( VPFLAG_CARGO ) ) {
+        vehicle_stack cargo = vpr.items();
         for( const item &elem : cargo ) {
             here.add_item_or_charges( veh.pos_bub(), elem );
         }
@@ -6652,6 +6995,8 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
                || here.veh_at( p )
                || here.impassable( p );
     };
+
+    const inventory &inv = p.crafting_inventory();
     for( const vpart_reference &vp : veh->get_all_parts() ) {
         if( vp.info().location != "structure" ) {
             continue;
@@ -6662,7 +7007,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
             return false;
         }
         for( const itype_id &tool : vp.info().get_unfolding_tools() ) {
-            if( !p.has_amount( tool, 1 ) ) {
+            if( !inv.has_tools( tool, 1 ) ) {
                 p.add_msg_if_player( _( "You need %s to do it!" ), item::nname( tool ) );
                 here.destroy_vehicle( veh );
                 return false;
@@ -6856,6 +7201,7 @@ deserialize_functions = {
     { ACT_CONSUME, &consume_activity_actor::deserialize },
     { ACT_CRACKING, &safecracking_activity_actor::deserialize },
     { ACT_CRAFT, &craft_activity_actor::deserialize },
+    { ACT_DATA_HANDLING, &data_handling_activity_actor::deserialize },
     { ACT_DISABLE, &disable_activity_actor::deserialize },
     { ACT_DISASSEMBLE, &disassemble_activity_actor::deserialize },
     { ACT_DROP, &drop_activity_actor::deserialize },
@@ -6871,6 +7217,7 @@ deserialize_functions = {
     { ACT_HARVEST, &harvest_activity_actor::deserialize},
     { ACT_HOTWIRE_CAR, &hotwire_car_activity_actor::deserialize },
     { ACT_INSERT_ITEM, &insert_item_activity_actor::deserialize },
+    { ACT_INVOKE_ITEM, &invoke_item_activity_actor::deserialize },
     { ACT_LOCKPICK, &lockpick_activity_actor::deserialize },
     { ACT_LONGSALVAGE, &longsalvage_activity_actor::deserialize },
     { ACT_MEDITATE, &meditate_activity_actor::deserialize },
@@ -6885,6 +7232,7 @@ deserialize_functions = {
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_PRYING, &prying_activity_actor::deserialize },
     { ACT_READ, &read_activity_actor::deserialize },
+    { ACT_REEL_CABLE, &reel_cable_activity_actor::deserialize },
     { ACT_RELOAD, &reload_activity_actor::deserialize },
     { ACT_SHAVE, &shave_activity_actor::deserialize },
     { ACT_SHEARING, &shearing_activity_actor::deserialize },

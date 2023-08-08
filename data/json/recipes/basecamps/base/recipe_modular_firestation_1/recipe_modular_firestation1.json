@@ -130,7 +130,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_firestation_fireplace",
-    "description": "Now that we have some cover, we should build a fireplace for cooking and grab a pot.  Let's put it in that dining area.",
+    "description": "Now that we have some cover, we should build a fireplace and throw a pot over it to cook with.  Let's put it in that dining area.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -153,7 +153,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_firestation1_brazier",
-    "description": "Now that we have some cover, we should set up a brazier for cooking, and grab a pot.  Let's put it in that dining area.",
+    "description": "Now that we have some cover, we should set up a brazier and throw a pot over it to cook with.  Let's put it in that dining area.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
@@ -178,7 +178,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_firestation1_stove",
-    "description": "Now that we have some cover, we should build a stove for cooking and grab a pot.  Let's put it in that dining area.",
+    "description": "Now that we have some cover, we should build a stove and throw a pot over it to cook with.  Let's put it in that dining area.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
@@ -289,6 +289,9 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_firestation1_bedroom_sw",
     "blueprint_name": "furnish the SW bedroom",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    },
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_sw" }, { "id": "bed" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_sw" } ]
@@ -304,6 +307,9 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_firestation1_bedroom_nw",
     "blueprint_name": "furnish the NW bedroom",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    },
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_nw" }, { "id": "bed" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_nw" } ]
@@ -319,6 +325,9 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_firestation1_bedroom_se",
     "blueprint_name": "furnish the SE bedroom",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    },
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_se" }, { "id": "bed" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_se" } ]
@@ -334,6 +343,9 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_firestation1_bedroom_ne",
     "blueprint_name": "furnish the NE bedroom",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    },
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_ne" }, { "id": "bed" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_ne" } ]
@@ -424,9 +436,9 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_pottery" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_tools" }, { "id": "fbmc_firestation_blacksmith_recipes_4" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_tools" } ],
-    "blueprint_resources": [ "tongs", "chisel", "hammer", "swage" ],
+    "blueprint_resources": [ "metalworking_tongs", "chisel", "hammer", "swage" ],
     "blueprint_needs": {  },
-    "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "swage", 1 ] ] ]
+    "components": [ [ [ "metalworking_tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "swage", 1 ] ] ]
   },
   {
     "type": "recipe",

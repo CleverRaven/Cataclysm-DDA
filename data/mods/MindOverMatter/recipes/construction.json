@@ -1,0 +1,19 @@
+[
+  {
+    "type": "construction_group",
+    "id": "place_standing_pyrokinetic_lamp",
+    "name": "Place Standing Matrix Lamp"
+  },
+  {
+    "type": "construction",
+    "id": "ap_standing_pyrokinetic_lamp",
+    "group": "place_standing_pyrokinetic_lamp",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 s",
+    "components": [ [ [ "standing_pyrokinetic_lamp", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "NO_EXERCISE"
+  }
+]

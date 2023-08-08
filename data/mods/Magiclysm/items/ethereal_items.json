@@ -443,8 +443,7 @@
     "healthy": -2,
     "description": "A magical powder that can be scattered on growing crops and make them grow faster.",
     "material": [ "powder" ],
-    "volume": "2 L",
-    "charges": 60,
+    "volume": "33 ml",
     "category": "chems",
     "fun": -15
   },
@@ -1353,6 +1352,23 @@
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ]
+  },
+  {
+    "type": "AMMO",
+    "id": "elastic_potential_energy",
+    "category": "spare_parts",
+    "price": 12000,
+    "price_postapoc": 2,
+    "name": { "str_sp": "elastic potential energy" },
+    "symbol": "=",
+    "color": "yellow",
+    "description": "Some free-floating elastic potential energy.",
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
+    "material": [ "battery" ],
+    "effects": [ "COOKOFF" ],
+    "volume": "0 ml",
+    "ammo_type": "elastic_potential_energy",
+    "count": 100
   },
   {
     "id": "druid_bandages",

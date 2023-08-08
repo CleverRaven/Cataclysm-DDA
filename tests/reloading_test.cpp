@@ -603,7 +603,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
     }
 }
 
-TEST_CASE( "gunmod reloading", "[reload],[gun]" )
+TEST_CASE( "gunmod_reloading", "[reload],[gun]" )
 {
     SECTION( "empty gun and gunmod" ) {
         item gun( "m4_carbine" );

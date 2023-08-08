@@ -2,7 +2,7 @@
   {
     "id": "ak47",
     "copy-from": "rifle_auto",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AKM" },
     "description": "One of the most recognizable assault rifles ever made, the AKM is renowned for its durability even under the worst conditions.",
@@ -39,7 +39,7 @@
   {
     "id": "arx160",
     "copy-from": "rifle_auto",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "Beretta ARX-160" },
     "//": "Total unloaded weight of gun 3000 grams.  Current weight of folding stock 200 grams.",
@@ -79,7 +79,7 @@
   {
     "id": "sks",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "SKS" },
     "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK-47.  However, due to its superb accuracy, low recoil, and deployable integrated bayonet, this gun maintains immense popularity.",
@@ -114,7 +114,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
+    "flags": [ "RELOAD_ONE" ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
@@ -129,7 +129,7 @@
   {
     "id": "aksemi",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AK-47" },
     "description": "Civilian-legal clones of the iconic Kalashnikov, like this one, were manufactured and imported by many different firms.  Even without full-auto function, their solid firepower and reliability in harsh conditions make them valuable weapons in this new world.",
@@ -165,7 +165,7 @@
   {
     "id": "draco",
     "copy-from": "pistol_base",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Mini Draco" },
     "description": "Essentially a semi-auto AK with a short barrel and no stock, this unwieldy \"pistol\" has seen some popularity with civilian shooters and gangbangers alike.",
@@ -211,7 +211,7 @@
     "price_postapoc": 4000,
     "to_hit": { "balance": "neutral", "grip": "solid", "length": "long", "surface": "point" },
     "material": [ "plastic", "steel" ],
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "ammo": [ "762" ],
     "built_in_mods": [ "pistol_grip" ],
     "dispersion": 150,
@@ -235,7 +235,7 @@
   {
     "id": "vz58_p",
     "copy-from": "rifle_auto",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "vz. 58 combat rifle" },
     "description": "A Cold War-era Czechoslovak assault rifle, likely constructed stateside from a pre-1986 imported parts kit or brought back from a third world war zone.  Externally similar to the AK family of rifles, this weapon nevertheless only shares the former’s 7.62x39mm chambering.  Featuring no interchangeable parts with its Russian doppelganger, this firearm makes use of a completely different internal operating system, is far more svelte than its other Warsaw Pact counterparts, and feeds from proprietary box magazines.",
@@ -287,7 +287,7 @@
   {
     "id": "vz58ts",
     "copy-from": "vz58_p",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "vz. 58 tactical rifle" },
     "description": "Inspired and built primarily from older Czechoslovak military combat rifles, this weapon bears an uncanny resemblance to the Kalashnikov despite sharing no components with it, including magazines.  Chambering the Soviet 7.62x39mm cartridge and featuring an American produced folding buttstock, receiver, and barrel in order to comply with US importation laws, the weapon is equipped with a side mounted rail assembly as well as a detachable muzzle brake.  Despite the firearm’s Cold War design being nearly 80 years old, this modern iteration makes for a relatively portable and serviceable cataclysmic problem solver.",
@@ -303,5 +303,57 @@
     "price": 170000,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "default_mods": [ "folding_stock", "rail_mount", "offset_sight_rail", "muzzle_brake" ]
+  },
+  {
+    "id": "bren2_762",
+    "copy-from": "rifle_semi",
+    "looks_like": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "Bren 7.62mm carbine" },
+    "description": "A semi-automatic clone of the Czech Republic’s standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the 7.62x39mm Soviet cartridge and uses proprietary magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "bren2_762",
+        "name": { "str": "CZ Bren 2" },
+        "description": "Hailing from the Czech Republic, this modular carbine supplanted the older CZ 805 rifle within Czech military use, improving upon the former’s features and bringing fully ambidextrous controls, a streamlined design, and an easily adjustable gas system to the table.  Chambered for the 7.62x39mm Soviet cartridge, this particular weapon possesses a compact 11-inch barrel and is a civilian MS, 'modular semi-automatic,' model.  Incorporating a number of US-made parts, the weapon features a removable muzzle break rather than the flash hider that comes standard with military rifles.",
+        "weight": 1
+      },
+      {
+        "id": "805_bren",
+        "name": { "str": "CZ 805 Bren" },
+        "description": "Strongly resembling the FN SCAR, with features and ergonomics inspired by the AR-18, this semi-automatic rifle is a civilian clone of the Czech Republic’s formerly standard infantry carbine and was produced by the same company.  Discontinued in 2018, the rifle features an included muzzle break and adjustable folding buttstock, with this particular version being chambered in 7.62x39mm."
+      }
+    ],
+    "weight": "2870 g",
+    "volume": "4200 ml",
+    "longest_side": "76 cm",
+    "price": 215500,
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "material": [ "steel", "aluminum", "plastic" ],
+    "color": "black",
+    "ammo": [ "762" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
+    "dispersion": 140,
+    "durability": 8,
+    "barrel_volume": "175 ml",
+    "default_mods": [ "folding_stock", "muzzle_brake" ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ],
+      [ "stock accessory", 2 ],
+      [ "stock", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "bren2_762mag30", "bren2_762mag10" ] } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

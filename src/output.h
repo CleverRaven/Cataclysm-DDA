@@ -428,6 +428,16 @@ inline bool query_yn( const char *const msg, Args &&... args )
     return query_yn( string_format( msg, std::forward<Args>( args )... ) );
 }
 
+enum class query_ynq_result {
+    quit, no, yes
+};
+query_ynq_result query_ynq( const std::string &text );
+template<typename ...Args>
+inline query_ynq_result query_ynq( const char *const msg, Args &&... args )
+{
+    return query_ynq( string_format( msg, std::forward<Args>( args )... ) );
+}
+
 bool query_int( int &result, const std::string &text );
 template<typename ...Args>
 inline bool query_int( int &result, const char *const msg, Args &&... args )
@@ -572,8 +582,6 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
 std::string item_filter_rule_string( item_filter_type type );
 
 char rand_char();
-int special_symbol( int sym );
-int special_symbol( char sym );
 
 // Remove spaces from the start and the end of a string.
 std::string trim( std::string_view s );

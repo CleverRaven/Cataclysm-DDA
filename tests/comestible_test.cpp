@@ -250,8 +250,9 @@ TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
     const Character &u = get_player_character();
 
     nutrients default_nutrition = u.compute_effective_nutrients( veggy_wild_cooked );
+    std::map<recipe_id, std::pair<nutrients, nutrients>> rec_cache;
     std::pair<nutrients, nutrients> predicted_nutrition =
-        u.compute_nutrient_range( veggy_wild_cooked, recipe_veggy_wild_cooked );
+        u.compute_nutrient_range( veggy_wild_cooked, recipe_veggy_wild_cooked, rec_cache );
 
     CHECK( default_nutrition.kcal() == predicted_nutrition.first.kcal() );
     CHECK( default_nutrition.kcal() == predicted_nutrition.second.kcal() );
@@ -269,7 +270,7 @@ TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
 // representing the "satiety" of the food, with higher numbers being more calorie-dense, and lower
 // numbers being less so.
 //
-TEST_CASE( "effective food volume and satiety", "[character][food][satiety]" )
+TEST_CASE( "effective_food_volume_and_satiety", "[character][food][satiety]" )
 {
     const Character &u = get_player_character();
     double expect_ratio;
@@ -316,7 +317,7 @@ TEST_CASE( "effective food volume and satiety", "[character][food][satiety]" )
 // satiety_bar returns a colorized string indicating a satiety level, similar to hit point bars
 // where "....." is minimum (~ 0) and "|||||" is maximum (~ 1500)
 //
-TEST_CASE( "food satiety bar", "[character][food][satiety]" )
+TEST_CASE( "food_satiety_bar", "[character][food][satiety]" )
 {
     // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
     CHECK( satiety_bar( 0 ) == "<color_c_red></color>....." );

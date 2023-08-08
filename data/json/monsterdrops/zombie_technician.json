@@ -29,9 +29,10 @@
         "distribution": [
           {
             "collection": [ { "group": "clothing_work_pants", "damage": [ 1, 4 ] }, { "group": "clothing_work_torso", "damage": [ 1, 4 ] } ],
-            "prob": 75
+            "prob": 70
           },
-          { "item": "jumpsuit", "prob": 25, "damage": [ 1, 4 ] }
+          { "item": "technician_coveralls", "prob": 20, "damage": [ 1, 4 ] },
+          { "item": "technician_coveralls_h", "prob": 10, "damage": [ 1, 4 ] }
         ]
       },
       { "group": "underwear", "damage": [ 1, 4 ] },

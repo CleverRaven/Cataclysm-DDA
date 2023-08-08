@@ -86,6 +86,7 @@
       "t": "f_pool_table",
       "6": "f_arcade_machine",
       "9": "f_piano",
+      "§": "f_barstool",
       "'": "f_speaker_cabinet",
       "(": "f_roulette_table",
       "*": "f_hedge_short",
@@ -163,6 +164,7 @@
       "2": "f_cupboard",
       "3": "f_cupboard",
       "5": "f_sink",
+      "§": "f_barstool",
       "6": "f_rack_wood",
       "d": "f_dishwasher"
     },
@@ -173,7 +175,7 @@
       "T": "t_carpet_red",
       "H": "t_carpet_red",
       ";": "t_carpet_red",
-      "s": "t_carpet_red"
+      "§": "t_carpet_red"
     },
     "items": {
       "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],

@@ -775,7 +775,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
-      "place_monster": [ { "monster": "mon_dog_mutant_mongrel", "x": 0, "y": 0, "chance": 100 } ]
+      "place_monster": [ { "group": "GROUP_MUTANT_PET_DOGS", "x": 0, "y": 0, "chance": 100 } ]
     }
   },
   {

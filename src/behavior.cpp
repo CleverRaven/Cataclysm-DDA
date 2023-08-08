@@ -22,7 +22,7 @@ void node_t::add_predicate( const
                             std::function<status_t ( const oracle_t *, const std::string & )> &
                             new_predicate, const std::string &argument, const bool &invert_result )
 {
-    conditions.emplace_back( std::make_tuple( new_predicate, argument, invert_result ) );
+    conditions.emplace_back( new_predicate, argument, invert_result );
 }
 void node_t::set_goal( const std::string &new_goal )
 {
@@ -162,8 +162,8 @@ void node_t::load( const JsonObject &jo, const std::string_view )
         }
         const std::string predicate_argument = predicate_object.get_string( "argument", "" );
         const bool invert_result = predicate_object.get_bool( "invert_result", false );
-        conditions.emplace_back( std::make_tuple( new_predicate->second, predicate_argument,
-                                 invert_result ) );
+        conditions.emplace_back( new_predicate->second, predicate_argument,
+                                 invert_result );
     }
     optional( jo, was_loaded, "goal", _goal );
 }

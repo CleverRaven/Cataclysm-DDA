@@ -16,8 +16,7 @@
       { "monster": "mon_sparrow_chick", "weight": 15 },
       { "monster": "mon_goose_canadian_chick", "weight": 100 },
       { "monster": "mon_goose_chick", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_goose_golden_chick", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_rattlesnake", "weight": 65 }
+      { "monster": "mon_goose_golden_chick", "freq": 100, "cost_multiplier": 1 }
     ]
   },
   {
@@ -84,11 +83,6 @@
     "name": "GROUP_EGG_COCKATRICE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_cockatrice_chick" } ]
-  },
-  {
-    "name": "GROUP_EGG_SNAKE",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_rattlesnake" } ]
   },
   {
     "name": "GROUP_EGG_ROACH",
@@ -343,6 +337,11 @@
     "monsters": [ { "monster": "mon_fry_whitefish" } ]
   },
   {
+    "name": "GROUP_EGG_WHITEFISH_ROUND",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_whitefish_round" } ]
+  },
+  {
     "name": "GROUP_EGG_LBASS",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_lbass" } ]
@@ -413,6 +412,11 @@
     "monsters": [ { "monster": "mon_fry_bullhead" } ]
   },
   {
+    "name": "GROUP_EGG_BULLHEAD_YELLOW",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_bullhead_yellow" } ]
+  },
+  {
     "name": "GROUP_EGG_CHANNEL_CATFISH",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_channel_catfish" } ]
@@ -431,6 +435,11 @@
     "name": "GROUP_EGG_PICKEREL",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_pickerel" } ]
+  },
+  {
+    "name": "GROUP_EGG_PICKEREL_AMERICAN",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_pickerel_american" } ]
   },
   {
     "name": "GROUP_EGG_MUSKELLUNGE",
@@ -453,9 +462,34 @@
     "monsters": [ { "monster": "mon_fry_grass_carp" } ]
   },
   {
+    "name": "GROUP_EGG_GOLDFISH",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_goldfish" } ]
+  },
+  {
     "name": "GROUP_EGG_BOWFIN",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_bowfin" } ]
+  },
+  {
+    "name": "GROUP_EGG_GAR_LONGNOSE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_gar_longnose" } ]
+  },
+  {
+    "name": "GROUP_EGG_BURBOT",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_burbot" } ]
+  },
+  {
+    "name": "GROUP_EGG_STURGEON_LAKE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_sturgeon_lake" } ]
+  },
+  {
+    "name": "GROUP_EGG_STURGEON_SHORTNOSE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_sturgeon_shortnose" } ]
   },
   {
     "name": "GROUP_EGG_FALLFISH",

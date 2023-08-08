@@ -1,7 +1,7 @@
 [
   {
     "id": "browning_blr",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str_sp": "Browning BLR" },
@@ -9,6 +9,7 @@
     "weight": "3290 g",
     "volume": "3610 ml",
     "longest_side": "1106 mm",
+    "barrel_length": "559 mm",
     "price": 85000,
     "price_postapoc": 3000,
     "to_hit": -1,
@@ -17,7 +18,6 @@
     "color": "brown",
     "ammo": [ "3006" ],
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 90,
     "durability": 7,
     "blackpowder_tolerance": 24,
@@ -42,7 +42,7 @@
   },
   {
     "id": "garand",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "M1 Garand" },
@@ -51,6 +51,7 @@
     "weight": "4280 g",
     "volume": "3160 ml",
     "longest_side": "1107 mm",
+    "barrel_length": "610 mm",
     "price": 90000,
     "price_postapoc": 3500,
     "to_hit": -1,
@@ -83,13 +84,14 @@
   {
     "id": "m1903",
     "copy-from": "rifle_manual",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "M1903 Springfield" },
     "description": "A powerful military rifle chambered in .30-06, developed to replace the US Army's older Krag rifle.  It served as the main American rifle in World War I, was used alongside the M1 Garand in World War II, and was used as a sniper rifle as late as the Vietnam War.",
     "weight": "3910 g",
     "volume": "2840 ml",
     "longest_side": "1102 mm",
+    "barrel_length": "610 mm",
     "price": 80000,
     "price_postapoc": 3250,
     "to_hit": -1,
@@ -114,7 +116,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE" ],
+    "flags": [ "RELOAD_ONE", "EASY_CLEAN" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 5 }, "allowed_speedloaders": [ "3006_clip" ] }
     ],
@@ -122,7 +124,7 @@
   },
   {
     "id": "m1918",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "Browning Automatic Rifle" },
@@ -131,6 +133,7 @@
     "weight": "8820 g",
     "volume": "4450 ml",
     "longest_side": "1216 mm",
+    "barrel_length": "610 mm",
     "price": 350000,
     "price_postapoc": 4000,
     "to_hit": -1,
@@ -165,7 +168,7 @@
   {
     "id": "remington_700",
     "copy-from": "rifle_manual",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "Remington 700 .30-06" },
     "description": "A very popular and durable hunting or sniping rifle.  Popular among SWAT and US Marine snipers.  Highly damaging, but perhaps not as accurate as the competing Browning BLR.",
@@ -173,6 +176,7 @@
     "weight": "3350 g",
     "volume": "3190 ml",
     "longest_side": "1141 mm",
+    "barrel_length": "635 mm",
     "price": 87000,
     "price_postapoc": 3500,
     "to_hit": -1,
@@ -184,7 +188,53 @@
     "blackpowder_tolerance": 24,
     "clip_size": 4,
     "barrel_volume": "750 ml",
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "EASY_CLEAN" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 4 } } ],
+    "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "ruger_m77",
+    "looks_like": "modular_ar15",
+    "copy-from": "rifle_manual",
+    "type": "GUN",
+    "name": { "str": "Ruger Guide rifle" },
+    "description": "This is a popular and sturdy long-range rifle that has been in production by the Ruger gun company for several decades.  Using a bolt-action feed system, the rifle features a four round capacity of .30-06 cartridges and has the capability to dispatch said rounds with a level of accuracy that would make comparable hunting rifles blush.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_m77",
+        "name": "Ruger M77 Hawkeye",
+        "description": "A popular bolt-action hunting rifle first introduced in 2006, the Ruger M77 was originally intended to be a modernized Mauser 98-style long gun.  To this end, the weapon features a Mauser-type fixed blade extractor and an angled large screw that tightly beds the action into the stock.  This particular rifle is a variant with additional features, a smoother trigger, and a recontoured buttstock.",
+        "weight": 1
+      }
+    ],
+    "weight": "3670 g",
+    "volume": "3350 ml",
+    "longest_side": "1040mm",
+    "barrel_length": "508 mm",
+    "price": 161900,
+    "price_postapoc": 4500,
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "brown",
+    "ammo": "3006",
+    "dispersion": 75,
+    "durability": 8,
+    "clip_size": 4,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 2 ],
+      [ "stock", 1 ]
+    ],
+    "flags": "RELOAD_ONE",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 4 } } ],
     "melee_damage": { "bash": 12 }
   }

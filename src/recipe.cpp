@@ -195,11 +195,17 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         }
     }
 
-    if( type == "recipe" && jo.has_string( "id_suffix" ) ) {
-        if( abstract ) {
-            jo.throw_error_at( "id_suffix", "abstract recipe cannot specify id_suffix" );
+    if( type == "recipe" ) {
+        optional( jo, was_loaded, "variant", variant_ );
+        if( !variant_.empty() && !abstract ) {
+            ident_ = recipe_id( ident_.str() + "_" + variant_ );
         }
-        ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
+        if( jo.has_string( "id_suffix" ) ) {
+            if( abstract ) {
+                jo.throw_error_at( "id_suffix", "abstract recipe cannot specify id_suffix" );
+            }
+            ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
+        }
     }
 
     if( jo.has_bool( "obsolete" ) ) {
@@ -376,20 +382,20 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 bp_resources.emplace_back( resource );
             }
             for( JsonObject provide : jo.get_array( "blueprint_provides" ) ) {
-                bp_provides.emplace_back( std::make_pair( provide.get_string( "id" ),
-                                          provide.get_int( "amount", 1 ) ) );
+                bp_provides.emplace_back( provide.get_string( "id" ),
+                                          provide.get_int( "amount", 1 ) );
             }
             // all blueprints provide themselves with needing it written in JSON
-            bp_provides.emplace_back( std::make_pair( result_.str(), 1 ) );
+            bp_provides.emplace_back( result_.str(), 1 );
             for( JsonObject require : jo.get_array( "blueprint_requires" ) ) {
-                bp_requires.emplace_back( std::make_pair( require.get_string( "id" ),
-                                          require.get_int( "amount", 1 ) ) );
+                bp_requires.emplace_back( require.get_string( "id" ),
+                                          require.get_int( "amount", 1 ) );
             }
             // all blueprints exclude themselves with needing it written in JSON
-            bp_excludes.emplace_back( std::make_pair( result_.str(), 1 ) );
+            bp_excludes.emplace_back( result_.str(), 1 );
             for( JsonObject exclude : jo.get_array( "blueprint_excludes" ) ) {
-                bp_excludes.emplace_back( std::make_pair( exclude.get_string( "id" ),
-                                          exclude.get_int( "amount", 1 ) ) );
+                bp_excludes.emplace_back( exclude.get_string( "id" ),
+                                          exclude.get_int( "amount", 1 ) );
             }
             check_blueprint_needs = jo.get_bool( "check_blueprint_needs", true );
             bool has_needs = jo.has_member( "blueprint_needs" );
@@ -521,6 +527,7 @@ static cata::value_ptr<parameterized_build_reqs> calculate_all_blueprint_reqs(
         std::sort( mapgen_values.begin(), mapgen_values.end() );
 
         std::vector<std::string> bp_values;
+        bp_values.reserve( bp_param.second.size() );
         for( const std::pair<const std::string, translation> &p : bp_param.second ) {
             bp_values.push_back( p.first );
         }
@@ -661,10 +668,6 @@ std::string recipe::get_consistency_error() const
         return "defines invalid result";
     }
 
-    if( charges && !item::count_by_charges( result_ ) ) {
-        return "specifies charges but result is not counted by charges";
-    }
-
     const auto is_invalid_bp = []( const std::pair<itype_id, int> &elem ) {
         return !item::type_is_defined( elem.first );
     };
@@ -705,6 +708,10 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
         item_components *used ) const
 {
     item newit( result_, calendar::turn, item::default_charges_tag{} );
+
+    if( !variant().empty() ) {
+        newit.set_itype_variant( variant() );
+    }
 
     if( newit.has_flag( flag_VARSIZE ) ) {
         newit.set_flag( flag_FIT );
@@ -774,15 +781,20 @@ std::vector<item> recipe::create_results( int batch, item_components *used ) con
             item_components mult_comps = batch_comps.split( result_mult, j, is_cooked );
             std::vector<item> newits = create_result( set_components, temp.is_food(), &mult_comps );
 
-            for( const item &it : newits ) {
-                // try to combine batch results for liquid handling
-                auto found = std::find_if( items.begin(), items.end(), [it]( const item & rhs ) {
-                    return it.can_combine( rhs );
-                } );
-                if( found != items.end() ) {
-                    found->combine( it );
-                } else {
-                    items.emplace_back( it );
+            if( !result_->count_by_charges() ) {
+                items.reserve( items.size() + newits.size() );
+                items.insert( items.end(), newits.begin(), newits.end() );
+            } else {
+                for( const item &it : newits ) {
+                    // try to combine batch results for liquid handling
+                    auto found = std::find_if( items.begin(), items.end(), [it]( const item & rhs ) {
+                        return it.can_combine( rhs );
+                    } );
+                    if( found != items.end() ) {
+                        found->combine( it );
+                    } else {
+                        items.emplace_back( it );
+                    }
                 }
             }
         }
@@ -959,6 +971,7 @@ std::string recipe::recipe_proficiencies_string() const
 {
     std::vector<proficiency_id> profs;
 
+    profs.reserve( proficiencies.size() );
     for( const recipe_proficiency &rec : proficiencies ) {
         profs.push_back( rec.id );
     }
@@ -1183,6 +1196,14 @@ std::string recipe::result_name( const bool decorated ) const
     std::string name;
     if( !name_.empty() ) {
         name = name_.translated();
+    } else if( !variant().empty() ) {
+        auto iter_var = std::find_if( result_->variants.begin(), result_->variants.end(),
+        [this]( const itype_variant_data & itvar ) {
+            return itvar.id == variant();
+        } );
+        if( iter_var != result_->variants.end() ) {
+            name = iter_var->alt_name.translated();
+        }
     } else {
         name = item::nname( result_ );
     }

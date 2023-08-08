@@ -397,21 +397,10 @@ void diary::edit_page_ui( const std::function<catacurses::window()> &create_wind
             break;
         }
 
-        const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-        const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
-                                : input_context::allow_all_keys;
-        const std::string action = query_popup()
-                                   .context( "YESNOQUIT" )
-                                   .message( "%s", _( "Save entry?" ) )
-                                   .option( "YES", allow_key )
-                                   .option( "NO", allow_key )
-                                   .allow_cancel( true )
-                                   .default_color( c_light_red )
-                                   .query()
-                                   .action;
-        if( action == "YES" ) {
+        const query_ynq_result res = query_ynq( _( "Save entry?" ) );
+        if( res == query_ynq_result::yes ) {
             break;
-        } else if( action == "NO" ) {
+        } else if( res == query_ynq_result::no ) {
             new_text = old_text;
             break;
         }

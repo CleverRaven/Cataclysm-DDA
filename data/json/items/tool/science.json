@@ -55,7 +55,7 @@
     "sub": "hotplate",
     "charges_per_use": 1,
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
-    "use_action": [ "HOTPLATE" ],
+    "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 7, "charge_rate": "1 kW" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -97,6 +97,7 @@
     "symbol": ";",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "300 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -119,6 +120,7 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "150 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -253,6 +255,7 @@
     "symbol": "E",
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "color": "dark_gray",
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1200 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -279,6 +282,7 @@
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "qualities": [ [ "EXTRACT", 2 ] ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "600 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -318,6 +322,7 @@
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ],
     "ammo": [ "battery" ],
     "qualities": [ [ "EXTRACT", 1 ] ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1800 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -358,19 +363,17 @@
   },
   {
     "id": "catalytic_cracking_reactor",
-    "type": "TOOL",
-    "name": { "str": "catalytic cracking reactor" },
-    "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  Meticulously disassembled and reassembled.",
-    "symbol": "U",
-    "color": "dark_gray",
-    "looks_like": "household_water_heater",
-    "weight": "22700 g",
+    "type": "GENERIC",
+    "name": { "str": "disassembled catalytic cracking reactor" },
+    "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  Meticulously disassembled.  You can reassemble and plug it into your own power grid to use it.",
+    "symbol": "Y",
+    "color": "light_cyan",
+    "looks_like": "f_catalytic_cracking_reactor",
+    "weight": "500 kg",
     "volume": "500 L",
     "price": 20000,
     "to_hit": -5,
     "material": [ "steel" ],
-    "use_action": { "type": "deploy_furn", "furn_type": "f_catalytic_cracking_reactor" },
-    "qualities": [ [ "EXTRACT", 3 ] ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -432,6 +435,7 @@
     "material": [ "iron" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "ammo": [ "battery" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "250 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -487,6 +491,7 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "150 W" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "storage_battery", "large_storage_battery" ] } ],
     "melee_damage": { "bash": 20 }
   },
@@ -506,6 +511,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "800 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ],
     "melee_damage": { "bash": 20 }
@@ -526,6 +532,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "350 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ],
     "melee_damage": { "bash": 20 }
@@ -546,6 +553,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1200 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
@@ -589,12 +597,6 @@
     ],
     "looks_like": "oxygen_tank",
     "flags": [  ],
-    "explosion": {
-      "power": 90100,
-      "distance_factor": 0.5,
-      "fire": true,
-      "shrapnel": { "casing_mass": 200, "fragment_mass": 0.5, "recovery": 0 }
-    },
     "explode_in_fire": true,
     "melee_damage": { "bash": 10 }
   },
@@ -682,7 +684,8 @@
   },
   {
     "id": "oxygen_cylinder",
-    "type": "TOOL",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
     "name": { "str": "oxygen cylinder" },
     "description": "A large steel cylinder used for storing pressurized gas.  It is marked with a faded, but legible O2 symbol.",
     "weight": "19050 g",
@@ -703,10 +706,9 @@
         "ammo_restriction": { "oxygen": 300 }
       }
     ],
-    "initial_charges": 300,
-    "max_charges": 300,
-    "charges_per_use": 1,
-    "use_action": [ "OXYGEN_BOTTLE" ],
+    "ammo_type": [ "oxygen" ],
+    "capacity": 300,
+    "count": 300,
     "melee_damage": { "bash": 10 }
   },
   {
@@ -1151,7 +1153,17 @@
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "symbol": "R",
     "color": "white",
-    "qualities": [ [ "CONCENTRATE", 1 ] ],
+    "charges_per_use": 5,
+    "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "400 W" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -1169,7 +1181,7 @@
     "looks_like": "glass_tube_small",
     "symbol": "N",
     "color": "light_blue",
-    "qualities": [ [ "FINE_DISTILL", 1 ] ],
+    "qualities": [ [ "FINE_DISTILL", 1 ], [ "CONCENTRATE", 1 ] ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -1206,7 +1218,9 @@
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
-    "qualities": [ [ "CONCENTRATE", 1 ] ],
+    "charges_per_use": 5,
+    "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "400 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1274,16 +1288,19 @@
     "category": "spare_parts",
     "name": { "str": "ring stand" },
     "description": "A heavy metal plate and a sturdy rod, for clamping lab stuff to.",
-    "weight": "900 g",
-    "volume": "550ml",
-    "price": 75,
+    "weight": "1100 g",
+    "volume": "3 L",
+    "//1": "The volume is lowered. The volume of the package of the attached amazon article is 5l+ but a lot of the parts are small enough to actually not take up much space. Yes, the number is relatively an asspull, but I refuse to believe a ring stand would be larger than a cooking pot in volume.",
+    "longest_side": "41 cm",
+    "price": "19 USD",
     "price_postapoc": 10,
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "looks_like": "rebar",
     "symbol": "l",
     "color": "light_gray",
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "//2": "Based on https://www.amazon.com/dp/B08ZSC1H5F"
   },
   {
     "id": "stand_ring_clamps",
@@ -1447,5 +1464,61 @@
         }
       ]
     }
+  },
+  {
+    "id": "weather_glass",
+    "type": "GENERIC",
+    "category": "TOOL",
+    "name": { "str_sp": "Weather glass" },
+    "description": "also called storm glass or 'Goethe barometer', The weather glass barometer consists of a glass container with a sealed body, half filled with water.  A narrow spout connects to the body below the water level and rises above the water level.  the difference between the sealed water level and after opening the narrow spout determines the atmospheric pressure.  Activate to get current atmospheric pressure",
+    "//": "this is based on wikipedia's page on barometers, in section 'water barometers'",
+    "material": [ "glass" ],
+    "weight": "6000 g",
+    "volume": "4 L",
+    "longest_side": "50 cm",
+    "to_hit": -3,
+    "price": 500,
+    "price_postapoc": 100,
+    "symbol": "W",
+    "color": "light_blue",
+    "use_action": [ "WEATHER_TOOL" ],
+    "flags": [ "BAROMETER" ]
+  },
+  {
+    "id": "hygroscope",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "hygroscope" },
+    "description": "This is a small rectangular box, Inside it is a device that measures humidity by utilizing the hygroscopy of hair, The hair's length changes with humidity, And indicated on a dial",
+    "//": "this is based on Hair tension hygrometers, https://en.wikipedia.org/wiki/Hygrometer",
+    "weight": "3000 g",
+    "volume": "2 L",
+    "longest_side": "40 cm",
+    "price": 100,
+    "price_postapoc": 300,
+    "to_hit": -3,
+    "material": [ "wood", "steel" ],
+    "symbol": ";",
+    "color": "light_red",
+    "use_action": [ "WEATHER_TOOL" ],
+    "flags": [ "HYGROMETER" ]
+  },
+  {
+    "id": "glass_thermometer",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "glass thermometer" },
+    "description": "A device used to measure temperature.  This one is made entirely of glass.  Mercury is used as its temperature sensor.  You could use this to get accurate information on current air temperature.",
+    "weight": "600 g",
+    "volume": "700 ml",
+    "longest_side": "15 cm",
+    "price": 100,
+    "price_postapoc": 200,
+    "to_hit": -3,
+    "material": [ "glass" ],
+    "symbol": ";",
+    "color": "light_red",
+    "use_action": [ "WEATHER_TOOL" ],
+    "flags": [ "THERMOMETER" ]
   }
 ]

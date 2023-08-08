@@ -30,7 +30,7 @@
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "flags": [
@@ -44,7 +44,8 @@
       "ARTHROPOD_BLOOD",
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
-      "PRIORITIZE_TARGETS"
+      "PRIORITIZE_TARGETS",
+      "CORNERED_FIGHTER"
     ],
     "armor": { "bash": 4, "cut": 12, "bullet": 10, "electric": 2 }
   },
@@ -80,7 +81,7 @@
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] },
       {
         "type": "spell",
@@ -100,7 +101,8 @@
       "ARTHROPOD_BLOOD",
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
-      "PRIORITIZE_TARGETS"
+      "PRIORITIZE_TARGETS",
+      "CORNERED_FIGHTER"
     ],
     "armor": { "bash": 4, "cut": 12, "bullet": 10, "electric": 3 }
   },
@@ -136,7 +138,7 @@
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.4 } ] }
     ],
     "flags": [
@@ -150,7 +152,8 @@
       "ARTHROPOD_BLOOD",
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
-      "PRIORITIZE_TARGETS"
+      "PRIORITIZE_TARGETS",
+      "CORNERED_FIGHTER"
     ],
     "armor": { "bash": 5, "cut": 13, "bullet": 10, "electric": 3 }
   },
@@ -186,7 +189,7 @@
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       [ "SHRIEK_ALERT", 5 ],
       [ "SHRIEK_STUN", 4 ],
       [ "TAZER", 5 ],
@@ -209,7 +212,8 @@
       "ARTHROPOD_BLOOD",
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
-      "PRIORITIZE_TARGETS"
+      "PRIORITIZE_TARGETS",
+      "CORNERED_FIGHTER"
     ],
     "armor": { "bash": 17, "cut": 22, "bullet": 18, "electric": 4 }
   },
@@ -245,7 +249,7 @@
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       { "id": "stretch_attack" },
       { "id": "longswipe", "cooldown": 12 },
       { "id": "cut_throat", "cooldown": 12 },
@@ -268,7 +272,8 @@
       "ARTHROPOD_BLOOD",
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
-      "PRIORITIZE_TARGETS"
+      "PRIORITIZE_TARGETS",
+      "CORNERED_FIGHTER"
     ],
     "armor": { "bash": 19, "cut": 27, "bullet": 22, "electric": 6 }
   },

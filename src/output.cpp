@@ -160,7 +160,7 @@ std::vector<std::string> foldstring( const std::string &str, int width, const ch
                             tags.pop_back();
                         }
                     } else {
-                        auto tag_end = rawwline.find( '>', tag_pos );
+                        size_t tag_end = rawwline.find( '>', tag_pos );
                         if( tag_end != std::string::npos ) {
                             tags.emplace_back( rawwline.substr( tag_pos, tag_end + 1 - tag_pos ) );
                         }
@@ -849,6 +849,35 @@ bool query_yn( const std::string &text )
            .action == "YES";
 }
 
+query_ynq_result query_ynq( const std::string &text )
+{
+    // TODO: android native UI
+    const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
+                            : input_context::allow_all_keys;
+
+    const std::string action =
+        query_popup()
+        .context( "YESNOQUIT" )
+        .message( force_uc && !is_keycode_mode_supported()
+                  ? pgettext( "query_yn", "%s (Case Sensitive)" )
+                  : pgettext( "query_yn", "%s" ), text )
+        .option( "YES", allow_key )
+        .option( "NO", allow_key )
+        .option( "QUIT", allow_key )
+        .allow_cancel( true )
+        .cursor( 2 )
+        .default_color( c_light_red )
+        .query()
+        .action;
+    if( action == "NO" ) {
+        return query_ynq_result::no;
+    } else if( action == "YES" ) {
+        return query_ynq_result::yes;
+    }
+    return query_ynq_result::quit;
+}
+
 bool query_int( int &result, const std::string &text )
 {
     string_input_popup popup;
@@ -1263,35 +1292,6 @@ char rand_char()
             return '^';
     }
     return '?';
-}
-
-// this translates symbol y, u, n, b to NW, NE, SE, SW lines correspondingly
-// h, j, c to horizontal, vertical, cross correspondingly
-int special_symbol( int sym )
-{
-    switch( sym ) {
-        case 'j':
-            return LINE_XOXO;
-        case 'h':
-            return LINE_OXOX;
-        case 'c':
-            return LINE_XXXX;
-        case 'y':
-            return LINE_OXXO;
-        case 'u':
-            return LINE_OOXX;
-        case 'n':
-            return LINE_XOOX;
-        case 'b':
-            return LINE_XXOO;
-        default:
-            return sym;
-    }
-}
-
-int special_symbol( char sym )
-{
-    return special_symbol( static_cast<uint8_t>( sym ) );
 }
 
 template<typename Predicate>

@@ -2,7 +2,7 @@
   {
     "id": "1895sbl",
     "copy-from": "rifle_manual",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Marlin 1895 SBL" },
     "description": "A handy but powerful lever-action rifle chambered for .45-70 Government.  Designed for wilderness guides for defense against large predators such as grizzly bears, moose, and dinosaurs.",
@@ -44,7 +44,8 @@
     "description": "A massive single-action revolver.  While the .45-70 rifle round loses significant velocity in its short pistol barrel, it still competes with other large magnum handguns in terms of power.",
     "weight": "1950 g",
     "volume": "734 ml",
-    "longest_side": "491 mm",
+    "longest_side": "382 mm",
+    "barrel_length": "191 mm",
     "price": 105000,
     "price_postapoc": 2750,
     "to_hit": -2,
@@ -52,7 +53,7 @@
     "color": "dark_gray",
     "symbol": "(",
     "ammo": [ "4570" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -15 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -7 },
     "dispersion": 180,
     "durability": 8,
     "clip_size": 5,
@@ -71,7 +72,7 @@
   {
     "id": "sharps",
     "copy-from": "gun_base",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str_sp": "1874 Sharps" },
     "//": "Specs from Uberti 32in barrel Special",
@@ -103,7 +104,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "4570": 1 } } ],
     "melee_damage": { "bash": 12 }
   }

@@ -27,7 +27,7 @@ static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 
 // Test cases for `Character::fun_for` defined in `src/consumption.cpp`
 
-TEST_CASE( "fun for non-food", "[fun_for][nonfood]" )
+TEST_CASE( "fun_for_non-food", "[fun_for][nonfood]" )
 {
     avatar dummy;
     std::pair<int, int> actual_fun;
@@ -42,7 +42,7 @@ TEST_CASE( "fun for non-food", "[fun_for][nonfood]" )
     }
 }
 
-TEST_CASE( "fun for food eaten while sick", "[fun_for][food][sick]" )
+TEST_CASE( "fun_for_food_eaten_while_sick", "[fun_for][food][sick]" )
 {
     avatar dummy;
     std::pair<int, int> actual_fun;
@@ -72,7 +72,7 @@ TEST_CASE( "fun for food eaten while sick", "[fun_for][food][sick]" )
     }
 }
 
-TEST_CASE( "fun for rotten food", "[fun_for][food][rotten]" )
+TEST_CASE( "fun_for_rotten_food", "[fun_for][food][rotten]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -117,7 +117,7 @@ TEST_CASE( "fun for rotten food", "[fun_for][food][rotten]" )
 }
 
 // N.B. food that tastes better hot is `modify_morale` with different math
-TEST_CASE( "fun for cold food", "[fun_for][food][cold]" )
+TEST_CASE( "fun_for_cold_food", "[fun_for][food][cold]" )
 {
     avatar dummy;
     std::pair<int, int> actual_fun;
@@ -208,7 +208,7 @@ TEST_CASE( "fun for cold food", "[fun_for][food][cold]" )
     }
 }
 
-TEST_CASE( "fun for melted food", "[fun_for][food][melted]" )
+TEST_CASE( "fun_for_melted_food", "[fun_for][food][melted]" )
 {
     avatar dummy;
     std::pair<int, int> actual_fun;
@@ -239,7 +239,7 @@ TEST_CASE( "fun for melted food", "[fun_for][food][melted]" )
     */
 }
 
-TEST_CASE( "fun for cat food", "[fun_for][food][cat][feline]" )
+TEST_CASE( "fun_for_cat_food", "[fun_for][food][cat][feline]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -270,7 +270,7 @@ TEST_CASE( "fun for cat food", "[fun_for][food][cat][feline]" )
     }
 }
 
-TEST_CASE( "fun for dog food", "[fun_for][food][dog][lupine]" )
+TEST_CASE( "fun_for_dog_food", "[fun_for][food][dog][lupine]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -302,7 +302,7 @@ TEST_CASE( "fun for dog food", "[fun_for][food][dog][lupine]" )
     }
 }
 
-TEST_CASE( "fun for gourmand", "[fun_for][food][gourmand]" )
+TEST_CASE( "fun_for_gourmand", "[fun_for][food][gourmand]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -361,7 +361,7 @@ TEST_CASE( "fun for gourmand", "[fun_for][food][gourmand]" )
     }
 }
 
-TEST_CASE( "fun for food eaten too often", "[fun_for][food][monotony]" )
+TEST_CASE( "fun_for_food_eaten_too_often", "[fun_for][food][monotony]" )
 {
     avatar dummy;
     std::pair<int, int> actual_fun;
@@ -406,7 +406,7 @@ TEST_CASE( "fun for food eaten too often", "[fun_for][food][monotony]" )
     }
 }
 
-TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
+TEST_CASE( "fun_for_bionic_bio_taste_blocker", "[fun_for][food][bionic]" )
 {
     avatar dummy;
     dummy.set_body();

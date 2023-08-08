@@ -1,0 +1,311 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_BLEEDING_EOC",
+    "effect": {
+      "switch": { "math": [ "u_val('spell_level', 'spell: vita_stop_bleeding')" ] },
+      "cases": [
+        { "case": 0, "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_01" } } ] },
+        { "case": 6, "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_02" } } ] },
+        { "case": 12, "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_03" } } ] }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_SLEEP",
+    "effect": [ { "math": [ "u_val('sleep_deprivation')", "-=", "500" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_INFECTION_SWITCH",
+    "effect": {
+      "switch": { "math": [ "u_val('spell_level', 'spell: vita_stop_infection')" ] },
+      "cases": [
+        { "case": 0, "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_01" } } ] },
+        { "case": 6, "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_02" } } ] },
+        { "case": 12, "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_03" } } ] }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_MUTAGEN_PURGE",
+    "effect": [
+      { "math": [ "u_val('vitamin', 'name: mutagen')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_alpha')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_batrachian')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_beast')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_bird')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_cattle')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_cephalopod')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_chelator')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_chimera')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_crustacean')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_elfa')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_feline')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_fish')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_gastropod')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_human')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_insect')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_lizard')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_lupine')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_medical')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_mouse')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_plant')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_rabbit')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_raptor')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_rat')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_slime')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_spider')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_troglobite')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_ursine')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagenic_slurry')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutant_toxin')", "=", "0" ] },
+      { "math": [ "u_val('vitamin', 'name: mutagen_crustacean')", "=", "0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA",
+          "EOC_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE",
+          "EOC_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC",
+          "EOC_VITAKIN_BANISH_ILLNESS_JITTERY",
+          "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS",
+          "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING",
+          "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC",
+          "EOC_PORTAL_NULL_AWAKENING"
+        ],
+        "names": [
+          "Purge Asthma",
+          "Purge Chemical Imbalance",
+          "Purge Kaluptic Psychosis",
+          "Purge Jitters",
+          "Purge Mood Swings",
+          "Purge Wasting Sickness",
+          "Purge Narcolepsy",
+          "Nevermind"
+        ],
+        "keys": [ "1", "2", "3", "4", "5", "6", "7", "8" ],
+        "descriptions": [
+          "Attempt to cure your asthma.",
+          "Attempt to cure your chemical imbalance.",
+          "Attempt to cure your kaluptic psychosis",
+          "Attempt to cure your jitters",
+          "Attempt to cure your mood swings",
+          "Attempt to cure your weakening sickness",
+          "Attempt to cure your narcolepsy.  This meditation is extremely intensive, and is correspondingly more draining.",
+          "Do nothing for now."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA",
+    "condition": { "or": [ { "u_has_trait": "ASTHMA" }, { "u_has_effect": "effect_asthma_disease_absorbed" } ] },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_ASTHMA", "duration": "360 minutes" } ],
+    "false_effect": [ { "u_message": "You don't have asthma.  There is no need to attempt to cure it.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_ASTHMA",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA_RESULT",
+    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 12 },
+    "effect": [
+      { "u_message": "You breathe easily once again.", "type": "good" },
+      { "u_lose_trait": "ASTHMA" },
+      { "u_lose_effect": "effect_asthma_disease_absorbed" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 20,45 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 20,45 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE",
+    "condition": { "u_has_trait": "CHEMIMBALANCE" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE", "duration": "480 minutes" } ],
+    "false_effect": [ { "u_message": "You don't have a chemical imbalance.  There is no need to attempt to cure it.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE_RESULT",
+    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 14 },
+    "effect": [
+      { "u_message": "You body feels more normal.", "type": "good" },
+      { "u_lose_trait": "CHEMIMBALANCE" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 35,65 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 35,65 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC",
+    "condition": { "u_has_trait": "SCHIZOPHRENIC" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC", "duration": "600 minutes" } ],
+    "false_effect": [ { "u_message": "You don't have kaluptic psychosis.  There is no need to attempt to cure it.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC_RESULT",
+    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 16 },
+    "effect": [
+      { "u_message": "You mind feels more normal.", "type": "good" },
+      { "u_lose_trait": "SCHIZOPHRENIC" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 60,90 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 60,90 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_JITTERY",
+    "condition": { "u_has_trait": "JITTERY" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_JITTERY", "duration": "300 minutes" } ],
+    "false_effect": [ { "u_message": "You don't have muscle jitters.  There is no need to attempt to cure it.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_JITTERY",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_JITTERY_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_JITTERY_RESULT",
+    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 12 },
+    "effect": [
+      { "u_message": "You muscles stop trembling.", "type": "good" },
+      { "u_lose_trait": "JITTERY" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS",
+    "condition": { "u_has_trait": "MOODSWINGS" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_MOODSWINGS", "duration": "420 minutes" } ],
+    "false_effect": [ { "u_message": "You don't have mood swings.  There is no need to attempt to cure it.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_MOODSWINGS",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS_RESULT",
+    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 15 },
+    "effect": [
+      { "u_message": "You mood calms.", "type": "good" },
+      { "u_lose_trait": "MOODSWINGS" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING",
+    "condition": { "u_has_trait": "WEAKENING" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_WEAKENING", "duration": "480 minutes" } ],
+    "false_effect": [ { "u_message": "You don't have a weakening sickness.  There is no need to attempt to cure it.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_WEAKENING",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING_RESULT",
+    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 15 },
+    "effect": [
+      { "u_message": "New vigor fills your body.", "type": "good" },
+      { "u_lose_trait": "WEAKENING" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC",
+    "condition": { "u_has_trait": "NARCOLEPTIC" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC", "duration": "120 minutes" } ],
+    "false_effect": [ { "u_message": "You don't have narcolepsy.  There is no need to attempt to cure it.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC_RESULT",
+    "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 13 },
+    "effect": [
+      { "u_message": "New vigor fills your body.", "type": "good" },
+      { "u_lose_trait": "NARCOLEPTIC" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] }
+    ]
+  }
+]

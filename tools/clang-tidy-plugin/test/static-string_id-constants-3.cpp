@@ -1,19 +1,6 @@
-// RUN: %check_clang_tidy %s cata-static-string_id-constants %t -- --load=%cata_plugin -- -isystem %cata_include
+// RUN: %check_clang_tidy -allow-stdinc %s cata-static-string_id-constants %t -- --load=%cata_plugin -- -isystem %cata_include
 
-template<typename T>
-class string_id
-{
-    public:
-        template<typename S>
-        explicit string_id( S &&, int cid = -1 ) {
-        }
-};
-
-class activity_type;
-using activity_id = string_id<activity_type>;
-
-struct bionic_data;
-using bionic_id = string_id<bionic_data>;
+#include "type_id.h"
 
 static const bionic_id bio_cloak( "bio_cloak" );
 

@@ -25,6 +25,8 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::causes_resonance_cascade: return "causes_resonance_cascade";
         case event_type::character_consumes_item: return "character_consumes_item";
         case event_type::character_eats_item: return "character_eats_item";
+        case event_type::character_casts_spell: return "character_casts_spell";
+        case event_type::character_finished_activity: return "character_finished_activity";
         case event_type::character_forgets_spell: return "character_forgets_spell";
         case event_type::character_gains_effect: return "character_gains_effect";
         case event_type::character_gets_headshot: return "character_gets_headshot";
@@ -42,6 +44,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::character_ranged_attacks_monster:
                                                  return "character_ranged_attacks_monster";
         case event_type::character_smashes_tile: return "character_smashes_tile";
+        case event_type::character_starts_activity: return "character_starts_activity";
         case event_type::character_takes_damage: return "character_takes_damage";
         case event_type::character_triggers_trap: return "character_triggers_trap";
         case event_type::character_wakes_up: return "character_wakes_up";
@@ -88,6 +91,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::loses_addiction: return "loses_addiction";
         case event_type::npc_becomes_hostile: return "npc_becomes_hostile";
         case event_type::opens_portal: return "opens_portal";
+        case event_type::opens_spellbook: return "opens_spellbook";
         case event_type::opens_temple: return "opens_temple";
         case event_type::player_fails_conduct: return "player_fails_conduct";
         case event_type::player_gets_achievement: return "player_gets_achievement";
@@ -96,6 +100,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::releases_subspace_specimens: return "releases_subspace_specimens";
         case event_type::removes_cbm: return "removes_cbm";
         case event_type::seals_hazardous_material_sarcophagus: return "seals_hazardous_material_sarcophagus";
+        case event_type::spellcasting_finish: return "spellcasting_finish";
         case event_type::telefrags_creature: return "telefrags_creature";
         case event_type::teleglow_teleports: return "teleglow_teleports";
         case event_type::teleports_into_wall: return "teleports_into_wall";
@@ -128,7 +133,7 @@ DEFINE_EVENT_HELPER_FIELDS( event_spec_empty )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character_item )
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 91,
+static_assert( static_cast<int>( event_type::num_event_types ) == 96,
                "This static_assert is a reminder to add a definition below when you add a new "
                "event_type.  If your event_spec specialization inherits from another struct for "
                "its fields definition then you probably don't need a definition here." );
@@ -145,7 +150,9 @@ DEFINE_EVENT_FIELDS( avatar_moves )
 DEFINE_EVENT_FIELDS( broken_bone )
 DEFINE_EVENT_FIELDS( broken_bone_mends )
 DEFINE_EVENT_FIELDS( buries_corpse )
+DEFINE_EVENT_FIELDS( character_finished_activity )
 DEFINE_EVENT_FIELDS( character_forgets_spell )
+DEFINE_EVENT_FIELDS( character_casts_spell )
 DEFINE_EVENT_FIELDS( character_gains_effect )
 DEFINE_EVENT_FIELDS( character_heals_damage )
 DEFINE_EVENT_FIELDS( character_kills_character )
@@ -157,6 +164,7 @@ DEFINE_EVENT_FIELDS( character_melee_attacks_monster )
 DEFINE_EVENT_FIELDS( character_ranged_attacks_character )
 DEFINE_EVENT_FIELDS( character_ranged_attacks_monster )
 DEFINE_EVENT_FIELDS( character_smashes_tile )
+DEFINE_EVENT_FIELDS( character_starts_activity )
 DEFINE_EVENT_FIELDS( character_takes_damage )
 DEFINE_EVENT_FIELDS( character_triggers_trap )
 DEFINE_EVENT_FIELDS( character_wakes_up )
@@ -181,10 +189,12 @@ DEFINE_EVENT_FIELDS( installs_faulty_cbm )
 DEFINE_EVENT_FIELDS( learns_martial_art )
 DEFINE_EVENT_FIELDS( loses_addiction )
 DEFINE_EVENT_FIELDS( npc_becomes_hostile )
+DEFINE_EVENT_FIELDS( opens_spellbook )
 DEFINE_EVENT_FIELDS( player_fails_conduct )
 DEFINE_EVENT_FIELDS( player_gets_achievement )
 DEFINE_EVENT_FIELDS( player_levels_spell )
 DEFINE_EVENT_FIELDS( removes_cbm )
+DEFINE_EVENT_FIELDS( spellcasting_finish )
 DEFINE_EVENT_FIELDS( telefrags_creature )
 DEFINE_EVENT_FIELDS( teleports_into_wall )
 DEFINE_EVENT_FIELDS( uses_debug_menu )

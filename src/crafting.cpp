@@ -53,6 +53,7 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
 #include "options.h"
@@ -104,6 +105,7 @@ static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
 
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
@@ -207,8 +209,8 @@ static float lerped_multiplier( const T &value, const T &low, const T &high )
     return 1.0f + ( value - low ) * ( 0.25f - 1.0f ) / ( high - low );
 }
 
-static float workbench_crafting_speed_multiplier( const Character &you, const item &craft,
-        const std::optional<tripoint> &loc )
+float Character::workbench_crafting_speed_multiplier( const item &craft,
+        const std::optional<tripoint> &loc )const
 {
     float multiplier;
     units::mass allowed_mass;
@@ -226,7 +228,7 @@ static float workbench_crafting_speed_multiplier( const Character &you, const it
                    *loc ).part_with_feature( "WORKBENCH", true ) ) {
         // Vehicle workbench
         const vpart_info &vp_info = vp->part().info();
-        if( const std::optional<vpslot_workbench> &wb_info = vp_info.get_workbench_info() ) {
+        if( const std::optional<vpslot_workbench> &wb_info = vp_info.workbench_info ) {
             multiplier = wb_info->multiplier;
             allowed_mass = wb_info->allowed_mass;
             allowed_volume = wb_info->allowed_volume;
@@ -251,7 +253,7 @@ static float workbench_crafting_speed_multiplier( const Character &you, const it
     const units::mass &craft_mass = craft.weight();
     const units::volume &craft_volume = craft.volume();
 
-    units::mass lifting_mass = you.best_nearby_lifting_assist();
+    units::mass lifting_mass = best_nearby_lifting_assist();
 
     if( lifting_mass > craft_mass ) {
         return multiplier;
@@ -275,7 +277,8 @@ float Character::crafting_speed_multiplier( const recipe &rec ) const
 }
 
 float Character::crafting_speed_multiplier( const item &craft,
-        const std::optional<tripoint> &loc ) const
+        const std::optional<tripoint> &loc, bool use_cached_workbench_multiplier,
+        float cached_workbench_multiplier ) const
 {
     if( !craft.is_craft() ) {
         debugmsg( "Can't calculate crafting speed multiplier of non-craft '%s'", craft.tname() );
@@ -285,7 +288,9 @@ float Character::crafting_speed_multiplier( const item &craft,
     const recipe &rec = craft.get_making();
 
     const float light_multi = lighting_craft_speed_multiplier( rec );
-    const float bench_multi = workbench_crafting_speed_multiplier( *this, craft, loc );
+    const float bench_multi = ( use_cached_workbench_multiplier ||
+                                cached_workbench_multiplier > 0.0f ) ? cached_workbench_multiplier :
+                              workbench_crafting_speed_multiplier( craft, loc );
     const float morale_multi = morale_crafting_speed_multiplier( rec );
     const float mut_multi = mutation_value( "crafting_speed_multiplier" );
 
@@ -298,7 +303,7 @@ float Character::crafting_speed_multiplier( const item &craft,
     }
     if( bench_multi <= 0.1f || ( bench_multi <= 0.33f && total_multi <= 0.2f ) ) {
         add_msg_if_player( m_bad, _( "The %s is too large and/or heavy to work on.  You may want to"
-                                     " use a workbench or a lifting tool" ), craft.tname() );
+                                     " use a workbench or a lifting tool." ), craft.tname() );
         return 0.0f;
     }
     if( morale_multi <= 0.2f || ( morale_multi <= 0.33f && total_multi <= 0.2f ) ) {
@@ -515,9 +520,8 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
             }
         }
 
-        if( const std::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
-                true ) ) {
-            for( const item &it : vp->vehicle().get_items( vp->part_index() ) ) {
+        if( const std::optional<vpart_reference> vp = here.veh_at( loc ).cargo() ) {
+            for( const item &it : vp->items() ) {
                 std::vector<const item *> eligible = get_eligible_containers_recursive( it, true );
                 conts.insert( conts.begin(), eligible.begin(), eligible.end() );
             }
@@ -571,7 +575,8 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     if( src_pos == tripoint_zero ) {
         inv_pos = pos();
     }
-    if( moves == crafting_cache.moves
+    if( crafting_cache.valid
+        && moves == crafting_cache.moves
         && radius == crafting_cache.radius
         && calendar::turn == crafting_cache.time
         && inv_pos == crafting_cache.position ) {
@@ -612,6 +617,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         *crafting_cache.crafting_inventory += item( "shovel", calendar::turn );
     }
 
+    crafting_cache.valid = true;
     crafting_cache.moves = moves;
     crafting_cache.time = calendar::turn;
     crafting_cache.position = inv_pos;
@@ -621,7 +627,8 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
 
 void Character::invalidate_crafting_inventory()
 {
-    crafting_cache.time = calendar::before_time_starts;
+    crafting_cache.valid = false;
+    crafting_cache.crafting_inventory->clear();
 }
 
 void Character::make_craft( const recipe_id &id_to_make, int batch_size,
@@ -708,18 +715,16 @@ static item_location set_item_map( const tripoint &loc, item &newit )
 static item_location set_item_map_or_vehicle( const Character &p, const tripoint &loc, item &newit )
 {
     map &here = get_map();
-    if( const std::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
-            false ) ) {
-
-        if( const std::optional<vehicle_stack::iterator> it = vp->vehicle().add_item( vp->part_index(),
-                newit ) ) {
+    if( const std::optional<vpart_reference> vp = here.veh_at( loc ).cargo() ) {
+        vehicle &veh = vp->vehicle();
+        if( const std::optional<vehicle_stack::iterator> it = veh.add_item( vp->part(), newit ) ) {
             p.add_msg_player_or_npc(
                 //~ %1$s: name of item being placed, %2$s: vehicle part name
                 pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
                 pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
                 ( *it )->tname(), vp->part().name() );
 
-            return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), & **it );
+            return item_location( vehicle_cursor( veh, vp->part_index() ), & **it );
         }
 
         // Couldn't add the in progress craft to the target part, so drop it to the map.
@@ -769,7 +774,7 @@ static item_location place_craft_or_disassembly(
             }
         } else if( const std::optional<vpart_reference> vp = here.veh_at(
                        adj ).part_with_feature( "WORKBENCH", true ) ) {
-            if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+            if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().workbench_info ) {
                 if( wb_info->multiplier > best_bench_multi ) {
                     best_bench_multi = wb_info->multiplier;
                     target = adj;
@@ -997,9 +1002,10 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     // The primary required skill counts extra compared to the secondary skills, before factoring in the
     // weight added by the required level.
     const float weighted_skill_average =
-        ( ( 2.0f * making.difficulty * get_skill_level( making.skill_used ) ) + secondary_skill_total ) /
+        ( ( 2.0f * std::max( making.difficulty,
+                             1 ) * get_skill_level( making.skill_used ) ) + secondary_skill_total ) /
         // No DBZ
-        std::max( 1.f, ( 2.0f * making.difficulty + secondary_difficulty ) );
+        std::max( 1.f, ( 2.0f * std::max( making.difficulty, 1 ) + secondary_difficulty ) );
     add_msg_debug( debugmode::DF_CRAFTING, "Weighted skill average: %g", weighted_skill_average );
 
     float total_skill_modifiers = 0.0f;
@@ -1124,7 +1130,7 @@ Character::craft_roll_data Character::recipe_success_roll_data( const recipe &ma
     }
 
     // Let's just be careful, I don't want to touch a negative stddev
-    crafting_stddev = std::max( crafting_stddev, 0.f );
+    crafting_stddev = std::max( crafting_stddev, 1.f );
 
     craft_roll_data ret;
     ret.center = weighted_skill_average;
@@ -1132,7 +1138,7 @@ Character::craft_roll_data Character::recipe_success_roll_data( const recipe &ma
     ret.final_difficulty = final_difficulty + 1;
     if( has_trait( trait_DEBUG_CNF ) ) {
         ret.center = 2.f;
-        ret.stddev = 0.f;
+        ret.stddev = std::numeric_limits<decltype( ret.stddev )>::epsilon();
         ret.final_difficulty = 0.f;
     }
     return ret;
@@ -1168,39 +1174,6 @@ float Character::crafting_failure_roll( const recipe &making ) const
                    data.final_difficulty );
 
     return std::max( craft_roll, 0.0f );
-}
-
-// Returns the area under a curve with provided standard deviation and center
-// from difficulty to positive to infinity. That is, the chance that a normal roll on
-// said curve will return a value of difficulty or greater.
-static float normal_roll_chance( float center, float stddev, float difficulty )
-{
-    cata_assert( stddev >= 0.f );
-    // We're going to be using them a lot, so let's name our variables.
-    // M = the given "center" of the curve
-    // S = the given standard deviation of the curve
-    // A = the difficulty
-    // So, the equation of the normal curve is...
-    // y = (1.f/(S*std::sqrt(2 * M_PI))) * exp(-(std::pow(x - M, 2))/(2 * std::pow(S, 2)))
-    // Thanks to wolfram alpha, we know the integral of that from A to B to be
-    // 0.5 * (erf((M-A)/(std::sqrt(2) * S)) - erf((M-B)/(std::sqrt(2) * S)))
-    // And since we know B to be infinity, we can simplify that to
-    // 0.5 * (erfc((A-m)/(std::sqrt(2)* S))+sgn(S)-1) (as long as S != 0)
-    // Wait a second, what are erf, erfc and sgn?
-    // Oh, those are the error function, complementary error function, and sign function
-    // Luckily, erf() is provided to us in math.h, and erfc is just 1 - erf
-    // Sign is pretty obvious x > 0 ? x == 0 ? 0 : 1 : -1;
-    // Since we know S will always be > 0, that term vanishes.
-
-    // With no standard deviation, we will always return center
-    if( stddev == 0.f ) {
-        return ( center > difficulty ) ? 1.f : 0.f;
-    }
-
-    float numerator = difficulty - center;
-    float denominator = std::sqrt( 2 ) * stddev;
-    float compl_erf = 1.f - std::erf( numerator / denominator );
-    return 0.5 * compl_erf;
 }
 
 float Character::recipe_success_chance( const recipe &making ) const
@@ -1287,6 +1260,9 @@ bool item::handle_craft_failure( Character &crafter )
             continue;
         }
         destroy_random_component( *this, crafter );
+        if( crafter.has_trait( trait_INT_ALPHA ) ) {
+            crafter.add_morale( MORALE_FAILURE, -10, -50, 10_hours, 5_hours );
+        }
     }
     if( starting_components > 0 && this->components.empty() ) {
         // The craft had components and all of them were destroyed.
@@ -1302,6 +1278,12 @@ bool item::handle_craft_failure( Character &crafter )
         crafter.add_msg_player_or_npc( _( "You mess up and lose %d%% progress." ),
                                        _( "<npcname> messes up and loses %d%% progress." ), progress_loss / 100000 );
         item_counter = clamp( item_counter - progress_loss, 0, 10000000 );
+        if( crafter.has_trait( trait_INT_ALPHA ) ) {
+            crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ),
+                                           _( "Ugh, this should be EASY with how smart you are!" ),
+                                           _( "<npcname> seems to get really upset over this." ) );
+            crafter.add_morale( MORALE_FAILURE, -10, -50, 10_hours, 5_hours );
+        }
     }
 
     set_next_failure_point( crafter );
@@ -1949,10 +1931,24 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     if( has_trait( trait_DEBUG_HS ) ) {
         return ret;
     }
+    // populate a grid of spots that can be reached
+    std::vector<tripoint> reachable_pts;
+    m.reachable_flood_steps( reachable_pts, origin, radius, 1, 100 );
+    return consume_items( m, is, batch, filter, reachable_pts, select_ind );
+}
+
+std::list<item> Character::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
+        const std::function<bool( const item & )> &filter, const std::vector<tripoint> &reachable_pts,
+        bool select_ind )
+{
+    std::list<item> ret;
+
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return ret;
+    }
 
     item_comp selected_comp = is.comp;
 
-    const tripoint &loc = origin;
     const bool by_charges = item::count_by_charges( selected_comp.type ) && selected_comp.count > 0;
     // Count given to use_amount/use_charges, changed by those functions!
     int real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : std::abs(
@@ -1960,10 +1956,10 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     // First try to get everything from the map, than (remaining amount) from player
     if( is.use_from & usage_from::map ) {
         if( by_charges ) {
-            std::list<item> tmp = m.use_charges( loc, radius, selected_comp.type, real_count, filter );
+            std::list<item> tmp = m.use_charges( reachable_pts, selected_comp.type, real_count, filter );
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = m.use_amount( loc, radius, selected_comp.type, real_count, filter,
+            std::list<item> tmp = m.use_amount( reachable_pts, selected_comp.type, real_count, filter,
                                                 select_ind );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
@@ -1993,6 +1989,8 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     }
     for( item &it : ret ) {
         it.spill_contents( *this );
+        // todo: make a proper solution that overflows with the proper item_location
+        it.overflow( pos() );
     }
     empty_buckets( *this );
     return ret;
@@ -2281,6 +2279,29 @@ void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, in
         // Map::use_charges() does not handle UPS charges.
         if( quantity > 0 ) {
             use_charges( tool.comp.type, quantity, radius );
+        }
+    }
+
+    // else, usage_from::none (or usage_from::cancel), so we don't use up any tools;
+}
+
+void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
+                               const std::vector<tripoint> &reachable_pts, basecamp *bcp )
+{
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return;
+    }
+    const itype *tmp = item::find_type( tool.comp.type );
+    int quantity = tool.comp.count * batch * tmp->charge_factor();
+
+    if( tool.use_from == usage_from::player || tool.use_from == usage_from::both ) {
+        use_charges( tool.comp.type, quantity );
+    }
+    if( tool.use_from == usage_from::map || tool.use_from == usage_from::both ) {
+        m.use_charges( reachable_pts, tool.comp.type, quantity, return_true<item>, bcp );
+        // Map::use_charges() does not handle UPS charges.
+        if( quantity > 0 ) {
+            m.consume_ups( reachable_pts, units::from_kilojoule( quantity ) );
         }
     }
 
@@ -2857,7 +2878,8 @@ void drop_or_handle( const item &newit, Character &p )
 void remove_ammo( item &dis_item, Character &p )
 {
     dis_item.remove_items_with( [&p]( const item & it ) {
-        if( it.is_irremovable() || !( it.is_gunmod() || it.is_toolmod() || it.is_magazine() ) ) {
+        if( it.is_irremovable() || !( it.is_gunmod() || it.is_toolmod() || ( it.is_magazine() &&
+                                      !it.is_tool() ) ) ) {
             return false;
         }
         drop_or_handle( it, p );

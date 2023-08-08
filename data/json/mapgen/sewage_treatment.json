@@ -138,7 +138,7 @@
       { "item": "sewage", "container-item": "flask_glass", "charges": 1, "prob": 50 },
       { "item": "water", "container-item": "flask_glass", "charges": 1, "prob": 50 },
       { "item": "water_clean", "container-item": "flask_glass", "charges": 1, "prob": 30 },
-      { "item": "slime_scrap", "container-item": "flask_glass", "charges": 1, "prob": 10 }
+      { "prob": 10, "group": "slime_scrap_flask_glass_1" }
     ]
   },
   {
@@ -296,7 +296,7 @@
         "                         -...................-  ",
         "                         -...................-  ",
         "                         -.................HHH  ",
-        "                         -.................BvH  ",
+        "                         -.................+vH  ",
         "                         -.................HHH  ",
         "                         -...................-  ",
         "                         -...................-  ",
@@ -337,7 +337,7 @@
         "                                                "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "X": "t_radio_tower", "H": "t_sconc_wall", "B": "t_door_metal_c" },
+      "terrain": { "X": "t_radio_tower", "H": "t_sconc_wall" },
       "place_nested": [
         {
           "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 50 ], [ "roof_4x4_utility_1", 40 ] ],
@@ -604,5 +604,13 @@
       { "item": "bone_human", "prob": 90, "count-min": 1, "count-max": 5 },
       { "item": "cotton_patchwork", "prob": 90, "count-min": 1, "count-max": 4, "custom-flags": [ "FILTHY" ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "slime_scrap_flask_glass_1",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "flask_glass",
+    "entries": [ { "item": "slime_scrap" } ]
   }
 ]

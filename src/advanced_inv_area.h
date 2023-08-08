@@ -24,7 +24,7 @@ enum aim_location : char {
     AIM_DRAGGED,
     AIM_ALL,
     AIM_CONTAINER,
-    AIM_CONTAINER2,
+    AIM_PARENT,
     AIM_WORN,
     NUM_AIM_LOCATIONS,
     // only useful for AIM_ALL
@@ -35,6 +35,7 @@ enum aim_location : char {
 class advanced_inv_listitem;
 class item;
 class vehicle;
+class vehicle_stack;
 
 /**
  * Defines the source of item stacks.
@@ -102,5 +103,7 @@ class advanced_inv_area
         void set_container_position();
         aim_location offset_to_location() const;
         bool can_store_in_vehicle() const;
+        // @return vehicle_stack for this area, call only if can_store_in_vehicle is true
+        vehicle_stack get_vehicle_stack() const;
 };
 #endif // CATA_SRC_ADVANCED_INV_AREA_H

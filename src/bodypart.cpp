@@ -29,8 +29,6 @@ const bodypart_str_id body_part_leg_r( "leg_r" );
 const bodypart_str_id body_part_mouth( "mouth" );
 const bodypart_str_id body_part_torso( "torso" );
 
-static const efftype_id effect_grabbing_appendix( "grabbing_appendix" );
-
 const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
 
 side opposite_side( side s )
@@ -404,7 +402,6 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
 
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "conditional_flags", conditional_flags );
-    optional( jo, was_loaded, "grabbing_effect", grabbing_effect, effect_grabbing_appendix );
 
     optional( jo, was_loaded, "encumbrance_threshold", encumbrance_threshold, 0 );
     optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit, 100 );

@@ -11,9 +11,6 @@
     "price_postapoc": 1000000,
     "symbol": "*",
     "color": "green",
-    "initial_charges": 5,
-    "max_charges": 5,
-    "turns_per_charge": 1,
     "flags": [ "BOMB", "DANGEROUS" ]
   },
   {
@@ -106,7 +103,6 @@
   },
   {
     "id": "test_rollerskates",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of rollerskates", "str_pl": "pairs of rollerskates" },
     "description": "An old-fashioned pair of leather rollerskates with steel frames.  While quite fast on flat floors, they make it difficult to take hits or to move on rough terrain.",
@@ -128,7 +124,6 @@
   },
   {
     "id": "test_roller_blades",
-    "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of rollerblades", "str_pl": "pairs of rollerblades" },
     "description": "A pair of inline skates.  Very fast on flat floors, but they make it hard to move on rough terrain, take hits, or dodge effectively.",
@@ -325,6 +320,7 @@
     "name": { "str": "electric shears (off)" },
     "description": "This is a set of electric shears designed to obtain wool from sheep.",
     "qualities": [  ],
+    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "msg": "Your %s activates.",
@@ -1137,8 +1133,67 @@
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "test_tail" ] } ]
   },
   {
+    "id": "test_eoc_armor_suit",
+    "type": "ARMOR",
+    "name": "TEST hazmat suit",
+    "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
+    "weight": "5000 g",
+    "volume": "17 L",
+    "price": 117500,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "beekeeping_suit",
+    "color": "yellow",
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 37,
+        "coverage": 100,
+        "covers": [ "eyes", "mouth", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "test_hazmat_hat",
+    "type": "ARMOR",
+    "name": "TEST hazmat hat",
+    "description": ".",
+    "weight": "5000 g",
+    "volume": "17 L",
+    "price": 117500,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "beekeeping_suit",
+    "color": "yellow",
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER" ],
+    "armor": [ { "encumbrance": 37, "coverage": 100, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "test_hazmat_shirt",
+    "type": "ARMOR",
+    "name": "TEST hazmat shirt",
+    "description": ".",
+    "weight": "5000 g",
+    "volume": "17 L",
+    "price": 117500,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "beekeeping_suit",
+    "color": "yellow",
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER" ],
+    "armor": [ { "encumbrance": 37, "coverage": 100, "covers": [ "torso" ] } ]
+  },
+  {
     "id": "test_hazmat_suit",
-    "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "name": "TEST hazmat suit",
     "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
@@ -1163,7 +1218,6 @@
   },
   {
     "id": "test_hazmat_suit_noranged",
-    "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "name": "TEST hazmat suit",
     "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
@@ -1191,7 +1245,6 @@
   },
   {
     "id": "test_hazmat_suit_nomelee",
-    "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "name": "TEST hazmat suit",
     "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
@@ -1290,6 +1343,29 @@
     ]
   },
   {
+    "id": "test_zentai_resist_stab_cut",
+    "type": "ARMOR",
+    "name": { "str": "test zentai" },
+    "description": "Full-body suit completely covering all body parts, including the head, mouth, and eyes.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": 2500,
+    "price_postapoc": 50,
+    "material": [ "lycra_resist_override_stab" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 20,
+    "material_thickness": 1,
+    "environmental_protection": 10,
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
     "id": "test_zentai_resist_test_fire",
     "type": "ARMOR",
     "name": { "str": "test zentai" },
@@ -1335,7 +1411,6 @@
   },
   {
     "id": "test_sunglasses",
-    "repairs_like": "goggles_swim",
     "type": "ARMOR",
     "name": { "str": "test pair of sunglasses", "str_pl": "test pairs of sunglasses" },
     "description": "When your tests are so bright, you have to wear shades.",
@@ -1377,6 +1452,116 @@
           { "type": "qt_steel", "covered_by_mat": 5, "thickness": 1 }
         ],
         "encumbrance": 7
+      }
+    ]
+  },
+  {
+    "id": "test_waist_apron_long",
+    "type": "ARMOR",
+    "name": { "str": "long waist apron" },
+    "description": "A long waist apron made of cotton.",
+    "price_postapoc": 50,
+    "to_hit": 1,
+    "symbol": "[",
+    "looks_like": "vest_leather",
+    "volume": "1750 ml",
+    "weight": "226 g",
+    "price": 1000,
+    "material": [ "cotton" ],
+    "color": "white",
+    "warmth": 2,
+    "material_thickness": 2,
+    "environmental_protection": 1,
+    "flags": [ "POCKETS", "BELTED" ],
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 70,
+        "encumbrance": 2,
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_apron_cotton",
+        "name": { "str": "long waist apron" },
+        "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
+        "weight": 50,
+        "append": true
+      },
+      {
+        "id": "black_apron_cotton",
+        "name": { "str": "black long waist apron" },
+        "description": "It's colored black, commonly used by chefs working in the night or who just want to look cool.",
+        "color": "dark_gray",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "blue_apron_cotton",
+        "name": { "str": "blue long waist apron" },
+        "description": "It's a royal blue color, commonly used by supermarket workers around the world.",
+        "color": "blue",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "red_apron_cotton",
+        "name": { "str": "red long waist apron" },
+        "description": "It's colored red.",
+        "color": "red",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pink_apron_cotton",
+        "name": { "str": "pink long waist apron" },
+        "description": "It's colored neon pink, commonly used by women or men who like pink.",
+        "color": "pink",
+        "weight": 3,
+        "append": true
+      },
+      {
+        "id": "floral_apron_cotton",
+        "name": { "str": "floral long waist apron" },
+        "description": "It has a floral design and colored yellow, perfect for cooking outdoors.",
+        "color": "yellow",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "camo_apron_cotton",
+        "name": { "str": "camo long waist apron" },
+        "description": "It has a camouflage pattern, perfect for chefs who want to hide in the wild.",
+        "color": "green",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "skull_apron",
+        "name": { "str": "skull long waist apron" },
+        "description": "It's colored black with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
+        "color": "dark_gray",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "maid_apron",
+        "name": { "str": "maid long waist apron" },
+        "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "gothic_apron",
+        "name": { "str": "gothic long waist apron" },
+        "description": "It has a jet-black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
+        "color": "light_red",
+        "weight": 1,
+        "append": true
       }
     ]
   },
@@ -1455,6 +1640,8 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 4,
+    "//": "stackable to keep the test using this item working",
+    "stackable": true,
     "vitamins": [ [ "iron", 9 ] ],
     "fun": 2
   },
@@ -1842,7 +2029,6 @@
   },
   {
     "id": "test_briefcase",
-    "repairs_like": "backpack_hiking",
     "type": "ARMOR",
     "name": "TEST briefcase",
     "description": "Useful for carrying money, documents, or smuggled goods.",
@@ -2251,6 +2437,7 @@
     "phase": "liquid",
     "weight": "250 g",
     "volume": "250 ml",
+    "charges": 1,
     "price": 50,
     "symbol": "~",
     "color": "light_blue"
@@ -2464,6 +2651,7 @@
     "price_postapoc": 50,
     "material": [ "milk" ],
     "volume": "250 ml",
+    "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ] ],
@@ -2545,6 +2733,7 @@
     "volume": "250 ml",
     "price": 100,
     "price_postapoc": 100,
+    "stackable": true,
     "charges": 10,
     "stack_size": 100,
     "symbol": "*",
@@ -2575,6 +2764,7 @@
     "//": "*May* have been commercially traded.",
     "material": [ "flesh" ],
     "volume": "250 ml",
+    "stackable": true,
     "charges": 2,
     "stack_size": 4,
     "vitamins": [  ],
@@ -2604,6 +2794,7 @@
     "volume": "100 ml",
     "price_postapoc": 500,
     "material": [ "flesh" ],
+    "stackable": true,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 3 ] ],
@@ -2695,7 +2886,6 @@
   {
     "id": "test_power_armor_on",
     "copy-from": "test_power_armor",
-    "repairs_like": "test_power_armor",
     "looks_like": "test_power_armor",
     "type": "TOOL_ARMOR",
     "name": { "str": "test power armor (on)" },
@@ -2774,7 +2964,6 @@
   },
   {
     "id": "test_swat_armor",
-    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "SWAT armor" },
@@ -3110,6 +3299,7 @@
     "volume": "100 ml",
     "price": 500,
     "price_postapoc": 2000,
+    "stackable": true,
     "charges": 20,
     "stack_size": 20,
     "symbol": "!",
@@ -3549,6 +3739,35 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] }
   },
   {
+    "id": "test_knife_combat",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "combat knife", "str_pl": "combat knives" },
+    "description": "A military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.",
+    "weight": "558 g",
+    "volume": "500 ml",
+    "longest_side": "30 cm",
+    "price": 10000,
+    "price_postapoc": 1250,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "gunmod_data": {
+      "location": "underbarrel",
+      "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "install_time": "5 s"
+    },
+    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
+    "techniques": [ "RAPID" ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
+    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 4, "stab": 26 }
+  },
+  {
     "id": "test_armor_chitin",
     "type": "ARMOR",
     "category": "armor",
@@ -3692,7 +3911,6 @@
   },
   {
     "id": "test_jacket_jean",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "jean jacket" },
     "description": "A jacket made from denim.",
@@ -3730,7 +3948,6 @@
   },
   {
     "id": "test_postman_shirt",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "mail carrier shirt" },
     "description": "A light blue button down shirt with a couple of pockets in front and the US postal service logo embroidered on it.",
@@ -3765,7 +3982,6 @@
   },
   {
     "id": "test_boxing_gloves",
-    "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of boxing gloves", "str_pl": "pairs of boxing gloves" },
     "description": "A pair of big, red, 8 oz. boxing gloves.  These are made from thick leather.",
@@ -3856,7 +4072,6 @@
   {
     "id": "test_winglets",
     "//": "Only for the test wing body parts",
-    "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of gauntlets", "str_pl": "pairs of gauntlets" },
     "description": "A pair of big, red, 8 oz. gauntlets.  These are made from thick leather.",
@@ -3879,7 +4094,6 @@
     "id": "test_robofac_armor_rig",
     "type": "ARMOR",
     "category": "ARMOR",
-    "repairs_like": "coat_rain",
     "looks_like": "poncho",
     "name": { "str": "Hub 01 modular defense system" },
     "description": "A custom-designed extremely thick ripstop and aramid poncho for the true frontier explorer.  Striped in brown and blue, the white seal of Hub 01 is emblazoned proudly on the front.  Integrating quick access pouches attached to a waist drawstring and two waterproof internal dry bags it touts plenty of storage.  This poncho also has notable clips and velcro just below the waist and around the shoulders, perhaps something attaches there.",
@@ -3980,7 +4194,6 @@
   },
   {
     "id": "test_load_bearing_vest",
-    "repairs_like": "tacvest",
     "type": "ARMOR",
     "name": { "str": "load bearing vest" },
     "description": "This vest covered in MOLLE webbing is designed to attach pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.",
@@ -4079,6 +4292,126 @@
     ]
   },
   {
+    "id": "test_complex_phase",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "light_gray",
+    "name": { "str": "phase immersion suit" },
+    "looks_like": "rm13_armor",
+    "description": "Covered in interlocking plates of reflective metal, this advanced suit resembles both plate armor and an astronaut's spacesuit.  Designed to protect its wearer during extradimensional excursions, it offers unparalleled environmental protection, both in this Earth and beyond.  Use it to turn it on.",
+    "price": 150000,
+    "price_postapoc": 15000,
+    "material": [ "carbide", "qt_steel", "lvl4ballisticglass", "superalloy" ],
+    "weight": "9500 g",
+    "volume": "4500 ml",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 7000 } } ],
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "Initiating\nRunning suit integrity diagnostics…\nAll systems operational.",
+      "target": "phase_immersion_suit_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "Warning: Operating on minimal power.  Protection compromised."
+    },
+    "warmth": 30,
+    "environmental_protection": 10,
+    "material_thickness": 3,
+    "flags": [
+      "RAD_PROOF",
+      "PORTAL_PROOF",
+      "STURDY",
+      "WATERPROOF",
+      "HYGROMETER",
+      "THERMOMETER",
+      "RAINPROOF",
+      "WATCH",
+      "ALARMCLOCK",
+      "SWIM_GOGGLES",
+      "SUN_GLASSES",
+      "NO_REPAIR",
+      "NANOFAB_REPAIR",
+      "PADDED",
+      "USE_UPS",
+      "NO_UNLOAD",
+      "COMBAT_TOGGLEABLE",
+      "UNBREAKABLE_MELEE"
+    ],
+    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_all" } ] },
+    "armor": [
+      {
+        "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "mouth", "eyes" ],
+        "layers": [ "OUTER" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 60, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 30, "thickness": 1.0 },
+          { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "//": "no weight is directly on your head",
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "head" ],
+        "layers": [ "OUTER" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 80, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 40, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 40, "thickness": 1.0 }
+        ],
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 60, "thickness": 1.0 }
+        ],
+        "//": "hands are lighter armored",
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 80, "thickness": 3.0 }
+        ],
+        "//": "feet are heavier armored",
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "layers": [ "NORMAL", "OUTER" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 75, "thickness": 0.5 },
+          { "type": "superalloy", "covered_by_mat": 40, "thickness": 0.5 },
+          { "type": "superalloy", "covered_by_mat": 40, "thickness": 0.5 }
+        ],
+        "//": "limbs are lighter armored than torso but still strongly armored this is the non joints so extra hardsteel",
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
     "id": "test_ghost_vest",
     "type": "ARMOR",
     "category": "armor",
@@ -4135,9 +4468,56 @@
         "moves": 200,
         "description": "Pocket for left side plate",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200,
+        "description": "Pocket for skirt",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       }
     ],
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
+  },
+  {
+    "id": "test_plate_skirt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ESAPI ballistic plate" },
+    "description": "A polygonal ceramic ballistic plate with a slightly concave profile.  Its inner surface is coated with Ultra High Molecular Weight Polyethylene, and is labeled \"TOP\", while its outer surface is labeled \"STRIKE FACE\".  This is intended to be worn in a ballistic vest and can withstand several high energy rifle rounds before breaking.",
+    "weight": "2500 g",
+    "volume": "1533 ml",
+    "price": 60000,
+    "price_postapoc": 100,
+    "material": [ "ceramic" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 25,
+    "non_functional": "destroyed_large_ceramic_plate",
+    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
+    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "leg_l" ], "specifically_covers": [ "leg_hip_l" ] } ]
+  },
+  {
+    "id": "test_plate_skirt_super",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "Super Leg Skirt" },
+    "//": "this item is designed to check that off limb ablative armor protects the player",
+    "description": "A polygonal ceramic ballistic plate with a slightly concave profile.  Its inner surface is coated with Ultra High Molecular Weight Polyethylene, and is labeled \"TOP\", while its outer surface is labeled \"STRIKE FACE\".  This is intended to be worn in a ballistic vest and can withstand several high energy rifle rounds before breaking.",
+    "weight": "2500 g",
+    "volume": "1533 ml",
+    "price": 60000,
+    "price_postapoc": 100,
+    "material": [ "ceramic" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 1000,
+    "non_functional": "destroyed_large_ceramic_plate",
+    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "leg_l" ] } ]
   },
   {
     "id": "test_plate",
@@ -4194,7 +4574,6 @@
   },
   {
     "id": "test_consolidate",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "Item that should be simpler" },
     "description": "This item should have only 1 armor entry in game since these three are identical.",
@@ -4347,5 +4726,22 @@
       }
     ],
     "melee_damage": { "bash": 8 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_rock_cheese",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "TEST rock cheese" },
+    "description": "A rock that runs into cheese via timer.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "stone" ],
+    "weight": "100 g",
+    "volume": "250 ml",
+    "to_hit": -3,
+    "melee_damage": { "bash": 1 },
+    "revert_to": "cheese_hard"
   }
 ]

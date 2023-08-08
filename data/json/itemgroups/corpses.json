@@ -20,7 +20,7 @@
       { "group": "clothing_military_pilot", "prob": 65, "damage-min": 1, "damage-max": 4 },
       { "group": "gear_soldier_sidearm", "prob": 30, "damage-min": 1, "damage-max": 4 },
       { "item": "two_way_radio", "prob": 50, "charges": [ 0, 100 ], "damage-min": 1, "damage-max": 4 },
-      { "item": "adderall", "prob": 40 },
+      { "prob": 40, "group": "adderall_bottle_plastic_pill_prescription_10" },
       { "group": "wallets_military", "prob": 5 },
       { "item": "militarymap", "prob": 5 },
       { "group": "mil_food", "prob": 15 },
@@ -84,42 +84,70 @@
   {
     "id": "corpses",
     "type": "item_group",
-    "items": [
-      [ "corpse_generic_male", 80 ],
-      [ "corpse_generic_female", 80 ],
-      [ "corpse_generic_boy", 15 ],
-      [ "corpse_generic_girl", 15 ],
-      [ "corpse_generic_human", 10 ],
-      [ "corpse_generic_gunned", 40 ],
-      [ "corpse_generic_infected", 40 ],
-      [ "corpse_bloody", 10 ],
-      [ "corpse_painful", 10 ],
-      [ "corpse_scorched", 10 ],
-      [ "corpse_stabbed", 10 ],
-      [ "corpse_gunned", 10 ],
-      [ "corpse_halved_upper", 10 ],
-      [ "corpse_half_beheaded", 10 ],
-      [ "corpse_child_calm", 10 ],
-      [ "corpse_child_gunned", 10 ],
-      [ "corpse_oldwoman_jewelry", 10 ]
+    "//": "Damage based off descriptions",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "corpse_generic_male", "prob": 80, "damage": [ 0, 1 ] },
+      { "group": "corpse_generic_female", "prob": 80, "damage": [ 0, 1 ] },
+      { "group": "corpse_generic_boy", "prob": 15, "damage": [ 0, 1 ] },
+      { "group": "corpse_generic_girl", "prob": 15, "damage": [ 0, 1 ] },
+      { "group": "corpse_generic_human", "prob": 10, "damage": [ 0, 1 ] },
+      { "group": "corpse_generic_gunned", "prob": 40, "damage": [ 1, 3 ] },
+      { "group": "corpse_generic_infected", "prob": 40 },
+      { "group": "corpse_bloody", "prob": 10, "damage": [ 1, 3 ] },
+      { "group": "corpse_painful", "prob": 10, "damage": [ 0, 2 ] },
+      { "group": "corpse_scorched", "prob": 10, "damage": [ 3, 4 ] },
+      { "group": "corpse_stabbed", "prob": 10, "damage": [ 1, 3 ] },
+      { "group": "corpse_gunned", "prob": 10, "damage": [ 1, 3 ] },
+      { "group": "corpse_halved_upper", "prob": 10, "damage": 4 },
+      { "group": "corpse_half_beheaded", "prob": 10, "damage": 4 },
+      { "group": "corpse_child_calm", "prob": 10 },
+      { "group": "corpse_child_gunned", "prob": 10, "damage": [ 2, 4 ] },
+      { "group": "corpse_oldwoman_jewelry", "prob": 10, "damage": [ 1, 3 ] }
     ]
   },
   {
-    "id": "corpses_bodybag",
+    "id": "corpses_no_items",
     "type": "item_group",
-    "items": [ { "group": "corpses", "prob": 100, "container-item": "bag_body_bag" } ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "corpse_generic_male", "prob": 80, "damage": [ 0, 1 ] },
+      { "item": "corpse_generic_female", "prob": 80, "damage": [ 0, 1 ] },
+      { "item": "corpse_generic_boy", "prob": 15, "damage": [ 0, 1 ] },
+      { "item": "corpse_generic_girl", "prob": 15, "damage": [ 0, 1 ] },
+      { "item": "corpse_generic_human", "prob": 10, "damage": [ 0, 1 ] },
+      { "item": "corpse_generic_gunned", "prob": 40, "damage": [ 1, 3 ] },
+      { "item": "corpse_generic_infected", "prob": 40 },
+      { "item": "corpse_bloody", "prob": 10, "damage": [ 1, 3 ] },
+      { "item": "corpse_painful", "prob": 10, "damage": [ 0, 2 ] },
+      { "item": "corpse_scorched", "prob": 10, "damage": [ 3, 4 ] },
+      { "item": "corpse_stabbed", "prob": 10, "damage": [ 1, 3 ] },
+      { "item": "corpse_gunned", "prob": 10, "damage": [ 1, 3 ] },
+      { "item": "corpse_halved_upper", "prob": 10, "damage": 4 },
+      { "item": "corpse_half_beheaded", "prob": 10, "damage": 4 },
+      { "item": "corpse_child_calm", "prob": 10 },
+      { "item": "corpse_child_gunned", "prob": 10, "damage": [ 2, 4 ] },
+      { "item": "corpse_oldwoman_jewelry", "prob": 10, "damage": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "corpse_in_body_bag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "bag_body_bag",
+    "entries": [ { "group": "corpses_no_items", "damage": [ 0, 1 ] } ]
   },
   {
     "id": "corpse_male",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "corpse_generic_male" },
-      { "item": "corpse_bloody" },
-      { "item": "corpse_painful" },
-      { "item": "corpse_stabbed" },
-      { "item": "corpse_half_beheaded" },
-      { "item": "corpse_generic_boy" }
+      { "group": "corpse_generic_male", "damage": [ 0, 1 ] },
+      { "group": "corpse_bloody", "damage": [ 1, 3 ] },
+      { "group": "corpse_painful", "damage": [ 0, 2 ] },
+      { "group": "corpse_stabbed", "prob": 10, "damage": [ 1, 3 ] },
+      { "group": "corpse_half_beheaded", "damage": 4 },
+      { "group": "corpse_generic_boy", "damage": [ 0, 1 ] }
     ]
   },
   {
@@ -127,19 +155,147 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "corpse_generic_female" },
-      { "item": "corpse_bloody" },
-      { "item": "corpse_painful" },
-      { "item": "corpse_gunned" },
-      { "item": "corpse_half_beheaded" },
-      { "item": "corpse_oldwoman_jewelry" },
-      { "item": "corpse_generic_girl" }
+      { "group": "corpse_generic_female", "damage": [ 0, 1 ] },
+      { "group": "corpse_bloody", "damage": [ 1, 3 ] },
+      { "group": "corpse_painful", "damage": [ 0, 2 ] },
+      { "group": "corpse_gunned", "damage": [ 1, 3 ] },
+      { "group": "corpse_half_beheaded", "damage": 4 },
+      { "group": "corpse_oldwoman_jewelry", "damage": [ 1, 3 ] },
+      { "group": "corpse_generic_girl", "damage": [ 0, 1 ] }
     ]
   },
   {
     "id": "corpse_child",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "corpse_child_calm" }, { "item": "corpse_child_gunned" } ]
+    "entries": [ { "group": "corpse_child_calm" }, { "group": "corpse_child_gunned" } ]
+  },
+  {
+    "id": "corpse_generic_human",
+    "//": "Bc of corpses being partially hardcoded container-item in entries doesn't work so these get to be one group per corpse for now",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "corpse_generic_human",
+    "entries": [ { "group": "default_zombie_death_drops" } ]
+  },
+  {
+    "id": "corpse_generic_male",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "corpse_generic_male",
+    "entries": [ { "group": "default_zombie_death_drops" } ]
+  },
+  {
+    "id": "corpse_generic_female",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "corpse_generic_female",
+    "entries": [ { "group": "default_zombie_death_drops" } ]
+  },
+  {
+    "id": "corpse_generic_boy",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "corpse_generic_boy",
+    "entries": [ { "group": "default_zombie_death_drops" } ]
+  },
+  {
+    "id": "corpse_generic_girl",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "corpse_generic_girl",
+    "entries": [ { "group": "default_zombie_death_drops" } ]
+  },
+  {
+    "id": "corpse_generic_gunned",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "corpse_generic_gunned",
+    "entries": [ { "group": "default_zombie_death_drops" } ]
+  },
+  {
+    "id": "corpse_generic_infected",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "corpse_generic_infected",
+    "entries": [ { "group": "default_zombie_death_drops" } ]
+  },
+  {
+    "id": "corpse_bloody",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "corpse_bloody",
+    "entries": [ { "group": "default_zombie_death_drops" } ]
+  },
+  {
+    "id": "corpse_painful",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "corpse_painful",
+    "entries": [ { "group": "default_zombie_death_drops" } ]
+  },
+  {
+    "id": "corpse_scorched",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "corpse_scorched",
+    "entries": [ { "group": "default_zombie_death_drops" } ]
+  },
+  {
+    "id": "corpse_stabbed",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "corpse_stabbed",
+    "entries": [ { "group": "default_zombie_death_drops" } ]
+  },
+  {
+    "id": "corpse_gunned",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "corpse_gunned",
+    "entries": [ { "group": "default_zombie_death_drops" } ]
+  },
+  {
+    "id": "corpse_halved_upper",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "corpse_halved_upper",
+    "entries": [ { "group": "default_zombie_death_drops" } ]
+  },
+  {
+    "id": "corpse_half_beheaded",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "corpse_half_beheaded",
+    "entries": [ { "group": "default_zombie_death_drops" } ]
+  },
+  {
+    "id": "corpse_child_calm",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "corpse_child_calm",
+    "entries": [ { "group": "default_zombie_death_drops" } ]
+  },
+  {
+    "id": "corpse_child_gunned",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "corpse_child_gunned",
+    "entries": [ { "group": "default_zombie_death_drops" } ]
+  },
+  {
+    "id": "corpse_oldwoman_jewelry",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "corpse_oldwoman_jewelry",
+    "entries": [ { "group": "default_zombie_death_drops" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "adderall_bottle_plastic_pill_prescription_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "adderall", "container-item": "null", "count": 10 } ]
   }
 ]

@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include <activity_handlers.h>
 #include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -70,6 +71,7 @@ static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
+static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
@@ -259,6 +261,16 @@ void talk_function::do_mopping( npc &p )
 void talk_function::do_read( npc &p )
 {
     p.do_npc_read();
+}
+
+void talk_function::do_eread( npc &p )
+{
+    p.do_npc_read( true );
+}
+
+void talk_function::do_read_repeatedly( npc &p )
+{
+    p.assign_activity( ACT_MULTIPLE_READ );
 }
 
 void talk_function::dismount( npc &p )
@@ -1003,7 +1015,7 @@ void talk_function::player_weapon_drop( npc &/*p*/ )
 {
     Character &player_character = get_player_character();
     item weap = player_character.remove_weapon();
-    get_map().add_item_or_charges( player_character.pos(), weap );
+    drop_on_map( player_character, item_drop_reason::deliberate, {weap}, player_character.pos_bub() );
 }
 
 void talk_function::lead_to_safety( npc &p )
@@ -1242,4 +1254,9 @@ void talk_function::npc_thankful( npc &p )
 void talk_function::clear_overrides( npc &p )
 {
     p.rules.clear_overrides();
+}
+
+void talk_function::pick_style( npc &p )
+{
+    p.martial_arts_data->pick_style( p );
 }

@@ -1,0 +1,990 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_physical",
+    "name": [ "Enhanced Prowess" ],
+    "desc": [ "You are enhancing your physical prowess." ],
+    "apply_message": "",
+    "remove_message": "The surge of power fades away.",
+    "decay_messages": [
+      [ "You are growing weaker as your enhanced strength fades.", "bad" ],
+      [ "The power filling your body is starting to dissipate.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "45 minutes",
+    "max_intensity": 100,
+    "dur_add_perc": 10,
+    "int_dur_factor": "27 s",
+    "removes_effects": [ "venom_weaken" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "STRENGTH",
+            "add": {
+              "math": [ "(1 + ( u_val('spell_level', 'spell: biokin_physical_enhance') / 5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "DEXTERITY",
+            "add": {
+              "math": [ "(1 + ( u_val('spell_level', 'spell: biokin_physical_enhance') / 5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_pkill_1",
+    "name": [ "Overcoming Minor Pain" ],
+    "desc": [ "Your powers are slightly lessening the pain you feel." ],
+    "apply_message": "",
+    "remove_message": "Your wounds ache once again.",
+    "decay_messages": [ [ "The pain you've been keeping away is starting to creep back in.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "15 minutes",
+    "max_intensity": 100,
+    "dur_add_perc": 10,
+    "int_dur_factor": "9 s",
+    "base_mods": { "pkill_tick": [ 12 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_pkill_2",
+    "name": [ "Overcoming Pain" ],
+    "desc": [ "Your powers are lessening the pain you feel." ],
+    "apply_message": "",
+    "remove_message": "Your wounds ache once again.",
+    "decay_messages": [ [ "The pain you've been keeping away is starting to creep back in.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "20 minutes",
+    "max_intensity": 100,
+    "dur_add_perc": 10,
+    "int_dur_factor": "12 s",
+    "base_mods": { "pkill_tick": [ 10 ], "pkill_min": [ 2 ], "pkill_max_val": [ 30 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_pkill_3",
+    "name": [ "Overcoming Pain" ],
+    "desc": [ "Your powers are lessening the pain you feel." ],
+    "apply_message": "",
+    "remove_message": "Your wounds ache once again.",
+    "decay_messages": [ [ "The pain you've been keeping away is starting to creep back in.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "25 minutes",
+    "max_intensity": 100,
+    "dur_add_perc": 10,
+    "int_dur_factor": "15 s",
+    "base_mods": { "pkill_tick": [ 10 ], "pkill_min": [ 3 ], "pkill_max_val": [ 50 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_pkill_4",
+    "name": [ "Overcoming Major Pain" ],
+    "desc": [ "Your powers are greatly lessening the pain you feel." ],
+    "apply_message": "",
+    "remove_message": "Your wounds ache once again.",
+    "decay_messages": [ [ "The pain you've been keeping away is starting to creep back in.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "max_intensity": 100,
+    "dur_add_perc": 10,
+    "int_dur_factor": "18 s",
+    "base_mods": { "pkill_tick": [ 8 ], "pkill_min": [ 4 ], "pkill_max_val": [ 75 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_pkill_5",
+    "name": [ "Overcoming Major Pain" ],
+    "desc": [ "Your powers are greatly lessening the pain you feel." ],
+    "apply_message": "",
+    "remove_message": "Your wounds ache once again.",
+    "decay_messages": [ [ "The pain you've been keeping away is starting to creep back in.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "40 minutes",
+    "max_intensity": 100,
+    "dur_add_perc": 10,
+    "int_dur_factor": "21 s",
+    "base_mods": { "pkill_tick": [ 8 ], "pkill_min": [ 5 ], "pkill_max_val": [ 100 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_pkill_6",
+    "name": [ "Overcoming Extreme Pain" ],
+    "desc": [ "Your powers are enormously lessening the pain you feel." ],
+    "apply_message": "",
+    "remove_message": "Your wounds ache once again.",
+    "decay_messages": [ [ "The pain you've been keeping away is starting to creep back in.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "45 minutes",
+    "max_intensity": 100,
+    "dur_add_perc": 10,
+    "int_dur_factor": "24 s",
+    "base_mods": { "pkill_tick": [ 6 ], "pkill_min": [ 6 ], "pkill_max_val": [ 130 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_flexibility",
+    "name": [ "Flexibility" ],
+    "desc": [ "You are enhancing your range of motion." ],
+    "apply_message": "",
+    "remove_message": "Your joints creak as your limbs lose their flexibility.",
+    "rating": "good",
+    "max_duration": "1 minutes",
+    "dur_add_perc": 1,
+    "removes_effects": [ "grabbed" ],
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 2.0 },
+      { "limb_score": "block", "modifier": 1.2 },
+      { "limb_score": "crawl", "modifier": 1.5 }
+    ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "FALL_DAMAGE",
+            "multiply": {
+              "math": [ "( -0.2 + ( u_val('spell_level', 'spell: biokin_flexibility') * -0.02) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "DOWNED_RECOVERY", "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_reflex",
+    "name": [ "Enhanced Reflexes" ],
+    "desc": [ "You are enhancing your speed and senses." ],
+    "apply_message": "",
+    "remove_message": "The world speeds up again.",
+    "decay_messages": [ [ "Your enhanced speed is nearly gone.", "bad" ], [ "Your movements are gradually becoming slower.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "max_intensity": 39,
+    "dur_add_perc": 10,
+    "int_dur_factor": "47 s",
+    "removes_effects": [ "blind", "deaf" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "PERCEPTION",
+            "add": {
+              "math": [ "( 1 + ( u_val('spell_level', 'spell: biokin_reflex_enhance') / 5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "SPEED",
+            "add": {
+              "math": [ "( 5 + ( u_val('spell_level', 'spell: biokin_physical_enhance') ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_armor_skin",
+    "name": [ "Hardened Skin" ],
+    "desc": [ "Your skin is more resilient thanks to psionic energy." ],
+    "apply_message": "",
+    "remove_message": "The tingling fades away.",
+    "decay_messages": [
+      [ "The minor scratches you've gotten slowly start to ache as your powers fade.", "bad" ],
+      [ "The tingle across your skin is starting to lessen.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "max_intensity": 62,
+    "dur_add_perc": 10,
+    "int_dur_factor": "29 s",
+    "blocks_effects": [ "bleed", "hypovolemia", "dermatik" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_CUT", "add": { "math": [ "( -4 * ( ( u_val('intelligence') + 10) / 20 ) )" ] } },
+          { "value": "ARMOR_BASH", "add": { "math": [ "( -6 * ( ( u_val('intelligence') + 10) / 20 ) )" ] } },
+          { "value": "ARMOR_STAB", "add": { "math": [ "( -3 * ( ( u_val('intelligence') + 10) / 20 ) )" ] } },
+          {
+            "value": "PAIN",
+            "multiply": {
+              "math": [ "( ( u_val('spell_level', 'spell: biokin_armor_skin') * -0.02) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_climate_control",
+    "name": [ "Climate Controlled" ],
+    "desc": [ "You are better at dealing with extremes of heat and cold." ],
+    "apply_message": "",
+    "remove_message": "The temperature feels uncomfortable again.",
+    "decay_messages": [
+      [ "The temperature is really starting to get to you.", "bad" ],
+      [ "Your adaptation to extreme temperatures is fading.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "4 hours",
+    "max_intensity": 128,
+    "dur_add_perc": 33,
+    "int_dur_factor": "122 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "CLIMATE_CONTROL_HEAT",
+            "add": {
+              "math": [
+                "( ( ( u_val('spell_level', 'spell: biokin_climate_control') * 7.5 ) + 15 ) * ( ( u_val('intelligence') + 10) / 20 ) )"
+              ]
+            }
+          },
+          {
+            "value": "CLIMATE_CONTROL_CHILL",
+            "add": {
+              "math": [
+                "( ( ( u_val('spell_level', 'spell: biokin_climate_control') * 7.5 ) + 15 ) * ( ( u_val('intelligence') + 10) / 20 ) )"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_sealed",
+    "name": [ "Sealed System" ],
+    "desc": [ "You are protected from the dangers of the world." ],
+    "apply_message": "",
+    "remove_message": "You let out your breath in a rush.",
+    "decay_messages": [
+      [ "You need to take a new breath, and soon!", "bad" ],
+      [ "Your lungs are straining with the effort of holding your breath.", "bad" ]
+    ],
+    "rating": "good",
+    "show_intensity": false,
+    "max_duration": "8 minutes",
+    "max_intensity": 50,
+    "dur_add_perc": 10,
+    "int_dur_factor": "9 s",
+    "blocks_effects": [
+      "smoke_eyes",
+      "smoke_lungs",
+      "teargas",
+      "boomered",
+      "migo_atmosphere",
+      "fetid_goop",
+      "relax_gas",
+      "spores",
+      "dermatik",
+      "tpollen",
+      "poison",
+      "badpoison"
+    ],
+    "removes_effects": [ "bleed" ],
+    "flags": [ "NO_SCENT", "ELECTRIC_IMMUNE", "RAD_RESIST" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_combat_dance",
+    "name": [ "Combat Dance" ],
+    "desc": [ "You are a dynamo of death." ],
+    "apply_message": "",
+    "remove_message": "Your movements return to normal.",
+    "decay_messages": [
+      [ "Your enhanced combat prowess is nearly gone.", "bad" ],
+      [ "The rush of power filling you is beginning to ebb.", "bad" ]
+    ],
+    "rating": "good",
+    "show_intensity": false,
+    "max_duration": "10 minutes",
+    "max_intensity": 25,
+    "dur_add_perc": 10,
+    "int_dur_factor": "24 s",
+    "removes_effects": [ "stunned", "dazed" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "ATTACK_SPEED",
+            "multiply": {
+              "math": [ "( ( u_val('spell_level', 'spell: biokin_combat_dance') * -0.02) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          { "value": "MOVE_COST", "multiply": -0.2 },
+          { "value": "RECOIL_MODIFIER", "add": -30 },
+          {
+            "value": "MELEE_DAMAGE",
+            "multiply": {
+              "math": [ "( ( u_val('spell_level', 'spell: biokin_combat_dance') * 0.02) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "PAIN",
+            "multiply": {
+              "math": [ "( ( u_val('spell_level', 'spell: biokin_combat_dance') * -0.03) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_night_eyes_1",
+    "name": [ "Night Eyes" ],
+    "desc": [ "You can sense your surroundings in the dark." ],
+    "apply_message": "",
+    "remove_message": "The darkness hides your surroundings again.",
+    "decay_messages": [
+      [ "The shadows are growing darker and darker to your sight.", "bad" ],
+      [ "Darkness begins to creep across your vision.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": " 120 minutes",
+    "max_intensity": 106,
+    "dur_add_perc": 10,
+    "int_dur_factor": "68 s",
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 3 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_night_eyes_2",
+    "name": [ "Night Eyes" ],
+    "desc": [ "You can sense your surroundings in the dark." ],
+    "apply_message": "",
+    "remove_message": "The darkness hides your surroundings again.",
+    "decay_messages": [
+      [ "The shadows are growing darker and darker to your sight.", "bad" ],
+      [ "Darkness begins to creep across your vision.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": " 120 minutes",
+    "max_intensity": 106,
+    "dur_add_perc": 10,
+    "int_dur_factor": "68 s",
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 5 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_night_eyes_3",
+    "name": [ "Night Eyes" ],
+    "desc": [ "You can sense your surroundings in the dark." ],
+    "apply_message": "",
+    "remove_message": "The darkness hides your surroundings again.",
+    "decay_messages": [
+      [ "The shadows are growing darker and darker to your sight.", "bad" ],
+      [ "Darkness begins to creep across your vision.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": " 120 minutes",
+    "max_intensity": 106,
+    "dur_add_perc": 10,
+    "int_dur_factor": "68 s",
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 7 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_night_eyes_4",
+    "name": [ "Night Eyes" ],
+    "desc": [ "You can sense your surroundings in the dark." ],
+    "apply_message": "",
+    "remove_message": "The darkness hides your surroundings again.",
+    "decay_messages": [
+      [ "The shadows are growing darker and darker to your sight.", "bad" ],
+      [ "Darkness begins to creep across your vision.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": " 120 minutes",
+    "max_intensity": 106,
+    "dur_add_perc": 10,
+    "int_dur_factor": "68 s",
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 9 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_night_eyes_5",
+    "name": [ "Night Eyes" ],
+    "desc": [ "You can sense your surroundings in the dark." ],
+    "apply_message": "",
+    "remove_message": "The darkness hides your surroundings again.",
+    "decay_messages": [
+      [ "The shadows are growing darker and darker to your sight.", "bad" ],
+      [ "Darkness begins to creep across your vision.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": " 120 minutes",
+    "max_intensity": 106,
+    "dur_add_perc": 10,
+    "int_dur_factor": "68 s",
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 11 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_night_eyes_6",
+    "name": [ "Night Eyes" ],
+    "desc": [ "You can sense your surroundings in the dark." ],
+    "apply_message": "",
+    "remove_message": "The darkness hides your surroundings again.",
+    "decay_messages": [
+      [ "The shadows are growing darker and darker to your sight.", "bad" ],
+      [ "Darkness begins to creep across your vision.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": " 120 minutes",
+    "max_intensity": 106,
+    "dur_add_perc": 10,
+    "int_dur_factor": "68 s",
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 13 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_night_eyes_7",
+    "name": [ "Night Eyes" ],
+    "desc": [ "You can sense your surroundings in the dark." ],
+    "apply_message": "",
+    "remove_message": "The darkness hides your surroundings again.",
+    "decay_messages": [
+      [ "The shadows are growing darker and darker to your sight.", "bad" ],
+      [ "Darkness begins to creep across your vision.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": " 120 minutes",
+    "max_intensity": 106,
+    "dur_add_perc": 10,
+    "int_dur_factor": "68 s",
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 15 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_night_eyes_8",
+    "name": [ "Night Eyes" ],
+    "desc": [ "You can sense your surroundings in the dark." ],
+    "apply_message": "",
+    "remove_message": "The darkness hides your surroundings again.",
+    "decay_messages": [
+      [ "The shadows are growing darker and darker to your sight.", "bad" ],
+      [ "Darkness begins to creep across your vision.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": " 120 minutes",
+    "max_intensity": 106,
+    "dur_add_perc": 10,
+    "int_dur_factor": "68 s",
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 17 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_premonition",
+    "name": [ "Sensing Danger" ],
+    "desc": [ "You know there's something out there." ],
+    "apply_message": "",
+    "remove_message": "The sense of danger fades away, but you know the danger remains.",
+    "decay_messages": [
+      [ "You're getting less and less sure where your enemies are.", "bad" ],
+      [ "Your awareness of danger is fading.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "max_intensity": 58,
+    "dur_add_perc": 10,
+    "int_dur_factor": "31 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MOTION_VISION_RANGE",
+            "add": { "math": [ "( ( u_val('spell_level', 'spell: clair_danger_sense') * 2) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_weak_point",
+    "name": [ "Weaknesses Discerned" ],
+    "desc": [ "Your vulnerabilities have been laid open." ],
+    "apply_message": "",
+    "rating": "bad",
+    "max_duration": "1 minutes",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "ARMOR_CUT",
+            "add": {
+              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "ARMOR_BASH",
+            "add": {
+              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "ARMOR_STAB",
+            "add": {
+              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "ARMOR_BULLET",
+            "add": {
+              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "ARMOR_ELEC",
+            "add": {
+              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "ARMOR_HEAT",
+            "add": {
+              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "ARMOR_COLD",
+            "add": {
+              "math": [ "( ( u_val('spell_level', 'spell: clair_spot_weakness') * 0.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_ranged_enhance",
+    "name": [ "Dead Aim" ],
+    "desc": [ "Your powers make aiming much easier for you." ],
+    "apply_message": "",
+    "remove_message": "The world lurches as apparent distances snap back into place.",
+    "decay_messages": [ [ "Your range of vision is narrowing rapidly.", "bad" ], [ "Your enhanced sight is fading.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "max_intensity": 46,
+    "dur_add_perc": 15,
+    "int_dur_factor": "41 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "RANGE",
+            "add": {
+              "math": [ "(1 + ( u_val('spell_level', 'spell: clair_ranged_enhance') * 0.5 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "WEAPON_DISPERSION",
+            "multiply": {
+              "math": [ "( ( u_val('spell_level', 'spell: clair_ranged_enhance') * -0.025) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_dodge",
+    "name": [ "Anticipating Attack" ],
+    "desc": [ "You can see your enemies' attacks in advance." ],
+    "apply_message": "",
+    "remove_message": "The images fade away.",
+    "decay_messages": [
+      [ "The images of your enemies' actions are almost invisible now.", "bad" ],
+      [ "Your vision of your enemies' actions is becoming indistinct.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "15 minutes",
+    "max_intensity": 38,
+    "dur_add_perc": 10,
+    "int_dur_factor": "24 s",
+    "blocks_effects": [ "grabbed" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [ "(1 + ( u_val('spell_level', 'spell: clair_dodge_power') / 6) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "BONUS_BLOCK",
+            "add": {
+              "math": [ "(1 + ( u_val('spell_level', 'spell: clair_dodge_power') / 6) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "UNCANNY_DODGE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_clear_sight",
+    "name": [ "Truesight" ],
+    "desc": [ "Your powers allow you to see the true shape of reality." ],
+    "apply_message": "",
+    "remove_message": "The world seems wrapped in gauze compared to before.",
+    "decay_messages": [
+      [ "Your enhanced clarity is almost gone.", "bad" ],
+      [ "You are growing less sure about the true nature of the world.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "15 minutes",
+    "max_intensity": 43,
+    "dur_add_perc": 40,
+    "int_dur_factor": "21 s",
+    "removes_effects": [
+      "dazed",
+      "stunned",
+      "darkness",
+      "visuals",
+      "hallu",
+      "blind",
+      "hallucination_attacks",
+      "deaf",
+      "weed_high",
+      "High",
+      "drunk",
+      "no_sight",
+      "glare",
+      "snow_glare",
+      "venom_blind"
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_pyrokinetic_flash",
+    "name": [ "Blind" ],
+    "desc": [ "Range of Sight: 0.  You cannot see anything." ],
+    "removes_effects": [ "glare", "snow_glare", "darkness" ],
+    "apply_message": "You're blinded!",
+    "remove_message": "Your sight returns!",
+    "rating": "bad",
+    "max_duration": "15 minutes",
+    "show_in_info": true,
+    "flags": [ "BLIND" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_pyrokinetic_cloak",
+    "name": [ "Cloak of Warmth" ],
+    "desc": [ "The air around you has its temperature controlled." ],
+    "apply_message": "",
+    "remove_message": "A cool breeze hits your skin.",
+    "decay_messages": [
+      [ "The warm air you've surrounded yourself with is nearly spent.", "bad" ],
+      [ "The air around you is slowing beginning to cool.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "60 minutes",
+    "max_intensity": 77,
+    "dur_add_perc": 10,
+    "int_dur_factor": "46 s",
+    "enchantments": [ "enchant_pyrokin_cloak" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_pyrokinetic_aura",
+    "name": [ "Blazing Aura" ],
+    "desc": [ "You are surrounded by flames." ],
+    "apply_message": "",
+    "remove_message": "The flames surrounding you gutter out.",
+    "decay_messages": [ [ "The flames around you spark fitfully.", "bad" ], [ "Your aura of flames is beginning to fade.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "15 minutes",
+    "max_intensity": 31,
+    "dur_add_perc": 10,
+    "int_dur_factor": "29 s",
+    "enchantments": [ "enchant_pyrokinetic_aura" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telekinetic_momentum",
+    "name": [ "Altered Momentum" ],
+    "desc": [ "Your powers are affecting movement around you; dangerous objects are slowed and your own speed is increased." ],
+    "apply_message": "",
+    "remove_message": "Nearby movement returns to normal.",
+    "decay_messages": [
+      [ "Nearby momentum has nearly returned to normal.", "bad" ],
+      [ "Your alterations to movement around you are fading.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "15 minutes",
+    "max_intensity": 41,
+    "dur_add_perc": 20,
+    "int_dur_factor": "22 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "ARMOR_CUT",
+            "multiply": {
+              "math": [ "( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.005 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "ARMOR_BASH",
+            "multiply": {
+              "math": [ "( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.01 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "ARMOR_STAB",
+            "multiply": {
+              "math": [ "( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.005 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "ARMOR_BULLET",
+            "multiply": {
+              "math": [ "( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.02 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [ "( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.01 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "ATTACK_SPEED",
+            "multiply": {
+              "math": [ "( ( u_val('spell_level', 'spell: telekinetic_momentum') * -0.01 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telekinetic_armor",
+    "name": [ "Inertial Barrier" ],
+    "desc": [ "A barrier of telekinetic force is protecting you." ],
+    "//": "The logic is that this works the reverse of the way mundane physics does--the wider the area of the force applied against it, the weaker it is.",
+    "apply_message": "",
+    "remove_message": "The barrier of force around you falls apart.",
+    "decay_messages": [
+      [ "The barrier around you is nearly gone", "bad" ],
+      [ "You can feel the barrier around you losing its integrity.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "60 minutes",
+    "max_intensity": 112,
+    "dur_add_perc": 10,
+    "int_dur_factor": "32 s",
+    "flags": [ "TELEKIN_SHIELD" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "ARMOR_CUT",
+            "add": {
+              "math": [ "( -3 + ( u_val('spell_level', 'spell: telekinetic_shield') * -1) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "ARMOR_BASH",
+            "add": {
+              "math": [ "( -2 + ( u_val('spell_level', 'spell: telekinetic_shield') * -0.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "ARMOR_STAB",
+            "add": {
+              "math": [ "( -5 + ( u_val('spell_level', 'spell: telekinetic_shield') * -1.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "ARMOR_BULLET",
+            "add": {
+              "math": [ "( -8 + ( u_val('spell_level', 'spell: telekinetic_shield') * -2.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telekinetic_aegis",
+    "name": [ "Aegis" ],
+    "desc": [ "You are nearly invincible." ],
+    "apply_message": "",
+    "remove_message": "The air loses its structure and you are vulnerable once again.",
+    "rating": "good",
+    "max_duration": "20 seconds",
+    "removes_effects": [ "grabbed" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_CUT", "add": -100000 },
+          { "value": "ARMOR_BASH", "add": -100000 },
+          { "value": "ARMOR_STAB", "add": -100000 },
+          { "value": "ARMOR_BULLET", "add": -100000 }
+        ]
+      }
+    ],
+    "limb_score_mods": [ { "limb_score": "lift", "modifier": 0.51 }, { "limb_score": "grip", "modifier": 0.25 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_IMPEDING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepathic_learning_bonus",
+    "name": [ "Trance State" ],
+    "desc": [ "You are in a focused mental state, increasing the ease of learning." ],
+    "apply_message": "",
+    "remove_message": "You shake your head as you become aware of the outside world again.",
+    "decay_messages": [
+      [ "Your enhanced concentration is fading like a dream.", "bad" ],
+      [ "The outside world is impinging itself on your awareness.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "180 minutes",
+    "max_intensity": 100,
+    "dur_add_perc": 10,
+    "int_dur_factor": "95 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "LEARNING_FOCUS",
+            "add": {
+              "math": [ "( ( u_val('spell_level', 'spell: telepathic_concentration') * 2.5) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          { "value": "MOVE_COST", "multiply": 3 }
+        ]
+      }
+    ],
+    "flags": [ "MYOPIC" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepath_invisibility",
+    "name": [ "Obscurity" ],
+    "desc": [ "You are hiding your presence from your enemies." ],
+    "apply_message": "",
+    "remove_message": "You are again visible and vulnerable.",
+    "decay_messages": [ [ "You obscurity is nearly gone.", "bad" ], [ "You notice nearby enemies glancing in your direction.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "100 seconds",
+    "max_intensity": 14,
+    "dur_add_perc": 10,
+    "int_dur_factor": "7 s",
+    "flags": [ "INVISIBLE", "NO_SCENT" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepathic_psi_armor",
+    "name": [ "Psychic Shield" ],
+    "desc": [ "Your mind is warded against psychic attack." ],
+    "apply_message": "",
+    "remove_message": "Your thoughts are once again unguarded.",
+    "decay_messages": [
+      [ "The barrier around your thoughts is nearly gone.", "bad" ],
+      [ "The shield guarding your mind is growing thinner.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "10 minutes",
+    "max_intensity": 17,
+    "dur_add_perc": 10,
+    "int_dur_factor": "35 s",
+    "removes_effects": [ "taint", "tindrift", "hallu", "hallucination_attacks", "visuals", "fearparalyze", "amigara" ],
+    "flags": [ "PORTAL_PROOF", "TEEPSHIELD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_teleport_slow",
+    "name": [ "Stutterstepping" ],
+    "desc": [ "Your steps aren't taking you as far as your eyes tell you they should." ],
+    "apply_message": "The air ripples and you stumble.",
+    "remove_message": "Your eyes and your legs agree with each other again.",
+    "rating": "bad",
+    "max_duration": 3000,
+    "dur_add_perc": 5,
+    "base_mods": { "speed_mod": [ -40 ] },
+    "immune_flags": [ "DIMENSIONAL_ANCHOR", "TELESTOP" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_teleport_stride",
+    "name": [ "Extended Stride" ],
+    "desc": [ "Every step takes you further than your eyes tell you it should." ],
+    "apply_message": "",
+    "remove_message": "Your steps are normal once again.",
+    "decay_messages": [ [ "Your warped movement are almost gone.", "bad" ], [ "Your steps are no longer taking you quite so far.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "10 minutes",
+    "max_intensity": 16,
+    "dur_add_perc": 10,
+    "int_dur_factor": "37 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [ "( ( ( u_val('spell_level', 'spell: teleport_stride') * -0.02 ) - 0.05 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_health",
+    "name": [ "Healthy Glow" ],
+    "desc": [ "You feel amazing." ],
+    "apply_message": "",
+    "remove_message": "The surge of vitality leaves you in a rush.",
+    "decay_messages": [
+      [ "All of the day's hardships seem like they're catching up to you.", "bad" ],
+      [ "The vitality your powers gave you is starting to fade.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "120 minutes",
+    "max_intensity": 97,
+    "dur_add_perc": 10,
+    "int_dur_factor": "73 s",
+    "blocks_effects": [ "scurvy", "redcells_anemia", "anemia", "toxin_buildup", "common_cold", "flu" ],
+    "removes_effects": [ "asthma" ],
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 50 ], "h_mod_min": [ 2 ], "h_mod_chance": [ 50 ], "healing_rate": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_hurt",
+    "name": [ "Enervating Touch" ],
+    "desc": [ "This reduces monsters' regeneration.  It's a bug if you have it." ],
+    "rating": "bad",
+    "max_duration": "1 minutes"
+  }
+]

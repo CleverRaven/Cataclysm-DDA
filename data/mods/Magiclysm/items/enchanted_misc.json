@@ -113,14 +113,14 @@
     "copy-from": "flask_hip",
     "price_postapoc": "850 USD",
     "category": "clothing",
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "use_action": {
       "target": "whiskey",
       "msg": "You open the flask and discover it full of sweet, sweet, whiskey!",
       "container": "mflask_hip_whiskey",
       "target_charges": 7,
       "moves": 50,
-      "type": "transform"
+      "type": "transform",
+      "need_empty": true
     }
   },
   {
@@ -130,7 +130,6 @@
     "category": "tools",
     "name": { "str": "endless teapot" },
     "description": "A small metal teapot.  Teatime wouldn't be complete without one.",
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "price_postapoc": "2500 USD",
     "use_action": {
       "target": "tea_green",
@@ -138,7 +137,8 @@
       "container": "mteapot",
       "target_charges": 2,
       "moves": 50,
-      "type": "transform"
+      "type": "transform",
+      "need_empty": true
     }
   },
   {

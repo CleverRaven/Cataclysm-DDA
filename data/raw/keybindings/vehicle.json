@@ -39,7 +39,7 @@
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Pull handbrake",
-    "bindings": [ { "input_method": "keyboard_any", "key": "H" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "H" }, { "input_method": "keyboard_code", "key": "h", "mod": [ "shift" ] } ]
   },
   {
     "id": "USE_WORKBENCH",
@@ -88,21 +88,21 @@
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Toggle autoclave",
-    "bindings": [ { "input_method": "keyboard_any", "key": "C" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "C" }, { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] } ]
   },
   {
     "id": "TOGGLE_WASHING_MACHINE",
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Toggle washing machine",
-    "bindings": [ { "input_method": "keyboard_any", "key": "W" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "W" }, { "input_method": "keyboard_code", "key": "w", "mod": [ "shift" ] } ]
   },
   {
     "id": "TOGGLE_DISHWASHER",
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Toggle dishwasher",
-    "bindings": [ { "input_method": "keyboard_any", "key": "D" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "D" }, { "input_method": "keyboard_code", "key": "d", "mod": [ "shift" ] } ]
   },
   {
     "id": "GET_ITEMS",
@@ -137,7 +137,7 @@
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Fill container with water from faucet",
-    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "F" }, { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] } ]
   },
   {
     "id": "FAUCET_DRINK",
@@ -151,21 +151,21 @@
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Purify water in vehicle tank",
-    "bindings": [ { "input_method": "keyboard_any", "key": "P" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "P" }, { "input_method": "keyboard_code", "key": "p", "mod": [ "shift" ] } ]
   },
   {
     "id": "USE_CAPTURE_MONSTER_VEH",
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Capture or release a creature",
-    "bindings": [ { "input_method": "keyboard_any", "key": "G" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "G" }, { "input_method": "keyboard_code", "key": "g", "mod": [ "shift" ] } ]
   },
   {
     "id": "USE_ANIMAL_CTRL",
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Harness an animal",
-    "bindings": [ { "input_method": "keyboard_any", "key": "H" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "H" }, { "input_method": "keyboard_code", "key": "h", "mod": [ "shift" ] } ]
   },
   {
     "id": "USE_PLANTER",
@@ -256,7 +256,7 @@
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Toggle space heater",
-    "bindings": [ { "input_method": "keyboard_any", "key": "J" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "J" }, { "input_method": "keyboard_code", "key": "j", "mod": [ "shift" ] } ]
   },
   {
     "id": "TOGGLE_HEATED_TANK",
@@ -404,6 +404,13 @@
     "category": "VEHICLE",
     "name": "Set turret targeting modes",
     "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "id": "DISCONNECT_CABLES",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Disconnect attached cables",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
   },
   {
     "id": "ARCADE",
