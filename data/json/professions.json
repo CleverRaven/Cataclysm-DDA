@@ -1708,7 +1708,7 @@
     "name": { "male": "Butler", "female": "Maid" },
     "description": "You were hired to take care of the housekeeping for a wealthy family.  Naturally, when things got bad, they all took off on a family vacation to somewhere unknown, leaving you to your fate.",
     "points": 1,
-    "skills": [ { "level": 3, "name": "cooking" }, { "level": 3, "name": "driving" }, { "level": 3, "name": "tailor" } ],
+    "skills": [ { "level": 3, "name": "tailor" }, { "level": 3, "name": "cooking" }, { "level": 3, "name": "driving" } ],
     "proficiencies": [ "prof_food_prep", "prof_closures" ],
     "items": {
       "both": { "items": [ "pocketwatch", "knife_steak" ], "entries": [ { "group": "charged_smart_phone" } ] },
