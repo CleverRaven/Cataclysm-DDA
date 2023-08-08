@@ -48,6 +48,7 @@ static const trait_id trait_ROOTS1( "ROOTS1" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_STYLISH( "STYLISH" );
+static const trait_id trait_VANITY( "VANITY" );
 
 namespace
 {
@@ -316,6 +317,7 @@ player_morale::player_morale() :
     mutations[trait_MASOCHIST_MED] = mutation_data( update_masochist );
     mutations[trait_CENOBITE]      = mutation_data( update_masochist );
     mutations[trait_RADIOPHILE]    = mutation_data( update_radiophile );
+    mutations[trait_VANITY]        = mutation_data( update_constrained );
 }
 
 void player_morale::add( const morale_type &type, int bonus, int max_bonus,
@@ -1133,6 +1135,10 @@ void player_morale::update_constrained_penalty()
     };
     int pen = 0;
 
+    if( has_mutation( trait_VANITY ) ) {
+        pen += bp_pen( bodypart_id( "mouth" ), 5 );
+        pen += bp_pen( bodypart_id( "eyes" ), 5 );
+    }
     if( has_mutation( trait_FLOWERS ) ) {
         pen += bp_pen( bodypart_id( "head" ), 10 );
     }

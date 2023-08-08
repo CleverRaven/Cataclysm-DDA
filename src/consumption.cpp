@@ -69,7 +69,10 @@ static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_hunger_engorged( "hunger_engorged" );
+static const efftype_id effect_hunger_famished( "hunger_famished" );
 static const efftype_id effect_hunger_full( "hunger_full" );
+static const efftype_id effect_hunger_near_starving( "hunger_near_starving" );
+static const efftype_id effect_hunger_starving( "hunger_starving" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_poison( "poison" );
@@ -130,6 +133,7 @@ static const trait_id trait_MEATARIAN( "MEATARIAN" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_NUMB( "NUMB" );
+static const trait_id trait_PICKYEATER( "PICKYEATER" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_PROJUNK( "PROJUNK" );
 static const trait_id trait_PROJUNK2( "PROJUNK2" );
@@ -860,6 +864,13 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         if( !food.made_of_any( mut.obj().can_only_eat ) && !mut.obj().can_only_eat.empty() ) {
             return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "You can't eat this." ) );
         }
+    }
+
+    if( has_trait( trait_PICKYEATER ) && !( drinkable || food.is_medication() ) &&
+        fun_for( food ).first < 0 && !has_effect( effect_hunger_near_starving ) &&
+        !has_effect( effect_hunger_starving ) && !has_effect( effect_hunger_famished ) ) {
+        return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
+                _( "You deserve better food than this." ) );
     }
 
     return ret_val<edible_rating>::make_success();
