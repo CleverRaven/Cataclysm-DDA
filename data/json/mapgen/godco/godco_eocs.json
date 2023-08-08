@@ -5,30 +5,34 @@
     "recurrence": [ 20, 40 ],
     "condition": {
       "or": [
-        { "u_has_trait": "THRESH_LIZARD" },
-        { "u_has_trait": "THRESH_GASTROPOD" },
-        { "u_has_trait": "THRESH_BIRD" },
-        { "u_has_trait": "THRESH_FISH" },
-        { "u_has_trait": "THRESH_BEAST" },
-        { "u_has_trait": "THRESH_FELINE" },
-        { "u_has_trait": "THRESH_LUPINE" },
-        { "u_has_trait": "THRESH_URSINE" },
-        { "u_has_trait": "THRESH_CATTLE" },
-        { "u_has_trait": "THRESH_INSECT" },
-        { "u_has_trait": "THRESH_PLANT" },
-        { "u_has_trait": "THRESH_SLIME" },
-        { "u_has_trait": "THRESH_TROGLOBITE" },
-        { "u_has_trait": "THRESH_CEPHALOPOD" },
-        { "u_has_trait": "THRESH_SPIDER" },
-        { "u_has_trait": "THRESH_RAT" },
-        { "u_has_trait": "THRESH_ELPHA" },
-        { "u_has_trait": "THRESH_CHIMERA" },
-        { "u_has_trait": "THRESH_RAPTOR" },
-        { "u_has_trait": "THRESH_BATRACHIAN" },
-        { "u_has_trait": "THRESH_MOUSE" },
-        { "u_has_trait": "THRESH_MARLOSS" },
-        { "u_has_trait": "THRESH_MYCUS" },
-        { "u_has_trait": "THRESH_CRUSTACEAN" }
+        {
+          "u_has_any_trait": [
+            "THRESH_LIZARD",
+            "THRESH_GASTROPOD",
+            "THRESH_BIRD",
+            "THRESH_FISH",
+            "THRESH_BEAST",
+            "THRESH_FELINE",
+            "THRESH_LUPINE",
+            "THRESH_URSINE",
+            "THRESH_CATTLE",
+            "THRESH_INSECT",
+            "THRESH_PLANT",
+            "THRESH_SLIME",
+            "THRESH_TROGLOBITE",
+            "THRESH_CEPHALOPOD",
+            "THRESH_SPIDER",
+            "THRESH_RAT",
+            "THRESH_ELPHA",
+            "THRESH_CHIMERA",
+            "THRESH_RAPTOR",
+            "THRESH_BATRACHIAN",
+            "THRESH_MOUSE",
+            "THRESH_MARLOSS",
+            "THRESH_MYCUS",
+            "THRESH_CRUSTACEAN"
+          ]
+        }
       ]
     },
     "deactivate_condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
@@ -43,30 +47,36 @@
         { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
         {
           "or": [
-            { "not": { "u_has_trait": "THRESH_LIZARD" } },
-            { "not": { "u_has_trait": "THRESH_GASTROPOD" } },
-            { "not": { "u_has_trait": "THRESH_BIRD" } },
-            { "not": { "u_has_trait": "THRESH_FISH" } },
-            { "not": { "u_has_trait": "THRESH_BEAST" } },
-            { "not": { "u_has_trait": "THRESH_FELINE" } },
-            { "not": { "u_has_trait": "THRESH_LUPINE" } },
-            { "not": { "u_has_trait": "THRESH_URSINE" } },
-            { "not": { "u_has_trait": "THRESH_CATTLE" } },
-            { "not": { "u_has_trait": "THRESH_INSECT" } },
-            { "not": { "u_has_trait": "THRESH_PLANT" } },
-            { "not": { "u_has_trait": "THRESH_SLIME" } },
-            { "not": { "u_has_trait": "THRESH_TROGLOBITE" } },
-            { "not": { "u_has_trait": "THRESH_CEPHALOPOD" } },
-            { "not": { "u_has_trait": "THRESH_SPIDER" } },
-            { "not": { "u_has_trait": "THRESH_RAT" } },
-            { "not": { "u_has_trait": "THRESH_ELPHA" } },
-            { "not": { "u_has_trait": "THRESH_CHIMERA" } },
-            { "not": { "u_has_trait": "THRESH_RAPTOR" } },
-            { "not": { "u_has_trait": "THRESH_BATRACHIAN" } },
-            { "not": { "u_has_trait": "THRESH_MOUSE" } },
-            { "not": { "u_has_trait": "THRESH_MARLOSS" } },
-            { "not": { "u_has_trait": "THRESH_MYCUS" } },
-            { "not": { "u_has_trait": "THRESH_CRUSTACEAN" } }
+            {
+              "not": {
+                "u_has_any_trait": [
+                  "THRESH_LIZARD",
+                  "THRESH_GASTROPOD",
+                  "THRESH_BIRD",
+                  "THRESH_FISH",
+                  "THRESH_BEAST",
+                  "THRESH_FELINE",
+                  "THRESH_LUPINE",
+                  "THRESH_URSINE",
+                  "THRESH_CATTLE",
+                  "THRESH_INSECT",
+                  "THRESH_PLANT",
+                  "THRESH_SLIME",
+                  "THRESH_TROGLOBITE",
+                  "THRESH_CEPHALOPOD",
+                  "THRESH_SPIDER",
+                  "THRESH_RAT",
+                  "THRESH_ELPHA",
+                  "THRESH_CHIMERA",
+                  "THRESH_RAPTOR",
+                  "THRESH_BATRACHIAN",
+                  "THRESH_MOUSE",
+                  "THRESH_MARLOSS",
+                  "THRESH_MYCUS",
+                  "THRESH_CRUSTACEAN"
+                ]
+              }
+            }
           ]
         }
       ]
