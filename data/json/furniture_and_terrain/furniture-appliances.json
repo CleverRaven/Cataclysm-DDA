@@ -703,7 +703,7 @@
       "sound": "whack!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "solar_cell", "count": [ 1, 5 ] },
+        { "item": "solar_cell", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 6 ] },
         { "item": "amplifier", "prob": 50 },
         { "item": "cable", "charges": [ 10, 15 ] },
@@ -711,6 +711,63 @@
         { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "plastic_chunk", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": 3 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_stationary_solar_panel",
+    "name": "mounted stationary solar panel",
+    "description": "A large panel with photovoltaic power generators, which turn solar radiation into useable electricity.  While useful before the Cataclysm, they have become priceless tools, invaluable to any survivor.",
+    "symbol": "#",
+    "color": "blue",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "stationary_solar_panel" },
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": { "items": [ { "item": "stationary_solar_panel", "count": 1 } ] },
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "whack!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solar_cell", "count": [ 2, 8 ] },
+        { "item": "scrap_aluminum", "count": [ 20, 30 ] },
+        { "item": "amplifier", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 20, 30 ] },
+        { "item": "power_supply", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "glass_shard", "count": [ 1, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "//1": "IDK if this will be ever pre-placed on map, but I'll add it just to complete the set.",
+    "id": "f_stationary_solar_panel_v2",
+    "name": "mounted stationary solar panel_v2",
+    "description": "A large panel with photovoltaic power generators, which turn solar radiation into useable electricity.  While useful before the Cataclysm, they have become priceless tools, invaluable to any survivor.  This panel uses high-performance monocrystalline silicon cells.",
+    "symbol": "#",
+    "color": "blue",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "stationary_solar_panel_v2" },
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": { "items": [ { "item": "stationary_solar_panel_v2", "count": 1 } ] },
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "whack!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solar_cell_v2", "count": [ 2, 8 ] },
+        { "item": "scrap_aluminum", "count": [ 20, 30 ] },
+        { "item": "amplifier", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 20, 30 ] },
+        { "item": "power_supply", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "glass_shard", "count": [ 1, 16 ] }
       ]
     }
   },
