@@ -1,6 +1,81 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_godco_hate_u_mutant",
+    "recurrence": [ 20, 40 ],
+    "condition": {
+      "or": [
+        { "u_has_trait": "THRESH_LIZARD" },
+        { "u_has_trait": "THRESH_GASTROPOD" },
+        { "u_has_trait": "THRESH_BIRD" },
+        { "u_has_trait": "THRESH_FISH" },
+        { "u_has_trait": "THRESH_BEAST" },
+        { "u_has_trait": "THRESH_FELINE" },
+        { "u_has_trait": "THRESH_LUPINE" },
+        { "u_has_trait": "THRESH_URSINE" },
+        { "u_has_trait": "THRESH_CATTLE" },
+        { "u_has_trait": "THRESH_INSECT" },
+        { "u_has_trait": "THRESH_PLANT" },
+        { "u_has_trait": "THRESH_SLIME" },
+        { "u_has_trait": "THRESH_TROGLOBITE" },
+        { "u_has_trait": "THRESH_CEPHALOPOD" },
+        { "u_has_trait": "THRESH_SPIDER" },
+        { "u_has_trait": "THRESH_RAT" },
+        { "u_has_trait": "THRESH_ELPHA" },
+        { "u_has_trait": "THRESH_CHIMERA" },
+        { "u_has_trait": "THRESH_RAPTOR" },
+        { "u_has_trait": "THRESH_BATRACHIAN" },
+        { "u_has_trait": "THRESH_MOUSE" },
+        { "u_has_trait": "THRESH_MARLOSS" },
+        { "u_has_trait": "THRESH_MYCUS" },
+        { "u_has_trait": "THRESH_CRUSTACEAN" }
+      ]
+    },
+    "deactivate_condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+    "effect": [ { "u_add_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_godco_unmutate_nohate",
+    "recurrence": [ 20, 40 ],
+    "condition": {
+      "and": [
+        { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        {
+          "or": [
+            { "not": { "u_has_trait": "THRESH_LIZARD" } },
+            { "not": { "u_has_trait": "THRESH_GASTROPOD" } },
+            { "not": { "u_has_trait": "THRESH_BIRD" } },
+            { "not": { "u_has_trait": "THRESH_FISH" } },
+            { "not": { "u_has_trait": "THRESH_BEAST" } },
+            { "not": { "u_has_trait": "THRESH_FELINE" } },
+            { "not": { "u_has_trait": "THRESH_LUPINE" } },
+            { "not": { "u_has_trait": "THRESH_URSINE" } },
+            { "not": { "u_has_trait": "THRESH_CATTLE" } },
+            { "not": { "u_has_trait": "THRESH_INSECT" } },
+            { "not": { "u_has_trait": "THRESH_PLANT" } },
+            { "not": { "u_has_trait": "THRESH_SLIME" } },
+            { "not": { "u_has_trait": "THRESH_TROGLOBITE" } },
+            { "not": { "u_has_trait": "THRESH_CEPHALOPOD" } },
+            { "not": { "u_has_trait": "THRESH_SPIDER" } },
+            { "not": { "u_has_trait": "THRESH_RAT" } },
+            { "not": { "u_has_trait": "THRESH_ELPHA" } },
+            { "not": { "u_has_trait": "THRESH_CHIMERA" } },
+            { "not": { "u_has_trait": "THRESH_RAPTOR" } },
+            { "not": { "u_has_trait": "THRESH_BATRACHIAN" } },
+            { "not": { "u_has_trait": "THRESH_MOUSE" } },
+            { "not": { "u_has_trait": "THRESH_MARLOSS" } },
+            { "not": { "u_has_trait": "THRESH_MYCUS" } },
+            { "not": { "u_has_trait": "THRESH_CRUSTACEAN" } }
+          ]
+        }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+    "effect": [ { "u_lose_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "godco_place_coop",
     "recurrence": 100,
     "global": false,
@@ -118,80 +193,5 @@
       { "mapgen_update": "godco_permanent_trader_add", "om_terrain": "godco_enter" },
       { "arithmetic": [ { "global_val": "var", "var_name": "godco_met_merchants" }, "=", { "const": 1 } ] }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_godco_hate_u_mutant",
-    "recurrence": [ 20, 40 ],
-    "condition": {
-      "or": [
-        { "u_has_trait": "THRESH_LIZARD" },
-        { "u_has_trait": "THRESH_GASTROPOD" },
-        { "u_has_trait": "THRESH_BIRD" },
-        { "u_has_trait": "THRESH_FISH" },
-        { "u_has_trait": "THRESH_BEAST" },
-        { "u_has_trait": "THRESH_FELINE" },
-        { "u_has_trait": "THRESH_LUPINE" },
-        { "u_has_trait": "THRESH_URSINE" },
-        { "u_has_trait": "THRESH_CATTLE" },
-        { "u_has_trait": "THRESH_INSECT" },
-        { "u_has_trait": "THRESH_PLANT" },
-        { "u_has_trait": "THRESH_SLIME" },
-        { "u_has_trait": "THRESH_TROGLOBITE" },
-        { "u_has_trait": "THRESH_CEPHALOPOD" },
-        { "u_has_trait": "THRESH_SPIDER" },
-        { "u_has_trait": "THRESH_RAT" },
-        { "u_has_trait": "THRESH_ELPHA" },
-        { "u_has_trait": "THRESH_CHIMERA" },
-        { "u_has_trait": "THRESH_RAPTOR" },
-        { "u_has_trait": "THRESH_BATRACHIAN" },
-        { "u_has_trait": "THRESH_MOUSE" },
-        { "u_has_trait": "THRESH_MARLOSS" },
-        { "u_has_trait": "THRESH_MYCUS" },
-        { "u_has_trait": "THRESH_CRUSTACEAN" }
-      ]
-    },
-    "deactivate_condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
-    "effect": [ { "u_add_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_godco_unmutate_nohate",
-    "recurrence": [ 20, 40 ],
-    "condition": {
-      "and": [
-        { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
-        {
-          "or": [
-            { "not": { "u_has_trait": "THRESH_LIZARD" } },
-            { "not": { "u_has_trait": "THRESH_GASTROPOD" } },
-            { "not": { "u_has_trait": "THRESH_BIRD" } },
-            { "not": { "u_has_trait": "THRESH_FISH" } },
-            { "not": { "u_has_trait": "THRESH_BEAST" } },
-            { "not": { "u_has_trait": "THRESH_FELINE" } },
-            { "not": { "u_has_trait": "THRESH_LUPINE" } },
-            { "not": { "u_has_trait": "THRESH_URSINE" } },
-            { "not": { "u_has_trait": "THRESH_CATTLE" } },
-            { "not": { "u_has_trait": "THRESH_INSECT" } },
-            { "not": { "u_has_trait": "THRESH_PLANT" } },
-            { "not": { "u_has_trait": "THRESH_SLIME" } },
-            { "not": { "u_has_trait": "THRESH_TROGLOBITE" } },
-            { "not": { "u_has_trait": "THRESH_CEPHALOPOD" } },
-            { "not": { "u_has_trait": "THRESH_SPIDER" } },
-            { "not": { "u_has_trait": "THRESH_RAT" } },
-            { "not": { "u_has_trait": "THRESH_ELPHA" } },
-            { "not": { "u_has_trait": "THRESH_CHIMERA" } },
-            { "not": { "u_has_trait": "THRESH_RAPTOR" } },
-            { "not": { "u_has_trait": "THRESH_BATRACHIAN" } },
-            { "not": { "u_has_trait": "THRESH_MOUSE" } },
-            { "not": { "u_has_trait": "THRESH_MARLOSS" } },
-            { "not": { "u_has_trait": "THRESH_MYCUS" } },
-            { "not": { "u_has_trait": "THRESH_CRUSTACEAN" } }
-          ]
-        }
-      ]
-    },
-    "deactivate_condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
-    "effect": [ { "u_lose_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco" } ]
   }
 ]
