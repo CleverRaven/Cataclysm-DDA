@@ -40,7 +40,9 @@
       { "name": "post-it", "id": "lab_postit_psi_19", "text": "Need to up monitoring of GRAY DAWN candidates.  But who watches the watchers?" },
       { "name": "post-it", "id": "lab_postit_psi_20", "text": "<given_name> is up for awakening.  Ban her from the poker game" },
       { "name": "post-it", "id": "lab_postit_psi_21", "text": "A better lightbulb.  What's next, a matrix mousetrap?" },
-      { "name": "post-it", "id": "lab_postit_psi_22", "text": "What does PHAVIAN even stand for?" },
+      { "name": "post-it", "id": "lab_postit_psi_22", "text": "So does my PB still count post-awakening?" },
+      { "name": "post-it", "id": "lab_postit_psi_23", "text": "I wonder what my dog is thinking" },
+      { "name": "post-it", "id": "lab_postit_psi_24", "text": "COLD BELOW is a bit too on-the-nose" }
     ]
   },
   {
@@ -48,9 +50,9 @@
     "category": "lab_file_biokinesis",
     "text": [
       {
-        "name": "AAR ID# V78-08 ",
+        "name": "AAR ID# V78-08",
         "id": "lab_file_biokinesis_01",
-        "text": "At 1756 (dive time), Sergeant Eric Collins's team came under attack by a TIAMAT entity near the end of the scheduled immersion dive.  Despite the expenditure of most of their ordinance, TIAMAT suffered no significant damage and continued its attack.  Despite the known combat capabilities of TIAMAT and with no regard for his own safety, Sergeant Collins ordered his team to retreat to the dive headquarters and engaged it in hand-to-hand combat, holding it off for several minutes while his team exited the dive.  The apeture was held open for an additional minute afterward, allowing just enough time for a severely-injured Sergeant Collins to exit the dive and preventing the exit of TIAMAT.  Sergeant Collins suffered severe lacerations, the loss of two fingers, and burns across fifty percent of his arms and upper body; he has volunteered to be a test subject for SMOKE USHER.  In lieu of a medal, we have authorized a meritorious service bonus to be applied retroactive to the beginning of the year."
+        "text": "At 1756 (dive time), Sergeant Eric Collins's team came under attack by an XE157 entity near the end of scheduled in-phase time.  Despite the expenditure of most of their ordinance, XE157 suffered no significant damage and continued its attack.  Despite the known combat capabilities of TIAMAT and with no regard for his own safety, Sergeant Collins ordered his team to retreat to the dive headquarters and engaged it in hand-to-hand combat, holding it off for several minutes while his team exited the dive.  The apeture was held open for an additional minute afterward, allowing just enough time for a severely-injured Sergeant Collins to exit the dive and preventing the exit of XE157.  Sergeant Collins suffered severe lacerations, the loss of two fingers, and burns across fifty percent of his arms and upper body; he has volunteered to be a test subject for SMOKE USHER.  In lieu of a medal, we have authorized a meritorious service bonus to be applied retroactive to the beginning of the year."
       }
     ]
   },
@@ -69,9 +71,20 @@
         "text": "INCIDENT REPORT: 897237\n\nDuring a routine visit by Dr. Davies, at 1134 a COLD BELOW mathematician diverted from their standard schedule and entered the room where Dr. Davies was being briefed about netherum mathematics developments.  The mathematician stared at Dr. Davies for approximately three seconds and then, before security could intervene, physically attacked the doctor with their bare hands.  Witnesses report the mathematician incoherently screaming, mixed with statements such as \"You'll kill us all\" and \"Stop, stop stop\".  The mathematician continued to scream until restrained and sedated.\n\nFollow-up: COLD BELOW overseers received official reprimand and required to attend additional training.  Mathematician diverted to project SUBSTRATE."
       },
       {
-        "name": "testing report C3-6204",
+        "name": "AAR ID# T38-11",
         "id": "lab_file_telepathy_03",
-        "text": 
+        "text": "I don't know if an AAR is the best way to write this but I couldn't find anything else in the procedures that fit.  I want to be reassigned.  I went through GRAY DAWN two weeks ago and back home I can occasionally pick up a sentence or two but when we went through to T38-11 it was like everyone's brain was projected onto their forehead.  Mostly fine, I went through the exercises and managed to block it out, but it didn't work for Gallagher.  I don't know how he functions with what's going through his brain.  And not just the sex stuff, fine, whatever, but that he would get enraged whenever something would go wrong.  Carvalho came back from scouting and said he didn't find anything and Gallagher literally immediately thought about just shooting him and leaving him there!  \"Fucking worthless\" was the least-offensive thing Gallagher thought about him.  I know he's calm and professional on the surface but there's something wrong with him and one day he's going to snap.  I don't want to be there when he does."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_vitakinesis",
+    "text": [
+      {
+        "name": "SMOKE USHER anti-agapic properties (revised estimate)",
+        "id": "lab_file_vitakinesis_01",
+        "text": "Initial estimates of successful SMOKE USHER awakening candidates showed increased vitality and vigor.  Testing post-awakening showed the oldest awakened candidate--Doreen McHugh, age 62--showed a complete secession of her previously-diagnosed (at age 35) rheumatoid arthritis.  She is now capable of running a mile with a time of 7:12 despite minimal training, well below the average for a trained woman in her age group.  She expresses increased well-being and vitality, going for walks in the facility exercise area when before recruitment she was mostly homebound.  Furthermore, her grip strength, blood oxygen level, skin appearance, calcium levels, and muscle mass are more consistent with a woman decades younger, and most convincingly to me, the roots of her hair at the top of her head are coming in black instead of gray and just last week, she sent an urgent request for menstruation products for personal use.\n\nWe'll have to revise our estimates way up.  I originally thought that SMOKE USHER would provide health and vigor but the benefits would be modest, maybe 20% increased lifespan with a corresponding increase in healthy years.  Hey, living to 100 regularly would still be great, right?  But candidates literally getting younger means I have to throw all the initial estimates out the window.  Is SMOKE USHER the fountain of youth?  I know that sounds ridiculous but you can read the test data for yourself."
       }
     ]
   },
@@ -99,7 +112,12 @@
         "name": "Hastily-scribbled note on XEDRA stationary",
         "id": "lab_file_matrix_research_02",
         "//": "Hank here is Dr. Harold Liu, the director of Project PHAVIAN",
-        "text": "Dammit, Hank, what the hell is wrong with these researchers?  Matrix-powered lamp, matrix-powered car, matrix-powered oven, next they'll want a matrix-powered vibrator.  Do they even understand how expensive a single matrix crystal is?  I keep trying to get them to work on something new and they bring me this.  We need force fields, jetpacks, laser guns, lightsabers, I don't know, something!  It's all I can do to stop them from trying to make us the Amazon of XEDRA.  Do the XE037 reseachers have this problem?"
+        "text": "Dammit, Hank, what the hell is wrong with these researchers?  Matrix-powered lamp, matrix-powered car, matrix-powered oven, next they'll want a matrix-powered vibrator.  Do they even understand how expensive a single matrix crystal is?  I keep trying to get them to work on something new and they bring me this.  We need force fields, jetpacks, laser guns, lightsabers, starships, I don't know, something!  It's all I can do to stop them from trying to make us the Amazon of XEDRA.  Do the XE037 reseachers have this problem?"
+      },
+      {
+        "name": "Preliminary Report: Matrix Awakening",
+        "id": "lab_file_matrix_research_03",
+        "text": "Initial testing shows that the rate of awakening from matrix crystal exposure is over 50% with no side effects.  Candidates that failed to awaken complained of headaches and bad dreams but the effects rarely last longer than a week (see fig. 4).  In approximately 5% of cases, however, awakening causes serious side effects including hallucinations, high fever exceeding 39.5°C, muscle tremors, unconsciousness, disassociation, and amnesia.  This can occur in either successful or unsuccessful awakening and is a serious danger in certain cases (e.g. incident reports 39483-R and 49378-G).\n\nMultiple awakenings are not cost-effective.  Despite a wide range of candidates and repeated attempts, only two incidents have ever occurred and no specific commonality between the candidates other than gender exist.  No further attempts should be made until a similar effectiveness to initial awakenings has been achieved.\n\nAwakenings on immersion dives show variable efficacy, sometimes much lower or much higher than normal.  Efficacy is general consistent in each plane, though some planes show variable efficacy. Plane 398RG shows 99% efficacy; however, side effects rise to 35% of cases and so further experimentation with 398RG is prohibited.  Melchior has so far been unable to find any specific characteristics of a plane that would lead to greater or lesser efficiency--further testing and sampling is required."
       }
     ]
   }
