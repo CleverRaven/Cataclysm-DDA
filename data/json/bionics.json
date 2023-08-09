@@ -1923,7 +1923,7 @@
     "passive_pseudo_items": [ "armor_bio_arm_l" ]
   },
   {
-    "id": "bio_limb_leg_r",
+    "id": "bio_limb_arm_r",
     "type": "bionic",
     "name": { "str": "Bionic Limb - Right Arm" },
     "description": "CBM which replaces your right leg with a bionic counterpart.",
