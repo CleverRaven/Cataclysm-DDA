@@ -7,7 +7,7 @@
       "fallback_predecessor_mapgen": "forest_thick",
       "place_nested": [
         {
-          "chunks": [ "24x24_forest_trail_end_basic", "24x24_forest_trail_end_spread", "24x24_forest_trail_end_clearing" ],
+          "chunks": [ "24x24_forest_trail_end_basic", "24x24_forest_trail_end_spread", "24x24_forest_trail_intersection" ],
           "x": 0,
           "y": 0
         }
@@ -82,52 +82,6 @@
         "        432101234       "
       ],
       "palettes": [ "trail_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "24x24_forest_trail_end_clearing",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "                        ",
-        "                        ",
-        "         ??????         ",
-        "       ??????????       ",
-        "      ????....????      ",
-        "     ???........???     ",
-        "    ???..........???    ",
-        "   ???............???   ",
-        "   ??..............??   ",
-        "  ???..............???  ",
-        "  ??................??  ",
-        "  ??................??  ",
-        "  ??................??  ",
-        "  ??................??  ",
-        "  ???..............???  ",
-        "   ??..............??   ",
-        "   ???............???   ",
-        "    ???..........???    ",
-        "     ???........???     ",
-        "      ????....????      ",
-        "       ??????????       ",
-        "         ??????         ",
-        "                        ",
-        "                        "
-      ],
-      "palettes": [ "trail_palette" ],
-      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_region_soil", 6 ], [ "t_grass_dead", 3 ] ] },
-      "place_nested": [
-        { "chunks": [ "14x14_forest_trail_intersection_south" ], "x": 5, "y": 10 },
-        {
-          "chunks": [ [ "null", 25 ], [ "3x3_firering", 25 ], [ "3x3_trunks", 50 ] ],
-          "x": [ 11, 12 ],
-          "y": [ 11, 12 ]
-        },
-        { "chunks": [ [ "null", 50 ], [ "3x3_tree_benches", 50 ] ], "x": 16, "y": 7 }
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]

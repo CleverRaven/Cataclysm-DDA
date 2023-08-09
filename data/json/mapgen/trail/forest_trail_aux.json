@@ -28,55 +28,151 @@
     "method": "json",
     "om_terrain": "forest_trail_intersection",
     "object": {
-      "predecessor_mapgen": "forest",
+      "predecessor_mapgen": "forest_thick",
+      "place_nested": [ { "chunks": [ "24x24_forest_trail_intersection" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_intersection",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
         "                        ",
-        "         ??????         ",
-        "       ??????????       ",
-        "      ????....????      ",
-        "     ???........???     ",
-        "    ???..........???    ",
-        "   ???............???   ",
-        "   ??..............??   ",
-        "  ???..............???  ",
-        "  ??................??  ",
-        "  ??................??  ",
-        "  ??................??  ",
-        "  ??................??  ",
-        "  ???..............???  ",
-        "   ??..............??   ",
-        "   ???............???   ",
-        "    ???..........???    ",
-        "     ???........???     ",
-        "      ????....????      ",
-        "       ??????????       ",
-        "         ??????         ",
+        "                        ",
+        "         4444444        ",
+        "       44333333344      ",
+        "      4332222222334     ",
+        "     432211111112234    ",
+        "    43211000000011234   ",
+        "    43210000000001234   ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "    43210000000001234   ",
+        "    43211000000011234   ",
+        "     432211111112234    ",
+        "      4332222222334     ",
+        "       44333333344      ",
+        "         4444444        ",
         "                        ",
         "                        "
       ],
       "palettes": [ "trail_palette" ],
-      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_region_soil", 6 ], [ "t_grass_dead", 3 ] ] },
       "place_nested": [
-        { "chunks": [ "14x14_forest_trail_intersection_north" ], "x": 5, "y": 0, "neighbors": { "north": "trail" } },
-        { "chunks": [ "14x14_forest_trail_intersection_east" ], "x": 10, "y": 5, "neighbors": { "east": "trail" } },
-        { "chunks": [ "14x14_forest_trail_intersection_south" ], "x": 5, "y": 10, "neighbors": { "south": "trail" } },
-        { "chunks": [ "14x14_forest_trail_intersection_west" ], "x": 0, "y": 5, "neighbors": { "west": "trail" } },
+        { "chunks": [ "9x9_forest_trail_intersection_north" ], "x": 8, "y": 0, "neighbors": { "north": "trail" } },
+        { "chunks": [ "9x9_forest_trail_intersection_east" ], "x": 18, "y": 8, "neighbors": { "east": "trail" } },
+        { "chunks": [ "9x9_forest_trail_intersection_south" ], "x": 8, "y": 18, "neighbors": { "south": "trail" } },
+        { "chunks": [ "9x9_forest_trail_intersection_west" ], "x": 0, "y": 8, "neighbors": { "west": "trail" } },
         {
           "chunks": [ "11x11_forest_trail_intersection_south_fire_lookout" ],
           "x": 0,
           "y": 13,
           "neighbors": { "south": "ws_fire_lookout_tower_base" }
         },
-        { "chunks": [ [ "null", 25 ], [ "3x3_horseposts", 75 ] ], "x": 7, "y": 7 },
+        { "chunks": [ [ "null", 25 ], [ "3x3_horseposts", 75 ] ], "x": 8, "y": 8 },
         {
-          "chunks": [ [ "null", 25 ], [ "3x3_firering", 25 ], [ "3x3_trunks", 50 ] ],
-          "x": [ 11, 12 ],
-          "y": [ 11, 12 ]
+          "chunks": [ [ "null", 25 ], [ "3x3_firering", 25 ], [ "3x3_stumps", 50 ] ],
+          "x": [ 12, 13 ],
+          "y": [ 12, 13 ]
         },
-        { "chunks": [ [ "null", 50 ], [ "3x3_tree_benches", 50 ] ], "x": 16, "y": 7 },
-        { "chunks": [ [ "null", 75 ], [ "3x3_shed_trail_supplies_N", 25 ] ], "x": 16, "y": 16 }
+        { "chunks": [ [ "null", 50 ], [ "3x3_tree_benches", 50 ] ], "x": 17, "y": 8 },
+        { "chunks": [ [ "null", 75 ], [ "3x3_shed_trail_supplies_N", 25 ] ], "x": 17, "y": 17 }
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "9x9_forest_trail_intersection_north",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "432101234",
+        "432101234",
+        "432101234",
+        "432101234",
+        "432101234",
+        "  21012  ",
+        "  10001  ",
+        "         ",
+        "         "
+      ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "9x9_forest_trail_intersection_east",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "   444   ",
+        "   333   ",
+        "012222   ",
+        "001111   ",
+        "000000   ",
+        "001111   ",
+        "012222   ",
+        "   333   ",
+        "   444   "
+      ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "9x9_forest_trail_intersection_south",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  00000  ",
+        "  10001  ",
+        "  21012  ",
+        "432101234",
+        "432101234",
+        "432101234",
+        "         ",
+        "         ",
+        "         "
+      ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "9x9_forest_trail_intersection_west",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "4444     ",
+        "3333     ",
+        "2222210  ",
+        "1111100  ",
+        "0000000  ",
+        "1111100  ",
+        "2222210  ",
+        "3333     ",
+        "4444     "
+      ],
+      "palettes": [ "trail_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
