@@ -742,8 +742,20 @@ class Creature : public viewer
         virtual bool uncanny_dodge() {
             return false;
         }
+        void set_reachable_zone( int zone ) {
+            reachable_zone = zone;
+        }
+        int get_reachable_zone() const {
+            return reachable_zone;
+        }
 
     private:
+        /** This number establishes a partition of zones on the map that have shared
+         * reachability/visibility. In short, if you aren't in the same zone as some other monster,
+         * you can ignore them since you won't be able to reach them by any combination of
+         * regular movement and vision. **/
+        int reachable_zone = 0;
+
         /** The creature's position in absolute coordinates */
         tripoint_abs_ms location;
     protected:
