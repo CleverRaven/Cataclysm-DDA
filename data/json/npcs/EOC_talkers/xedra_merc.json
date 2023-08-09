@@ -47,7 +47,7 @@
       },
       { "group": "clothing_tactical_leg" },
       { "group": "clothing_watch" },
-      { "item": "phase_immersion_suit", "damage": [ 1, 4 ], "custom-flags": [ "BROKEN" ] },
+      { "item": "phase_immersion_suit", "damage": [ 1, 4 ], "custom-flags": [ "ITEM_BROKEN" ] },
       { "item": "id_science_security_black" },
       { "item": "survivor_machete_qt", "variant": "xedra_machete", "container-item": "scabbard", "damage": [ 1, 3 ] },
       {
