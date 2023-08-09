@@ -2256,7 +2256,7 @@
     "feels_discomfort": false,
     "mend_rate": 0,
     "ugliness_mandatory": 10,
-    "stat_hp_mods": { "str_mod": 0 },
+    "stat_hp_mods": { "str_mod": 0 }
   },
   {
     "id": "bionic_treads_body",
@@ -2266,7 +2266,7 @@
     "side": 0,
     "opposite": "bionic_treads_treads",
     "name_multiple": "bionic",
-    "name": "treads shell"
+    "name": "tread shell"
   },
   {
     "id": "bionic_treads_treads",
