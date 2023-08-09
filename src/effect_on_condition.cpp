@@ -214,20 +214,18 @@ static void process_eocs( std::priority_queue<queued_eoc, std::vector<queued_eoc
     while( !eoc_queue.empty() &&
            eoc_queue.top().time <= calendar::turn ) {
         queued_eoc top = eoc_queue.top();
-        dialogue nested_d = d;
+        dialogue nested_d{ d };
         for( const auto &val : top.context ) {
             nested_d.set_value( val.first, val.second );
         }
         bool activated = top.eoc->activate( nested_d );
         if( top.eoc->type == eoc_type::RECURRING ) {
             if( activated ) { // It worked so add it back
-                queued_eoc new_eoc = queued_eoc{ top.eoc, calendar::turn + next_recurrence( top.eoc, d ), top.context };
-                eocs_to_queue.push_back( new_eoc );
+                eocs_to_queue.emplace_back( queued_eoc{ top.eoc, calendar::turn + next_recurrence( top.eoc, d ), top.context } );
             } else {
                 if( !top.eoc->check_deactivate(
                         nested_d ) ) { // It failed but shouldn't be deactivated so add it back
-                    queued_eoc new_eoc = queued_eoc{ top.eoc, calendar::turn + next_recurrence( top.eoc, d ), top.context };
-                    eocs_to_queue.push_back( new_eoc );
+                    eocs_to_queue.push_back( queued_eoc{ top.eoc, calendar::turn + next_recurrence( top.eoc, d ), top.context } );
                 } else { // It failed and should be deactivated for now
                     eoc_vector.push_back( top.eoc );
                 }
@@ -235,8 +233,8 @@ static void process_eocs( std::priority_queue<queued_eoc, std::vector<queued_eoc
         }
         eoc_queue.pop();
     }
-    for( const queued_eoc &q_eoc : eocs_to_queue ) {
-        eoc_queue.push( q_eoc );
+    for( queued_eoc &q_eoc : eocs_to_queue ) {
+        eoc_queue.emplace( std::move( q_eoc ) );
     }
 }
 

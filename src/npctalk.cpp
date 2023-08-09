@@ -2078,24 +2078,39 @@ dialogue::dialogue( const dialogue &d ) : has_beta( d.has_beta ), has_alpha( d.h
 }
 
 dialogue::dialogue( std::unique_ptr<talker> alpha_in,
-                    std::unique_ptr<talker> beta_in,
-                    const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond,
-                    const std::unordered_map<std::string, std::string> &ctx )
+                    std::unique_ptr<talker> beta_in ) : alpha( std::move( alpha_in ) ), beta( std::move( beta_in ) )
 {
-    has_alpha = alpha_in != nullptr;
-    has_beta = beta_in != nullptr;
-    if( has_alpha ) {
-        alpha = std::move( alpha_in );
-    }
-    if( has_beta ) {
-        beta = std::move( beta_in );
-    }
+    has_alpha = alpha != nullptr;
+    has_beta = beta != nullptr;
     if( !has_alpha && !has_beta ) {
         debugmsg( "Constructed a dialogue with no actors!  %s", get_callstack() );
     }
+}
 
-    context = ctx;
-    conditionals = cond;
+dialogue::dialogue( std::unique_ptr<talker> alpha_in,
+                    std::unique_ptr<talker> beta_in,
+                    const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond ) : alpha( std::move(
+                                    alpha_in ) ), beta( std::move( beta_in ) ), conditionals( cond )
+{
+    has_alpha = alpha != nullptr;
+    has_beta = beta != nullptr;
+    if( !has_alpha && !has_beta ) {
+        debugmsg( "Constructed a dialogue with no actors!  %s", get_callstack() );
+    }
+}
+
+dialogue::dialogue( std::unique_ptr<talker> alpha_in,
+                    std::unique_ptr<talker> beta_in,
+                    const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond,
+                    const std::unordered_map<std::string, std::string> &ctx ) : alpha( std::move( alpha_in ) ),
+    beta( std::move( beta_in ) ), context( ctx ), conditionals( cond )
+{
+    has_alpha = alpha != nullptr;
+    has_beta = beta != nullptr;
+
+    if( !has_alpha && !has_beta ) {
+        debugmsg( "Constructed a dialogue with no actors!  %s", get_callstack() );
+    }
 }
 
 talk_data talk_response::create_option_line( dialogue &d, const input_event &hotkey,

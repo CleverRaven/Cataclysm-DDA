@@ -194,11 +194,14 @@ struct dialogue {
         dialogue() = default;
         dialogue( const dialogue &d );
         dialogue( dialogue && ) = default;
-        dialogue &operator=( const dialogue & ) = delete;
+        dialogue &operator=( const dialogue & );
         dialogue &operator=( dialogue && ) = default;
+        dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in );
         dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in,
-                  const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond = {},
-                  const std::unordered_map<std::string, std::string> &ctx = {} );
+                  const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond );
+        dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in,
+                  const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond,
+                  const std::unordered_map<std::string, std::string> &ctx );
         talker *actor( bool is_beta ) const;
 
         mutable itype_id cur_item;
