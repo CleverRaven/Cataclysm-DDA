@@ -6635,14 +6635,14 @@ void Character::burn_energy_arms( int mod )
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Total limbs in use: %d, Bionic limbs: %d",
                    total_limb_count,
                    bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "total stam/power cost: %d",
-                   bionic_powercost / bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed bionicpower cost: %d",
-                   bionic_powercost / bionic_limb_count );
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed stamina cost: %d",
                    -mod + mod * ( bionic_limb_count / total_limb_count ) );
     // if we have at least one bionic limb, burn bionic power
     if( bionic_limb_count > 0 ) {
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "total stam/power cost: %d",
+                       bionic_powercost / bionic_limb_count );
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed bionicpower cost: %d",
+                       bionic_powercost / bionic_limb_count );
         mod_power_level( units::from_millijoule( bionic_powercost / bionic_limb_count ) );
     }
     // if we have at least 1 organic limb, burn stamina
@@ -6676,14 +6676,14 @@ void Character::burn_energy_legs( int mod )
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Total limbs in use: %d, Bionic limbs: %d",
                    total_limb_count,
                    bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "total stam/power cost: %d",
-                   bionic_powercost / bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed bionicpower cost: %d",
-                   bionic_powercost / bionic_limb_count );
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed stamina cost: %d",
                    -mod + mod * ( bionic_limb_count / total_limb_count ) );
     // if we have at least one bionic limb, burn bionic power
     if( bionic_limb_count > 0 ) {
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "total stam/power cost: %d",
+                       bionic_powercost / bionic_limb_count );
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed bionicpower cost: %d",
+                       bionic_powercost / bionic_limb_count );
         mod_power_level( units::from_millijoule( bionic_powercost / bionic_limb_count ) );
     }
     // if we have at least 1 organic limb, burn stamina
@@ -6725,14 +6725,14 @@ void Character::burn_energy_all( int mod )
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Total limbs in use: %d, Bionic limbs: %d",
                    total_limb_count,
                    bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "total stam/power cost: %d",
-                   bionic_powercost / bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed bionicpower cost: %d",
-                   bionic_powercost / bionic_limb_count );
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed stamina cost: %d",
                    -mod + mod * ( bionic_limb_count / total_limb_count ) );
     // if we have at least one bionic limb, burn bionic power
     if( bionic_limb_count > 0 ) {
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "total stam/power cost: %d",
+                       bionic_powercost / bionic_limb_count );
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed bionicpower cost: %d",
+                       bionic_powercost / bionic_limb_count );
         mod_power_level( units::from_millijoule( bionic_powercost / bionic_limb_count ) );
     }
     // if we have at least 1 organic limb, burn stamina
