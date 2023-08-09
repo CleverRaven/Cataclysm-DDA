@@ -3701,7 +3701,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "Type 30 bayonet" },
-    "description": "An essential tool within any 20th-century Japanese soldier’s toolbox, the type 30 is a massive, single-edged sword-style bayonet intended for use with Arisaka rifles and even light machineguns.  Possessing a J-shaped quillon guard for hooking an opponent’s weapon during combat, the bayonet, when dismounted, acts like a particularly sizable machete.",
+    "description": "An essential tool within any 20th-century Japanese soldier’s toolbox, the Type 30 is a massive, single-edged sword-style bayonet intended for use with Arisaka rifles and even light machineguns.  Possessing a J-shaped quillon guard for hooking an opponent’s weapon during combat, the bayonet, when dismounted, acts like a particularly sizable machete.",
     "weight": "700 g",
     "volume": "380 ml",
     "longest_side": "514 mm",

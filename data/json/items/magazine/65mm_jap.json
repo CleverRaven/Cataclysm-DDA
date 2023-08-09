@@ -4,7 +4,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "6.5x50mm 5-round stripper clip" },
-    "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load 5 6.5x50mm rounds into a compatible firearm.",
+    "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load five 6.5x50mm rounds into a compatible firearm.",
     "weight": "40 g",
     "volume": "10ml",
     "longest_side": "10 cm",
