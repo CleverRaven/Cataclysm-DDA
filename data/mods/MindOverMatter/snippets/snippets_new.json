@@ -37,12 +37,23 @@
       { "name": "post-it", "id": "lab_postit_psi_16", "text": "She tried to scan Y65-08.  Now in a coma" },
       { "name": "post-it", "id": "lab_postit_psi_17", "text": "Scanning them doesn't work.  It's just static" },
       { "name": "post-it", "id": "lab_postit_psi_18", "text": "Stay away from those GRAY DAWN guys.  Creepy" },
-      { "name": "post-it", "id": "lab_postit_psi_19", "text": "Need to up monitoring of GRAY DAWN candidates.  But who watches the watchers?" },
+      { "name": "post-it", "id": "lab_postit_psi_19", "text": "Need to up monitoring of GRAY DAWN candidates.  Who watches the watchers?" },
       { "name": "post-it", "id": "lab_postit_psi_20", "text": "<given_name> is up for awakening.  Ban her from the poker game" },
       { "name": "post-it", "id": "lab_postit_psi_21", "text": "A better lightbulb.  What's next, a matrix mousetrap?" },
       { "name": "post-it", "id": "lab_postit_psi_22", "text": "So does my PB still count post-awakening?" },
-      { "name": "post-it", "id": "lab_postit_psi_23", "text": "I wonder what my dog is thinking" },
-      { "name": "post-it", "id": "lab_postit_psi_24", "text": "COLD BELOW is a bit too on-the-nose" }
+      { "name": "post-it", "id": "lab_postit_psi_23", "text": "What's my dog thinking?  I should ask" },
+      { "name": "post-it", "id": "lab_postit_psi_24", "text": "COLD BELOW is a bit too on-the-nose" },
+      { "name": "post-it", "id": "lab_postit_psi_25", "text": "\"Gentlemen, clinical immortality is within our grasp\". There, if I write it here I won't be tempted to put it in the powerpoint" },
+      { "name": "post-it", "id": "lab_postit_psi_26", "text": "They've done it.  Frikkin laser beams" },
+      { "name": "post-it", "id": "lab_postit_psi_27", "text": "I get why.  But TIAMAT or SERVITOR would be much cooler than XE157, right?" },
+      { "name": "post-it", "id": "lab_postit_psi_28", "text": "Better than kings.  Gods" },
+      { "name": "post-it", "id": "lab_postit_psi_29", "text": "There has be more out there.  Cryokinesis?  Prescience?" },
+      { "name": "post-it", "id": "lab_postit_psi_30", "text": "Be careful in subplane R82-34. Rodriguez nearly blew the entire team up" },
+      { "name": "post-it", "id": "lab_postit_psi_31", "text": "SMOKE USHER can't cure zombification.  Had to try" },
+      { "name": "post-it", "id": "lab_postit_psi_32", "text": "Snapped as soon as he entered the dive" },
+      { "name": "post-it", "id": "lab_postit_psi_33", "text": "Mix with XE037 for better results?" },
+      { "name": "post-it", "id": "lab_postit_psi_34", "text": "Have we tried it with mice?" },
+      { "name": "post-it", "id": "lab_postit_psi_35", "text": "But what is the medium?" },
     ]
   },
   {
@@ -53,6 +64,10 @@
         "name": "AAR ID# V78-08",
         "id": "lab_file_biokinesis_01",
         "text": "At 1756 (dive time), Sergeant Eric Collins's team came under attack by an XE157 entity near the end of scheduled in-phase time.  Despite the expenditure of most of their ordinance, XE157 suffered no significant damage and continued its attack.  Despite the known combat capabilities of TIAMAT and with no regard for his own safety, Sergeant Collins ordered his team to retreat to the dive headquarters and engaged it in hand-to-hand combat, holding it off for several minutes while his team exited the dive.  The apeture was held open for an additional minute afterward, allowing just enough time for a severely-injured Sergeant Collins to exit the dive and preventing the exit of XE157.  Sergeant Collins suffered severe lacerations, the loss of two fingers, and burns across fifty percent of his arms and upper body; he has volunteered to be a test subject for SMOKE USHER.  In lieu of a medal, we have authorized a meritorious service bonus to be applied retroactive to the beginning of the year."
+      },
+      {
+        "name": "AAR ID# V78-08",
+        "id": "lab_file_biokinesis_02",
       }
     ]
   },
@@ -74,6 +89,11 @@
         "name": "AAR ID# T38-11",
         "id": "lab_file_telepathy_03",
         "text": "I don't know if an AAR is the best way to write this but I couldn't find anything else in the procedures that fit.  I want to be reassigned.  I went through GRAY DAWN two weeks ago and back home I can occasionally pick up a sentence or two but when we went through to T38-11 it was like everyone's brain was projected onto their forehead.  Mostly fine, I went through the exercises and managed to block it out, but it didn't work for Gallagher.  I don't know how he functions with what's going through his brain.  And not just the sex stuff, fine, whatever, but that he would get enraged whenever something would go wrong.  Carvalho came back from scouting and said he didn't find anything and Gallagher literally immediately thought about just shooting him and leaving him there!  \"Fucking worthless\" was the least-offensive thing Gallagher thought about him.  I know he's calm and professional on the surface but there's something wrong with him and one day he's going to snap.  I don't want to be there when he does."
+      },
+      {
+        "name": "Project DRIVING MIST (update)",
+        "id": "lab_file_telepathy_04",
+        "text": "We've been trying to find the medium that telepathy works by and have come up empty.  It works, it's replicable, that means it's amenable to the scientific method, right?  Okay.  It's not affected by gravity.  It's not affected by the atmosphere, since people in sealed rooms or environment suits can still communicate with others.  It's not affected by physical barriers, neither lead not steel nor a tinfoil hat.  It's not affected by light lag, either, so we finally have proof that FTL is possible at least for some things.  We've tried to send messages into the past but so far no luck--maybe we don't have a large enough distance between receivers?  Without an amplifier the range is still very short, so we can't do a two-way test.  We put the data into Melchior and didn't get any conclusive reply.\n\nI'll report back in two weeks as scheduled.  I refuse to throw up my hands and say \"It's magic, who knows how it works?\"  If it affects the physical world it must obey some set of physical laws."
       }
     ]
   },
@@ -85,7 +105,17 @@
         "name": "SMOKE USHER anti-agapic properties (revised estimate)",
         "id": "lab_file_vitakinesis_01",
         "text": "Initial estimates of successful SMOKE USHER awakening candidates showed increased vitality and vigor.  Testing post-awakening showed the oldest awakened candidate--Doreen McHugh, age 62--showed a complete secession of her previously-diagnosed (at age 35) rheumatoid arthritis.  She is now capable of running a mile with a time of 7:12 despite minimal training, well below the average for a trained woman in her age group.  She expresses increased well-being and vitality, going for walks in the facility exercise area when before recruitment she was mostly homebound.  Furthermore, her grip strength, blood oxygen level, skin appearance, calcium levels, and muscle mass are more consistent with a woman decades younger, and most convincingly to me, the roots of her hair at the top of her head are coming in black instead of gray and just last week, she sent an urgent request for menstruation products for personal use.\n\nWe'll have to revise our estimates way up.  I originally thought that SMOKE USHER would provide health and vigor but the benefits would be modest, maybe 20% increased lifespan with a corresponding increase in healthy years.  Hey, living to 100 regularly would still be great, right?  But candidates literally getting younger means I have to throw all the initial estimates out the window.  Is SMOKE USHER the fountain of youth?  I know that sounds ridiculous but you can read the test data for yourself."
-      }
+      },
+      {
+        "name": "Compound XV471 update",
+        "id": "lab_file_vitakinesis_02",
+        "text": "Application of matrix technology and XE037 samples together with cutting-edge medical advances blah blah you know the drill.  Anyway, we sourced the samples, we synthesized the compound, we did the tests.  It's magic.  I know that sounds dumb but it's literally magic.  Animal testing showed complete remission of every cancer they developed.  \"Alright, Eric,\" you say, \"that's fine but cancer testing in animals is b̵u̵l̵l̵s̵h̵i̵t̵\"clinically irrelevant due to to high real-world failure rates in humans\".  Sure, yes, you're right.  But we sourced some enthusiastic voluntolds from XEDRA-12's stock and a couple of them had cancer they were planning on testing XE037 interactions with.  Well they aren't going to anymore because XV471 cleaned them right up.  Totally healthy.  Zero cancer.\n\nSubject B84 had cystic fibrosis and it's gone.  GONE.  Perfectly normal lungs.  Now what's that other than magic?\n\nYou want to get more funding for this, just authorize selling XV471 to some sick Russian oligarch for like $10 billion.  He gets cured and the money keeps flowing.  And honestly it needs to be that expensive with how much this stuff costs to produce.  We get the materials and process them and nine times out of ten it's just a sugar pill for no damn reason I can find.  But that tenth time, wow.\n\nShred this after you read it.  I don't need the director lecturing me about professionalism again."
+      },
+      {
+        "name": "Treatment time until complete recovery",
+        "id": "lab_file_vitakinesis_03",
+        "text": "Common cold: 34 hours\n\nInfluenza: 27 hours\n\nMononucleosis: 85 hours\n\nNorovirus: 26 hours\n\nGonorrhea: 43 hours\n\nHepatitis C: 71 hours\n\nHIV: 148 hours\n\nMalaria: 112 hours\n\nSmallpox: 76 hours\n\nEbola: 93 hours"
+      },
     ]
   },
   {
@@ -95,7 +125,7 @@
       {
         "name": "OS647-P Response",
         "id": "lab_file_item_OS647_P_01",
-        "text": "Dr. Zweidler, I understand your excitement at your breakthroughs in matrix technology, but I hope you understand there is no way I can approve OS647-P for general usage.  You write here that the effect field has a \"94% effectiveness rate\" but this is not comparable to ballistic performance standards because it has no ablative properties.  What if the first shot fired is part of that 6%?  How can an operative trust their life to your device when every possible shot might be the one to penetrate?  That fact that your data shows it provides complete protection against rifle rounds, grenades, and even anti-tank weapons is immaterial in the face of the effect field's failure rate.\n\nSecond, you write that currently OS647-P has a 2.67% device failure rate, over and above the chance of the effect field failing!  You want me to recommend this for general usage when our field operatives could end up not only with a bullet in the chest, but also a box full of burnt plastic while some horror is charging at them on an immersion dive?n\nFurthermore, the active time is simply unacceptable.  Ballistic protection works because it provides passive protection with no additional effort necessary.  When in danger, an operative would need to insert the matrix crystal, flip the toggle, and then hope that the attack occurs within the \"5.65 second median protection time\" in order to gain any benefit at all!  You've read those immersion dive reports too, Matthew.  If an operative is face to face with a shoggoth, what happens on the sixth second?\n\nI'll be frank with you.  I'm amazed that you asked me to approve this given its current device specs.  Matrix crystals--even depleted ones--are extremely valuable, and given their already unacceptably-high failure rate in training new mathematicians, Dr. Liu is not going to accept anything less than 100% effectiveness from an alternative use case.  You're simply going to have to refine OS647-P until it's more reliable.\n\nYours,\nAnna Stephenson\nDirector of Research"
+        "text": "Dr. Zweidler, I understand your excitement at your breakthroughs in matrix technology, but I hope you understand there is no way I can approve OS647-P for general usage.  You write here that the effect field has a \"94% effectiveness rate\" but this is not comparable to ballistic performance standards because it has no ablative properties.  What if the first shot fired is part of that 6%?  How can an operative trust their life to your device when every possible shot might be the one to penetrate?  That fact that your data shows it provides complete protection against rifle rounds, grenades, and even anti-tank weapons is immaterial in the face of the effect field's failure rate.\n\nSecond, you write that currently OS647-P has a 2.67% device failure rate, over and above the chance of the effect field failing!  You want me to recommend this for general usage when our field operatives could end up not only with a bullet in the chest, but also a box full of burnt plastic while some horror is charging at them on an immersion dive?n\nFurthermore, the active time is simply unacceptable.  Ballistic protection works because it provides passive protection with no additional effort necessary.  When in danger, an operative would need to insert the matrix crystal, flip the toggle, and then hope that the attack occurs within the \"5.65 second median protection time\" in order to gain any benefit at all!  You've read those immersion dive reports too, Matthew.  If an operative is face to face with XE157, what happens on the sixth second?\n\nI'll be frank with you.  I'm amazed that you asked me to approve this given its current device specs.  Matrix crystals--even depleted ones--are extremely valuable, and given their already unacceptably-high failure rate in training new mathematicians, Dr. Liu is not going to accept anything less than 100% effectiveness from an alternative use case.  You're simply going to have to refine OS647-P until it's more reliable.\n\nYours,\nAnna Stephenson\nDirector of Research"
       }
     ]
   },
@@ -106,7 +136,7 @@
       {
         "name": "Response to Proposal 96255-R",
         "id": "lab_file_matrix_research_01",
-        "text": "Yes, I saw your design specs for the \"Everglow Lamp\" and I understand that it provides a greatly-increased efficiency over standard off-the-shelf lighting.  But may I remind you that off-the-shelf lighting literally comes from a shelf and you can go down to the hardware store and buy a dozen LED bulbs for $50 and they'll last you ten years.  There is no use case for a matrix-powered lightbulb that makes any sort of sense, even in hostile or immersion environments.  Until you can achieve a similar cost-benefit ratio using matrix technology--check the budget for a single immersion dive if you need the data--I strongly advise you to take your research in a different direction.\n\nYours,\nAnna Stephenson\nDirector of Research"
+        "text": "Yes, I saw your design specs for the \"Everglow Lamp\" and I understand that it provides a greatly-increased efficiency over standard off-the-shelf lighting.  But may I remind you that off-the-shelf lighting literally comes from a shelf and you can go down to the hardware store and buy a dozen LED bulbs for $50 and they'll last you ten years.  There is no use case for a matrix-powered lightbulb that makes any sort of sense, even in hostile or in-phase environments.  Until you can achieve a similar cost-benefit ratio using matrix technology--check the budget for a single immersion dive if you need the data--I strongly advise you to take your research in a different direction.\n\nYours,\nAnna Stephenson\nDirector of Research"
       },
       {
         "name": "Hastily-scribbled note on XEDRA stationary",
@@ -117,7 +147,12 @@
       {
         "name": "Preliminary Report: Matrix Awakening",
         "id": "lab_file_matrix_research_03",
-        "text": "Initial testing shows that the rate of awakening from matrix crystal exposure is over 50% with no side effects.  Candidates that failed to awaken complained of headaches and bad dreams but the effects rarely last longer than a week (see fig. 4).  In approximately 5% of cases, however, awakening causes serious side effects including hallucinations, high fever exceeding 39.5°C, muscle tremors, unconsciousness, disassociation, and amnesia.  This can occur in either successful or unsuccessful awakening and is a serious danger in certain cases (e.g. incident reports 39483-R and 49378-G).\n\nMultiple awakenings are not cost-effective.  Despite a wide range of candidates and repeated attempts, only two incidents have ever occurred and no specific commonality between the candidates other than gender exist.  No further attempts should be made until a similar effectiveness to initial awakenings has been achieved.\n\nAwakenings on immersion dives show variable efficacy, sometimes much lower or much higher than normal.  Efficacy is general consistent in each plane, though some planes show variable efficacy. Plane 398RG shows 99% efficacy; however, side effects rise to 35% of cases and so further experimentation with 398RG is prohibited.  Melchior has so far been unable to find any specific characteristics of a plane that would lead to greater or lesser efficiency--further testing and sampling is required."
+        "text": "Initial testing shows that the rate of awakening from matrix crystal exposure is over 50% with no side effects.  Candidates that failed to awaken complained of headaches and bad dreams but the effects rarely last longer than a week (see fig. 4).  In approximately 5% of cases, however, awakening causes serious side effects including hallucinations, high fever exceeding 39.5°C, muscle tremors, unconsciousness, disassociation, and amnesia.  This can occur in either successful or unsuccessful awakening and is a serious danger in certain cases (e.g. incident reports ID39483 and IC49378).\n\nMultiple awakenings are not cost-effective.  Despite a wide range of candidates and repeated attempts, only two incidents have ever occurred and no specific commonality between the candidates other than gender exist.  No further attempts should be made until a similar effectiveness to initial awakenings has been achieved.\n\nAwakenings on immersion dives show variable efficacy, sometimes much lower or much higher than normal.  Efficacy is in general consistent within each plane, though some planes show variable efficacy. Plane 398RG shows 99% efficacy; however, side effects rise to 35% of cases and so further experimentation with 398RG is prohibited.  Melchior has so far been unable to find any specific characteristics of a plane that would lead to greater or lesser efficiency--further testing and sampling is required."
+      },
+      {
+        "name": "LV-429 Analysis",
+        "id": "lab_file_matrix_research_04",
+        "text": "Human-portable laser weapons suffer from three major problems--high power draw preventing it from easily being transportable or usable in skirmish combat, long dwell times meaning it that the operator must remain exposed to return fire in order to confirm a kill, and common atmospheric conditions like dust or haze severely reducing the effectiveness of the beam.  The LV-429 solves all three of these problems.  Before the primary laser is fired, a secondary dimensional metaphysical beam clears the path of the laser, removing atmospheric contaminants without affecting the target.  The laser is fired in a series of short pulses, each much higher intensity than a standard laser.  Finally, the power source contains a small ND-cell, capable of powering the weapon effectively indefinitely.\n\nOne problem remains to be solved.  While the weapon is capable of providing enough power for every shot in succession, matrix technology has not yet provided us with more efficient battery storage.  This means that the ND-cell charges existing batteries, allowing the LV-429 to fired only once every few seconds, obviously too low a rate of fire for any live engagement.  Further enhancements in power storage technology will be necessary before proper deployment."
       }
     ]
   }
