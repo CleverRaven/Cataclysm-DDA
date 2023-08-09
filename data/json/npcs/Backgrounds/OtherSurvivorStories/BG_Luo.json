@@ -1,0 +1,10 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "BGSS_Luo1",
+    "dynamic_line": "You kind of already know, don't you?  I used to be a post-doc researcher in mycology, then I wound up stuck in the lobby at that stupid refugee center, then you came and yeeted us all out of there.  What more is there?",
+    "responses": [
+      { "text": "<end_conversation_topic>", "topic": "TALK_DONE" }
+    ]
+  }
+]
