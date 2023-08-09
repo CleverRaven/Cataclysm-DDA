@@ -1825,8 +1825,15 @@ void vehicle::merge_appliance_into_grid( vehicle &veh_target )
         } else {
             //The grid needs to stay undraggable
             add_tag( flag_CANT_DRAG );
+
+            //Keep wall wiring sections from losing their flag
+            //A grid with only wires needs this flag to count as a powergrid
+            //But it's not a problem if a grid without any has this flag, thus we can add it without issue
+            add_tag( flag_WIRING );
             name = _( "power grid" );
         }
+    } else {
+        add_msg( m_bad, _( "Can't merge into %s, the resulting grid would be too big." ), veh_target.name );
     }
 }
 
