@@ -1432,12 +1432,6 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
 void construct::done_wiring( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     get_map().partial_con_remove( p );
-<<<<<<< HEAD
-
-    place_appliance( p.raw(), vpart_from_item( STATIC( itype_id( "wall_wiring" ) ) ) );
-}
-=======
->>>>>>> 1fede075a0 (post rebase fixes)
 
     place_appliance( p.raw(), vpart_from_item( itype_wall_wiring ) );
 }

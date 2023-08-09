@@ -103,12 +103,6 @@ class veh_app_interact
          * can be disconnected by the player.
          * @returns True if the appliance can be unplugged.
         */
-        bool can_unplug();
-        /**
-         * Checks whether the current appliance is considered a "power grid"
-         * that could be merged with another power grid.
-         * @returns True if the appliance can be merged.
-        */
         bool can_merge();
         /**
          * Function associated with the "MERGE" action.

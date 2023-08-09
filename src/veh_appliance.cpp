@@ -328,14 +328,6 @@ bool veh_app_interact::can_siphon()
     return false;
 }
 
-bool veh_app_interact::can_unplug()
-{
-    vehicle_part_range vpr = veh->get_all_parts();
-    return std::any_of( vpr.begin(), vpr.end(), []( const vpart_reference & ref ) {
-        return ref.info().has_flag( "POWER_TRANSFER" );
-    } );
-}
-
 bool veh_app_interact::can_merge()
 {
     return veh->is_powergrid();
@@ -584,13 +576,6 @@ void veh_app_interact::populate_app_actions()
     } );
     imenu.addentry( -1, true, ctxt.keys_bound_to( "PLUG" ).front(),
                     ctxt.get_action_name( "PLUG" ) );
-
-    // Unplug
-    app_actions.emplace_back( [this]() {
-        unplug();
-    } );
-    imenu.addentry( -1, can_unplug(), ctxt.keys_bound_to( "UNPLUG" ).front(),
-                    ctxt.get_action_name( "UNPLUG" ) );
 
     // Merge
     app_actions.emplace_back( [this]() {
