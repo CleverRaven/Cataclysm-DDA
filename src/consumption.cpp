@@ -1281,6 +1281,7 @@ void Character::modify_morale( item &food, const int nutr )
         // Sapiovores don't recognize humans as the same species.
         // But let them possibly feel cool about eating sapient stuff - treat like psycho
         // However, spiritual sapiovores should still recognize humans as having a soul or special for religious reasons
+        const bool numb = has_trait( trait_NUMB );
         const bool cannibal = has_flag( json_flag_CANNIBAL );
         const bool psycho = has_flag( json_flag_PSYCHOPATH );
         const bool sapiovore = has_flag( json_flag_SAPIOVORE );
