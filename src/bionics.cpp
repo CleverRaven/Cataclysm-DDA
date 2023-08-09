@@ -2538,7 +2538,8 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
             }
         }
         // now that bionic has been added, compare our new healthy kcal to our old healthy kcal and multiply stored kcal by the ratio
-        set_stored_kcal( get_stored_kcal() * ( static_cast<float>( get_healthy_kcal() ) / cached_healthy_kcal ) );
+        set_stored_kcal( get_stored_kcal() * ( static_cast<float>( get_healthy_kcal() ) /
+                                               cached_healthy_kcal ) );
 
     } else {
         get_event_bus().send<event_type::fails_to_install_cbm>( getID(), bid );
