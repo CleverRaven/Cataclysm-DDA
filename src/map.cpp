@@ -2808,49 +2808,58 @@ void map::drop_items( const tripoint &p )
         return;
     }
 
-    float damage = 0.0f;
+    float damage_total = 0.0f;
     for( item &i : items ) {
         units::mass wt_dropped = i.weight();
-        damage += 10 * to_kilogram( wt_dropped ) * height_fallen;
+        float damage = 10 * to_kilogram( wt_dropped ) * height_fallen;
+        damage_total += damage;
 
         add_item_or_charges( below, i );
-    }
 
-    // Bash creature standing below
-    Creature *creature_below = get_creature_tracker().creature_at( below );
-    if( creature_below ) {
-        float dodge_mod = creature_below->dodge_roll();
-        dodge_mod = ( dodge_mod / 5 ) + 0.625;
+        // Bash creature standing below
+        Creature *creature_below = get_creature_tracker().creature_at( below );
+        if( creature_below ) {
+            // creature's dodge modifier
+            float dodge_mod = creature_below->dodge_roll();
+            // if item dropped by character their throwing skill modifier -1 if not dropped by a character
+            float throwing_mod = i.dropped_char_stats.throwing == -1.0f ? 0.0f : 5 * i.dropped_char_stats.throwing;
 
-        int creature_hit_chance = rng( 0, 100 );
-        creature_hit_chance *= dodge_mod / occupied_tile_fraction( creature_below->get_size() );
+            // values calibrated so that %hit chance starts from 60% going up and down according to the two modifiers
+            float hit_mod = ( throwing_mod + 18 ) / ( dodge_mod + 15 );
 
-        if( creature_hit_chance < 15 ) {
-            creature_below->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_bash,
-                                         damage ) );
-        } else if( creature_hit_chance < 30 ) {
-            creature_below->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_bash,
-                                         damage ) );
-        } else if( creature_hit_chance < 65 ) {
-            creature_below->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_bash,
-                                         damage ) );
-        } else if( creature_hit_chance < 100 ) {
-            creature_below->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_bash,
-                                         damage ) );
+            int creature_hit_chance = rng( 0, 100 );
+            creature_hit_chance /= hit_mod * occupied_tile_fraction( creature_below->get_size() );
+
+            if( creature_hit_chance < 15 ) {
+                add_msg( _ ( "Falling %s hits %s in the head!" ), i.tname(), creature_below->get_name() );
+                creature_below->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_bash,
+                                                                                              damage ) );
+            } else if( creature_hit_chance < 30 ) {
+                add_msg( _ ( "Falling %s hits %s in the torso!" ), i.tname(), creature_below->get_name() );
+                creature_below->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_bash,
+                                                                                               damage ) );
+            } else if( creature_hit_chance < 65 ) {
+                add_msg( _ ( "Falling %s hits %s in the left arm!" ), i.tname(), creature_below->get_name() );
+                creature_below->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_bash,
+                                                                                               damage ) );
+            } else if( creature_hit_chance < 100 ) {
+                add_msg( _ ( "Falling %s hits %s in the right arm!" ), i.tname(), creature_below->get_name() );
+                creature_below->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_bash,
+                                                                                               damage ) );
+            } else {
+                add_msg( _ ( "Falling %s misses the %s!" ), i.tname(), creature_below->get_name() );
+            }
         }
-    }
 
-    // Bash items at bottom since currently bash_items only bash glass items
-    map_stack bash_items = i_at( below );
-    for( item &bash_item : bash_items ) {
-        int chance = static_cast<int>( 200 * bash_item.resist( damage_bash, true ) / damage + 1 );
+        // Bash items at bottom since currently bash_items only bash glass items
+        int chance = static_cast<int>( 200 * i.resist( damage_bash, true ) / damage + 1 );
         if( one_in( chance ) ) {
-            bash_item.inc_damage();
+            i.inc_damage();
         }
     }
 
     // Bash terain, furniture and vehicles on tile below
-    bash( below, damage / 2 );
+    bash( below, damage_total / 2 );
     i_clear( p );
 }
 
