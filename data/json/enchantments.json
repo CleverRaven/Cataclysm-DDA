@@ -150,5 +150,17 @@
       { "gain": "bionic_basic_foot_l" },
       { "gain": "bionic_basic_foot_r" }
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_BIONIC_TREADS",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [
+      { "lose": "leg_l" },
+      { "lose": "leg_r" },
+      { "lose": "foot_l" },
+      { "lose": "foot_r" },
+      { "gain": "bionic_treads_leg" }
+    ]
   }
 ]
