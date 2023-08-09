@@ -3,9 +3,23 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "forest_trail_tee",
-    "weight": 100,
     "object": {
       "fallback_predecessor_mapgen": "forest_thick",
+      "place_nested": [
+        {
+          "chunks": [ "24x24_forest_trail_tee_basic", "24x24_forest_trail_tee_split", "24x24_forest_trail_tee_clearing" ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_tee_basic",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
         "                        ",
@@ -38,10 +52,9 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "forest_trail_tee",
-    "weight": 100,
+    "nested_mapgen_id": "24x24_forest_trail_tee_split",
     "object": {
-      "fallback_predecessor_mapgen": "forest_thick",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
         "                        ",
@@ -74,10 +87,9 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "forest_trail_tee",
-    "weight": 100,
+    "nested_mapgen_id": "24x24_forest_trail_tee_clearing",
     "object": {
-      "fallback_predecessor_mapgen": "forest_thick",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
         "                        ",

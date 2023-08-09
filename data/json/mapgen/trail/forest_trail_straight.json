@@ -3,9 +3,28 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "forest_trail_straight",
-    "weight": 100,
     "object": {
       "fallback_predecessor_mapgen": "forest_thick",
+      "place_nested": [
+        {
+          "chunks": [
+            "24x24_forest_trail_straight_basic",
+            "24x24_forest_trail_straight_fallen_tree",
+            "24x24_forest_trail_straight_sett",
+            "24x24_forest_trail_straight_steep"
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_straight_basic",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "        432101234       ",
         "        432101234       ",
@@ -38,10 +57,9 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "forest_trail_straight",
-    "weight": 100,
+    "nested_mapgen_id": "24x24_forest_trail_straight_fallen_tree",
     "object": {
-      "fallback_predecessor_mapgen": "forest_thick",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "        432101234       ",
         "        432101234       ",
@@ -75,10 +93,9 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "forest_trail_straight",
-    "weight": 100,
+    "nested_mapgen_id": "24x24_forest_trail_straight_sett",
     "object": {
-      "fallback_predecessor_mapgen": "forest_thick",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "        432101234       ",
         "        432101234       ",
@@ -129,10 +146,9 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "forest_trail_straight",
-    "weight": 100,
+    "nested_mapgen_id": "24x24_forest_trail_straight_steep",
     "object": {
-      "fallback_predecessor_mapgen": "forest_thick",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "       4332101234       ",
         "      4322101234        ",
