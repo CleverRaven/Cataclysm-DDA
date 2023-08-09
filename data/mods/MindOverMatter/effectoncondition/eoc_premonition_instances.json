@@ -29,7 +29,10 @@
                 "type": "bad",
                 "popup": true
               },
-              { "queue_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_ACTUAL", "time_in_future": "30 seconds" }
+              {
+                "queue_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_ACTUAL",
+                "time_in_future": { "math": [ "(u_val('spell_level', 'spell: clair_danger_sense') * 5) + 10" ] }
+              }
             ],
             "false_effect": [ { "run_eocs": [ "EOC_LIEUTENANT_SPAWN_SHADOW_ACTUAL" ] } ]
           }
