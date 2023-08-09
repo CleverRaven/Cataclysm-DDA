@@ -1530,6 +1530,42 @@
     ]
   },
   {
+    "id": "armor_bio_arm_l",
+    "type": "ARMOR",
+    "name": { "str_sp": "bionic plating - left arm" },
+    "copy_from": "armor_bio_arms_basic",
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 4.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "bionic_basic_arm_l", "bionic_basic_arm_l" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "cover_vitals": 100
+      }
+    ]
+  },
+  {
+    "id": "armor_bio_arm_r",
+    "type": "ARMOR",
+    "name": { "str_sp": "bionic plating - right arm" },
+    "copy_from": "armor_bio_arms_basic",
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 4.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "bionic_basic_arm_r", "bionic_basic_arm_r" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "cover_vitals": 100
+      }
+    ]
+  },
+  {
     "id": "armor_bio_legs_basic",
     "type": "ARMOR",
     "category": "armor",
@@ -1555,6 +1591,42 @@
           { "type": "superalloy", "covered_by_mat": 95, "thickness": 4.0 }
         ],
         "covers": [ "bionic_basic_leg_l", "bionic_basic_leg_r", "bionic_basic_foot_l", "bionic_basic_foot_r" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "cover_vitals": 100
+      }
+    ]
+  },
+  {
+    "id": "armor_bio_leg_l",
+    "type": "ARMOR",
+    "name": { "str_sp": "bionic plating - left leg" },
+    "copy_from": "armor_bio_legs_basic",
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 4.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "bionic_basic_leg_r", "bionic_basic_foot_r" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "cover_vitals": 100
+      }
+    ]
+  },
+  {
+    "id": "armor_bio_leg_r",
+    "type": "ARMOR",
+    "name": { "str_sp": "bionic plating - right leg" },
+    "copy_from": "armor_bio_legs_basic",
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 4.0 },
+          { "type": "superalloy", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "bionic_basic_leg_l", "bionic_basic_foot_l" ],
         "coverage": 100,
         "encumbrance": 0,
         "cover_vitals": 100
