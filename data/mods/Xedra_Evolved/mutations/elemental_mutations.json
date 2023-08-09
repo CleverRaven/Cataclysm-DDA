@@ -83,7 +83,7 @@
     "points": 2,
     "visibility": 2,
     "ugliness": 1,
-    "description": "Lorem",
+    "description": "Your skin has turned into a type of plant matter, which in addition to any armoring slows your loss of fluids.",
     "types": [ "SKIN" ],
     "category": [ "ARVORE" ],
     "prereqs": [ "ARVORE_SKIN_1" ],
@@ -99,7 +99,7 @@
     "visibility": 8,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Lorem",
+    "description": "The skin on your body has grown into a barklike state.  This provides significantly more armor but reduces flexibility.",
     "types": [ "SKIN" ],
     "prereqs": [ "ARVORE_SKIN_2" ],
     "threshreq": [ "THRESH_ARVORE" ],
@@ -142,6 +142,7 @@
     "category": [ "SALAMANDER" ],
     "prereqs": [ "SALAMANDER_SKIN_1" ],
     "changes_to": [ "SALAMANDER_SKIN_3" ],
+    "weakness_to_water": 1,
     "integrated_armor": [ "integrated_coal_skin" ]
   },
   {
@@ -158,6 +159,7 @@
     "prereqs": [ "SALAMANDER_SKIN_2" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "category": [ "SALAMANDER" ],
+    "weakness_to_water": 4,
     "integrated_armor": [ "integrated_flameskin" ]
   },
   {
