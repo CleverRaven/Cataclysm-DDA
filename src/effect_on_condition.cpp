@@ -210,7 +210,9 @@ void effect_on_conditions::queue_effect_on_condition( time_duration duration,
 static void process_eocs( std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
                           &eoc_queue, std::vector<effect_on_condition_id> &eoc_vector, dialogue &d )
 {
-    std::vector<queued_eoc> eocs_to_queue;
+    static std::vector<queued_eoc> eocs_to_queue;
+    eocs_to_queue.clear();
+
     while( !eoc_queue.empty() &&
            eoc_queue.top().time <= calendar::turn ) {
         queued_eoc top = eoc_queue.top();
