@@ -1468,6 +1468,9 @@ class Character : public Creature, public visitable
                           bool allow_neutral ) const;
         /** Roll, based on instability, whether next mutation should be good or bad */
         bool roll_bad_mutation() const;
+        /** Opens a menu which allows players to choose from a list of mutations */
+        bool mutation_selector( const std::vector<trait_id> &prospective_traits,
+                                const mutation_category_id &cat, const bool &use_vitamins );
         /** Picks a random valid mutation in a category and mutate_towards() it */
         void mutate_category( const mutation_category_id &mut_cat, bool use_vitamins,
                               bool true_random = false );
