@@ -13234,8 +13234,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
 
 int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
 {
-    if( link->charge_rate == 0 || turns_elapsed < 1 ||
-        link->charge_interval < 1 || link->efficiency < MIN_LINK_EFFICIENCY ) {
+    if( link->charge_rate == 0 || turns_elapsed < 1 || link->charge_interval < 1 ) {
         return link->charge_rate;
     }
 
