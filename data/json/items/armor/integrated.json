@@ -1560,5 +1560,48 @@
         "cover_vitals": 100
       }
     ]
+  },
+  {
+    "id": "armor_bio_treads",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "bionic plating - tank treads" },
+    "description": "The protective armor for the bionic tank treads which replace the legs.",
+    "weight": "1000 g",
+    "volume": "1000 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": 1,
+    "material": [ "superalloy", "rubber", "qt_steel" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 0,
+    "material_thickness": 8,
+    "environmental_protection": 25,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "superalloy", "covered_by_mat": 100, "thickness": 4.0 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "bionic_treads_leg" ],
+        "specifically_covers": [ "bionic_treads_body" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "cover_vitals": 100
+      },
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "bionic_treads_leg" ],
+        "specifically_covers": [ "bionic_treads_treads" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "cover_vitals": 100
+      }
+    ]
   }
 ]
