@@ -39,6 +39,15 @@
       { "skill": "firstaid", "bonus": { "rng": [ 1, 4 ] } },
       { "skill": "speech", "bonus": { "rng": [ 1, 4 ] } }
     ],
+    "proficiencies": [
+      "prof_intro_chemistry",
+      "prof_intro_biology",
+      "prof_organic_chemistry",
+      "prof_biochemistry",
+      "prof_intro_chem_synth",
+      "prof_mycology",
+      "prof_mycology_advanced"
+    ],
     "worn_override": "NC_BEGGAR_3_worn",
     "carry_override": "EMPTY_GROUP",
     "weapon_override": "EMPTY_GROUP",
