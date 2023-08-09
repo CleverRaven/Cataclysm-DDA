@@ -129,20 +129,5 @@
         ]
       }
     }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [
-      "dm_hospital_1",
-      "dm_hospital_2",
-      "dm_hospital_3",
-      "dm_hospital_4",
-      "dm_hospital_5",
-      "dm_hospital_6",
-      "dm_hospital_7",
-      "dm_hospital_8",
-      "dm_hospital_9"
-    ],
-    "copy-from": "generic_hospital"
   }
 ]

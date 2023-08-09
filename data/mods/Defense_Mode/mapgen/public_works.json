@@ -211,39 +211,5 @@
         }
       ]
     }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "dm_public_works_NE", "dm_public_works_NW", "dm_public_works_SE" ],
-    "name": "public works",
-    "sym": "w",
-    "color": "light_gray",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dm_public_works_SW",
-    "name": "public works",
-    "sym": "W",
-    "color": "light_gray",
-    "see_cost": 5,
-    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "public_works_NE_roof", "public_works_NW_roof", "public_works_SE_roof" ],
-    "name": "public works roof",
-    "sym": "w",
-    "color": "light_gray",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "public_works_SW_roof",
-    "name": "public works roof",
-    "sym": "W",
-    "color": "light_gray",
-    "see_cost": 5
   }
 ]
