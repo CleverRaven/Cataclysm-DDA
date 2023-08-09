@@ -13234,8 +13234,8 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
 
 int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
 {
-    if( link->charge_rate == 0 || turns_elapsed < 1 || link->charge_interval < 1 ) {
-        return link->charge_rate;
+    if( link->charge_rate == 0 || link->charge_interval < 1 ) {
+        return 0;
     }
 
     if( !is_battery() ) {
@@ -13255,8 +13255,8 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
     // time spent ouside the reality bubble it should be applied as a percentage of the total instead.
     bool short_time_passed = turns_elapsed <= link->charge_interval;
 
-    if( short_time_passed &&
-        !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) ) {
+    if( turns_elapsed < 1 || ( short_time_passed &&
+                               !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) ) ) {
         return link->charge_rate;
     }
 
