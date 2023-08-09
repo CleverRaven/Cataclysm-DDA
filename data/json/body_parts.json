@@ -2221,7 +2221,7 @@
     "heading": "treads",
     "heading_multiple": "treads",
     "hp_bar_ui_text": "TREADS",
-    "encumbrance_text": "Running and swimming are slowed.",
+    "encumbrance_text": "Servomotors are operating at abnormal load.",
     "encumbrance_threshold": 20,
     "main_part": "bionic_treads_leg",
     "connected_to": "torso",
@@ -2266,7 +2266,7 @@
     "side": 0,
     "opposite": "bionic_treads_treads",
     "name_multiple": "bionic",
-    "name": "tread shell"
+    "name": "treads shell"
   },
   {
     "id": "bionic_treads_treads",
@@ -2276,6 +2276,6 @@
     "side": 0,
     "opposite": "bionic_treads_body",
     "name_multiple": "bionic treads",
-    "name": "the treads"
+    "name": "tread tracks"
   }
 ]
