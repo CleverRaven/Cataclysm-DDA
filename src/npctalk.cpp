@@ -338,6 +338,7 @@ enum npc_chat_menu {
     NPC_CHAT_ACTIVITIES_CHOP_PLANKS,
     NPC_CHAT_ACTIVITIES_CHOP_TREES,
     NPC_CHAT_ACTIVITIES_CONSTRUCTION,
+    NPC_CHAT_ACTIVITIES_CRAFT,
     NPC_CHAT_ACTIVITIES_DISASSEMBLY,
     NPC_CHAT_ACTIVITIES_FARMING,
     NPC_CHAT_ACTIVITIES_FISHING,
@@ -587,6 +588,7 @@ static int npc_activities_menu()
     nmenu.addentry( NPC_CHAT_ACTIVITIES_CHOP_TREES, true, 't', _( "Chopping down trees" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_CHOP_PLANKS, true, 'p', _( "Chopping logs into planks" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_CONSTRUCTION, true, 'c', _( "Constructing blueprints" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_CRAFT, true, 'C', _( "Crafting item" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_DISASSEMBLY, true, 'd', _( "Disassembly of items" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_FARMING, true, 'f', _( "Farming plots" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_FISHING, true, 'F', _( "Fishing in a zone" ) );
@@ -1027,6 +1029,10 @@ void game::chat()
                     }
                     case NPC_CHAT_ACTIVITIES_CONSTRUCTION: {
                         talk_function::do_construction( *selected_npc );
+                        break;
+                    }
+                    case NPC_CHAT_ACTIVITIES_CRAFT: {
+                        talk_function::do_craft( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_DISASSEMBLY: {
@@ -5415,6 +5421,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( do_read ),
             WRAP( do_eread ),
             WRAP( do_read_repeatedly ),
+            WRAP( do_craft ),
             WRAP( do_butcher ),
             WRAP( do_farming ),
             WRAP( assign_guard ),

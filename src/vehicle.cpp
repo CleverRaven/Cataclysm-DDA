@@ -1162,7 +1162,7 @@ ret_val<void> vehicle::can_mount( const point &dp, const vpart_info &vpi ) const
     for( const int elem : parts_in_square ) {
         const vpart_info &vpi_other = part( elem ).info();
         // No part type can stack with itself, except power cables
-        if( vpi.id == vpi_other.id && !vpi.has_flag( "POWER_TRANSFER" ) ) {
+        if( vpi.id == vpi_other.id && !vpi.has_flag( VPFLAG_POWER_TRANSFER ) ) {
             return ret_val<void>::make_failure( _( "%s is already installed here." ), vpi.name() );
         }
         // Only parts with empty or different locations can be on same tile
@@ -5075,7 +5075,7 @@ std::map<Vehicle *, float> vehicle::search_connected_vehicles( Vehicle *start )
         for( const int part_idx : veh->loose_parts ) { // graph "edges" are POWER_TRANSFER parts
             const vehicle_part &vp = veh->part( part_idx );
             const vpart_info &vpi = vp.info();
-            if( !vpi.has_flag( "POWER_TRANSFER" ) ) {
+            if( !vpi.has_flag( VPFLAG_POWER_TRANSFER ) ) {
                 continue;
             }
 
@@ -5105,6 +5105,25 @@ std::map<vehicle *, float> vehicle::search_connected_vehicles()
 std::map<const vehicle *, float> vehicle::search_connected_vehicles() const
 {
     return search_connected_vehicles( this );
+}
+
+void vehicle::get_connected_vehicles( std::unordered_set<vehicle *> &dest )
+{
+    for( const int part_idx : loose_parts ) {
+        const vehicle_part &vp = part( part_idx );
+        if( !vp.info().has_flag( VPFLAG_POWER_TRANSFER ) ) {
+            continue;
+        }
+        vehicle *v_next = find_vehicle( tripoint_abs_ms( vp.target.second ) );
+        if( v_next == nullptr ) {
+            continue;
+        }
+        if( dest.find( v_next ) != dest.end() ) {
+            continue; // Already found
+        }
+        dest.insert( v_next );
+        v_next->get_connected_vehicles( dest );
+    }
 }
 
 std::map<vpart_reference, float> vehicle::search_connected_batteries()
@@ -5741,7 +5760,8 @@ void vehicle::gain_moves()
     // Force off-map connected vehicles to load by visiting them every time we gain moves.
     // This is expensive so we allow a slightly stale result
     if( calendar::once_every( 5_turns ) ) {
-        search_connected_vehicles();
+        std::unordered_set<vehicle *> vehs;
+        get_connected_vehicles( vehs );
     }
 
     if( check_environmental_effects ) {
@@ -5953,7 +5973,7 @@ void vehicle::refresh( const bool remove_fakes )
         if( vpi.has_flag( "FUNNEL" ) ) {
             funnels.push_back( p );
         }
-        if( vpi.has_flag( "UNMOUNT_ON_MOVE" ) || vpi.has_flag( "POWER_TRANSFER" ) ) {
+        if( vpi.has_flag( "UNMOUNT_ON_MOVE" ) || vpi.has_flag( VPFLAG_POWER_TRANSFER ) ) {
             loose_parts.push_back( p );
         }
         if( !vpi.emissions.empty() || !vpi.exhaust.empty() ) {
@@ -6602,7 +6622,7 @@ std::optional<std::pair<vehicle *, vehicle_part *>> vehicle::get_remote_part(
         const tripoint local_abs = get_map().getabs( global_part_pos3( vp_local ) );
         for( const int remote_partnum : veh->loose_parts ) {
             vehicle_part &vp_remote = veh->parts[remote_partnum];
-            if( vp_remote.info().has_flag( "POWER_TRANSFER" ) && vp_remote.target.first == local_abs ) {
+            if( vp_remote.info().has_flag( VPFLAG_POWER_TRANSFER ) && vp_remote.target.first == local_abs ) {
                 return std::make_pair( veh, &vp_remote );
             }
         }
@@ -6634,7 +6654,7 @@ void vehicle::shed_loose_parts( const trinary shed_cables, const tripoint_bub_ms
             // part was removed elsewhere
             continue;
         }
-        if( vpi_loose.has_flag( "POWER_TRANSFER" ) ) {
+        if( vpi_loose.has_flag( VPFLAG_POWER_TRANSFER ) ) {
             if( shed_cables == trinary::NONE ) {
                 // Skip cables if we're only calling shed_loose_parts to remove parts with UNMOUNT_ON_MOVE.
                 continue;
@@ -6954,7 +6974,7 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
                 // Tow cables - remove it in one piece, remove remote part, and remove towing data
                 add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name, vp_here.name() );
                 invalidate_towing( true );
-            } else if( vpi_here.has_flag( "POWER_TRANSFER" ) ) {
+            } else if( vpi_here.has_flag( VPFLAG_POWER_TRANSFER ) ) {
                 // Electrical cables - remove it in one piece and remove remote part
                 add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name, vp_here.name() );
                 here.add_item_or_charges( pos, part_to_item( vp_here ) );
@@ -6982,7 +7002,7 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
             // Tow cables - remove it in one piece, remove remote part, and remove towing data
             add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name, vp.name() );
             invalidate_towing( true );
-        } else if( vpi.has_flag( "POWER_TRANSFER" ) ) {
+        } else if( vpi.has_flag( VPFLAG_POWER_TRANSFER ) ) {
             // Electrical cables - remove it in one piece and remove remote part
             add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name, vp.name() );
             here.add_item_or_charges( pos, part_to_item( vp ) );
@@ -7018,7 +7038,7 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
                     if( vpi_here.has_flag( "TOW_CABLE" ) ) {
                         invalidate_towing( true );
                     } else {
-                        if( vpi_here.has_flag( "POWER_TRANSFER" ) ) {
+                        if( vpi_here.has_flag( VPFLAG_POWER_TRANSFER ) ) {
                             remove_remote_part( vp_here );
                         }
                         here.add_item_or_charges( pos, part_to_item( vp_here ) );
@@ -7126,7 +7146,7 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
         } else {
             item part_as_item = part_to_item( vp );
             add_msg_if_player_sees( vppos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name, vp.name() );
-            if( vpi.has_flag( "POWER_TRANSFER" ) ) {
+            if( vpi.has_flag( VPFLAG_POWER_TRANSFER ) ) {
                 remove_remote_part( vp );
                 part_as_item.set_damage( 0 );
             } else {

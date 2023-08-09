@@ -14,6 +14,7 @@
       "practice_pyrokinetic_eruption",
       "practice_pyrokinetic_call_flames",
       "practice_pyrokinetic_quell_flames",
+      "practice_pyrokinetic_thermogenesis",
       "practice_pyrokinetic_cloak",
       "practice_pyrokinetic_flamethrower",
       "practice_pyrokinetic_aura",
@@ -394,6 +395,63 @@
             {
               "id": "EOC_PRACTICE_PYROKIN_BLAZING_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_aura" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: thermogenesis",
+    "id": "practice_pyrokinetic_thermogenesis",
+    "description": "Contemplate your powers and improve your ability to warm the air to produce lasting heat.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 5,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PYROKIN_THERMOGENESIS",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_thermogenesis" }, ">=", { "const": 1 } ] },
+            {
+              "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_thermogenesis" }, "<=", { "const": 20513 } ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "pyrokinetic_thermogenesis" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_PYROKIN_THERMOGENESIS_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_thermogenesis" }, ">=", { "const": 1 } ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }

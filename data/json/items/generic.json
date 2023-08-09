@@ -763,6 +763,15 @@
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" }
   },
   {
+    "type": "GENERIC",
+    "id": "train_data",
+    "copy-from": "usb_drive_nano",
+    "name": { "str_sp": "laboratory shipping records" },
+    "description": "Some type of advanced data storage device, filled with logistical data on subterranean train routes and schedules.",
+    "price": 10000,
+    "price_postapoc": 0
+  },
+  {
     "id": "robofac_hardcase",
     "type": "GENERIC",
     "name": { "str": "DARPA hard case" },
@@ -792,6 +801,36 @@
     "weight": "30 g",
     "volume": "250 ml",
     "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "godcotrader_accounting_records_dirty",
+    "//": "Quest item, should not spawn naturally.",
+    "name": { "str_sp": "accounting records" },
+    "description": "A stack of various forms and papers with credits and debits listed all over them, detailing transactions and purchases.  Reading over them, all of the balances are mismatched, and a significant amount of money is missing.",
+    "price": 0,
+    "price_postapoc": 0,
+    "weight": "1 g",
+    "volume": "1 ml",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": "r",
+    "material": [ "paper" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "godcotrader_accounting_records_clean",
+    "//": "Quest item, should not spawn naturally.",
+    "name": { "str_sp": "accounting records" },
+    "description": "A stack of various forms and papers with credits and debits listed all over them, detailing transactions and purchases.  Reading over them, everything is in good order, whoever did these is skilled at their job.",
+    "price": 0,
+    "price_postapoc": 0,
+    "weight": "1 g",
+    "volume": "1 ml",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": "r",
+    "material": [ "paper" ]
   },
   {
     "type": "GENERIC",

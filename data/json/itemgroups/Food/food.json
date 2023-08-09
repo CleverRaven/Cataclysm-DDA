@@ -280,20 +280,20 @@
       { "prob": 40, "group": "dry_lentils_bag_plastic_2" },
       { "prob": 40, "group": "dry_rice_bag_plastic_3" },
       { "prob": 6, "group": "meat_pickled_jar_glass_sealed_2" },
-      { "prob": 4, "group": "meat_canned_jar_3l_glass_sealed_12" },
-      { "prob": 4, "group": "veggy_canned_jar_3l_glass_sealed_12" },
-      { "prob": 4, "group": "apple_canned_jar_3l_glass_sealed_12" },
-      { "prob": 1, "group": "offal_canned_jar_3l_glass_sealed_12" },
-      { "prob": 4, "group": "can_tomato_jar_3l_glass_sealed_12" },
-      { "prob": 4, "group": "fish_pickled_jar_3l_glass_sealed_12" },
-      { "prob": 4, "group": "meat_pickled_jar_3l_glass_sealed_12" },
-      { "prob": 4, "group": "veggy_pickled_jar_3l_glass_sealed_12" },
-      { "prob": 4, "group": "fish_pickled_jar_3l_glass_sealed_12" },
-      { "item": "sauce_red", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "kompot", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "group": "big_canned_food", "prob": 4 },
+      { "prob": 2, "group": "kitchen_sealed_3L_jar" },
+      { "group": "big_canned_food", "prob": 1 },
       { "group": "teabag_box", "prob": 20 },
       { "group": "soup_box", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "cannedfood_commercial",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 1, "group": "kitchen_sealed_3L_jar", "count": [ 1, 4 ] },
+      { "prob": 1, "group": "kitchen_plastic_bag", "count": [ 1, 4 ] },
+      { "prob": 1, "group": "kitchen_sack", "count": [ 1, 2 ] }
     ]
   },
   {

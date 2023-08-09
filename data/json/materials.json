@@ -11,7 +11,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "gouged",
-    "resist": { "bash": 4, "cut": 6, "acid": 10, "heat": 6, "bullet": 6 }
+    "resist": { "bash": 4, "cut": 5, "acid": 10, "heat": 6, "bullet": 3 }
   },
   {
     "type": "material",
@@ -259,7 +259,7 @@
     "specific_heat_liquid": 1.2,
     "specific_heat_solid": 1.2,
     "latent_heat": 200,
-    "edible": false,
+    "edible": true,
     "rotting": true,
     "chip_resist": 8,
     "wind_resist": 90,
@@ -885,7 +885,7 @@
       { "fuel": 0, "smoke": 0, "burn": 1000, "volume_per_turn": "5000 ml", "//": "More like shattering than melting" }
     ],
     "burn_products": [ [ "glass_shard", 0.5 ] ],
-    "resist": { "bash": 3, "cut": 4, "acid": 10, "heat": 3, "bullet": 3 },
+    "resist": { "bash": 3, "cut": 4, "acid": 10, "heat": 3, "bullet": 1 },
     "repair_difficulty": 7
   },
   {
@@ -907,7 +907,7 @@
       { "fuel": 0, "smoke": 0, "burn": 1000, "volume_per_turn": "5000 ml", "//": "More like shattering than melting" }
     ],
     "burn_products": [ [ "glass_shard", 0.5 ] ],
-    "resist": { "bash": 3, "cut": 4, "acid": 10, "heat": 3, "bullet": 3 }
+    "resist": { "bash": 3, "cut": 4, "acid": 10, "heat": 3, "bullet": 1 }
   },
   {
     "type": "material",
@@ -1509,6 +1509,7 @@
     "id": "plastic",
     "name": "Plastic",
     "//": "Most common plastics are around 1",
+    "//2": "This one represents various non-resistant household plastics, found in your pen, keyboard, charger etc.",
     "density": 1.0,
     "specific_heat_liquid": 1.6,
     "specific_heat_solid": 1.6,
@@ -1526,8 +1527,26 @@
       { "fuel": 0.4, "smoke": 3, "burn": 0.003 },
       { "fuel": 1, "smoke": 5, "burn": 0.008 }
     ],
-    "resist": { "bash": 2, "cut": 2, "acid": 9, "heat": 1, "bullet": 2 },
+    "resist": { "bash": 2, "cut": 2, "acid": 9, "heat": 1, "bullet": 1 },
     "repair_difficulty": 3
+  },
+  {
+    "type": "material",
+    "id": "hard_plastic_transp",
+    "copy-from": "plastic",
+    "name": "Transparent Impact Resistant Plastic",
+    "//2": "This one represents various transparent impact-resistant plastics, like polycarbonate.  Prime material for visors and safety goggles.",
+    "resist": { "bash": 4, "cut": 3, "acid": 9, "heat": 1, "bullet": 1.5 },
+    "repair_difficulty": 4
+  },
+  {
+    "type": "material",
+    "id": "composite_transp",
+    "copy-from": "plastic",
+    "name": "Transparent Bullet Resistant Composite",
+    "//2": "This one represents specialised transparent bulletproof composites, mostly employed on military vehicles and in high-value construction (banks).",
+    "resist": { "bash": 5, "cut": 4, "acid": 9, "heat": 1, "bullet": 2 },
+    "repair_difficulty": 5
   },
   {
     "type": "material",
@@ -1548,7 +1567,7 @@
       { "fuel": 0.4, "smoke": 3, "burn": 0.003 },
       { "fuel": 1, "smoke": 5, "burn": 0.008 }
     ],
-    "resist": { "bash": 0.75, "cut": 0.5, "acid": 9, "heat": 1, "bullet": 0.5 },
+    "resist": { "bash": 1, "cut": 0.5, "acid": 9, "heat": 1, "bullet": 0.5 },
     "repair_difficulty": 5
   },
   {

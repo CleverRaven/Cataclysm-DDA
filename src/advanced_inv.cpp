@@ -150,7 +150,7 @@ advanced_inventory::advanced_inventory()
         { AIM_DRAGGED,   point( 22, 3 ), tripoint_zero,       _( "Grabbed Vehicle" ),    _( "GR" ),  "D", "ITEMS_DRAGGED_CONTAINER", AIM_DRAGGED},
         { AIM_ALL,       point( 25, 3 ), tripoint_zero,       _( "Surrounding area" ),   _( "AL" ),  "A", "ITEMS_AROUND",    AIM_ALL},
         { AIM_CONTAINER, point( 25, 1 ), tripoint_zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER", AIM_CONTAINER},
-        { AIM_PARENT,    point( 22, 1 ), tripoint_zero,       _( "" ),                   _( "" ),    "X", "ITEMS_PARENT",    AIM_PARENT},
+        { AIM_PARENT,    point( 22, 1 ), tripoint_zero,       "",                        "",         "X", "ITEMS_PARENT",    AIM_PARENT},
         { AIM_WORN,      point( 22, 2 ), tripoint_zero,       _( "Worn Items" ),         _( "WR" ),  "W", "ITEMS_WORN",      AIM_WORN}
     }
 } )
@@ -1658,7 +1658,9 @@ void advanced_inventory::display()
 
         if( ui ) {
             ui->invalidate_ui();
-            g->invalidate_main_ui_adaptor();
+            if( recalc ) {
+                g->invalidate_main_ui_adaptor();
+            }
             ui_manager::redraw_invalidated();
         }
 

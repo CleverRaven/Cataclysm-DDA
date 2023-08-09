@@ -332,9 +332,9 @@
     "id": "EOC_difficulty1",
     "effect": [
       {
-        "u_message": "Difficulty set to Casual.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+        "u_message": "Difficulty set to Normal.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "90 m" } ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "sicknessintervals" }, "=", { "time": "45 m" } ] },
       { "math": [ "has_set_difficulty", "=", "1" ] }
     ]
   },
@@ -367,7 +367,7 @@
     "effect": [
       { "math": [ "readablesicknessintervals", "=", "sicknessintervals / 60" ] },
       {
-        "u_message": "Total expeditions: <u_val:raidstotal> \nWins: <u_val:raidswon> \nLosses: <u_val:raidslost> \nMissions complete: <u_val:missionswon> \nSlaughter missions complete: <u_val:slaughterswon>\n\nCurrent difficulty settings:\nWarpsickness at: 8 pulses.\nDisintegration at: 12 pulses.\nPulses every: <global_val:readablesicknessintervals> minutes."
+        "u_message": "Total expeditions: <global_val:raidstotal> \nWins: <global_val:raidswon> \nLosses: <global_val:raidslost> \nMissions complete: <u_val:missionswon> \nSlaughter missions complete: <global_val:slaughterswon>\n\nCurrent difficulty settings:\nWarpsickness at: 8 pulses.\nDisintegration at: 12 pulses.\nPulses every: <global_val:readablesicknessintervals> minutes."
       }
     ]
   },

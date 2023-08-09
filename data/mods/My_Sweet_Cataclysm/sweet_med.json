@@ -7,7 +7,7 @@
     "description": "An ointment made of caramel.  You could use it to heal your wounds, if you were made of sugar.",
     "weight": "375 g",
     "volume": "27 ml",
-    "price": 600,
+    "price": "66 cent",
     "material": [ "sugar" ],
     "symbol": "~",
     "color": "brown",

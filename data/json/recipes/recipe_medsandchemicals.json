@@ -856,7 +856,7 @@
       [ [ "water", 4 ], [ "water_clean", 4 ] ],
       [ [ "meal_bone", 2 ], [ "meal_bone_tainted", 4 ] ],
       [ [ "meal_chitin_piece", 1 ] ],
-      [ [ "feces_bird", 10 ], [ "feces_cow", 4 ], [ "feces_manure", 6 ] ]
+      [ [ "feces_bird", 10 ], [ "feces_roach", 10 ], [ "feces_cow", 4 ], [ "feces_manure", 6 ] ]
     ]
   },
   {
@@ -1423,8 +1423,9 @@
     "skill_used": "fabrication",
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
-    "tools": [ [ [ "matches", 20 ], [ "ref_matches", 20 ] ] ]
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "sieve_steel", -1 ] ] ],
+    "components": [ [ [ "match", 85 ] ] ]
   },
   {
     "type": "recipe",

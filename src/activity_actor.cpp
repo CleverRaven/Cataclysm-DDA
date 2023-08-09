@@ -1821,7 +1821,7 @@ bool read_activity_actor::player_readma( avatar &you )
 
     if( one_in( difficulty ) ) {
         // learn martial art
-        mart_iter->second.call( &you, *book, false, you.pos() );
+        mart_iter->second.call( &you, *book, you.pos() );
         return true;
     } else if( continuous ) {
         switch( rng( 1, 5 ) ) {
@@ -3218,7 +3218,7 @@ bool craft_activity_actor::check_if_craft_okay( item_location &craft_item, Chara
     item *craft = craft_item.get_item();
 
     // item_location::get_item() will return nullptr if the item is lost
-    if( !craft ) {
+    if( !craft || square_dist( craft_item.pos_bub(), crafter.pos_bub() ) > 1 ) {
         crafter.add_msg_player_or_npc(
             _( "You no longer have the in progress craft in your possession.  "
                "You stop crafting.  "
@@ -3248,6 +3248,8 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
     cached_crafting_speed = 0;
     cached_workbench_multiplier = 0;
     use_cached_workbench_multiplier = false;
+    act.targets.clear();
+    act.targets.push_back( craft_item );
 }
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
@@ -5667,14 +5669,15 @@ std::unique_ptr<activity_actor> wear_activity_actor::deserialize( JsonValue &jsi
 
 void invoke_item_activity_actor::do_turn( player_activity &, Character &who )
 {
+    item_location _item = item;
+    std::string _method = method;
     if( method.empty() ) {
         who.cancel_activity();
-        who.invoke_item( item.get_item() );
+        who.invoke_item( _item.get_item() );
         return;
     }
-    std::string _method = method;
     who.cancel_activity();
-    who.invoke_item( item.get_item(), _method );
+    who.invoke_item( _item.get_item(), _method );
 }
 
 void invoke_item_activity_actor::serialize( JsonOut &jsout ) const

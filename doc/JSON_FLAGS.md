@@ -229,6 +229,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```LASER``` Creates a trail of laser (the field type).
 - ```LIGHTNING``` Creates a trail of lightning.
 - ```magic``` Always best possible hit, do nothing special, no damage mults, nothing.
+- ```MATCHHEAD``` Bullet has a chance of damaging the gun from overpressure regardless of fouling level.
 - ```MININUKE_MOD``` Small thermo-nuclear detonation that leaves behind radioactive fallout.
 - ```MUZZLE_SMOKE``` Generate a small cloud of smoke at the source.
 - ```NAPALM``` Explosion that spreads fire.

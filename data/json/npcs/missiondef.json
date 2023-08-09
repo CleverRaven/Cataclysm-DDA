@@ -979,8 +979,6 @@
     "id": "EOC_FACTION_SUCCESSION_COOLDOWN",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "//": "If you're looking to change the cooldown simply replace the below value with how long the cooldown should be, in seconds.",
-    "//2": "7,776,000 seconds = 90 days",
     "effect": [ { "math": [ "time_between_succession", "=", "u_val('time: 90 d')" ] } ]
   },
   {

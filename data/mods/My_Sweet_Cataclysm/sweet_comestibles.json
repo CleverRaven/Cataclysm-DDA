@@ -11,7 +11,7 @@
     "comestible_type": "FOOD",
     "material": [ "junk" ],
     "description": "The corpse of a necco.  Now it really looks like a giant necco wafer.  Surely a bite wouldn't hurt, right?",
-    "price": 4000,
+    "price": "1 USD",
     "quench": -1,
     "healthy": -1,
     "calories": 220,

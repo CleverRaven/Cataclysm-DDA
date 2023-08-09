@@ -290,6 +290,8 @@ biofuel
 biofuels
 biographic
 biohacker
+biokinesis
+biokinetic
 biollante
 biomachine
 biomancer
@@ -629,6 +631,7 @@ craftsfolk
 craftswoman
 craftwork
 crappie
+creasing
 creeply
 creped
 criniere
@@ -1214,6 +1217,7 @@ glitchiness
 gliters
 gloppy
 glowstick
+glumly
 glyceride
 glyptodont
 glyptotherium
@@ -1392,7 +1396,10 @@ hydria
 hydrocracking
 hydrogel
 hygrometer
+hygroscope
+hygroscopes
 hygroscopic
+hygroscopy
 hyolith
 hypacrosaurus
 hyperaggressive
@@ -1431,6 +1438,7 @@ inclusiveness
 incompetencies
 incongruously
 incorporeal
+incredulously
 indemnifying
 indiscernible
 inductance
@@ -1636,6 +1644,7 @@ lemony
 lemure
 lense
 leptoceratops
+lessers
 letal
 lettin
 leuchtet
@@ -1666,6 +1675,7 @@ lithely
 litheness
 liturgies
 livingrooms
+livestream
 lizardfolk
 lizardlike
 ll
@@ -1744,6 +1754,7 @@ massproduced
 masterkey
 mastiffs
 matar
+matchhead
 matryoshka
 mausketeer
 mausoleums
@@ -2337,6 +2348,8 @@ pushmower
 pussywillows
 putrescent
 pwn
+pyrokinesis
+pyrokinetic
 pyrolusite
 pyrolysis
 pyrometer
@@ -2847,6 +2860,7 @@ suborder
 subplanar
 subplane
 subplots
+subsuming
 subterraenean
 subtypes
 sudo
@@ -3078,6 +3092,7 @@ unbuckling
 unburnt
 uncleaned
 uncluttered
+uncoiling
 uncoils
 uncured
 undecipherable
@@ -3090,6 +3105,7 @@ underlayer
 underlayers
 undersides
 underslung
+understandingly
 underwelming
 undescribed
 undried

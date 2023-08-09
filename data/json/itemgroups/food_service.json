@@ -1528,6 +1528,50 @@
   },
   {
     "type": "item_group",
+    "id": "kitchen_sealed_3L_jar",
+    "subtype": "distribution",
+    "container-item": "jar_3l_glass_sealed",
+    "entries": [
+      { "item": "meat_canned", "prob": 4, "container-item": "null", "count": 12 },
+      { "item": "veggy_canned", "prob": 4, "container-item": "null", "count": 12 },
+      { "item": "apple_canned", "prob": 4, "container-item": "null", "count": 24 },
+      { "item": "offal_canned", "prob": 1, "container-item": "null", "count": 12 },
+      { "item": "can_tomato", "prob": 8, "container-item": "null", "count": 24 },
+      { "item": "fish_pickled", "prob": 2, "container-item": "null", "count": 12 },
+      { "item": "meat_pickled", "prob": 2, "container-item": "null", "count": 12 },
+      { "item": "fish_pickled", "prob": 2, "container-item": "null", "count": 12 },
+      { "item": "sauce_red", "prob": 8, "container-item": "null", "count": 6 },
+      { "item": "kompot", "prob": 4, "container-item": "null", "count": 12 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "kitchen_plastic_bag",
+    "subtype": "distribution",
+    "container-item": "bag_plastic",
+    "entries": [
+      { "item": "dry_beans", "prob": 4, "container-item": "null", "count": [ 1, 96 ] },
+      { "item": "dry_rice", "prob": 4, "container-item": "null", "count": [ 1, 48 ] },
+      { "item": "dry_lentils", "prob": 4, "container-item": "null", "count": [ 1, 32 ] },
+      { "item": "tortilla_flour", "prob": 4, "container-item": "null", "count": [ 1, 50 ] },
+      { "item": "tortilla_corn", "prob": 4, "container-item": "null", "count": [ 1, 50 ] },
+      { "item": "oats", "prob": 4, "container-item": "null", "count": [ 1, 8 ] },
+      { "item": "flour", "prob": 4, "container-item": "null", "count": [ 1, 100 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "kitchen_sack",
+    "subtype": "distribution",
+    "container-item": "bag_canvas",
+    "entries": [
+      { "item": "potato", "prob": 6, "container-item": "null", "count": [ 1, 40 ] },
+      { "item": "carrot", "prob": 4, "container-item": "null", "count": [ 1, 116 ] },
+      { "item": "onion", "prob": 4, "container-item": "null", "count": [ 1, 60 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "cookies_box_snack_4",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",

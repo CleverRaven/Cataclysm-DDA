@@ -8,7 +8,7 @@
     "color": "white",
     "use_action": [ "SEED" ],
     "description": "Some raw melon seeds.",
-    "price": 100,
+    "price": "1 cent",
     "seed_data": { "plant_name": "melon", "fruit": "melon", "fruit_div": 3, "byproducts": [ "withered" ], "grow": "91 days" },
     "volume": "2 ml"
   },
@@ -21,7 +21,7 @@
     "color": "black",
     "use_action": [ "SEED" ],
     "description": "Some raw banana seeds.",
-    "price": 100,
+    "price": "1 cent",
     "seed_data": { "plant_name": "banana", "fruit": "banana", "fruit_div": 3, "grow": "91 days" },
     "volume": "2 ml"
   },
@@ -34,7 +34,7 @@
     "color": "black",
     "use_action": [ "SEED" ],
     "description": "Some raw kiwi seeds.",
-    "price": 100,
+    "price": "1 cent",
     "seed_data": { "plant_name": "kiwi", "fruit": "kiwi", "fruit_div": 3, "byproducts": [ "withered" ], "grow": "91 days" },
     "volume": "2 ml"
   }

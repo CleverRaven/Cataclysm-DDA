@@ -12,11 +12,15 @@
     "nested_category_data": [
       "practice_teleport_blink",
       "practice_teleport_slow",
+      "practice_teleport_phase",
+      "practice_teleport_stride",
       "practice_teleport_transpose",
+      "practice_teleport_displacement",
       "practice_teleport_farstep",
       "practice_teleport_collapse",
+      "practice_teleport_banish",
       "practice_teleport_gateway",
-      "practice_teleport_banish"
+      "practice_teleport_breach"
     ],
     "difficulty": 1
   },
@@ -131,13 +135,121 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: phase",
+    "id": "practice_teleport_phase",
+    "description": "Contemplate your powers and improve your ability to travel short distances without crossing the intervening space.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEPORT_PHASE",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_phase" }, ">=", { "const": 1 } ] },
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_phase" }, "<=", { "const": 49417 } ] }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "teleport_phase" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_TELEPORT_PHASE_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_phase" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: extended stride",
+    "id": "practice_teleport_stride",
+    "description": "Contemplate your powers and improve your ability to warp space around your movements.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEPORT_STRIDE",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_stride" }, ">=", { "const": 1 } ] },
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_stride" }, "<=", { "const": 49417 } ] }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "teleport_stride" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_TELEPORT_STRIDE_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_stride" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: transposition",
     "id": "practice_teleport_transpose",
     "description": "Contemplate your powers and improve your control of relative position exchange.",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 3,
     "time": "30 m",
     "autolearn": false,
     "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
@@ -168,61 +280,6 @@
             {
               "id": "EOC_PRACTICE_TELEPORT_SWAP_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_transpose" }, ">=", { "const": 1 } ] },
-              "effect": [
-                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ],
-              "false_effect": [
-                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
-                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-              ]
-            }
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: farstep",
-    "id": "practice_teleport_farstep",
-    "description": "Contemplate your powers and develop your ability to instantly travel to a new location.",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "metaphysics",
-    "difficulty": 3,
-    "time": "30 m",
-    "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
-    "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
-    "result_eocs": [
-      {
-        "id": "EOC_PRACTICE_TELEPORT_FARSTEP",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_farstep" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_farstep" }, "<=", { "const": 35278 } ] }
-          ]
-        },
-        "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          {
-            "arithmetic": [
-              { "u_val": "spell_exp", "spell": "teleport_farstep" },
-              "+=",
-              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
-            ]
-          },
-          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
-        ],
-        "false_effect": {
-          "run_eocs": [
-            {
-              "id": "EOC_PRACTICE_TELEPORT_FARSTEP_FALSE",
-              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_farstep" }, ">=", { "const": 1 } ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -295,9 +352,66 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: gateway",
-    "id": "practice_teleport_gateway",
-    "description": "Contemplate your powers and improve your ability to travel to long-distant points.",
+    "name": "contemplation: displacement",
+    "id": "practice_teleport_displacement",
+    "description": "Contemplate your powers and improve your ability to teleport your enemies away from you.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEPORT_DISPLACEMENT",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_displacement" }, ">=", { "const": 1 } ] },
+            {
+              "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_displacement" }, "<=", { "const": 35278 } ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "teleport_displacement" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_TELEPORT_DISPLACEMENT_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_displacement" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: farstep",
+    "id": "practice_teleport_farstep",
+    "description": "Contemplate your powers and develop your ability to instantly travel to a new location.",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
@@ -309,18 +423,18 @@
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
-        "id": "EOC_PRACTICE_TELEPORT_GATEWAY",
+        "id": "EOC_PRACTICE_TELEPORT_FARSTEP",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_gateway" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_gateway" }, "<=", { "const": 20513 } ] }
+            { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_farstep" }, ">=", { "const": 1 } ] },
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_farstep" }, "<=", { "const": 35278 } ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           {
             "arithmetic": [
-              { "u_val": "spell_exp", "spell": "teleport_gateway" },
+              { "u_val": "spell_exp", "spell": "teleport_farstep" },
               "+=",
               { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
             ]
@@ -331,8 +445,8 @@
         "false_effect": {
           "run_eocs": [
             {
-              "id": "EOC_PRACTICE_TELEPORT_GATEWAY_FALSE",
-              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_gateway" }, ">=", { "const": 1 } ] },
+              "id": "EOC_PRACTICE_TELEPORT_FARSTEP_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_farstep" }, ">=", { "const": 1 } ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -388,6 +502,116 @@
             {
               "id": "EOC_PRACTICE_TELEPORT_BANISH_FALSE",
               "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_banish" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: gateway",
+    "id": "practice_teleport_gateway",
+    "description": "Contemplate your powers and improve your ability to travel to long-distant points.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 7,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEPORT_GATEWAY",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_gateway" }, ">=", { "const": 1 } ] },
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_gateway" }, "<=", { "const": 20513 } ] }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "teleport_gateway" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_TELEPORT_GATEWAY_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_gateway" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: breach",
+    "id": "practice_teleport_breach",
+    "description": "Contemplate your powers and improve your ability to open portals to the Nether.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 8,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEPORT_BREACH",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_summon" }, ">=", { "const": 1 } ] },
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "teleport_summon" }, "<=", { "const": 13722 } ] }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "teleport_summon" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_TELEPORT_BREACH_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "teleport_summon" }, ">=", { "const": 1 } ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }

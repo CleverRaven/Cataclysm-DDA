@@ -277,7 +277,7 @@
   {
     "type": "effect_type",
     "id": "effect_vitakin_overload",
-    "name": [ "Enervated" ],
+    "name": [ "Muscle Weakness" ],
     "desc": [ "Your muscles and coordination are impaired." ],
     "apply_message": "You feel awful!",
     "remove_message": "You don't feel as bad anymore!",
@@ -286,6 +286,18 @@
     "base_mods": { "fatigue_tick": [ 300 ], "fatigue_min": [ 1 ], "health_min": [ -1 ], "health_tick": [ 400 ] },
     "scaling_mods": { "fatigue_min": [ 1 ], "health_min": [ -1 ] },
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.8 }, { "limb_score": "manip", "modifier": 0.8 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_asthma_disease_absorbed",
+    "name": [ "Difficulty Breathing" ],
+    "desc": [ "You're having a very hard time taking in enough air." ],
+    "apply_message": "",
+    "remove_message": "You can finally breathe freely.",
+    "rating": "bad",
+    "base_mods": { "stamina_amount": [ -1000 ] },
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.8 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]

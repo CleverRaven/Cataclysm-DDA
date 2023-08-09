@@ -3046,6 +3046,16 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
     std::string assembled;
     assembled += string_format( g_switch_msg( u ), ctxt.get_desc( "CHANGE_GENDER" ),
                                 current_scenario->gender_appropriate_name( !u.male ) ) + "\n";
+    if( current_scenario->is_random_start_of_cataclysm() ) {
+        assembled += string_format(
+                         _( "Press <color_light_green>%1$s</color> to randomize cataclysm start date." ),
+                         ctxt.get_desc( "RANDOMIZE_SCENARIO_START_OF_CATACLYSM" ) ) + "\n";
+    }
+    if( current_scenario->is_random_start_of_game() ) {
+        assembled += string_format(
+                         _( "Press <color_light_green>%1$s</color> to randomize game start date." ),
+                         ctxt.get_desc( "RANDOMIZE_SCENARIO_START_OF_GAME" ) ) + "\n";
+    }
 
     assembled += "\n" + colorize( _( "Scenario Story:" ), COL_HEADER ) + "\n";
     assembled += colorize( current_scenario->description( u.male ), c_green ) + "\n";
@@ -3098,22 +3108,24 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
         assembled += current_scenario->vehicle()->name + "\n";
     }
 
-    assembled += "\n" + colorize( _( "Scenario calendar:" ), COL_HEADER ) + "\n";
-    if( current_scenario->custom_start_date() ) {
-        assembled += string_format( current_scenario->is_random_year() ?
-                                    _( "Year:   Random" ) : _( "Year:   %s" ),
-                                    current_scenario->start_year() ) + "\n";
-        assembled += string_format( _( "Season: %s" ),
-                                    calendar::name_season( current_scenario->start_season() ) ) + "\n";
-        assembled += string_format( current_scenario->is_random_day() ? _( "Day:    Random" ) :
-                                    _( "Day:    %d" ), current_scenario->start_day() ) + "\n";
-        assembled += string_format( current_scenario->is_random_hour() ? _( "Hour:   Random" ) :
-                                    _( "Hour:   %d" ), current_scenario->start_hour() ) + "\n";
-    } else {
-        assembled += _( "Default" );
-        assembled += "\n";
+    if( current_scenario->start_of_cataclysm() != calendar::turn_zero ||
+        current_scenario->is_random_start_of_cataclysm() ) {
+        assembled += "\n" + colorize( _( "Start of cataclysm:" ), COL_HEADER ) + "\n";
+        assembled += string_format( _( "Hour %1$d of %3$s, day %2$d (year %4$d)" ),
+                                    current_scenario->start_of_cataclysm_hour(),
+                                    current_scenario->start_of_cataclysm_day() + 1,
+                                    calendar::name_season( current_scenario->start_of_cataclysm_season() ),
+                                    current_scenario->start_of_cataclysm_year() ) + "\n";
     }
-
+    if( current_scenario->start_of_game() != current_scenario->start_of_cataclysm() + 8_hours ||
+        current_scenario->is_random_start_of_game() ) {
+        assembled += "\n" + colorize( _( "Start of game:" ), COL_HEADER ) + "\n";
+        assembled += string_format( _( "Hour %1$d of %3$s, day %2$d (year %4$d)" ),
+                                    current_scenario->start_of_game_hour(),
+                                    current_scenario->start_of_game_day() + 1,
+                                    calendar::name_season( current_scenario->start_of_game_season() ),
+                                    current_scenario->start_of_game_year() ) + "\n";
+    }
     if( !current_scenario->missions().empty() ) {
         assembled += "\n" + colorize( _( "Scenario missions:" ), COL_HEADER ) + "\n";
         for( mission_type_id mission_id : current_scenario->missions() ) {
@@ -3182,6 +3194,8 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "RANDOMIZE" );
+    ctxt.register_action( "RANDOMIZE_SCENARIO_START_OF_GAME" );
+    ctxt.register_action( "RANDOMIZE_SCENARIO_START_OF_CATACLYSM" );
 
     bool recalc_scens = true;
     size_t scens_length = 0;
@@ -3326,6 +3340,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 continue;
             }
             reset_scenario( u, sorted_scens[cur_id] );
+            details_recalc = true;
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
             recalc_scens = true;
@@ -3346,6 +3361,20 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
             }
         } else if( action == "RANDOMIZE" ) {
             cur_id = rng( 0, scens_length - 1 );
+        } else if( action == "RANDOMIZE_SCENARIO_START_OF_CATACLYSM" ) {
+            if( cur_id != id_for_curr_description ) {
+                get_scenario()->rerandomize( true, false );
+            } else {
+                sorted_scens[cur_id]->rerandomize( true, false );
+            }
+            details_recalc = true;
+        } else if( action == "RANDOMIZE_SCENARIO_START_OF_GAME" ) {
+            if( cur_id != id_for_curr_description ) {
+                get_scenario()->rerandomize( false, true );
+            } else {
+                sorted_scens[cur_id]->rerandomize( false, true );
+            }
+            details_recalc = true;
         }
 
         if( cur_id != id_for_curr_description || recalc_scens ) {

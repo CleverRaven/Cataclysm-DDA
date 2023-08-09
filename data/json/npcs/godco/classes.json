@@ -567,6 +567,24 @@
     ]
   },
   {
+    "type": "npc_class",
+    "id": "NC_TRADER_PREDATORY",
+    "name": { "str": "Trader" },
+    "job_description": "I'm collecting gear and selling it at a high interest.",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "shopkeeper_item_group": [ { "group": "NC_EVAC_SHOPKEEP_misc", "rigid": true } ],
+    "shopkeeper_price_rules": [
+      { "item": "icon", "price": 100 },
+      {
+        "group": "NC_EVAC_SHOPKEEP_misc",
+        "condition": { "not": { "npc_has_var": "u_paidoff", "type": "general", "context": "meeting", "value": "yes" } },
+        "markup": 3
+      }
+    ],
+    "bonus_int": { "one_in": 4 },
+    "bonus_per": { "one_in": 4 }
+  },
+  {
     "type": "item_group",
     "id": "GODCO_helena_worn",
     "subtype": "collection",

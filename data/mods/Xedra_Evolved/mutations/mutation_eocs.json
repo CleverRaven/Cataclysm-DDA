@@ -169,7 +169,7 @@
         "arithmetic": [
           { "u_val": "vitamin", "name": "human_blood_vitamin" },
           "+=",
-          { "arithmetic": [ { "rand": 100 }, "+", { "const": 500 } ] }
+          { "arithmetic": [ { "rand": 100 }, "+", { "const": 400 } ] }
         ]
       }
     ]

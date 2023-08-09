@@ -3033,7 +3033,7 @@
     "bonus": 7,
     "power": "-700 W",
     "durability": 200,
-    "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants that it travels over.  It should be placed in front of any plows in the vehicle for efficient operation.  It does not include cargo space of its own so you need install a cargo space of some kind elsewhere in the vehicle.",
+    "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants that it travels over.  It should be placed in front of any plows in the vehicle for efficient operation.  It does not include cargo space, so harvested plants will end up on the ground.",
     "item": "v_reaper_item",
     "location": "structure",
     "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",

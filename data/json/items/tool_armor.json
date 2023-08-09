@@ -1068,6 +1068,7 @@
     "ammo": "battery",
     "charges_per_use": 1,
     "use_action": [ "CAMERA", "PORTABLE_GAME", "EINKTABLETPC", "ELECTRICSTORAGE", "EBOOKSAVE", "EBOOKREAD" ],
+    "tick_action": [ "EPIC_MUSIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1772,7 +1773,8 @@
       }
     ],
     "ammo": "gasfilter_s",
-    "use_action": [ "GASMASK" ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
     "armor": [ { "encumbrance": 20, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ]
   },
   {
@@ -1807,7 +1809,8 @@
       }
     ],
     "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK" ]
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ]
   },
   {
     "id": "mask_gas_xl",
@@ -1840,7 +1843,8 @@
       }
     ],
     "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK" ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
     "flags": [ "OVERSIZE", "SLEEP_IGNORE" ]
   },
   {
@@ -1874,7 +1878,8 @@
       }
     ],
     "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK" ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
     "flags": [ "UNDERSIZE", "SLEEP_IGNORE" ]
   },
   {
@@ -1905,7 +1910,8 @@
       }
     ],
     "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK" ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
     "armor": [ { "encumbrance": 20, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ]
   },
   {
@@ -1940,7 +1946,8 @@
       }
     ],
     "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK" ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -1975,7 +1982,8 @@
       }
     ],
     "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK" ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -2012,7 +2020,8 @@
       }
     ],
     "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK" ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
     "warmth": 25,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
@@ -2043,7 +2052,8 @@
       }
     ],
     "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK" ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "steel" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -2077,7 +2087,8 @@
       }
     ],
     "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK" ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "cotton" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -2111,7 +2122,8 @@
       }
     ],
     "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK" ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "cotton" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -2145,7 +2157,8 @@
       }
     ],
     "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK" ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "leather" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -2179,7 +2192,8 @@
       }
     ],
     "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK" ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -2257,7 +2271,8 @@
       }
     ],
     "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK" ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "fur" ],
     "symbol": "[",
     "color": "light_gray",
@@ -2291,7 +2306,8 @@
       }
     ],
     "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK" ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "fur" ],
     "symbol": "[",
     "color": "light_gray",
@@ -3382,7 +3398,7 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
-    "use_action": [ "DIVE_TANK" ],
+    "use_action": [ "DIVE_TANK_ACTIVATE" ],
     "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
     "melee_damage": { "bash": 10 }
   },
@@ -3407,11 +3423,13 @@
     ],
     "charges_per_use": 1,
     "turns_per_charge": 60,
+    "revert_to": "scuba_tank",
     "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
     "environmental_protection": 3,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
-    "use_action": [ "DIVE_TANK" ],
+    "use_action": [ "DIVE_TANK_ACTIVATE" ],
+    "tick_action": [ "DIVE_TANK" ],
     "armor": [
       { "encumbrance": 30, "coverage": 50, "covers": [ "torso", "mouth" ], "specifically_covers": [ "torso_hanging_back" ] }
     ],
@@ -3440,7 +3458,7 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
-    "use_action": [ "DIVE_TANK" ],
+    "use_action": [ "DIVE_TANK_ACTIVATE" ],
     "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
     "melee_damage": { "bash": 6 }
   },
@@ -3465,11 +3483,13 @@
     ],
     "charges_per_use": 1,
     "turns_per_charge": 60,
+    "revert_to": "small_scuba_tank",
     "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
     "environmental_protection": 3,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
-    "use_action": [ "DIVE_TANK" ],
+    "use_action": [ "DIVE_TANK_ACTIVATE" ],
+    "tick_action": [ "DIVE_TANK" ],
     "armor": [
       { "encumbrance": 30, "coverage": 50, "covers": [ "torso", "mouth" ], "specifically_covers": [ "torso_hanging_back" ] }
     ],
@@ -3586,6 +3606,7 @@
     "turns_per_charge": 60,
     "revert_to": "foodperson_mask",
     "use_action": [ "FOODPERSON" ],
+    "tick_action": [ "FOODPERSON_VOICE" ],
     "flags": [ "OUTER", "SUN_GLASSES", "NO_TAKEOFF", "LIGHT_10", "WATCH", "NO_UNLOAD" ]
   },
   {
