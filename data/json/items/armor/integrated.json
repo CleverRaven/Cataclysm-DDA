@@ -1503,8 +1503,8 @@
     "category": "armor",
     "name": { "str_sp": "bionic plating - arms" },
     "description": "The durable alloy armor which protects the sensitive components that operate your bionic arms.",
-    "weight": "1000 g",
-    "volume": "1000 ml",
+    "weight": "0 g",
+    "volume": "6000 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
@@ -1514,7 +1514,7 @@
     "warmth": 0,
     "material_thickness": 8,
     "environmental_protection": 25,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT"  ],
     "melee_damage": { "bash": 10 },
     "armor": [
       {
@@ -1571,8 +1571,8 @@
     "category": "armor",
     "name": { "str_sp": "bionic plating - legs" },
     "description": "The durable alloy armor which protects the sensitive components that operate your bionic legs.",
-    "weight": "1000 g",
-    "volume": "1000 ml",
+    "weight": "0 g",
+    "volume": "8000 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
@@ -1582,7 +1582,7 @@
     "warmth": 0,
     "material_thickness": 8,
     "environmental_protection": 25,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT"  ],
     "melee_damage": { "bash": 10 },
     "armor": [
       {
@@ -1639,8 +1639,8 @@
     "category": "armor",
     "name": { "str_sp": "bionic plating - tank treads" },
     "description": "The protective armor for the bionic tank treads which replace the legs.",
-    "weight": "1000 g",
-    "volume": "1000 ml",
+    "weight": "0 g",
+    "volume": "80000 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
@@ -1650,7 +1650,7 @@
     "warmth": 0,
     "material_thickness": 8,
     "environmental_protection": 25,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1658,7 +1658,8 @@
         "max_contains_weight": "200 kg",
         "max_item_length": "50 cm",
         "moves": 500,
-        "description": "Cargo storage compartment."
+        "description": "Cargo storage compartment.",
+        "rigid": true
       }
     ],
     "armor": [
