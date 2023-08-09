@@ -1608,7 +1608,7 @@
           { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 4.0 },
           { "type": "superalloy", "covered_by_mat": 95, "thickness": 4.0 }
         ],
-        "covers": [ "bionic_basic_leg_r", "bionic_basic_foot_r" ],
+        "covers": [ "bionic_basic_leg_l", "bionic_basic_foot_l" ],
         "coverage": 100,
         "encumbrance": 0,
         "cover_vitals": 100
@@ -1626,7 +1626,7 @@
           { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 4.0 },
           { "type": "superalloy", "covered_by_mat": 95, "thickness": 4.0 }
         ],
-        "covers": [ "bionic_basic_leg_l", "bionic_basic_foot_l" ],
+        "covers": [ "bionic_basic_leg_r", "bionic_basic_foot_r" ],
         "coverage": 100,
         "encumbrance": 0,
         "cover_vitals": 100
