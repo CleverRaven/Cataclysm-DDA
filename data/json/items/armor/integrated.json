@@ -1514,16 +1514,7 @@
     "warmth": 0,
     "material_thickness": 8,
     "environmental_protection": 25,
-    "flags": [
-      "INTEGRATED",
-      "UNBREAKABLE",
-      "OUTER",
-      "WATER_FRIENDLY",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "PADDED",
-      "ZERO_WEIGHT"
-    ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT" ],
     "melee_damage": { "bash": 10 },
     "armor": [
       {
@@ -1591,16 +1582,7 @@
     "warmth": 0,
     "material_thickness": 8,
     "environmental_protection": 25,
-    "flags": [
-      "INTEGRATED",
-      "UNBREAKABLE",
-      "OUTER",
-      "WATER_FRIENDLY",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "PADDED",
-      "ZERO_WEIGHT"
-    ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT" ],
     "melee_damage": { "bash": 10 },
     "armor": [
       {
@@ -1668,16 +1650,7 @@
     "warmth": 0,
     "material_thickness": 8,
     "environmental_protection": 25,
-    "flags": [
-      "INTEGRATED",
-      "UNBREAKABLE",
-      "OUTER",
-      "WATER_FRIENDLY",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "PADDED",
-      "ZERO_WEIGHT"
-    ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1713,5 +1686,5 @@
         "cover_vitals": 100
       }
     ]
-  } 
+  }
 ]
