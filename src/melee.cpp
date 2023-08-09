@@ -922,7 +922,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     const int base_stam = get_base_melee_stamina_cost();
     const int total_stam = get_total_melee_stamina_cost();
 
-    mod_stamina( std::min( -50, total_stam + deft_bonus ) );
+    burn_energy_arms( std::min( -50, total_stam + deft_bonus ) );
     add_msg_debug( debugmode::DF_MELEE, "Stamina burn base/total (capped at -50): %d/%d", base_stam,
                    total_stam + deft_bonus );
     // Weariness handling - 1 / the value, because it returns what % of the normal speed
