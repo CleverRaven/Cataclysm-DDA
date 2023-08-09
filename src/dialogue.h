@@ -11,6 +11,7 @@
 #include <utility>
 #include <vector>
 
+#include "cata_lazy.h"
 #include "dialogue_win.h"
 #include "global_vars.h"
 #include "npc.h"
@@ -246,10 +247,12 @@ struct dialogue {
         std::unique_ptr<talker> beta;
 
         // dialogue specific variables that can be passed down to additional EOCs but are one way
-        std::unordered_map<std::string, std::string> context;
+        lazy<std::unordered_map<std::string, std::string>> context;
+        // Weirdly unnecessarily in context.
+        std::string callstack;
 
         // conditionals that were set at the upper level
-        std::unordered_map<std::string, std::function<bool( dialogue & )>> conditionals;
+        lazy<std::unordered_map<std::string, std::function<bool( dialogue & )>>> conditionals;
 
         /**
          * Add a simple response that switches the topic to the new one. If first == true, force

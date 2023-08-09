@@ -1991,13 +1991,13 @@ void dialogue::set_value( const std::string &key, const std::string &value )
 
 void dialogue::remove_value( const std::string &key )
 {
-    context.erase( key );
+    context->erase( key );
 }
 
 std::string dialogue::get_value( const std::string &key ) const
 {
-    auto it = context.find( key );
-    return ( it == context.end() ) ? "" : it->second;
+    auto it = context->find( key );
+    return ( it == context->end() ) ? "" : it->second;
 }
 
 void dialogue::set_conditional( const std::string &key,
@@ -2008,8 +2008,8 @@ void dialogue::set_conditional( const std::string &key,
 
 bool dialogue::evaluate_conditional( const std::string &key, dialogue &d )
 {
-    auto it = conditionals.find( key );
-    return ( it == conditionals.end() ) ? false : it->second( d );
+    auto it = conditionals->find( key );
+    return ( it == conditionals->end() ) ? false : it->second( d );
 }
 
 const std::unordered_map<std::string, std::string> &dialogue::get_context() const
@@ -2025,17 +2025,17 @@ const std::unordered_map<std::string, std::function<bool( dialogue & )>>
 
 void dialogue::amend_callstack( const std::string &value )
 {
-    if( !context["callstack"].empty() ) {
-        context["callstack"] += " \\ " + value;
+    if( !callstack.empty() ) {
+        callstack += " \\ " + value;
     } else {
-        context["callstack"] = value;
+        callstack = value;
     }
 }
 
 std::string dialogue::get_callstack() const
 {
-    if( context.count( "callstack" ) != 0 ) {
-        return "Callstack: " + context.find( "callstack" )->second;
+    if( !callstack.empty() ) {
+        return "Callstack: " + callstack;
     }
     return "";
 }
@@ -2073,8 +2073,13 @@ dialogue::dialogue( const dialogue &d ) : has_beta( d.has_beta ), has_alpha( d.h
     if( !has_alpha && !has_beta ) {
         debugmsg( "Constructed a dialogue with no actors!  %s", get_callstack() );
     }
-    context = d.get_context();
-    conditionals = d.get_conditionals();
+    if( d.context.has_value() ) {
+        context = *d.context;
+    }
+    if( d.conditionals.has_value() ) {
+        conditionals = *d.conditionals;
+    }
+    callstack = d.callstack;
 }
 
 dialogue::dialogue( std::unique_ptr<talker> alpha_in,
