@@ -7258,7 +7258,15 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
                 sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
                 if( it.has_flag( flag_RADIO_INVOKE_PROC ) ) {
                     // Invoke to transform a radio-modded explosive into its active form
-                    it.type->invoke( &p, it, loc );
+                    // The item activation may have all kinds of requirements. Like requiring item to be wielded.
+                    // We do not care. Call item action directly without checking can_use.
+                    // Items where this can be a problem should not be radio moddable
+                    std::map<std::string, use_function> use_methods = it.type->use_methods;
+                    if( use_methods.find( "transform" ) != use_methods.end() ) {
+                        it.type->get_use( "transform" )->call( &p, it, loc );
+                    } else {
+                        it.type->get_use( it.type->use_methods.begin()->first )->call( &p, it, loc );
+                    }
                 }
             } else if( !it.empty_container() ) {
                 item *itm = it.get_item_with( [&signal]( const item & c ) {

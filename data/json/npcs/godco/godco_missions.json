@@ -1225,5 +1225,28 @@
       "success_lie": "If you see this, it's a bug.",
       "failure": "As expected of such a person…"
     }
+  },
+  {
+    "id": "MISSION_INVESTIGATE_TRADER",
+    "type": "mission_definition",
+    "name": { "str": "Investigate the Trader" },
+    "description": "Find some proof that the representative near the New England Community Church is crooked.",
+    "goal": "MGOAL_CONDITION",
+    "difficulty": 1,
+    "goal_condition": { "compare_num": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "==", { "const": 1 } ] },
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "Find some proof about that merchant.",
+      "offer": "If you see this, it's a bug.",
+      "accepted": "If you see this, it's a bug.",
+      "rejected": "If you see this, it's a bug.",
+      "advice": "If you see this, it's a bug.",
+      "inquire": "What have you found out?",
+      "success": "Thanks, we'll take the needed initiative.",
+      "success_lie": "If you see this, it's a bug.",
+      "failure": "Of course, you have no evidence."
+    }
   }
 ]

@@ -187,6 +187,7 @@
       { "group": "psionic_recipes_beginner", "prob": 5 },
       { "group": "psionic_recipes_tools", "prob": 5 },
       { "group": "psionic_recipes_medicine", "prob": 2 },
+      { "group": "psionic_recipes_powers", "prob": 2 },
       { "group": "psionic_recipes_advanced", "prob": 1 },
       { "group": "dist_matrix_crystals", "prob": 1 }
     ]
@@ -212,6 +213,12 @@
       [ "schematics_instability_remover", 5 ],
       [ "schematics_psionic_purifier", 1 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "psionic_recipes_powers",
+    "items": [ [ "phavian_psionic_martial_power_book", 1 ] ]
   },
   {
     "type": "item_group",
@@ -272,6 +279,34 @@
     "subtype": "collection",
     "id": "collection_force_field_and_note",
     "items": [ { "item": "force_field_generator", "prob": 1 }, { "item": "lab_file_OS647_P_item", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "psi_lab_no_recipes",
+    "items": [
+      { "item": "water_clean", "prob": 150, "charges-min": 1, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "ether", "prob": 50, "charges-min": 100 },
+      { "item": "chem_aluminium_powder", "prob": 25, "container-item": "flask_glass" },
+      { "item": "chem_zinc_powder", "prob": 25, "container-item": "flask_glass" },
+      { "group": "distribution_matrix_dust", "prob": 80 },
+      { "item": "file", "prob": 50 },
+      { "item": "camera_pro", "prob": 20 },
+      { "item": "deck_of_cards", "prob": 15 },
+      { "item": "magic_8_ball", "prob": 10 },
+      { "item": "cards_magic", "prob": 5 },
+      { "group": "psi_testing_materials", "prob": 50 },
+      { "item": "apron_plastic", "prob": 30 },
+      { "item": "apron_cotton", "prob": 10 },
+      { "item": "salt_water", "prob": 20, "charges-min": 1 },
+      { "item": "chem_sulphuric_acid", "prob": 20, "container-item": "bottle_glass" },
+      { "item": "chem_muriatic_acid", "prob": 15, "container-item": "bottle_glass" },
+      { "item": "chem_nitric_acid", "prob": 15, "container-item": "bottle_glass" },
+      { "item": "mortar_pestle", "prob": 20 },
+      { "item": "blindfold", "prob": 10 },
+      { "item": "syringe", "prob": 12 },
+      { "item": "matrix_crystal_drained", "prob": 15 }
+    ]
   },
   {
     "id": "lab_files_psi",

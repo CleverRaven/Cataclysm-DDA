@@ -707,7 +707,7 @@
     "type": "mapgen",
     "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left.  This is a weapons lab",
-    "weight": 500,
+    "weight": 50,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -743,7 +743,7 @@
     "type": "mapgen",
     "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This is a weapons lab",
-    "weight": 500,
+    "weight": 50,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
     "object": {
       "mapgensize": [ 8, 8 ],

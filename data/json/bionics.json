@@ -1652,7 +1652,7 @@
     "name": { "str": "Integrated Multitool" },
     "description": "Surgically implanted in your hands and forearms is a set of compact tools and a welder that runs off your internal power banks.",
     "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ], [ "arm_l", 2 ], [ "arm_r", 2 ] ],
-    "passive_pseudo_items": [ "toolset" ],
+    "passive_pseudo_items": [ "toolset", "integrated_welder" ],
     "flags": [ "BIO_SHOCKPROOF", "BIONIC_NPC_USABLE" ]
   },
   {

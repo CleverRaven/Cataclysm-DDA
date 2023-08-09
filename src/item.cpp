@@ -2447,8 +2447,9 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     if( recipe_exemplar.empty() ) {
         min_nutr = max_nutr = player_character.compute_effective_nutrients( *food_item );
     } else {
+        std::map<recipe_id, std::pair<nutrients, nutrients>> rec_cache;
         std::tie( min_nutr, max_nutr ) =
-            player_character.compute_nutrient_range( *food_item, recipe_id( recipe_exemplar ) );
+            player_character.compute_nutrient_range( *food_item, recipe_id( recipe_exemplar ), rec_cache );
     }
 
     bool show_nutr = parts->test( iteminfo_parts::FOOD_NUTRITION ) ||
@@ -2800,8 +2801,13 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         parts->test( iteminfo_parts::AMMO_FX_RECYCLED ) ) {
         fx.emplace_back( _( "This ammo has been <bad>hand-loaded</bad>." ) );
     }
-    if( ammo.ammo_effects.count( "BLACKPOWDER" ) &&
+    if( ammo.ammo_effects.count( "MATCHHEAD" ) &&
         parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
+        fx.emplace_back(
+            _( "This ammo has been loaded with <bad>matchhead powder</bad>, and will quickly "
+               "clog and rust most guns like blackpowder, but will also rarely cause the gun damage from pressure spikes." ) );
+    } else if( ammo.ammo_effects.count( "BLACKPOWDER" ) &&
+               parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
         fx.emplace_back(
             _( "This ammo has been loaded with <bad>blackpowder</bad>, and will quickly "
                "clog up most guns, and cause rust if the gun is not cleaned." ) );

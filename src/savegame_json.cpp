@@ -475,8 +475,7 @@ void SkillLevel::deserialize( const JsonObject &data )
     data.read( "istraining", _isTraining );
     data.read( "rustaccumulator", _rustAccumulator );
     if( !data.read( "lastpracticed", _lastPracticed ) ) {
-        _lastPracticed = calendar::start_of_cataclysm + time_duration::from_hours(
-                             get_option<int>( "INITIAL_TIME" ) );
+        _lastPracticed = calendar::start_of_game;
     }
     data.read( "knowledgeLevel", _knowledgeLevel );
     if( _knowledgeLevel < _level ) {

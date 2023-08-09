@@ -3075,10 +3075,13 @@ class Character : public Creature, public visitable
          * depending on choice of ingredients */
         std::pair<nutrients, nutrients> compute_nutrient_range(
             const item &, const recipe_id &,
+            std::map<recipe_id, std::pair<nutrients, nutrients>> &rec_cache,
             const cata::flat_set<flag_id> &extra_flags = {} ) const;
         /** Same, but across arbitrary recipes */
         std::pair<nutrients, nutrients> compute_nutrient_range(
-            const itype_id &, const cata::flat_set<flag_id> &extra_flags = {} ) const;
+            const itype_id &,
+            std::map<recipe_id, std::pair<nutrients, nutrients>> &rec_cache,
+            const cata::flat_set<flag_id> &extra_flags = {} ) const;
         /** Returns allergy type or MORALE_NULL if not allergic for this character */
         morale_type allergy_type( const item &food ) const;
         nutrients compute_effective_nutrients( const item & ) const;

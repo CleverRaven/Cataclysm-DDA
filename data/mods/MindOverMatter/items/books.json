@@ -126,5 +126,22 @@
     "intelligence": 12,
     "time": "35 m",
     "fun": -2
+  },
+  {
+    "id": "phavian_psionic_martial_power_book",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "Training Manual: VERDANT HAND Combat Protocol",
+      "str_pl": "copies of Training Manual: VERDANT HAND Combat Protocol"
+    },
+    "description": "A formal report with a mostly-blank cover page, stamped with the Project PHAVIAN logo at the top and a red \"VERDANT HAND - EYES ONLY\" centered underneath.  Contrary to your initial assumption, it is not a martial arts training manual.  Instead, it describes a series of meditations and visualization exercises designed to \"increase the subject's unarmed combat prowess fivefold\".  There are several charts showing the results of a VERDANT HAND combatant against training opponents armed with weapons or firearms at various engagement distances.  It's clearly still not as good as just having a rifle, but the data look pretty promising if you can get these exercises down.",
+    "copy-from": "recipe_lab_elec",
+    "skill": "unarmed",
+    "required_level": 2,
+    "max_level": 3,
+    "intelligence": 8,
+    "time": "12 m",
+    "fun": 1
   }
 ]

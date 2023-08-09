@@ -261,7 +261,7 @@
     "start_name": "Outside Town",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
     "flags": [ "LONE_START" ],
-    "custom_initial_date": { "season": "winter" },
+    "start_of_game": { "season": "winter" },
     "professions": [
       "svictim",
       "naked",
@@ -301,7 +301,7 @@
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island", "sloc_river" ],
     "start_name": "Outside Town",
     "flags": [ "LONE_START" ],
-    "custom_initial_date": { "season": "summer", "year": 2 },
+    "start_of_game": { "season": "summer", "year": 2 },
     "professions": [
       "svictim",
       "naked",

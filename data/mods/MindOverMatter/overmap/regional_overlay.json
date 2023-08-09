@@ -54,6 +54,47 @@
           "mx_nether_pond": 25,
           "mx_glass_and_crystal": 25
         }
+      },
+      "phavian_lab_lot": {
+        "chance": 3,
+        "extras": {
+          "mx_helicopter": 15,
+          "mx_military": 65,
+          "mx_collegekids": 1,
+          "mx_portal": 150,
+          "mx_crater": 180,
+          "mx_alien_grass": 25,
+          "mx_alien_grass_2": 25,
+          "mx_alien_grass_3": 25,
+          "mx_alien_grass_4": 25,
+          "mx_alien_grass_5": 25,
+          "mx_alien_grove": 25,
+          "mx_nether_pond": 50,
+          "mx_portal_in": 30,
+          "mx_point_burned_ground": 100,
+          "mx_casings": 30,
+          "mx_exocrash_1": 1,
+          "mx_exocrash_2": 1
+        }
+      },
+      "phavian_lab_interior": {
+        "chance": 2,
+        "extras": {
+          "mx_jabberwock": 1,
+          "mx_military": 5,
+          "mx_portal": 75,
+          "mx_crater": 300,
+          "mx_portal_in": 40,
+          "mx_point_burned_ground": 125,
+          "mx_casings": 30,
+          "mx_glass_and_crystal": 50,
+          "mx_alien_grass": 25,
+          "mx_alien_grass_2": 25,
+          "mx_alien_grass_3": 25,
+          "mx_alien_grass_4": 25,
+          "mx_alien_grass_5": 25,
+          "mx_nether_pond": 50
+        }
       }
     }
   }
