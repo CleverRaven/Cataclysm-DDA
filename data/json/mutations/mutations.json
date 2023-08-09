@@ -8942,8 +8942,7 @@
     "description": "Your ability to feel or express emotion has been greatly hampered.",
     "types": [ "HUMAN_EMPATHY" ],
     "category": [ "MEDICAL" ],
-    "threshreq": [ "THRESH_MEDICAL" ],
-    "flags": [ "NUMB" ]
+    "threshreq": [ "THRESH_MEDICAL" ]
   },
   {
     "type": "mutation",
