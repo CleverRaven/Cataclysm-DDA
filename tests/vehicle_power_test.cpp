@@ -192,7 +192,7 @@ TEST_CASE( "Solar_power", "[vehicle][power]" )
         WHEN( "30 minutes elapse" ) {
             veh_ptr->update_time( calendar::turn + 30_minutes );
             int power = veh_ptr->fuel_left( fuel_type_battery );
-            CHECK( power == Approx( 425 ).margin( 1 ) );
+            CHECK( power == Approx( 1700 ).margin( 1 ) );
         }
     }
 
@@ -217,7 +217,7 @@ TEST_CASE( "Solar_power", "[vehicle][power]" )
         WHEN( "30 minutes elapse" ) {
             veh_ptr->update_time( calendar::turn + 30_minutes );
             int power = veh_ptr->fuel_left( fuel_type_battery );
-            CHECK( power == Approx( 184 ).margin( 1 ) );
+            CHECK( power == Approx( 734 ).margin( 1 ) );
         }
     }
 
@@ -270,7 +270,7 @@ TEST_CASE( "Daily_solar_power", "[vehicle][power]" )
         WHEN( "24 hours pass" ) {
             veh_ptr->update_time( calendar::turn + 24_hours );
             int power = veh_ptr->fuel_left( fuel_type_battery );
-            CHECK( power == Approx( 5259 ).margin( 1 ) );
+            CHECK( power == Approx( 21037 ).margin( 1 ) );
         }
     }
 
@@ -282,7 +282,7 @@ TEST_CASE( "Daily_solar_power", "[vehicle][power]" )
         WHEN( "24 hours pass" ) {
             veh_ptr->update_time( calendar::turn + 24_hours );
             int power = veh_ptr->fuel_left( fuel_type_battery );
-            CHECK( power == Approx( 7925 ).margin( 1 ) );
+            CHECK( power == Approx( 31703 ).margin( 1 ) );
         }
     }
 
@@ -294,7 +294,7 @@ TEST_CASE( "Daily_solar_power", "[vehicle][power]" )
         WHEN( "24 hours pass" ) {
             veh_ptr->update_time( calendar::turn + 24_hours );
             int power = veh_ptr->fuel_left( fuel_type_battery );
-            CHECK( power == Approx( 5138 ).margin( 1 ) );
+            CHECK( power == Approx( 20554 ).margin( 1 ) );
         }
     }
 
@@ -306,7 +306,7 @@ TEST_CASE( "Daily_solar_power", "[vehicle][power]" )
         WHEN( "24 hours pass" ) {
             veh_ptr->update_time( calendar::turn + 24_hours );
             int power = veh_ptr->fuel_left( fuel_type_battery );
-            CHECK( power == Approx( 2137 ).margin( 1 ) );
+            CHECK( power == Approx( 8546 ).margin( 1 ) );
         }
     }
 }
