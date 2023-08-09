@@ -217,7 +217,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_INTRO",
     "//": "The player shouldn't get to this dialogue without sharing some food first",
-    "dynamic_line": "Oh, same old story at first.  I got evacuated on to the local concentration center, then picked up on a repurposed school bus and dragged out here.  Then the chick processing me to get in saw my name and Chinese name and conveniently 'lost' my paperwork.  I was sent out here to wait for further processing, while I watched busloads of people get processed and taken in.  By the time they 'found' it, the place was full up, wouldn't ya know it.  Now I'm stuck out here and they won't consider letting me in.",
+    "dynamic_line": "Oh, same old story at first.  I got evacuated on to the local concentration center, then picked up on a repurposed school bus and dragged out here.  Then the chick processing me to get in saw my face and Chinese name and conveniently 'lost' my paperwork.  I was sent out here to wait for further processing, while I watched busloads of people get processed and taken in.  By the time they 'found' it, the place was full up, wouldn't ya know it.  Now I'm stuck out here and they won't consider letting me in.",
     "responses": [
       { "text": "You think you were treated like that because of your race?", "topic": "TALK_REFUGEE_BEGGAR_3_RACISM" },
       {
