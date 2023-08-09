@@ -1,0 +1,49 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
+    "recurrence": [ "4 hours", "4 hours" ],
+    "//1": "Night time, shadow is active, you are outdoors, and you are not likely to be near shelter.",
+    "//2": "Forcibly wake the player somehow? Just in case they are sleeping outside.",
+    "condition": {
+      "and": [
+        { "one_in_chance": 6 },
+        { "not": "is_day" },
+        { "math": [ "u_Lieutenants_active", ">", "0" ] },
+        { "math": [ "u_Shadow_Lurking", ">", "0" ] },
+        "u_is_outside",
+        {
+          "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LIEUTENANT_SPAWN_SHADOW_PREMONITION",
+            "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "1" ] },
+            "effect": [
+              {
+                "u_message": "The darkness takes on a palpable sense of menace.  Something terrible is coming.",
+                "type": "bad",
+                "popup": true
+              },
+              { "queue_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_ACTUAL", "time_in_future": "30 seconds" }
+            ],
+            "false_effect": [ { "run_eocs": [ "EOC_LIEUTENANT_SPAWN_SHADOW_ACTUAL" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW_ACTUAL",
+    "effect": [
+      { "u_adjust_var": "Shadow_Lurking", "adjustment": -1 },
+      { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
+      { "u_message": "You shiver as the night closes in...", "type": "bad", "popup": true }
+    ]
+  }
+]
