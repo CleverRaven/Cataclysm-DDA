@@ -1280,6 +1280,7 @@ class map
          *  Adds an item to map tile or stacks charges
          *  @param pos Where to add item
          *  @param obj Item to add
+         *  @param copies_remaining Number of identical copies of the item to create
          *  @param overflow if destination is full attempt to drop on adjacent tiles
          *  @return reference to dropped (and possibly stacked) item or null item on failure
          *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
@@ -1287,7 +1288,11 @@ class map
         // TODO: fix point types (remove the first overload)
         item_location add_item_ret_loc( const tripoint &pos, item obj, bool overflow = true );
         item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
+        item &add_item_or_charges( const tripoint &pos, item obj, int &copies_remaining,
+                                   bool overflow = true );
         item &add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow = true );
+        item &add_item_or_charges( const tripoint_bub_ms &pos, item obj, int &copies_remaining,
+                                   bool overflow = true );
         item &add_item_or_charges( const point &p, const item &obj, bool overflow = true ) {
             return add_item_or_charges( tripoint( p, abs_sub.z() ), obj, overflow );
         }
@@ -1305,6 +1310,7 @@ class map
          *
          * @returns The item that got added, or nulitem.
          */
+        item &add_item( const tripoint &p, item new_item, int copies );
         item &add_item( const tripoint &p, item new_item );
         void add_item( const point &p, const item &new_item ) {
             add_item( tripoint( p, abs_sub.z() ), new_item );
@@ -1596,7 +1602,7 @@ class map
             Map &m, const tripoint &p, const field_type_id &type );
 
         std::pair<item *, tripoint> _add_item_or_charges( const tripoint &pos, item obj,
-                bool overflow = true );
+                int &copies_remaining, bool overflow = true );
     public:
 
         // Splatters of various kind

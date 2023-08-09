@@ -199,6 +199,7 @@ class item_pocket
          * @param it the item being put in
          */
         ret_val<contain_code> can_contain( const item &it ) const;
+        ret_val<contain_code> can_contain( const item &it, int &copies_remaining ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
 
@@ -330,6 +331,7 @@ class item_pocket
           * may create a new pocket
           */
         void add( const item &it, item **ret = nullptr );
+        void add( const item &it, int copies, item **ret );
         bool can_unload_liquid() const;
 
         int fill_with( const item &contained, Character &guy, int amount = 0,
