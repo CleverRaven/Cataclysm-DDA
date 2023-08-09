@@ -482,7 +482,7 @@ bool aim_activity_actor::load_RAS_weapon()
     }
 
     // Burn 0.6% max base stamina without cardio/BMI factored in x the strength required to fire.
-    you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.006f *
+    you.burn_energy_arms( gun->get_min_str() * static_cast<int>( 0.006f *
                      get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
     // At low stamina levels, firing starts getting slow.
     int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
@@ -1590,7 +1590,7 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     if( bktype.value() == book_type::martial_art && one_in( 3 ) ) {
-        who.mod_stamina( -1 );
+        who.burn_energy_all( -1 );
     }
 
     // do not spam the message log
