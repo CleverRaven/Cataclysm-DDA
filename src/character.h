@@ -1100,6 +1100,16 @@ class Character : public Creature, public visitable
 
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
+
+    private:
+        mutable std::optional<bool> cached_dead_state;
+    public:
+        void set_part_hp_cur( const bodypart_id &id, int set ) override;
+
+        void calc_all_parts_hp( float hp_mod = 0.0, float hp_adjust = 0.0, int str_max = 0,
+                                int dex_max = 0, int per_max = 0, int int_max = 0, int healthy_mod = 0,
+                                int fat_to_max_hp = 0 );
+
         /** Returns true if the player has stealthy movement */
         bool is_stealthy() const;
         /** Returns true if the current martial art works with the player's current weapon */
