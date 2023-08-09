@@ -1302,7 +1302,8 @@
         "cs_tire_shop": 100,
         "homeless_shelter": 100,
         "salon": 500,
-        "strip_mall": 750
+        "strip_mall": 750,
+        "barber_shop": 350
       }
     },
     "weather": {
