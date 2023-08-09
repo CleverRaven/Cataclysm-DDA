@@ -2512,7 +2512,7 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
                                  const std::vector<trait_id> &trait_to_rem, const tripoint &patient_pos )
 {
     // if we chop off a limb, our stored kcal should decrease proportionally
-    float cached_healthy_kcal = get_healthy_kcal()
+    float cached_healthy_kcal = get_healthy_kcal();
 
     if( success > 0 ) {
         get_event_bus().send<event_type::installs_cbm>( getID(), bid );
