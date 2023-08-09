@@ -15,76 +15,77 @@
     "responses": [
       {
         "text": "Allow regular zombies.",
-        "condition": { "compare_num": [ { "global_val": "var", "var_name": "regular_zombies_allowed" }, "==", { "const": 0 } ] },
-        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "regular_zombies_allowed" }, "=", { "const": 1 } ] } ],
+        "condition": { "math": [ "regular_zombies_allowed", "==", "0" ] },
+        "effect": { "math": [ "regular_zombies_allowed", "=", "1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable regular zombies.",
-        "condition": { "compare_num": [ { "global_val": "var", "var_name": "regular_zombies_allowed" }, "==", { "const": 1 } ] },
-        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "regular_zombies_allowed" }, "=", { "const": 0 } ] } ],
+        "condition": { "math": [ "regular_zombies_allowed", "==", "1" ] },
+        "effect": { "math": [ "regular_zombies_allowed", "=", "0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow special zombies.",
-        "condition": { "compare_num": [ { "global_val": "var", "var_name": "special_zombies_allowed" }, "==", { "const": 0 } ] },
-        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "special_zombies_allowed" }, "=", { "const": 1 } ] } ],
+        "condition": { "math": [ "special_zombies_allowed", "==", "0" ] },
+        "effect": { "math": [ "special_zombies_allowed", "=", "1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable special zombies.",
-        "condition": { "compare_num": [ { "global_val": "var", "var_name": "special_zombies_allowed" }, "==", { "const": 1 } ] },
-        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "special_zombies_allowed" }, "=", { "const": 0 } ] } ],
+        "condition": { "math": [ "special_zombies_allowed", "==", "1" ] },
+        "effect": { "math": [ "special_zombies_allowed", "=", "0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow spiders.",
-        "condition": { "compare_num": [ { "global_val": "var", "var_name": "spiders_allowed" }, "==", { "const": 0 } ] },
-        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "spiders_allowed" }, "=", { "const": 1 } ] } ],
+        "condition": { "math": [ "spiders_allowed", "==", "0" ] },
+        "effect": { "math": [ "spiders_allowed", "=", "1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable spiders.",
-        "condition": { "compare_num": [ { "global_val": "var", "var_name": "spiders_allowed" }, "==", { "const": 1 } ] },
-        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "spiders_allowed" }, "=", { "const": 0 } ] } ],
+        "condition": { "math": [ "spiders_allowed", "==", "1" ] },
+        "effect": { "math": [ "spiders_allowed", "=", "0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow triffids.",
-        "condition": { "compare_num": [ { "global_val": "var", "var_name": "triffids_allowed" }, "==", { "const": 0 } ] },
-        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "triffids_allowed" }, "=", { "const": 1 } ] } ],
+        "condition": { "math": [ "triffids_allowed", "==", "0" ] },
+        "effect": { "math": [ "triffids_allowed", "=", "1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable triffids.",
-        "condition": { "compare_num": [ { "global_val": "var", "var_name": "triffids_allowed" }, "==", { "const": 1 } ] },
-        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "triffids_allowed" }, "=", { "const": 0 } ] } ],
+        "condition": { "math": [ "triffids_allowed", "==", "1" ] },
+        "effect": { "math": [ "triffids_allowed", "=", "0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow robots.",
-        "condition": { "compare_num": [ { "global_val": "var", "var_name": "robots_allowed" }, "==", { "const": 0 } ] },
-        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "robots_allowed" }, "=", { "const": 1 } ] } ],
+        "condition": { "math": [ "robots_allowed", "==", "0" ] },
+        "effect": { "math": [ "robots_allowed", "=", "1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable robots.",
-        "condition": { "compare_num": [ { "global_val": "var", "var_name": "robots_allowed" }, "==", { "const": 1 } ] },
-        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "robots_allowed" }, "=", { "const": 0 } ] } ],
+        "condition": { "math": [ "robots_allowed", "==", "1" ] },
+        "effect": { "math": [ "robots_allowed", "=", "0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow eldritch horrors.",
-        "condition": { "compare_num": [ { "global_val": "var", "var_name": "subspace_allowed" }, "==", { "const": 0 } ] },
-        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "subspace_allowed" }, "=", { "const": 1 } ] } ],
+        "condition": { "math": [ "subspace_allowed", "==", "0" ] },
+        "effect": { "math": [ "subspace_allowed", "=", "1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable eldritch horrors.",
-        "condition": { "compare_num": [ { "global_val": "var", "var_name": "subspace_allowed" }, "==", { "const": 1 } ] },
-        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "subspace_allowed" }, "=", { "const": 0 } ] } ],
+        "condition": { "math": [ "subspace_allowed", "==", "1" ] },
+        "effect": { "math": [ "subspace_allowed", "=", "0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
+      { "text": "Play!", "topic": "TALK_DONE" },
       { "text": "Return to main menu.", "topic": "TALK_DEFENSE_MODE_MAIN_MENU" }
     ]
   },
@@ -96,12 +97,12 @@
       {
         "text": "<color_yellow>Shaun of The Dead</color>: (Defend a bar against classic zombies with your five friends.  Easy and fun.)",
         "effect": [
-          { "arithmetic": [ { "global_val": "var", "var_name": "regular_zombies_allowed" }, "=", { "const": 1 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "special_zombies_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "spiders_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "triffids_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "robots_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "subspace_allowed" }, "=", { "const": 0 } ] },
+          { "math": [ "regular_zombies_allowed", "=", "1" ] },
+          { "math": [ "special_zombies_allowed", "=", "0" ] },
+          { "math": [ "spiders_allowed", "=", "0" ] },
+          { "math": [ "triffids_allowed", "=", "0" ] },
+          { "math": [ "robots_allowed", "=", "0" ] },
+          { "math": [ "subspace_allowed", "=", "0" ] },
           {
             "u_location_variable": { "global_val": "bar" },
             "target_params": { "om_terrain": "bar", "search_range": 500, "z": 0 }
@@ -114,36 +115,36 @@
       {
         "text": "<color_yellow>Dawn of The Dead</color>: (Classic zombies only, slower and more realistic.)",
         "effect": [
-          { "arithmetic": [ { "global_val": "var", "var_name": "regular_zombies_allowed" }, "=", { "const": 1 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "special_zombies_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "spiders_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "triffids_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "robots_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "subspace_allowed" }, "=", { "const": 0 } ] }
+          { "math": [ "regular_zombies_allowed", "=", "1" ] },
+          { "math": [ "special_zombies_allowed", "=", "0" ] },
+          { "math": [ "spiders_allowed", "=", "0" ] },
+          { "math": [ "triffids_allowed", "=", "0" ] },
+          { "math": [ "robots_allowed", "=", "0" ] },
+          { "math": [ "subspace_allowed", "=", "0" ] }
         ],
         "topic": "TALK_DONE"
       },
       {
         "text": "<color_yellow>Eight-Legged Freaks</color>: (Hordes of spiders!  Not arachnophobia friendly!)",
         "effect": [
-          { "arithmetic": [ { "global_val": "var", "var_name": "regular_zombies_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "special_zombies_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "spiders_allowed" }, "=", { "const": 1 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "triffids_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "robots_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "subspace_allowed" }, "=", { "const": 0 } ] }
+          { "math": [ "regular_zombies_allowed", "=", "0" ] },
+          { "math": [ "special_zombies_allowed", "=", "0" ] },
+          { "math": [ "spiders_allowed", "=", "1" ] },
+          { "math": [ "triffids_allowed", "=", "0" ] },
+          { "math": [ "robots_allowed", "=", "0" ] },
+          { "math": [ "subspace_allowed", "=", "0" ] }
         ],
         "topic": "TALK_DONE"
       },
       {
         "text": "<color_yellow>Day of The Triffids</color>: (Protect your mansion against the triffids.)",
         "effect": [
-          { "arithmetic": [ { "global_val": "var", "var_name": "regular_zombies_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "special_zombies_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "spiders_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "triffids_allowed" }, "=", { "const": 1 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "robots_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "subspace_allowed" }, "=", { "const": 0 } ] },
+          { "math": [ "regular_zombies_allowed", "=", "0" ] },
+          { "math": [ "special_zombies_allowed", "=", "0" ] },
+          { "math": [ "spiders_allowed", "=", "0" ] },
+          { "math": [ "triffids_allowed", "=", "1" ] },
+          { "math": [ "robots_allowed", "=", "0" ] },
+          { "math": [ "subspace_allowed", "=", "0" ] },
           {
             "u_location_variable": { "global_val": "mansion_c5" },
             "target_params": { "om_terrain": "mansion_c5", "search_range": 500, "z": 0 }
@@ -155,24 +156,24 @@
       {
         "text": "<color_yellow>Skynet</color>: (Robots have decided that humans are the enemy!)",
         "effect": [
-          { "arithmetic": [ { "global_val": "var", "var_name": "regular_zombies_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "special_zombies_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "spiders_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "triffids_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "robots_allowed" }, "=", { "const": 1 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "subspace_allowed" }, "=", { "const": 0 } ] }
+          { "math": [ "regular_zombies_allowed", "=", "0" ] },
+          { "math": [ "special_zombies_allowed", "=", "0" ] },
+          { "math": [ "spiders_allowed", "=", "0" ] },
+          { "math": [ "triffids_allowed", "=", "0" ] },
+          { "math": [ "robots_allowed", "=", "1" ] },
+          { "math": [ "subspace_allowed", "=", "0" ] }
         ],
         "topic": "TALK_DONE"
       },
       {
         "text": "<color_yellow>The Call of Cthulu</color>: (Fend off hordes of eldritch horrors.)",
         "effect": [
-          { "arithmetic": [ { "global_val": "var", "var_name": "regular_zombies_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "special_zombies_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "spiders_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "triffids_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "robots_allowed" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "global_val": "var", "var_name": "subspace_allowed" }, "=", { "const": 1 } ] }
+          { "math": [ "regular_zombies_allowed", "=", "0" ] },
+          { "math": [ "special_zombies_allowed", "=", "0" ] },
+          { "math": [ "spiders_allowed", "=", "0" ] },
+          { "math": [ "triffids_allowed", "=", "0" ] },
+          { "math": [ "robots_allowed", "=", "0" ] },
+          { "math": [ "subspace_allowed", "=", "1" ] }
         ],
         "topic": "TALK_DONE"
       },
