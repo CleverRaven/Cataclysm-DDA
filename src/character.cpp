@@ -6709,7 +6709,7 @@ void Character::burn_energy_all( int mod )
             bionic_limb_count++;
         }
     }
-    limb_type = body_part_type::type::arm
+    limb_type = body_part_type::type::arm;
     for( const bodypart_id &bp : get_all_body_parts_of_type( limb_type ) ) {
         total_limb_count++;
         if( bp->has_flag( json_flag_BIONIC_LIMB ) ) {
