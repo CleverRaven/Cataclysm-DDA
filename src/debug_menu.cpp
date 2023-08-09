@@ -136,7 +136,6 @@ static const mtype_id mon_generator( "mon_generator" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
-static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEBUG_CLAIRVOYANCE( "DEBUG_CLAIRVOYANCE" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -3542,7 +3541,6 @@ void debug()
         case debug_menu_index::QUICK_SETUP: {
             std::vector<trait_id> setup_traits;
             setup_traits.emplace_back( trait_DEBUG_BIONICS );
-            setup_traits.emplace_back( trait_DEBUG_BIONIC_POWERGEN );
             setup_traits.emplace_back( trait_DEBUG_CLAIRVOYANCE );
             setup_traits.emplace_back( trait_DEBUG_CLOAK );
             setup_traits.emplace_back( trait_DEBUG_HS );
