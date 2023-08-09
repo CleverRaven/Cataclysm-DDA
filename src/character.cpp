@@ -1859,7 +1859,8 @@ void Character::on_try_dodge()
 
     const int base_burn_rate = get_option<int>( STATIC( "PLAYER_BASE_STAMINA_BURN_RATE" ) );
     const float dodge_skill_modifier = ( 20.0f - get_skill_level( skill_dodge ) ) / 20.0f;
-    burn_energy_legs( std::floor( -static_cast<float>( base_burn_rate ) * 6.0f * dodge_skill_modifier ) );
+    burn_energy_legs( std::floor( -static_cast<float>( base_burn_rate ) * 6.0f *
+                                  dodge_skill_modifier ) );
     set_activity_level( EXTRA_EXERCISE );
 }
 
@@ -6631,11 +6632,15 @@ void Character::burn_energy_arms( int mod )
         debugmsg( "Tried to burn_energy_arms, but didn't have any arms" );
         return;
     }
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Total limbs in use: %d, Bionic limbs: %d", total_limb_count,
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Total limbs in use: %d, Bionic limbs: %d",
+                   total_limb_count,
                    bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "total stam/power cost: %d", bionic_powercost / bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed bionicpower cost: %d", bionic_powercost / bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed stamina cost: %d", -mod + mod * ( bionic_limb_count / total_limb_count ) );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "total stam/power cost: %d",
+                   bionic_powercost / bionic_limb_count );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed bionicpower cost: %d",
+                   bionic_powercost / bionic_limb_count );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed stamina cost: %d",
+                   -mod + mod * ( bionic_limb_count / total_limb_count ) );
     // if we have at least one bionic limb, burn bionic power
     if( bionic_limb_count > 0 ) {
         mod_power_level( units::from_millijoule( bionic_powercost / bionic_limb_count ) );
@@ -6668,11 +6673,15 @@ void Character::burn_energy_legs( int mod )
         debugmsg( "Tried to burn_energy_legs, but didn't have any legs" );
         return;
     }
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Total limbs in use: %d, Bionic limbs: %d", total_limb_count,
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Total limbs in use: %d, Bionic limbs: %d",
+                   total_limb_count,
                    bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "total stam/power cost: %d", bionic_powercost / bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed bionicpower cost: %d", bionic_powercost / bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed stamina cost: %d", -mod + mod * ( bionic_limb_count / total_limb_count ) );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "total stam/power cost: %d",
+                   bionic_powercost / bionic_limb_count );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed bionicpower cost: %d",
+                   bionic_powercost / bionic_limb_count );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed stamina cost: %d",
+                   -mod + mod * ( bionic_limb_count / total_limb_count ) );
     // if we have at least one bionic limb, burn bionic power
     if( bionic_limb_count > 0 ) {
         mod_power_level( units::from_millijoule( bionic_powercost / bionic_limb_count ) );
@@ -6713,11 +6722,15 @@ void Character::burn_energy_all( int mod )
         debugmsg( "Tried to burn_energy_all, but didn't have any limbs" );
         return;
     }
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Total limbs in use: %d, Bionic limbs: %d", total_limb_count,
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Total limbs in use: %d, Bionic limbs: %d",
+                   total_limb_count,
                    bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "total stam/power cost: %d", bionic_powercost / bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed bionicpower cost: %d", bionic_powercost / bionic_limb_count );
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed stamina cost: %d", -mod + mod * ( bionic_limb_count / total_limb_count ) );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "total stam/power cost: %d",
+                   bionic_powercost / bionic_limb_count );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed bionicpower cost: %d",
+                   bionic_powercost / bionic_limb_count );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed stamina cost: %d",
+                   -mod + mod * ( bionic_limb_count / total_limb_count ) );
     // if we have at least one bionic limb, burn bionic power
     if( bionic_limb_count > 0 ) {
         mod_power_level( units::from_millijoule( bionic_powercost / bionic_limb_count ) );
@@ -6795,7 +6808,9 @@ void Character::burn_move_stamina( int moves )
     }
 
     burn_ratio *= move_mode->stamina_mult();
-    burn_energy_legs( -( ( moves * burn_ratio ) / 100.0 ) * get_modifier( character_modifier_stamina_move_cost_mod ) * get_modifier( character_modifier_move_mode_move_cost_mod ) );
+    burn_energy_legs( -( ( moves * burn_ratio ) / 100.0 ) * get_modifier(
+                          character_modifier_stamina_move_cost_mod ) * get_modifier(
+                          character_modifier_move_mode_move_cost_mod ) );
     add_msg_debug( debugmode::DF_CHARACTER, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
