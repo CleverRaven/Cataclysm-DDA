@@ -135,6 +135,7 @@
     "id": "EOC_TELEPORTING_DAMAGE_TELEPORT",
     "condition": {
       "and": [
+        { "math": [ "_damage_taken", ">", "0" ] },
         { "not": { "npc_has_flag": "TELEPORT_IMMUNE" } },
         { "not": { "npc_has_flag": "DIMENSIONAL_ANCHOR" } },
         { "not": { "npc_has_flag": "TELESTOP" } }

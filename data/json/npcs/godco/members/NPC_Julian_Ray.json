@@ -19,7 +19,19 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } }
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        }
+      },
+      {
+        "text": "I want to join the community.",
+        "topic": "TALK_GODCO_Julian_Mutant_Join",
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+            { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
           ]
         }
       }
@@ -29,12 +41,19 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Julian_1",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_julian",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
       "value": "yes",
-      "yes": [ "Praise the Lord.", "Hey, <name_g>.", "Good to see you again." ],
-      "no": "Hey, a new face.  I'm Julian, the guy in charge of this room.  You're planning on sticking around or somethin'?"
+      "yes": "Hey…  I'm Julian, the guy in charge of this room.  Are you… planning on sticking around or somethin'?",
+      "no": {
+        "npc_has_var": "u_met_godco_julian",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": [ "Praise the Lord.", "Hey, <name_g>.", "Good to see you again." ],
+        "no": "Hey, a new face.  I'm Julian, the guy in charge of this room.  You're planning on sticking around or somethin'?"
+      }
     },
     "responses": [
       {
@@ -43,7 +62,8 @@
         "condition": {
           "and": [
             { "not": { "npc_has_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } }
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
           ]
         },
         "effect": { "npc_add_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" }
@@ -51,7 +71,13 @@
       {
         "text": "Nice to meet you, Julian.  I'm seeking asylum.",
         "topic": "TALK_GODCO_Julian_Join",
-        "condition": { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "effect": { "npc_add_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
@@ -60,7 +86,20 @@
         "condition": {
           "and": [
             { "not": { "npc_has_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
             { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        },
+        "effect": { "npc_add_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "Nice to meet you, Julian.  I'm seeking asylum.",
+        "topic": "TALK_GODCO_Julian_Mutant_Join",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+            { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
           ]
         },
         "effect": { "npc_add_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" }
@@ -99,6 +138,15 @@
     "responses": [
       { "text": "Got it.", "topic": "TALK_GODCO_Julian_Joinee" },
       { "text": "Actually, I had better go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Julian_Mutant_Join",
+    "dynamic_line": "Listen, I have some bad news.  I don't personally have anything against you, but many of the people here are very… discriminatory against those who look like you.  I hate to say it, but I'll have to turn you away.  I'm sorry.",
+    "responses": [
+      { "text": "Alright, let's talk about something else.", "topic": "TALK_GODCO_Julian_2" },
+      { "text": "I get the picture, screw this.", "topic": "TALK_DONE" }
     ]
   },
   {

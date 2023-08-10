@@ -32,12 +32,19 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Darryl_1",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_darryl",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
       "value": "yes",
-      "yes": [ "Praise the Lord.", "Welcome back.", "Nice to see you again, survivor." ],
-      "no": "Well I'll be damned, a fellow survivor!  I'm Darryl, nice to meet you."
+      "yes": "What the <swear> are you, sinner?  Get away from me.",
+      "no": {
+        "npc_has_var": "u_met_godco_darryl",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": [ "Praise the Lord.", "Welcome back.", "Nice to see you again, survivor." ],
+        "no": "Well I'll be damned, a fellow survivor!  I'm Darryl, nice to meet you."
+      }
     },
     "responses": [
       {
@@ -48,17 +55,32 @@
       {
         "text": "Nice to meet you too, Darryl.  Neat farm you have here.",
         "effect": { "npc_add_var": "u_met_godco_darryl", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "u_met_godco_darryl", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_darryl", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Darryl_Farm"
       },
       {
         "text": "Hey Darryl.  Got a minute?",
-        "condition": { "npc_has_var": "u_met_godco_darryl", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_darryl", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Darryl_2"
       },
       {
         "text": "Hey Darryl.  Care to trade?",
-        "condition": { "npc_has_var": "u_met_godco_darryl", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_darryl", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Darryl_Trade"
       },
       {
@@ -71,7 +93,21 @@
         },
         "topic": "TALK_GODCO_Darryl_Trade_Eggs"
       },
-      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      {
+        "text": "I'm afraid I can't talk right now.",
+        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "What's the poor attitude about?",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_GODCO_Darryl_You_Mutant"
+      },
+      {
+        "text": "Fuck you <name_b>, I'm outta here.",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -251,5 +287,11 @@
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'm sorry for your loss.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Darryl_You_Mutant",
+    "dynamic_line": "I've heard of unnatural monsters such as yourself causing chaos after the fall of civilization, and how men have transformed into horrors and gone mad with sin.  This is the judgement of God upon you heathens for your wicked ways, and I want nothing to do with it.",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   }
 ]

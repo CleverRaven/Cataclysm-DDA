@@ -3643,20 +3643,29 @@ void iexamine::fvat_full( Character &you, const tripoint &examp )
         }
 
         if( query_yn( _( "Finish brewing?" ) ) ) {
-            const auto results = brew_i.brewing_results();
+            const std::map<itype_id, int> results = brew_i.brewing_results();
 
             here.i_clear( examp );
-            for( const auto &result : results ) {
+            for( const std::pair<const itype_id, int> &result : results ) {
+                int amount = result.second * brew_i.count();
                 // TODO: Different age based on settings
-                item booze( result, brew_i.birthday(), brew_i.charges );
-                here.add_item( examp, booze );
-                if( booze.made_of_from_type( phase_id::LIQUID ) ) {
-                    add_msg( _( "The %s is now ready for bottling." ), booze.tname() );
+                item booze( result.first, brew_i.birthday() );
+                if( result.first->phase == phase_id::LIQUID ) {
+                    booze.charges = amount;
+                    here.add_item( examp, booze );
+                    add_msg( _( "The %s is now ready for bottling." ), result.first->nname( amount ) );
+                } else {
+                    you.i_add_or_drop( booze, amount );
+                    add_msg( _( "You remove the %s from the vat." ), result.first->nname( amount ) );
                 }
             }
 
             you.moves -= to_moves<int>( 5_seconds );
             you.practice( skill_cooking, std::min( to_minutes<int>( brew_time ) / 10, 100 ) );
+        }
+
+        if( here.i_at( examp ).empty() ) {
+            fvat_set_empty( examp );
         }
 
         return;

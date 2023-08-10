@@ -876,7 +876,7 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
                 pocket.settings.priority() > 0 ) ) {
             ignore_rigidity = true;
         }
-        if( !pocket.can_contain( it ).success() || ( !ignore_rigidity && nested && !pocket.rigid() ) ) {
+        if( ( !ignore_rigidity && nested && !pocket.rigid() ) || !pocket.can_contain( it ).success() ) {
             // non-rigid nested pocket makes no sense, item should also be able to fit in parent.
             continue;
         }
@@ -1010,6 +1010,13 @@ ret_val<void> item_contents::is_compatible( const item &it ) const
 ret_val<void> item_contents::can_contain_rigid( const item &it,
         const bool ignore_pkt_settings ) const
 {
+    int copies = 1;
+    return can_contain_rigid( it, copies, ignore_pkt_settings );
+}
+
+ret_val<void> item_contents::can_contain_rigid( const item &it, int &copies_remaining,
+        const bool ignore_pkt_settings ) const
+{
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MOD ) ||
@@ -1025,8 +1032,9 @@ ret_val<void> item_contents::can_contain_rigid( const item &it,
             ret = ret_val<void>::make_failure( _( "denied by pocket auto insert settings" ) );
             continue;
         }
-        const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it );
-        if( pocket_contain_code.success() ) {
+        const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it,
+                copies_remaining );
+        if( copies_remaining <= 0 || pocket_contain_code.success() ) {
             return ret_val<void>::make_success();
         }
         ret = ret_val<void>::make_failure( pocket_contain_code.str() );
@@ -1037,7 +1045,18 @@ ret_val<void> item_contents::can_contain_rigid( const item &it,
 ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_settings,
         units::volume remaining_parent_volume ) const
 {
+    int copies = 1;
+    return can_contain( it, copies, ignore_pkt_settings, remaining_parent_volume );
+}
+
+ret_val<void> item_contents::can_contain( const item &it, int &copies_remaining,
+        const bool ignore_pkt_settings, units::volume remaining_parent_volume ) const
+{
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
+
+    if( copies_remaining <= 0 ) {
+        return ret_val<void>::make_success();
+    }
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_forbidden() ) {
             continue;
@@ -1053,8 +1072,9 @@ ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_
         if( !pocket.rigid() && it.volume() > remaining_parent_volume ) {
             continue;
         }
-        const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it );
-        if( pocket_contain_code.success() ) {
+        const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it,
+                copies_remaining );
+        if( copies_remaining <= 0 ) {
             return ret_val<void>::make_success();
         }
         ret = ret_val<void>::make_failure( pocket_contain_code.str() );
