@@ -1503,7 +1503,6 @@
     "category": "armor",
     "name": { "str_sp": "bionic plating - arms" },
     "description": "The durable alloy armor which protects the sensitive components that operate your bionic arms.",
-    "volume": "2500 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
@@ -1534,6 +1533,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "bionic plating - left arm" },
     "copy_from": "armor_bio_arms_basic",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT" ],
     "armor": [
       {
         "material": [
@@ -1552,6 +1552,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "bionic plating - right arm" },
     "copy_from": "armor_bio_arms_basic",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT" ],
     "armor": [
       {
         "material": [
@@ -1571,7 +1572,6 @@
     "category": "armor",
     "name": { "str_sp": "bionic plating - legs" },
     "description": "The durable alloy armor which protects the sensitive components that operate your bionic legs.",
-    "volume": "5000 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
@@ -1602,6 +1602,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "bionic plating - left leg" },
     "copy_from": "armor_bio_legs_basic",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT" ],
     "armor": [
       {
         "material": [
@@ -1620,6 +1621,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "bionic plating - right leg" },
     "copy_from": "armor_bio_legs_basic",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT" ],
     "armor": [
       {
         "material": [
