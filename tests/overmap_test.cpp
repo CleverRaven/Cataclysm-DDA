@@ -39,6 +39,30 @@ static const oter_type_str_id oter_type_deserter_city_office_3fb( "deserter_city
 static const oter_type_str_id oter_type_deserter_city_office_roof( "deserter_city_office_roof" );
 static const oter_type_str_id oter_type_deserter_city_office_roofb( "deserter_city_office_roofb" );
 static const oter_type_str_id oter_type_deserter_city_park( "deserter_city_park" );
+static const oter_type_str_id oter_type_fort_1a( "fort_1a" );
+static const oter_type_str_id oter_type_fort_1a_1( "fort_1a_1" );
+static const oter_type_str_id oter_type_fort_1b( "fort_1b" );
+static const oter_type_str_id oter_type_fort_1b_1( "fort_1b_1" );
+static const oter_type_str_id oter_type_fort_1c( "fort_1c" );
+static const oter_type_str_id oter_type_fort_1c_1( "fort_1c_1" );
+static const oter_type_str_id oter_type_fort_2a( "fort_2a" );
+static const oter_type_str_id oter_type_fort_2a_1( "fort_2a_1" );
+static const oter_type_str_id oter_type_fort_2b( "fort_2b" );
+static const oter_type_str_id oter_type_fort_2b_1( "fort_2b_1" );
+static const oter_type_str_id oter_type_fort_2c( "fort_2c" );
+static const oter_type_str_id oter_type_fort_2c_1( "fort_2c_1" );
+static const oter_type_str_id oter_type_fort_3a( "fort_3a" );
+static const oter_type_str_id oter_type_fort_3a_1( "fort_3a_1" );
+static const oter_type_str_id oter_type_fort_3b( "fort_3b" );
+static const oter_type_str_id oter_type_fort_3b_1( "fort_3b_1" );
+static const oter_type_str_id oter_type_fort_3c( "fort_3c" );
+static const oter_type_str_id oter_type_fort_3c_1( "fort_3c_1" );
+static const oter_type_str_id oter_type_fort_4a( "fort_4a" );
+static const oter_type_str_id oter_type_fort_4a_1( "fort_4a_1" );
+static const oter_type_str_id oter_type_fort_4b( "fort_4b" );
+static const oter_type_str_id oter_type_fort_4b_1( "fort_4b_1" );
+static const oter_type_str_id oter_type_fort_4c( "fort_4c" );
+static const oter_type_str_id oter_type_fort_4c_1( "fort_4c_1" );
 static const oter_type_str_id oter_type_ravine( "ravine" );
 static const oter_type_str_id oter_type_ravine_edge( "ravine_edge" );
 static const oter_type_str_id oter_type_ravine_floor( "ravine_floor" );
@@ -342,6 +366,30 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_unvitrified_farm_1.id(),
         oter_type_unvitrified_farm_2.id(),
         oter_type_unvitrified_farm_neg_1.id(),
+        oter_type_fort_1a.id(),
+        oter_type_fort_2a.id(),
+        oter_type_fort_3a.id(),
+        oter_type_fort_4a.id(),
+        oter_type_fort_1b.id(),
+        oter_type_fort_2b.id(),
+        oter_type_fort_3b.id(),
+        oter_type_fort_4b.id(),
+        oter_type_fort_1c.id(),
+        oter_type_fort_2c.id(),
+        oter_type_fort_3c.id(),
+        oter_type_fort_4c.id(),
+        oter_type_fort_1a_1.id(),
+        oter_type_fort_2a_1.id(),
+        oter_type_fort_3a_1.id(),
+        oter_type_fort_4a_1.id(),
+        oter_type_fort_1b_1.id(),
+        oter_type_fort_2b_1.id(),
+        oter_type_fort_3b_1.id(),
+        oter_type_fort_4b_1.id(),
+        oter_type_fort_1c_1.id(),
+        oter_type_fort_2c_1.id(),
+        oter_type_fort_3c_1.id(),
+        oter_type_fort_4c_1.id(),
     };
 
     std::unordered_set<oter_type_id> done;
