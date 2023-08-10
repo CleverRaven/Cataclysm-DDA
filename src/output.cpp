@@ -1172,17 +1172,21 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     std::vector<std::string> folded;
     scrollbar item_info_bar;
 
-    const auto init = [&]() {
-        win = init_window();
-        width = getmaxx( win ) - ( data.use_full_win ? 1 : b * 2 );
-        height = getmaxy( win ) - ( data.use_full_win ? 0 : 2 );
-        folded = foldstring( buffer, width - 1 );
+    const auto clamp_ptr_selected_scroll = [&]() {
         if( *data.ptr_selected < 0 || height < 0 ||
             folded.size() < static_cast<size_t>( height ) ) {
             *data.ptr_selected = 0;
         } else if( static_cast<size_t>( *data.ptr_selected ) + height >= folded.size() ) {
             *data.ptr_selected = static_cast<int>( folded.size() ) - height;
         }
+    };
+
+    const auto init = [&]() {
+        win = init_window();
+        width = getmaxx( win ) - ( data.use_full_win ? 1 : b * 2 );
+        height = getmaxy( win ) - ( data.use_full_win ? 0 : 2 );
+        folded = foldstring( buffer, width - 1 );
+        clamp_ptr_selected_scroll();
     };
 
     const auto redraw = [&]() {
@@ -1249,14 +1253,11 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
         if( data.handle_scrolling && item_info_bar.handle_dragging( action, coord, *data.ptr_selected ) ) {
             // No action required, the scrollbar has handled it
         } else if( data.handle_scrolling && action == "PAGE_UP" ) {
-            if( *data.ptr_selected > 0 ) {
-                --*data.ptr_selected;
-            }
+            *data.ptr_selected -= height;
+            clamp_ptr_selected_scroll();
         } else if( data.handle_scrolling && action == "PAGE_DOWN" ) {
-            if( *data.ptr_selected < 0 ||
-                ( height > 0 && static_cast<size_t>( *data.ptr_selected ) + height < folded.size() ) ) {
-                ++*data.ptr_selected;
-            }
+            *data.ptr_selected += height;
+            clamp_ptr_selected_scroll();
         } else if( action == "CONFIRM" || action == "QUIT" ||
                    ( data.any_input && action == "ANY_INPUT" &&
                      !ctxt.get_raw_input().sequence.empty() ) ) {
