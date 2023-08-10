@@ -1893,8 +1893,7 @@
     "description": "CBM which replaces your left leg with a bionic counterpart.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "enchantments": [ "ENCH_BIONIC_LEG_L" ],
-    "passive_pseudo_items": [ "armor_bio_leg_l" ],
-    "volume": "10000 ml"
+    "passive_pseudo_items": [ "armor_bio_leg_l" ]
   },
   {
     "id": "bio_limb_leg_r",
@@ -1903,8 +1902,7 @@
     "description": "CBM which replaces your right leg with a bionic counterpart.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "enchantments": [ "ENCH_BIONIC_LEG_R" ],
-    "passive_pseudo_items": [ "armor_bio_leg_r" ],
-    "volume": "10000 ml"
+    "passive_pseudo_items": [ "armor_bio_leg_r" ]
   },
   {
     "id": "bio_limb_treads",
@@ -1913,8 +1911,7 @@
     "description": "CBM which replaces your legs with tank treads.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "enchantments": [ "ENCH_BIONIC_TREADS" ],
-    "passive_pseudo_items": [ "armor_bio_treads" ],
-    "volume": "80000 ml"
+    "passive_pseudo_items": [ "armor_bio_treads" ]
   },
   {
     "id": "bio_limb_arm_l",
@@ -1923,8 +1920,7 @@
     "description": "CBM which replaces your left leg with a bionic counterpart.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "enchantments": [ "ENCH_BIONIC_ARM_L" ],
-    "passive_pseudo_items": [ "armor_bio_arm_l" ],
-    "volume": "5000 ml"
+    "passive_pseudo_items": [ "armor_bio_arm_l" ]
   },
   {
     "id": "bio_limb_arm_r",
@@ -1933,7 +1929,6 @@
     "description": "CBM which replaces your right leg with a bionic counterpart.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "enchantments": [ "ENCH_BIONIC_ARM_R" ],
-    "passive_pseudo_items": [ "armor_bio_arm_r" ],
-    "volume": "5000 ml"
+    "passive_pseudo_items": [ "armor_bio_arm_r" ]
   }
 ]
