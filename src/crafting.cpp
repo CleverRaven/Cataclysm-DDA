@@ -119,12 +119,23 @@ class basecamp;
 static bool crafting_allowed( const Character &p, const recipe &rec )
 {
     if( p.morale_crafting_speed_multiplier( rec ) <= 0.0f ) {
-        add_msg( m_info, _( "Your morale is too low to craft such a difficult thing…" ) );
+        if( p.is_avatar() ) {
+            add_msg( m_info, _( "Your morale is too low to craft such a difficult thing…" ) );
+        } else {
+            add_msg_if_player_sees( p.pos(), m_info,
+                                    _( "%s's morale is too low to craft such a difficult thing…" ),
+                                    p.get_name() );
+        }
         return false;
     }
 
     if( p.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
-        add_msg( m_info, _( "You can't see to craft!" ) );
+        if( p.is_avatar() ) {
+            add_msg( m_info, _( "You can't see to craft!" ) );
+        } else {
+            add_msg_if_player_sees( p.pos(), m_info, _( "%s can't see to craft!" ),
+                                    p.get_name() );
+        }
         return false;
     }
 
@@ -928,16 +939,30 @@ bool Character::craft_skill_gain( const item &craft, const int &num_practice_tic
             helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 2.0 ),
                               skill_cap );
             if( batch_size > 1 && one_in( 300 ) ) {
-                add_msg( m_info, _( "%s assists with crafting…" ), helper->get_name() );
+                if( is_avatar() ) {
+                    add_msg( m_info, _( "%s assists with crafting…" ), helper->get_name() );
+                } else {
+                    add_msg_if_player_sees( pos(), m_info, _( "%s assists with crafting…" ), helper->get_name() );
+                }
             }
             if( batch_size == 1 && one_in( 300 ) ) {
-                add_msg( m_info, _( "%s could assist you with a batch…" ), helper->get_name() );
+                if( is_avatar() ) {
+                    add_msg( m_info, _( "%s could assist you with a batch…" ), helper->get_name() );
+                } else {
+                    add_msg_if_player_sees( pos(), m_info, _( "%1s could assist %2s with a batch…" ),
+                                            helper->get_name(), get_name() );
+                }
             }
         } else {
             helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 10.0 ),
                               skill_cap );
             if( one_in( 300 ) ) {
-                add_msg( m_info, _( "%s watches you craft…" ), helper->get_name() );
+                if( is_avatar() ) {
+                    add_msg( m_info, _( "%s watches you craft…" ), helper->get_name() );
+                } else {
+                    add_msg_if_player_sees( pos(), m_info, _( "%1s watches %2s crafts…" ), helper->get_name(),
+                                            get_name() );
+                }
             }
         }
     }
@@ -1453,8 +1478,13 @@ void Character::complete_craft( item &craft, const std::optional<tripoint> &loc 
             const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
             if( x_in_y( making.time_to_craft_moves( *this ), time_to_learn ) ) {
                 learn_recipe( &making );
-                add_msg( m_good, _( "You memorized the recipe for %s!" ),
-                         making.result_name() );
+                if( is_avatar() ) {
+                    add_msg( m_good, _( "You memorized the recipe for %s!" ),
+                             making.result_name() );
+                } else {
+                    add_msg_if_player_sees( pos(), m_good, _( "%1s memorized the recipe for %2s!" ),
+                                            get_name(), making.result_name() );
+                }
             }
         }
     }
@@ -1561,7 +1591,11 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
                                            &rec );
             if( is.use_from == usage_from::cancel ) {
                 cancel_activity();
-                add_msg( _( "You stop crafting." ) );
+                if( this->is_avatar() ) {
+                    add_msg( _( "You stop crafting." ) );
+                } else {
+                    add_msg_if_player_sees( pos(), _( "%s stops crafting." ), get_name() );
+                }
                 return false;
             }
             item_selections.push_back( is );
