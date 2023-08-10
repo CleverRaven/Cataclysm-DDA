@@ -162,7 +162,8 @@
     "name": { "str": "atomic smartphone - music", "str_pl": "atomic smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": [ "MP3_ON", "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD" ],
+    "use_action": [ "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD", "MP3_DEACTIVATE" ],
+    "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
   },
   {
@@ -183,6 +184,7 @@
         "type": "transform"
       }
     ],
+    "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID", "LIGHT_25" ] }
   },
   {
@@ -228,8 +230,9 @@
     "name": { "str": "Wraitheon executive's smartphone - music", "str_pl": "Wraitheon executive's smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": [ "MP3_ON", "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD" ],
-    "extend": { "flags": [ "TRADER_AVOID" ] }
+    "use_action": [ "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD", "MP3_DEACTIVATE" ],
+    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "tick_action": [ "MP3_ON" ]
   },
   {
     "id": "afs_atomic_wraitheon_flashlight",
@@ -460,6 +463,7 @@
     "power_draw": "1 W",
     "revert_to": "control_laptop",
     "use_action": { "target": "control_laptop", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
+    "tick_action": [ "EPIC_MUSIC" ],
     "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID" ]
   },
   {
@@ -518,7 +522,8 @@
           "values": [ { "value": "PERCEPTION", "add": 1 } ]
         }
       ]
-    }
+    },
+    "tick_action": [ "EPIC_MUSIC" ]
   },
   {
     "id": "nano_forge",

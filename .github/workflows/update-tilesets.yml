@@ -1,9 +1,10 @@
-# This workflow runs at 23:00 UTC sundays
+# This workflow runs at midnight on the 1st day of every month
 name: "Pull Tileset Updates"
 
 on:
   schedule:
-    - cron: "0 23 * * sun"
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -924,7 +924,8 @@
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "CLIMBS",
-      "HARDTOSHOOT"
+      "HARDTOSHOOT",
+      "TELEPORT_IMMUNE"
     ]
   },
   {
@@ -990,7 +991,8 @@
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "CLIMBS",
-      "HARDTOSHOOT"
+      "HARDTOSHOOT",
+      "TELEPORT_IMMUNE"
     ]
   },
   {
@@ -1065,7 +1067,8 @@
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "CLIMBS",
-      "HARDTOSHOOT"
+      "HARDTOSHOOT",
+      "TELEPORT_IMMUNE"
     ]
   },
   {

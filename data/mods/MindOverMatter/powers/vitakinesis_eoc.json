@@ -1,8 +1,32 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_BLEEDING_EOC",
+    "effect": {
+      "switch": { "math": [ "u_val('spell_level', 'spell: vita_stop_bleeding')" ] },
+      "cases": [
+        { "case": 0, "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_01" } } ] },
+        { "case": 6, "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_02" } } ] },
+        { "case": 12, "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_03" } } ] }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VITAKIN_SLEEP",
     "effect": [ { "math": [ "u_val('sleep_deprivation')", "-=", "500" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_INFECTION_SWITCH",
+    "effect": {
+      "switch": { "math": [ "u_val('spell_level', 'spell: vita_stop_infection')" ] },
+      "cases": [
+        { "case": 0, "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_01" } } ] },
+        { "case": 6, "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_02" } } ] },
+        { "case": 12, "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_03" } } ] }
+      ]
+    }
   },
   {
     "type": "effect_on_condition",
@@ -53,7 +77,8 @@
           "EOC_VITAKIN_BANISH_ILLNESS_JITTERY",
           "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS",
           "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING",
-          "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC"
+          "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC",
+          "EOC_PORTAL_NULL_AWAKENING"
         ],
         "names": [
           "Purge Asthma",
@@ -62,9 +87,10 @@
           "Purge Jitters",
           "Purge Mood Swings",
           "Purge Wasting Sickness",
-          "Purge Narcolepsy"
+          "Purge Narcolepsy",
+          "Nevermind"
         ],
-        "keys": [ "1", "2", "3", "4", "5", "6", "7" ],
+        "keys": [ "1", "2", "3", "4", "5", "6", "7", "8" ],
         "descriptions": [
           "Attempt to cure your asthma.",
           "Attempt to cure your chemical imbalance.",
@@ -72,7 +98,8 @@
           "Attempt to cure your jitters",
           "Attempt to cure your mood swings",
           "Attempt to cure your weakening sickness",
-          "Attempt to cure your narcolepsy.  This meditation is extremely intensive, and is correspondingly more draining."
+          "Attempt to cure your narcolepsy.  This meditation is extremely intensive, and is correspondingly more draining.",
+          "Do nothing for now."
         ]
       }
     ]
@@ -80,7 +107,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA",
-    "condition": { "u_has_trait": "ASTHMA" },
+    "condition": { "or": [ { "u_has_trait": "ASTHMA" }, { "u_has_effect": "effect_asthma_disease_absorbed" } ] },
     "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_ASTHMA", "duration": "360 minutes" } ],
     "false_effect": [ { "u_message": "You don't have asthma.  There is no need to attempt to cure it.", "type": "mixed" } ]
   },
@@ -97,8 +124,9 @@
     "id": "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA_RESULT",
     "condition": { "roll_contested": { "math": [ "rand( u_val('spell_level', 'spell: vita_banish_illness'))" ] }, "difficulty": 12 },
     "effect": [
-      { "u_message": "You breath easily once again.", "type": "good" },
+      { "u_message": "You breathe easily once again.", "type": "good" },
       { "u_lose_trait": "ASTHMA" },
+      { "u_lose_effect": "effect_asthma_disease_absorbed" },
       { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 20,45 )" ] }
     ],
     "false_effect": [

@@ -115,8 +115,38 @@
     },
     "deactivate_condition": { "compare_int": [ { "global_val": "var", "var_name": "godco_met_merchants" }, "==", { "const": 1 } ] },
     "effect": [
-      { "mapgen_update": "godco_permanent_trader_add", "om_terrain": "godco_enter" },
+      { "mapgen_update": "godco_permanent_trader_predatory_add", "om_terrain": "godco_enter" },
       { "arithmetic": [ { "global_val": "var", "var_name": "godco_met_merchants" }, "=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "godco_change_trader",
+    "recurrence": 100,
+    "global": false,
+    "condition": {
+      "and": [
+        { "compare_int": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "==", { "const": 1 } ] },
+        { "u_near_om_location": "godco_enter", "range": 2 },
+        { "not": { "u_near_om_location": "godco_enter", "range": 1 } }
+      ]
+    },
+    "deactivate_condition": { "compare_int": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "==", { "const": 2 } ] },
+    "effect": [
+      { "mapgen_update": "godco_permanent_trader_change", "om_terrain": "godco_enter" },
+      {
+        "arithmetic": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "=", { "const": 2 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "GODCO_TRADER_MISSION_DEATHFAIL",
+    "eoc_type": "NPC_DEATH",
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "godco_freemerch_representative_dead" }, "=", { "const": 0 } ] },
+      { "u_lose_var": "u_think_suspicious_price", "type": "general", "context": "trade" },
+      { "finish_mission": "MISSION_INVESTIGATE_TRADER", "success": false }
     ]
   }
 ]

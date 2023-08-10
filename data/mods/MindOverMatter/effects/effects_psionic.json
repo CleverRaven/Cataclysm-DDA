@@ -334,10 +334,7 @@
             "multiply": {
               "math": [ "( ( u_val('spell_level', 'spell: biokin_combat_dance') * -0.03) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
             }
-          },
-          { "value": "FATIGUE", "add": 5 },
-          { "value": "HUNGER", "multiply": 3 },
-          { "value": "THIRST", "multiply": 3 }
+          }
         ]
       }
     ]
@@ -580,6 +577,38 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_clair_ranged_enhance",
+    "name": [ "Dead Aim" ],
+    "desc": [ "Your powers make aiming much easier for you." ],
+    "apply_message": "",
+    "remove_message": "The world lurches as apparent distances snap back into place.",
+    "decay_messages": [ [ "Your range of vision is narrowing rapidly.", "bad" ], [ "Your enhanced sight is fading.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "max_intensity": 46,
+    "dur_add_perc": 15,
+    "int_dur_factor": "41 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "RANGE",
+            "add": {
+              "math": [ "(1 + ( u_val('spell_level', 'spell: clair_ranged_enhance') * 0.5 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "WEAPON_DISPERSION",
+            "multiply": {
+              "math": [ "( ( u_val('spell_level', 'spell: clair_ranged_enhance') * -0.025) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_clair_dodge",
     "name": [ "Anticipating Attack" ],
     "desc": [ "You can see your enemies' attacks in advance." ],
@@ -805,6 +834,29 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_telekinetic_aegis",
+    "name": [ "Aegis" ],
+    "desc": [ "You are nearly invincible." ],
+    "apply_message": "",
+    "remove_message": "The air loses its structure and you are vulnerable once again.",
+    "rating": "good",
+    "max_duration": "20 seconds",
+    "removes_effects": [ "grabbed" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_CUT", "add": -100000 },
+          { "value": "ARMOR_BASH", "add": -100000 },
+          { "value": "ARMOR_STAB", "add": -100000 },
+          { "value": "ARMOR_BULLET", "add": -100000 }
+        ]
+      }
+    ],
+    "limb_score_mods": [ { "limb_score": "lift", "modifier": 0.51 }, { "limb_score": "grip", "modifier": 0.25 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_IMPEDING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_telepathic_learning_bonus",
     "name": [ "Trance State" ],
     "desc": [ "You are in a focused mental state, increasing the ease of learning." ],
@@ -880,6 +932,32 @@
     "dur_add_perc": 5,
     "base_mods": { "speed_mod": [ -40 ] },
     "immune_flags": [ "DIMENSIONAL_ANCHOR", "TELESTOP" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_teleport_stride",
+    "name": [ "Extended Stride" ],
+    "desc": [ "Every step takes you further than your eyes tell you it should." ],
+    "apply_message": "",
+    "remove_message": "Your steps are normal once again.",
+    "decay_messages": [ [ "Your warped movement are almost gone.", "bad" ], [ "Your steps are no longer taking you quite so far.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "10 minutes",
+    "max_intensity": 16,
+    "dur_add_perc": 10,
+    "int_dur_factor": "37 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [ "( ( ( u_val('spell_level', 'spell: teleport_stride') * -0.02 ) - 0.05 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",

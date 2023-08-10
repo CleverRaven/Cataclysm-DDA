@@ -7,6 +7,7 @@
       { "u_learn_recipe": "practice_biokin_overcome_pain" },
       { "u_learn_recipe": "practice_biokin_flexibility" },
       { "u_learn_recipe": "practice_biokin_climate_control" },
+      { "u_learn_recipe": "practice_biokin_enhance_mobility" },
       { "u_learn_recipe": "practice_biokin_armor_skin" },
       { "u_learn_recipe": "practice_biokin_reflex_enhance" },
       { "u_learn_recipe": "practice_biokin_sealed_system" },
@@ -21,6 +22,7 @@
       { "u_learn_recipe": "practice_clair_danger_sense" },
       { "u_learn_recipe": "practice_clair_speed_reading" },
       { "u_learn_recipe": "practice_clair_spot_weakness" },
+      { "u_learn_recipe": "practice_clair_ranged_enhance" },
       { "u_learn_recipe": "practice_clair_voyance" },
       { "u_learn_recipe": "practice_clair_dodge_power" },
       { "u_learn_recipe": "practice_clair_clear_sight" },
@@ -36,6 +38,7 @@
       { "u_learn_recipe": "practice_pyrokinetic_call_flames" },
       { "u_learn_recipe": "practice_pyrokinetic_quell_flames" },
       { "u_learn_recipe": "practice_pyrokinetic_cloak" },
+      { "u_learn_recipe": "practice_pyrokinetic_thermogenesis" },
       { "u_learn_recipe": "practice_pyrokinetic_flamethrower" },
       { "u_learn_recipe": "practice_pyrokinetic_aura" },
       { "u_learn_recipe": "practice_pyrokinetic_blast" }
@@ -54,6 +57,7 @@
       { "u_learn_recipe": "practice_telekinetic_vehicle_lift" },
       { "u_learn_recipe": "practice_telekinetic_shield" },
       { "u_learn_recipe": "practice_telekinetic_explosion" },
+      { "u_learn_recipe": "practice_telekinetic_aegis" },
       { "u_learn_recipe": "improve_telekinesis_lifting_field" }
     ]
   },
@@ -64,9 +68,10 @@
       { "u_learn_recipe": "practice_telepathic_concentration" },
       { "u_learn_recipe": "practice_telepathic_shield" },
       { "u_learn_recipe": "practice_telepathic_morale" },
-      { "u_learn_recipe": "practice_telepathic_invisibility" },
-      { "u_learn_recipe": "practice_telepathic_confusion" },
       { "u_learn_recipe": "practice_telepathic_blast" },
+      { "u_learn_recipe": "practice_telepathic_confusion" },
+      { "u_learn_recipe": "practice_telepathic_invisibility" },
+      { "u_learn_recipe": "practice_telepathic_scream" },
       { "u_learn_recipe": "practice_telepathic_mind_control" }
     ]
   },
@@ -76,11 +81,15 @@
     "effect": [
       { "u_learn_recipe": "practice_teleport_blink" },
       { "u_learn_recipe": "practice_teleport_slow" },
+      { "u_learn_recipe": "practice_teleport_stride" },
+      { "u_learn_recipe": "practice_teleport_phase" },
       { "u_learn_recipe": "practice_teleport_transpose" },
+      { "u_learn_recipe": "practice_teleport_displacement" },
       { "u_learn_recipe": "practice_teleport_farstep" },
       { "u_learn_recipe": "practice_teleport_collapse" },
       { "u_learn_recipe": "practice_teleport_gateway" },
-      { "u_learn_recipe": "practice_teleport_banish" }
+      { "u_learn_recipe": "practice_teleport_banish" },
+      { "u_learn_recipe": "practice_teleport_breach" }
     ]
   },
   {
@@ -93,6 +102,7 @@
       { "u_learn_recipe": "practice_vita_hurt_touch" },
       { "u_learn_recipe": "practice_vita_sleeping_trance" },
       { "u_learn_recipe": "practice_vita_pain_split" },
+      { "u_learn_recipe": "practice_vita_stop_infection" },
       { "u_learn_recipe": "practice_vita_healing_trance" },
       { "u_learn_recipe": "practice_vita_blood_purge" },
       { "u_learn_recipe": "practice_vita_banish_illness" }
@@ -102,7 +112,7 @@
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_RECIPE_TEACHER",
     "eoc_type": "EVENT",
-    "required_event": "game_load",
+    "required_event": "game_begin",
     "condition": { "u_has_trait": "BIOKINETIC" },
     "effect": [ { "queue_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
   },
@@ -110,7 +120,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_RECIPE_TEACHER",
     "eoc_type": "EVENT",
-    "required_event": "game_load",
+    "required_event": "game_begin",
     "condition": { "u_has_trait": "CLAIRSENTIENT" },
     "effect": [ { "queue_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
   },
@@ -118,7 +128,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_RECIPE_TEACHER",
     "eoc_type": "EVENT",
-    "required_event": "game_load",
+    "required_event": "game_begin",
     "condition": { "u_has_trait": "PYROKINETIC" },
     "effect": [ { "queue_eocs": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
   },
@@ -126,7 +136,7 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_RECIPE_TEACHER",
     "eoc_type": "EVENT",
-    "required_event": "game_load",
+    "required_event": "game_begin",
     "condition": { "u_has_trait": "TELEKINETIC" },
     "effect": [ { "queue_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
   },
@@ -134,7 +144,7 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_RECIPE_TEACHER",
     "eoc_type": "EVENT",
-    "required_event": "game_load",
+    "required_event": "game_begin",
     "condition": { "u_has_trait": "TELEPATH" },
     "effect": [ { "queue_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
   },
@@ -142,7 +152,7 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_RECIPE_TEACHER",
     "eoc_type": "EVENT",
-    "required_event": "game_load",
+    "required_event": "game_begin",
     "condition": { "u_has_trait": "TELEPORTER" },
     "effect": [ { "queue_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
   },
@@ -150,7 +160,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_RECIPE_TEACHER",
     "eoc_type": "EVENT",
-    "required_event": "game_load",
+    "required_event": "game_begin",
     "condition": { "u_has_trait": "VITAKINETIC" },
     "effect": [ { "queue_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
   }

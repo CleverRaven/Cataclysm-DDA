@@ -1,5 +1,179 @@
 [
   {
+    "id": "biokin_enhance_mobility_item_1",
+    "type": "ARMOR",
+    "name": { "str_sp": "enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": -2,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "biokin_enhance_mobility_item_2",
+    "type": "ARMOR",
+    "name": { "str_sp": "enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": -4,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "biokin_enhance_mobility_item_3",
+    "type": "ARMOR",
+    "name": { "str_sp": "enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": -8,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "biokin_enhance_mobility_item_4",
+    "type": "ARMOR",
+    "name": { "str_sp": "enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": -12,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "biokin_enhance_mobility_item_5",
+    "type": "ARMOR",
+    "name": { "str_sp": "enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": -16,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "biokin_enhance_mobility_item_6",
+    "type": "ARMOR",
+    "name": { "str_sp": "enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": -20,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
     "id": "pyrokinetic_fire_tool",
     "type": "TOOL",
     "name": { "str": "pyrokinetic fire" },
@@ -1037,7 +1211,41 @@
     "qualities": [ [ "JACK", 20 ], [ "LIFT", 20 ] ]
   },
   {
-    "id": "vita_bandages",
+    "id": "vita_bandage_01",
+    "type": "GENERIC",
+    "name": { "str": "Vitakinetic Wound Staunching" },
+    "looks_like": "bandage",
+    "description": "The power to stop bleeding",
+    "//": "relic-data exists to make the item purple so it stands out in the inventory.  Shouldn't clutter the inventory or the purple item space since the summon lasts 5 turns max.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "!",
+    "color": "magenta",
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "use_action": { "type": "heal", "bandages_power": 1, "bleed": 7, "move_cost": 0 },
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  },
+  {
+    "id": "vita_bandages_02",
+    "type": "GENERIC",
+    "name": { "str": "Vitakinetic Wound Staunching" },
+    "looks_like": "bandage",
+    "description": "The power to stop bleeding",
+    "//": "relic-data exists to make the item purple so it stands out in the inventory.  Shouldn't clutter the inventory or the purple item space since the summon lasts 5 turns max.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "!",
+    "color": "magenta",
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 14, "move_cost": 0 },
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  },
+  {
+    "id": "vita_bandages_03",
     "type": "GENERIC",
     "name": { "str": "Vitakinetic Wound Staunching" },
     "looks_like": "bandage",
@@ -1051,6 +1259,57 @@
     "color": "magenta",
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
     "use_action": { "type": "heal", "bandages_power": 3, "bleed": 20, "move_cost": 0 },
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  },
+  {
+    "id": "vita_disinfectant_01",
+    "type": "GENERIC",
+    "name": { "str": "Vitakinetic Disinfectant" },
+    "looks_like": "bandage",
+    "description": "The power to stop infections",
+    "//": "relic-data exists to make the item purple so it stands out in the inventory.  Shouldn't clutter the inventory or the purple item space since the summon lasts 5 turns max.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "!",
+    "color": "magenta",
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "use_action": [ { "type": "heal", "bite": 0.5, "disinfectant_power": 1, "infect": 0.4, "move_cost": 0 } ],
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  },
+  {
+    "id": "vita_disinfectant_02",
+    "type": "GENERIC",
+    "name": { "str": "Vitakinetic Disinfectant" },
+    "looks_like": "bandage",
+    "description": "The power to stop infections",
+    "//": "relic-data exists to make the item purple so it stands out in the inventory.  Shouldn't clutter the inventory or the purple item space since the summon lasts 5 turns max.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "!",
+    "color": "magenta",
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "use_action": [ { "type": "heal", "bite": 0.7, "disinfectant_power": 2, "infect": 0.6, "move_cost": 0 } ],
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  },
+  {
+    "id": "vita_disinfectant_03",
+    "type": "GENERIC",
+    "name": { "str": "Vitakinetic Disinfectant" },
+    "looks_like": "bandage",
+    "description": "The power to stop infections",
+    "//": "relic-data exists to make the item purple so it stands out in the inventory.  Shouldn't clutter the inventory or the purple item space since the summon lasts 5 turns max.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "!",
+    "color": "magenta",
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "use_action": [ { "type": "heal", "bite": 0.9, "disinfectant_power": 3, "infect": 0.8, "move_cost": 0 } ],
     "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   }
 ]

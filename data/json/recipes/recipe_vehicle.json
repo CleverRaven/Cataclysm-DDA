@@ -1268,6 +1268,29 @@
     ]
   },
   {
+    "result": "fridgetank_large",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "copy-from": "minifreezer",
+    "skills_required": [ "fabrication", 4 ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [
+      [ [ "30gal_drum", 1 ] ],
+      [ [ "condensor_coil", 1 ] ],
+      [ [ "evaporator_coil", 1 ] ],
+      [ [ "thermostat", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "refrigerant_tank", 1 ] ],
+      [ [ "plastic_chunk", 8 ] ]
+    ]
+  },
+  {
     "result": "heattank",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",

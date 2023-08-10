@@ -1858,7 +1858,7 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
         //~ %1$s: terrain/furniture name, %2$s: prying tool name
         you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
                                target_name, best_prying.tname() );
-        iuse::crowbar( &you, &best_prying, false, examp );
+        iuse::crowbar( &you, &best_prying, examp );
     } else if( action == act::pick ) {
         locked_object_pickable( you, examp );
     }
@@ -1930,9 +1930,9 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
         you.add_msg_if_player( _( "You attempt to pick the lock of %1$s using your %2$s…" ),
                                target_name, it->tname() );
-        const ret_val<void> can_use = iuse_fn->can_call( you, *it, false, examp );
+        const ret_val<void> can_use = iuse_fn->can_call( you, *it, examp );
         if( can_use.success() ) {
-            iuse_fn->call( &you, *it, false, examp );
+            iuse_fn->call( &you, *it, examp );
             return;
         } else {
             you.add_msg_if_player( m_bad, can_use.str() );
@@ -3323,7 +3323,7 @@ static void add_firestarter( item *it, std::multimap<int, item *> &firestarters,
     const use_function *usef = it->type->get_use( "firestarter" );
     if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
         const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-        if( actor->can_use( you, *it, false, examp ).success() ) {
+        if( actor->can_use( you, *it, examp ).success() ) {
             firestarters.insert( std::pair<int, item *>( actor->moves_cost_fast, it ) );
         }
     }
@@ -3402,9 +3402,9 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
                 const use_function *usef = it->type->get_use( "firestarter" );
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
                 you.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
-                const ret_val<void> can_use = actor->can_use( you, *it, false, examp );
+                const ret_val<void> can_use = actor->can_use( you, *it, examp );
                 if( can_use.success() ) {
-                    const int charges = actor->use( &you, *it, false, examp ).value_or( 0 );
+                    const int charges = actor->use( &you, *it, examp ).value_or( 0 );
                     you.use_charges( it->typeId(), charges );
                     return;
                 } else {
@@ -5858,13 +5858,11 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
             it.calc_rot_while_processing( milling_time );
             const islot_milling &mdata = *it.type->milling_data;
             const int charges = it.count() * mdata.conversion_rate_;
-            if( charges <= 0 ) {
-                // not enough material, just remove the item
-                // (may happen if the player did not add enough charges to the mill
-                // or if the conversion rate is changed between versions)
-                iter = items.erase( iter );
-            } else {
-                item result( mdata.into_, start_time + milling_time, charges );
+            // if not enough material, just remove the item (0 loops)
+            // (may happen if the player did not add enough charges to the mill
+            // or if the conversion rate is changed between versions)
+            for( int i = 0; i < charges; i++ ) {
+                item result( mdata.into_, start_time + milling_time );
                 result.components.add( it );
                 // copied from item::inherit_flags, which can not be called here because it requires a recipe.
                 for( const flag_id &f : it.type->get_flags() ) {
@@ -5877,9 +5875,9 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
                 result.set_flag( flag_PROCESSING_RESULT );
                 result.set_relative_rot( it.get_relative_rot() );
                 result.unset_flag( flag_PROCESSING_RESULT );
-                it = result;
-                ++iter;
+                here.add_item( examp, result );
             }
+            iter = items.erase( iter );
         } else {
             ++iter;
         }
@@ -6091,8 +6089,8 @@ static void mill_load_food( Character &you, const tripoint &examp,
     for( const item &m : moved ) {
         here.add_item( examp, m );
         you.mod_moves( -you.item_handling_cost( m ) );
-        add_msg( m_info, _( "You carefully place %1$d %2$s in the mill." ), m.charges,
-                 m.tname( m.charges ) );
+        add_msg( m_info, _( "You carefully place %1$d %2$s in the mill." ), m.count(),
+                 m.tname( m.count() ) );
     }
     you.invalidate_crafting_inventory();
 }

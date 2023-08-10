@@ -4,12 +4,13 @@
     "id": "EOC_SPELL_PYROKIN_CALL_FLAME_SELECTOR",
     "effect": [
       {
-        "run_eoc_selector": [ "EOC_SPELL_PYROKIN_CALL_FLAME_SHORT", "EOC_SPELL_PYROKIN_CALL_FLAME_LONG" ],
-        "names": [ "Banked Flame (short-term)", "Banked Flame (long-term)" ],
-        "keys": [ "1", "2" ],
+        "run_eoc_selector": [ "EOC_SPELL_PYROKIN_CALL_FLAME_SHORT", "EOC_SPELL_PYROKIN_CALL_FLAME_LONG", "EOC_PORTAL_NULL_AWAKENING" ],
+        "names": [ "Banked Flame (short-term)", "Banked Flame (long-term)", "Nevermind" ],
+        "keys": [ "1", "2", "3" ],
         "descriptions": [
           "Summon a banked flame for a short period of time, perhaps 5-10 minutes.",
-          "Summon a banked flame for a longer period of time, over an hour.  This is of necessity more draining than summoning it for a short period of time."
+          "Summon a banked flame for a longer period of time, over an hour.  This is of necessity more draining than summoning it for a short period of time.",
+          "Do nothing for now."
         ]
       }
     ]
@@ -20,6 +21,7 @@
     "effect": [
       { "u_remove_item_with": "pyrokinetic_fire_tool" },
       { "u_cast_spell": { "id": "pyrokin_call_flame_short_term" } },
+      { "u_message": "Flames begin dancing in the air above your hand", "type": "neutral" },
       { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,1 )" ] }
     ]
   },
@@ -29,7 +31,93 @@
     "effect": [
       { "u_remove_item_with": "pyrokinetic_fire_tool" },
       { "u_cast_spell": { "id": "pyrokin_call_flame_long_term" } },
+      { "u_message": "Flames begin dancing in the air above your hand", "type": "neutral" },
       { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 2,5 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_PYROKIN_THERMOGENESIS_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_SPELL_PYROKIN_SUMMON_HEAT_1",
+          "EOC_SPELL_PYROKIN_SUMMON_HEAT_2",
+          "EOC_SPELL_PYROKIN_SUMMON_HEAT_3",
+          "EOC_SPELL_PYROKIN_SUMMON_HEAT_4",
+          "EOC_SPELL_PYROKIN_BANISH_HEAT",
+          "EOC_PORTAL_NULL_AWAKENING"
+        ],
+        "names": [
+          "Minor thermogenesis",
+          "Lesser thermogenesis",
+          "Greater thermogenesis",
+          "Major thermogenesis",
+          "Banish all thermogenesis nodes",
+          "Nevermind"
+        ],
+        "keys": [ "1", "2", "3", "4", "5", "6" ],
+        "descriptions": [
+          "Raise the temperature a few degrees.",
+          "Raise the temperature from a summer night to a summer day.",
+          "Raise the temperature from winter to early fall.",
+          "Raise the temperature from winter to summer.",
+          "Stop all current thermogenesis.",
+          "Do nothing for now."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_PYROKIN_SUMMON_HEAT_1",
+    "effect": [
+      {
+        "u_cast_spell": { "id": "pyrokin_summon_thermogenesis_1", "message": "The air nearby grows slightly warmer." },
+        "targeted": true
+      },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_two", "hit_self": true } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_PYROKIN_SUMMON_HEAT_2",
+    "effect": [
+      {
+        "u_cast_spell": { "id": "pyrokin_summon_thermogenesis_2", "message": "Warm air swirls from the spot." },
+        "targeted": true
+      },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_PYROKIN_SUMMON_HEAT_3",
+    "effect": [
+      {
+        "u_cast_spell": { "id": "pyrokin_summon_thermogenesis_3", "message": "Hot air swirls from the spot." },
+        "targeted": true
+      },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_six", "hit_self": true } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_PYROKIN_SUMMON_HEAT_4",
+    "effect": [
+      {
+        "u_cast_spell": { "id": "pyrokin_summon_thermogenesis_4", "message": "The air grows as hot as a summer day." },
+        "targeted": true
+      },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_eight", "hit_self": true } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_PYROKIN_BANISH_HEAT",
+    "effect": [
+      { "u_cast_spell": { "id": "pyrokin_banish_thermogenesis" } },
+      { "u_message": "The heated air you have been maintaining returns to normal." }
     ]
   }
 ]

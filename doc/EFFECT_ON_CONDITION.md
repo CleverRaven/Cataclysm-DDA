@@ -136,7 +136,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | game_avatar_death | Triggers during bury screen with ASCII grave art is displayed (when avatar dies, obviously) | { "avatar_id", `character_id` }, { "avatar_name", `string` }, { "avatar_is_male", `bool` }, { "is_suicide", `bool` }, { "last_words", `string` }, |
 | game_avatar_new | Triggers when new character is controlled and during new game character initialization  | { "is_new_game", `bool` }, { "is_debug", `bool` }, { "avatar_id", `character_id` }, { "avatar_name", `string` }, { "avatar_is_male", `bool` }, { "avatar_profession", `profession_id` }, { "avatar_custom_profession", `string` }, |
 | game_load | Triggers only when loading a saved game (not a new game!) | { "cdda_version", `string` }, |
-| game_begin | Triggered during game load and new game start (apparently?) | { "cdda_version", `string` }, |
+| game_begin | Triggered during game load and new game start | { "cdda_version", `string` }, |
 | game_over | Triggers after fully accepting death, epilogues etc have played (probably not useable for eoc purposes?) | { "total_time_played", `chrono_seconds` }, |
 | game_save | | { "time_since_load", `chrono_seconds` }, { "total_time_played", `chrono_seconds` }, |
 | game_start | Triggered only during new game character initialization | { "game_version", `string` }, |

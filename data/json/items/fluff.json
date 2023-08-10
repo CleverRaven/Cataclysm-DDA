@@ -659,20 +659,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "train_data_card",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str_sp": "laboratory shipping records" },
-    "description": "Some type of advanced data storage device, filled with logistical data on subterranean train routes and schedules.",
-    "price": 10000,
-    "price_postapoc": 50,
-    "material": [ "plastic" ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "to_hit": -3
-  },
-  {
-    "type": "GENERIC",
     "id": "ruler",
     "name": { "str_sp": "ruler" },
     "description": "A plastic ruler used to measure lengths of smaller objects.  This one measures 15cm.",
