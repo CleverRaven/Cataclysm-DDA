@@ -14,13 +14,22 @@
         "topic": "TALK_FRIEND_Luo",
         "effect": "reveal_stats"
       },
-      { "text": "There's something I want you to do.", "topic": "TALK_ALLY_ORDERS" },
+      { "text": "There's something I want you to do.", "topic": "TALK_LUO_ORDERS" },
       {
         "text": "I just wanted to talk for a bit.",
         "condition": { "and": [ "at_safe_space", { "not": "is_by_radio" } ] },
         "topic": "TALK_LUO_SOCIAL"
       },
       { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FRIEND_GUARD_Luo",
+    "type": "talk_topic",
+    "dynamic_line": "I love just standing around, it's what I was made for.",
+    "responses": [
+      { "text": "I need you to come with me.", "topic": "TALK_FRIEND_Luo", "effect": "stop_guard" },
+      { "text": "See you around.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -50,6 +59,118 @@
         "switch": true,
         "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
       }
+    ]
+  },
+  {
+    "id": [ "TALK_LUO_ORDERS" ],
+    "type": "talk_topic",
+    "dynamic_line": [ "Orders?  Seriously?  Fine, whatever, tell me what you want me to do." ],
+    "responses": [
+      {
+        "text": "Can you teach me anything?",
+        "condition": { "not": "is_by_radio" },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_train" },
+              { "npc_has_trait": "HALLUCINATION" },
+              "u_driving",
+              "npc_driving"
+            ]
+          }
+        },
+        "success": { "topic": "TALK_DENY_TRAIN" },
+        "failure": { "topic": "TALK_TRAIN_PERSUADE" }
+      },
+      {
+        "text": "Can you host a training seminar?",
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_train" },
+              "u_driving",
+              "npc_driving"
+            ]
+          }
+        },
+        "success": { "topic": "TALK_DENY_TRAIN_SEMINAR" },
+        "failure": { "topic": "TALK_TRAIN_SEMINAR_PERSUADE" }
+      },
+      {
+        "text": "I have something to teach you.",
+        "condition": {
+          "and": [
+            { "not": "u_driving" },
+            { "not": "npc_driving" },
+            { "not": "is_by_radio" },
+            { "not": { "u_has_effect": "asked_to_train" } },
+            { "not": { "npc_has_trait": "HALLUCINATION" } }
+          ]
+        },
+        "topic": "TALK_TRAIN_NPC"
+      },
+      {
+        "text": "Let's trade items.",
+        "condition": { "and": [ { "not": { "npc_has_trait": "HALLUCINATION" } }, { "not": "is_by_radio" } ] },
+        "topic": "TALK_FRIEND_Luo",
+        "effect": "start_trade",
+        "switch": true,
+        "default": true
+      },
+      {
+        "text": "Let's trade items",
+        "topic": "TRADE_HALLU",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true,
+        "default": false
+      },
+      {
+        "text": "I want you to use this item.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_Luo",
+        "effect": "npc_gets_item_to_use"
+      },
+      {
+        "text": "Hold on to this item.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_Luo",
+        "effect": "npc_gets_item"
+      },
+      {
+        "text": "Guard this position.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_GUARD_Luo",
+        "effect": "assign_guard"
+      },
+      {
+        "text": "Find a horse and mount up!",
+        "condition": { "and": [ { "not": "npc_is_riding" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "topic": "TALK_DONE",
+        "effect": "find_mount"
+      },
+      {
+        "text": "Drop off any items you're not using.",
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "topic": "TALK_DONE",
+        "effect": "drop_items_in_place"
+      },
+      {
+        "text": "Get off your mount, please.",
+        "condition": "npc_is_riding",
+        "topic": "TALK_DONE",
+        "effect": "dismount"
+      },
+      { "text": "Change your martial arts style.", "topic": "TALK_DONE", "effect": "pick_style" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
     ]
   },
   {
