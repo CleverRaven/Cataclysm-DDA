@@ -356,7 +356,7 @@
         "switch": true
       },
       {
-        "text": "How did you wind up stuck at the refugee center, anyway?",
+        "text": "How did you survive the cataclysm, anyway?",
         "topic": "BGSS_Luo1",
         "condition": { "npc_has_class": "NC_BEGGAR_3" },
         "switch": true
