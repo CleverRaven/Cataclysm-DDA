@@ -771,7 +771,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
 
 bool vehicle::precollision_check( units::angle &angle, map &here, bool follow_protocol )
 {
-    if ( !precollision_on ) {
+    if( !precollision_on ) {
         return false;
     }
     Character &player_character = get_player_character();
