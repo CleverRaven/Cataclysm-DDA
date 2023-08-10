@@ -809,7 +809,7 @@ static item wishitem_produce( const itype &type, std::string &flags, bool incont
 class wish_item_callback: public uilist_callback
 {
     public:
-	int examine_pos;
+	    int examine_pos;
         bool incontainer;
         bool spawn_everything;
         bool renew_snippet;
@@ -833,7 +833,7 @@ class wish_item_callback: public uilist_callback
                 return;
             }
 	    
-	    examine_pos=0;
+	        examine_pos=0;
             chosen_snippet_id = { -1, "" };
             renew_snippet = true;
             const itype &selected_itype = *standard_itype_ids[menu->selected];
@@ -918,12 +918,12 @@ class wish_item_callback: public uilist_callback
                 }
                 return true;
             }
-	    if( action == "SCROLL_DESC_UP"  ){
-	        examine_pos=std::max( examine_pos -1, 0 );
-	    }
-	    if( action == "SCROLL_DESC_DOWN"  ){
-	    	examine_pos+=1;
-	    }
+            if( action == "SCROLL_DESC_UP"  ){
+	            examine_pos=std::max( examine_pos -1, 0 );
+	        }
+	        if( action == "SCROLL_DESC_DOWN"  ){
+	    	    examine_pos+=1;
+	        }
             if( cur_key == KEY_LEFT || cur_key == KEY_RIGHT ) {
                 // For Renew snippet_id.
                 renew_snippet = true;
@@ -934,7 +934,7 @@ class wish_item_callback: public uilist_callback
 
         void refresh( uilist *menu ) override {
             const int description_height = menu->w_height - 6;
-	    const int starty = 3;
+	        const int starty = 3;
             const int startx = menu->w_width - menu->pad_right;
             const std::string padding( menu->pad_right, ' ' );
             for( int y = 2; y < menu->w_height - 1; y++ ) {
@@ -974,16 +974,16 @@ class wish_item_callback: public uilist_callback
                 mvwprintz( menu->window, point( startx + ( menu->pad_right - 1 - utf8_width( header ) ) / 2, 1 ),
                            c_cyan, header );
 		
-		std::vector<std::string> desc = foldstring( tmp.info(true), menu->pad_right - 1 );
-		const bool do_scroll = desc.size() > static_cast<unsigned>( description_height );
-		examine_pos = std::min( examine_pos, static_cast<int>( desc.size() - description_height ) );
-		const int first_line = do_scroll ? examine_pos : 0;
-		const int last_line = do_scroll ? ( first_line + description_height ) : desc.size();
-		draw_scrollbar( menu->window, first_line, description_height, desc.size(), point( menu->w_width - 1, starty ),
-			        c_white, true  );
-		for( int i = first_line; i < last_line; i++ ){
-		     fold_and_print( menu->window, point( startx, starty + i - first_line ), menu->pad_right - 1, c_light_gray, desc[i] );
-		}
+		        std::vector<std::string> desc = foldstring( tmp.info(true), menu->pad_right - 1 );
+		        const bool do_scroll = desc.size() > static_cast<unsigned>( description_height );
+		        examine_pos = std::min( examine_pos, static_cast<int>( desc.size() - description_height ) );
+		        const int first_line = do_scroll ? examine_pos : 0;
+		        const int last_line = do_scroll ? ( first_line + description_height ) : desc.size();
+		        draw_scrollbar( menu->window, first_line, description_height, desc.size(), point( menu->w_width - 1, starty ),
+			                    c_white, true  );
+		        for( int i = first_line; i < last_line; i++ ){
+		             fold_and_print( menu->window, point( startx, starty + i - first_line ), menu->pad_right - 1, c_light_gray, desc[i] );
+		        }
             }
 
             mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
@@ -1047,8 +1047,8 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
         { "FLAG", translation() },
         { "EVERYTHING", translation() },
         { "SNIPPET", translation() },
-	{ "SCROLL_DESC_UP", translation() },
-	{ "SCROLL_DESC_DOWN", translation() },
+	    { "SCROLL_DESC_UP", translation() },
+	    { "SCROLL_DESC_DOWN", translation() },
     };
     wmenu.w_x_setup = 0;
     wmenu.w_width_setup = []() -> int {
