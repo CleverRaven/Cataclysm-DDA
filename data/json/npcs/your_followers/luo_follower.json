@@ -1,6 +1,6 @@
 [
   {
-    "id": "TALK_FRIEND_Luo",
+    "id": [ "TALK_FRIEND_Luo", "TALK_FRIEND_Luo_Abilities" ],
     "type": "talk_topic",
     "dynamic_line": {
       "is_by_radio": " *pshhhttt* Hey stinkyface.  It's your favorite mushroom girl.  Over.",
@@ -11,10 +11,15 @@
       { "text": "I want to set some miscellaneous rules.", "topic": "TALK_MISC_RULES" },
       {
         "text": "I'd like to know a bit more about your abilities.",
-        "topic": "TALK_FRIEND_Luo",
+        "topic": "TALK_FRIEND_Luo_Abilities",
         "effect": "reveal_stats"
       },
       { "text": "There's something I want you to do.", "topic": "TALK_LUO_ORDERS" },
+      {
+        "text": "I just wanted to talk for a bit.",
+        "condition": { "and": [ "at_safe_space", { "not": "is_by_radio" } ] },
+        "topic": "TALK_LUO_SOCIAL"
+      },
       {
         "text": "I just wanted to talk for a bit.",
         "condition": { "and": [ "at_safe_space", { "not": "is_by_radio" } ] },
@@ -31,6 +36,11 @@
       { "text": "I need you to come with me.", "topic": "TALK_FRIEND_Luo", "effect": "stop_guard" },
       { "text": "See you around.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "TALK_FRIEND_Luo_Abilities",
+    "type": "talk_topic",
+    "dynamic_line": "My 'abilities'?  I can shapeshift, and teleport, but I can't do it on command.  Also, I have unique powers of thyroid failure."
   },
   {
     "id": [ "TALK_LUO_SOCIAL" ],
