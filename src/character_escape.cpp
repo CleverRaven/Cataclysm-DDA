@@ -264,7 +264,7 @@ bool Character::try_remove_grab( bool attacking )
             }
 
             // Every attempt burns some stamina - maybe some moves?
-            burn_energy_arms( -5 * eff.get_intensity() );
+            burn_energy_arms( 5 * eff.get_intensity() );
             if( x_in_y( escape_chance, grabber_roll ) ) {
                 grabber->remove_grab( eff.get_bp().id() );
                 add_msg_debug( debugmode::DF_MATTACK, "Removed grab effect %s from monster %s",
