@@ -174,6 +174,20 @@
     ]
   },
   {
+    "id": "clair_rad_sense_item",
+    "type": "ARMOR",
+    "name": { "str": "radiation sense" },
+    "description": "You can see ambient radiation as a faint, sinister glow.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": "[",
+    "color": "dark_gray",
+    "flags": [ "OVERSIZE", "RAD_DETECT", "INTEGRATED", "PERSONAL", "ZERO_WEIGHT" ],
+     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  },
+  {
     "id": "pyrokinetic_fire_tool",
     "type": "TOOL",
     "name": { "str": "pyrokinetic fire" },
