@@ -13168,6 +13168,24 @@ void game::climb_down( const tripoint &examp )
         }
     }
 
+    if( web_rappel || has_grapnel ) {
+        tripoint p = examp;
+        for( int i = 0; i < height; i++ ) {
+            p.z--;
+            if( here.has_furn( p ) ) {
+                // We disallow climbing down with grappling hook or webs if there is furniture
+                // in the way. This is because there was a problem here before where the deployed
+                // grappling hook "furniture" added by the code further below would replace any
+                // already existing furniture on the destination, such as a stepladder.
+                you.add_msg_if_player(
+                    web_rappel ?
+                    _( "There is something in the way that prevent your webs from sticking there." )
+                    : _( "There is something in the way that prevents you from using your grappling hook there." ) );
+                return;
+            }
+        }
+    }
+
     you.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod ) * weary_mult;
     you.setpos( examp );
 
