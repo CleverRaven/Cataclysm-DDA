@@ -4324,8 +4324,8 @@
     "id": "SCROLL_DESC_DOWN",
     "name": "Scroll item description DOWN",
     "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
-   },
-   { 
+  },
+  {
     "type": "keybinding",
     "category": "DIALOGUE_CHOOSE_RESPONSE",
     "id": "LOOK_AT",
