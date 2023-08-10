@@ -2832,7 +2832,7 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 } else if( recover_chance <= 10 ) {
                     fx.emplace_back( _( "Stands a <bad>low</bad> chance of remaining intact once fired." ) );
                 } else if( recover_chance <= 20 ) {
-                    fx.emplace_back( _( "Stands a somewhat low chance of remaining intact once fired." ) );
+                    fx.emplace_back( _( "Stands a <bad>somewhat low</bad> chance of remaining intact once fired." ) );
                 } else if( recover_chance <= 30 ) {
                     fx.emplace_back( _( "Stands a <good>decent</good> chance of remaining intact once fired." ) );
                 } else {
