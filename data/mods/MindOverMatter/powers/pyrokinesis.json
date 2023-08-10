@@ -328,7 +328,7 @@
     "valid_targets": [ "self" ],
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "summon",
-    "effect_str": "item_pyro_torch_weld",
+    "effect_str": "pyrokinetic_torch_weld",
     "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "blast",
     "difficulty": 5,
