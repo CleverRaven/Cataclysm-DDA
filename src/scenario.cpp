@@ -607,6 +607,40 @@ void scenario::update_start_dates() const
     }
 }
 
+void scenario::reset_start_of_dates( bool reset_start_of_cataclysm, bool reset_start_of_game ) const
+{
+    scenario *hack = const_cast<scenario *>( this );
+    if( reset_start_of_cataclysm ) {
+        if( is_random_start_of_cataclysm_hour() ) {
+            hack->_start_of_cataclysm_hour = 0;
+        }
+        if( is_random_start_of_cataclysm_day() ) {
+            hack->_start_of_cataclysm_day = 60;
+        }
+        if( is_random_start_of_cataclysm_season() ) {
+            hack->_start_of_cataclysm_season = SPRING;
+        }
+        if( is_random_start_of_cataclysm_year() ) {
+            hack->_start_of_cataclysm_year = 1;
+        }
+    }
+    if( reset_start_of_game ) {
+        if( is_random_start_of_game_hour() ) {
+            hack->_start_of_game_hour = 8;
+        }
+        if( is_random_start_of_game_day() ) {
+            hack->_start_of_game_day = 60;
+        }
+        if( is_random_start_of_game_season() ) {
+            hack->_start_of_game_season = SPRING;
+        }
+        if( is_random_start_of_game_year() ) {
+            hack->_start_of_game_year = 1;
+        }
+    }
+    hack->update_start_dates();
+}
+
 bool scenario::is_random_start_of_cataclysm_hour() const
 {
     return _is_random_start_of_cataclysm_hour;

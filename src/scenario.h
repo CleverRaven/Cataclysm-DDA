@@ -122,6 +122,9 @@ class scenario
                           bool randomize_start_of_game = true ) const;
         void update_start_dates() const;
 
+        void reset_start_of_dates( bool reset_start_of_cataclysm = true,
+                                   bool reset_start_of_game = true ) const;
+
         bool is_random_start_of_cataclysm_hour() const;
         bool is_random_start_of_cataclysm_day() const;
         bool is_random_start_of_cataclysm_season() const;

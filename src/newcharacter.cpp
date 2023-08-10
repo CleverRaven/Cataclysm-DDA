@@ -3048,13 +3048,15 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
                                 current_scenario->gender_appropriate_name( !u.male ) ) + "\n";
     if( current_scenario->is_random_start_of_cataclysm() ) {
         assembled += string_format(
-                         _( "Press <color_light_green>%1$s</color> to randomize cataclysm start date." ),
-                         ctxt.get_desc( "RANDOMIZE_SCENARIO_START_OF_CATACLYSM" ) ) + "\n";
+                         _( "Press <color_light_green>%1$s</color> to randomize (or <color_light_green>%2$s</color> to reset) cataclysm start date." ),
+                         ctxt.get_desc( "RANDOMIZE_SCENARIO_START_OF_CATACLYSM" ),
+                         ctxt.get_desc( "RESET_SCENARIO_START_OF_CATACLYSM" ) ) + "\n";
     }
     if( current_scenario->is_random_start_of_game() ) {
         assembled += string_format(
-                         _( "Press <color_light_green>%1$s</color> to randomize game start date." ),
-                         ctxt.get_desc( "RANDOMIZE_SCENARIO_START_OF_GAME" ) ) + "\n";
+                         _( "Press <color_light_green>%1$s</color> to randomize (or <color_light_green>%2$s</color> to reset) game start date." ),
+                         ctxt.get_desc( "RANDOMIZE_SCENARIO_START_OF_GAME" ),
+                         ctxt.get_desc( "RESET_SCENARIO_START_OF_GAME" ) ) + "\n";
     }
 
     assembled += "\n" + colorize( _( "Scenario Story:" ), COL_HEADER ) + "\n";
@@ -3196,6 +3198,8 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_action( "RANDOMIZE" );
     ctxt.register_action( "RANDOMIZE_SCENARIO_START_OF_GAME" );
     ctxt.register_action( "RANDOMIZE_SCENARIO_START_OF_CATACLYSM" );
+    ctxt.register_action( "RESET_SCENARIO_START_OF_GAME" );
+    ctxt.register_action( "RESET_SCENARIO_START_OF_CATACLYSM" );
 
     bool recalc_scens = true;
     size_t scens_length = 0;
@@ -3373,6 +3377,20 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 get_scenario()->rerandomize( false, true );
             } else {
                 sorted_scens[cur_id]->rerandomize( false, true );
+            }
+            details_recalc = true;
+        } else if( action == "RESET_SCENARIO_START_OF_CATACLYSM" ) {
+            if( cur_id != id_for_curr_description ) {
+                get_scenario()->reset_start_of_dates( true, false );
+            } else {
+                sorted_scens[cur_id]->reset_start_of_dates( true, false );
+            }
+            details_recalc = true;
+        } else if( action == "RESET_SCENARIO_START_OF_GAME" ) {
+            if( cur_id != id_for_curr_description ) {
+                get_scenario()->reset_start_of_dates( false, true );
+            } else {
+                sorted_scens[cur_id]->reset_start_of_dates( false, true );
             }
             details_recalc = true;
         }
