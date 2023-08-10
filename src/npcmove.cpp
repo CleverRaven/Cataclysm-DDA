@@ -273,13 +273,19 @@ tripoint npc::good_escape_direction( bool include_pos )
         zone_type_id retreat_zone = zone_type_NPC_RETREAT;
         const tripoint_abs_ms abs_pos = get_location();
         const zone_manager &mgr = zone_manager::get_manager();
-        std::optional<tripoint_abs_ms> retreat_target =
-            mgr.get_nearest( retreat_zone, abs_pos, 60, fac_id );
+        std::optional<tripoint_abs_ms> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
+                fac_id );
+        // if there is a retreat zone in range, go there
+        if( !retreat_target ) {
+            //if not, regroup on the player
+            tripoint_bub_ms player_pos = get_player_character().pos_bub();
+            retreat_target = here.getglobal( player_pos );
+        }
         if( retreat_target && *retreat_target != abs_pos ) {
             update_path( here.getlocal( *retreat_target ) );
-            if( !path.empty() ) {
-                return path[0];
-            }
+        }
+        if( !path.empty() ) {
+            return path[0];
         }
     }
 
@@ -672,10 +678,11 @@ void npc::assess_danger()
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
     }
-    assessment *= 0.1f;
+    assessment *= 0.5f;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
-        float my_diff = evaluate_enemy( *this );
-        if( ( my_diff * 0.5f + personality.bravery + rng( 0, 10 ) ) < assessment ) {
+        float my_diff = evaluate_enemy( *this ) * 0.5f + rng( 0, personality.bravery * 2 );
+        if( my_diff < assessment ) {
+            add_msg_debug( "assessment: %1f, diff: %2f.", assessment, my_diff );
             time_duration run_away_for = 5_turns + 1_turns * rng( 0, 5 );
             warn_about( "run_away", run_away_for );
             add_effect( effect_npc_run_away, run_away_for );
