@@ -831,8 +831,7 @@ class wish_item_callback: public uilist_callback
         void select( uilist *menu ) override {
             if( menu->selected < 0 ) {
                 return;
-            }
-	    
+            } 
 	        examine_pos=0;
             chosen_snippet_id = { -1, "" };
             renew_snippet = true;
@@ -994,7 +993,7 @@ class wish_item_callback: public uilist_callback
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "CONTAINER" ),
                        ctxt.get_desc( "FLAG" ), ctxt.get_desc( "EVERYTHING" ),
                        ctxt.get_desc( "SNIPPET" ),
-                       ctxt.get_desc( "QUIT" ));
+                       ctxt.get_desc( "QUIT" ) );
             wnoutrefresh( menu->window );
         }
 };
