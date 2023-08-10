@@ -1392,7 +1392,8 @@
     "description": "CBM which replaces the left leg with a bionic counterpart.",
     "price": 220000,
     "weight": "30000 g",
-    "difficulty": 3
+    "difficulty": 3,
+    "volume": "8000 ml"
   },
   {
     "id": "bio_limb_leg_r",
@@ -1403,7 +1404,8 @@
     "description": "CBM which replaces the left leg with a bionic counterpart.",
     "price": 220000,
     "weight": "30000 g",
-    "difficulty": 3
+    "difficulty": 3,
+    "volume": "8000 ml"
   },
   {
     "id": "bio_limb_arm_l",
@@ -1414,7 +1416,8 @@
     "description": "CBM which replaces the left leg with a bionic counterpart.",
     "price": 220000,
     "weight": "20000 g",
-    "difficulty": 3
+    "difficulty": 3,
+    "volume": "5000 ml"
   },
   {
     "id": "bio_limb_arm_r",
@@ -1425,7 +1428,8 @@
     "description": "CBM which replaces the left leg with a bionic counterpart.",
     "price": 220000,
     "weight": "20000 g",
-    "difficulty": 3
+    "difficulty": 3,
+    "volume": "5000 ml"
   },
   {
     "id": "bio_limb_treads",
@@ -1436,6 +1440,7 @@
     "description": "CBM which replaces the left leg with a bionic counterpart.",
     "price": 220000,
     "weight": "120000 g",
-    "difficulty": 3
+    "difficulty": 3,
+    "volume": "40000 ml"
   }
 ]
