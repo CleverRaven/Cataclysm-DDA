@@ -785,6 +785,30 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_telekinetic_slowfall",
+    "name": [ "Slowfall" ],
+    "desc": [ "The ground isn't as eager to receive you." ],
+    "apply_message": "",
+    "remove_message": "You suddenly feel much heavier.",
+    "max_duration": "60 seconds",
+    "dur_add_perc": 10,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "FALL_DAMAGE",
+            "multiply": {
+              "math": [ "( -0.5 + ( u_val('spell_level', 'spell: biokin_flexibility') * -0.04) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ],
+    "limb_score_mods": [ { "limb_score": "swim", "modifier": 3.0 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_telekinetic_armor",
     "name": [ "Inertial Barrier" ],
     "desc": [ "A barrier of telekinetic force is protecting you." ],
