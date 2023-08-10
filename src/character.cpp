@@ -1859,7 +1859,7 @@ void Character::on_try_dodge()
 
     const int base_burn_rate = get_option<int>( STATIC( "PLAYER_BASE_STAMINA_BURN_RATE" ) );
     const float dodge_skill_modifier = ( 20.0f - get_skill_level( skill_dodge ) ) / 20.0f;
-    burn_energy_legs( std::floor( -static_cast<float>( base_burn_rate ) * 6.0f *
+    burn_energy_legs( std::floor( static_cast<float>( base_burn_rate ) * -6.0f *
                                   dodge_skill_modifier ) );
     set_activity_level( EXTRA_EXERCISE );
 }
@@ -1925,11 +1925,11 @@ bool Character::uncanny_dodge()
 
     if( can_dodge_both ) {
         mod_power_level( -trigger_cost / 2 );
-        burn_energy_legs( -150 );
+        burn_energy_legs( 150 );
     } else if( can_dodge_bio ) {
         mod_power_level( -trigger_cost );
     } else if( can_dodge_mut ) {
-        burn_energy_legs( -300 );
+        burn_energy_legs( 300 );
     }
 
     map &here = get_map();
@@ -6803,7 +6803,7 @@ void Character::burn_move_stamina( int moves )
     }
 
     burn_ratio *= move_mode->stamina_mult();
-    burn_energy_legs( -( ( moves * burn_ratio ) / 100.0 ) * get_modifier(
+    burn_energy_legs( ( ( moves * burn_ratio ) / 100.0 ) * get_modifier(
                           character_modifier_stamina_move_cost_mod ) * get_modifier(
                           character_modifier_move_mode_move_cost_mod ) );
     add_msg_debug( debugmode::DF_CHARACTER, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
