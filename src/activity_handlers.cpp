@@ -1733,7 +1733,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
             }
 
             // mixture of isaac clarke stomps and swinging your weapon
-            you->burn_energy_all( pulp_effort );
+            you->burn_energy_all( -pulp_effort );
             you->recoil = MAX_RECOIL;
 
             if( one_in( 4 ) ) {
@@ -2855,7 +2855,7 @@ void activity_handlers::repair_item_do_turn( player_activity *act, Character *yo
 
 void activity_handlers::butcher_do_turn( player_activity * /*act*/, Character *you )
 {
-    you->burn_energy_arms( 20 );
+    you->burn_energy_arms( -20 );
 }
 
 void activity_handlers::wait_finish( player_activity *act, Character *you )
