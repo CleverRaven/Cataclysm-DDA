@@ -505,5 +505,27 @@
         { "item": "splinter", "count": [ 1, 10 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_barber_chair",
+    "name": "barber chair",
+    "symbol": "$",
+    "looks_like": "f_barber_chair",
+    "description": "a stationary chair made of cloth and steel.  With adjustable height and the ability to swing.",
+    "color": "black",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "comfort": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CAN_SIT" ],
+    "deconstruct": { "items": [ { "item": "cotton_patchwork", "count": 40 }, { "item": "steel_chunk", "count": 10 } ] },
+    "bash": {
+      "str_min": 9,
+      "str_max": 25,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "cotton_patchwork", "count": [ 1, 8 ] }, { "item": "steel_chunk", "count": [ 1, 3 ] } ]
+    }
   }
 ]
