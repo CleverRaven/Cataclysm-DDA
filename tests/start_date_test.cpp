@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 
+#include "cata_scope_helpers.h"
 #include "game.h"
 #include "scenario.h"
 #include "options.h"
@@ -18,6 +19,11 @@ TEST_CASE( "Test_start_dates" )
     int default_initial_day = 0;
     int default_season_length = 91;
     int default_year_length = default_season_length * 4;
+
+    on_out_of_scope guard{ []()
+    {
+        set_scenario( scenario::generic() );
+    } };
 
     SECTION( "Default game start date with no scenario" ) {
         scenario scen = *scenario::generic();
@@ -105,6 +111,11 @@ TEST_CASE( "Random_scenario_dates" )
     time_duration first_day_of_summer = calendar::season_length();
     time_duration last_day_of_summer = 2 * calendar::season_length() - 1_days;
     time_duration default_start_hour = 1_hours * 8;
+
+    on_out_of_scope guard{ []()
+    {
+        set_scenario( scenario::generic() );
+    } };
 
     SECTION( "Random hour" ) {
         scenario scen = scenario_test_random_hour.obj();
