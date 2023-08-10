@@ -16,9 +16,6 @@
     "color": "white",
     "aggression": 50,
     "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 16,
-    "armor_bullet": 13,
     "vision_day": 50,
     "revert_to_itype": "bot_laserturret_xray",
     "starting_ammo": { "xray_laser_barrel": 3 },
@@ -34,6 +31,7 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE" ],
+    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
   }
 ]

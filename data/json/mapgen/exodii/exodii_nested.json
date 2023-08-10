@@ -29,5 +29,29 @@
         "L": { "terrain": "t_metal_floor", "furniture": "f_exodii_lamp" }
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "luliya_base",
+    "//": "Luliya's area in the exodii main base",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "T_1__",
+        "1___c",
+        "L____",
+        "_____",
+        "_____"
+      ],
+      "place_npcs": [ { "class": "exodii_materials", "x": 2, "y": 1 } ],
+      "terrain": { "_": "t_metal_floor", "|": "t_junk_wall", "T": "t_metal_floor" },
+      "item": { "T": { "item": "broken_exodii_quad" } },
+      "mapping": {
+        "1": { "terrain": "t_metal_floor", "furniture": "f_locker" },
+        "c": { "terrain": "t_metal_floor", "furniture": "f_metal_table" },
+        "L": { "terrain": "t_metal_floor", "furniture": "f_exodii_lamp" }
+      }
+    }
   }
 ]

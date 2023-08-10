@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "material_quicklime",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -16,7 +16,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "result": "material_cement",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -31,7 +31,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "result": "mortar_build",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -59,9 +59,8 @@
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "sheet_metal", -1 ], [ "pot", -1 ], [ "pot_makeshift", -1 ] ],
-      [ [ "forge", 25 ] ],
-      [ [ "surface_heat", 15, "LIST" ] ]
+      [ [ "sheet_metal", -1 ], [ "fire_brick", -1 ], [ "anvil", -1 ], [ "anvil_bronze", -1 ], [ "casting_mold", -1 ] ],
+      [ [ "forge", 26 ] ]
     ],
     "components": [
       [ [ "material_sand", 10 ] ],
@@ -86,11 +85,11 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "result_mult": 4,
     "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "//": "Forest glass, as cited: https://etheses.whiterose.ac.uk/3464/1/287681.pdf",
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "sheet_metal", -1 ], [ "pot", -1 ], [ "pot_makeshift", -1 ] ],
-      [ [ "forge", 60 ] ],
-      [ [ "surface_heat", 30, "LIST" ] ]
+      [ [ "sheet_metal", -1 ], [ "fire_brick", -1 ], [ "anvil", -1 ], [ "anvil_bronze", -1 ], [ "casting_mold", -1 ] ],
+      [ [ "forge", 26 ] ]
     ],
     "components": [ [ [ "material_sand", 10 ] ], [ [ "ash", 540 ] ], [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ] ] ]
   },
@@ -145,6 +144,76 @@
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plant_fibre", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "lc_steel_lump",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "4 h",
+    "batch_time_factors": [ 90, 2 ],
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 64 ], [ "charcoal", 40 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mc_steel_lump",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "6 h",
+    "batch_time_factors": [ 90, 2 ],
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 77 ], [ "charcoal", 48 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "hc_steel_lump",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "7 h",
+    "batch_time_factors": [ 90, 2 ],
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 90 ], [ "charcoal", 68 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "steel_lump",
+    "id_suffix": "from_other_steel",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 h",
+    "batch_time_factors": [ 90, 2 ],
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 200 ] ] ],
+    "components": [
+      [
+        [ "hc_steel_lump", 1 ],
+        [ "hc_steel_chunk", 4 ],
+        [ "mc_steel_lump", 1 ],
+        [ "mc_steel_chunk", 4 ],
+        [ "lc_steel_lump", 1 ],
+        [ "lc_steel_chunk", 4 ]
+      ]
+    ]
   },
   {
     "type": "recipe",

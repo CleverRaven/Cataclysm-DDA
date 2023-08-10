@@ -34,7 +34,7 @@ enum defense_style {
 };
 
 enum defense_location {
-    DEFLOC_NULL = 0,
+    DEFLOC_NULL = -1,
     DEFLOC_HOSPITAL,
     DEFLOC_WORKS,
     DEFLOC_MALL,
@@ -77,8 +77,8 @@ struct defense_game : public special_game {
         void init_map();
 
         void spawn_wave();
-        void caravan();
-        std::vector<mtype_id> pick_monster_wave();
+        void caravan() const;
+        std::vector<mtype_id> pick_monster_wave() const;
         void spawn_wave_monster( const mtype_id &type );
 
         std::string special_wave_message( std::string name );

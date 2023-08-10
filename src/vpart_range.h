@@ -6,10 +6,10 @@
 #include <cstddef>
 #include <iterator>
 #include <new>
+#include <optional>
 #include <type_traits>
 
 #include "cata_assert.h"
-#include "optional.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -27,7 +27,7 @@ class vehicle_part_iterator
 {
     private:
         std::reference_wrapper<const range_type> range_;
-        cata::optional<vpart_reference> vp_;
+        std::optional<vpart_reference> vp_;
 
         const range_type &range() const {
             return range_.get();
@@ -79,9 +79,9 @@ class vehicle_part_iterator
         }
 };
 
-namespace std
-{
-template<class T> struct iterator_traits<vehicle_part_iterator<T>> {
+template<class T>
+// NOLINTNEXTLINE(cert-dcl58-cpp)
+struct std::iterator_traits<vehicle_part_iterator<T>> {
     using difference_type = size_t;
     using value_type = vpart_reference;
     // TODO: maybe change into random access iterator? This requires adding
@@ -90,7 +90,6 @@ template<class T> struct iterator_traits<vehicle_part_iterator<T>> {
     using pointer = const vpart_reference *;
     using iterator_category = std::forward_iterator_tag;
 };
-} // namespace std
 
 /**
  * The generic range, it misses the `bool contained(size_t)` function that is
@@ -113,9 +112,9 @@ class generic_vehicle_part_range
         template<typename T = ::vehicle>
         size_t part_count() const {
             if( with_fake_ ) {
-                return static_cast<const T &>( vehicle_.get() ).num_parts();
+                return static_cast<const T &>( vehicle_.get() ).part_count();
             } else {
-                return static_cast<const T &>( vehicle_.get() ).num_true_parts();
+                return static_cast<const T &>( vehicle_.get() ).part_count_real_cached();
             }
 
         }

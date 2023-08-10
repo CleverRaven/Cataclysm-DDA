@@ -1,0 +1,25 @@
+[
+  {
+    "id": "sweet_goop",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "sweet goop" },
+    "looks_like": "birdfood",
+    "description": "A bunch of sweet stuff with a wet, goopy consistency.  Normal bugs would die for this, just hope the mutants will like it as well.",
+    "weight": "60 g",
+    "volume": "250 ml",
+    "price": 20,
+    "price_postapoc": 25,
+    "to_hit": -5,
+    "material": [ "junk" ],
+    "symbol": ";",
+    "calories": 400,
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
+    "fun": 5,
+    "freezing_point": -274,
+    "color": "brown",
+    "flags": [ "INEDIBLE", "NUTRIENT_OVERRIDE" ],
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "BUGFOOD" ]
+  }
+]

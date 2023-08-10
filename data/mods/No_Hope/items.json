@@ -29,7 +29,6 @@
     "volume": "92500 ml",
     "price": 50000000,
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -42,7 +41,9 @@
       "difficulty": 9,
       "moves": 250,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_tankbot",
@@ -55,7 +56,6 @@
     "volume": "250 L",
     "price": 100000000,
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -68,7 +68,9 @@
       "difficulty": 10,
       "moves": 500,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -83,8 +85,6 @@
     "material": [ "steel", "plastic" ],
     "weight": "1023850 g",
     "volume": "1100 L",
-    "bashing": 20,
-    "cutting": 15,
     "to_hit": -3,
     "use_action": {
       "type": "place_monster",
@@ -95,7 +95,9 @@
       "difficulty": 10,
       "moves": 500,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 20, "cut": 15 }
   },
   {
     "id": "bot_tripod",
@@ -107,7 +109,6 @@
     "volume": "92500 ml",
     "price": 100000000,
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -120,7 +121,9 @@
       "difficulty": 15,
       "moves": 500,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -134,10 +137,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "430000 g",
     "volume": "187500 ml",
-    "bashing": 10,
-    "cutting": 6,
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 10, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -151,10 +153,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "1223850 g",
     "volume": "875 L",
-    "bashing": 20,
-    "cutting": 15,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 20, "cut": 15 }
   },
   {
     "type": "GENERIC",
@@ -209,13 +210,14 @@
     "ammo": [ "120mm" ],
     "weight": "2500 g",
     "volume": "2500 ml",
-    "bashing": 6,
     "to_hit": -3,
     "dispersion": 60,
     "durability": 9,
     "clip_size": 1,
     "loudness": 300,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "120mm": 1 } } ]
+    "flags": [ "NO_TURRET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "120mm": 1 } } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -240,7 +242,6 @@
     "price": 600000,
     "price_postapoc": 12000,
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "white",
@@ -250,7 +251,9 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -260,5 +263,19 @@
     "name": { "str": "broken laser turret" },
     "weight": "110 kg",
     "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "reverse_jointed_legs",
+    "name": { "str": "set of reverse-jointed legs", "str_pl": "sets of reverse-jointed legs" },
+    "description": "A set of reverse-jointed legs, like the ones found under a chicken walker.",
+    "symbol": "k",
+    "color": "light_gray",
+    "weight": "60000 g",
+    "volume": "20 L",
+    "price": 500000,
+    "price_postapoc": 250,
+    "material": [ "steel" ],
+    "category": "spare_parts"
   }
 ]

@@ -7,6 +7,7 @@
 #include <cstring>
 #include <map>
 #include <memory>
+#include <optional>
 #include <tuple>
 #include <utility>
 #include <vector>
@@ -33,7 +34,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "submap.h"
@@ -67,14 +67,13 @@ std::string four_quadrants::to_string() const
                           ( *this )[quadrant::SW], ( *this )[quadrant::NW] );
 }
 
-void map::add_light_from_items( const tripoint &p, const item_stack::iterator &begin,
-                                const item_stack::iterator &end )
+void map::add_light_from_items( const tripoint &p, const item_stack &items )
 {
-    for( auto itm_it = begin; itm_it != end; ++itm_it ) {
+    for( const item &it : items ) {
         float ilum = 0.0f; // brightness
         units::angle iwidth = 0_degrees; // 0-360 degrees. 0 is a circular light_source
         units::angle idir = 0_degrees;   // otherwise, it's a light_arc pointed in this direction
-        if( itm_it->getlight( ilum, iwidth, idir ) ) {
+        if( it.getlight( ilum, iwidth, idir ) ) {
             if( iwidth > 0_degrees ) {
                 apply_light_arc( p, idir, ilum, iwidth );
             } else {
@@ -155,7 +154,7 @@ bool map::build_transparency_cache( const int zlev )
                 return std::make_pair( value, value_wo_fields );
             };
 
-            if( cur_submap->is_uniform ) {
+            if( cur_submap->is_uniform() ) {
                 float value;
                 float dummy;
                 std::tie( value, dummy ) = calc_transp( sm_offset );
@@ -208,12 +207,13 @@ bool map::build_vision_transparency_cache( const int zlev )
     bool dirty = false;
 
     bool is_crouching = player_character.is_crouching();
+    bool is_runallfours = player_character.is_runallfours();
     bool is_prone = player_character.is_prone();
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be visible
             vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
-        } else if( ( is_crouching || is_prone ) && coverage( loc ) >= 30 ) {
+        } else if( ( is_crouching || is_prone || is_runallfours ) && coverage( loc ) >= 30 ) {
             // If we're crouching or prone behind an obstacle, we can't see past it.
             vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
             dirty = true;
@@ -386,8 +386,8 @@ void map::generate_lightmap( const int zlev )
     auto &outside_cache = map_cache.outside_cache;
     auto &prev_floor_cache = get_cache( clamp( zlev + 1, -OVERMAP_DEPTH, OVERMAP_DEPTH ) ).floor_cache;
     bool top_floor = zlev == OVERMAP_DEPTH;
-    std::memset( lm, 0, sizeof( lm ) );
-    std::memset( sm, 0, sizeof( sm ) );
+    lm.fill( four_quadrants{} );
+    sm.fill( 0 );
 
     /* Bulk light sources wastefully cast rays into neighbors; a burning hospital can produce
          significant slowdown, so for stuff like fire and lava:
@@ -399,7 +399,7 @@ void map::generate_lightmap( const int zlev )
      * Step 4: Profit!
      */
     auto &light_source_buffer = map_cache.light_source_buffer;
-    std::memset( light_source_buffer, 0, sizeof( light_source_buffer ) );
+    light_source_buffer.fill( 0 );
 
     constexpr std::array<int, 4> dir_x = { {  0, -1, 1, 0 } };    //    [0]
     constexpr std::array<int, 4> dir_y = { { -1,  0, 0, 1 } };    // [1][X][2]
@@ -457,9 +457,8 @@ void map::generate_lightmap( const int zlev )
                         }
                     }
 
-                    if( cur_submap->get_lum( { sx, sy } ) && has_items( p ) ) {
-                        map_stack items = i_at( p );
-                        add_light_from_items( p, items.begin(), items.end() );
+                    if( cur_submap->get_lum( { sx, sy } ) ) {
+                        add_light_from_items( p, i_at( p ) );
                     }
 
                     const ter_id terrain = cur_submap->get_ter( { sx, sy } );
@@ -510,7 +509,7 @@ void map::generate_lightmap( const int zlev )
     for( wrapped_vehicle &vv : vehs ) {
         vehicle *v = vv.v;
 
-        auto lights = v->lights( true );
+        auto lights = v->lights();
 
         float veh_luminance = 0.0f;
         float iteration = 1.0f;
@@ -547,8 +546,18 @@ void map::generate_lightmap( const int zlev )
                 }
 
             } else if( vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
-                add_light_source( src, M_SQRT2 ); // Add a little surrounding light
-                apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180_degrees );
+                if( vp.has_flag( VPFLAG_WALL_MOUNTED ) ) {
+                    tileray tdir( v->face.dir() + pt->direction );
+                    tdir.advance();
+                    tripoint offset = src;
+                    offset.x = src.x + tdir.dx();
+                    offset.y = src.y + tdir.dy();
+                    add_light_source( offset, M_SQRT2 ); // Add a little surrounding light
+                    apply_light_arc( offset, v->face.dir() + pt->direction, vp.bonus, 180_degrees );
+                } else {
+                    add_light_source( src, M_SQRT2 ); // Add a little surrounding light
+                    apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180_degrees );
+                }
 
             } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
                 const bool odd_turn = calendar::once_every( 2_turns );
@@ -564,16 +573,12 @@ void map::generate_lightmap( const int zlev )
             }
         }
 
-        for( const vpart_reference &vp : v->get_all_parts() ) {
-            const size_t p = vp.part_index();
-            const tripoint pp = vp.pos();
-            if( !inbounds( pp ) ) {
+        for( const vpart_reference &vpr : v->get_any_parts( VPFLAG_CARGO ) ) {
+            const tripoint pos = vpr.pos();
+            if( !inbounds( pos ) || vpr.info().has_flag( "COVERED" ) ) {
                 continue;
             }
-            if( vp.has_feature( VPFLAG_CARGO ) && !vp.has_feature( "COVERED" ) ) {
-                add_light_from_items( pp, v->get_items( static_cast<int>( p ) ).begin(),
-                                      v->get_items( static_cast<int>( p ) ).end() );
-            }
+            add_light_from_items( pos, vpr.items() );
         }
     }
 
@@ -651,8 +656,13 @@ float map::light_transparency( const tripoint &p ) const
 map::apparent_light_info map::apparent_light_helper( const level_cache &map_cache,
         const tripoint &p )
 {
-    const float vis = std::max( map_cache.seen_cache[p.x][p.y], map_cache.camera_cache[p.x][p.y] );
+    avatar const &u = get_avatar();
+    const int dist = rl_dist( u.pos(), p );
+    const float abs_vis =
+        std::max( map_cache.seen_cache[p.x][p.y], map_cache.camera_cache[p.x][p.y] );
+    const float vis = dist > u.unimpaired_range() ? map_cache.camera_cache[p.x][p.y] : abs_vis;
     const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
+    const bool abs_obstructed = abs_vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
 
     auto is_opaque = [&map_cache]( const point & p ) {
         return map_cache.transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID &&
@@ -662,7 +672,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     // possibly reduce view if aiming (also blocks light)
     if( get_avatar().recoil < MAX_RECOIL ) {
         if( get_avatar().cant_see( p ) ) {
-            return { true, 0.0 };
+            return { true, true, 0.0 };
         }
     }
 
@@ -699,8 +709,10 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
             if( is_opaque( neighbour ) ) {
                 continue;
             }
-            if( map_cache.seen_cache[neighbour.x][neighbour.y] == 0 &&
-                map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) {
+            if( ( rl_dist( u.pos().xy(), neighbour ) > u.unimpaired_range() &&
+                  map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) ||
+                ( map_cache.seen_cache[neighbour.x][neighbour.y] == 0 &&
+                  map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) ) {
                 continue;
             }
             // This is a non-opaque visible neighbour, so count visibility from the relevant
@@ -714,7 +726,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
         // directions is equivalent
         apparent_light = vis * map_cache.lm[p.x][p.y].max();
     }
-    return { obstructed, apparent_light };
+    return { obstructed, abs_obstructed, apparent_light };
 }
 
 lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const
@@ -732,34 +744,24 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     const level_cache &map_cache = get_cache_ref( p.z );
     const apparent_light_info a = apparent_light_helper( map_cache, p );
 
-    // Cameras are based on their own positions.
-    if( ( dist > player_character.unimpaired_range() || a.obstructed ) &&
-        map_cache.camera_cache[p.x][p.y] > 0.0f ) {
-        if( map_cache.camera_cache[p.x][p.y] * map_cache.lm[p.x][p.y].max() * 0.6 > LIGHT_AMBIENT_LIT ) {
-            return lit_level::BRIGHT;
-        } else if( map_cache.camera_cache[p.x][p.y] * map_cache.lm[p.x][p.y].max() * 0.8 >
-                   LIGHT_AMBIENT_LIT ) {
-            return lit_level::LOW;
-        } else {
-            return lit_level::DARK;
+    // Unimpaired range is an override to strictly limit vision range based on various conditions,
+    // but the player can still see light sources
+    if( dist > player_character.unimpaired_range() && map_cache.camera_cache[p.x][p.y] == 0.0 ) {
+        if( !a.abs_obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
+            return lit_level::BRIGHT_ONLY;
         }
-    }
-    if( dist > player_character.unimpaired_range() ) {
         return lit_level::BLANK;
     }
+
     if( a.obstructed ) {
         if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
             if( a.apparent_light > cache.g_light_level ) {
                 // This represents too hazy to see detail,
                 // but enough light getting through to illuminate.
                 return lit_level::BRIGHT_ONLY;
-            } else {
-                // If it's not brighter than the surroundings, it just ends up shadowy.
-                return lit_level::LOW;
             }
-        } else {
-            return lit_level::BLANK;
         }
+        return lit_level::BLANK;
     }
     // Then we just search for the light level in descending order.
     if( a.apparent_light > LIGHT_SOURCE_BRIGHT || map_cache.sm[p.x][p.y] > 0.0 ) {
@@ -775,6 +777,11 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     }
 }
 
+bool tinymap::pl_sees( const tripoint &, int ) const
+{
+    return false;
+}
+
 bool map::pl_sees( const tripoint &t, const int max_range ) const
 {
     if( !inbounds( t ) ) {
@@ -782,13 +789,9 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
     }
 
     const level_cache &map_cache = get_cache_ref( t.z );
-    if( map_cache.camera_cache[t.x][t.y] * map_cache.lm[t.x][t.y].max() * 0.8 >
-        LIGHT_AMBIENT_LIT ) {
-        return true;
-    }
-
     Character &player_character = get_player_character();
-    if( max_range >= 0 && square_dist( t, player_character.pos() ) > max_range ) {
+    if( max_range >= 0 && square_dist( t, player_character.pos() ) > max_range &&
+        map_cache.camera_cache[t.x][t.y] == 0 ) {
         return false;    // Out of range!
     }
 
@@ -834,8 +837,8 @@ template<int xx, int xy, int yx, int yy, typename T, typename Out,
          bool( *check )( const T &, const T & ),
          void( *update_output )( Out &, const T &, quadrant ),
          T( *accumulate )( const T &, const T &, const int & )>
-void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
-                const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
+void castLight( cata::mdarray<Out, point_bub_ms> &output_cache,
+                const cata::mdarray<T, point_bub_ms> &input_array,
                 const point &offset, int offsetDistance,
                 T numerator = VISIBILITY_FULL,
                 int row = 1, float start = 1.0f, float end = 0.0f,
@@ -846,8 +849,8 @@ template<int xx, int xy, int yx, int yy, typename T, typename Out,
          bool( *check )( const T &, const T & ),
          void( *update_output )( Out &, const T &, quadrant ),
          T( *accumulate )( const T &, const T &, const int & )>
-void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
-                const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
+void castLight( cata::mdarray<Out, point_bub_ms> &output_cache,
+                const cata::mdarray<T, point_bub_ms> &input_array,
                 const point &offset, const int offsetDistance, const T numerator,
                 const int row, float start, const float end, T cumulative_transparency )
 {
@@ -936,8 +939,8 @@ template<typename T, typename Out, T( *calc )( const T &, const T &, const int &
          bool( *check )( const T &, const T & ),
          void( *update_output )( Out &, const T &, quadrant ),
          T( *accumulate )( const T &, const T &, const int & )>
-void castLightAll( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
-                   const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
+void castLightAll( cata::mdarray<Out, point_bub_ms> &output_cache,
+                   const cata::mdarray<T, point_bub_ms> &input_array,
                    const point &offset, int offsetDistance, T numerator )
 {
     castLight<0, 1, 1, 0, T, Out, calc, check, update_output, accumulate>(
@@ -963,16 +966,16 @@ void castLightAll( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
 
 template void castLightAll<float, four_quadrants, sight_calc, sight_check,
                            update_light_quadrants, accumulate_transparency>(
-                               four_quadrants( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
-                               const float ( &input_array )[MAPSIZE_X][MAPSIZE_Y],
+                               cata::mdarray<four_quadrants, point_bub_ms> &output_cache,
+                               const cata::mdarray<float, point_bub_ms> &input_array,
                                const point &offset, int offsetDistance, float numerator );
 
 template void
 castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
              update_fragment_cloud, accumulate_fragment_cloud>
 (
-    fragment_cloud( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
-    const fragment_cloud( &input_array )[MAPSIZE_X][MAPSIZE_Y],
+    cata::mdarray<fragment_cloud, point_bub_ms> &output_cache,
+    const cata::mdarray<fragment_cloud, point_bub_ms> &input_array,
     const point &offset, int offsetDistance, fragment_cloud numerator );
 
 /**
@@ -987,32 +990,39 @@ castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
  * @param origin the starting location
  * @param target_z Z-level to draw light map on
  */
-void map::build_seen_cache( const tripoint &origin, const int target_z )
+void map::build_seen_cache( const tripoint &origin, const int target_z, int extension_range,
+                            bool cumulative, bool camera, int penalty )
 {
     level_cache &map_cache = get_cache( target_z );
-    float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.vision_transparency_cache;
-    float ( &seen_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.seen_cache;
-    float ( &camera_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.camera_cache;
+    using mdarray = cata::mdarray<float, point_bub_ms>;
+    mdarray &transparency_cache = map_cache.vision_transparency_cache;
+    mdarray &seen_cache = map_cache.seen_cache;
+    mdarray &camera_cache = map_cache.camera_cache;
+    mdarray &out_cache = camera ? camera_cache : seen_cache;
 
     constexpr float light_transparency_solid = LIGHT_TRANSPARENCY_SOLID;
     constexpr int map_dimensions = MAPSIZE_X * MAPSIZE_Y;
-    std::uninitialized_fill_n(
-        &camera_cache[0][0], map_dimensions, light_transparency_solid );
+    if( !cumulative ) {
+        std::uninitialized_fill_n(
+            &camera_cache[0][0], map_dimensions, light_transparency_solid );
+    }
 
-    const int avatar_sight_offset = std::max( 60 - get_avatar().unimpaired_range(), 0 );
     if( !fov_3d ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             level_cache &cur_cache = get_cache( z );
+            mdarray &cur_out_cache = camera ? cur_cache.camera_cache : cur_cache.seen_cache;
             if( z == target_z || cur_cache.seen_cache_dirty ) {
-                std::uninitialized_fill_n(
-                    &cur_cache.seen_cache[0][0], map_dimensions, light_transparency_solid );
+                if( !cumulative ) {
+                    std::uninitialized_fill_n(
+                        &cur_out_cache[0][0], map_dimensions, light_transparency_solid );
+                }
                 cur_cache.seen_cache_dirty = false;
             }
 
             if( z == target_z ) {
-                seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
+                out_cache[origin.x][origin.y] = VISIBILITY_FULL;
                 castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-                    seen_cache, transparency_cache, origin.xy(), avatar_sight_offset );
+                    out_cache, transparency_cache, origin.xy(), penalty );
             }
         }
     } else {
@@ -1024,44 +1034,24 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             level_cache &cur_cache = get_cache( z );
             transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.vision_transparency_cache;
-            seen_caches[z + OVERMAP_DEPTH] = &cur_cache.seen_cache;
+            seen_caches[z + OVERMAP_DEPTH] = camera ? &cur_cache.camera_cache : &cur_cache.seen_cache;
             floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
-            std::uninitialized_fill_n(
-                &cur_cache.seen_cache[0][0], map_dimensions, light_transparency_solid );
+            if( !cumulative ) {
+                std::uninitialized_fill_n(
+                    &( *seen_caches[z + OVERMAP_DEPTH] )[0][0], map_dimensions, light_transparency_solid );
+            }
             cur_cache.seen_cache_dirty = false;
             if( origin.z == z && cur_cache.no_floor_gaps ) {
                 directions_to_cast = vertical_direction::UP;
             }
         }
         if( origin.z == target_z ) {
-            get_cache( origin.z ).seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
+            ( *seen_caches[ target_z + OVERMAP_DEPTH ] )[origin.x][origin.y] = VISIBILITY_FULL;
         }
 
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
-            seen_caches, transparency_caches, floor_caches, origin, avatar_sight_offset, 1.0,
+            seen_caches, transparency_caches, floor_caches, origin, penalty, 1.0,
             directions_to_cast );
-    }
-
-    for( const std::pair<mtype_id, int> moncam : get_avatar().get_moncams() ) {
-        const std::vector<Creature *> moncams = g->get_creatures_if( [&]( const Creature & c ) {
-            if( !c.is_monster() ) {
-                return false;
-            }
-            const monster *mon = c.as_monster();
-            return mon->type->id == moncam.first && mon->friendly != 0 &&
-                   ( rl_dist( get_avatar().pos(), mon->pos() ) < moncam.second );
-        } );
-
-        for( const Creature *mon : moncams ) {
-            const tripoint camera_pos = mon->pos();
-            if( camera_pos.z == target_z ) {
-                int offsetDistance = std::max( 60 - mon->as_monster()->type->vision_day, 0 );
-                camera_cache[camera_pos.x][camera_pos.y] = VISIBILITY_FULL;
-                map_cache.seen_cache_dirty = true;
-                castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-                    camera_cache, transparency_cache, camera_pos.xy(), offsetDistance );
-            }
-        }
     }
 
     const optional_vpart_position vp = veh_at( origin );
@@ -1076,12 +1066,18 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     // from happening due to mirrors becoming visible due to processing order.
     // Cameras are also handled here, so that we only need to get through all vehicle parts once
     int cam_control = -1;
-    for( const vpart_reference &vp : veh->get_avail_parts( VPFLAG_EXTENDS_VISION ) ) {
+    for( const vpart_reference &vp : veh->get_all_parts_with_fakes() ) {
+        if( vp.part().removed || vp.part().is_broken() || !vp.info().has_flag( VPFLAG_EXTENDS_VISION ) ) {
+            continue;
+        }
         const tripoint mirror_pos = vp.pos();
+        if( rl_dist( origin, vp.pos() ) > extension_range ) {
+            continue;
+        }
         // We can utilize the current state of the seen cache to determine
         // if the player can see the mirror from their position.
         if( !vp.info().has_flag( "CAMERA" ) &&
-            seen_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
+            out_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
             continue;
         } else if( !vp.info().has_flag( "CAMERA_CONTROL" ) ) {
             mirrors.emplace_back( static_cast<int>( vp.part_index() ) );
@@ -1092,23 +1088,26 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         }
     }
 
-    for( int mirror : mirrors ) {
-        bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
+    for( const int mirror : mirrors ) {
+        const vehicle_part &vp_mirror = veh->part( mirror );
+        const vpart_info &vpi_mirror = vp_mirror.info();
+        const bool is_camera = vpi_mirror.has_flag( "CAMERA" );
         if( is_camera && cam_control < 0 ) {
             continue; // Player not at camera control, so cameras don't work
         }
 
-        const tripoint mirror_pos = veh->global_part_pos3( mirror );
+        const tripoint mirror_pos = veh->global_part_pos3( vp_mirror );
 
         // Determine how far the light has already traveled so mirrors
         // don't cheat the light distance falloff.
         int offsetDistance;
+        mdarray *mocache = &out_cache;
         if( !is_camera ) {
-            offsetDistance = ( avatar_sight_offset + rl_dist( origin, mirror_pos ) * 4 ) * 2;
+            offsetDistance = penalty + rl_dist( origin, mirror_pos );
         } else {
-            offsetDistance = 60 - veh->part_info( mirror ).bonus *
-                             veh->part( mirror ).hp() / veh->part_info( mirror ).durability;
-            camera_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
+            offsetDistance = 60 - vpi_mirror.bonus * vp_mirror.hp() / vpi_mirror.durability;
+            mocache = &camera_cache;
+            ( *mocache )[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
 
         // TODO: Factor in the mirror facing and only cast in the
@@ -1117,10 +1116,8 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         // The naive solution of making the mirrors act like a second player
         // at an offset appears to give reasonable results though.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-            camera_cache, transparency_cache, mirror_pos.xy(), offsetDistance );
+            *mocache, transparency_cache, mirror_pos.xy(), offsetDistance );
     }
-
-
 }
 
 //Schraudolph's algorithm with John's constants
@@ -1156,10 +1153,12 @@ static bool light_check( const float &transparency, const float &intensity )
 void map::apply_light_source( const tripoint &p, float luminance )
 {
     level_cache &cache = get_cache( p.z );
-    four_quadrants( &lm )[MAPSIZE_X][MAPSIZE_Y] = cache.lm;
-    float ( &sm )[MAPSIZE_X][MAPSIZE_Y] = cache.sm;
-    float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = cache.transparency_cache;
-    float ( &light_source_buffer )[MAPSIZE_X][MAPSIZE_Y] = cache.light_source_buffer;
+    cata::mdarray<four_quadrants, point_bub_ms> &lm = cache.lm;
+    cata::mdarray<float, point_bub_ms> &sm = cache.sm;
+    cata::mdarray<float, point_bub_ms> &transparency_cache =
+        cache.transparency_cache;
+    cata::mdarray<float, point_bub_ms> &light_source_buffer =
+        cache.light_source_buffer;
 
     const point p2( p.xy() );
 
@@ -1238,8 +1237,9 @@ void map::apply_directional_light( const tripoint &p, int direction, float lumin
     const point p2( p.xy() );
 
     level_cache &cache = get_cache( p.z );
-    four_quadrants( &lm )[MAPSIZE_X][MAPSIZE_Y] = cache.lm;
-    float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = cache.transparency_cache;
+    cata::mdarray<four_quadrants, point_bub_ms> &lm = cache.lm;
+    cata::mdarray<float, point_bub_ms> &transparency_cache =
+        cache.transparency_cache;
 
     if( direction == 90 ) {
         castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
@@ -1284,8 +1284,9 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
     const point p2( p.xy() );
 
     level_cache &cache = get_cache( p.z );
-    four_quadrants( &lm )[MAPSIZE_X][MAPSIZE_Y] = cache.lm;
-    float( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = cache.transparency_cache;
+    cata::mdarray<four_quadrants, point_bub_ms> &lm = cache.lm;
+    cata::mdarray<float, point_bub_ms> &transparency_cache =
+        cache.transparency_cache;
 
     // Normalize (should work with negative values too)
     units::angle wangle = wideangle / 2.0;
@@ -1437,8 +1438,9 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
     }
 }
 
-void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
-                           const tripoint &s, const tripoint &e, float luminance )
+void map::apply_light_ray(
+    cata::mdarray<bool, point_bub_ms, LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y> &lit,
+    const tripoint &s, const tripoint &e, float luminance )
 {
     point a( std::abs( e.x - s.x ) * 2, std::abs( e.y - s.y ) * 2 );
     point d( ( s.x < e.x ) ? 1 : -1, ( s.y < e.y ) ? 1 : -1 );

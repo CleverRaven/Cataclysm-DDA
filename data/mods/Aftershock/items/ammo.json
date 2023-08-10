@@ -53,7 +53,6 @@
     "price_postapoc": 10000,
     "weight": "20 g",
     "longest_side": "76 cm",
-    "bashing": 1,
     "ammo_type": "arrow",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 3.75 },
     "range": 6,
@@ -61,6 +60,7 @@
     "loudness": 0,
     "count": 10,
     "stack_size": 10,
-    "critical_multiplier": 13
+    "critical_multiplier": 13,
+    "melee_damage": { "bash": 1 }
   }
 ]

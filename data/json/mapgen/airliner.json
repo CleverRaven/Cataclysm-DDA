@@ -278,7 +278,7 @@
         { "monster": "GROUP_MALL", "x": [ 27, 47 ], "y": [ 24, 47 ], "repeat": [ 7, 16 ], "density": 0.1 },
         { "monster": "GROUP_MALL", "x": [ 27, 47 ], "y": [ 48, 61 ], "repeat": [ 3, 4 ], "density": 0.1 }
       ],
-      "monster": { "Z": { "monster": "mon_zombie_electric" }, "z": { "monster": "mon_zombie" }, "o": { "monster": "mon_zombie" } }
+      "monster": { "Z": { "monster": "mon_zombie_static" }, "z": { "monster": "mon_zombie" }, "o": { "monster": "mon_zombie" } }
     }
   },
   {

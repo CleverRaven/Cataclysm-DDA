@@ -40,7 +40,7 @@
     "method": "json",
     "update_mapgen_id": "portal_dungeon",
     "object": {
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE", "AVOID_CREATURES" ],
       "set": [
         { "square": "terrain", "id": "t_floor_warped", "x": 1, "y": 1, "x2": 23, "y2": 23 },
         { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 0, "x2": 0, "y2": 23 },

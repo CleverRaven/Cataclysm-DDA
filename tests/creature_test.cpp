@@ -17,23 +17,27 @@
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
 
-static const mtype_id mon_fish_trout( "mon_fish_trout" );
+static const mtype_id mon_fish_rainbow_trout( "mon_fish_rainbow_trout" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
 
-static float expected_weights_base[][12] = { { 36, 0, 0, 0, 13, 13, 1.5, 1.5, 39, 39, 6, 6 },
-    { 36, 4, 0.5, 0.5, 13, 13, 1.5, 1.5, 13, 13, 2, 2 }
+static std::array<std::array<float, 12>, 2> expected_weights_base = { {
+        { { 36, 0, 0, 0, 13, 13, 1.5, 1.5, 39, 39, 6, 6 } },
+        { { 36, 4, 0.5, 0.5, 13, 13, 1.5, 1.5, 13, 13, 2, 2 } }
+    }
 };
 
-static float expected_weights_max[][12] = { { 3600, 0, 0, 0, 1032.63, 1032.63, 237.74, 237.74, 2460.73, 2460.73, 238.86, 238.86 },
-    { 3600, 1004.75, 99.77, 99.77, 1032.63, 1032.63, 237.74, 237.74, 820.24, 820.24, 79.62, 79.62 }
+static std::array<std::array<float, 12>, 2> expected_weights_max = { {
+        { { 3600, 0, 0, 0, 1032.63, 1032.63, 237.74, 237.74, 2460.73, 2460.73, 238.86, 238.86 } },
+        { { 3600, 1004.75, 99.77, 99.77, 1032.63, 1032.63, 237.74, 237.74, 820.24, 820.24, 79.62, 79.62 } }
+    }
 };
 // Torso   head   eyes   mouth   arm   arm   hand   hand   leg   leg   foot   foot
 //   36     4U    0.5U   0.5U    13    13    1.5   1.5     13L   13L   2L     2L
 //   1      1.2   1.15   1.15   0.95  0.95    1.1   1.1    0.9   0.9   0.8    0.8
 
 static void calculate_bodypart_distribution( const bool can_attack_high,
-        const int hit_roll, float ( &expected )[12] )
+        const int hit_roll, const std::array<float, 12> &expected )
 {
     INFO( "hit roll = " << hit_roll );
     std::map<bodypart_id, int> selected_part_histogram = {
@@ -43,8 +47,8 @@ static void calculate_bodypart_distribution( const bool can_attack_high,
 
     npc &defender = spawn_npc( point_zero, "thug" );
     clear_character( defender );
-    REQUIRE( defender.count_bodypart_with_flag( json_flag_LIMB_LOWER ) > 0 );
-    REQUIRE( defender.count_bodypart_with_flag( json_flag_LIMB_UPPER ) > 0 );
+    REQUIRE( defender.has_bodypart_with_flag( json_flag_LIMB_LOWER ) );
+    REQUIRE( defender.has_bodypart_with_flag( json_flag_LIMB_UPPER ) );
 
     const int num_tests = 15000;
 
@@ -67,7 +71,7 @@ static void calculate_bodypart_distribution( const bool can_attack_high,
     }
 }
 
-TEST_CASE( "Check distribution of attacks to body parts for attackers who can't attack upper limbs.",
+TEST_CASE( "Check_distribution_of_attacks_to_body_parts_for_attackers_who_can_not_attack_upper_limbs",
            "[anatomy]" )
 {
     rng_set_engine_seed( 4242424242 );
@@ -80,7 +84,7 @@ TEST_CASE( "Check distribution of attacks to body parts for attackers who can't 
                                      expected_weights_max[0] );
 }
 
-TEST_CASE( "Check distribution of attacks to body parts for attackers who can attack upper limbs.",
+TEST_CASE( "Check_distribution_of_attacks_to_body_parts_for_attackers_who_can_attack_upper_limbs",
            "[anatomy]" )
 {
     rng_set_engine_seed( 4242424242 );
@@ -127,6 +131,6 @@ TEST_CASE( "mtype_species_test", "[monster]" )
     CHECK( mon_zombie->same_species( *mon_zombie_cop ) );
     CHECK( mon_zombie_cop->same_species( *mon_zombie ) );
 
-    CHECK_FALSE( mon_zombie->same_species( *mon_fish_trout ) );
-    CHECK_FALSE( mon_fish_trout->same_species( *mon_zombie ) );
+    CHECK_FALSE( mon_zombie->same_species( *mon_fish_rainbow_trout ) );
+    CHECK_FALSE( mon_fish_rainbow_trout->same_species( *mon_zombie ) );
 }

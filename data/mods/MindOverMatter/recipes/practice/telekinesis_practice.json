@@ -1,0 +1,577 @@
+[
+  {
+    "id": "telekinesis_practice",
+    "type": "nested_category",
+    "//": "XP for level 12 is 49417, for level 10 is 35279, for level 7 is 20514",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_METAPHYSICS",
+    "name": "contemplation: telekinesis",
+    "description": "Recipes related to practicing telekinesis.",
+    "skill_used": "metaphysics",
+    "nested_category_data": [
+      "practice_telekinetic_pull",
+      "practice_telekinetic_push",
+      "practice_telekinetic_momentum",
+      "practice_telekinetic_wave",
+      "practice_telekinetic_strength",
+      "practice_telekinetic_hammer",
+      "practice_telekinetic_vehicle_lift",
+      "practice_telekinetic_shield",
+      "practice_telekinetic_explosion",
+      "practice_telekinetic_aegis"
+    ],
+    "difficulty": 1
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: far hand",
+    "id": "practice_telekinetic_pull",
+    "description": "Contemplate your powers and improve your manipulation of outgoing forces.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_PULL",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_pull" }, ">=", { "const": 1 } ] },
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "telekinetic_pull" }, "<=", { "const": 49417 } ] }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "telekinetic_pull" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_TELEKIN_PULL_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_pull" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: force shove",
+    "id": "practice_telekinetic_push",
+    "description": "Contemplate your powers and improve your manipulation of incoming forces.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_PUSH",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_push" }, ">=", { "const": 1 } ] },
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "telekinetic_push" }, "<=", { "const": 49417 } ] }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "telekinetic_push" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_TELEKIN_PUSH_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_push" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: momentum alteration",
+    "id": "practice_telekinetic_momentum",
+    "description": "Contemplate your powers and improve your control of momentum.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_MOMENTUM",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_momentum" }, ">=", { "const": 1 } ] },
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "telekinetic_momentum" }, "<=", { "const": 49417 } ] }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "telekinetic_momentum" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_TELEKIN_MOMENTUM_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_momentum" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: wave of force",
+    "id": "practice_telekinetic_wave",
+    "description": "Contemplate your powers and develop your ability to control bursts of telekinetic force.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_FORCE_WAVE",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_wave" }, ">=", { "const": 1 } ] },
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "telekinetic_wave" }, "<=", { "const": 35278 } ] }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "telekinetic_wave" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_TELEKIN_FORCE_WAVE_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_wave" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: enhance strength",
+    "id": "practice_telekinetic_strength",
+    "description": "Contemplate your powers and improve your ability to move very heavy objects with your powers.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_ENHANCE_STRENGTH",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_strength" }, ">=", { "const": 1 } ] },
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "telekinetic_strength" }, "<=", { "const": 35278 } ] }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "telekinetic_strength" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_TELEKIN_ENHANCE_STRENGTH_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_strength" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: mindhammer",
+    "id": "practice_telekinetic_hammer",
+    "description": "Contemplate your powers and improve your ability to smash a small area with telekinetic force.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_MINDHAMMER",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_hammer" }, ">=", { "const": 1 } ] },
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "telekinetic_hammer" }, "<=", { "const": 35278 } ] }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "telekinetic_hammer" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_TELEKIN_MINDHAMMER_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_hammer" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: lift vehicle",
+    "id": "practice_telekinetic_vehicle_lift",
+    "description": "Contemplate your powers and improve your ability to pick up vehicles briefly.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 5,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_VEHICLE_LIFT",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_vehicle_lift" }, ">=", { "const": 1 } ] },
+            {
+              "compare_num": [ { "u_val": "spell_exp", "spell": "telekinetic_vehicle_lift" }, "<=", { "const": 20513 } ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "telekinetic_vehicle_lift" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_TELEKIN_VEHICLE_LIFT_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_vehicle_lift" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: inertial barrier",
+    "id": "practice_telekinetic_shield",
+    "description": "Contemplate your powers and improve your creation of force barriers.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 5,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_BARRIER",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_shield" }, ">=", { "const": 1 } ] },
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "telekinetic_shield" }, "<=", { "const": 20513 } ] }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "telekinetic_shield" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_TELEKIN_BARRIER_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_shield" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: wrecking ball",
+    "id": "practice_telekinetic_explosion",
+    "description": "Contemplate your powers and improve your manifestation of telekinetic explosions.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 6,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_BLAST",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_explosion" }, ">=", { "const": 1 } ] },
+            {
+              "compare_num": [ { "u_val": "spell_exp", "spell": "telekinetic_explosion" }, "<=", { "const": 20513 } ]
+            }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "telekinetic_explosion" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_TELEKIN_BLAST_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_explosion" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: aegis",
+    "id": "practice_telekinetic_aegis",
+    "description": "Contemplate your powers and improve your ability to shield yourself from all harm.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 8,
+    "time": "30 m",
+    "autolearn": false,
+    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_AEGIS",
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_aegis" }, ">=", { "const": 1 } ] },
+            { "compare_num": [ { "u_val": "spell_exp", "spell": "telekinetic_aegis" }, "<=", { "const": 13722 } ] }
+          ]
+        },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "arithmetic": [
+              { "u_val": "spell_exp", "spell": "telekinetic_aegis" },
+              "+=",
+              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
+            ]
+          },
+          { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_PRACTICE_TELEKIN_AEGIS_FALSE",
+              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "telekinetic_aegis" }, ">=", { "const": 1 } ] },
+              "effect": [
+                { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ],
+              "false_effect": [
+                { "u_message": "Without even a basic understanding of the power, your meditation is nothing but idle musings." },
+                { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

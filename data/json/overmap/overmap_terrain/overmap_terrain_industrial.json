@@ -47,6 +47,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "solar_farm",
+    "name": "solar farm",
+    "sym": "#",
+    "color": "i_yellow",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": "pwr_sub_s",
     "name": "small power substation",
     "sym": "H",
@@ -130,7 +138,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "lumbermill_0_0", "lumbermill_0_1", "lumbermill_1_0", "lumbermill_1_1" ],
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "lumbermill",
     "sym": "L",
     "color": "i_green",
@@ -316,45 +324,6 @@
     "name": "light industry",
     "sym": "I",
     "color": "light_blue",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [
-      "s_air_parking",
-      "s_air_term",
-      "s_air_atc",
-      "s_air_hangars",
-      "s_air_hangars_roof",
-      "s_air_term_roof",
-      "s_air_atc_2",
-      "s_air_atc_3"
-    ],
-    "name": "private airport",
-    "sym": "A",
-    "color": "i_cyan",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "s_air_runway_l", "s_air_runway_B", "s_air_runway_term", "s_air_runway", "s_air_runway_hangars", "s_air_runway_r" ],
-    "name": "private airport runway",
-    "sym": "-",
-    "color": "blue",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "s_air_helicopter_pad" ],
-    "name": "helicopter pad",
-    "sym": "H",
-    "color": "i_cyan",
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2

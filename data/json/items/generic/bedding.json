@@ -6,16 +6,17 @@
     "name": { "str": "pillowcase" },
     "looks_like": "pillow",
     "description": "A simple cotton pillowcase.",
-    "weight": "415 g",
-    "volume": "1 L",
-    "price": 0,
+    "weight": "136 g",
+    "volume": "90 ml",
+    "price": 650,
     "price_postapoc": 2,
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "cotton" ],
     "flags": [ "SLEEP_AID_CONTAINER" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
-    "color": "white"
+    "color": "white",
+    "//": "Based on https://www.amazon.com/dp/B01MUDQUN9"
   },
   {
     "type": "GENERIC",
@@ -49,7 +50,7 @@
     "id": "sheet",
     "type": "ARMOR",
     "name": { "str": "sheet" },
-    "description": "A 72 inch by 24 inch, two layer thick fabric sheet, could be used as a curtain or bedsheets; or cut up for a bunch of rags.",
+    "description": "A 72 by 24 inch two-layer-thick fabric sheet.  It could be used as a curtain or bedsheet, or cut up for a bunch of smaller sheets.",
     "//density": "1.6 grams per mL",
     "weight": "420 g",
     "volume": "564 ml",
@@ -76,11 +77,11 @@
     "type": "ARMOR",
     "name": { "str": "blanket" },
     "description": "Hiding under here will not protect you from the monsters.",
-    "weight": "1123 g",
-    "volume": "15 L",
-    "price": 5500,
+    "weight": "848 g",
+    "volume": "15500 ml",
+    "price": "15 USD",
     "price_postapoc": 50,
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "towel",
@@ -95,7 +96,8 @@
         "coverage": 100,
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
-    ]
+    ],
+    "//": "Based on https://www.amazon.com/dp/B091DZVHX7 with the assumed material thickness of 0.8cm"
   },
   {
     "id": "down_blanket",
@@ -157,6 +159,7 @@
     "weight": "1814 g",
     "volume": "5 L",
     "price": 5500,
+    "price_postapoc": 200,
     "to_hit": -1,
     "material": [ "wool" ],
     "symbol": "[",
@@ -192,7 +195,6 @@
   },
   {
     "id": "emer_blanket",
-    "repairs_like": "sheet",
     "type": "ARMOR",
     "category": "clothing",
     "symbol": "[",

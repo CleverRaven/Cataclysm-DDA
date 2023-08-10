@@ -21,12 +21,11 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 1,
-    "armor_bash": 4,
-    "armor_cut": 10,
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
     "special_attacks": [ { "id": "impale" } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "PARALYZEVENOM", "GRABS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "PARALYZEVENOM", "GRABS" ],
+    "armor": { "bash": 4, "cut": 10 }
   }
 ]

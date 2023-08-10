@@ -43,21 +43,25 @@ TEST_CASE( "base64", "[catacharset]" )
 TEST_CASE( "utf8_to_wstr", "[catacharset]" )
 {
     // std::mbstowcs' returning -1 workaround
-    setlocale( LC_ALL, "" );
+    char *result = setlocale( LC_ALL, "" );
+    REQUIRE( result );
     std::string src( u8"Hello, 世界!" );
     std::wstring dest( L"Hello, 世界!" );
     CHECK( utf8_to_wstr( src ) == dest );
-    setlocale( LC_ALL, "C" );
+    result = setlocale( LC_ALL, "C" );
+    REQUIRE( result );
 }
 
 TEST_CASE( "wstr_to_utf8", "[catacharset]" )
 {
     // std::wcstombs' returning -1 workaround
-    setlocale( LC_ALL, "" );
+    char *result = setlocale( LC_ALL, "" );
+    REQUIRE( result );
     std::wstring src( L"Hello, 世界!" );
     std::string dest( u8"Hello, 世界!" );
     CHECK( wstr_to_utf8( src ) == dest );
-    setlocale( LC_ALL, "C" );
+    result = setlocale( LC_ALL, "C" );
+    REQUIRE( result );
 }
 
 TEST_CASE( "localized_compare", "[catacharset]" )
@@ -137,3 +141,19 @@ TEST_CASE( "remove_accent", "[catacharset]" )
     // Emoji
     check_in_place_func( remove_accent, U'😅', U'😅' );
 }
+
+TEST_CASE( "utf8_view", "[catacharset]" )
+{
+    static const std::string str{"Français中文русский"};
+    static const std::vector<char32_t> expected_code_points{
+        0x46, 0x72, 0x61, 0x6e, 0xe7, 0x61, 0x69, 0x73, // Latin
+        0x4e2d, 0x6587, // CJK
+        0x440, 0x443, 0x441, 0x441, 0x43a, 0x438, 0x439 // Cyrillic
+    };
+    std::vector<char32_t> actual_code_points;
+    for( char32_t c : utf8_view( str ) ) {
+        actual_code_points.emplace_back( c );
+    }
+    CHECK( actual_code_points == expected_code_points );
+}
+

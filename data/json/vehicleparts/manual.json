@@ -5,15 +5,13 @@
     "location": "engine_block",
     "categories": [ "movement", "operations" ],
     "fuel_type": "muscle",
-    "symbol": "*",
-    "color": "light_gray",
-    "broken_symbol": "#",
     "broken_color": "red",
     "damage_modifier": 50,
     "noise_factor": 5,
     "m2c": 45,
     "exclusions": [ "manual" ],
-    "flags": [ "ENGINE", "E_STARTS_INSTANTLY", "E_ALTERNATOR" ]
+    "flags": [ "ENGINE", "E_STARTS_INSTANTLY", "E_ALTERNATOR" ],
+    "variants": [ { "symbols": "*", "symbols_broken": "#" } ]
   },
   {
     "id": "foot_pedals",
@@ -23,16 +21,16 @@
     "item": "foot_crank",
     "durability": 50,
     "description": "A set of bicycle style foot pedals.  If mounted on the same tile as seat, they allow you to move the vehicle at the cost of your stamina.",
-    "power": 360,
+    "power": "360 W",
     "muscle_power_factor": 60,
     "folded_volume": "500 ml",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
-    "extend": { "flags": [ "FOLDABLE", "MUSCLE_LEGS", "CONTROLS" ] },
+    "extend": { "flags": [ "MUSCLE_LEGS", "CONTROLS" ] },
     "damage_reduction": { "all": 4 }
   },
   {
@@ -43,17 +41,16 @@
     "item": "hand_rims",
     "durability": 50,
     "description": "A set of wheelchair style wheels.  If mounted on the same tile as seat, they allow you to move the vehicle at the cost of your stamina.",
-    "power": 180,
+    "power": "180 W",
     "muscle_power_factor": 30,
-    "damage_modifier": 50,
     "folded_volume": "500 ml",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
-    "extend": { "flags": [ "FOLDABLE", "MUSCLE_ARMS", "CONTROLS" ] },
+    "extend": { "flags": [ "MUSCLE_ARMS", "CONTROLS" ] },
     "damage_reduction": { "all": 4 }
   }
 ]

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_RANGED_H
 #define CATA_SRC_RANGED_H
 
@@ -17,6 +18,9 @@ class spell;
 class turret_data;
 class vehicle;
 struct vehicle_part;
+
+// Recoil change less or equal to this value (in MoA) stops further aiming
+constexpr double MIN_RECOIL_IMPROVEMENT = 0.01;
 
 namespace target_handler
 {
@@ -67,11 +71,10 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
 int throw_cost( const Character &c, const item &to_throw );
 
 // check for steadiness for a given pos
-double calc_steadiness( const Character &you, item *weapon, const tripoint &pos,
+double calc_steadiness( const Character &you, const item &weapon, const tripoint &pos,
                         double predicted_recoil );
 
 double calculate_aim_cap( const Character &you, const tripoint &target );
-
 
 struct Target_attributes {
     int range = 1;

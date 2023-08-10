@@ -75,6 +75,10 @@ void vitamin::load_vitamin( const JsonObject &jo )
         vit.disease_excess_.emplace_back( e.get_int( 0 ), e.get_int( 1 ) );
     }
 
+    for( JsonArray e : jo.get_array( "decays_into" ) ) {
+        vit.decays_into_.emplace_back( vitamin_id( e.get_string( 0 ) ), e.get_int( 1 ) );
+    }
+
     for( std::string e : jo.get_array( "flags" ) ) {
         vit.flags_.insert( e );
     }
@@ -107,6 +111,15 @@ void vitamin::check_consistency()
 void vitamin::reset()
 {
     vitamins_all.clear();
+}
+
+float vitamin::RDA_to_default( int percent ) const
+{
+    // if not a vitamin it's in Units and doesn't need conversion
+    if( type_ != vitamin_type::VITAMIN ) {
+        return percent;
+    }
+    return ( 24_hours / rate_ ) * ( static_cast<float>( percent ) / 100.0f );
 }
 
 namespace io

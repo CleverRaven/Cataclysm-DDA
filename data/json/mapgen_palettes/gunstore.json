@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "gun_store_palette",
-    "//": " P, U, S, h, F, e, |, /, o, k, z, c, and > are all still available for more terrain or furniture",
+    "//": " P, U, S, h, F, e, |, o, k, z, c, and > are all still available for more terrain or furniture",
     "toilets": { "&": {  } },
     "terrain": {
       "-": "t_wall_w",
@@ -17,6 +17,7 @@
       "u": "t_region_shrub",
       "B": "t_region_groundcover_barren",
       "'": "t_sidewalk",
+      "/": "t_sidewalk",
       "C": "t_thconc_floor",
       "`": "t_thconc_floor",
       ".": "t_thconc_floor",
@@ -88,8 +89,10 @@
       "O": [ [ "f_gunsafe_ml", 90 ], [ "f_gunsafe_o", 10 ] ],
       "x": "f_sandbag_wall",
       "g": "f_sofa",
-      "f": "f_fridge"
+      "f": "f_fridge",
+      "/": "f_flagpole"
     },
+    "item": { "/": { "item": "american_flag" } },
     "items": {
       "X": { "item": "SUS_gunstore_safe", "chance": 50, "repeat": [ 10, 20 ] },
       "O": { "item": "SUS_gunstore_safe_obscure", "chance": 75, "repeat": [ 3, 6 ] },
@@ -189,7 +192,11 @@
         "chance": 45
       },
       "Q": {
-        "item": { "subtype": "collection", "//": "bulk casing on racks in the FoH", "entries": [ { "group": "ammo_casings_bulk" } ] },
+        "item": {
+          "subtype": "collection",
+          "//": "bulk casing on racks in the FoH",
+          "entries": [ { "group": "ammo_casings_gunsmith_bulk" } ]
+        },
         "repeat": 15,
         "chance": 35
       },

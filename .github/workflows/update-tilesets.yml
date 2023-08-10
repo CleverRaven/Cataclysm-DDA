@@ -1,9 +1,10 @@
-# This workflow runs at 23:00 UTC sundays
+# This workflow runs at midnight on the 1st day of every month
 name: "Pull Tileset Updates"
 
 on:
   schedule:
-    - cron: "0 23 * * sun"
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -37,18 +38,12 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           commit-message: |
-            Routine Tileset updates on ${{ steps.current-date.outputs.formattedTime }}
+            Routine tileset updates on ${{ steps.current-date.outputs.formattedTime }}
           committer: casswedson <casswedson@users.noreply.github.com>
           author: casswedson <casswedson@users.noreply.github.com>
           token: ${{ secrets.TX_PR_CREATOR }}
           branch: tileset-updates
           delete-branch: true
           base: master
-          title: Routine Tileset updates on ${{ steps.current-date.outputs.formattedTime }}
-          body: |
-            #### Summary
-            None
-
-            Automatic tilesets updates from latest release in
-            <https://github.com/I-am-Erk/CDDA-Tilesets>
-            <https://github.com/pixel-32/CDDA-tileset>
+          title: Routine tileset updates on ${{ steps.current-date.outputs.formattedTime }}
+          body: "#### Summary\nNone\nAutomatic tileset updates from:\n\n**https://github.com/I-am-Erk/CDDA-Tilesets/releases**\nAltica, BrownLikeBears, ChibiUltica, HollowMoon, Larwick_Overmap, MshockXotto+, NeoDaysTileset, RetroDaysTileset, SmashButton_iso, SurveyorsMap\n\n---\n\n**https://github.com/pixel-32/CDDA-tileset/releases**\nCuteclysm"

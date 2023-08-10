@@ -1,6 +1,6 @@
 #include "TranslatorCommentsCheck.h"
 
-#include <ClangTidyDiagnosticConsumer.h>
+#include <clang-tidy/ClangTidyDiagnosticConsumer.h>
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/Expr.h>
 #include <clang/ASTMatchers/ASTMatchers.h>
@@ -55,9 +55,7 @@ AST_MATCHER_P( StringLiteral, isMarkedString, tidy::cata::TranslatorCommentsChec
 }
 } // namespace
 } // namespace ast_matchers
-namespace tidy
-{
-namespace cata
+namespace tidy::cata
 {
 
 class TranslatorCommentsCheck::TranslatorCommentsHandler : public CommentHandler
@@ -233,7 +231,7 @@ void TranslatorCommentsCheck::registerMatchers( MatchFinder *Finder )
         );
     Finder->addMatcher(
         callExpr(
-            callee( functionDecl( hasAnyName( "_", "translation_argument_identity", "gettext" ) ) ),
+            callee( functionDecl( hasAnyName( "_", "translation_argument_identity" ) ) ),
             hasImmediateArgument( 0, stringLiteralArgumentBound )
         ),
         this
@@ -353,6 +351,5 @@ void TranslatorCommentsCheck::onEndOfTranslationUnit()
     ClangTidyCheck::onEndOfTranslationUnit();
 }
 
-} // namespace cata
-} // namespace tidy
+} // namespace tidy::cata
 } // namespace clang

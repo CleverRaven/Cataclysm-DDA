@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-large-inline-function %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-large-inline-function %t -- --load=%cata_plugin --
 
 inline void f0()
 // CHECK-MESSAGES: warning: Function 'f0' declared inline but contains more than 2 statements. Consider moving the definition to a cpp file. [cata-large-inline-function]

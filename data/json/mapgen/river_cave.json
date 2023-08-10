@@ -4,47 +4,36 @@
     "method": "json",
     "om_terrain": [ "c_cave_entrance" ],
     "object": {
-      "fallback_predecessor_mapgen": "water",
+      "fallback_predecessor_mapgen": "lake_shore",
       "rotation": [ 0, 3 ],
       "rows": [
-        "##########++~~~~~~~~~~~/",
-        "########+++~~~.~~~~~~~~/",
-        "########++~~~~~....~~~~/",
-        "##########+++~.~.~~~~~~/",
-        "###########++~~~~~~~~~~/",
-        "##########++~~~.~~~~~~~/",
-        "###########++~.~~~~~~~~/",
-        "############+++~~~.~~~~/",
-        "-------------+++~~~~~~~/",
-        "--~   ~   ---#+++~..~~~/",
-        "~-~~~~~ ~+ --###++~~.~~/",
-        " -~   >>--  --CC+++~.~~/",
-        "+-+--~>>C~~~--C++~..~~~/",
-        "~~~  ~~ ~   --##++~~.~~/",
-        "##~~~ ..  ---~##+++-~~~/",
-        "~~#-.~~..---####+++~..~/",
-        "..---------##+++++~~~.~/",
-        "##---......###+++~~.~~~/",
-        "#############+++~~~~.~~/",
-        "###########+++...~~...~/",
-        "###########+++...~~...//",
-        "###########+++...~~...//",
-        "###########+++...~~...//",
-        "###########+++...~~...//"
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          -   -         ",
+        "       -  --  - -       ",
+        "      -----------       ",
+        "     ---##...##C---     ",
+        "    --C####..###C-      ",
+        "   ---##CCC..CC##---    ",
+        "   ---#CC.....C.#---    ",
+        "    -##C...>>..##--     ",
+        "  ---C#C...>>..C#--     ",
+        "   ---##C.....C##---    ",
+        "   --###CC#.CCC##---    ",
+        "  ----C#########C-      ",
+        "    ----##C-##CC---     ",
+        "     -------------      ",
+        "     - -  --  - -       ",
+        "       -   -            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "fill_ter": "t_mud",
-      "terrain": {
-        " ": "t_mud",
-        "#": "t_sand",
-        "+": [ "t_sand", "t_water_sh" ],
-        "/": [ "t_water_dp", "t_water_sh" ],
-        "-": "t_rock",
-        ".": [ "t_water_sh", [ "t_region_groundcover", 2 ] ],
-        ">": "t_slope_down",
-        "C": "t_dirtmound",
-        "~": "t_water_sh"
-      }
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "terrain": { " ": "t_null", ".": "t_mud", "-": "t_sand", "#": "t_rock", ">": "t_slope_down", "C": "t_dirtmound" }
     }
   },
   {
@@ -85,7 +74,7 @@
         "              ",
         "              "
       ],
-      "terrain": { "#": "t_rock" }
+      "terrain": { "#": "t_soil" }
     }
   },
   {
@@ -111,7 +100,7 @@
         "              ",
         "              "
       ],
-      "terrain": { "#": "t_rock" }
+      "terrain": { "#": "t_soil" }
     }
   },
   {
@@ -137,7 +126,7 @@
         "#             ",
         "#             "
       ],
-      "terrain": { "#": "t_rock" }
+      "terrain": { "#": "t_soil" }
     }
   },
   {
@@ -163,7 +152,7 @@
         "              ",
         "              "
       ],
-      "terrain": { "#": "t_rock" }
+      "terrain": { "#": "t_soil" }
     }
   },
   {
@@ -189,7 +178,7 @@
         "#             ",
         "#             "
       ],
-      "terrain": { "#": "t_rock" }
+      "terrain": { "#": "t_soil" }
     }
   },
   {
@@ -224,7 +213,7 @@
         "#######          #######",
         "#######          #######"
       ],
-      "terrain": { "#": "t_rock" },
+      "terrain": { "#": "t_soil" },
       "place_nested": [
         { "chunks": [ "river_cave_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
         { "chunks": [ "river_cave_bounds_h" ], "x": [ 4, 6 ], "y": 1 },
@@ -285,7 +274,7 @@
         "#######          #######",
         "#######          #######"
       ],
-      "terrain": { "#": "t_rock" },
+      "terrain": { "#": "t_soil" },
       "place_nested": [
         { "chunks": [ "river_cave_bounds_h" ], "x": [ 4, 6 ], "y": 12 },
         { "chunks": [ "river_cave_bounds_h" ], "x": [ 4, 6 ], "y": 13 },
@@ -334,7 +323,7 @@
         "#######          #######",
         "#######          #######"
       ],
-      "terrain": { "#": "t_rock" },
+      "terrain": { "#": "t_soil" },
       "place_nested": [
         { "chunks": [ "river_cave_bounds_h1" ], "x": [ 4, 6 ], "y": 7 },
         { "chunks": [ "river_cave_bounds_h1" ], "x": [ 4, 6 ], "y": 8 },
@@ -405,7 +394,7 @@
         "#######          #######",
         "#######          #######"
       ],
-      "terrain": { "#": "t_rock" },
+      "terrain": { "#": "t_soil" },
       "place_nested": [
         { "chunks": [ "river_cave_bounds_h" ], "x": [ 4, 6 ], "y": 17 },
         { "chunks": [ "river_cave_bounds_h" ], "x": [ 4, 6 ], "y": 18 },
@@ -473,7 +462,7 @@
         "#######          #######",
         "#######          #######"
       ],
-      "terrain": { "#": "t_rock" },
+      "terrain": { "#": "t_soil" },
       "place_nested": [
         { "chunks": [ "river_cave_up_to_surface" ], "joins": { "above": "tunnel_to_surface" }, "x": 11, "y": 11 },
         { "chunks": [ "river_cave_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
@@ -539,7 +528,7 @@
         "########################",
         "########################"
       ],
-      "terrain": { "#": "t_rock" },
+      "terrain": { "#": "t_soil" },
       "place_nested": [
         { "chunks": [ "river_cave_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
         { "chunks": [ "river_cave_bounds_h" ], "x": [ 4, 6 ], "y": 1 },
@@ -582,7 +571,7 @@
         "########################",
         "########################"
       ],
-      "terrain": { "#": "t_rock" },
+      "terrain": { "#": "t_soil" },
       "place_nested": [
         { "chunks": [ "river_cave_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
         { "chunks": [ "river_cave_bounds_h" ], "x": [ 4, 6 ], "y": 1 },
@@ -625,7 +614,7 @@
         "########################",
         "########################"
       ],
-      "terrain": { "#": "t_rock" },
+      "terrain": { "#": "t_soil" },
       "place_nested": [
         { "chunks": [ "river_cave_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
         { "chunks": [ "river_cave_bounds_h" ], "x": [ 4, 6 ], "y": 1 },

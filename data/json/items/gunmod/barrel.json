@@ -3,7 +3,7 @@
     "id": "barrel_ported",
     "type": "GUNMOD",
     "name": { "str": "ported barrel" },
-    "description": "A ported barrel redirects exhaust gases to compensate for muzzle climb, improves recoil but increases noise and reduces accuracy slightly.",
+    "description": "A ported barrel redirects exhaust gases to compensate for muzzle climb, improving recoil but increasing noise and reducing accuracy slightly.",
     "weight": "225 g",
     "integral_weight": "0 g",
     "volume": "200 ml",
@@ -26,7 +26,7 @@
     "id": "barrel_small",
     "type": "GUNMOD",
     "name": { "str": "shortened barrel" },
-    "description": "A shortened barrel results in markedly reduced accuracy, and a minor increase in noise, but also greatly improves the ease with which the weapon can be carried and wielded.",
+    "description": "A shortened barrel results in markedly reduced accuracy and a minor increase in noise, but also greatly improves the ease with which the weapon can be carried and wielded.",
     "volume": "0 ml",
     "price": 12000,
     "price_postapoc": 250,
@@ -44,13 +44,12 @@
     "id": "upstest",
     "type": "GUNMOD",
     "name": { "str": "upstest" },
-    "description": "Testmod for UPS drain on mods, this should never spawn, if you see this, it's a bug.  50x more UPS drain.",
+    "description": "Test mod for UPS drain on mods, this should never spawn, if you see this, it's a bug.  50x more UPS drain.",
     "weight": "450 g",
     "volume": "500 ml",
     "price": 20000,
     "price_postapoc": 0,
     "install_time": "0 s",
-    "bashing": 5,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
@@ -58,7 +57,8 @@
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol" ],
     "damage_modifier": { "damage_type": "stab", "amount": 500 },
     "dispersion_modifier": 500,
-    "ups_charges_multiplier": 50.0,
-    "min_skills": [ [ "gun", 1 ] ]
+    "energy_drain_multiplier": 50.0,
+    "min_skills": [ [ "gun", 1 ] ],
+    "melee_damage": { "bash": 5 }
   }
 ]

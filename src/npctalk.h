@@ -53,6 +53,8 @@ void do_construction( npc & );
 void do_mining( npc & );
 void do_mopping( npc & );
 void do_read( npc & );
+void do_eread( npc & );
+void do_read_repeatedly( npc & );
 void do_chop_plank( npc & );
 void do_vehicle_deconstruct( npc & );
 void do_vehicle_repair( npc & );
@@ -108,6 +110,8 @@ void set_npc_pickup( npc &p );
 void npc_die( npc &p );
 void npc_thankful( npc &p );
 void clear_overrides( npc &p );
+void pick_style( npc &p );
+void do_craft( npc & );
 void do_disassembly( npc &p );
 } // namespace talk_function
 
@@ -139,6 +143,6 @@ const json_talk_topic *get_talk_topic( const std::string &id );
 
 std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
                                    const std::string &prompt,
-                                   std::function<bool( const Character * )> exclude_func );
+                                   const std::function<bool( const Character * )> &exclude_func );
 
 #endif // CATA_SRC_NPCTALK_H

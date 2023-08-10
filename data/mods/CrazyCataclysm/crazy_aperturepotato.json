@@ -1,13 +1,13 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "aperture_potato",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",
     "difficulty": 8,
-    "time": 11000,
+    "time": "110 s",
     "book_learn": [ [ "textbook_robots", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [

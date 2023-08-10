@@ -1,0 +1,30 @@
+[
+  {
+    "id": "firmament_driver_book",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "String Theory For Dummies", "str_pl": "copies of String Theory For Dummies" },
+    "description": "A small hardcover book describing a version of string theory that seems quite preposterous.",
+    "weight": "77 g",
+    "volume": "334 ml",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "*",
+    "color": "black",
+    "use_action": { "type": "learn_spell", "spells": [ "firmament_driver" ] }
+  },
+  {
+    "id": "artifact_cable_whip",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "taped jumper cable" },
+    "description": "A 3-ft (or about 1 m) jumper cable, wrapped with blue insulating tape.  Both sides has lack of connectors.",
+    "volume": "500 ml",
+    "weight": "75 g",
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "I",
+    "looks_like": "jumper_cable",
+    "use_action": { "type": "learn_spell", "spells": [ "cable_whip" ] }
+  }
+]

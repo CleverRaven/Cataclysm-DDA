@@ -3,7 +3,7 @@
     "id": "t_railroad_rubble",
     "type": "terrain",
     "name": "gravel",
-    "description": "Gravel is a collection of small stones often used for roads, as railroad ballast, and in many other applications.",
+    "description": "An area of small, uniformly-sized stones.  Often used for roads, as railroad ballast, and in many other applications.",
     "symbol": ",",
     "color": "light_gray",
     "move_cost": 2,
@@ -54,6 +54,7 @@
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
@@ -85,6 +86,7 @@
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
@@ -116,6 +118,7 @@
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
@@ -147,6 +150,7 @@
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
@@ -178,6 +182,7 @@
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
@@ -209,6 +214,7 @@
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
@@ -216,7 +222,7 @@
     "id": "t_railroad_tie",
     "type": "terrain",
     "name": "railroad tie",
-    "description": "This crosstie is used to support the rails.",
+    "description": "A crosstie, used to support train rails.",
     "symbol": "#",
     "color": "dark_gray_yellow",
     "move_cost": 2,
@@ -232,6 +238,7 @@
       "ter_set": "t_rock_floor",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
@@ -239,7 +246,7 @@
     "id": "t_railroad_tie_h",
     "type": "terrain",
     "name": "railroad tie",
-    "description": "This crosstie is used to support the rails.",
+    "description": "A crosstie, used to support train rails.",
     "symbol": "#",
     "color": "dark_gray_yellow",
     "move_cost": 2,
@@ -255,6 +262,7 @@
       "ter_set": "t_rock_floor",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
@@ -262,7 +270,7 @@
     "id": "t_railroad_tie_v",
     "type": "terrain",
     "name": "railroad tie",
-    "description": "This crosstie is used to support the rails.",
+    "description": "A crosstie, used to support train rails.",
     "symbol": "#",
     "color": "dark_gray_yellow",
     "move_cost": 2,
@@ -278,6 +286,7 @@
       "ter_set": "t_rock_floor",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
@@ -285,7 +294,7 @@
     "id": "t_railroad_tie_d",
     "type": "terrain",
     "name": "railroad tie",
-    "description": "This crosstie is used to support the rails.",
+    "description": "A crosstie, used to support train rails.",
     "symbol": "#",
     "color": "dark_gray_yellow",
     "move_cost": 2,
@@ -301,6 +310,7 @@
       "ter_set": "t_rock_floor",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
@@ -335,6 +345,7 @@
         { "item": "splinter", "count": [ 10, 20 ] }
       ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
@@ -369,6 +380,7 @@
         { "item": "splinter", "count": [ 10, 20 ] }
       ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
@@ -403,6 +415,7 @@
         { "item": "splinter", "count": [ 10, 20 ] }
       ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
@@ -437,6 +450,7 @@
         { "item": "splinter", "count": [ 10, 20 ] }
       ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
@@ -462,7 +476,7 @@
     "id": "t_railroad_tie_d1",
     "type": "terrain",
     "name": "railroad tie",
-    "description": "This crosstie is used to support the rails.",
+    "description": "A crosstie, used to support train rails.",
     "symbol": "/",
     "color": "dark_gray_yellow",
     "move_cost": 2,
@@ -478,6 +492,7 @@
       "ter_set": "t_rock_floor",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
@@ -485,7 +500,7 @@
     "id": "t_railroad_tie_d2",
     "type": "terrain",
     "name": "railroad tie",
-    "description": "This crosstie is used to support the rails.",
+    "description": "A crosstie, used to support train rails.",
     "symbol": "\\",
     "color": "dark_gray_yellow",
     "move_cost": 2,
@@ -501,6 +516,7 @@
       "ter_set": "t_rock_floor",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
@@ -599,6 +615,7 @@
         { "item": "splinter", "count": [ 6, 12 ] }
       ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
@@ -633,6 +650,7 @@
         { "item": "splinter", "count": [ 6, 12 ] }
       ]
     },
+    "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   }

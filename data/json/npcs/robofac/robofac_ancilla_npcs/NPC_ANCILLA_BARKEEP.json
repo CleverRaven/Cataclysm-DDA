@@ -22,6 +22,7 @@
     "carry_override": "NC_ANCILLA_BARKEEP_carry",
     "weapon_override": "NC_ANCILLA_BARKEEP_wield",
     "shopkeeper_item_group": [ { "group": "NC_ANCILLA_BARKEEP_stock", "rigid": true } ],
+    "shopkeeper_price_rules": [ { "group": "NC_ANCILLA_BARKEEP_stock", "markup": 2.5 } ],
     "skills": [
       {
         "skill": "ALL",

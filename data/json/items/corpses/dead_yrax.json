@@ -6,14 +6,13 @@
     "color": "light_gray",
     "name": { "str_sp": "trifacet remains" },
     "category": "other",
-    "description": "A split open facet reveals an interior full of closely fit geometric primitives among chipped strips of milk-white quartz.  Lending you no clues as to how this machine ever functioned.",
+    "description": "A split-open facet reveals an interior full of closely-fit geometric primitives among chipped strips of milk-white quartz.  The composition of parts lends you no clues as to how this machine ever functioned.",
     "price": 1000,
     "material": [ "steel", "ceramic" ],
     "volume": "119 L",
     "weight": "221 kg",
-    "bashing": 20,
-    "cutting": 15,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 20, "cut": 15 }
   }
 ]

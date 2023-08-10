@@ -31,8 +31,8 @@
       {
         "proficiency": "prof_welding",
         "time_multiplier": 1.1,
-        "fail_multiplier": 1.1,
-        "learning_time_multiplier": 0.25
+        "learning_time_multiplier": 0.25,
+        "skill_penalty": 0.1
       }
     ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
@@ -72,10 +72,10 @@
         "learning_time_multiplier": 0.1
       }
     ],
-    "using": [ [ "forging_standard", 4 ], [ "soldering_standard", 20 ], [ "plastic_molding", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "steel_lump", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 4 ], [ "soldering_standard", 20 ], [ "plastic_molding", 1 ], [ "steel_standard", 1 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
   },
   {
     "result": "food_processor",
@@ -95,7 +95,7 @@
       [ [ "scrap", 4 ] ],
       [ [ "cable", 2 ] ],
       [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
-      [ [ "motor_micro", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "e_scrap", 1 ] ]
     ]
   },
@@ -141,7 +141,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_semiconductors" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "amplifier", 2 ] ], [ [ "antenna", 1 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 7 ] ] ]
+    "components": [ [ [ "amplifier", 2 ] ], [ [ "antenna", 1 ] ], [ [ "scrap_aluminum", 5 ] ], [ [ "cable", 7 ] ] ]
   },
   {
     "type": "recipe",
@@ -157,7 +157,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_semiconductors" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "receiver", 1 ] ], [ [ "antenna", 1 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 7 ] ] ]
+    "components": [ [ [ "receiver", 1 ] ], [ [ "antenna", 1 ] ], [ [ "scrap_aluminum", 5 ] ], [ [ "cable", 7 ] ] ]
   },
   {
     "type": "recipe",
@@ -204,7 +204,7 @@
       [ [ "transponder", 1 ] ],
       [ [ "receiver", 1 ] ],
       [ [ "antenna", 1 ] ],
-      [ [ "scrap", 5 ] ],
+      [ [ "scrap_aluminum", 5 ] ],
       [ [ "cable", 10 ] ]
     ]
   },
@@ -218,7 +218,7 @@
     "skills_required": [ "computer", 5 ],
     "difficulty": 8,
     "time": "1 h",
-    "reversible": true,
+    "reversible": { "time": "20 m" },
     "//": "as with mp3, no learning how to encode the software from taking it apart",
     "book_learn": [ [ "textbook_electronics", 7 ], [ "textbook_robots", 6 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
@@ -260,7 +260,7 @@
     ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "laptop", -1 ] ] ],
-    "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap_aluminum", 4 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -281,7 +281,7 @@
       { "proficiency": "prof_elec_semiconductors" }
     ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "amplifier", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap_aluminum", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -305,7 +305,7 @@
     "components": [
       [ [ "plastic_chunk", 6 ] ],
       [ [ "blade", 2 ] ],
-      [ [ "motor_tiny", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "cable", 5 ] ]
@@ -361,7 +361,7 @@
     "components": [
       [ [ "plastic_chunk", 6 ] ],
       [ [ "chain", 1 ] ],
-      [ [ "motor_micro", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "cable", 4 ] ],
@@ -389,7 +389,7 @@
     "components": [
       [ [ "plastic_chunk", 6 ] ],
       [ [ "circsaw_blade", 1 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "cable", 5 ] ]
@@ -409,7 +409,7 @@
     "autolearn": [ [ "electronics", 2 ] ],
     "book_learn": [ [ "manual_electronics", 1 ], [ "advanced_electronics", 2 ], [ "textbook_anarch", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_elec_soldering", "fail_multiplier": 1.125 }, { "proficiency": "prof_elec_circuits" } ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering", "skill_penalty": 0.125 }, { "proficiency": "prof_elec_circuits" } ],
     "components": [
       [ [ "e_scrap", 2 ], [ "glowplug", 1 ] ],
       [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
@@ -440,7 +440,7 @@
       [ [ "element", 4 ], [ "crude_heating_element", 4 ] ],
       [ [ "amplifier", 1 ] ],
       [
-        [ "scrap", 2 ],
+        [ "scrap_aluminum", 2 ],
         [ "pan", 1 ],
         [ "pot", 1 ],
         [ "pot_copper", 1 ],
@@ -449,33 +449,6 @@
         [ "knife_butter", 6 ],
         [ "muffler", 1 ]
       ],
-      [ [ "cable", 10 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "mess_kit",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "electronics", 3 ], [ "survival", 3 ] ],
-    "difficulty": 4,
-    "time": "1 h",
-    "decomp_learn": 4,
-    "book_learn": [ [ "textbook_survival", 3 ], [ "advanced_electronics", 3 ], [ "manual_electronics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "blacksmithing_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 },
-      { "proficiency": "prof_elec_soldering" },
-      { "proficiency": "prof_elec_circuits" }
-    ],
-    "components": [
-      [ [ "element", 3 ], [ "crude_heating_element", 3 ] ],
-      [ [ "amplifier", 1 ] ],
-      [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ],
-      [ [ "plastic_chunk", 2 ] ],
       [ [ "cable", 10 ] ]
     ]
   },
@@ -526,7 +499,7 @@
     "using": [ [ "soldering_standard", 14 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_semiconductors" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 1 ] ], [ [ "amplifier", 2 ] ], [ [ "scrap", 6 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "amplifier", 2 ] ], [ [ "scrap_aluminum", 6 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -569,7 +542,7 @@
       [ [ "wire_mesh", 1 ], [ "sieve_steel", 1 ], [ "colander_steel", 1 ], [ "splatter_guard", 1 ] ],
       [ [ "thermos", 2 ] ],
       [ [ "element", 1 ], [ "crude_heating_element", 1 ] ],
-      [ [ "scrap", 2 ] ],
+      [ [ "scrap_aluminum", 2 ] ],
       [ [ "betavoltaic", 2 ] ],
       [ [ "RTG_coffee", 1 ] ]
     ]
@@ -631,7 +604,7 @@
     "subcategory": "CSC_ELECTRONIC_TOOLS",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "25 m",
+    "time": "60 m",
     "reversible": true,
     "decomp_learn": 5,
     "book_learn": [
@@ -640,7 +613,8 @@
       [ "advanced_electronics", 5 ],
       [ "textbook_electronics", 5 ]
     ],
-    "using": [ [ "welding_standard", 10 ] ],
+    "//": "130cm weld",
+    "using": [ [ "welding_standard", 130 ] ],
     "proficiencies": [
       { "proficiency": "prof_welding_basic" },
       { "proficiency": "prof_welding" },
@@ -650,7 +624,7 @@
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "motor_small", 1 ] ],
-      [ [ "UPS_off", 1 ] ],
+      [ [ "UPS_OFF", 1 ] ],
       [ [ "medium_storage_battery", 1 ] ],
       [ [ "cable", 12 ] ],
       [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
@@ -665,18 +639,19 @@
     "subcategory": "CSC_ELECTRONIC_TOOLS",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": "20 m",
+    "time": "40 m",
     "reversible": true,
     "decomp_learn": 4,
+    "//": "100cm weld",
     "book_learn": [
       [ "textbook_mechanics", 4 ],
       [ "textbook_carpentry", 4 ],
       [ "advanced_electronics", 3 ],
       [ "textbook_electronics", 3 ]
     ],
-    "using": [ [ "welding_standard", 10 ] ],
+    "using": [ [ "welding_standard", 100 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "motor_small", 1 ] ], [ [ "cable", 12 ] ], [ [ "chain", 1 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "motor_tiny", 1 ] ], [ [ "cable", 12 ] ], [ [ "chain", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -698,7 +673,7 @@
       { "proficiency": "prof_elec_circuits" }
     ],
     "components": [
-      [ [ "scrap", 4 ] ],
+      [ [ "scrap_aluminum", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
       [ [ "motor_micro", 1 ] ],
       [ [ "superglue", 2 ] ],
@@ -729,7 +704,7 @@
     "components": [
       [ [ "2x4", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "vac_pump", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "nail", 16 ] ],
       [ [ "wood_panel", 1 ] ],
       [ [ "hose", 1 ] ],
@@ -760,6 +735,29 @@
       { "proficiency": "prof_elec_circuits" }
     ],
     "components": [ [ [ "razor_blade", 1 ] ], [ [ "motor_micro", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "electric_spinwheel",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
+    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 }, { "id": "HAMMER", "level": 3, "amount": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ] ],
+      [ [ "string_36", 4 ] ],
+      [ [ "motor_micro", 1 ] ],
+      [ [ "e_scrap", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -799,12 +797,11 @@
     "components": [
       [ [ "superglue", 4 ], [ "bone_glue", 4 ] ],
       [ [ "antenna", 1 ] ],
-      [ [ "motor_tiny", 1 ] ],
       [ [ "motor_micro", 2 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "receiver", 1 ] ],
       [ [ "plastic_chunk", 12 ] ],
-      [ [ "scrap", 4 ] ],
+      [ [ "scrap_aluminum", 4 ] ],
       [ [ "e_scrap", 2 ] ],
       [ [ "cable", 8 ] ],
       [ [ "spring", 2 ] ],
@@ -825,7 +822,12 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 2 ], [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 150 ] ] ],
+    "tools": [
+      [ [ "metalworking_tongs", -1 ] ],
+      [ [ "pipe", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 150 ] ]
+    ],
     "components": [ [ [ "glass_shard", 8 ] ], [ [ "element", 1 ], [ "crude_heating_element", 1 ] ], [ [ "cable", 10 ] ] ]
   },
   {
@@ -839,7 +841,8 @@
     "difficulty": 4,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "welding_standard", 10 ] ],
+    "//": "30cm weld",
+    "using": [ [ "welding_standard", 30 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
     "components": [

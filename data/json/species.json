@@ -44,6 +44,7 @@
     "type": "SPECIES",
     "id": "KRAKEN",
     "description": "a squid-like mutant",
+    "footsteps": "slithering.",
     "fear_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "bleeds": "fd_blood"
   },
@@ -55,7 +56,12 @@
   {
     "type": "SPECIES",
     "id": "NETHER",
-    "description": "a nether creature",
+    "description": "a nether creature"
+  },
+  {
+    "type": "SPECIES",
+    "id": "NETHER_EMANATION",
+    "description": "a reflection of another dimension",
     "fear_triggers": [ "HURT" ]
   },
   {
@@ -142,6 +148,13 @@
     "type": "SPECIES",
     "id": "ZOMBIE",
     "description": "a zombie",
+    "footsteps": "shuffling.",
+    "bleeds": "fd_blood"
+  },
+  {
+    "type": "SPECIES",
+    "id": "FERAL",
+    "description": "a feral",
     "footsteps": "shuffling.",
     "bleeds": "fd_blood"
   },

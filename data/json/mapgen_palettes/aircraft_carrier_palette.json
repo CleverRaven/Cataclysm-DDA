@@ -8,6 +8,7 @@
       "*": "t_gates_control_metal",
       "-": "t_metal_railing",
       ";": "t_metal_floor",
+      "з": "t_metal_floor_no_roof",
       "λ": "t_reinforced_glass",
       "?": [ [ "t_door_metal_interior_locked", 3 ], "t_door_metal_c" ],
       "<": "t_stairs_down",

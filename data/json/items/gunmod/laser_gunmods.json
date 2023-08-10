@@ -43,7 +43,7 @@
     "id": "electrolaser_conversion",
     "type": "GUNMOD",
     "name": { "str": "electrolaser conversion" },
-    "description": "A set of high-tech electronics and optics.  These converts a laser pistol into a less-lethal electrolaser capable of stunning targets, at the cost of a decreased damage output and increased power consumption.",
+    "description": "A set of high-tech electronics and optics.  Converts a laser pistol into a less-lethal electrolaser capable of stunning targets, at the cost of a decreased damage output and increased power consumption.",
     "weight": "380 g",
     "volume": "1 L",
     "price": 84000,
@@ -56,7 +56,7 @@
     "mod_targets": [ "pistol" ],
     "range_multiplier": 0.5,
     "damage_modifier": { "damage_type": "heat", "amount": -8 },
-    "ups_charges_multiplier": 1.2,
+    "energy_drain_multiplier": 1.2,
     "ammo_effects": [ "BEANBAG" ],
     "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
   },
@@ -76,14 +76,14 @@
     "color": "light_gray",
     "location": "emitter",
     "mod_targets": [ "pistol", "rifle" ],
-    "ups_charges_multiplier": 0.9,
+    "energy_drain_multiplier": 0.9,
     "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
   },
   {
     "id": "high_density_capacitor",
     "type": "GUNMOD",
     "name": { "str": "high density capacitor" },
-    "description": "A capacitor with a higher energy density increases range and damage; at the cost of a markedly increased power consumption.",
+    "description": "A capacitor with a higher energy density.  Increases range and damage at the cost of markedly increased power consumption.",
     "weight": "380 g",
     "volume": "250 ml",
     "integral_volume": "0 ml",
@@ -97,7 +97,7 @@
     "mod_targets": [ "pistol", "rifle" ],
     "range_modifier": 5,
     "damage_modifier": { "damage_type": "heat", "amount": 10 },
-    "ups_charges_multiplier": 2.0,
+    "energy_drain_multiplier": 2.0,
     "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
   }
 ]

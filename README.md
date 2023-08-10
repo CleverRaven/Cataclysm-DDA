@@ -2,23 +2,26 @@
 
 Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalyptic world. While some have described it as a "zombie game", there is far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, who want what you have...
 
-<a href="https://repology.org/project/cataclysm-dda/versions">
-    <img src="https://repology.org/badge/vertical-allrepos/cataclysm-dda.svg" alt="Packaging Status" align="right">
-</a>
-
-[![Build Status](https://travis-ci.org/CleverRaven/Cataclysm-DDA.svg?branch=master)](https://travis-ci.org/CleverRaven/Cataclysm-DDA)
-[![Coverage Status](https://coveralls.io/repos/github/CleverRaven/Cataclysm-DDA/badge.svg?branch=master)](https://coveralls.io/github/CleverRaven/Cataclysm-DDA?branch=master)
-[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/CleverRaven/Cataclysm-DDA.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/CleverRaven/Cataclysm-DDA/context:cpp)
-[![Open Source Helpers](https://www.codetriage.com/cleverraven/cataclysm-dda/badges/users.svg)](https://www.codetriage.com/cleverraven/cataclysm-dda)
-[![Commit Activity](https://img.shields.io/github/commit-activity/m/CleverRaven/Cataclysm-DDA)](https://github.com/CleverRaven/Cataclysm-DDA/graphs/contributors)
-[![Lines of Code](https://tokei.rs/b1/github/CleverRaven/Cataclysm-DDA?category=code)](https://github.com/XAMPPRocky/tokei)
-[![TODOs](https://badgen.net/https/api.tickgit.com/badgen/github.com/CleverRaven/Cataclysm-DDA)](https://www.tickgit.com/browse?repo=github.com/CleverRaven/Cataclysm-DDA)
+<p align="center">
+    <img src="./data/screenshots/ultica-showcase-sep-2021.png" alt="Tileset: Ultica">
+</p>
 
 ## Downloads
 
 **Releases** - [Stable](https://cataclysmdda.org/releases/) | [Experimental](https://cataclysmdda.org/experimental/)
 
 **Source** - The source can be downloaded as a [.zip archive](https://github.com/CleverRaven/Cataclysm-DDA/archive/master.zip), or cloned from our [GitHub repo](https://github.com/CleverRaven/Cataclysm-DDA/).
+
+<a href="https://repology.org/project/cataclysm-dda/versions">
+    <img src="https://repology.org/badge/vertical-allrepos/cataclysm-dda.svg" alt="Packaging Status" align="right">
+</a>
+
+[![General build matrix](https://github.com/CleverRaven/Cataclysm-DDA/actions/workflows/matrix.yml/badge.svg)](https://github.com/CleverRaven/Cataclysm-DDA/actions/workflows/matrix.yml)
+[![Coverage Status](https://coveralls.io/repos/github/CleverRaven/Cataclysm-DDA/badge.svg?branch=master)](https://coveralls.io/github/CleverRaven/Cataclysm-DDA?branch=master)
+[![Open Source Helpers](https://www.codetriage.com/cleverraven/cataclysm-dda/badges/users.svg)](https://www.codetriage.com/cleverraven/cataclysm-dda)
+[![Commit Activity](https://img.shields.io/github/commit-activity/m/CleverRaven/Cataclysm-DDA)](https://github.com/CleverRaven/Cataclysm-DDA/graphs/contributors)
+[![Lines of Code](https://tokei.rs/b1/github/CleverRaven/Cataclysm-DDA?category=code)](https://github.com/XAMPPRocky/tokei)
+[![TODOs](https://badgen.net/https/api.tickgit.com/badgen/github.com/CleverRaven/Cataclysm-DDA)](https://www.tickgit.com/browse?repo=github.com/CleverRaven/Cataclysm-DDA)
 
 ### Packaging status
 
@@ -51,12 +54,19 @@ We also have the following build guides:
 
 ## Contribute
 
-Cataclysm: Dark Days Ahead is the result of contributions from over 1000 volunteers under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+Cataclysm: Dark Days Ahead is the result of contributions from over 1000 volunteers under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See https://creativecommons.org/licenses/by-sa/3.0/ for details.
 Some code distributed with the project is not part of the project and is released under different software licenses; the files covered by different software licenses have their own license notices.
 
 [<img src="https://www.bountysource.com/badge/tracker?tracker_id=146201" alt="Bountysource" align="right">](https://www.bountysource.com/trackers/146201-clever-raven-cataclysm-dda?utm_source=146201&utm_medium=shield&utm_campaign=TRACKER_BADGE)
 
-Please see [CONTRIBUTING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/.github/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING.md](doc/CONTRIBUTING.md) for details.
+
+Special thanks to the contributors, including but not limited to, people below:
+<a href="https://github.com/cleverraven/cataclysm-dda/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=cleverraven/cataclysm-dda" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
 
 ## Community
 
@@ -64,7 +74,7 @@ Forums:
 https://discourse.cataclysmdda.org
 
 Wiki:
-http://cddawiki.chezzo.com/cdda_wiki/index.php
+https://cddawiki.chezzo.com/cdda_wiki/index.php
 
 GitHub repo:
 https://github.com/CleverRaven/Cataclysm-DDA
@@ -96,7 +106,3 @@ Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Catac
 #### I would like to make a suggestion. What should I do?
 
 Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/) using [feature request template](https://github.com/CleverRaven/Cataclysm-DDA/issues/new?template=feature_request.md).
-
-You can also submit your suggestions or vote for existing suggestions on [our FeatHub page](https://feathub.com/CleverRaven/Cataclysm-DDA). Most voted suggestions are:
-
-[![Feature Requests](https://feathub.com/CleverRaven/Cataclysm-DDA?format=svg)](https://feathub.com/CleverRaven/Cataclysm-DDA)

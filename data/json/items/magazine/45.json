@@ -151,7 +151,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "USP .45 pistol 12-round magazine" },
-    "description": "A 12 round magazine for use with the USP pistol",
+    "description": "A 12-round magazine for use with the USP pistol",
     "variant_type": "gun",
     "variants": [
       {
@@ -177,7 +177,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "H&K USC 45 Carbine 10-round magazine" },
-    "description": "A 10 round magazine for use with the H&K USC 45 Carbine.",
+    "description": "A 10-round magazine for use with the H&K USC 45 Carbine.",
     "weight": "145 g",
     "volume": "160 ml",
     "price": 3399,
@@ -194,7 +194,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "H&K USC 45 Carbine 15-round magazine" },
-    "description": "A 15 round magazine for use with the H&K USC 45 Carbine.",
+    "description": "A 15-round magazine for use with the H&K USC 45 Carbine.",
     "weight": "217 g",
     "volume": "240 ml",
     "price": 3699,
@@ -211,7 +211,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "H&K USC 45 Carbine 20-round magazine" },
-    "description": "A 20 round magazine for use with the H&K USC 45 Carbine.",
+    "description": "A 20-round magazine for use with the H&K USC 45 Carbine.",
     "weight": "290 g",
     "volume": "320 ml",
     "price": 3999,
@@ -228,13 +228,13 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "PPQ .45 12-round magazine" },
-    "description": "A 12 round steel box magazine for the PPQ pistol.",
+    "description": "A 12-round steel box magazine for the PPQ pistol.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ppq45mag",
         "name": { "str": "PPQ .45 ACP 12-round magazine" },
-        "description": "A 12 round steel box magazine for the Walther PPQ .45 ACP.",
+        "description": "A 12-round steel box magazine for the Walther PPQ .45 ACP.",
         "weight": 1
       }
     ],
@@ -271,7 +271,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "Glock .45 13-round magazine" },
-    "description": "A 13 round magazine for use with Glock firearms chambered in .45 ACP.",
+    "description": "A 13-round magazine for use with Glock firearms chambered in .45 ACP.",
     "variant_type": "gun",
     "variants": [
       {
@@ -297,13 +297,13 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "Glock .45 26-round magazine" },
-    "description": "A 26 round magazine for use with Glock firearms chambered in .45 ACP.",
+    "description": "A 26-round magazine for use with Glock firearms chambered in .45 ACP.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "glock_21mag26",
         "name": { "str": "Glock 21 26-round magazine" },
-        "description": "A double capacity magazine for use with the Glock 21.",
+        "description": "A double-capacity magazine for use with the Glock 21.",
         "weight": 1
       }
     ],
@@ -317,5 +317,58 @@
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 26 } } ]
+  },
+  {
+    "id": "greasegun30mag",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": ".45 WWII SMG 30-round magazine" },
+    "description": "A standard 30-round magazine for the .45 WWII submachine gun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "greasegun30mag",
+        "name": { "str": "M3 SMG 30-round magazine" },
+        "description": "A standard 30-round magazine for the M3 submachine gun."
+      }
+    ],
+    "weight": "340 g",
+    "volume": "227 ml",
+    "longest_side": "235 mm",
+    "price": 3000,
+    "price_postapoc": 100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "45" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 30 } } ]
+  },
+  {
+    "id": "greasegun32mag",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": ".45 WWII SMG 32-round magazine" },
+    "description": "A standard 32-round magazine for the .45 WWII submachine gun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "greasegun32mag",
+        "name": { "str": "M3 SMG 32-round magazine" },
+        "description": "A standard 32-round magazine for the M3 submachine gun.",
+        "weight": 1
+      }
+    ],
+    "weight": "355 g",
+    "volume": "236 ml",
+    "longest_side": "245 mm",
+    "price": 3000,
+    "price_postapoc": 100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "45" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 32 } } ]
   }
 ]

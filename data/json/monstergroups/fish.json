@@ -29,14 +29,6 @@
         "conditions": [ "DAWN", "DUSK" ],
         "pack_size": [ 1, 3 ]
       },
-      { "monster": "mon_fish_trout", "weight": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
-      {
-        "monster": "mon_fish_trout",
-        "weight": 20,
-        "cost_multiplier": 8,
-        "conditions": [ "DAWN", "DUSK" ],
-        "pack_size": [ 1, 3 ]
-      },
       { "monster": "mon_fish_carp", "weight": 10, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
       {
         "monster": "mon_fish_carp",
@@ -109,41 +101,9 @@
         "conditions": [ "DAWN", "DUSK" ],
         "pack_size": [ 1, 3 ]
       },
-      { "monster": "mon_fish_steelhead_trout", "weight": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
-      {
-        "monster": "mon_fish_steelhead_trout",
-        "weight": 20,
-        "cost_multiplier": 8,
-        "conditions": [ "DAWN", "DUSK" ],
-        "pack_size": [ 1, 3 ]
-      },
       { "monster": "mon_fish_kokanee_salmon", "weight": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
       {
         "monster": "mon_fish_kokanee_salmon",
-        "weight": 20,
-        "cost_multiplier": 8,
-        "conditions": [ "DAWN", "DUSK" ],
-        "pack_size": [ 1, 3 ]
-      },
-      { "monster": "mon_fish_chinook_salmon", "weight": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
-      {
-        "monster": "mon_fish_chinook_salmon",
-        "weight": 20,
-        "cost_multiplier": 8,
-        "conditions": [ "DAWN", "DUSK" ],
-        "pack_size": [ 1, 3 ]
-      },
-      { "monster": "mon_fish_coho_salmon", "weight": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
-      {
-        "monster": "mon_fish_coho_salmon",
-        "weight": 20,
-        "cost_multiplier": 8,
-        "conditions": [ "DAWN", "DUSK" ],
-        "pack_size": [ 1, 3 ]
-      },
-      { "monster": "mon_fish_white_bass", "weight": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
-      {
-        "monster": "mon_fish_white_bass",
         "weight": 20,
         "cost_multiplier": 8,
         "conditions": [ "DAWN", "DUSK" ],
@@ -176,22 +136,6 @@
       { "monster": "mon_fish_green_sunfish", "weight": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
       {
         "monster": "mon_fish_green_sunfish",
-        "weight": 20,
-        "cost_multiplier": 8,
-        "conditions": [ "DAWN", "DUSK" ],
-        "pack_size": [ 1, 3 ]
-      },
-      { "monster": "mon_fish_longear_sunfish", "weight": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
-      {
-        "monster": "mon_fish_longear_sunfish",
-        "weight": 20,
-        "cost_multiplier": 8,
-        "conditions": [ "DAWN", "DUSK" ],
-        "pack_size": [ 1, 3 ]
-      },
-      { "monster": "mon_fish_redear_sunfish", "weight": 15, "cost_multiplier": 8, "pack_size": [ 1, 3 ] },
-      {
-        "monster": "mon_fish_redear_sunfish",
         "weight": 20,
         "cost_multiplier": 8,
         "conditions": [ "DAWN", "DUSK" ],
@@ -309,7 +253,6 @@
         "conditions": [ "DAWN", "DUSK" ],
         "pack_size": [ 1, 3 ]
       },
-      { "monster": "mon_fish_blinky", "weight": 5, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
       {
         "monster": "mon_dragonfly_naiad",
         "weight": 10,

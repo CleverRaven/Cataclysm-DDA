@@ -26,11 +26,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void UsePointApisCheck::registerMatchers( MatchFinder *Finder )
@@ -82,7 +78,7 @@ static bool doFunctionsMatch( const FunctionDecl *Callee, const FunctionDecl *Ot
 
         if( CalleeParamI == MinArg - SkipArgs ) {
             std::string ShortTypeName = IsTripoint ? "tripoint" : "point";
-            std::string ExpectedTypeName = "const struct " + ShortTypeName + " &";
+            std::string ExpectedTypeName = "const " + ShortTypeName + " &";
             if( OtherCalleeParam->getType().getAsString() != ExpectedTypeName ) {
                 return false;
             }
@@ -261,6 +257,4 @@ void UsePointApisCheck::check( const MatchFinder::MatchResult &Result )
     CheckCall( *this, Result );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

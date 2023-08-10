@@ -39,7 +39,10 @@
         { "group": "magic_recipe_basic", "prob": 3 },
         { "group": "magic_recipe_advanced", "prob": 1 },
         { "group": "dragon_books", "prob": 3 },
-        { "item": "spellcraft_theory", "prob": 2 }
+        { "item": "spellcraft_theory", "prob": 2 },
+        { "item": "caster_boosts_info", "prob": 2 },
+        { "item": "alchemy_illegal", "prob": 1 },
+        { "item": "alchemy_master", "prob": 1 }
       ]
     }
   },
@@ -53,7 +56,9 @@
         { "group": "magic_recipe_basic", "prob": 6 },
         { "group": "magic_recipe_advanced", "prob": 2 },
         { "group": "dragon_books", "prob": 5 },
-        { "group": "spellcraft_books", "prob": 4 }
+        { "group": "spellcraft_books", "prob": 4 },
+        { "item": "alchemy_illegal", "prob": 1 },
+        { "item": "alchemy_master", "prob": 1 }
       ]
     }
   },
@@ -65,14 +70,20 @@
       "items": [
         { "group": "spellbook_loot_1", "prob": 3 },
         { "group": "dragon_books", "prob": 2 },
-        { "group": "spellcraft_books", "prob": 1 }
+        { "group": "spellcraft_books", "prob": 1 },
+        { "item": "alchemy_illegal", "prob": 1 },
+        { "item": "alchemy_master", "prob": 1 }
       ]
     }
   },
   {
     "type": "item_group",
     "id": "spellcraft_books",
-    "items": [ { "item": "spellcraft_theory_basic", "prob": 70 }, { "item": "spellcraft_theory", "prob": 30 } ]
+    "items": [
+      { "item": "spellcraft_theory_basic", "prob": 70 },
+      { "item": "spellcraft_theory", "prob": 30 },
+      { "item": "caster_boosts_info", "prob": 30 }
+    ]
   },
   {
     "type": "item_group",
@@ -129,6 +140,24 @@
     }
   },
   {
+    "id": "elecsto_displ",
+    "type": "item_group",
+    "copy-from": "elecsto_displ",
+    "extend": { "items": [ [ "bio_power_storage", 10 ] ] }
+  },
+  {
+    "id": "elecsto_persele",
+    "type": "item_group",
+    "copy-from": "elecsto_persele",
+    "extend": { "items": [ [ "bio_power_storage", 5 ] ] }
+  },
+  {
+    "id": "elecsto_pcs",
+    "type": "item_group",
+    "copy-from": "elecsto_pcs",
+    "extend": { "items": [ [ "bio_power_storage", 1 ] ] }
+  },
+  {
     "id": "coffee_display_2",
     "type": "item_group",
     "copy-from": "coffee_display_2",
@@ -179,8 +208,9 @@
       { "group": "spell_scroll_tier_1", "prob": 60 },
       { "group": "spell_scroll_tier_2", "prob": 30 },
       { "group": "magic_recipe_basic", "prob": 50 },
-      { "group": "magic_recipe_advanced", "prob": 16 },
-      { "group": "spellcraft_books", "prob": 40 }
+      { "group": "magic_recipe_advanced", "prob": 20 },
+      { "group": "spellcraft_books", "prob": 40 },
+      { "item": "alchemy_master", "prob": 12 }
     ]
   },
   {
@@ -192,7 +222,8 @@
       { "group": "spellbook_tier_0", "prob": 80 },
       { "group": "spellbook_tier_0", "prob": 60 },
       { "group": "spellbook_tier_0", "prob": 20 },
-      { "item": "spellcraft_theory_basic", "prob": 10 }
+      { "item": "spellcraft_theory_basic", "prob": 10 },
+      { "item": "caster_boosts_info", "prob": 10 }
     ]
   },
   {
@@ -204,24 +235,97 @@
     ]
   },
   {
+    "id": "magic_plants_common",
+    "type": "item_group",
+    "items": [ [ "olieribos", 10 ], [ "whiskflower", 30 ], { "group": "magic_plants_uncommon", "prob": 10 } ]
+  },
+  {
+    "id": "magic_plants_uncommon",
+    "type": "item_group",
+    "items": [
+      [ "kampuch", 6 ],
+      [ "glowing_mushroom", 20 ],
+      [ "horn_moss_capsule", 10 ],
+      [ "wood_barnacle", 10 ],
+      [ "dragon_nail", 10 ],
+      [ "moly_tuber", 10 ],
+      [ "fern_flower", 10 ],
+      [ "funnelcap_chunk", 10 ],
+      { "group": "magic_plants_rare", "prob": 3 }
+    ]
+  },
+  {
+    "id": "magic_plants_rare",
+    "type": "item_group",
+    "items": [ [ "platonic_flower", 10 ], [ "moonflowers", 10 ], [ "golden_reed_stalk", 5 ], [ "sojourners_flower", 5 ] ]
+  },
+  {
     "id": "potions_common",
     "type": "item_group",
     "items": [
       [ "mana_potion_lesser", 90 ],
-      [ "mana_potion", 20 ],
+      [ "mana_potion", 5 ],
       [ "mana_potion_greater", 1 ],
-      [ "ogres_strength_potion", 10 ],
-      [ "foxs_cunning_potion", 10 ],
-      [ "eagles_sight_potion", 10 ],
-      [ "cats_grace_potion", 10 ],
-      [ "manatouched_serum", 1 ]
+      [ "manatouched_serum", 1 ],
+      [ "flask_illumination", 10 ],
+      [ "flask_rebreather", 10 ],
+      { "group": "potions_uncommon", "prob": 1 }
     ]
+  },
+  {
+    "id": "potions_uncommon",
+    "type": "item_group",
+    "items": [
+      [ "cats_grace_potion", 10 ],
+      [ "ogres_strength_potion", 10 ],
+      [ "eagles_sight_potion", 10 ],
+      [ "foxs_cunning_potion", 10 ],
+      [ "flask_resistance", 10 ],
+      [ "flask_max_mana", 10 ],
+      [ "flask_fireball", 10 ],
+      [ "flask_spear", 10 ],
+      [ "flask_shadow_field", 10 ],
+      { "group": "potions_rare", "prob": 2 },
+      { "group": "potions_illegal", "prob": 1 }
+    ]
+  },
+  {
+    "id": "potions_rare",
+    "type": "item_group",
+    "items": [
+      [ "flask_healing", 10 ],
+      [ "flask_excitement", 10 ],
+      [ "flask_regeneration", 10 ],
+      [ "flask_mana_regen", 10 ],
+      [ "flask_teleport_rand", 10 ],
+      { "group": "potions_illegal", "prob": 1 }
+    ]
+  },
+  {
+    "id": "potions_illegal",
+    "type": "item_group",
+    "items": [
+      [ "flask_confusion", 10 ],
+      [ "flask_teleport", 10 ],
+      [ "flask_invisibility", 10 ],
+      [ "flask_charm", 10 ],
+      [ "flask_mood", 10 ],
+      [ "flask_toxin", 10 ],
+      [ "flask_venom", 10 ]
+    ]
+  },
+  {
+    "id": "potions_rare",
+    "type": "item_group",
+    "items": [ [ "flask_healing", 10 ], [ "flask_excitement", 10 ], [ "flask_regeneration", 10 ], [ "flask_mana_regen", 10 ] ]
   },
   {
     "id": "magic_shop_potions",
     "type": "item_group",
     "items": [
       { "group": "potions_common", "prob": 80 },
+      { "group": "potions_uncommon", "prob": 30 },
+      { "group": "potions_rare", "prob": 5 },
       { "group": "alchemy_items", "prob": 30 },
       { "group": "magical_reagents", "prob": 20 },
       [ "crystallized_mana", 55 ],
@@ -239,7 +343,10 @@
       [ "bulette_plate", 10 ],
       [ "cauldron_orichalcum", 7 ],
       [ "mithril_ingot", 2 ],
-      { "item": "bulette_pearl", "prob": 8, "count-min": 1, "count-max": 2 }
+      { "item": "bulette_pearl", "prob": 8, "count-min": 1, "count-max": 2 },
+      { "group": "magic_plants_common", "prob": 6 },
+      { "group": "magic_plants_uncommon", "prob": 3 },
+      { "group": "magic_plants_rare", "prob": 1 }
     ]
   },
   {
@@ -252,8 +359,11 @@
       { "group": "enchanted_tools_plus1", "prob": 10 },
       { "group": "jewelry_safe", "prob": 10 },
       { "group": "jewelry_front", "prob": 8 },
-      { "group": "potions_common", "prob": 15 },
-      { "group": "magical_reagents", "prob": 20 },
+      { "group": "potions_common", "prob": 15, "count-min": 1, "count-max": 3 },
+      { "group": "potions_uncommon", "prob": 7, "count-min": 1, "count-max": 2 },
+      { "group": "potions_rare", "prob": 3 },
+      { "group": "potions_illegal", "prob": 1 },
+      { "group": "magical_reagents", "prob": 45, "count-min": 1, "count-max": 3 },
       {
         "distribution": [
           { "group": "enchanted_wands_lesser", "prob": 15 },
@@ -269,7 +379,10 @@
       { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 },
       { "item": "denarius", "prob": 40, "count-min": 2, "count-max": 5 },
       [ "cauldron_orichalcum", 10 ],
-      { "group": "tools_toolbox", "prob": 10 }
+      { "group": "tools_toolbox", "prob": 20 },
+      { "group": "magic_plants_common", "prob": 40, "count-min": 1, "count-max": 14 },
+      { "group": "magic_plants_uncommon", "prob": 20, "count-min": 1, "count-max": 8 },
+      { "group": "magic_plants_rare", "prob": 5, "count-min": 1, "count-max": 4 }
     ]
   },
   {
@@ -277,6 +390,9 @@
     "type": "item_group",
     "items": [
       { "group": "potions_common", "prob": 20 },
+      { "group": "potions_uncommon", "prob": 20 },
+      { "group": "potions_rare", "prob": 10 },
+      { "group": "potions_illegal", "prob": 10 },
       { "group": "enchanted_wands_lesser", "prob": 15 },
       { "group": "spellbook_loot_1", "prob": 35, "count": [ 1, 3 ] },
       { "group": "enchanted_rings_common", "prob": 20 },
@@ -406,6 +522,7 @@
       { "item": "mtorch_everburning", "prob": 100 },
       { "item": "mflask_hip_whiskey", "prob": 100 },
       { "item": "mtailors_kit", "prob": 100, "charges-min": 3, "charges-max": 24 },
+      { "item": "mteapot", "prob": 40 },
       { "item": "mspider_box", "prob": 100, "charges-min": 3, "charges-max": 24 },
       { "item": "cauldron_demon_chitin", "prob": 20 },
       { "item": "fridge_holding_1", "prob": 12 },
@@ -659,6 +776,8 @@
       { "item": "sword_xiphos_plus_one", "prob": 5 },
       { "item": "dao_plus_one", "prob": 5 },
       { "item": "lucerne_plus_one", "prob": 5 },
+      { "item": "cestus_plus_one", "prob": 5 },
+      { "item": "flaming_fist_plus_one", "prob": 5 },
       { "item": "gunblade", "prob": 5 }
     ]
   },
@@ -708,6 +827,8 @@
       { "item": "khopesh_plus_two", "prob": 5 },
       { "item": "sword_xiphos_plus_two", "prob": 5 },
       { "item": "lucerne_plus_two", "prob": 5 },
+      { "item": "cestus_plus_two", "prob": 5 },
+      { "item": "flaming_fist_plus_two", "prob": 5 },
       { "item": "dao_plus_two", "prob": 5 }
     ]
   },
@@ -829,6 +950,7 @@
         "distribution": [
           { "item": "tome_of_storms", "prob": 5 },
           { "item": "spell_scroll_storm_hammer", "prob": 50 },
+          { "item": "spell_scroll_stormfist", "prob": 35 },
           { "item": "spell_scroll_stormshaper_ionization", "prob": 50 },
           { "item": "lightning_storm_scroll", "prob": 10 }
         ],
@@ -841,7 +963,12 @@
     "//": "Reagents you'd use in crafting a wide variety of things, including alchemy and rituals.",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "item": "mercury", "prob": 15, "charges-min": 50 } ]
+    "items": [
+      { "item": "mercury", "prob": 15, "charges-min": 50 },
+      { "group": "magic_plants_common", "prob": 6 },
+      { "group": "magic_plants_uncommon", "prob": 3 },
+      { "group": "magic_plants_rare", "prob": 1 }
+    ]
   },
   {
     "id": "science",
@@ -902,14 +1029,14 @@
       {
         "distribution": [
           { "item": "spell_scroll_smite", "prob": 50 },
-          { "item": "spell_scroll_summon_zombie", "prob": 50 },
+          { "item": "spell_scroll_summon_undead", "prob": 50 },
           { "item": "spell_scroll_necrotic_gaze", "prob": 50 },
           { "item": "spell_scroll_summon_wisps", "prob": 50 }
         ],
         "prob": 45
       },
       {
-        "distribution": [ { "item": "priest_advanced", "prob": 10 }, { "item": "spell_scroll_summon_skeleton", "prob": 50 } ],
+        "distribution": [ { "item": "priest_advanced", "prob": 10 }, { "item": "spell_scroll_summon_undead", "prob": 50 } ],
         "prob": 35
       },
       {
@@ -917,7 +1044,7 @@
           { "item": "recovery_spellbook", "prob": 5 },
           { "item": "winter_grasp", "prob": 10 },
           { "item": "spell_scroll_recover_mana", "prob": 50 },
-          { "item": "spell_scroll_summon_decayed_pouncer", "prob": 50 },
+          { "item": "spell_scroll_summon_undead_swarm", "prob": 50 },
           { "item": "spell_scroll_recover_pain", "prob": 50 }
         ],
         "prob": 10
@@ -1054,7 +1181,8 @@
           { "item": "recovery_spellbook", "prob": 5 },
           { "item": "eshaper_spellbook", "prob": 10 },
           { "item": "spell_scroll_recover_stamina", "prob": 50 },
-          { "item": "spell_scroll_eshaper_shardstorm", "prob": 50 }
+          { "item": "spell_scroll_eshaper_shardstorm", "prob": 50 },
+          { "item": "spell_scroll_earthshaper_reveal_world_map", "prob": 25 }
         ],
         "prob": 10
       }
@@ -1128,7 +1256,8 @@
           { "item": "recovery_spellbook", "prob": 10 },
           { "item": "spell_scroll_recover_fatigue", "prob": 100 },
           { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
-          { "item": "spell_scroll_druidic_healing", "prob": 100 }
+          { "item": "spell_scroll_druidic_healing", "prob": 100 },
+          { "item": "spell_scroll_druid_bandage", "prob": 100 }
         ],
         "prob": 10
       }
@@ -1144,7 +1273,10 @@
       "items": [
         { "group": "enchanted_tokens_tool", "prob": 3 },
         { "group": "enchanted_tokens_weapon", "prob": 2 },
-        { "group": "potions_common", "prob": 12 }
+        { "group": "potions_common", "prob": 12 },
+        { "group": "potions_uncommon", "prob": 6 },
+        { "group": "potions_rare", "prob": 3 },
+        { "group": "potions_illegal", "prob": 1 }
       ]
     }
   },
@@ -1157,6 +1289,9 @@
       { "group": "enchanted_tokens_tool", "prob": 15 },
       { "group": "enchanted_tokens_weapon", "prob": 5 },
       { "group": "potions_common", "prob": 35 },
+      { "group": "potions_uncommon", "prob": 20 },
+      { "group": "potions_rare", "prob": 10 },
+      { "group": "potions_illegal", "prob": 1 },
       { "group": "spellcraft_books", "prob": 10 },
       {
         "distribution": [
@@ -1246,7 +1381,6 @@
       [ "alloy_plate", 1 ],
       [ "basket", 10 ],
       [ "mess_kit", 2 ],
-      [ "rock_pot", 100 ],
       [ "pot_makeshift", 100 ],
       [ "pot_makeshift_copper", 50 ],
       [ "pressure_cooker", 5 ],
@@ -1264,7 +1398,7 @@
     "id": "wood_fuel",
     "//": "fuel for a cookpot",
     "items": [
-      { "item": "charcoal", "count": [ 20, 75 ], "prob": 20 },
+      { "item": "charcoal", "count": [ 2, 5 ], "charges": [ 10, 50 ], "prob": 20 },
       { "item": "log", "count": [ 1, 3 ], "prob": 40 },
       { "item": "2x4", "count": [ 4, 8 ], "prob": 40 }
     ]
@@ -1291,7 +1425,7 @@
       [ "chisel", 90 ],
       [ "crucible", 30 ],
       [ "swage", 60 ],
-      [ "tongs", 90 ],
+      [ "metalworking_tongs", 90 ],
       [ "hammer", 90 ],
       [ "sandpaper", 90 ],
       [ "small_mana_crystal", 180 ]

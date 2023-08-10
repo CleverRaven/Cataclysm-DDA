@@ -13,7 +13,7 @@
     "symbol": "|",
     "color": "pink",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
     "use_action": [ "DOLLCHAT" ],
@@ -40,7 +40,7 @@
     "symbol": "|",
     "color": "pink",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
     "use_action": [ "DOLLCHAT" ],
@@ -57,18 +57,18 @@
     "type": "GENERIC",
     "id": "swimming_kickboard",
     "name": { "str": "swimming kickboard" },
-    "description": "A swimming kickboard, great training aid for the beach or the pool, if only they weren't full of jawed terrors and zombies.",
+    "description": "A swimming kickboard, would be a great training aid for the beach or the pool, if only they weren't full of zombies and mutant fish.",
     "volume": "3450 ml",
     "weight": "200 g",
     "longest_side": "37 cm",
     "price": "12 USD",
     "price_postapoc": 5,
-    "bashing": 4,
     "to_hit": -1,
     "color": "blue",
     "symbol": "/",
     "material": [ "plastic" ],
-    "flags": [ "NONCONDUCTIVE", "FLOTATION" ]
+    "flags": [ "NONCONDUCTIVE", "FLOTATION" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "shuttlecock",
@@ -91,7 +91,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "golf tee" },
-    "description": "A pin shaped piece of wood meant for holding a golf ball slightly off the ground.",
+    "description": "A pin-shaped piece of wood meant for holding a golf ball slightly off the ground.",
     "weight": "3 g",
     "volume": "250 ml",
     "longest_side": "70 mm",
@@ -106,7 +106,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "golf ball" },
-    "description": "A small ball with round indentations on it.",
+    "description": "A small, hard plastic ball with round indentations on it.",
     "weight": "46 g",
     "longest_side": "43 mm",
     "volume": "250 ml",
@@ -115,8 +115,8 @@
     "material": [ "plastic" ],
     "symbol": "*",
     "color": "white",
-    "bashing": 5,
-    "to_hit": -3
+    "to_hit": -3,
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "AMMO",
@@ -124,7 +124,7 @@
     "symbol": "*",
     "color": "blue",
     "name": { "str": "pool ball" },
-    "description": "A colorful, hard ball.  Essentially a rock.",
+    "description": "A colorful, hard plastic ball for playing games on a pool table.  Essentially a rock.",
     "category": "other",
     "price": 3000,
     "price_postapoc": 0,
@@ -134,13 +134,13 @@
     "weight": "170 g",
     "volume": "250 ml",
     "longest_side": "57 mm",
-    "bashing": 8,
     "damage": { "damage_type": "bash", "amount": 8 },
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -3,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -148,7 +148,7 @@
     "symbol": "*",
     "color": "blue",
     "name": { "str": "bowling ball" },
-    "description": "A large, heavy ball.  Before the apocalypse, its main purpose was to be rolled along waxed floors.",
+    "description": "A large, heavy ball with finger holes for better grip.  Before the apocalypse, its main purpose was to be rolled along waxed floors.",
     "category": "other",
     "price": 3000,
     "price_postapoc": 10,
@@ -156,8 +156,8 @@
     "weight": "7257 g",
     "volume": "5277 ml",
     "longest_side": "216 mm",
-    "bashing": 18,
-    "to_hit": -2
+    "to_hit": -2,
+    "melee_damage": { "bash": 18 }
   },
   {
     "type": "AMMO",
@@ -175,13 +175,13 @@
     "weight": "150 g",
     "volume": "250 ml",
     "longest_side": "75 mm",
-    "bashing": 6,
     "damage": { "damage_type": "bash", "amount": 6 },
     "range": 12,
     "dispersion": 12,
     "loudness": 0,
     "to_hit": 3,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -190,15 +190,15 @@
     "color": "brown",
     "name": { "str": "football" },
     "category": "other",
-    "description": "An oval made of leather and string, it's easily thrown but does little damage.  You could take it apart into leather if you wanted.",
+    "description": "An oval-shaped ball made of leather and string, it's easily thrown but does little damage.  You could take it apart into leather if you wanted.",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ { "type": "leather", "portion": 9 }, { "type": "rubber" } ],
     "weight": "400 g",
     "volume": "750 ml",
     "longest_side": "29 cm",
-    "bashing": 4,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -207,15 +207,15 @@
     "color": "brown",
     "name": { "str": "basketball" },
     "category": "other",
-    "description": "A high-quality, size 7 indoor basketball.  You may throw it at zombies.",
+    "description": "A high-quality, size 7 indoor basketball.",
     "price": 1200,
     "price_postapoc": 10,
     "material": [ "rubber" ],
     "weight": "800 g",
     "volume": "1 L",
     "longest_side": "239 mm",
-    "bashing": 6,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -231,8 +231,34 @@
     "weight": "260 g",
     "volume": "1 L",
     "longest_side": "26 cm",
-    "bashing": 4,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "type": "TOOL",
+    "id": "aim_game",
+    "//": "lazerlyte trainer target was used as a reference",
+    "symbol": "*",
+    "color": "white",
+    "name": { "str": "aim game target practice kit" },
+    "category": "other",
+    "description": "A collection of laser guns and targets designed to help you practice shooting.  The spot you 'hit' is displayed on the targets.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "plastic", "aluminum" ],
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_disposable_cell"
+      }
+    ],
+    "charges_per_use": 50,
+    "//2": "670 grams for the target with a bit extra for the generic laser + connectors",
+    "weight": "800 g",
+    "volume": "3500 ml"
   },
   {
     "type": "GENERIC",
@@ -248,8 +274,8 @@
     "weight": "280 g",
     "volume": "1 L",
     "longest_side": "27 cm",
-    "bashing": 4,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -265,8 +291,8 @@
     "weight": "170 g",
     "volume": "250 ml",
     "longest_side": "76 mm",
-    "bashing": 7,
-    "to_hit": 2
+    "to_hit": 2,
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
@@ -282,8 +308,8 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "longest_side": "180 cm",
-    "bashing": 18,
-    "to_hit": -2
+    "to_hit": -2,
+    "melee_damage": { "bash": 18 }
   },
   {
     "type": "TOOL",
@@ -299,10 +325,9 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "longest_side": "180 cm",
-    "bashing": 18,
     "to_hit": -2,
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "SINGLE_USE", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -319,6 +344,7 @@
       "difficulty": 0,
       "need_charges": 100,
       "moves": 20
-    }
+    },
+    "melee_damage": { "bash": 18 }
   }
 ]

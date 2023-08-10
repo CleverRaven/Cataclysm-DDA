@@ -1,5 +1,6 @@
 #include "point.h"
 
+#include <cmath>
 #include <algorithm>
 #include <sstream>
 #include <string>
@@ -35,6 +36,16 @@ point point::rotate( int turns, const point &dim ) const
     }
 
     return *this;
+}
+
+float point::distance( const point &rhs ) const
+{
+    return std::sqrt( static_cast<float>( std::pow( x - rhs.x, 2 ) + std::pow( y - rhs.y, 2 ) ) );
+}
+
+int point::distance_manhattan( const point &rhs ) const
+{
+    return std::abs( x - rhs.x ) + std::abs( y - rhs.y );
 }
 
 std::string point::to_string() const

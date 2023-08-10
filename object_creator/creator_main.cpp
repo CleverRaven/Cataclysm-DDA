@@ -55,8 +55,6 @@ struct cli_opts {
     int seed = time( nullptr );
     bool verifyexit = false;
     bool check_mods = false;
-    std::string dump;
-    dump_mode dmode = dump_mode::TSV;
     std::vector<std::string> opts;
     std::string world; /** if set try to load first save in this world on startup */
 };
@@ -110,10 +108,10 @@ int main( int argc, char *argv[] )
     PATH_INFO::set_standard_filenames();
 
     MAP_SHARING::setDefaults();
-    
+
     QSettings settings( QSettings::IniFormat, QSettings::UserScope,
-        "CleverRaven", "Cataclysm - DDA" );
-        
+                        "CleverRaven", "Cataclysm - DDA" );
+
 
     cli_opts cli;
 
@@ -126,10 +124,6 @@ int main( int argc, char *argv[] )
         g->load_static_data();
         if( cli.verifyexit ) {
             exit_handler( 0 );
-        }
-        if( !cli.dump.empty() ) {
-            init_colors();
-            exit( g->dump_stats( cli.dump, cli.dmode, cli.opts ) ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );
@@ -149,8 +143,7 @@ int main( int argc, char *argv[] )
     mods.push_back( mod_id( "dda" ) );
     if( settings.contains( "mods/include" ) ) {
         QStringList modlist = settings.value( "mods/include" ).value<QStringList>();
-        for( const QString& i : modlist )
-        {
+        for( const QString &i : modlist ) {
             mods.push_back( mod_id( i.toStdString() ) );
         }
     }

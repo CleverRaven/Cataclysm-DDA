@@ -16,6 +16,24 @@
     "entries": [ { "drop": "afs_titanium_implant", "type": "bionic", "flags": [ "FILTHY", "NO_STERILE" ], "max": 1 } ]
   },
   {
+    "id": "dissect_human_reaver",
+    "type": "harvest",
+    "entries": [
+      {
+        "drop": "bio_power_storage_salvaged",
+        "type": "bionic",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionics_reaver",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      }
+    ]
+  },
+  {
     "id": "dissect_CBM_CIV",
     "type": "harvest",
     "entries": [

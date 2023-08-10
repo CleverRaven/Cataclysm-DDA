@@ -1,0 +1,74 @@
+[
+  {
+    "id": "spacebar_separator",
+    "type": "widget",
+    "style": "text",
+    "label": "separator",
+    "clauses": [
+      {
+        "id": "light",
+        "text": "]>=---=---=---=< >=---=----=<>=----=---=< >=---=---=---=<[",
+        "color": "yellow",
+        "condition": { "and": [ { "math": [ "u_pain()", ">=", "3" ] }, { "math": [ "u_pain()", "<", "40" ] } ] }
+      },
+      {
+        "id": "mid",
+        "text": "]>=---=---=<>=---=<<>>=----=<>=----=<<>>=---=<>=---=---=<[",
+        "color": "light_red",
+        "condition": { "and": [ { "math": [ "u_pain()", ">=", "40" ] }, { "math": [ "u_pain()", "<", "60" ] } ] }
+      },
+      {
+        "id": "haevy",
+        "text": "]>=---=---=<>=---=<<>>=---=<<>>=---=<<>>=---=<>=---=---=<[",
+        "color": "red",
+        "condition": { "math": [ "u_pain()", ">=", "60" ] }
+      }
+    ],
+    "default_clause": { "text": "]>=---=---=---=---=---=---=----=---=---=---=---=---=---=<[", "color": "dark_gray" },
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "spacebar_separator_42",
+    "type": "widget",
+    "style": "text",
+    "clauses": [
+      {
+        "id": "light",
+        "text": "]>=---=---=---=---=<<>>=---=---=---=---=<[",
+        "color": "yellow",
+        "condition": { "and": [ { "math": [ "u_pain()", ">=", "3" ] }, { "math": [ "u_pain()", "<", "40" ] } ] }
+      },
+      {
+        "id": "mid",
+        "text": "]>=---=---=<<>>=----<>----=<<>>=---=---=<[",
+        "color": "light_red",
+        "condition": { "and": [ { "math": [ "u_pain()", ">=", "40" ] }, { "math": [ "u_pain()", "<", "60" ] } ] }
+      },
+      {
+        "id": "haevy",
+        "text": "]>=--=---=<<>>=---=<<>>=---=<<>>=---=--=<[",
+        "color": "red",
+        "condition": { "math": [ "u_pain()", ">=", "60" ] }
+      }
+    ],
+    "default_clause": { "text": "]>=---=---=---=---=----=---=---=---=---=<[", "color": "dark_gray" }
+  },
+  {
+    "id": "spacebar_separator_2",
+    "type": "widget",
+    "style": "text",
+    "string": "x",
+    "width": 2,
+    "height": 1,
+    "colors": [ "c_black" ]
+  },
+  {
+    "id": "spacebar_separator_4",
+    "type": "widget",
+    "style": "text",
+    "string": "x",
+    "width": 4,
+    "height": 1,
+    "colors": [ "c_black" ]
+  }
+]

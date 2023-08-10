@@ -565,6 +565,12 @@
         "condition": { "u_has_effect": "mabuff:buff_venom_snake_onhit" },
         "id": "buff_venom_snake_onhit",
         "text": "Viper's Rattle"
+      },
+      {
+        "//": "Kickboxing   -------------------------------------",
+        "condition": { "u_has_effect": "mabuff:buff_kickboxing_stance_static" },
+        "id": "buff_kickboxing_stance_static",
+        "text": "Kick stance"
       }
     ],
     "default_clause": { "text": "---" }

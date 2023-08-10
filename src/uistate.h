@@ -4,13 +4,13 @@
 
 #include <list>
 #include <map>
+#include <optional>
 #include <string>
 #include <vector>
 
 #include "enums.h"
 #include "flat_set.h"
 #include "json.h"
-#include "optional.h"
 #include "omdata.h"
 #include "type_id.h"
 
@@ -24,6 +24,8 @@ struct advanced_inv_pane_save_state {
         int selected_idx = 0;
 
         bool in_vehicle = false;
+        item_location container;
+        int container_base_loc;
 
         void serialize( JsonOut &json, const std::string &prefix ) const {
             json.member( prefix + "sort_idx", sort_idx );
@@ -31,6 +33,8 @@ struct advanced_inv_pane_save_state {
             json.member( prefix + "area_idx", area_idx );
             json.member( prefix + "selected_idx", selected_idx );
             json.member( prefix + "in_vehicle", in_vehicle );
+            json.member( prefix + "container", container );
+            json.member( prefix + "container_base_loc", container_base_loc );
         }
 
         void deserialize( const JsonObject &jo, const std::string &prefix ) {
@@ -39,6 +43,8 @@ struct advanced_inv_pane_save_state {
             jo.read( prefix + "area_idx", area_idx );
             jo.read( prefix + "selected_idx", selected_idx );
             jo.read( prefix + "in_vehicle", in_vehicle );
+            jo.read( prefix + "container", container );
+            jo.read( prefix + "container_base_loc", container_base_loc );
         }
 };
 
@@ -143,6 +149,10 @@ class uistatedata
         bool distraction_weather_change = true;
         bool distraction_hunger = true;
         bool distraction_thirst = true;
+        bool distraction_temperature = true;
+        bool distraction_mutation = true;
+        bool distraction_oxygen = true;
+        bool numpad_navigation = false;
 
         // V Menu Stuff
         int list_item_sort = 0;
@@ -171,6 +181,7 @@ class uistatedata
         // crafting gui
         std::set<recipe_id> hidden_recipes;
         std::set<recipe_id> favorite_recipes;
+        std::set<recipe_id> expanded_recipes;
         cata::flat_set<recipe_id> read_recipes;
         std::vector<recipe_id> recent_recipes;
 
@@ -198,7 +209,7 @@ class uistatedata
 
         // nice little convenience function for serializing an array, regardless of amount. :^)
         template<typename T>
-        void serialize_array( JsonOut &json, std::string name, T &data ) const {
+        void serialize_array( JsonOut &json, const std::string_view name, T &data ) const {
             json.member( name );
             json.start_array();
             for( const auto &d : data ) {

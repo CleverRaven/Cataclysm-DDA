@@ -8,7 +8,6 @@
     "weight": "1000 g",
     "volume": "250 ml",
     "price": 2500,
-    "bashing": 12,
     "to_hit": -4,
     "stack_size": 2,
     "//": "Density 7.60g/cm³ ~ 1.9kg/250ml @ 1000g/unit ~ stack 2 and formed as a solid ingot so 100% of this",
@@ -16,7 +15,8 @@
     "symbol": ",",
     "color": "light_green",
     "ammo_type": "components",
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "orichalcum_sliver",
@@ -27,7 +27,6 @@
     "weight": "250 g",
     "volume": "250 ml",
     "price": 1000,
-    "bashing": 8,
     "to_hit": -2,
     "stack_size": 4,
     "//": "Density 7.60g/cm³ ~ 1.9kg/250ml @ 250g/unit ~ stack 8 but mishapen so only 50% of this",
@@ -35,7 +34,8 @@
     "symbol": ",",
     "color": "light_green",
     "ammo_type": "components",
-    "qualities": [ [ "CUT", 1 ] ]
+    "qualities": [ [ "CUT", 1 ] ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "orichalcum_ingot",
@@ -47,11 +47,11 @@
     "weight": "2 kg",
     "volume": "253 ml",
     "price": 6399,
-    "bashing": 6,
     "to_hit": -3,
     "material": [ "orichalcum_metal" ],
     "symbol": "=",
-    "color": "light_green"
+    "color": "light_green",
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "mithril_lump",
@@ -62,14 +62,14 @@
     "weight": "675 g",
     "volume": "250 ml",
     "price": 2500,
-    "bashing": 12,
     "to_hit": -4,
     "stack_size": 2,
     "material": [ "mithril_metal" ],
     "symbol": ",",
     "color": "light_blue",
     "ammo_type": "components",
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "mithril_ingot",
@@ -81,10 +81,10 @@
     "weight": "683 g",
     "volume": "253 ml",
     "price": 6399,
-    "bashing": 6,
     "to_hit": -3,
     "material": [ "mithril_metal" ],
     "symbol": "=",
-    "color": "light_blue"
+    "color": "light_blue",
+    "melee_damage": { "bash": 6 }
   }
 ]

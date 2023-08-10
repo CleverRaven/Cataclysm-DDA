@@ -37,6 +37,7 @@
     "id": "test_npc_trader_class",
     "name": "test_npc_trader",
     "job_description": "I am testing bugs",
+    "sells_belongings": false,
     "shopkeeper_consumption_rates": "test_shop_rates",
     "shopkeeper_item_group": [
       { "group": "test_event_item_spawn" },
@@ -51,6 +52,14 @@
       }
     ],
     "shopkeeper_blacklist": "test_blacklist",
+    "shopkeeper_price_rules": [
+      {
+        "item": "test_pants_fur",
+        "markup": -100,
+        "condition": { "npc_has_var": "vegan", "type": "bool", "context": "preference", "value": "yes" }
+      },
+      { "item": "battery", "price": 100 }
+    ],
     "restock_interval": "99 days"
   },
   {

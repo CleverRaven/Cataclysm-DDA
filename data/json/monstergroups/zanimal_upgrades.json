@@ -31,6 +31,16 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_HORSE_UPGRADE",
+    "monsters": [
+      { "monster": "mon_zombie_horse_white", "weight": 250, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_horse_red", "weight": 250, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_horse_black", "weight": 250, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_horse_pale", "weight": 250, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_ZOMBEAR_UPGRADE",
     "default": "mon_zombear_skeleton",
     "//": "No bionics or fungal",

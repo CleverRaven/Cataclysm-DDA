@@ -259,7 +259,7 @@
       { "item": "evac_pamphlet", "prob": 15 },
       { "group": "games_basic", "prob": 15, "count": [ 1, 2 ] },
       { "item": "paper", "prob": 20, "count": [ 1, 3 ] },
-      { "item": "pencil", "prob": 20, "count": [ 1, 5 ] }
+      { "item": "pencil", "prob": 20, "count": [ 1, 5 ], "charges": [ 1, 100 ] }
     ]
   },
   {
@@ -273,7 +273,7 @@
       { "item": "evac_pamphlet", "prob": 15 },
       { "group": "games_basic", "prob": 8 },
       { "item": "paper", "prob": 10, "count": [ 1, 2 ] },
-      { "item": "pencil", "prob": 10, "count": [ 1, 2 ] }
+      { "item": "pencil", "prob": 10, "count": [ 1, 2 ], "charges": [ 1, 100 ] }
     ]
   },
   {

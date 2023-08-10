@@ -34,6 +34,29 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_wp_demihuman",
+    "category": "prof_weakpoint",
+    "name": { "str": "Principles of Near Human Biology" },
+    "description": "Very basic familiarity with various types of demihuman creatures.",
+    "can_learn": true,
+    "time_to_learn": "6 h",
+    "required_proficiencies": [ "prof_intro_biology" ],
+    "default_weakpoint_bonus": 2,
+    "default_weakpoint_penalty": 0
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_amalgamation",
+    "category": "prof_weakpoint",
+    "name": { "str": "Anatomy of Amalgamations" },
+    "description": "You are familiar with the common anatomy of these purpose-built abominations, as far as they have one.",
+    "can_learn": true,
+    "time_to_learn": "20 h",
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": -2
+  },
+  {
+    "type": "proficiency",
     "id": "prof_wp_syn_armored",
     "category": "prof_weakpoint",
     "name": { "str": "Synthetic Armors" },
@@ -48,7 +71,7 @@
     "id": "prof_wp_nat_armored",
     "category": "prof_weakpoint",
     "name": { "str": "Natural Armors" },
-    "description": "You're somewhat familiar with naturally armored creatures.  You're able to find openings in certain kinds of hardened shells.",
+    "description": "You're somewhat familiar with naturally armored creatures.  You're able to find openings in certain kinds of hardened shells and thick hides.",
     "can_learn": true,
     "time_to_learn": "8 h",
     "default_weakpoint_bonus": 4,
@@ -64,6 +87,18 @@
     "time_to_learn": "19 h",
     "default_weakpoint_bonus": 4,
     "default_weakpoint_penalty": -4
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_basic_bird",
+    "category": "prof_weakpoint",
+    "name": { "str": "Bird Biology" },
+    "description": "Basic familiarity with various types of birds.",
+    "can_learn": true,
+    "time_to_learn": "8 h",
+    "required_proficiencies": [ "prof_intro_biology" ],
+    "default_weakpoint_bonus": 1,
+    "default_weakpoint_penalty": 0
   },
   {
     "type": "proficiency",
@@ -164,8 +199,8 @@
     "type": "proficiency",
     "id": "prof_wp_hulk",
     "category": "prof_weakpoint",
-    "name": { "str": "Large Humanoids" },
-    "description": "You have some practice in fighting large hulking humanoids.  You're better at reaching certain weak points.",
+    "name": { "str": "Giant Humanoids" },
+    "description": "You have some practice in fighting large, hulking humanoids.  You're better at reaching certain weak points.",
     "can_learn": true,
     "time_to_learn": "6 h",
     "required_proficiencies": [ "prof_intro_biology" ],

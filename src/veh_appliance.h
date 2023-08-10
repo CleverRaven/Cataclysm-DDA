@@ -11,7 +11,7 @@ struct point;
 
 vpart_id vpart_appliance_from_item( const itype_id &item_id );
 void place_appliance( const tripoint &p, const vpart_id &vpart,
-                      const cata::optional<item> &base = cata::nullopt );
+                      const std::optional<item> &base = std::nullopt );
 
 /**
  * Appliance interaction UI. Works similarly to veh_interact, but has
@@ -99,6 +99,12 @@ class veh_app_interact
         */
         bool can_siphon();
         /**
+         * Checks whether the current appliance has any power connections that
+         * can be disconnected by the player.
+         * @returns True if the appliance can be unplugged.
+        */
+        bool can_unplug();
+        /**
          * Function associated with the "REFILL" action.
          * Checks all appliance parts for a watertight container to refill. If multiple
          * parts are eligible, the player is prompted to select one. A refill activity
@@ -123,6 +129,11 @@ class veh_app_interact
          * Turns the installed appliance into its base item.
         */
         void remove();
+        /**
+        * Function associated with the "PLUG" action.
+        * Connects the power cable to selected tile.
+        */
+        void plug();
         /**
          * The main loop of the appliance UI. Redraws windows, checks for input, and
          * performs selected actions. The loop exits once an activity is assigned

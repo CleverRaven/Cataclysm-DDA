@@ -10,12 +10,16 @@ from .parsers.clothing_mod import parse_clothing_mod
 from .parsers.construction import parse_construction
 from .parsers.construction_category import parse_construction_category
 from .parsers.construction_group import parse_construction_group
+from .parsers.damage_info_order import parse_damage_info_order
+from .parsers.damage_type import parse_damage_type
 from .parsers.dream import parse_dream
 from .parsers.effect_on_condition import parse_effect_on_condition
 from .parsers.effect_type import parse_effect_type
+from .parsers.enchant import parse_enchant
 from .parsers.event_statistic import parse_event_statistic
 from .parsers.faction import parse_faction
 from .parsers.fault import parse_fault
+from .parsers.fault_fix import parse_fault_fix
 from .parsers.field_type import parse_field_type
 from .parsers.furniture import parse_furniture
 from .parsers.gate import parse_gate
@@ -33,6 +37,7 @@ from .parsers.loot_zone import parse_loot_zone
 from .parsers.map_extra import parse_map_extra
 from .parsers.mapgen import parse_mapgen
 from .parsers.mutation import parse_mutation
+from .parsers.nested_category import parse_nested_category
 from .parsers.npc import parse_npc
 from .parsers.npc_class import parse_npc_class
 from .parsers.option_slider import parse_option_slider
@@ -102,12 +107,12 @@ parsers = {
     "behavior": dummy_parser,
     "bionic": parse_bionic,
     "bionic_item": parse_generic,
+    "bionic_migration": dummy_parser,
     "body_graph": dummy_parser,
     "body_part": parse_body_part,
     "book": parse_generic,
     "butchery_requirement": dummy_parser,
     "character_mod": parse_character_mod,
-    "charge_migration_blacklist": dummy_parser,
     "charge_removal_blacklist": dummy_parser,
     "city": parse_city,
     "city_building": dummy_parser,
@@ -115,21 +120,25 @@ parsers = {
     "comestible": parse_generic,
     "colordef": dummy_parser,
     "conduct": parse_achievement,
+    "connect_group": dummy_parser,
     "construction": parse_construction,
     "construction_category": parse_construction_category,
     "construction_group": parse_construction_group,
+    "damage_info_order": parse_damage_info_order,
+    "damage_type": parse_damage_type,
     "dream": parse_dream,
     "disease_type": dummy_parser,
     "effect_on_condition": parse_effect_on_condition,
     "effect_type": parse_effect_type,
     "emit": dummy_parser,
-    "enchantment": dummy_parser,
+    "enchantment": parse_enchant,
     "engine": parse_generic,
     "event_statistic": parse_event_statistic,
     "event_transformation": dummy_parser,
     "external_option": dummy_parser,
     "faction": parse_faction,
     "fault": parse_fault,
+    "fault_fix": parse_fault_fix,
     "field_type": parse_field_type,
     "furniture": parse_furniture,
     "gate": parse_gate,
@@ -144,6 +153,7 @@ parsers = {
     "item_category": parse_item_category,
     "item_blacklist": dummy_parser,
     "item_group": dummy_parser,
+    "jmath_function": dummy_parser,
     "json_flag": parse_json_flag,
     "keybinding": parse_keybinding,
     "limb_score": parse_limb_score,
@@ -162,6 +172,7 @@ parsers = {
     "monster_attack": parse_monster_attack,
     "monster_blacklist": dummy_parser,
     "monster_faction": dummy_parser,
+    "monster_flag": dummy_parser,
     "monster_whitelist": dummy_parser,
     "monstergroup": dummy_parser,
     "mood_face": dummy_parser,
@@ -170,9 +181,10 @@ parsers = {
     "mutation": parse_mutation,
     "mutation_category": parse_mutation_category,
     "mutation_type": dummy_parser,
+    "nested_category": parse_nested_category,
     "npc": parse_npc,
     "npc_class": parse_npc_class,
-    "obsolete_terrain": dummy_parser,
+    "oter_id_migration": dummy_parser,
     "option_slider": parse_option_slider,
     "overlay_order": dummy_parser,
     "overmap_connection": dummy_parser,
@@ -216,6 +228,7 @@ parsers = {
     "sub_body_part": parse_sub_body_part,
     "talk_topic": parse_talk_topic,
     "technique": parse_technique,
+    "temperature_removal_blacklist": dummy_parser,
     "ter_furn_transform": parse_ter_furn_transform,
     "terrain": parse_terrain,
     "trait_blacklist": dummy_parser,
@@ -227,10 +240,12 @@ parsers = {
     "tool_quality": parse_tool_quality,
     "toolmod": parse_generic,
     "uncraft": dummy_parser,
+    "var_migration": dummy_parser,
     "vehicle": parse_vehicle,
     "vehicle_group": dummy_parser,
     "vehicle_part": parse_vehicle_part,
     "vehicle_part_category": parse_vehicle_part_category,
+    "vehicle_part_migration": dummy_parser,
     "vehicle_placement": dummy_parser,
     "vehicle_spawn": parse_vehicle_spawn,
     "vitamin": parse_vitamin,

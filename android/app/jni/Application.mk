@@ -2,9 +2,9 @@
 
 # See CPLUSPLUS-SUPPORT.html in the NDK documentation for more information
 APP_STL := c++_shared
-APP_CPPFLAGS += -std=c++14
+APP_CPPFLAGS += -std=c++17
 ifneq ($(OS),Windows_NT)
-    APP_LDFLAGS += -fuse-ld=gold
+    APP_LDFLAGS += -fuse-ld=lld
 endif
 
 # Do not specify APP_OPTIM here, it is done through ndk-build NDK_DEBUG=0/1 setting instead

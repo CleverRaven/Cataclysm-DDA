@@ -55,6 +55,7 @@
       { "monster": "mon_big_rat", "weight": 320 },
       { "monster": "mon_zap_rat", "weight": 280 },
       { "monster": "mon_tunnel_rat", "weight": 180 },
+      { "monster": "mon_pack_rat", "weight": 170 },
       { "monster": "mon_teke_mouse", "weight": 160 },
       { "monster": "mon_mausketeer", "weight": 90 }
     ]

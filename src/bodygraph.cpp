@@ -60,7 +60,7 @@ void bodygraph::check_all()
     bodygraph_factory.check();
 }
 
-void bodygraph::load( const JsonObject &jo, const std::string & )
+void bodygraph::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "parent_bodypart", parent_bp );
     optional( jo, was_loaded, "fill_sym", fill_sym );
@@ -73,11 +73,21 @@ void bodygraph::load( const JsonObject &jo, const std::string & )
         mandatory( jo, false, "mirror", mirror );
     } else if( !was_loaded || jo.has_array( "rows" ) ) {
         rows.clear();
+        fill_rows.clear();
         for( const JsonValue jval : jo.get_array( "rows" ) ) {
             if( !jval.test_string() ) {
                 jval.throw_error( "\"rows\" array must contain string values." );
             } else {
                 rows.emplace_back( utf8_display_split( jval.get_string() ) );
+            }
+        }
+        if( jo.has_array( "fill_rows" ) ) {
+            for( const JsonValue jval : jo.get_array( "fill_rows" ) ) {
+                if( !jval.test_string() ) {
+                    jval.throw_error( "\"rows\" array must contain string values." );
+                } else {
+                    fill_rows.emplace_back( utf8_display_split( jval.get_string() ) );
+                }
             }
         }
     }
@@ -109,9 +119,16 @@ void bodygraph::finalize()
                   BPGRAPH_MAXROWS );
     }
 
+    if( !fill_rows.empty() &&  fill_rows.size() != rows.size() ) {
+        debugmsg( "body_graph \"%s\" defines a different number of fill_rows than rows (%d vs. %d).",
+                  id.c_str(),
+                  fill_rows.size(), rows.size() );
+    }
+
     int width = -1;
     bool w_warned = false;
-    for( std::vector<std::string> &r : rows ) {
+    for( size_t i = 0; i < rows.size(); i++ ) {
+        std::vector<std::string> &r = rows[i];
         int w = r.size();
         if( width == -1 ) {
             width = w;
@@ -123,20 +140,39 @@ void bodygraph::finalize()
                       BPGRAPH_MAXCOLS );
             w_warned = true;
         }
+
         r.insert( r.begin(), ( BPGRAPH_MAXCOLS - w ) / 2, " " );
         r.insert( r.end(), BPGRAPH_MAXCOLS - r.size(), " " );
+
+        if( ! fill_rows.empty() ) {
+            std::vector<std::string> &fr = fill_rows[i];
+            if( fr.size() != r.size() ) {
+                debugmsg( "body_graph \"%s\" defines a different number of columns in fill_rows than in rows (%d vs. %d).",
+                          id.c_str(),
+                          fr.size(), w );
+            }
+            fr.insert( fr.begin(), ( BPGRAPH_MAXCOLS - w ) / 2, " " );
+            fr.insert( fr.end(), BPGRAPH_MAXCOLS - fr.size(), " " );
+        }
+
     }
 
-    for( int i = ( BPGRAPH_MAXROWS - rows.size() ) / 2; i > 0; i-- ) {
-        std::vector<std::string> r;
-        r.insert( r.begin(), BPGRAPH_MAXCOLS, " " );
-        rows.insert( rows.begin(), r );
-    }
+    for( std::vector<std::vector<std::string>> temp_rows : {
+             rows, fill_rows
+         } ) {
+        if( !temp_rows.empty() ) {
+            for( int i = ( BPGRAPH_MAXROWS - temp_rows.size() ) / 2; i > 0; i-- ) {
+                std::vector<std::string> r;
+                r.insert( r.begin(), BPGRAPH_MAXCOLS, " " );
+                temp_rows.insert( temp_rows.begin(), r );
+            }
 
-    for( int i = rows.size(); i <= BPGRAPH_MAXROWS; i++ ) {
-        std::vector<std::string> r;
-        r.insert( r.begin(), BPGRAPH_MAXCOLS, " " );
-        rows.emplace_back( r );
+            for( int i = temp_rows.size(); i <= BPGRAPH_MAXROWS; i++ ) {
+                std::vector<std::string> r;
+                r.insert( r.begin(), BPGRAPH_MAXCOLS, " " );
+                temp_rows.emplace_back( r );
+            }
+        }
     }
 }
 
@@ -174,8 +210,6 @@ void bodygraph::check() const
 
 */
 
-#define BPGRAPH_HEIGHT 24
-
 using part_tuple =
     std::tuple<bodypart_id, const sub_body_part_type *, const bodygraph_part *, bool>;
 
@@ -197,6 +231,8 @@ struct bodygraph_display {
     std::vector<part_tuple> partlist;
     bodygraph_info info;
     std::vector<std::string> info_txt;
+    int all_height = 0;
+    int all_width = 0;
     int partlist_width = 0;
     int info_width = 0;
     int sel_part = 0;
@@ -227,7 +263,8 @@ bodygraph_display::bodygraph_display( const Character *u, const bodygraph_id &id
         this->id = bodygraph_full_body;
     }
 
-    ctxt.register_directions();
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
     ctxt.register_action( "SCROLL_INFOBOX_UP" );
     ctxt.register_action( "SCROLL_INFOBOX_DOWN" );
     ctxt.register_action( "PAGE_UP" );
@@ -240,28 +277,33 @@ void bodygraph_display::init_ui_windows()
 {
     partlist_width = 18;
     info_width = 18;
-    int avail_w = clamp( TERMX - ( BPGRAPH_MAXCOLS + 40 ), 0, 20 );
-    for( int i = avail_w; i > 0; i-- ) {
+    all_height = clamp( BPGRAPH_MAXROWS + 24, 0, TERMY );
+
+    int base_width = BPGRAPH_MAXCOLS + partlist_width + info_width + 4;
+    all_width = clamp( base_width + 40, 0, TERMX );
+    // distribute extra horizontal space to the parts/info columns
+    for( int i = base_width; i < all_width; i++ ) {
         if( i % 4 == 0 ) {
             partlist_width++;
         } else {
             info_width++;
         }
     }
-    int total_w = partlist_width + info_width + BPGRAPH_MAXCOLS + 4;
-    point top_left( TERMX / 2 - total_w / 2, TERMY / 2 - BPGRAPH_HEIGHT / 2 );
 
-    w_border = catacurses::newwin( BPGRAPH_HEIGHT, total_w, top_left );
+    point top_left( TERMX / 2 - all_width / 2, TERMY / 2 - all_height / 2 );
+
+    w_border = catacurses::newwin( all_height, all_width, top_left );
     //NOLINTNEXTLINE(cata-use-named-point-constants)
-    w_partlist = catacurses::newwin( BPGRAPH_HEIGHT - 2, partlist_width, top_left + point( 1, 1 ) );
+    w_partlist = catacurses::newwin( all_height - 2, partlist_width, top_left + point( 1, 1 ) );
+    int graph_vpad = clamp<int>( ( ( all_height - 3 ) - BPGRAPH_MAXROWS ) / 2, 0, all_height );
     w_graph = catacurses::newwin( BPGRAPH_MAXROWS, BPGRAPH_MAXCOLS,
-                                  top_left + point( 2 + partlist_width, 2 ) );
-    w_info = catacurses::newwin( BPGRAPH_HEIGHT - 2, info_width,
+                                  top_left + point( 2 + partlist_width, graph_vpad + 2 ) );
+    w_info = catacurses::newwin( all_height - 2, info_width,
                                  top_left + point( 3 + partlist_width + BPGRAPH_MAXCOLS, 1 ) );
 
     bh_borders = border_helper();
-    bh_borders.add_border().set( top_left, { total_w, BPGRAPH_HEIGHT } );
-    bh_borders.add_border().set( top_left + point( partlist_width + 1, 0 ), { BPGRAPH_MAXCOLS + 2, BPGRAPH_HEIGHT } );
+    bh_borders.add_border().set( top_left, { all_width, all_height } );
+    bh_borders.add_border().set( top_left + point( partlist_width + 1, 0 ), { BPGRAPH_MAXCOLS + 2, all_height } );
 }
 
 void bodygraph_display::draw_borders()
@@ -269,7 +311,7 @@ void bodygraph_display::draw_borders()
     bh_borders.draw_border( w_border, c_white );
 
     const int first_win_width = partlist_width;
-    auto center_txt_start = [&first_win_width]( const std::string & txt ) {
+    auto center_txt_start = [&first_win_width]( const std::string_view txt ) {
         return 2 + first_win_width + ( BPGRAPH_MAXCOLS / 2 - utf8_width( txt, true ) / 2 );
     };
 
@@ -292,16 +334,16 @@ void bodygraph_display::draw_borders()
     .offset_y( 1 )
     .content_size( partlist.size() )
     .viewport_pos( top_part )
-    .viewport_size( BPGRAPH_HEIGHT - 2 )
+    .viewport_size( all_height - 2 )
     .apply( w_border );
 
     scrollbar()
     .border_color( c_white )
-    .offset_x( 3 + partlist_width + BPGRAPH_MAXCOLS + info_width )
+    .offset_x( all_width - 1 )
     .offset_y( 1 )
     .content_size( info_txt.size() )
     .viewport_pos( top_info )
-    .viewport_size( BPGRAPH_HEIGHT - 2 )
+    .viewport_size( all_height - 2 )
     .apply( w_border );
 
     wnoutrefresh( w_border );
@@ -311,7 +353,7 @@ void bodygraph_display::draw_partlist()
 {
     werase( w_partlist );
     int y = 0;
-    for( int i = top_part; y < BPGRAPH_HEIGHT - 2 && i < static_cast<int>( partlist.size() ); i++ ) {
+    for( int i = top_part; y < all_height - 2 && i < static_cast<int>( partlist.size() ); i++ ) {
         const auto bgt = partlist[i];
         std::string txt = !std::get<1>( bgt ) ?
                           std::get<0>( bgt )->name.translated() :
@@ -358,7 +400,7 @@ void bodygraph_display::draw_info()
     werase( w_info );
     if( std::get<3>( partlist[sel_part] ) ) {
         int y = 0;
-        for( unsigned i = top_info; i < info_txt.size() && y < BPGRAPH_HEIGHT - 2; i++, y++ ) {
+        for( unsigned i = top_info; i < info_txt.size() && y < all_height - 2; i++, y++ ) {
             if( info_txt[i] == "--" ) {
                 for( int x = 1; x < info_width - 2; x++ ) {
                     mvwputch( w_info, point( x, y ), c_dark_gray, LINE_OXOX );
@@ -376,12 +418,12 @@ void bodygraph_display::prepare_partlist()
     partlist.clear();
     for( const auto &bgp : id->parts ) {
         for( const bodypart_id &bid : bgp.second.bodyparts ) {
-            partlist.emplace_back( std::make_tuple( bid, static_cast<const sub_body_part_type *>( nullptr ),
-                                                    &bgp.second, u->has_part( bid ) ) );
+            partlist.emplace_back( bid, static_cast<const sub_body_part_type *>( nullptr ),
+                                   &bgp.second, u->has_part( bid, body_part_filter::equivalent ) );
         }
         for( const sub_bodypart_id &sid : bgp.second.sub_bodyparts ) {
             const bodypart_id bid = sid->parent.id();
-            partlist.emplace_back( std::make_tuple( bid, &*sid, &bgp.second, u->has_part( bid ) ) );
+            partlist.emplace_back( bid, &*sid, &bgp.second, u->has_part( bid, body_part_filter::equivalent ) );
         }
     }
     std::sort( partlist.begin(), partlist.end(),
@@ -446,12 +488,12 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     info_txt.emplace_back( string_format( "%s: %s", colorize( _( "Health" ), c_magenta ),
                                           colorize( hpbar.first, hpbar.second ) ) );
     // part wetness
-    info_txt.emplace_back( string_format( "%s: %.2f%%", colorize( _( "Wetness" ), c_magenta ),
-                                          info.wetness ) );
+    info_txt.emplace_back( string_format( "%s: %d%%", colorize( _( "Wetness" ), c_magenta ),
+                                          static_cast<int>( info.wetness * 100.0f ) ) );
     // part temperature
     const bool temp_precise = u->has_item_with_flag( STATIC( flag_id( "THERMOMETER" ) ) ) ||
                               u->has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) );
-    const int temp = info.temperature.first / 100.0 * 2; // farenheit
+    const units::temperature temp = units::from_fahrenheit( info.temperature.first / 50.0 );
     info_txt.emplace_back( string_format( "%s: %s", colorize( _( "Body temp" ), c_magenta ),
                                           temp_precise ? colorize( print_temperature( temp ),
                                                   info.temperature.second ) : info.temp_approx ) );
@@ -460,9 +502,9 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     info_txt.emplace_back( string_format( "%s:", colorize( _( "Effects" ), c_magenta ) ) );
     for( const effect &eff : info.effects ) {
         if( eff.get_id()->is_show_in_info() ) {
-            effect_rating rt = eff.get_id()->get_rating();
+            game_message_type rt = eff.get_id()->get_rating( eff.get_intensity() );
             info_txt.emplace_back( string_format( "  %s", colorize( eff.disp_name(),
-                                                  rt == e_good ? c_green : rt == e_bad ? c_red : c_yellow ) ) );
+                                                  rt == m_good ? c_green : rt == m_bad ? c_red : c_yellow ) ) );
         }
     }
     info_txt.emplace_back( "--" );
@@ -489,7 +531,7 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     int wavail = clamp( ( info_width - 2 ) - utf8_width( prot_legend, true ), 0, info_width - 2 );
     prot_legend.insert( prot_legend.begin(), wavail > 4 ? 4 : wavail, ' ' );
     info_txt.emplace_back( prot_legend );
-    auto get_res_str = [&]( damage_type dt ) -> std::string {
+    auto get_res_str = [&]( const damage_type_id & dt ) -> std::string {
         const std::string wval = string_format( info_width <= 18 ? "%4.1f" : "%5.2f", info.worst_case.type_resist( dt ) );
         const std::string mval = string_format( info_width <= 18 ? "%4.1f" : "%5.2f", info.median_case.type_resist( dt ) );
         const std::string bval = string_format( info_width <= 18 ? "%4.1f" : "%5.2f", info.best_case.type_resist( dt ) );
@@ -498,29 +540,14 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
         txt.insert( txt.begin(), res_avail > 4 ? 4 : res_avail, ' ' );
         return txt;
     };
-    info_txt.emplace_back( string_format( "  %s:", _( "Bash" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::BASH ) );
-    info_txt.emplace_back( string_format( "  %s:", _( "Cut" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::CUT ) );
-    info_txt.emplace_back( string_format( "  %s:", _( "Pierce" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::STAB ) );
-    info_txt.emplace_back( string_format( "  %s:", _( "Ballistic" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::BULLET ) );
-    info_txt.emplace_back( string_format( "  %s:", _( "Acid" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::ACID ) );
-    info_txt.emplace_back( string_format( "  %s:", _( "Fire" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::HEAT ) );
-    if( info.best_case.type_resist( damage_type::COLD ) > 1 ) {
-        info_txt.emplace_back( string_format( "  %s:", _( "Endothermic" ) ) );
-        info_txt.emplace_back( get_res_str( damage_type::COLD ) );
-    }
-    if( info.best_case.type_resist( damage_type::ELECTRIC ) > 1 ) {
-        info_txt.emplace_back( string_format( "  %s:", _( "Electrical" ) ) );
-        info_txt.emplace_back( get_res_str( damage_type::ELECTRIC ) );
-    }
-    if( info.best_case.type_resist( damage_type::BIOLOGICAL ) > 1 ) {
-        info_txt.emplace_back( string_format( "  %s:", _( "Biological" ) ) );
-        info_txt.emplace_back( get_res_str( damage_type::BIOLOGICAL ) );
+    auto get_env_str = [&]( const damage_type_id & dt ) -> std::string {
+        return colorize( string_format( "    %5.2f", info.best_case.type_resist( dt ) ), c_white );
+    };
+    for( const damage_type &dt : damage_type::get_all() ) {
+        if( info.best_case.type_resist( dt.id ) > 1 ) {
+            info_txt.emplace_back( string_format( "  %s:", uppercase_first_letter( dt.name.translated() ) ) );
+            info_txt.emplace_back( dt.env ? get_env_str( dt.id ) : get_res_str( dt.id ) );
+        }
     }
 }
 
@@ -568,32 +595,22 @@ void bodygraph_display::display()
                     prepare_infolist();
                 }
             }
-        } else if( action == "UP" ) {
-            sel_part--;
-            if( sel_part < 0 ) {
-                sel_part = partlist.size() - 1;
-            }
-            prepare_infolist();
-        } else if( action == "DOWN" ) {
-            sel_part++;
-            if( sel_part >= static_cast<int>( partlist.size() ) ) {
-                sel_part = 0;
-            }
-            prepare_infolist();
         } else if( action == "SCROLL_INFOBOX_UP" || action == "PAGE_UP" ) {
             top_info--;
         } else if( action == "SCROLL_INFOBOX_DOWN" || action == "PAGE_DOWN" ) {
             top_info++;
+        } else if( navigate_ui_list( action, sel_part, 3, partlist.size(), true ) ) {
+            prepare_infolist();
         }
-        if( info_txt.size() >= BPGRAPH_HEIGHT - 2 ) {
-            top_info = clamp( top_info, 0, static_cast<int>( info_txt.size() ) - ( BPGRAPH_HEIGHT - 2 ) );
+        if( static_cast<int>( info_txt.size() ) >= all_height - 2 ) {
+            top_info = clamp( top_info, 0, static_cast<int>( info_txt.size() ) - ( all_height - 2 ) );
         } else {
             top_info = 0;
         }
         if( sel_part < top_part ) {
             top_part = sel_part;
-        } else if( sel_part >= top_part + ( BPGRAPH_HEIGHT - 2 ) ) {
-            top_part = sel_part - ( BPGRAPH_HEIGHT - 3 );
+        } else if( sel_part >= top_part + ( all_height - 2 ) ) {
+            top_part = sel_part - ( all_height - 3 );
         }
     }
 }
@@ -613,7 +630,7 @@ std::vector<std::string> get_bodygraph_lines( const Character &u,
     std::vector<std::string> ret;
 
     // Bodypart not present on character
-    if( !!id->parent_bp && !u.has_part( *id->parent_bp ) ) {
+    if( !!id->parent_bp && !u.has_part( *id->parent_bp, body_part_filter::equivalent ) ) {
         std::string txt = string_format( u.is_avatar() ?
                                          //~ 1$ = 2nd person pronoun (You), 2$ = body part (left arm)
                                          _( "%1$s do not have a %2$s." ) :
@@ -625,7 +642,7 @@ std::vector<std::string> get_bodygraph_lines( const Character &u,
                 txt.insert( txt.begin(), center_text_pos( txt, 0, width ), ' ' );
                 ret.emplace_back( colorize( txt, c_light_red ) );
             } else {
-                ret.emplace_back( std::string( width, ' ' ) );
+                ret.emplace_back( width, ' ' );
             }
         }
         return ret;
@@ -644,16 +661,16 @@ std::vector<std::string> get_bodygraph_lines( const Character &u,
                 bgp = &iter->second;
                 bool missing_section = true;
                 for( const bodypart_id &bp : iter->second.bodyparts ) {
-                    if( u.has_part( bp ) ) {
+                    if( u.has_part( bp, body_part_filter::equivalent ) ) {
                         missing_section = false;
                     }
                 }
                 for( const sub_bodypart_id &sp : iter->second.sub_bodyparts ) {
-                    if( u.has_part( sp->parent ) ) {
+                    if( u.has_part( sp->parent, body_part_filter::equivalent ) ) {
                         missing_section = false;
                     }
                 }
-                sym = missing_section ? " " : iter->second.sym;
+                sym = missing_section ? " " : ( id->fill_rows.empty() ? iter->second.sym : id->fill_rows[i][j] );
             }
             if( rid->rows[i][j] == " " ) {
                 sym = " ";

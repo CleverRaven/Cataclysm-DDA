@@ -1,0 +1,34 @@
+[
+  {
+    "id": "magicians_hat",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "looks_like": "tophat",
+    "name": { "str": "magician's hat" },
+    "description": "Old school cylinder hat, used by illusionists around the world.  Maybe it still remembers some cool tricks?",
+    "weight": "150 g",
+    "volume": "600 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "0",
+    "color": "green",
+    "use_action": { "type": "learn_spell", "spells": [ "damage_transfer" ] }
+  },
+  {
+    "id": "fire_ball",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "looks_like": "cannonball_4lb",
+    "name": { "str": "warm ball" },
+    "description": "Small and light ball of glass with flickering flames inside.  The surface feels scalding hot, yet the temperature does not change.",
+    "weight": "40 g",
+    "volume": "150 ml",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "o",
+    "color": "red",
+    "use_action": { "type": "learn_spell", "spells": [ "fire_teleport" ] }
+  }
+]

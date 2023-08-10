@@ -1,7 +1,6 @@
 [
   {
     "id": "bondage_suit",
-    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": { "str": "bondage suit" },
     "description": "A suit of snug black leather.  Has no pockets, but does feature an abundance of unusually located zippers.",
@@ -26,7 +25,6 @@
   },
   {
     "id": "bodysuit_lycra",
-    "repairs_like": "zentai",
     "type": "ARMOR",
     "name": { "str": "lycra bodysuit" },
     "description": "A tight-fitting bodysuit made of lycra.  Covers the whole body from neck to toe.",
@@ -161,7 +159,6 @@
   },
   {
     "id": "clown_suit",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "clown suit" },
     "description": "A colorful and ridiculous costume fit for a clown.  Provides decent storage.",
@@ -189,7 +186,6 @@
   },
   {
     "id": "dinosuit",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "dinosaur suit" },
     "description": "A full-body costume in the form of an anthropomorphic dinosaur.  It is quite encumbering and has little storage but is very warm.",
@@ -214,8 +210,31 @@
     "flags": [ "OUTER" ]
   },
   {
+    "id": "sharksuit",
+    "type": "ARMOR",
+    "name": { "str": "shark suit" },
+    "description": "A full-body costume in the form of an anthropomorphic bull shark.  It is quite encumbering and has little storage but is very warm.",
+    "weight": "6033 g",
+    "volume": "12 L",
+    "price": 250000,
+    "price_postapoc": 1000,
+    "to_hit": -3,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "wolfsuit",
+    "color": "light_blue",
+    "armor": [
+      { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 26, 30 ] },
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 26, 26 ] }
+    ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 } ],
+    "warmth": 50,
+    "material_thickness": 3,
+    "environmental_protection": 2,
+    "flags": [ "OUTER" ]
+  },
+  {
     "id": "dragonsuit",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "dragon suit" },
     "description": "A cartoonish recreation of a western dragon remade into a suit.  Effectively useless nowadays, unless you think the mutants will treat you as one of their own if you wear this.  The wings really get in the way.",
@@ -242,7 +261,6 @@
   },
   {
     "id": "felinesuit",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "feline suit" },
     "description": "A fursuit made to resemble an anthropomorphic feline of indistinguishable breed.  It's a decent source of faux fur if you need it.",
@@ -413,7 +431,6 @@
   },
   {
     "id": "robofac_jumpsuit",
-    "repairs_like": "jumpsuit",
     "type": "ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "jumpsuit",
@@ -423,7 +440,6 @@
   },
   {
     "id": "mummy_jumpsuit",
-    "repairs_like": "jumpsuit",
     "type": "ARMOR",
     "name": { "str_sp": "mummy jumpsuit" },
     "description": "An off-white jumpsuit printed to look like the tattered wrappings of an ancient mummy.  Very easy to move in, but it doesn't offer any type of protection.",
@@ -445,8 +461,194 @@
     "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
   },
   {
+    "id": "technician_coveralls",
+    "type": "ARMOR",
+    "name": { "str_sp": "work coveralls" },
+    "description": "A fully covering jumpsuit made of waterproof canvas.  Offers solid protection from everyday dangers on the job and plenty of storage pockets.",
+    "weight": "1328 g",
+    "volume": "1000 ml",
+    "price": 10000,
+    "price_postapoc": 1000,
+    "to_hit": -3,
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "jumpsuit",
+    "color": "yellow",
+    "environmental_protection": 3,
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "coverage": 100,
+        "encumbrance": [ 5, 9 ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "coverage": 100,
+        "encumbrance": [ 5, 5 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "coverage": 100,
+        "encumbrance": [ 5, 9 ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "description": "Pants pocket.",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "description": "Pants pocket.",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "description": "Pants pocket.",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "description": "Pants pocket.",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "description": "Chest pocket.",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "description": "Chest pocket.",
+        "moves": 80
+      }
+    ],
+    "warmth": 15,
+    "material_thickness": 0.5,
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
+  },
+  {
+    "id": "technician_coveralls_h",
+    "type": "ARMOR",
+    "name": { "str_sp": "heavy work coveralls" },
+    "description": "A thick, fully covering jumpsuit made of waterproof canvas lined with extra fabric for warmth in brisk weather.  Offers solid protection from everyday dangers on the job and plenty of storage pockets.",
+    "weight": "2436 g",
+    "volume": "2000 ml",
+    "price": 12000,
+    "price_postapoc": 1250,
+    "to_hit": -3,
+    "material": [ "cotton", "canvas" ],
+    "symbol": "[",
+    "looks_like": "technician_coveralls",
+    "color": "yellow",
+    "environmental_protection": 3,
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "coverage": 100,
+        "encumbrance": [ 7, 11 ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "coverage": 100,
+        "encumbrance": [ 7, 7 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "coverage": 100,
+        "encumbrance": [ 7, 11 ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "description": "Pants pocket.",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "description": "Pants pocket.",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "description": "Pants pocket.",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "description": "Pants pocket.",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "description": "Chest pocket.",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "description": "Chest pocket.",
+        "moves": 80
+      }
+    ],
+    "warmth": 30,
+    "material_thickness": 1.0,
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
+  },
+  {
     "id": "subsuit_xl",
-    "repairs_like": "jumpsuit",
     "type": "ARMOR",
     "name": { "str": "subject suit" },
     "description": "A thin, short-sleeved and short-legged one-piece suit.  Judging by the odd tailoring and adjustment points… maybe you don't want to know who wore it.  Provides nominal storage and is not very encumbering.",

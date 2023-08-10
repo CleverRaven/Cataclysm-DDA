@@ -60,52 +60,107 @@
     "entries": [ { "item": "jack", "prob": 88 }, { "item": "lug_wrench", "prob": 92 } ]
   },
   {
+    "id": "tools_car_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "toolbox_empty",
+    "on_overflow": "discard",
+    "items": [
+      {
+        "distribution": [ { "item": "screwdriver_set" }, { "item": "socket_screwdriver_set" }, { "item": "screwdriver", "count": [ 1, 3 ] } ],
+        "prob": 80
+      },
+      {
+        "collection": [
+          { "distribution": [ { "item": "pliers_locking" }, { "item": "big_pliers" }, { "item": "pliers" } ] },
+          {
+            "distribution": [
+              { "item": "wrench" },
+              { "item": "wrench_small", "count": [ 1, 2 ] },
+              { "item": "wrench_large" },
+              { "item": "socket_wrench_set" }
+            ]
+          }
+        ],
+        "prob": 80
+      },
+      { "item": "duct_tape", "charges": [ 20, 200 ], "prob": 30 },
+      { "distribution": [ { "item": "pockknife" }, { "item": "boxcutter" } ], "prob": 60 },
+      { "item": "glowstick", "count": [ 0, 2 ], "charges": 1400, "prob": 30 },
+      {
+        "distribution": [ { "item": "flashlight", "charges": [ 0, 100 ] }, { "item": "heavy_flashlight", "charges": [ 0, 100 ] } ],
+        "prob": 50
+      },
+      { "item": "multitool", "prob": 30 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "car_kit",
+    "subtype": "collection",
     "items": [
-      [ "jerrycan", 10 ],
-      [ "jerrycan_big", 3 ],
-      [ "hose", 7 ],
-      [ "jumper_cable", 10 ],
-      { "item": "sm_extinguisher", "prob": 7, "charges": 10 },
-      { "item": "extinguisher", "prob": 2, "charges": 100 },
-      { "group": "used_1st_aid", "prob": 5 },
+      { "group": "tools_car_kit", "prob": 90 },
+      {
+        "distribution": [
+          { "collection": [ { "item": "jerrycan" }, { "item": "funnel" } ] },
+          { "collection": [ { "item": "jerrycan_big" }, { "item": "funnel" } ] }
+        ],
+        "prob": 30
+      },
+      {
+        "distribution": [ { "item": "sm_extinguisher", "charges": 10 }, { "item": "extinguisher", "charges": 100 } ],
+        "prob": 80
+      },
+      {
+        "distribution": [ { "group": "used_1st_aid", "prob": 70 }, { "group": "full_1st_aid", "prob": 30 } ],
+        "prob": 20
+      },
+      {
+        "distribution": [ { "group": "used_survival_kit", "prob": 70 }, { "group": "full_survival_kit", "prob": 30 } ],
+        "prob": 30
+      },
       [ "plastic_sheet", 12 ],
-      { "group": "full_survival_kit", "prob": 3 },
-      { "item": "duct_tape", "prob": 13, "charges-min": 20, "charges-max": 200 },
-      [ "screwdriver", 8 ],
-      [ "screwdriver_set", 2 ],
       [ "hd_tow_cable", 5 ],
-      { "group": "tools_toolbox", "prob": 1 },
+      [ "hose", 50 ],
+      [ "jumper_cable", 30 ],
+      [ "hand_pump", 30 ],
       { "group": "bugout_bag", "prob": 3 }
     ]
   },
   {
     "type": "item_group",
     "id": "car_misc",
+    "subtype": "collection",
     "items": [
-      { "item": "matches", "prob": 8, "charges": [ 1, 20 ] },
-      { "item": "ref_matches", "prob": 8, "charges-min": 0, "charges-max": 32 },
-      { "item": "lighter", "prob": 10, "charges": [ 0, 100 ] },
-      { "item": "small_lighter", "prob": 5, "charges": [ 0, 50 ] },
-      { "item": "ref_lighter", "prob": 2, "charges": [ 0, 50 ] },
-      { "group": "tobacco_products", "prob": 26 },
-      { "item": "gum", "prob": 13, "charges": [ 1, 10 ] },
-      { "item": "glowstick", "prob": 2, "charges": 1400 },
-      { "item": "flashlight", "prob": 5, "charges": [ 0, 300 ] },
-      [ "umbrella", 10 ],
-      [ "teleumbrella", 3 ],
-      [ "sunglasses", 12 ],
-      { "item": "inhaler", "prob": 5, "charges-min": 10, "charges-max": 100 },
-      [ "knife_swissarmy", 5 ],
-      [ "roadmap", 1 ],
-      [ "trailmap", 1 ],
-      [ "touristmap", 1 ],
+      {
+        "collection": [
+          {
+            "distribution": [
+              { "item": "matches", "charges": [ 1, 20 ] },
+              { "item": "ref_matches", "charges": [ 0, 32 ] },
+              { "item": "lighter", "charges": [ 0, 100 ] },
+              { "item": "small_lighter", "charges": [ 0, 50 ] },
+              { "item": "ref_lighter", "charges": [ 0, 50 ] }
+            ]
+          },
+          { "group": "tobacco_products" }
+        ],
+        "prob": 20
+      },
+      { "item": "glowstick", "prob": 10, "charges": 1400 },
+      { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
+      { "distribution": [ { "item": "umbrella" }, { "item": "teleumbrella" } ], "prob": 40 },
+      { "distribution": [ { "item": "roadmap" }, { "item": "trailmap" }, { "item": "touristmap" } ], "prob": 10 },
+      {
+        "distribution": [ { "item": "gasdiscount_silver" }, { "item": "gasdiscount_gold" }, { "item": "gasdiscount_platinum" } ],
+        "prob": 10
+      },
+      { "group": "snacks_fancy", "count": [ 1, 2 ] },
+      { "group": "wallets", "prob": 10 },
+      [ "sunglasses", 20 ],
+      [ "knife_swissarmy", 10 ],
       [ "eclipse_glasses", 1 ],
-      [ "thermos", 5 ],
-      [ "gasdiscount_silver", 1 ],
-      [ "gasdiscount_gold", 1 ],
-      [ "gasdiscount_platinum", 1 ]
+      [ "thermos", 20 ]
     ]
   },
   {

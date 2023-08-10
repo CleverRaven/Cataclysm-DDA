@@ -1,21 +1,6 @@
 [
   {
     "type": "construction_group",
-    "id": "place_metal_rig",
-    "name": "Place MetalMaster forge buddy"
-  },
-  {
-    "type": "construction_group",
-    "id": "place_cooking_rig",
-    "name": "Place Cooking Rig"
-  },
-  {
-    "type": "construction_group",
-    "id": "place_kitchen_rig",
-    "name": "Place KitchenMaster Cooking Buddy"
-  },
-  {
-    "type": "construction_group",
     "id": "convert_fridge_power_supply",
     "name": "Convert Fridge Power Supply"
   },

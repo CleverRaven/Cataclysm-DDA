@@ -26,7 +26,7 @@ bool play_videogame( const std::string &function_name,
         if( foundkitten ) {
             game_data["end_message"] = _( "You found kitten!" );
             game_data["moraletype"] = "MORALE_GAME_FOUND_KITTEN";
-            score = 30;
+            score = 15;
         }
 
         return foundkitten;

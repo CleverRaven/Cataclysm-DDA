@@ -12,6 +12,40 @@
     "id": "MANA_REGEN"
   },
   {
+    "type": "mutation_type",
+    "id": "MANA_SIPHON"
+  },
+  {
+    "//": "Catch-all dummy trait for Magiclysm mutations.",
+    "type": "mutation",
+    "id": "HUMAN_MAGIC",
+    "name": { "str": "Human Magic" },
+    "points": 0,
+    "player_display": false,
+    "dummy": true,
+    "category": [ "HUMAN" ],
+    "types": [ "MANA_ADD", "MANA_MULT", "MANA_REGEN", "MANA_SIPHON" ],
+    "cancels": [
+      "FASTREADER",
+      "HOARDER",
+      "LOVES_BOOKS",
+      "SAVANT",
+      "WEAK",
+      "MIRROR_DISPLACEMENT",
+      "MANA_CRYST_MANA",
+      "MANA_SEEKER_BOLTS",
+      "MANA_SUBTLE_SPELL",
+      "MANA_SILENT_SPELL",
+      "MANA_LUM",
+      "OVERLY_ACID_GUT",
+      "DRAGON_BREATH_BLACK",
+      "DRAGON_SPELLS",
+      "CHIMERIC_BREATH",
+      "SLIME_BREATH"
+    ],
+    "description": "Your body is depressingly mundane."
+  },
+  {
     "type": "mutation",
     "id": "MANA_ADD1",
     "name": "Lesser Mana Efficiency",
@@ -307,8 +341,7 @@
     "name": { "str": "Wildshape: Fish" },
     "points": 0,
     "valid": false,
-    "description": "You are fish-like, making dexterous manipulation with your hands extremely difficult.",
-    "encumbrance_always": [ [ "hand_r", 50 ], [ "hand_l", 50 ], [ "arm_r", 50 ], [ "arm_l", 50 ] ]
+    "description": "You are fish-like.  Just keep swimming!"
   },
   {
     "type": "mutation",
@@ -316,8 +349,7 @@
     "name": { "str": "Wildshape: Bear" },
     "points": 0,
     "valid": false,
-    "description": "You are bear-like, granting you raw power in exchange for intelligence.  Also, using a gun is extremely difficult.",
-    "encumbrance_always": [ [ "eyes", 200 ] ]
+    "description": "You are bear-like, granting you raw bestial power in exchange for intelligence."
   },
   {
     "type": "mutation",
@@ -325,9 +357,8 @@
     "name": { "str": "Wildshape: Deer" },
     "points": 0,
     "valid": false,
-    "description": "You are deer-like, giving you the ability to move quickly and escape danger.  However, this takes a great toll on your body, and you don't think you should maintain this form for long.",
-    "encumbrance_always": [ [ "hand_r", 50 ], [ "hand_l", 50 ], [ "arm_r", 50 ], [ "arm_l", 50 ] ],
-    "healing_awake": -500.0
+    "description": "You are deer-like, giving you the ability to move quickly and escape danger.  It is hard to use your arms in combat, however.",
+    "encumbrance_always": [ [ "hand_r", 50 ], [ "hand_l", 50 ], [ "arm_r", 50 ], [ "arm_l", 50 ] ]
   },
   {
     "type": "mutation",

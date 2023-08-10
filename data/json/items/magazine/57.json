@@ -3,8 +3,17 @@
     "id": "fn57mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Five-seveN 20-round magazine" },
-    "description": "A standard capacity magazine for use with the FN Five-seveN.",
+    "name": { "str": "5.7mm 20-round pistol magazine" },
+    "description": "A 20-round box magazine, for use with handguns chambering the proprietary 5.7x28mm cartridge.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "fn57mag",
+        "name": { "str": "Five-seveN 20-round magazine" },
+        "description": "A standard-capacity magazine for use with the FN Five-seveN.",
+        "weight": 1
+      }
+    ],
     "weight": "120 g",
     "volume": "250 ml",
     "price": 3700,
@@ -20,8 +29,8 @@
     "id": "fnp90mag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "FN 5.7x28mm 50-round magazine" },
-    "description": "A translucent 50-round box magazine, for use with long guns chambering FN’s proprietary 5.7x28mm cartridge.",
+    "name": { "str": "5.7mm 50-round magazine" },
+    "description": "A translucent 50-round box magazine, for use with long guns chambering the proprietary 5.7x28mm cartridge.",
     "variant_type": "gun",
     "variants": [
       {

@@ -66,9 +66,14 @@ static bool audio_muted = false;
 #endif
 
 static weather_type_id previous_weather;
+#if defined(SDL_SOUND)
+static std::optional<bool> previous_is_night;
+#endif
 static float g_sfx_volume_multiplier = 1.0f;
-static auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-static auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
+static std::chrono::high_resolution_clock::time_point start_sfx_timestamp =
+    std::chrono::high_resolution_clock::now();
+static std::chrono::high_resolution_clock::time_point end_sfx_timestamp =
+    std::chrono::high_resolution_clock::now();
 static auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 static activity_id act;
 static std::pair<std::string, std::string> engine_external_id_and_variant;
@@ -85,6 +90,8 @@ static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_weapon_fire_suppressed( "weapon_fire_suppressed" );
+
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_flesh( "flesh" );
@@ -117,10 +124,6 @@ static const ter_str_id ter_t_grass_tall( "t_grass_tall" );
 static const ter_str_id ter_t_grass_white( "t_grass_white" );
 static const ter_str_id ter_t_grate( "t_grate" );
 static const ter_str_id ter_t_guardrail_bg_dp( "t_guardrail_bg_dp" );
-static const ter_str_id ter_t_machinery_electronic( "t_machinery_electronic" );
-static const ter_str_id ter_t_machinery_heavy( "t_machinery_heavy" );
-static const ter_str_id ter_t_machinery_light( "t_machinery_light" );
-static const ter_str_id ter_t_machinery_old( "t_machinery_old" );
 static const ter_str_id ter_t_metal_floor( "t_metal_floor" );
 static const ter_str_id ter_t_moss( "t_moss" );
 static const ter_str_id ter_t_ov_smreb_cage( "t_ov_smreb_cage" );
@@ -178,7 +181,6 @@ static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvest
 
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 
 struct monster_sound_event {
     int volume;
@@ -323,10 +325,10 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, const std::str
     }
     const season_type seas = season_of_year( calendar::turn );
     const std::string seas_str = season_str( seas );
-    recent_sounds.emplace_back( std::make_pair( p, monster_sound_event{ vol, is_provocative( category ) } ) );
-    sounds_since_last_turn.emplace_back( std::make_pair( p,
+    recent_sounds.emplace_back( p, monster_sound_event{ vol, is_provocative( category ) } );
+    sounds_since_last_turn.emplace_back( p,
                                          sound_event { vol, category, description, ambient,
-                                                 false, id, variant, seas_str } ) );
+                                                 false, id, variant, seas_str } );
 }
 
 void sounds::sound( const tripoint &p, int vol, sound_t category, const translation &description,
@@ -340,8 +342,8 @@ void sounds::add_footstep( const tripoint &p, int volume, int, monster *,
 {
     const season_type seas = season_of_year( calendar::turn );
     const std::string seas_str = season_str( seas );
-    sounds_since_last_turn.emplace_back( std::make_pair( p, sound_event { volume,
-                                         sound_t::movement, footstep, false, true, "", "", seas_str} ) );
+    sounds_since_last_turn.emplace_back( p, sound_event { volume,
+                                         sound_t::movement, footstep, false, true, "", "", seas_str} );
 }
 
 template <typename C>
@@ -560,7 +562,7 @@ void sounds::process_sound_markers( Character *you )
             if( is_sound_deafening && !you->is_immune_effect( effect_deaf ) ) {
                 you->add_effect( effect_deaf, std::min( 4_minutes,
                                                         time_duration::from_turns( felt_volume - 130 ) / 8 ) );
-                if( !you->has_trait( trait_NOPAIN ) ) {
+                if( !you->has_flag( json_flag_PAIN_IMMUNE ) ) {
                     you->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
                     if( you->get_pain() < 10 ) {
                         you->mod_pain( rng( 0, 2 ) );
@@ -876,23 +878,24 @@ void sfx::do_vehicle_engine_sfx()
     const bool indoors = !is_creature_outside( player_character );
     const bool night = is_night( calendar::turn );
 
-    for( size_t e = 0; e < veh->engines.size(); ++e ) {
-        if( veh->is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_working_internal",
-                                        veh->part_info( veh->engines[ e ] ).get_id().str(),
-                                        seas_str, indoors, night ) ) {
-                id_and_variant = std::make_pair( "engine_working_internal",
-                                                 veh->part_info( veh->engines[ e ] ).get_id().str() );
-            } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
-                id_and_variant = std::make_pair( "engine_working_internal", "muscle" );
-            } else if( veh->is_engine_type( e, fuel_type_wind ) ) {
-                id_and_variant = std::make_pair( "engine_working_internal", "wind" );
-            } else if( veh->is_engine_type( e, fuel_type_battery ) ) {
-                id_and_variant = std::make_pair( "engine_working_internal", "electric" );
-            } else {
-                id_and_variant = std::make_pair( "engine_working_internal", "combustion" );
-            }
+    for( const int p : veh->engines ) {
+        const vehicle_part &vp = veh->part( p );
+        if( !veh->is_engine_on( vp ) ) {
+            continue;
         }
+        std::string variant = vp.info().id.str();
+        if( sfx::has_variant_sound( "engine_working_internal", variant, seas_str, indoors, night ) ) {
+            // has special sound variant for this vpart id
+        } else if( veh->is_engine_type( vp, fuel_type_muscle ) ) {
+            variant = "muscle";
+        } else if( veh->is_engine_type( vp, fuel_type_wind ) ) {
+            variant = "wind";
+        } else if( veh->is_engine_type( vp, fuel_type_battery ) ) {
+            variant = "electric";
+        } else {
+            variant = "combustion";
+        }
+        id_and_variant = std::make_pair( "engine_working_internal", variant );
     }
 
     if( !is_channel_playing( ch ) ) {
@@ -1019,23 +1022,24 @@ void sfx::do_vehicle_exterior_engine_sfx()
     const bool indoors = !is_creature_outside( player_character );
     const bool night = is_night( calendar::turn );
 
-    for( size_t e = 0; e < veh->engines.size(); ++e ) {
-        if( veh->is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_working_external",
-                                        veh->part_info( veh->engines[ e ] ).get_id().str(),
-                                        seas_str, indoors, night ) ) {
-                id_and_variant = std::make_pair( "engine_working_external",
-                                                 veh->part_info( veh->engines[ e ] ).get_id().str() );
-            } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
-                id_and_variant = std::make_pair( "engine_working_external", "muscle" );
-            } else if( veh->is_engine_type( e, fuel_type_wind ) ) {
-                id_and_variant = std::make_pair( "engine_working_external", "wind" );
-            } else if( veh->is_engine_type( e, fuel_type_battery ) ) {
-                id_and_variant = std::make_pair( "engine_working_external", "electric" );
-            } else {
-                id_and_variant = std::make_pair( "engine_working_external", "combustion" );
-            }
+    for( const int p : veh->engines ) {
+        const vehicle_part &vp = veh->part( p );
+        if( !veh->is_engine_on( vp ) ) {
+            continue;
         }
+        std::string variant = vp.info().id.str();
+        if( sfx::has_variant_sound( "engine_working_external", variant, seas_str, indoors, night ) ) {
+            // has special sound variant for this vpart id
+        } else if( veh->is_engine_type( vp, fuel_type_muscle ) ) {
+            variant = "muscle";
+        } else if( veh->is_engine_type( vp, fuel_type_wind ) ) {
+            variant = "wind";
+        } else if( veh->is_engine_type( vp, fuel_type_battery ) ) {
+            variant = "electric";
+        } else {
+            variant = "combustion";
+        }
+        id_and_variant = std::make_pair( "engine_working_external", variant );
     }
 
     if( is_channel_playing( ch ) ) {
@@ -1089,11 +1093,13 @@ void sfx::do_ambient()
     const int heard_volume = get_heard_volume( player_character.pos() );
     const bool is_underground = player_character.pos().z < 0;
     const bool is_sheltered = g->is_sheltered( player_character.pos() );
-    const bool weather_changed = get_weather().weather_id != previous_weather;
+    const bool night = is_night( calendar::turn );
+    const bool weather_changed =
+        get_weather().weather_id != previous_weather ||
+        !previous_is_night.has_value() || previous_is_night.value() != night;
     const season_type seas = season_of_year( calendar::turn );
     const std::string seas_str = season_str( seas );
     const bool indoors = !is_creature_outside( player_character );
-    const bool night = is_night( calendar::turn );
     // Step in at night time / we are not indoors
     if( night && !is_sheltered &&
         !is_channel_playing( channel::nighttime_outdoors_env ) && !is_deaf ) {
@@ -1137,81 +1143,113 @@ void sfx::do_ambient()
         play_ambient_variant_sound( "environment", "indoors_rain", seas_str, indoors,
                                     night, heard_volume, channel::indoors_rain_env, 1000 );
     }
-    if( ( !is_sheltered &&
-          get_weather().weather_id->sound_category != weather_sound_category::silent && !is_deaf &&
-          !is_channel_playing( channel::outdoors_snow_env ) &&
-          !is_channel_playing( channel::outdoors_flurry_env ) &&
-          !is_channel_playing( channel::outdoors_thunderstorm_env ) &&
-          !is_channel_playing( channel::outdoors_rain_env ) &&
-          !is_channel_playing( channel::outdoors_drizzle_env ) &&
-          !is_channel_playing( channel::outdoor_blizzard ) &&
-          !is_channel_playing( channel::outdoors_clear_env ) &&
-          !is_channel_playing( channel::outdoors_sunny_env )  &&
-          !is_channel_playing( channel::outdoors_cloudy_env ) )
-        || ( !is_sheltered &&
-             weather_changed  && !is_deaf ) ) {
-        fade_audio_group( group::weather, 1000 );
-        // We are outside and there is precipitation
-        switch( get_weather().weather_id->sound_category ) {
-            case weather_sound_category::drizzle:
-                play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_drizzle_env, 1000 );
-                break;
-            case weather_sound_category::rainy:
-                play_ambient_variant_sound( "environment", "WEATHER_RAINY", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_rain_env, 1000 );
-                break;
-            case weather_sound_category::thunder:
-                play_ambient_variant_sound( "environment", "WEATHER_THUNDER", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_thunderstorm_env, 1000 );
-                break;
-            case weather_sound_category::flurries:
-                play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_flurry_env, 1000 );
-                break;
-            case weather_sound_category::snowstorm:
-                play_ambient_variant_sound( "environment", "WEATHER_SNOWSTORM", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoor_blizzard, 1000 );
-                break;
-            case weather_sound_category::snow:
-                play_ambient_variant_sound( "environment", "WEATHER_SNOW", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_snow_env, 1000 );
-                break;
-            case weather_sound_category::silent:
-                break;
-            case weather_sound_category::portal_storm:
-                play_ambient_variant_sound( "environment", "WEATHER_PORTAL_STORM", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_portal_storm_env, 1000 );
-                break;
-            case weather_sound_category::clear:
-                play_ambient_variant_sound( "environment", "WEATHER_CLEAR", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_clear_env, 1000 );
-                break;
-            case weather_sound_category::sunny:
-                play_ambient_variant_sound( "environment", "WEATHER_SUNNY", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_sunny_env, 1000 );
-                break;
-            case weather_sound_category::cloudy:
-                play_ambient_variant_sound( "environment", "WEATHER_CLOUDY", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_cloudy_env, 1000 );
-                break;
-            case weather_sound_category::last:
-                debugmsg( "Invalid weather sound category." );
-                break;
+    auto outdoor_playing = []( bool first_only ) {
+        static const std::set<channel> outdoor_channels {
+            channel::outdoors_snow_env,
+            channel::outdoors_flurry_env,
+            channel::outdoors_thunderstorm_env,
+            channel::outdoors_rainstorm_env,
+            channel::outdoors_rain_env,
+            channel::outdoors_drizzle_env,
+            channel::outdoor_blizzard,
+            channel::outdoors_clear_env,
+            channel::outdoors_sunny_env,
+            channel::outdoors_cloudy_env,
+            channel::outdoors_portal_storm_env
+        };
+        std::set<channel> active_channels;
+        for( const channel &ch : outdoor_channels ) {
+            if( is_channel_playing( ch ) ) {
+                active_channels.emplace( ch );
+                if( first_only ) {
+                    return active_channels;
+                }
+            }
+        }
+        return active_channels;
+    };
+    if( !is_sheltered && !is_deaf &&
+        get_weather().weather_id->sound_category != weather_sound_category::silent ) {
+        if( weather_changed || outdoor_playing( true ).empty() ) {
+            fade_audio_group( group::weather, 1000 );
+            for( const channel &ch : outdoor_playing( false ) ) {
+                fade_audio_channel( ch, 1000 );
+            }
+            // We are outside and there is audible weather
+            switch( get_weather().weather_id->sound_category ) {
+                case weather_sound_category::drizzle:
+                    play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_drizzle_env, 1000 );
+                    break;
+                case weather_sound_category::rainy:
+                    play_ambient_variant_sound( "environment", "WEATHER_RAINY", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_rain_env, 1000 );
+                    break;
+                case weather_sound_category::rainstorm:
+                    play_ambient_variant_sound( "environment", "WEATHER_RAINSTORM", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_rainstorm_env, 1000 );
+                    break;
+                case weather_sound_category::thunder:
+                    play_ambient_variant_sound( "environment", "WEATHER_THUNDER", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_thunderstorm_env, 1000 );
+                    break;
+                case weather_sound_category::flurries:
+                    play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_flurry_env, 1000 );
+                    break;
+                case weather_sound_category::snowstorm:
+                    play_ambient_variant_sound( "environment", "WEATHER_SNOWSTORM", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoor_blizzard, 1000 );
+                    break;
+                case weather_sound_category::snow:
+                    play_ambient_variant_sound( "environment", "WEATHER_SNOW", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_snow_env, 1000 );
+                    break;
+                case weather_sound_category::silent:
+                    break;
+                case weather_sound_category::portal_storm:
+                    play_ambient_variant_sound( "environment", "WEATHER_PORTAL_STORM", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_portal_storm_env, 1000 );
+                    break;
+                case weather_sound_category::clear:
+                    play_ambient_variant_sound( "environment", "WEATHER_CLEAR", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_clear_env, 1000 );
+                    break;
+                case weather_sound_category::sunny:
+                    play_ambient_variant_sound( "environment", "WEATHER_SUNNY", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_sunny_env, 1000 );
+                    break;
+                case weather_sound_category::cloudy:
+                    play_ambient_variant_sound( "environment", "WEATHER_CLOUDY", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_cloudy_env, 1000 );
+                    break;
+                case weather_sound_category::last:
+                    debugmsg( "Invalid weather sound category." );
+                    break;
+            }
+        }
+    } else {
+        // Sheltered, deaf, or silent weather.
+        // Don't play outdoor weather, fade out active audio channels
+        std::set<channel> outdoor_active = outdoor_playing( false );
+        for( const channel &ch : outdoor_active ) {
+            fade_audio_channel( ch, 1000 );
         }
     }
     // Keep track of weather to compare for next iteration
     previous_weather = get_weather().weather_id;
+    previous_is_night = night;
 }
 
 // firing is the item that is fired. It may be the wielded gun, but it can also be an attached
@@ -1251,7 +1289,7 @@ void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
         if( std::any_of( mods.begin(), mods.end(),
         []( const item * e ) {
         return e->type->gunmod->loudness < 0;
-    } ) ) {
+    } ) && firing.gun_skill().str() != "archery" ) {
             weapon_id = itype_weapon_fire_suppressed;
         }
 
@@ -1730,10 +1768,6 @@ void sfx::do_footstep()
             ter_t_guardrail_bg_dp,
             ter_t_slide,
             ter_t_conveyor,
-            ter_t_machinery_light,
-            ter_t_machinery_heavy,
-            ter_t_machinery_old,
-            ter_t_machinery_electronic,
         };
         static const std::set<ter_str_id> chain_fence = {
             ter_t_chainfence,
@@ -1741,8 +1775,8 @@ void sfx::do_footstep()
 
         const auto play_plmove_sound_variant = [&]( const std::string & variant,
                                                const std::string & season,
-                                               const cata::optional<bool> &indoors,
-        const cata::optional<bool> &night ) {
+                                               const std::optional<bool> &indoors,
+        const std::optional<bool> &night ) {
             play_variant_sound( "plmove", variant, season, indoors, night,
                                 heard_volume, 0_degrees, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
@@ -1759,12 +1793,12 @@ void sfx::do_footstep()
             play_plmove_sound_variant( "walk_water", seas_str, indoors, night );
             return;
         }
-        if( !player_character.wearing_something_on( bodypart_id( "foot_l" ) ) ) {
+        if( player_character.is_barefoot() ) {
             play_plmove_sound_variant( "walk_barefoot", seas_str, indoors, night );
             return;
         }
         if( veh_displayed_part ) {
-            const std::string &part_id = veh_displayed_part->part().info().get_id().str();
+            const std::string &part_id = veh_displayed_part->part().info().id.str();
             if( has_variant_sound( "plmove", part_id, seas_str, indoors, night ) ) {
                 play_plmove_sound_variant( part_id, seas_str, indoors, night );
             } else if( veh_displayed_part->has_feature( VPFLAG_AISLE ) ) {
@@ -1805,26 +1839,30 @@ void sfx::do_obstacle( const std::string &obst )
         return;
     }
 
-    const Character &player_character = get_player_character();
-    const season_type seas = season_of_year( calendar::turn );
-    const std::string seas_str = season_str( seas );
-    const bool indoors = !is_creature_outside( player_character );
-    const bool night = is_night( calendar::turn );
-    int heard_volume = sfx::get_heard_volume( player_character.pos() );
-    if( sfx::has_variant_sound( "plmove", obst, seas_str, indoors, night ) ) {
-        play_variant_sound( "plmove", obst, seas_str, indoors, night,
-                            heard_volume, 0_degrees, 0.8, 1.2 );
-    } else if( ter_str_id( obst ).is_valid() &&
-               ( ter_id( obst )->has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER ) ||
-                 ter_id( obst )->has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) ) {
-        play_variant_sound( "plmove", "walk_water", seas_str, indoors, night,
-                            heard_volume, 0_degrees, 0.8, 1.2 );
-    } else {
-        play_variant_sound( "plmove", "clear_obstacle", seas_str, indoors,
-                            night, heard_volume, 0_degrees, 0.8, 1.2 );
+    end_sfx_timestamp = std::chrono::high_resolution_clock::now();
+    sfx_time = end_sfx_timestamp - start_sfx_timestamp;
+    if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
+        const Character &player_character = get_player_character();
+        const season_type seas = season_of_year( calendar::turn );
+        const std::string seas_str = season_str( seas );
+        const bool indoors = !is_creature_outside( player_character );
+        const bool night = is_night( calendar::turn );
+        int heard_volume = sfx::get_heard_volume( player_character.pos() );
+        if( sfx::has_variant_sound( "plmove", obst, seas_str, indoors, night ) ) {
+            play_variant_sound( "plmove", obst, seas_str, indoors, night,
+                                heard_volume, 0_degrees, 0.8, 1.2 );
+        } else if( ter_str_id( obst ).is_valid() &&
+                   ( ter_id( obst )->has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER ) ||
+                     ter_id( obst )->has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) ) {
+            play_variant_sound( "plmove", "walk_water", seas_str, indoors, night,
+                                heard_volume, 0_degrees, 0.8, 1.2 );
+        } else {
+            play_variant_sound( "plmove", "clear_obstacle", seas_str, indoors,
+                                night, heard_volume, 0_degrees, 0.8, 1.2 );
+        }
+        // prevent footsteps from triggering
+        start_sfx_timestamp = std::chrono::high_resolution_clock::now();
     }
-    // prevent footsteps from triggering
-    start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 }
 
 void sfx::play_activity_sound( const std::string &id, const std::string &variant, int volume )
@@ -1944,7 +1982,7 @@ void sfx::do_player_death_hurt( const Character &, bool ) { }
 void sfx::do_fatigue() { }
 void sfx::do_obstacle( const std::string & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, const std::string &,
-                              const cata::optional<bool> &, const cata::optional<bool> &, int ) { }
+                              const std::optional<bool> &, const std::optional<bool> &, int ) { }
 /*@}*/
 
 #endif // if defined(SDL_SOUND)

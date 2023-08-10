@@ -8,7 +8,7 @@
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
     "difficulty": 4,
-    "time": 30000,
+    "time": "5 m",
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],

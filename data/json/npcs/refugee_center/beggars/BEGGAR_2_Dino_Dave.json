@@ -313,7 +313,7 @@
   {
     "id": "MISSION_BEGGAR_2_BOX_MEDIUM",
     "type": "mission_definition",
-    "name": { "str": "Bring 10 medium-sized cardboard boxes" },
+    "name": { "str": "Bring 10 cardboard boxes" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",

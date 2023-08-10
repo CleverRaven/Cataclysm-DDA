@@ -67,6 +67,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "focus";
         case widget_var::move:
             return "move";
+        case widget_var::move_remainder:
+            return "move_remainder";
         case widget_var::move_cost:
             return "move_cost";
         case widget_var::mood:
@@ -89,6 +91,10 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "mana";
         case widget_var::max_mana:
             return "max_mana";
+        case widget_var::power_percentage:
+            return "power_percentage";
+        case widget_var::log_power_balance:
+            return "log_power_balance";
         case widget_var::morale_level:
             return "morale_level";
         // Compass
@@ -118,13 +124,25 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "cardio_fit";
         case widget_var::cardio_acc:
             return "cardio_acc";
+        case widget_var::carry_weight:
+            return "carry_weight";
         // Description functions
         case widget_var::activity_text:
             return "activity_text";
         case widget_var::body_graph:
             return "body_graph";
+        case widget_var::body_graph_temp:
+            return "body_graph_temp";
+        case widget_var::body_graph_encumb:
+            return "body_graph_encumb";
+        case widget_var::body_graph_status:
+            return "body_graph_status";
+        case widget_var::body_graph_wet:
+            return "body_graph_wet";
         case widget_var::bp_armor_outer_text:
             return "bp_armor_outer_text";
+        case widget_var::carry_weight_text:
+            return "carry_weight_text";
         case widget_var::date_text:
             return "date_text";
         case widget_var::env_temp_text:
@@ -143,6 +161,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "place_text";
         case widget_var::power_text:
             return "power_text";
+        case widget_var::power_balance_text:
+            return "power_balance_text";
         case widget_var::safe_mode_text:
             return "safe_mode_text";
         case widget_var::safe_mode_classic_text:
@@ -151,6 +171,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "style_text";
         case widget_var::sundial_text:
             return "sundial_text";
+        case widget_var::sundial_time_text:
+            return "sundial_time_text";
         case widget_var::time_text:
             return "time_text";
         case widget_var::veh_azimuth_text:
@@ -169,6 +191,12 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "weather_text";
         case widget_var::wielding_text:
             return "wielding_text";
+        case widget_var::wielding_simple_text:
+            return "wielding_simple_text";
+        case widget_var::wielding_mode_text:
+            return "wielding_mode_text";
+        case widget_var::wielding_ammo_text:
+            return "wielding_ammo_text";
         case widget_var::wind_text:
             return "wind_text";
         // Fall-through - invalid
@@ -262,9 +290,11 @@ void widget_clause::load( const JsonObject &jo )
     color = color_from_string( clr );
 
     if( jo.has_member( "condition" ) ) {
-        read_condition<dialogue>( jo, "condition", condition, false );
+        read_condition( jo, "condition", condition, false );
         has_condition = true;
     }
+
+    optional( jo, false, "widgets", widgets, string_id_reader<::widget> {} );
 }
 
 bool widget_clause::meets_condition( const std::string &opt_var ) const
@@ -350,18 +380,22 @@ nc_color widget_clause::get_color_for_id( const std::string &clause_id, const wi
     return wp == nullptr ? c_white : wp->color;
 }
 
-void widget::load( const JsonObject &jo, const std::string & )
+void widget::load( const JsonObject &jo, const std::string_view )
 {
-    optional( jo, was_loaded, "width", _width, 1 );
+    optional( jo, was_loaded, "width", _width, 0 );
     optional( jo, was_loaded, "height", _height_max, 1 );
     optional( jo, was_loaded, "symbols", _symbols, "-" );
     optional( jo, was_loaded, "fill", _fill, "bucket" );
     optional( jo, was_loaded, "label", _label, translation() );
+    optional( jo, was_loaded, "description", _description, "" );
     optional( jo, was_loaded, "style", _style, "number" );
     optional( jo, was_loaded, "arrange", _arrange, "columns" );
+    optional( jo, was_loaded, "body_graph", _body_graph, "full_body_widget" );
     optional( jo, was_loaded, "direction", _direction, cardinal_direction::num_cardinal_directions );
     optional( jo, was_loaded, "text_align", _text_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "label_align", _label_align, widget_alignment::LEFT );
+    // Row layouts and non-layout widgets default to true
+    optional( jo, was_loaded, "pad_labels", _pad_labels, _style != "layout" || _arrange == "rows" );
     optional( jo, was_loaded, "flags", _flags );
 
     if( _style == "sidebar" ) {
@@ -371,12 +405,13 @@ void widget::load( const JsonObject &jo, const std::string & )
         explicit_padding = true;
     } else {
         explicit_separator = jo.has_string( "separator" );
-        explicit_padding = jo.has_string( "padding" );
+        explicit_padding = jo.has_number( "padding" );
         optional( jo, was_loaded, "separator", _separator, default_separator );
         optional( jo, was_loaded, "padding", _padding, 2 );
     }
     _height = _height_max;
-    _label_width = _label.empty() ? 0 : utf8_width( _label.translated() );
+    _label_width = _label.empty() ||
+                   has_flag( json_flag_W_LABEL_NONE ) ? 0 : utf8_width( _label.translated() );
 
     if( jo.has_string( "var" ) ) {
         _var = io::string_to_enum<widget_var>( jo.get_string( "var" ) );
@@ -384,7 +419,7 @@ void widget::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_string( "bodypart" ) ) {
         _bps.clear();
-        _bps.emplace( bodypart_id( jo.get_string( "bodypart" ) ) );
+        _bps.emplace( jo.get_string( "bodypart" ) );
     }
 
     if( jo.has_array( "bodyparts" ) ) {
@@ -394,14 +429,23 @@ void widget::load( const JsonObject &jo, const std::string & )
                 jo.throw_error_at( "bodyparts", "Invalid string value in bodyparts array" );
                 continue;
             }
-            _bps.emplace( bodypart_id( val.get_string() ) );
+            _bps.emplace( val.get_string() );
         }
     }
 
     if( jo.has_array( "colors" ) ) {
         _colors.clear();
+        _breaks.clear();
         for( const std::string color_name : jo.get_array( "colors" ) ) {
             _colors.emplace_back( get_all_colors().name_to_color( color_name ) );
+        }
+        if( jo.has_array( "breaks" ) ) {
+            for( const int value : jo.get_array( "breaks" ) ) {
+                _breaks.emplace_back( value );
+            }
+            if( _breaks.size() != _colors.size() - 1 ) {
+                debugmsg( "Widget property 'breaks' must have one element less than 'colors'" );
+            }
         }
     }
 
@@ -441,27 +485,28 @@ int widget::finalize_label_width_recursive( const widget_id &id )
         return 0;
     } else if( w->_widgets.empty() ) {
         // No more nested layouts, we've found an individual widget.
-        // Return the widget's label width, or 0 if the label is disabled.
-        return w->has_flag( json_flag_W_LABEL_NONE ) ? 0 : w->_label_width;
+        // Return the widget's label width, or 0 if the label or pad_labels is disabled.
+        return w->_label.empty() || w->has_flag( json_flag_W_LABEL_NONE ) ||
+               ! w->_pad_labels ? 0 : w->_label_width;
     }
     // If we get here, we have a layout that contains nested widgets.
 
     // Find the longest label width within this layout.
     int width = 0;
     for( const widget_id &wid : w->_widgets ) {
-        // Skip nested elements that are "rows" layouts,
-        // these don't count towards the parent's label width.
-        if( wid->_style == "layout" && wid->_arrange == "rows" ) {
-            continue;
-        }
         // Dive deeper to retrieve the nested element's label width.
         int tmpw = widget::finalize_label_width_recursive( wid );
         if( tmpw > width ) {
             width = tmpw;
         }
     }
-    // Update this layout's label width to reflect the longest label within.
-    w->_label_width = width;
+
+    if( w->_pad_labels ) {
+        // Update this layout's label width to reflect the longest label within.
+        w->_label_width = width;
+    } else {
+        w->_label_width = 0;
+    }
     return w->_label_width;
 }
 
@@ -485,24 +530,33 @@ void widget::finalize_inherited_fields_recursive( const widget_id &id,
     if( !w->explicit_padding ) {
         w->_padding = col_padding;
     }
-    if( w->_widgets.empty() ) {
-        return;
-    }
+
     // If we get here, we have a layout that contains nested widgets.
     for( const widget_id &wid : w->_widgets ) {
         widget::finalize_inherited_fields_recursive( wid,
                 w->explicit_separator ? w->_separator : label_separator,
                 w->explicit_padding ? w->_padding : col_padding );
     }
+
+    // Also do it for widgets used in clauses
+    for( const widget_clause &clause : w->_clauses ) {
+        for( const widget_id &wid : clause.widgets ) {
+            widget::finalize_inherited_fields_recursive( wid,
+                    w->explicit_separator ? w->_separator : label_separator,
+                    w->explicit_padding ? w->_padding : col_padding );
+        }
+    }
 }
 
 void widget::finalize()
 {
+    widget_factory.finalize();
+
     for( const widget &wgt : widget::get_all() ) {
-        if( wgt.explicit_separator || wgt.explicit_padding ) {
+        if( wgt._style == "sidebar" ) {
             widget::finalize_inherited_fields_recursive( wgt.getId(), wgt._separator, wgt._padding );
+            widget::finalize_label_width_recursive( wgt.getId() );
         }
-        widget::finalize_label_width_recursive( wgt.getId() );
     }
 }
 
@@ -526,6 +580,10 @@ void widget::set_default_var_range( const avatar &ava )
             _var_min = 0;
             // Same maximum used by get_cardiofit - 3 x BMR, adjusted for mutations
             _var_max = 3 * ava.base_bmr() * ava.mutation_value( "cardio_multiplier" );
+            break;
+        case widget_var::carry_weight:
+            _var_min = 0;
+            _var_max = 120;
             break;
         case widget_var::fatigue:
             _var_min = 0;
@@ -552,6 +610,15 @@ void widget::set_default_var_range( const avatar &ava )
             // What could "max max mana" mean? Use 2x current max because why not
             _var_max = 2 * ava.magic->max_mana( ava );
             break;
+        case widget_var::power_percentage:
+            _var_min = 0;
+            _var_max = 100;
+            break;
+        case widget_var::log_power_balance:
+            _var_min = 0;
+            _var_max = 1200;
+            _var_norm = std::make_pair( 600, 600 );
+            break;
         case widget_var::mood:
             break; // TODO
         case widget_var::morale_level:
@@ -563,7 +630,12 @@ void widget::set_default_var_range( const avatar &ava )
         case widget_var::move:
             _var_min = 0;
             _var_max = 1000; // TODO: Determine better max
-            // This is a counter of remaining moves, with no normal value
+            // Move cost of last action
+            break;
+        case widget_var::move_remainder:
+            _var_min = 0;
+            _var_max = 9999; // TODO: Determine better max
+            // remaining moves for the current turn
             break;
         case widget_var::move_cost:
             _var_min = 0;
@@ -633,7 +705,11 @@ void widget::set_default_var_range( const avatar &ava )
         case widget_var::bp_hp:
             // HP for body part
             _var_min = 0;
-            _var_max = ava.get_part_hp_max( only_bp() );
+            if( ava.has_part( only_bp(), body_part_filter::equivalent ) ) {
+                _var_max = ava.get_part_hp_max( only_bp() );
+            } else {
+                _var_max = 0;
+            }
             break;
         case widget_var::bp_encumb:
             _var_min = 0;
@@ -672,20 +748,47 @@ int widget::get_var_value( const avatar &ava ) const
         case widget_var::max_mana:
             value = ava.magic->max_mana( ava );
             break;
+        case widget_var::power_percentage:
+            value = ava.has_max_power() ? ( 100 * ava.get_power_level().value() ) /
+                    ava.get_max_power_level().value() : 0;
+            break;
+        case widget_var::log_power_balance: {
+            int value_abs = std::abs( ava.power_balance.value() );
+            if( value_abs < 500 ) {
+                value = 0;
+            } else {
+                int sign = ava.power_balance.value() > 0 ? 1 : -1;
+                value = ( sign * 100.0 * std::log10( value_abs / 500.0 ) );
+            }
+            value += 600;
+            break;
+        }
         case widget_var::morale_level:
             value = ava.get_morale_level();
             break;
         case widget_var::bp_hp:
             // HP for body part
-            value = ava.get_part_hp_cur( only_bp() );
+            if( ava.has_part( only_bp(), body_part_filter::equivalent ) ) {
+                value = ava.get_part_hp_cur( only_bp() );
+            } else {
+                value = 0;
+            }
             break;
         case widget_var::bp_warmth:
             // Body part warmth/temperature
-            value = ava.get_part_temp_cur( only_bp() );
+            if( ava.has_part( only_bp(), body_part_filter::equivalent ) ) {
+                value = ava.get_part_temp_cur( only_bp() );
+            } else {
+                value = 0;
+            }
             break;
         case widget_var::bp_wetness:
             // Body part wetness
-            value = ava.get_part_wetness( only_bp() );
+            if( ava.has_part( only_bp(), body_part_filter::equivalent ) ) {
+                value = ava.get_part_wetness( only_bp() );
+            } else {
+                value = 0;
+            }
             break;
         case widget_var::focus:
             value = ava.get_focus();
@@ -695,6 +798,9 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::move:
             value = ava.movecounter;
+            break;
+        case widget_var::move_remainder:
+            value = ava.moves;
             break;
         case widget_var::move_cost:
             value = ava.run_cost( 100 );
@@ -738,6 +844,9 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::cardio_acc:
             value = ava.get_cardio_acc();
+            break;
+        case widget_var::carry_weight:
+            value = ( 100 * ava.weight_carried() ) / ava.weight_capacity();
             break;
 
         // TODO
@@ -820,11 +929,13 @@ static int custom_draw_func( const draw_args &args )
 
     werase( w );
     if( wgt->_style == "sidebar" ) {
+        // noop
     } else if( wgt->_style == "layout" ) {
         if( wgt->_arrange == "rows" ) {
             // Layout widgets in rows
+            std::vector<string_id<widget>> widgets = wgt->widgets( !wgt->_clauses.empty() );
             int row_num = 0;
-            for( const widget_id &row_wid : wgt->_widgets ) {
+            for( const widget_id &row_wid : widgets ) {
                 widget row_widget = row_wid.obj();
 
                 const std::string txt = row_widget.layout( u, widt, wgt->_label_width,
@@ -837,12 +948,20 @@ static int custom_draw_func( const draw_args &args )
                     row_num = widget::custom_draw_multiline( txt, w, margin, widt, row_num );
                 }
             }
+
+            if( wgt->has_flag( json_flag_W_DYNAMIC_HEIGHT ) ) {
+                wgt->_height = row_num;
+            }
+            if( disable_empty && widgets.empty() ) {
+                // reclaim the skipped height in the sidebar
+                height_diff -= wgt->_height;
+            }
         } else {
             // Layout widgets in columns
             // For now, this is the default when calling layout()
             // So, just layout self on a single line
 
-            const std::string txt = wgt->layout( u, widt, 0, skip_pad );
+            const std::string txt = wgt->layout( u, widt, wgt->_label_width, skip_pad );
             if( disable_empty && txt.empty() ) {
                 // reclaim the skipped height in the sidebar
                 height_diff -= wgt->_height;
@@ -879,6 +998,15 @@ window_panel widget::get_window_panel( const int width, const int req_height )
         for( const widget_id &wid : _widgets ) {
             height += wid->_height > 0 ? wid->_height : 1;
         }
+        for( const widget_clause &clause : _clauses ) {
+            int clause_height = 0;
+            for( const widget_id &wid : clause.widgets ) {
+                clause_height += wid->_height > 0 ? wid->_height : 1;
+            }
+            if( clause_height > height ) {
+                height = clause_height;
+            }
+        }
     } else if( _style == "widget" || _style == "text" ) {
         height = _height > 1 ? _height : req_height;
     }
@@ -892,12 +1020,17 @@ window_panel widget::get_window_panel( const int width, const int req_height )
     return win;
 }
 
-bool widget::uses_text_function()
+bool widget::uses_text_function() const
 {
     switch( _var ) {
         case widget_var::activity_text:
         case widget_var::body_graph:
+        case widget_var::body_graph_temp:
+        case widget_var::body_graph_encumb:
+        case widget_var::body_graph_status:
+        case widget_var::body_graph_wet:
         case widget_var::bp_armor_outer_text:
+        case widget_var::carry_weight_text:
         case widget_var::compass_text:
         case widget_var::compass_legend_text:
         case widget_var::date_text:
@@ -909,10 +1042,12 @@ bool widget::uses_text_function()
         case widget_var::overmap_text:
         case widget_var::place_text:
         case widget_var::power_text:
+        case widget_var::power_balance_text:
         case widget_var::safe_mode_text:
         case widget_var::safe_mode_classic_text:
         case widget_var::style_text:
         case widget_var::sundial_text:
+        case widget_var::sundial_time_text:
         case widget_var::time_text:
         case widget_var::veh_azimuth_text:
         case widget_var::veh_cruise_text:
@@ -921,6 +1056,9 @@ bool widget::uses_text_function()
         case widget_var::weary_malus_text:
         case widget_var::weather_text:
         case widget_var::wielding_text:
+        case widget_var::wielding_simple_text:
+        case widget_var::wielding_mode_text:
+        case widget_var::wielding_ammo_text:
         case widget_var::wind_text:
             return true;
         default:
@@ -960,14 +1098,41 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             desc = display::activity_text_color( ava );
             break;
         case widget_var::body_graph:
-            desc.first = display::colorized_bodygraph_text( ava, "full_body_widget",
-                         _width == 0 ? max_width : _width, _height_max, _height );
+            desc.first = display::colorized_bodygraph_text( ava, _body_graph,
+                         bodygraph_var::hp, _width == 0 ? max_width : _width, _height_max, _height );
+            update_height = true; // Dynamically adjusted height
+            apply_color = false; // Already colorized
+            break;
+        case widget_var::body_graph_temp:
+            desc.first = display::colorized_bodygraph_text( ava, _body_graph,
+                         bodygraph_var::temp, _width == 0 ? max_width : _width, _height_max, _height );
+            update_height = true; // Dynamically adjusted height
+            apply_color = false; // Already colorized
+            break;
+        case widget_var::body_graph_encumb:
+            desc.first = display::colorized_bodygraph_text( ava, _body_graph,
+                         bodygraph_var::encumb, _width == 0 ? max_width : _width, _height_max, _height );
+            update_height = true; // Dynamically adjusted height
+            apply_color = false; // Already colorized
+            break;
+        case widget_var::body_graph_status:
+            desc.first = display::colorized_bodygraph_text( ava, _body_graph,
+                         bodygraph_var::status, _width == 0 ? max_width : _width, _height_max, _height );
+            update_height = true; // Dynamically adjusted height
+            apply_color = false; // Already colorized
+            break;
+        case widget_var::body_graph_wet:
+            desc.first = display::colorized_bodygraph_text( ava, _body_graph,
+                         bodygraph_var::wet, _width == 0 ? max_width : _width, _height_max, _height );
             update_height = true; // Dynamically adjusted height
             apply_color = false; // Already colorized
             break;
         case widget_var::bp_armor_outer_text:
             desc.first = ava.worn.get_armor_display( only_bp() );
             apply_color = false; // Item name already colorized by tname
+            break;
+        case widget_var::carry_weight_text:
+            desc = display::carry_weight_text_color( ava );
             break;
         case widget_var::date_text:
             desc.first = display::date_string();
@@ -997,6 +1162,9 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::power_text:
             desc = display::power_text_color( ava );
             break;
+        case widget_var::power_balance_text:
+            desc = display::power_balance_text_color( ava );
+            break;
         case widget_var::safe_mode_text:
             desc = display::safe_mode_text_color( false );
             break;
@@ -1008,6 +1176,10 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::sundial_text:
             desc.first = display::sundial_text_color( ava, _width == 0 ? max_width : _width );
+            apply_color = false; // Already colorized
+            break;
+        case widget_var::sundial_time_text:
+            desc.first = display::sundial_time_text_color( ava, _width == 0 ? max_width : _width );
             apply_color = false; // Already colorized
             break;
         case widget_var::time_text:
@@ -1034,6 +1206,15 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::wielding_text:
             desc.first = ava.weapname();
             break;
+        case widget_var::wielding_simple_text:
+            desc.first = ava.weapname_simple();
+            break;
+        case widget_var::wielding_mode_text:
+            desc.first = ava.weapname_mode();
+            break;
+        case widget_var::wielding_ammo_text:
+            desc.first = ava.weapname_ammo();
+            break;
         case widget_var::wind_text:
             desc = display::wind_text_color( ava );
             break;
@@ -1059,7 +1240,13 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         _height = _height_max; // reset height
     }
     // Colorize if applicable
-    ret += apply_color ? colorize( desc.first, desc.second ) : desc.first;
+    if( !_colors.empty() ) {
+        ret += colorize( desc.first, _colors.front() );
+    } else if( apply_color ) {
+        ret += colorize( desc.first, desc.second );
+    } else {
+        ret += desc.first;
+    }
     return ret;
 }
 
@@ -1078,7 +1265,7 @@ std::string widget::value_string( int value, int width_max )
 {
     std::string ret;
     // Use the available horizontal space unless widget has an explicit width
-    const int w = _width <= 1 ? width_max : _width;
+    const int w = _width > 0 ? _width : width_max;
     if( _style == "graph" ) {
         ret += graph( value );
     } else if( _style == "text" ) {
@@ -1112,6 +1299,17 @@ nc_color widget::value_color( int value )
 
     // Get range of values from min to max
     const int var_range = _var_max - _var_min;
+
+    if( ! _breaks.empty() ) {
+        const int value_offset = ( 100 * ( value - _var_min ) ) / var_range;
+        for( int i = 0; i < color_max; i++ ) {
+            if( value_offset < _breaks[i] ) {
+                return _colors[i];
+            }
+        }
+        return _colors[color_max];
+    }
+
     // Convert value to a positive offset within the range
     const int value_offset = std::max( value - _var_min, 0 );
 
@@ -1120,8 +1318,13 @@ nc_color widget::value_color( int value )
         // If value is within defined _var_norm range, the color is c_white
         if( normal_defined && _var_norm.first <= value && value <= _var_norm.second ) {
             return c_white;
-
-        } else if( _var_min <= value && value <= _var_max ) {
+        } else if( value <= _var_min ) {
+            // If smaller than lower limit, return first color
+            return _colors.front();
+        } else if( value >= _var_max ) {
+            // If larger than upper limit, return last color
+            return _colors.back();
+        } else {
             // If value is within the range, map it to an appropriate color
             // Scale value offset within range from [0, 1] to map color range
             const double scale = static_cast<double>( value_offset ) / var_range;
@@ -1129,9 +1332,6 @@ nc_color widget::value_color( int value )
             // (without the offset, only the max value gets the top color)
             const int color_index = std::floor( scale * color_max + 0.5 );
             return _colors[color_index];
-        } else {
-            // Default if value outside of range: Last color
-            return _colors.back();
         }
     }
     // No scaling by min-max range; assume colors map to 0, 1, 2 ...
@@ -1169,6 +1369,14 @@ std::string widget::sym_text( bool from_condition, int width )
         return sym_text_cond( true, width );
     }
     return _string.translated();
+}
+
+std::vector<string_id<widget>> widget::widgets( bool from_condition )
+{
+    if( from_condition ) {
+        return widgets_cond();
+    }
+    return _widgets;
 }
 
 std::string widget::number_cond( enumeration_conjunction join_type ) const
@@ -1260,6 +1468,19 @@ std::string widget::sym_text_cond( bool no_join, int width )
     return ret;
 }
 
+std::vector<string_id<widget>> widget::widgets_cond()
+{
+    std::vector<const widget_clause *> wplist = get_clauses();
+    if( wplist.empty() ) {
+        return _default_clause.widgets;
+    }
+    std::vector<string_id<widget>> widgets;
+    for( const widget_clause *wp : wplist ) {
+        widgets.insert( widgets.end(), wp->widgets.begin(), wp->widgets.end() );
+    }
+    return widgets;
+}
+
 const widget_clause *widget::get_clause( const std::string &clause_id ) const
 {
     // Look for a clause with satisfied conditions
@@ -1293,8 +1514,10 @@ std::string widget::graph( int value ) const
 {
     // graph "depth is equal to the number of nonzero symbols
     int depth = utf8_width( _symbols ) - 1;
+    // Number of graph characters
+    const int w = _arrange == "rows" ? _height : _width;
     // Max integer value this graph can show
-    int max_graph_val = _width * depth;
+    int max_graph_val = w * depth;
     // Scale value range to current graph resolution (width x depth)
     if( _var_max > 0 && _var_max != max_graph_val ) {
         // Scale max source value to max graph value
@@ -1321,32 +1544,45 @@ std::string widget::graph( int value ) const
         // Full cells at the front
         ret += std::wstring( quot, syms.back() );
         // Any partly-full cells?
-        if( _width > quot ) {
+        if( w > quot ) {
             // Current partly-full cell
             ret += syms[rem];
             // Any more zero cells at the end
-            if( _width > quot + 1 ) {
-                ret += std::wstring( _width - quot - 1, syms[0] );
+            if( w > quot + 1 ) {
+                ret += std::wstring( w - quot - 1, syms[0] );
             }
         }
     } else if( _fill == "pool" ) {
-        quot = value / _width; // baseline depth of the pool
-        rem = value % _width;  // number of cells at next depth
+        quot = value / w; // baseline depth of the pool
+        rem = value % w;  // number of cells at next depth
         // Most-filled cells come first
         if( rem > 0 ) {
             ret += std::wstring( rem, syms[quot + 1] );
             // Less-filled cells may follow
-            if( _width > rem ) {
-                ret += std::wstring( _width - rem, syms[quot] );
+            if( w > rem ) {
+                ret += std::wstring( w - rem, syms[quot] );
             }
         } else {
             // All cells at the same level
-            ret += std::wstring( _width, syms[quot] );
+            ret += std::wstring( w, syms[quot] );
         }
     } else {
         debugmsg( "Unknown widget fill type %s", _fill );
         return "";
     }
+
+    // Re-arrange characters to a vertical bar graph
+    if( _arrange == "rows" ) {
+        std::wstring temp = ret;
+        ret = std::wstring();
+        for( int i = temp.size() - 1; i >= 0; i-- ) {
+            ret += temp[i];
+            if( i > 0 ) {
+                ret += '\n';
+            }
+        }
+    }
+
     return wstr_to_utf8( ret );
 }
 
@@ -1383,6 +1619,9 @@ static std::string append_line( const std::string &line, bool first_row, int max
     if( !line.empty() ) {
         txt = line;
         txt_w = utf8_width( txt, true ) + newline_fix;
+        if( line.back() == '\n' ) {
+            txt.pop_back();
+        }
     }
 
     // Label padding
@@ -1430,7 +1669,7 @@ static std::string append_line( const std::string &line, bool first_row, int max
         txt_w += padding;
         // Right side
         padding = 0;
-        if( text_align != widget_alignment::RIGHT && newline_fix == 0 ) {
+        if( text_align != widget_alignment::RIGHT ) {
             padding = text_align == widget_alignment::LEFT ? tpad : tpad / 2;
         }
         txt.append( padding, ' ' );
@@ -1446,6 +1685,10 @@ static std::string append_line( const std::string &line, bool first_row, int max
         }
     }
 
+    if( newline_fix == 1 ) {
+        ret.append( 1, '\n' );
+    }
+
     return ret;
 }
 
@@ -1454,13 +1697,16 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
 {
     std::string ret;
     if( _style == "layout" ) {
+        std::vector<string_id<widget>> wgts = widgets( !_clauses.empty() );
+        int layout_label_width = ( label_width == 0 || ! _pad_labels ) ? _label_width : label_width;
+
         if( _arrange == "rows" ) {
             std::string sep;
             int h = 0;
             // Stack rows vertically into a multiline widget
-            for( const widget_id &wid : _widgets ) {
+            for( const widget_id &wid : wgts ) {
                 widget cur_child = wid.obj();
-                ret += sep + cur_child.layout( ava, max_width, label_width,
+                ret += sep + cur_child.layout( ava, max_width, layout_label_width,
                                                skip_pad || wid->has_flag( json_flag_W_NO_PADDING ) );
                 sep = "\n";
                 h += wid->_height < 0 ? 0 : wid->_height;
@@ -1468,7 +1714,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             // Set height for the final layout
             set_height_for_widget( id, h );
         } else { // columns
-            const int num_widgets = _widgets.size();
+            const int num_widgets = wgts.size();
             if( num_widgets == 0 ) {
                 debugmsg( "widget layout has no widgets" );
             }
@@ -1479,11 +1725,11 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             // Divide available width equally among all widgets
             const int child_width = avail_width / num_widgets;
             // Total widget width w/o padding
-            const int total_widget_width = std::accumulate( _widgets.begin(), _widgets.end(), 0,
+            const int total_widget_width = std::accumulate( wgts.begin(), wgts.end(), 0,
             [child_width]( int sum, const widget_id & wid ) {
                 widget cur_child = wid.obj();
                 return sum + ( cur_child._style == "layout" &&
-                               cur_child._width > 1 ? cur_child._width : child_width );
+                               cur_child._width > 0 ? cur_child._width : child_width );
             } );
             // Total widget width with padding
             const int total_widget_padded_width = total_widget_width + col_padding * ( num_widgets - 1 );
@@ -1494,20 +1740,21 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             std::vector<int> widths;
             unsigned int total_width = 0;
             std::string debug_widths;
-            for( const widget_id &wid : _widgets ) {
+            for( size_t i = 0; i < wgts.size(); i++ ) {
+                const widget_id &wid = wgts[i];
                 widget cur_child = wid.obj();
                 int cur_width = child_width;
                 // determine spacing based on type of column
                 if( _arrange == "minimum_columns" ) {
-                    if( cur_child._width > 1 ) {
+                    if( cur_child._width > 0 ) {
                         cur_width = cur_child._width;
                     }
                     // if last widget make it take the remaining space
-                    if( wid == _widgets.back() ) {
-                        cur_width = avail_width - total_width;
+                    if( i == wgts.size() - 1 ) {
+                        cur_width = std::max<int>( 0, avail_width - total_width );
                     }
                 } else { //columns
-                    if( cur_child._style == "layout" && cur_child._width > 1 ) {
+                    if( cur_child._style == "layout" && cur_child._width > 0 ) {
                         cur_width = cur_child._width;
                     }
                     // Spread remainder over the first few columns
@@ -1524,14 +1771,13 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                     total_width += cur_width;
                 }
                 if( total_width > max_width ) {
-
                     debugmsg( string_format( "widget layout is wider (%d) than sidebar allows (%d) for %s.",
                                              total_width, max_width, debug_widths ) );
                 }
                 const bool skip_pad_this = skip_pad || wid->has_flag( json_flag_W_NO_PADDING );
                 // Layout child in this column
                 const std::string txt = cur_child.layout( ava, skip_pad_this ? 0 : cur_width,
-                                        label_width, skip_pad_this );
+                                        layout_label_width, skip_pad_this );
                 // Store the resulting text for this column
                 cols.emplace_back( string_split( txt, '\n' ) );
                 widths.emplace_back( cur_width );
@@ -1596,7 +1842,10 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             // Process last line, or first for single-line widgets
             ret += append_line( shown, row_num == 0, max_width,
                                 has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
-                                row_num == 0 ? label_width : 0, _separator, _text_align, _label_align, skip_pad );
+                                row_num == 0 && _pad_labels ? label_width : 0, _separator, _text_align, _label_align, skip_pad );
+        }
+        if( !ret.empty() && ret.back() == '\n' ) {
+            ret.pop_back();
         }
     }
     return ret.find( '\n' ) != std::string::npos || max_width == 0 ?
@@ -1609,7 +1858,7 @@ std::string format_widget_multiline( const std::vector<std::string> &keys, int m
     std::string ret;
     height = 0;
     // For single-line text, just lay everything on the same line
-    if( width <= 1 && max_height == 1 ) {
+    if( width <= 0 && max_height == 1 ) {
         width = INT_MAX;
     }
     const int h_max = max_height == 0 ? INT_MAX : max_height;
@@ -1631,6 +1880,7 @@ std::string format_widget_multiline( const std::vector<std::string> &keys, int m
                 }
             }
         }
+        // Newline, if not the last row
         if( row < h_max - 1 ) {
             ret += "\n";
         }

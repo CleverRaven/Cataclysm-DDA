@@ -40,7 +40,6 @@ static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_cqb( "bio_cqb" );
 
-static const flag_id json_flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 static const json_character_flag json_flag_ALWAYS_BLOCK( "ALWAYS_BLOCK" );
 static const json_character_flag json_flag_NONSTANDARD_BLOCK( "NONSTANDARD_BLOCK" );
 
@@ -83,7 +82,7 @@ void weapon_category::reset()
     weapon_category_factory.reset();
 }
 
-void weapon_category::load( const JsonObject &jo, const std::string & )
+void weapon_category::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
 }
@@ -141,26 +140,14 @@ class ma_skill_reader : public generic_typed_reader<ma_skill_reader>
 class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_reader>
 {
     public:
-        std::map<std::string, damage_type> dt_map = get_dt_map();
-
-        std::pair<damage_type, int> get_next( const JsonObject &jo ) const {
-            std::string type = jo.get_string( "type" );
-            const auto iter = get_dt_map().find( type );
-            if( iter == get_dt_map().end() ) {
-                jo.throw_error( "Invalid damage type" );
-            }
-            const damage_type dt = iter->second;
-            return std::pair<damage_type, int>( dt, jo.get_int( "min" ) );
+        std::pair<damage_type_id, int> get_next( const JsonObject &jo ) const {
+            return std::pair<damage_type_id, int>( jo.get_string( "type" ), jo.get_int( "min" ) );
         }
         template<typename C>
         void erase_next( const JsonObject &jo, C &container ) const {
-            std::string type = jo.get_string( "type" );
-            const auto iter = get_dt_map().find( type );
-            if( iter == get_dt_map().end() ) {
-                jo.throw_error( "Invalid damage type" );
-            }
-            damage_type id = iter->second;
-            reader_detail::handler<C>().erase_if( container, [&id]( const std::pair<damage_type, int> &e ) {
+            damage_type_id id( jo.get_string( "type" ) );
+            reader_detail::handler<C>().erase_if( container,
+            [&id]( const std::pair<const damage_type_id, int> &e ) {
                 return e.first == id;
             } );
         }
@@ -190,7 +177,7 @@ class tech_effect_reader : public generic_typed_reader<tech_effect_reader>
         }
 };
 
-void ma_requirements::load( const JsonObject &jo, const std::string & )
+void ma_requirements::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
@@ -233,10 +220,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
     optional( jo, was_loaded, "attack_override", attack_override, false );
-    optional( jo, was_loaded, "downed_target", downed_target, false );
-    optional( jo, was_loaded, "stunned_target", stunned_target, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
-    optional( jo, was_loaded, "human_target", human_target, false );
 
     optional( jo, was_loaded, "needs_ammo", needs_ammo, false );
 
@@ -269,8 +253,15 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "attack_vectors_random", attack_vectors_random, {} );
 
     for( JsonValue jv : jo.get_array( "eocs" ) ) {
-        eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
+
+    if( jo.has_member( "condition" ) ) {
+        read_condition( jo, "condition", condition, false );
+        optional( jo, was_loaded, "condition_desc", condition_desc );
+        has_condition = true;
+    }
+
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -293,7 +284,7 @@ bool string_id<ma_technique>::is_valid() const
     return ma_techniques.is_valid( *this );
 }
 
-void ma_buff::load( const JsonObject &jo, const std::string &src )
+void ma_buff::load( const JsonObject &jo, const std::string_view src )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -306,9 +297,10 @@ void ma_buff::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "bonus_blocks", blocks_bonus, 0 );
 
     optional( jo, was_loaded, "quiet", quiet, false );
-    optional( jo, was_loaded, "throw_immune", throw_immune, false );
     optional( jo, was_loaded, "stealthy", stealthy, false );
     optional( jo, was_loaded, "melee_bash_damage_cap_bonus", melee_bash_damage_cap_bonus, false );
+
+    optional( jo, was_loaded, "flags", flags );
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -339,7 +331,7 @@ void load_martial_art( const JsonObject &jo, const std::string &src )
 class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
 {
     public:
-        mabuff_id get_next( JsonValue jin ) const {
+        mabuff_id get_next( const JsonValue &jin ) const {
             if( jin.test_string() ) {
                 return mabuff_id( jin.get_string() );
             }
@@ -349,7 +341,7 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
         }
 };
 
-void martialart::load( const JsonObject &jo, const std::string & )
+void martialart::load( const JsonObject &jo, const std::string &src )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -375,37 +367,37 @@ void martialart::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "onkill_buffs", onkill_buffs, ma_buff_reader{} );
 
     for( JsonValue jv : jo.get_array( "static_eocs" ) ) {
-        static_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        static_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onmove_eocs" ) ) {
-        onmove_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onmove_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onpause_eocs" ) ) {
-        onpause_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onpause_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onhit_eocs" ) ) {
-        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onattack_eocs" ) ) {
-        onattack_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onattack_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "ondodge_eocs" ) ) {
-        ondodge_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        ondodge_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onblock_eocs" ) ) {
-        onblock_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onblock_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "ongethit_eocs" ) ) {
-        ongethit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        ongethit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onmiss_eocs" ) ) {
-        onmiss_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onmiss_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "oncrit_eocs" ) ) {
-        oncrit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        oncrit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onkill_eocs" ) ) {
-        onkill_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onkill_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     optional( jo, was_loaded, "techniques", techniques, string_id_reader<::ma_technique> {} );
@@ -543,7 +535,7 @@ class ma_buff_effect_type : public effect_type
             int_decay_remove = false;
             name.push_back( buff.name );
             desc.push_back( buff.description );
-            rating = e_good;
+            apply_msgs.emplace_back( no_translation( "" ), m_good );
         }
 };
 
@@ -606,6 +598,7 @@ bool ma_requirements::buff_requirements_satisfied( const Character &u ) const
 bool ma_requirements::is_valid_character( const Character &u ) const
 {
     if( !buff_requirements_satisfied( u ) ) {
+        add_msg_debug( debugmode::DF_MELEE, "Buff requirements not satisfied, attack discarded" );
         return false;
     }
 
@@ -620,15 +613,13 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     bool melee_style = u.martial_arts_data->selected_strictly_melee();
     bool is_armed = u.is_armed();
     bool forced_unarmed = u.martial_arts_data->selected_force_unarmed();
-    bool unarmed_weapon = is_armed && !forced_unarmed && weapon->has_flag( json_flag_UNARMED_WEAPON );
     bool weapon_ok = melee_allowed && weapon && is_valid_weapon( *weapon );
     bool style_weapon = weapon && u.martial_arts_data->selected_has_weapon( weapon->typeId() );
     bool all_weapons = u.martial_arts_data->selected_allow_all_weapons();
 
-    bool unarmed_ok = !is_armed || ( unarmed_weapon && unarmed_weapons_allowed );
     bool melee_ok = weapon_ok && ( style_weapon || all_weapons );
 
-    bool valid_unarmed = !melee_style && unarmed_allowed && unarmed_ok;
+    bool valid_unarmed = !melee_style && unarmed_allowed && !is_armed;
     bool valid_melee = !strictly_unarmed && ( forced_unarmed || melee_ok );
 
     if( !valid_unarmed && !valid_melee ) {
@@ -640,7 +631,9 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     }
 
     for( const auto &pr : min_skill ) {
-        if( ( cqb ? 5 : u.get_skill_level( pr.first ) ) < pr.second ) {
+        if( ( cqb ? 5 : static_cast<int>( u.get_skill_level( pr.first ) ) ) < pr.second ) {
+            add_msg_debug( debugmode::DF_MELEE, "Skill level requirement %d not satisfied, attack discarded",
+                           pr.second );
             return false;
         }
     }
@@ -653,12 +646,14 @@ bool ma_requirements::is_valid_character( const Character &u ) const
             }
         }
         if( !has_flag ) {
+            add_msg_debug( debugmode::DF_MELEE, "Required flag(any) not found, attack discarded" );
             return false;
         }
     }
 
     for( const json_character_flag &flag : req_char_flags_all ) {
         if( !u.has_flag( flag ) ) {
+            add_msg_debug( debugmode::DF_MELEE, "Required flags(all) not found, attack discarded" );
             return false;
         }
     }
@@ -671,6 +666,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
             }
         }
         if( has_flag ) {
+            add_msg_debug( debugmode::DF_MELEE, "Forbidden flag found, attack discarded" );
             return false;
         }
     }
@@ -683,6 +679,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
             }
         }
         if( !valid_weap_cat ) {
+            add_msg_debug( debugmode::DF_MELEE, "Not using weapon from a valid category, attack discarded" );
             return false;
         }
     }
@@ -713,8 +710,8 @@ std::string ma_requirements::get_description( bool buff ) const
     if( std::any_of( min_skill.begin(), min_skill.end(), []( const std::pair<skill_id, int> &pr ) {
     return pr.second > 0;
 } ) ) {
-        dump += string_format( _( "<bold>%s required: </bold>" ),
-                               n_gettext( "Skill", "Skills", min_skill.size() ) );
+        dump += n_gettext( "<bold>Skill required: </bold>",
+                           "<bold>Skills required: </bold>", min_skill.size() );
 
         dump += enumerate_as_string( min_skill.begin(),
         min_skill.end(), []( const std::pair<skill_id, int>  &pr ) {
@@ -729,15 +726,15 @@ std::string ma_requirements::get_description( bool buff ) const
     }
 
     if( std::any_of( min_damage.begin(),
-    min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
+    min_damage.end(), []( const std::pair<const damage_type_id, int>  &pr ) {
     return pr.second > 0;
 } ) ) {
         dump += n_gettext( "<bold>Damage type required: </bold>",
                            "<bold>Damage types required: </bold>", min_damage.size() );
 
         dump += enumerate_as_string( min_damage.begin(),
-        min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
-            return string_format( _( "%s: <stat>%d</stat>" ), name_by_dt( pr.first ), pr.second );
+        min_damage.end(), []( const std::pair<const damage_type_id, int>  &pr ) {
+            return string_format( _( "%s: <stat>%d</stat>" ), pr.first->name.translated(), pr.second );
         }, enumeration_conjunction::none ) + "\n";
     }
 
@@ -818,7 +815,6 @@ std::string ma_requirements::get_description( bool buff ) const
     return dump;
 }
 
-
 ma_technique::ma_technique()
 {
     crit_tec = false;
@@ -841,10 +837,7 @@ ma_technique::ma_technique()
     block_counter = false; // like tec_counter
 
     // conditional
-    downed_target = false;    // only works on downed enemies
-    stunned_target = false;   // only works on stunned enemies
     wall_adjacent = false;    // only works near a wall
-    human_target = false;     // only works on humanoid enemies
 
     needs_ammo = false;       // technique only works if the item is loaded with ammo
 
@@ -864,8 +857,6 @@ ma_buff::ma_buff()
 
     dodges_bonus = 0; // extra dodges, like karate
     blocks_bonus = 0; // extra blocks, like karate
-
-    throw_immune = false;
 
 }
 
@@ -916,7 +907,7 @@ int ma_buff::block_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::BLOCK );
 }
-int ma_buff::arpen_bonus( const Character &u, damage_type dt ) const
+int ma_buff::arpen_bonus( const Character &u, const damage_type_id &dt ) const
 {
     return bonuses.get_flat( u, affected_stat::ARMOR_PENETRATION, dt );
 }
@@ -928,21 +919,17 @@ int ma_buff::speed_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::SPEED );
 }
-int ma_buff::armor_bonus( const Character &guy, damage_type dt ) const
+int ma_buff::armor_bonus( const Character &guy, const damage_type_id &dt ) const
 {
     return bonuses.get_flat( guy, affected_stat::ARMOR, dt );
 }
-float ma_buff::damage_bonus( const Character &u, damage_type dt ) const
+float ma_buff::damage_bonus( const Character &u, const damage_type_id &dt ) const
 {
     return bonuses.get_flat( u, affected_stat::DAMAGE, dt );
 }
-float ma_buff::damage_mult( const Character &u, damage_type dt ) const
+float ma_buff::damage_mult( const Character &u, const damage_type_id &dt ) const
 {
     return bonuses.get_mult( u, affected_stat::DAMAGE, dt );
-}
-bool ma_buff::is_throw_immune() const
-{
-    return throw_immune;
 }
 bool ma_buff::is_melee_bash_damage_cap_bonus() const
 {
@@ -957,6 +944,16 @@ bool ma_buff::is_stealthy() const
     return stealthy;
 }
 
+bool ma_buff::has_flag( const json_character_flag &flag ) const
+{
+    for( const json_character_flag &q : flags ) {
+        if( q == flag ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool ma_buff::can_melee() const
 {
     return melee_allowed;
@@ -969,8 +966,8 @@ std::string ma_buff::get_description( bool passive ) const
 
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
-        dump += string_format( _( "<bold>%s:</bold> " ),
-                               n_gettext( "Bonus", "Bonus/stack", max_stacks ) ) + "\n" + temp;
+        dump += std::string( npgettext( "martial arts buff desc", "<bold>Bonus:</bold> ",
+                                        "<bold>Bonus/stack:</bold> ", max_stacks ) ) + "\n" + temp;
     }
 
     dump += reqs.get_description( true );
@@ -982,24 +979,38 @@ std::string ma_buff::get_description( bool passive ) const
 
     const int turns = to_turns<int>( buff_duration );
     if( !passive && turns ) {
-        dump += string_format( _( "* Will <info>last</info> for <stat>%d %s</stat>" ),
-                               turns, n_gettext( "turn", "turns", turns ) ) + "\n";
+        dump += string_format( n_gettext( "* Will <info>last</info> for <stat>%d turn</stat>",
+                                          "* Will <info>last</info> for <stat>%d turns</stat>",
+                                          turns ),
+                               turns ) + "\n";
     }
 
     if( dodges_bonus > 0 ) {
-        dump += string_format( _( "* Will give a <good>+%s</good> bonus to <info>dodge</info>%s" ),
-                               dodges_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+        dump += string_format(
+                    n_gettext( "* Will give a <good>+%s</good> bonus to <info>dodge</info> for the stack",
+                               "* Will give a <good>+%s</good> bonus to <info>dodge</info> per stack",
+                               max_stacks ),
+                    dodges_bonus ) + "\n";
     } else if( dodges_bonus < 0 ) {
-        dump += string_format( _( "* Will give a <bad>%s</bad> penalty to <info>dodge</info>%s" ),
-                               dodges_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+        dump += string_format(
+                    n_gettext( "* Will give a <bad>%s</bad> penalty to <info>dodge</info> for the stack",
+                               "* Will give a <bad>%s</bad> penalty to <info>dodge</info> per stack",
+                               max_stacks ),
+                    dodges_bonus ) + "\n";
     }
 
     if( blocks_bonus > 0 ) {
-        dump += string_format( _( "* Will give a <good>+%s</good> bonus to <info>block</info>%s" ),
-                               blocks_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+        dump += string_format(
+                    n_gettext( "* Will give a <good>+%s</good> bonus to <info>block</info> for the stack",
+                               "* Will give a <good>+%s</good> bonus to <info>block</info> per stack",
+                               max_stacks ),
+                    blocks_bonus ) + "\n";
     } else if( blocks_bonus < 0 ) {
-        dump += string_format( _( "* Will give a <bad>%s</bad> penalty to <info>block</info>%s" ),
-                               blocks_bonus, n_gettext( " for the stack", " per stack", max_stacks ) ) + "\n";
+        dump += string_format(
+                    n_gettext( "* Will give a <bad>%s</bad> penalty to <info>block</info> for the stack",
+                               "* Will give a <bad>%s</bad> penalty to <info>block</info> per stack",
+                               max_stacks ),
+                    blocks_bonus ) + "\n";
     }
 
     if( quiet ) {
@@ -1283,10 +1294,6 @@ bool martialart::weapon_valid( const item_location &it ) const
         return true;
     }
 
-    if( !strictly_unarmed && !strictly_melee && it && it->has_flag( json_flag_UNARMED_WEAPON ) ) {
-        return true;
-    }
-
     return false;
 }
 
@@ -1350,9 +1357,8 @@ ma_technique character_martial_arts::get_miss_recovery( const Character &owner )
     return get_valid_technique( owner, &ma_technique::miss_recovery );
 }
 
-
 std::string character_martial_arts::get_valid_attack_vector( const Character &user,
-        std::vector<std::string> attack_vectors ) const
+        const std::vector<std::string> &attack_vectors ) const
 {
     for( auto av : attack_vectors ) {
         if( can_use_attack_vector( user, av ) ) {
@@ -1363,7 +1369,8 @@ std::string character_martial_arts::get_valid_attack_vector( const Character &us
     return "NONE";
 }
 
-bool character_martial_arts::can_use_attack_vector( const Character &user, std::string av ) const
+bool character_martial_arts::can_use_attack_vector( const Character &user,
+        const std::string &av ) const
 {
     martialart ma = style_selected.obj();
     bool valid_weapon = ma.weapon_valid( user.get_wielded_item() );
@@ -1503,7 +1510,6 @@ void character_martial_arts::clear_all_effects( Character &owner )
     style_selected->remove_all_buffs( owner );
 }
 
-
 // event handlers
 void character_martial_arts::ma_static_effects( Character &owner )
 {
@@ -1637,7 +1643,7 @@ int Character::mabuff_speed_bonus() const
     } );
     return ret;
 }
-int Character::mabuff_arpen_bonus( damage_type type ) const
+int Character::mabuff_arpen_bonus( const damage_type_id &type ) const
 {
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {
@@ -1645,7 +1651,7 @@ int Character::mabuff_arpen_bonus( damage_type type ) const
     } );
     return ret;
 }
-int Character::mabuff_armor_bonus( damage_type type ) const
+int Character::mabuff_armor_bonus( const damage_type_id &type ) const
 {
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {
@@ -1653,7 +1659,7 @@ int Character::mabuff_armor_bonus( damage_type type ) const
     } );
     return ret;
 }
-float Character::mabuff_damage_mult( damage_type type ) const
+float Character::mabuff_damage_mult( const damage_type_id &type ) const
 {
     float ret = 1.f;
     accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {
@@ -1663,7 +1669,7 @@ float Character::mabuff_damage_mult( damage_type type ) const
     } );
     return ret;
 }
-int Character::mabuff_damage_bonus( damage_type type ) const
+int Character::mabuff_damage_bonus( const damage_type_id &type ) const
 {
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {
@@ -1691,12 +1697,22 @@ float Character::mabuff_attack_cost_mult() const
     return ret;
 }
 
-bool Character::is_throw_immune() const
+bool Character::has_mabuff_flag( const json_character_flag &flag ) const
 {
-    return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
-        return b.is_throw_immune();
+    return search_ma_buff_effect( *effects, [flag]( const ma_buff & b, const effect & ) {
+        return b.has_flag( flag );
     } );
 }
+
+int Character::count_mabuff_flag( const json_character_flag &flag ) const
+{
+    int ret = 0;
+    accumulate_ma_buff_effects( *effects, [&ret, flag]( const ma_buff & b, const effect & ) {
+        ret += b.has_flag( flag );
+    } );
+    return ret;
+}
+
 bool Character::is_melee_bash_damage_cap_bonus() const
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
@@ -1758,7 +1774,7 @@ bool Character::can_autolearn( const matype_id &ma_id ) const
         const skill_id skill_req( elem.first );
         const int required_level = elem.second;
 
-        if( required_level > get_skill_level( skill_req ) ) {
+        if( required_level > static_cast<int>( get_skill_level( skill_req ) ) ) {
             return false;
         }
     }
@@ -1781,12 +1797,12 @@ void character_martial_arts::martialart_use_message( const Character &owner ) co
     }
 }
 
-float ma_technique::damage_bonus( const Character &u, damage_type type ) const
+float ma_technique::damage_bonus( const Character &u, const damage_type_id &type ) const
 {
     return bonuses.get_flat( u, affected_stat::DAMAGE, type );
 }
 
-float ma_technique::damage_multiplier( const Character &u, damage_type type ) const
+float ma_technique::damage_multiplier( const Character &u, const damage_type_id &type ) const
 {
     return bonuses.get_mult( u, affected_stat::DAMAGE, type );
 }
@@ -1801,7 +1817,7 @@ float ma_technique::move_cost_penalty( const Character &u ) const
     return bonuses.get_flat( u, affected_stat::MOVE_COST );
 }
 
-float ma_technique::armor_penetration( const Character &u, damage_type type ) const
+float ma_technique::armor_penetration( const Character &u, const damage_type_id &type ) const
 {
     return bonuses.get_flat( u, affected_stat::ARMOR_PENETRATION, type );
 }
@@ -1834,6 +1850,8 @@ std::string ma_technique::get_description() const
 
     dump += reqs.get_description();
 
+    dump += string_format( _( condition_desc ) ) + "\n";
+
     if( weighting > 1 ) {
         dump += string_format( _( "* <info>Greater chance</info> to activate: <stat>+%s%%</stat>" ),
                                ( 100 * ( weighting - 1 ) ) ) + "\n";
@@ -1856,18 +1874,6 @@ std::string ma_technique::get_description() const
     if( wall_adjacent ) {
         dump += _( "* Will only activate while <info>near</info> to a <info>wall</info>" ) +
                 std::string( "\n" );
-    }
-
-    if( downed_target ) {
-        dump += _( "* Only works on a <info>downed</info> target" ) + std::string( "\n" );
-    }
-
-    if( stunned_target ) {
-        dump += _( "* Only works on a <info>stunned</info> target" ) + std::string( "\n" );
-    }
-
-    if( human_target ) {
-        dump += _( "* Only works on a <info>humanoid</info> target" ) + std::string( "\n" );
     }
 
     if( powerful_knockback ) {
@@ -1903,8 +1909,10 @@ std::string ma_technique::get_description() const
     }
 
     if( knockback_dist ) {
-        dump += string_format( _( "* Will <info>knock back</info> enemies <stat>%d %s</stat>" ),
-                               knockback_dist, n_gettext( "tile", "tiles", knockback_dist ) ) + "\n";
+        dump += string_format( n_gettext( "* Will <info>knock back</info> enemies <stat>%d tile</stat>",
+                                          "* Will <info>knock back</info> enemies <stat>%d tiles</stat>",
+                                          knockback_dist ),
+                               knockback_dist ) + "\n";
     }
 
     if( knockback_follow ) {
@@ -1912,13 +1920,17 @@ std::string ma_technique::get_description() const
     }
 
     if( down_dur ) {
-        dump += string_format( _( "* Will <info>down</info> enemies for <stat>%d %s</stat>" ),
-                               down_dur, n_gettext( "turn", "turns", down_dur ) ) + "\n";
+        dump += string_format( n_gettext( "* Will <info>down</info> enemies for <stat>%d turn</stat>",
+                                          "* Will <info>down</info> enemies for <stat>%d turns</stat>",
+                                          down_dur ),
+                               down_dur ) + "\n";
     }
 
     if( stun_dur ) {
-        dump += string_format( _( "* Will <info>stun</info> target for <stat>%d %s</stat>" ),
-                               stun_dur, n_gettext( "turn", "turns", stun_dur ) ) + "\n";
+        dump += string_format( n_gettext( "* Will <info>stun</info> target for <stat>%d turn</stat>",
+                                          "* Will <info>stun</info> target for <stat>%d turns</stat>",
+                                          stun_dur ),
+                               stun_dur ) + "\n";
     }
 
     if( disarms ) {
@@ -2091,8 +2103,9 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 std::vector<std::string> &weaps = weaps_by_cat[weapon_category_OTHER_INVALID_WEAP_CAT];
                 weaps.erase( std::unique( weaps.begin(), weaps.end() ), weaps.end() );
                 buffer += std::string( "<header>" ) + _( "OTHER" ) + std::string( ":</header> " );
-                buffer += enumerate_as_string( weaps );
+                buffer += enumerate_as_string( weaps ) + "\n";
             }
+            buffer += "--\n";
         }
 
         catacurses::window w;
@@ -2105,12 +2118,11 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         ui_adaptor ui;
         ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-            w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                    point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                           TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
+            w = catacurses::newwin( TERMY * 0.9, FULL_SCREEN_WIDTH,
+                                    point( TERMX - FULL_SCREEN_WIDTH, TERMY * 0.1 ) / 2 );
 
-            width = FULL_SCREEN_WIDTH - 4;
-            height = FULL_SCREEN_HEIGHT - 2;
+            width = catacurses::getmaxx( w ) - 4;
+            height = catacurses::getmaxy( w ) - 2;
 
             const auto vFolded = foldstring( text, width );
             iLines = vFolded.size();
@@ -2125,43 +2137,40 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         } );
         ui.mark_resize();
 
-        input_context ict;
-        ict.register_action( "UP" );
-        ict.register_action( "DOWN" );
-        ict.register_action( "PAGE_UP" );
-        ict.register_action( "PAGE_DOWN" );
-        ict.register_action( "QUIT" );
-        ict.register_action( "HELP_KEYBINDINGS" );
+        scrollbar sb;
+
+        input_context ctxt;
+        sb.set_draggable( ctxt );
+        ctxt.register_navigate_ui_list();
+        ctxt.register_action( "QUIT" );
+        ctxt.register_action( "HELP_KEYBINDINGS" );
 
         ui.on_redraw( [&]( const ui_adaptor & ) {
             werase( w );
             fold_and_print_from( w, point( 2, 1 ), width, selected, c_light_gray, text );
             draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), ma.name ) );
-            draw_scrollbar( w, selected, height, iLines, point_south, BORDER_COLOR, true );
+            sb.offset_x( 0 )
+            .offset_y( 1 )
+            .content_size( iLines )
+            .viewport_pos( selected )
+            .viewport_size( height )
+            .slot_color( BORDER_COLOR )
+            .scroll_to_last( false )
+            .apply( w );
             wnoutrefresh( w );
         } );
 
         do {
-            if( selected < 0 || iLines < height ) {
-                selected = 0;
-            } else if( selected >= iLines - height ) {
-                selected = iLines - height;
-            }
-
             ui_manager::redraw();
-            const int scroll_lines = catacurses::getmaxy( w ) - 4;
-            std::string action = ict.handle_input();
+            const size_t scroll_lines = catacurses::getmaxy( w ) - 3;
+            std::string action = ctxt.handle_input();
 
             if( action == "QUIT" ) {
                 break;
-            } else if( action == "DOWN" ) {
-                selected++;
-            } else if( action == "UP" ) {
-                selected--;
-            } else if( action == "PAGE_DOWN" ) {
-                selected += scroll_lines;
-            } else if( action == "PAGE_UP" ) {
-                selected -= scroll_lines;
+            } else if( sb.handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
+                                           selected )
+                       || navigate_ui_list( action, selected, scroll_lines, iLines - height + 1, false ) ) {
+                // NO FURTHER ACTION REQUIRED
             }
         } while( true );
     }

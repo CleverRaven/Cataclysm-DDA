@@ -10,8 +10,8 @@
 
 #include <string>
 
-static void check_reload_time( std::string weapon, std::string ammo,
-                               std::string container, int expected_moves )
+static void check_reload_time( const std::string &weapon, const std::string &ammo,
+                               const std::string &container, int expected_moves )
 {
     const tripoint test_origin( 60, 60, 0 );
     avatar &shooter = get_avatar();
@@ -26,7 +26,7 @@ static void check_reload_time( std::string weapon, std::string ammo,
 
     REQUIRE( !!shooter.used_weapon() );
     // Spooky action at a distance to tell load_RAS_weapon where to find the ammo.
-    item::reload_option opt = shooter.select_ammo( *shooter.used_weapon(), false );
+    item::reload_option opt = shooter.select_ammo( shooter.used_weapon(), false );
     shooter.ammo_location = opt.ammo;
 
     CAPTURE( opt.moves() );

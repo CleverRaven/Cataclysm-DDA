@@ -26,8 +26,6 @@
 #include "weather.h"
 
 #if defined(TILES)
-#include <memory>
-
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 #include "sdltiles.h"
 #endif
@@ -309,7 +307,7 @@ void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc
 #endif
 
 void explosion_handler::draw_custom_explosion( const tripoint &,
-        const std::map<tripoint, nc_color> &all_area, const cata::optional<std::string> &tile_id )
+        const std::map<tripoint, nc_color> &all_area, const std::optional<std::string> &tile_id )
 {
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
@@ -693,6 +691,17 @@ void game::draw_line( const tripoint &p, const tripoint &center,
 }
 #endif
 
+void game::draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center,
+                      const std::vector<tripoint_bub_ms> &points, bool noreveal )
+{
+    std::vector<tripoint> raw_points;
+    std::transform( points.begin(), points.end(), std::back_inserter( raw_points ),
+    []( const tripoint_bub_ms & t ) {
+        return t.raw();
+    } );
+    draw_line( p.raw(), center.raw(), raw_points, noreveal );
+}
+
 namespace
 {
 void draw_line_curses( game &g, const std::vector<tripoint> &points )
@@ -723,14 +732,14 @@ void game::draw_line( const tripoint &/*p*/, const std::vector<tripoint> &points
 #endif
 
 #if defined(TILES)
-void game::draw_cursor( const tripoint &p )
+void game::draw_cursor( const tripoint &p ) const
 {
     const tripoint rp = relative_view_pos( *this, p );
     mvwputch_inv( w_terrain, rp.xy(), c_light_green, 'X' );
     tilecontext->init_draw_cursor( p );
 }
 #else
-void game::draw_cursor( const tripoint &p )
+void game::draw_cursor( const tripoint &p ) const
 {
     const tripoint rp = relative_view_pos( *this, p );
     mvwputch_inv( w_terrain, rp.xy(), c_light_green, 'X' );
@@ -760,7 +769,7 @@ void draw_weather_curses( const catacurses::window &win, const weather_printable
 } //namespace
 
 #if defined(TILES)
-void game::draw_weather( const weather_printable &w )
+void game::draw_weather( const weather_printable &w ) const
 {
     if( !use_tiles ) {
         draw_weather_curses( w_terrain, w );
@@ -770,7 +779,7 @@ void game::draw_weather( const weather_printable &w )
     tilecontext->init_draw_weather( w, w.wtype->tiles_animation );
 }
 #else
-void game::draw_weather( const weather_printable &w )
+void game::draw_weather( const weather_printable &w ) const
 {
     draw_weather_curses( w_terrain, w );
 }
@@ -803,7 +812,7 @@ void draw_sct_curses( const game &g )
 } //namespace
 
 #if defined(TILES)
-void game::draw_sct()
+void game::draw_sct() const
 {
     if( use_tiles ) {
         tilecontext->init_draw_sct();
@@ -812,7 +821,7 @@ void game::draw_sct()
     }
 }
 #else
-void game::draw_sct()
+void game::draw_sct() const
 {
     draw_sct_curses( *this );
 }
@@ -838,7 +847,7 @@ void draw_zones_curses( const catacurses::window &w, const tripoint &start, cons
 } //namespace
 
 #if defined(TILES)
-void game::draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset )
+void game::draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset ) const
 {
     if( use_tiles ) {
         tilecontext->init_draw_zones( start, end, offset );
@@ -847,9 +856,46 @@ void game::draw_zones( const tripoint &start, const tripoint &end, const tripoin
     }
 }
 #else
-void game::draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset )
+void game::draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset ) const
 {
     draw_zones_curses( w_terrain, start, end, offset );
+}
+#endif
+
+#if defined(TILES)
+void game::draw_async_anim( const tripoint &p, const std::string &tile_id, const std::string &ncstr,
+                            const nc_color &nccol )
+{
+    if( test_mode ) {
+        // avoid segfault from null tilecontext in tests
+        return;
+    }
+
+    if( !get_option<bool>( "ANIMATIONS" ) ) {
+        return;
+    }
+
+    if( !u.sees( p ) ) {
+        return;
+    }
+
+    if( !use_tiles ) {
+        if( !ncstr.empty() ) {
+            g->init_draw_async_anim_curses( p, ncstr, nccol );
+        }
+        return;
+    }
+
+    tilecontext->init_draw_async_anim( p, tile_id );
+    g->invalidate_main_ui_adaptor();
+}
+#else
+void game::draw_async_anim( const tripoint &p, const std::string &, const std::string &ncstr,
+                            const nc_color &nccol )
+{
+    if( !ncstr.empty() ) {
+        g->init_draw_async_anim_curses( p, ncstr, nccol );
+    }
 }
 #endif
 

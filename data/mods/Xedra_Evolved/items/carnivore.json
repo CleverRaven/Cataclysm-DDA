@@ -32,12 +32,12 @@
     "price_postapoc": 100,
     "vitamins": [ [ "underhill_essence", 15 ] ],
     "material": [ "fae_fur", "fae_flesh" ],
-    "stack_size": 1,
     "fun": -24
   },
   {
     "id": "fae_meat",
     "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "name": { "str": "chunk of fae meat", "str_pl": "chunks of fae meat" },
     "description": "Freshly butchered meat from a fae beast.  You could eat it raw, but cooking it is better.",
     "weight": "296 g",
@@ -109,5 +109,25 @@
     "healthy": 0,
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "calories": 51
+  },
+  {
+    "id": "meat_smoked",
+    "copy-from": "meat_cooked",
+    "type": "COMESTIBLE",
+    "name": { "str": "smoked meat" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "smoked sucker" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "smoked Narnian" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "%s, mutant" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "fae", "name": { "str_sp": "smoked fae" } }
+    ],
+    "description": "Tasty meat that has been heavily smoked for preservation.  It could be further smoked to dehydrate it completely.",
+    "color": "brown",
+    "spoils_in": "24 days",
+    "price_postapoc": 200,
+    "quench": -1,
+    "fun": 5,
+    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
+    "smoking_result": "dry_meat"
   }
 ]

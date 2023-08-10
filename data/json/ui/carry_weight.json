@@ -1,0 +1,35 @@
+[
+  {
+    "//": "Relative weight carried, in %.",
+    "id": "carry_weight_text_label",
+    "type": "widget",
+    "var": "carry_weight_text",
+    "style": "text",
+    "label": "Carry Wt"
+  },
+  {
+    "//": "Relative weight carried, in %.",
+    "id": "carry_weight_text_no_label",
+    "type": "widget",
+    "copy-from": "carry_weight_text_label",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "//": "Relative weight carried. Graph goes up to 120%, so the last bar is overburdened.",
+    "id": "carry_weight_graph_label",
+    "type": "widget",
+    "var": "carry_weight",
+    "style": "graph",
+    "label": "Carry Wt",
+    "width": 6,
+    "symbols": ".\\|",
+    "colors": [ "c_green", "c_light_green", "c_yellow", "c_white_red" ]
+  },
+  {
+    "//": "Relative weight carried. Graph goes up to 120%, so the last bar is overburdened. No label.",
+    "id": "carry_weight_graph_no_label",
+    "type": "widget",
+    "copy-from": "carry_weight_graph_label",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

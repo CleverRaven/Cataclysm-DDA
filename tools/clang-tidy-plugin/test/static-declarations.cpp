@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-static-declarations %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-static-declarations %t -- --load=%cata_plugin --
 
 const int i0 = 0;
 // CHECK-MESSAGES: warning: Global declaration of 'i0' in a cpp file should be static or have a previous declaration in a header. [cata-static-declarations]

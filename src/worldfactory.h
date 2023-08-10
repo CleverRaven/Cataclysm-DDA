@@ -17,7 +17,7 @@
 
 enum class special_game_type;
 
-class JsonIn;
+class JsonArray;
 class JsonObject;
 
 namespace catacurses
@@ -57,6 +57,7 @@ struct WORLD {
          * changing that will also change the result of this function.
          */
         std::string folder_path() const;
+        cata_path folder_path_path() const;
 
         std::string world_name;
         options_manager::options_container WORLD_OPTIONS;
@@ -76,7 +77,7 @@ struct WORLD {
 
         bool save( bool is_conversion = false ) const;
 
-        void load_options( JsonIn &jsin );
+        void load_options( const JsonArray &options_json );
         bool load_options();
 };
 
@@ -98,6 +99,10 @@ class worldfactory
         WORLD *make_new_world( const std::vector<mod_id> &mods );
         /// Returns the *existing* world of given name.
         WORLD *get_world( const std::string &name );
+        /// Returns the *existing* world's name from its index in the world list.
+        std::string get_world_name( size_t index );
+        /// Returns the *existing* world's index in the world list from its name.
+        size_t get_world_index( const std::string &name );
         bool has_world( const std::string &name ) const;
 
         void set_active_world( WORLD *world );
@@ -113,12 +118,12 @@ class worldfactory
         std::string last_world_name;
         std::string last_character_name;
 
-        void save_last_world_info();
+        void save_last_world_info() const;
 
         mod_manager &get_mod_manager();
 
         void remove_world( const std::string &worldname );
-        bool valid_worldname( const std::string &name, bool automated = false );
+        bool valid_worldname( const std::string &name, bool automated = false ) const;
 
         /**
          * @param delete_folder If true: delete all the files and directories  of the given
@@ -130,6 +135,8 @@ class worldfactory
         static std::map<size_t, inclusive_rectangle<point>> draw_worldgen_tabs( const catacurses::window &w,
                 size_t current );
         void show_active_world_mods( const std::vector<mod_id> &world_mods );
+
+        const std::map<std::string, std::unique_ptr<WORLD>> &get_all_worlds() const;
 
     private:
         std::map<std::string, std::unique_ptr<WORLD>> all_worlds;

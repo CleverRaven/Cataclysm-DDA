@@ -9,6 +9,7 @@
 #include <iterator>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <stdexcept>
@@ -28,8 +29,8 @@
 #include "game.h"
 #include "help.h"
 #include "json.h"
+#include "json_loader.h"
 #include "map.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
@@ -40,9 +41,6 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-
-using std::min; // from <algorithm>
-using std::max;
 
 static const std::string default_context_id( "default" );
 
@@ -88,7 +86,7 @@ bool is_mouse_enabled()
 
 bool is_keycode_mode_supported()
 {
-#if defined(TILES) && !defined(__ANDROID__) && !defined(TARGET_OS_IPHONE)
+#if defined(TILES) && !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
     return keycode_mode;
 #else
     return false;
@@ -260,26 +258,24 @@ void input_manager::init()
 
 static constexpr int current_keybinding_version = 2;
 
-void input_manager::load( const std::string &file_name, bool is_user_preferences )
+void input_manager::load( const cata_path &file_name, bool is_user_preferences )
 {
-    cata::ifstream data_file( fs::u8path( file_name ), std::ifstream::in | std::ifstream::binary );
+    std::optional<JsonValue> jsin_opt = json_loader::from_path_opt( file_name );
 
-    if( !data_file.good() ) {
+    if( !jsin_opt.has_value() ) {
         // Only throw if this is the first file to load, that file _must_ exist,
         // otherwise the keybindings can not be read at all.
         if( action_contexts.empty() ) {
-            throw std::runtime_error( std::string( "Could not read " ) + file_name );
+            throw std::runtime_error( std::string( "Could not read " ) + file_name.generic_u8string() );
         }
         return;
     }
 
-    JsonIn jsin( data_file, file_name );
+    JsonArray actions_json = *jsin_opt;
 
     //Crawl through once and create an entry for every definition
-    jsin.start_array();
-    while( !jsin.end_array() ) {
+    for( JsonObject action : actions_json ) {
         // JSON object representing the action
-        JsonObject action = jsin.get_object();
 
         int version = current_keybinding_version;
         if( is_user_preferences ) {
@@ -291,7 +287,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         const std::string type = action.get_string( "type", "keybinding" );
         if( type != "keybinding" ) {
             debugmsg( "Only objects of type 'keybinding' (not %s) should appear in the "
-                      "keybindings file '%s'", type, file_name );
+                      "keybindings file '%s'", type, file_name.generic_u8string() );
             continue;
         }
 
@@ -499,10 +495,10 @@ void input_manager::add_gamepad_keycode_pair( int ch, const std::string &name )
     gamepad_keyname_to_keycode[name] = ch;
 }
 
-void input_manager::add_mouse_keycode_pair( const int ch, const std::string &name )
+void input_manager::add_mouse_keycode_pair( const MouseInput mouse_input, const std::string &name )
 {
-    mouse_keycode_to_keyname[ch] = name;
-    mouse_keyname_to_keycode[name] = ch;
+    mouse_keycode_to_keyname[static_cast<int>( mouse_input )] = name;
+    mouse_keyname_to_keycode[name] = static_cast<int>( mouse_input );
 }
 
 static constexpr int char_key_beg = ' ';
@@ -654,11 +650,29 @@ void input_manager::init_keycode_mapping()
     add_gamepad_keycode_pair( JOY_29,        translate_marker_context( "key name", "JOY_29" ) );
     add_gamepad_keycode_pair( JOY_30,        translate_marker_context( "key name", "JOY_30" ) );
 
-    add_mouse_keycode_pair( MOUSE_BUTTON_LEFT,  translate_marker_context( "key name", "MOUSE_LEFT" ) );
-    add_mouse_keycode_pair( MOUSE_BUTTON_RIGHT, translate_marker_context( "key name", "MOUSE_RIGHT" ) );
-    add_mouse_keycode_pair( SCROLLWHEEL_UP,     translate_marker_context( "key name", "SCROLL_UP" ) );
-    add_mouse_keycode_pair( SCROLLWHEEL_DOWN,   translate_marker_context( "key name", "SCROLL_DOWN" ) );
-    add_mouse_keycode_pair( MOUSE_MOVE,         translate_marker_context( "key name", "MOUSE_MOVE" ) );
+    add_mouse_keycode_pair( MouseInput::LeftButtonPressed,
+                            translate_marker_context( "key name", "MOUSE_LEFT_PRESSED" ) );
+    add_mouse_keycode_pair( MouseInput::LeftButtonReleased,
+                            translate_marker_context( "key name", "MOUSE_LEFT" ) );
+    add_mouse_keycode_pair( MouseInput::RightButtonPressed,
+                            translate_marker_context( "key name", "MOUSE_RIGHT_PRESSED" ) );
+    add_mouse_keycode_pair( MouseInput::RightButtonReleased,
+                            translate_marker_context( "key name", "MOUSE_RIGHT" ) );
+    add_mouse_keycode_pair( MouseInput::ScrollWheelUp,
+                            translate_marker_context( "key name", "SCROLL_UP" ) );
+    add_mouse_keycode_pair( MouseInput::ScrollWheelDown,
+                            translate_marker_context( "key name", "SCROLL_DOWN" ) );
+    add_mouse_keycode_pair( MouseInput::Move,
+                            translate_marker_context( "key name", "MOUSE_MOVE" ) );
+    add_mouse_keycode_pair( MouseInput::X1ButtonPressed,
+                            translate_marker_context( "key name", "MOUSE_BACK_PRESSED" ) );
+    add_mouse_keycode_pair( MouseInput::X1ButtonReleased,
+                            translate_marker_context( "key name", "MOUSE_BACK" ) );
+    add_mouse_keycode_pair( MouseInput::X2ButtonPressed,
+                            translate_marker_context( "key name", "MOUSE_FORWARD_PRESSED" ) );
+    add_mouse_keycode_pair( MouseInput::X2ButtonReleased,
+                            translate_marker_context( "key name", "MOUSE_FORWARD" ) );
+
 }
 
 int input_manager::get_keycode( const input_event_t inp_type, const std::string &name ) const
@@ -1150,17 +1164,21 @@ std::string input_context::get_desc(
     const std::string &text,
     const input_event_filter &evt_filter ) const
 {
-    return get_desc( action_descriptor, text, evt_filter,
-                     to_translation(
-                         //~ %1$s: action description text before key,
-                         //~ %2$s: key description,
-                         //~ %3$s: action description text after key.
-                         "keybinding", "%1$s(%2$s)%3$s" ),
-                     to_translation(
-                         // \u00A0 is the non-breaking space
-                         //~ %1$s: key description,
-                         //~ %2$s: action description.
-                         "keybinding", "[%1$s]\u00A0%2$s" ) );
+
+    // Keybinding tips
+    static const translation inline_fmt = to_translation(
+            //~ %1$s: action description text before key,
+            //~ %2$s: key description,
+            //~ %3$s: action description text after key.
+            "keybinding", "%1$s[<color_light_green>%2$s</color>]%3$s" );
+    static const translation separate_fmt = to_translation(
+            // \u00A0 is the non-breaking space
+            //~ %1$s: key description,
+            //~ %2$s: action description.
+            "keybinding", "[<color_light_green>%1$s</color>]\u00A0%2$s" );
+
+    return get_desc( action_descriptor, text, evt_filter, inline_fmt,
+                     separate_fmt );
 }
 
 std::string input_context::describe_key_and_name( const std::string &action_descriptor,
@@ -1183,6 +1201,7 @@ const std::string &input_context::handle_input( const int timeout )
     next_action.type = input_event_t::error;
     const std::string *result = &CATA_ERROR;
     while( true ) {
+
         next_action = inp_mngr.get_input_event( preferred_keyboard_mode );
         if( next_action.type == input_event_t::timeout ) {
             result = &TIMEOUT;
@@ -1190,6 +1209,13 @@ const std::string &input_context::handle_input( const int timeout )
         }
 
         const std::string &action = input_to_action( next_action );
+
+        //Special global key to toggle language to english and back
+        if( action == "toggle_language_to_en" ) {
+            g->toggle_language_to_en();
+            ui_manager::invalidate_all_ui_adaptors();
+            ui_manager::redraw_invalidated();
+        }
 
         // Special help action
         if( action == "HELP_KEYBINDINGS" ) {
@@ -1253,6 +1279,18 @@ void input_context::register_cardinal()
     register_leftright();
 }
 
+void input_context::register_navigate_ui_list()
+{
+    register_action( "UP", to_translation( "Move cursor up" ) );
+    register_action( "DOWN", to_translation( "Move cursor down" ) );
+    register_action( "SCROLL_UP", to_translation( "Move cursor up" ) );
+    register_action( "SCROLL_DOWN", to_translation( "Move cursor down" ) );
+    register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    register_action( "HOME", to_translation( "Scroll to top" ) );
+    register_action( "END", to_translation( "Scroll to bottom" ) );
+}
+
 // dx and dy are -1, 0, or +1. Rotate the indicated direction 1/8 turn clockwise.
 void rotate_direction_cw( int &dx, int &dy )
 {
@@ -1272,7 +1310,7 @@ void rotate_direction_cw( int &dx, int &dy )
     dy = dir_num / 3 - 1;
 }
 
-cata::optional<tripoint> input_context::get_direction( const std::string &action ) const
+std::optional<tripoint> input_context::get_direction( const std::string &action ) const
 {
     static const auto noop = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
         return p;
@@ -1281,7 +1319,7 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
         rotate_direction_cw( p.x, p.y );
         return p;
     } );
-    const auto transform = iso_mode && tile_iso && use_tiles ? rotate : noop;
+    const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
 
     if( action == "UP" ) {
         return transform( tripoint_north );
@@ -1300,7 +1338,7 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
     } else if( action == "RIGHTDOWN" ) {
         return transform( tripoint_south_east );
     } else {
-        return cata::nullopt;
+        return std::nullopt;
     }
 }
 
@@ -1332,6 +1370,11 @@ action_id input_context::display_menu( const bool permit_execute_action )
 
     input_context ctxt( "HELP_KEYBINDINGS", keyboard_mode::keychar );
     // Keybinding menu actions
+    ctxt.register_action( "COORDINATE" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
     ctxt.register_action( "UP", to_translation( "Scroll up" ) );
     ctxt.register_action( "DOWN", to_translation( "Scroll down" ) );
     ctxt.register_action( "PAGE_DOWN" );
@@ -1366,28 +1409,22 @@ action_id input_context::display_menu( const bool permit_execute_action )
 
     ui_adaptor ui;
     int width = 0;
-    int height = 0;
     catacurses::window w_help;
     size_t display_height = 0;
     size_t legwidth = 0;
     string_input_popup spopup;
     // ignore hardcoded keys in string input popup
     for( const std::pair<const fallback_action, int> &v : fallback_keys ) {
-        spopup.callbacks[v.second] = []() {
+        spopup.add_callback( v.second, []() {
             return true;
-        };
+        } );
     }
     const auto recalc_size = [&]( ui_adaptor & ui ) {
-        int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
-        width = min( 80, maxwidth );
-        int maxheight = std::max( FULL_SCREEN_HEIGHT, TERMY );
-        height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
-
-        w_help = catacurses::newwin( height - 2, width - 2,
-                                     point( maxwidth / 2 - width / 2, maxheight / 2 - height / 2 ) );
+        width = TERMX >= 100 ? 100 : 80;
+        w_help = catacurses::newwin( TERMY, width - 2, point( TERMX / 2 - width / 2, 0 ) );
         // height of the area usable for display of keybindings, excludes headers & borders
-        display_height = height - LEGEND_HEIGHT - BORDER_SPACE; // -2 for the border
-        const point filter_pos( 4, 8 );
+        display_height = TERMY - LEGEND_HEIGHT;
+        const point filter_pos( 4, 6 );
         // width of the legend
         legwidth = width - filter_pos.x * 2 - BORDER_SPACE;
         // +1 for end-of-text cursor
@@ -1415,8 +1452,14 @@ action_id input_context::display_menu( const bool permit_execute_action )
 
     // colors of the keybindings
     static const nc_color global_key = c_light_gray;
+    static const nc_color h_global_key = h_light_gray;
     static const nc_color local_key = c_light_green;
+    static const nc_color h_local_key = h_light_green;
     static const nc_color unbound_key = c_light_red;
+    static const nc_color h_unbound_key = h_light_red;
+
+    enum class kb_btn_idx { none, remove, add_local, add_global } highlighted_btn_index =
+        kb_btn_idx::none;
     // (vertical) scroll offset
     size_t scroll_offset = 0;
     // keybindings help
@@ -1424,11 +1467,6 @@ action_id input_context::display_menu( const bool permit_execute_action )
     legend += colorize( _( "Unbound keys" ), unbound_key ) + "\n";
     legend += colorize( _( "Keybinding active only on this screen" ), local_key ) + "\n";
     legend += colorize( _( "Keybinding active globally" ), global_key ) + "\n";
-    legend += string_format(
-                  _( "Press %c to remove keybinding\nPress %c to add local keybinding\nPress %c to add global keybinding\n" ),
-                  fallback_keys.at( fallback_action::remove ),
-                  fallback_keys.at( fallback_action::add_local ),
-                  fallback_keys.at( fallback_action::add_global ) );
     if( permit_execute_action ) {
         legend += string_format(
                       _( "Press %c to execute action\n" ),
@@ -1439,13 +1477,28 @@ action_id input_context::display_menu( const bool permit_execute_action )
     std::string filter_phrase;
     std::string action;
     int raw_input_char = 0;
-
-    const auto redraw = [&]( const ui_adaptor & ) {
+    int highlight_row_index = -1;
+    const auto redraw = [&]( ui_adaptor & ui ) {
         werase( w_help );
         draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );
         draw_scrollbar( w_help, scroll_offset, display_height,
-                        filtered_registered_actions.size(), point( 0, 10 ), c_white, true );
+                        filtered_registered_actions.size(), point( 0, 7 ), c_white, true );
         fold_and_print( w_help, point( 2, 1 ), legwidth, c_white, legend );
+        const auto item_color = []( const int index_to_draw, int index_highlighted ) {
+            return index_highlighted == index_to_draw ? h_light_gray : c_light_gray;
+        };
+        right_print( w_help, 4, 2, item_color( static_cast<int>( kb_btn_idx::remove ),
+                                               int( highlighted_btn_index ) ),
+                     string_format( _( "<[<color_yellow>%c</color>] Remove keybinding>" ),
+                                    fallback_keys.at( fallback_action::remove ) ) );
+        right_print( w_help, 4, 26, item_color( static_cast<int>( kb_btn_idx::add_local ),
+                                                int( highlighted_btn_index ) ),
+                     string_format( _( "<[<color_yellow>%c</color>] Add local keybinding>" ),
+                                    fallback_keys.at( fallback_action::add_local ) ) );
+        right_print( w_help, 4, 54, item_color( static_cast<int>( kb_btn_idx::add_global ),
+                                                int( highlighted_btn_index ) ),
+                     string_format( _( "<[<color_yellow>%c</color>] Add global keybinding>" ),
+                                    fallback_keys.at( fallback_action::add_global ) ) );
 
         for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() &&
              i < display_height; i++ ) {
@@ -1465,30 +1518,31 @@ action_id input_context::display_menu( const bool permit_execute_action )
             if( status == s_add_global && overwrite_default ) {
                 // We're trying to add a global, but this action has a local
                 // defined, so gray out the invlet.
-                mvwprintz( w_help, point( 2, i + 10 ), c_dark_gray, "%c ", invlet );
+                mvwprintz( w_help, point( 2, i + 7 ), c_dark_gray, "%c ", invlet );
             } else if( status == s_add || status == s_add_global || status == s_remove ) {
-                mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
+                mvwprintz( w_help, point( 2, i + 7 ), c_light_blue, "%c ", invlet );
             } else if( status == s_execute ) {
-                mvwprintz( w_help, point( 2, i + 10 ), c_white, "%c ", invlet );
+                mvwprintz( w_help, point( 2, i + 7 ), c_white, "%c ", invlet );
             } else {
-                mvwprintz( w_help, point( 2, i + 10 ), c_blue, "  " );
+                mvwprintz( w_help, point( 2, i + 7 ), c_blue, "  " );
             }
             nc_color col;
             if( attributes.input_events.empty() ) {
-                col = unbound_key;
+                col = i == size_t( highlight_row_index ) ? h_unbound_key : unbound_key;
             } else if( overwrite_default ) {
-                col = local_key;
+                col = i == size_t( highlight_row_index ) ? h_local_key : local_key;
             } else {
-                col = global_key;
+                col = i == size_t( highlight_row_index ) ? h_global_key : global_key;
             }
-            mvwprintz( w_help, point( 4, i + 10 ), col, "%s:", get_action_name( action_id ) );
-            mvwprintz( w_help, point( 52, i + 10 ), col, "%s", get_desc( action_id ) );
+            mvwprintz( w_help, point( 4, i + 7 ), col, "%s:", get_action_name( action_id ) );
+            mvwprintz( w_help, point( TERMX >= 100 ? 62 : 52, i + 7 ), col, "%s", get_desc( action_id ) );
         }
 
-        // spopup.query_string() will call wnoutrefresh( w_help ), and should
-        // be called last to position the cursor at the correct place in the curses build.
+        // spopup.query_string() will call wnoutrefresh( w_help )
         spopup.text( filter_phrase );
         spopup.query_string( false, true );
+        // Record cursor immediately after spopup drawing
+        ui.record_term_cursor();
     };
     ui.on_redraw( redraw );
 
@@ -1512,7 +1566,42 @@ action_id input_context::display_menu( const bool permit_execute_action )
         if( scroll_offset > filtered_registered_actions.size() ) {
             scroll_offset = 0;
         }
-
+        if( action == "MOUSE_MOVE" || action == "SELECT" ) {
+            highlighted_btn_index = kb_btn_idx::none;
+            highlight_row_index = -1;
+            std::optional<point> o_p = ctxt.get_coordinates_text( w_help );
+            if( o_p ) {
+                point p = o_p.value();
+                if( window_contains_point_relative( w_help, p ) ) {
+                    if( p.y >= 7 && p.y < TERMY  && status != s_show ) {
+                        highlight_row_index = p.y - 7;
+                    } else if( p.y == 4 ) {
+                        if( p.x >= 17 && p.x <= 43 ) {
+                            highlighted_btn_index = kb_btn_idx::add_global;
+                        } else if( p.x >= 46 && p.x < 72 ) {
+                            highlighted_btn_index = kb_btn_idx::add_local;
+                        } else if( p.x >= 73 && p.x < 96 ) {
+                            highlighted_btn_index = kb_btn_idx::remove;
+                        }
+                    }
+                }
+            }
+            if( action == "SELECT" ) {
+                switch( highlighted_btn_index ) {
+                    case kb_btn_idx::remove:
+                        status = s_remove;
+                        break;
+                    case kb_btn_idx::add_local:
+                        status = s_add;
+                        break;
+                    case kb_btn_idx::add_global:
+                        status = s_add_global;
+                        break;
+                    case kb_btn_idx::none:
+                        break;
+                }
+            }
+        }
         // In addition to the modifiable hotkeys, we also check for hardcoded
         // keys, e.g. '+', '-', '=', '.' in order to prevent the user from
         // entering an unrecoverable state.
@@ -1548,7 +1637,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
                 && scroll_offset > 0 ) {
                 scroll_offset--;
             }
-        } else if( action == "PAGE_DOWN" ) {
+        } else if( action == "PAGE_DOWN" || action == "SCROLL_DOWN" ) {
             if( filtered_registered_actions.empty() ) {
                 // do nothing
             } else if( scroll_offset + display_height < filtered_registered_actions.size() ) {
@@ -1557,10 +1646,10 @@ action_id input_context::display_menu( const bool permit_execute_action )
             } else if( filtered_registered_actions.size() > display_height ) {
                 scroll_offset = 0;
             }
-        } else if( action == "PAGE_UP" ) {
+        } else if( action == "PAGE_UP" || action == "SCROLL_UP" ) {
             if( filtered_registered_actions.empty() ) {
                 // do nothing
-            } if( scroll_offset >= display_height ) {
+            } else if( scroll_offset >= display_height ) {
                 scroll_offset -= display_height;
             } else if( scroll_offset > 0 ) {
                 scroll_offset = 0;
@@ -1577,9 +1666,13 @@ action_id input_context::display_menu( const bool permit_execute_action )
             // update available hotkeys in case they've changed
             hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
         } else if( !filtered_registered_actions.empty() && status != s_show ) {
-            const size_t hotkey_index = hotkeys.find_first_of( raw_input_char );
+            size_t hotkey_index = hotkeys.find_first_of( raw_input_char );
             if( hotkey_index == std::string::npos ) {
-                continue;
+                if( action == "SELECT" && highlight_row_index != -1 ) {
+                    hotkey_index = size_t( highlight_row_index );
+                } else {
+                    continue;
+                }
             }
             const size_t action_index = hotkey_index + scroll_offset;
             if( action_index >= filtered_registered_actions.size() ) {
@@ -1725,38 +1818,46 @@ bool gamepad_available()
     return false;
 }
 
-cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win )
+std::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win,
+        const point &offset, const bool center_cursor ) const
 {
     if( !coordinate_input_received ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     const point view_size( getmaxx( capture_win ), getmaxy( capture_win ) );
     const point win_min( getbegx( capture_win ),
                          getbegy( capture_win ) );
     const half_open_rectangle<point> win_bounds( win_min, win_min + view_size );
     if( !win_bounds.contains( coordinate ) ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
-    point view_offset;
-    if( capture_win == g->w_terrain ) {
-        view_offset = g->ter_view_p.xy();
+    point p = coordinate + offset;
+    // If no offset is specified, account for the window location
+    if( offset == point_zero ) {
+        p -= win_min;
     }
-
-    const point p = view_offset - ( view_size / 2 - coordinate );
+    // Some windows (notably the overmap) want 0,0 to be the center of the screen
+    if( center_cursor ) {
+        p -= view_size / 2;
+    }
     return tripoint( p, get_map().get_abs_sub().z() );
 }
 #endif
 
-cata::optional<point> input_context::get_coordinates_text( const catacurses::window
+std::optional<point> input_context::get_coordinates_text( const catacurses::window
         &capture_win ) const
 {
 #if !defined( TILES )
-    ( void ) capture_win;
-    return cata::nullopt;
+    std::optional<tripoint> coord3d = get_coordinates( capture_win );
+    if( coord3d.has_value() ) {
+        return get_coordinates( capture_win )->xy();
+    } else {
+        return std::nullopt;
+    }
 #else
     if( !coordinate_input_received ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     const window_dimensions dim = get_window_dimensions( capture_win );
     const int &fw = dim.scaled_font_size.x;
@@ -1846,7 +1947,7 @@ void input_context::set_iso( bool mode )
 }
 
 std::vector<std::string> input_context::filter_strings_by_phrase(
-    const std::vector<std::string> &strings, const std::string &phrase ) const
+    const std::vector<std::string> &strings, const std::string_view phrase ) const
 {
     std::vector<std::string> filtered_strings;
 

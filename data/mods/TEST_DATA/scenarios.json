@@ -1,6 +1,51 @@
 [
   {
     "type": "scenario",
+    "id": "test_custom_game",
+    "name": "Test custom game start date",
+    "points": 0,
+    "description": "Test starting on custom game start date.",
+    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
+    "start_name": "Evac Shelter",
+    "flags": [ "CITY_START" ],
+    "start_of_game": { "year": 4, "season": "summer", "day": 7, "hour": 18 }
+  },
+  {
+    "type": "scenario",
+    "id": "test_custom_game_invalid",
+    "name": "Test invalid custom game start date",
+    "points": 0,
+    "description": "Test starting on custom start date that is before cataclysm start date.",
+    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
+    "start_name": "Evac Shelter",
+    "flags": [ "CITY_START" ],
+    "start_of_game": { "year": -1, "season": "spring", "day": 8, "hour": 3 }
+  },
+  {
+    "type": "scenario",
+    "id": "test_custom_cataclysm",
+    "name": "Test custom cataclysm start date",
+    "points": 0,
+    "description": "Test starting with custom cataclysm start date.",
+    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
+    "start_name": "Evac Shelter",
+    "flags": [ "CITY_START" ],
+    "start_of_cataclysm": { "year": 7, "season": "autumn", "day": 9, "hour": 1 }
+  },
+  {
+    "type": "scenario",
+    "id": "test_custom_both",
+    "name": "Test custom cataclysm start date and game start date",
+    "points": 0,
+    "description": "Test starting with custom cataclysm start date and on custom game start date.",
+    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
+    "start_name": "Evac Shelter",
+    "flags": [ "CITY_START" ],
+    "start_of_cataclysm": { "year": 6, "season": "winter", "day": 4, "hour": 6 },
+    "start_of_game": { "year": 9, "season": "autumn", "day": 19, "hour": 13 }
+  },
+  {
+    "type": "scenario",
     "id": "test_random_hour",
     "name": "Test random hour",
     "points": 0,
@@ -8,7 +53,7 @@
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ],
-    "custom_initial_date": { "hour": -1, "season": "summer" }
+    "start_of_game": { "hour": "random", "season": "summer" }
   },
   {
     "type": "scenario",
@@ -19,7 +64,7 @@
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ],
-    "custom_initial_date": { "day": -1, "season": "summer" }
+    "start_of_game": { "day": "random", "season": "summer", "hour": 8 }
   },
   {
     "type": "scenario",
@@ -30,6 +75,6 @@
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ],
-    "custom_initial_date": { "year": -1, "season": "summer" }
+    "start_of_game": { "year": "random", "season": "summer", "hour": 8 }
   }
 ]

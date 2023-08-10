@@ -1,10 +1,11 @@
 #include "diary.h"
 
-#include <string>
-#include <list>
-#include <iostream>
-#include <fstream>
 #include <algorithm>
+#include <fstream>
+#include <iostream>
+#include <list>
+#include <string>
+#include <utility>
 
 #include "avatar.h"
 #include "bionics.h"
@@ -26,6 +27,7 @@ diary_page::diary_page() = default;
 std::vector<std::string> diary::get_pages_list()
 {
     std::vector<std::string> result;
+    result.reserve( pages.size() );
     for( std::unique_ptr<diary_page> &n : pages ) {
         result.push_back( get_diary_time_str( n->turn, n->time_acc ) );
     }
@@ -48,11 +50,10 @@ int diary::set_opened_page( int pagenum )
     return opened_page;
 }
 
-int diary::get_opened_page_num()
+int diary::get_opened_page_num() const
 {
     return opened_page;
 }
-
 
 diary_page *diary::get_page_ptr( int offset )
 {
@@ -63,15 +64,13 @@ diary_page *diary::get_page_ptr( int offset )
     return nullptr;
 }
 
-void diary::add_to_change_list( std::string entry, std::string desc )
+void diary::add_to_change_list( const std::string &entry, const std::string &desc )
 {
     if( !desc.empty() ) {
         desc_map[change_list.size()] = desc;
     }
     change_list.push_back( entry );
 }
-
-
 
 void diary::spell_changes()
 {
@@ -122,8 +121,6 @@ void diary::spell_changes()
     }
 }
 
-
-
 void diary::mission_changes()
 {
     diary_page *currpage = get_page_ptr();
@@ -132,7 +129,7 @@ void diary::mission_changes()
         return;
     }
     if( prevpage == nullptr ) {
-        auto add_missions = [&]( const std::string name, const std::vector<int> *missions ) {
+        auto add_missions = [&]( const std::string & name, const std::vector<int> *missions ) {
             if( !missions->empty() ) {
                 bool flag = true;
 
@@ -156,7 +153,7 @@ void diary::mission_changes()
         add_missions( _( "Failed missions:" ), &currpage->mission_failed );
 
     } else {
-        auto add_missions = [&]( const std::string name, const std::vector<int> *missions,
+        auto add_missions = [&]( const std::string & name, const std::vector<int> *missions,
         const std::vector<int> *prevmissions ) {
             bool flag = true;
             for( const int uid : *missions ) {
@@ -300,7 +297,6 @@ void diary::kill_changes()
                                         color ) + " " + colorize( nname, c_light_gray ), m.get_description() );
                 }
 
-
             }
             if( !flag ) {
                 add_to_change_list( " " );
@@ -330,7 +326,6 @@ void diary::kill_changes()
         }
     }
 }
-
 
 void diary::skill_changes()
 {
@@ -565,7 +560,6 @@ std::map<int, std::string> diary::get_desc_map()
     }
 }
 
-
 std::string diary::get_page_text()
 {
 
@@ -614,7 +608,7 @@ diary::diary()
 }
 void diary::set_page_text( std::string text )
 {
-    get_page_ptr()->m_text = text;
+    get_page_ptr()->m_text = std::move( text );
 }
 
 void diary::new_page()
@@ -664,7 +658,7 @@ void diary::delete_page()
 
 void diary::export_to_txt( bool lastexport )
 {
-    cata::ofstream myfile;
+    std::ofstream myfile;
     std::string path = lastexport ? PATH_INFO::memorialdir() : PATH_INFO::world_base_save_path();
     path += "/" + owner + "s_diary.txt";
     myfile.open( fs::u8path( path ) );
@@ -736,26 +730,18 @@ void diary::serialize( JsonOut &jsout )
     jsout.end_array();
 }
 
-
-
 void diary::load()
 {
     std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
-    std::string path = PATH_INFO::world_base_save_path() + "/" + name + ".json";
+    cata_path path = PATH_INFO::world_base_save_path_path() / ( name + ".json" );
     if( file_exist( path ) ) {
-        read_from_file( path, [&]( std::istream & fin ) {
-            deserialize( fin );
+        read_from_file_json( path, [&]( const JsonValue & jv ) {
+            deserialize( jv );
         } );
     }
 }
 
-void diary::deserialize( std::istream &fin )
-{
-    JsonIn jsin( fin );
-    deserialize( jsin );
-}
-
-void diary::deserialize( JsonIn &jsin )
+void diary::deserialize( const JsonValue &jsin )
 {
     try {
         JsonObject data = jsin.get_object();

@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "path_info.h"
 #include "pimpl.h"
 #include "translations.h"
 #include "type_id.h"
@@ -35,7 +36,7 @@ struct MOD_INFORMATION {
         mod_id ident;
 
         /** Directory to load JSON from relative to directory containing modinfo.json */
-        std::string path;
+        cata_path path;
 
         /** All authors who have added content to the mod (excluding maintenance changes) */
         std::set<std::string> authors;
@@ -95,7 +96,7 @@ class mod_manager
          * puts the files there. The original folder structure is
          * retained.
          */
-        bool copy_mod_contents( const t_mod_list &mods_to_copy, const std::string &output_base_path );
+        bool copy_mod_contents( const t_mod_list &mods_to_copy, const cata_path &output_base_path );
 
         /**
          * Save list of mods that are active in that world to
@@ -122,30 +123,30 @@ class mod_manager
          * @returns path of a file in the world folder that contains
          * the list of mods that should be loaded for this world.
          */
-        static std::string get_mods_list_file( const WORLD *world );
+        static cata_path get_mods_list_file( const WORLD *world );
         /**
          * Load all modinfo.json files (recursively) from the
          * given root.
          * @param path The root folder from which the modinfo
          * files are searched.
          */
-        void load_mods_from( const std::string &path );
+        void load_mods_from( const cata_path &path );
         /**
          * Load all mod information from a json file.
          * (@see load_modfile)
          */
-        void load_mod_info( const std::string &info_file_path );
+        void load_mod_info( const cata_path &info_file_path );
         /**
          * Load mod info from a json object. Put the loaded modinfo
          * directly into @ref mod_map.
          * @throws JsonError on all kind of errors.
          */
-        void load_modfile( const JsonObject &jo, const std::string &path );
+        void load_modfile( const JsonObject &jo, const cata_path &path );
 
         bool set_default_mods( const mod_id &ident );
         void remove_mod( const mod_id &ident );
         void remove_invalid_mods( std::vector<mod_id> &mods ) const;
-        void load_replacement_mods( const std::string &path );
+        void load_replacement_mods( const cata_path &path );
 
         pimpl<dependency_tree> tree;
 

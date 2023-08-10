@@ -45,6 +45,7 @@
       { "group": "toy_robot_kit", "prob": 1 },
       { "group": "toy_engine_kit", "prob": 1 },
       { "item": "instant_coffee", "prob": 15 },
+      { "item": "strange_coffee", "prob": 5 },
       { "item": "usb_drive", "prob": 5 },
       { "item": "coat_rain", "prob": 50 },
       { "item": "hood_rain", "prob": 10 },
@@ -71,7 +72,8 @@
       { "item": "eclipse_glasses", "prob": 1 },
       { "group": "writing_utensils", "prob": 20 },
       { "group": "softdrugs", "prob": 20 },
-      { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false }
+      { "prob": 15, "sealed": false, "group": "wyld_candy_wrapper_wyld_20" },
+      { "item": "laptop_xedra", "prob": 3 }
     ]
   },
   {
@@ -110,6 +112,7 @@
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       [ "bubblewrap", 50 ],
       [ "instant_coffee", 15 ],
+      [ "strange_coffee", 5 ],
       [ "usb_drive", 5 ],
       [ "software_useless", 10 ],
       [ "software_electronics_reference", 2 ],
@@ -129,30 +132,73 @@
       [ "camera_control", 2 ],
       [ "eclipse_glasses", 1 ],
       { "group": "writing_utensils", "prob": 20 },
-      { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false }
+      { "prob": 15, "sealed": false, "group": "wyld_candy_wrapper_wyld_20" },
+      { "item": "laptop_xedra", "prob": 3 }
+    ]
+  },
+  {
+    "id": "kids_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "copy-from": "kids_books",
+    "extend": { "entries": [ { "item": "book_teens_deduction", "prob": 4 } ] }
+  },
+  {
+    "id": "homebooks",
+    "type": "item_group",
+    "subtype": "distribution",
+    "copy-from": "homebooks",
+    "extend": { "entries": [ { "item": "manual_deduction", "prob": 1 }, { "item": "mag_deduction", "prob": 10 } ] }
+  },
+  {
+    "id": "religious_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "copy-from": "religious_books",
+    "extend": { "entries": [ { "item": "book_deduction_black_iron_prison", "prob": 1 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "softdrugs",
+    "subtype": "distribution",
+    "copy-from": "softdrugs",
+    "extend": { "entries": [ { "item": "truckstop_viagra", "prob": 15 } ] }
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "xed_notes",
+    "//": "Itemgroup for lore snippet items in Xedra Offices and Labs.",
+    "entries": [
+      { "item": "report_march_lord", "prob": 10 },
+      { "item": "border_patrol_files", "prob": 10 },
+      { "item": "green_postit_field_agent", "prob": 40 },
+      { "item": "agent_postit_gray", "prob": 50 },
+      { "item": "agent_postit_migo", "prob": 20 }
     ]
   },
   {
     "type": "item_group",
     "id": "fae_furs",
     "items": [
-      [ "hat_fur", 300 ],
-      [ "hat_faux_fur", 300 ],
+      [ "hat_fur", 30 ],
+      [ "hat_faux_fur", 30 ],
       [ "sleeveless_trenchcoat_fur", 10 ],
       [ "sleeveless_duster_fur", 10 ],
       [ "sleeveless_trenchcoat_faux_fur", 10 ],
-      [ "coat_fur_sf", 100 ],
-      [ "coat_faux_fur", 300 ],
-      [ "coat_fur", 300 ],
-      [ "gloves_fur", 300 ],
-      [ "boots_fur", 200 ],
-      [ "trenchcoat_faux_fur", 50 ],
-      [ "duster_faux_fur", 50 ],
-      [ "pants_faux_fur", 50 ],
-      [ "boots_glimmer_fur", 5 ],
-      [ "cloak_glimmer_fur", 5 ],
+      [ "coat_faux_fur", 30 ],
+      [ "coat_fur", 30 ],
+      [ "gloves_fur", 30 ],
+      [ "boots_fur", 20 ],
+      [ "trenchcoat_faux_fur", 10 ],
+      [ "duster_faux_fur", 10 ],
+      [ "pants_faux_fur", 10 ],
+      [ "boots_glimmer_fur", 8 ],
+      [ "cloak_glimmer_fur", 10 ],
       [ "coat_glimmer_fur", 1 ],
-      [ "duster_glimmer_fur", 1 ]
+      [ "duster_glimmer_fur", 1 ],
+      [ "sleeveless_duster_glimmer_fur", 1 ],
+      [ "sleeveless_trenchcoat_glimmer_fur", 1 ]
     ]
   },
   {
@@ -178,7 +224,10 @@
       { "item": "xl_mt_chainmail_hands", "prob": 20 },
       { "item": "xl_mt_chainmail_legs", "prob": 20 },
       { "item": "xl_mt_chainmail_vest", "prob": 20 },
-      { "item": "xl_mt_chainmail_feet", "prob": 20 }
+      { "item": "xl_mt_chainmail_feet", "prob": 20 },
+      { "item": "xl_boots_glimmer_fur", "prob": 20 },
+      { "item": "xl_coat_glimmer_fur", "prob": 20 },
+      { "item": "xl_duster_glimmer_fur", "prob": 20 }
     ]
   },
   {
@@ -186,16 +235,6 @@
     "id": "redcap_headgear",
     "subtype": "distribution",
     "entries": [ { "item": "xl_mt_chainmail_hood", "prob": 20 }, { "item": "theredcap", "prob": 20 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "spy_map",
-    "entries": [
-      { "item": "permanent_marker", "prob": 50, "charges": [ 0, 500 ] },
-      { "item": "spy_note", "prob": 90 },
-      { "item": "spy_map" }
-    ]
   },
   {
     "type": "item_group",
@@ -221,6 +260,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "vektor_pistol_cache",
+    "//": "Foreign agent safehouse pistol group.",
     "entries": [
       { "item": "sr1vektor_mag_18rd", "ammo-item": "9x21mm", "charges": 18 },
       { "item": "sr1vektor_mag_18rd", "ammo-item": "9x21mm", "charges": 18 },
@@ -237,7 +277,93 @@
       { "item": "xs_mt_chainmail_hood", "prob": 20 },
       { "item": "xs_mt_chainmail_hands", "prob": 20 },
       { "item": "xs_mt_chainmail_legs", "prob": 20 },
-      { "item": "xs_mt_chainmail_vest", "prob": 20 }
+      { "item": "xs_mt_chainmail_vest", "prob": 20 },
+      { "item": "xs_boots_glimmer_fur", "prob": 20 },
+      { "item": "xs_coat_glimmer_fur", "prob": 20 },
+      { "item": "xs_duster_glimmer_fur", "prob": 20 }
     ]
+  },
+  {
+    "id": "SUS_junk_drawer",
+    "type": "item_group",
+    "//": "Adding spell learning items to standard itemgroups",
+    "copy-from": "SUS_junk_drawer",
+    "subtype": "collection",
+    "extend": { "entries": [ { "group": "xe_all_spells_mid", "prob": 50 } ] }
+  },
+  {
+    "id": "SUS_junk_drawer_messy",
+    "type": "item_group",
+    "//": "Adding spell learning items to standard itemgroups",
+    "copy-from": "SUS_junk_drawer_messy",
+    "subtype": "collection",
+    "extend": { "entries": [ { "group": "xe_all_spells_mid", "prob": 50 } ] }
+  },
+  {
+    "id": "SUS_office_filing_cabinet",
+    "type": "item_group",
+    "//": "Adding spell learning items to standard itemgroups",
+    "copy-from": "SUS_office_filing_cabinet",
+    "subtype": "collection",
+    "extend": { "entries": [ { "group": "xe_all_spells_mid", "prob": 50 } ] }
+  },
+  {
+    "id": "costume_misc_items",
+    "type": "item_group",
+    "//": "Adding spell learning items to standard itemgroups",
+    "copy-from": "costume_misc_items",
+    "subtype": "distribution",
+    "extend": { "items": [ [ "magicians_hat", 5 ] ] }
+  },
+  {
+    "id": "homebooks",
+    "type": "item_group",
+    "//": "Adding spell learning items to standard itemgroups",
+    "copy-from": "homebooks",
+    "subtype": "distribution",
+    "extend": { "entries": [ { "item": "firmament_driver_book", "prob": 1 }, { "item": "eater_book_artifact", "prob": 1 } ] }
+  },
+  {
+    "id": "renfield_glock_mags",
+    "//": "Magazine item group for vampire servants.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "glockmag", "prob": 20, "charges": [ 0, 15 ] },
+      { "item": "glockbigmag", "prob": 10, "charges": [ 0, 30 ] },
+      { "item": "glock40bigmag", "prob": 10, "charges": [ 0, 40 ] },
+      { "item": "glock17_17", "prob": 5, "charges": [ 0, 17 ] },
+      { "item": "glock17_22", "prob": 10, "charges": [ 0, 22 ] },
+      { "item": "glock_drum_50rd", "prob": 20, "charges": [ 0, 50 ] },
+      { "item": "glock_drum_100rd", "prob": 5, "charges": [ 0, 100 ] }
+    ]
+  },
+  {
+    "id": "blood_containers",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "flask_hip", 100 ],
+      [ "bowl_skull", 100 ],
+      { "item": "blood", "prob": 40, "container-item": "flask_hip" },
+      { "item": "blood", "prob": 20, "container-item": "2lcanteen" },
+      { "item": "blood", "prob": 40, "container-item": "bag_iv" },
+      { "item": "blood", "prob": 40, "container-item": "bottle_glass" },
+      { "item": "blood", "prob": 30, "container-item": "bottle_plastic" },
+      { "item": "blood", "prob": 20, "container-item": "bottle_plastic_small" },
+      { "item": "blood", "prob": 20, "container-item": "camelbak" },
+      { "item": "blood", "prob": 20, "container-item": "canteen" },
+      { "item": "blood", "prob": 10, "container-item": "thermos" },
+      { "item": "blood", "prob": 5, "container-item": "blood_camel" },
+      { "item": "blood", "prob": 1, "container-item": "blood_bank" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "wyld_candy_wrapper_wyld_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "wrapper_wyld",
+    "entries": [ { "item": "wyld_candy", "container-item": "null", "count": 20 } ]
   }
 ]

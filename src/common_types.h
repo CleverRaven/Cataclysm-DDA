@@ -5,8 +5,6 @@
 #include <limits>
 #include <type_traits>
 
-class JsonIn;
-
 /**
  * An interval of numeric values between @ref min and @ref max (including both).
  * By default it's [0, 0].

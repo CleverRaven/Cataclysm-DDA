@@ -34,7 +34,15 @@
       "palettes": [ "mi-go_palette" ],
       "terrain": { ".": "t_region_groundcover" },
       "place_nested": [ { "chunks": [ "mi-go_encampment1_room14" ], "x": 1, "y": 14 } ],
-      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "density": 0.1, "x": 8, "y": 10 } ]
+      "place_monster": [
+        {
+          "group": "GROUP_MI-GO_BASE_COMMON",
+          "x": 8,
+          "y": 10,
+          "pack_size": [ 1, 2 ],
+          "spawn_data": { "patrol": [ { "x": [ 4, 12 ], "y": [ 6, 14 ] } ] }
+        }
+      ]
     }
   },
   {
@@ -70,7 +78,16 @@
         "vvvvvvvvvvvvvvvvvvvvvvvv"
       ],
       "palettes": [ "mi-go_palette" ],
-      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "density": 0.1, "x": 8, "y": 10, "repeat": [ 1, 2 ] } ]
+      "place_monster": [
+        {
+          "group": "GROUP_MI-GO_BASE_COMMON",
+          "x": 8,
+          "y": 10,
+          "pack_size": [ 1, 2 ],
+          "spawn_data": { "patrol": [ { "x": [ 4, 12 ], "y": [ 6, 14 ] } ] },
+          "repeat": [ 1, 2 ]
+        }
+      ]
     }
   },
   {
@@ -110,7 +127,15 @@
         { "chunks": [ "mi-go_scout_tower_cells" ], "x": 4, "y": 3 },
         { "chunks": [ "mi-go_encampment1_room17" ], "x": 1, "y": 14 }
       ],
-      "place_monsters": [ { "monster": "GROUP_MI-GO_SCOUT_TOWER", "density": 0.1, "x": 12, "y": 12 } ]
+      "place_monster": [
+        {
+          "group": "GROUP_MI-GO_SCOUT_TOWER",
+          "x": 12,
+          "y": 12,
+          "pack_size": [ 1, 2 ],
+          "spawn_data": { "patrol": [ { "x": [ 8, 16 ], "y": [ 8, 16 ] } ] }
+        }
+      ]
     }
   },
   {
@@ -146,7 +171,16 @@
         "vvvvvvvvvvvvvvvvvvvvvvvv"
       ],
       "palettes": [ "mi-go_palette" ],
-      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "density": 0.1, "x": 12, "y": 12, "repeat": [ 1, 2 ] } ]
+      "place_monster": [
+        {
+          "group": "GROUP_MI-GO_BASE_COMMON",
+          "x": 12,
+          "y": 12,
+          "pack_size": [ 1, 2 ],
+          "spawn_data": { "patrol": [ { "x": [ 8, 16 ], "y": [ 8, 16 ] } ] },
+          "repeat": [ 1, 2 ]
+        }
+      ]
     }
   }
 ]

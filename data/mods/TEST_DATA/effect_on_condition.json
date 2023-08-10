@@ -1,0 +1,45 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST_TRANSFORM_RADIUS",
+    "global": true,
+    "effect": [
+      { "u_location_variable": { "global_val": "test_transform" } },
+      {
+        "u_transform_radius": 5,
+        "ter_furn_transform": "test_grass_transform",
+        "target_var": { "global_val": "test_transform" }
+      },
+      {
+        "u_transform_radius": 5,
+        "ter_furn_transform": "test_dirt_transform",
+        "target_var": { "global_val": "test_transform" },
+        "time_in_future": "30 seconds"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST_TRANSFORM_LINE",
+    "global": true,
+    "effect": [
+      { "u_location_variable": { "global_val": "first" } },
+      { "npc_location_variable": { "global_val": "second" } },
+      {
+        "transform_line": "test_grass_transform",
+        "first": { "global_val": "first" },
+        "second": { "global_val": "second" }
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "test_grass_transform",
+    "terrain": [ { "result": [ "t_dirt" ], "valid_terrain": [ "t_grass" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "test_dirt_transform",
+    "terrain": [ { "result": [ "t_grass" ], "valid_terrain": [ "t_dirt" ] } ]
+  }
+]

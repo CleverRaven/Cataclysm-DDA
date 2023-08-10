@@ -34,7 +34,7 @@ class tripoint_range
                 point_generator( const Tripoint &_p, const tripoint_range &_range )
                     : p( _p ), range( _range ) {
                     // Make sure we start on a valid point
-                    if( range.predicate && !( *range.predicate )( p ) && p != range.endp ) {
+                    if( range.predicate && !range.predicate( p ) && p != range.endp ) {
                         operator++();
                     }
                 }
@@ -56,7 +56,7 @@ class tripoint_range
 
                         traits::z( p )++;
                         traits::y( p ) = traits::y( range.minp );
-                    } while( range.predicate && !( *range.predicate )( p ) && p != range.endp );
+                    } while( range.predicate && !range.predicate( p ) && p != range.endp );
 
                     return *this;
                 }
@@ -84,7 +84,7 @@ class tripoint_range
 
         Tripoint endp;
 
-        cata::optional<std::function<bool( const Tripoint & )>> predicate;
+        std::function<bool( const Tripoint & )> predicate;
     public:
         using value_type = typename point_generator::value_type;
         using difference_type = typename point_generator::difference_type;
@@ -168,6 +168,19 @@ inline tripoint_range<Tripoint> points_in_radius_circ( const Tripoint &center, c
     return tripoint_range<Tripoint>( center - offset,
     center + offset, [center, radius]( const Tripoint & pt ) {
         return trig_dist( center, pt ) < radius + 0.5f;
+    } );
+}
+
+template<typename Tripoint>
+inline tripoint_range<Tripoint> points_on_radius_circ( const Tripoint &center, const int radius,
+        const int radiusz = 0 )
+{
+    static_assert( Tripoint::dimension == 3, "Requires tripoint type" );
+    const tripoint offset( radius, radius, radiusz );
+    return tripoint_range<Tripoint>( center - offset,
+    center + offset, [center, radius]( const Tripoint & pt ) {
+        float r = trig_dist( center, pt );
+        return radius - 0.5f < r && r < radius + 0.5f;
     } );
 }
 

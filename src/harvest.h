@@ -23,7 +23,7 @@ class harvest_drop_type
     public:
         static void load_harvest_drop_types( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static const std::vector<harvest_drop_type> &get_all();
 
         const harvest_drop_type_id &getId() {
@@ -144,7 +144,7 @@ class harvest_list
         static void reset();
 
         bool was_loaded = false;
-        void load( const JsonObject &obj, const std::string & );
+        void load( const JsonObject &obj, std::string_view );
         static void load_harvest_list( const JsonObject &jo, const std::string &src );
         static const std::vector<harvest_list> &get_all();
 

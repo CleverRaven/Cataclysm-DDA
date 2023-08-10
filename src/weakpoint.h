@@ -4,12 +4,13 @@
 
 #include <array>
 #include <map>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "damage.h"
-#include "optional.h"
+#include "translation.h"
 #include "type_id.h"
 
 class Character;
@@ -67,9 +68,11 @@ struct weakpoint_effect {
     // The range of damage, as a percentage of max health, required to the effect.
     std::pair<float, float> damage_required;
     // The message to print, if the player causes the effect.
-    std::string message;
+    translation message;
 
     weakpoint_effect();
+    // Gets translated effect message
+    std::string get_message() const;
     // Maybe apply an effect to the target.
     void apply_to( Creature &target, int total_damage, const weakpoint_attack &attack ) const;
     void load( const JsonObject &jo );
@@ -89,9 +92,9 @@ struct weakpoint_family {
     // Name of proficiency corresponding to the family.
     proficiency_id proficiency;
     // The skill bonus for having the proficiency.
-    cata::optional<float> bonus;
+    std::optional<float> bonus;
     // The skill penalty for not having the proficiency.
-    cata::optional<float> penalty;
+    std::optional<float> penalty;
 
     float modifier( const Character &attacker ) const;
     void load( const JsonValue &jsin );
@@ -117,17 +120,17 @@ struct weakpoint {
     // ID of the weakpoint. Equal to the name, if not provided.
     std::string id;
     // Name of the weakpoint. Can be empty.
-    std::string name;
+    translation name;
     // Percent chance of hitting the weakpoint. Can be increased by skill.
     float coverage = 100.0f;
     // Multiplier for existing armor values. Defaults to 1.
-    std::array<float, static_cast<int>( damage_type::NUM )> armor_mult;
+    std::map<damage_type_id, float> armor_mult;
     // Flat penalty to armor values. Applied after the multiplier.
-    std::array<float, static_cast<int>( damage_type::NUM )> armor_penalty;
+    std::map<damage_type_id, float> armor_penalty;
     // Damage multipliers. Applied after armor.
-    std::array<float, static_cast<int>( damage_type::NUM )> damage_mult;
+    std::map<damage_type_id, float> damage_mult;
     // Critical damage multipliers. Applied after armor instead of damage_mult, if the attack is a crit.
-    std::array<float, static_cast<int>( damage_type::NUM )>crit_mult;
+    std::map<damage_type_id, float> crit_mult;
     // A list of required effects.
     std::vector<efftype_id> required_effects;
     // A list of effects that may trigger by hitting this weak point.
@@ -138,6 +141,8 @@ struct weakpoint {
     weakpoint_difficulty difficulty;
 
     weakpoint();
+    // Gets translated name
+    std::string get_name() const;
     // Apply the armor multipliers and offsets to a set of resistances.
     void apply_to( resistances &resistances ) const;
     // Apply the damage multipliers to a set of damage values.
@@ -166,16 +171,18 @@ struct weakpoints {
     // load inline definition
     void load( const JsonArray &ja );
     void remove( const JsonArray &ja );
+    void finalize();
 
     /********************* weakpoint_set handling ****************************/
     // load standalone JSON type
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
     void add_from_set( const weakpoints_id &set_id, bool replace_id );
     void add_from_set( const weakpoints &set, bool replace_id );
     void del_from_set( const weakpoints_id &set_id );
     void del_from_set( const weakpoints &set );
     static void load_weakpoint_sets( const JsonObject &jo, const std::string &src );
     static void reset();
+    static void finalize_all();
     static const std::vector<weakpoints> &get_all();
 };
 

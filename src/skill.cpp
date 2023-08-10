@@ -140,6 +140,12 @@ void Skill::load_skill( const JsonObject &jsobj )
     }
     skill_displayType_id display_type = skill_displayType_id( jsobj.get_string( "display_category" ) );
     Skill sk( ident, name, desc, jsobj.get_tags( "tags" ), display_type );
+    if( jsobj.has_int( "sort_rank" ) ) {
+        sk._sort_rank = jsobj.get_int( "sort_rank" );
+    } else {
+        sk._sort_rank = 1000000;
+        debugmsg( "skill '%s' missing 'sort_rank' field.", ident.str() );
+    }
 
     sk._time_to_attack = time_to_attack;
     sk._companion_combat_rank_factor = jsobj.get_int( "companion_combat_rank_factor", 0 );
@@ -319,7 +325,6 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
     practice();
 }
 
-
 void SkillLevel::knowledge_train( int amount, int npc_knowledge )
 {
     float level_gap = 1.0f;
@@ -401,14 +406,9 @@ bool SkillLevel::rust( int rust_resist, float rust_multiplier )
 
     _rustAccumulator += rust_amount;
     _exercise -= rust_amount;
-    const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
     if( _exercise < 0 ) {
-        if( rust_type == "vanilla" || rust_type == "int" ) {
-            _exercise = ( 100 * 100 * pow( unadjustedLevel(), 2U ) ) - 1;
-            --_level;
-        } else {
-            _exercise = 0;
-        }
+        _exercise = ( 100 * 100 * pow( unadjustedLevel(), 2U ) ) - 1;
+        --_level;
     }
 
     return false;
@@ -482,8 +482,19 @@ int SkillLevelMap::get_skill_level( const skill_id &ident ) const
 
 int SkillLevelMap::get_skill_level( const skill_id &ident, const item &context ) const
 {
-    const auto id = context.is_null() ? ident : context.contextualize_skill( ident );
+    const skill_id id = context.is_null() ? ident : context.contextualize_skill( ident );
     return get_skill_level( id );
+}
+
+float SkillLevelMap::get_progress_level( const skill_id &ident ) const
+{
+    return static_cast<float>( get_skill_level_object( ident ).exercise() ) / 100.0f;
+}
+
+float SkillLevelMap::get_progress_level( const skill_id &ident, const item &context ) const
+{
+    const skill_id id = context.is_null() ? ident : context.contextualize_skill( ident );
+    return get_progress_level( id );
 }
 
 int SkillLevelMap::get_knowledge_level( const skill_id &ident ) const
@@ -493,7 +504,7 @@ int SkillLevelMap::get_knowledge_level( const skill_id &ident ) const
 
 int SkillLevelMap::get_knowledge_level( const skill_id &ident, const item &context ) const
 {
-    const auto id = context.is_null() ? ident : context.contextualize_skill( ident );
+    const skill_id id = context.is_null() ? ident : context.contextualize_skill( ident );
     return get_knowledge_level( id );
 }
 

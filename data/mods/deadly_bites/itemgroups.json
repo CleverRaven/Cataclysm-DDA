@@ -1,49 +1,9 @@
 [
   {
-    "id": "SUS_bathroom_medicine",
-    "type": "item_group",
-    "subtype": "collection",
-    "copy-from": "SUS_bathroom_medicine",
-    "extend": {
-      "entries": [ { "item": "antivirals", "prob": 5, "charges-min": 1, "charges-max": 10, "container-item": "bottle_plastic_small" } ]
-    }
-  },
-  {
     "id": "drugs_rare",
     "type": "item_group",
     "copy-from": "drugs_rare",
     "extend": { "items": [ [ "antivirals", 100 ] ] }
-  },
-  {
-    "type": "item_group",
-    "id": "harddrugs",
-    "copy-from": "harddrugs",
-    "extend": { "items": [ { "item": "antivirals", "prob": 10, "charges": [ 1, 5 ] } ] }
-  },
-  {
-    "type": "item_group",
-    "id": "softdrugs",
-    "copy-from": "softdrugs",
-    "extend": { "items": [ { "item": "antivirals", "prob": 5, "charges": [ 1, 5 ] } ] }
-  },
-  {
-    "type": "item_group",
-    "id": "stash_drugs",
-    "copy-from": "stash_drugs",
-    "extend": { "items": [ { "item": "antivirals", "prob": 1, "charges": [ 1, 5 ] } ] }
-  },
-  {
-    "type": "item_group",
-    "id": "rare",
-    "subtype": "distribution",
-    "copy-from": "rare",
-    "extend": { "entries": [ { "item": "antivirals", "prob": 10, "charges": [ 1, 10 ] } ] }
-  },
-  {
-    "type": "item_group",
-    "id": "science",
-    "copy-from": "science",
-    "extend": { "items": [ { "item": "antivirals", "prob": 2, "charges": [ 1, 10 ] } ] }
   },
   {
     "id": "vet_hardrug",
@@ -64,28 +24,9 @@
     "extend": { "items": [ [ "antivirals", 6 ] ] }
   },
   {
-    "type": "item_group",
-    "id": "survivorzed_extra",
-    "copy-from": "survivorzed_extra",
-    "extend": { "items": [ { "item": "antivirals", "prob": 1, "charges": [ 0, 10 ] } ] }
-  },
-  {
     "id": "virology_lab_fridge",
     "type": "item_group",
     "copy-from": "virology_lab_fridge",
     "extend": { "items": [ [ "antivirals", 40 ] ] }
-  },
-  {
-    "type": "item_group",
-    "id": "behindcounter",
-    "subtype": "distribution",
-    "copy-from": "behindcounter",
-    "extend": { "entries": [ { "item": "antivirals", "prob": 5, "charges": [ 1, 5 ] } ] }
-  },
-  {
-    "id": "drugs_misc",
-    "type": "item_group",
-    "copy-from": "drugs_misc",
-    "extend": { "items": [ [ "antivirals", 100 ] ] }
   }
 ]

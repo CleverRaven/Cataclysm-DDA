@@ -1,0 +1,435 @@
+[
+  {
+    "id": "telekinetic_pull",
+    "type": "SPELL",
+    "name": "[Ψ]Far Hand",
+    "description": "Pull a target or set of items to you.",
+    "message": "You reach out and pull your target to you.",
+    "valid_targets": [ "ally", "hostile", "item", "ground" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "directed_push",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "damage_type": "psi_telekinetic_damage",
+    "min_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_pull') * -1.5) - 1) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_pull') * -1.5) - 6) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_pull') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 40,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 1500,
+    "final_energy_cost": 250,
+    "energy_increment": -80,
+    "base_casting_time": 50,
+    "final_casting_time": 10,
+    "casting_time_increment": -4,
+    "learn_spells": { "telekinetic_hammer": 7, "telekinetic_shield": 15 }
+  },
+  {
+    "id": "telekinetic_push",
+    "type": "SPELL",
+    "name": "[Ψ]Force Shove",
+    "description": "Shove something away with a burst of psionic force.",
+    "message": "You hurl your target away.",
+    "valid_targets": [ "ally", "hostile", "item", "ground" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "directed_push",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "damage_type": "psi_telekinetic_damage",
+    "min_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_push') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_push') * 0.25) + 6) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_push') * 1.2) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 40,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 1500,
+    "final_energy_cost": 250,
+    "energy_increment": -80,
+    "base_casting_time": 50,
+    "final_casting_time": 10,
+    "casting_time_increment": -4,
+    "learn_spells": { "telekinetic_wave": 7, "telekinetic_hammer": 10, "telekinetic_strength": 13, "telekinetic_explosion": 15 }
+  },
+  {
+    "id": "telekinetic_momentum",
+    "type": "SPELL",
+    "name": "[Ψ]Momentum Alteration",
+    "description": "Edit the momentum of yourself and nearby objects to your benefit, slowing damaging force and slightly increasing your speed.",
+    "message": "The air around you feels more yielding.",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_telekinetic_momentum",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_momentum') * 1000) + 9000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: telekinetic_momentum') * 1000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3000,
+    "final_energy_cost": 1500,
+    "energy_increment": -125,
+    "base_casting_time": 300,
+    "final_casting_time": 125,
+    "casting_time_increment": -7.5,
+    "learn_spells": { "telekinetic_wave": 7, "telekinetic_strength": 10, "telekinetic_shield": 15, "telekinetic_vehicle_lift": 17 }
+  },
+  {
+    "id": "telekinetic_wave",
+    "type": "SPELL",
+    "name": "[Ψ]Wave of Force",
+    "description": "Unleash a telekinetic wave around you that indiscriminately knocks everything back.",
+    "message": "You knock everything nearby backwards!",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "NO_HANDS", "NO_LEGS", "WONDER" ],
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "telekinetic_wavepush", "hit_self": false, "max_level": 10 },
+      { "id": "psionic_drained_difficulty_four", "hit_self": true }
+    ],
+    "shape": "blast",
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "damage_type": "biological",
+    "min_damage": 12,
+    "max_damage": 12,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2500,
+    "final_energy_cost": 750,
+    "energy_increment": -175,
+    "base_casting_time": 50,
+    "final_casting_time": 10,
+    "casting_time_increment": -4,
+    "learn_spells": {
+      "telekinetic_strength": 3,
+      "telekinetic_shield": 9,
+      "telekinetic_hammer": 11,
+      "telekinetic_explosion": 12,
+      "telekinetic_aegis": 16
+    }
+  },
+  {
+    "id": "telekinetic_wavepush",
+    "type": "SPELL",
+    "name": "[Ψ]Telekinetic wave Push",
+    "description": "Part of Wave of Force.  If you see this it's a bug.",
+    "message": "",
+    "valid_targets": [ "ally", "hostile", "item" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "RANDOM_TARGET", "NO_EXPLOSION_SFX" ],
+    "effect": "directed_push",
+    "shape": "blast",
+    "difficulty": 1,
+    "damage_type": "psi_telekinetic_damage",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_wave') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_wave') * 0.25) + 6) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_range": 1,
+    "max_range": 1,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 1000,
+    "final_energy_cost": 50,
+    "energy_increment": -158.333333,
+    "base_casting_time": 50,
+    "final_casting_time": 10,
+    "casting_time_increment": -6.666667
+  },
+  {
+    "id": "telekinetic_strength",
+    "type": "SPELL",
+    "name": "[Ψ]Enhance Strength",
+    "description": "Focus your powers to allow you move much heavier objects and smash through walls.  The concentration required means you will be unable to engage in combat with any real aptitude while concentrating.\n\n[(d)rop the Enhanced Strength to stop concentrating and regain your combat ability]",
+    "message": "You concentrate and prepare to lift something heavy.",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEKINETIC",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION", "EXTRA_EFFECTS_FIRST" ],
+    "effect": "spawn_item",
+    "effect_str": "telekin_ritual_summon_strength_item",
+    "extra_effects": [
+      { "id": "telekinetic_strength_remove_previous", "hit_self": true },
+      { "id": "psionic_drained_difficulty_five", "hit_self": true }
+    ],
+    "shape": "blast",
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": 1,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_strength') * 3000)  * (scaling_factor(u_val('intelligence') ) ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_strength') * 10000) * (scaling_factor(u_val('intelligence') ) ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 4000,
+    "final_energy_cost": 2000,
+    "energy_increment": -150,
+    "base_casting_time": 1500,
+    "final_casting_time": 200,
+    "casting_time_increment": -86,
+    "learn_spells": { "telekinetic_vehicle_lift": 4, "telekinetic_shield": 8 }
+  },
+  {
+    "id": "telekinetic_strength_remove_previous",
+    "type": "SPELL",
+    "name": "[Ψ]Enhance Strength Remove Previous",
+    "description": "The check to make sure you can't stack multiple Enhance Strengths.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKIN_REMOVE_ENHANCE_STRENGTH",
+    "shape": "blast"
+  },
+  {
+    "id": "telekinetic_hammer",
+    "type": "SPELL",
+    "name": "[Ψ]Mindhammer",
+    "description": "Smash a single target or small area with a fist of telekinetic force.",
+    "message": "You smash your target with a fist of force.",
+    "valid_targets": [ "hostile", "ground" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "extra_effects": [
+      { "id": "tele_mindhammer_bash", "hit_self": false, "max_level": 20 },
+      { "id": "psionic_drained_difficulty_five", "hit_self": true }
+    ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "psi_telekinetic_damage",
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.5) + 18) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.5) + 73) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 70,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 500,
+    "energy_increment": -200,
+    "base_casting_time": 50,
+    "final_casting_time": 25,
+    "casting_time_increment": -1.5,
+    "sound_type": "combat",
+    "sound_description": "a heavy thud!",
+    "learn_spells": { "telekinetic_explosion": 9, "telekinetic_shield": 12 }
+  },
+  {
+    "id": "tele_mindhammer_bash",
+    "type": "SPELL",
+    "name": "Mindhammer Ground damage",
+    "description": "Damages ground when you use Mindhammer.  If you have this you debugged it in.",
+    "valid_targets": [ "ground" ],
+    "spell_class": "TELEKINETIC",
+    "flags": [ "RANDOM_DAMAGE", "IGNORE_WALLS", "NO_PROJECTILE" ],
+    "effect": "bash",
+    "shape": "blast",
+    "damage_type": "bash",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 1.5) + 18) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_hammer') * 2) + 73) * (scaling_factor(u_val('intelligence') ) )" ]
+    }
+  },
+  {
+    "id": "telekinetic_vehicle_lift",
+    "type": "SPELL",
+    "name": "[Ψ]Lift Vehicle",
+    "description": "Focus your powers to raise a vehicle just enough to change a tire or perform repairs.  As your powers increase, you will be able to lift heavier vehicles.",
+    "message": "You ready yourself to lift a car just enough to work on it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEKINETIC",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SPELL_TELEKIN_SUMMON_JACKING_TOOL",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6000,
+    "final_energy_cost": 2750,
+    "energy_increment": -250,
+    "base_casting_time": 250,
+    "final_casting_time": 125,
+    "casting_time_increment": -8,
+    "learn_spells": { "telekinetic_wave": 4, "telekinetic_explosion": 6 }
+  },
+  {
+    "id": "telekinetic_shield",
+    "type": "SPELL",
+    "name": "[Ψ]Inertial Barrier",
+    "description": "Create a telekinetic barrier around yourself to protect you from damage.",
+    "message": "The air around you shimmers slightly.",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_telekinetic_armor",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_shield') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_shield') * 2500) + 90000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 7000,
+    "final_energy_cost": 4500,
+    "energy_increment": -250,
+    "base_casting_time": 150,
+    "final_casting_time": 75,
+    "casting_time_increment": -5,
+    "learn_spells": { "telekinetic_push": 4, "telekinetic_wave": 6, "telekinetic_aegis": 8 }
+  },
+  {
+    "id": "telekinetic_explosion",
+    "type": "SPELL",
+    "name": "[Ψ]Wrecking Ball",
+    "description": "A burst of telekinetic force shatters the terrain at the target location, as well as anything caught inside.",
+    "message": "You indiscriminately blast your targets!",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [
+      "CONCENTRATE",
+      "LOUD",
+      "NO_PROJECTILE",
+      "EXTRA_EFFECTS_FIRST",
+      "RANDOM_DAMAGE",
+      "NO_HANDS",
+      "NO_LEGS",
+      "IGNORE_WALLS",
+      "NO_EXPLOSION_SFX"
+    ],
+    "extra_effects": [
+      { "id": "tele_explosion_damage", "hit_self": false, "max_level": 20 },
+      { "id": "psionic_drained_difficulty_seven", "hit_self": true }
+    ],
+    "effect": "bash",
+    "shape": "blast",
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 3) + 22) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 5) + 100) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 1.2) + 4) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_range": 60,
+    "min_aoe": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_aoe": 30,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 7500,
+    "final_energy_cost": 2500,
+    "energy_increment": -250,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -7.5,
+    "sound_type": "combat",
+    "sound_description": "a loud crash!",
+    "learn_spells": { "telekinetic_push": 4, "telekinetic_pull": 4 }
+  },
+  {
+    "id": "tele_explosion_damage",
+    "type": "SPELL",
+    "name": "Wrecking Ball Enemy damage",
+    "description": "Damages enemies when you use Wrecking Ball on the ground.  If you have this you debugged it in.",
+    "valid_targets": [ "ally", "hostile", "item", "ground" ],
+    "spell_class": "TELEKINETIC",
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "IGNORE_WALLS" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "psi_telekinetic_damage",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 3) + 22) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 5) + 100) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_aoe": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_explosion') * 0.3) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_aoe": 30
+  },
+  {
+    "id": "telekinetic_aegis",
+    "type": "SPELL",
+    "name": "[Ψ]Aegis",
+    "description": "Create a shield impenetrable to physical damage around yourself.  It will only last a few moments.  You will be unable to move while the power is in effect.",
+    "message": "The air around you becomes as hard as diamond.",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_telekinetic_aegis",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_nine", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": 100,
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_aegis') * 20) + 200) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 9500,
+    "final_energy_cost": 4000,
+    "energy_increment": -350,
+    "base_casting_time": 125,
+    "final_casting_time": 55,
+    "casting_time_increment": -5
+  }
+]

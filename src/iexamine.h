@@ -5,10 +5,10 @@
 #include <iosfwd>
 #include <list>
 #include <memory>
+#include <optional>
 #include <tuple>
 #include <vector>
 
-#include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
 
@@ -44,6 +44,8 @@ enum fuel_station_fuel_type {
 
 namespace iexamine
 {
+
+bool can_hack( Character &you );
 
 bool try_start_hacking( Character &you, const tripoint &examp );
 
@@ -97,9 +99,6 @@ void flower_cactus( Character &you, const tripoint &examp );
 void flower_bluebell( Character &you, const tripoint &examp );
 void flower_dahlia( Character &you, const tripoint &examp );
 void flower_marloss( Character &you, const tripoint &examp );
-void egg_sackbw( Character &you, const tripoint &examp );
-void egg_sackcs( Character &you, const tripoint &examp );
-void egg_sackws( Character &you, const tripoint &examp );
 void fungus( Character &you, const tripoint &examp );
 void dirtmound( Character &you, const tripoint &examp );
 void aggie_plant( Character &you, const tripoint &examp );
@@ -109,10 +108,13 @@ void tree_maple_tapped( Character &you, const tripoint &examp );
 void shrub_marloss( Character &you, const tripoint &examp );
 void tree_marloss( Character &you, const tripoint &examp );
 void shrub_wildveggies( Character &you, const tripoint &examp );
+void part_con( Character &you, const tripoint &examp );
 void water_source( Character &, const tripoint &examp );
 void finite_water_source( Character &, const tripoint &examp );
 void kiln_empty( Character &you, const tripoint &examp );
 void kiln_full( Character &you, const tripoint &examp );
+void stook_empty( Character &, const tripoint &examp );
+void stook_full( Character &, const tripoint &examp );
 void arcfurnace_empty( Character &you, const tripoint &examp );
 void arcfurnace_full( Character &you, const tripoint &examp );
 void autoclave_empty( Character &you, const tripoint &examp );
@@ -137,14 +139,14 @@ void smoker_options( Character &you, const tripoint &examp );
 void open_safe( Character &you, const tripoint &examp );
 void workbench( Character &you, const tripoint &examp );
 void workbench_internal( Character &you, const tripoint &examp,
-                         const cata::optional<vpart_reference> &part );
+                         const std::optional<vpart_reference> &part );
 void workout( Character &you, const tripoint &examp );
 void invalid( Character &you, const tripoint &examp );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );
-cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
+std::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
 bool toPumpFuel( const tripoint &src, const tripoint &dst, int units );
-cata::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &fuel_units,
+std::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &fuel_units,
         fuel_station_fuel_type &fuel_type );
 
 bool has_keg( const tripoint &pos );
@@ -160,7 +162,7 @@ void harvest_plant_ex( Character &you, const tripoint &examp );
 void harvest_plant( Character &you, const tripoint &examp, bool from_activity );
 void fertilize_plant( Character &you, const tripoint &tile, const itype_id &fertilizer );
 itype_id choose_fertilizer( Character &you, const std::string &pname, bool ask_player );
-ret_val<bool> can_fertilize( Character &you, const tripoint &tile, const itype_id &fertilizer );
+ret_val<void> can_fertilize( Character &you, const tripoint &tile, const itype_id &fertilizer );
 
 // Skill training common functions
 void practice_survival_while_foraging( Character &who );

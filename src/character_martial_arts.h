@@ -19,7 +19,6 @@ class character_martial_arts
     private:
         std::vector<matype_id> ma_styles;
         matype_id style_selected = matype_id( "style_none" );
-        bool keep_hands_free = false;
     public:
         character_martial_arts();
         character_martial_arts( const std::vector<matype_id> &styles,
@@ -30,10 +29,12 @@ class character_martial_arts
         void deserialize( const JsonObject &data );
 
         void reset_style();
+        void clear_style( const matype_id &id );
         // checks that style selected is one that is known, otherwise resets it
         void selected_style_check();
+        bool keep_hands_free = false;
         /** Creates the UI and handles player input for picking martial arts styles */
-        bool pick_style( const avatar &you );
+        bool pick_style( const Character &you );
 
         bool knows_selected_style() const;
         bool selected_strictly_melee() const;
@@ -81,9 +82,9 @@ class character_martial_arts
 
         /** Returns an attack vector that the player can use */
         std::string get_valid_attack_vector( const Character &user,
-                                             std::vector<std::string> attack_vectors ) const;
+                                             const std::vector<std::string> &attack_vectors ) const;
         /** Returns true if the player is able to use the given attack vector */
-        bool can_use_attack_vector( const Character &user, std::string av ) const;
+        bool can_use_attack_vector( const Character &user, const std::string &av ) const;
         /** Returns true if the player has the leg block technique available */
         bool can_leg_block( const Character &owner ) const;
         /** Returns true if the player has the arm block technique available */

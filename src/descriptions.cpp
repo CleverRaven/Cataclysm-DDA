@@ -20,6 +20,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "vehicle.h"
 #include "viewer.h"
 
 static const skill_id skill_survival( "survival" );
@@ -29,7 +30,8 @@ static const trait_id trait_ILLITERATE( "ILLITERATE" );
 enum class description_target : int {
     creature,
     furniture,
-    terrain
+    terrain,
+    vehicle
 };
 
 static const Creature *seen_critter( const tripoint &p )
@@ -74,6 +76,7 @@ void game::extended_description( const tripoint &p )
     ctxt.register_action( "CREATURE" );
     ctxt.register_action( "FURNITURE" );
     ctxt.register_action( "TERRAIN" );
+    ctxt.register_action( "VEHICLE" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -82,9 +85,9 @@ void game::extended_description( const tripoint &p )
         werase( w_head );
         mvwprintz( w_head, point_zero, c_white,
                    _( "[%s] describe creatures, [%s] describe furniture, "
-                      "[%s] describe terrain, [%s] close." ),
+                      "[%s] describe terrain, [%s] describe vehicle/appliance, [%s] close." ),
                    ctxt.get_desc( "CREATURE" ), ctxt.get_desc( "FURNITURE" ),
-                   ctxt.get_desc( "TERRAIN" ), ctxt.get_desc( "QUIT" ) );
+                   ctxt.get_desc( "TERRAIN" ), ctxt.get_desc( "VEHICLE" ), ctxt.get_desc( "QUIT" ) );
 
         // Set up line drawings
         for( int i = 0; i < TERMX; i++ ) {
@@ -129,6 +132,14 @@ void game::extended_description( const tripoint &p )
                     desc = string_format( _( "Origin: %s\n%s" ), mod_src, tid->extended_description() );
                 }
                 break;
+            case description_target::vehicle:
+                const optional_vpart_position vp = m.veh_at( p );
+                if( !u.sees( p ) || !vp ) {
+                    desc = _( "You can't see vehicles or appliances here." );
+                } else {
+                    desc = vp.extended_description();
+                }
+                break;
         }
 
         std::string signage = m.get_signage( p );
@@ -152,6 +163,8 @@ void game::extended_description( const tripoint &p )
             cur_target = description_target::furniture;
         } else if( action == "TERRAIN" ) {
             cur_target = description_target::terrain;
+        } else if( action == "VEHICLE" ) {
+            cur_target = description_target::vehicle;
         }
     } while( action != "CONFIRM" && action != "QUIT" );
 }

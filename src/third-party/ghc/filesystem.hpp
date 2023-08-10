@@ -2142,41 +2142,43 @@ GHC_INLINE uintmax_t hard_links_from_INFO<BY_HANDLE_FILE_INFORMATION>(const BY_H
 }
 
 template <typename INFO>
-GHC_INLINE DWORD reparse_tag_from_INFO(const INFO*)
+GHC_INLINE bool is_symlink_from_INFO(const path &p, const INFO* info, std::error_code& ec)
 {
-    return 0;
+    if ((info->dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT)) {
+        auto reparseData = detail::getReparseData(p, ec);
+        if (!ec && reparseData && IsReparseTagMicrosoft(reparseData->ReparseTag) && reparseData->ReparseTag == IO_REPARSE_TAG_SYMLINK) {
+            return true;
+        }
+    }
+    return false;
 }
 
 template <>
-GHC_INLINE DWORD reparse_tag_from_INFO(const WIN32_FIND_DATAW* info)
+GHC_INLINE bool is_symlink_from_INFO(const path &, const WIN32_FIND_DATAW* info, std::error_code&)
 {
-    return info->dwReserved0;
+    // dwReserved0 is undefined unless dwFileAttributes includes the
+    // FILE_ATTRIBUTE_REPARSE_POINT attribute according to microsoft
+    // documentation. In practice, dwReserved0 is not reset which
+    // causes it to report the incorrect symlink status.
+    // Note that microsoft documentation does not say whether there is
+    // a null value for dwReserved0, so we test for symlink directly
+    // instead of returning the tag which requires returning a null
+    // value for non-reparse-point files.
+    return (info->dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT) && info->dwReserved0 == IO_REPARSE_TAG_SYMLINK;
 }
 
 template <typename INFO>
 GHC_INLINE file_status status_from_INFO(const path& p, const INFO* info, std::error_code& ec, uintmax_t* sz = nullptr, time_t* lwt = nullptr)
 {
     file_type ft = file_type::unknown;
-    if (sizeof(INFO) == sizeof(WIN32_FIND_DATAW)) {
-        if (detail::reparse_tag_from_INFO(info) == IO_REPARSE_TAG_SYMLINK) {
-            ft = file_type::symlink;
-        }
+    if (is_symlink_from_INFO(p, info, ec)) {
+        ft = file_type::symlink;
+    }
+    else if ((info->dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+        ft = file_type::directory;
     }
     else {
-        if ((info->dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT)) {
-            auto reparseData = detail::getReparseData(p, ec);
-            if (!ec && reparseData && IsReparseTagMicrosoft(reparseData->ReparseTag) && reparseData->ReparseTag == IO_REPARSE_TAG_SYMLINK) {
-                ft = file_type::symlink;
-            }
-        }
-    }
-    if (ft == file_type::unknown) {
-        if ((info->dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-            ft = file_type::directory;
-        }
-        else {
-            ft = file_type::regular;
-        }
+        ft = file_type::regular;
     }
     perms prms = perms::owner_read | perms::group_read | perms::others_read;
     if (!(info->dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {

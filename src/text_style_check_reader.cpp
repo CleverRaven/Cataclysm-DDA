@@ -6,7 +6,7 @@ text_style_check_reader::text_style_check_reader( const allow_object object_allo
 {
 }
 
-std::string text_style_check_reader::get_next( JsonValue jv ) const
+std::string text_style_check_reader::get_next( const JsonValue &jv ) const
 {
     const JsonValue &jsin = jv;
     std::string raw;

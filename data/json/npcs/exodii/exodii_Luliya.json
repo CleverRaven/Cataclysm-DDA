@@ -1,0 +1,243 @@
+[
+  {
+    "type": "npc",
+    "id": "exodii_materials",
+    "//": "Materials manager and music fan from another Ethiopia.",
+    "name_suffix": "Cyborg",
+    "class": "NC_EXODII_TYPE_2_Materials",
+    "name_unique": "Luliya",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_LULIYA",
+    "faction": "exodii"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_EXODII_TYPE_2_Materials",
+    "name": { "str": "Cyborg, type 2" },
+    "job_description": "I'm a cyborg.",
+    "traits": [
+      { "trait": "EXODII_BODY_2" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "bonus_str": { "rng": [ 0, 6 ] },
+    "bonus_dex": { "rng": [ 0, 6 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": { "rng": [ 0, 4 ] },
+    "carry_override": "NC_EXODII_TYPE_2_carried",
+    "worn_override": "EMPTY_GROUP",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": 0 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "mechanics", "bonus": { "one_in": 2 } },
+      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 7, 10 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 5, 8 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_EXODII_TYPE_2_carried",
+    "//": "Golden krar for Luliya.",
+    "items": [ { "item": "krar_golden" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LULIYA",
+    "dynamic_line": {
+      "u_has_var": "u_met_luliya",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Inikwani dehina metahi tegwazhi." ],
+      "no": "[You see a tall golden figure with female features.  Strapped to the back of the head with copper wire is a glass cylinder containing long frizzy black hair.  The body stands still and emits an unpleasant beeping sound.  On the back there is a large red button with strange markings.  There is a golden harp of some kind.]"
+    },
+    "responses": [
+      {
+        "text": "[PUSH THE BIG RED BUTTON]",
+        "condition": { "not": { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_LULIYA_BUTTON"
+      },
+      {
+        "text": "[HAS STETHOSCOPE] Is this alive?  [CHECK FOR A PULSE]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" } },
+            { "u_has_item": "stethoscope" }
+          ]
+        },
+        "topic": "TALK_LULIYA_PULSE"
+      },
+      {
+        "text": "[DO NOTHING]",
+        "condition": { "not": { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Do you speak English?  [slowly and loudly]  ENGLISH?",
+        "topic": "TALK_LULIYA_ENGLISH",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" },
+            {
+              "not": { "u_has_var": "u_asked_luliya_english", "type": "general", "context": "meeting", "value": "yes" }
+            }
+          ]
+        }
+      },
+      {
+        "text": "[You point to your chest]  <u_name>.  [You point at the golden figure]  What is your name?",
+        "topic": "TALK_LULIYA_NAME",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "u_luliya_name", "type": "general", "context": "meeting", "value": "yes" } }
+          ]
+        }
+      },
+      {
+        "text": "I heard you playing that.  [You point at the golden harp she holds]  La la la.  Do you like music Luliya?",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_luliya_name", "type": "general", "context": "meeting", "value": "yes" },
+            {
+              "u_compare_time_since_var": "u_met_luliya",
+              "type": "test",
+              "context": "var_time_test",
+              "op": ">",
+              "time": "3 days"
+            }
+          ]
+        },
+        "topic": "TALK_LULIYA_MUSIC"
+      },
+      {
+        "text": "I can't understand you.",
+        "condition": { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LULIYA_BUTTON",
+    "dynamic_line": "[You hear a loud static discharge, a rough mechanical chugging sound, and then high-pitched shrieking with strange distortions and modulations in the sound.  The golden figure shudders, arms flailing] ቆዳዬ! ቆዳዬ በእሳት ላይ ነው! እየሞትኩ ነው!",
+    "speaker_effect": { "effect": { "u_add_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" } },
+    "responses": [
+      { "text": "Hello.  Are you all right?  I just hit the button on your back.", "topic": "TALK_LULIYA" },
+      { "text": "I'm not understanding that.  Can you try again?", "topic": "TALK_LULIYA" },
+      {
+        "text": "Speak English ya <swear> robot.  We don't take kindly to that kind of thing here.  [You frown menacingly]",
+        "topic": "TALK_LULIYA"
+      },
+      { "text": "State your name and function machine.", "topic": "TALK_LULIYA" },
+      {
+        "text": "[INT 18]  Huh.  That sounds a little familiar, a little like Arabic.  Earabiun?  [slowly and clearly]  EARABIUN?",
+        "topic": "TALK_LULIYA_ARABIC",
+        "condition": { "u_has_intelligence": 18 }
+      },
+      { "text": "No, I'm done with this.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LULIYA_PULSE",
+    "dynamic_line": "[You press your stethoscope to the chest of the figure and hear a clear strong heartbeat and a strange whirring sound like clockwork].",
+    "responses": [
+      { "text": "So she's alive then.", "topic": "TALK_LULIYA" },
+      { "text": "Probably fine then.  Anyway, I need to move along.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LULIYA_ENGLISH",
+    "dynamic_line": "[A long pause, then she shakes her head]  Inigilizinya yelemi.  No.",
+    "speaker_effect": { "effect": { "u_add_var": "u_not_english_luliya", "type": "general", "context": "language", "value": "yes" } },
+    "responses": [
+      { "text": "All right then.  You seem to understand what I mean.  And the word no.", "topic": "TALK_LULIYA" },
+      { "text": "Fine.  Anyway, I need to move along.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LULIYA_NAME",
+    "dynamic_line": "[A long pause.  You can't see her eyes but it seems like she is studying your face.]  Sime Luliya ibalalehu.  [She points to her own chest.]  Luliya.  [She points to your chest.]  <u_name>.  Siletewawekini desi bilonyali, <u_name>.  [She strums a pleasant melody on her krar.]",
+    "speaker_effect": { "effect": { "u_add_var": "u_luliya_name", "type": "general", "context": "name", "value": "yes" } },
+    "responses": [ { "text": "We're getting somewhere.  Pleased to meet you Luliya.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LULIYA_ARABIC",
+    "dynamic_line": "[A long pause, then she shakes her head]  Ayi arebinya alinagerimi.",
+    "speaker_effect": { "effect": { "u_add_var": "u_not_arabic_luliya", "type": "general", "context": "language", "value": "yes" } },
+    "responses": [
+      { "text": "All right then.  It seems like you do kind of understand it though.", "topic": "TALK_LULIYA" },
+      { "text": "Fine.  Anyway, I need to move along.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LULIYA_MUSIC",
+    "dynamic_line": "[She nods enthusiastically and strums a few notes on her krar.] Awo muzika iwedalehu.",
+    "responses": [
+      {
+        "text": "[HAS GUITAR] I happen to have a nice guitar, want to play with me?",
+        "topic": "TALK_LULIYA_MUSIC2",
+        "condition": { "u_has_item": "guitar" }
+      },
+      {
+        "text": "[HAS TRUMPET] I happen to have a nice trumpet, want to play with me?",
+        "topic": "TALK_LULIYA_MUSIC2",
+        "condition": { "u_has_item": "trumpet" }
+      },
+      {
+        "text": "[HAS SAXOPHONE] I happen to have a nice saxophone, want to play with me?",
+        "topic": "TALK_LULIYA_MUSIC2",
+        "condition": { "u_has_item": "saxophone" }
+      },
+      {
+        "text": "[HAS VIOLIN] I happen to have a nice violin, want to play with me?",
+        "topic": "TALK_LULIYA_MUSIC2",
+        "condition": { "u_has_item": "violin" }
+      },
+      {
+        "text": "[HAS HARMONICA] I happen to have a nice harmonica, want to play with me?",
+        "topic": "TALK_LULIYA_MUSIC2",
+        "condition": { "u_has_item": "harmonica" }
+      },
+      {
+        "text": "[HAS COWBELL] I happen to have a nice cowbell, want to play with me?",
+        "topic": "TALK_LULIYA_MUSIC2",
+        "condition": { "u_has_item": "cowbell" }
+      },
+      {
+        "text": "Huh, you know music, good to know.  I'll try and find something to play and come back.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LULIYA_MUSIC2",
+    "dynamic_line": "[You perform on your musical instrument with everything you have, giving a strong performance.  Luliya sways and begins to play her instrument and sing along.  The music and her voice are beautiful, she sounds like she has had some formal musical training.]",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_jammed_luliya", "type": "general", "context": "music", "value": "yes" },
+        { "u_add_morale": "morale_music", "bonus": 5, "max_bonus": 10 },
+        { "u_make_sound": "music", "type": "music", "volume": 10 }
+      ]
+    },
+    "responses": [
+      { "text": "Fun, thank you for playing with me Luliya.", "topic": "TALK_LULIYA" },
+      { "text": "Fun, thank you.  Anyway I have to go.", "topic": "TALK_DONE" }
+    ]
+  }
+]

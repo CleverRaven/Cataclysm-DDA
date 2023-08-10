@@ -1,0 +1,109 @@
+[
+  {
+    "id": "EOC_RET_COMM_OFFICE",
+    "type": "effect_on_condition",
+    "effect": [ "open_dialogue" ]
+  },
+  {
+    "id": "EOC_RET_COMM_HOME",
+    "type": "effect_on_condition",
+    "effect": [ "open_dialogue" ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_RET_COMM_OFFICE",
+    "dynamic_line": "Shady Hills Corporation.\n You are logged in as: Randolph VanBuren, Community Manager.\n\n WARNING!  ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
+    "responses": [
+      { "text": "Access Messages", "topic": "COMP_RET_COMM_EMAILS" },
+      { "text": "Access Main Drives", "topic": "COMP_RET_COMM_ERROR" },
+      { "text": "Log Off", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_RET_COMM_ERROR",
+    "dynamic_line": "ERROR ACCESSING SERVER",
+    "responses": [ { "text": "RETURN TO DESKTOP", "topic": "COMP_RET_COMM_OFFICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_RET_COMM_EMAILS",
+    "dynamic_line": "WARNING!  ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!\n\n WARNING!  ERROR B231; UNABLE TO CONNECT TO MESSAGING SERVER.\n ERROR REFRESHING MESSAGES.  NOT ALL MESSAGES MAY BE DISPLAYED.\n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
+    "responses": [
+      { "text": "RE: Seriously!?", "topic": "COMP_RET_COMM_EMAILS_SERIOUSLY" },
+      { "text": "RE: Noise complaint", "topic": "COMP_RET_COMM_EMAILS_NOISE" },
+      { "text": "RE: Horrible smell", "topic": "COMP_RET_COMM_EMAILS_SMELL" },
+      { "text": "[!]RE: Important Status Update", "topic": "COMP_RET_COMM_EMAILS_STATUS" },
+      { "text": "RETURN TO MAIN PAGE", "topic": "COMP_RET_COMM_OFFICE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_RET_COMM_EMAILS_SERIOUSLY",
+    "dynamic_line": "FROM: Jamie Forest, Community Resident, Unit A02\n  TO: Shady Hills Corporation, Service Portal\n  RE: Seriously!?\n\n My son just told me he keeps receiving advertisements in the mail for a nursing home.  He told me that your company runs it!  Are you trying to get rid of me!?  You're sick!  I demand you have your CEO call me!",
+    "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_RET_COMM_EMAILS" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_RET_COMM_EMAILS_NOISE",
+    "dynamic_line": "FROM: Larry Landborn, Unit B11\n  TO: Shady Hills Corporation, Service Portal\n  RE: Noise complaint\n\n  Hello.  I am once again requesting your help with my neighbor in B10.  There are loud sounds from all times of day.  She claims her grandkids are visiting but the noises have been non-stop for weeks!",
+    "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_RET_COMM_EMAILS" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_RET_COMM_EMAILS_SMELL",
+    "dynamic_line": "FROM: Sandra Shells, Unit B06\n  TO: Shady Hills Corporation, Service Portal\n  RE: Horrible smell\n\n  There's a bad smell coming from unit B07.  Please look into it.  Thanks.",
+    "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_RET_COMM_EMAILS" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_RET_COMM_EMAILS_STATUS",
+    "dynamic_line": "FROM: Kristi Gordee, SVP Operations\n  TO: [Branch Managers], [Community Managers]\n  RE: Important Status Update\n\n Everyone,\n You are to follow your appropriate lockdown protocols at your discretion.  With the recent events as they are, we must do our utmost to ensure that our goals remain priority.\n\n Branch Managers - your deliveries will have an altered schedule.  I will send a separate email with details.  Ensure the hidden safe rooms are properly secured.\n Community Managers - Lockdown the community appropriately.  Tell the residents that it is for their protection, but do not let them leave.  We need them for the Big Pappy project to be successful.  I am going to send you some contacts who can discreetly install a heavy security gate.\n\n You will continue to receive your bonus pay as agreed upon.  Do not lose sight of our important endgame.",
+    "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_RET_COMM_EMAILS" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_RET_COMM_HOME",
+    "dynamic_line": "MY PC.\n You are logged in as: ADMINISTRATOR.\n\n  WARNING!  ERROR IN POWER SUPPLY DETECTED.  RESERVE POWER ACTIVATED.  SAVE ALL WORK AND SAFELY SHUT DOWN THIS DEVICE IMMEDIATELY!",
+    "responses": [
+      { "text": "Access Messages", "topic": "COMP_RET_COMM_HOME_EMAILS" },
+      { "text": "Connect to BINGO CHAMPIONSHIPS ONLINE", "topic": "COMP_RET_COMM_ERROR2" },
+      { "text": "Log Off", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_RET_COMM_ERROR2",
+    "dynamic_line": "The webpage cannot be found :( Check your connection and try again, or contact your Internet Service Provider.",
+    "responses": [ { "text": "RETURN TO DESKTOP", "topic": "COMP_RET_COMM_HOME" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_RET_COMM_HOME_EMAILS",
+    "dynamic_line": "Error connecting to server.  You will be unable to send or receive new messages.  Check your connection and try again, or contact your Internet Service Provider.",
+    "responses": [
+      { "text": "RE: Security Gate", "topic": "COMP_RET_COMM_HOME_EMAILS_GATE" },
+      { "text": "RE: Survivor's Club", "topic": "COMP_RET_COMM_EMAILS_CLUB" },
+      { "text": "RE: Your Daily BINGO News!", "topic": "COMP_RET_COMM_EMAILS_BINGO" },
+      { "text": "RETURN TO MAIN PAGE", "topic": "COMP_RET_COMM_HOME" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_RET_COMM_HOME_EMAILS_GATE",
+    "dynamic_line": "FROM: Randolph VanBuren, Shady Hills Community Manager\n\n  RE: Security Gate\n\n  Greetings everyone in our fine community.  I wanted to give you an update on Shady Hills' official stance on the security and safety of our esteemed residents.  We are doing everything in our power to keep you safe from harm.  We understand the news has been frightening lately with talk of violence in the streets.  Rest assured you are safe inside of our neighborhood.  Out of an abundance of caution we are installing a new front gate to the entrance of the neighborhood.  This gate will keep back even the most violent of criminals.  Should you have any questions or concerns, please contact our service portal.\n\n  Thank you for your trust in Shady Hills,\n Randolph VanBuren",
+    "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_RET_COMM_HOME_EMAILS" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_RET_COMM_EMAILS_CLUB",
+    "dynamic_line": "FROM: Jamie Forest, Community Resident, Unit A02\n\n  RE: Survivor's Club!?\n\n  Hey there!  Thanks for your interest in our club.  We are really excited to have you!  I'll have to come check out your panic room sometime!  A few of us are going to check out the cave in the park if you want to join us.  Officially, it's supposed to be off limits, but what are they going to do about it?  I heard it even connects to the sewers, maybe if the world really goes to hell like they're all thinking, we can make use of it!  I'm kidding, I don't believe that crap.",
+    "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_RET_COMM_HOME_EMAILS" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_RET_COMM_EMAILS_BINGO",
+    "dynamic_line": "FROM: BINGO CHAMPIONSHIPS ONLINE\n\n  Your Daily BINGO News!\n\n  Thank you for being a member of BINGO CHAMPIONSHIPS ONLINE!  Today we have an interview with our latest champion, WINIFRED SMITH!  Click the link below to hear her incredible story!",
+    "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_RET_COMM_HOME_EMAILS" } ]
+  }
+]

@@ -1,0 +1,196 @@
+[
+  {
+    "abstract": "bear_armor",
+    "type": "PET_ARMOR",
+    "name": { "str": "bear armor" },
+    "symbol": "[",
+    "min_pet_vol": "50 L",
+    "max_pet_vol": "1000 L",
+    "pet_bodytype": "bear",
+    "longest_side": "60 cm",
+    "flags": [ "IS_PET_ARMOR" ]
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "kevlar_armor_bear",
+    "copy-from": "bear_armor",
+    "color": "yellow",
+    "name": { "str": "Kevlar-lined bear-sized peto" },
+    "description": "A heavy mattress-like armor of cloth, leather, and thick linings of Kevlar, originally used as horse protection for bullfighting, but adapted for the noblest of beasts.  You could put this on a friendly bear.",
+    "price": 50000,
+    "price_postapoc": 5000,
+    "material": [ "cotton", "leather", "kevlar" ],
+    "weight": "30 kg",
+    "volume": "150 L",
+    "material_thickness": 10
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "acidchitin_armor_bear",
+    "copy-from": "bear_armor",
+    "color": "green",
+    "name": { "str": "biosilicified chitin bear armor" },
+    "description": "A makeshift assembly of criniere, peytral, and croupiere made from biosilicified chitin fitted to a thin mesh.  You could put this on a friendly bear.",
+    "price": 120000,
+    "price_postapoc": 8000,
+    "material": [ "acidchitin", "leather" ],
+    "weight": "35 kg",
+    "volume": "150 L",
+    "material_thickness": 6,
+    "environmental_protection": 7
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "chitin_armor_bear",
+    "copy-from": "bear_armor",
+    "color": "green",
+    "name": { "str": "chitin bear armor" },
+    "description": "A makeshift assembly of criniere, peytral, and croupiere made from chitin fitted to a thin mesh.  You could put this on a friendly bear.",
+    "price": 100000,
+    "price_postapoc": 6000,
+    "material": [ "chitin", "leather" ],
+    "weight": "35 kg",
+    "volume": "150 L",
+    "material_thickness": 6,
+    "environmental_protection": 4
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "chainmail_armor_bear",
+    "copy-from": "bear_armor",
+    "color": "green",
+    "name": { "str": "chainmail bear armor" },
+    "description": "A heavy covering of chainmail, suitably made for bears as protection.  You could put this on a friendly bear.",
+    "price": 40000,
+    "price_postapoc": 10000,
+    "material": [ "steel", "leather" ],
+    "weight": "40 kg",
+    "volume": "150 L",
+    "material_thickness": 6
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "leather_armor_bear",
+    "copy-from": "bear_armor",
+    "color": "green",
+    "name": { "str": "boiled leather bear barding with caparison", "str_pl": "boiled leather bear bardings with caparison" },
+    "description": "A full barding for bears, consisting of boiled leather with cloth underneath.  This caparison depicts four men in heavy metal armor riddled with bullet marks.  You could put this on a friendly bear.",
+    "price": 30000,
+    "price_postapoc": 3000,
+    "material": [ "cotton", "leather" ],
+    "weight": "15 kg",
+    "volume": "150 L",
+    "material_thickness": 6,
+    "snippet_category": [
+      {
+        "id": "honeyeater",
+        "text": "A full barding for bears, consisting of boiled leather with cloth underneath.  This caparison depicts a large brown bear being swarmed by bees as it devours a honeycomb.  You could put this on a friendly bear."
+      },
+      {
+        "id": "mormont",
+        "text": "A full barding for bears, consisting of boiled leather with cloth underneath.  This caparison depicts a warrior-woman holding a baby in one arm and a battleaxe in the other.  You could put this on a friendly bear."
+      },
+      {
+        "id": "maidenfair",
+        "text": "A full barding for bears, consisting of boiled leather with cloth underneath.  This caparison depicts a bear dancing with a golden-haired maiden.  You could put this on a friendly bear."
+      },
+      {
+        "id": "wight",
+        "text": "A full barding for bears, consisting of boiled leather with cloth underneath.  This caparison depicts a zombified bear with cold blue eyes fighting alongside an undead army.  You could put this on a friendly bear."
+      },
+      {
+        "id": "beorn",
+        "text": "A full barding for bears, consisting of boiled leather with cloth underneath.  This caparison depicts a tall man transforming into a giant bear and leaping into battle.  You could put this on a friendly bear."
+      },
+      {
+        "id": "stegosaurus",
+        "text": "A full barding for bears, consisting of boiled leather with cloth underneath.  This caparison depicts a fierce stegosaurus bursting out the side of a 1970s-era van.  You could put this on a friendly bear."
+      }
+    ]
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "leatherbone_armor_bear",
+    "copy-from": "bear_armor",
+    "color": "green",
+    "name": { "str": "boiled leather bear barding with bones", "str_pl": "boiled leather bear bardings with bones" },
+    "description": "Leather bear barding with decorative bones affixed, meant to invoke fear in bandits and raiders and traders all!  You could put this on a friendly bear.",
+    "price": 45000,
+    "price_postapoc": 3000,
+    "material": [ "bone", "leather" ],
+    "weight": "17 kg",
+    "volume": "150 L",
+    "material_thickness": 6
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "rubber_armor_bear",
+    "copy-from": "bear_armor",
+    "color": "green",
+    "name": { "str": "bear rain sheet" },
+    "description": "A thin plastic covering, adapted to protect a bear from acid zombie splashes and similar caustic substances.  You could put this on a friendly bear.",
+    "price": 15000,
+    "price_postapoc": 1500,
+    "material": [ "neoprene", "plastic" ],
+    "weight": "14 kg",
+    "volume": "150 L",
+    "material_thickness": 3
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "sweater_armor_bear",
+    "copy-from": "bear_armor",
+    "color": "red",
+    "name": { "str": "bear-sized holiday sweater" },
+    "description": "A very large warm wool sweater with a festive holiday pattern.  You could put this on a friendly bear.",
+    "price": 10000,
+    "price_postapoc": 1000,
+    "material": [ "wool" ],
+    "weight": "3 kg",
+    "volume": "20 L",
+    "looks_like": "longshirt",
+    "material_thickness": 1
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "iron_armor_bear",
+    "copy-from": "bear_armor",
+    "color": "brown",
+    "name": { "str": "iron bear armor" },
+    "description": "A heavy covering of strategically placed iron plates and leather, suitably made for bears as protection.  You could put this on a friendly bear.",
+    "price": 50000,
+    "price_postapoc": 10000,
+    "material": [ "iron", "leather" ],
+    "weight": "30 kg",
+    "volume": "150 L",
+    "material_thickness": 4
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "steel_armor_bear",
+    "copy-from": "bear_armor",
+    "color": "light_gray",
+    "name": { "str": "steel bear armor" },
+    "description": "A heavy covering of steel plate and leather, suitably made for bears as protection.  You could put this on a friendly bear.",
+    "price": 60000,
+    "price_postapoc": 15000,
+    "material": [ "steel", "leather" ],
+    "weight": "50 kg",
+    "volume": "150 L",
+    "material_thickness": 4
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "bronze_armor_bear",
+    "copy-from": "bear_armor",
+    "color": "yellow",
+    "name": { "str": "bronze bear armor" },
+    "description": "A heavy covering of strategically placed bronze plates and leather, suitably made for bears as protection.  You could put this on a friendly bear.",
+    "price": 50000,
+    "price_postapoc": 10000,
+    "material": [ "bronze", "leather" ],
+    "weight": "30 kg",
+    "volume": "150 L",
+    "material_thickness": 4
+  }
+]

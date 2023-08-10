@@ -15,7 +15,7 @@
 #include "recipe.h"
 #include "type_id.h"
 
-class JsonIn;
+class JsonArray;
 class JsonObject;
 class JsonOut;
 
@@ -30,10 +30,17 @@ class recipe_dictionary
             return autolearn;
         }
 
+        /** Returns all recipes that are nested categories */
+        const std::set<const recipe *> &all_nested() const {
+            return nested;
+        }
+
         /** Returns all blueprints */
         const std::set<const recipe *> &all_blueprints() const {
             return blueprints;
         }
+
+        std::map<recipe_id, const recipe *> find_obsoletes( const itype_id &item_id ) const;
 
         size_t size() const;
         std::map<recipe_id, recipe>::const_iterator begin() const;
@@ -49,6 +56,7 @@ class recipe_dictionary
         static void load_recipe( const JsonObject &jo, const std::string &src );
         static void load_uncraft( const JsonObject &jo, const std::string &src );
         static void load_practice( const JsonObject &jo, const std::string &src );
+        static void load_nested_category( const JsonObject &jo, const std::string &src );
 
         static void finalize();
         static void check_consistency();
@@ -68,7 +76,9 @@ class recipe_dictionary
         std::map<recipe_id, recipe> recipes;
         std::map<recipe_id, recipe> uncraft;
         std::set<const recipe *> autolearn;
+        std::set<const recipe *> nested;
         std::set<const recipe *> blueprints;
+        std::map<const itype_id, const recipe *> obsoletes;
         std::unordered_set<itype_id> items_on_loops;
 
         static void finalize_internal( std::map<recipe_id, recipe> &obj );
@@ -89,6 +99,7 @@ class recipe_subset
          */
         void include( const recipe *r, int custom_difficulty = -1 );
         void include( const recipe_subset &subset );
+        void remove( const recipe *r );
         /**
          * Include a recipe to the subset. Based on the condition.
          * @param subset Where to included the recipe
@@ -116,10 +127,8 @@ class recipe_subset
          */
         int get_custom_difficulty( const recipe *r ) const;
 
-        /** Check if there is any recipes in given category (optionally restricted to subcategory) */
-        bool empty_category(
-            const std::string &cat,
-            const std::string &subcat = std::string() ) const;
+        /** Check if there is any recipes in given category (optionally restricted to subcategory), index which is for nested categories */
+        bool empty_category( const std::string &cat, const std::string &subcat = std::string() ) const;
 
         /** Get all recipes in given category (optionally restricted to subcategory) */
         std::vector<const recipe *> in_category(
@@ -152,20 +161,24 @@ class recipe_subset
         /** Find hidden recipes */
         std::vector<const recipe *> hidden() const;
 
+        /** Find expanded recipes */
+        std::vector<const recipe *> expanded() const;
+
         /** Find recipes matching query (left anchored partial matches are supported) */
         std::vector<const recipe *> search(
-            const std::string &txt, search_type key = search_type::name,
+            std::string_view txt, search_type key = search_type::name,
             const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         /** Find recipes matching query and return a new recipe_subset */
         recipe_subset reduce(
-            const std::string &txt, search_type key = search_type::name,
+            std::string_view txt, search_type key = search_type::name,
             const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         /** Set intersection between recipe_subsets */
         recipe_subset intersection( const recipe_subset &subset ) const;
         /** Set difference between recipe_subsets */
         recipe_subset difference( const recipe_subset &subset ) const;
+        recipe_subset difference( const std::set<const recipe *> &recipe_set ) const;
         /** Find recipes producing the item */
-        std::vector<const recipe *> search_result( const itype_id &item ) const;
+        std::vector<const recipe *> recipes_that_produce( const itype_id &item ) const;
 
         size_t size() const {
             return recipes.size();
@@ -193,6 +206,6 @@ class recipe_subset
 };
 
 void serialize( const recipe_subset &value, JsonOut &jsout );
-void deserialize( recipe_subset &value, JsonIn &jsin );
+void deserialize( recipe_subset &value, const JsonArray &ja );
 
 #endif // CATA_SRC_RECIPE_DICTIONARY_H

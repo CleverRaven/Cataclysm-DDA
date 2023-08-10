@@ -6,11 +6,11 @@
     "text": [
       "Spirals.",
       "Spirals…",
-      "Spirals?",
+      "Spirals?  <spirals>",
       "Spirals?  Spirals.",
       "Spiiiraals!",
       "Ha!  Spirals.",
-      "Spi…rals.",
+      "Spi…rals.  <spirals>",
       "Spiralling spirals.",
       "Hmm, spirals.",
       "Ah!  Spirals.",
@@ -20,8 +20,14 @@
       "Spirals!!!",
       "SpIrAlS.",
       "SPIRALS.",
-      "AHAHAHAHA!!!",
-      "SpiRAAAAAAALS!"
+      "<spirals> AHAHAHAHA!!!  <spirals>",
+      "<spirals> UEE HEE HEE!  <spirals>",
+      "SpiRAAAAAAALS!",
+      "Spirals and spirals and spirals and spirals…",
+      "The spirals spiral into more spirals don't you see?",
+      "Now, now!  Let the games begin!  <spirals>",
+      "Who keeps spinning the world around?",
+      "<spirals> So very many spirals!"
     ]
   },
   {
@@ -68,8 +74,8 @@
       "Absolutely no to Thorazine.",
       "You have read the notes on Thorazine, right?",
       "Thorazine… that's what 'they' use to keep you tame.",
-      "Don't.  This thorazine seriously clouds your mind.  You need to stay sharp.",
-      "Sure, take thorazine.  If you want to lose your mind and wander into a horde of undead!"
+      "Don't.  This Thorazine seriously clouds your mind.  You need to stay sharp.",
+      "Sure, take Thorazine.  If you want to lose your mind and wander into a horde of undead!"
     ]
   },
   {
@@ -366,14 +372,14 @@
       "What's up, <name_g>?",
       "You okay, <name_g>?",
       "Hello, <name_g>.",
-      "Hi <name_g>",
+      "Hi <name_g>.",
       "Well met!",
       "Howdy.",
       "<name_g>.",
       "Yo.",
       "Hail!",
       "Hey hey!",
-      "Hi there",
+      "Hi there.",
       "Hello.",
       "Salutations."
     ]
@@ -711,9 +717,10 @@
       "that clear",
       "understood",
       "received",
+      "acknowledged",
       "roger that",
       "for sure",
-      "Uh huh",
+      "uh huh",
       "capiche",
       "gotcha"
     ]
@@ -752,7 +759,7 @@
       "Out of my way, <name_b>!",
       "Move it, <name_g>!",
       "Excuse me, <name_g>.",
-      "Gotta get past you, <name_g>",
+      "Gotta get past you, <name_g>.",
       "I'm coming through <name_g>.",
       "Shift it, <name_g>.",
       "In the way here <name_g>.",
@@ -993,9 +1000,9 @@
       "<swear> <name_b>",
       "you can fuck right off, you <name_b>",
       "I've had enough of you, begone",
-      "Swivel on it.",
-      "What a fucking stupid suggestion.",
-      "Stop speaking, really.",
+      "Swivel on it",
+      "What a fucking stupid suggestion",
+      "Stop speaking, really",
       "you're a poster child for abortions",
       "how the fuck you've survived this far is beyond me, you <swear> <swear> <name_b>",
       "you're why the gene pool needs a lifeguard",
@@ -1160,7 +1167,7 @@
       "Run!",
       "Be quiet.",
       "Please, I don't want to die.",
-      "It's going South pretty <swear> fast.",
+      "It's going south pretty <swear> fast.",
       "Game over man, game over!",
       "We have a serious situation here.",
       "Where did you come from?",
@@ -1194,7 +1201,7 @@
       "Weapons check everyone.  There may be more.",
       "That's that, then.",
       "That's the last of them for now.",
-      "Clearing the world, one <name_b> at a time",
+      "Clearing the world, one <name_b> at a time.",
       "Well, that got the blood pumping.",
       "We're clear, but stay frosty.",
       "<swear> beautiful work.",
@@ -1361,7 +1368,7 @@
       "Who goes there?",
       "I heard something!",
       "Huh, what's that?",
-      "Could have swore I just head a voice.",
+      "Could have sworn I just heard a voice.",
       "Somebody there?",
       "Great, now I'm hearing things!",
       "Say something?",
@@ -1483,18 +1490,18 @@
       "I hear you.",
       "I'll do that.",
       "Sure, I got that.",
-      "Sure thing",
-      "Absolutely",
-      "Got it, <name_g>",
-      "Sure thing, <name_g>",
-      "Absolutely, <name_g>",
-      "Understood, <name_g>",
-      "Okay, <name_g>",
-      "Will do, <name_g>",
-      "Can do, <name_g>",
-      "On it, <name_g>",
-      "No problem, <name_g>",
-      "Roger, <name_g>",
+      "Sure thing.",
+      "Absolutely.",
+      "Got it, <name_g>.",
+      "Sure thing, <name_g>.",
+      "Absolutely, <name_g>.",
+      "Understood, <name_g>.",
+      "Okay, <name_g>.",
+      "Will do, <name_g>.",
+      "Can do, <name_g>.",
+      "On it, <name_g>.",
+      "No problem, <name_g>.",
+      "Roger, <name_g>.",
       "Okay.",
       "Will do.",
       "No problem.",
@@ -1517,7 +1524,20 @@
       "I guess I can.",
       "I guess so.",
       "I should be able to.",
-      "I'll try."
+      "I'll try.",
+      "I'll do my best.",
+      "I'll be right on it.",
+      "I can manage that.",
+      "I think I can just about handle that.",
+      "Fine by me.",
+      "Not a problem.",
+      "Loud and clear.",
+      "I'll have that covered in no time.",
+      "That all?",
+      "Done.",
+      "Already on it.",
+      "Remind me why I follow you again?",
+      "Consider it done."
     ]
   },
   {
@@ -2015,6 +2035,7 @@
       "Mhmm, I needed that.",
       "Sweet sweet aqua.",
       "Nothing quite like clean water.",
+      "Could use some ice cubes with that.",
       "That wasn't Evian, but I'm not thirsty."
     ]
   },
@@ -2188,6 +2209,16 @@
   },
   {
     "type": "snippet",
+    "category": "<ally_rule_lock_doors_true_text>",
+    "text": "<mypronoun> will lock doors when closing them."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_lock_doors_false_text>",
+    "text": "<mypronoun> will not lock doors."
+  },
+  {
+    "type": "snippet",
     "category": "<ally_rule_follow_close_true_text>",
     "text": "<mypronoun> will follow you closely even when threatened."
   },
@@ -2225,6 +2256,16 @@
     "type": "snippet",
     "category": "<ally_rule_avoid_doors_false_text>",
     "text": "<mypronoun> will open doors to reach a destination."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_avoid_locks_true_text>",
+    "text": "<mypronoun> will not try to unlock doors."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_avoid_locks_false_text>",
+    "text": "<mypronoun> will unlock doors to open them."
   },
   {
     "type": "snippet",

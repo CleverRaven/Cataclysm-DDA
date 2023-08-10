@@ -104,6 +104,17 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "earthshaper_boulder",
+    "furniture": [
+      {
+        "result": "f_boulder_earthshaper",
+        "valid_furniture": [ "f_null" ],
+        "message": "The ground shakes, and a section of unnaturally smooth stone rises to the surface."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "druidic_renewal",
     "//": "TODO: Update the birch and willow transformations if they ever make those trees behave consistent relative to blackjack oak and pine.",
     "terrain": [

@@ -2,7 +2,7 @@
   {
     "id": "ak74",
     "copy-from": "rifle_auto",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AK-74M" },
     "//": "AKs likewise aren't commercially traded in the US, plus this is newer.",
@@ -13,7 +13,6 @@
     "price": 390000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "bashing": 11,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "545x39" ],
@@ -23,38 +22,37 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_volume": "250 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
+      [ "stock mount", 1 ],
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ],
+    "melee_damage": { "bash": 11 }
   },
   {
     "id": "kord",
     "copy-from": "rifle_auto",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Kord 6P67" },
     "//": "An exceptionally new AK style gun found illicitly as part of a quest.",
-    "description": "Special forces Russian rifle chambered in 5.45.  This version uses standard Picatinny rails, has modern lightweight furniture and a unique complex recoil balance system for high fire rate with minimal recoil.  It combines the reliability of the AK series with the high-velocity, lightweight 5.45x39mm cartridge and accepts standard AK-74M magazines.",
+    "description": "A special forces Russian rifle chambered in 5.45.  This version uses standard Picatinny rails, has modern lightweight furniture and a unique complex recoil balance system for high fire rate with minimal recoil.  It combines the reliability of the AK series with the high-velocity, lightweight 5.45x39mm cartridge and accepts standard AK-74M magazines.",
     "weight": "3250 g",
     "volume": "2418 ml",
     "longest_side": "96 cm",
     "price": 390000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "bashing": 11,
     "material": [ "steel", "plastic" ],
     "color": "brown",
     "ammo": [ "545x39" ],
@@ -65,7 +63,6 @@
     "barrel_volume": "250 ml",
     "default_mods": [ "bars", "wire_stock" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -78,8 +75,9 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "NEVER_JAMS" ],
+    "flags": [ "NEVER_JAMS", "MISSION_ITEM" ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ],
+    "melee_damage": { "bash": 11 }
   }
 ]

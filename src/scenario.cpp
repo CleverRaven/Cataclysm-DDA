@@ -55,7 +55,7 @@ void scenario::load_scenario( const JsonObject &jo, const std::string &src )
     all_scenarios.load( jo, src );
 }
 
-void scenario::load( const JsonObject &jo, const std::string & )
+void scenario::load( const JsonObject &jo, const std::string_view )
 {
     // TODO: pretty much the same as in profession::load, but different contexts for pgettext.
     // TODO: maybe combine somehow?
@@ -100,24 +100,67 @@ void scenario::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "requirement", _requirement );
 
+    optional( jo, was_loaded, "reveal_locale", reveal_locale, true );
+
     optional( jo, was_loaded, "eoc", _eoc, auto_flags_reader<effect_on_condition_id> {} );
 
     if( !was_loaded ) {
-        if( jo.has_member( "custom_initial_date" ) ) {
-            _custom_start_date = true;
-
-            JsonObject jocid = jo.get_member( "custom_initial_date" );
-            if( jocid.has_member( "hour" ) ) {
-                optional( jocid, was_loaded, "hour", _start_hour );
+        if( jo.has_member( "start_of_cataclysm" ) ) {
+            JsonObject jocid = jo.get_member( "start_of_cataclysm" );
+            if( jocid.has_string( "hour" ) )  {
+                _is_random_start_of_cataclysm_hour = jocid.get_string( "hour" ) == "random";
+            } else if( jocid.has_int( "hour" ) ) {
+                _is_random_start_of_cataclysm_hour = false;
+                optional( jocid, was_loaded, "hour", _start_of_cataclysm_hour );
             }
-            if( jocid.has_member( "day" ) ) {
-                optional( jocid, was_loaded, "day", _start_day );
+            if( jocid.has_string( "day" ) ) {
+                _is_random_start_of_cataclysm_day = jocid.get_string( "day" ) == "random";
+            } else if( jocid.has_int( "day" ) ) {
+                _is_random_start_of_cataclysm_day = false;
+                optional( jocid, was_loaded, "day", _start_of_cataclysm_day );
             }
-            if( jocid.has_member( "season" ) ) {
-                optional( jocid, was_loaded, "season", _start_season );
+            if( jocid.has_string( "season" ) ) {
+                if( jocid.get_string( "season" ) == "random" ) {
+                    _is_random_start_of_cataclysm_season = true;
+                } else {
+                    _is_random_start_of_cataclysm_season = false;
+                    optional( jocid, was_loaded, "season", _start_of_cataclysm_season );
+                }
             }
-            if( jocid.has_member( "year" ) ) {
-                optional( jocid, was_loaded, "year", _start_year );
+            if( jocid.has_string( "year" ) ) {
+                _is_random_start_of_cataclysm_year = jocid.get_string( "year" ) == "random";
+            } else if( jocid.has_int( "year" ) ) {
+                _is_random_start_of_cataclysm_year = false;
+                optional( jocid, was_loaded, "year", _start_of_cataclysm_year );
+            }
+        }
+        if( jo.has_member( "start_of_game" ) ) {
+            JsonObject jocid = jo.get_member( "start_of_game" );
+            if( jocid.has_string( "hour" ) )  {
+                _is_random_start_of_game_hour = jocid.get_string( "hour" ) == "random";
+            } else if( jocid.has_int( "hour" ) ) {
+                _is_random_start_of_game_hour = false;
+                optional( jocid, was_loaded, "hour", _start_of_game_hour );
+            }
+            if( jocid.has_string( "day" ) ) {
+                _is_random_start_of_game_day = jocid.get_string( "day" ) == "random";
+            } else if( jocid.has_int( "day" ) ) {
+                _is_random_start_of_game_day = false;
+                optional( jocid, was_loaded, "day", _start_of_game_day );
+            }
+            if( jocid.has_string( "season" ) ) {
+                if( jocid.get_string( "season" ) == "random" ) {
+                    _is_random_start_of_game_season = true;
+                } else {
+                    _is_random_start_of_game_season = false;
+                    optional( jocid, was_loaded, "season", _start_of_game_season );
+                }
+            }
+            if( jocid.has_string( "year" ) ) {
+                _is_random_start_of_game_year = jocid.get_string( "year" ) == "random";
+            } else if( jocid.has_int( "year" ) ) {
+                _is_random_start_of_game_year = false;
+                optional( jocid, was_loaded, "year", _start_of_game_year );
             }
         }
     }
@@ -130,13 +173,31 @@ void scenario::load( const JsonObject &jo, const std::string & )
         _surround_groups.emplace_back( mongroup_id( ja.get_string( 0 ) ),
                                        static_cast<float>( ja.get_float( 1 ) ) );
     }
+    rerandomize();
 }
 
 const scenario *scenario::generic()
 {
     static const string_id<scenario> generic_scenario_id(
         get_option<std::string>( "GENERIC_SCENARIO_ID" ) );
-    return &generic_scenario_id.obj();
+
+    std::vector<const scenario *> all;
+    for( const scenario &scen : scenario::get_all() ) {
+        if( scen.scen_is_blacklisted() ) {
+            continue;
+        }
+        all.push_back( &scen );
+    }
+    if( find_if( all.begin(), all.end(), []( const scenario * s ) {
+    return s->ident() == generic_scenario_id;
+    } ) != all.end() ) {
+        // if the default scenario exists return it
+        return &generic_scenario_id.obj();
+    }
+
+    // if generic doesn't exist just return to the first scenario
+    return *all.begin();
+
 }
 
 // Strategy: a third of the time, return the generic scenario.  Otherwise, return a scenario,
@@ -290,15 +351,17 @@ bool scenario::scen_is_blacklisted() const
     return sc_blacklist.scenarios.count( id ) != 0;
 }
 
-void scen_blacklist::load_scen_blacklist( const JsonObject &jo, const std::string &src )
+void scen_blacklist::load_scen_blacklist( const JsonObject &jo, const std::string_view src )
 {
     sc_blacklist.load( jo, src );
 }
 
-void scen_blacklist::load( const JsonObject &jo, const std::string & )
+void scen_blacklist::load( const JsonObject &jo, const std::string_view )
 {
     if( !scenarios.empty() ) {
-        jo.throw_error( "Attempted to load scenario blacklist with an existing scenario blacklist" );
+        DebugLog( D_INFO, DC_ALL ) <<
+                                   "Attempted to load scenario blacklist with an existing scenario blacklist, resetting blacklist info";
+        reset_scenarios_blacklist();
     }
 
     const std::string bl_stype = jo.get_string( "subtype" );
@@ -464,55 +527,176 @@ int scenario::start_location_targets_count() const
     return cnt;
 }
 
-cata::optional<achievement_id> scenario::get_requirement() const
+std::optional<achievement_id> scenario::get_requirement() const
 {
     return _requirement;
 }
 
-bool scenario::custom_start_date() const
+bool scenario::get_reveal_locale() const
 {
-    return _custom_start_date;
+    return reveal_locale;
 }
 
-bool scenario::is_random_hour() const
+void scenario::rerandomize( bool randomize_start_of_cataclysm, bool randomize_start_of_game ) const
 {
-    return _start_hour == -1;
+    scenario *hack = const_cast<scenario *>( this );
+    if( randomize_start_of_cataclysm ) {
+        if( hack->is_random_start_of_cataclysm_hour() ) {
+            hack->_start_of_cataclysm_hour = rng( 0, 23 );
+        }
+        if( hack->is_random_start_of_cataclysm_day() ) {
+            hack->_start_of_cataclysm_day = rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 );
+        }
+        if( hack->is_random_start_of_cataclysm_season() ) {
+            hack->_start_of_cataclysm_season = static_cast<season_type>( rng( 0, 3 ) );
+        }
+        if( hack->is_random_start_of_cataclysm_year() ) {
+            hack->_start_of_cataclysm_year = rng( 1, 11 );
+        }
+    }
+
+    if( randomize_start_of_game ) {
+        if( hack->is_random_start_of_game_hour() ) {
+            hack->_start_of_game_hour = rng( 0, 23 );
+        }
+        if( hack->is_random_start_of_game_day() ) {
+            hack->_start_of_game_day = rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 );
+        }
+        if( hack->is_random_start_of_game_season() ) {
+            hack->_start_of_game_season = static_cast<season_type>( rng( 0, 3 ) );
+        }
+        if( hack->is_random_start_of_game_year() ) {
+            hack->_start_of_game_year = rng( 1, 11 );
+        }
+    }
+
+    hack->_start_of_cataclysm = calendar::turn_zero +
+                                1_hours * hack->start_of_cataclysm_hour() +
+                                1_days * hack->start_of_cataclysm_day() +
+                                1_days * get_option<int>( "SEASON_LENGTH" ) * hack->start_of_cataclysm_season() +
+                                calendar::year_length() * ( hack->start_of_cataclysm_year() - 1 )
+                                ;
+
+    hack->_start_of_game = calendar::turn_zero +
+                           1_hours * hack->start_of_game_hour() +
+                           1_days * hack->start_of_game_day() +
+                           1_days * get_option<int>( "SEASON_LENGTH" ) * hack->start_of_game_season() +
+                           calendar::year_length() * ( hack->start_of_game_year() - 1 )
+                           ;
+
+    if( hack->start_of_game() < hack->start_of_cataclysm() ) {
+        hack->_start_of_game = hack->start_of_cataclysm();
+        hack->_start_of_game_hour = hack->start_of_cataclysm_hour();
+        hack->_start_of_game_day = hack->start_of_cataclysm_day();
+        hack->_start_of_game_season = hack->start_of_cataclysm_season();
+        hack->_start_of_game_year = hack->start_of_cataclysm_year();
+    }
 }
 
-bool scenario::is_random_day() const
+bool scenario::is_random_start_of_cataclysm_hour() const
 {
-    return _start_day == -1;
+    return _is_random_start_of_cataclysm_hour;
 }
 
-bool scenario::is_random_year() const
+bool scenario::is_random_start_of_cataclysm_day() const
 {
-    return _start_year == -1;
+    return _is_random_start_of_cataclysm_day;
 }
 
-int scenario::start_hour() const
+bool scenario::is_random_start_of_cataclysm_season() const
 {
-    return _start_hour == -1 ? rng( 0, 23 ) : _start_hour;
+    return _is_random_start_of_cataclysm_season;
 }
 
-int scenario::day_of_season() const
+bool scenario::is_random_start_of_cataclysm_year() const
 {
-    return _start_day == -1 ? rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 ) : _start_day;
+    return _is_random_start_of_cataclysm_year;
 }
 
-int scenario::start_day() const
+bool scenario::is_random_start_of_cataclysm() const
 {
-    return day_of_season() + get_option<int>( "SEASON_LENGTH" ) * ( start_season() + 4 *
-            ( start_year() - 1 ) );
+    return is_random_start_of_cataclysm_hour() ||
+           is_random_start_of_cataclysm_day() ||
+           is_random_start_of_cataclysm_season() ||
+           is_random_start_of_cataclysm_year();
 }
 
-season_type scenario::start_season() const
+int scenario::start_of_cataclysm_hour() const
 {
-    return _start_season;
+    return _start_of_cataclysm_hour;
 }
 
-int scenario::start_year() const
+int scenario::start_of_cataclysm_day() const
 {
-    return _start_year == -1 ? rng( 1, 11 ) : _start_year;
+    return _start_of_cataclysm_day;
+}
+
+season_type scenario::start_of_cataclysm_season() const
+{
+    return _start_of_cataclysm_season;
+}
+
+int scenario::start_of_cataclysm_year() const
+{
+    return _start_of_cataclysm_year;
+}
+
+bool scenario::is_random_start_of_game_hour() const
+{
+    return _is_random_start_of_game_hour;
+}
+
+bool scenario::is_random_start_of_game_day() const
+{
+    return _is_random_start_of_game_day;
+}
+
+bool scenario::is_random_start_of_game_season() const
+{
+    return _is_random_start_of_game_season;
+}
+
+bool scenario::is_random_start_of_game_year() const
+{
+    return _is_random_start_of_game_year;
+}
+
+bool scenario::is_random_start_of_game() const
+{
+    return is_random_start_of_game_hour() ||
+           is_random_start_of_game_day() ||
+           is_random_start_of_game_season() ||
+           is_random_start_of_game_year();
+}
+
+int scenario::start_of_game_hour() const
+{
+    return _start_of_game_hour;
+}
+
+int scenario::start_of_game_day() const
+{
+    return _start_of_game_day;
+}
+
+season_type scenario::start_of_game_season() const
+{
+    return _start_of_game_season;
+}
+
+int scenario::start_of_game_year() const
+{
+    return _start_of_game_year;
+}
+
+time_point scenario::start_of_cataclysm() const
+{
+    return _start_of_cataclysm;
+}
+
+time_point scenario::start_of_game() const
+{
+    return _start_of_game;
 }
 
 vproto_id scenario::vehicle() const
@@ -552,39 +736,39 @@ bool scenario::allowed_start( const start_location_id &loc ) const
     return std::find( vec.begin(), vec.end(), loc ) != vec.end();
 }
 
-ret_val<bool> scenario::can_afford( const scenario &current_scenario, const int points ) const
+ret_val<void> scenario::can_afford( const scenario &current_scenario, const int points ) const
 {
     if( point_cost() - current_scenario.point_cost() <= points ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
 
     }
 
-    return ret_val<bool>::make_failure( _( "You don't have enough points" ) );
+    return ret_val<void>::make_failure( _( "You don't have enough points" ) );
 }
 
-ret_val<bool> scenario::can_pick() const
+ret_val<void> scenario::can_pick() const
 {
     // if meta progression is disabled then skip this
     if( get_past_games().achievement( achievement_achievement_arcade_mode ) ||
         !get_option<bool>( "META_PROGRESS" ) ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
     }
 
     if( _requirement ) {
         const achievement_completion_info *other_games = get_past_games().achievement(
                     _requirement.value()->id );
         if( !other_games ) {
-            return ret_val<bool>::make_failure(
+            return ret_val<void>::make_failure(
                        _( "You must complete the achievement \"%s\" to unlock this scenario." ),
                        _requirement.value()->name() );
         } else if( other_games->games_completed.empty() ) {
-            return ret_val<bool>::make_failure(
+            return ret_val<void>::make_failure(
                        _( "You must complete the achievement \"%s\" to unlock this scenario." ),
                        _requirement.value()->name() );
         }
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 bool scenario::has_map_extra() const

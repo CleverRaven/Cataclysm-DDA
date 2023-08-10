@@ -1,0 +1,490 @@
+[
+  {
+    "id": "biokin_physical_enhance",
+    "type": "SPELL",
+    "name": "[Ψ]Physical Enhancement",
+    "description": "You can improve your strength and agility with your powers.",
+    "message": "You enhance your physical prowess.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_physical",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 1250,
+    "energy_increment": -175,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_physical_enhance') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_physical_enhance') * 2000) + 45000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "base_casting_time": 120,
+    "final_casting_time": 75,
+    "casting_time_increment": -5.5,
+    "learn_spells": { "biokin_enhance_mobility": 7, "biokin_reflex_enhance": 12, "biokin_combat_dance": 15 }
+  },
+  {
+    "id": "biokin_overcome_pain",
+    "type": "SPELL",
+    "name": "[Ψ]Overcome Pain",
+    "description": "You can lessen the impact of pain on your performance, though this has no effect on the underlying injuries.",
+    "message": "You breathe deeply and your pain lessens.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_PAIN",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": 0,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 1750,
+    "final_energy_cost": 850,
+    "energy_increment": -75,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 30000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 130000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "base_casting_time": 125,
+    "final_casting_time": 50,
+    "casting_time_increment": -7,
+    "learn_spells": { "biokin_armor_skin": 7, "biokin_climate_control": 10, "biokin_sealed_system": 15 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_PAIN",
+    "effect": {
+      "switch": { "u_val": "spell_level", "spell": "biokin_overcome_pain" },
+      "cases": [
+        { "case": 0, "effect": { "u_cast_spell": { "id": "biokin_overcome_pain_1" } } },
+        { "case": 4, "effect": { "u_cast_spell": { "id": "biokin_overcome_pain_2" } } },
+        { "case": 8, "effect": { "u_cast_spell": { "id": "biokin_overcome_pain_3" } } },
+        { "case": 12, "effect": { "u_cast_spell": { "id": "biokin_overcome_pain_4" } } },
+        { "case": 16, "effect": { "u_cast_spell": { "id": "biokin_overcome_pain_5" } } },
+        { "case": 20, "effect": { "u_cast_spell": { "id": "biokin_overcome_pain_6" } } }
+      ]
+    }
+  },
+  {
+    "id": "biokin_overcome_pain_1",
+    "type": "SPELL",
+    "name": "[Ψ]Overcome Pain #1",
+    "description": "Number #1 of Overcoming Pain subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_pkill_1",
+    "shape": "blast",
+    "max_level": 20,
+    "min_damage": 0,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 30000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 130000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "biokin_overcome_pain_2",
+    "type": "SPELL",
+    "name": "[Ψ]Overcome Pain #2",
+    "description": "Number #2 of Overcoming Pain subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_pkill_2",
+    "shape": "blast",
+    "max_level": 20,
+    "min_damage": 0,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 150000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "biokin_overcome_pain_3",
+    "type": "SPELL",
+    "name": "[Ψ]Overcome Pain #3",
+    "description": "Number #3 of Overcoming Pain subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_pkill_3",
+    "shape": "blast",
+    "max_level": 20,
+    "min_damage": 0,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 90000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "biokin_overcome_pain_4",
+    "type": "SPELL",
+    "name": "[Ψ]Overcome Pain #4",
+    "description": "Number #4 of Overcoming Pain subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_pkill_4",
+    "shape": "blast",
+    "max_level": 20,
+    "min_damage": 0,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 120000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 210000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "biokin_overcome_pain_5",
+    "type": "SPELL",
+    "name": "[Ψ]Overcome Pain #5",
+    "description": "Number #5 of Overcoming Pain subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_pkill_5",
+    "shape": "blast",
+    "max_level": 20,
+    "min_damage": 0,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 150000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 240000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "biokin_overcome_pain_6",
+    "type": "SPELL",
+    "name": "[Ψ]Overcome Pain #6",
+    "description": "Number #6 of Overcoming Pain subspells.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_pkill_6",
+    "shape": "blast",
+    "max_level": 20,
+    "min_damage": 0,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_overcome_pain') * 2000) + 270000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    }
+  },
+  {
+    "id": "biokin_flexibility",
+    "type": "SPELL",
+    "name": "[Ψ]Flexibility",
+    "description": "You can make your limbs move far beyond the normal human range of motion, allowing you to twist out of others' grasp and reduce fall damage.",
+    "message": "You body begins twisting in unbelivable ways.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_flexibility",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2500,
+    "final_energy_cost": 850,
+    "energy_increment": -175,
+    "min_duration": 200,
+    "max_duration": 500,
+    "base_casting_time": 50,
+    "final_casting_time": 15,
+    "casting_time_increment": -2.5,
+    "learn_spells": { "biokin_enhance_mobility": 6, "biokin_reflex_enhance": 12, "biokin_combat_dance": 15 }
+  },
+  {
+    "id": "biokin_armor_skin",
+    "type": "SPELL",
+    "name": "[Ψ]Hardened Skin",
+    "description": "You can increase the strength of your skin, making it almost like armor while still allowing you to move freely.",
+    "message": "Your skin itches slightly and takes on a waxy appearance.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_armor_skin",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 4000,
+    "final_energy_cost": 1750,
+    "energy_increment": -200,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: biokin_armor_skin') * 1000) + 4500) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: biokin_armor_skin') * 1500) + 30000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "base_casting_time": 150,
+    "final_casting_time": 50,
+    "casting_time_increment": -8.5,
+    "learn_spells": { "biokin_climate_control": 5, "biokin_sealed_system": 9, "biokin_physical_enhance": 12 }
+  },
+  {
+    "id": "biokin_climate_control",
+    "type": "SPELL",
+    "name": "[Ψ]Temperature Adaptability",
+    "description": "You can increase the heat dissipation and retention of your body, allowing you to function in a much wider range of temperatures.\n\nTemperature Adaptability and Sealed System will cancel each other.",
+    "message": "You feel much more comfortable.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_climate_control",
+    "extra_effects": [
+      { "id": "biokin_climate_remove_sealed", "hit_self": true },
+      { "id": "psionic_drained_difficulty_four", "hit_self": true }
+    ],
+    "shape": "blast",
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 1250,
+    "energy_increment": -175,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_climate_control') * 18000) + 30000 ) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_climate_control') * 36000) + 60000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "base_casting_time": 250,
+    "final_casting_time": 150,
+    "casting_time_increment": -8.5,
+    "learn_spells": { "biokin_sealed_system": 6 }
+  },
+  {
+    "id": "biokin_climate_remove_sealed",
+    "type": "SPELL",
+    "name": "[Ψ]Temperature Adaptability Cancel Sealed System",
+    "description": "The part of Temperature Adaptability that cancels Sealed System.  It's a bug if you have it.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "remove_effect",
+    "effect_str": "biokin_sealed_system",
+    "shape": "blast",
+    "max_level": 1
+  },
+  {
+    "id": "biokin_enhance_mobility",
+    "type": "SPELL",
+    "name": "[Ψ]Enhance Mobility",
+    "description": "Increase your range of motion and flexibility such that you can move more easily even in encumbering gear.",
+    "message": "You gear doesn't seem to encumber you as much.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_ENHANCE_MOBILITY_SWITCHER",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": 1,
+    "min_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 4500,
+    "final_energy_cost": 2000,
+    "energy_increment": -150,
+    "base_casting_time": 275,
+    "final_casting_time": 50,
+    "casting_time_increment": -15,
+    "learn_spells": { "biokin_reflex_enhance": 4, "biokin_combat_dance": 10 }
+  },
+  {
+    "id": "biokin_reflex_enhance",
+    "type": "SPELL",
+    "name": "[Ψ]Heightened Reflexes",
+    "description": "You can improve your sensory acuity and the speed at which your brain processes sensory inputs.",
+    "message": "You enhance your speed and sensory prowess.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_reflex",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 5500,
+    "final_energy_cost": 1750,
+    "energy_increment": -205,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_reflex_enhance') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_reflex_enhance') * 2000) + 45000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "base_casting_time": 175,
+    "final_casting_time": 100,
+    "casting_time_increment": -5.5,
+    "learn_spells": { "biokin_combat_dance": 9, "biokin_overcome_pain": 12 }
+  },
+  {
+    "id": "biokin_sealed_system",
+    "type": "SPELL",
+    "name": "[Ψ]Sealed System",
+    "description": "With a deep breath, you lock your body off from the outside world--nothing gets in, nothing gets out.\n\nSealed System and Temperature Adaptability cannot be activate at the same time.",
+    "message": "You take a deep breath and seal your lips.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_sealed",
+    "extra_effects": [
+      { "id": "biokin_sealed_remove_climate", "hit_self": true },
+      { "id": "psionic_drained_difficulty_seven", "hit_self": false }
+    ],
+    "shape": "blast",
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 5000,
+    "final_energy_cost": 2750,
+    "energy_increment": -225,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 800) + 6000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 800) + 30000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "base_casting_time": 200,
+    "final_casting_time": 100,
+    "casting_time_increment": -7.5,
+    "learn_spells": { "biokin_overcome_pain": 4 }
+  },
+  {
+    "id": "biokin_sealed_remove_climate",
+    "type": "SPELL",
+    "name": "[Ψ]Sealed System Cancel Temperature Adaptability",
+    "description": "The part of Sealed System that cancels Temperature Adaptability.  It's a bug if you have it.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "remove_effect",
+    "effect_str": "biokin_climate_control",
+    "shape": "blast",
+    "max_level": 1
+  },
+  {
+    "id": "biokin_combat_dance",
+    "type": "SPELL",
+    "name": "[Ψ]Combat Dance",
+    "description": "You can flood your body with psionic power to enhance your combat prowess.",
+    "message": "A surge of power fills your body and you begin moving with terrible purpose!",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_combat_dance",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": false } ],
+    "shape": "blast",
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 1750,
+    "energy_increment": -125,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 600) + 4000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 600) + 20000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "base_casting_time": 100,
+    "final_casting_time": 40,
+    "casting_time_increment": -4
+  }
+]

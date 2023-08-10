@@ -26,11 +26,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void OtMatchCheck::registerMatchers( MatchFinder *Finder )
@@ -82,6 +78,4 @@ void OtMatchCheck::check( const MatchFinder::MatchResult &Result )
     CheckCall( *this, Result );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

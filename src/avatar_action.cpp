@@ -66,12 +66,14 @@ static const efftype_id effect_hunger_engorged( "hunger_engorged" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
-static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_winded( "winded" );
 
 static const itype_id itype_swim_fins( "swim_fins" );
+
+static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
+static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const move_mode_id move_mode_prone( "prone" );
 
@@ -80,6 +82,7 @@ static const skill_id skill_swimming( "swimming" );
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_SHELL3( "SHELL3" );
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -155,15 +158,17 @@ static bool check_water_affect_items( avatar &you )
 
 bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 {
-    if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
-        if( you.has_active_mutation( trait_SHELL2 ) ) {
+    bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
+                    you.has_active_mutation( trait_SHELL3 );
+    if( ( !g->check_safe_mode_allowed() ) || in_shell ) {
+        if( in_shell ) {
             add_msg( m_warning, _( "You can't move while in your shell.  Deactivate it to go mobile." ) );
         }
         return false;
     }
 
     // If any leg broken without crutches and not already on the ground topple over
-    if( ( you.get_working_leg_count() < 2 && !you.is_prone() &&
+    if( ( !you.enough_working_legs() && !you.is_prone() &&
           !( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_CRUTCHES ) ) ) ) {
         you.set_movement_mode( move_mode_prone );
         you.add_msg_if_player( m_bad,
@@ -224,7 +229,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
     point new_d( dest_loc.xy() + point( -you.posx(), -you.posy() ) );
 
-    if( !tile_iso ) {
+    if( !g->is_tileset_isometric() ) {
         if( new_d.x > 0 ) {
             you.facing = FacingDirection::RIGHT;
             if( is_riding ) {
@@ -338,12 +343,25 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 you.clear_destination();
                 return false;
             }
-            if( you.has_effect( effect_relax_gas ) ) {
-                if( one_in( 8 ) ) {
-                    add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                } else {
-                    you.moves -= rng( 2, 8 ) * 10;
-                    add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
+            if( !you.try_break_relax_gas( _( "Your willpower asserts itself, and so do you!" ),
+                                          _( "You're too pacified to strike anything…" ) ) ) {
+                return false;
+            }
+            bool safe_mode = ( get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF );
+            if( safe_mode ) {
+                // If safe mode is enabled, only allow attacking neutral creatures when it is inactive
+                if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
+                    g->safe_mode != SAFE_MODE_OFF ) {
+                    const std::string msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
+                    add_msg( m_warning,
+                             _( "Not attacking the %1$s -- safe mode is on!  (%2$s to turn it off)" ), critter.name(),
+                             msg_safe_mode );
+                    return false;
+                }
+            } else {
+                // If safe mode is disabled, ask for confirmation before attacking a neutral creature
+                if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
+                    !query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
                     return false;
                 }
             }
@@ -353,7 +371,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             }
             g->draw_hit_mon( dest_loc, critter, critter.is_dead() );
             return false;
-        } else if( critter.has_flag( MF_IMMOBILE ) || critter.has_effect( effect_harnessed ) ||
+        } else if( critter.has_flag( mon_flag_IMMOBILE ) || critter.has_effect( effect_harnessed ) ||
                    critter.has_effect( effect_ridden ) ) {
             add_msg( m_info, _( "You can't displace your %s." ), critter.name() );
             return false;
@@ -472,7 +490,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
     if( veh_closed_door ) {
-        if( !veh1->handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
+        if( !veh1->handle_potential_theft( you ) ) {
             return true;
         } else {
             door_name = veh1->part( dpart ).name();
@@ -630,7 +648,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         return;
     }
     if( const auto vp = m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        if( !vp->vehicle().handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
+        if( !vp->vehicle().handle_potential_theft( you ) ) {
             return;
         }
     }
@@ -664,7 +682,12 @@ static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
     if( np != nullptr ) {
-        return np->weapon_value( *np->get_wielded_item() );
+        item_location wielded = np->get_wielded_item();
+        if( wielded ) {
+            return np->weapon_value( *wielded );
+        } else {
+            return np->unarmed_value();
+        }
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );
@@ -716,14 +739,9 @@ bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weap
         return false;
     }
 
-    if( you.has_effect( effect_relax_gas ) ) {
-        if( one_in( 5 ) ) {
-            add_msg( m_good, _( "Your eyes steel, and you raise your weapon!" ) );
-        } else {
-            you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You can't fire your weapon, it's too heavy…" ) );
-            return false;
-        }
+    if( !you.try_break_relax_gas( _( "Your eyes steel, and you raise your weapon!" ),
+                                  _( "You can't fire your weapon, it's too heavy…" ) ) ) {
+        return false;
     }
 
     std::vector<std::string> messages;
@@ -732,61 +750,6 @@ bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weap
         bool check_common = gunmode_checks_common( you, m, messages, mode_map.second );
         bool check_weapon = gunmode_checks_weapon( you, m, messages, mode_map.second );
         bool can_use_mode = check_common && check_weapon;
-        if( can_use_mode ) {
-            return true;
-        }
-    }
-
-    for( const std::string &message : messages ) {
-        add_msg( m_info, message );
-    }
-    return false;
-}
-
-/**
- * Checks if the turret is valid and if the player meets certain conditions for manually firing it.
- * @param turret Turret to check.
- * @return True if all conditions are true, otherwise false.
- */
-static bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
-{
-    const item &weapon = *turret.base();
-    if( !weapon.is_gun() ) {
-        debugmsg( "Expected turret base to be a gun." );
-        return false;
-    }
-
-    switch( turret.query() ) {
-        case turret_data::status::no_ammo:
-            add_msg( m_bad, _( "The %s is out of ammo." ), turret.name() );
-            return false;
-
-        case turret_data::status::no_power:
-            add_msg( m_bad, _( "The %s is not powered." ), turret.name() );
-            return false;
-
-        case turret_data::status::ready:
-            break;
-
-        default:
-            debugmsg( "Unknown turret status" );
-            return false;
-    }
-
-    if( you.has_effect( effect_relax_gas ) ) {
-        if( one_in( 5 ) ) {
-            add_msg( m_good, _( "Your eyes steel, and you aim your weapon!" ) );
-        } else {
-            you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You are too pacified to aim the turret…" ) );
-            return false;
-        }
-    }
-
-    std::vector<std::string> messages;
-
-    for( const std::pair<const gun_mode_id, gun_mode> &mode_map : weapon.gun_all_modes() ) {
-        bool can_use_mode = gunmode_checks_common( you, m, messages, mode_map.second );
         if( can_use_mode ) {
             return true;
         }
@@ -820,27 +783,55 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     }
 
-    you.assign_activity( player_activity( aim_activity_actor::use_wielded() ), false );
+    you.assign_activity( aim_activity_actor::use_wielded() );
 }
 
 void avatar_action::fire_ranged_mutation( Character &you, const item &fake_gun )
 {
-    you.assign_activity( player_activity( aim_activity_actor::use_mutation( fake_gun ) ), false );
+    you.assign_activity( aim_activity_actor::use_mutation( fake_gun ) );
 }
 
-void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun,
-                                        const units::energy &cost_per_shot )
+void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun )
 {
-    you.assign_activity(
-        player_activity( aim_activity_actor::use_bionic( fake_gun, cost_per_shot ) ), false );
+    you.assign_activity( aim_activity_actor::use_bionic( fake_gun ) );
 }
 
-void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
+bool avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
 {
-    if( !can_fire_turret( you, m, turret ) ) {
-        return;
+    if( !turret.base()->is_gun() ) {
+        debugmsg( "Expected turret base to be a gun." );
+        return false;
     }
 
+    switch( turret.query() ) {
+        case turret_data::status::no_ammo:
+            add_msg( m_bad, _( "The %s is out of ammo." ), turret.name() );
+            return false;
+        case turret_data::status::no_power:
+            add_msg( m_bad, _( "The %s is not powered." ), turret.name() );
+            return false;
+        case turret_data::status::ready:
+            break;
+        default:
+            debugmsg( "Unknown turret status" );
+            return false;
+    }
+
+    // check if any gun modes are usable
+    std::vector<std::string> messages;
+    const std::map<gun_mode_id, gun_mode> gunmodes = turret.base()->gun_all_modes();
+    if( !std::any_of( gunmodes.begin(), gunmodes.end(),
+    [&you, &m, &messages]( const std::pair<const gun_mode_id, gun_mode> &p ) {
+    return gunmode_checks_common( you, m, messages, p.second );
+    } ) ) {
+        // no gunmode is usable, dump reason messages why not
+        for( const std::string &msg : messages ) {
+            add_msg( m_bad, msg );
+        }
+        return false;
+    }
+
+    // all checks passed - start aiming
     g->temp_exit_fullscreen();
     target_handler::trajectory trajectory = target_handler::mode_turret_manual( you, turret );
 
@@ -848,6 +839,7 @@ void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
         turret.fire( you, trajectory.back() );
     }
     g->reenter_fullscreen();
+    return true;
 }
 
 void avatar_action::mend( avatar &you, item_location loc )
@@ -883,7 +875,7 @@ bool avatar_action::eat_here( avatar &you )
         } else {
             here.ter_set( you.pos(), t_grass );
             item food( "underbrush", calendar::turn, 1 );
-            you.assign_activity( player_activity( consume_activity_actor( food ) ) );
+            you.assign_activity( consume_activity_actor( food ) );
             return true;
         }
     }
@@ -894,7 +886,7 @@ bool avatar_action::eat_here( avatar &you )
             return true;
         } else {
             item food( item( "grass", calendar::turn, 1 ) );
-            you.assign_activity( player_activity( consume_activity_actor( food ) ) );
+            you.assign_activity( consume_activity_actor( food ) );
             if( here.ter( you.pos() ) == t_grass_tall ) {
                 here.ter_set( you.pos(), t_grass_long );
             } else if( here.ter( you.pos() ) == t_grass_long ) {
@@ -920,35 +912,48 @@ bool avatar_action::eat_here( avatar &you )
     return false;
 }
 
-void avatar_action::eat( avatar &you, const item_location &loc, bool refuel )
+void avatar_action::eat( avatar &you, item_location &loc )
 {
     std::string filter;
     if( !you.activity.str_values.empty() ) {
         filter = you.activity.str_values.back();
     }
     avatar_action::eat( you, loc, you.activity.values, you.activity.targets, filter,
-                        you.activity.id(), refuel );
+                        you.activity.id() );
 }
 
-void avatar_action::eat( avatar &you, const item_location &loc,
+void avatar_action::eat( avatar &you, item_location &loc,
                          const std::vector<int> &consume_menu_selections,
                          const std::vector<item_location> &consume_menu_selected_items,
                          const std::string &consume_menu_filter,
-                         activity_id type, bool refuel )
+                         activity_id type )
 {
     if( !loc ) {
         you.cancel_activity();
         add_msg( _( "Never mind." ) );
         return;
     }
-    you.assign_activity( player_activity( consume_activity_actor( loc, consume_menu_selections,
-                                          consume_menu_selected_items, consume_menu_filter, type, refuel ) ) );
+    loc.overflow();
+    you.assign_activity( consume_activity_actor( loc, consume_menu_selections,
+                         consume_menu_selected_items, consume_menu_filter, type ) );
+    you.last_item = item( *loc ).typeId();
+}
+
+void avatar_action::eat_or_use( avatar &you, item_location loc )
+{
+    if( loc && loc->is_medical_tool() ) {
+        avatar_action::use_item( you, loc, "heal" );
+    } else {
+        avatar_action::eat( you, loc );
+    }
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
-                             const cata::optional<tripoint> &blind_throw_from_pos )
+                             const std::optional<tripoint> &blind_throw_from_pos )
 {
-    if( you.has_active_mutation( trait_SHELL2 ) ) {
+    bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
+                    you.has_active_mutation( trait_SHELL3 );
+    if( in_shell ) {
         add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
         return;
     } else if( you.has_effect( effect_incorporeal ) ) {
@@ -957,7 +962,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     }
     if( you.is_mounted() ) {
         monster *mons = get_player_character().mounted_creature.get();
-        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
+        if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
                          mons->get_name() );
@@ -976,7 +981,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    const ret_val<bool> ret = you.can_wield( *loc );
+    const ret_val<void> ret = you.can_wield( *loc );
     if( !ret.success() ) {
         add_msg( m_info, "%s", ret.c_str() );
         return;
@@ -1002,18 +1007,13 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    if( you.has_effect( effect_relax_gas ) ) {
-        if( one_in( 5 ) ) {
-            add_msg( m_good, _( "You concentrate mightily, and your body obeys!" ) );
-        } else {
-            you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You can't muster up the effort to throw anything…" ) );
-            return;
-        }
+    if( !you.try_break_relax_gas( _( "You concentrate mightily, and your body obeys!" ),
+                                  _( "You can't muster up the effort to throw anything…" ) ) ) {
+        return;
     }
     // if you're wearing the item you need to be able to take it off
     if( you.is_worn( *orig ) ) {
-        ret_val<bool> ret = you.can_takeoff( *orig );
+        ret_val<void> ret = you.can_takeoff( *orig );
         if( !ret.success() ) {
             add_msg( m_info, "%s", ret.c_str() );
             return;
@@ -1059,21 +1059,6 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     g->reenter_fullscreen();
 }
 
-static void make_active( item_location loc )
-{
-    map &here = get_map();
-    switch( loc.where() ) {
-        case item_location::type::map:
-            here.make_active( loc );
-            break;
-        case item_location::type::vehicle:
-            here.veh_at( loc.position() )->vehicle().make_active( loc );
-            break;
-        default:
-            break;
-    }
-}
-
 static void update_lum( item_location loc, bool add )
 {
     switch( loc.where() ) {
@@ -1091,8 +1076,13 @@ void avatar_action::use_item( avatar &you )
     avatar_action::use_item( you, loc );
 }
 
-void avatar_action::use_item( avatar &you, item_location &loc )
+void avatar_action::use_item( avatar &you, item_location &loc, std::string const &method )
 {
+    if( you.has_effect( effect_incorporeal ) ) {
+        you.add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
+        return;
+    }
+
     // Some items may be used without being picked up first
     bool use_in_place = false;
 
@@ -1104,6 +1094,8 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             return;
         }
     }
+
+    loc.overflow();
 
     if( loc->is_comestible() && loc->is_frozen_liquid() ) {
         add_msg( _( "Try as you might, you can't consume frozen liquids." ) );
@@ -1131,15 +1123,15 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         you.mod_moves( -loc.obtain_cost( you ) );
     } else {
         item_location::type loc_where = loc.where_recursive();
+        std::string const name = loc->display_name();
         if( loc_where != item_location::type::character ) {
-            you.add_msg_if_player( _( "You pick up the %s." ), loc.get_item()->display_name() );
             pre_obtain_moves = -1;
             on_person = false;
         }
 
         // Get the parent pocket before the item is obtained.
         if( loc.has_parent() ) {
-            parent_pocket = loc.parent_item().get_item()->contained_where( *loc );
+            parent_pocket = loc.parent_pocket();
         }
 
         loc = loc.obtain( you, 1 );
@@ -1151,23 +1143,30 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             pre_obtain_moves = you.moves;
         }
         if( !loc ) {
-            debugmsg( "Failed to obtain target item" );
+            you.add_msg_if_player( _( "Couldn't pick up the %s." ), name );
             return;
+        }
+        if( loc_where != item_location::type::character ) {
+            you.add_msg_if_player( _( "You pick up the %s." ), name );
         }
     }
 
     if( use_in_place ) {
         update_lum( loc, false );
-        you.use( loc, pre_obtain_moves );
-        update_lum( loc, true );
-
-        make_active( loc );
+        you.use( loc, pre_obtain_moves, method );
+        if( loc ) {
+            update_lum( loc, true );
+            loc.make_active();
+        }
     } else {
-        you.use( loc, pre_obtain_moves );
+        you.use( loc, pre_obtain_moves, method );
 
         if( parent_pocket && on_person && parent_pocket->will_spill() ) {
-            parent_pocket->handle_liquid_or_spill( you );
+            parent_pocket->handle_liquid_or_spill( you, loc.parent_item().get_item() );
         }
+    }
+    if( loc ) {
+        loc.on_contents_changed();
     }
 
     you.recoil = MAX_RECOIL;

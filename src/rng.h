@@ -2,16 +2,15 @@
 #ifndef CATA_SRC_RNG_H
 #define CATA_SRC_RNG_H
 
-#include <functional>
 #include <array>
 #include <cstddef>
 #include <functional>
 #include <iterator>
+#include <optional>
 #include <random>
 #include <type_traits>
 
-#include "optional.h"
-#include "units.h"
+#include "units_fwd.h"
 
 class map;
 class time_duration;
@@ -55,6 +54,15 @@ inline int roll_remainder( float value )
 
 int djb2_hash( const unsigned char *input );
 
+// Generates a deterministic sequence of uniform ints.
+// Note that this doesn't use or modify the global rng state but uses the seed given as parameter.
+// @param count length of sequence to generate
+// @param lo minimum value in sequence
+// @param hi maximum value in sequence
+// @param seed seed to use
+// @returns deterministic vector of uniform ints
+std::vector<int> rng_sequence( size_t count, int lo, int hi, int seed = 42 );
+
 double rng_normal( double lo, double hi );
 
 inline double rng_normal( double hi )
@@ -62,7 +70,11 @@ inline double rng_normal( double hi )
     return rng_normal( 0.0, hi );
 }
 
+float normal_roll_chance( float center, float stddev, float difficulty );
+
 double normal_roll( double mean, double stddev );
+
+double chi_squared_roll( double trial_num );
 
 double rng_exponential( double min, double mean );
 
@@ -105,10 +117,10 @@ inline V random_entry( const C &container, D default_value )
  */
 template<typename C>
 inline auto random_entry_opt( C &container ) ->
-cata::optional<decltype( std::ref( *container.begin() ) )>
+std::optional<decltype( std::ref( *container.begin() ) )>
 {
     if( container.empty() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     auto iter = container.begin();
     std::advance( iter, rng( 0, container.size() - 1 ) );
@@ -174,7 +186,7 @@ inline V random_entry_removed( C &container )
 {
     auto iter = container.begin();
     std::advance( iter, rng( 0, container.size() - 1 ) );
-    const V result = std::move( *iter ); // Copy because the original is removed and thereby destroyed
+    V result = std::move( *iter ); // Copy because the original is removed and thereby destroyed
     container.erase( iter );
     return result;
 }
@@ -182,10 +194,10 @@ inline V random_entry_removed( C &container )
 /// Returns a range enclosing all valid points of the map.
 tripoint_range<tripoint> points_in_range( const map &m );
 /// Returns a random point in the given range that satisfies the given predicate ( if any ).
-cata::optional<tripoint> random_point( const tripoint_range<tripoint> &range,
-                                       const std::function<bool( const tripoint & )> &predicate );
+std::optional<tripoint> random_point( const tripoint_range<tripoint> &range,
+                                      const std::function<bool( const tripoint & )> &predicate );
 /// Same as other random_point with a range enclosing all valid points of the map.
-cata::optional<tripoint> random_point( const map &m,
-                                       const std::function<bool( const tripoint & )> &predicate );
+std::optional<tripoint> random_point( const map &m,
+                                      const std::function<bool( const tripoint & )> &predicate );
 
 #endif // CATA_SRC_RNG_H
