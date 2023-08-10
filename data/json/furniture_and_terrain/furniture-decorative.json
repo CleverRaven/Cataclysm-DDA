@@ -297,7 +297,7 @@
     "id": "f_styling_station",
     "name": "Styling station",
     "symbol": "}",
-    "description": "A desk with a mirror mounted horizontally.",
+    "description": "A styling station, is a countertop with a mirror mounted above it and just enough room and cubbies to store a stylist's equipment on it.",
     "color": "white",
     "move_cost_mod": 5,
     "coverage": 80,
