@@ -6,7 +6,7 @@
     "responses": [
       { "text": "I don't remember, did you tell me how you wound up in that place?", "topic": "BGSS_Luo2" },
       { "text": "What did you do before <the_cataclysm>?", "topic": "BGSS_Luo_Expertise" },
-      { "text": "<end_conversation_topic>", "topic": "TALK_DONE" }
+      { "text": "<done_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -17,7 +17,7 @@
       { "text": "I don't remember, did you tell me how you wound up in that place?", "topic": "BGSS_Luo2" },
       { "text": "You think you were treated like that because of your race?", "topic": "BGSS_Luo2_Racism" },
       { "text": "What did you do before <the_cataclysm>?", "topic": "BGSS_Luo_Expertise" },
-      { "text": "<end_conversation_topic>", "topic": "TALK_DONE" }
+      { "text": "<done_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -26,7 +26,7 @@
     "dynamic_line": "I can read the newspapers as well as anyone, I know how people who look like me get smeared.  My grandparents were from China.  That means I'm obviously personally responsible for all this.  I don't know any other reason they let hundreds of other educated people in and left me sitting out there to rot.",
     "responses": [
       { "text": "What did you do before <the_cataclysm>?", "topic": "BGSS_Luo_Expertise" },
-      { "text": "<end_conversation_topic>", "topic": "TALK_DONE" }
+      { "text": "<done_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -35,13 +35,13 @@
     "dynamic_line": "Well, before <the_cataclysm> ended I was working at a university bookstore, remember?  But that was just an in-between after finishing my PhD, while I looked for a post-doc placement I was interested in.  Which, I suppose, I've got now?  You didn't recruit my for my fragile body, intractable obesity, or sunny disposition.",
     "responses": [
       { "text": "How do you know I didn't recruit you for your sass, though?", "topic": "BGSS_Luo_Expertise_Sass" },
-      { "text": "<end_conversation_topic>", "topic": "TALK_DONE" }
+      { "text": "<done_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "BGSS_Luo_Expertise_Sass",
     "dynamic_line": "*gives a single rough laugh.  \"Fair call, sass like mine is what will get us through these trying times.\"",
-    "responses": [ { "text": "<end_conversation_topic>", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<done_talking>", "topic": "TALK_DONE" } ]
   }
 ]
