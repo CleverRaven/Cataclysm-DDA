@@ -526,13 +526,14 @@ void vehicle::toggle_autopilot()
         stop_engines();
     } );
 
-    menu.add( string_format( _( precollision_on ? ("Disable %s") : ("Enable %s") ), "pre-collision system" ) )
-            .hotkey( "CONTROL_AUTOPILOT_CAS" )
-            .desc( _( "Toggle pre-collision system" ) )
-            .on_submit( [this] {
-                precollision_on = !precollision_on;
-                add_msg( string_format(_( "You turn %s pre-collision system." ), precollision_on ? "on" : "off") );
-            } );
+    menu.add( string_format( _( precollision_on ? ( "Disable %s" ) : ( "Enable %s" ) ),
+                             "pre-collision system" ) )
+    .hotkey( "CONTROL_AUTOPILOT_CAS" )
+    .desc( _( "Toggle pre-collision system" ) )
+    .on_submit( [this] {
+        precollision_on = !precollision_on;
+        add_msg( string_format( _( "You turn %s pre-collision system." ), precollision_on ? "on" : "off" ) );
+    } );
 
     menu.query();
 }
