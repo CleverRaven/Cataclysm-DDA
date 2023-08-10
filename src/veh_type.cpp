@@ -542,8 +542,9 @@ void vehicles::parts::finalize()
         }
 
         // make part foldable for pistols and SMGs
-        bool is_foldable = item->qualities.count(qual_PISTOL) > 0 || item->qualities.count(qual_SMG) > 0;
-        if ( is_foldable ) {
+        bool is_foldable = item->qualities.count( qual_PISTOL ) > 0 ||
+                           item->qualities.count( qual_SMG ) > 0;
+        if( is_foldable ) {
             new_part.folded_volume = item->volume;
         }
 
