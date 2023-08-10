@@ -1590,7 +1590,7 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     if( bktype.value() == book_type::martial_art && one_in( 3 ) ) {
-        who.burn_energy_all( -1 );
+        who.burn_energy_all( 1 );
     }
 
     // do not spam the message log
