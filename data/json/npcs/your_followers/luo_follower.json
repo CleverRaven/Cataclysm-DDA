@@ -15,25 +15,20 @@
         "effect": "reveal_stats"
       },
       { "text": "There's something I want you to do.", "topic": "TALK_ALLY_ORDERS" },
-      { "text": "I just wanted to talk for a bit.", "condition": "at_safe_space", "topic": "TALK_LUO_SOCIAL" },
-      { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
+      {
+        "text": "I just wanted to talk for a bit.",
+        "condition": { "and": [ "at_safe_space", { "not": "is_by_radio" } ] },
+        "topic": "TALK_LUO_SOCIAL"
+      },
       { "text": "Let's go.", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": [ "TALK_LUO_SOCIAL" ],
     "type": "talk_topic",
-    "dynamic_line": {
-      "is_by_radio": " *tshk* Sure, let's just have a conversation over this awkward, crackly radio.  Why not.  Uh, over.",
-      "no": "Sure.  Here we are, talking."
-    },
+    "dynamic_line": "Sure.  Here we are, talking.",
     "responses": [
-      {
-        "text": "What's your story, anyway?",
-        "condition": { "not": "is_by_radio" },
-        "topic": "BGSS_Luo1"
-      },
+      { "text": "What's your story, anyway?", "topic": "BGSS_Luo1" },
       {
         "text": "Let's just chitchat for a while, I could use some relaxation.",
         "topic": "TALK_FRIEND_LUO_CHAT",
@@ -41,6 +36,20 @@
       },
       { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
       { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_LUO_CHAT",
+    "dynamic_line": "Seen any good movies lately?",
+    "//": "TK: custom chat topics here that actually include small talk that expands her character, while still giving the socialize bonus.",
+    "responses": [
+      {
+        "text": "<chitchat_player_responses>",
+        "topic": "TALK_DONE",
+        "switch": true,
+        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
+      }
     ]
   },
   {

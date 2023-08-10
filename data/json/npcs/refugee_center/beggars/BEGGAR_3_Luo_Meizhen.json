@@ -18,7 +18,7 @@
     "chat": "TALK_REFUGEE_BEGGAR_3",
     "faction": "lobby_beggars",
     "talk_friend": "TALK_FRIEND_Luo",
-    "talk_friend": "TALK_FRIEND_GUARD_Luo"
+    "talk_friend_guard": "TALK_FRIEND_GUARD_Luo"
   },
   {
     "type": "npc_class",
