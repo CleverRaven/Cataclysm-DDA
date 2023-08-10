@@ -38,8 +38,9 @@
     "dynamic_line": "Sure.  Here we are, talking.",
     "responses": [
       { "text": "What's your story, anyway?", "topic": "BGSS_Luo1" },
+      { "text": "What did you do before <the_cataclysm>?", "topic": "BGSS_Luo_Expertise" },
       {
-        "text": "Let's just chitchat for a while, I could use some relaxation.",
+        "text": "I just wanted to chat, you know.  To relax.",
         "topic": "TALK_FRIEND_LUO_CHAT",
         "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
       },
@@ -64,7 +65,7 @@
   {
     "id": [ "TALK_LUO_ORDERS" ],
     "type": "talk_topic",
-    "dynamic_line": [ "Orders?  Seriously?  Fine, whatever, tell me what you want me to do." ],
+    "dynamic_line": [ "Seriously?  You figure you're the boss of me now?  Fine, whatever, what do you want me to do." ],
     "responses": [
       {
         "text": "Can you teach me anything?",
@@ -84,7 +85,7 @@
           }
         },
         "success": { "topic": "TALK_DENY_TRAIN" },
-        "failure": { "topic": "TALK_TRAIN_PERSUADE" }
+        "failure": { "topic": "TALK_TRAIN_PERSUADE_Luo" }
       },
       {
         "text": "Can you host a training seminar?",
@@ -103,7 +104,7 @@
           }
         },
         "success": { "topic": "TALK_DENY_TRAIN_SEMINAR" },
-        "failure": { "topic": "TALK_TRAIN_SEMINAR_PERSUADE" }
+        "failure": { "topic": "TALK_TRAIN_SEMINAR_PERSUADE_Luo" }
       },
       {
         "text": "I have something to teach you.",
@@ -171,6 +172,35 @@
       },
       { "text": "Change your martial arts style.", "topic": "TALK_DONE", "effect": "pick_style" },
       { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_TRAIN_PERSUADE_Luo",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah, sure, why not.  I love hearing myself talk.  What did you want to know about?",
+    "responses": [
+      {
+        "text": "You mean you'll talk about more than just mushrooms?  What've you got?",
+        "topic": "TALK_TRAIN",
+        "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 }
+      },
+      { "text": "Never mind then.", "topic": "TALK_NONE" },
+      { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_TRAIN_SEMINAR_PERSUADE_Luo",
+    "type": "talk_topic",
+    "dynamic_line": "What?  You're not content with me being a personal tutor, now you want to start a post-apocalyptic university?",
+    "responses": [
+      {
+        "text": "Come on, you love hearing yourself talk.",
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 6 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
+        "success": { "topic": "TALK_TRAIN_SEMINAR" },
+        "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 } }
+      },
+      { "text": "Never mind then.", "topic": "TALK_NONE" },
+      { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
     ]
   },
   {
