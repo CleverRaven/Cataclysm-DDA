@@ -354,12 +354,6 @@
         "//": "This is a unique background story that should not be given out randomly.",
         "condition": { "npc_has_trait": "BGSS_pizzaiolo" },
         "switch": true
-      },
-      {
-        "text": "What's your story, anyway?",
-        "topic": "BGSS_Luo1",
-        "condition": { "npc_has_class": "NC_BEGGAR_3" },
-        "switch": true
       }
     ]
   },
