@@ -724,7 +724,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     tripoint vehpos = global_square_location().raw();
     units::angle angle = get_angle_from_targ( target );
 
-    bool stop = precollision_check(angle, here, follow_protocol);
+    bool stop = precollision_check( angle, here, follow_protocol );
     if( stop ) {
         if( autopilot_on ) {
             sounds::sound( global_pos3(), 30, sounds::sound_t::alert,
