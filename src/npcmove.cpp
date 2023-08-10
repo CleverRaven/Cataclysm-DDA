@@ -682,7 +682,7 @@ void npc::assess_danger()
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
         float my_diff = evaluate_enemy( *this ) * 0.5f + rng( 0, personality.bravery * 2 );
         if( my_diff < assessment ) {
-            add_msg_debug( "assessment: %1f, diff: %2f.", assessment, my_diff );
+            add_msg_debug( debugmode::DF_NPC, "assessment: %1f, diff: %2f.", assessment, my_diff );
             time_duration run_away_for = 5_turns + 1_turns * rng( 0, 5 );
             warn_about( "run_away", run_away_for );
             add_effect( effect_npc_run_away, run_away_for );
