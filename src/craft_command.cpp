@@ -175,7 +175,7 @@ void craft_command::execute( bool only_cache_comps )
 
         for( const auto &it : needs->get_components() ) {
             comp_selection<item_comp> is =
-                crafter->select_item_component( it, batch_size, map_inv, true, filter, true, rec );
+                crafter->select_item_component( it, batch_size, map_inv, true, filter, true, true, rec );
             if( is.use_from == usage_from::cancel ) {
                 return;
             }
@@ -185,7 +185,7 @@ void craft_command::execute( bool only_cache_comps )
         tool_selections.clear();
         for( const auto &it : needs->get_tools() ) {
             comp_selection<tool_comp> ts = crafter->select_tool_component(
-            it, batch_size, map_inv, true, true, []( int charges ) {
+            it, batch_size, map_inv, true, true, true, []( int charges ) {
                 return charges / 20 + charges % 20;
             } );
             if( ts.use_from == usage_from::cancel ) {

@@ -1587,8 +1587,9 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
 
         std::vector<comp_selection<item_comp>> item_selections;
         for( const auto &it : continue_reqs.get_components() ) {
+            // NPC always picks the first candidate
             comp_selection<item_comp> is = select_item_component( it, batch_size, map_inv, true, filter, true,
-                                           &rec );
+                                           false, &rec );
             if( is.use_from == usage_from::cancel ) {
                 cancel_activity();
                 if( this->is_avatar() ) {
@@ -1648,8 +1649,9 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
 
         std::vector<comp_selection<tool_comp>> new_tool_selections;
         for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
+            // NPC always picks the first candidate
             comp_selection<tool_comp> selection = select_tool_component( alternatives, batch_size,
-            map_inv, true, true, []( int charges ) {
+            map_inv, true, true, false, []( int charges ) {
                 return charges / 20;
             } );
             if( selection.use_from == usage_from::cancel ) {
@@ -1701,7 +1703,8 @@ const requirement_data *Character::select_requirements(
 comp_selection<item_comp> Character::select_item_component( const std::vector<item_comp>
         &components,
         int batch, read_only_visitable &map_inv, bool can_cancel,
-        const std::function<bool( const item & )> &filter, bool player_inv, const recipe *rec )
+        const std::function<bool( const item & )> &filter, bool player_inv, bool npc_query,
+        const recipe *rec )
 {
     Character &player_character = get_player_character();
     std::vector<std::pair<item_comp, std::optional<nc_color>>> player_has;
@@ -1809,7 +1812,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
             selected.use_from = usage_from::both;
             selected.comp = mixed[0].first;
         }
-    } else if( is_npc() ) {
+    } else if( ( !npc_query && is_npc() ) ) {
         if( !player_has.empty() ) {
             selected.use_from = usage_from::player;
             selected.comp = player_has[0].first;
@@ -1928,25 +1931,19 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
             return selected;
         }
 
-        size_t uselection;
-        if( is_avatar() ) {
-            cmenu.allow_cancel = can_cancel;
+        cmenu.allow_cancel = can_cancel;
 
-            // Get the selection via a menu popup
-            cmenu.title = _( "Use which component?" );
-            cmenu.query();
+        // Get the selection via a menu popup
+        cmenu.title = _( "Use which component?" );
+        cmenu.query();
 
-            if( cmenu.ret < 0 ||
-                static_cast<size_t>( cmenu.ret ) >= map_has.size() + player_has.size() + mixed.size() ) {
-                selected.use_from = usage_from::cancel;
-                return selected;
-            }
-
-            uselection = static_cast<size_t>( cmenu.ret );
-        } else {
-            // NPC always picks the first candidate
-            uselection = 0;
+        if( cmenu.ret < 0 ||
+            static_cast<size_t>( cmenu.ret ) >= map_has.size() + player_has.size() + mixed.size() ) {
+            selected.use_from = usage_from::cancel;
+            return selected;
         }
+
+        size_t uselection = static_cast<size_t>( cmenu.ret );
         if( uselection < map_has.size() ) {
             selected.use_from = usage_from::map;
             selected.comp = map_has[uselection].first;
@@ -2095,7 +2092,7 @@ bool Character::consume_software_container( const itype_id &software_id )
 
 comp_selection<tool_comp>
 Character::select_tool_component( const std::vector<tool_comp> &tools, int batch,
-                                  read_only_visitable &map_inv, bool can_cancel, bool player_inv,
+                                  read_only_visitable &map_inv, bool can_cancel, bool player_inv, bool npc_query,
                                   const std::function<int( int )> &charges_required_modifier )
 {
 
@@ -2137,7 +2134,7 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
         return selected;    // Default to using a tool that doesn't require charges
     }
 
-    if( ( both_has.size() + player_has.size() + map_has.size() == 1 ) || is_npc() ) {
+    if( ( both_has.size() + player_has.size() + map_has.size() == 1 ) || ( !npc_query && is_npc() ) ) {
         if( !both_has.empty() ) {
             selected.use_from = usage_from::both;
             selected.comp = both_has[0];
@@ -2192,25 +2189,19 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
             return selected;    // and the fire goes out.
         }
 
-        size_t uselection;
-        if( is_avatar() ) {
-            tmenu.allow_cancel = can_cancel;
+        tmenu.allow_cancel = can_cancel;
 
-            // Get selection via a popup menu
-            tmenu.title = _( "Use which tool?" );
-            tmenu.query();
+        // Get selection via a popup menu
+        tmenu.title = _( "Use which tool?" );
+        tmenu.query();
 
-            if( tmenu.ret < 0 || static_cast<size_t>( tmenu.ret ) >= map_has.size()
-                + player_has.size() + both_has.size() ) {
-                selected.use_from = usage_from::cancel;
-                return selected;
-            }
-
-            uselection = static_cast<size_t>( tmenu.ret );
-        } else {
-            // NPC always picks the first candidate
-            uselection = 0;
+        if( tmenu.ret < 0 || static_cast<size_t>( tmenu.ret ) >= map_has.size()
+            + player_has.size() + both_has.size() ) {
+            selected.use_from = usage_from::cancel;
+            return selected;
         }
+
+        size_t uselection = static_cast<size_t>( tmenu.ret );
         if( uselection < map_has.size() ) {
             selected.use_from = usage_from::map;
             selected.comp = map_has[uselection];
