@@ -769,7 +769,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     selfdrive( point( turn_x, accel_y ) );
 }
 
-bool vehicle::precollision_check(units::angle &angle, map &here, bool follow_protocol)
+bool vehicle::precollision_check( units::angle &angle, map &here, bool follow_protocol )
 {
     if ( !precollision_on ) {
         return false;
