@@ -65,7 +65,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": [ "charcoal" ],
+    "ammo": [ "charcoal", "coal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 500, "coal": 2500 } } ],
     "sub": "forge",
     "flags": [ "ALLOWS_REMOTE_USE" ],
