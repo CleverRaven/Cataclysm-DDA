@@ -299,6 +299,65 @@ struct eoc_compare {
     }
 };
 
+struct queued_eocs {
+    using storage_iter = std::list<queued_eoc>::iterator;
+
+    struct eoc_compare : ::eoc_compare {
+        bool operator()( const storage_iter &lhs, const storage_iter &rhs ) const {
+            return ::eoc_compare::operator()( *lhs, *rhs );
+        }
+    };
+    std::priority_queue<storage_iter, std::vector<storage_iter>, eoc_compare> queue;
+    std::list<queued_eoc> list;
+
+    queued_eocs() = default;
+
+    queued_eocs( const queued_eocs &rhs ) {
+        list = rhs.list;
+        for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
+            queue.emplace( it );
+        }
+    };
+    queued_eocs( queued_eocs &&rhs ) noexcept {
+        queue.swap( rhs.queue );
+        list.swap( rhs.list );
+    }
+
+    queued_eocs &operator=( const queued_eocs &rhs ) {
+        list = rhs.list;
+        for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
+            queue.emplace( it );
+        }
+        return *this;
+    }
+    queued_eocs &operator=( queued_eocs &&rhs ) noexcept {
+        queue.swap( rhs.queue );
+        list.swap( rhs.list );
+        return *this;
+    }
+
+    /* std::priority_queue compatibility layer where performance is less relevant */
+
+    bool empty() const {
+        return queue.empty();
+    }
+
+    const queued_eoc &top() const {
+        return *queue.top();
+    }
+
+    void push( const queued_eoc &eoc ) {
+        auto it = list.emplace( list.end(), eoc );
+        queue.push( it );
+    }
+
+    void pop() {
+        auto it = queue.top();
+        queue.pop();
+        list.erase( it );
+    }
+};
+
 struct aim_type {
     std::string name;
     std::string action;
@@ -1100,6 +1159,16 @@ class Character : public Creature, public visitable
 
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
+
+    private:
+        mutable std::optional<bool> cached_dead_state;
+    public:
+        void set_part_hp_cur( const bodypart_id &id, int set ) override;
+
+        void calc_all_parts_hp( float hp_mod = 0.0, float hp_adjust = 0.0, int str_max = 0,
+                                int dex_max = 0, int per_max = 0, int int_max = 0, int healthy_mod = 0,
+                                int fat_to_max_hp = 0 );
+
         /** Returns true if the player has stealthy movement */
         bool is_stealthy() const;
         /** Returns true if the current martial art works with the player's current weapon */
@@ -2582,7 +2651,7 @@ class Character : public Creature, public visitable
 
         std::vector <addiction> addictions;
         std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
-        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
+        queued_eocs queued_effect_on_conditions;
 
         /** Adds an addiction to the player */
         void add_addiction( const addiction_id &type, int strength );

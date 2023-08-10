@@ -425,6 +425,7 @@ static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
+static const trait_id trait_GLASSJAW( "GLASSJAW" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
@@ -1826,20 +1827,34 @@ float Character::stability_roll() const
 
 bool Character::is_dead_state() const
 {
+    if( cached_dead_state.has_value() ) {
+        return cached_dead_state.value();
+    }
+
+    cached_dead_state = false;
     // we want to warn the player with a debug message if they are invincible. this should be unimportant once wounds exist and bleeding is how you die.
     bool has_vitals = false;
-    for( const bodypart_id &part : get_all_body_parts( get_body_part_flags::only_main ) ) {
-        if( part->is_vital ) {
-            if( get_part_hp_cur( part ) <= 0 ) {
-                return true;
-            }
+    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
+        if( bp->is_vital ) {
             has_vitals = true;
+            if( get_part_hp_cur( bp ) <= 0 ) {
+                cached_dead_state = true;
+                return cached_dead_state.value();
+            }
         }
     }
     if( !has_vitals ) {
         debugmsg( _( "WARNING!  Player has no vital part and is invincible." ) );
     }
     return false;
+}
+
+void Character::set_part_hp_cur( const bodypart_id &id, int set )
+{
+    if( set <= 0 ) {
+        cached_dead_state.reset();
+    }
+    Creature::set_part_hp_cur( id, set );
 }
 
 void Character::on_try_dodge()
@@ -2405,6 +2420,30 @@ void Character::recalc_hp()
                           enchantment_cache->get_value_add( enchant_vals::mod::MAX_HP );
     calc_all_parts_hp( hp_mod, hp_adjustment, get_str_base(), get_dex_base(), get_per_base(),
                        get_int_base(), get_lifestyle(), get_fat_to_hp() );
+    cached_dead_state.reset();
+}
+
+void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max, int dex_max,
+                                   int per_max, int int_max, int healthy_mod, int fat_to_max_hp )
+{
+    for( std::pair<const bodypart_str_id, bodypart> &part : body ) {
+        int new_max = ( part.first->base_hp + str_max * part.first->hp_mods.str_mod + dex_max *
+                        part.first->hp_mods.dex_mod + int_max * part.first->hp_mods.int_mod + per_max *
+                        part.first->hp_mods.per_mod + part.first->hp_mods.health_mod * healthy_mod + fat_to_max_hp +
+                        hp_adjustment ) * hp_mod;
+
+        if( has_trait( trait_GLASSJAW ) && part.first == body_part_head ) {
+            new_max *= 0.8;
+        }
+
+        float max_hp_ratio = static_cast<float>( new_max ) /
+                             static_cast<float>( part.second.get_hp_max() );
+
+        int new_cur = std::ceil( static_cast<float>( part.second.get_hp_cur() ) * max_hp_ratio );
+
+        part.second.set_hp_max( std::max( new_max, 1 ) );
+        part.second.set_hp_cur( std::max( std::min( new_cur, new_max ), 0 ) );
+    }
 }
 
 // This must be called when any of the following change:
