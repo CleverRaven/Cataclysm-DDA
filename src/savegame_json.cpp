@@ -1489,8 +1489,7 @@ void Character::store( JsonOut &json ) const
     json.end_array();
 
     //save queued effect_on_conditions
-    std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> temp_queued(
-        queued_effect_on_conditions );
+    queued_eocs temp_queued( queued_effect_on_conditions );
     json.member( "queued_effect_on_conditions" );
     json.start_array();
     while( !temp_queued.empty() ) {
