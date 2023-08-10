@@ -1154,7 +1154,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_proxy_frog",
+    "abstract": "egg_proxy_frog",
     "copy-from": "egg_chicken",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "weight": "20 g",
