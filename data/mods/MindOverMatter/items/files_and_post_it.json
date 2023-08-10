@@ -47,6 +47,7 @@
     "name": { "str": "report (telepathy)", "str_pl": "copies of report (telepathy)" },
     "category": "books",
     "description": "A folder full of what appear to be transcripts of experimental results or reports.  Most of it is rather trivial, but certain passages catch your eye…",
+    "snippet_category": "lab_file_telepathy",
     "weight": "15 g",
     "to_hit": -3,
     "color": "white",
@@ -55,16 +56,6 @@
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "file",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Activate to read the file",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_LAB_TELEPATH_FILE",
-          "effect": [ { "u_message": "lab_file_telepathy", "snippet": true, "same_snippet": true, "popup": true } ]
-        }
-      ]
-    }
   },
   {
     "type": "GENERIC",
