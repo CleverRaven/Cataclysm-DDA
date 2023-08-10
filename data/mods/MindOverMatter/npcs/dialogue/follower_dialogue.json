@@ -7,7 +7,7 @@
         "text": "[Telepathy] *Read <npc_name>'s mind*",
         "topic": "TALK_FRIEND_FOLLOWER_scan",
         "condition": { "u_has_trait": "TELEPATH" }
-      }
+      },
       {
         "text": "[Vitakinesis] I noticed that you're sick.",
         "topic": "TALK_FRIEND_VITAKINETIC_CURE",

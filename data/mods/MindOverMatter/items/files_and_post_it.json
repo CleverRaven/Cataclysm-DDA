@@ -22,6 +22,7 @@
     "name": { "str": "report (biokinesis)", "str_pl": "copies of report (biokinesis)" },
     "category": "books",
     "description": "A folder full of what appear to be transcripts of experimental results or reports.  Most of it is rather trivial, but certain passages catch your eye…",
+    "snippet_category": "lab_file_biokinesis",
     "weight": "15 g",
     "to_hit": -3,
     "color": "white",
@@ -29,17 +30,7 @@
     "material": [ "paper" ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
-    "copy-from": "file",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Activate to read the file",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_LAB_BIOKINESIS_FILE",
-          "effect": [ { "u_message": "lab_file_biokinesis", "snippet": true, "same_snippet": true, "popup": true } ]
-        }
-      ]
-    }
+    "copy-from": "file"
   },
   {
     "type": "GENERIC",
@@ -55,7 +46,7 @@
     "material": [ "paper" ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
-    "copy-from": "file",
+    "copy-from": "file"
   },
   {
     "type": "GENERIC",
@@ -63,6 +54,7 @@
     "name": { "str": "report (vitakinesis)", "str_pl": "copies of report (vitakinesis)" },
     "category": "books",
     "description": "A folder full of what appear to be transcripts of experimental results or reports.  Most of it is rather trivial, but certain passages catch your eye…",
+    "snippet_category": "lab_file_vitakinesis",
     "weight": "15 g",
     "to_hit": -3,
     "color": "white",
@@ -70,17 +62,7 @@
     "material": [ "paper" ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
-    "copy-from": "file",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Activate to read the file",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_LAB_VITAKINESIS_FILE",
-          "effect": [ { "u_message": "lab_file_vitakinesis", "snippet": true, "same_snippet": true, "popup": true } ]
-        }
-      ]
-    }
+    "copy-from": "file"
   },
   {
     "type": "GENERIC",
@@ -88,6 +70,7 @@
     "name": { "str": "report (matrix technology)", "str_pl": "copies of report (matrix technology)" },
     "category": "books",
     "description": "A folder full of what appear to be transcripts of experimental results or reports.  Most of it is rather trivial, but certain passages catch your eye…",
+    "snippet_category": "lab_file_matrix_research",
     "weight": "15 g",
     "to_hit": -3,
     "color": "white",
@@ -95,17 +78,7 @@
     "material": [ "paper" ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
-    "copy-from": "file",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Activate to read the file",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_LAB_MATRIX_RESEARCH_FILE",
-          "effect": [ { "u_message": "lab_file_matrix_research", "snippet": true, "same_snippet": true, "popup": true } ]
-        }
-      ]
-    }
+    "copy-from": "file"
   },
   {
     "type": "GENERIC",
@@ -113,6 +86,7 @@
     "name": { "str": "OS647-P Proposal Response", "str_pl": "copies of OS647-P Proposal Response" },
     "category": "books",
     "description": "A note written on official XEDRA letterhead.",
+    "snippet_category": "lab_file_OS647_P",
     "weight": "15 g",
     "to_hit": -3,
     "color": "white",
@@ -120,17 +94,23 @@
     "material": [ "paper" ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
-    "copy-from": "file",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Activate to read the file",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_LAB_FILE_OS647_P_SNIPPET",
-          "effect": [ { "u_message": "lab_file_OS647_P", "snippet": true, "same_snippet": true, "popup": true } ]
-        }
-      ]
-    }
+    "copy-from": "file"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_file_phavian_memo_item",
+    "name": { "str": "Project PHAVIAN memo", "str_pl": "copies of Project PHAVIAN memo" },
+    "category": "books",
+    "description": "A note written on official XEDRA letterhead.",
+    "snippet_category": "lab_file_phavian_memo",
+    "weight": "15 g",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "50 ml",
+    "flags": [ "TRADER_AVOID" ],
+    "copy-from": "file"
   },
   {
     "type": "GENERIC",
