@@ -1425,7 +1425,7 @@
       [ "chisel", 90 ],
       [ "crucible", 30 ],
       [ "swage", 60 ],
-      [ "tongs", 90 ],
+      [ "metalworking_tongs", 90 ],
       [ "hammer", 90 ],
       [ "sandpaper", 90 ],
       [ "small_mana_crystal", 180 ]
