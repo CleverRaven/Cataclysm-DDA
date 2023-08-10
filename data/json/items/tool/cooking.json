@@ -220,7 +220,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "green",
-    "ammo": [ "charcoal" ],
+    "ammo": [ "charcoal", "coal" ],
     "//": "contains up to 1 liter of charcoal. Or the same amount of coal by weight, 1u coal weighs about as much as 1u of charcoal and has the same energy although it is 5x smaller.",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 200, "coal": 1000 } } ],
     "charges_per_use": 5,
