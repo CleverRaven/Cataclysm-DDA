@@ -52,16 +52,16 @@
     "type": "snippet",
     "//": "Used for reading your followers' minds",
     "category": "<telepathy_follower>",
-     "text": [
-       "«Every time they leave…is this the time they won't come back?»",
-       "«Ugh!  Were they literally bathing in sewage?  What is that smell!»",
-       "«Please, just tell me to take a car apart.  I'd rather do that than go back out there.»",
-       "«Punching out a jabberwock?  Please.  How stupid do they think I am?»",
-       "«Can we really make this place a new home?»",
-       "«Well.  At least it beats being dead.»",
-       "«They're like a machine.  How do they do it?»",
-       "«Oh God, not another fucking training session.»",
-       "«If I were injured on a run, would they come back for me?»"
-     ]
-   }
+    "text": [
+      "«Every time they leave…is this the time they won't come back?»",
+      "«Ugh!  Were they literally bathing in sewage?  What is that smell!»",
+      "«Please, just tell me to take a car apart.  I'd rather do that than go back out there.»",
+      "«Punching out a jabberwock?  Please.  How stupid do they think I am?»",
+      "«Can we really make this place a new home?»",
+      "«Well.  At least it beats being dead.»",
+      "«They're like a machine.  How do they do it?»",
+      "«Oh God, not another fucking training session.»",
+      "«If I were injured on a run, would they come back for me?»"
+    ]
+  }
 ]
