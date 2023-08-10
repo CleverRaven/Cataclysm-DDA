@@ -46,7 +46,7 @@
   {
     "id": "TALK_GODCO_Zachary_Intro_2",
     "type": "talk_topic",
-    "dynamic_line": "I ain't leaving, bruv.  Not until that eldritch screechin' nightmare is dead 'n buried.",
+    "dynamic_line": "I ain't leaving, <name_g>.  Not until that eldritch screeching nightmare is dead 'n buried.",
     "responses": [
       { "text": "What nightmare?", "topic": "TALK_GODCO_Zachary_Nightmare" },
       { "text": "I'll see you around then.", "topic": "TALK_DONE" }
