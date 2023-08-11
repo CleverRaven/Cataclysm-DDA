@@ -284,4 +284,4 @@
   - "src/veh_**"
  
 "Game: Defense Mode":
-  - "src/gamemode_defense**"
+  - all: [ '!data/mods/Defense_Mode/**' ]
