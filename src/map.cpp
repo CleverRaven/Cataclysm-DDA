@@ -4903,7 +4903,8 @@ units::volume map::free_volume( const tripoint_bub_ms &p )
 
 item_location map::add_item_ret_loc( const tripoint &pos, item obj, bool overflow )
 {
-    std::pair<item *, tripoint> ret = _add_item_or_charges( pos, std::move( obj ), overflow );
+    int copies = 1;
+    std::pair<item *, tripoint> ret = _add_item_or_charges( pos, std::move( obj ), copies, overflow );
     if( ret.first != nullptr && !ret.first->is_null() ) {
         return item_location { map_cursor{ ret.second }, ret.first };
     }
@@ -4913,11 +4914,18 @@ item_location map::add_item_ret_loc( const tripoint &pos, item obj, bool overflo
 
 item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 {
-    return *_add_item_or_charges( pos, std::move( obj ), overflow ).first;
+    int copies = 1;
+    return *_add_item_or_charges( pos, std::move( obj ), copies, overflow ).first;
+}
+
+item &map::add_item_or_charges( const tripoint &pos, item obj, int &copies_remaining,
+                                bool overflow )
+{
+    return *_add_item_or_charges( pos, std::move( obj ), copies_remaining, overflow ).first;
 }
 
 std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item obj,
-        bool overflow )
+        int &copies_remaining, bool overflow )
 {
     // Checks if item would not be destroyed if added to this tile
     auto valid_tile = [&]( const tripoint & e ) {
@@ -4939,13 +4947,15 @@ std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item
         return true;
     };
 
-    // Checks if sufficient space at tile to add item
-    auto valid_limits = [&]( const tripoint & e ) {
-        return obj.volume() <= free_volume( e ) && i_at( e ).size() < MAX_ITEM_IN_SQUARE;
+    // Get how many copies of the item can fit in a tile
+    auto how_many_copies_fit = [&]( const tripoint & e ) {
+        return std::min( { copies_remaining,
+                           obj.volume() == 0_ml ? INT_MAX : free_volume( e ) / obj.volume(),
+                           static_cast<int>( MAX_ITEM_IN_SQUARE - i_at( e ).size() ) } );
     };
 
     // Performs the actual insertion of the object onto the map
-    auto place_item = [&]( const tripoint & tile ) -> item& {
+    auto place_item = [&]( const tripoint & tile, int &copies ) -> item& {
         if( obj.count_by_charges() )
         {
             for( item &e : i_at( tile ) ) {
@@ -4956,7 +4966,7 @@ std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item
         }
 
         support_dirty( tile );
-        return add_item( tile, obj );
+        return add_item( tile, obj, copies );
     };
 
     if( item_is_blacklisted( obj.typeId() ) ) {
@@ -4973,20 +4983,24 @@ std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item
         return { &null_item_reference(), tripoint_min };
     }
 
+    std::optional<std::pair<item *, tripoint>> first_added;
+    int copies_to_add_here = how_many_copies_fit( pos );
+
     if( ( !has_flag( ter_furn_flag::TFLAG_NOITEM, pos ) ||
-          ( has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, pos ) && obj.made_of( phase_id::LIQUID ) ) )
-        && valid_limits( pos ) ) {
+          ( has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, pos ) && obj.made_of( phase_id::LIQUID ) ) ) &&
+        copies_to_add_here > 0 ) {
         // Pass map into on_drop, because this map may not be the global map object (in mapgen, for instance).
         if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
             if( obj.on_drop( pos, *this ) ) {
                 return { &null_item_reference(), tripoint_min };
             }
-
         }
         // If tile can contain items place here...
-        return { &place_item( pos ), pos };
-
-    } else if( overflow ) {
+        copies_remaining -= copies_to_add_here;
+        first_added = first_added ? first_added : std::make_pair( &place_item( pos, copies_to_add_here ),
+                      pos );
+    }
+    if( overflow && copies_remaining > 0 ) {
         // ...otherwise try to overflow to adjacent tiles (if permitted)
         const int max_dist = 2;
         std::vector<tripoint> tiles = closest_points_first( pos, max_dist );
@@ -4995,6 +5009,9 @@ std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item
         const pathfinding_settings setting( 0, max_dist, max_path_length, 0, false, false, true, false,
                                             false, false );
         for( const tripoint &e : tiles ) {
+            if( copies_remaining <= 0 ) {
+                break;
+            }
             if( !inbounds( e ) ) {
                 continue;
             }
@@ -5004,25 +5021,34 @@ std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item
             }
             if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
                 if( obj.on_drop( e, *this ) ) {
-                    return { &null_item_reference(), tripoint_min };
+                    return first_added ? first_added.value() : std::make_pair( &null_item_reference(), tripoint_min );
                 }
             }
 
-            if( !valid_tile( e ) || !valid_limits( e ) ||
+            copies_to_add_here = how_many_copies_fit( e );
+            if( !valid_tile( e ) || copies_to_add_here <= 0 ||
                 has_flag( ter_furn_flag::TFLAG_NOITEM, e ) || has_flag( ter_furn_flag::TFLAG_SEALED, e ) ) {
                 continue;
             }
-            return { &place_item( e ), e };
+            copies_remaining -= copies_to_add_here;
+            std::pair<item *, tripoint> new_item = { &place_item( e, copies_to_add_here ), e };
+            first_added = first_added ? first_added : new_item;
         }
     }
 
-    // failed due to lack of space at target tile (+/- overflow tiles)
-    return { &null_item_reference(), tripoint_min };
+    // If first_added has no value, no items were added due to lack of space at target tile (+/- overflow tiles)
+    return first_added ? first_added.value() : std::make_pair( &null_item_reference(), tripoint_min );
 }
 
 item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow )
 {
     return add_item_or_charges( pos.raw(), std::move( obj ), overflow );
+}
+
+item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, int &copies_remaining,
+                                bool overflow )
+{
+    return add_item_or_charges( pos.raw(), std::move( obj ), copies_remaining, overflow );
 }
 
 float map::item_category_spawn_rate( const item &itm )
@@ -5035,7 +5061,16 @@ float map::item_category_spawn_rate( const item &itm )
 
 item &map::add_item( const tripoint &p, item new_item )
 {
+    int copies = 1;
+    return add_item( p, std::move( new_item ), copies );
+}
+item &map::add_item( const tripoint &p, item new_item, int copies )
+{
     if( item_is_blacklisted( new_item.typeId() ) ) {
+        return null_item_reference();
+    }
+
+    if( copies <= 0 ) {
         return null_item_reference();
     }
 
@@ -5052,7 +5087,7 @@ item &map::add_item( const tripoint &p, item new_item )
 
     // Process foods and temperature tracked items when they are added to the map, here instead of add_item_at()
     // to avoid double processing food during active item processing.
-    if( new_item.link || ( new_item.has_temperature() && !new_item.is_corpse() ) ) {
+    if( new_item.has_temperature() && !new_item.is_corpse() ) {
         new_item.process( *this, nullptr, p );
     }
 
@@ -5098,6 +5133,10 @@ item &map::add_item( const tripoint &p, item new_item )
     current_submap->update_lum_add( l, new_item );
 
     const map_stack::iterator new_pos = current_submap->get_items( l ).insert( new_item );
+    while( --copies > 0 ) {
+        current_submap->get_items( l ).insert( new_item );
+    }
+
     if( current_submap->active_items.add( *new_pos, l ) ) {
         // TODO: fix point types
         tripoint_abs_sm const loc( abs_sub.x() + p.x / SEEX, abs_sub.y() + p.y / SEEY, p.z );

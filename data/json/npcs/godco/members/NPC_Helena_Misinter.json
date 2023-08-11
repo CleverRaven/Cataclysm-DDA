@@ -33,26 +33,52 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Helena_1",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_helena",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
       "value": "yes",
-      "yes": [ "Praise the Lord.", "Blessings to you." ],
-      "no": "Stranger, what brings you to our holy home?"
+      "yes": "Get away from here, sinner, we don't want your kind here.",
+      "no": {
+        "npc_has_var": "u_met_godco_helena",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": [ "Praise the Lord.", "Blessings to you." ],
+        "no": "Stranger, what brings you to our holy home?"
+      }
     },
     "responses": [
       {
         "text": "Who are you?",
         "effect": { "npc_add_var": "u_met_godco_helena", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "u_met_godco_helena", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_helena", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Helena_Firstmeet"
       },
       {
         "text": "Good to see you again.",
-        "condition": { "npc_has_var": "u_met_godco_helena", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_helena", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Helena_2"
       },
-      { "text": "I can't talk right now.", "topic": "TALK_DONE" }
+      {
+        "text": "I can't talk right now.",
+        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Fine then.",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {

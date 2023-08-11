@@ -43,26 +43,52 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Russell_1",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_russell",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
       "value": "yes",
-      "yes": [ "Praise the Lord, <name_g>.", "Greetings, <name_g><punc>  You okay?" ],
-      "no": "Huh, so it was you over there.  It's always great to see a new face.  Name's Russell, Russell Connelly."
+      "yes": "Get away from me, demon.  I shoot crazy sinners like you on a regular basis, and my rifle's right here.",
+      "no": {
+        "npc_has_var": "u_met_godco_russell",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": [ "Praise the Lord, <name_g>.", "Greetings, <name_g><punc>  You okay?" ],
+        "no": "Huh, so it was you over there.  It's always great to see a new face.  Name's Russell, Russell Connelly."
+      }
     },
     "responses": [
       {
         "text": "Russell, hey?  Nice to meet you.",
         "effect": { "npc_add_var": "u_met_godco_russell", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "u_met_godco_russell", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_russell", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Russell_Firstmeet"
       },
       {
         "text": "Hi, Russell.  Got a minute?",
-        "condition": { "npc_has_var": "u_met_godco_russell", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_russell", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Russell_2"
       },
-      { "text": "Hey, Russell.  I can't stay to talk.", "topic": "TALK_DONE" }
+      {
+        "text": "Hey, Russell.  I can't stay to talk.",
+        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Chill out man, I'll leave you alone.",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {

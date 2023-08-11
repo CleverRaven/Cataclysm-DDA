@@ -379,6 +379,7 @@
       [ "chem_aluminium_powder", 10 ],
       [ "chem_aluminium_sulphate", 10 ],
       [ "chem_saltpetre", 10 ],
+      { "item": "red_phosphorous", "prob": 5, "charges-min": 100 },
       { "item": "bismuth", "prob": 5, "charges-min": 1 },
       { "item": "chem_benzene", "prob": 10, "charges-min": 1 },
       { "item": "chem_toluene", "prob": 10, "charges-min": 1 },

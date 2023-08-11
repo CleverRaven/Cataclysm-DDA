@@ -767,8 +767,7 @@ void game::setup()
 
     weather.weather_id = WEATHER_CLEAR;
     // Weather shift in 30
-    weather.nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
-                              get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
+    weather.nextweather = calendar::start_of_game + 30_minutes;
 
     turnssincelastmon = 0_turns; //Auto safe mode init
 
@@ -10916,19 +10915,22 @@ point game::place_player( const tripoint &dest_loc, bool quick )
                         and_the_rest += counts[i];
                     }
                 }
-                if( names.size() == 1 ) {
-                    add_msg( _( "You see here %s." ), names[0] );
-                } else if( names.size() == 2 ) {
-                    add_msg( _( "You see here %s and %s." ), names[0], names[1] );
-                } else if( names.size() == 3 ) {
-                    add_msg( _( "You see here %s, %s, and %s." ), names[0], names[1], names[2] );
-                } else if( and_the_rest < 7 ) {
-                    add_msg( n_gettext( "You see here %s, %s and %d more item.",
-                                        "You see here %s, %s and %d more items.",
-                                        and_the_rest ),
-                             names[0], names[1], and_the_rest );
-                } else {
-                    add_msg( _( "You see here %s and many more items." ), names[0] );
+
+                if( get_option<bool>( "LOG_ITEMS_ON_THE_GROUND" ) ) {
+                    if( names.size() == 1 ) {
+                        add_msg( _( "You see here %s." ), names[0] );
+                    } else if( names.size() == 2 ) {
+                        add_msg( _( "You see here %s and %s." ), names[0], names[1] );
+                    } else if( names.size() == 3 ) {
+                        add_msg( _( "You see here %s, %s, and %s." ), names[0], names[1], names[2] );
+                    } else if( and_the_rest < 7 ) {
+                        add_msg( n_gettext( "You see here %s, %s and %d more item.",
+                                            "You see here %s, %s and %d more items.",
+                                            and_the_rest ),
+                                 names[0], names[1], and_the_rest );
+                    } else {
+                        add_msg( _( "You see here %s and many more items." ), names[0] );
+                    }
                 }
             }
         }
@@ -12819,7 +12821,7 @@ void game::start_calendar()
     calendar::start_of_game = scen->start_of_game();
     calendar::turn = calendar::start_of_game;
     calendar::initial_season = static_cast<season_type>( ( to_days<int>( calendar::start_of_game -
-                               calendar::turn_zero ) / get_option<int>( "SEASON_LENGTH" ) ) % 4 );
+                               calendar::turn_zero ) / get_option<int>( "SEASON_LENGTH" ) ) % season_type::NUM_SEASONS );
 }
 
 overmap &game::get_cur_om() const
@@ -13166,6 +13168,24 @@ void game::climb_down( const tripoint &examp )
         }
     }
 
+    if( web_rappel || has_grapnel ) {
+        tripoint p = examp;
+        for( int i = 0; i < height; i++ ) {
+            p.z--;
+            if( here.has_furn( p ) ) {
+                // We disallow climbing down with grappling hook or webs if there is furniture
+                // in the way. This is because there was a problem here before where the deployed
+                // grappling hook "furniture" added by the code further below would replace any
+                // already existing furniture on the destination, such as a stepladder.
+                you.add_msg_if_player(
+                    web_rappel ?
+                    _( "There is something in the way that prevent your webs from sticking there." )
+                    : _( "There is something in the way that prevents you from using your grappling hook there." ) );
+                return;
+            }
+        }
+    }
+
     you.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod ) * weary_mult;
     you.setpos( examp );
 
@@ -13291,7 +13311,6 @@ const scenario *get_scenario()
 }
 void set_scenario( const scenario *new_scenario )
 {
-    new_scenario->rerandomize();
     g->scen = new_scenario;
 }
 

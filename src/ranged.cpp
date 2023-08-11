@@ -740,9 +740,9 @@ bool Character::handle_gun_damage( item &it )
         }
     }
     // chance to damage gun due to high levels of dirt. Very unlikely, especially at lower levels and impossible below 5,000. Lower than the chance of a jam at the same levels. 555555... is an arbitrary number that I came up with after playing with the formula in excel. It makes sense at low, medium, and high levels of dirt.
-    if( dirt_dbl > 5000 &&
-        x_in_y( dirt_dbl * dirt_dbl * dirt_dbl,
-                5555555555555 ) ) {
+    // if you have a bullet loaded with match head powder this can happen randomly at any time. The chances are about the same as a recycled ammo jamming the gun
+    if( ( dirt_dbl > 5000 && x_in_y( dirt_dbl * dirt_dbl * dirt_dbl, 5555555555555 ) ) ||
+        ( curammo_effects.count( "MATCHHEAD" ) && one_in( 256 ) ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the high pressure!" ),
                                _( "<npcname>'s %s is damaged by the high pressure!" ),
                                it.tname() );

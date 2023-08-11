@@ -15,6 +15,11 @@
     "replace": "bp_tiny_pistol_ball"
   },
   {
+    "id": [ "matchhead_22_fmj", "matchhead_22_lr", "matchhead_32_acp" ],
+    "type": "MIGRATION",
+    "replace": "matchhead_tiny_pistol_ball"
+  },
+  {
     "id": [ "22_cb", "22_lr", "22_ratshot" ],
     "type": "MIGRATION",
     "replace": "tiny_pistol_jhp"
@@ -101,6 +106,23 @@
   },
   {
     "id": [
+      "matchhead_10mm_fmj",
+      "matchhead_357sig_fmj",
+      "matchhead_38_fmj",
+      "matchhead_380_FMJ",
+      "matchhead_40ball",
+      "matchhead_40fmj",
+      "matchhead_45_acp",
+      "matchhead_9mmfmj",
+      "matchhead_9x18mmfmj",
+      "matchhead_357mag_fmj",
+      "matchhead_30carbine"
+    ],
+    "type": "MIGRATION",
+    "replace": "matchhead_pistol_ball"
+  },
+  {
+    "id": [
       "357sig_jhp",
       "38_special",
       "38_super",
@@ -148,6 +170,22 @@
     ],
     "type": "MIGRATION",
     "replace": "bp_pistol_jhp"
+  },
+  {
+    "id": [
+      "matchhead_357sig_jhp",
+      "matchhead_38_special",
+      "matchhead_380_JHP",
+      "matchhead_40sw",
+      "matchhead_45_jhp",
+      "matchhead_45colt_jhp",
+      "matchhead_762_25",
+      "matchhead_9mm",
+      "matchhead_9x18mm",
+      "matchhead_357mag_jhp"
+    ],
+    "type": "MIGRATION",
+    "replace": "matchhead_pistol_jhp"
   },
   {
     "id": [ "357mag_fmj", "44fmj", "460_fmj" ],

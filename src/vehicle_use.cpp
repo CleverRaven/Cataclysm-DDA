@@ -2117,6 +2117,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 if( vp_part->has_flag( vp_flag::linked_flag ) ) {
                     vp_part->last_disconnected = calendar::turn;
                     vp_part->remove_flag( vp_flag::linked_flag );
+                    linked_item_epower_this_turn = 0_W;
                     add_msg( _( "You detached the %s's cables." ), vp_part->name( false ) );
                 }
                 if( vp_part->info().has_flag( "TOW_CABLE" ) ) {

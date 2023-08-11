@@ -53,26 +53,52 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_1",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_katherine",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
       "value": "yes",
-      "yes": "Praise the Lord.",
-      "no": "Oh well, yet another survivor.  Welcome to our group, I'm Katherine."
+      "yes": "Oh well, yet another sinner.  Don't talk to me.",
+      "no": {
+        "npc_has_var": "u_met_godco_katherine",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": "Praise the Lord.",
+        "no": "Oh well, yet another survivor.  Welcome to our group, I'm Katherine."
+      }
     },
     "responses": [
       {
         "text": "Hi, Katherine.  How's it going?",
         "topic": "TALK_GODCO_Katherine_2a",
-        "condition": { "npc_has_var": "u_met_godco_katherine", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_katherine", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        }
       },
       {
         "text": "Nice to meet you, Katherine.",
         "effect": { "npc_add_var": "u_met_godco_katherine", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "u_met_godco_katherine", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_katherine", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Katherine_Firstmeet"
       },
-      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      {
+        "text": "I'm afraid I can't talk right now.",
+        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Alright, fuck you then.",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {

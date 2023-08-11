@@ -203,6 +203,82 @@ item_location Character::try_add( item it, const item *avoid, const item *origin
     return ret;
 }
 
+item_location Character::try_add( item it, int &copies_remaining, const item *avoid,
+                                  const item *original_inventory_item,
+                                  const bool allow_wield, bool ignore_pkt_settings )
+{
+    invalidate_inventory_validity_cache();
+    invalidate_leak_level_cache();
+    itype_id item_type_id = it.typeId();
+    last_item = item_type_id;
+
+    // if there's a desired invlet for this item type, try to use it
+    char invlet = 0;
+    const invlets_bitset cur_inv = allocated_invlets();
+    for( const auto &iter : inv->assigned_invlet ) {
+        if( iter.second == item_type_id && !cur_inv[iter.first] ) {
+            invlet = iter.first;
+            break;
+        }
+    }
+
+    //item copy for test can contain
+    item temp_it = item( it );
+    temp_it.charges = 1;
+
+    item_location first_item_added;
+
+    std::pair<item_location, item_pocket *> pocket;
+    while( copies_remaining > 0 ) {
+        pocket = best_pocket( it, avoid, ignore_pkt_settings );
+        if( pocket.second == nullptr ) {
+            break;
+        }
+
+        int max_copies;
+        if( !temp_it.is_null() ) {
+            const int pocket_max_copies = pocket.second->remaining_capacity_for_item( temp_it );
+            const int parent_max_copies = !pocket.first.has_parent() ? INT_MAX :
+                                          !pocket.first.parents_can_contain_recursive( &temp_it ) ? 0 :
+                                          pocket.first.max_charges_by_parent_recursive( temp_it );
+            max_copies = std::min( { copies_remaining, pocket_max_copies, parent_max_copies } );
+        } else {
+            max_copies = copies_remaining;
+        }
+
+        item *newit = nullptr;
+        pocket.second->add( it, max_copies, &newit );
+
+        // Give invlet to the first item created.
+        if( !first_item_added ) {
+            first_item_added = item_location( pocket.first, newit );
+            if( invlet ) {
+                first_item_added->invlet = invlet;
+            }
+        }
+        if( !invlet && ( !it.count_by_charges() || it.charges == newit->charges ) ) {
+            inv->update_invlet( *newit, true, original_inventory_item );
+        }
+
+        copies_remaining -= max_copies;
+
+        newit->on_pickup( *this );
+        pocket.first.on_contents_changed();
+        pocket.second->on_contents_changed();
+    }
+
+    if( copies_remaining > 0 && allow_wield && !has_weapon() && wield( it ) ) {
+        copies_remaining--;
+        if( !first_item_added ) {
+            first_item_added = item_location( *this, &weapon );
+        }
+    }
+    if( first_item_added ) {
+        cached_info.erase( "reloadables" );
+    }
+    return first_item_added;
+}
+
 item_location Character::i_add( item it, bool /* should_stack */, const item *avoid,
                                 const item *original_inventory_item, const bool allow_drop,
                                 const bool allow_wield, bool ignore_pkt_settings )
@@ -224,6 +300,28 @@ item_location Character::i_add( item it, bool /* should_stack */, const item *av
     } else {
         return added;
     }
+}
+
+item_location Character::i_add( item it, int &copies_remaining,
+                                bool /* should_stack */, const item *avoid,
+                                const item *original_inventory_item, const bool allow_drop,
+                                const bool allow_wield, bool ignore_pkt_settings )
+{
+    invalidate_inventory_validity_cache();
+    invalidate_leak_level_cache();
+    item_location added = try_add( it, copies_remaining, avoid, original_inventory_item, allow_wield,
+                                   ignore_pkt_settings );
+    if( copies_remaining > 0 ) {
+        if( allow_wield && wield( it ) ) {
+            copies_remaining--;
+            added = added ? added : item_location( *this, &weapon );
+        }
+        if( allow_drop && copies_remaining > 0 ) {
+            item map_added = get_map().add_item_or_charges( pos_bub(), it, copies_remaining );
+            added = added ? added : item_location( map_cursor( pos() ), &map_added );
+        }
+    }
+    return added;
 }
 
 ret_val<item_location> Character::i_add_or_fill( item &it, bool should_stack, const item *avoid,
