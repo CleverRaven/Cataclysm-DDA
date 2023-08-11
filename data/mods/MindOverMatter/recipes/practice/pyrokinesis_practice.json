@@ -358,7 +358,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "contemplation: thermal lance",
+    "name": "contemplation: incandescent lance",
     "id": "practice_pyrokinetic_lance",
     "description": "Contemplate your powers and improve your ability to focus heat into a searing point.",
     "category": "CC_*",

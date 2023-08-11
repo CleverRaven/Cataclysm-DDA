@@ -1010,5 +1010,44 @@
     "desc": [ "This reduces monsters' regeneration.  It's a bug if you have it." ],
     "rating": "bad",
     "max_duration": "1 minutes"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_purge_rads",
+    "name": [ "Radiation Purge" ],
+    "desc": [ "You are using your powers to cleanse yourself of radiation." ],
+    "base_mods": { "rad_amount": [ -1 ], "rad_chance": [ 1 ], "rad_tick": [ 60 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_purge_rads_sideeffects",
+    "name": [ "Radiation Purge Side Effects" ],
+    "desc": [ "You are using your powers to cleanse yourself of radiation, but there are some side effects." ],
+    "base_mods": {
+      "stamina_amount": [ -2000 ],
+      "pain_amount": [ 1 ],
+      "pain_chance": [ 10 ],
+      "pain_tick": [ 60 ],
+      "health_amount": [ 0 ],
+      "health_chance": [ 1000 ],
+      "health_tick": [ 60 ],
+      "fatigue_amount": [ 0 ],
+      "fatigue_chance": [ 500 ],
+      "fatigue_tick": [ 60 ],
+      "vomit_chance": [ 1000 ],
+      "vomit_tick": [ 60 ]
+    },
+    "scaling_mods": {
+      "stamina_amount": [ -1000 ],
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "per_mod": [ -0.7 ],
+      "pain_chance": [ -1 ],
+      "health_amount": [ -1 ],
+      "health_chance": [ -150 ],
+      "fatigue_amount": [ 0.6 ],
+      "fatigue_chance": [ -75 ],
+      "vomit_chance": [ -150 ]
+    }
   }
 ]
