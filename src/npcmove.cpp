@@ -425,6 +425,8 @@ void npc::assess_danger()
 {
     float assessment = 0.0f;
     float highest_priority = 1.0f;
+    int hostile_count = 0;
+    int friendly_count = 1; // count yourself as a friendly
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
 
     if( !confident_range_cache ) {
@@ -530,6 +532,7 @@ void npc::assess_danger()
         Creature::Attitude att = critter.attitude_to( *this );
         if( att == Attitude::FRIENDLY ) {
             ai_cache.friends.emplace_back( g->shared_from( critter ) );
+            friendly_count += 1;
             continue;
         }
         if( att != Attitude::HOSTILE && ( critter.friendly || !is_enemy() ) ) {
@@ -542,6 +545,7 @@ void npc::assess_danger()
 
         ai_cache.hostile_guys.emplace_back( g->shared_from( critter ) );
         float critter_threat = evaluate_enemy( critter );
+        hostile_count += 1;
         // warn and consider the odds for distant enemies
         int dist = rl_dist( pos(), critter.pos() );
         if( is_enemy() || !critter.friendly ) {
@@ -599,6 +603,10 @@ void npc::assess_danger()
     if( assessment == 0.0 && ai_cache.hostile_guys.empty() ) {
         ai_cache.danger_assessment = assessment;
         return;
+    }
+    // being outnumbered is serious.  Scale up your assessment if you're outnumbered.
+    if ( hostile_count > friendly_count ) {
+        assessment *= ( hostile_count / friendly_count );
     }
     
     const auto handle_hostile = [&]( const Character & foe, float foe_threat,
