@@ -332,7 +332,7 @@
     "name": "[Ψ]Radiation Sense",
     "description": "You can open your tenses to the tell-tale glow of radiation.",
     "message": "",
-    "valid_targets": [ "hostile" ],
+    "valid_targets": [ "self" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
