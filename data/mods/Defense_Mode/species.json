@@ -6,7 +6,7 @@
     "//": "Adding the ALL_SEEING flag lets monsters track your position without fancy C++ stuff.",
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "flags": [ "ALL_SEEING" ],
+    "flags": [ "ALL_SEEING", "NEMESIS" ],
     "bleeds": "fd_blood_insect"
   },
   {
@@ -14,7 +14,7 @@
     "id": "PLANT",
     "description": "a plant",
     "fear_triggers": [ "HURT", "FIRE" ],
-    "flags": [ "ALL_SEEING" ],
+    "flags": [ "ALL_SEEING", "NEMESIS" ],
     "bleeds": "fd_blood_veggy"
   },
   {
@@ -22,7 +22,7 @@
     "id": "ZOMBIE",
     "description": "a zombie",
     "footsteps": "shuffling.",
-    "flags": [ "ALL_SEEING" ],
+    "flags": [ "ALL_SEEING", "NEMESIS" ],
     "bleeds": "fd_blood"
   },
   {
@@ -30,7 +30,7 @@
     "id": "FERAL",
     "description": "a feral",
     "footsteps": "shuffling.",
-    "flags": [ "ALL_SEEING" ],
+    "flags": [ "ALL_SEEING", "NEMESIS" ],
     "bleeds": "fd_blood"
   },
   {
@@ -38,14 +38,14 @@
     "id": "ROBOT",
     "description": "a robot",
     "footsteps": "mechanical whirring.",
-    "flags": [ "ALL_SEEING" ],
+    "flags": [ "ALL_SEEING", "NEMESIS" ],
     "bleeds": "fd_mechanical_fluid"
   },
   {
     "type": "SPECIES",
     "id": "MIGO",
     "description": "a creature from the mi-go homeworld",
-    "flags": [ "ALL_SEEING" ],
+    "flags": [ "ALL_SEEING", "NEMESIS" ],
     "fear_triggers": [ "HURT" ]
   }
 ]
