@@ -69,6 +69,7 @@
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "mapgen.h"
+#include "material.h"
 #include "math_defines.h"
 #include "mission.h"
 #include "memory_fast.h"
@@ -2811,7 +2812,8 @@ void map::drop_items( const tripoint &p )
     float damage_total = 0.0f;
     for( item &i : items ) {
         units::mass wt_dropped = i.weight();
-        float damage = 10 * to_kilogram( wt_dropped ) * height_fallen;
+        float item_density = i.get_base_material().density();
+        float damage = 5 * to_kilogram( wt_dropped ) * height_fallen * item_density;
         damage_total += damage;
 
         add_item_or_charges( below, i );
