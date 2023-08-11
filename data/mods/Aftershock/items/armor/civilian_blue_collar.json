@@ -124,7 +124,8 @@
         "moves": 40,
         "flag_restriction": [ "BELT_CLIP" ],
         "rigid": true,
-        "holster": true
+        "holster": true,
+        "transparent": true
       },
       {
         "max_contains_volume": "2 L",
@@ -133,7 +134,8 @@
         "moves": 40,
         "flag_restriction": [ "BELT_CLIP" ],
         "rigid": true,
-        "holster": true
+        "holster": true,
+        "transparent": true
       },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },

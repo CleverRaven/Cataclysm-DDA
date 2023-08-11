@@ -106,7 +106,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "carabiner pocket",
@@ -120,7 +121,8 @@
         "extra_encumbrance": 3,
         "ripoff": 2,
         "description": "Attached with a carabiner or strap.",
-        "activity_noise": { "volume": 8, "chance": 10 }
+        "activity_noise": { "volume": 8, "chance": 10 },
+        "transparent": true
       },
       {
         "//": "tucked against back",
@@ -133,7 +135,8 @@
         "moves": 200,
         "extra_encumbrance": 10,
         "description": "Tucked between your back and the backpack.",
-        "ripoff": 3
+        "ripoff": 3,
+        "transparent": true
       }
     ],
     "warmth": 10,
