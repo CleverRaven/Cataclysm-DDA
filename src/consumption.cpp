@@ -1286,6 +1286,7 @@ void Character::modify_morale( item &food, const int nutr )
         const bool psycho = has_flag( json_flag_PSYCHOPATH );
         const bool sapiovore = has_flag( json_flag_SAPIOVORE );
         const bool spiritual = has_flag( json_flag_SPIRITUAL );
+        const bool numb = has_flag( json_flag_NUMB );
         if( cannibal && psycho && spiritual ) {
             add_msg_if_player( m_good,
                                _( "You feast upon the human flesh, and in doing so, devour their spirit." ) );
