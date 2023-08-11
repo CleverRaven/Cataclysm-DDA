@@ -177,7 +177,7 @@
   {
     "type": "mutation",
     "id": "UNDINE_SKIN_2",
-    "name": { "str": "pebble skin" },
+    "name": { "str": "liquid skin" },
     "points": 2,
     "visibility": 10,
     "ugliness": 3,
