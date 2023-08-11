@@ -1302,6 +1302,9 @@ clean-tests:
 object_creator: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C object_creator
 
+object_creator.exe: version $(BUILD_PREFIX)cataclysm.a
+	$(MAKE) -C object_creator object_creator.exe
+
 clean-object_creator:
 	$(MAKE) -C object_creator clean
 
