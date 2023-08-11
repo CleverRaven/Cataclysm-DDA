@@ -2824,7 +2824,8 @@ void map::drop_items( const tripoint &p )
             // creature's dodge modifier
             float dodge_mod = creature_below->dodge_roll();
             // if item dropped by character their throwing skill modifier -1 if not dropped by a character
-            float throwing_mod = i.dropped_char_stats.throwing == -1.0f ? 0.0f : 5 * i.dropped_char_stats.throwing;
+            float throwing_mod = i.dropped_char_stats.throwing == -1.0f ? 0.0f : 5 *
+                                 i.dropped_char_stats.throwing;
 
             // values calibrated so that %hit chance starts from 60% going up and down according to the two modifiers
             float hit_mod = ( throwing_mod + 18 ) / ( dodge_mod + 15 );
@@ -2833,23 +2834,23 @@ void map::drop_items( const tripoint &p )
             creature_hit_chance /= hit_mod * occupied_tile_fraction( creature_below->get_size() );
 
             if( creature_hit_chance < 15 ) {
-                add_msg( _ ( "Falling %s hits %s in the head!" ), i.tname(), creature_below->get_name() );
+                add_msg( _( "Falling %s hits %s in the head!" ), i.tname(), creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_bash,
-                                                                                              damage ) );
+                                             damage ) );
             } else if( creature_hit_chance < 30 ) {
-                add_msg( _ ( "Falling %s hits %s in the torso!" ), i.tname(), creature_below->get_name() );
+                add_msg( _( "Falling %s hits %s in the torso!" ), i.tname(), creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_bash,
-                                                                                               damage ) );
+                                             damage ) );
             } else if( creature_hit_chance < 65 ) {
-                add_msg( _ ( "Falling %s hits %s in the left arm!" ), i.tname(), creature_below->get_name() );
+                add_msg( _( "Falling %s hits %s in the left arm!" ), i.tname(), creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_bash,
-                                                                                               damage ) );
+                                             damage ) );
             } else if( creature_hit_chance < 100 ) {
-                add_msg( _ ( "Falling %s hits %s in the right arm!" ), i.tname(), creature_below->get_name() );
+                add_msg( _( "Falling %s hits %s in the right arm!" ), i.tname(), creature_below->get_name() );
                 creature_below->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_bash,
-                                                                                               damage ) );
+                                             damage ) );
             } else {
-                add_msg( _ ( "Falling %s misses the %s!" ), i.tname(), creature_below->get_name() );
+                add_msg( _( "Falling %s misses the %s!" ), i.tname(), creature_below->get_name() );
             }
         }
 
