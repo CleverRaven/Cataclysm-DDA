@@ -85,7 +85,7 @@
       { "group": "full_1st_aid", "prob": 15 },
       { "group": "full_ifak", "prob": 15 },
       { "item": "vitamins", "prob": 75, "count": [ 30, 30 ] },
-      [ "calcium_tablet", "prob": 75, "count": [ 30, 30 ] },
+      { "item": "calcium_tablet", "prob": 75, "count": [ 30, 30 ] },
       { "item": "aspirin", "prob": 45, "count": [ 30, 30 ] },
       { "item": "caffeine", "prob": 50, "count": [ 30, 30 ] },
       { "item": "pills_sleep", "prob": 45, "count": [ 30, 30 ] },
