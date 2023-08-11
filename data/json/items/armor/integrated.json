@@ -1513,7 +1513,6 @@
     "material_thickness": 8,
     "environmental_protection": 25,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT" ],
-    "melee_damage": { "bash": 10 },
     "armor": [
       {
         "material": [
@@ -1582,7 +1581,6 @@
     "material_thickness": 8,
     "environmental_protection": 25,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT" ],
-    "melee_damage": { "bash": 10 },
     "armor": [
       {
         "material": [
