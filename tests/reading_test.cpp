@@ -225,7 +225,7 @@ TEST_CASE( "estimated_reading_time_for_a_book", "[reading][book][time]" )
         REQUIRE_FALSE( dummy.has_identified( western->typeId() ) );
 
         // Get some light
-        dummy.i_add( item( "atomic_lamp" ) );
+        dummy.wear_item( item( "wearable_atomic_light" ), false );
         REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 
         THEN( "identifying books takes 1/10th of the normal reading time" ) {
@@ -244,7 +244,7 @@ TEST_CASE( "estimated_reading_time_for_a_book", "[reading][book][time]" )
         REQUIRE( dummy.has_identified( alpha->typeId() ) );
 
         // Get some light
-        dummy.i_add( item( "atomic_lamp" ) );
+        dummy.wear_item( item( "wearable_atomic_light" ), false );
         REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 
         WHEN( "player has average intelligence" ) {

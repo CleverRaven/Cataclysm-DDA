@@ -5794,13 +5794,21 @@ float Character::active_light() const
     float lumination = 0.0f;
 
     int maxlum = 0;
-    has_item_with( [&maxlum]( const item & it ) {
-        const int lumit = it.getlight_emit();
+    std::function<VisitResponse( item *, item * )> fkt;
+    fkt = [&maxlum, &fkt]( item * it, item * ) {
+        const int lumit = it->getlight_emit();
         if( maxlum < lumit ) {
             maxlum = lumit;
         }
-        return false; // continue search, otherwise has_item_with would cancel the search
-    } );
+        for( item_pocket *pkt : it->get_all_contained_pockets() ) {
+            if( pkt->transparent() ) {
+                pkt->visit_contents( fkt, it );
+            }
+        }
+        return VisitResponse::SKIP;
+    };
+
+    visit_items( fkt );
 
     lumination = static_cast<float>( maxlum );
 
