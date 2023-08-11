@@ -1,5 +1,15 @@
 [
   {
+    "id": "TEEPSHIELD",
+    "type": "json_flag",
+    "info": "You are immune to telepathy."
+  },
+  {
+    "id": "TELESTOP",
+    "type": "json_flag",
+    "info": "You are immune to forcible teleportation."
+  },
+  {
     "id": "MATRIX_CRYSTAL_BIOKINESIS",
     "type": "json_flag",
     "info": "This is a matrix crystal attuned to biokinesis."

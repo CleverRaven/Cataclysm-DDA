@@ -212,6 +212,7 @@
       { "group": "feral_humans_crystal_drops_bio", "prob": 40 },
       { "group": "feral_humans_crystal_drops_clair", "prob": 40 },
       { "group": "feral_humans_crystal_drops_vita", "prob": 25 },
+      { "item": "phavian_psionic_martial_power_book", "prob": 8 },
       { "group": "dist_psionic_shield_belts", "prob": 60, "damage": [ 1, 4 ] },
       { "item": "id_science_visitor_phavian", "prob": 33 }
     ]

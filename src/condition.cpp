@@ -1700,7 +1700,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             }
         }
         return [eoc_id, given_unit]( dialogue const & ) {
-            std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> copy_queue =
+            queued_eocs copy_queue =
                 g->queued_global_effect_on_conditions;
             time_point turn;
             bool found = false;

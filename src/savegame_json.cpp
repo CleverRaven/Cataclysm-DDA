@@ -475,8 +475,7 @@ void SkillLevel::deserialize( const JsonObject &data )
     data.read( "istraining", _isTraining );
     data.read( "rustaccumulator", _rustAccumulator );
     if( !data.read( "lastpracticed", _lastPracticed ) ) {
-        _lastPracticed = calendar::start_of_cataclysm + time_duration::from_hours(
-                             get_option<int>( "INITIAL_TIME" ) );
+        _lastPracticed = calendar::start_of_game;
     }
     data.read( "knowledgeLevel", _knowledgeLevel );
     if( _knowledgeLevel < _level ) {
@@ -1490,8 +1489,7 @@ void Character::store( JsonOut &json ) const
     json.end_array();
 
     //save queued effect_on_conditions
-    std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> temp_queued(
-        queued_effect_on_conditions );
+    queued_eocs temp_queued( queued_effect_on_conditions );
     json.member( "queued_effect_on_conditions" );
     json.start_array();
     while( !temp_queued.empty() ) {

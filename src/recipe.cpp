@@ -704,6 +704,17 @@ std::string recipe::get_consistency_error() const
     return std::string();
 }
 
+static void set_new_comps( item &newit, int amount, item_components *used, bool is_food,
+                           bool is_cooked )
+{
+    if( is_food ) {
+        newit.components = *used;
+        newit.recipe_charges = amount;
+    } else {
+        newit.components = used->split( amount, 0, is_cooked );
+    }
+}
+
 std::vector<item> recipe::create_result( bool set_components, bool is_food,
         item_components *used ) const
 {
@@ -736,12 +747,7 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
 
     bool is_cooked = hot_result() || removes_raw();
     if( set_components ) {
-        if( is_food ) {
-            newit.components = *used;
-            newit.recipe_charges = amount;
-        } else {
-            newit.components = used->split( amount, 0, is_cooked );
-        }
+        set_new_comps( newit, amount, used, is_food, is_cooked );
     }
 
     if( contained ) {
@@ -754,7 +760,7 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
         std::vector<item> items;
         for( int i = 0; i < amount; i++ ) {
             if( set_components ) {
-                newit.components = used->split( amount, i, is_cooked );
+                set_new_comps( newit, amount, used, is_food, is_cooked );
             }
             items.push_back( newit );
         }
@@ -1290,6 +1296,27 @@ std::function<bool( const item & )> recipe::get_component_filter(
                frozen_filter( component ) &&
                magazine_filter( component );
     };
+}
+
+bool recipe::npc_can_craft( std::string &reason ) const
+{
+    if( is_practice() ) {
+        reason = _( "Ordering practice to NPC is not implemented yet." );
+        return false;
+    }
+    if( result()->phase != phase_id::SOLID ) {
+        reason = _( "Ordering no solid item to NPC is not implemented yet." );
+        return false;
+    }
+    if( !get_byproducts().empty() ) {
+        for( const std::pair<const itype_id, int> &bp : get_byproducts() ) {
+            if( bp.first->phase != phase_id::SOLID ) {
+                reason = _( "Ordering no solid item to NPC is not implemented yet." );
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 bool recipe::is_practice() const

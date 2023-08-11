@@ -37,7 +37,7 @@
     "professions": [ "sct_mid" ],
     "map_extra": "mx_sct_mid",
     "flags": [ "CITY_START", "LONE_START" ],
-    "custom_initial_date": { "hour": 8, "day": 45, "season": "summer" }
+    "start_of_game": { "hour": 8, "day": 45, "season": "summer" }
   },
   {
     "type": "scenario",
@@ -50,7 +50,7 @@
     "professions": [ "sct_late" ],
     "map_extra": "mx_sct_late",
     "flags": [ "CITY_START", "LONE_START" ],
-    "custom_initial_date": { "hour": 8, "day": 45, "season": "autumn" }
+    "start_of_game": { "hour": 8, "day": 45, "season": "autumn" }
   },
   {
     "id": "mx_sct_day1",

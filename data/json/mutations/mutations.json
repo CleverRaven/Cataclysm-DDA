@@ -128,7 +128,19 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "METABOLISM", "CARDIO", "CONSTITUTION", "DIET", "GRAZING", "THIRST" ],
-    "cancels": [ "ALCMET", "ANTIJUNK", "CARNIVORE_FAKE", "DEFT", "FAT", "GOURMAND", "HIBERNATE", "PROJUNK", "QUICK", "SAPROVORE" ],
+    "cancels": [
+      "ALCMET",
+      "ANTIJUNK",
+      "CARNIVORE_FAKE",
+      "DEFT",
+      "FAT",
+      "GOURMAND",
+      "HIBERNATE",
+      "PROJUNK",
+      "QUICK",
+      "SAPROVORE",
+      "PICKYEATER"
+    ],
     "description": "Your digestive system and cardio health are standard for a human."
   },
   {
@@ -257,7 +269,8 @@
       "NOPAIN",
       "SCHIZOPHRENIC",
       "TOLERANCE",
-      "TREE_COMMUNION"
+      "TREE_COMMUNION",
+      "VANITY"
     ],
     "description": "Your mind and brain chemistry are not mutated."
   },
@@ -1448,7 +1461,7 @@
     "description": "Things just keep getting you down.  You tend to be unhappy, and it takes some doing to cheer you up.",
     "starting_trait": true,
     "types": [ "ATTITUDE" ],
-    "category": [ "URSINE", "LIZARD", "CHIMERA" ]
+    "category": [ "URSINE", "LIZARD", "CHIMERA", "ALPHA" ]
   },
   {
     "type": "mutation",
@@ -1513,7 +1526,7 @@
     "description": "You have a hard time falling asleep, even under the best circumstances!",
     "types": [ "SLEEPINESS" ],
     "starting_trait": true,
-    "category": [ "MEDICAL" ],
+    "category": [ "MEDICAL", "ALPHA" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": -12 } ] } ]
   },
   {
@@ -1898,7 +1911,8 @@
       "CHIMERA",
       "SPIDER",
       "CRUSTACEAN"
-    ]
+    ],
+    "cancels": [ "VANITY" ]
   },
   {
     "type": "mutation",
@@ -6198,6 +6212,7 @@
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "PRETTY" ],
     "changes_to": [ "BEAUTIFUL2" ],
+    "leads_to": [ "VANITY" ],
     "category": [ "ALPHA", "ELFA" ]
   },
   {
@@ -6211,6 +6226,7 @@
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "BEAUTIFUL" ],
     "changes_to": [ "BEAUTIFUL3" ],
+    "leads_to": [ "VANITY" ],
     "category": [ "ALPHA", "ELFA" ],
     "threshreq": [ "THRESH_ALPHA", "THRESH_ELFA" ]
   },
@@ -6656,8 +6672,10 @@
     "description": "Your body is slowly wasting away!",
     "types": [ "HEALING" ],
     "prereqs": [ "ROT2" ],
+    "prereqs2": [ "STR_ALPHA", "DEX_ALPHA", "PER_ALPHA", "INT_ALPHA" ],
     "category": [ "ALPHA" ],
-    "healing_awake": -0.88,
+    "threshreq": [ "THRESH_ALPHA" ],
+    "healing_awake": -1.0,
     "healing_multiplier": 0.75
   },
   {
@@ -8671,26 +8689,6 @@
   },
   {
     "type": "mutation",
-    "id": "DEBUG_BIONIC_POWER",
-    "name": { "str": "Debug Bionic Power" },
-    "points": 99,
-    "valid": false,
-    "description": "For fueling your inner cybug.  Activate to increase power capacity by 100 (can be repeated).",
-    "debug": true,
-    "active": true
-  },
-  {
-    "type": "mutation",
-    "id": "DEBUG_BIONIC_POWERGEN",
-    "name": { "str": "Debug Bionic Powergen" },
-    "points": 99,
-    "valid": false,
-    "description": "Activate to increase power by an amount you specify (can be repeated).",
-    "debug": true,
-    "active": true
-  },
-  {
-    "type": "mutation",
     "id": "DEBUG_SPEED",
     "name": { "str": "Debug Speed" },
     "points": 99,
@@ -9145,5 +9143,37 @@
     "category": [ "CEPHALOPOD" ],
     "prereqs": [ "INT_UP_4" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VANITY",
+    "name": { "str": "Highly Vain" },
+    "points": -1,
+    "description": "You know you're beautiful, and the world deserves to know it too.  You prefer to show off your stunningly good looks to the world and will be unhappy if you cover up your face.",
+    "category": [ "ALPHA" ],
+    "prereqs": [ "BEAUTIFUL", "BEAUTIFUL2" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PICKYEATER",
+    "name": { "str": "Picky Eater" },
+    "points": -1,
+    "description": "You're a very picky eater.  You refuse to eat any food that tastes bad unless you're starving.",
+    "category": [ "ALPHA" ],
+    "starting_trait": true
+  },
+  {
+    "type": "mutation",
+    "id": "ALPHA_COMPLEX",
+    "name": { "str": "Superiority Complex" },
+    "points": 0,
+    "description": "You can't stand to prostrate yourself before your lessers and hate it when they don't immediately do what you say.  Persuasion is much more difficult, but you're better at lying and intimidating.",
+    "purifiable": false,
+    "types": [ "HUMAN_EMPATHY" ],
+    "social_modifiers": { "lie": 10, "persuade": -25, "intimidate": 10 },
+    "category": [ "ALPHA" ],
+    "prereqs": [ "INT_ALPHA", "PER_ALPHA" ],
+    "prereqs2": [ "STR_ALPHA", "DEX_ALPHA" ],
+    "threshreq": [ "THRESH_ALPHA" ]
   }
 ]

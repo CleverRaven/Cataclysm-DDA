@@ -204,7 +204,7 @@ struct islot_comestible {
 
 struct islot_brewable {
     /** What are the results of fermenting this item? */
-    std::vector<itype_id> results;
+    std::map<itype_id, int> results;
 
     /** How long for this brew to ferment. */
     time_duration time = 0_turns;

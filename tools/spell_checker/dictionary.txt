@@ -290,6 +290,8 @@ biofuel
 biofuels
 biographic
 biohacker
+biokinesis
+biokinetic
 biollante
 biomachine
 biomancer
@@ -1642,6 +1644,7 @@ lemony
 lemure
 lense
 leptoceratops
+lessers
 letal
 lettin
 leuchtet
@@ -1751,6 +1754,7 @@ massproduced
 masterkey
 mastiffs
 matar
+matchhead
 matryoshka
 mausketeer
 mausoleums
@@ -2344,6 +2348,8 @@ pushmower
 pussywillows
 putrescent
 pwn
+pyrokinesis
+pyrokinetic
 pyrolusite
 pyrolysis
 pyrometer
