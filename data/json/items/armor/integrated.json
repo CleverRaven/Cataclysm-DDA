@@ -1531,8 +1531,7 @@
     "id": "armor_bio_arm_l",
     "type": "ARMOR",
     "name": { "str_sp": "bionic plating - left arm" },
-    "copy_from": "armor_bio_arms_basic",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT" ],
+    "copy-from": "armor_bio_arms_basic",
     "armor": [
       {
         "material": [
@@ -1550,8 +1549,7 @@
     "id": "armor_bio_arm_r",
     "type": "ARMOR",
     "name": { "str_sp": "bionic plating - right arm" },
-    "copy_from": "armor_bio_arms_basic",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT" ],
+    "copy-from": "armor_bio_arms_basic",
     "armor": [
       {
         "material": [
@@ -1599,8 +1597,7 @@
     "id": "armor_bio_leg_l",
     "type": "ARMOR",
     "name": { "str_sp": "bionic plating - left leg" },
-    "copy_from": "armor_bio_legs_basic",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT" ],
+    "copy-from": "armor_bio_legs_basic",
     "armor": [
       {
         "material": [
@@ -1618,8 +1615,7 @@
     "id": "armor_bio_leg_r",
     "type": "ARMOR",
     "name": { "str_sp": "bionic plating - right leg" },
-    "copy_from": "armor_bio_legs_basic",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "NO_SALVAGE", "PADDED", "ZERO_WEIGHT" ],
+    "copy-from": "armor_bio_legs_basic",
     "armor": [
       {
         "material": [
