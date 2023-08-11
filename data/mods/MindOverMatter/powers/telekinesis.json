@@ -112,7 +112,7 @@
     "id": "telekinetic_slowfall",
     "type": "SPELL",
     "name": "[Ψ]Slowfall",
-    "description": "Counteract the pull of gravity with telekinetic force, greatly reducing or even eliminating damage from falling and becoming much more bouyant.",
+    "description": "Counteract the pull of gravity with telekinetic force, greatly reducing or even eliminating damage from falling and becoming much more buoyant.",
     "//": "If player flying ever becomes possible, it'll build off this.",
     "message": "You feel lighter.",
     "valid_targets": [ "self" ],
