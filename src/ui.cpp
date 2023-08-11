@@ -14,7 +14,6 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "game.h"
-#include "gamemode_defense.h"
 #include "input.h"
 #include "memory_fast.h"
 #include "output.h"
