@@ -5,7 +5,21 @@
     "dynamic_line": "Hello, and welcome to Defense Mode!  Please alter the options as you desire, then we'll get started!",
     "responses": [
       { "text": "Enemy Options", "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION" },
-      { "text": "Preset Game Options", "topic": "TALK_DEFENSE_MODE_PRESET_GAME_MENU" }
+      { "text": "Preset Game Options", "topic": "TALK_DEFENSE_MODE_PRESET_GAME_MENU" },
+      {
+        "text": "Play!",
+        "condition": {
+          "or": [
+            { "math": [ "regular_zombies_allowed", "==", "1" ] },
+            { "math": [ "special_zombies_allowed", "==", "1" ] },
+            { "math": [ "spiders_allowed", "==", "1" ] },
+            { "math": [ "triffids_allowed", "==", "1" ] },
+            { "math": [ "robots_allowed", "==", "1" ] },
+            { "math": [ "subspace_allowed", "==", "1" ] }
+          ]
+        },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -85,7 +99,20 @@
         "effect": { "math": [ "subspace_allowed", "=", "0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
-      { "text": "Play!", "topic": "TALK_DONE" },
+      {
+        "text": "Play!",
+        "condition": {
+          "or": [
+            { "math": [ "regular_zombies_allowed", "==", "1" ] },
+            { "math": [ "special_zombies_allowed", "==", "1" ] },
+            { "math": [ "spiders_allowed", "==", "1" ] },
+            { "math": [ "triffids_allowed", "==", "1" ] },
+            { "math": [ "robots_allowed", "==", "1" ] },
+            { "math": [ "subspace_allowed", "==", "1" ] }
+          ]
+        },
+        "topic": "TALK_DONE"
+      },
       { "text": "Return to main menu.", "topic": "TALK_DEFENSE_MODE_MAIN_MENU" }
     ]
   },
@@ -104,10 +131,10 @@
           { "math": [ "robots_allowed", "=", "0" ] },
           { "math": [ "subspace_allowed", "=", "0" ] },
           {
-            "u_location_variable": { "global_val": "bar" },
+            "u_location_variable": { "global_val": "your_spawnpoint" },
             "target_params": { "om_terrain": "bar", "search_range": 500, "z": 0 }
           },
-          { "u_teleport": { "global_val": "bar" } },
+          { "u_teleport": { "global_val": "your_spawnpoint" } },
           { "mapgen_update": "shaun_of_the_dead_spawns" }
         ],
         "topic": "TALK_DONE"
@@ -146,10 +173,10 @@
           { "math": [ "robots_allowed", "=", "0" ] },
           { "math": [ "subspace_allowed", "=", "0" ] },
           {
-            "u_location_variable": { "global_val": "mansion_c5" },
-            "target_params": { "om_terrain": "mansion_c5", "search_range": 500, "z": 0 }
+            "u_location_variable": { "global_val": "your_spawnpoint" },
+            "target_params": { "om_terrain": "mansion_e2", "search_range": 500, "z": 0 }
           },
-          { "u_teleport": { "global_val": "mansion_c5" } }
+          { "u_teleport": { "global_val": "your_spawnpoint" } }
         ],
         "topic": "TALK_DONE"
       },
