@@ -522,7 +522,7 @@ void npc::assess_danger()
         // Unlike allies, hostile npcs should not see invisible players
         ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
     }
-
+    
     for( const monster &critter : g->all_monsters() ) {
         if( !clairvoyant && !here.has_potential_los( pos(), critter.pos() ) ) {
             continue;
@@ -557,7 +557,7 @@ void npc::assess_danger()
         if( !clear_shot_reach( pos(), critter.pos(), false ) ) {
             continue;
         }
-
+        
         float scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
         float hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
         float critter_danger = std::max( critter_threat * ( hp_percent * 0.5f + 0.5f ),
@@ -595,11 +595,12 @@ void npc::assess_danger()
             ai_cache.danger = critter_danger;
         }
     }
-
+    
     if( assessment == 0.0 && ai_cache.hostile_guys.empty() ) {
         ai_cache.danger_assessment = assessment;
         return;
     }
+    
     const auto handle_hostile = [&]( const Character & foe, float foe_threat,
     const std::string & bogey, const std::string & warning ) {
         int dist = rl_dist( pos(), foe.pos() );
@@ -627,6 +628,7 @@ void npc::assess_danger()
             }
         }
 
+        
         if( !is_player_ally() || is_too_close || ok_by_rules( foe, dist, scaled_distance ) ) {
             float priority = std::max( foe_threat - 2.0f * ( scaled_distance - 1 ),
                                        is_too_close ? std::max( foe_threat, NPC_DANGER_VERY_LOW ) :
@@ -641,7 +643,7 @@ void npc::assess_danger()
         }
         return foe_threat;
     };
-
+    
     for( const weak_ptr_fast<Creature> &guy : ai_cache.hostile_guys ) {
         Character *foe = dynamic_cast<Character *>( guy.lock().get() );
         if( foe && foe->is_npc() ) {
@@ -649,7 +651,7 @@ void npc::assess_danger()
                                           "kill_npc" );
         }
     }
-
+    
     for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
         if( !( guy.lock() && guy.lock()->is_npc() ) ) {
             continue;
@@ -658,7 +660,7 @@ void npc::assess_danger()
         float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
         assessment = std::max( min_danger, assessment - guy_threat * 0.5f );
     }
-
+    
     if( sees( player_character.pos() ) ) {
         // Mod for the player
         // cap player difficulty at 150
@@ -672,11 +674,12 @@ void npc::assess_danger()
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
     }
+    
     assessment *= 0.5f;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
         float my_diff = evaluate_enemy( *this ) * 0.5f + rng( 0, personality.bravery * 2 );
+        add_msg_debug( debugmode::DF_NPC, "assessment: %1f, diff: %2f.", assessment, my_diff );
         if( my_diff < assessment ) {
-            add_msg_debug( debugmode::DF_NPC, "assessment: %1f, diff: %2f.", assessment, my_diff );
             time_duration run_away_for = 10_turns + 1_turns * rng( 0, 10 ) - 1_turns * personality.bravery;
             warn_about( "run_away", run_away_for );
             add_effect( effect_npc_run_away, run_away_for );
