@@ -152,7 +152,7 @@
     "name": "[Ψ]Radiation Decontamination",
     "description": "Use your powers to isolate and flush radiation from your body.  Depending on your level of contamination, this power may have serious side effects.",
     "message": "You focus your powers on the corruption infusing your flesh.",
-    "valid_targets": [ "hostile" ],
+    "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
