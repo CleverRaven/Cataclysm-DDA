@@ -112,6 +112,8 @@ static bool isWide = false;
 #define COL_SKILL_USED      c_green   // A skill with at least one point
 #define COL_HEADER          c_white   // Captions, like "Profession items"
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
+#define COL_DATE_FIXED      c_light_red  // Fixed part of cataclysm/game start date
+#define COL_DATE_RANDOM     c_light_cyan  // Random part of cataclysm/game start date
 
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 
@@ -3048,13 +3050,15 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
                                 current_scenario->gender_appropriate_name( !u.male ) ) + "\n";
     if( current_scenario->is_random_start_of_cataclysm() ) {
         assembled += string_format(
-                         _( "Press <color_light_green>%1$s</color> to randomize cataclysm start date." ),
-                         ctxt.get_desc( "RANDOMIZE_SCENARIO_START_OF_CATACLYSM" ) ) + "\n";
+                         _( "Press <color_light_green>%1$s</color> to randomize (or <color_light_green>%2$s</color> to reset) cataclysm start date." ),
+                         ctxt.get_desc( "RANDOMIZE_SCENARIO_START_OF_CATACLYSM" ),
+                         ctxt.get_desc( "RESET_SCENARIO_START_OF_CATACLYSM" ) ) + "\n";
     }
     if( current_scenario->is_random_start_of_game() ) {
         assembled += string_format(
-                         _( "Press <color_light_green>%1$s</color> to randomize game start date." ),
-                         ctxt.get_desc( "RANDOMIZE_SCENARIO_START_OF_GAME" ) ) + "\n";
+                         _( "Press <color_light_green>%1$s</color> to randomize (or <color_light_green>%2$s</color> to reset) game start date." ),
+                         ctxt.get_desc( "RANDOMIZE_SCENARIO_START_OF_GAME" ),
+                         ctxt.get_desc( "RESET_SCENARIO_START_OF_GAME" ) ) + "\n";
     }
 
     assembled += "\n" + colorize( _( "Scenario Story:" ), COL_HEADER ) + "\n";
@@ -3108,24 +3112,43 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
         assembled += current_scenario->vehicle()->name + "\n";
     }
 
-    if( current_scenario->start_of_cataclysm() != calendar::turn_zero ||
-        current_scenario->is_random_start_of_cataclysm() ) {
-        assembled += "\n" + colorize( _( "Start of cataclysm:" ), COL_HEADER ) + "\n";
-        assembled += string_format( _( "Hour %1$d of %3$s, day %2$d (year %4$d)" ),
-                                    current_scenario->start_of_cataclysm_hour(),
-                                    current_scenario->start_of_cataclysm_day() + 1,
-                                    calendar::name_season( current_scenario->start_of_cataclysm_season() ),
-                                    current_scenario->start_of_cataclysm_year() ) + "\n";
-    }
-    if( current_scenario->start_of_game() != current_scenario->start_of_cataclysm() + 8_hours ||
-        current_scenario->is_random_start_of_game() ) {
-        assembled += "\n" + colorize( _( "Start of game:" ), COL_HEADER ) + "\n";
-        assembled += string_format( _( "Hour %1$d of %3$s, day %2$d (year %4$d)" ),
-                                    current_scenario->start_of_game_hour(),
-                                    current_scenario->start_of_game_day() + 1,
-                                    calendar::name_season( current_scenario->start_of_game_season() ),
-                                    current_scenario->start_of_game_year() ) + "\n";
-    }
+    assembled += "\n" + colorize( string_format( _( "Start of cataclysm (%s):" ),
+                                  current_scenario->is_random_start_of_cataclysm()
+                                  ? colorize( "random", COL_DATE_RANDOM )
+                                  : colorize( "fixed",  COL_DATE_FIXED ) ), COL_HEADER ) + "\n";
+    assembled += string_format( _( "Hour %1$s of %3$s, day %2$s (year %4$s)" ),
+                                colorize( string_format( "%d",
+                                          current_scenario->start_of_cataclysm_hour() ),
+                                          current_scenario->is_random_start_of_cataclysm_hour() ? COL_DATE_RANDOM : COL_DATE_FIXED ),
+                                colorize( string_format( "%d",
+                                          current_scenario->start_of_cataclysm_day() + 1 ),
+                                          current_scenario->is_random_start_of_cataclysm_day() ? COL_DATE_RANDOM : COL_DATE_FIXED ),
+                                colorize( string_format( "%s",
+                                          calendar::name_season( current_scenario->start_of_cataclysm_season() ) ),
+                                          current_scenario->is_random_start_of_cataclysm_season() ? COL_DATE_RANDOM : COL_DATE_FIXED ),
+                                colorize( string_format( "%d",
+                                          current_scenario->start_of_cataclysm_year() + 1 ),
+                                          current_scenario->is_random_start_of_cataclysm_year() ? COL_DATE_RANDOM : COL_DATE_FIXED )
+                              ) + "\n";
+    assembled += "\n" + colorize( string_format( _( "Start of game (%s):" ),
+                                  current_scenario->is_random_start_of_game()
+                                  ? colorize( "random", COL_DATE_RANDOM )
+                                  : colorize( "fixed",  COL_DATE_FIXED ) ), COL_HEADER ) + "\n";
+    assembled += string_format( _( "Hour %1$s of %3$s, day %2$s (year %4$s)" ),
+                                colorize( string_format( "%d",
+                                          current_scenario->start_of_game_hour() ),
+                                          current_scenario->is_random_start_of_game_hour() ? COL_DATE_RANDOM : COL_DATE_FIXED ),
+                                colorize( string_format( "%d",
+                                          current_scenario->start_of_game_day() + 1 ),
+                                          current_scenario->is_random_start_of_game_day() ? COL_DATE_RANDOM : COL_DATE_FIXED ),
+                                colorize( string_format( "%s",
+                                          calendar::name_season( current_scenario->start_of_game_season() ) ),
+                                          current_scenario->is_random_start_of_game_season() ? COL_DATE_RANDOM : COL_DATE_FIXED ),
+                                colorize( string_format( "%d",
+                                          current_scenario->start_of_game_year() + 1 ),
+                                          current_scenario->is_random_start_of_game_year() ? COL_DATE_RANDOM : COL_DATE_FIXED )
+                              ) + "\n";
+
     if( !current_scenario->missions().empty() ) {
         assembled += "\n" + colorize( _( "Scenario missions:" ), COL_HEADER ) + "\n";
         for( mission_type_id mission_id : current_scenario->missions() ) {
@@ -3196,6 +3219,8 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_action( "RANDOMIZE" );
     ctxt.register_action( "RANDOMIZE_SCENARIO_START_OF_GAME" );
     ctxt.register_action( "RANDOMIZE_SCENARIO_START_OF_CATACLYSM" );
+    ctxt.register_action( "RESET_SCENARIO_START_OF_GAME" );
+    ctxt.register_action( "RESET_SCENARIO_START_OF_CATACLYSM" );
 
     bool recalc_scens = true;
     size_t scens_length = 0;
@@ -3373,6 +3398,20 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 get_scenario()->rerandomize( false, true );
             } else {
                 sorted_scens[cur_id]->rerandomize( false, true );
+            }
+            details_recalc = true;
+        } else if( action == "RESET_SCENARIO_START_OF_CATACLYSM" ) {
+            if( cur_id != id_for_curr_description ) {
+                get_scenario()->reset_start_of_dates( true, false );
+            } else {
+                sorted_scens[cur_id]->reset_start_of_dates( true, false );
+            }
+            details_recalc = true;
+        } else if( action == "RESET_SCENARIO_START_OF_GAME" ) {
+            if( cur_id != id_for_curr_description ) {
+                get_scenario()->reset_start_of_dates( false, true );
+            } else {
+                sorted_scens[cur_id]->reset_start_of_dates( false, true );
             }
             details_recalc = true;
         }

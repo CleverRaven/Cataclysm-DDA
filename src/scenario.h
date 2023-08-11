@@ -57,13 +57,13 @@ class scenario
 
         bool reveal_locale = true;
 
-        bool _is_random_start_of_cataclysm_hour = false;
-        bool _is_random_start_of_cataclysm_day = false;
-        bool _is_random_start_of_cataclysm_season = false;
-        bool _is_random_start_of_cataclysm_year = false;
+        bool _is_random_start_of_cataclysm_hour = true;
+        bool _is_random_start_of_cataclysm_day = true;
+        bool _is_random_start_of_cataclysm_season = true;
+        bool _is_random_start_of_cataclysm_year = true;
 
         int _start_of_cataclysm_hour = 0;
-        int _start_of_cataclysm_day = 0;
+        int _start_of_cataclysm_day = 60;
         season_type _start_of_cataclysm_season = SPRING;
         int _start_of_cataclysm_year = 1;
 
@@ -73,7 +73,7 @@ class scenario
         bool _is_random_start_of_game_year = false;
 
         int _start_of_game_hour = 8;
-        int _start_of_game_day = 0;
+        int _start_of_game_day = 60;
         season_type _start_of_game_season = SPRING;
         int _start_of_game_year = 1;
 
@@ -120,6 +120,10 @@ class scenario
 
         void rerandomize( bool randomize_start_of_cataclysm = true,
                           bool randomize_start_of_game = true ) const;
+        void update_start_dates() const;
+
+        void reset_start_of_dates( bool reset_start_of_cataclysm = true,
+                                   bool reset_start_of_game = true ) const;
 
         bool is_random_start_of_cataclysm_hour() const;
         bool is_random_start_of_cataclysm_day() const;

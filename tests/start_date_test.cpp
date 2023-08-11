@@ -16,7 +16,6 @@ static const string_id<scenario> scenario_test_random_year( "test_random_year" )
 
 TEST_CASE( "Test_start_dates" )
 {
-    int default_initial_day = 0;
     int default_season_length = 91;
     int default_year_length = default_season_length * 4;
 
@@ -25,17 +24,6 @@ TEST_CASE( "Test_start_dates" )
         set_scenario( scenario::generic() );
     } };
 
-    SECTION( "Default game start date with no scenario" ) {
-        scenario scen = *scenario::generic();
-
-        set_scenario( &scen );
-        scen.rerandomize();
-        g->start_calendar();
-
-        CHECK( calendar::start_of_game >= calendar::turn_zero + 1_days * default_initial_day + 0_hours );
-        CHECK( calendar::start_of_game <= calendar::turn_zero + 1_days * default_initial_day + 23_hours );
-    }
-
     SECTION( "Scenario with custom game start date" ) {
         scenario scen = scenario_test_custom_game.obj();
 
@@ -43,7 +31,6 @@ TEST_CASE( "Test_start_dates" )
         scen.rerandomize();
         g->start_calendar();
 
-        CHECK( calendar::start_of_cataclysm == calendar::turn_zero );
         CHECK( calendar::start_of_game == calendar::turn_zero +
                1_hours * 18 +
                1_days * 7 +
@@ -59,8 +46,7 @@ TEST_CASE( "Test_start_dates" )
         scen.rerandomize();
         g->start_calendar();
 
-        CHECK( calendar::start_of_cataclysm == calendar::turn_zero );
-        CHECK( calendar::start_of_game == calendar::turn_zero );
+        CHECK( calendar::start_of_game == calendar::start_of_cataclysm );
     }
 
     SECTION( "Scenario with custom cataclysm start date" ) {
