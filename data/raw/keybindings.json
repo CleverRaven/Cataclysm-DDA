@@ -4336,7 +4336,7 @@
     "type": "keybinding",
     "category": "WISH_ITEM",
     "id": "SCROLL_DESC_DOWN",
-    "name": "Scroll item description DOWN",
+    "name": "Scroll item description Down",
     "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
@@ -4347,7 +4347,7 @@
     "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
   },
   {
-    "type": "keybinding"
+    "type": "keybinding",
     "id": "SCROLL_ITEM_INFO_DOWN",
     "category": "VENDING_MACHINE",
     "name": "Scroll item info down",
