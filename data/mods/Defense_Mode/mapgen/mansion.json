@@ -143,7 +143,6 @@
       }
     }
   },
-  
   {
     "type": "mapgen",
     "method": "json",
