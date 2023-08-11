@@ -1,5 +1,4 @@
 #include "gamemode.h"
-#include "gamemode_defense.h"
 #include "gamemode_tutorial.h"
 
 #include "debug.h"
