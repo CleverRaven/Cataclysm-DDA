@@ -275,17 +275,11 @@ tripoint npc::good_escape_direction( bool include_pos )
         const zone_manager &mgr = zone_manager::get_manager();
         std::optional<tripoint_abs_ms> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
                 fac_id );
-        // if there is a retreat zone in range, go there
-        if( !retreat_target ) {
-            //if not, regroup on the player
-            tripoint_bub_ms player_pos = get_player_character().pos_bub();
-            retreat_target = here.getglobal( player_pos );
-        }
         if( retreat_target && *retreat_target != abs_pos ) {
             update_path( here.getlocal( *retreat_target ) );
-        }
-        if( !path.empty() ) {
-            return path[0];
+            if( !path.empty() ) {
+                return path[0];
+            }
         }
     }
 
@@ -683,7 +677,7 @@ void npc::assess_danger()
         float my_diff = evaluate_enemy( *this ) * 0.5f + rng( 0, personality.bravery * 2 );
         if( my_diff < assessment ) {
             add_msg_debug( debugmode::DF_NPC, "assessment: %1f, diff: %2f.", assessment, my_diff );
-            time_duration run_away_for = 5_turns + 1_turns * rng( 0, 5 );
+            time_duration run_away_for = 10_turns + 1_turns * rng( 0, 10 ) - 1_turns * personality.bravery;
             warn_about( "run_away", run_away_for );
             add_effect( effect_npc_run_away, run_away_for );
             path.clear();
