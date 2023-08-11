@@ -120,7 +120,8 @@
       },
       { "name": "post-it", "id": "lab_postit_psi_48", "text": "Can't block them out anymore" },
       { "name": "post-it", "id": "lab_postit_psi_49", "text": "Can they go through halfway?" },
-      { "name": "post-it", "id": "lab_postit_psi_50", "text": "Same dream, every night" }
+      { "name": "post-it", "id": "lab_postit_psi_50", "text": "Same dream, every night" },
+      { "name": "post-it", "id": "lab_postit_psi_51", "text": "Great, some of the mice escaped" }
     ]
   },
   {
@@ -135,7 +136,22 @@
       {
         "name": "Notes written on the back of an unimportant memo",
         "id": "lab_file_biokinesis_02",
-        "text": "Treadmills?  Blood ox tests?  Have them try to punch through walls or something\nAny cellular difference?  Should check\nBrains show no difference but what about organs?  Lactic acid production, inflammation, blood flow, etc.\n\nOutrun a horse?\n\nYeah, yeah, faster than a speeding bullet.  VERDANT HAND vs ONYX LIGHTNING?\nOh come on.\nWhat about jumping distance?  Height?\n\n\n*a doodle of two stick figures engaged in a martial arts battle*\n"
+        "text": "Treadmills?  Blood ox tests?  Have them try to punch through walls or something\nAny cellular difference?  Should check\nBrains show no difference but what about organs?  Lactic acid production, inflammation, blood flow, etc.\n\nOutrun a horse?\n\nYeah, yeah, faster than a speeding bullet.  VERDANT HAND vs ONYX LIGHTNING?\nOh come on.\nWhat about jumping distance?  Height?\n\n\n*a doodle of two stick figures engaged in a martial arts battle*\nActually do the shoryuken.  Too bad gun still beats fist\nHadoken? Wouldn't surprise me at this point\nGrip strength tests?  Charts?  zzzzz  *a surprisingly-detailed picture of a curled-up sleeping cat*\nSummary: Ban them from the Olympics"
+      },
+      {
+        "name": "Come One, Come All!",
+        "id": "lab_file_biokinesis_03",
+        "text": "The battle of the century! H84 and E94 will fight to determine the true greatest VERDANT HAND graduate!  No holds barred, no attacks banned, no referee, don't sit in the front row or you might ruin your clothes!  Be there or be square!\n\n*below the text is an picture of a man and a woman striking a boxing pose at each other in an ordinary office room.  Both are wearing street clothes and baring their teeth at each other.  The date of the fight is one week before the end of the world*"
+      },
+      {
+        "name": "incident report: 385924",
+        "id": "lab_file_biokinesis_04",
+        "text": "Upon leaving for the evening, Dr. Erikson neglected to seal cage #3, allowing one of experimental mice (#748562) to gain access to the matrix crystal supplies.  One crystal discharged, affecting 748562 and apparently causing an awakening.  748562 escaped the room, squeezing under the door, and is currently loose within the facility.\n\nDr. Erickson has been placed on administrative leave pending a full investigation and new procedures for storing matrix crystals are currently being implemented.  A search for 748562 is still underway."
+      },
+      {
+        "name": "torn notebook page",
+        "id": "lab_file_biokinesis_05",
+        "text": "wanted me to keep a logbook of my daily exercise but I don't understand the point.  I run, I lift, I sleep, that's about all these have me do here.  What, they want \"5:40 a.m.: 30 reps 250 lbs, run 20 minutes, 100 burpees (10 sets)\" blah blah who cares?  That shit doesn't matter.  We're all trapped here and things are going to hell and we got some kind of poison in our bodies that's going to bring us back when we die so we can eat brains.\n\nWell, fine, here's my log: 6:05 a.m.: 50 reps 400 lbs, sprint 10 minutes, 200 pull-ups, triple sommersault from a standing start.  Put me in the Olympics right now."
       }
     ]
   },
@@ -151,7 +167,7 @@
       {
         "name": "incident report: 897237",
         "id": "lab_file_telepathy_02",
-        "text": "INCIDENT REPORT: 897237\n\nDuring a routine visit by Dr. Davies, at 1134 a COLD BELOW mathematician diverted from their standard schedule and entered the room where Dr. Davies was being briefed about netherum mathematics developments.  The mathematician stared at Dr. Davies for approximately three seconds and then, before security could intervene, physically attacked the doctor with their bare hands.  Witnesses report the mathematician incoherently screaming, mixed with statements such as \"You'll kill us all\" and \"Stop, stop stop\".  The mathematician continued to scream until restrained and sedated.\n\nFollow-up: COLD BELOW overseers received official reprimand and required to attend additional training.  Mathematician diverted to project SUBSTRATE."
+        "text": "During a routine visit by Dr. Davies, at 1134 a COLD BELOW mathematician diverted from their standard schedule and entered the room where Dr. Davies was being briefed about netherum mathematics developments.  The mathematician stared at Dr. Davies for approximately three seconds and then, before security could intervene, physically attacked the doctor with their bare hands.  Witnesses report the mathematician incoherently screaming, mixed with statements such as \"You'll kill us all\" and \"Stop, stop stop\".  The mathematician continued to scream until restrained and sedated.\n\nFollow-up: COLD BELOW overseers received official reprimand and required to attend additional training.  Mathematician diverted to project SUBSTRATE."
       },
       {
         "name": "AAR ID# T38-11",
@@ -162,6 +178,22 @@
         "name": "Project DRIVING MIST (update)",
         "id": "lab_file_telepathy_04",
         "text": "We've been trying to find the medium that telepathy works by and have come up empty.  It works, it's replicable, that means it's amenable to the scientific method, right?  Okay.  It's not affected by gravity.  It's not affected by the atmosphere, since people in sealed rooms or environment suits can still communicate with others.  It's not affected by physical barriers, neither lead not steel nor a tinfoil hat.  It's not affected by light lag, either, so we finally have proof that FTL is possible at least for some things.  We've tried to send messages into the past but so far no luck--maybe we don't have a large enough distance between receivers?  Without an amplifier the range is still very short, so we can't do a two-way test.  We put the data into Melchior and didn't get any conclusive reply.\n\nI'll report back in two weeks as scheduled.  I refuse to throw up my hands and say \"It's magic, who knows how it works?\"  If it affects the physical world it must obey some set of physical laws."
+      },
+      {
+        "name": "testing report N2-7394",
+        "id": "lab_file_telepathy_05",
+        "text": "1) Subject native Arabic speaker.  Asked to think of word sequence in English.  Mathematician successfully determined sequence word.  Asked to think of word sequence in Arabic, GRAY DAWN unable to determine word boundaries and isolate words.\n2) Subject native English speaker.  Asked to attempt to think of Chinese poem (phonetic transcription provided).  Mathematician able to isolate word on second attempt.\n3) Subject native English speaker.  Asked to think of word randomly-generated using English phonemes.  Mathematician able to isolate word on second attempt.\n4) Subject native French speaker; also fluent in German, English, and Italian with some ability in Romanian, Latin, and Russian.  Asked to think of a word sequence in Russian.  Mathematician unable to isolate sequence word despite six attempts.\n6) Subject native Yiddish speaker.  Asked to think of word in German, which the subject did not speak.  Mathematician able to isolate word on third attempt.\n7) Subject native English speaker.  Asked to think of word sequence in Sindarian, the invented language from \"The Lord of the Rings\".  Mathematician unable to isolate word despite six attempts.\n\nUnfortunately, a deficit of mathematicians who lack English fluency limits the range of our experiments.  Nonetheless, the results are consistent with there being no universal language of thought."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_telekinesis",
+    "text": [
+      {
+        "name": "It's all just motion",
+        "id": "lab_file_telekinesis_01",
+        "text": "Why is there a distinction between pyrokinesis and telekinesis at all?  Fire isn't a fundamental element, it's the result of heat which is the result of molecular motion.  There's no conceptual reason why a pyrokinetic couldn't make all the molecules of an object move in a particular direction, producing motion of the entire object, or a telekinetic couldn't produce a more chaotic motion that resulted in the object's energy increasing.  Furthermore, in no test has a telekinetic been able to move part of an object unless that part is designe for motion; pulling a lever is possible, but breaking a plate in half is not.  And a pyrokinetic cannot apply the reverse and slow down an object's molecules to reduce heat unless that object is on fire.\n\nMy theory is that it's all psychological.  We've all grown up with modern culture and stories about what psychics are \"supposed\" to be capable of, and so the matrix crystals and Netherum mathematics shape the candidates' abilities toward those pre-determined pathways.  If we could get a SMOKE USHER candidate from an uncontacted tribe, maybe they'd be able to induce diseases in their targets or steal or their soul, in accordance with that tribe's belief practices about supernatural powers.  But since our candidates come from a culture where pyrokinesis and telekinesis are separate things and geokinesis or osteokinesis are very rare in fiction, the former result from awakenings and the latter do not.\n\nI would like to formally request a wider variety of cultural backgrounds for our project candidates to test this theory."
       }
     ]
   },
@@ -183,7 +215,12 @@
         "name": "Treatment time until complete recovery",
         "id": "lab_file_vitakinesis_03",
         "text": "Common cold: 34 hours\n\nInfluenza: 27 hours\n\nMononucleosis: 85 hours\n\nNorovirus: 26 hours\n\nGonorrhea: 43 hours\n\nHepatitis C: 71 hours\n\nHIV: 148 hours\n\nMalaria: 112 hours\n\nSmallpox: 76 hours\n\nEbola: 93 hours"
-      }
+      },
+      {
+        "name": "Zombie Revivification",
+        "id": "lab_file_vitakinesis_04",
+        "text": "Gentlemen, can we cure death?\n\nSorry, I had to.  Anyway, the answer is no.  We had multiple SMOKE USHER candidates try everything they could against a properly-restrained zombie and no luck.  The furthest we got was D93 managed to discover some way to kill zombies faster; her attempt to restart the normal biological processes caused accelerated decay and resulted in the zombie returning to an inert state after approximately thirty minutes from initial contact.  Subsequent revivication was delayed for an additional six hours.\n\nFurther testing on lab rats indicate that this ability functions on living subject as well.  I plan to start human testing once the lockdown ends and I can acquire suitable volunteers."
+       }
     ]
   },
   {
