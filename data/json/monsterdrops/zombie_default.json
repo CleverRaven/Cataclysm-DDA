@@ -244,7 +244,7 @@
         "prob": 15
       },
       {
-        "distribution": [ { "item": "gum", "count": [ 1, 10 ], }, { "item": "caff_gum", "count": [ 1, 5 ] } ],
+        "distribution": [ { "item": "gum", "count": [ 1, 10 ] }, { "item": "caff_gum", "count": [ 1, 5 ] } ],
         "prob": 30
       },
       { "item": "mp3", "prob": 18, "charges-min": 0, "charges-max": 15 },
