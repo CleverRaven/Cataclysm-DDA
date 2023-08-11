@@ -61,7 +61,7 @@
       { "item": "trimmer_off", "prob": 30, "charges": [ 50, 100 ] },
       [ "fertilizer_liquid", 50 ],
       [ "dahlia_root", 30 ],
-      [ "fertilizer_commercial", 25 ]
+      [ "fertilizer_commercial", 25, "count": [ 100, 100 ] ]
     ]
   },
   {
@@ -84,16 +84,16 @@
       { "group": "adhesive_bandages_box_full", "prob": 25 },
       { "group": "full_1st_aid", "prob": 15 },
       { "group": "full_ifak", "prob": 15 },
-      [ "vitamins", 75 ],
-      [ "calcium_tablet", 75 ],
-      [ "aspirin", 45 ],
-      [ "caffeine", 50 ],
-      [ "pills_sleep", 45 ],
-      [ "melatonin_tablet", 30 ],
+      [ "vitamins", 75, "count": [ 30, 30 ] ],
+      [ "calcium_tablet", 75, "count": [ 30, 30 ] ],
+      [ "aspirin", 45, "count": [ 30, 30 ] ],
+      [ "caffeine", 50, "count": [ 30, 30 ] ],
+      [ "pills_sleep", 45, "count": [ 30, 30 ] ],
+      [ "melatonin_tablet", 30, "count": [ 30, 30 ] ],
       [ "disinfectant", 15 ],
-      [ "protein_powder", 40 ],
-      [ "caff_gum", 30 ],
-      [ "nic_gum", 25 ],
+      [ "protein_powder", 40, "count": [ 9, 9 ] ],
+      [ "caff_gum", 30, "count": [ 10, 10 ] ],
+      [ "nic_gum", 25, "count": [ 10, 10 ] ],
       [ "bathroom_scale", 20 ]
     ]
   },
@@ -304,7 +304,7 @@
       { "prob": 70, "group": "tobacco_bag_plastic_20" },
       { "group": "cigar_box_unopened", "prob": 15, "count": [ 1, 10 ] },
       { "item": "case_cigar", "prob": 20, "count": [ 1, 5 ] },
-      { "item": "weed", "prob": 5, "count": 5 },
+      { "item": "weed", "prob": 5, "count": 5, "count": [ 5, 5 ] },
       { "item": "joint", "prob": 5 },
       { "item": "seed_weed", "prob": 5, "count": 2 },
       { "item": "seed_tobacco", "prob": 5 },
