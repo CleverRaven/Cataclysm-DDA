@@ -1,5 +1,5 @@
 [
- {
+  {
     "type": "mapgen",
     "update_mapgen_id": "shaun_of_the_dead_spawns",
     "method": "json",
