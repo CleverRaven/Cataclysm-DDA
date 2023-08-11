@@ -73,7 +73,7 @@
     "id": "drugs_analgesic",
     "type": "item_group",
     "//": "Painkillers balanced according to rarity excluding illicit drugs",
-    "items": [ [ "aspirin", 150, "count": [ 30, 30 ] ], [ "codeine", 30, "count": [ 20, 20 ] ], [ "tramadol", 30, "count": [ 20, 20 ] ], [ "morphine", 5, "count": [ 4, 4 ] ], [ "oxycodone", 20, "count": [ 20, 20 ] ] ]
+    "items": [ { "item": "aspirin", "prob": 150, "count": [ 30, 30 ] }, { "item": "codeine", "prob": 30, "count": [ 20, 20 ] }, { "item": "tramadol", "prob": 30, "count": [ 20, 20 ] }, { "item": "morphine", "prob": 5, "count": [ 4, 4 ] ], { "item": "oxycodone", "prob": 20, "count": [ 20, 20 ] } ]
   },
   {
     "id": "drugs_heal_simple",
@@ -81,7 +81,7 @@
     "//": "Common healing items found almost everywhere",
     "items": [
       { "group": "used_1st_aid", "prob": 5 },
-      [ "aspirin", 500, "count": [ 1, 30 ] ],
+      { "item": "aspirin", "prob": 500, "count": [ 1, 30 ] },
       { "group": "alcohol_wipes_box_used", "prob": 40 },
       { "item": "bandages", "prob": 30, "count": [ 1, 3 ] },
       [ "liq_bandage_spray", 5 ],
@@ -90,14 +90,14 @@
       { "group": "tampon_box_used", "prob": 40 },
       { "group": "menstrual_pad_box_used", "prob": 40 },
       [ "disinfectant", 30 ],
-      [ "eyedrops", 10, "count": [ 1, 10 ],
+      { "item": "eyedrops", "prob": 10, "count": [ 1, 10 ] },
       [ "medical_gauze", 20 ],
       [ "medical_tape", 20 ],
-      [ "pepto", 200 ],
-      [ "tums", 20, "count": [ 1, 20 ] ],
+      [ "pepto", 20 ],
+      { "item": "tums", "prob": 20, "count": [ 1, 20 ] },
       [ "saline", 10 ],
-      [ "weak_antibiotic", 30, "count": [ 1, 20 ] ],
-      [ "homeopathic_pills", 10, "count": [ 1, 20 ] ]
+      { "item": "weak_antibiotic", "prob": 30, "count": [ 1, 20 ] },
+      { "item": "homeopathic_pills", "prob": 10, "count": [ 1, 20 ] }
     ]
   },
   {
@@ -151,17 +151,17 @@
     "type": "item_group",
     "//": "Rare and/or valuable drugs excluding painkillers",
     "items": [
-      [ "adderall", 100, "count": [ 30, 30 ] ],
-      [ "antibiotics", 100, "count": [ 20, 20 ] ],
-      [ "strong_antibiotic", 45, "count": [ 10, 10 ] ],
-      [ "antifungal", 100, "count": [ 10, 10 ] ],
-      [ "antiparasitic", 100, "count": [ 10, 10 ] ],
-      [ "diazepam", 100, "count": [ 30, 30 ] ],
-      [ "calcium_tablet", 100, "count": [ 30, 30 ] ],
+      { "item": "adderall", "prob": 100, "count": [ 30, 30 ] },
+      { "item": "antibiotics", "prob": 100, "count": [ 20, 20 ] },
+      { "item": "strong_antibiotic", "prob": 45, "count": [ 10, 10 ] },
+      { "item": "antifungal", "prob": 100, "count": [ 10, 10 ] },
+      { "item": "antiparasitic", "prob": 100, "count": [ 10, 10 ] },
+      { "item": "diazepam", "prob": 100, "count": [ 30, 30 ] },
+      { "item": "calcium_tablet", "prob": 100, "count": [ 30, 30 ] },
       [ "inj_iron", 100 ],
-      [ "prozac", 100, "count": [ 30, 30 ] ],
-      [ "thorazine", 100, "count": [ 30, 30 ] ],
-      [ "xanax", 100, "count": [ 30, 30 ] ]
+      { "item": "prozac", "prob": 100, "count": [ 30, 30 ] },
+      { "item": "thorazine", "prob": 100, "count": [ 30, 30 ] },
+      { "item": "xanax", "prob": 100, "count": [ 30, 30 ] }
     ]
   },
   {
