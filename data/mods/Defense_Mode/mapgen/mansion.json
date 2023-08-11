@@ -143,6 +143,51 @@
       }
     }
   },
+  
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "dm_mansion_e2" ],
+    "//": "updated",
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "........[.````p[........",
+        "...!!.....````.....!!...",
+        "..!!!!..[.%``%.[..!!!!..",
+        ".!!??!!...%``%...!!??!!.",
+        ".!!??!!.[.%``%.[.!!??!!.",
+        "..!!!!....%``%....!!!!..",
+        "...!!...[.%``%.[...!!...",
+        "..........%``%..........",
+        "......&~~&~~~~&~~&......",
+        "%%%%%%~~~~~~~~~~~~%%%%%%",
+        "#oooo##~~~~~~~~~~##oooo#",
+        "s    T#~~~~~~~~~~#E    E",
+        "H----E#~~~~~~~~~~#s----s",
+        "H----s##oo#**#oo##E----E",
+        "H----E|y   --   y| ---- ",
+        "           --           ",
+        "           --           ",
+        " --------- -- --------- ",
+        " --------- -- --------- ",
+        "           --           ",
+        "MM  MM|   |<<|   |MM  MM",
+        "||++|||c  ||||  c|||++||",
+        "      ||c  >>  c||      ",
+        "|      ||||||||||      |"
+      ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_landscaping_palette" ],
+      "terrain": { "?": "t_water_pool_shallow_outdoors", "~": "t_thconc_floor", "&": "t_column", "-": "t_carpet_red" },
+      "items": {
+        " ": { "item": "clutter_mansion" },
+        ".": { "item": "clutter_yard" },
+        "s": { "item": "table_foyer", "chance": 40 },
+        "c": { "item": "suit_of_armor", "chance": 100 }
+      }
+    }
+  },
   {
     "type": "mapgen",
     "method": "json",
