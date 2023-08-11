@@ -589,7 +589,11 @@
         ]
       },
       {
-        "distribution": [ { "item": "cereal", "prob": 50, "count": [ 1, 8 ] }, { "item": "cereal2", "prob": 50, "count": [ 1, 8 ] }, { "item": "cereal3", "prob": 50, "count": [ 1, 8 ] } ],
+        "distribution": [
+          { "item": "cereal", "prob": 50, "count": [ 1, 8 ] },
+          { "item": "cereal2", "prob": 50, "count": [ 1, 8 ] },
+          { "item": "cereal3", "prob": 50, "count": [ 1, 8 ] }
+        ],
         "prob": 75
       },
       {
