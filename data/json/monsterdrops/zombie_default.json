@@ -194,12 +194,12 @@
       },
       {
         "distribution": [
-          { "item": "meth", "prob": 5 },
-          { "item": "coke", "prob": 5 },
-          { "item": "lsd", "prob": 2 },
-          { "item": "heroin", "prob": 5 },
-          { "collection": [ { "item": "crackpipe" }, { "item": "crack" } ], "prob": 5 },
-          { "collection": [ { "item": "weed" }, { "item": "pipe_glass", "prob": 50 } ], "prob": 10 },
+          { "item": "meth", "prob": 5, "count-min": 4, "count-max": 8, "container-item": "bag_zipper" },
+          { "item": "coke", "prob": 5, "count-min": 4, "count-max": 8, "container-item": "bag_zipper" },
+          { "item": "lsd", "prob": 2, "count-min": 5, "count-max": 10, "container-item": "bag_zipper" },
+          { "item": "heroin", "prob": 5, "count-min": 5, "count-max": 10, "container-item": "bag_zipper" },
+          { "collection": [ { "item": "crackpipe" }, { "item": "crack", "count-min": 4, "count-max": 8, "container-item": "bag_zipper" } ], "prob": 5 },
+          { "collection": [ { "item": "weed", "count-min": 5, "count-max": 10, "container-item": "bag_zipper" }, { "item": "pipe_glass", "prob": 50 } ], "prob": 10 },
           { "distribution": [ { "item": "joint", "prob": 80 }, { "item": "joint_roach", "prob": 20 } ], "prob": 10 }
         ],
         "prob": 5
@@ -207,15 +207,15 @@
       {
         "distribution": [
           { "item": "cig", "prob": 65, "charges-min": 0, "charges-max": 20 },
-          { "item": "chaw", "prob": 5 },
+          { "item": "chaw", "prob": 5, "count-min": 5, "count-max": 10, "container-item": "bag_zipper" },
           { "item": "cigar", "prob": 5 },
           { "group": "pocket_cigar", "prob": 1 },
           { "item": "handrolled_cig", "prob": 10 },
-          { "item": "nic_gum", "prob": 10 },
+          { "item": "nic_gum", "prob": 10, "count-min": 2, "count-max": 5 },
           { "item": "ecig", "prob": 15 },
           {
             "collection": [
-              { "item": "tobacco" },
+              { "item": "tobacco", "count-min": 5, "count-max": 10, "container-item": "bag_zipper" },
               { "distribution": [ { "item": "rolling_paper", "prob": 80 }, { "item": "pipe_tobacco", "prob": 20 } ] }
             ],
             "prob": 10
@@ -237,7 +237,7 @@
         ],
         "prob": 15
       },
-      { "distribution": [ { "item": "gum" }, { "item": "caff_gum" } ], "prob": 30 },
+      { "distribution": [ { "item": "gum", "count-min": 5, "count-max": 10 }, { "item": "caff_gum", "count-min": 4, "count-max": 8 } ], "prob": 30 },
       { "item": "mp3", "prob": 18, "charges-min": 0, "charges-max": 15 },
       { "item": "portable_game", "prob": 10, "charges-min": 0, "charges-max": 50 },
       { "item": "game_watch", "prob": 1, "damage": [ 1, 4 ], "charges-min": 0, "charges-max": 50 },
