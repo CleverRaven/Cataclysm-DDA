@@ -198,8 +198,17 @@
           { "item": "coke", "prob": 5, "count-min": 4, "count-max": 8, "container-item": "bag_zipper" },
           { "item": "lsd", "prob": 2, "count-min": 5, "count-max": 10, "container-item": "bag_zipper" },
           { "item": "heroin", "prob": 5, "count-min": 5, "count-max": 10, "container-item": "bag_zipper" },
-          { "collection": [ { "item": "crackpipe" }, { "item": "crack", "count-min": 4, "count-max": 8, "container-item": "bag_zipper" } ], "prob": 5 },
-          { "collection": [ { "item": "weed", "count-min": 5, "count-max": 10, "container-item": "bag_zipper" }, { "item": "pipe_glass", "prob": 50 } ], "prob": 10 },
+          {
+            "collection": [ { "item": "crackpipe" }, { "item": "crack", "count-min": 4, "count-max": 8, "container-item": "bag_zipper" } ],
+            "prob": 5
+          },
+          {
+            "collection": [
+              { "item": "weed", "count-min": 5, "count-max": 10, "container-item": "bag_zipper" },
+              { "item": "pipe_glass", "prob": 50 }
+            ],
+            "prob": 10
+          },
           { "distribution": [ { "item": "joint", "prob": 80 }, { "item": "joint_roach", "prob": 20 } ], "prob": 10 }
         ],
         "prob": 5
