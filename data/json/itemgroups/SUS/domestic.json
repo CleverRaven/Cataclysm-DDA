@@ -542,7 +542,7 @@
         "prob": 30
       },
       {
-        "distribution": [ { "item": "honey_glassed", "prob": 20 }, { "item": "honey_bottled", "prob": 80 } ],
+        "distribution": [ { "item": "honey_glassed", "prob": 20, "count": [ 1, 8 ] }, { "item": "honey_bottled", "prob": 80 } ],
         "prob": 60
       },
       { "item": "spoon", "count": [ 1, 6 ] },
@@ -582,10 +582,10 @@
       { "item": "peanutbutter", "prob": 80 },
       { "item": "syrup", "prob": 50 },
       {
-        "distribution": [ { "item": "cereal", "prob": 50 }, { "item": "cereal2", "prob": 50 }, { "item": "cereal3", "prob": 50 } ]
+        "distribution": [ { "item": "cereal", "prob": 50, "count": [ 1, 8 ] }, { "item": "cereal2", "prob": 50, "count": [ 1, 8 ] }, { "item": "cereal3", "prob": 50, "count": [ 1, 8 ] } ]
       },
       {
-        "distribution": [ { "item": "cereal", "prob": 50 }, { "item": "cereal2", "prob": 50 }, { "item": "cereal3", "prob": 50 } ],
+        "distribution": [ { "item": "cereal", "prob": 50, "count": [ 1, 8 ] }, { "item": "cereal2", "prob": 50, "count": [ 1, 8 ] }, { "item": "cereal3", "prob": 50, "count": [ 1, 8 ] } ],
         "prob": 75
       },
       {
