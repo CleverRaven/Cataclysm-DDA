@@ -210,7 +210,7 @@
       { "item": "antifungal", "prob": 5, "count": 20 },
       { "item": "antiparasitic", "prob": 10, "count": 20 },
       [ "survnote", 1 ],
-      { "item": "diazepam", 10, "count": 50 ],
+      { "item": "diazepam", "prob": 10, "count": 50 },
       [ "stethoscope", 35 ],
       [ "jar_3l_glass_sealed", 15 ],
       [ "magnifying_glass", 5 ],
