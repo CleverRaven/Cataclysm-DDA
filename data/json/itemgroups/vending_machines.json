@@ -60,13 +60,13 @@
     "items": [
       { "group": "candy_chocolate", "prob": 615 },
       { "group": "salty_snacks", "prob": 485 },
-      [ "peanut_shelled", 60, "count": 4 ],
-      [ "almond_shelled", 60, "count": 4 ],
-      [ "cashews", 60, "count": 4 ],
-      [ "pistachio_shelled", 60, "count": 4 ],
-      [ "cookies", 80, "count": 4 ],
-      [ "choco_coffee_beans", 10, "count": 5 ],
-      [ "fruit_leather", 25, "count": 5 ]
+      { "item": "peanut_shelled", "prob": 60, "count": 4 },
+      { "item": "almond_shelled", "prob": 60, "count": 4 },
+      { "item": "cashews", "prob": 60, "count": 4 },
+      { "item": "pistachio_shelled", "prob": 60, "count": 4 },
+      { "item": "cookies", "prob": 80, "count": 4 },
+      { "item": "choco_coffee_beans", "prob": 10, "count": 5 },
+      { "item": "fruit_leather", "prob": 25, "count": 5 }
     ]
   },
   {
