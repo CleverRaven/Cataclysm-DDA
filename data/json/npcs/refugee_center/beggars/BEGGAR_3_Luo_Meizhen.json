@@ -17,6 +17,18 @@
     "mission": 7,
     "chat": "TALK_REFUGEE_BEGGAR_3",
     "faction": "lobby_beggars",
+    "age": 31,
+    "height": 160,
+    "str": 6,
+    "dex": 7,
+    "int": 12,
+    "per": 10,
+    "personality": {
+      "aggression": -10,
+      "bravery":  -10,
+      "collector":  2,
+      "altruism":  1
+    },
     "talk_friend": "TALK_FRIEND_Luo",
     "talk_friend_guard": "TALK_FRIEND_GUARD_Luo"
   },
@@ -27,10 +39,10 @@
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "All the beggars have been camping inside the evac shelter because they're too weak and unskilled to make it on their own.",
-    "bonus_str": { "rng": [ -4, -1 ] },
-    "bonus_dex": { "rng": [ -2, -1 ] },
-    "bonus_int": { "rng": [ 3, 5 ] },
-    "bonus_per": { "rng": [ 2, 3 ] },
+    "bonus_str": { "rng": [ -1, 1 ] },
+    "bonus_dex": { "rng": [ -1, 1 ] },
+    "bonus_int": { "rng": [ 0, 1 ] },
+    "bonus_per": { "rng": [ 0, 1 ] },
     "skills": [
       { "skill": "computer", "bonus": { "rng": [ 3, 5 ] } },
       { "skill": "cooking", "bonus": { "rng": [ 1, 3 ] } },
