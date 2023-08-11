@@ -191,7 +191,7 @@
       "response": { "text": "I have <topic_item>.", "topic": "TALK_DELIVER_ASK" }
     },
     "responses": [
-      { "text": "I don't have anything right now.  Let's talk about something else.", "topic": "TALK_GODCO_Jane_2" },
+      { "text": "I don't have anything right now.  Lets talk about something else.", "topic": "TALK_GODCO_Jane_2" },
       { "text": "I don't have anything right now.  I'll come back with something later.", "topic": "TALK_DONE" }
     ]
   }

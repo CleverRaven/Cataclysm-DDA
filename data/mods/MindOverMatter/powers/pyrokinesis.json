@@ -19,10 +19,10 @@
       "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_eruption') * 3) + 6) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_damage": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_eruption') * 3) + 6) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_eruption') * 4) + 26) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": {
-      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_eruption') * 3) + 6) * (scaling_factor(u_val('intelligence') ) )" ]
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_eruption') * 1.5) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_range": 70,
     "field_id": "fd_fire",

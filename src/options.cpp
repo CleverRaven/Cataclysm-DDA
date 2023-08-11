@@ -1777,6 +1777,34 @@ void options_manager::add_options_interface()
 
     add_empty_line();
 
+    add_option_group( "interface", Group( "additional_messages_in_log",
+                                          to_translation( "Additional messages in the log" ),
+                                          to_translation( "If true, some additional messages will be shown in the sidebar message log." ) ),
+    [&]( const std::string & page_id ) {
+
+        add( "LOG_ITEMS_ON_THE_GROUND", page_id, to_translation( "Items on the ground" ),
+             to_translation( "Show messages about items lying on the ground when character steps on tile with them." ),
+             true
+           );
+
+        add( "LOG_MONSTER_MOVEMENT", page_id, to_translation( "Special monster movement" ),
+             to_translation( "Show messages about special monster movement: flying over the fence, diving into the water etc." ),
+             true
+           );
+
+        add( "LOG_MONSTER_MOVE_EFFECTS", page_id, to_translation( "Monster attempts to free itself" ),
+             to_translation( "Show messages about monster trying to free itself from effects preventing it from moving: downed, tied etc." ),
+             true
+           );
+
+        add( "LOG_MONSTER_ATTACK_MONSTER", page_id, to_translation( "Monster/NPC attacking monster/NPC" ),
+             to_translation( "Show messages about non-playable creatures attacking other non-playable creatures." ),
+             true
+           );
+    } );
+
+    add_empty_line();
+
     add_option_group( "interface", Group( "naming_opts", to_translation( "Naming Options" ),
                                           to_translation( "Options regarding the naming of items." ) ),
     [&]( const std::string & page_id ) {
@@ -2684,21 +2712,6 @@ void options_manager::add_options_world_default()
     add_option_group( "world_default", Group( "spawn_time_opts", to_translation( "Spawn Time Options" ),
                       to_translation( "Options regarding spawn time." ) ),
     [&]( const std::string & page_id ) {
-        add( "INITIAL_TIME", page_id, to_translation( "Initial time" ),
-             to_translation( "Initial starting time of day on character generation.  Value -1 randomizes the starting time and overrides scenario setting." ),
-             -1, 23, 8
-           );
-
-        add( "INITIAL_DAY", page_id, to_translation( "Initial day" ),
-             to_translation( "How many days into the year the Cataclysm ended.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
-             -1, 999, 60
-           );
-
-        add( "SPAWN_DELAY", page_id, to_translation( "Spawn delay" ),
-             to_translation( "How many days after the end of the Cataclysm the player spawns.  Day 0 is immediately after the end of the Cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
-             0, 9999, 0
-           );
-
         add( "SEASON_LENGTH", page_id, to_translation( "Season length" ),
              to_translation( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),
              14, 127, 91

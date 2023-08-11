@@ -574,12 +574,13 @@
     "id": "vagabond",
     "name": "Vagabond",
     "description": "Circumstance left you wandering the world, alone.  Now there is nothing to go back to, even if you wanted to.  Perhaps your experience in fending for yourself will prove useful in this new world.",
-    "points": 2,
+    "points": 1,
     "skills": [
-      { "level": 1, "name": "unarmed" },
-      { "level": 1, "name": "tailor" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "unarmed" },
       { "level": 2, "name": "fabrication" },
-      { "level": 1, "name": "cooking" }
+      { "level": 2, "name": "tailor" },
+      { "level": 2, "name": "cooking" }
     ],
     "items": {
       "both": {
@@ -627,7 +628,7 @@
     "name": "Video Blogger",
     "description": "You made a career out of creating and commentating video content and posting it on various platforms.  Now most of your fans are dead, alongside your equipment.  Maybe you didn't cultivate the most practical skillset through your career, but you have learned a thing or two about troubleshooting software and getting people to listen to you.",
     "points": 2,
-    "skills": [ { "level": 3, "name": "speech" }, { "level": 2, "name": "computer" } ],
+    "skills": [ { "level": 4, "name": "speech" }, { "level": 4, "name": "computer" } ],
     "items": {
       "both": {
         "items": [ "jeans", "longshirt", "socks", "sneakers", "backpack", "pockknife", "water_clean", "wearable_camera", "wristwatch" ],
@@ -646,14 +647,14 @@
     "points": 4,
     "proficiencies": [ "prof_fibers", "prof_knitting", "prof_carving" ],
     "skills": [
-      { "level": 2, "name": "tailor" },
-      { "level": 2, "name": "computer" },
-      { "level": 2, "name": "cooking" },
-      { "level": 2, "name": "chemistry" },
-      { "level": 2, "name": "mechanics" },
-      { "level": 2, "name": "firstaid" },
-      { "level": 2, "name": "electronics" },
-      { "level": 2, "name": "fabrication" }
+      { "level": 3, "name": "fabrication" },
+      { "level": 3, "name": "mechanics" },
+      { "level": 3, "name": "chemistry" },
+      { "level": 3, "name": "electronics" },
+      { "level": 3, "name": "tailor" },
+      { "level": 3, "name": "cooking" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "computer" }
     ],
     "items": {
       "both": {
@@ -677,7 +678,7 @@
     "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter with your collection of guns.  You've spent the past months eating canned food and practicing your aim.  Now it is winter - time to face the world above.",
     "points": 4,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gunsmithing_improv", "prof_gun_cleaning" ],
-    "skills": [ { "level": 2, "name": "gun" }, { "level": 1, "name": "rifle" }, { "level": 1, "name": "pistol" } ],
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "rifle" }, { "level": 3, "name": "pistol" } ],
     "items": {
       "both": {
         "items": [
@@ -713,9 +714,9 @@
     "id": "tailor",
     "name": "Tailor",
     "description": "Tailoring may not seem like the most useful skill when the world has ended.  Most people wouldn't expect a simple tailor to live very long.  This is your opportunity to prove them wrong.",
-    "points": 3,
+    "points": 2,
     "//": "Tailoring book and kit make an already decent class for careful folks much more powerful.",
-    "skills": [ { "level": 4, "name": "tailor" } ],
+    "skills": [ { "level": 6, "name": "tailor" } ],
     "proficiencies": [
       "prof_fibers",
       "prof_leatherworking_basic",
@@ -752,7 +753,7 @@
     "name": "Chef",
     "description": "Bork bork!  Years in the kitchen have left you carrying a prodigious bulk, but you managed to escape the carnage with your trusty butcher knife and only a small collection of stains on your uniform.",
     "points": 2,
-    "skills": [ { "name": "cooking", "level": 4 } ],
+    "skills": [ { "name": "cooking", "level": 6 } ],
     "proficiencies": [ "prof_food_prep", "prof_knife_skills", "prof_baking", "prof_baking_desserts_1", "prof_frying" ],
     "items": {
       "both": {
@@ -784,13 +785,13 @@
     },
     "proficiencies": [ "prof_fibers", "prof_carving", "prof_leatherworking_basic" ],
     "skills": [
-      { "level": 1, "name": "melee" },
-      { "level": 1, "name": "throw" },
-      { "level": 2, "name": "archery" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "throw" },
+      { "level": 3, "name": "archery" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 3, "name": "tailor" },
       { "level": 3, "name": "survival" },
-      { "level": 1, "name": "cooking" },
-      { "level": 1, "name": "fabrication" },
-      { "level": 1, "name": "tailor" }
+      { "level": 3, "name": "cooking" }
     ],
     "traits": [ "PROF_CHURL", "ILLITERATE" ],
     "flags": [ "SCEN_ONLY" ]
@@ -802,10 +803,10 @@
     "description": "Thanks to years of study and hard work in the lab, you're familiar with the basics of scientific inquiry.  Only one question remains: can you undo the very Cataclysm your colleagues helped create?",
     "points": 3,
     "skills": [
-      { "level": 2, "name": "computer" },
-      { "level": 2, "name": "chemistry" },
-      { "level": 2, "name": "electronics" },
-      { "level": 2, "name": "mechanics" }
+      { "level": 4, "name": "mechanics" },
+      { "level": 4, "name": "chemistry" },
+      { "level": 4, "name": "electronics" },
+      { "level": 4, "name": "computer" }
     ],
     "proficiencies": [ "prof_intro_chemistry", "prof_intro_biology" ],
     "items": {
@@ -828,7 +829,7 @@
     "description": "You've always loved cars, and there's nothing like getting under the hood and fixing it yourself.  You've kept ahold of some handy tools for the job, and at least now you'll never want for parts.",
     "proficiencies": [ "prof_metalworking", "prof_welding_basic", "prof_elec_soldering" ],
     "points": 2,
-    "skills": [ { "level": 3, "name": "mechanics" }, { "level": 1, "name": "driving" } ],
+    "skills": [ { "level": 4, "name": "mechanics" }, { "level": 4, "name": "driving" } ],
     "items": {
       "both": {
         "items": [ "slingpack", "tank_top", "jeans", "socks", "boots_steel", "duct_tape", "screwdriver", "wristwatch", "mag_cars" ],
@@ -851,12 +852,12 @@
     "points": 2,
     "proficiencies": [ "prof_lockpicking" ],
     "skills": [
-      { "level": 1, "name": "melee" },
-      { "level": 1, "name": "stabbing" },
-      { "level": 1, "name": "unarmed" },
-      { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "speech" },
-      { "level": 1, "name": "traps" }
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "unarmed" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "traps" },
+      { "level": 3, "name": "speech" }
     ],
     "items": {
       "both": {
@@ -885,7 +886,7 @@
     "name": "Beekeeper",
     "description": "You used to be a professional apiarist, building and maintaining beehives.  You had to abandon your precious bees when the Cataclysm struck, but at least you managed to grab some utensils and honey.",
     "points": 2,
-    "skills": [ { "name": "survival", "level": 2 }, { "name": "fabrication", "level": 1 } ],
+    "skills": [ { "name": "fabrication", "level": 4 }, { "name": "survival", "level": 4 } ],
     "items": {
       "both": {
         "items": [
@@ -910,12 +911,12 @@
     "id": "baseball_player",
     "name": "Baseball Player",
     "description": "You played with the local team.  You're the only one left, but now you can use your trusty bat for another purpose.  Home run!",
-    "points": 1,
+    "points": 2,
     "skills": [
-      { "level": 3, "name": "throw" },
-      { "level": 2, "name": "swimming" },
-      { "level": 1, "name": "melee" },
-      { "level": 1, "name": "bashing" }
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "bashing" },
+      { "level": 4, "name": "throw" },
+      { "level": 4, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -935,8 +936,8 @@
     "id": "basketball_player",
     "name": "Basketball Player",
     "description": "Your first major game was abruptly cancelled when zombies stormed the court.  Quick feet and good reflexes meant you were among the lucky few to escape the stadium alive.",
-    "points": 1,
-    "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "throw" }, { "level": 2, "name": "swimming" } ],
+    "points": 2,
+    "skills": [ { "level": 5, "name": "dodge" }, { "level": 5, "name": "throw" }, { "level": 4, "name": "swimming" } ],
     "items": {
       "both": {
         "items": [ "tank_top", "b_shorts", "socks_ankle", "sneakers", "basketball", "sports_drink", "runner_bag" ],
@@ -953,10 +954,11 @@
     "description": "Your epic touchdown was ruined when your coach's guts were torn out by undead fans.  Now you're first pick in the apocalypse draft.",
     "points": 3,
     "skills": [
-      { "level": 3, "name": "swimming" },
-      { "level": 2, "name": "dodge" },
-      { "level": 2, "name": "throw" },
-      { "level": 1, "name": "unarmed" }
+      { "level": 5, "name": "throw" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "unarmed" },
+      { "level": 4, "name": "dodge" },
+      { "level": 4, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -1015,7 +1017,7 @@
     "name": "Professional Cyclist",
     "description": "You were a promising cyclist with a bright career in front of you before this all happened.  Perhaps you'll never get to participate in the grand tours now, but as the saying goes, life is like riding a bicycle: you've got to keep moving.",
     "points": 3,
-    "skills": [ { "level": 3, "name": "driving" }, { "level": 2, "name": "dodge" } ],
+    "skills": [ { "level": 5, "name": "driving" }, { "level": 4, "name": "dodge" } ],
     "items": {
       "both": {
         "items": [
@@ -1045,11 +1047,14 @@
     "points": 4,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 1, "name": "gun" },
-      { "level": 1, "name": "rifle" },
-      { "level": 1, "name": "pistol" },
-      { "level": 1, "name": "melee" },
-      { "level": 6, "name": "speech" }
+      { "level": 6, "name": "speech" },
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "rifle" },
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 1, "name": "firstaid" },
+      { "level": 1, "name": "throw" }
     ],
     "items": {
       "both": {
@@ -1088,15 +1093,16 @@
     "points": 6,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 4, "name": "gun" },
-      { "level": 4, "name": "rifle" },
-      { "level": 2, "name": "melee" },
-      { "level": 2, "name": "stabbing" },
-      { "level": 2, "name": "pistol" },
-      { "level": 1, "name": "dodge" },
-      { "level": 2, "name": "firstaid" },
-      { "level": 2, "name": "survival" },
-      { "level": 3, "name": "swimming" }
+      { "level": 5, "name": "gun" },
+      { "level": 5, "name": "rifle" },
+      { "level": 4, "name": "pistol" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "throw" },
+      { "level": 3, "name": "swimming" },
+      { "level": 2, "name": "survival" }
     ],
     "items": {
       "both": {
@@ -1152,13 +1158,17 @@
       "prof_gun_cleaning"
     ],
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 4, "name": "mechanics" },
-      { "level": 2, "name": "driving" },
-      { "level": 2, "name": "melee" },
-      { "level": 2, "name": "firstaid" },
-      { "level": 2, "name": "survival" },
-      { "level": 4, "name": "swimming" }
+      { "level": 5, "name": "mechanics" },
+      { "level": 5, "name": "driving" },
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "rifle" },
+      { "level": 4, "name": "swimming" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "survival" },
+      { "level": 3, "name": "throw" }
     ],
     "items": {
       "both": {
@@ -1193,16 +1203,19 @@
     "name": "Navy Diver",
     "requirement": "achievement_reach_aircraft_carrier",
     "description": "You were a member of a Naval Special Warfare diving group, a skilled soldier adept at underwater infiltration and marine combat.  You were suiting up for a practice dive when the aircraft carrier you were stationed on was somehow flung from the Yellow Sea to who knows where.  You seem to be the only one who survived with your sanity intact, but it's not safe to stay here.  At least you're already dressed to abandon ship.",
-    "points": 3,
+    "points": 5,
     "proficiencies": [ "prof_spotting", "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "rifle" },
-      { "level": 2, "name": "melee" },
-      { "level": 1, "name": "dodge" },
-      { "level": 2, "name": "firstaid" },
-      { "level": 4, "name": "survival" },
-      { "level": 6, "name": "swimming" }
+      { "level": 7, "name": "swimming" },
+      { "level": 5, "name": "gun" },
+      { "level": 5, "name": "rifle" },
+      { "level": 4, "name": "pistol" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "stabbing" },
+      { "level": 4, "name": "dodge" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "survival" },
+      { "level": 3, "name": "throw" }
     ],
     "items": {
       "both": {
@@ -1234,15 +1247,17 @@
     "name": "Military Veteran",
     "requirement": "achievement_reach_military_bunker",
     "description": "After being discharged from the armed forces, you were sent to a veterans' hospital for treatment.  Just when you thought you'd overcome your traumas and readjusted to civilian life, the world has come to an end and your worst nightmare has become a reality: life in an endless battlefield.",
-    "points": 2,
+    "points": 3,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 1, "name": "rifle" },
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "rifle" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "throw" },
       { "level": 2, "name": "melee" },
-      { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "firstaid" },
-      { "level": 1, "name": "stabbing" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "firstaid" },
       { "level": 1, "name": "survival" },
       { "level": 1, "name": "swimming" }
     ],
@@ -1261,14 +1276,16 @@
     "name": "Military Recruit",
     "requirement": "achievement_reach_military_bunker",
     "description": "Joining the military has been your dream for years.  You finally got in, just in time for your training to get interrupted by some sort of national emergency.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
-    "points": 4,
+    "points": 3,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 1, "name": "rifle" },
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "throw" },
+      { "level": 2, "name": "pistol" },
       { "level": 2, "name": "melee" },
-      { "level": 1, "name": "stabbing" },
-      { "level": 1, "name": "dodge" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 2, "name": "dodge" },
       { "level": 1, "name": "firstaid" },
       { "level": 1, "name": "survival" },
       { "level": 1, "name": "swimming" }
@@ -1317,14 +1334,16 @@
     "points": 5,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_metalworking", "prof_welding_basic", "prof_welding", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 1, "name": "rifle" },
+      { "level": 7, "name": "mechanics" },
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "throw" },
+      { "level": 2, "name": "pistol" },
       { "level": 2, "name": "melee" },
-      { "level": 1, "name": "stabbing" },
-      { "level": 1, "name": "dodge" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 2, "name": "dodge" },
       { "level": 1, "name": "firstaid" },
       { "level": 1, "name": "survival" },
-      { "level": 6, "name": "mechanics" },
       { "level": 1, "name": "swimming" }
     ],
     "items": {
@@ -1364,20 +1383,22 @@
     "name": "Combat Engineer",
     "requirement": "achievement_reach_military_bunker",
     "description": "Your job was simple: Keep the army moving.  You built bridges, you built roads, you destroyed fortifications, and you cleared mines.  It has been years since you last handled a rifle in basic training; now might be the time to dust off those skills.",
-    "points": 8,
+    "points": 7,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_traps", "prof_trapsetting", "prof_disarming", "prof_spotting", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 1, "name": "rifle" },
-      { "level": 2, "name": "melee" },
-      { "level": 1, "name": "stabbing" },
-      { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "firstaid" },
-      { "level": 1, "name": "survival" },
+      { "level": 7, "name": "traps" },
       { "level": 6, "name": "fabrication" },
       { "level": 6, "name": "mechanics" },
-      { "level": 6, "name": "traps" },
-      { "level": 1, "name": "swimming" }
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "throw" },
+      { "level": 3, "name": "swimming" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "survival" }
     ],
     "items": {
       "both": {
@@ -1414,16 +1435,17 @@
     "points": 7,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 3, "name": "gun" },
-      { "level": 2, "name": "speech" },
-      { "level": 3, "name": "shotgun" },
-      { "level": 3, "name": "rifle" },
-      { "level": 2, "name": "melee" },
-      { "level": 2, "name": "stabbing" },
-      { "level": 2, "name": "dodge" },
+      { "level": 6, "name": "speech" },
+      { "level": 5, "name": "gun" },
+      { "level": 5, "name": "rifle" },
+      { "level": 4, "name": "pistol" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "dodge" },
       { "level": 3, "name": "firstaid" },
       { "level": 3, "name": "survival" },
-      { "level": 2, "name": "swimming" }
+      { "level": 3, "name": "throw" },
+      { "level": 3, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -1466,16 +1488,18 @@
     "name": "Rifleman",
     "requirement": "achievement_reach_military_bunker",
     "description": "When you were young, you dreamed of being a soldier.  War is hell and hell is war, but you never thought it would be this bad.",
-    "points": 6,
+    "points": 5,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 3, "name": "gun" },
-      { "level": 3, "name": "rifle" },
-      { "level": 2, "name": "melee" },
-      { "level": 2, "name": "stabbing" },
-      { "level": 2, "name": "dodge" },
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "rifle" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "throw" },
       { "level": 2, "name": "survival" },
-      { "level": 2, "name": "firstaid" },
       { "level": 2, "name": "swimming" }
     ],
     "items": {
@@ -1523,14 +1547,14 @@
     "skills": [
       { "level": 8, "name": "gun" },
       { "level": 8, "name": "rifle" },
+      { "level": 6, "name": "pistol" },
       { "level": 4, "name": "melee" },
-      { "level": 3, "name": "pistol" },
-      { "level": 3, "name": "stabbing" },
-      { "level": 3, "name": "dodge" },
+      { "level": 4, "name": "stabbing" },
+      { "level": 4, "name": "dodge" },
       { "level": 4, "name": "firstaid" },
-      { "level": 5, "name": "survival" },
-      { "level": 3, "name": "throw" },
-      { "level": 5, "name": "swimming" }
+      { "level": 4, "name": "survival" },
+      { "level": 4, "name": "throw" },
+      { "level": 4, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -1573,16 +1597,16 @@
     "points": 8,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_wound_care", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 6, "name": "gun" },
-      { "level": 6, "name": "rifle" },
-      { "level": 4, "name": "melee" },
-      { "level": 4, "name": "pistol" },
-      { "level": 3, "name": "stabbing" },
-      { "level": 3, "name": "dodge" },
+      { "level": 7, "name": "gun" },
+      { "level": 7, "name": "rifle" },
+      { "level": 6, "name": "pistol" },
+      { "level": 5, "name": "melee" },
+      { "level": 5, "name": "stabbing" },
+      { "level": 5, "name": "dodge" },
       { "level": 4, "name": "firstaid" },
       { "level": 4, "name": "survival" },
-      { "level": 3, "name": "throw" },
-      { "level": 5, "name": "swimming" }
+      { "level": 4, "name": "throw" },
+      { "level": 4, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -1633,15 +1657,16 @@
     "points": 8,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_traps", "prof_disarming", "prof_spotting", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 6, "name": "gun" },
-      { "level": 6, "name": "smg" },
-      { "level": 6, "name": "rifle" },
-      { "level": 4, "name": "cutting" },
-      { "level": 4, "name": "melee" },
-      { "level": 3, "name": "dodge" },
-      { "level": 3, "name": "traps" },
-      { "level": 3, "name": "firstaid" },
-      { "level": 3, "name": "swimming" },
+      { "level": 7, "name": "gun" },
+      { "level": 7, "name": "smg" },
+      { "level": 7, "name": "rifle" },
+      { "level": 5, "name": "melee" },
+      { "level": 5, "name": "stabbing" },
+      { "level": 5, "name": "dodge" },
+      { "level": 4, "name": "traps" },
+      { "level": 4, "name": "firstaid" },
+      { "level": 4, "name": "throw" },
+      { "level": 4, "name": "swimming" },
       { "level": 4, "name": "survival" }
     ],
     "items": {
@@ -1683,7 +1708,7 @@
     "name": { "male": "Butler", "female": "Maid" },
     "description": "You were hired to take care of the housekeeping for a wealthy family.  Naturally, when things got bad, they all took off on a family vacation to somewhere unknown, leaving you to your fate.",
     "points": 1,
-    "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "driving" }, { "level": 2, "name": "tailor" } ],
+    "skills": [ { "level": 3, "name": "tailor" }, { "level": 3, "name": "cooking" }, { "level": 3, "name": "driving" } ],
     "proficiencies": [ "prof_food_prep", "prof_closures" ],
     "items": {
       "both": { "items": [ "pocketwatch", "knife_steak" ], "entries": [ { "group": "charged_smart_phone" } ] },
@@ -1707,11 +1732,16 @@
     "description": "You were ready.  You went in determined to find and rescue your friends.  Now the atmosphere in these twisting corridors grows heavy, and you don't feel quite so confident anymore.  You might be the one in need of a rescue soon.",
     "points": 3,
     "skills": [
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "rifle" },
+      { "level": 4, "name": "pistol" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "stabbing" },
       { "level": 4, "name": "dodge" },
-      { "level": 3, "name": "fabrication" },
-      { "level": 5, "name": "melee" },
+      { "level": 4, "name": "fabrication" },
       { "level": 4, "name": "tailor" },
-      { "level": 3, "name": "rifle" }
+      { "level": 3, "name": "throw" },
+      { "level": 3, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -1742,7 +1772,7 @@
     "name": "Medical Resident",
     "description": "Fresh out of med school, you've got little in the way of practical experience and just a handful of first-aid supplies.  You just hope it will be enough if 'physician, heal thyself' turns out to be more literal than you expected.",
     "points": 2,
-    "skills": [ { "level": 4, "name": "firstaid" } ],
+    "skills": [ { "level": 5, "name": "firstaid" } ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
@@ -1781,14 +1811,15 @@
     "name": "Gangster",
     "requirement": "achievement_kill_100_monsters",
     "description": "The boss always said he could rely on you to pull through on the tough jobs.  Shame he got himself smoked.  No problem; the world's always got a place for someone with your kind of talents.",
-    "points": 3,
+    "points": 4,
     "skills": [
-      { "level": 1, "name": "melee" },
-      { "level": 1, "name": "unarmed" },
-      { "level": 1, "name": "stabbing" },
-      { "level": 1, "name": "gun" },
-      { "level": 1, "name": "pistol" },
-      { "level": 1, "name": "driving" }
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "unarmed" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "driving" }
     ],
     "items": {
       "both": {
@@ -1824,7 +1855,13 @@
     "name": "Security Guard",
     "requirement": "achievement_reach_megastore",
     "description": "You had a boring, underpaid job watching cameras and patrolling hallways, but things have suddenly gotten a lot more dangerous.  You have some useful equipment, but you've never had any call to use it until now.",
-    "points": 1,
+    "points": 2,
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "bashing" }
+    ],
     "items": {
       "both": {
         "items": [ "socks", "boots_combat", "longshirt", "knife_folding", "hat_ball", "wristwatch", "leather_belt" ],
@@ -1849,7 +1886,12 @@
     "name": "Landscaper",
     "description": "You used to mow lawns and trim hedges for the wealthy.  Contract work was getting scarce even before the zombies came, but now you've got nothing left except your tools and expertise.",
     "points": 1,
-    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 2, "name": "survival" }, { "level": 1, "name": "swimming" } ],
+    "skills": [
+      { "level": 3, "name": "fabrication" },
+      { "level": 3, "name": "survival" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "cutting" }
+    ],
     "items": {
       "both": {
         "items": [ "tank_top", "jacket_windbreaker", "hat_ball", "gloves_work", "glasses_safety", "socks", "sneakers", "pants_cargo" ],
@@ -1866,7 +1908,7 @@
     "//": "They don't have the doctor's passive bonus to surgery.  Nursing assistants aren't required to hold a doctorate.",
     "description": "You went on providing in-home care for the elderly even as the whole world fell apart around you.  You can only pray that you don't see your former clients among the walking dead…",
     "points": 1,
-    "skills": [ { "level": 2, "name": "firstaid" }, { "level": 1, "name": "cooking" } ],
+    "skills": [ { "level": 3, "name": "firstaid" }, { "level": 3, "name": "cooking" }, { "level": 3, "name": "speech" } ],
     "proficiencies": [ "prof_wound_care" ],
     "items": {
       "both": {
@@ -1916,12 +1958,12 @@
       "prof_gun_cleaning"
     ],
     "skills": [
-      { "level": 4, "name": "survival" },
-      { "level": 2, "name": "traps" },
-      { "level": 2, "name": "fabrication" },
-      { "level": 2, "name": "cooking" },
-      { "level": 2, "name": "chemistry" },
-      { "level": 2, "name": "firstaid" },
+      { "level": 6, "name": "survival" },
+      { "level": 5, "name": "fabrication" },
+      { "level": 5, "name": "traps" },
+      { "level": 3, "name": "chemistry" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "cooking" },
       { "level": 2, "name": "swimming" }
     ],
     "items": {
@@ -1955,7 +1997,7 @@
     "id": "homeless",
     "name": "Hobo",
     "description": "Society drove you to the fringes and left you with no home, no family, no friends.  But for all the crap thrown your way, you're still breathing.  For now.",
-    "points": -1,
+    "points": 0,
     "items": {
       "both": {
         "items": [ "pants", "knit_scarf", "ragpouch", "bindle", "can_beans", "pockknife" ],
@@ -1971,7 +2013,7 @@
     "name": "Helicopter Pilot",
     "description": "You got your pilot's license and earned a living ferrying businessmen and tourists around.  The Cataclysm has grounded you for now, but the sky still calls to you…",
     "points": 4,
-    "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "speech" }, { "level": 3, "name": "mechanics" } ],
+    "skills": [ { "level": 6, "name": "driving" }, { "level": 3, "name": "mechanics" }, { "level": 2, "name": "speech" } ],
     "proficiencies": [ "prof_helicopter_pilot" ],
     "items": {
       "both": {
@@ -1988,19 +2030,22 @@
     "name": "K9 Officer",
     "requirement": "achievement_reach_police_station",
     "description": "You spent your career busting drug smugglers with your faithful canine companion.  Now the world has ended, and none of that matters anymore.  Your loyal dog is still at your side, though, ready to face the Cataclysm with you.",
-    "points": 4,
+    "points": 5,
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "pistol" },
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "pistol" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "bashing" },
+      { "level": 2, "name": "dodge" },
       { "level": 2, "name": "survival" },
-      { "level": 1, "name": "swimming" }
+      { "level": 2, "name": "swimming" }
     ],
     "traits": [ "PROF_POLICE" ],
     "proficiencies": [ "prof_spotting", "prof_gun_cleaning" ],
     "pets": [ { "name": "mon_dog_gshepherd", "amount": 1 } ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "dog_whistle", "wristwatch", "dogfood_dry" ],
+        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "dog_whistle", "wristwatch", "dogfood_dry", "baton" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
@@ -2023,10 +2068,13 @@
     "description": "You have spent many long years forging a bond with your equine companion, from running down common thugs, to entertaining kids when you ride on by.  The cataclysm is upon you, but at least you have eachother.",
     "points": 5,
     "skills": [
-      { "level": 4, "name": "survival" },
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "pistol" },
-      { "level": 1, "name": "swimming" }
+      { "level": 5, "name": "survival" },
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "pistol" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "bashing" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "swimming" }
     ],
     "traits": [ "PROF_POLICE" ],
     "proficiencies": [ "prof_spotting", "prof_gun_cleaning" ],
@@ -2042,7 +2090,8 @@
           "wristwatch",
           "helmet_bike",
           "knee_pads",
-          "elbow_pads"
+          "elbow_pads",
+          "baton"
         ],
         "entries": [
           { "group": "charged_smart_phone" },
@@ -2061,8 +2110,8 @@
     "id": "dog_lover",
     "name": "Dog Lover",
     "description": "You spent your days running around with your faithful dogs by your side.  When the world ended, you grabbed your companions along with some of their things to protect them.  The zombies could be nearby, but at least your canine friends won't have to worry about the rain.",
-    "points": 3,
-    "skills": [ { "level": 2, "name": "swimming" } ],
+    "points": 2,
+    "skills": [ { "level": 3, "name": "survival" } ],
     "traits": [ "ANIMALEMPATH" ],
     "pets": [ { "name": "mon_dog", "amount": 2 } ],
     "items": {
@@ -2080,8 +2129,8 @@
     "id": "crazy_cat_lady",
     "name": { "male": "Crazy Cat Dude", "female": "Crazy Cat Lady" },
     "description": "Everyone is dead?  Oh well, it doesn't matter; it's not like you got along with people much anyway.  Your beloved cats are all the friends you need!",
-    "points": 5,
-    "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "cooking" }, { "level": 1, "name": "tailor" } ],
+    "points": 2,
+    "skills": [ { "level": 3, "name": "tailor" }, { "level": 3, "name": "survival" }, { "level": 3, "name": "cooking" } ],
     "proficiencies": [ "prof_knitting", "prof_knitting_speed" ],
     "pets": [
       { "name": "mon_cat", "amount": 5 },
@@ -2114,13 +2163,20 @@
     "name": "Police Officer",
     "requirement": "achievement_reach_police_station",
     "description": "Just a small-town deputy, you got the call and were ready to come to the rescue.  Soon it was you who needed rescuing, and you were lucky to escape with your life.  Who's going to respect your authority when the government this badge represents might not even exist anymore?",
-    "points": 2,
-    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 1, "name": "swimming" } ],
+    "points": 4,
+    "skills": [
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "pistol" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "bashing" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "swimming" }
+    ],
     "traits": [ "PROF_POLICE" ],
     "proficiencies": [ "prof_spotting", "prof_gun_cleaning" ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "whistle", "wristwatch" ],
+        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "whistle", "wristwatch", "baton" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
@@ -2172,7 +2228,14 @@
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
-    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 1, "name": "swimming" } ],
+    "skills": [
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "pistol" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "bashing" },
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "swimming" }
+    ],
     "addictions": [ { "intensity": 10, "type": "nicotine" } ]
   },
   {
@@ -2181,13 +2244,19 @@
     "name": "SWAT Officer",
     "requirement": "achievement_reach_police_station",
     "description": "As a member of the police force's most elite division, you are more than adequately trained and equipped to survive the brutal onslaught of the apocalypse.  Unfortunately, the chain of command has broken down; your only mission now is to stay alive.",
-    "points": 5,
+    "points": 6,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 3, "name": "gun" },
-      { "level": 3, "name": "pistol" },
-      { "level": 3, "name": "smg" },
-      { "level": 2, "name": "swimming" }
+      { "level": 5, "name": "gun" },
+      { "level": 5, "name": "smg" },
+      { "level": 5, "name": "pistol" },
+      { "level": 4, "name": "shotgun" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "stabbing" },
+      { "level": 4, "name": "bashing" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "throw" },
+      { "level": 3, "name": "swimming" }
     ],
     "traits": [ "PROF_SWAT" ],
     "items": {
@@ -2231,14 +2300,18 @@
     "name": "SWAT CQC Specialist",
     "requirement": "achievement_reach_police_station",
     "description": "As a member of the police force's most elite division, you were given special training and became an expert in close-quarters combat.  Unfortunately, the chain of command has broken down; your only mission now is to stay alive.",
-    "points": 5,
+    "points": 6,
     "skills": [
-      { "level": 3, "name": "gun" },
-      { "level": 3, "name": "shotgun" },
-      { "level": 1, "name": "pistol" },
-      { "level": 1, "name": "melee" },
-      { "level": 1, "name": "bashing" },
-      { "level": 2, "name": "swimming" }
+      { "level": 5, "name": "gun" },
+      { "level": 5, "name": "shotgun" },
+      { "level": 5, "name": "pistol" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "bashing" },
+      { "level": 4, "name": "stabbing" },
+      { "level": 4, "name": "unarmed" },
+      { "level": 4, "name": "dodge" },
+      { "level": 3, "name": "throw" },
+      { "level": 3, "name": "swimming" }
     ],
     "traits": [ "PROF_SWAT" ],
     "proficiencies": [ "prof_spotting", "prof_gun_cleaning" ],
@@ -2278,13 +2351,17 @@
     "name": "Police Sniper",
     "requirement": "achievement_reach_police_station",
     "description": "Your skill as a sharpshooter served you well in the line of duty, protecting the innocent with a single, well-placed bullet.  Now your own life is on the line, and you can't afford to miss if you don't want to end up as something's dinner.",
-    "points": 5,
+    "points": 6,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 5, "name": "gun" },
-      { "level": 4, "name": "rifle" },
-      { "level": 1, "name": "pistol" },
-      { "level": 1, "name": "swimming" }
+      { "level": 7, "name": "gun" },
+      { "level": 7, "name": "rifle" },
+      { "level": 5, "name": "pistol" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "bashing" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "swimming" }
     ],
     "traits": [ "PROF_POLICE" ],
     "items": {
@@ -2324,10 +2401,13 @@
     "description": "The riots were brutal, even before the dead rose and started to devour the living.  The line you were holding broke.  It was only through a bit of luck and a lot of head-bashing that you got away in one piece, and the worst is yet to come.",
     "points": 5,
     "skills": [
-      { "level": 3, "name": "melee" },
-      { "level": 3, "name": "bashing" },
-      { "level": 1, "name": "gun" },
-      { "level": 1, "name": "throw" },
+      { "level": 5, "name": "melee" },
+      { "level": 4, "name": "bashing" },
+      { "level": 3, "name": "unarmed" },
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "launcher" },
+      { "level": 3, "name": "throw" },
       { "level": 3, "name": "swimming" }
     ],
     "traits": [ "PROF_POLICE" ],
@@ -2365,8 +2445,15 @@
     "name": "Motorized Police Officer",
     "requirement": "achievement_reach_police_station",
     "description": "Just a small-town deputy, you got the call and were ready to ride to the rescue.  Soon it was you who needed rescuing, and you had to abandon your motorcycle to escape.  Who's going to respect your authority when the government this badge represents doesn't exist anymore?",
-    "points": 2,
-    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 1, "name": "swimming" } ],
+    "points": 4,
+    "skills": [
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "pistol" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "bashing" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "swimming" }
+    ],
     "traits": [ "PROF_POLICE" ],
     "proficiencies": [ "prof_spotting", "prof_gun_cleaning" ],
     "items": {
@@ -2380,6 +2467,7 @@
           "motor_police_boots",
           "whistle",
           "wristwatch",
+          "baton",
           { "item": "leather_police_jacket", "variant": "leather_police_jacket" }
         ],
         "entries": [
@@ -2401,8 +2489,8 @@
     "id": "salesman",
     "name": "Used Car Salesman",
     "description": "They said you'd sell your own mother for a dollar.  How dare they!  You've been around the block a few times, and you'd charge way more than a dollar - and get it, too!",
-    "points": 0,
-    "skills": [ { "level": 4, "name": "speech" } ],
+    "points": 1,
+    "skills": [ { "level": 5, "name": "speech" } ],
     "items": {
       "both": {
         "items": [ "suit", "knit_scarf", "socks", "dress_shoes", "gold_watch", "money_strap_fifty" ],
@@ -2419,7 +2507,7 @@
     "description": "A great fan of the archers of old, but at the same time a follower of the latest trends in archery.  You always tried to keep up with the times, acquiring a takedown bow as well as several accessories to complement it.  You can only hope all the training you did with them can help you survive in this trying times.",
     "points": 4,
     "proficiencies": [ "prof_bow_basic", "prof_bow_expert" ],
-    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "archery" }, { "level": 1, "name": "swimming" } ],
+    "skills": [ { "level": 4, "name": "gun" }, { "level": 4, "name": "archery" }, { "level": 2, "name": "swimming" } ],
     "items": {
       "both": {
         "items": [
@@ -2452,7 +2540,7 @@
     "description": "Ever since you were a child you loved hunting, and quickly developed a talent for archery.  Why, if the world ended, there's nothing you'd want at your side more than your trusty bow.  So, when it did, you made sure to bring it along.",
     "points": 3,
     "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_bowyery" ],
-    "skills": [ { "level": 2, "name": "archery" }, { "level": 1, "name": "swimming" } ],
+    "skills": [ { "level": 4, "name": "gun" }, { "level": 4, "name": "archery" }, { "level": 2, "name": "swimming" } ],
     "items": {
       "both": {
         "items": [
@@ -2486,7 +2574,7 @@
     "description": "Ever since you were a child you loved hunting, and crossbow hunting was always your favorite.  Why, if the world ended, there's nothing you'd want at your side more than your trusty crossbow.  So, when it did, you made sure to bring it along, though most of your bolts were lost during the escape.",
     "points": 3,
     "proficiencies": [ "prof_bow_basic", "prof_gunsmithing_spring" ],
-    "skills": [ { "level": 2, "name": "rifle" }, { "level": 1, "name": "swimming" } ],
+    "skills": [ { "level": 4, "name": "rifle" }, { "level": 4, "name": "gun" }, { "level": 2, "name": "swimming" } ],
     "items": {
       "both": {
         "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "single_sling" ],
@@ -2514,9 +2602,9 @@
     "id": "shotgun_hunter",
     "name": "Shotgun Hunter",
     "description": "Ever since you were a child you loved hunting, and one year you got a shotgun for your birthday.  Why, if the world ended, there's nothing you'd want at your side more than your trusty shotgun.  So, when it did, you made sure to bring it along.",
-    "points": 2,
+    "points": 3,
     "proficiencies": [ "prof_gun_cleaning" ],
-    "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "shotgun" } ],
+    "skills": [ { "level": 4, "name": "gun" }, { "level": 4, "name": "shotgun" } ],
     "items": {
       "both": {
         "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "back_holster" ],
@@ -2545,9 +2633,9 @@
     "id": "rifle_hunter",
     "name": "Rifle Hunter",
     "description": "Ever since you were a child you loved hunting, and you fancy yourself a crack shot.  Why, if the world ended, there's nothing you'd want at your side more than your trusty rifle.  So, when it did, you made sure to bring it along.",
-    "points": 2,
+    "points": 3,
     "proficiencies": [ "prof_gun_cleaning" ],
-    "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "rifle" } ],
+    "skills": [ { "level": 4, "name": "gun" }, { "level": 4, "name": "rifle" } ],
     "items": {
       "both": {
         "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "back_holster" ],
@@ -2576,9 +2664,9 @@
     "id": "conversion_hunter",
     "name": "Big-Bore Hunter",
     "description": "You always harbored a passion for hunting and a particular fondness for big-bore rifle calibers and affordable conversion kits.  Whether it was their cost-effective nature or the simple, testosterone-amplifying notion that you could retool your rifle to belt out .50-caliber bullets, you preferred them for your hunting trips.  Now, with your converted rifle in hand, you fancy that there isn't any game too large for you to take down.",
-    "points": 2,
+    "points": 3,
     "proficiencies": [ "prof_gun_cleaning" ],
-    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "rifle" } ],
+    "skills": [ { "level": 4, "name": "gun" }, { "level": 4, "name": "rifle" } ],
     "items": {
       "both": {
         "items": [
@@ -2616,8 +2704,13 @@
     "id": "hillbilly",
     "name": "Hillbilly",
     "description": "You n' yer kin always figured shit would hit the fan some day, but never like this!  When they turned on you, you grabbed yer gun and a six pack, and hauled ass in the family truck.",
-    "points": 5,
-    "skills": [ { "level": 1, "name": "mechanics" }, { "level": 2, "name": "driving" } ],
+    "points": 4,
+    "skills": [
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "shotgun" },
+      { "level": 3, "name": "mechanics" },
+      { "level": 3, "name": "driving" }
+    ],
     "vehicle": "extended_pickup",
     "items": {
       "both": {
@@ -2638,7 +2731,7 @@
     "id": "construction_worker",
     "name": { "male": "Handy Man", "female": "Handy Woman" },
     "description": "You used to work at a local hardware store, and you did plenty of home renovations yourself.  Now you look out at the horizon of a ruined world, and wonder - are your meager skills, and the few supplies you grabbed on the way out, sufficient to help rebuild?",
-    "points": 2,
+    "points": 3,
     "proficiencies": [
       "prof_plumbing",
       "prof_elec_soldering",
@@ -2647,7 +2740,7 @@
       "prof_carpentry_basic",
       "prof_appliance_repair"
     ],
-    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 1, "name": "traps" } ],
+    "skills": [ { "level": 5, "name": "fabrication" }, { "level": 5, "name": "traps" } ],
     "items": {
       "both": {
         "items": [ "tank_top", "socks", "boots_steel", "pants", "multitool", "wristwatch" ],
@@ -2667,8 +2760,8 @@
     "id": "trucker",
     "name": "Trucker",
     "description": "You once ruled the road in your big rig.  When the riots hit, you hopped in and drove it to safety.  Now it's just you and your truck against the world.",
-    "points": 5,
-    "skills": [ { "level": 1, "name": "mechanics" }, { "level": 4, "name": "driving" } ],
+    "points": 4,
+    "skills": [ { "level": 6, "name": "driving" }, { "level": 3, "name": "mechanics" } ],
     "vehicle": "semi_truck_scenario",
     "items": {
       "both": {
@@ -2684,8 +2777,8 @@
     "type": "profession",
     "name": "Rideshare Driver",
     "description": "You love driving, and decided to start making some money doing it.  On your way to pick up a customer, a riot broke out around you.  You took a long detour to safety, only to find yourself somewhere unfamiliar.",
-    "points": 4,
-    "skills": [ { "level": 1, "name": "speech" }, { "level": 4, "name": "driving" } ],
+    "points": 3,
+    "skills": [ { "level": 5, "name": "driving" }, { "level": 2, "name": "speech" } ],
     "vehicle": "car",
     "items": {
       "both": {
@@ -2703,10 +2796,11 @@
     "description": "On your way to respond to an emergency call, you nearly drove straight into a riot in the city.  Turning off of the burning, debris-covered streets, you took a long detour only to find yourself lost.  That call will have to wait - you're in an emergency of your own now.",
     "points": 5,
     "skills": [
-      { "level": 3, "name": "firstaid" },
-      { "level": 3, "name": "driving" },
-      { "level": 2, "name": "melee" },
-      { "level": 1, "name": "swimming" }
+      { "level": 6, "name": "firstaid" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "bashing" },
+      { "level": 4, "name": "swimming" },
+      { "level": 4, "name": "driving" }
     ],
     "proficiencies": [
       "prof_wound_care",
@@ -2752,8 +2846,13 @@
     "type": "profession",
     "name": "Serviceman",
     "description": "Employed by a large company, you performed installation and troubleshooting services at the homes of ungrateful luddites.  Driving back from your last call, you were suddenly swarmed by what you believed to be angry rioters.  You veered off onto an old, neglected side road to escape, only to find yourself lost and low on gas.",
-    "points": 4,
-    "skills": [ { "level": 3, "name": "electronics" }, { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "points": 3,
+    "skills": [
+      { "level": 4, "name": "mechanics" },
+      { "level": 4, "name": "electronics" },
+      { "level": 3, "name": "computer" },
+      { "level": 3, "name": "driving" }
+    ],
     "proficiencies": [ "prof_appliance_repair" ],
     "vehicle": "cube_van_cheap",
     "items": {
@@ -2782,8 +2881,8 @@
     "type": "profession",
     "name": "Bus Driver",
     "description": "You made a living driving kids to and from school, a career choice you regretted almost every day.  None of the brats were at their normal stops, and the noise of your bus quickly attracted hordes of zombies.  You escaped, but now you've gotten lost.  At least you're getting a break from the hellish screams of children, though you're starting to hear new ones…",
-    "points": 4,
-    "skills": [ { "level": 1, "name": "speech" }, { "level": 3, "name": "driving" } ],
+    "points": 3,
+    "skills": [ { "level": 5, "name": "driving" }, { "level": 1, "name": "speech" } ],
     "vehicle": "schoolbus",
     "items": {
       "both": {
@@ -2800,14 +2899,22 @@
     "name": "Police Interceptor",
     "requirement": "achievement_reach_police_station",
     "description": "An on-duty officer, you received the call and were ready to respond to the robbery.  It all went to shit, your backup got eaten, and you were lucky to escape with your life and patrol car.",
-    "points": 6,
-    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 3, "name": "driving" } ],
+    "points": 5,
+    "skills": [
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "pistol" },
+      { "level": 4, "name": "driving" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "bashing" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "swimming" }
+    ],
     "proficiencies": [ "prof_spotting", "prof_gun_cleaning" ],
     "vehicle": "policecar",
     "traits": [ "PROF_POLICE" ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "whistle", "kevlar", "wristwatch" ],
+        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "whistle", "kevlar", "baton", "wristwatch" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
@@ -2827,12 +2934,14 @@
     "name": "Militia",
     "requirement": "achievement_survive_28_days",
     "description": "You and a group of like-minded individuals built a hideout in the woods from which to launch looting raids in a jury-rigged pickup.  The last run went bad, and now all your comrades are dead.  Every breath you take now is an act of rebellion against the cruelty of this doomed world.  Do not let that flame of hope perish inside you.",
-    "points": 8,
+    "points": 4,
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "rifle" },
-      { "level": 3, "name": "driving" },
-      { "level": 1, "name": "mechanics" }
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "rifle" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 3, "name": "mechanics" },
+      { "level": 3, "name": "driving" }
     ],
     "vehicle": "pickup_technical",
     "items": {
@@ -2872,15 +2981,15 @@
     "id": "park_ranger",
     "name": "Park Ranger",
     "description": "Your days of patrolling the park and protecting people and wildlife from each other have taught you many useful skills.  After finding a gruesome scene at a campsite and getting no response when you radioed for help, you stockpiled as many supplies as possible and set out in your pickup looking for answers.",
-    "points": 9,
+    "points": 5,
     "skills": [
-      { "level": 1, "name": "gun" },
-      { "level": 1, "name": "pistol" },
-      { "level": 3, "name": "driving" },
-      { "level": 2, "name": "firstaid" },
-      { "level": 1, "name": "fabrication" },
-      { "level": 2, "name": "swimming" },
-      { "level": 2, "name": "survival" }
+      { "level": 5, "name": "survival" },
+      { "level": 5, "name": "firstaid" },
+      { "level": 5, "name": "driving" },
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 2, "name": "swimming" }
     ],
     "vehicle": "pickup",
     "items": {
@@ -2931,8 +3040,13 @@
     "id": "lumberjack",
     "name": "Lumberjack",
     "description": "You're a lumberjack, and you're okay.  You felled trees before the world ended, and you suspect the undead aren't nearly as tough.",
-    "points": 0,
-    "skills": [ { "level": 2, "name": "swimming" } ],
+    "points": 2,
+    "skills": [
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "bashing" },
+      { "level": 3, "name": "cutting" },
+      { "level": 2, "name": "swimming" }
+    ],
     "items": {
       "both": {
         "items": [ "jeans", "socks", "boots", "hat_hunting", "jacket_flannel", "knit_scarf", "vest", "wristwatch", "axe_ring" ],
@@ -2947,8 +3061,8 @@
     "id": "fastfoodcook",
     "name": "Fast Food Cook",
     "description": "The diners at the fancy burger joint where you worked were even more irritable and unreasonable than usual today.  You showed them the meaning of fast food… by running for your life!",
-    "points": 0,
-    "skills": [ { "level": 1, "name": "cooking" } ],
+    "points": 1,
+    "skills": [ { "level": 3, "name": "cooking" } ],
     "proficiencies": [ "prof_frying" ],
     "items": {
       "both": {
@@ -2964,9 +3078,9 @@
     "id": "electrician",
     "name": "Electrician",
     "description": "Small businesses often hired you for electrical work.  You were halfway through your latest job when the whole power grid went dead.",
-    "points": 1,
+    "points": 2,
     "proficiencies": [ "prof_elec_soldering", "prof_appliance_repair" ],
-    "skills": [ { "level": 3, "name": "electronics" } ],
+    "skills": [ { "level": 6, "name": "electronics" } ],
     "items": {
       "both": {
         "items": [ "jumpsuit", "socks", "boots", "tool_belt", "wristwatch", "mbag", "solder_wire" ],
@@ -2986,8 +3100,8 @@
     "id": "hacker",
     "name": "Computer Hacker",
     "description": "Caffeine pills and all-nighters in front of a computer screen made you an expert at writing and cracking code.  The power's gone out, and suddenly your elite skills seem significantly less useful.  At least there's no one stopping you from your dream of breaking into a military mainframe now.",
-    "points": 1,
-    "skills": [ { "level": 4, "name": "computer" } ],
+    "points": 2,
+    "skills": [ { "level": 6, "name": "computer" } ],
     "items": {
       "both": {
         "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "caffeine", "caff_gum", "memory_card", "usb_drive" ],
@@ -3006,8 +3120,8 @@
     "id": "backpacker",
     "name": "Backpacker",
     "description": "For the past few years you've been traveling the world, sightseeing and living off your parents' trust fund.  You came home to find the world in ruins, and the only thing between you and death is the open road and your backpack.",
-    "points": 0,
-    "skills": [ { "level": 1, "name": "survival" } ],
+    "points": 1,
+    "skills": [ { "level": 3, "name": "survival" } ],
     "items": {
       "both": {
         "items": [ "backpack_hiking", "jeans", "boots_hiking", "knit_scarf", "socks", "wristwatch", "fun_survival" ],
@@ -3023,6 +3137,7 @@
     "name": "Student",
     "description": "Just an average student, you find yourself facing a test you never studied for, and the stakes are a bit higher than geometry.  Maybe there'll be something useful in one of these books you've been lugging around all year.",
     "points": 0,
+    "skills": [ { "level": 2, "name": "chemistry" }, { "level": 2, "name": "computer" } ],
     "items": {
       "both": {
         "items": [ "pants", "socks", "sneakers", "ZSG", "backpack", "wristwatch", "textbook_speech", "story_book", "howto_computer" ],
@@ -3047,7 +3162,7 @@
     "name": "Biker",
     "description": "You spent most of your life on a motorcycle, out on the open road with your club.  Now they're all dead.  Time to ride or die.",
     "points": 3,
-    "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "skills": [ { "level": 6, "name": "driving" }, { "level": 3, "name": "mechanics" } ],
     "vehicle": "motorcycle",
     "items": {
       "both": {
@@ -3077,7 +3192,7 @@
     "name": "Ballroom Dancer",
     "description": "Things got a little weird on your way to your weekly dance class.  Zombies don't seem to know how to dance, but you're not about to let them step on your toes.",
     "points": 0,
-    "skills": [ { "level": 2, "name": "dodge" } ],
+    "skills": [ { "level": 3, "name": "dodge" } ],
     "items": {
       "both": { "items": [ "socks", "knit_scarf", "dance_shoes" ], "entries": [ { "group": "charged_smart_phone" } ] },
       "male": [ "briefs", "tux", "tourmaline_silver_cufflinks" ],
@@ -3115,8 +3230,8 @@
     "id": "mutant_volunteer",
     "name": "Volunteer Mutant",
     "description": "Your dreams of becoming a mutant superhero through genetic alteration may have fallen a bit short, but the scientists say you're ready.  It's time for a field test.",
-    "points": 1,
-    "skills": [ { "level": 2, "name": "chemistry" }, { "level": 2, "name": "electronics" } ],
+    "points": 2,
+    "skills": [ { "level": 4, "name": "chemistry" }, { "level": 4, "name": "electronics" } ],
     "items": {
       "both": [ "dress_shirt", "pants", "socks", "boots", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch" ],
       "male": [ "briefs" ],
@@ -3142,8 +3257,8 @@
     "id": "trapper",
     "name": "Trapper",
     "description": "You spent most of your life trapping with your father.  Both of you made a decent living selling your catches and running trapping tutorials.  Hopefully, your skills will come in useful against less conventional game.",
-    "points": 2,
-    "skills": [ { "level": 4, "name": "traps" }, { "level": 2, "name": "survival" } ],
+    "points": 3,
+    "skills": [ { "level": 6, "name": "traps" }, { "level": 4, "name": "survival" } ],
     "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_traps", "prof_trapsetting" ],
     "items": {
       "both": {
@@ -3175,8 +3290,8 @@
     "id": "blacksmith",
     "name": "Blacksmith",
     "description": "You ran into trouble coming out of class at your community college's metalsmithing program, but despite the havoc you've managed to keep ahold of some of the equipment you were carrying.",
-    "points": 1,
-    "skills": [ { "level": 4, "name": "fabrication" }, { "level": 1, "name": "swimming" } ],
+    "points": 2,
+    "skills": [ { "level": 6, "name": "fabrication" }, { "level": 2, "name": "swimming" } ],
     "proficiencies": [ "prof_metalworking", "prof_blacksmithing" ],
     "items": {
       "both": {
@@ -3242,7 +3357,7 @@
     "name": "Otaku",
     "description": "After many late nights with friends watching anime and eating snacks, you decided to make the trip to the premier anime convention in the Northeast.  Now zombies are eating everyone, and even worse, the convention is cancelled!  At least you were ready in case your costume tore.",
     "points": 0,
-    "skills": [ { "level": 1, "name": "tailor" } ],
+    "skills": [ { "level": 2, "name": "tailor" } ],
     "items": {
       "both": {
         "items": [ "shorts", "socks", "sneakers", "tank_top", "mbag", "mag_animecon", "cheeseburger" ],
@@ -3297,6 +3412,7 @@
     "name": { "male": "Punk Rock Dude", "female": "Punk Rock Girl" },
     "description": "All those wicked songs about the apocalypse have come to life.  Brutal!  Now that the system is dead, it's time to party among the bones of the world!",
     "points": 0,
+    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "tailor" } ],
     "items": {
       "both": {
         "items": [ "trenchcoat", "gloves_fingerless", "socks", "boots_combat", "weed", "tobacco", "rolling_paper", "wristwatch" ],
@@ -3317,8 +3433,13 @@
     "id": "firefighter",
     "name": "Firefighter",
     "description": "As a first responder, you were a direct witness to the gut-wrenching horrors of the apocalypse.  Separated from most of your equipment and your unit while on call, you were forced to fight your way to safety with little more than your trusty iron and your bunker gear to protect you.",
-    "points": 2,
-    "skills": [ { "level": 2, "name": "melee" }, { "level": 1, "name": "firstaid" }, { "level": 1, "name": "swimming" } ],
+    "points": 3,
+    "skills": [
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "bashing" },
+      { "level": 4, "name": "firstaid" },
+      { "level": 3, "name": "swimming" }
+    ],
     "proficiencies": [ "prof_burn_care" ],
     "items": {
       "both": {
@@ -3348,6 +3469,7 @@
     "name": { "male": "Rude Boy", "female": "Rude Girl" },
     "description": "Your ska band broke up after the drummer became a zombie.  Now you're alone in the Cataclysm with some cigarettes and your mp3 player.",
     "points": 0,
+    "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
         "items": [ "dress_shirt", "tie_skinny", "sunglasses", "pants", "socks", "dress_shoes", "rolling_paper", "tobacco", "wristwatch" ],
@@ -3363,7 +3485,7 @@
     "name": "Mail Carrier",
     "description": "Neither snow nor rain nor heat nor gloom of night stays you from the swift completion of your appointed rounds, but nobody said anything about zombies.",
     "points": 0,
-    "skills": [ { "level": 1, "name": "driving" }, { "level": 1, "name": "dodge" } ],
+    "skills": [ { "level": 3, "name": "driving" }, { "level": 2, "name": "dodge" } ],
     "items": {
       "both": {
         "items": [
@@ -3395,7 +3517,12 @@
     "name": "Convict",
     "description": "Your trial was contentious, but ultimately you found yourself behind bars.  The Cataclysm has offered you a chance to escape, but freedom may come with a steep price.",
     "points": 0,
-    "skills": [ { "level": 1, "name": "melee" }, { "level": 1, "name": "traps" } ],
+    "skills": [
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 2, "name": "traps" }
+    ],
     "items": {
       "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
       "male": [ "briefs" ],
@@ -3407,8 +3534,8 @@
     "id": "death_row_convict",
     "name": "Death Row Convict",
     "description": "You were a serial killer, ready to walk the green mile, but in a twist of fate you're one of the few still alive.  True death comes only from your hands, so you're in for a job.",
-    "points": 2,
-    "skills": [ { "level": 1, "name": "melee" } ],
+    "points": 1,
+    "skills": [ { "level": 3, "name": "melee" }, { "level": 3, "name": "stabbing" }, { "level": 2, "name": "unarmed" } ],
     "traits": [ "KILLER" ],
     "items": {
       "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
@@ -3422,7 +3549,12 @@
     "name": "Undercover Assassin Convict",
     "description": "You were given a target, a mission, but killing your mark seems to have become much more difficult now.  Your employer cut contact with you and now you have to make do with what you have.",
     "points": 2,
-    "skills": [ { "level": 3, "name": "melee" }, { "level": 2, "name": "stabbing" } ],
+    "skills": [
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "stabbing" },
+      { "level": 3, "name": "unarmed" },
+      { "level": 3, "name": "dodge" }
+    ],
     "traits": [ "PROF_ASSASSIN_CONVICT" ],
     "items": {
       "both": {
@@ -3442,8 +3574,8 @@
     "id": "convict_embezzler",
     "name": "Embezzler",
     "description": "You had a genius plan to skim fractions of cents out of your company's accounts.  This plan immediately failed and got you arrested.  They said you were too soft for prison, but guess what?  They're dead, and you're not.",
-    "points": 1,
-    "skills": [ { "level": 2, "name": "speech" }, { "level": 2, "name": "computer" } ],
+    "points": 0,
+    "skills": [ { "level": 4, "name": "speech" }, { "level": 3, "name": "computer" } ],
     "items": {
       "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "rock_sock" ],
       "male": [ "briefs" ],
@@ -3456,8 +3588,8 @@
     "id": "convict_drugs",
     "name": "Meth Cook",
     "description": "You clawed your way out of poverty by selling products everyone wanted, and they had the nerve to put you in jail for it.  Too bad you can't sell drugs to zombies.",
-    "points": 1,
-    "skills": [ { "level": 2, "name": "chemistry" }, { "level": 2, "name": "firstaid" } ],
+    "points": 2,
+    "skills": [ { "level": 6, "name": "chemistry" }, { "level": 2, "name": "firstaid" } ],
     "items": {
       "both": {
         "items": [ "striped_shirt", "striped_pants", "sneakers", "socks", "adderall" ],
@@ -3474,7 +3606,7 @@
     "name": "Political Prisoner",
     "description": "You did your best to expose what was going on in those labs, but they caught you and threw you in prison on trumped-up charges to silence you.  Clearly, they should have listened.",
     "points": 1,
-    "skills": [ { "level": 3, "name": "speech" } ],
+    "skills": [ { "level": 6, "name": "speech" } ],
     "items": {
       "both": {
         "items": [ "striped_shirt", "striped_pants", "sneakers", "socks", "gum" ],
@@ -3490,8 +3622,8 @@
     "id": "convict_ratman",
     "name": { "male": "Rat Prince", "female": "Rat Princess" },
     "description": "You probably needed psychiatric help instead of a prison sentence.  At least your loyal subjects have agreed to hold the line as you make your daring escape.",
-    "points": 4,
-    "skills": [ { "level": 1, "name": "speech" }, { "level": 1, "name": "survival" } ],
+    "points": 3,
+    "skills": [ { "level": 4, "name": "survival" }, { "level": 2, "name": "speech" } ],
     "traits": [ "ANIMALEMPATH" ],
     "pets": [ { "name": "mon_black_rat", "amount": 13 } ],
     "items": {
@@ -3506,9 +3638,9 @@
     "id": "burglar",
     "name": "Burglar",
     "description": "This could be your lucky break.  Plenty of loot to be pilfered, and no cops to be seen.  Does it count as breaking and entering if everyone in town is undead?",
-    "points": 3,
+    "points": 2,
     "proficiencies": [ "prof_lockpicking" ],
-    "skills": [ { "level": 4, "name": "traps" } ],
+    "skills": [ { "level": 6, "name": "traps" }, { "level": 2, "name": "dodge" } ],
     "items": {
       "both": {
         "items": [
@@ -3538,7 +3670,7 @@
     "name": "Lawyer",
     "description": "The jury were in the palm of your hand, but after the defendant tried to eat your brain, you were forced to flee the courtroom in disgrace.  Now nobody seems to care about your objections.",
     "points": 1,
-    "skills": [ { "level": 2, "name": "speech" } ],
+    "skills": [ { "level": 6, "name": "speech" } ],
     "items": {
       "both": {
         "items": [
@@ -3581,7 +3713,7 @@
     "name": "Kannushi",
     "description": "You were one of the maintainers of a Shinto shrine, performing rituals and sacred tasks.  You preferred it when only the spirits of the dead inhabited your shrine, and not their rotting corpses.",
     "points": 0,
-    "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "tailor" } ],
+    "skills": [ { "level": 3, "name": "fabrication" }, { "level": 3, "name": "tailor" } ],
     "items": {
       "both": {
         "items": [ "kariginu", "eboshi", "pants", "hakama", "tabi_dress", "geta", "holy_symbol", "holybook_kojiki" ],
@@ -3630,7 +3762,7 @@
     "name": "Rabbi",
     "description": "You were celebrating with your flock in the temple when the Cataclysm struck.  You sure could use a messiah right now!",
     "points": 0,
-    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "firstaid" } ],
+    "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
         "items": [
@@ -3657,7 +3789,7 @@
     "name": "Guru",
     "description": "You spent many years traveling through the world, becoming wise and learned.  Normally you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
     "points": 1,
-    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "survival" } ],
+    "skills": [ { "level": 5, "name": "speech" }, { "level": 3, "name": "survival" } ],
     "items": {
       "both": {
         "items": [ "jeans", "socks", "robe", "turban", "waterskin", "pockknife", "mbag", "leathersandals", "holy_symbol", "wristwatch" ],
@@ -3673,7 +3805,7 @@
     "name": "Traveling Preacher",
     "description": "You devoted your life to spreading the good word, always on the road, traveling from town to town.  Now everything has gone to hell, you can't host your daily podcast, and the undead don't seem particularly moved by your sermons.",
     "points": 1,
-    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "driving" }, { "level": 1, "name": "computer" } ],
+    "skills": [ { "level": 4, "name": "speech" }, { "level": 4, "name": "driving" } ],
     "items": {
       "both": {
         "items": [ "dress_shirt", "pants", "socks", "dress_shoes", "wristwatch", "backpack", "flyer", "flyer", "flyer", "holy_symbol" ],
@@ -3692,7 +3824,8 @@
     "id": "blackbelt_novice",
     "name": "Novice Martial Artist",
     "description": "You've decided today is the day to take your first lesson at the local dojo.  You'll be great at it, you're sure of it.",
-    "points": -1,
+    "points": 0,
+    "skills": [ { "level": 1, "name": "melee" }, { "level": 1, "name": "unarmed" } ],
     "items": {
       "both": [ "karate_gi", "judo_belt_white", "mouthpiece", "socks_ankle", "sneakers" ],
       "male": [ "boxer_shorts" ],
@@ -3708,10 +3841,10 @@
     "points": 3,
     "traits": [ "PROF_MA_ORANGE" ],
     "skills": [
-      { "level": 2, "name": "melee" },
-      { "level": 2, "name": "unarmed" },
-      { "level": 2, "name": "dodge" },
-      { "level": 2, "name": "swimming" }
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "unarmed" },
+      { "level": 4, "name": "dodge" },
+      { "level": 3, "name": "swimming" }
     ],
     "items": {
       "both": [ "karate_gi", "judo_belt_orange", "mouthpiece", "socks_ankle", "sneakers" ],
@@ -3728,10 +3861,10 @@
     "points": 8,
     "traits": [ "PROF_MA_BLACK" ],
     "skills": [
-      { "level": 5, "name": "melee" },
-      { "level": 5, "name": "unarmed" },
-      { "level": 5, "name": "dodge" },
-      { "level": 3, "name": "swimming" }
+      { "level": 8, "name": "melee" },
+      { "level": 8, "name": "unarmed" },
+      { "level": 8, "name": "dodge" },
+      { "level": 5, "name": "swimming" }
     ],
     "items": {
       "both": [ "karate_gi", "judo_belt_black", "mouthpiece", "geta" ],
@@ -3744,8 +3877,8 @@
     "id": "pizzaboy",
     "name": { "male": "Pizza Delivery Boy", "female": "Pizza Delivery Girl" },
     "description": "You were delivering the last pizza of the night to the local cryogenics lab when hungry zombies attempted to make a meal out of you.  Fleeing for safety, you find yourself with only your wits and some leftover pizza.  And they didn't even leave a tip!",
-    "points": 1,
-    "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "speech" } ],
+    "points": 0,
+    "skills": [ { "level": 3, "name": "driving" }, { "level": 1, "name": "speech" } ],
     "items": {
       "both": {
         "items": [
@@ -3772,7 +3905,13 @@
     "name": "Archaeologist",
     "description": "Following a clue from your dead grandfather's journal, you made your way to a long-lost temple, but then the ground started to shake uncontrollably.  You had a bad feeling about that, so you got out of there quickly.",
     "points": 2,
-    "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "gun" } ],
+    "skills": [
+      { "level": 4, "name": "survival" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "bashing" }
+    ],
     "items": {
       "both": {
         "items": [
@@ -3804,8 +3943,8 @@
     "id": "paperboy",
     "name": { "male": "Paperboy", "female": "Papergirl" },
     "description": "You set out this morning to deliver the news of the apocalypse.  The undead hordes don't seem to value the latest news, but at least your trusty bicycle is still in working order.",
-    "points": 3,
-    "skills": [ { "level": 3, "name": "driving" }, { "level": 3, "name": "throw" }, { "level": 1, "name": "speech" } ],
+    "points": 2,
+    "skills": [ { "level": 4, "name": "driving" }, { "level": 3, "name": "throw" }, { "level": 1, "name": "speech" } ],
     "items": {
       "both": {
         "items": [
@@ -3839,6 +3978,12 @@
     "name": "Farmer",
     "description": "A patch of soil, some water, and sunlight were all you ever needed; why should things be any different now?  With a handful of seeds and your trusty hoe, it's time to rebuild the Earth, one plant at a time.",
     "points": 1,
+    "skills": [
+      { "level": 3, "name": "survival" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "bashing" }
+    ],
     "items": {
       "both": {
         "items": [
@@ -3871,12 +4016,15 @@
     "name": "National Guardsman",
     "requirement": "achievement_reach_military_bunker",
     "description": "The government activated your National Guard unit to deal with the growing epidemics.  Despite your best efforts, you were unable to form up before all communications ceased and you found yourself alone amongst the dead.",
-    "points": 3,
+    "points": 4,
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "firstaid" },
-      { "level": 2, "name": "rifle" },
-      { "level": 1, "name": "swimming" }
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "rifle" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "bashing" },
+      { "level": 2, "name": "swimming" }
     ],
     "proficiencies": [ "prof_wound_care", "prof_gun_cleaning" ],
     "items": {
@@ -3901,12 +4049,20 @@
     "points": 8,
     "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knitting", "prof_closures" ],
     "skills": [
-      { "level": 5, "name": "melee" },
-      { "level": 5, "name": "gun" },
-      { "level": 3, "name": "dodge" },
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "rifle" },
+      { "level": 4, "name": "pistol" },
+      { "level": 4, "name": "shotgun" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "bashing" },
+      { "level": 4, "name": "cutting" },
+      { "level": 4, "name": "stabbing" },
+      { "level": 4, "name": "dodge" },
+      { "level": 4, "name": "fabrication" },
       { "level": 4, "name": "mechanics" },
-      { "level": 3, "name": "rifle" },
-      { "level": 3, "name": "swimming" }
+      { "level": 4, "name": "tailor" },
+      { "level": 4, "name": "survival" },
+      { "level": 4, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -3941,13 +4097,16 @@
     "points": 6,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 4, "name": "survival" },
       { "level": 4, "name": "gun" },
-      { "level": 3, "name": "rifle" },
-      { "level": 2, "name": "melee" },
-      { "level": 2, "name": "stabbing" },
-      { "level": 1, "name": "firstaid" },
-      { "level": 2, "name": "swimming" }
+      { "level": 4, "name": "rifle" },
+      { "level": 4, "name": "pistol" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "stabbing" },
+      { "level": 4, "name": "dodge" },
+      { "level": 4, "name": "firstaid" },
+      { "level": 4, "name": "survival" },
+      { "level": 4, "name": "throw" },
+      { "level": 4, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -3990,6 +4149,7 @@
     "name": "Mall Security",
     "description": "You spent dull nights guarding the local mall against teen hooligans and petty thieves.  Your job training didn't provide any terribly useful skills, but you do have your trusty stun gun, baton, and pocket knife.",
     "points": 0,
+    "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "bashing" } ],
     "items": {
       "both": {
         "items": [ "socks", "boots", "longshirt", "holster", "pockknife", "wristwatch", "leather_belt" ],
@@ -4012,18 +4172,19 @@
     "name": "Naturalist",
     "requirement": "achievement_survive_91_days",
     "description": "Over long years of self-imposed exile in the wilderness, you have come to an understanding with Mother Nature.  The world as they knew it might have ended for your forsaken species, but you can hardly tell the difference.",
-    "points": 7,
+    "points": 6,
     "skills": [
-      { "level": 6, "name": "survival" },
-      { "level": 4, "name": "fabrication" },
-      { "level": 3, "name": "tailor" },
-      { "level": 1, "name": "gun" },
+      { "level": 7, "name": "survival" },
+      { "level": 6, "name": "fabrication" },
+      { "level": 6, "name": "tailor" },
+      { "level": 5, "name": "gun" },
       { "level": 5, "name": "archery" },
+      { "level": 4, "name": "chemistry" },
+      { "level": 4, "name": "cooking" },
       { "level": 3, "name": "melee" },
+      { "level": 3, "name": "stabbing" },
       { "level": 2, "name": "dodge" },
-      { "level": 2, "name": "swimming" },
-      { "level": 2, "name": "chemistry" },
-      { "level": 3, "name": "cooking" }
+      { "level": 2, "name": "swimming" }
     ],
     "proficiencies": [
       "prof_bowyery",
@@ -4073,7 +4234,7 @@
     "name": "Fisher",
     "description": "You spent most of your days fishing in the swamp, getting by quietly on your catch.  You found the buzzing of insects enjoyable, but recently they've gotten bigger and meaner.  Now their horrible noises have you spooked - you just hope the fish aren't as nasty.",
     "points": 2,
-    "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "survival" } ],
+    "skills": [ { "level": 5, "name": "survival" }, { "level": 2, "name": "swimming" } ],
     "proficiencies": [ "prof_fibers" ],
     "items": {
       "both": {
@@ -4110,13 +4271,14 @@
       "male": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world permanently derailed your plans.",
       "female": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world made traditional gender roles obsolete."
     },
-    "points": 3,
+    "points": 2,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_metalworking", "prof_gunsmithing_antique", "prof_gun_cleaning" ],
     "skills": [
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "mechanics" },
       { "level": 2, "name": "tailor" },
-      { "level": 2, "name": "gun" },
-      { "level": 1, "name": "mechanics" },
-      { "level": 1, "name": "cooking" }
+      { "level": 2, "name": "cooking" }
     ],
     "items": {
       "both": {
@@ -4157,13 +4319,13 @@
       "male": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world made traditional gender roles obsolete.",
       "female": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world permanently derailed your plans."
     },
-    "points": 3,
+    "points": 2,
     "proficiencies": [ "prof_spinning", "prof_closures", "prof_knitting", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 2, "name": "tailor" },
+      { "level": 4, "name": "tailor" },
+      { "level": 4, "name": "cooking" },
       { "level": 2, "name": "gun" },
-      { "level": 1, "name": "mechanics" },
-      { "level": 1, "name": "cooking" }
+      { "level": 2, "name": "rifle" }
     ],
     "items": {
       "both": {
@@ -4199,7 +4361,7 @@
     "name": { "male": "Skater Boy (Rollerblades)", "female": "Skater Girl (Rollerblades)" },
     "description": "You love to skate!  You've probably spent more time on a pair of blades than off.  Things have gotten pretty bad, but at least the grown-ups aren't telling you where you can't roll.",
     "points": 1,
-    "skills": [ { "level": 1, "name": "dodge" }, { "level": 2, "name": "swimming" } ],
+    "skills": [ { "level": 4, "name": "dodge" }, { "level": 3, "name": "driving" }, { "level": 2, "name": "swimming" } ],
     "traits": [ "PROF_SKATER" ],
     "items": {
       "both": {
@@ -4227,7 +4389,7 @@
     "name": { "male": "Skater Boy (Skateboard)", "female": "Skater Girl (Skateboard)" },
     "description": "You love to skate!  You've probably spent more time on a skateboard than off.  Things have gotten pretty bad, but at least the grown-ups aren't telling you where you can't roll.",
     "points": 1,
-    "skills": [ { "level": 1, "name": "dodge" }, { "level": 2, "name": "driving" }, { "level": 2, "name": "swimming" } ],
+    "skills": [ { "level": 4, "name": "dodge" }, { "level": 3, "name": "driving" }, { "level": 2, "name": "swimming" } ],
     "traits": [ "PROF_SKATER" ],
     "items": {
       "both": {
@@ -4255,8 +4417,14 @@
     "id": "jdelinquent",
     "name": "Juvenile Delinquent",
     "description": "You never cared for grown-ups telling you what to do, so you ended up spending quite a few days in the principal's office.  Now, not needing grown-ups to tell you what to do is the only reason you're alive.  Man, you really should've played hooky today.",
-    "points": 1,
-    "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "dodge" }, { "level": 1, "name": "melee" } ],
+    "points": 0,
+    "skills": [
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "archery" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "unarmed" },
+      { "level": 1, "name": "dodge" }
+    ],
     "items": {
       "both": {
         "items": [
@@ -4290,12 +4458,12 @@
     "name": "Survivalist Jr.",
     "requirement": "achievement_survive_7_days",
     "description": "Your parents were crazy preppers who thought some \"Cataclysm\" was coming, and insisted on preparing you for it.  Turns out they were right.  You didn't get a chance to thank them.  The only thing you can do for them now is what they always hoped you would do in the dark days ahead: survive.",
-    "points": 3,
+    "points": 2,
     "skills": [
-      { "level": 1, "name": "survival" },
-      { "level": 1, "name": "fabrication" },
-      { "level": 1, "name": "firstaid" },
-      { "level": 1, "name": "traps" }
+      { "level": 3, "name": "fabrication" },
+      { "level": 3, "name": "survival" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "traps" }
     ],
     "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_lockpicking", "prof_gun_cleaning" ],
     "items": {
@@ -4331,7 +4499,7 @@
     "name": "Dodgeball Player",
     "description": "In dodgeball, failing to dodge meant taking a ball to the head and being out of the game.  In the Cataclysm, it means getting eaten by monsters.  Don't slip up.",
     "points": 2,
-    "skills": [ { "level": 1, "name": "dodge" }, { "level": 1, "name": "throw" }, { "level": 2, "name": "swimming" } ],
+    "skills": [ { "level": 5, "name": "dodge" }, { "level": 4, "name": "throw" }, { "level": 3, "name": "swimming" } ],
     "items": {
       "both": {
         "items": [ "jacket_light", "jeans", "socks_ankle", "lowtops", "slingpack", "juice" ],
@@ -4347,7 +4515,7 @@
     "name": "Science Club Member",
     "description": "The school never let your club play with the really fun chemicals, the kind that make things go boom, but there aren't any teachers around to enforce the rules anymore.",
     "points": 1,
-    "skills": [ { "level": 1, "name": "chemistry" }, { "level": 1, "name": "mechanics" } ],
+    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 2, "name": "mechanics" }, { "level": 2, "name": "chemistry" } ],
     "items": {
       "both": {
         "items": [ "jacket_light", "jeans", "socks", "sneakers", "knit_scarf", "backpack", "basic_chemistry", "wristwatch" ],
@@ -4363,7 +4531,7 @@
     "name": "A/V Club Member",
     "description": "You were a member of the school A/V club.  You're sure there's some way you can use your technical skills to help you stay alive.  You just haven't figured out how to make an awesome death ray yet.",
     "points": 1,
-    "skills": [ { "level": 1, "name": "electronics" }, { "level": 1, "name": "computer" } ],
+    "skills": [ { "level": 3, "name": "electronics" }, { "level": 3, "name": "computer" } ],
     "items": {
       "both": {
         "items": [
@@ -4388,8 +4556,8 @@
     "id": "teacher",
     "name": "Teacher",
     "description": "You've been teaching kids all your life, experiencing the joy and aggravation of imparting knowledge to young minds.  If zombies have any interest in education, they're not showing it.",
-    "points": 0,
-    "skills": [ { "level": 3, "name": "speech" } ],
+    "points": 1,
+    "skills": [ { "level": 4, "name": "speech" } ],
     "items": {
       "both": {
         "items": [ "dress_shirt", "blazer", "pants", "socks", "dress_shoes", "tie_skinny", "tieclip", "poetry_book", "wristwatch" ],
@@ -4404,7 +4572,8 @@
     "id": "photojournalist",
     "name": "Photojournalist",
     "description": "Covering the apocalypse up close could make your career, though finding a publisher seems more difficult a prospect than usual.  You managed to hold onto your camera - hopefully you can get some fantastic shots.",
-    "points": 0,
+    "points": 1,
+    "skills": [ { "level": 4, "name": "speech" } ],
     "items": {
       "both": {
         "items": [ "pants", "dress_shirt", "blazer", "socks", "dress_shoes", "wristwatch", "camera_bag" ],
@@ -4423,7 +4592,13 @@
     "name": "Gym Teacher",
     "description": "It was hard enough getting kids to run laps without having to worry about them trying to eat your brains.  Zombies won't even line up when you blow your whistle.",
     "points": 2,
-    "skills": [ { "level": 2, "name": "dodge" }, { "level": 2, "name": "speech" }, { "level": 1, "name": "swimming" } ],
+    "skills": [
+      { "level": 3, "name": "swimming" },
+      { "level": 3, "name": "speech" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "bashing" },
+      { "level": 2, "name": "throw" }
+    ],
     "items": {
       "both": {
         "items": [ "baseball", "bat", "whistle", "tank_top", "shorts", "socks_ankle", "sneakers", "runner_bag", "wristwatch" ],
@@ -4438,7 +4613,8 @@
     "id": "miner",
     "name": "Miner",
     "description": "You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of gas, and you're on your last pair of batteries for your mining helmet…",
-    "points": 2,
+    "points": 1,
+    "skills": [ { "level": 2, "name": "mechanics" }, { "level": 2, "name": "swimming" } ],
     "items": {
       "both": {
         "items": [
@@ -4472,8 +4648,8 @@
     "id": "demolition_expert",
     "name": "Demolition Expert",
     "description": "Before this all began, you were having the time of your life at your dream job: blowing stuff up.  The Cataclysm means you're finally allowed to do it full time.",
-    "skills": [ { "level": 2, "name": "fabrication" } ],
-    "points": 3,
+    "skills": [ { "level": 4, "name": "fabrication" }, { "level": 3, "name": "chemistry" }, { "level": 3, "name": "throw" } ],
+    "points": 2,
     "items": {
       "both": {
         "items": [ "socks", "boots_steel", "gloves_work", "jumpsuit", "canteen", "tool_belt", "mbag", "briefcase", "wristwatch" ],
@@ -4495,9 +4671,9 @@
     "id": "parkour_practitioner",
     "name": { "male": "Traceur", "female": "Traceuse" },
     "description": "You've practiced parkour for many years, and made the world your playground.  It wouldn't be a lie to say that running is your life.  Which is good, because now that the end has come, you're running FOR your life.",
-    "points": 4,
+    "points": 3,
     "proficiencies": [ "prof_parkour" ],
-    "skills": [ { "level": 4, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
+    "skills": [ { "level": 6, "name": "dodge" }, { "level": 4, "name": "swimming" } ],
     "items": {
       "both": {
         "items": [ "hoodie", "pants_cargo", "socks_ankle", "sneakers", "runner_bag", "wristwatch" ],
@@ -4512,7 +4688,7 @@
     "id": "tourist",
     "name": "Tourist",
     "description": "This seemed like a great place for a vacation, but you're starting to regret ever leaving home.  You came here to get a taste of New England, but New England keeps trying to get a taste of you!",
-    "points": 1,
+    "points": 0,
     "items": {
       "both": {
         "items": [
@@ -4550,9 +4726,9 @@
     "id": "zoo_keeper",
     "name": "Zoo Keeper",
     "description": "You were called in on your day off to feed the animals at the zoo.  For some reason, none of your coworkers bothered showing up for work today.",
-    "points": 1,
+    "points": 2,
     "traits": [ "ANIMALEMPATH" ],
-    "skills": [ { "level": 1, "name": "firstaid" }, { "level": 1, "name": "survival" } ],
+    "skills": [ { "level": 4, "name": "survival" }, { "level": 3, "name": "firstaid" } ],
     "items": {
       "both": {
         "items": [
@@ -4577,7 +4753,7 @@
     "id": "urban_samurai",
     "name": "Urban Samurai",
     "description": "You were always an inexplicable sight in town, with your funny hair and odd Japanese clothes.  Some claimed you were a visiting Shinto god.  Little of this concerned you, but last week the grocery service stopped coming and now the TV no longer turns on.  This displeases you.",
-    "points": 1,
+    "points": 0,
     "skills": [ { "level": 1, "name": "melee" }, { "level": 1, "name": "cutting" } ],
     "items": {
       "both": {
@@ -4594,7 +4770,12 @@
     "name": "Competitive Fencer",
     "description": "Years of training prepared you for the competitive fencing circuit, but your latest tournament was cut short when zombies invaded the piste.  The referee was eaten, so you're not sure if the rules are still in play.",
     "points": 5,
-    "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "dodge" }, { "level": 2, "name": "swimming" } ],
+    "skills": [
+      { "level": 6, "name": "melee" },
+      { "level": 6, "name": "stabbing" },
+      { "level": 6, "name": "dodge" },
+      { "level": 4, "name": "swimming" }
+    ],
     "traits": [ "MARTIAL_FENCING" ],
     "items": {
       "both": {
@@ -4619,8 +4800,8 @@
     "id": "politician",
     "name": "Career Politician",
     "description": "You've spent your life appealing to the people, persuading many and promising much throughout your time in office.  Now that your voting base wants to eat you alive, winning hearts and minds just got that much harder.",
-    "points": 4,
-    "skills": [ { "level": 6, "name": "speech" } ],
+    "points": 2,
+    "skills": [ { "level": 8, "name": "speech" } ],
     "traits": [ "LIAR" ],
     "items": {
       "both": {
@@ -4638,7 +4819,7 @@
     "name": "Rancher",
     "description": "Taking care of cows, horses, and other animals is your passion, but the ways things are going, this isn't going to be just another day at the ranch.",
     "points": 2,
-    "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "swimming" } ],
+    "skills": [ { "level": 5, "name": "survival" } ],
     "items": {
       "both": {
         "items": [
@@ -4669,13 +4850,12 @@
     "id": "roadie",
     "name": "Roadie",
     "description": "You've always worked just outside of the limelight, carrying and fixing the equipment and ensuring that the performers got what they needed.  The show must go on.",
-    "points": 3,
+    "points": 2,
     "skills": [
-      { "level": 2, "name": "fabrication" },
-      { "level": 1, "name": "driving" },
-      { "level": 2, "name": "electronics" },
-      { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "mechanics" }
+      { "level": 3, "name": "fabrication" },
+      { "level": 3, "name": "mechanics" },
+      { "level": 3, "name": "electronics" },
+      { "level": 3, "name": "driving" }
     ],
     "proficiencies": [ "prof_appliance_repair" ],
     "items": {
@@ -4692,8 +4872,8 @@
     "id": "musician",
     "name": "Musician",
     "description": "You nailed your solo, but the audience erupted into screams instead of applause.  You weren't able to grab much during the panic, but at least you have your loaded six string on your back.",
-    "points": -1,
-    "skills": [ { "level": 2, "name": "speech" } ],
+    "points": 1,
+    "skills": [ { "level": 5, "name": "speech" } ],
     "items": {
       "both": {
         "ammo": 100,
@@ -4743,9 +4923,10 @@
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
       { "level": 4, "name": "gun" },
-      { "level": 3, "name": "pistol" },
-      { "level": 2, "name": "shotgun" },
-      { "level": 1, "name": "survival" }
+      { "level": 4, "name": "pistol" },
+      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "shotgun" },
+      { "level": 2, "name": "survival" }
     ],
     "items": {
       "both": {
@@ -4784,7 +4965,7 @@
     "name": { "male": "Frat Boy", "female": "Sorority Girl" },
     "description": "You were living the high life, spending your parents' money without a care in the world.  At one of your usual crazy parties, the guests became hungry for more than drugs and booze, but you still have a chance to use the last symbol of your luxurious life - your sports car - and get far away.",
     "points": 2,
-    "skills": [ { "level": 1, "name": "speech" }, { "level": 2, "name": "driving" } ],
+    "skills": [ { "level": 3, "name": "driving" }, { "level": 2, "name": "speech" } ],
     "vehicle": "car_sports",
     "items": {
       "both": {
@@ -4813,17 +4994,19 @@
     "name": "Military Marksman",
     "requirement": "achievement_reach_military_bunker",
     "description": "You like to think of yourself as a sniper, but really you're just infantry with a bigger gun.  That said, a big gun is a definite advantage now.",
-    "points": 4,
+    "points": 5,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 3, "name": "gun" },
-      { "level": 3, "name": "rifle" },
-      { "level": 2, "name": "melee" },
-      { "level": 1, "name": "stabbing" },
-      { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "firstaid" },
-      { "level": 1, "name": "survival" },
-      { "level": 1, "name": "swimming" }
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "rifle" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "throw" },
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -4865,14 +5048,16 @@
     "points": 5,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 1, "name": "rifle" },
-      { "level": 2, "name": "melee" },
-      { "level": 1, "name": "stabbing" },
-      { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "firstaid" },
-      { "level": 1, "name": "survival" },
-      { "level": 1, "name": "swimming" }
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "rifle" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "throw" },
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -4914,17 +5099,20 @@
     "name": "Military Grenadier",
     "requirement": "achievement_reach_military_bunker",
     "description": "There's no kill like overkill, and not many people in this world can boast that they have a grenade launcher and know how to use it.  Just try not to blow yourself up, that would be really embarrassing.",
-    "points": 3,
+    "points": 4,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 1, "name": "launcher" },
-      { "level": 2, "name": "melee" },
-      { "level": 1, "name": "stabbing" },
-      { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "firstaid" },
-      { "level": 1, "name": "survival" },
-      { "level": 1, "name": "swimming" }
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "launcher" },
+      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "throw" },
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -4970,14 +5158,18 @@
     "points": 5,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 1, "name": "shotgun" },
-      { "level": 2, "name": "melee" },
-      { "level": 1, "name": "bashing" },
-      { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "firstaid" },
-      { "level": 1, "name": "survival" },
-      { "level": 1, "name": "swimming" }
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "shotgun" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "bashing" },
+      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "throw" },
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -5022,14 +5214,16 @@
     "points": 5,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 4, "name": "gun" },
-      { "level": 4, "name": "rifle" },
-      { "level": 2, "name": "melee" },
-      { "level": 1, "name": "stabbing" },
-      { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "firstaid" },
+      { "level": 5, "name": "gun" },
+      { "level": 5, "name": "rifle" },
+      { "level": 4, "name": "pistol" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "throw" },
       { "level": 2, "name": "survival" },
-      { "level": 1, "name": "swimming" }
+      { "level": 2, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -5074,19 +5268,22 @@
     "name": "Military Hacker",
     "requirement": "achievement_reach_military_bunker",
     "description": "'Hacker' is a silly pop-culture name, popularized by Hollywood and people with little to no knowledge of what your job entails.  You prefer 'Electronic Warfare Specialist,' though nobody's really left to make the distinction.",
-    "points": 8,
+    "points": 7,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_elec_soldering", "prof_appliance_repair", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 1, "name": "smg" },
-      { "level": 2, "name": "melee" },
-      { "level": 1, "name": "stabbing" },
-      { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "firstaid" },
-      { "level": 1, "name": "survival" },
-      { "level": 1, "name": "swimming" },
-      { "level": 4, "name": "electronics" },
-      { "level": 4, "name": "computer" }
+      { "level": 7, "name": "computer" },
+      { "level": 6, "name": "electronics" },
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "smg" },
+      { "level": 4, "name": "pistol" },
+      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "throw" },
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -5130,18 +5327,19 @@
     "id": "mil_undercover",
     "name": "Undercover Operative",
     "description": "You've been tailing your target for months, and now he's a zombie.  So much for that lead.  Command isn't responding to your calls for an evac, so you'll have to make do with what you have on you.",
-    "points": 3,
+    "points": 5,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "pistol" },
-      { "level": 2, "name": "melee" },
-      { "level": 1, "name": "stabbing" },
-      { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "firstaid" },
-      { "level": 1, "name": "survival" },
-      { "level": 1, "name": "swimming" },
-      { "level": 4, "name": "speech" }
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "pistol" },
+      { "level": 4, "name": "speech" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 2, "name": "throw" },
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -5178,10 +5376,15 @@
     "description": "You got to see things fall apart from the sky, transporting soldiers and survivors from one holdout to the next.  You knew it was only a matter of time before the horrors patrolling the skies shot you down.",
     "points": 5,
     "skills": [
-      { "level": 4, "name": "driving" },
-      { "level": 3, "name": "pistol" },
-      { "level": 3, "name": "mechanics" },
+      { "level": 7, "name": "driving" },
+      { "level": 4, "name": "mechanics" },
       { "level": 3, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "throw" },
       { "level": 1, "name": "swimming" }
     ],
     "proficiencies": [ "prof_helicopter_pilot", "prof_spotting", "prof_gun_cleaning" ],
@@ -5220,8 +5423,8 @@
     "id": "emt",
     "name": "EMT",
     "description": "You were responding to a call with your partner before you got separated.  Now all you have is your trusty ambulance, ready to transport patients through the apocalypse.",
-    "points": 4,
-    "skills": [ { "level": 3, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 2, "name": "firstaid" } ],
+    "points": 3,
+    "skills": [ { "level": 5, "name": "firstaid" }, { "level": 4, "name": "driving" }, { "level": 2, "name": "mechanics" } ],
     "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
     "traits": [ "PROF_MED" ],
     "vehicle": "ambulance",
@@ -5251,7 +5454,7 @@
     "name": "Paramedic",
     "description": "You were separated from your partner while out on a call.  You managed to hang onto some medical supplies, but it's looking like the only life that needs saving now is yours.",
     "points": 3,
-    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 3, "name": "firstaid" } ],
+    "skills": [ { "level": 6, "name": "firstaid" }, { "level": 3, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
@@ -5296,12 +5499,15 @@
     "description": "You were on the front lines when everything happened, patching up the wounded and providing support.  But they wouldn't stop coming.  Now you're on your own.",
     "points": 5,
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "rifle" },
-      { "level": 2, "name": "melee" },
-      { "level": 2, "name": "stabbing" },
-      { "level": 1, "name": "dodge" },
-      { "level": 4, "name": "firstaid" },
+      { "level": 6, "name": "firstaid" },
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "rifle" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "throw" },
+      { "level": 2, "name": "survival" },
       { "level": 2, "name": "swimming" }
     ],
     "traits": [ "PROF_MED" ],
@@ -5367,7 +5573,7 @@
     "name": "Relief Volunteer",
     "description": "You were a member of a nonprofit organization dedicated to helping out where help was needed.  When the riots happened, you were eager to lend a hand.  But you had to cut your plans short when everyone was less interested in handouts, and more interested in eating you.",
     "points": 1,
-    "skills": [ { "level": 2, "name": "firstaid" }, { "level": 1, "name": "speech" } ],
+    "skills": [ { "level": 3, "name": "firstaid" }, { "level": 1, "name": "speech" } ],
     "items": {
       "both": {
         "items": [
@@ -5396,8 +5602,8 @@
     "id": "super_biker",
     "name": { "male": "Speed King", "female": "Speed Queen" },
     "description": "You used to rule the roads before they were filled with wrecks, undead, and unspeakable horrors.  At least there's no speed limits in the apocalypse!",
-    "points": 5,
-    "skills": [ { "level": 6, "name": "driving" } ],
+    "points": 4,
+    "skills": [ { "level": 8, "name": "driving" } ],
     "vehicle": "superbike",
     "items": {
       "both": {
@@ -5420,8 +5626,8 @@
     "id": "hazmat_unit",
     "name": "Hazmat Unit",
     "description": "You were deployed to autopsy one of the rioters showing feral behavior before being put down.  When they got back up, you knew this was out of your pay grade.",
-    "points": 5,
-    "skills": [ { "level": 5, "name": "firstaid" } ],
+    "points": 4,
+    "skills": [ { "level": 6, "name": "firstaid" } ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
@@ -5446,7 +5652,13 @@
     "name": "Drug Dealer",
     "description": "You were about to make your biggest sale yet, but when you met the buyer he tried to bite you.  To top it off, it seems that this wasn't some sort of bad trip, as the whole town tried going for your throat too.",
     "points": 2,
-    "skills": [ { "level": 1, "name": "melee" }, { "level": 2, "name": "stabbing" }, { "level": 2, "name": "speech" } ],
+    "skills": [
+      { "level": 4, "name": "speech" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 1, "name": "chemistry" }
+    ],
     "items": {
       "both": {
         "items": [ "hoodie", "jeans", "mbag", "socks", "sneakers", "bandana", "gloves_medical", "switchblade" ],
@@ -5464,10 +5676,13 @@
     "description": "Born into poverty, you joined one of the organized crime families to make a living.  There, you quickly made it to the top and became the boss.  The government was building a RICO case against you, but doomsday arrived first.  Your crew is gone, but your past life has prepared you for a world where violence is common currency.",
     "points": 5,
     "skills": [
-      { "level": 2, "name": "pistol" },
-      { "level": 2, "name": "smg" },
-      { "level": 2, "name": "unarmed" },
-      { "level": 4, "name": "speech" }
+      { "level": 6, "name": "speech" },
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "pistol" },
+      { "level": 3, "name": "smg" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "unarmed" },
+      { "level": 3, "name": "dodge" }
     ],
     "items": {
       "both": {
@@ -5500,8 +5715,8 @@
     "id": "paranormal_investigator",
     "name": "Paranormal Investigator",
     "description": "You were dismissed from your position as a parapsychology professor at the local university and started your own business as a paranormal investigator.  Your former colleagues didn't approve of your research, but it looks like it's paying off now.",
-    "points": 2,
-    "skills": [ { "level": 2, "name": "chemistry" }, { "level": 2, "name": "electronics" } ],
+    "points": 1,
+    "skills": [ { "level": 3, "name": "electronics" }, { "level": 2, "name": "chemistry" }, { "level": 2, "name": "speech" } ],
     "traits": [ "SPIRITUAL" ],
     "proficiencies": [ "prof_electromagnetics" ],
     "items": {
@@ -5531,7 +5746,7 @@
     "name": "Bird Watcher",
     "description": "You were at your favorite park looking at the robins when the Cataclysm struck.  Now all you have are your binoculars and a lot of trivia about local birds to share with any survivors you may find.",
     "points": 1,
-    "skills": [ { "level": 1, "name": "survival" } ],
+    "skills": [ { "level": 3, "name": "survival" } ],
     "items": {
       "both": {
         "items": [ "jeans", "longshirt", "socks", "sneakers", "mbag", "wristwatch" ],
@@ -5546,7 +5761,7 @@
     "id": "portal_traveler",
     "name": "Portal Traveler",
     "description": "You were abducted from your home, taken hostage, and used as a test subject in a lab.  For the last test, you were dressed in strange clothes and put in a room where you started to feel… different.  You lost consciousness and woke up somewhere unfamiliar.",
-    "points": 2,
+    "points": 1,
     "items": {
       "both": {
         "items": [ "xedra_enviro_suit", "socks", "union_suit" ],
@@ -5578,10 +5793,11 @@
     "description": "You are obsessed with the techniques and aesthetics of the ninja, so you practiced your movements, dressed all in black, and spent big bucks to acquire some tools of the trade.  Some may question your historical authenticity, but you're perfectly happy living out your fantasy regardless.",
     "points": 5,
     "skills": [
-      { "level": 2, "name": "cutting" },
-      { "level": 3, "name": "dodge" },
-      { "level": 1, "name": "swimming" },
-      { "level": 2, "name": "throw" }
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "cutting" },
+      { "level": 4, "name": "dodge" },
+      { "level": 4, "name": "throw" },
+      { "level": 2, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -5602,8 +5818,8 @@
     "id": "cheerleader",
     "name": "Cheerleader",
     "description": "Your last cheerleader routine ended abruptly after your partners switched sides to the undead team.  Let's hope your quick reflexes and flexibility help you to find new members for the squad.",
-    "points": 2,
-    "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "speech" }, { "level": 3, "name": "swimming" } ],
+    "points": 1,
+    "skills": [ { "level": 3, "name": "dodge" }, { "level": 3, "name": "swimming" }, { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
         "items": [ "pom_poms", "socks_ankle", "sneakers" ],
@@ -5644,8 +5860,13 @@
     "id": "prepped_patriot",
     "name": "Prepped Patriot",
     "description": "Does the American dream still exist?  Well, recent events have put that to the test.  Does it still proudly live in your beating heart?  Yes.  Yes, it does.  A patriot to the bitter end, you’ve readied yourself to go toe to toe with the Cataclysm that would seek to do harm to your darling USA.  That is to say, you grabbed your gun… and nothing more.  God bless America, soldier.",
-    "points": 1,
-    "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "rifle" } ],
+    "points": 2,
+    "skills": [
+      { "level": 3, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "shotgun" }
+    ],
     "items": {
       "both": {
         "items": [ "american_flag", "slippers" ],
@@ -5667,14 +5888,14 @@
     "id": "cowboy",
     "name": "Cowboy",
     "description": "You liked to spend your days taking care of the horses and cows, searching the perimeter of the ranch on your steed and looking out for anything suspicious, that's why you managed to escape in time when shit hit the fan.",
-    "points": 4,
+    "points": 3,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "skills": [
-      { "level": 2, "name": "survival" },
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "pistol" },
-      { "level": 1, "name": "swimming" },
-      { "level": 2, "name": "driving" }
+      { "level": 4, "name": "survival" },
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "driving" },
+      { "level": 1, "name": "swimming" }
     ],
     "pets": [ { "name": "mon_horse", "amount": 1 } ],
     "items": {
@@ -5740,7 +5961,7 @@
     "name": "Professional Swimmer",
     "description": "After much practice you were sure the next competition would be your big break, but your rivals started killing each other and you had to escape with only your competition gear on you.  Will your athleticism alone be enough to keep you alive?",
     "points": 2,
-    "skills": [ { "level": 1, "name": "dodge" }, { "level": 4, "name": "swimming" } ],
+    "skills": [ { "level": 6, "name": "swimming" }, { "level": 2, "name": "dodge" } ],
     "traits": [ "OUTDOORSMAN" ],
     "items": {
       "both": [ "goggles_swim", "swim_cap" ],
@@ -5753,9 +5974,9 @@
     "id": "surfer",
     "name": "Surfer",
     "description": "You went to ride the waves, but the waves ended up riding you instead when a putrid hand appeared from underwater and grabbed you by the ankle.  You had to ditch your surfboard in favor of a kickboard, and now you'll fight every day to stay ahead of the wave of the undead.",
-    "points": 2,
+    "points": 1,
     "flags": [ "NO_BONUS_ITEMS" ],
-    "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
+    "skills": [ { "level": 4, "name": "dodge" }, { "level": 4, "name": "swimming" } ],
     "traits": [ "OUTDOORSMAN" ],
     "items": {
       "both": [ "swimming_kickboard" ],
@@ -5769,7 +5990,7 @@
     "name": "Lifeguard",
     "description": "Your job was to safeguard the lives of everyone at the beach, but when the swimmers started drowning each other, you knew the situation was out of your hands.",
     "points": 2,
-    "skills": [ { "level": 2, "name": "firstaid" }, { "level": 3, "name": "swimming" } ],
+    "skills": [ { "level": 4, "name": "firstaid" }, { "level": 4, "name": "swimming" } ],
     "traits": [ "OUTDOORSMAN" ],
     "proficiencies": [ "prof_wound_care" ],
     "items": {
@@ -5783,7 +6004,7 @@
     "id": "diver",
     "name": "Diver",
     "description": "You were exploring below the waves close to shore when you noticed something weird on the nearby beach, you decided to swim away when you heard the screams.",
-    "points": 4,
+    "points": 2,
     "skills": [ { "level": 5, "name": "swimming" } ],
     "traits": [ "OUTDOORSMAN" ],
     "items": {
@@ -5798,8 +6019,8 @@
     "type": "profession",
     "name": "Ship Captain",
     "description": "You were the captain of your small ship, making a living by ferrying divers and tourists across the waves.  The last excursion went bad after your passengers tried to mutiny, but you managed to escape.  Will you ever sail the open ocean again?",
-    "points": 4,
-    "skills": [ { "level": 3, "name": "driving" }, { "level": 3, "name": "swimming" } ],
+    "points": 3,
+    "skills": [ { "level": 4, "name": "driving" }, { "level": 3, "name": "swimming" } ],
     "traits": [ "OUTDOORSMAN" ],
     "items": {
       "both": {
@@ -5829,12 +6050,15 @@
     "name": { "male": "Hitman", "female": "Hitwoman" },
     "requirement": "achievement_kill_100_monsters",
     "description": "You were the best undercover agent they had, with a mission so vital that you had to take it even with the riots going on.  Your target seems to have turned feral as well as your contact, you are all alone now.",
-    "points": 5,
+    "points": 6,
     "skills": [
-      { "level": 3, "name": "dodge" },
-      { "level": 1, "name": "melee" },
-      { "level": 3, "name": "gun" },
-      { "level": 3, "name": "pistol" }
+      { "level": 5, "name": "gun" },
+      { "level": 5, "name": "pistol" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "stabbing" },
+      { "level": 4, "name": "unarmed" },
+      { "level": 4, "name": "dodge" },
+      { "level": 4, "name": "speech" }
     ],
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_wp_syn_armored" ],
     "items": {
@@ -5888,12 +6112,13 @@
     "name": "Assassin",
     "requirement": "achievement_kill_100_monsters",
     "description": "You were the best undercover agent they had, with a mission so vital that you had to take it even with the riots going on.  Your target seems to have turned feral as well as your contact, you are all alone now.",
-    "points": 5,
+    "points": 6,
     "skills": [
-      { "level": 3, "name": "dodge" },
-      { "level": 3, "name": "melee" },
-      { "level": 2, "name": "throw" },
-      { "level": 2, "name": "stabbing" }
+      { "level": 6, "name": "throw" },
+      { "level": 5, "name": "melee" },
+      { "level": 5, "name": "stabbing" },
+      { "level": 5, "name": "dodge" },
+      { "level": 4, "name": "speech" }
     ],
     "proficiencies": [ "prof_spotting", "prof_wp_syn_armored" ],
     "items": {
@@ -5940,10 +6165,12 @@
     "description": "You've been through hell once before.  Hopefully those weekend range trips have kept your skills sharp.",
     "points": 4,
     "skills": [
-      { "level": 1, "name": "gun" },
-      { "level": 1, "name": "rifle" },
-      { "level": 1, "name": "firstaid" },
-      { "level": 2, "name": "survival" }
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "rifle" },
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "firstaid" },
+      { "level": 2, "name": "throw" },
+      { "level": 1, "name": "survival" }
     ],
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_gun_cleaning" ],
     "items": {
@@ -5978,7 +6205,7 @@
     "name": "Urban Explorer",
     "description": "You've always admired the beauty of urban desolation, and were ready for your next excursion when the end of the world hit.  You suppose that pretty much every building could be considered abandoned now.",
     "points": 2,
-    "skills": [ { "level": 2, "name": "swimming" }, { "level": 1, "name": "traps" } ],
+    "skills": [ { "level": 4, "name": "traps" }, { "level": 3, "name": "swimming" } ],
     "proficiencies": [ "prof_lockpicking" ],
     "items": {
       "both": {
@@ -6015,12 +6242,12 @@
     "id": "officeworker",
     "name": "Office Worker",
     "description": "You felt years of your life being sapped away, slaving at your computer as you subsisted on a daily pot of coffee, microwave burritos and an endless supply of crumpled paper to toss.  Perhaps the Cataclysm is a refreshing change of pace…",
-    "points": 1,
+    "points": 0,
     "skills": [
-      { "level": 1, "name": "computer" },
-      { "level": 1, "name": "speech" },
-      { "level": 1, "name": "throw" },
-      { "level": 1, "name": "cooking" }
+      { "level": 2, "name": "computer" },
+      { "level": 2, "name": "cooking" },
+      { "level": 2, "name": "throw" },
+      { "level": 2, "name": "speech" }
     ],
     "addictions": [ { "intensity": 10, "type": "caffeine" } ],
     "items": {
