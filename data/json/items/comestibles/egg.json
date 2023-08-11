@@ -1155,12 +1155,14 @@
   {
     "type": "COMESTIBLE",
     "abstract": "egg_proxy_frog",
-    "copy-from": "egg_chicken",
+    "copy-from": "egg_fish",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "weight": "20 g",
-    "volume": "650 ml",
+    "color": "brown",
     "description": "A large clump of frog eggs.  They're gelatinous and transparent.",
-    "rot_spawn": "GROUP_EGG_PROXY_FROG"
+    "price": 25,
+    "price_postapoc": 50,
+    "fun": -16,
+    "vitamins": [ [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1175,7 +1177,8 @@
     "id": "egg_pattern_frog",
     "copy-from": "egg_leo_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "rot_spawn": "GROUP_EGG_PATTERN_FROG"
+    "rot_spawn": "GROUP_EGG_PATTERN_FROG",
+    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1190,7 +1193,8 @@
     "id": "egg_strange_frog",
     "copy-from": "egg_bullfrog_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "rot_spawn": "GROUP_EGG_STRANGE_FROG"
+    "rot_spawn": "GROUP_EGG_STRANGE_FROG",
+    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1198,6 +1202,7 @@
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "description": "These eggs float in long strands, drifting in the still water.",
+    "use_action": [ "POISON" ],
     "rot_spawn": "GROUP_EGG_FOWLER_TOAD"
   },
   {
@@ -1205,7 +1210,8 @@
     "id": "egg_foul_toad",
     "copy-from": "egg_fowler_toad",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "rot_spawn": "GROUP_EGG_FOUL_TOAD"
+    "rot_spawn": "GROUP_EGG_FOUL_TOAD",
+    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1213,6 +1219,7 @@
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "description": "A spiral strand of frog eggs adorns a patch of underwater vegetation.",
+    "use_action": [ "POISON" ],
     "rot_spawn": "GROUP_EGG_FREEDOM_TOAD"
   },
   {
@@ -1220,7 +1227,8 @@
     "id": "egg_odd_toad",
     "copy-from": "egg_freedom_toad",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "rot_spawn": "GROUP_EGG_ODD_TOAD"
+    "rot_spawn": "GROUP_EGG_ODD_TOAD",
+    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1235,7 +1243,8 @@
     "id": "egg_vocal_frog",
     "copy-from": "egg_peeper_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "rot_spawn": "GROUP_EGG_VOCAL_FROG"
+    "rot_spawn": "GROUP_EGG_VOCAL_FROG",
+    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1250,6 +1259,7 @@
     "id": "egg_shift_frog",
     "copy-from": "egg_gray_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "rot_spawn": "GROUP_EGG_SHIFT_FROG"
+    "rot_spawn": "GROUP_EGG_SHIFT_FROG",
+    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
   }
 ]

@@ -444,6 +444,7 @@
     "type": "MONSTER",
     "copy-from": "mon_leo_tadpole",
     "name": { "str": "tadpole" },
+    "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 90, "into": "mon_pattern_frog" }
   },
   {
@@ -463,6 +464,7 @@
     "type": "MONSTER",
     "copy-from": "mon_bullfrog_tadpole",
     "name": { "str": "tadpole" },
+    "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 90, "into": "mon_strange_frog" }
   },
   {
@@ -478,6 +480,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fowler_tadpole",
     "name": { "str": "tadpole" },
+    "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 30, "into": "mon_foul_toad" }
   },
   {
@@ -493,6 +496,7 @@
     "type": "MONSTER",
     "copy-from": "mon_freedom_tadpole",
     "name": { "str": "tadpole" },
+    "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 60, "into": "mon_odd_toad" }
   },
   {
@@ -509,6 +513,7 @@
     "type": "MONSTER",
     "copy-from": "mon_peeper_tadpole",
     "name": { "str": "tadpole" },
+    "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 60, "into": "mon_vocal_frog" }
   },
   {
@@ -525,6 +530,7 @@
     "type": "MONSTER",
     "copy-from": "mon_gray_tadpole",
     "name": { "str": "tadpole" },
+    "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 60, "into": "mon_shift_frog" }
   },
   {
@@ -568,6 +574,7 @@
     "copy-from": "mon_leo_frog",
     "description": "This large frog is covered in chaotic markings like a fractal river map over a background of tv static.",
     "name": { "str": "strangely-patterned frog" },
+    "harvest": "mutant_tiny",
     "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 6, "baby_timer": 20 },
     "//": "When possible, add effect for rare flicker of very low luminance."
   },
@@ -589,6 +596,7 @@
     "copy-from": "mon_bullfrog_frog",
     "description": "Based on its vestigial tail, you might call it a polliwog.  That is if it weren't so large and didn't already move like an adult frog.  In any case, it looks to have some growing left to do.",
     "name": { "str": "strange bullfrog" },
+    "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 120, "into": "mon_frog_small" },
     "reproduction": { "baby_egg": "egg_strange_frog", "baby_count": 16, "baby_timer": 26 }
   },
@@ -607,6 +615,7 @@
     "copy-from": "mon_fowler_toad",
     "description": "You could almost smell it before you saw it.  This toad reeks.  You're not quite sure what like, but it's hot and musky and it sticks in your nose until you're tasting it.",
     "name": { "str": "foul toad" },
+    "harvest": "mutant_tiny",
     "reproduction": { "baby_egg": "egg_foul_toad", "baby_count": 8, "baby_timer": 36 },
     "//": "When possible, add effect for aoe morale debuff around toad. Possibly stack up until triggering nausea/vomitting."
   },
@@ -625,6 +634,7 @@
     "copy-from": "mon_freedom_toad",
     "description": "There's something very off about this toad's proportions.  No one feature stands out under scrutiny but it looks like it hasn't fully grown.",
     "name": { "str": "odd toad" },
+    "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 120, "into": "mon_toad_small" },
     "reproduction": { "baby_egg": "egg_odd_toad", "baby_count": 8, "baby_timer": 36 }
   },
@@ -646,6 +656,7 @@
     "copy-from": "mon_peeper_frog",
     "description": "Like a powered machine, this frog never stops making noise.  When it calls, its whole torso expands like an inflatable suit.",
     "name": { "str": "vocal treefrog" },
+    "harvest": "mutant_tiny",
     "reproduction": { "baby_egg": "egg_vocal_frog", "baby_count": 8, "baby_timer": 20 },
     "//": "When possible, add frequent parroting."
   },
@@ -668,6 +679,7 @@
     "copy-from": "mon_gray_frog",
     "description": "You've seen it wrinkle its skin into bark and disappear on a tree; settle on a toadstool and take its spots.  It's no trick of the light, this frog's skin shifts not just color but texture.",
     "name": { "str": "shifting treefrog" },
+    "harvest": "mutant_tiny",
     "reproduction": { "baby_egg": "egg_shift_frog", "baby_count": 8, "baby_timer": 26 }
   }
 ]
