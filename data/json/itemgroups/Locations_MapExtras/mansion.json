@@ -1757,7 +1757,7 @@
       [ "shovel", 40 ],
       [ "clay_pot_flower", 40 ],
       [ "plastic_pot_flower", 60 ],
-      [ "fertilizer_commercial", 30, "count": 100 ],
+      { "item": "fertilizer_commercial", "prob": 30, "count": 100 },
       [ "material_quicklime", 30 ],
       [ "seed_sunflower", 30 ],
       [ "straw_basket", 30 ],
