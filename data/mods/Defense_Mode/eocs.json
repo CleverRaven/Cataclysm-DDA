@@ -22,7 +22,7 @@
     "global": true,
     "condition": { "math": [ "u_monsters_nearby()", "<=", "0" ] },
     "effect": [
-      { "u_spawn_npc": "defense_mode_merchant", "lifespan": "2 hours", "real_count": 1, "min_radius": 1, "max_radius": 3 },
+      { "u_spawn_npc": "defense_mode_merchant", "lifespan": "2 hours", "real_count": 1, "min_radius": 2, "max_radius": 3 },
       { "u_message": "A caravan approaches!", "type": "good", "popup": false }
     ]
   },
@@ -36,7 +36,7 @@
     "type": "effect_on_condition",
     "id": "defense_mode_money_add",
     "global": true,
-    "effect": [ { "math": [ "u_val('wave_cash')", "=", "wave_cash_number * -1000" ] } ]
+    "effect": [ { "math": [ "wave_cash", "=", "wave_cash_number * -1000" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -44,7 +44,7 @@
     "global": false,
     "condition": { "not": { "npc_has_var": "u_got_money", "type": "general", "context": "trade", "value": "yes" } },
     "effect": [
-      { "u_spend_cash": { "u_val": "wave_cash" } },
+      { "u_spend_cash": { "global_val": "wave_cash" } },
       { "npc_add_var": "u_got_money", "type": "general", "context": "trade", "value": "yes" }
     ]
   },
