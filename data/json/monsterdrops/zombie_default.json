@@ -203,10 +203,7 @@
             "prob": 5
           },
           {
-            "collection": [
-              { "item": "weed", "count": [ 1, 10 ], "container-item": "bag_zipper" },
-              { "item": "pipe_glass", "prob": 50 }
-            ],
+            "collection": [ { "item": "weed", "count": [ 1, 10 ], "container-item": "bag_zipper" }, { "item": "pipe_glass", "prob": 50 } ],
             "prob": 10
           },
           { "distribution": [ { "item": "joint", "prob": 80 }, { "item": "joint_roach", "prob": 20 } ], "prob": 10 }
