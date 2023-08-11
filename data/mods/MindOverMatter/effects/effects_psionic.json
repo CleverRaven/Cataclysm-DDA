@@ -352,7 +352,9 @@
     ],
     "rating": "good",
     "max_duration": " 120 minutes",
+    "max_intensity": 106,
     "dur_add_perc": 10,
+    "int_dur_factor": "68 s",
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 3, "scaling": 0.66 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
