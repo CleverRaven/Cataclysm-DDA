@@ -73,7 +73,13 @@
     "id": "drugs_analgesic",
     "type": "item_group",
     "//": "Painkillers balanced according to rarity excluding illicit drugs",
-    "items": [ { "item": "aspirin", "prob": 150, "count": [ 30, 30 ] }, { "item": "codeine", "prob": 30, "count": [ 20, 20 ] }, { "item": "tramadol", "prob": 30, "count": [ 20, 20 ] }, { "item": "morphine", "prob": 5, "count": [ 4, 4 ] }, { "item": "oxycodone", "prob": 20, "count": [ 20, 20 ] } ]
+    "items": [
+      { "item": "aspirin", "prob": 150, "count": [ 30, 30 ] },
+      { "item": "codeine", "prob": 30, "count": [ 20, 20 ] },
+      { "item": "tramadol", "prob": 30, "count": [ 20, 20 ] },
+      { "item": "morphine", "prob": 5, "count": [ 4, 4 ] },
+      { "item": "oxycodone", "prob": 20, "count": [ 20, 20 ] }
+    ]
   },
   {
     "id": "drugs_heal_simple",
