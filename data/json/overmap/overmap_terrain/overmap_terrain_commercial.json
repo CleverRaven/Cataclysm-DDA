@@ -1902,5 +1902,23 @@
     "name": "convention center",
     "sym": "C",
     "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "barber_shop" ],
+    "copy-from": "generic_city_building",
+    "name": "barber shop",
+    "looks_like": "barber_shop",
+    "sym": "b",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "barber_shop_roof" ],
+    "copy-from": "generic_city_building",
+    "name": "barber shop roof",
+    "looks_like": "barber_shop_roof",
+    "sym": "b",
+    "color": "light_blue"
   }
 ]

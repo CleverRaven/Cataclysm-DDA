@@ -28,26 +28,52 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Tom_1",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_tom",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
       "value": "yes",
-      "yes": "Hey, it's you again!  Any news from the outside world?",
-      "no": "Ah, another survivor!  I hope you come in peace.  I'm Tom, nice to meet you."
+      "yes": "What the <swear> are you?  Get the <swear> away from me!",
+      "no": {
+        "npc_has_var": "u_met_godco_tom",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": "Hey, it's you again!  Any news from the outside world?",
+        "no": "Ah, another survivor!  I hope you come in peace.  I'm Tom, nice to meet you."
+      }
     },
     "responses": [
       {
         "text": "Nice to meet you, Tom.",
-        "condition": { "not": { "npc_has_var": "u_met_godco_tom", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_tom", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "effect": { "npc_add_var": "u_met_godco_tom", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_GODCO_Tom_Firstmeet"
       },
       {
         "text": "Hi Tom, got a minute?",
-        "condition": { "npc_has_var": "u_met_godco_tom", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_tom", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Tom_2"
       },
-      { "text": "Hey, Tom.  I can't stay to talk.", "topic": "TALK_DONE" }
+      {
+        "text": "Hey, Tom.  I can't stay to talk.",
+        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Alright, alright, chill the <swear> out, I'm leaving!",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {

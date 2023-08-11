@@ -2,7 +2,7 @@
   {
     "type": "effect_type",
     "id": "godco_confessed",
-    "name": [ "Confessed to Greenwood" ],
+    "name": [ "Had a Confessional" ],
     "apply_message": "You finally got the weight off your chest.",
     "desc": [ "You decided to take responsibility for your actions." ],
     "rating": "good"
@@ -29,49 +29,78 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Greenwood_1",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_greenwood",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
       "value": "yes",
-      "yes": {
-        "u_male": true,
-        "yes": [ "The Lord be with you, brother.", "Good to see you're still around, brother." ],
-        "no": [ "The Lord be with you, sister.", "Good to see you're still around, sister." ]
-      },
+      "yes": "The Lord be with you…  You don't seem all too well, I pray for you.",
       "no": {
-        "u_male": true,
-        "yes": "The Lord be with you, brother.  You seem new, nice to meet you.  Welcome, and welcome aboard!",
-        "no": "The Lord be with you, sister.  You seem new, nice to meet you.  Welcome, and welcome aboard!"
+        "npc_has_var": "u_met_godco_greenwood",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": {
+          "u_male": true,
+          "yes": [ "The Lord be with you, brother.", "Good to see you're still around, brother." ],
+          "no": [ "The Lord be with you, sister.", "Good to see you're still around, sister." ]
+        },
+        "no": {
+          "u_male": true,
+          "yes": "The Lord be with you, brother.  You seem new, nice to meet you.  Welcome, and welcome aboard!",
+          "no": "The Lord be with you, sister.  You seem new, nice to meet you.  Welcome, and welcome aboard!"
+        }
       }
     },
     "responses": [
       {
         "text": "Nice to meet you too, Reverend.",
         "effect": { "npc_add_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Greenwood_Firstmeet"
       },
       {
         "text": "Good to see you again, Reverend.  I wanted to talk.",
-        "condition": { "npc_has_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
         "topic": "TALK_GODCO_Greenwood_2"
       },
       {
         "text": "I'm looking for work.  Can I do anything for your congregation?",
-        "condition": { "npc_has_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_MISSION_LIST"
       },
       {
         "text": "Nice meeting you, Reverend.  I'd best get going though.",
         "topic": "TALK_DONE",
         "effect": { "npc_add_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" } }
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        }
       },
       {
-        "text": "I'm afraid I can't talk right now.",
-        "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" }
-      }
+        "text": "What's wrong with me, if you could say?",
+        "effect": { "npc_add_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" } },
+            { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_GODCO_Greenwood_You_Mutant"
+      },
+      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -91,6 +120,7 @@
       { "text": "Where am I again?", "topic": "TALK_GODCO_Greenwood_Where" },
       { "text": "What's your story?", "topic": "TALK_GODCO_Greenwood_Past" },
       { "text": "Could you tell me a bit about this church?", "topic": "TALK_GODCO_Greenwood_NECC" },
+      { "text": "I'm looking for work.  Can I do anything for your congregation?", "topic": "TALK_MISSION_LIST" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
     ]
   },
@@ -140,10 +170,19 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Greenwood_Helena",
-    "dynamic_line": "&Greenwood looks over their shoulder, briefly glancing around before speaking in a low whisper.  \"Don't tell anyone I said this, but I don't like Helena at all.  Her father was a real nut, he'd rave on and on about an apocalypse he'd prepared for.  He always thought that his church would be the ark to weather the storm, that God would destroy the world by unleashing the armies of Hell; and he wasn't talking about the Second Coming of Christ.  Helena's just as fanatical as he was, and it reflects in her inadequate leadership.  To be honest, I'm highly concerned for some of the people here; they're obsessively zealous with Helena, and harbor a xenophobic hatred of everything.  As in Matthew 15:14, 'They are blind guides.  And if one blind person guides another, they will both fall into a pit'.\"",
+    "dynamic_line": "&Greenwood looks over his their shoulder, briefly glancing around before speaking in a low whisper.  \"Don't tell anyone I said this, but I don't like Helena at all.  Her father was a real nut, he'd rave on and on about an apocalypse he'd prepared for.  He always thought that his church would be the ark to weather the storm, that God would destroy the world by unleashing the armies of Hell; and he wasn't talking about the Second Coming of Christ.  Helena's just as fanatical as he was, and it reflects in her inadequate leadership.  To be honest, I'm highly concerned for some of the people here; they're obsessively zealous with Helena, and harbor a xenophobic hatred of everything.  As in Matthew 15:14, 'They are blind guides.  And if one blind person guides another, they will both fall into a pit'.\"",
     "responses": [
       { "text": "Could I ask you a few more questions?", "topic": "TALK_GODCO_Greenwood_2" },
       { "text": "Thanks for the info.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Greenwood_You_Mutant",
+    "dynamic_line": "Well, it's your appearance.  You're… how do I say, significantly different than what most people are used to.  With the sudden appearance of strange phenomenon following the Rapture, some have taken your changes as a mark of demonic corruption, and won't be very kind to you either.  Be wary of this.",
+    "responses": [
+      { "text": "Alright.  Let's talk about something else.", "topic": "TALK_GODCO_Greenwood_2" },
+      { "text": "Thanks for the info, I'd best be going then.", "topic": "TALK_DONE" }
     ]
   }
 ]

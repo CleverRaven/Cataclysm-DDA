@@ -33,6 +33,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "omdata.h"
+#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -1069,13 +1070,23 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
     mutation_category_id cat;
     weighted_int_list<mutation_category_id> cat_list = get_vitamin_weighted_categories();
 
-    //If we picked bad, mutation can be bad or neutral
-    //Otherwise, can be good or neutral
-    bool picked_bad = roll_bad_mutation();
+    bool select_mutation = is_avatar() && get_option<bool>( "SHOW_MUTATION_SELECTOR" );
 
-    bool allow_good = !picked_bad;
-    bool allow_bad = picked_bad;
+    bool allow_good = false;
+    bool allow_bad = false;
     bool allow_neutral = true;
+
+    if( select_mutation ) {
+        // Mutation selector overrides good / bad mutation rolls
+        allow_good = true;
+        allow_bad = true;
+    } else if( roll_bad_mutation() ) {
+        // If we picked bad, mutation can be bad or neutral
+        allow_bad = true;
+    } else {
+        // Otherwise, can be good or neutral
+        allow_good = true;
+    }
 
     add_msg_debug( debugmode::DF_MUTATION, "mutate: true_random_chance %d",
                    true_random_chance );
@@ -1167,6 +1178,36 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             }
         }
 
+        // Remove anything we already have, that we have a child of, that
+        // goes against our intention of a good/bad mutation, or that we lack resources for
+        for( size_t i = 0; i < valid.size(); i++ ) {
+            if( ( !mutation_ok( valid[i], allow_good, allow_bad, allow_neutral, mut_vit ) ) ||
+                ( !valid[i]->valid ) ) {
+                add_msg_debug( debugmode::DF_MUTATION, "mutate: trait %s removed from valid trait list",
+                               ( valid.begin() + i )->c_str() );
+                valid.erase( valid.begin() + i );
+                i--;
+            }
+        }
+
+        // Mutation selector
+        if( select_mutation ) {
+            // Aggregate all prospective traits
+            std::vector<trait_id> prospective_traits;
+            prospective_traits.insert( prospective_traits.end(), upgrades.begin(), upgrades.end() );
+            prospective_traits.insert( prospective_traits.end(), valid.begin(), valid.end() );
+            for( trait_id dummy_trait : dummies ) {
+                // Only dummy traits with conflicts are considered
+                if( has_conflicting_trait( dummy_trait ) ) {
+                    prospective_traits.push_back( dummy_trait );
+                }
+            }
+            if( mutation_selector( prospective_traits, cat, use_vitamins ) ) {
+                // Stop if mutation properly handled by mutation selector
+                return;
+            }
+        }
+
         // Prioritize upgrading existing mutations
         if( one_in( 2 ) ) {
             if( !upgrades.empty() ) {
@@ -1178,18 +1219,6 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                     mutate_towards( upgrades[roll], cat, nullptr, use_vitamins );
                     return;
                 }
-            }
-        }
-
-        // Remove anything we already have, that we have a child of, that
-        // goes against our intention of a good/bad mutation, or that we lack resources for
-        for( size_t i = 0; i < valid.size(); i++ ) {
-            if( ( !mutation_ok( valid[i], allow_good, allow_bad, allow_neutral, mut_vit ) ) ||
-                ( !valid[i]->valid ) ) {
-                add_msg_debug( debugmode::DF_MUTATION, "mutate: trait %s removed from valid trait list",
-                               ( valid.begin() + i )->c_str() );
-                valid.erase( valid.begin() + i );
-                i--;
             }
         }
 
@@ -1248,11 +1277,23 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
         return;
     }
 
-    bool picked_bad = roll_bad_mutation();
+    bool select_mutation = is_avatar() && get_option<bool>( "SHOW_MUTATION_SELECTOR" );
 
-    bool allow_good = true_random || !picked_bad;
-    bool allow_bad = true_random || picked_bad;
+    bool allow_good = false;
+    bool allow_bad = false;
     bool allow_neutral = true;
+
+    if( select_mutation || true_random ) {
+        // Mutation selector and true_random overrides good / bad mutation rolls
+        allow_good = true;
+        allow_bad = true;
+    } else if( roll_bad_mutation() ) {
+        // If we picked bad, mutation can be bad or neutral
+        allow_bad = true;
+    } else {
+        // Otherwise, can be good or neutral
+        allow_good = true;
+    }
 
     // Pull the category's list for valid mutations
     std::vector<trait_id> valid = mutations_category[cat];
@@ -1272,12 +1313,98 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
     }
 
     add_msg_debug( debugmode::DF_MUTATION, "mutate_category: mutate_towards category %s", cat.c_str() );
+    if( select_mutation || mutation_selector( valid, cat, use_vitamins ) ) {
+        // Stop if mutation properly handled by mutation selector
+        return;
+    }
     mutate_towards( valid, cat, 2, use_vitamins );
 }
 
 void Character::mutate_category( const mutation_category_id &cat )
 {
     mutate_category( cat, !mutation_category_trait::get_category( cat ).vitamin.is_null() );
+}
+
+bool Character::mutation_selector( const std::vector<trait_id> &prospective_traits,
+                                   const mutation_category_id &cat, const bool &use_vitamins )
+{
+    // Setup menu
+    uilist mmenu;
+    mmenu.text =
+        _( "As your body transforms, you realize that by asserting your willpower, you can guide these changes to an extent." );
+    auto make_entries = [this, &mmenu]( const std::vector<trait_id> &traits ) {
+        const size_t iterations = traits.size();
+        for( int i = 0; i < static_cast<int>( iterations ); ++i ) {
+            const trait_id &trait = traits[i];
+            const std::string &entry_name = mutation_name( trait );
+            mmenu.addentry( i, true, MENU_AUTOASSIGN, entry_name );
+        }
+    };
+
+    // Only allow traits with fulfilled prerequisites
+    std::vector<trait_id> traits;
+    for( trait_id trait : prospective_traits ) {
+        const mutation_branch &mdata = trait.obj();
+
+        // Check prereq 1
+        std::vector<trait_id> prereqs1 = mdata.prereqs;
+        bool c_has_prereq1 = prereqs1.empty() ? true : false;
+        for( size_t i = 0; !c_has_prereq1 && i < prereqs1.size(); i++ ) {
+            if( has_trait( prereqs1[i] ) ) {
+                c_has_prereq1 = true;
+            }
+        }
+        if( !c_has_prereq1 ) {
+            continue;
+        }
+
+        // Check prereq 2
+        std::vector<trait_id> prereqs2 = mdata.prereqs2;
+        bool c_has_prereq2 = prereqs2.empty() ? true : false;
+        for( size_t i = 0; !c_has_prereq2 && i < prereqs2.size(); i++ ) {
+            if( has_trait( prereqs2[i] ) ) {
+                c_has_prereq2 = true;
+            }
+        }
+        if( !c_has_prereq2 ) {
+            continue;
+        }
+
+        // Check threshold requirement
+        std::vector<trait_id> threshreq = mdata.threshreq;
+        bool c_has_threshreq = threshreq.empty() ? true : false;
+        for( size_t i = 0; !c_has_threshreq && i < threshreq.size(); i++ ) {
+            if( has_trait( threshreq[i] ) ) {
+                c_has_threshreq = true;
+            }
+        }
+        if( !c_has_threshreq ) {
+            continue;
+        }
+
+        // Check bionic conflicts
+        for( const bionic_id &bid : get_bionics() ) {
+            if( bid->mutation_conflicts.count( trait ) != 0 ) {
+                continue;
+            }
+        }
+
+        // std::find function returns false on duplicate entry
+        if( std::find( traits.begin(), traits.end(), trait ) == traits.end() ) {
+            traits.push_back( trait );
+        }
+    }
+    make_entries( traits );
+
+    // Display menu and handle selection
+    mmenu.query();
+    if( mmenu.ret >= 0 ) {
+        if( mutate_towards( traits[mmenu.ret], cat, nullptr, use_vitamins ) ) {
+            add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
+        }
+        return true;
+    }
+    return false;
 }
 
 static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )

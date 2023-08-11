@@ -22,7 +22,7 @@
     },
     "responses": [
       {
-        "text": "I'm just a traveler.  I won't be staying here for long.",
+        "text": "I'm just a traveler.",
         "effect": { "npc_add_var": "u_met_godco_olwen", "type": "general", "context": "meeting", "value": "yes" },
         "condition": { "not": { "npc_has_var": "u_met_godco_olwen", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_GODCO_Olwen_Firstmeet"
@@ -42,13 +42,33 @@
     "responses": [
       {
         "text": "I'm just a curious traveler.",
-        "condition": { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_GODCO_Olwen_2"
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Olwen_Traveler"
       },
       {
         "text": "I'm seeking asylum here.",
-        "condition": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Firstmeet_Joinee"
+      },
+      {
+        "text": "I'm just a curious traveler.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+            { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_GODCO_Olwen_Mutant_Traveler"
       },
       { "text": "I'd rather not say, I gotta go.", "topic": "TALK_DONE" }
     ]
@@ -56,9 +76,19 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Olwen_Traveler",
-    "dynamic_line": "Not many travelers come through here these days.  There's not much left to wander too, besides a horde of <zombies>",
+    "dynamic_line": "Not many travelers come through here these days.  There's not much left to wander too, besides a horde of <zombies>.",
     "responses": [
       { "text": "Any old port in a storm, I guess.", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Olwen_Mutant_Traveler",
+    "dynamic_line": "Not many travelers come through here these days.  There's not much left to wander too, besides a horde of <zombies>.  The people here won't be too friendly with you either, so that sucks.",
+    "responses": [
+      { "text": "Sure does.", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "Why would that be?", "topic": "TALK_GODCO_Olwen_You_Mutant" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -131,6 +161,15 @@
       { "text": "Could you teach me anything?", "topic": "TALK_TRAIN" },
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Olwen_2" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Olwen_You_Mutant",
+    "dynamic_line": "Well, this is a really xenophobic bunch, and regard some of your, changes, as a curse brought on by God.  I'm cool with you though, not like some of these other <name_b>.  There are a few who wouldn't mind you, though.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "In that case, I'd better get going.", "topic": "TALK_DONE" }
     ]
   }
 ]

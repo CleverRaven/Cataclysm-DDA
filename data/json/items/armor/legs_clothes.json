@@ -941,7 +941,7 @@
       {
         "id": "pants_poppy",
         "name": { "str": "poppy-red pants", "str_pl": "pairs of poppy-red pants" },
-        "description": "A fine choice to have dawned during Veterans Day, these pair of warm, insulated trousers are dyed a pinkish red hue.  Perhaps it would be fitting to wear them again, for while in this war there aren’t any poppies blowing between crosses, the heaps of dead are certainly high.",
+        "description": "A fine choice to have donned during Veterans Day, this pair of warm, insulated trousers are dyed a pinkish red hue.  Perhaps it would be fitting to wear them again, for while in this war there aren’t any poppies blowing between crosses, the heaps of dead are certainly high.",
         "color": "red",
         "weight": 4
       },
