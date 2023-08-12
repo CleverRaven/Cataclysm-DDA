@@ -2234,7 +2234,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_muriatic_acid",
     "id_suffix": "with_blood",
-    "byproduct_group": [ { "item": "salt", "container-item": "null", "charges": [ 80, 100 ] } ],
+    "byproduct_group": [ { "item": "salt", "container-item": "null", "count": [ 80, 100 ] } ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -2264,7 +2264,7 @@
     "result": "chem_muriatic_acid",
     "id_suffix": "with_blood_distill",
     "byproduct_group": [
-      { "item": "salt", "container-item": "null", "charges": [ 80, 100 ] },
+      { "item": "salt", "container-item": "null", "count": [ 80, 100 ] },
       { "item": "water_clean", "container-item": "null", "charges": 1 },
       { "item": "chem_ethanol", "container-item": "null", "charges": [ 200, 250 ] }
     ],

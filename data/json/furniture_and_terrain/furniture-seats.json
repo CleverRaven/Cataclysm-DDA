@@ -149,7 +149,7 @@
         { "item": "wooden_post_short", "count": 6 },
         { "item": "cotton_patchwork", "count": 85 },
         { "item": "nuts_bolts", "charges": 16 },
-        { "item": "spring", "charges": 2 },
+        { "item": "spring", "count": 2 },
         { "item": "splinter", "count": [ 1, 25 ] }
       ]
     },

@@ -92,6 +92,7 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 "ammo-item": "<ammo-item-id>",
 "ammo-group": "<group-id>",
 "container-group": "<group-id>",
+"entry-wrapper": "<item-id>",
 "sealed": <boolean>
 "variant": <string>
 "artifact": <object>
@@ -135,6 +136,8 @@ The procgen_id relates directly to a `relic_procgen_data` object's id. The `rule
 This will create 4 items; they can have different damage levels as the damage value is rolled separately for each of these items.  Each item has charges (AKA ammo) in the range of 10 to 100 (inclusive); if the item needs a magazine before it can have charges, that will be taken care of for you.  Using an array (which must have 2 entries) for charges/count/damage is equivalent to writing explicit min and max values.  In other words, `"count": [a,b]` is the same as `"count-min": a, "count-max": b`.
 
 The container is checked and the item is put inside the container, and the charges of the item are capped/increased to match the size of the container.
+
+`entry-wrapper`: Used for spawning lots of non-stackable items inside a container.  Instead of creating a dedicated itemgroup for that, you can use this field to define that inside an entry.  Note that you may want to set `container-item` to null to override the item's default container.
 
 ### Ammo and Magazines
 

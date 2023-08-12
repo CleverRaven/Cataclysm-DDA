@@ -529,7 +529,7 @@
       "items": [
         { "item": "log", "count": [ 0, 1 ] },
         { "item": "stick", "count": [ 1, 4 ] },
-        { "item": "splinter", "charges": [ 1, 4 ] }
+        { "item": "splinter", "count": [ 1, 4 ] }
       ]
     }
   },
@@ -614,7 +614,7 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "straw_pile", "charges": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "straw_pile", "count": [ 5, 10 ] } ]
     }
   },
   {
@@ -1438,7 +1438,7 @@
       "items": [
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "steel_chunk", "count": [ 1, 6 ] },
-        { "item": "cobalt_60", "charges": [ 1, 5 ] },
+        { "item": "cobalt_60", "count": [ 1, 5 ] },
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     },
@@ -1446,7 +1446,7 @@
       "ter_set": "t_pit",
       "items": [
         { "item": "cable", "charges": [ 8, 16 ] },
-        { "item": "cobalt_60", "charges": [ 2, 10 ] },
+        { "item": "cobalt_60", "count": [ 2, 10 ] },
         { "item": "scrap", "count": [ 8, 16 ] },
         { "item": "sheet_metal", "count": [ 5, 10 ] },
         { "item": "lead", "count": [ 12, 18 ] }
