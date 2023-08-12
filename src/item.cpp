@@ -200,9 +200,9 @@ static const quality_id qual_LIFT( "LIFT" );
 
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_melee( "melee" );
-static const skill_id skill_survival( "survival" );
-static const skill_id skill_weapon( "weapon" );
+static const skill_id skill_survival("survival");
 static const skill_id skill_throw( "throw" );
+static const skill_id skill_weapon( "weapon" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
