@@ -467,6 +467,31 @@ void widget::load( const JsonObject &jo, const std::string_view )
         optional( jo, was_loaded, "string", _string );
     }
     optional( jo, was_loaded, "widgets", _widgets, string_id_reader<::widget> {} );
+
+    if( jo.has_object( "extend" ) ) {
+        JsonObject tmp = jo.get_object( "extend" );
+        tmp.allow_omitted_members();
+        if( tmp.has_member( "widgets" ) ) {
+            std::vector<widget_id> tmp_wgts;
+            mandatory( tmp, false, "widgets", tmp_wgts, string_id_reader<::widget> {} );
+            _widgets.insert( _widgets.end(), tmp_wgts.begin(), tmp_wgts.end() );
+        }
+    }
+
+    if( jo.has_object( "delete" ) ) {
+        JsonObject tmp = jo.get_object( "delete" );
+        tmp.allow_omitted_members();
+        if( tmp.has_member( "widgets" ) ) {
+            std::vector<widget_id> tmp_wgts;
+            mandatory( tmp, false, "widgets", tmp_wgts, string_id_reader<::widget> {} );
+            for( const widget_id &tmp_w : tmp_wgts ) {
+                auto iter = std::find( _widgets.begin(), _widgets.end(), tmp_w );
+                if( iter != _widgets.end() ) {
+                    _widgets.erase( iter );
+                }
+            }
+        }
+    }
 }
 
 // Returns the derived label width for this widget/layout
