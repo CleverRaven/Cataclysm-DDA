@@ -537,7 +537,7 @@
     "type": "ammunition_type",
     "id": "coal",
     "name": "coal",
-    "default": "coal"
+    "default": "coal_lump"
   },
   {
     "type": "ammunition_type",
