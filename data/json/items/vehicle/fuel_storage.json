@@ -16,6 +16,6 @@
     "ammo_type": [ "charcoal", "coal" ],
     "price": 3000,
     "price_postapoc": 100,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 10000, "coal_lump": 50000 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 10000, "coal": 50000 } } ]
   }
 ]
