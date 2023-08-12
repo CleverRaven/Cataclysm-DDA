@@ -284,19 +284,7 @@
     "name": { "str": "medium steel brigandine" },
     "copy-from": "armor_lc_brigandine",
     "description": "A vest made from tough fabric with medium steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
-    "replace_materials": { "lc_steel": "mc_steel" },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "3000 g",
-        "moves": 3000,
-        "description": "Attachment for additional plating placed on top.",
-        "flag_restriction": [ "EXTRA_PLATING" ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_armor_mc_brigandine",
@@ -320,19 +308,7 @@
     "name": { "str": "medium steel brigandine with shoulder guards", "str_pl": "medium steel brigandines with shoulder guards" },
     "copy-from": "armor_lc_brigandine_shoulders",
     "description": "A vest made from tough fabric with medium steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
-    "replace_materials": { "lc_steel": "mc_steel" },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "3000 g",
-        "moves": 3000,
-        "description": "Attachment for additional plating placed on top.",
-        "flag_restriction": [ "EXTRA_PLATING" ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_armor_mc_brigandine_shoulders",
@@ -362,19 +338,7 @@
     "name": { "str": "medium steel brigandine coat" },
     "copy-from": "armor_lc_coat_brigandine",
     "description": "A coat made from tough fabric with medium steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
-    "replace_materials": { "lc_steel": "mc_steel" },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "3000 g",
-        "moves": 3000,
-        "description": "Attachment for additional plating placed on top.",
-        "flag_restriction": [ "EXTRA_PLATING" ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_armor_mc_coat_brigandine",
@@ -401,19 +365,7 @@
     },
     "copy-from": "armor_lc_coat_brigandine_shoulders",
     "description": "A coat made from tough fabric with medium steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
-    "replace_materials": { "lc_steel": "mc_steel" },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "3000 g",
-        "moves": 3000,
-        "description": "Attachment for additional plating placed on top.",
-        "flag_restriction": [ "EXTRA_PLATING" ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_armor_mc_coat_brigandine_shoulders",
@@ -443,19 +395,7 @@
     "name": { "str": "high steel brigandine" },
     "copy-from": "armor_lc_brigandine",
     "description": "A vest made from tough fabric with high steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
-    "replace_materials": { "lc_steel": "hc_steel" },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "3000 g",
-        "moves": 3000,
-        "description": "Attachment for additional plating placed on top.",
-        "flag_restriction": [ "EXTRA_PLATING" ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "xl_armor_hc_brigandine",
@@ -503,19 +443,7 @@
     "name": { "str": "high steel brigandine coat" },
     "copy-from": "armor_lc_coat_brigandine",
     "description": "A coat made from tough fabric with high steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
-    "replace_materials": { "lc_steel": "hc_steel" },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "3000 g",
-        "moves": 3000,
-        "description": "Attachment for additional plating placed on top.",
-        "flag_restriction": [ "EXTRA_PLATING" ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "xl_armor_hc_coat_brigandine",
@@ -542,19 +470,7 @@
     },
     "copy-from": "armor_lc_coat_brigandine_shoulders",
     "description": "A coat made from tough fabric with high steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
-    "replace_materials": { "lc_steel": "hc_steel" },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "3000 g",
-        "moves": 3000,
-        "description": "Attachment for additional plating placed on top.",
-        "flag_restriction": [ "EXTRA_PLATING" ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "xl_armor_hc_coat_brigandine_shoulders",
@@ -584,19 +500,7 @@
     "name": { "str": "case hardened brigandine" },
     "copy-from": "armor_lc_brigandine",
     "description": "A vest made from tough fabric with case hardened steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
-    "replace_materials": { "lc_steel": "ch_steel" },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "3000 g",
-        "moves": 3000,
-        "description": "Attachment for additional plating placed on top.",
-        "flag_restriction": [ "EXTRA_PLATING" ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_armor_ch_brigandine",
@@ -650,19 +554,7 @@
     "name": { "str": "case hardened brigandine coat" },
     "copy-from": "armor_lc_coat_brigandine",
     "description": "A coat made from tough fabric with case hardened steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
-    "replace_materials": { "lc_steel": "ch_steel" },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "3000 g",
-        "moves": 3000,
-        "description": "Attachment for additional plating placed on top.",
-        "flag_restriction": [ "EXTRA_PLATING" ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_armor_ch_coat_brigandine",
@@ -689,19 +581,7 @@
     },
     "copy-from": "armor_lc_coat_brigandine_shoulders",
     "description": "A coat made from tough fabric with case hardened steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
-    "replace_materials": { "lc_steel": "ch_steel" },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "3000 g",
-        "moves": 3000,
-        "description": "Attachment for additional plating placed on top.",
-        "flag_restriction": [ "EXTRA_PLATING" ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_armor_ch_coat_brigandine_shoulders",
@@ -731,19 +611,7 @@
     "name": { "str": "tempered brigandine" },
     "copy-from": "armor_lc_brigandine",
     "description": "A vest made from tough fabric with tempered steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
-    "replace_materials": { "lc_steel": "qt_steel" },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "3000 g",
-        "moves": 3000,
-        "description": "Attachment for additional plating placed on top.",
-        "flag_restriction": [ "EXTRA_PLATING" ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "xl_armor_qt_brigandine",
@@ -791,19 +659,7 @@
     "name": { "str": "tempered brigandine coat" },
     "copy-from": "armor_lc_coat_brigandine",
     "description": "A coat made from tough fabric with tempered steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
-    "replace_materials": { "lc_steel": "qt_steel" },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "3000 g",
-        "moves": 3000,
-        "description": "Attachment for additional plating placed on top.",
-        "flag_restriction": [ "EXTRA_PLATING" ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "xl_armor_qt_coat_brigandine",
@@ -827,19 +683,7 @@
     "name": { "str": "tempered brigandine coat with shoulder guards", "str_pl": "tempered brigandine coats with shoulder guards" },
     "copy-from": "armor_lc_coat_brigandine_shoulders",
     "description": "A coat made from tough fabric with tempered steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
-    "replace_materials": { "lc_steel": "qt_steel" },
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "3000 g",
-        "moves": 3000,
-        "description": "Attachment for additional plating placed on top.",
-        "flag_restriction": [ "EXTRA_PLATING" ]
-      }
-    ]
+    "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "xl_armor_qt_coat_brigandine_shoulders",
