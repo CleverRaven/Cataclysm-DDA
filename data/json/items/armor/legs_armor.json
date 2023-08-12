@@ -1575,7 +1575,7 @@
     "type": "ARMOR",
     "copy-from": "legguard_metal_sheets_knees",
     "name": { "str": "pair of hardened sheet metal knee guards", "str_pl": "pairs of hardened sheet metal knee guards" },
-    "description": "Knee guards of sheet metal, case hardened to protect your kneecaps from any feral with a bat.",
+    "description": "Knee guards of sheet metal, hardened to protect your kneecaps from any feral with a bat.",
     "replace_materials": { "lc_steel": "ch_steel" },
     "extend": { "flags": [ "STURDY" ] }
   },
@@ -1929,7 +1929,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_light_leg_guard",
     "name": { "str": "high steel light leg guard" },
-    "description": "A light leg guard, 1.25 mm at the thickest.  Made with high carbon steel offering excellent protection.",
+    "description": "A light leg guard, 1.25 mm at the thickest.  Made with high steel offering excellent protection.",
     "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
@@ -2037,7 +2037,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_leg_guard",
     "name": { "str": "high steel leg guard" },
-    "description": "A leg guard, 1.75 mm at the thickest.  Made with high carbon steel offering excellent protection.",
+    "description": "A leg guard, 1.75 mm at the thickest.  Made with high steel offering excellent protection.",
     "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
@@ -2144,7 +2144,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_leg_guard",
     "name": { "str": "high steel heavy leg guard" },
-    "description": "A heavy leg guard, 2.25 mm at the thickest.  Made with high carbon steel offering excellent protection.",
+    "description": "A heavy leg guard, 2.25 mm at the thickest.  Made with high steel offering excellent protection.",
     "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
