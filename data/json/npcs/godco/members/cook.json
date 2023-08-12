@@ -7,30 +7,52 @@
     "id": "TALK_GODCO_chef",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_chef",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
       "value": "yes",
-      "yes": [ "Welcome back.", "Hello again.  What do you need?", "*waves you over.  \"Hey <name_g>.  How's it going for you?\"" ],
-      "no": "Hello stranger, I don't think we've met before.  Its nice to meet you."
+      "yes": "Could you be on your way, please?  We don't take kindly to sinners like you.",
+      "no": {
+        "npc_has_var": "u_met_godco_chef",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": [ "Welcome back.", "Hello again.  What do you need?", "*waves you over.  \"Hey <name_g>.  How's it going for you?\"" ],
+        "no": "Hello stranger, I don't think we've met before.  Its nice to meet you, name's Simon."
+      }
     },
     "responses": [
       {
         "text": "Who are you?  Where am I right now?",
         "topic": "TALK_GODCO_chef_intro",
-        "condition": { "not": { "npc_has_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "effect": { "npc_add_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
         "text": "Just passing through, don't mind me.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "npc_has_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "effect": { "npc_add_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
         "text": "I wanted to talk.",
         "topic": "TALK_GODCO_chef_idle_chat",
-        "condition": { "npc_has_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        }
       },
       {
         "text": "Could I have some food?",
@@ -38,7 +60,8 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } }
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
           ]
         }
       },
@@ -61,6 +84,11 @@
         "text": "Just saying hello.  Keep safe.",
         "topic": "TALK_DONE",
         "condition": { "npc_has_var": "u_met_godco_chef", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "Okay, man.  I'll be on my way.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
       }
     ]
   },

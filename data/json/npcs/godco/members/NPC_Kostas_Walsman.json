@@ -43,23 +43,40 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Kostas_1",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_kostas",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
       "value": "yes",
-      "yes": "Praise the Lord.",
-      "no": "You must be new here, nice to meet you.  They call me Kostas, I'm the local herbalist."
+      "yes": "A sin against God, did you know that's what you are?  Get away from me.",
+      "no": {
+        "npc_has_var": "u_met_godco_kostas",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": "Praise the Lord.",
+        "no": "You must be new here, nice to meet you.  They call me Kostas, I'm the local herbalist."
+      }
     },
     "responses": [
       {
         "text": "Nice to meet you too, Kostas.",
         "effect": { "npc_add_var": "u_met_godco_kostas", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "u_met_godco_kostas", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_kostas", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Kostas_2"
       },
       {
         "text": "Hey, good to see you again.",
-        "condition": { "npc_has_var": "u_met_godco_kostas", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_kostas", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Kostas_2"
       },
       {
@@ -77,6 +94,7 @@
         "text": "Hi, Kostas.  Care to trade?",
         "condition": {
           "and": [
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
             { "npc_has_var": "u_met_godco_kostas", "type": "general", "context": "meeting", "value": "yes" },
             { "npc_has_effect": "godco_kostas_trade" }
           ]
@@ -84,7 +102,21 @@
         "effect": "start_trade",
         "topic": "TALK_GODCO_Kostas_2"
       },
-      { "text": "Hey, Kostas.  I can't stay to talk.", "topic": "TALK_DONE" }
+      {
+        "text": "Hey, Kostas.  I can't stay to talk.",
+        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "What the hell are you talking about?",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_GODCO_Kostas_You_Mutant"
+      },
+      {
+        "text": "Alright then.",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -223,5 +255,11 @@
         "topic": "TALK_DONE"
       }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Kostas_You_Mutant",
+    "dynamic_line": "I'm talking about you and your filthy, unnatural appearance.  I don't like your kind, and neither does anyone else.  Go repent before the Lord for your many sins, if he'll even listen to you.",
+    "responses": [ { "text": "Fuck you, I'm blowing this joint.", "topic": "TALK_DONE" } ]
   }
 ]

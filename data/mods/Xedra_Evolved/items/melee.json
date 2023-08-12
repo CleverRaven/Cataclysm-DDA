@@ -205,7 +205,7 @@
     "id": "dreamforged_halberd",
     "copy-from": "halberd",
     "name": { "str": "dreamforged halberd" },
-    "description": "Twohand halberd, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "description": "Two-handed halberd, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "weight": "2374 g",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "melee_damage": { "cut": 1.1 } }
@@ -215,7 +215,7 @@
     "id": "dreamforged_glaive",
     "copy-from": "glaive",
     "name": { "str": "dreamforged glaive" },
-    "description": "Twohand glaive, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "description": "Two-handed glaive, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "weight": "2285 g",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "melee_damage": { "cut": 1.1 } }
@@ -364,7 +364,7 @@
     "id": "dreamforged_zweihander",
     "copy-from": "zweihander",
     "name": { "str": "dreamforged zweihänder" },
-    "description": "Huge twohand sword, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "description": "Huge two-handed sword, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "weight": 0.25, "melee_damage": { "bash": 0.3, "cut": 0.6 } }
   },
@@ -429,8 +429,8 @@
     "type": "GENERIC",
     "copy-from": "dreamforged_glaive",
     "id": "dreamforged_glaive_healing",
-    "name": { "str": "qiang of life", "str_pl": "spears of life" },
-    "description": "Long, dense spear.  It can steal a life from creature it attacks, healing you for a bit.",
+    "name": { "str": "glaive of life", "str_pl": "glaives of life" },
+    "description": "Two-handed glaive, forged entirely from dreamdross.  It can steal a life from creature it attacks, healing you for a bit.",
     "relic_data": { "passive_effects": [ { "id": "ENCHANTMENT_VAMPIRISM" } ] }
   },
   {

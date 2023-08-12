@@ -143,12 +143,11 @@ void effect_on_conditions::load_new_character( Character &you )
     effect_on_conditions::process_effect_on_conditions( you );
 }
 
-static void process_new_eocs( std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
-                              &eoc_queue, std::vector<effect_on_condition_id> &eoc_vector,
+static void process_new_eocs( queued_eocs &eoc_queue,
+                              std::vector<effect_on_condition_id> &eoc_vector,
                               std::map<effect_on_condition_id, bool> &new_eocs )
 {
-    std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
-    temp_queued_eocs;
+    queued_eocs temp_queued_eocs;
     while( !eoc_queue.empty() ) {
         if( eoc_queue.top().eoc.is_valid() ) {
             temp_queued_eocs.push( eoc_queue.top() );
@@ -156,7 +155,7 @@ static void process_new_eocs( std::priority_queue<queued_eoc, std::vector<queued
         new_eocs[eoc_queue.top().eoc] = false;
         eoc_queue.pop();
     }
-    eoc_queue = temp_queued_eocs;
+    eoc_queue = std::move( temp_queued_eocs );
     for( auto eoc = eoc_vector.begin();
          eoc != eoc_vector.end(); ) {
         if( !eoc->is_valid() ) {
@@ -207,36 +206,41 @@ void effect_on_conditions::queue_effect_on_condition( time_duration duration,
     }
 }
 
-static void process_eocs( std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
-                          &eoc_queue, std::vector<effect_on_condition_id> &eoc_vector, dialogue &d )
+static void process_eocs( queued_eocs &eoc_queue, std::vector<effect_on_condition_id> &eoc_vector,
+                          dialogue &d )
 {
-    std::vector<queued_eoc> eocs_to_queue;
+    static std::vector<queued_eocs::storage_iter> eocs_to_queue;
+    eocs_to_queue.clear();
+
     while( !eoc_queue.empty() &&
            eoc_queue.top().time <= calendar::turn ) {
-        queued_eoc top = eoc_queue.top();
-        dialogue nested_d = d;
+        queued_eocs::storage_iter it = eoc_queue.queue.top();
+        queued_eoc &top = *it;
+        eoc_queue.queue.pop();
+
+        dialogue nested_d{ d };
         for( const auto &val : top.context ) {
             nested_d.set_value( val.first, val.second );
         }
         bool activated = top.eoc->activate( nested_d );
         if( top.eoc->type == eoc_type::RECURRING ) {
             if( activated ) { // It worked so add it back
-                queued_eoc new_eoc = queued_eoc{ top.eoc, calendar::turn + next_recurrence( top.eoc, d ), top.context };
-                eocs_to_queue.push_back( new_eoc );
+                it->time = calendar::turn + next_recurrence( top.eoc, d );
+                eocs_to_queue.emplace_back( it );
             } else {
                 if( !top.eoc->check_deactivate(
                         nested_d ) ) { // It failed but shouldn't be deactivated so add it back
-                    queued_eoc new_eoc = queued_eoc{ top.eoc, calendar::turn + next_recurrence( top.eoc, d ), top.context };
-                    eocs_to_queue.push_back( new_eoc );
+                    it->time = calendar::turn + next_recurrence( top.eoc, d );
+                    eocs_to_queue.emplace_back( it );
                 } else { // It failed and should be deactivated for now
                     eoc_vector.push_back( top.eoc );
+                    eoc_queue.list.erase( it );
                 }
             }
         }
-        eoc_queue.pop();
     }
-    for( const queued_eoc &q_eoc : eocs_to_queue ) {
-        eoc_queue.push( q_eoc );
+    for( queued_eocs::storage_iter &q_eoc : eocs_to_queue ) {
+        eoc_queue.queue.emplace( q_eoc );
     }
 }
 
@@ -253,8 +257,7 @@ void effect_on_conditions::process_effect_on_conditions( Character &you )
 
 static void process_reactivation( std::vector<effect_on_condition_id>
                                   &inactive_effect_on_condition_vector,
-                                  std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
-                                  &queued_effect_on_conditions, dialogue &d )
+                                  queued_eocs &queued_effect_on_conditions, dialogue &d )
 {
     std::vector<effect_on_condition_id> ids_to_reactivate;
     for( const effect_on_condition_id &eoc : inactive_effect_on_condition_vector ) {
@@ -286,7 +289,7 @@ void effect_on_conditions::process_reactivate()
 bool effect_on_condition::activate( dialogue &d ) const
 {
     bool retval = false;
-    d.amend_callstack( string_format( "EOC: %s", id.c_str() ) );
+    d.amend_callstack( "EOC: " + id.str() );
     // each version needs a copy of the dialogue to pass down
     dialogue d_eoc( d );
     if( !has_condition || condition( d_eoc ) ) {

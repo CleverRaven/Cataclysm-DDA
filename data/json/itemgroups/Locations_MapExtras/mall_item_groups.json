@@ -205,7 +205,7 @@
       [ "knife_combat", 35 ],
       { "item": "knife_combat", "container-item": "sheath", "prob": 5 },
       { "item": "knife_combat", "container-item": "gartersheath1", "prob": 5 },
-      { "item": "throwing_knife", "charges-min": 1, "charges-max": 6, "container-item": "leg_sheath6", "prob": 5 },
+      { "item": "throwing_knife", "count-min": 1, "count-max": 6, "entry-wrapper": "leg_sheath6", "prob": 5 },
       [ "throwing_knife", 10 ],
       [ "pockknife", 50 ],
       [ "punch_dagger", 10 ],

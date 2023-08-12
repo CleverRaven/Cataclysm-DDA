@@ -8,6 +8,7 @@
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ],
+    "start_of_cataclysm": { "year": 1, "season": "spring", "day": 60, "hour": 0 },
     "start_of_game": { "year": 4, "season": "summer", "day": 7, "hour": 18 }
   },
   {
@@ -19,6 +20,7 @@
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ],
+    "start_of_cataclysm": { "year": 1, "season": "spring", "day": 60, "hour": 0 },
     "start_of_game": { "year": -1, "season": "spring", "day": 8, "hour": 3 }
   },
   {
@@ -53,7 +55,8 @@
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ],
-    "start_of_game": { "hour": "random", "season": "summer" }
+    "start_of_cataclysm": { "day": 60, "season": "spring", "year": 1, "hour": 0 },
+    "start_of_game": { "day": 0, "year": 1, "hour": "random", "season": "summer" }
   },
   {
     "type": "scenario",
@@ -64,7 +67,8 @@
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ],
-    "start_of_game": { "day": "random", "season": "summer", "hour": 8 }
+    "start_of_cataclysm": { "day": 60, "season": "spring", "year": 1, "hour": 0 },
+    "start_of_game": { "day": "random", "season": "summer", "year": 1, "hour": 8 }
   },
   {
     "type": "scenario",
@@ -75,6 +79,7 @@
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ],
+    "start_of_cataclysm": { "day": 60, "season": "spring", "year": 1, "hour": 0 },
     "start_of_game": { "year": "random", "season": "summer", "hour": 8 }
   }
 ]

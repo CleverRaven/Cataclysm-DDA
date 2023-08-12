@@ -1,7 +1,13 @@
 [
   {
     "type": "talk_topic",
-    "id": [ "TALK_GODCO_Felicity_2", "TALK_GODCO_Felicity_3", "TALK_GODCO_Felicity_Firstmeet", "TALK_GODCO_Felicity_Community" ],
+    "id": [
+      "TALK_GODCO_Felicity_2",
+      "TALK_GODCO_Felicity_3",
+      "TALK_GODCO_Felicity_Firstmeet",
+      "TALK_GODCO_Felicity_Firstmeet2",
+      "TALK_GODCO_Felicity_Community"
+    ],
     "responses": [
       { "text": "What's your story?", "topic": "TALK_GODCO_Felicity_Story" },
       { "text": "What's it like living here?", "topic": "TALK_GODCO_Felicity_Mood" },
@@ -22,7 +28,7 @@
         },
         "topic": "TALK_GODCO_Felicity_Manuscript"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Felicity_3" }
+      { "text": "Lets talk about something else.", "topic": "TALK_GODCO_Felicity_3" }
     ]
   },
   {
@@ -40,8 +46,24 @@
       {
         "text": "Felicity?  Nice to meet you.  How are things here?",
         "effect": { "npc_add_var": "u_met_godco_felicity", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "u_met_godco_felicity", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_felicity", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Felicity_Firstmeet"
+      },
+      {
+        "text": "Felicity?  Nice to meet you.  How are things here?",
+        "effect": { "npc_add_var": "u_met_godco_felicity", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_felicity", "type": "general", "context": "meeting", "value": "yes" } },
+            { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_GODCO_Felicity_Firstmeet2"
       },
       {
         "text": "Hi Felicity.  Got a minute?",
@@ -71,13 +93,19 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_GODCO_Felicity_Firstmeet2",
+    "dynamic_line": "They're alright, but they won't take kindly to someone with your… appearance.  What can i do for you?",
+    "responses": [ { "text": "If that's the case, I'll leave.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_GODCO_Felicity_Story",
     "dynamic_line": "I'm actually from New England, Rhode Island specifically.  I grew up in Providence, the state capital.  It was lovely there, I'd always walk to school and stopped in the park on my way home.  Mom was an accountant for various companies, she went to Rivtech back when it was a startup.  Dad was a baker, ran a shop on the corner of Chalkstone and Mt Pleasant.  It smelled so good when you walked by…  I always wanted to be a writer, but I wound up as a proofreader for Stillwater, a publishing firm.  I met Tom at that office, we got married about three years later.",
     "//1": "There is an actual bakery at the intersection of Chalkstone Avenue and Mt. Pleasant Avenue: DeLuise Bakery.  It has a 4.6/5 on Google.",
     "//2": "Stillwater is a legitimate publishing firm, operating in Rhode Island.",
     "responses": [
       { "text": "Why'd you move out here?", "topic": "TALK_GODCO_Felicity_Move" },
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Felicity_3" },
+      { "text": "Lets talk about something else.", "topic": "TALK_GODCO_Felicity_3" },
       { "text": "It's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
     ]
   },
@@ -86,7 +114,7 @@
     "id": "TALK_GODCO_Felicity_Move",
     "dynamic_line": "Tom and I wanted to get away from the city, so we found a home up here.  We didn't move again until <the_cataclysm>, when we came here.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Felicity_3" },
+      { "text": "Lets talk about something else.", "topic": "TALK_GODCO_Felicity_3" },
       { "text": "It's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
     ]
   },
@@ -116,7 +144,7 @@
     "id": "TALK_GODCO_Felicity_Olwen",
     "dynamic_line": "Olwen's a bright girl, always has been.  She studied electricity and computer science when she was in college, found a job with a research and development firm.  My girl's a fiancee now, her and Julian were going to get married in a few months.  She might teach you something, if you ask.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Felicity_3" },
+      { "text": "Lets talk about something else.", "topic": "TALK_GODCO_Felicity_3" },
       { "text": "I'd better get going.  Bye, Felicity.", "topic": "TALK_DONE" }
     ]
   },
@@ -125,7 +153,7 @@
     "id": "TALK_GODCO_Felicity_Tom",
     "dynamic_line": "He wasn't always like this.  Olwen came not long after we married, he was a great, caring father to her.  A few months before <the_cataclysm> is when he lost it, got in some survivalist circle.  He'd stay up pouring over newspapers and any documents he could find, and wound up quitting his job to study it more.  We didn't see much of him for a while, always in the basement, and took out a chunk of our savings to buy canned goods en masse.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Felicity_3" },
+      { "text": "Lets talk about something else.", "topic": "TALK_GODCO_Felicity_3" },
       { "text": "Is there any way to get him out of it?", "topic": "TALK_GODCO_Felicity_Tom_Mood" },
       { "text": "I'd better get going.  Bye, Felicity.", "topic": "TALK_DONE" }
     ]
@@ -135,7 +163,7 @@
     "id": "TALK_GODCO_Felicity_Tom_Mood",
     "dynamic_line": "I don't know.  I've tried talking to him, tried to convince him to give it up.  I think he's stressed out with everything going on, and snapped because of that.  I just want my husband back…",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Felicity_3" },
+      { "text": "Lets talk about something else.", "topic": "TALK_GODCO_Felicity_3" },
       { "text": "I'll see what I can do.  Bye, Felicity.", "topic": "TALK_DONE" }
     ]
   },

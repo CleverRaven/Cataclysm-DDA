@@ -12204,14 +12204,18 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     } else if( u.has_amount( itype_grapnel, 1 ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Climb your grappling hook down?" ) ) ) {
             rope_ladder = true;
-            u.use_amount( itype_grapnel, 1 );
+            for( item &used_item : u.use_amount( itype_grapnel, 1 ) ) {
+                used_item.spill_contents( u );
+            }
         } else {
             return std::nullopt;
         }
     } else if( u.has_amount( itype_rope_30, 1 ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Climb your rope down?" ) ) ) {
             rope_ladder = true;
-            u.use_amount( itype_rope_30, 1 );
+            for( item &used_item : u.use_amount( itype_rope_30, 1 ) ) {
+                used_item.spill_contents( u );
+            }
         } else {
             return std::nullopt;
         }
@@ -13168,6 +13172,24 @@ void game::climb_down( const tripoint &examp )
         }
     }
 
+    if( web_rappel || has_grapnel ) {
+        tripoint p = examp;
+        for( int i = 0; i < height; i++ ) {
+            p.z--;
+            if( here.has_furn( p ) ) {
+                // We disallow climbing down with grappling hook or webs if there is furniture
+                // in the way. This is because there was a problem here before where the deployed
+                // grappling hook "furniture" added by the code further below would replace any
+                // already existing furniture on the destination, such as a stepladder.
+                you.add_msg_if_player(
+                    web_rappel ?
+                    _( "There is something in the way that prevent your webs from sticking there." )
+                    : _( "There is something in the way that prevents you from using your grappling hook there." ) );
+                return;
+            }
+        }
+    }
+
     you.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod ) * weary_mult;
     you.setpos( examp );
 
@@ -13185,7 +13207,9 @@ void game::climb_down( const tripoint &examp )
     } else if( has_grapnel ) {
         you.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
         g->vertical_move( -1, true );
-        you.use_amount( itype_grapnel, 1 );
+        for( item &used_item : you.use_amount( itype_grapnel, 1 ) ) {
+            used_item.spill_contents( you );
+        }
         here.furn_set( you.pos(), furn_f_rope_up );
     } else if( !g->slip_down( true ) ) {
         // One tile of falling less (possibly zero)

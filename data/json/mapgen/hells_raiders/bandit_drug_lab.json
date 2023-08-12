@@ -1,0 +1,97 @@
+[
+  {
+    "method": "json",
+    "om_terrain": "drug_lab",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "              ___       ",
+        "             _c___      ",
+        "             ___c_      ",
+        "             _a___      ",
+        "            _____       ",
+        "           ________     ",
+        "           |++|++|____  ",
+        "           |ddddd|_____ ",
+        "           |ddOdd|_____ ",
+        "           |ddOdd|   _  ",
+        "           |tdddt|      ",
+        "           |tbdbt|      ",
+        "           |ttttt|      ",
+        "           |||||||      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "moonshine_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 9, 16 ], "y": [ 9, 14 ], "repeat": [ 2, 3 ] } ],
+      "items": {
+        " ": [ { "item": "trash", "chance": 1 }, { "item": "clutter_yard", "chance": 1 } ],
+        "t": [
+          { "item": "hazmat_suits", "chance": 70 },
+          { "item": "hazmat_masks", "chance": 70 },
+          { "item": "mobile_meth_lab", "chance": 70 },
+          { "item": "supplies_reagents_lab", "chance": 20 },
+          { "item": "methlab", "chance": 90 }
+        ]
+      }
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "bandit_drug_lab",
+    "type": "mapgen",
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "              ___       ",
+        "             _c___      ",
+        "             ___c_      ",
+        "             _a___      ",
+        "            _____       ",
+        "           ________     ",
+        "           |++|++|____  ",
+        "           |ddddd|_____ ",
+        "           |ddOdd|_____ ",
+        "           |ddOdd|   _  ",
+        "           |tdddt|      ",
+        "           |tbdbt|      ",
+        "           |ttttt|      ",
+        "           |||||||      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "moonshine_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_npcs": [ { "class": "bandit", "x": 14, "y": 12 }, { "class": "thug", "x": 16, "y": 10 } ],
+      "items": {
+        " ": [ { "item": "trash", "chance": 1 }, { "item": "clutter_yard", "chance": 1 } ],
+        "t": [
+          { "item": "hazmat_suits", "chance": 70 },
+          { "item": "hazmat_masks", "chance": 70 },
+          { "item": "mobile_meth_lab", "chance": 70 },
+          { "item": "supplies_reagents_lab", "chance": 20 },
+          { "item": "methlab", "chance": 90 }
+        ]
+      }
+    }
+  }
+]

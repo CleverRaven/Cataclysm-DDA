@@ -12,7 +12,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "diazepam_scrip",
-    "entries": [ { "item": "diazepam", "charges": 20, "container-item": "bottle_plastic_pill_prescription" } ]
+    "entries": [ { "item": "diazepam", "count": 20, "container-item": "null", "entry-wrapper": "bottle_plastic_pill_prescription" } ]
   },
   {
     "type": "item_group",
@@ -62,7 +62,7 @@
           { "group": "charged_ref_lighter" },
           { "group": "army_mags_usp9" },
           { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "shoulder_holster" },
-          { "item": "wyld_candy", "charges": 10, "container-item": "wrapper_wyld" }
+          { "item": "wyld_candy", "count": 10, "container-item": "null", "entry-wrapper": "wrapper_wyld" }
         ]
       },
       "male": [ "briefs" ],

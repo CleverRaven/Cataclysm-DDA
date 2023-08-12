@@ -1,0 +1,188 @@
+[
+  {
+    "type": "npc",
+    "id": "follower_liz",
+    "//": "Scenario specific unique NPC, should not spawn outside of trigger events.",
+    "name_unique": "Liz",
+    "gender": "female",
+    "age": 25,
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 3,
+    "mission": 0,
+    "chat": "TALK_FRIEND",
+    "faction": "your_followers"
+  },
+  {
+    "type": "npc",
+    "id": "follower_david",
+    "//": "Scenario specific unique NPC, should not spawn outside of trigger events.",
+    "name_unique": "David",
+    "gender": "male",
+    "age": 27,
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 3,
+    "mission": 0,
+    "chat": "TALK_FRIEND",
+    "faction": "your_followers"
+  },
+  {
+    "type": "npc",
+    "id": "follower_dianne",
+    "//": "Scenario specific unique NPC, should not spawn outside of trigger events.",
+    "name_unique": "Dianne",
+    "gender": "female",
+    "age": 26,
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 3,
+    "mission": 0,
+    "chat": "TALK_FRIEND",
+    "faction": "your_followers"
+  },
+  {
+    "type": "npc",
+    "id": "follower_ed",
+    "//": "Scenario specific unique NPC, should not spawn outside of trigger events.",
+    "name_unique": "Ed",
+    "gender": "male",
+    "age": 23,
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 3,
+    "mission": 0,
+    "chat": "TALK_FRIEND",
+    "faction": "your_followers"
+  },
+  {
+    "type": "npc",
+    "id": "follower_barbara",
+    "//": "Scenario specific unique NPC, should not spawn outside of trigger events.",
+    "name_unique": "Barbara",
+    "gender": "female",
+    "age": 80,
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 3,
+    "mission": 0,
+    "chat": "TALK_FRIEND",
+    "faction": "your_followers"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DM_MERCHANT_TRADE",
+    "dynamic_line": "What'cha wanna buy?",
+    "responses": [
+      {
+        "text": "Let's see.",
+        "topic": "TALK_DM_MERCHANT_TRADE",
+        "effect": [ { "run_eocs": "defense_mode_money_add_npc" }, "start_trade" ]
+      },
+      { "text": "Nevermind, I don't want anything.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "defense_mode_merchant",
+    "//": "Carries everything you could ever need to defend yourself.",
+    "name_suffix": "merchant",
+    "class": "NC_DM_MERCHANT",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_DM_MERCHANT_TRADE",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_DM_MERCHANT",
+    "name": { "str": "Merchant" },
+    "job_description": "I'm the one who sells you things.",
+    "common": false,
+    "bonus_str": 10000,
+    "bonus_dex": { "dice": [ 10, 10 ] },
+    "bonus_int": { "one_in": 2 },
+    "bonus_per": { "sum": [ { "constant": 100 }, { "dice": [ 10, 10 ] } ] },
+    "worn_override": "NC_DM_MERCHANT_worn",
+    "carry_override": "NC_DM_MERCHANT_carry",
+    "traits": [ [ "DEBUG_NODMG", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_DM_MERCHANT_worn",
+    "subtype": "collection",
+    "entries": [
+      { "group": "npc_pants_male", "prob": 100 },
+      { "group": "npc_underwear_feet_male", "prob": 100 },
+      { "group": "npc_underwear_bottom_male", "prob": 100 },
+      { "group": "npc_shirt_male", "prob": 100 },
+      { "group": "npc_shoes_male", "prob": 100 },
+      { "item": "debug_backpack", "prob": 100 },
+      { "item": "debug_backpack", "prob": 100 },
+      { "item": "debug_backpack", "prob": 100 },
+      { "item": "debug_backpack", "prob": 100 },
+      { "item": "debug_backpack", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_DM_MERCHANT_carry",
+    "subtype": "collection",
+    "entries": [
+      { "group": "NC_DM_MERCHANT_stock", "prob": 100 },
+      { "group": "NC_DM_MERCHANT_stock", "prob": 100 },
+      { "group": "NC_DM_MERCHANT_stock", "prob": 100 },
+      { "group": "NC_DM_MERCHANT_stock", "prob": 100 },
+      { "group": "NC_DM_MERCHANT_stock", "prob": 100 },
+      { "group": "NC_DM_MERCHANT_stock", "prob": 100 },
+      { "group": "NC_DM_MERCHANT_stock", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_DM_MERCHANT_stock",
+    "subtype": "collection",
+    "entries": [
+      { "group": "farming_seeds", "prob": 100 },
+      { "group": "farming_tools", "prob": 100 },
+      { "group": "everyday_gear", "prob": 100 },
+      { "group": "child_items", "prob": 100 },
+      { "group": "traveler", "prob": 100 },
+      { "group": "swat_gear", "prob": 100 },
+      { "group": "gear_survival", "prob": 100 },
+      { "group": "civilian_body_armor", "prob": 100 },
+      { "group": "drugs_pharmacy", "prob": 100 },
+      { "group": "preserved_food", "prob": 100 },
+      { "group": "pet_food", "prob": 100 },
+      { "group": "condiments", "prob": 100 },
+      { "group": "trader_guns&ammo", "prob": 100 },
+      { "group": "hardware", "prob": 100 },
+      { "group": "defense_caravan_melee", "prob": 100 },
+      { "group": "defense_caravan_components", "prob": 100 },
+      { "group": "defense_caravan_clothes", "prob": 100 },
+      { "group": "hardware_bulk", "prob": 100 },
+      { "group": "lumberyard", "prob": 100 },
+      { "group": "supplies_hardware", "prob": 100 }
+    ]
+  },
+  {
+    "id": "trader_guns&ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "guns_pistol_common", "prob": 75 },
+      { "group": "guns_pistol_rare", "prob": 50 },
+      { "group": "guns_pistol_obscure", "prob": 30 },
+      { "group": "guns_pistol_improvised", "prob": 95 },
+      { "group": "guns_smg_improvised", "prob": 90 },
+      { "group": "guns_smg_common", "prob": 70 },
+      { "group": "guns_smg_rare", "prob": 50 },
+      { "group": "guns_smg_obscure", "prob": 10 },
+      { "group": "guns_rifle_common", "prob": 65 },
+      { "group": "guns_rifle_rare", "prob": 40 },
+      { "group": "ammo_pistol_common", "prob": 75 },
+      { "group": "ammo_pistol_rare", "prob": 50 },
+      { "group": "ammo_pistol_obscure", "prob": 30 },
+      { "group": "ammo_smg_common", "prob": 70 },
+      { "group": "ammo_smg_rare", "prob": 50 },
+      { "group": "ammo_smg_obscure", "prob": 10 },
+      { "group": "ammo_rifle_common", "prob": 65 },
+      { "group": "ammo_rifle_rare", "prob": 40 }
+    ]
+  }
+]
