@@ -158,10 +158,121 @@
   {
     "id": "gambeson_pants_xs",
     "type": "ARMOR",
-    "name": { "str": "XL arming pants", "str_pl": "pairs of XL arming pants" },
+    "name": { "str": "XS arming pants", "str_pl": "pairs of XS arming pants" },
     "copy-from": "gambeson_pants",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "gambeson_pants_heavy",
+    "//": "roughly 0.25mm per sheet of canvas making these 24 layer pants, sheets are 1x2 feet. 72 sheets total",
+    "//1": "human legs is about 6 sq. feet.  76g (canvas) x 24 (layers) x 3 (surface area) = 5472g",
+    "type": "ARMOR",
+    "name": { "str": "heavy arming pants", "str_pl": "pairs of heavy arming pants" },
+    "description": "Tough, extremely thick quilted fabric pants worn on their own alongside a gambeson.  They're too thick to easily add metal armor on top and are both stuffy and restrictive.",
+    "weight": "5472 g",
+    "volume": "3750 ml",
+    "price": 14000,
+    "price_postapoc": 1000,
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "fencing_pants",
+    "color": "light_gray",
+    "warmth": 55,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 25
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_pants_heavy",
+    "type": "ARMOR",
+    "name": { "str": "XL heavy arming pants", "str_pl": "pairs of XL heavy arming pants" },
+    "copy-from": "gambeson_pants_heavy",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_pants_heavy",
+    "type": "ARMOR",
+    "name": { "str": "XS heavy arming pants", "str_pl": "pairs of XS heavy arming pants" },
+    "copy-from": "gambeson_pants_heavy",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "gambeson_gloves",
+    "//": "roughly 0.25mm per sheet of canvas making this 8 layers, sheets are 1x2 feet. 4 sheets total",
+    "//1": "human hands assumed to be about 1 sq ft total, 76g (canvas) x 8 (layers) x 0.5 (surface area) = 304g",
+    "//2": "on top of that, additional 2x as thick layer on about 60% of the hand, so adding another 5 sheets for 9 total (684 g)",
+    "type": "ARMOR",
+    "name": { "str": "arming mittens", "str_pl": "pairs of arming mittens" },
+    "description": "Very thick cotton gauntlets worn in lieu of metal or leather armor.  Though they make it hard to do anything other than swing a weapon, and they're very warm, they offer excellent protection.",
+    "weight": "720 g",
+    "volume": "500 ml",
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "mittens",
+    "color": "light_gray",
+    "warmth": 50,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "cotton", "covered_by_mat": 90, "thickness": 4.0 }
+        ],
+        "//a": "technically, only covering 60% ish - inner hand is thinner - but fist will be clenched so inner hand should not really be hit",
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 100,
+        "encumbrance": 30
+      },
+      {
+        "material": [
+          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
+        "coverage": 100
+      },
+      {
+        "material": [ { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_gloves",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL arming mittens", "str_pl": "pairs of XL arming mittens" },
+    "copy-from": "gambeson_gloves",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_gloves",
+    "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS arming mittens", "str_pl": "pairs of XS arming mittens" },
+    "copy-from": "gambeson_gloves",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gambeson_hood",
@@ -478,51 +589,16 @@
     "//2": "human arms is about 3 sq. feet.  76g (canvas) x 24 (layers) x 1.5 (surface area) = 2736g",
     "//3": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 1140g if 15 sheets.",
     "//4": "7980g + 2736g + 1140g = 11856g combined",
+    "copy-from": "gambeson",
     "type": "ARMOR",
     "name": { "str": "canvas gambeson" },
     "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a bit thinner for flexibility and it drapes below your legs, providing additional protection there.",
-    "weight": "11856 g",
-    "volume": "7500 ml",
     "price_postapoc": 8500,
-    "to_hit": -5,
-    "material": [ "canvas" ],
-    "symbol": "[",
-    "looks_like": "gambeson",
-    "color": "light_gray",
     "warmth": 60,
-    "material_thickness": 7.5,
     "environmental_protection": 4,
-    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "NORMAL", "OUTER", "WATERPROOF" ],
-    "armor": [
-      {
-        "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 5.5 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 25,
-        "//warmth": 50
-      },
-      {
-        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
-        "coverage": 72,
-        "encumbrance": 7,
-        "layers": [ "BELTED" ],
-        "//warmth": 20
-      }
-    ]
+    "replace_materials": { "cotton_quilted": "canvas_quilted", "cotton": "canvas_quilted_2" },
+    "repairs_with": [ "canvas" ],
+    "extend": { "flags": [ "WATERPROOF" ] }
   },
   {
     "id": "xl_gambeson_canvas",
@@ -551,20 +627,12 @@
     "//3": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 1140g if 15 sheets.",
     "//4": "7980g + 1368g + 1140g = 10488g combined",
     "type": "ARMOR",
+    "copy-from": "gambeson_canvas",
     "name": { "str": "thin-sleeved canvas gambeson" },
     "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a lot thinner for flexibility and it drapes below your legs, providing additional protection there.",
     "weight": "10488 g",
     "volume": "7000 ml",
     "price_postapoc": 7500,
-    "to_hit": -5,
-    "material": [ "canvas" ],
-    "symbol": "[",
-    "looks_like": "gambeson",
-    "color": "light_gray",
-    "warmth": 60,
-    "material_thickness": 7.5,
-    "environmental_protection": 4,
-    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
     "armor": [
       {
         "material": [
@@ -623,40 +691,13 @@
     "//2": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 1140g if 15 sheets.",
     "//3": "7980g + 1140g = 9120g combined",
     "type": "ARMOR",
+    "copy-from": "gambeson_vest",
     "name": { "str": "sleeveless canvas gambeson" },
     "description": "A thick cloth surcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  It drapes below your legs, providing additional protection there, and it lacks sleeves entirely.",
-    "weight": "9120 g",
-    "volume": "6000 ml",
     "price_postapoc": 5000,
-    "to_hit": -5,
-    "material": [ "canvas" ],
-    "symbol": "[",
-    "looks_like": "sleeveless_tunic",
-    "color": "light_gray",
-    "warmth": 60,
-    "material_thickness": 7.5,
-    "environmental_protection": 4,
-    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
-    "armor": [
-      {
-        "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 5.5 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
-        "coverage": 72,
-        "encumbrance": 7,
-        "layers": [ "BELTED" ],
-        "//warmth": 20
-      }
-    ]
+    "replace_materials": { "cotton_quilted": "canvas_quilted", "cotton": "canvas_quilted_2" },
+    "repairs_with": [ "canvas" ],
+    "extend": { "flags": [ "WATERPROOF" ] }
   },
   {
     "id": "xl_gambeson_canvas_vest",
@@ -681,31 +722,15 @@
     "//": "roughly 0.25mm per sheet of canvas making these 24 layer pants, sheets are 1x2 feet. 72 sheets total",
     "//1": "human legs is about 6 sq. feet.  76g (canvas) x 24 (layers) x 3 (surface area) = 5472g",
     "type": "ARMOR",
+    "copy-from": "gambeson_pants_heavy",
     "name": { "str": "canvas heavy arming pants", "str_pl": "pairs of canvas heavy arming pants" },
     "description": "Tough, extremely thick cloth pants worn on their own alongside a gambeson.  These are made of a huge number of canvas layers offering very solid protection, though they're too thick to easily add metal armor on top and are both stuffy and restrictive.",
-    "weight": "5472 g",
-    "volume": "3750 ml",
-    "price_postapoc": 5000,
-    "to_hit": -5,
-    "material": [ "canvas" ],
-    "symbol": "[",
-    "looks_like": "fencing_pants",
-    "color": "light_gray",
-    "warmth": 55,
+    
     "material_thickness": 6.0,
     "environmental_protection": 4,
-    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
-    "armor": [
-      {
-        "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 25
-      }
-    ]
+    "replace_materials": { "cotton_quilted": "canvas_quilted", "cotton": "canvas_quilted_2" },
+    "repairs_with": [ "canvas" ],
+    "extend": { "flags": [ "WATERPROOF" ] }
   },
   {
     "id": "xl_gambeson_pants_canvas",
@@ -718,7 +743,7 @@
   },
   {
     "id": "xs_gambeson_pants_canvas",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS canvas heavy arming pants", "str_pl": "pairs of XS canvas heavy arming pants" },
     "copy-from": "gambeson_pants_canvas",
@@ -731,48 +756,14 @@
     "//1": "human hands assumed to be about 1 sq ft total, 76g (canvas) x 8 (layers) x 0.5 (surface area) = 304g",
     "//2": "on top of that, additional 2x as thick layer on about 60% of the hand, so adding another 5 sheets for 9 total (684 g)",
     "type": "ARMOR",
+    "copy-from": "gambeson_gloves",
     "name": { "str": "canvas arming mittens", "str_pl": "pairs of canvas arming mittens" },
     "description": "Very thick canvas gauntlets worn in lieu of metal or leather armor.  Though they make it hard to do anything other than swing a weapon, and they're very warm, they offer excellent protection.",
-    "weight": "720 g",
-    "volume": "500 ml",
-    "price_postapoc": 2000,
-    "to_hit": -1,
-    "material": [ "canvas" ],
-    "symbol": "[",
-    "looks_like": "mittens",
-    "color": "light_gray",
-    "warmth": 50,
     "material_thickness": 6.0,
     "environmental_protection": 4,
-    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
-    "armor": [
-      {
-        "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 90, "thickness": 4.0 }
-        ],
-        "//a": "technically, only covering 60% ish - inner hand is thinner - but fist will be clenched so inner hand should not really be hit",
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
-        "coverage": 100,
-        "encumbrance": 30
-      },
-      {
-        "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
-        ],
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
-        "coverage": 100
-      },
-      {
-        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
-        "coverage": 100
-      }
-    ]
+    "replace_materials": { "cotton_quilted": "canvas_quilted", "cotton": "canvas_quilted_2" },
+    "repairs_with": [ "canvas" ],
+    "extend": { "flags": [ "WATERPROOF" ] }
   },
   {
     "id": "xl_gambeson_gloves_canvas",
@@ -785,7 +776,7 @@
   },
   {
     "id": "xs_gambeson_gloves_canvas",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
     "name": { "str": "XS canvas arming mittens", "str_pl": "pairs of XS canvas arming mittens" },
     "copy-from": "gambeson_gloves_canvas",
