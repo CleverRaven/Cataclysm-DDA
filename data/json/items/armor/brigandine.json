@@ -497,16 +497,16 @@
   {
     "id": "armor_ch_brigandine",
     "type": "ARMOR",
-    "name": { "str": "case hardened brigandine" },
+    "name": { "str": "hardened brigandine" },
     "copy-from": "armor_lc_brigandine",
-    "description": "A vest made from tough fabric with case hardened steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A vest made from tough fabric with hardened steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_armor_ch_brigandine",
     "type": "ARMOR",
     "copy-from": "armor_ch_brigandine",
-    "name": { "str": "XL case hardened brigandine" },
+    "name": { "str": "XL hardened brigandine" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -514,26 +514,23 @@
     "id": "armor_ch_brigandine_xs",
     "type": "ARMOR",
     "copy-from": "armor_ch_brigandine",
-    "name": { "str": "XS case hardened brigandine" },
+    "name": { "str": "XS hardened brigandine" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_ch_brigandine_shoulders",
     "type": "ARMOR",
-    "name": { "str": "case hardened brigandine with shoulder guards", "str_pl": "case hardened brigandines with shoulder guards" },
+    "name": { "str": "hardened brigandine with shoulder guards", "str_pl": "hardened brigandines with shoulder guards" },
     "copy-from": "armor_lc_brigandine_shoulders",
-    "description": "A vest made from tough fabric with case hardened steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A vest made from tough fabric with hardened steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_armor_ch_brigandine_shoulders",
     "type": "ARMOR",
     "copy-from": "armor_ch_brigandine_shoulders",
-    "name": {
-      "str": "XL case hardened brigandine with shoulder guards",
-      "str_pl": "XL case hardened brigandines with shoulder guards"
-    },
+    "name": { "str": "XL hardened brigandine with shoulder guards", "str_pl": "XL hardened brigandines with shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -541,26 +538,23 @@
     "id": "armor_ch_brigandine_shoulders_xs",
     "type": "ARMOR",
     "copy-from": "armor_ch_brigandine_shoulders",
-    "name": {
-      "str": "XS case hardened brigandine with shoulder guards",
-      "str_pl": "XS case hardened brigandines with shoulder guards"
-    },
+    "name": { "str": "XS hardened brigandine with shoulder guards", "str_pl": "XS hardened brigandines with shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_ch_coat_brigandine",
     "type": "ARMOR",
-    "name": { "str": "case hardened brigandine coat" },
+    "name": { "str": "hardened brigandine coat" },
     "copy-from": "armor_lc_coat_brigandine",
-    "description": "A coat made from tough fabric with case hardened steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A coat made from tough fabric with hardened steel plates riveted on the inside.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_armor_ch_coat_brigandine",
     "type": "ARMOR",
     "copy-from": "armor_ch_coat_brigandine",
-    "name": { "str": "XL case hardened brigandine coat" },
+    "name": { "str": "XL hardened brigandine coat" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -568,19 +562,16 @@
     "id": "armor_ch_coat_brigandine_xs",
     "type": "ARMOR",
     "copy-from": "armor_ch_coat_brigandine",
-    "name": { "str": "XS case hardened brigandine coat" },
+    "name": { "str": "XS hardened brigandine coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_ch_coat_brigandine_shoulders",
     "type": "ARMOR",
-    "name": {
-      "str": "case hardened brigandine coat with shoulder guards",
-      "str_pl": "case hardened brigandine coats with shoulder guards"
-    },
+    "name": { "str": "hardened brigandine coat with shoulder guards", "str_pl": "hardened brigandine coats with shoulder guards" },
     "copy-from": "armor_lc_coat_brigandine_shoulders",
-    "description": "A coat made from tough fabric with case hardened steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A coat made from tough fabric with hardened steel plates riveted on the inside, with shoulder guards attached to it.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -588,8 +579,8 @@
     "type": "ARMOR",
     "copy-from": "armor_ch_coat_brigandine_shoulders",
     "name": {
-      "str": "XL case hardened brigandine coat with shoulder guards",
-      "str_pl": "XL case hardened brigandine coats with shoulder guards"
+      "str": "XL hardened brigandine coat with shoulder guards",
+      "str_pl": "XL hardened brigandine coats with shoulder guards"
     },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -599,8 +590,8 @@
     "type": "ARMOR",
     "copy-from": "armor_ch_coat_brigandine_shoulders",
     "name": {
-      "str": "XS case hardened brigandine coat with shoulder guards",
-      "str_pl": "XS case hardened brigandine coats with shoulder guards"
+      "str": "XS hardened brigandine coat with shoulder guards",
+      "str_pl": "XS hardened brigandine coats with shoulder guards"
     },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -808,16 +799,16 @@
   {
     "id": "armguard_ch_brigandine",
     "type": "ARMOR",
-    "name": { "str": "pair of case hardened splint arm guards", "str_pl": "pairs of case hardened splint arm guards" },
+    "name": { "str": "pair of hardened splint arm guards", "str_pl": "pairs of hardened splint arm guards" },
     "copy-from": "armguard_lc_brigandine",
-    "description": "A pair of arm guards made of tough fabric sandwiched between alternating strips of case hardened steel.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A pair of arm guards made of tough fabric sandwiched between alternating strips of hardened steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_armguard_ch_brigandine",
     "type": "ARMOR",
     "copy-from": "armguard_ch_brigandine",
-    "name": { "str": "XL pair of case hardened splint arm guards", "str_pl": "XL pairs of case hardened splint arm guards" },
+    "name": { "str": "XL pair of hardened splint arm guards", "str_pl": "XL pairs of hardened splint arm guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -825,7 +816,7 @@
     "id": "armguard_ch_brigandine_xs",
     "type": "ARMOR",
     "copy-from": "armguard_ch_brigandine",
-    "name": { "str": "XS pair of case hardened splint arm guards", "str_pl": "XS pairs of case hardened splint arm guards" },
+    "name": { "str": "XS pair of hardened splint arm guards", "str_pl": "XS pairs of hardened splint arm guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -953,16 +944,16 @@
   {
     "id": "legguard_ch_brigandine",
     "type": "ARMOR",
-    "name": { "str": "pair of case hardened splint leg guards", "str_pl": "pairs of case hardened splint leg guards" },
+    "name": { "str": "pair of hardened splint leg guards", "str_pl": "pairs of hardened splint leg guards" },
     "copy-from": "legguard_lc_brigandine",
-    "description": "A pair of leg guards made of tough fabric sandwiched between alternating strips of case hardened steel.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A pair of leg guards made of tough fabric sandwiched between alternating strips of hardened steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_legguard_ch_brigandine",
     "type": "ARMOR",
     "copy-from": "legguard_ch_brigandine",
-    "name": { "str": "XL pair of case hardened splint leg guards", "str_pl": "XL pairs of case hardened splint leg guards" },
+    "name": { "str": "XL pair of hardened splint leg guards", "str_pl": "XL pairs of hardened splint leg guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -970,7 +961,7 @@
     "id": "legguard_ch_brigandine_xs",
     "type": "ARMOR",
     "copy-from": "legguard_ch_brigandine",
-    "name": { "str": "XS pair of case hardened splint leg guards", "str_pl": "XS pairs of case hardened splint leg guards" },
+    "name": { "str": "XS pair of hardened splint leg guards", "str_pl": "XS pairs of hardened splint leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -1099,16 +1090,16 @@
   {
     "id": "ch_vambrace_brigandine",
     "type": "ARMOR",
-    "name": { "str": "pair of case hardened splint vambraces", "str_pl": "pairs of case hardened splint vambraces" },
+    "name": { "str": "pair of hardened splint vambraces", "str_pl": "pairs of hardened splint vambraces" },
     "copy-from": "lc_vambrace_brigandine",
-    "description": "A pair of vambraces made of tough fabric sandwiched between alternating strips of case hardened steel.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A pair of vambraces made of tough fabric sandwiched between alternating strips of hardened steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_ch_vambrace_brigandine",
     "type": "ARMOR",
     "copy-from": "ch_vambrace_brigandine",
-    "name": { "str": "XL pair of case hardened splint vambraces", "str_pl": "XL pairs of case hardened splint vambraces" },
+    "name": { "str": "XL pair of hardened splint vambraces", "str_pl": "XL pairs of hardened splint vambraces" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1116,7 +1107,7 @@
     "id": "xs_ch_vambrace_brigandine",
     "type": "ARMOR",
     "copy-from": "ch_vambrace_brigandine",
-    "name": { "str": "XS pair of case hardened splint vambraces", "str_pl": "XS pairs of case hardened splint vambraces" },
+    "name": { "str": "XS pair of hardened splint vambraces", "str_pl": "XS pairs of hardened splint vambraces" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -1244,16 +1235,16 @@
   {
     "id": "ch_greaves_brigandine",
     "type": "ARMOR",
-    "name": { "str": "pair of case hardened splint greaves", "str_pl": "pairs of case hardened splint greaves" },
+    "name": { "str": "pair of hardened splint greaves", "str_pl": "pairs of hardened splint greaves" },
     "copy-from": "lc_greaves_brigandine",
-    "description": "A pair of greaves made of tough fabric sandwiched between alternating strips of case hardened steel.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A pair of greaves made of tough fabric sandwiched between alternating strips of hardened steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_ch_greaves_brigandine",
     "type": "ARMOR",
     "copy-from": "ch_greaves_brigandine",
-    "name": { "str": "XL pair of case hardened splint greaves", "str_pl": "XL pairs of case hardened splint greaves" },
+    "name": { "str": "XL pair of hardened splint greaves", "str_pl": "XL pairs of hardened splint greaves" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1261,7 +1252,7 @@
     "id": "xs_ch_greaves_brigandine",
     "type": "ARMOR",
     "copy-from": "ch_greaves_brigandine",
-    "name": { "str": "XS pair of case hardened splint greaves", "str_pl": "XS pairs of case hardened splint greaves" },
+    "name": { "str": "XS pair of hardened splint greaves", "str_pl": "XS pairs of hardened splint greaves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -1395,16 +1386,16 @@
   {
     "id": "ch_brigandine_hands",
     "type": "ARMOR",
-    "name": { "str": "pair of case hardened brigandine gloves", "str_pl": "pairs of case hardened brigandine gloves" },
+    "name": { "str": "pair of hardened brigandine gloves", "str_pl": "pairs of hardened brigandine gloves" },
     "copy-from": "lc_brigandine_hands",
-    "description": "A pair of gloves made of tough fabric, with case hardened steel plates of various size and shape riveted for additional protection, while still remaining relatively unhindering",
+    "description": "A pair of gloves made of tough fabric, with hardened steel plates of various size and shape riveted for additional protection, while still remaining relatively unhindering",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_ch_brigandine_hands",
     "type": "ARMOR",
     "copy-from": "ch_brigandine_hands",
-    "name": { "str": "XL pair of case hardened brigandine gloves", "str_pl": "XL pairs of case hardened brigandine gloves" },
+    "name": { "str": "XL pair of hardened brigandine gloves", "str_pl": "XL pairs of hardened brigandine gloves" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1412,7 +1403,7 @@
     "id": "ch_brigandine_hands_xs",
     "type": "ARMOR",
     "copy-from": "ch_brigandine_hands",
-    "name": { "str": "XS pair of case hardened brigandine gloves", "str_pl": "XS pairs of case hardened brigandine gloves" },
+    "name": { "str": "XS pair of hardened brigandine gloves", "str_pl": "XS pairs of hardened brigandine gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -1536,16 +1527,16 @@
   {
     "id": "ch_knee_guards",
     "type": "ARMOR",
-    "name": { "str": "pair of case hardened knee guards", "str_pl": "pairs of case hardened steel knee guards" },
+    "name": { "str": "pair of hardened knee guards", "str_pl": "pairs of hardened steel knee guards" },
     "copy-from": "lc_knee_guards",
-    "description": "A pair of thin knee guards, made from case hardened steel.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A pair of thin knee guards, made from hardened steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_ch_knee_guards",
     "type": "ARMOR",
     "copy-from": "ch_knee_guards",
-    "name": { "str": "XL pair of case hardened knee guards", "str_pl": "XL pairs of case hardened knee guards" },
+    "name": { "str": "XL pair of hardened knee guards", "str_pl": "XL pairs of hardened knee guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1553,7 +1544,7 @@
     "id": "ch_knee_guards_xs",
     "type": "ARMOR",
     "copy-from": "ch_knee_guards",
-    "name": { "str": "XS pair of case hardened knee guards", "str_pl": "XS pairs of case hardened knee guards" },
+    "name": { "str": "XS pair of hardened knee guards", "str_pl": "XS pairs of hardened knee guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -1677,16 +1668,16 @@
   {
     "id": "ch_elbow_guards",
     "type": "ARMOR",
-    "name": { "str": "pair of case hardened elbow guards", "str_pl": "pairs of case hardened elbow guards" },
+    "name": { "str": "pair of hardened elbow guards", "str_pl": "pairs of hardened elbow guards" },
     "copy-from": "lc_elbow_guards",
-    "description": "A pair of thin elbow guards, made from case hardened steel.  Can be comfortably worn over chainmail for extra protection.",
+    "description": "A pair of thin elbow guards, made from hardened steel.  Can be comfortably worn over chainmail for extra protection.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_ch_elbow_guards",
     "type": "ARMOR",
     "copy-from": "ch_elbow_guards",
-    "name": { "str": "XL pair of case hardened elbow guards", "str_pl": "XL pairs of case hardened elbow guards" },
+    "name": { "str": "XL pair of hardened elbow guards", "str_pl": "XL pairs of hardened elbow guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1694,7 +1685,7 @@
     "id": "ch_elbow_guards_xs",
     "type": "ARMOR",
     "copy-from": "ch_elbow_guards",
-    "name": { "str": "XS pair of case hardened elbow guards", "str_pl": "XS pairs of case hardened elbow guards" },
+    "name": { "str": "XS pair of hardened elbow guards", "str_pl": "XS pairs of hardened elbow guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -1798,22 +1789,22 @@
     "id": "ch_shoulder_guards",
     "type": "GENERIC",
     "copy-from": "lc_shoulder_guards",
-    "name": { "str": "pair of case hardened shoulder guards", "str_pl": "pairs of case hardened shoulder guards" },
-    "description": "A pair of thin shoulder guards, made from case hardened steel.  Designed to be attached to brigandine.",
+    "name": { "str": "pair of hardened shoulder guards", "str_pl": "pairs of hardened shoulder guards" },
+    "description": "A pair of thin shoulder guards, made from hardened steel.  Designed to be attached to brigandine.",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_ch_shoulder_guards",
     "type": "GENERIC",
     "copy-from": "ch_shoulder_guards",
-    "name": { "str": "XL pair of case hardened shoulder guards", "str_pl": "XL pairs of case hardened shoulder guards" },
+    "name": { "str": "XL pair of hardened shoulder guards", "str_pl": "XL pairs of hardened shoulder guards" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 }
   },
   {
     "id": "ch_shoulder_guards_xs",
     "type": "GENERIC",
     "copy-from": "ch_shoulder_guards",
-    "name": { "str": "XS pair of case hardened shoulder guards", "str_pl": "XS pairs of case hardened shoulder guards" },
+    "name": { "str": "XS pair of hardened shoulder guards", "str_pl": "XS pairs of hardened shoulder guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 }
   },
   {
