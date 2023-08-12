@@ -107,7 +107,7 @@
       [ "fertilizer_commercial", 100 ],
       [ "material_quicklime", 70 ],
       [ "concrete", 70 ],
-      { "item": "nuts_bolts", "prob": 60, "charges": [ 15, 30 ], "container-item": "box_small" },
+      { "item": "nuts_bolts", "prob": 60, "charges": [ 250, 500 ], "container-item": "box_small" },
       { "item": "rope_6", "prob": 10 },
       { "item": "sheet_metal", "prob": 10 },
       { "item": "sheet_metal_small", "prob": 10 },
