@@ -3076,83 +3076,26 @@
   },
   {
     "id": "mc_heavyhelm_close",
+    "copy-from": "lc_heavyhelm_close",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "medium steel heavy close helm" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
-    "weight": "4750 g",
-    "volume": "3 L",
-    "price": 93500,
-    "price_postapoc": 9350,
     "use_action": {
       "type": "transform",
       "msg": "You raise the helm's visor.",
-      "target": "lc_heavyhelm_close_raised",
+      "target": "mc_heavyhelm_close_raised",
       "menu_text": "Raise"
     },
-    "material": [ "mc_steel" ],
-    "symbol": "o",
-    "looks_like": "helmet_sallet",
-    "color": "light_gray",
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 2.25 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "head" ],
-        "coverage": 100,
-        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
-      },
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 2.25 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "mouth" ],
-        "coverage": 100,
-        "encumbrance": 10,
-        "layers": [ "OUTER" ],
-        "rigid_layer_only": true
-      },
-      {
-        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 2.25 } ],
-        "covers": [ "eyes" ],
-        "coverage": 95,
-        "encumbrance": 10,
-        "layers": [ "OUTER" ],
-        "rigid_layer_only": true
-      }
-    ],
-    "warmth": 5,
-    "environmental_protection": 1,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
-    "melee_damage": { "bash": 8 }
+    "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "mc_heavyhelm_close_raised",
-    "copy-from": "mc_heavyhelm_close",
+    "copy-from": "lc_heavyhelm_close_raised",
     "type": "ARMOR",
     "name": { "str": "medium steel heavy close helm (raised)", "str_pl": "medium steel heavy close helms (raised)" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "mc_heavyhelm_close", "menu_text": "Lower" },
-    "looks_like": "helmet_barbute",
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 2.25 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "head" ],
-        "coverage": 100,
-        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
-      }
-    ],
-    "warmth": 5,
-    "environmental_protection": 1,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+    "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_mc_heavyhelm_close",
@@ -3179,83 +3122,26 @@
   },
   {
     "id": "hc_heavyhelm_close",
+    "copy-from": "lc_heavyhelm_close",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "high steel heavy close helm" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
-    "weight": "4750 g",
-    "volume": "3 L",
-    "price": 93500,
-    "price_postapoc": 9350,
     "use_action": {
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "hc_heavyhelm_close_raised",
       "menu_text": "Raise"
     },
-    "material": [ "hc_steel" ],
-    "symbol": "o",
-    "looks_like": "helmet_sallet",
-    "color": "light_gray",
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 2.25 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "head" ],
-        "coverage": 100,
-        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
-      },
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 2.25 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "mouth" ],
-        "coverage": 100,
-        "encumbrance": 10,
-        "layers": [ "OUTER" ],
-        "rigid_layer_only": true
-      },
-      {
-        "material": [ { "type": "hc_steel", "covered_by_mat": 100, "thickness": 2.25 } ],
-        "covers": [ "eyes" ],
-        "coverage": 95,
-        "encumbrance": 10,
-        "layers": [ "OUTER" ],
-        "rigid_layer_only": true
-      }
-    ],
-    "warmth": 5,
-    "environmental_protection": 1,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
-    "melee_damage": { "bash": 8 }
+    "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "hc_heavyhelm_close_raised",
-    "copy-from": "hc_heavyhelm_close",
+    "copy-from": "lc_heavyhelm_close_raised",
     "type": "ARMOR",
     "name": { "str": "high steel heavy close helm (raised)", "str_pl": "high steel heavy close helms (raised)" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "hc_heavyhelm_close", "menu_text": "Lower" },
-    "looks_like": "helmet_barbute",
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 2.25 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "head" ],
-        "coverage": 100,
-        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
-      }
-    ],
-    "warmth": 5,
-    "environmental_protection": 1,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+    "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "xl_hc_heavyhelm_close",
@@ -3282,83 +3168,26 @@
   },
   {
     "id": "ch_heavyhelm_close",
+    "copy-from": "lc_heavyhelm_close",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "hardened steel heavy close helm" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
-    "weight": "4750 g",
-    "volume": "3 L",
-    "price": 93500,
-    "price_postapoc": 9350,
     "use_action": {
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "hc_heavyhelm_close_raised",
       "menu_text": "Raise"
     },
-    "material": [ "ch_steel" ],
-    "symbol": "o",
-    "looks_like": "helmet_sallet",
-    "color": "light_gray",
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.25 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "head" ],
-        "coverage": 100,
-        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
-      },
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.25 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "mouth" ],
-        "coverage": 100,
-        "encumbrance": 10,
-        "layers": [ "OUTER" ],
-        "rigid_layer_only": true
-      },
-      {
-        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.25 } ],
-        "covers": [ "eyes" ],
-        "coverage": 95,
-        "encumbrance": 10,
-        "layers": [ "OUTER" ],
-        "rigid_layer_only": true
-      }
-    ],
-    "warmth": 5,
-    "environmental_protection": 1,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
-    "melee_damage": { "bash": 8 }
+    "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "ch_heavyhelm_close_raised",
-    "copy-from": "ch_heavyhelm_close",
+    "copy-from": "lc_heavyhelm_close_raised",
     "type": "ARMOR",
     "name": { "str": "hardened steel heavy close helm (raised)", "str_pl": "hardened steel heavy close helms (raised)" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_heavyhelm_close", "menu_text": "Lower" },
-    "looks_like": "helmet_barbute",
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 2.25 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "head" ],
-        "coverage": 100,
-        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
-      }
-    ],
-    "warmth": 5,
-    "environmental_protection": 1,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+    "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_ch_heavyhelm_close",
@@ -3385,83 +3214,26 @@
   },
   {
     "id": "qt_heavyhelm_close",
+    "copy-from": "lc_heavyhelm_close",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "tempered steel heavy close helm" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to raise the visor.",
-    "weight": "4750 g",
-    "volume": "3 L",
-    "price": 93500,
-    "price_postapoc": 9350,
     "use_action": {
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "qt_heavyhelm_close_raised",
       "menu_text": "Raise"
     },
-    "material": [ "qt_steel" ],
-    "symbol": "o",
-    "looks_like": "helmet_sallet",
-    "color": "light_gray",
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2.25 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "head" ],
-        "coverage": 100,
-        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
-      },
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2.25 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "mouth" ],
-        "coverage": 100,
-        "encumbrance": 10,
-        "layers": [ "OUTER" ],
-        "rigid_layer_only": true
-      },
-      {
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2.25 } ],
-        "covers": [ "eyes" ],
-        "coverage": 95,
-        "encumbrance": 10,
-        "layers": [ "OUTER" ],
-        "rigid_layer_only": true
-      }
-    ],
-    "warmth": 5,
-    "environmental_protection": 1,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
-    "melee_damage": { "bash": 8 }
+    "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "qt_heavyhelm_close_raised",
-    "copy-from": "qt_heavyhelm_close",
+    "copy-from": "lc_heavyhelm_close_raised",
     "type": "ARMOR",
     "name": { "str": "tempered steel heavy close helm (raised)", "str_pl": "tempered steel heavy close helms (raised)" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "qt_heavyhelm_close", "menu_text": "Lower" },
-    "looks_like": "helmet_barbute",
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2.25 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "head" ],
-        "coverage": 100,
-        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
-      }
-    ],
-    "warmth": 5,
-    "environmental_protection": 1,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+    "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "xl_qt_heavyhelm_close",
