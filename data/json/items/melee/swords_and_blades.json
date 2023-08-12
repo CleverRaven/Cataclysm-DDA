@@ -497,7 +497,7 @@
   },
   {
     "id": "hc_knife_trench",
-    "copy-from": "lc_knife_trench",
+    "copy-from": "mc_knife_trench",
     "type": "TOOL",
     "name": { "str": "high steel trench knife", "str_pl": "high steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is made of high steel and is probably as good as a WWI trench knife.",
@@ -506,7 +506,7 @@
   },
   {
     "id": "ch_knife_trench",
-    "copy-from": "lc_knife_trench",
+    "copy-from": "mc_knife_trench",
     "type": "TOOL",
     "name": { "str": "hardened steel trench knife", "str_pl": "hardened steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is made of hardened steel, an officer's weapon if ever there was one.",
@@ -515,7 +515,7 @@
   },
   {
     "id": "qt_knife_trench",
-    "copy-from": "lc_knife_trench",
+    "copy-from": "mc_knife_trench",
     "type": "TOOL",
     "name": { "str": "tempered steel trench knife", "str_pl": "tempered steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is made of tempered steel, and you feel you could hold a trench against an army of zombies with it.",
