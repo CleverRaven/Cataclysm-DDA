@@ -1873,7 +1873,7 @@
     "breaks_into": [
       { "item": "scrap", "count": [ 4, 16 ] },
       { "item": "steel_chunk", "count": [ 1, 6 ] },
-      { "item": "plutonium", "charges": [ 0, 2 ] },
+      { "item": "plutonium", "count": [ 0, 2 ] },
       { "item": "lead", "charges": [ 12, 18 ] }
     ],
     "damage_reduction": { "all": 58 },

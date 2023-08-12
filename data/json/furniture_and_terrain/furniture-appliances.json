@@ -138,7 +138,7 @@
         { "item": "wire_mesh", "count": 1 },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
-        { "item": "motor_tiny", "charges": 1 },
+        { "item": "motor_tiny", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 3 ] }
       ]
     },

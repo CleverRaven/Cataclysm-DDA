@@ -257,9 +257,19 @@
     "entries": [
       {
         "distribution": [
-          { "item": "adderall", "count": [ 0, 2 ], "charges": [ 1, 10 ] },
+          {
+            "item": "adderall",
+            "count": [ 0, 20 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          },
           { "item": "energy_drink", "count": [ 0, 2 ] },
-          { "item": "caffeine", "count": [ 0, 2 ], "charges": [ 1, 10 ] }
+          {
+            "item": "caffeine",
+            "count": [ 0, 20 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_supplement"
+          }
         ]
       },
       { "item": "dayquil", "count": [ 0, 2 ], "charges": [ 1, 5 ] },

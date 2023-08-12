@@ -390,7 +390,7 @@
     "pseudo_tools": [ { "id": "catalytic_cracking_reactor_tool" } ],
     "item": "catalytic_cracking_reactor",
     "breaks_into": [
-      { "item": "element", "charges": [ 4, 8 ] },
+      { "item": "element", "count": [ 4, 8 ] },
       { "item": "55gal_drum", "count": [ 3, 5 ] },
       { "item": "pipe", "count": [ 2, 5 ] },
       { "item": "thermometer", "count": [ 1, 4 ] },
@@ -572,7 +572,7 @@
       { "item": "hd_compressor", "prob": 25 },
       { "item": "nitrogen_membrane_filter", "prob": 25 },
       { "item": "cable", "charges": [ 4, 8 ] },
-      { "item": "salt", "charges": [ 2000, 3000 ] }
+      { "item": "salt", "count": [ 2000, 3000 ], "container-item": "null" }
     ],
     "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
   },
@@ -927,7 +927,7 @@
     "breaks_into": [
       { "item": "scrap", "count": [ 4, 16 ] },
       { "item": "steel_chunk", "count": [ 1, 6 ] },
-      { "item": "plutonium", "charges": [ 0, 2 ] },
+      { "item": "plutonium", "count": [ 0, 2 ] },
       { "item": "lead", "charges": [ 12, 18 ] }
     ],
     "damage_reduction": { "all": 60 },

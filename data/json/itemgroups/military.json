@@ -499,7 +499,7 @@
     "entries": [
       { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 90 },
       { "prob": 60, "group": "quikclot_bag_plastic_1_6" },
-      { "collection": [ { "item": "morphine", "charges": [ 1, 4 ] }, { "item": "syringe" } ], "prob": 30 },
+      { "collection": [ { "item": "morphine", "count": [ 1, 4 ] }, { "item": "syringe" } ], "prob": 30 },
       { "item": "prophylactic_antivenom", "prob": 10, "count": 5 }
     ]
   },
@@ -743,7 +743,7 @@
       { "item": "sheath", "prob": 13 },
       { "item": "bootsheath", "prob": 8 },
       { "item": "leg_sheath6", "prob": 2 },
-      { "item": "throwing_knife", "charges-min": 1, "charges-max": 6, "container-item": "leg_sheath6", "prob": 1 },
+      { "item": "throwing_knife", "count-min": 1, "count-max": 6, "entry-wrapper": "leg_sheath6", "prob": 1 },
       { "group": "tools_toolbox", "prob": 1 },
       { "item": "knife_rm42", "prob": 4 },
       { "item": "survnote", "prob": 1 },
