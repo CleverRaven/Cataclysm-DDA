@@ -18,7 +18,8 @@
         "max_contains_weight": "750 g",
         "max_item_length": "70 cm",
         "moves": 60,
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },

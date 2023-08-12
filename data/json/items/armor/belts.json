@@ -22,7 +22,8 @@
         "max_item_length": "90 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP" ],
-        "holster": true
+        "holster": true,
+        "transparent": true
       },
       {
         "holster": true,
@@ -32,7 +33,8 @@
         "max_item_length": "70 cm",
         "moves": 60,
         "description": "Clipped directly to side of the belt.",
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -42,7 +44,8 @@
         "max_item_length": "70 cm",
         "moves": 60,
         "description": "Clipped directly to side of the belt.",
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to belt loop?", "holster_msg": "You clip your %s to your %s" },
@@ -156,7 +159,8 @@
         "max_item_length": "70 cm",
         "moves": 60,
         "description": "Clipped directly to side of the belt.",
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -165,7 +169,8 @@
         "max_item_length": "70 cm",
         "moves": 60,
         "description": "Clipped directly to side of the belt.",
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -174,7 +179,8 @@
         "max_item_length": "70 cm",
         "moves": 60,
         "description": "Clipped directly to side of the belt.",
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -183,7 +189,8 @@
         "max_item_length": "70 cm",
         "moves": 60,
         "description": "Clipped directly to side of the belt.",
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -192,7 +199,8 @@
         "max_item_length": "70 cm",
         "moves": 110,
         "description": "Clipped directly to back of the belt.",
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -201,7 +209,8 @@
         "max_item_length": "70 cm",
         "moves": 110,
         "description": "Clipped directly to back of the belt.",
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
@@ -271,7 +280,8 @@
         "max_contains_weight": "3600 g",
         "max_item_length": "70 cm",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -280,7 +290,8 @@
         "max_contains_weight": "1750 g",
         "max_item_length": "70 cm",
         "moves": 60,
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -289,7 +300,8 @@
         "max_contains_weight": "1750 g",
         "max_item_length": "70 cm",
         "moves": 60,
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to holder?", "holster_msg": "You attach your %s to your %s." },
@@ -329,7 +341,8 @@
         "max_contains_weight": "800 g",
         "max_item_length": "90 cm",
         "moves": 60,
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
@@ -375,7 +388,8 @@
         "max_item_length": "70 cm",
         "moves": 60,
         "description": "Clipped directly to the belt.",
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -386,7 +400,8 @@
         "max_item_length": "70 cm",
         "moves": 60,
         "description": "Clipped directly to the belt.",
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -397,7 +412,8 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "description": "In a sheath.",
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -408,7 +424,8 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "description": "In a sheath.",
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -419,7 +436,8 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "description": "In a sheath.",
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "transparent": true
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
@@ -451,7 +469,8 @@
         "max_item_length": "70 cm",
         "moves": 60,
         "description": "Clipped directly to belt.",
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -461,7 +480,8 @@
         "max_item_length": "70 cm",
         "moves": 60,
         "description": "Clipped directly to belt.",
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -471,7 +491,8 @@
         "max_item_length": "70 cm",
         "moves": 110,
         "description": "Clipped directly to the back of the belt.",
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -481,7 +502,8 @@
         "max_item_length": "70 cm",
         "moves": 110,
         "description": "Clipped directly to the back of the belt.",
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       }
     ],
     "use_action": [
