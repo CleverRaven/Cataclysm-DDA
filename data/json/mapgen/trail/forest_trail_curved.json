@@ -117,8 +117,7 @@
         "         432101234      ",
         "        432101234       "
       ],
-      "palettes": [ "trail_palette" ],
-      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+      "palettes": [ "trail_palette" ]
     }
   }
 ]
