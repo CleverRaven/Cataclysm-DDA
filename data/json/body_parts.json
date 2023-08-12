@@ -2216,10 +2216,10 @@
   {
     "id": "bionic_treads_leg",
     "type": "body_part",
-    "name": "bionic treads",
+    "name": "tank treads",
     "accusative": { "ctxt": "bodypart_accusative", "str": "bionic treads" },
-    "heading": "treads",
-    "heading_multiple": "treads",
+    "heading": "tank treads",
+    "heading_multiple": "tank treads",
     "hp_bar_ui_text": "TREADS",
     "encumbrance_text": "Servomotors are operating at abnormal load.",
     "encumbrance_threshold": 20,
@@ -2227,7 +2227,7 @@
     "connected_to": "torso",
     "opposite_part": "bionic_treads_leg",
     "limb_types": [ [ "leg", 0.8 ], [ "foot", 0.5 ] ],
-    "limb_scores": [ [ "move_speed", 2.0 ], [ "crawl", 1.0 ], [ "footing", 2.0 ] ],
+    "limb_scores": [ [ "move_speed", 1.5 ], [ "crawl", 1.0 ], [ "footing", 2.0 ] ],
     "hit_size": 36,
     "hit_difficulty": 1.2,
     "side": "both",
@@ -2235,7 +2235,7 @@
     "hot_morale_mod": 2,
     "cold_morale_mod": 2,
     "fire_warmth_bonus": 150,
-    "squeamish_penalty": 5,
+    "squeamish_penalty": 0,
     "base_hp": 250,
     "drench_capacity": 700,
     "bionic_slots": 58,
@@ -2266,16 +2266,16 @@
     "side": 0,
     "opposite": "bionic_treads_treads",
     "name_multiple": "bionic",
-    "name": "tread shell"
+    "name": "tank treads shell"
   },
   {
     "id": "bionic_treads_treads",
     "type": "sub_body_part",
     "max_coverage": 20,
-    "parent": "torso",
+    "parent": "bionic_treads_leg",
     "side": 0,
     "opposite": "bionic_treads_body",
     "name_multiple": "bionic treads",
-    "name": "tread tracks"
+    "name": "tank treads tracks"
   }
 ]
