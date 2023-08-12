@@ -2128,7 +2128,7 @@
   {
     "id": "mc_mirror_armor",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_mirror_armor",
     "name": { "str": "medium steel mirror armor", "str_pl": "sets of medium steel mirror armor" },
     "description": "Mirror armor is either round or square plates connected by fasteners to cover all four sides of the vital areas of the torso, mirror plate was usually worn on top of other armor like chainmail or brigandines.  This set is well-formed but plain rectangular plates made of medium steel.",
     "replace_materials": { "lc_steel": "mc_steel" }
@@ -2153,7 +2153,7 @@
   {
     "id": "hc_mirror_armor",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_mirror_armor",
     "name": { "str": "high steel mirror armor", "str_pl": "sets of high steel mirror armor" },
     "description": "Mirror armor is either round or square plates connected by fasteners to cover all four sides of the vital areas of the torso, mirror plate was usually worn on top of other armor like chainmail or brigandines.  This set is made of well formed and lightly decorated high steel rectangular plates.",
     "replace_materials": { "lc_steel": "hc_steel" }
@@ -2178,7 +2178,7 @@
   {
     "id": "ch_mirror_armor",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_mirror_armor",
     "name": { "str": "hardened steel mirror armor", "str_pl": "sets of hardened steel mirror armor" },
     "description": "Mirror armor is either round or square plates connected by fasteners to cover all four sides of the vital areas of the torso, mirror plate was usually worn on top of other armor like chainmail or brigandines.  This set is created with rectangular plates on the sides, and circular plates on the front, all made of fine hardened steel.",
     "replace_materials": { "lc_steel": "ch_steel" }
@@ -2203,7 +2203,7 @@
   {
     "id": "qt_mirror_armor",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_mirror_armor",
     "name": { "str": "tempered steel mirror armor", "str_pl": "sets of tempered steel mirror armor" },
     "description": "Mirror armor is either round or square plates connected by fasteners to cover all four sides of the vital areas of the torso, mirror plate was usually worn on top of other armor like chainmail or brigandines.  This set is made of intricate alternating circular and rectangular tempered steel plated, detailed on the outsides and polished to a mirrored sheen in the center.",
     "replace_materials": { "lc_steel": "qt_steel" }
