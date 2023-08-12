@@ -7,7 +7,12 @@
       "fallback_predecessor_mapgen": "forest_thick",
       "place_nested": [
         {
-          "chunks": [ "24x24_forest_trail_end_basic", "24x24_forest_trail_end_spread", "24x24_forest_trail_intersection" ],
+          "chunks": [
+            "24x24_forest_trail_end_basic",
+            "24x24_forest_trail_end_spread",
+            "24x24_forest_trail_end_split",
+            "24x24_forest_trail_intersection"
+          ],
           "x": 0,
           "y": 0
         }
@@ -68,6 +73,41 @@
         "     432101101101234    ",
         "      4321010101234     ",
         "       43210001234      ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       ",
+        "        432101234       "
+      ],
+      "palettes": [ "trail_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_end_split",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "  4444444       4444444 ",
+        " 4333333344   4433333334",
+        "432222222334 43322222223",
+        "321111111223432211111112",
+        "210000000112321100000001",
+        "321111111001210011111112",
+        "432222222110101122222223",
+        " 43333333210101233333334",
+        "  444444432101234444444 ",
+        "        432101234       ",
         "        432101234       ",
         "        432101234       ",
         "        432101234       ",

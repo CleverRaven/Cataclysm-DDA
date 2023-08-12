@@ -33,7 +33,7 @@
       "m": "t_dirtmound",
       "M": "t_moss",
       "_": [ [ "t_railroad_rubble", 3 ], [ "t_dirt", 1 ], [ "t_region_groundcover_forest", 3 ] ],
-      "~": "t_mud",
+      "~": [ [ "t_mud", 6 ], [ "t_dirt", 1 ], [ "t_region_groundcover_forest", 1 ] ],
       ",": "t_forestfloor",
       "u": "t_underbrush",
       "f": "t_fungus_colony",

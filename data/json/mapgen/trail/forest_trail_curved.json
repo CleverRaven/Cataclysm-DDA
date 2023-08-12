@@ -5,7 +5,13 @@
     "om_terrain": "forest_trail_curved",
     "object": {
       "fallback_predecessor_mapgen": "forest_thick",
-      "place_nested": [ { "chunks": [ "24x24_forest_trail_curved_basic", "24x24_forest_trail_curved_shrubs" ], "x": 0, "y": 0 } ]
+      "place_nested": [
+        {
+          "chunks": [ "24x24_forest_trail_curved_basic", "24x24_forest_trail_curved_shrubs", "24x24_forest_trail_curved_diag" ],
+          "x": 0,
+          "y": 0
+        }
+      ]
     }
   },
   {
@@ -74,6 +80,42 @@
         "        43210123        ",
         "        43210123        ",
         "        43210123        "
+      ],
+      "palettes": [ "trail_palette" ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_forest_trail_curved_diag",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                       4",
+        "                      43",
+        "                     432",
+        "                    4321",
+        "                   43210",
+        "                  432101",
+        "                 4321012",
+        "                43210123",
+        "               432101234",
+        "              432101234 ",
+        "             432101234  ",
+        "            432101234   ",
+        "           432101234    ",
+        "          432101234     ",
+        "         432101234      ",
+        "        432101234       "
       ],
       "palettes": [ "trail_palette" ],
       "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
