@@ -2,17 +2,5 @@
 // static plugins specified using QTPLUGIN and QT_PLUGIN_CLASS.<plugin> variables.
 #include <QtCore/QtPlugin>
 #ifdef _WIN32
-    Q_IMPORT_PLUGIN(QWindowsVistaStylePlugin)
     Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin)
-    Q_IMPORT_PLUGIN(QGifPlugin)
-    Q_IMPORT_PLUGIN(QICNSPlugin)
-    Q_IMPORT_PLUGIN(QICOPlugin)
-    Q_IMPORT_PLUGIN(QJp2Plugin)
-    Q_IMPORT_PLUGIN(QJpegPlugin)
-    Q_IMPORT_PLUGIN(QMngPlugin)
-    Q_IMPORT_PLUGIN(QTgaPlugin)
-    Q_IMPORT_PLUGIN(QTiffPlugin)
-    Q_IMPORT_PLUGIN(QWbmpPlugin)
-    Q_IMPORT_PLUGIN(QWebpPlugin)
-    Q_IMPORT_PLUGIN(QGenericEnginePlugin)
 #endif
