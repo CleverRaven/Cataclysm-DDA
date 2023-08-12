@@ -473,6 +473,26 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "bandit_farm_3",
+      "bandit_farm_2",
+      "bandit_farm_1",
+      "bandit_farm_6",
+      "bandit_farm_5",
+      "bandit_farm_4",
+      "bandit_farm_9",
+      "bandit_farm_8",
+      "bandit_farm_7"
+    ],
+    "name": "farm",
+    "sym": "#",
+    "color": "brown",
+    "see_cost": 5,
+    "//": "RISK_LOW due to risk and safety being based on NPCs perception of what the area may contain",
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "debug_ramps",
     "name": "ramp testing area",
     "sym": "%",
@@ -600,7 +620,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "drug_lab",
+    "id": [ "drug_lab", "bandit_drug_lab" ],
     "name": "drug lab",
     "sym": "^",
     "color": "brown",
