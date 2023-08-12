@@ -130,7 +130,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 1000, "coal": 5000 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 1000, "coal_lump": 5000 } } ],
     "ammo": [ "charcoal", "coal" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 13 }
