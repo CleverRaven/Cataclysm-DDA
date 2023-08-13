@@ -38,8 +38,6 @@ static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 static const std::string flag_WIRING( "WIRING" );
 static const std::string flag_HALF_CIRCLE_LIGHT( "HALF_CIRCLE_LIGHT" );
 
-static const int MAX_WIRE_VEHICLE_SIZE = 24;
-
 // Width of the entire set of windows. 60 is sufficient for
 // all tested cases while remaining within the 80x24 limit.
 // TODO: make this dynamic in the future.
