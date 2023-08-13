@@ -7,7 +7,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  ISSUE_NUMBER: ${{ github.event.issue.number }}
+  PR_NUMBER: ${{ github.event.pull_request.number }}
 
 jobs:
   triage:
@@ -18,7 +18,7 @@ jobs:
       - name: Check if user has any merged PRs in this reposiory
         id: pr-check
         run: |
-          author=$(jq -r '.pull_request.user.login' $GITHUB_EVENT_PATH)
+          author="${{ github.event.pull_request.user.login }}"
           pr_count=$(gh pr list --state merged --author $author --json number | jq 'length')
 
           echo "Debug: $author with $pr_count merged PRs."
@@ -27,4 +27,4 @@ jobs:
       - name: Label contributors with no merged PRs
         if: steps.pr-check.outputs.pr_count == 0
         run: |
-          gh issue edit "$ISSUE_NUMBER" --add-label "new contributor"
+          gh pr edit "$PR_NUMBER" --add-label "new contributor"
