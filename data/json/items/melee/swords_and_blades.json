@@ -100,6 +100,20 @@
     "color": "light_gray",
     "name": { "str": "welded sword" },
     "description": "A vicious single-edged sword made out of sheet metal layered twice over itself then welded together.  It's not as robust as a proper forged sword, but the edge is wickedly sharp.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "sword_sheets_welded",
+        "name": { "str": "welded sword" },
+        "description": "A vicious single-edged sword made out of sheet metal layered twice over itself then welded together.  It's not as robust as a proper forged sword, but the edge is wickedly sharp.",
+        "weight": 1
+      },
+      {
+        "id": "sword_sheets_bolted",
+        "name": { "str": "bolted sword" },
+        "description": "A vicious single-edged sword made out of sheet metal layered twice over itself then bolted together.  It's not quite a katana made from steel folded a thousand times over, but it has a certain industrial charm to it."
+      }
+    ],
     "looks_like": "machete",
     "material": [ "lc_steel" ],
     "volume": "2 L",
@@ -115,18 +129,25 @@
   },
   {
     "type": "GENERIC",
-    "id": "sword_sheets_bolted",
-    "copy-from": "sword_sheets_welded",
-    "name": { "str": "bolted sword" },
-    "description": "A vicious single-edged sword made out of sheet metal layered twice over itself then bolted together.  It's not quite a katana made from steel folded a thousand times over, but it has a certain industrial charm to it."
-  },
-  {
-    "type": "GENERIC",
     "id": "sword_sheets_welded_large",
     "symbol": "!",
     "color": "light_gray",
     "name": { "str": "welded greatsword" },
     "description": "A long-handled single-edged sword made out of sheet metal layered thrice over itself then welded together.  The extra length and weight makes it a tad awkward, but gives it a lot of slashing power.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "sword_sheets_welded_large",
+        "name": { "str": "welded greatsword" },
+        "description": "A long-handled single-edged sword made out of sheet metal layered thrice over itself then welded together.  The extra length and weight makes it a tad awkward, but gives it a lot of slashing power.",
+        "weight": 1
+      },
+      {
+        "id": "sword_sheets_bolted_large",
+        "name": { "str": "bolted greatsword" },
+        "description": "A long-handled single-edged sword made out of sheet metal layered thrice over itself then bolted together.  It vaguely resembles a Japanese nagamaki if you squint."
+      }
+    ],
     "looks_like": "nodachi",
     "material": [ "lc_steel" ],
     "volume": "3250 ml",
@@ -134,18 +155,11 @@
     "longest_side": "150 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "neutral" },
     "price_postapoc": 500,
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "CONSTRUCTED_SWORDS", "GREAT_SWORDS" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -20 ] ],
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "melee_damage": { "bash": 8, "cut": 32 }
-  },
-  {
-    "type": "GENERIC",
-    "id": "sword_sheets_bolted_large",
-    "copy-from": "sword_sheets_welded_large",
-    "name": { "str": "bolted greatsword" },
-    "description": "A long-handled single-edged sword made out of sheet metal layered thrice over itself then bolted together.  It vaguely resembles a Japanese nagamaki if you squint."
   },
   {
     "type": "GENERIC",
@@ -227,7 +241,7 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "ALLOWS_BODY_BLOCK", "CONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
     "variant_type": "generic",
     "variants": [
@@ -261,7 +275,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "BELT_CLIP", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "BELT_CLIP", "ALLOWS_BODY_BLOCK", "CONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "bash": 1, "stab": 12 }
   },
@@ -290,7 +304,7 @@
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE", "CONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "bash": 4, "stab": 26 }
   },
@@ -326,7 +340,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "CONDUCTIVE", "DURABLE_MELEE" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "cut": 16 }
   },
@@ -345,6 +359,7 @@
     "name": { "str": "mild steel survival knife", "str_pl": "mild steel survival knives" },
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.  It's custom-made of mild steel, you could probably find better in a hunting store.",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "good" },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "replace_materials": { "mc_steel": "lc_steel" },
     "relative": { "melee_damage": { "stab": -1 } }
   },
@@ -366,7 +381,7 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "SHEATH_SWORD", "COLLAPSE_CONTENTS" ],
+    "flags": [ "SHEATH_SWORD", "COLLAPSE_CONTENTS", "DURABLE_MELEE", "CONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
     "pocket_data": [
       {
@@ -403,7 +418,7 @@
     "id": "qt_knife_rambo",
     "copy-from": "mc_knife_rambo",
     "type": "GENERIC",
-    "name": { "str": "tempered steel survival knife", "str_pl": "case hardened steel survival knives" },
+    "name": { "str": "tempered steel survival knife", "str_pl": "tempered steel survival knives" },
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.  Time to go Rambo on this apocalypse.",
     "replace_materials": { "mc_steel": "qt_steel" },
     "relative": { "melee_damage": { "stab": 3 } }
@@ -471,6 +486,7 @@
     "name": { "str": "mild steel trench knife", "str_pl": "mild steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is poorly made of mild steel with barely a proper grip.",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "good" },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "replace_materials": { "mc_steel": "lc_steel" },
     "relative": { "melee_damage": { "bash": -1, "stab": -2 } }
   },
@@ -614,7 +630,7 @@
     "price": 2800,
     "price_postapoc": 1500,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
-    "material": [ { "type": "leather", "portion": 5 }, { "type": "steel", "portion": 200 } ],
+    "material": [ { "type": "wood", "portion": 0.85 }, { "type": "steel", "portion": 24 } ],
     "repairs_with": [ "steel" ],
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 15 ] ],
@@ -661,7 +677,7 @@
       }
     ],
     "looks_like": "survivor_machete",
-    "replace_materials": { "steel": "qt_steel", "leather": "kevlar" },
+    "replace_materials": { "steel": "qt_steel", "wood": "kevlar" },
     "relative": { "melee_damage": { "cut": 5 }, "qualities": [ [ "BUTCHER", 4 ] ], "price_postapoc": 2000 }
   },
   {
@@ -699,6 +715,7 @@
     "description": "A curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.\n\nMade with mild carbon steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "weight": "910 g",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "replace_materials": { "mc_steel": "lc_steel" },
     "relative": { "melee_damage": { "cut": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
@@ -720,7 +737,7 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "SHEATH_SWORD", "CONDUCTIVE" ],
+    "flags": [ "SHEATH_SWORD", "CONDUCTIVE", "DURABLE_MELEE" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
     "melee_damage": { "bash": 5, "cut": 27 }
   },
@@ -731,7 +748,6 @@
     "name": { "str": "high steel cavalry saber" },
     "description": "A curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
-    "extend": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": 2 }, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
@@ -741,8 +757,6 @@
     "name": { "str": "hardened cavalry saber" },
     "description": "A curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel" },
-    "delete": { "flags": [ "CONDUCTIVE" ] },
-    "extend": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
     "relative": { "melee_damage": { "cut": 3 }, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
@@ -752,8 +766,6 @@
     "name": { "str": "tempered cavalry saber" },
     "description": "A curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel" },
-    "delete": { "flags": [ "CONDUCTIVE" ] },
-    "extend": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
     "relative": { "melee_damage": { "cut": 4 }, "qualities": [ [ "BUTCHER", 2 ] ] }
   },
   {
@@ -781,8 +793,8 @@
     "price": 9000,
     "price_postapoc": 500,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "good" },
-    "material": [ { "type": "leather", "portion": 5 }, { "type": "steel", "portion": 200 } ],
-    "repairs_with": [ "steel" ],
+    "material": [ "steel" ],
+    "//": "Should be split into a preexisting iron version and a craftable steel version",
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
@@ -795,7 +807,7 @@
     "type": "TOOL",
     "name": { "str": "kris", "str_pl": "krises" },
     "description": "A dull, cheap replica of a wavy-bladed dagger from Southeast Asia.",
-    "replace_materials": { "steel": "aluminum", "leather": "nylon" },
+    "replace_materials": { "steel": "aluminum" },
     "proportional": { "melee_damage": { "bash": 0.25, "stab": 0.083 }, "price": 0.05, "price_postapoc": 0.05 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
@@ -815,6 +827,7 @@
     "name": { "str": "mild steel kukri" },
     "description": "This versatile implement is a custom-forged version of a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, this one is made of mild steel, and barely has a proper handle.  You'd probably find a better version in a store somewhere.",
     "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "replace_materials": { "mc_steel": "lc_steel" },
     "relative": { "melee_damage": { "cut": -1 } }
   },
@@ -830,12 +843,12 @@
     "price": 8000,
     "price_postapoc": 1250,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
-    "material": [ { "type": "wood", "portion": 1 }, { "type": "mc_steel", "portion": 3 } ],
+    "material": [ { "type": "wood", "portion": 0.85 }, { "type": "mc_steel", "portion": 24 } ],
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "bash": 3, "cut": 24 }
   },
@@ -880,9 +893,9 @@
     "type": "TOOL",
     "name": { "str_sp": "mild steel jian" },
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade with mild carbon steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "replace_materials": { "mc_steel": "lc_steel" },
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
-    "delete": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "melee_damage": { "cut": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
@@ -900,7 +913,7 @@
     "price": 100000,
     "price_postapoc": 4000,
     "material": [ "mc_steel" ],
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": [ "SHEATH_SWORD", "CONDUCTIVE", "DURABLE_MELEE" ],
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
@@ -914,7 +927,6 @@
     "name": { "str_sp": "high steel jian" },
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
-    "extend": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": 2 }, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
@@ -924,7 +936,6 @@
     "name": { "str_sp": "hardened jian" },
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel" },
-    "extend": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": 3 }, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
@@ -934,7 +945,6 @@
     "name": { "str_sp": "tempered jian" },
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel" },
-    "extend": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": 5 }, "qualities": [ [ "BUTCHER", 2 ] ] }
   },
   {
@@ -964,7 +974,7 @@
     "type": "TOOL",
     "name": { "str": "shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.",
-    "replace_materials": { "mc_steel": "steel" }
+    "replace_materials": { "mc_steel": "steel", "leather": "wood" }
   },
   {
     "id": "lc_scimitar",
@@ -972,9 +982,9 @@
     "type": "TOOL",
     "name": { "str": "mild steel shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade with mild carbon steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "neutral" },
-    "delete": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "melee_damage": { "cut": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
@@ -993,7 +1003,7 @@
     "price_postapoc": 3500,
     "material": [ { "type": "leather", "portion": 5 }, { "type": "mc_steel", "portion": 30 } ],
     "repairs_with": [ "mc_steel" ],
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": [ "SHEATH_SWORD", "CONDUCTIVE", "DURABLE_MELEE" ],
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
@@ -1007,7 +1017,6 @@
     "name": { "str": "high steel shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
-    "extend": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": 2 }, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
@@ -1017,7 +1026,6 @@
     "name": { "str": "hardened shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
-    "extend": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": 3 }, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
@@ -1027,7 +1035,6 @@
     "name": { "str": "tempered shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
-    "extend": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": 5 }, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
@@ -1037,6 +1044,7 @@
     "name": { "str": "shamshir" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  This one seems oddly dull and worn.",
     "proportional": { "melee_damage": { "bash": 3.9, "cut": 0.25 }, "price": 0.1, "price_postapoc": 0.1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "replace_materials": { "mc_steel": "budget_steel" }
   },
   {
@@ -1046,6 +1054,7 @@
     "name": { "str": "shamshir" },
     "description": "A dull, cheaply-made replica of a curved sword associated with various Middle Eastern and Central Asian countries.",
     "proportional": { "melee_damage": { "bash": 1.9, "cut": 0.07 }, "price": 0.05, "price_postapoc": 0.05 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "replace_materials": { "mc_steel": "aluminum", "leather": "nylon" }
   },
@@ -1065,7 +1074,7 @@
     "description": "A thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "good" },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
-    "delete": { "flags": [ "NONCONDUCTIVE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "stab": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
@@ -1085,7 +1094,7 @@
     "material": [ { "type": "leather", "portion": 5 }, { "type": "mc_steel", "portion": 200 } ],
     "repairs_with": [ "mc_steel" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": [ "SHEATH_SWORD", "CONDUCTIVE", "DURABLE_MELEE" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "FENCING_WEAPONRY" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
@@ -1098,7 +1107,6 @@
     "name": { "str": "high steel estoc" },
     "description": "A thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
-    "extend": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": 4 }, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
@@ -1108,7 +1116,6 @@
     "name": { "str": "hardened estoc" },
     "description": "A thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
-    "extend": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": 5 }, "qualities": [ [ "BUTCHER", 1 ] ] }
   },
   {
@@ -1118,7 +1125,6 @@
     "name": { "str": "tempered estoc" },
     "description": "A thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
-    "extend": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": 8 }, "qualities": [ [ "BUTCHER", 2 ] ] }
   },
   {
@@ -1129,6 +1135,7 @@
     "description": "A thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard compared to smaller swords.  It seems a bit too bendy.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "good" },
     "proportional": { "melee_damage": { "bash": 2.6, "stab": 0.25 }, "price": 0.1, "price_postapoc": 0.1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "replace_materials": { "mc_steel": "budget_steel" }
   },
   {
@@ -1139,6 +1146,7 @@
     "description": "A dull, cheaply-made replica of a thin thrusting sword predating the rapier.  It requires a larger baldric or scabbard compared to smaller swords.",
     "proportional": { "melee_damage": { "bash": 1.2, "stab": 0.08 } },
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ], "price": 0.05, "price_postapoc": 0.05 },
     "replace_materials": { "mc_steel": "aluminum", "leather": "nylon" }
   },
@@ -1158,7 +1166,7 @@
     "description": "A classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  It's well-balanced and surprisingly easy to use due to its two-handed grip, but requires a larger baldric or scabbard, compared to smaller swords.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
-    "delete": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": -5 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
@@ -1177,7 +1185,7 @@
     "price_postapoc": 6000,
     "material": [ { "type": "leather", "portion": 5 }, { "type": "mc_steel", "portion": 200 } ],
     "repairs_with": [ "mc_steel" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ],
     "techniques": [ "WBLOCK_2", "BRUTAL", "RAPID" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
@@ -1248,7 +1256,7 @@
     "description": "A classic medieval sword, just the right size to use one-handed.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
-    "delete": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
@@ -1267,7 +1275,7 @@
     "price_postapoc": 4500,
     "material": [ { "type": "leather", "portion": 5 }, { "type": "mc_steel", "portion": 200 } ],
     "repairs_with": [ "mc_steel" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ],
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
@@ -1502,7 +1510,7 @@
     "description": "A comparatively-common Japanese short sword.  Smaller and lighter than a katana, but still effective in combat.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
-    "delete": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": -5 }, "qualities": [ [ "BUTCHER", -2 ] ] }
   },
   {
@@ -1521,7 +1529,7 @@
     "price_postapoc": 2750,
     "material": [ { "type": "leather", "portion": 5 }, { "type": "mc_steel", "portion": 200 } ],
     "repairs_with": [ "mc_steel" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ],
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ],
@@ -1592,7 +1600,7 @@
     "description": "A huge two-handed sword from Germany.  It packs a real wallop.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
-    "delete": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": -5 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
@@ -1611,7 +1619,7 @@
     "price_postapoc": 9500,
     "material": [ { "type": "leather", "portion": 5 }, { "type": "mc_steel", "portion": 200 } ],
     "repairs_with": [ "mc_steel" ],
-    "flags": [ "ALWAYS_TWOHAND", "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD", "REACH_ATTACK" ],
+    "flags": [ "ALWAYS_TWOHAND", "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD", "REACH_ATTACK" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
@@ -1736,7 +1744,7 @@
     "description": "A huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
-    "delete": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": -6 }, "qualities": [ [ "BUTCHER", -2 ] ] }
   },
   {
@@ -1755,7 +1763,7 @@
     "price_postapoc": 12000,
     "material": [ { "type": "leather", "portion": 5 }, { "type": "mc_steel", "portion": 200 } ],
     "repairs_with": [ "mc_steel" ],
-    "flags": [ "ALWAYS_TWOHAND", "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": [ "ALWAYS_TWOHAND", "DURABLE_MELEE", "SHEATH_SWORD", "CONDUCTIVE" ],
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
@@ -2030,7 +2038,7 @@
     "description": "An early modern sword that saw use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
-    "delete": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
@@ -2048,8 +2056,7 @@
     "price": 120000,
     "price_postapoc": 5000,
     "material": [ "mc_steel" ],
-    "repairs_with": [ "mc_steel" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ],
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
@@ -2120,7 +2127,7 @@
     "description": "A thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
-    "delete": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
@@ -2139,7 +2146,7 @@
     "price_postapoc": 2500,
     "material": [ { "type": "leather", "portion": 5 }, { "type": "mc_steel", "portion": 200 } ],
     "repairs_with": [ "mc_steel" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ],
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
@@ -2200,7 +2207,7 @@
     "description": "A rare sword from Japan.  Deadly against unarmored targets, and still very effective against armor.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
-    "delete": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": -5 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
@@ -2220,7 +2227,7 @@
     "price_postapoc": 4500,
     "material": [ { "type": "leather", "portion": 5 }, { "type": "mc_steel", "portion": 200 } ],
     "repairs_with": [ "mc_steel" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ],
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
@@ -2329,7 +2336,7 @@
     "description": "A broad saber known for its use by sailors and pirates, as its short blade is easy to handle in close quarters.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
-    "delete": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
@@ -2348,7 +2355,7 @@
     "price_postapoc": 3500,
     "material": [ { "type": "leather", "portion": 5 }, { "type": "mc_steel", "portion": 200 } ],
     "repairs_with": [ "mc_steel" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ],
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
@@ -2419,7 +2426,7 @@
     "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "neutral" },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
-    "delete": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": -5 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
@@ -2438,7 +2445,7 @@
     "price_postapoc": 4500,
     "material": [ { "type": "leather", "portion": 5 }, { "type": "mc_steel", "portion": 200 } ],
     "repairs_with": [ "mc_steel" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ],
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -5 ] ],
@@ -2488,7 +2495,7 @@
     "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.\n\nMade with mild  steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "neutral" },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
-    "delete": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": -3 }, "qualities": [ [ "BUTCHER", -3 ] ] }
   },
   {
@@ -2507,7 +2514,7 @@
     "price_postapoc": 4500,
     "material": [ { "type": "leather", "portion": 5 }, { "type": "mc_steel", "portion": 200 } ],
     "repairs_with": [ "mc_steel" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -14 ] ],
@@ -2543,6 +2550,7 @@
   },
   {
     "type": "GENERIC",
+    "//": "Do these even exist?",
     "id": "lajatang",
     "symbol": "/",
     "color": "brown",
@@ -2736,7 +2744,7 @@
     "description": "A curved sword used by the Raj of India in the 16th century, a talwar is usually impeccably decorated and able to take off a limb with a single swipe.\n\nThis one however is made of mild carbon steel and lacks even a proper grip, you can definitely do better.",
     "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "neutral" },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
-    "delete": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
@@ -2757,7 +2765,7 @@
     "repairs_with": [ "mc_steel" ],
     "techniques": [ "WBLOCK_2", "RAPID", "BRUTAL" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
     "melee_damage": { "bash": 5, "cut": 34 }
   },
@@ -2796,7 +2804,7 @@
     "description": "A Turkish sabre, the kilij is quite a bit heavier than most Middle Eastern sabres and has a distinctive wide tip called a yelman, which gives it vicious cutting power but means it requires a special scabbard.\n\nThis one has been made of mild steel, and doesn't even have a proper grip or truly sharp edge.",
     "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "neutral" },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
-    "delete": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "relative": { "melee_damage": { "cut": -5 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
@@ -2818,7 +2826,7 @@
     "repairs_with": [ "mc_steel" ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
     "melee_damage": { "bash": 5, "cut": 41 }
   },
