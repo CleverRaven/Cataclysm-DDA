@@ -24,8 +24,8 @@ class memorial_log_entry
     public:
         memorial_log_entry() = default;
         explicit memorial_log_entry( const std::string &preformatted_msg );
-        memorial_log_entry( time_point, const oter_type_str_id &, const std::string &oter_name,
-                            const std::string &msg );
+        memorial_log_entry( time_point, const oter_type_str_id &, std::string_view oter_name,
+                            std::string_view msg );
 
         std::string to_string() const;
 
@@ -48,18 +48,13 @@ class memorial_logger : public event_subscriber
     public:
         void clear();
 
-        void add( const std::string &male_msg,
-                  const std::string &female_msg );
-        template<typename ...Args>
-        void add( const char *const male_msg, const char *const female_msg, Args &&... args ) {
-            return add( string_format( male_msg, args... ),
-                        string_format( female_msg, args... ) );
-        }
-        template<typename ...Args>
-        void add( const std::string &male_msg, const std::string &female_msg,
-                  Args &&... args ) {
-            return add( string_format( male_msg, args... ),
-                        string_format( female_msg, args... ) );
+        void add( std::string_view male_msg,
+                  std::string_view female_msg );
+        template<typename Arg, typename ...Args>
+        void add( const std::string_view male_msg, const std::string &female_msg,
+                  Arg &&arg, Args &&... args ) {
+            return add( string_format( male_msg, arg, args... ),
+                        string_format( female_msg, arg, args... ) );
         }
 
         // Loads the memorial log from a file

@@ -7,7 +7,6 @@
     "class": "NC_TRADER",
     "attitude": 0,
     "mission": 3,
-    "common": false,
     "chat": "TALK_CARAVAN_MERCHANT_1",
     "faction": "free_merchants"
   },
@@ -19,7 +18,6 @@
     "class": "NC_BOUNTY_HUNTER",
     "attitude": 0,
     "mission": 8,
-    "common": false,
     "chat": "TALK_CARAVAN_GUARD_A1",
     "faction": "free_merchants"
   },
@@ -31,7 +29,6 @@
     "class": "NC_BOUNTY_HUNTER",
     "attitude": 0,
     "mission": 7,
-    "common": false,
     "chat": "TALK_CARAVAN_GUARD_B",
     "faction": "free_merchants"
   },

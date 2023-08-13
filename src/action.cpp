@@ -287,6 +287,8 @@ std::string action_ident( action_id act )
             return "autosafe";
         case ACTION_TOGGLE_THIEF_MODE:
             return "toggle_thief_mode";
+        case ACTION_TOGGLE_LANGUAGE_TO_EN:
+            return "toggle_language_to_en";
         case ACTION_IGNORE_ENEMY:
             return "ignore_enemy";
         case ACTION_WHITELIST_ENEMY:
@@ -311,8 +313,6 @@ std::string action_ident( action_id act )
             return "missions";
         case ACTION_FACTIONS:
             return "factions";
-        case ACTION_SCORES:
-            return "scores";
         case ACTION_MEDICAL:
             return "medical";
         case ACTION_BODYSTATUS:
@@ -442,7 +442,6 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_MAP:
         case ACTION_SKY:
         case ACTION_MISSIONS:
-        case ACTION_SCORES:
         case ACTION_FACTIONS:
         case ACTION_MORALE:
         case ACTION_MEDICAL:
@@ -618,11 +617,15 @@ std::optional<input_event> hotkey_for_action( const action_id action,
 
 bool can_butcher_at( const tripoint &p )
 {
+    map_stack items = get_map().i_at( p );
+    // Early exit when there's definitely nothing to butcher
+    if( items.empty() ) {
+        return false;
+    }
     Character &player_character = get_player_character();
     // TODO: unify this with game::butcher
     const int factor = player_character.max_quality( qual_BUTCHER, PICKUP_RANGE );
     const int factorD = player_character.max_quality( qual_CUT_FINE, PICKUP_RANGE );
-    map_stack items = get_map().i_at( p );
     bool has_item = false;
     bool has_corpse = false;
 
@@ -696,16 +699,15 @@ bool can_examine_at( const tripoint &p, bool with_pickup )
 
 static bool can_pickup_at( const tripoint &p )
 {
-    bool veh_has_items = false;
     map &here = get_map();
-    const optional_vpart_position vp = here.veh_at( p );
-    if( vp ) {
-        const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
-        veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
+    if( const std::optional<vpart_reference> ovp = here.veh_at( p ).cargo() ) {
+        if( !ovp->items().empty() ) {
+            return true;
+        }
     }
-
-    return ( !here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) && here.has_items( p ) &&
-             !here.only_liquid_in_liquidcont( p ) ) || veh_has_items;
+    return !here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) &&
+           !here.only_liquid_in_liquidcont( p ) &&
+           here.has_items( p );
 }
 
 bool can_interact_at( action_id action, const tripoint &p )
@@ -973,7 +975,6 @@ action_id handle_action_menu()
         } else if( category == _( "Info" ) ) {
             REGISTER_ACTION( ACTION_PL_INFO );
             REGISTER_ACTION( ACTION_MISSIONS );
-            REGISTER_ACTION( ACTION_SCORES );
             REGISTER_ACTION( ACTION_FACTIONS );
             REGISTER_ACTION( ACTION_MORALE );
             REGISTER_ACTION( ACTION_MEDICAL );
@@ -1052,6 +1053,7 @@ action_id handle_main_menu()
                           ctxt.get_action_name( action_ident( ACTION_KEYBINDINGS ) ) );
 
     REGISTER_ACTION( ACTION_OPTIONS );
+    REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
     REGISTER_ACTION( ACTION_AUTOPICKUP );
     REGISTER_ACTION( ACTION_AUTONOTES );
     REGISTER_ACTION( ACTION_SAFEMODE );
@@ -1126,17 +1128,18 @@ std::optional<tripoint> choose_adjacent( const std::string &message, const bool 
 }
 
 std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, const action_id action, bool allow_vertical )
+        const std::string &failure_message, const action_id action,
+        const bool allow_vertical, const bool allow_autoselect )
 {
     const std::function<bool( const tripoint & )> f = [&action]( const tripoint & p ) {
         return can_interact_at( action, p );
     };
-    return choose_adjacent_highlight( message, failure_message, f, allow_vertical );
+    return choose_adjacent_highlight( message, failure_message, f, allow_vertical, allow_autoselect );
 }
 
 std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
-        const bool allow_vertical )
+        const bool allow_vertical, const bool allow_autoselect )
 {
     std::vector<tripoint> valid;
     avatar &player_character = get_avatar();
@@ -1149,7 +1152,7 @@ std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         }
     }
 
-    const bool auto_select = get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" );
+    const bool auto_select = allow_autoselect && get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" );
     if( valid.empty() && auto_select ) {
         add_msg( failure_message );
         return std::nullopt;

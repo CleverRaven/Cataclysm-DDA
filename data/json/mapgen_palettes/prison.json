@@ -95,7 +95,10 @@
       "d": [ { "item": "magazines", "chance": 30, "repeat": [ 1, 5 ] }, { "item": "SUS_office_desk", "chance": 30 } ],
       "0": [
         { "item": "prison_weapons", "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "prison_armor", "chance": 50, "repeat": [ 1, 3 ] }
+        { "item": "prison_armor", "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "police_armory_any_pistol", "chance": 8 },
+        { "item": "police_armory_any_assaultrifle", "chance": 3 },
+        { "item": "police_armory_any_shotgun", "chance": 3 }
       ],
       "1": { "item": "SUS_office_filing_cabinet", "chance": 50 },
       "o": { "item": "novels", "chance": 70, "repeat": [ 1, 3 ] },

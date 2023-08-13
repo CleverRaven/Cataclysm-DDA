@@ -78,18 +78,10 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "state_park_0_0", "state_park_0_1", "state_park_1_1" ],
+    "id": [ "state_park_0_0", "state_park_0_1", "state_park_1_0", "state_park_1_1" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "state park",
     "sym": "S",
-    "color": "i_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "state_park_1_0",
-    "copy-from": "generic_city_building",
-    "name": "state park parking",
-    "sym": "$",
     "color": "i_green"
   },
   {

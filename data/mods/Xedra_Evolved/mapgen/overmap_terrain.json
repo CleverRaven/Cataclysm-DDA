@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_terrain",
-    "name": "government office",
+    "name": "border patrol office",
     "id": [
       "field_office_1",
       "field_office_2",
@@ -41,6 +41,24 @@
       "field_office_20"
     ],
     "copy-from": "generic_large_office_tower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "boann_sidhe_island",
+    "name": "forest?",
+    "sym": "F",
+    "color": "c_light_green",
+    "looks_like": "forest",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "boann_sidhe_z1",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue",
+    "looks_like": "open_air",
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",

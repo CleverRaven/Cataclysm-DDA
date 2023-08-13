@@ -28,17 +28,11 @@ void mapgen_arguments::deserialize( const JsonValue &ji )
     ji.read( map, true );
 }
 
-// NOLINTNEXTLINE(cert-dcl58-cpp)
-namespace std
-{
-
-size_t hash<mapgen_arguments>::operator()( const mapgen_arguments &args ) const noexcept
+size_t std::hash<mapgen_arguments>::operator()( const mapgen_arguments &args ) const noexcept
 {
     cata::range_hash h;
     return h( args.map );
 }
-
-} // namespace std
 
 static const regional_settings dummy_regional_settings;
 
@@ -294,6 +288,16 @@ bool mapgendata::has_predecessor() const
     return !predecessors_.empty();
 }
 
+const oter_id &mapgendata::first_predecessor() const
+{
+    if( predecessors_.empty() ) {
+        debugmsg( "Tried to get predecessor when none available in mapgendata" );
+        static const oter_id null( oter_str_id::NULL_ID() );
+        return null;
+    }
+    return predecessors_.front();
+}
+
 const oter_id &mapgendata::last_predecessor() const
 {
     if( predecessors_.empty() ) {
@@ -310,4 +314,9 @@ void mapgendata::pop_last_predecessor()
         debugmsg( "Tried to pop predecessor when none available in mapgendata" );
     }
     predecessors_.pop_back();
+}
+
+void mapgendata::clear_predecessors()
+{
+    predecessors_.clear();
 }

@@ -74,7 +74,7 @@ struct sub_body_part_type {
 
     static void load_bp( const JsonObject &jo, const std::string &src );
 
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
 
     // combine matching body part strings together for printing
     static std::vector<translation> consolidate( std::vector<sub_bodypart_id> &covered );

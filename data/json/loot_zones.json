@@ -112,6 +112,20 @@
     "description": "Destination for instructional books and magazines."
   },
   {
+    "id": "LOOT_MA_MANUALS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Martial arts manuals",
+    "can_be_personal": true,
+    "description": "Destination for manuals for martial arts."
+  },
+  {
+    "id": "LOOT_TRAPS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Traps",
+    "can_be_personal": true,
+    "description": "Destination for traps."
+  },
+  {
     "id": "LOOT_MODS",
     "type": "LOOT_ZONE",
     "name": "Loot: Mods",

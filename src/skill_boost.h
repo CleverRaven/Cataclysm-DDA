@@ -38,7 +38,7 @@ class skill_boost
         int _offset = 0;
         float _power = 0.0f;
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 };
 
 #endif // CATA_SRC_SKILL_BOOST_H

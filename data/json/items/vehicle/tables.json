@@ -11,10 +11,10 @@
     "material": [ "wood" ],
     "flags": [ "TRADER_AVOID" ],
     "volume": "13500 ml",
-    "bashing": 6,
     "category": "veh_parts",
     "price": 20000,
-    "price_postapoc": 100
+    "price_postapoc": 100,
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -31,9 +31,9 @@
     "description": "A sturdy workbench made of metal.  It is perfect for crafting large and heavy things.",
     "weight": "23000 g",
     "material": [ "steel" ],
-    "bashing": 8,
     "price": 40000,
-    "copy-from": "v_table"
+    "copy-from": "v_table",
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",

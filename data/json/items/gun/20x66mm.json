@@ -13,7 +13,6 @@
     "price": 310000,
     "price_postapoc": 2250,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -26,7 +25,6 @@
     "clip_size": 5,
     "barrel_volume": "750 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
@@ -38,7 +36,8 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "PUMP_ACTION" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "20x66mm": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "20x66mm": 5 } } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "rm20",
@@ -53,7 +52,6 @@
     "price": 1320000,
     "price_postapoc": 10000,
     "to_hit": -1,
-    "bashing": 11,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -63,7 +61,6 @@
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 2 ] ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
@@ -77,7 +74,8 @@
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
     "pocket_data": [
       { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "20x66_20_mag", "20x66_40_mag" ] }
-    ]
+    ],
+    "melee_damage": { "bash": 11 }
   },
   {
     "id": "rm228",
@@ -92,7 +90,6 @@
     "price": 330000,
     "price_postapoc": 10000,
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -102,7 +99,6 @@
     "durability": 9,
     "default_mods": [ "pistol_stock" ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],
@@ -112,6 +108,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "20x66_10_mag" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "20x66_10_mag" ] } ],
+    "melee_damage": { "bash": 6 }
   }
 ]

@@ -1,3 +1,4 @@
+# Game Balance
 # Stat system scaling:
 Ranges below will be using strength as the example since it's the easiest to itemize, but what the numbers mean is equivalent between all stats.
 
@@ -267,7 +268,7 @@ Everywhere else   | Predominately 9mm and 223. Always with standard magazine  | 
 Bow damage is based on the momentum achieved in the projectile.  Since arrows and bolts have sharp cutting surfaces, the penetration and therefore damage achieved is based on the projectile's capacity for slicing through tissues.  The arrow has a modifier based on construction, material and design, most critically centered around the effectiveness of the head.  Base damage is calculated from momentum by taking momentum in Slug-foot-seconds, multiplying by 150 and subtracting 32. This was arrived at by taking well-regarded bowhunting guidelines and determining the damage numbers necessary for a kill of various game on a critical hit, see tests/archery_damage_test.cpp for details.
 
 ## Ammo stats
-The default damage, (**Dmg**) of a given **Cartridge** shot through a normal firearm is the square root of a round's muzzle energy in joules, (**M.E.**), rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics of different projectiles. Normal in this case is full/total metal jacketed, lead core projectiles, including slugs out of shotguns. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts. Damage of smokeless cartridges loaded with black powder is set to 76% (rounded down) of their factory counterparts, and damage of smokeless cartridges with bullet diameter less than .30 inches loaded with black powder is set to 57% (rounded down) of their factory counterparts. A table calculating a given round's damage has been prepared and is provided below.
+The default damage, (**Dmg**) of a given **Cartridge** shot through a normal firearm is the square root of a round's muzzle energy in joules, (**M.E.**), rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics of different projectiles. Normal in this case is full/total metal jacketed, lead core projectiles, including slugs out of shotguns. Damage of handloaded ammo is set to 90% of their factory counterparts. Damage of smokeless cartridges loaded with black powder is set to 76% (rounded down) of their factory counterparts, and damage of smokeless cartridges with bullet diameter less than .30 inches loaded with black powder is set to 57% (rounded down) of their factory counterparts. A table calculating a given round's damage has been prepared and is provided below.
 
 
 Each cartridge has had a curve plotted for barrel length vs damage for standard loads, sourced from reloading manuals, manufacturers' load data, and/or wikipedia, and modelled with interior ballistics software. Each curve had a logarithmic regression fit to it, and the generic formula to reproduce it is **Dmg** = ( **A** x Ln( **Brl** ) )+ **B**. For each cartridge, the default damage, **Dmg** has been calculated using its **A** coefficient and **B** offset and **Brl**. For firearms whose barrel lengths differ from **Brl**, a corresponding damage modifier should be calculated using the formula and the provided default damage.
@@ -330,7 +331,7 @@ For reference, each cartridge's bullet diameter, **Dia**  and weight, **Proj. wt
 | 4.73 x33 Caseless        | 16.0 in | 34.6    | 1197.2 J  | 10.816  | 4.645   | 1.3 in  | 0.185 in | 51.0 gr      |
 | .222 Rem.                | 16.0 in | 36.3    | 1317.7 J  | 12.302  | 2.167   | 2.1 in  | 0.224 in | 55.0 gr      |
 | .22 PPC USA              | 16.0 in | 36.5    | 1332.3 J  | 12.269  | 2.478   | 2.1 in  | 0.224 in | 55.0 gr      |
-| 5.45 x39 mm              | 16.0 in | 36.9    | 1361.6 J  | 12.849  | 1.2319  | 2.3 in  | 0.222 in | 52.8 gr     |
+| 5.45 x39 mm              | 16.0 in | 36.9    | 1361.6 J  | 12.849  | 1.2319  | 2.3 in  | 0.222 in | 52.8 gr      |
 | .480 Ruger               | 6.0 in  | 37.7    | 1421.3 J  | 8.9024  | 21.76   | 1.7 in  | 0.475 in | 325.0 gr     |
 | .224 Weath. Mag.         | 16.0 in | 37.9    | 1436.4 J  | 12.85   | 2.318   | 2.3 in  | 0.224 in | 55.0 gr      |
 | .220 Swift               | 16.0 in | 37.9    | 1436.4 J  | 15.58   | -5.247  | 2.7 in  | 0.224 in | 55.0 gr      |
@@ -405,7 +406,7 @@ For reference, each cartridge's bullet diameter, **Dia**  and weight, **Proj. wt
 | 7 mm RemSA               | 16.0 in | 55.7    | 3102.5 J  | 19.124  | 2.648   | 2.8 in  | 0.284 in | 150.0 gr     |
 | .450 Bushmaster          | 16.0 in | 55.9    | 3124.8 J  | 14.666  | 15.23   | 2.3 in  | 0.452 in | 250.0 gr     |
 | .358 Win.                | 16.0 in | 55.9    | 3124.8 J  | 17.741  | 6.718   | 2.8 in  | 0.358 in | 220.0 gr     |
-| 1.23 Ln(8 mm -06) (CDDA) | 16.0 in | 56.8    | 3226.2 J  | 18.643  | 5.074   | 3.2 in  | 0.323 in | 213.0 gr     |
+| 12.3 Ln(8 mm -06) (CDDA) | 16.0 in | 56.8    | 3226.2 J  | 18.643  | 5.074   | 3.2 in  | 0.323 in | 213.0 gr     |
 | .45-70 Govt.             | 16.0 in | 57.0    | 3249.0 J  | 17.198  | 9.301   | 2.6 in  | 0.458 in | 400.0 gr     |
 | .300 RemSAUltra          | 16.0 in | 57.7    | 3329.3 J  | 20.241  | 1.541   | 2.8 in  | 0.308 in | 180.0 gr     |
 | .300 WSM                 | 16.0 in | 58.0    | 3364.0 J  | 20.172  | 2.076   | 2.9 in  | 0.308 in | 190.0 gr     |

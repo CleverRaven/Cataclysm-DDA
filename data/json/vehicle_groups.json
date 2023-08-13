@@ -27,6 +27,7 @@
       [ "motorcycle_sidecart", 100 ],
       [ "scooter", 200 ],
       [ "scooter_electric", 300 ],
+      [ "skateboard", 100 ],
       [ "policecar", 250 ],
       [ "policecar_k9", 3 ],
       [ "policesuv", 250 ],
@@ -70,7 +71,8 @@
       [ "tatra_truck", 100 ],
       [ "4seat_pickup", 125 ],
       [ "extended_pickup", 65 ],
-      [ "4x4_car", 500 ],
+      [ "4x4_car", 250 ],
+      [ "4x4_car_diesel", 250 ],
       [ "underlift_tow_truck", 250 ]
     ]
   },
@@ -85,6 +87,11 @@
       [ "raft", 2000 ],
       [ "wood_rowboat_double", 1500 ]
     ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "food_trucks",
+    "vehicles": [ [ "icecream_truck", 10 ], [ "food_truck", 10 ], [ "food_truck_taco", 10 ], [ "wienermobile", 1 ] ]
   },
   {
     "type": "vehicle_group",
@@ -127,7 +134,8 @@
       [ "van_full-size", 200 ],
       [ "van_mini", 300 ],
       [ "van_cargo", 400 ],
-      [ "4x4_car", 500 ],
+      [ "4x4_car", 250 ],
+      [ "4x4_car_diesel", 250 ],
       [ "extended_pickup", 65 ],
       [ "car_hybrid", 500 ],
       [ "underlift_tow_truck", 250 ]
@@ -187,7 +195,8 @@
       [ "surv_car", 2 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 300 ],
-      [ "4x4_car", 400 ],
+      [ "4x4_car", 200 ],
+      [ "4x4_car_diesel", 200 ],
       [ "extended_pickup", 65 ],
       [ "underlift_tow_truck", 250 ]
     ]
@@ -230,7 +239,9 @@
       [ "bicycle_dirt", 150 ],
       [ "bicycle_electric", 100 ],
       [ "tricycle", 5 ],
-      [ "4x4_car", 200 ],
+      [ "skateboard", 100 ],
+      [ "4x4_car", 100 ],
+      [ "4x4_car_diesel", 100 ],
       [ "wheelbarrow", 100 ]
     ]
   },
@@ -259,6 +270,7 @@
       [ "bicycle_dirt", 150 ],
       [ "bicycle_electric", 100 ],
       [ "tricycle", 5 ],
+      [ "skateboard", 100 ],
       [ "wheelbarrow", 100 ]
     ]
   },
@@ -325,7 +337,8 @@
       [ "food_truck", 20 ],
       [ "wienermobile", 5 ],
       [ "portable_generator", 50 ],
-      [ "4x4_car", 200 ],
+      [ "4x4_car", 100 ],
+      [ "4x4_car_diesel", 100 ],
       [ "underlift_tow_truck", 250 ]
     ]
   },
@@ -374,6 +387,17 @@
       [ "autotractor", 1000 ],
       [ "excavator", 500 ],
       [ "wheelbarrow", 100 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "farm_horse_vehicles",
+    "vehicles": [
+      [ "tractor_plow", 250 ],
+      [ "tractor_seed", 250 ],
+      [ "tractor_reaper", 250 ],
+      [ "oldtractor", 250 ],
+      [ "horse_trailer", 1000 ]
     ]
   },
   {
@@ -439,7 +463,8 @@
       [ "hippie_van", 700 ],
       [ "van_full-size", 500 ],
       [ "van_mini", 300 ],
-      [ "4x4_car", 500 ]
+      [ "4x4_car", 250 ],
+      [ "4x4_car_diesel", 250 ]
     ]
   },
   {
@@ -464,7 +489,8 @@
       [ "cube_van_cheap", 400 ],
       [ "pickup", 500 ],
       [ "hippie_van", 350 ],
-      [ "4x4_car", 500 ]
+      [ "4x4_car", 250 ],
+      [ "4x4_car_diesel", 250 ]
     ]
   },
   {
@@ -493,7 +519,8 @@
       [ "hippie_van", 800 ],
       [ "van_camper", 200 ],
       [ "van_motorhome", 50 ],
-      [ "4x4_car", 800 ]
+      [ "4x4_car", 400 ],
+      [ "4x4_car_diesel", 400 ]
     ]
   },
   {
@@ -689,6 +716,7 @@
       [ "motorcycle_cross", 150 ],
       [ "motorcycle_enduro", 100 ],
       [ "superbike", 100 ],
+      [ "skateboard", 75 ],
       [ "motorcycle_sidecart", 100 ],
       [ "golf_cart", 10 ],
       [ "golf_cart_4seat", 10 ]
@@ -778,7 +806,8 @@
     "type": "vehicle_group",
     "id": "parking_garage",
     "vehicles": [
-      [ "4x4_car", 200 ],
+      [ "4x4_car", 100 ],
+      [ "4x4_car_diesel", 100 ],
       [ "car_sports_electric", 100 ],
       [ "car_mini", 375 ],
       [ "car_hybrid", 200 ],
@@ -963,7 +992,19 @@
   {
     "id": "park_playground_vehicles",
     "type": "vehicle_group",
-    "vehicles": [ [ "ice_cream_cart", 100 ], [ "food_cart", 200 ], [ "bicycle", 150 ], [ "bicycle_dirt", 125 ], [ "tricycle", 5 ] ]
+    "vehicles": [
+      [ "ice_cream_cart", 100 ],
+      [ "food_cart", 200 ],
+      [ "bicycle", 150 ],
+      [ "bicycle_dirt", 125 ],
+      [ "tricycle", 5 ],
+      [ "skateboard", 25 ]
+    ]
+  },
+  {
+    "id": "food_carts",
+    "type": "vehicle_group",
+    "vehicles": [ [ "ice_cream_cart", 100 ], [ "food_cart", 200 ] ]
   },
   {
     "id": "wagons_all",
@@ -979,7 +1020,8 @@
     "type": "vehicle_group",
     "id": "cars_only",
     "vehicles": [
-      [ "4x4_car", 200 ],
+      [ "4x4_car", 100 ],
+      [ "4x4_car_diesel", 100 ],
       [ "car_sports_electric", 100 ],
       [ "car_mini", 375 ],
       [ "car_hybrid", 200 ],
@@ -988,6 +1030,7 @@
       [ "car_diesel", 750 ],
       [ "car_hatch", 750 ],
       [ "car_hatch_diesel", 400 ],
+      [ "car_hatch_rack", 200 ],
       [ "car_luxury", 500 ],
       [ "suv", 800 ],
       [ "suv_electric", 100 ],
@@ -996,6 +1039,19 @@
       [ "electric_car", 750 ],
       [ "hippie_van", 250 ],
       [ "car_sports", 30 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "small_cars_only",
+    "vehicles": [
+      [ "car_sports_electric", 50 ],
+      [ "car_mini", 375 ],
+      [ "beetle", 750 ],
+      [ "car_hatch", 750 ],
+      [ "car_hatch_diesel", 400 ],
+      [ "car_hatch_rack", 200 ],
+      [ "car_sports", 50 ]
     ]
   }
 ]

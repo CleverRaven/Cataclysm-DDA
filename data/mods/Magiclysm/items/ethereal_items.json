@@ -9,7 +9,6 @@
     "longest_side": "20 cm",
     "price": 1,
     "to_hit": 2,
-    "bashing": 20,
     "material": [ "concentrated_mana" ],
     "symbol": "[",
     "color": "light_gray",
@@ -28,7 +27,8 @@
     },
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "ONLY_ONE", "STURDY", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
-    "techniques": [ "WBLOCK_3" ]
+    "techniques": [ "WBLOCK_3" ],
+    "melee_damage": { "bash": 20 }
   },
   {
     "id": "shape_of_dust",
@@ -41,7 +41,16 @@
     "color": "brown",
     "looks_like": "cloak",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": {
       "passive_effects": [
         {
@@ -93,11 +102,11 @@
     "volume": "250 ml",
     "price": 1,
     "to_hit": -2,
-    "bashing": 8,
     "symbol": ",",
     "color": "light_green",
-    "flags": [ "LIGHT_300", "AURA", "SEMITANGIBLE" ],
-    "armor": [ { "covers": [ "head" ] } ]
+    "flags": [ "LIGHT_300", "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [ { "covers": [ "head" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "magic_light",
@@ -111,7 +120,7 @@
     "symbol": ",",
     "color": "light_green",
     "material": [ "magical_material" ],
-    "flags": [ "LIGHT_8", "AURA", "SEMITANGIBLE" ],
+    "flags": [ "LIGHT_8", "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "covers": [ "head" ] } ]
   },
   {
@@ -125,7 +134,6 @@
     "longest_side": "50 cm",
     "price": 1,
     "to_hit": 1,
-    "bashing": 14,
     "material": [ "concentrated_mana" ],
     "symbol": "[",
     "color": "light_gray",
@@ -134,7 +142,8 @@
     "material_thickness": 4,
     "techniques": [ "WBLOCK_3" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ],
-    "armor": [ { "encumbrance": 10, "coverage": 70, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 70, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "ice_gliders",
@@ -146,7 +155,6 @@
     "longest_side": "15 cm",
     "price": 1,
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "concentrated_mana" ],
     "symbol": "[",
     "color": "brown",
@@ -156,7 +164,8 @@
     "environmental_protection": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
     "flags": [ "OVERSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED" ],
-    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -182,9 +191,9 @@
       "MAGIC_FOCUS"
     ],
     "volume": "1250 ml",
-    "bashing": 30,
     "relic_data": { "passive_effects": [ { "has": "WIELD", "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 20 } ] } ] },
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 30 }
   },
   {
     "type": "ARMOR",
@@ -198,7 +207,6 @@
     "volume": "155 ml",
     "weight": "300 g",
     "longest_side": "25 cm",
-    "bashing": 6,
     "flags": [
       "ONLY_ONE",
       "UNBREAKABLE_MELEE",
@@ -235,7 +243,8 @@
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_lower_l", "arm_lower_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "tentacle_whip",
@@ -260,8 +269,8 @@
       "NO_SALVAGE",
       "MAGIC_FOCUS"
     ],
-    "cutting": 30,
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "cut": 30 }
   },
   {
     "id": "flarewhip",
@@ -290,12 +299,12 @@
       "FLAMING",
       "FIRE"
     ],
-    "cutting": 6,
     "to_hit": 3,
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 30 } ] } ]
     },
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "cut": 6 }
   },
   {
     "id": "fleshpouch",
@@ -348,9 +357,8 @@
     "weight": "2175 g",
     "volume": "2500 ml",
     "longest_side": "183 cm",
-    "bashing": 16,
-    "cutting": 36,
-    "to_hit": 2
+    "to_hit": 2,
+    "melee_damage": { "bash": 16, "stab": 36 }
   },
   {
     "id": "druid_recurve",
@@ -380,7 +388,6 @@
     "min_strength": 9,
     "weight": "540 g",
     "longest_side": "140 cm",
-    "bashing": 12,
     "to_hit": 1,
     "reload_noise_volume": 3,
     "loudness": 6,
@@ -388,7 +395,8 @@
     "range": 12,
     "dispersion": 950,
     "durability": 6,
-    "volume": "2500 ml"
+    "volume": "2500 ml",
+    "melee_damage": { "bash": 12 }
   },
   {
     "type": "TOOL",
@@ -435,8 +443,7 @@
     "healthy": -2,
     "description": "A magical powder that can be scattered on growing crops and make them grow faster.",
     "material": [ "powder" ],
-    "volume": "2 L",
-    "charges": 60,
+    "volume": "33 ml",
     "category": "chems",
     "fun": -15
   },
@@ -451,7 +458,17 @@
     "symbol": "o",
     "color": "white",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
     "armor": [
       {
@@ -472,7 +489,17 @@
     "symbol": "o",
     "color": "green",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ] } ]
     },
@@ -495,7 +522,17 @@
     "symbol": "o",
     "color": "green",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
     },
@@ -602,7 +639,17 @@
     "color": "blue",
     "material": [ "magical_material" ],
     "environmental_protection": 15,
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "armor": [
       {
         "encumbrance": 0,
@@ -621,7 +668,16 @@
     "symbol": "o",
     "color": "blue",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "thorns_zap" } ] } ] }
   },
   {
@@ -677,12 +733,11 @@
     "weight": "900 g",
     "volume": "1250 ml",
     "longest_side": "100 cm",
-    "bashing": 12,
-    "cutting": 2,
     "to_hit": 2,
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 28 } ] } ]
-    }
+    },
+    "melee_damage": { "bash": 12, "cut": 2 }
   },
   {
     "id": "decaying_boneclub",
@@ -708,11 +763,11 @@
     "weight": "700 g",
     "volume": "800 ml",
     "longest_side": "70 cm",
-    "bashing": 12,
     "to_hit": 3,
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_BIO", "add": 8 } ] } ]
-    }
+    },
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "impactsling",
@@ -746,9 +801,9 @@
     "range": 20,
     "dispersion": 135,
     "durability": 7,
-    "bashing": 4,
     "reload_noise_volume": 3,
-    "loudness": 6
+    "loudness": 6,
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "aura_caustic",
@@ -760,7 +815,16 @@
     "symbol": "o",
     "color": "blue",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": {
       "passive_effects": [
         {
@@ -831,7 +895,17 @@
     "warmth": 0,
     "material_thickness": 0.4,
     "environmental_protection": 2,
-    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE", "PADDED" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "PADDED",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": {
       "passive_effects": [
         {
@@ -858,8 +932,6 @@
     "volume": "100 ml",
     "longest_side": "15 cm",
     "price": 1,
-    "bashing": 6,
-    "cutting": 12,
     "material": [ "concentrated_mana" ],
     "symbol": "[",
     "color": "light_gray",
@@ -877,7 +949,8 @@
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_back_l", "hand_back_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6, "cut": 12 }
   },
   {
     "id": "armor_spirit",
@@ -885,42 +958,13 @@
     "category": "armor",
     "copy-from": "armor_lightplate",
     "name": { "str_sp": "mage armor" },
-    "description": "A summoned magic armor.  It gets shinier and sturdier with each spell level.",
+    "description": "A summoned magic armor.  It gets shinier and sturdier with each spell level and is affected by your intelligence.",
     "weight": "1 g",
     "material": [ "concentrated_mana" ],
     "warmth": 0,
     "material_thickness": 0,
     "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID", "PADDED" ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [
-            {
-              "value": "ARMOR_BASH",
-              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
-            },
-            {
-              "value": "ARMOR_CUT",
-              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
-            },
-            {
-              "value": "ARMOR_STAB",
-              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
-            },
-            {
-              "value": "ARMOR_BULLET",
-              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
-            },
-            {
-              "value": "LUMINATION",
-              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": 3 } ] }
-            }
-          ]
-        }
-      ]
-    },
+    "relic_data": { "passive_effects": [ { "id": "ench_armor_spirit" } ] },
     "armor": [
       {
         "encumbrance": 0,
@@ -942,7 +986,6 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "concentrated_mana" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -959,7 +1002,8 @@
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 3 } ] } ]
-    }
+    },
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "longsword_holy",
@@ -969,26 +1013,8 @@
     "description": "This is a summoned mana sword, between the lighter arming sword and later two-handed swords in size.  It glows shiny, and its edge is sharper the more spell level and intelligence you have.",
     "material": [ "concentrated_mana" ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
-    "bashing": 11,
-    "cutting": 1,
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WIELD",
-          "condition": "ALWAYS",
-          "values": [
-            {
-              "value": "ITEM_DAMAGE_CUT",
-              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "holy_blade" }, "+", { "u_val": "intelligence" } ] }
-            },
-            {
-              "value": "LUMINATION",
-              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "holy_blade" }, "+", { "u_val": "intelligence" } ] }
-            }
-          ]
-        }
-      ]
-    }
+    "relic_data": { "passive_effects": [ { "id": "ench_longsword_holy" } ] },
+    "melee_damage": { "bash": 11, "cut": 1 }
   },
   {
     "id": "aura_auroral_guard",
@@ -1185,7 +1211,6 @@
     "description": "Shaped with your own magic, this tool has the same abilities as the common axe.",
     "material": [ "stone" ],
     "symbol": "/",
-    "cutting": 7,
     "color": "dark_gray",
     "use_action": {
       "type": "transform",
@@ -1194,7 +1219,8 @@
       "menu_text": "Transform",
       "msg": "Your ax transforms into a knife!"
     },
-    "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] }
+    "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] },
+    "melee_damage": { "bash": 11, "cut": 7 }
   },
   {
     "id": "eshaper_knife",
@@ -1259,7 +1285,9 @@
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "TRADER_AVOID",
-      "REBREATHER"
+      "REBREATHER",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
     ]
   },
   {
@@ -1285,7 +1313,9 @@
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "TRADER_AVOID",
-      "PSYSHIELD_PARTIAL"
+      "PSYSHIELD_PARTIAL",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
     ]
   },
   {
@@ -1318,8 +1348,27 @@
       "NONCONDUCTIVE",
       "TRADER_AVOID",
       "PSYSHIELD_PARTIAL",
-      "PORTAL_PROOF"
+      "PORTAL_PROOF",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
     ]
+  },
+  {
+    "type": "AMMO",
+    "id": "elastic_potential_energy",
+    "category": "spare_parts",
+    "price": 12000,
+    "price_postapoc": 2,
+    "name": { "str_sp": "elastic potential energy" },
+    "symbol": "=",
+    "color": "yellow",
+    "description": "Some free-floating elastic potential energy.",
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
+    "material": [ "battery" ],
+    "effects": [ "COOKOFF" ],
+    "volume": "0 ml",
+    "ammo_type": "elastic_potential_energy",
+    "count": 100
   },
   {
     "id": "druid_bandages",
@@ -1328,14 +1377,13 @@
     "name": { "str": "Vegetative Poultice" },
     "looks_like": "leaves",
     "description": "A mixture of bark, moss, and leaves, glowing softly with verdant energy.",
-    "weight": "70 g",
-    "volume": "250 ml",
+    "weight": "50 g",
+    "volume": "60 ml",
     "price": 1,
     "price_postapoc": 1,
     "material": [ "wood" ],
     "symbol": "!",
     "color": "green",
-    "stack_size": 10,
     "flags": [ "TRADER_AVOID", "SINGLE_USE" ],
     "use_action": { "type": "heal", "bandages_power": 3, "bleed": 12, "move_cost": 300 }
   }

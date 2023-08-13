@@ -41,10 +41,11 @@ class creature_tracker;
 class JsonValue;
 class item;
 class location;
+class eoc_events;
 class spell_events;
 class viewer;
 
-static constexpr int DEFAULT_TILESET_ZOOM = 16;
+constexpr int DEFAULT_TILESET_ZOOM = 16;
 
 // The reference to the one and only game instance.
 class game;
@@ -57,11 +58,6 @@ extern int savegame_loading_version;
 class input_context;
 
 input_context get_default_mode_input_context();
-
-enum class dump_mode : int {
-    TSV,
-    HTML
-};
 
 enum quit_status {
     QUIT_NO = 0,    // Still playing
@@ -214,9 +210,6 @@ class game
         void unserialize_master( const cata_path &file_name, std::istream &fin ); // for load
         void unserialize_master( const JsonValue &jv ); // for load
 
-        /** write statistics to stdout and @return true if successful */
-        bool dump_stats( const std::string &what, dump_mode mode, const std::vector<std::string> &opts );
-
         /** Returns false if saving failed. */
         bool save();
 
@@ -253,6 +246,27 @@ class game
     private:
         bool is_looking = false; // NOLINT(cata-serialize)
         std::vector<weak_ptr_fast<draw_callback_t>> draw_callbacks; // NOLINT(cata-serialize)
+
+    public:
+        // Curses counterpart of the async_anim functions in cata_tiles
+        void init_draw_async_anim_curses( const tripoint &p, const std::string &ncstr,
+                                          const nc_color &nccol );
+        void draw_async_anim_curses();
+        void void_async_anim_curses();
+    protected:
+        std::map<tripoint, std::pair <std::string, nc_color>>
+                async_anim_layer_curses; // NOLINT(cata-serialize)
+
+    public:
+        void init_draw_blink_curses( const tripoint &p, const std::string &ncstr,
+                                     const nc_color &nccol );
+        void draw_blink_curses();
+        void void_blink_curses();
+        bool has_blink_curses();
+        bool blink_active_phase = true; // NOLINT(cata-serialize)
+    protected:
+        std::map<tripoint, std::pair <std::string, nc_color>>
+                blink_layer_curses; // NOLINT(cata-serialize)
 
     public:
         // when force_redraw is true, redraw all panel instead of just animated panels
@@ -358,9 +372,16 @@ class game
         /** Spawns a hallucination at a determined position of a given monster. */
         bool spawn_hallucination( const tripoint &p, const mtype_id &mt,
                                   std::optional<time_duration> lifespan );
-        /** Finds somewhere to spawn a monster. */
+        /** Spawns a npc at a determined position. */
+        bool spawn_npc( const tripoint &p, const string_id<npc_template> &npc_class, std::string &unique_id,
+                        std::vector<trait_id> &traits, std::optional<time_duration> lifespan );
+        /** Finds somewhere to spawn a monster or npc. */
         bool find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
-                                      int max_radius, tripoint &point, bool outdoor_only, bool open_air_allowed = false );
+                                      int max_radius, tripoint &point, bool outdoor_only, bool indoor_only,
+                                      bool open_air_allowed = false );
+        bool find_nearby_spawn_point( const tripoint &target, int min_radius,
+                                      int max_radius, tripoint &point, bool outdoor_only, bool indoor_only,
+                                      bool open_air_allowed = false );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &, Creature & );
 
@@ -525,6 +546,8 @@ class game
         void reload_npcs();
         void remove_npc( character_id const &id );
         const kill_tracker &get_kill_tracker() const;
+        stats_tracker &stats();
+        achievements_tracker &achievements();
         /** Add follower id to set of followers. */
         void add_npc_follower( const character_id &id );
         /** Remove follower id from follower set. */
@@ -559,10 +582,11 @@ class game
         /** Destroy / dissolve character items when in water. */
         void water_affect_items( Character &ch ) const;
 
-        /** Flings the input creature in the given direction. */
-        void fling_creature( Creature *c, const units::angle &dir, float flvel,
-                             bool controlled = false );
-
+        /** Flings the input creature in the given direction.
+         *  intentional is true for activities you wouldn't consider immunity for
+         */
+        bool fling_creature( Creature *c, const units::angle &dir, float flvel,
+                             bool controlled = false, bool intentional = false );
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
@@ -661,6 +685,7 @@ class game
 
         void toggle_fullscreen();
         void toggle_pixel_minimap() const;
+        void toggle_language_to_en();
         bool is_tileset_isometric() const;
         void reload_tileset();
         void temp_exit_fullscreen();
@@ -745,6 +770,9 @@ class game
         // Draw a highlight graphic at p, for example when examining something.
         // TILES only, in curses this does nothing
         void draw_highlight( const tripoint &p );
+        // Draws an asynchronous animation at p with tile_id as its sprite. If ncstr is specified, it will also be displayed in curses.
+        void draw_async_anim( const tripoint &p, const std::string &tile_id, const std::string &ncstr = "",
+                              const nc_color &nccol = c_black );
         void draw_radiation_override( const tripoint &p, int rad );
         void draw_terrain_override( const tripoint &p, const ter_id &id );
         void draw_furniture_override( const tripoint &p, const furn_id &id );
@@ -939,6 +967,8 @@ class game
          * point to a different monster after calling this (or to no monster at all).
          */
         void despawn_monster( monster &critter );
+        // Despawn all monsters not in the reality bubble
+        void despawn_nonlocal_monsters();
     private:
         // Routine loop functions, approximately in order of execution
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
@@ -999,7 +1029,7 @@ class game
         class debug_hour_timer
         {
             public:
-                using IRLTimeMs = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+                using IRLTimeMs = std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds>;
                 void toggle();
                 void print_time();
             private:
@@ -1031,6 +1061,8 @@ class game
         pimpl<kill_tracker> kill_tracker_ptr;
         pimpl<memorial_logger> memorial_logger_ptr; // NOLINT(cata-serialize)
         pimpl<spell_events> spell_events_ptr; // NOLINT(cata-serialize)
+        pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
+
 
         map &m;
         avatar &u;
@@ -1039,9 +1071,7 @@ class game
         const scenario *scen = nullptr; // NOLINT(cata-serialize)
 
         event_bus &events();
-        stats_tracker &stats();
         timed_event_manager &timed_events; // NOLINT(cata-serialize)
-        achievements_tracker &achievements();
         memorial_logger &memorial();
 
         global_variables global_variables_instance;
@@ -1052,8 +1082,7 @@ class game
         bool unique_npc_exists( const std::string &id );
         void unique_npc_despawn( const std::string &id );
         std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
-        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
-        queued_global_effect_on_conditions;
+        queued_eocs queued_global_effect_on_conditions;
 
         // setting that specifies which reachability zone cache to display
         struct debug_reachability_zones_display {
@@ -1212,12 +1241,12 @@ class game
 
 // Returns temperature modifier from direct heat radiation of nearby sources
 // @param location Location affected by heat sources
-units::temperature get_heat_radiation( const tripoint &location );
+units::temperature_delta get_heat_radiation( const tripoint &location );
 
 // Returns heat intensity of adjecent fires
 int get_best_fire( const tripoint &location );
 // Returns temperature modifier from hot air fields of given location
-units::temperature get_convection_temperature( const tripoint &location );
+units::temperature_delta get_convection_temperature( const tripoint &location );
 
 namespace cata_event_dispatch
 {

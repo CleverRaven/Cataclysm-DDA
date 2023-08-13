@@ -11,13 +11,13 @@
     "material": [ "paper", "powder" ],
     "volume": "100 ml",
     "weight": "26 g",
-    "bashing": 1,
     "ammo_type": "blunderbuss",
     "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 4 },
     "range": 12,
     "dispersion": 60,
     "recoil": 840,
-    "effects": [ "COOKOFF", "RECYCLED" ]
+    "effects": [ "COOKOFF", "RECYCLED" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "AMMO",
@@ -31,7 +31,6 @@
     "material": [ "paper", "powder" ],
     "volume": "100 ml",
     "weight": "28 g",
-    "bashing": 1,
     "ammo_type": "blunderbuss",
     "damage": { "damage_type": "bullet", "amount": 35 },
     "shot_damage": { "damage_type": "bullet", "amount": 10 },
@@ -39,7 +38,8 @@
     "shot_spread": 20,
     "range": 6,
     "recoil": 780,
-    "effects": [ "COOKOFF", "SHOT", "RECYCLED" ]
+    "effects": [ "COOKOFF", "SHOT", "RECYCLED" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "AMMO",
@@ -53,7 +53,6 @@
     "material": [ "paper", "powder" ],
     "volume": "100 ml",
     "weight": "26 g",
-    "bashing": 1,
     "ammo_type": "blunderbuss",
     "damage": { "damage_type": "bullet", "amount": 41 },
     "shot_damage": { "damage_type": "bullet", "amount": 11 },
@@ -61,7 +60,8 @@
     "shot_spread": 20,
     "range": 6,
     "recoil": 780,
-    "effects": [ "COOKOFF", "SHOT", "RECYCLED" ]
+    "effects": [ "COOKOFF", "SHOT", "RECYCLED" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "AMMO",
@@ -75,7 +75,6 @@
     "material": [ "plastic", "powder" ],
     "volume": "100 ml",
     "weight": "18 g",
-    "bashing": 1,
     "ammo_type": "blunderbuss",
     "damage": { "damage_type": "bullet", "amount": 35, "armor_penetration": 10 },
     "shot_damage": { "damage_type": "bullet", "amount": 8, "armor_penetration": 4 },
@@ -83,6 +82,7 @@
     "shot_spread": 20,
     "range": 10,
     "recoil": 840,
-    "effects": [ "COOKOFF", "SHOT", "RECYCLED" ]
+    "effects": [ "COOKOFF", "SHOT", "RECYCLED" ],
+    "melee_damage": { "bash": 1 }
   }
 ]

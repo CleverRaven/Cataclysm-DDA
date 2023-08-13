@@ -30,7 +30,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "450 L", "max_contains_weight": "400 kg" } ]
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "oven",
     "looks_like": "f_oven",
     "symbol": "#",
@@ -42,7 +42,15 @@
     "insulation": 3,
     "volume": "290 L",
     "weight": "77 kg",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "120 L", "max_contains_weight": "200 kg" } ]
+    "charged_qualities": [ [ "OVEN", 2 ] ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "120 L", "max_contains_weight": "200 kg" },
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_battery_cell"
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -133,7 +141,7 @@
     "symbol": "7",
     "description": "This table has an inset router, a rotating motor with an exchangeable blade head for cutting specific profiles and grooves.  Needs to be placed and plugged into a power source.",
     "color": "yellow_green",
-    "name": { "str": "disconnected router" },
+    "name": { "str": "disconnected router table" },
     "material": [ "steel" ],
     "//": "Based off Powermatic TS29 Shaper.  TODO: When support for multi-tile appliances is added, this can stretch two tiles",
     "longest_side": "147 cm",
@@ -206,7 +214,6 @@
     "price": 162654,
     "price_postapoc": 2000,
     "to_hit": -6,
-    "bashing": 10,
     "material": [ "steel" ],
     "symbol": "A",
     "color": "yellow",
@@ -221,44 +228,41 @@
         "flag_restriction": [ "CBM" ],
         "item_restriction": [ "water_clean", "water" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
-    "type": "TOOL",
-    "id": "power_cord",
-    "name": { "str": "power cord" },
-    "description": "A short, multi-stranded copper cord with a power outlet at the end.",
-    "to_hit": 1,
-    "color": "dark_gray",
-    "symbol": "&",
-    "material": [ "steel", "plastic" ],
-    "volume": "500 ml",
-    "weight": "75 g",
-    "bashing": 2,
-    "category": "tools",
-    "price": 1,
-    "price_postapoc": 100,
-    "max_charges": 3,
-    "initial_charges": 3,
-    "use_action": [ "CABLE_ATTACH" ],
-    "flags": [ "CABLE_SPOOL", "POWER_CORD", "SINGLE_USE" ]
+    "type": "GENERIC",
+    "id": "wall_light",
+    "name": { "str": "disconnected wall light" },
+    "description": "A wall light that provides illumination when plugged into a grid.",
+    "weight": "500 g",
+    "to_hit": -1,
+    "material": [ "plastic", "steel" ],
+    "volume": "400 ml",
+    "longest_side": "20 cm",
+    "price": 9000,
+    "price_postapoc": 500,
+    "symbol": "L",
+    "color": "white",
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",
     "id": "standing_lamp",
     "name": { "str": "disconnected standing lamp" },
-    "description": "A tall floor lamp that provides illumination when plugged into a power outlet.",
+    "description": "A tall standing lamp that provides illumination when plugged into a power outlet.",
     "weight": "2500 g",
     "to_hit": -1,
     "material": [ "plastic", "steel" ],
     "volume": "2 L",
     "longest_side": "170 cm",
-    "bashing": 5,
     "price": 9000,
     "price_postapoc": 500,
     "symbol": "L",
     "color": "white",
-    "looks_like": "f_floor_lamp"
+    "looks_like": "f_floor_lamp",
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",
@@ -270,11 +274,28 @@
     "material": [ "plastic", "steel" ],
     "volume": "2 L",
     "longest_side": "170 cm",
-    "bashing": 5,
     "price": 90000,
     "price_postapoc": 1500,
     "symbol": "F",
-    "color": "white"
+    "color": "white",
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "standing_directed_floodlight",
+    "name": { "str": "disconnected standing directed floodlight" },
+    "description": "A large, heavy light designed to illuminate a wide semicircle in a chosen direction when plugged into a power outlet.",
+    "weight": "2750 g",
+    "to_hit": -1,
+    "material": [ "plastic", "steel" ],
+    "volume": "2 L",
+    "longest_side": "170 cm",
+    "price": 90000,
+    "price_postapoc": 1500,
+    "looks_like": "standing_floodlight",
+    "symbol": "F",
+    "color": "white",
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",
@@ -337,12 +358,72 @@
     "material": [ "lead", "steel" ],
     "volume": "150 L",
     "longest_side": "80 cm",
-    "bashing": 5,
     "//": "I don't know how much these were worth pre-Cataclysm but the pu-238 alone is worth about 5-6 million and hundreds of millions were spent on research.  After the apocalypse these should basically be valuable beyond compare though.",
     "price": 1000000000,
     "price_postapoc": 12000,
     "symbol": "O",
     "color": "green_white",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ],
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "active_backup_generator",
+    "name": { "str_sp": "backup generator" },
+    "looks_like": "f_active_backup_generator",
+    "description": "A ubiquitous piece of compact machinery meant for running anything from the bathroom lights to electric stoves and other necessities when grid electricity is unavailable.  It just needs to be plugged in, fueled up, and then turned on.",
+    "weight": "200 kg",
+    "to_hit": -10,
+    "material": [ "steel" ],
+    "volume": "200 L",
+    "longest_side": "80 cm",
+    "price": "350 USD",
+    "price_postapoc": "25 USD",
+    "//1": "Steel jerrycan (jerrycan_big) values. Must have this pocket, otherwise will not have any fuel capacity as an appliance.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "20 L",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "25 kg"
+      }
+    ],
+    "symbol": "O",
+    "color": "green_white",
+    "//2": "Prevent loading items into the generator while it's not in appliance form.",
+    "flags": [ "NO_RELOAD" ]
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "oxygen_concentrator",
+    "name": { "str_sp": "oxygen concentrator" },
+    "description": "A machine capable of generating pure oxygen from the air.  Can be placed and plugged into a power source.",
+    "weight": "29 kg",
+    "material": [ "plastic", "steel" ],
+    "volume": "110 L",
+    "longest_side": "70 cm",
+    "price": 200000,
+    "price_postapoc": 2000,
+    "symbol": "&",
+    "color": "light_gray"
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "hd_compressor_unit",
+    "name": { "str_sp": "high pressure compressor unit" },
+    "description": "A machine designed to compress an input gas to a very high pressure.  Can be placed and plugged into a power source.",
+    "weight": "52500 g",
+    "material": [ "steel" ],
+    "volume": "150 L",
+    "longest_side": "63 cm",
+    "price": 200000,
+    "price_postapoc": 2000,
+    "symbol": "&",
+    "color": "light_gray"
   }
 ]

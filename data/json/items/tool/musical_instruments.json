@@ -11,12 +11,12 @@
     "price": 7500,
     "price_postapoc": 500,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
-    "bashing": 16,
     "flags": [ "FRAGILE_MELEE" ],
     "material": [ { "type": "wood", "portion": 7 }, { "type": "steel" }, { "type": "nylon", "portion": 2 } ],
     "symbol": "|",
     "color": "white",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "volume": 18,
       "fun": -3,
@@ -28,7 +28,8 @@
         "You play a bluegrass tune on your banjo.",
         "You play a quick, Southern ditty on your banjo."
       ]
-    }
+    },
+    "melee_damage": { "bash": 16 }
   },
   {
     "id": "bone_flute",
@@ -41,11 +42,11 @@
     "longest_side": "32 cm",
     "price": 5000,
     "price_postapoc": 100,
-    "bashing": 2,
     "material": [ "bone" ],
     "symbol": "-",
     "color": "white",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "volume": 12,
       "fun": -5,
@@ -58,7 +59,8 @@
         "You play a piece on your bone flute that resembles the howling wind through Aurignacian caves.",
         "Your bone flute wails for the fallen during the hunt."
       ]
-    }
+    },
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "clarinet",
@@ -72,11 +74,11 @@
     "price": 5500,
     "price_postapoc": 250,
     "to_hit": 1,
-    "bashing": 4,
     "material": [ { "type": "wood", "portion": 9 }, { "type": "silver" } ],
     "symbol": "|",
     "color": "light_gray",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "volume": 14,
       "fun": -5,
@@ -88,7 +90,8 @@
         "You play a moving, orchestral piece on your clarinet.",
         "You play an uplifting marching tune on your clarinet."
       ]
-    }
+    },
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "flute",
@@ -101,12 +104,12 @@
     "longest_side": "66 cm",
     "price": 5000,
     "price_postapoc": 150,
-    "bashing": 2,
     "material": [ "silver" ],
     "//": "Moved this to just being silver.  Flutes aren't made of iron, and a full size sterling silver flute weighs 440g, which is the existing weight.",
     "symbol": "-",
     "color": "light_gray",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "volume": 12,
       "fun": -5,
@@ -118,7 +121,8 @@
         "You play a beautiful piece on your flute.",
         "You play a piece on your flute that sounds harmonious with nature."
       ]
-    }
+    },
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "trumpet",
@@ -132,11 +136,11 @@
     "price": 7500,
     "price_postapoc": 300,
     "to_hit": 1,
-    "bashing": 7,
     "material": [ "brass" ],
     "symbol": "-",
     "color": "yellow",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "volume": 21,
       "fun": -3,
@@ -148,7 +152,8 @@
         "You play a slow, mourning piece on your trumpet.",
         "You play a little ballad on your trumpet."
       ]
-    }
+    },
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "ukulele",
@@ -162,12 +167,12 @@
     "price": 7500,
     "price_postapoc": 250,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
-    "bashing": 14,
     "flags": [ "FRAGILE_MELEE" ],
     "material": [ "wood" ],
     "symbol": "(",
     "color": "brown",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "volume": 16,
       "fun": -3,
@@ -179,7 +184,8 @@
         "You play a cute little ditty on your ukulele.",
         "You play a small jam on your ukulele."
       ]
-    }
+    },
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "violin",
@@ -193,12 +199,12 @@
     "price": 7500,
     "price_postapoc": 600,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
-    "bashing": 12,
     "flags": [ "FRAGILE_MELEE" ],
     "material": [ "wood" ],
     "symbol": "}",
     "color": "brown",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "volume": 18,
       "fun": -2,
@@ -210,7 +216,8 @@
         "You play a beautiful orchestral piece on your violin.",
         "You play a quick, southern ditty on your fiddle."
       ]
-    }
+    },
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "violin_golden",
@@ -224,11 +231,11 @@
     "price": 1000000,
     "price_postapoc": 1000,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
-    "bashing": 9,
     "material": [ "gold" ],
     "symbol": "}",
     "color": "yellow",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "volume": 25,
       "fun": 1,
@@ -240,7 +247,35 @@
         "As you pull the bow across its strings, it makes an evil hiss.",
         "You play a tune so fierce, it feels like hell's broke loose."
       ]
-    }
+    },
+    "melee_damage": { "bash": 9 }
+  },
+  {
+    "id": "krar_golden",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "golden krar" },
+    "description": "A shiny golden krar, similar to a harp.",
+    "weight": "13000 g",
+    "volume": "2500 ml",
+    "longest_side": "60 cm",
+    "price": 1000000,
+    "price_postapoc": 1000,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
+    "material": [ "gold" ],
+    "symbol": "}",
+    "color": "yellow",
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
+      "type": "musical_instrument",
+      "volume": 25,
+      "fun": 1,
+      "fun_bonus": 4,
+      "speed_penalty": 25,
+      "description_frequency": 10,
+      "player_descriptions": [ "You play a relaxed, folksy tune on your krar." ]
+    },
+    "melee_damage": { "bash": 9 }
   },
   {
     "type": "TOOL_ARMOR",
@@ -249,7 +284,8 @@
     "category": "tools",
     "weight": "200 g",
     "color": "brown",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "speed_penalty": 10,
       "volume": 10,
@@ -278,7 +314,8 @@
     "weight": "2200 g",
     "color": "brown",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "speed_penalty": 15,
       "volume": 20,
@@ -300,10 +337,10 @@
     "volume": "6750 ml",
     "longest_side": "97 cm",
     "warmth": 2,
-    "bashing": 18,
     "flags": [ "FRAGILE_MELEE", "BELTED", "SLEEP_IGNORE" ],
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 27, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+    "armor": [ { "encumbrance": 27, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
+    "melee_damage": { "bash": 18 }
   },
   {
     "type": "TOOL_ARMOR",
@@ -313,7 +350,8 @@
     "weight": "3750 g",
     "color": "red",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "speed_penalty": 15,
       "volume": 6,
@@ -340,10 +378,10 @@
     "volume": "6750 ml",
     "longest_side": "97 cm",
     "warmth": 2,
-    "bashing": 26,
     "flags": [ "FRAGILE_MELEE", "BELTED", "SLEEP_IGNORE" ],
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 27, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+    "armor": [ { "encumbrance": 27, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
+    "melee_damage": { "bash": 26 }
   },
   {
     "type": "TOOL_ARMOR",
@@ -353,7 +391,8 @@
     "weight": "2500 g",
     "color": "green",
     "to_hit": -2,
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "speed_penalty": 15,
       "volume": 24,
@@ -378,10 +417,10 @@
     "material": [ "leather", "wood" ],
     "volume": "5 L",
     "longest_side": "65 cm",
-    "bashing": 4,
     "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+    "armor": [ { "encumbrance": 15, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "TOOL_ARMOR",
@@ -392,7 +431,8 @@
     "color": "yellow",
     "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "to_hit": -1,
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "speed_penalty": 25,
       "volume": 20,
@@ -412,7 +452,6 @@
     "material": [ "brass" ],
     "volume": "12500 ml",
     "longest_side": "107 cm",
-    "bashing": 13,
     "material_thickness": 4,
     "armor": [
       {
@@ -421,7 +460,8 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_front", "torso_hanging_back", "torso_upper" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 13 }
   },
   {
     "type": "TOOL_ARMOR",
@@ -432,7 +472,8 @@
     "color": "yellow",
     "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "to_hit": 1,
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
       "type": "musical_instrument",
       "speed_penalty": 18,
       "volume": 20,
@@ -457,7 +498,6 @@
     "material": [ "brass" ],
     "volume": "4500 ml",
     "longest_side": "70 cm",
-    "bashing": 12,
     "material_thickness": 4,
     "armor": [
       {
@@ -466,6 +506,7 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_front", "torso_hanging_back", "torso_upper" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   }
 ]

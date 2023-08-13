@@ -7,6 +7,7 @@
 #include "character.h"
 #include "damage.h"
 #include "json.h"
+#include "make_static.h"
 #include "string_formatter.h"
 #include "translations.h"
 
@@ -122,10 +123,10 @@ void bonus_container::load( const JsonArray &jarr, const bool mult )
             qualifiers.throw_error_at( "stat", "Invalid affected stat" );
         }
 
-        damage_type dt = damage_type::NONE;
+        damage_type_id dt;
         if( needs_damage_type( as ) ) {
             qualifiers.read( "type", dt );
-            if( dt == damage_type::NONE ) {
+            if( dt == damage_type_id::NULL_ID() ) {
                 qualifiers.throw_error_at( "type", "Invalid damage type" );
             }
         }
@@ -142,13 +143,13 @@ affected_type::affected_type( affected_stat s )
     stat = s;
 }
 
-affected_type::affected_type( affected_stat s, damage_type t )
+affected_type::affected_type( affected_stat s, const damage_type_id &t )
 {
     stat = s;
     if( needs_damage_type( s ) ) {
         type = t;
     } else {
-        type = damage_type::NONE;
+        type = damage_type_id();
     }
 }
 
@@ -162,7 +163,8 @@ bool affected_type::operator==( const affected_type &other ) const
     return stat == other.stat && type == other.type;
 }
 
-float bonus_container::get_flat( const Character &u, affected_stat stat, damage_type dt ) const
+float bonus_container::get_flat( const Character &u, affected_stat stat,
+                                 const damage_type_id &dt ) const
 {
     const affected_type type( stat, dt );
     const auto &iter = bonuses_flat.find( type );
@@ -179,10 +181,11 @@ float bonus_container::get_flat( const Character &u, affected_stat stat, damage_
 }
 float bonus_container::get_flat( const Character &u, affected_stat stat ) const
 {
-    return get_flat( u, stat, damage_type::NONE );
+    return get_flat( u, stat, damage_type_id() );
 }
 
-float bonus_container::get_mult( const Character &u, affected_stat stat, damage_type dt ) const
+float bonus_container::get_mult( const Character &u, affected_stat stat,
+                                 const damage_type_id &dt ) const
 {
     const affected_type type( stat, dt );
     const auto &iter = bonuses_mult.find( type );
@@ -200,7 +203,7 @@ float bonus_container::get_mult( const Character &u, affected_stat stat, damage_
 }
 float bonus_container::get_mult( const Character &u, affected_stat stat ) const
 {
-    return get_mult( u, stat, damage_type::NONE );
+    return get_mult( u, stat, damage_type_id() );
 }
 
 std::string bonus_container::get_description() const
@@ -210,9 +213,10 @@ std::string bonus_container::get_description() const
         std::string type = string_from_affected_stat( boni.first.get_stat() );
 
         if( needs_damage_type( boni.first.get_stat() ) ) {
+            const damage_type_id &dt = boni.first.get_damage_type();
             //~ %1$s: damage type, %2$s: damage-related bonus name
             type = string_format( pgettext( "type of damage", "%1$s %2$s" ),
-                                  name_by_dt( boni.first.get_damage_type() ), type );
+                                  dt.is_null() ? _( "none" ) : dt->name.translated(), type );
         }
 
         for( const effect_scaling &sf : boni.second ) {
@@ -233,9 +237,10 @@ std::string bonus_container::get_description() const
         std::string type = string_from_affected_stat( boni.first.get_stat() );
 
         if( needs_damage_type( boni.first.get_stat() ) ) {
+            const damage_type_id &dt = boni.first.get_damage_type();
             //~ %1$s: damage type, %2$s: damage-related bonus name
             type = string_format( pgettext( "type of damage", "%1$s %2$s" ),
-                                  name_by_dt( boni.first.get_damage_type() ), type );
+                                  dt.is_null() ? _( "none" ) : dt->name.translated(), type );
         }
 
         for( const effect_scaling &sf : boni.second ) {

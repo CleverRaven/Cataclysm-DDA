@@ -50,6 +50,8 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const event_statistic_id event_statistic_last_words( "last_words" );
 
+static const mon_flag_str_id mon_flag_MILKABLE( "MILKABLE" );
+
 static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 
 #if defined(__ANDROID__)
@@ -255,7 +257,7 @@ void monmove()
 
         m.creature_in_field( critter );
         if( calendar::once_every( 1_days ) ) {
-            if( critter.has_flag( MF_MILKABLE ) ) {
+            if( critter.has_flag( mon_flag_MILKABLE ) ) {
                 critter.refill_udders();
             }
             critter.try_biosignature();
@@ -296,14 +298,7 @@ void monmove()
     // The remaining monsters are all alive, but may be outside of the reality bubble.
     // If so, despawn them. This is not the same as dying, they will be stored for later and the
     // monster::die function is not called.
-    for( monster &critter : g->all_monsters() ) {
-        if( critter.posx() < 0 - MAPSIZE_X / 6 ||
-            critter.posy() < 0 - MAPSIZE_Y / 6 ||
-            critter.posx() > ( MAPSIZE_X * 7 ) / 6 ||
-            critter.posy() > ( MAPSIZE_Y * 7 ) / 6 ) {
-            g->despawn_monster( critter );
-        }
-    }
+    g->despawn_nonlocal_monsters();
 
     // Now, do active NPCs.
     for( npc &guy : g->all_npcs() ) {
@@ -333,15 +328,8 @@ void monmove()
             // It has to be done before the last turn, otherwise
             // there will be no meaningful debug output.
             if( turns == 9 ) {
-                debugmsg( "NPC %s entered infinite loop.  Turning on debug mode",
-                          guy.get_name() );
-                debug_mode = true;
-                // make sure the filter is active
-                if( std::find(
-                        debugmode::enabled_filters.begin(), debugmode::enabled_filters.end(),
-                        debugmode::DF_NPC ) == debugmode::enabled_filters.end() ) {
-                    debugmode::enabled_filters.emplace_back( debugmode::DF_NPC );
-                }
+                debugmsg( "NPC '%s' entered infinite loop, npc activity id: '%s'",
+                          guy.get_name(), guy.activity.id().str() );
             }
         }
 
@@ -562,9 +550,9 @@ bool do_turn()
         } else {
             // Rate limit key polling to 10 times a second.
             static auto start = std::chrono::time_point_cast<std::chrono::milliseconds>(
-                                    std::chrono::system_clock::now() );
+                                    std::chrono::steady_clock::now() );
             const auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(
-                                 std::chrono::system_clock::now() );
+                                 std::chrono::steady_clock::now() );
             if( ( now - start ).count() > 100 ) {
                 handle_key_blocking_activity();
                 start = now;
@@ -696,6 +684,10 @@ bool do_turn()
 
     if( calendar::once_every( 1_minutes ) ) {
         u.update_morale();
+        for( npc &guy : g->all_npcs() ) {
+            guy.update_morale();
+            guy.check_and_recover_morale();
+        }
     }
 
     if( calendar::once_every( 9_turns ) ) {

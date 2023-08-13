@@ -61,6 +61,37 @@
   },
   {
     "type": "weakpoint_set",
+    "id": "wps_metal_shell_armor",
+    "//": "Similar to wps_bone_armor for rust plated and rust shelled zombies.",
+    "weakpoints": [
+      {
+        "id": "gap",
+        "name": "a small fissure between the metal plates",
+        "coverage": 5,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "coverage_mult": { "broad": 0.5 },
+        "armor_mult": { "all": 0.35 }
+      },
+      {
+        "id": "joint",
+        "name": "an exposed joint unprotected by the metal plates",
+        "coverage": 10,
+        "difficulty": { "melee": 3, "ranged": 7 },
+        "coverage_mult": { "ranged": 0.25 },
+        "armor_mult": { "all": 0.15 }
+      },
+      {
+        "id": "hard_point",
+        "name": "a strong, rigid chunk of metal",
+        "armor_mult": { "all": 1.4 },
+        "crit_mult": { "all": 0.75 },
+        "coverage_mult": { "melee": 0.75 },
+        "coverage": 3
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
     "id": "wps_eyes_big",
     "//": "Let's assume that larger-than-tiny eyes are mildly more resistant to damage.",
     "weakpoints": [

@@ -54,7 +54,7 @@ static void wield_check_from_ground( avatar &guy, const itype_id &item_name,
     CHECK( item_loc.obtain_cost( guy ) == Approx( expected_moves ).epsilon( 0.1f ) );
 }
 
-TEST_CASE( "Wield time test", "[wield]" )
+TEST_CASE( "Wield_time_test", "[wield]" )
 {
     clear_map();
 

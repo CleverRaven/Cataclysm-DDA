@@ -19,6 +19,7 @@
 #include "map_test_case.h"
 #include "mapdata.h"
 #include "mtype.h"
+#include "options_helpers.h"
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
@@ -101,7 +102,7 @@ static const time_point day_time = calendar::turn_zero + 9_hours + 30_minutes;
 using namespace map_test_case_common;
 using namespace map_test_case_common::tiles;
 
-auto static const ter_set_flat_roof_above = ter_set( ter_t_flat_roof, tripoint_above );
+static const tile_predicate ter_set_flat_roof_above = ter_set( ter_t_flat_roof, tripoint_above );
 
 static bool spawn_moncam( map_test_case::tile tile )
 {
@@ -157,6 +158,7 @@ struct vision_test_case {
         player_character.clear_moncams();
         clear_map( -2, OVERMAP_HEIGHT );
         g->reset_light_level();
+        scoped_weather_override weather_clear( WEATHER_CLEAR );
 
         REQUIRE( !player_character.is_blind() );
         REQUIRE( !player_character.in_sleep_state() );
@@ -534,25 +536,34 @@ TEST_CASE( "vision_single_tile_skylight", "[shadowcasting][vision]" )
 TEST_CASE( "vision_junction_reciprocity", "[vision][reciprocity]" )
 {
     bool player_in_junction = GENERATE( true, false );
+    CAPTURE( player_in_junction );
 
     vision_test_case t {
         player_in_junction ?
         std::vector<std::string>{
-            "u#  ",
-            "-- Z",
+            "###   ",
+            "#u####",
+            "#---z#",
+            "######",
 }:
         std::vector<std::string>{
-            "z#  ",
-            "-- u",
+            "###   ",
+            "#z####",
+            "#---u#",
+            "######",
         },
         player_in_junction ?
         std::vector<std::string>{
-            "4466",
-            "4446",
+            "444666",
+            "444666",
+            "444466",
+            "444466",
 }:
         std::vector<std::string>{
-            "4444",
-            "4444",
+            "666666",
+            "444444",
+            "444444",
+            "444444",
         },
         day_time
     };
@@ -560,14 +571,14 @@ TEST_CASE( "vision_junction_reciprocity", "[vision][reciprocity]" )
     monster *zombie = nullptr;
     tile_predicate spawn_zombie = [&]( map_test_case::tile tile ) {
         zombie = g->place_critter_at( mon_zombie, tile.p );
+        get_map().ter_set( tile.p + tripoint_above, ter_t_flat_roof );
         return true;
     };
 
     t.set_up_tiles =
-        ifchar( 'C', spawn_moncam ) ||
-        ifchar( 'Z', spawn_zombie ) ||
         ifchar( 'z', spawn_zombie ) ||
         t.set_up_tiles;
+    t.flags.headlamp = true;
     t.test_all();
 
     if( player_in_junction ) {
@@ -897,7 +908,7 @@ TEST_CASE( "vision_vehicle_camera_skew", "[shadowcasting][vision][vehicle][vehic
     auto const fiddle_parts = [&]() {
         if( fiddle > 0 ) {
             std::vector<vehicle_part *> const horns = v->get_parts_at( v->global_pos3(), "HORN", {} );
-            v->remove_part( v->index_of_part( horns.front(), true ) );
+            v->remove_part( *horns.front() );
         }
         if( fiddle > 1 ) {
             REQUIRE( v->install_part( point_zero, vpart_inboard_mirror ) != -1 );

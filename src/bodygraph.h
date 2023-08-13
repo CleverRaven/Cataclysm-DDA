@@ -58,7 +58,7 @@ struct bodygraph {
     static void check_all();
     static void reset();
     static const std::vector<bodygraph> &get_all();
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
     void finalize();
     void check() const;
 };

@@ -171,6 +171,7 @@
         { "item": "rope_6", "count": [ 3, 4 ] },
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "splinter", "count": [ 2, 4 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 3 ] },
         { "item": "block_and_tackle", "count": [ 0, 1 ] }
       ]
     },
@@ -178,7 +179,7 @@
       "ter_set": "t_dirtfloor",
       "items": [
         { "item": "rope_30", "count": 1 },
-        { "item": "nuts_bolts", "count": 1 },
+        { "item": "nuts_bolts", "charges": 3 },
         { "item": "2x4", "count": 8 },
         { "item": "block_and_tackle", "count": 1 }
       ]
@@ -617,6 +618,30 @@
   },
   {
     "type": "terrain",
+    "id": "t_card_science_mu",
+    "name": "Systems: slate zone card reader",
+    "description": "A smartcard reader.  It sports the stylized symbol of an atom and a node graph on a slate background.  You could swipe a security employee badge near it to unlock the gates.",
+    "//": "Tier 3 card for a lab.  High security access.",
+    "symbol": "6",
+    "color": "dark_gray",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "SCIENCE_CARD_MU_UNIVERSAL" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": true,
+      "radius": 3,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_card_science_mutagen_green",
     "name": "Researcher: light green zone card reader",
     "description": "A smartcard reader.  It sports the stylized symbol of an atom and a flask on a light green background.  You could swipe a researcher scientist badge near it to unlock the gates.",
@@ -756,7 +781,7 @@
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "ter_set": "t_console_broken",
+      "ter_set": "t_metal_floor",
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
@@ -814,7 +839,7 @@
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "ter_set": "t_console_broken",
+      "ter_set": "t_metal_floor",
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
@@ -863,7 +888,7 @@
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "ter_set": "t_console_broken",
+      "ter_set": "t_metal_floor",
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
@@ -894,7 +919,7 @@
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "ter_set": "t_console_broken",
+      "ter_set": "t_metal_floor",
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },

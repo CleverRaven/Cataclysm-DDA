@@ -6,6 +6,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "city.h"
 #include "clzones.h"
 #include "colony.h"
 #include "coordinates.h"

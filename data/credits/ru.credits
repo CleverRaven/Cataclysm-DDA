@@ -5,28 +5,28 @@
 <color_yellow>Whales</color>(<color_dark_gray>отошел от разработки</color>)   <color_yellow>KevinGranade</color>
 
 <color_white>Главные разработчики:</color>
-<color_yellow>I-am-Erk</color> - Ultica, lore writing, ideas guy.
-<color_yellow>KorGgenT</color> - Professional yak shaver.
+<color_yellow>I-am-Erk</color> - Ultica, лор, генератор идей.
+<color_yellow>KorGgenT</color> - Профессионально стрижет яков.
 
 <color_white>Особая благодарность:</color>
-<color_yellow>anothersimulacrum</color> - For stepping in and doing the hard work.
-<color_yellow>BombasticSlacks</color> - For fleshing out the armor system and making us sweat.
-<color_yellow>Fris0uman</color> - For getting our fridges working.
-<color_yellow>John-Candlebury</color> - For Hub01 and all the beautiful maps.
-<color_yellow>jbytheway</color> - For parametric mapgen and mutable locations.
-<color_yellow>BrettDong</color> - For translations and analyzing weird bugs.
-<color_yellow>wapcaplet</color> - For all things sidebar-related.
-<color_yellow>ZhilkinSerg</color> - For merging all the things.
-<color_yellow>Rivet-the-Zombie</color> - For keeping up the one-merge-per-day record.
-<color_yellow>Night-Pryanik</color> - For countless bugfixes and enhancements.
-<color_yellow>Qrox</color> - For making the UI infrastructure even better.
-<color_yellow>Ramza13</color> - For turning JSON into a turing-complete language.
-<color_yellow>Drew4484</color> - For all the steel.
-<color_yellow>LyleSY</color> - For even more dinosaurrrs.
-<color_yellow>irwiss</color>, <color_yellow>Maleclypse</color>, <color_yellow>Venera3</color>, <color_yellow>MylieDaniels</color>, <color_yellow>andrei8l</color>, <color_yellow>mqrause</color>, and <color_yellow>Eltank</color>.
+<color_yellow>anothersimulacrum</color> - влетел и сделал много сложных штук.
+<color_yellow>BombasticSlacks</color> - за улучшение системы брони и за то, что заставил нас потеть.
+<color_yellow>Fris0uman</color> - За то, что наши холодильники теперь работают.
+ <color_yellow>John-Candlebury</color> - За Хаб01 и другие прекрасные локации.
+<color_yellow>jbytheway</color> - За параметрический генератор карт и изменяемые локации.
+<color_yellow>BrettDong</color> - За переводы и разбор сложных багов.
+<color_yellow>wapcaplet</color> - За классные штуки для боковой панели.
+<color_yellow>ZhilkinSerg</color> - За объединение всех штук.
+<color_yellow>Rivet-the-Zombie</color> - за приверженность рекорду "один мердж в день".
+<color_yellow>Night-Pryanik</color> - За бесчисленное множество исправлений и улучшений.
+<color_yellow>Qrox</color> - За улучшение инфраструктуры UI.
+<color_yellow>Ramza13</color> - За превращение JSON в тьюринг-полный язык.
+<color_yellow>Drew4484</color> - За всю сталь.
+<color_yellow>LyleSY</color> - за еще больше динозавррров.
+<color_yellow>irwiss</color>, <color_yellow>Maleclypse</color>, <color_yellow>Venera3</color>, <color_yellow>MylieDaniels</color>, <color_yellow>andrei8l</color>, <color_yellow>mqrause</color>, и <color_yellow>Eltank</color>.
 
 <color_white>Особая благодарность за художественный вклад:</color>
-<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>, and many more.
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>, и многим другим.
 
 <color_white>Полный список участников разработки доступен здесь:</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
@@ -36,12 +36,12 @@
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.F</color>):</color>
+<color_white>Главные разработчики (<color_cyan>0.F</color>):</color>
 <color_yellow>mlangsdorf</color> - транспорт, лодки, лагеря и руководства по созданию модификаций.
 <color_yellow>I-am-Erk</color> - Наследие Ultica живёт.
 <color_yellow>KorGgenT</color> - Не даёт подсказок, куда класть доски.
 
-<color_white>Special thanks to (<color_cyan>0.F</color>):</color>
+<color_white>Особая благодарность (<color_cyan>0.F</color>):</color>
 <color_yellow>Aivean</color> - За выдающуюся производительность.
 <color_yellow>anothersimulacrum</color> - За выматывание меня.
 <color_yellow>jbytheway</color> - За мотивирование меня.
@@ -49,7 +49,7 @@
 <color_yellow>Qrox</color> - За показ места, вызывающего сообщения об ошибках.
 <color_yellow>LyleSY</color> - За динозаврррров.
 
-<color_white>Special thanks for art contributions (<color_cyan>0.F</color>):</color>
+<color_white>Особая благодарность за художественный вклад (<color_cyan>0.F):</color>
 <color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color>, и многим другим.
 
 <color_white>Полный список участников разработки доступен здесь:</color>

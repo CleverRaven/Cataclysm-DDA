@@ -5,7 +5,6 @@
     "name": { "str": "clay car battery" },
     "item": "battery_car_clay",
     "fuel_type": "battery",
-    "symbol": "o",
     "categories": [ "energy" ],
     "color": "yellow",
     "broken_color": "red",
@@ -22,6 +21,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "600 s", "using": [ [ "soldering_standard", 5 ] ] }
     },
-    "damage_reduction": { "bash": 10 }
+    "damage_reduction": { "bash": 10 },
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   }
 ]

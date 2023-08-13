@@ -33,7 +33,7 @@ class butchery_requirements
             const read_only_visitable &crafting_inv, creature_size size, butcher_type butcher ) const;
 
         static void load_butchery_req( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, const std::string & );
+        void load( const JsonObject &jo, std::string_view );
         static const std::vector<butchery_requirements> &get_all();
         static void check_consistency();
         static void reset();

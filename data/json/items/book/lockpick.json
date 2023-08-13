@@ -17,7 +17,6 @@
         "name": { "str": "The CIA Lockpicking Manual", "str_pl": "copies of The CIA Lockpicking Manual" },
         "description": "It says it is a reproduction of the United States Central Intelligence Agency’s Field Operative Training Manual that describes how to lockpick.  For such a big name it has a surprisingly small amount of information, only covering the topic on a very basic level.",
         "//": "978-1420957556",
-        "fun": -1,
         "weight": 1
       },
       {

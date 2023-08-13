@@ -1,0 +1,40 @@
+[
+  {
+    "//": "give the attacker and attackee their own variables to show that damage type eocs work",
+    "id": "test_fire",
+    "type": "damage_type",
+    "physical": false,
+    "magic_color": "red_red",
+    "name": "test fire",
+    "onhit_eocs": [ "EOC_TEST_FIRE_DAMAGE" ],
+    "ondamage_eocs": [ "EOC_TEST_FIRE_DAMAGE_DEETS" ],
+    "immune_flags": { "character": [ "HEAT_IMMUNE" ], "monster": [ "FIREPROOF" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST_FIRE_DAMAGE",
+    "effect": [
+      { "u_add_var": "test_fire", "type": "general", "context": "dmg_type_test", "value": "source" },
+      { "npc_add_var": "test_fire", "type": "general", "context": "dmg_type_test", "value": "target" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST_FIRE_DAMAGE_DEETS",
+    "effect": [
+      { "set_string_var": { "context_val": "bp" }, "target_var": { "u_val": "test_bp" } },
+      { "set_string_var": { "context_val": "damage_taken" }, "target_var": { "u_val": "test_damage_taken" } },
+      { "set_string_var": { "context_val": "total_damage" }, "target_var": { "u_val": "test_total_damage" } }
+    ]
+  },
+  {
+    "id": "test_fire",
+    "type": "damage_info_order",
+    "info_display": "none",
+    "bionic_info": { "order": 999999, "show_type": false },
+    "protection_info": { "order": 999999, "show_type": false },
+    "pet_prot_info": { "order": 999999, "show_type": false },
+    "melee_combat_info": { "order": 999999, "show_type": false },
+    "ablative_info": { "order": 999999, "show_type": false }
+  }
+]

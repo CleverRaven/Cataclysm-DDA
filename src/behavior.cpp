@@ -22,7 +22,7 @@ void node_t::add_predicate( const
                             std::function<status_t ( const oracle_t *, const std::string & )> &
                             new_predicate, const std::string &argument, const bool &invert_result )
 {
-    conditions.emplace_back( std::make_tuple( new_predicate, argument, invert_result ) );
+    conditions.emplace_back( new_predicate, argument, invert_result );
 }
 void node_t::set_goal( const std::string &new_goal )
 {
@@ -131,7 +131,7 @@ void behavior::load_behavior( const JsonObject &jo, const std::string &src )
     behavior_factory.load( jo, src );
 }
 
-void node_t::load( const JsonObject &jo, const std::string & )
+void node_t::load( const JsonObject &jo, const std::string_view )
 {
     // We don't initialize the node unless it has no children (opportunistic optimization).
     // Instead we initialize a parallel struct that holds the labels until finalization.
@@ -162,8 +162,8 @@ void node_t::load( const JsonObject &jo, const std::string & )
         }
         const std::string predicate_argument = predicate_object.get_string( "argument", "" );
         const bool invert_result = predicate_object.get_bool( "invert_result", false );
-        conditions.emplace_back( std::make_tuple( new_predicate->second, predicate_argument,
-                                 invert_result ) );
+        conditions.emplace_back( new_predicate->second, predicate_argument,
+                                 invert_result );
     }
     optional( jo, was_loaded, "goal", _goal );
 }

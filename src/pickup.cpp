@@ -411,8 +411,8 @@ void Pickup::autopickup( const tripoint &p )
         target_items.push_back( selected.first );
         quantities.push_back( it->count_by_charges() ? it->charges : 0 );
     }
-    pickup_activity_actor actor = pickup_activity_actor( target_items, quantities, player.pos(), true );
-    player.assign_activity( player_activity( actor ) );
+    pickup_activity_actor actor( target_items, quantities, player.pos(), true );
+    player.assign_activity( actor );
 
     // Auto pickup will need to auto resume since there can be several of them on the stack.
     player.activity.auto_resume = true;

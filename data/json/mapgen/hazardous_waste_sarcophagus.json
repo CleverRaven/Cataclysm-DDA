@@ -289,7 +289,7 @@
         "c": { "item": "office_supplies", "chance": 60 },
         "l": { "item": "cleaning", "chance": 60, "repeat": 2 },
         "F": { "item": "office_paper", "chance": 50 },
-        " ": { "item": "corpse_and_science", "chance": 1 },
+        " ": { "item": "map_extra_science", "chance": 1 },
         "~": [
           { "item": "trash", "chance": 15 },
           { "item": "sewer", "chance": 15 },
@@ -335,21 +335,23 @@
     "items": [
       { "item": "sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
       { "item": "water_sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
-      { "item": "meat_tainted", "container-item": "55gal_drum", "charges-min": 3, "charges-max": 20, "prob": 2 },
+      { "prob": 2, "group": "meat_tainted_55gal_drum_3_20" },
       { "group": "toxic_waste_mx_chems", "prob": 35 },
       { "item": "55gal_drum", "prob": 50 }
     ]
-  },
-  {
-    "id": "corpse_and_science",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [ { "item": "corpse_generic_human", "prob": 100 }, { "group": "science", "prob": 100 } ]
   },
   {
     "id": "nanomaterials",
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "item": "nanomaterial", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "meat_tainted_55gal_drum_3_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "55gal_drum",
+    "entries": [ { "item": "meat_tainted", "count-min": 3, "count-max": 20 } ]
   }
 ]

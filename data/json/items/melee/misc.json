@@ -12,9 +12,9 @@
     "price_postapoc": 500,
     "material": [ "leather" ],
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP" ],
-    "cutting": 3,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "cut": 3 }
   },
   {
     "id": "bullwhip_razor",
@@ -29,10 +29,10 @@
     "price": 4800,
     "price_postapoc": 5200,
     "//": "There's no way you can swing this thing without hitting SOMETHING.",
-    "cutting": 10,
     "to_hit": { "grip": "none", "length": "long", "surface": "every", "balance": "uneven" },
     "material": [ "leather", "steel" ],
-    "flags": [ "REACH_ATTACK", "WHIP", "NONCONDUCTIVE" ]
+    "flags": [ "REACH_ATTACK", "WHIP", "NONCONDUCTIVE" ],
+    "melee_damage": { "cut": 10 }
   },
   {
     "id": "tazer",
@@ -45,7 +45,6 @@
     "price": 14000,
     "price_postapoc": 1500,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
-    "bashing": 6,
     "//": "Yes, this is smaller than its magazine well. Go with it.",
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
@@ -56,6 +55,7 @@
     "use_action": [ "TAZER" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_MEDIUM" ], "default_magazine": "medium_battery_cell" }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   }
 ]

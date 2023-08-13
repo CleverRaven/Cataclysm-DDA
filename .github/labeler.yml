@@ -174,8 +174,10 @@
 "Map / Mapgen":
   - "**/**mapgen**"
   - "**/mapgen**"
+  - "**/mapgen/**"
   - "**/**overmap**"
   - "**/overmap**"
+  - "**/overmap/**"
 
 "Martial Arts":
   - "**/martialart**"
@@ -208,6 +210,9 @@
   - "lang/**"
   - "**/**translation**"
   - "**/translation**"
+
+"Mods: Bombastic Perks":
+  - data/mods/BombasticPerks/**/*
 
 "Mods: Aftershock":
   - data/mods/Aftershock/**/*
@@ -252,6 +257,12 @@
 "Mods: Xedra Evolved":
   - data/mods/Xedra_Evolved/**/*
 
+"Mods: Mind Over Matter":
+  - data/mods/MindOverMatter/**/*
+
+"Mods: Sky Island":
+  - data/mods/Sky_Island/**/*
+
 "Mods":
   - any: [ 'data/mods/**' ]
     all: [ '!data/mods/TEST_DATA/**' ]
@@ -271,3 +282,6 @@
   - "**/**vehicle**"
   - "**/vehicle**"
   - "src/veh_**"
+ 
+"Game: Defense Mode":
+  - all: [ '!data/mods/Defense_Mode/**' ]

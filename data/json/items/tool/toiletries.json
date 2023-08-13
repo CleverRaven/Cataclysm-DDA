@@ -12,10 +12,10 @@
     "price": 500,
     "price_postapoc": 50,
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "steel" ],
     "use_action": { "type": "weigh_self", "max_weight": "150 kg" },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "brush",
@@ -28,22 +28,23 @@
     "price": 200,
     "price_postapoc": 10,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "plastic" ],
     "symbol": "/",
     "color": "light_gray",
     "flags": [ "BELT_CLIP" ],
-    "use_action": [ "WASH_HARD_ITEMS" ]
+    "use_action": [ "WASH_HARD_ITEMS" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "dish_towel",
     "type": "TOOL",
-    "category": "spare_parts",
+    "category": "other",
     "name": { "str": "dish towel" },
     "description": "A dish towel, useful for cleaning hard surfaces.",
-    "weight": "80 g",
-    "volume": "200 ml",
-    "price": 200,
+    "weight": "65600 mg",
+    "volume": "43 ml",
+    "//1": "Calculated from cotton density because if I took exact product dimensions you'd have <2ml of volume BUT no way in hell is the player folding the towel so neatly.",
+    "price": 127,
     "price_postapoc": 20,
     "material": [ "cotton" ],
     "symbol": ",",
@@ -58,7 +59,8 @@
       { "id": "dtowel6", "text": "A dish towel with a floral pattern." },
       { "id": "dtowel7", "text": "A dish towel with a gingham pattern." },
       { "id": "dtowel8", "text": "A dish towel with a cat pattern." }
-    ]
+    ],
+    "//2": "Based on https://www.amazon.com/dp/B01IG8X9E6"
   },
   {
     "id": "elec_hairtrimmer",
@@ -71,7 +73,6 @@
     "price": 3000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
@@ -85,7 +86,8 @@
         "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_minus_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "mop",
@@ -98,7 +100,6 @@
     "price": 1000,
     "price_postapoc": 10,
     "to_hit": -1,
-    "bashing": 6,
     "material": [ "wood" ],
     "symbol": "/",
     "color": "light_gray",
@@ -106,7 +107,8 @@
     "weapon_category": [ "QUARTERSTAVES" ],
     "use_action": [ "MOP" ],
     "qualities": [ [ "MOP", 1 ] ],
-    "flags": [ "MOP" ]
+    "flags": [ "MOP" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "mop_folded",
@@ -119,7 +121,6 @@
     "price": 1500,
     "price_postapoc": 15,
     "to_hit": -2,
-    "bashing": 3,
     "material": [ "plastic" ],
     "symbol": "/",
     "color": "light_gray",
@@ -127,7 +128,8 @@
     "weapon_category": [ "QUARTERSTAVES" ],
     "flags": [ "FRAGILE_MELEE", "MOP" ],
     "qualities": [ [ "MOP", 1 ] ],
-    "use_action": [ "MOP" ]
+    "use_action": [ "MOP" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "rag",
@@ -185,7 +187,7 @@
     "weight": "1 g",
     "volume": "1 ml",
     "longest_side": "38 mm",
-    "cutting": 1
+    "melee_damage": { "cut": 1 }
   },
   {
     "id": "shavingkit",
@@ -211,9 +213,9 @@
     "type": "TOOL",
     "name": { "str": "sponge" },
     "description": "A cleaning aid made of soft, porous material.  Typically used for cleaning hard objects.",
-    "weight": "40 g",
-    "volume": "150 ml",
-    "price": 0,
+    "weight": "17 g",
+    "volume": "156 ml",
+    "price": 66,
     "price_postapoc": 10,
     "material": [ "plastic" ],
     "symbol": "s",
@@ -223,13 +225,13 @@
     "snippet_category": [
       { "id": "spng1", "text": "A round smiley-face sponge." },
       { "id": "spng2", "text": "A rectangular sponge with a green abrasive back." },
-      { "id": "spng3", "text": "A natural sea sponge.  It looks kind of lumpy." },
       { "id": "spng4", "text": "A dolphin-shaped sponge.  It looks at home in the water." },
       { "id": "spng5", "text": "A rectangular sponge." },
       { "id": "spng6", "text": "A sponge cake-shaped sponge, the abrasive pad looks like frosting." },
       { "id": "spng7", "text": "A sponge in the shape of a beloved character from a children's cartoon." },
       { "id": "spng8", "text": "A cat-shaped sponge." }
-    ]
+    ],
+    "//": "Based on https://www.amazon.com/dp/B08RFC3VH7"
   },
   {
     "id": "survivor_hairtrimmer",
@@ -242,11 +244,11 @@
     "price": 1000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "leather", "glass" ],
     "symbol": ";",
     "color": "brown",
-    "use_action": [ "HAIRKIT" ]
+    "use_action": [ "HAIRKIT" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "survivor_shavingkit",
@@ -259,14 +261,14 @@
     "price": 1000,
     "price_postapoc": 100,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "leather", "glass" ],
     "symbol": ";",
     "color": "brown",
     "ammo": [ "soap" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
     "charges_per_use": 1,
-    "use_action": [ "SHAVEKIT" ]
+    "use_action": [ "SHAVEKIT" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "washboard",

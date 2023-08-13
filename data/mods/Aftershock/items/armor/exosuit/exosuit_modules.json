@@ -243,11 +243,11 @@
     "volume": "250 ml",
     "price": "10 kUSD",
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "lvl4ballisticglass", "qt_steel" ],
     "symbol": "(",
     "color": "yellow",
-    "flags": [ "CANT_WEAR", "FIX_NEARSIGHT", "FIX_FARSIGHT", "ZOOM", "EXO_HELMET_GADGET" ]
+    "flags": [ "CANT_WEAR", "FIX_NEARSIGHT", "FIX_FARSIGHT", "ZOOM", "EXO_HELMET_GADGET" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "exo_flashlight",
@@ -424,13 +424,13 @@
     "volume": "250 ml",
     "price": "10 kUSD",
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "plastic", "qt_steel" ],
     "symbol": "(",
     "color": "yellow",
     "charges_per_use": 50,
     "use_action": { "type": "cast_spell", "spell_id": "afs_clairvoyance_cone", "no_fail": true, "level": 5 },
-    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_HELMET_GADGET" ]
+    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_HELMET_GADGET" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "exo_climb",
@@ -467,7 +467,6 @@
     "volume": "10 L",
     "price": "10 kUSD",
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "vacuum_carbide", "qt_steel" ],
     "symbol": "(",
     "color": "light_gray",
@@ -483,7 +482,8 @@
         "watertight": true,
         "ammo_restriction": { "ammonia_liquid": 10 }
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "exo_forcefield",
@@ -494,7 +494,6 @@
     "volume": "2500 ml",
     "price": "10 kUSD",
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "vacuum_carbide", "qt_steel" ],
     "symbol": "(",
     "color": "light_gray",
@@ -507,7 +506,8 @@
       "active": true,
       "need_charges": 1,
       "need_charges_msg": "There is not enough charge to activate the module."
-    }
+    },
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "exo_forcefield_bash_cut",
@@ -518,7 +518,6 @@
     "volume": "2500 ml",
     "price": "10 kUSD",
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "vacuum_carbide", "qt_steel" ],
     "symbol": "(",
     "color": "light_gray",
@@ -532,7 +531,8 @@
       "type": "transform",
       "msg": "You toggle the forcefield to protect against ballistic and pierce.",
       "target": "exo_forcefield_ballistic_pierce"
-    }
+    },
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "exo_forcefield_ballistic_pierce",
@@ -546,7 +546,6 @@
     "volume": "2500 ml",
     "price": "10 kUSD",
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "vacuum_carbide", "qt_steel" ],
     "symbol": "(",
     "color": "light_gray",
@@ -560,7 +559,8 @@
       "type": "transform",
       "msg": "You deactivate the forcefield module.",
       "target": "exo_forcefield"
-    }
+    },
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "exosuit_med_injector",

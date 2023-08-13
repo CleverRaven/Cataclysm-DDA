@@ -1,6 +1,5 @@
 #include "overmap_ui.h"
 
-#include <functional>
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -35,6 +34,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "city.h"
 #include "clzones.h"
 #include "color.h"
 #include "coordinates.h"
@@ -115,7 +115,7 @@ namespace overmap_ui
 static void create_note( const tripoint_abs_omt &curs );
 
 // {note symbol, note color, offset to text}
-std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &note )
+std::tuple<char, nc_color, size_t> get_note_display_info( const std::string_view note )
 {
     std::tuple<char, nc_color, size_t> result {'N', c_yellow, 0};
     bool set_color  = false;
@@ -130,7 +130,7 @@ std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &not
         }
 
         // find the first following delimiter
-        const auto end = note.find_first_of( " :;", pos, 3 );
+        const size_t end = note.find_first_of( " :;", pos, 3 );
         if( end == std::string::npos ) {
             return result;
         }
@@ -179,7 +179,7 @@ static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_o
     return map_around;
 }
 
-static void update_note_preview( const std::string &note,
+static void update_note_preview( const std::string_view note,
                                  const std::array<std::pair<nc_color, std::string>, npm_width *npm_height> &map_around,
                                  const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *>
                                  &preview_windows )
@@ -187,7 +187,7 @@ static void update_note_preview( const std::string &note,
     auto om_symbol = get_note_display_info( note );
     const nc_color note_color = std::get<1>( om_symbol );
     const char symbol = std::get<0>( om_symbol );
-    const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
+    const std::string_view note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
 
     catacurses::window *w_preview = std::get<0>( preview_windows );
     catacurses::window *w_preview_title = std::get<1>( preview_windows );
@@ -235,10 +235,10 @@ weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
     }
     auto iter = weather_cache.find( pos );
     if( iter == weather_cache.end() ) {
-        // TODO: fix point types
-        const tripoint abs_ms_pos = project_to<coords::ms>( pos ).raw();
+        const tripoint_abs_ms abs_ms_pos = project_to<coords::ms>( pos );
         const weather_generator &wgen = overmap_buffer.get_settings( pos ).weather;
-        const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
+        const weather_type_id weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn,
+                                        g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
     }
     return iter->second;
@@ -411,8 +411,16 @@ class map_notes_callback : public uilist_callback
                     return true;
                 }
                 if( action == "MARK_DANGER" ) {
+                    if( overmap_buffer.is_marked_dangerous( note_location() ) &&
+                        query_yn( _( "Remove dangerous mark?" ) ) ) {
+                        overmap_buffer.mark_note_dangerous( note_location(), 0, false );
+                    }
                     // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
-                    if( query_yn( _( "Mark area as dangerous ( to avoid on auto move paths? )" ) ) ) {
+                    else if( ( overmap_buffer.is_marked_dangerous( note_location() ) &&
+                               query_yn( _( "Edit dangerous mark?" ) ) ) ||
+                             ( !overmap_buffer.is_marked_dangerous( note_location() ) &&
+                               // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
+                               query_yn( _( "Mark area as dangerous ( to avoid on auto move paths?  This will create a note if none exists already )" ) ) ) ) {
                         const int max_amount = 20;
                         // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
                         const std::string popupmsg = _( "Danger radius in overmap squares? ( 0-20 )" );
@@ -427,9 +435,6 @@ class map_notes_callback : public uilist_callback
                             menu->ret = UILIST_MAP_NOTE_EDITED;
                             return true;
                         }
-                    } else if( overmap_buffer.is_marked_dangerous( note_location() ) &&
-                               query_yn( _( "Remove dangerous mark?" ) ) ) {
-                        overmap_buffer.mark_note_dangerous( note_location(), 0, false );
                     }
                 }
             }
@@ -523,7 +528,7 @@ static bool get_and_assign_los( int &los, avatar &player_character, const tripoi
 }
 
 static void draw_ascii(
-    ui_adaptor &ui, const catacurses::window &w, const tripoint_abs_omt &center,
+    const catacurses::window &w, const tripoint_abs_omt &center,
     const tripoint_abs_omt &orig, bool blink, bool show_explored, bool /* fast_scroll */,
     input_context * /* inp_ctxt */, const draw_data_t &data )
 {
@@ -996,12 +1001,10 @@ static void draw_ascii(
     }
     // Done with all drawing!
     wnoutrefresh( w );
-    // Set cursor for screen readers
-    ui.set_cursor( w, point( om_half_width, om_half_height ) );
 }
 
 static void draw_om_sidebar(
-    const catacurses::window &wbar, const tripoint_abs_omt &center,
+    ui_adaptor &ui, const catacurses::window &wbar, const tripoint_abs_omt &center,
     const tripoint_abs_omt &orig, bool /* blink */, bool fast_scroll,
     input_context *inp_ctxt, const draw_data_t &data )
 {
@@ -1044,20 +1047,22 @@ static void draw_om_sidebar(
     int lines = 1;
     if( center_seen ) {
         if( !mgroups.empty() ) {
-            int line_number = 6;
+            const point desc_pos( 3, 6 );
+            ui.set_cursor( wbar, desc_pos );
+            int line_number = 0;
             for( mongroup * const &mgroup : mgroups ) {
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "  Species: %s", mgroup->type.c_str() );
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "# monsters: %d", mgroup->population + mgroup->monsters.size() );
                 if( !mgroup->horde ) {
                     continue;
                 }
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "  Interest: %d", mgroup->interest );
-                mvwprintz( wbar, point( 3, line_number ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "  Target: %s", mgroup->target.to_string() );
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_red, "x" );
             }
         } else {
@@ -1067,13 +1072,22 @@ static void draw_om_sidebar(
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwputch( wbar, point( 1, 1 ), ter.get_color(), ter.get_symbol() );
 
-            lines = fold_and_print( wbar, point( 3, 1 ), getmaxx( wbar ) - 3, c_light_gray,
+            const point desc_pos( 3, 1 );
+            ui.set_cursor( wbar, desc_pos );
+            lines = fold_and_print( wbar, desc_pos, getmaxx( wbar ) - desc_pos.x,
+                                    c_light_gray,
                                     overmap_buffer.get_description_at( sm_pos ) );
         }
     } else {
+        const oter_t &ter = oter_unexplored.obj();
+
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( wbar, point( 1, 1 ), oter_unexplored.obj().get_color(), _( "%s %s" ),
-                   oter_unexplored.obj().get_symbol(), oter_unexplored.obj().get_name() );
+        mvwputch( wbar, point( 1, 1 ), ter.get_color(), ter.get_symbol() );
+
+        const point desc_pos( 3, 1 );
+        ui.set_cursor( wbar, desc_pos );
+        lines = fold_and_print( wbar, desc_pos, getmaxx( wbar ) - desc_pos.x,
+                                ter.get_color(), ter.get_name() );
     }
 
     // Describe the weather conditions on the following line, if weather is visible
@@ -1188,6 +1202,7 @@ static void draw_om_sidebar(
         print_hint( "SEARCH" );
         print_hint( "CREATE_NOTE" );
         print_hint( "DELETE_NOTE" );
+        print_hint( "MARK_DANGER" );
         print_hint( "LIST_NOTES" );
         print_hint( "MISSIONS" );
         print_hint( "TOGGLE_MAP_NOTES", uistate.overmap_show_map_notes ? c_pink : c_magenta );
@@ -1220,7 +1235,7 @@ static void draw(
     bool blink, bool show_explored, bool fast_scroll,
     input_context *inp_ctxt, const draw_data_t &data )
 {
-    draw_om_sidebar( g->w_omlegend, center, orig, blink, fast_scroll, inp_ctxt, data );
+    draw_om_sidebar( ui, g->w_omlegend, center, orig, blink, fast_scroll, inp_ctxt, data );
 #if defined( TILES )
     if( use_tiles && use_tiles_overmap ) {
         redraw_info = tiles_redraw_info { center, blink };
@@ -1230,7 +1245,7 @@ static void draw(
         return;
     }
 #endif // TILES
-    draw_ascii( ui, g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
+    draw_ascii( g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
 }
 
 static void create_note( const tripoint_abs_omt &curs )
@@ -1546,7 +1561,7 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
             mvwprintz( w_editor, point( 1, 3 ), c_light_gray, "                         " );
             mvwprintz( w_editor, point( 1, 3 ), c_light_gray, _( "Rotation: %s %s" ), rotation,
                        can_rotate ? "" : _( "(fixed)" ) );
-            mvwprintz( w_editor, point( 1, 5 ), c_red, _( "Areas highlighted in red" ) );
+            mvwprintz( w_editor, point( 1, 5 ), c_red, _( "Highlighted regions" ) );
             mvwprintz( w_editor, point( 1, 6 ), c_red, _( "already have map content" ) );
             // NOLINTNEXTLINE(cata-text-style): single space after period for compactness
             mvwprintz( w_editor, point( 1, 7 ), c_red, _( "generated. Their overmap" ) );
@@ -1671,7 +1686,7 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
             params = overmap_path_params::for_watercraft();
         } else if( can_drive ) {
             const float offroad_coeff = player_veh->k_traction( player_veh->wheel_area() *
-                                        player_veh->average_or_rating() );
+                                        player_veh->average_offroad_rating() );
             const bool tiny = player_veh->get_points().size() <= 3;
             params = overmap_path_params::for_land_vehicle( offroad_coeff, tiny, can_float );
         } else {
@@ -1722,7 +1737,7 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
     }
     if( query_yn( confirm_msg ) ) {
         if( driving ) {
-            player_character.assign_activity( player_activity( autodrive_activity_actor() ) );
+            player_character.assign_activity( autodrive_activity_actor() );
         } else {
             player_character.reset_move_mode();
             player_character.assign_activity( ACT_TRAVELLING );
@@ -1793,6 +1808,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     ictxt.register_action( "CENTER" );
     ictxt.register_action( "CREATE_NOTE" );
     ictxt.register_action( "DELETE_NOTE" );
+    ictxt.register_action( "MARK_DANGER" );
     ictxt.register_action( "SEARCH" );
     ictxt.register_action( "LIST_NOTES" );
     ictxt.register_action( "TOGGLE_MAP_NOTES" );
@@ -1873,6 +1889,31 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         } else if( action == "DELETE_NOTE" ) {
             if( overmap_buffer.has_note( curs ) && query_yn( _( "Really delete note?" ) ) ) {
                 overmap_buffer.delete_note( curs );
+            }
+        } else if( action == "MARK_DANGER" ) {
+            if( overmap_buffer.is_marked_dangerous( curs ) &&
+                query_yn( _( "Remove dangerous mark?" ) ) ) {
+                overmap_buffer.mark_note_dangerous( curs, 0,
+                                                    false );
+            } else if( ( overmap_buffer.is_marked_dangerous( curs ) &&
+                         query_yn( _( "Edit dangerous mark?" ) ) ) || ( !overmap_buffer.is_marked_dangerous( curs ) &&
+                                 // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
+                                 query_yn( _( "Mark area as dangerous ( to avoid on auto move paths?  This will create a note if none exists already )" ) ) ) ) {
+                if( !overmap_buffer.has_note( curs ) ) {
+                    create_note( curs );
+                }
+                const int max_amount = 20;
+                // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
+                const std::string popupmsg = _( "Danger radius in overmap squares? ( 0-20 )" );
+                int amount = string_input_popup()
+                             .title( popupmsg )
+                             .width( 20 )
+                             .text( "0" )
+                             .only_digits( true )
+                             .query_int();
+                if( amount > -1 && amount <= max_amount ) {
+                    overmap_buffer.mark_note_dangerous( curs, amount, true );
+                }
             }
         } else if( action == "LIST_NOTES" ) {
             const point_abs_omt p = draw_notes( curs );

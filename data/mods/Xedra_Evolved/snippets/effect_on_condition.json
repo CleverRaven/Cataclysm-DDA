@@ -25,5 +25,15 @@
       "The birds are no longer singing here.  It's quiet, scary quiet.",
       "A rare plane leaves contrails high in the sky.  You wonder where it could be coming from and where it could possibly be going."
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "XE_SCRAGGY-BOO_MESSAGES_1",
+    "text": [
+      "<color_light_blue>You see a Russian sheepdog off at the edge of your vision.  It walks past some scenery and vanishes.</color>",
+      "<color_light_blue>You hear a deep guttural howl, faintly across the way.</color>",
+      "<color_light_green>In your mind you hear a voice, as if a big dog were speaking English.  'It's dangerous here, this whole world is dangerous now'.</color>",
+      "<color_light_green>Scraggy-boo speaks in your mind.  'The real mystery is how to survive this place'.</color>"
+    ]
   }
 ]

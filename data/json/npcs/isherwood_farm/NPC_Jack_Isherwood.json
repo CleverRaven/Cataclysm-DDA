@@ -25,7 +25,7 @@
     ],
     "common": false,
     "bonus_per": { "one_in": 4 },
-    "worn_override": "NC_Isherwood_worn",
+    "worn_override": "NC_Isherwood_male_worn",
     "weapon_override": "NC_ISHERWOOD_rifle",
     "shopkeeper_item_group": "NC_ISHERWOOD_JACK_misc",
     "skills": [
@@ -43,28 +43,63 @@
   },
   {
     "type": "item_group",
-    "id": "NC_Isherwood_worn",
+    "id": "NC_Isherwood_male_worn",
     "subtype": "collection",
     "entries": [
-      { "item": "backpack_leather" },
+      { "distribution": [ { "item": "backpack_leather" }, { "item": "wicker_backpack" }, { "item": "slingpack" } ] },
+      {
+        "distribution": [
+          { "item": "jacket_light" },
+          { "item": "jacket_leather" },
+          { "item": "trenchcoat" },
+          { "item": "jacket_jean" },
+          { "item": "jacket_flannel" }
+        ]
+      },
       {
         "collection": [ { "item": "3006", "container-item": "ammo_pouch" }, { "item": "3006", "charges": [ 4, 8 ] } ]
       },
       { "item": "3006", "charges": [ 4, 8 ] },
-      { "item": "jeans" },
-      { "item": "tshirt" },
-      { "item": "gloves_fingerless" },
-      { "item": "panties" },
-      { "item": "socks" },
-      { "item": "cowboy_hat" },
-      { "item": "boots" }
-    ],
-    "items": [
-      [ "jacket_light", 20 ],
-      [ "jacket_leather", 20 ],
-      [ "trenchcoat", 20 ],
-      [ "jacket_jean", 20 ],
-      [ "jacket_flannel", 20 ]
+      { "distribution": [ { "item": "boxer_briefs" }, { "item": "boxer_shorts" }, { "item": "briefs" } ] },
+      { "distribution": [ { "item": "tshirt" }, { "item": "undershirt" } ] },
+      { "distribution": [ { "item": "jeans" }, { "item": "pants_cargo" }, { "item": "pants_leather" } ] },
+      { "item": "leather_belt", "prob": 50 },
+      { "item": "gloves_fingerless", "prob": 50 },
+      { "item": "cowboy_hat", "prob": 80 },
+      { "distribution": [ { "item": "boots" }, { "item": "boots_western" } ] },
+      { "item": "socks", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_Isherwood_female_worn",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "item": "backpack_leather" }, { "item": "wicker_backpack" }, { "item": "slingpack" } ] },
+      {
+        "distribution": [
+          { "item": "jacket_light" },
+          { "item": "jacket_leather" },
+          { "item": "trenchcoat" },
+          { "item": "jacket_jean" },
+          { "item": "jacket_flannel" }
+        ]
+      },
+      {
+        "collection": [ { "item": "3006", "container-item": "ammo_pouch" }, { "item": "3006", "charges": [ 4, 8 ] } ]
+      },
+      { "item": "3006", "charges": [ 4, 8 ] },
+      {
+        "distribution": [ { "item": "bra" }, { "item": "sports_bra" }, { "item": "camisole" }, { "item": "halter_top" } ]
+      },
+      { "distribution": [ { "item": "panties" }, { "item": "boy_shorts" } ] },
+      { "distribution": [ { "item": "tshirt" }, { "item": "longshirt" }, { "item": "undershirt" } ] },
+      { "distribution": [ { "item": "jeans" }, { "item": "pants_cargo" }, { "item": "pants_leather" } ] },
+      { "item": "leather_belt", "prob": 50 },
+      { "item": "gloves_fingerless", "prob": 50 },
+      { "item": "cowboy_hat", "prob": 80 },
+      { "distribution": [ { "item": "boots" }, { "item": "boots_western" } ] },
+      { "item": "socks", "prob": 50 }
     ]
   },
   {
@@ -88,20 +123,20 @@
     "id": "NC_ISHERWOOD_JACK_misc",
     "subtype": "distribution",
     "entries": [
-      { "item": "cheese_hard", "prob": 50 },
+      { "prob": 50, "group": "cheese_hard_wrapper_8" },
       { "item": "vinegar", "prob": 55 },
-      { "item": "veggy_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "sauerkraut", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "meat_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "fish_pickled", "prob": 60, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "meat_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "veggy_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "apple_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "can_tomato", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "fish_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "meat_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "veggy_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "fish_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "prob": 50, "group": "veggy_pickled_jar_glass_sealed_2" },
+      { "prob": 50, "group": "sauerkraut_jar_glass_sealed_2" },
+      { "prob": 50, "group": "meat_pickled_jar_glass_sealed_2" },
+      { "prob": 60, "group": "fish_pickled_jar_glass_sealed_2" },
+      { "prob": 40, "group": "meat_canned_jar_3l_glass_sealed_12" },
+      { "prob": 40, "group": "veggy_canned_jar_3l_glass_sealed_12" },
+      { "prob": 40, "group": "apple_canned_jar_3l_glass_sealed_12" },
+      { "prob": 40, "group": "can_tomato_jar_3l_glass_sealed_12" },
+      { "prob": 40, "group": "fish_pickled_jar_3l_glass_sealed_12" },
+      { "prob": 40, "group": "meat_pickled_jar_3l_glass_sealed_12" },
+      { "prob": 40, "group": "veggy_pickled_jar_3l_glass_sealed_12" },
+      { "prob": 40, "group": "fish_pickled_jar_3l_glass_sealed_12" },
       { "item": "sauce_red", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" }
     ]

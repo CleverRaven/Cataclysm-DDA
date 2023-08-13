@@ -29,7 +29,6 @@
     "longest_side": "1035 mm",
     "price": 750000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "superalloy", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -41,7 +40,6 @@
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -61,7 +59,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "afs_UICASTA30", "afs_UICASTA100drum" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "afs_gibrifle",
@@ -75,7 +74,6 @@
     "longest_side": "630 mm",
     "price": 125000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "superalloy", "plastic" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -7 },
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 2 ] ],
@@ -93,6 +91,7 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "afs_UICASTA30" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   }
 ]

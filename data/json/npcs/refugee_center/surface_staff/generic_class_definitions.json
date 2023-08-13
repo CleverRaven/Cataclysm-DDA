@@ -1,7 +1,7 @@
 [
   {
     "type": "item_group",
-    "id": "FREE_MERCH_GUARD_wield_phase1",
+    "id": "NC_FREE_MERCH_GUARD_wield_phase1",
     "//": "Initially the free mechant guards indoors stick to melee weapons, as most of these folks aren't trained to use guns.",
     "subtype": "distribution",
     "entries": [
@@ -53,6 +53,8 @@
     "id": "NC_FREE_MERCH_GUARD",
     "name": { "str": "Guard" },
     "job_description": "I'm on a guard shift.",
+    "weapon_override": "NC_FREE_MERCH_GUARD_wield_phase1",
+    "worn_override": "NC_FREE_MERCH_GUARD_worn_phase1",
     "traits": [
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },

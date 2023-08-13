@@ -24,9 +24,6 @@
         "name": { "str": "Katyusha", "str_pl": "copies of Katyusha" },
         "description": "This book shows the history of Soviet Multiple Rocket Launcher systems, developed in a late 1930s, the reasons to use it, problems solved while designing them, and tactics for using them.",
         "//": "978-1472810861",
-        "fun": 0,
-        "max_level": 2,
-        "intelligence": 7,
         "weight": 1
       },
       {
@@ -34,9 +31,6 @@
         "name": { "str": "The Rocket Propelled Grenade", "str_pl": "copies of The Rocket Propelled Grenade" },
         "description": "Part of a big series about different small arms, this book details RPGs - how they were created, how they were used, and how they are used now in modern times.",
         "//": "978-1849081535",
-        "fun": 0,
-        "max_level": 3,
-        "intelligence": 8,
         "weight": 1
       },
       {
@@ -98,20 +92,12 @@
         },
         "description": "Official U.S. Army manual about principles and functions for fire support elements and field artillery.  Most of it is about the functions and operations of artillery, alongside some ballistic calculations.",
         "//": "979-8642959404",
-        "fun": -1,
-        "required_level": 2,
-        "max_level": 4,
-        "intelligence": 8,
         "weight": 1
       },
       {
         "id": "manual_launcher_4",
         "name": { "str": "FM 3-22.3: Stryker Gunnery", "str_pl": "copies of FM 3-22.3: Stryker Gunnery" },
         "description": "Official U.S. Army manual about using different light weapons - M203, ITAS M41, TOW and Javelins.",
-        "fun": -1,
-        "required_level": 2,
-        "max_level": 5,
-        "intelligence": 8,
         "weight": 1
       },
       {
@@ -119,10 +105,6 @@
         "name": { "str": "FM 23-11: 90mm Recoilless Rifle, M67", "str_pl": "copies of FM 23-11: 90mm Recoilless Rifle, M67" },
         "description": "Official U.S. Army manual for using the M67 anti-tank rifle - theory, practice, and essential information.",
         "//": "979-8538902606",
-        "fun": -1,
-        "required_level": 2,
-        "max_level": 5,
-        "intelligence": 8,
         "weight": 1
       }
     ],

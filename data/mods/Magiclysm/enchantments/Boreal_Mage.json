@@ -2,6 +2,8 @@
   {
     "type": "enchantment",
     "id": "BOREAL_MAGE",
+    "name": { "str": "Boreal Wind" },
+    "description": "Your Boreal Mage abilities grant you good resistance to temperature conditions.  Also your hands emit a small amount of cold, increasing your damage in melee.",
     "condition": "ALWAYS",
     "values": [
       { "value": "ITEM_DAMAGE_COLD", "add": 9 },

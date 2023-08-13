@@ -301,14 +301,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_rubble": [ { "x": 11, "y": 4, "items": true }, { "x": 13, "y": 11, "items": true }, { "x": 12, "y": 13, "items": true } ],
-      "place_monster": [
-        {
-          "monster": [ "mon_zombie_hulk", "mon_skeleton_hulk", "mon_nakedmolerat_giant" ],
-          "x": [ 11, 12 ],
-          "y": [ 6, 22 ],
-          "chance": 90
-        }
-      ],
+      "place_monster": [ { "monster": [ "mon_zombie_hulk", "mon_skeleton_hulk" ], "x": [ 11, 12 ], "y": [ 6, 22 ], "chance": 90 } ],
       "place_loot": [ { "group": "everyday_corpse", "x": [ 10, 13 ], "y": [ 1, 3 ], "repeat": 2 } ],
       "place_fields": [
         { "field": "fd_blood", "x": [ 10, 13 ], "y": [ 1, 3 ], "repeat": [ 3, 5 ] },

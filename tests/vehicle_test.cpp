@@ -19,6 +19,8 @@
 #include "vehicle.h"
 #include "veh_type.h"
 
+static const damage_type_id damage_pure( "pure" );
+
 static const itype_id itype_folded_bicycle( "folded_bicycle" );
 static const itype_id itype_folded_inflatable_boat( "folded_inflatable_boat" );
 static const itype_id itype_folded_wheelchair_generic( "folded_wheelchair_generic" );
@@ -29,6 +31,7 @@ static const itype_id itype_test_power_cord( "test_power_cord" );
 
 static const vpart_id vpart_ap_test_standing_lamp( "ap_test_standing_lamp" );
 static const vpart_id vpart_bike_rack( "bike_rack" );
+static const vpart_id vpart_programmable_autopilot( "programmable_autopilot" );
 
 static const vproto_id vehicle_prototype_bicycle( "bicycle" );
 static const vproto_id vehicle_prototype_car( "car" );
@@ -85,19 +88,17 @@ TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
     REQUIRE( veh_ptr != nullptr );
 
     const tripoint pos = vehicle_origin + tripoint_west;
-    auto cargo_parts = veh_ptr->get_parts_at( pos, "CARGO", part_status_flag::any );
-    REQUIRE( !cargo_parts.empty( ) );
-    vehicle_part *cargo_part = cargo_parts.front();
-    REQUIRE( cargo_part != nullptr );
+    const std::optional<vpart_reference> ovp_cargo = get_map().veh_at( pos ).cargo();
+    REQUIRE( ovp_cargo );
     //Must not be broken yet
-    REQUIRE( !cargo_part->is_broken() );
+    REQUIRE( !ovp_cargo->part().is_broken() );
     //For some reason (0 - cargo_part->hp()) is just not enough to destroy a part
-    REQUIRE( veh_ptr->mod_hp( *cargo_part, -( 1 + cargo_part->hp() ), damage_type::BASH ) );
+    REQUIRE( veh_ptr->mod_hp( ovp_cargo->part(), -( 1 + ovp_cargo->part().hp() ) ) );
     //Now it must be broken
-    REQUIRE( cargo_part->is_broken() );
+    REQUIRE( ovp_cargo->part().is_broken() );
     //Now part is really broken, adding an item should fail
     const item itm2 = item( "jeans" );
-    REQUIRE( !veh_ptr->add_item( *cargo_part, itm2 ) );
+    REQUIRE( !veh_ptr->add_item( ovp_cargo->part(), itm2 ) );
 }
 
 TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
@@ -138,20 +139,35 @@ struct vehicle_preset {
 };
 
 struct damage_preset {
-    double damage;
-    double degradation;
-    double expect_damage;
-    double expect_degradation;
-    double expect_hp;
+    int damage;
+    int degradation;
+    int expect_damage;
+    int expect_degradation;
+    int expect_hp;
 };
 
 static void complete_activity( Character &u, const activity_actor &act )
 {
-    u.assign_activity( player_activity( act ) );
+    u.assign_activity( act );
     while( !u.activity.is_null() ) {
         u.set_moves( u.get_speed() );
         u.activity.do_turn( u );
     }
+}
+
+static void spawn_tools_nearby( map &m, Character &u, const vehicle_preset &veh_preset )
+{
+    map_stack spot = m.i_at( u.pos_bub() + tripoint_north );
+    for( const itype_id &tool_itype_id : veh_preset.tool_itype_ids ) {
+        spot.insert( item( tool_itype_id ) );
+    }
+    u.invalidate_crafting_inventory();
+}
+
+static void clear_spawned_tools( map &m, Character &u )
+{
+    m.i_at( u.pos_bub() + tripoint_north ).clear();
+    u.invalidate_crafting_inventory();
 }
 
 static void unfold_and_check( const vehicle_preset &veh_preset, const damage_preset &damage_preset )
@@ -195,12 +211,9 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
 
     INFO( "unfolding vehicle item sourced from item factory" );
 
-    // spawn unfolding tools
-    for( const itype_id &tool_itype_id : veh_preset.tool_itype_ids ) {
-        u.inv->add_item( item( tool_itype_id ) );
-    }
-
+    spawn_tools_nearby( m, u, veh_preset );
     complete_activity( u, vehicle_unfolding_activity_actor( veh_item ) );
+    clear_spawned_tools( m, u );
 
     // should succeed now avatar has hand_pump
     optional_vpart_position ovp = m.veh_at( u.get_location() );
@@ -209,15 +222,17 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     // set damage/degradation on every part
     vehicle &veh = ovp->vehicle();
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
-        item base = vpr.part().get_base();
-        base.set_degradation( damage_preset.degradation * base.max_damage() );
-        base.set_damage( damage_preset.damage * base.max_damage() );
-        vpr.part().set_base( base );
-        veh.set_hp( vpr.part(), vpr.info().durability, true );
+        vehicle_part &vp = vpr.part();
+        item base = vp.get_base();
+        base.set_degradation( damage_preset.degradation );
+        base.set_damage( damage_preset.damage );
+        vp.set_base( std::move( base ) );
     }
 
     // fold into an item
+    spawn_tools_nearby( m, u, veh_preset );
     complete_activity( u, vehicle_folding_activity_actor( veh ) );
+    clear_spawned_tools( m, u );
 
     // should have no value as vehicle is now folded into item
     REQUIRE( !m.veh_at( u.get_location() ).has_value() );
@@ -234,24 +249,31 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     CHECK( factory_item_weight == player_folded_veh.weight() );
 
     // unfold the player folded one
+    spawn_tools_nearby( m, u, veh_preset );
     complete_activity( u, vehicle_unfolding_activity_actor( player_folded_veh ) );
+    clear_spawned_tools( m, u );
 
     optional_vpart_position ovp_unfolded = m.veh_at( u.get_location() );
     REQUIRE( ovp_unfolded.has_value() );
 
     // verify the damage/degradation roundtripped via serialization on every part
     for( const vpart_reference &vpr : ovp_unfolded->vehicle().get_all_parts() ) {
-        const item &base = vpr.part().get_base();
-        CHECK( base.damage() == ( damage_preset.expect_damage * base.max_damage() ) );
-        CHECK( base.degradation() == ( damage_preset.expect_degradation * base.max_damage() ) );
-        CHECK( vpr.part().health_percent() == damage_preset.expect_hp );
+        vehicle_part &vp = vpr.part();
+        CAPTURE( vp.name() );
+        const item &base = vp.get_base();
+        const bool expect_degradation = base.type->degrade_increments() > 0;
+        if( expect_degradation ) {
+            CHECK( base.damage() == damage_preset.expect_damage );
+            CHECK( base.degradation() == damage_preset.expect_degradation );
+        }
+        CHECK( ( vp.max_damage() - vp.damage() ) == damage_preset.expect_hp );
     }
 
     m.destroy_vehicle( &ovp_unfolded->vehicle() );
 }
 
 // Testing iuse::unfold_generic and vehicle part degradation
-TEST_CASE( "Unfolding vehicle parts and testing degradation", "[item][degradation][vehicle]" )
+TEST_CASE( "Unfolding_vehicle_parts_and_testing_degradation", "[item][degradation][vehicle]" )
 {
     std::vector<vehicle_preset> vehicle_presets {
         { itype_folded_inflatable_boat,    { itype_hand_pump } },
@@ -260,12 +282,11 @@ TEST_CASE( "Unfolding vehicle parts and testing degradation", "[item][degradatio
     };
 
     const std::vector<damage_preset> presets {
-        { 0.00, 0.00, 0.00, 0.00, 1.00 }, //   0% damaged,   0% degraded
-        { 0.25, 0.25, 0.00, 0.25, 1.00 }, //  25% damaged,  25% degraded
-        { 0.50, 0.50, 0.25, 0.50, 0.75 }, //  50% damaged,  50% degraded
-        { 0.75, 0.50, 0.25, 0.50, 0.75 }, //  75% damaged,  50% degraded
-        { 0.75, 1.00, 0.75, 1.00, 0.25 }, //  75% damaged, 100% degraded
-        { 1.00, 1.00, 0.75, 1.00, 0.25 }, // 100% damaged, 100% degraded
+        {    0,    0,    0,    0, 4000 },
+        { 1000, 1000, 1000, 1000, 3000 },
+        { 2000, 2000, 2000, 2000, 2000 },
+        { 2500, 1500, 2500, 1500, 1500 },
+        { 3999, 3999, 3999, 3999,    1 },
     };
 
     for( const vehicle_preset &veh_preset : vehicle_presets ) {
@@ -312,7 +333,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 
     // don't actually need point_north but damage_all filters out direct damage
     // do some damage so it is transferred when folding
-    ovp->vehicle().damage_all( 100, 100, damage_type::PURE, ovp->mount() + point_north );
+    ovp->vehicle().damage_all( 100, 100, damage_pure, ovp->mount() + point_north );
 
     // fold vehicle into an item
     complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
@@ -388,7 +409,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
     CHECK( player_folded_veh.get_var( "avg_part_damage", 0.0 ) == preset.item_damage_second_fold );
 }
 
-TEST_CASE( "Check folded item damage transfers to parts and vice versa", "[item][vehicle]" )
+TEST_CASE( "Check_folded_item_damage_transfers_to_parts_and_vice_versa", "[item][vehicle]" )
 {
     std::vector<folded_item_damage_preset> presets {
         { itype_folded_wheelchair_generic, 2111, 2411, 12666, 14466 },
@@ -406,11 +427,10 @@ static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos
 {
     map &here = get_map();
     item cord( itm );
-    cord.set_var( "source_x", src_pos.x );
-    cord.set_var( "source_y", src_pos.y );
-    cord.set_var( "source_z", src_pos.z );
-    cord.set_var( "state", "pay_out_cable" );
-    cord.active = true;
+    cord.link = cata::make_value<item::link_data>();
+    cord.link->t_state = link_state::vehicle_port;
+    cord.link->t_abs_pos = here.getglobal( src_pos );
+    cord.set_link_traits();
 
     const optional_vpart_position target_vp = here.veh_at( dst_pos );
     const optional_vpart_position source_vp = here.veh_at( src_pos );
@@ -428,19 +448,18 @@ static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos
     const vpart_id vpid( cord.typeId().str() );
 
     point vcoords = source_vp->mount();
-    vehicle_part source_part( vpid, "", vcoords, item( cord ) );
+    vehicle_part source_part( vpid, item( cord ) );
     source_part.target.first = target_global;
     source_part.target.second = target_veh->global_square_location().raw();
-    source_veh->install_part( vcoords, source_part );
+    source_veh->install_part( vcoords, std::move( source_part ) );
+    source_veh->precalc_mounts( 1, source_veh->pivot_rotation[1], source_veh->pivot_anchor[1] );
 
     vcoords = target_vp->mount();
-    vehicle_part target_part( vpid, "", vcoords, item( cord ) );
-    tripoint source_global( cord.get_var( "source_x", 0 ),
-                            cord.get_var( "source_y", 0 ),
-                            cord.get_var( "source_z", 0 ) );
-    target_part.target.first = here.getabs( source_global );
+    vehicle_part target_part( vpid, item( cord ) );
+    target_part.target.first = cord.link->t_abs_pos.raw();
     target_part.target.second = source_veh->global_square_location().raw();
-    target_veh->install_part( vcoords, target_part );
+    target_veh->install_part( vcoords, std::move( target_part ) );
+    target_veh->precalc_mounts( 1, target_veh->pivot_rotation[1], target_veh->pivot_anchor[1] );
 }
 
 TEST_CASE( "power_cable_stretch_disconnect" )
@@ -473,6 +492,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
         REQUIRE( app2.part_count() == 2 );
 
         REQUIRE( app1.part( 1 ).get_base().type->maximum_charges() == 3 );
+        REQUIRE( app1.part( 1 ).get_base().max_link_length() == 3 );
 
         const int max_dist = app1.part( 1 ).get_base().type->maximum_charges();
 
@@ -513,6 +533,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
         REQUIRE( app2.part_count() == 2 );
 
         REQUIRE( app1.part( 1 ).get_base().type->maximum_charges() == 10 );
+        REQUIRE( app1.part( 1 ).get_base().max_link_length() == 10 );
 
         const int max_dist = app1.part( 1 ).get_base().type->maximum_charges();
 
@@ -632,7 +653,7 @@ static void rack_check( const rack_preset &preset )
             REQUIRE( error ==
                      "vehicle named Foldable wheelchair is already racked on this vehicle"
                      "racking actor failed: failed racking Foldable wheelchair on Car, "
-                     "racks: [82, 81, and 79]." );
+                     "racks: [81, 80, and 78]." );
         }
 
         const optional_vpart_position ovp_racked = m.veh_at(
@@ -684,7 +705,7 @@ static void rack_check( const rack_preset &preset )
 }
 
 // Testing vehicle racking and unracking
-TEST_CASE( "Racking and unracking tests", "[vehicle][bikerack]" )
+TEST_CASE( "Racking_and_unracking_tests", "[vehicle][bikerack]" )
 {
     std::vector<rack_preset> racking_presets {
         // basic test; rack bike on car, unrack it, everything should succeed
@@ -731,4 +752,56 @@ TEST_CASE( "Racking and unracking tests", "[vehicle][bikerack]" )
     }
 
     clear_vehicles( &get_map() );
+}
+
+static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra_part )
+{
+    clear_avatar();
+    clear_map();
+    Character &player_character = get_player_character();
+    // Move player somewhere safe
+    REQUIRE_FALSE( player_character.in_vehicle );
+    player_character.setpos( tripoint_zero );
+
+    const tripoint map_starting_point( 60, 60, 0 );
+    map &here = get_map();
+    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 100, 0, false );
+
+    REQUIRE( veh_ptr != nullptr );
+
+    vehicle &veh = *veh_ptr;
+    if( !extra_part.is_null() ) {
+        vehicle_part vp( extra_part, item( extra_part->base_item ) );
+        const int part_index = veh.install_part( point_zero, std::move( vp ) );
+        REQUIRE( part_index >= 0 );
+    }
+
+    veh.autopilot_on = true;
+    veh.is_following = true;
+    veh.is_patrolling = false;
+    veh.engine_on = true;
+    veh.refresh();
+
+    int turns_left = 10;
+    int tiles_travelled = 0;
+    const tripoint starting_point = veh.global_pos3();
+    while( veh.engine_on && turns_left > 0 ) {
+        turns_left--;
+        here.vehmove();
+        veh.idle( true );
+        // How much it moved
+        tiles_travelled += square_dist( starting_point, veh.global_pos3() );
+        // Bring it back to starting point to prevent it from leaving the map
+        const tripoint displacement = starting_point - veh.global_pos3();
+        here.displace_vehicle( veh, displacement );
+    }
+    return tiles_travelled;
+}
+
+TEST_CASE( "autopilot_tests", "[vehicle][autopilot]" )
+{
+    // spawns vehicle, installs the extra part if it's not null, activates follow and
+    // checks if it moves, most of the test is a cutout from vehicle_efficiency_test.cpp
+    CHECK( test_autopilot_moving( vehicle_prototype_car, vpart_id::NULL_ID() ) == 0 );
+    CHECK( test_autopilot_moving( vehicle_prototype_car, vpart_programmable_autopilot ) == 9 );
 }

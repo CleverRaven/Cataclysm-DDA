@@ -60,6 +60,7 @@ static void daily_routine( npc &dude, int numb_stam_burn, int vitamin_amount,
 TEST_CASE( "healthy_lifestyle", "[health]" )
 {
     standard_npc dude( "healthy lifestyle" );
+    dude.set_stored_kcal( dude.get_healthy_kcal() );
 
     int init_lifestyle = dude.get_lifestyle();
 
@@ -75,6 +76,7 @@ TEST_CASE( "healthy_lifestyle", "[health]" )
 TEST_CASE( "unhealthy_lifestyle", "[health]" )
 {
     standard_npc dude( "unhealthy lifestyle" );
+    dude.set_stored_kcal( dude.get_healthy_kcal() );
 
     int init_lifestyle = dude.get_lifestyle();
 

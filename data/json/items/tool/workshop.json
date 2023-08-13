@@ -55,8 +55,8 @@
     "price": 3200,
     "price_postapoc": 500,
     "to_hit": -4,
-    "bashing": 12,
-    "material": [ "steel" ]
+    "material": [ "steel" ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "angle_grinder",
@@ -68,8 +68,6 @@
     "price": 5000,
     "price_postapoc": 250,
     "to_hit": -3,
-    "bashing": 2,
-    "cutting": 2,
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
@@ -78,6 +76,7 @@
     "charges_per_use": 1,
     "power_draw": "800 W",
     "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
+    "use_action": { "type": "link_up", "cable_length": 30, "charge_rate": "800 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -85,7 +84,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2, "cut": 2 }
   },
   {
     "type": "GENERIC",
@@ -121,19 +121,19 @@
     "id": "brick_kiln",
     "type": "TOOL",
     "name": { "str": "brick kiln" },
-    "description": "A portable charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
+    "description": "A portable coal-or-charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
     "weight": "9600 g",
     "volume": "30 L",
     "price": 25000,
     "price_postapoc": 1000,
     "to_hit": -3,
-    "bashing": 13,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 1000 } } ],
-    "ammo": [ "charcoal" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 1000, "coal": 5000 } } ],
+    "ammo": [ "charcoal", "coal" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 13 }
   },
   {
     "id": "carding_paddles",
@@ -147,10 +147,10 @@
     "price": 3000,
     "price_postapoc": 250,
     "to_hit": 1,
-    "bashing": 3,
     "material": [ "wood" ],
     "symbol": ";",
-    "color": "brown"
+    "color": "brown",
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "makeshift_vacuum_mold",
@@ -163,12 +163,12 @@
     "price": 1000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "plastic", "wood" ],
     "symbol": ";",
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
+    "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "300 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -176,7 +176,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "vac_mold",
@@ -189,12 +190,12 @@
     "price": 2500,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
+    "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "600 W" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -202,7 +203,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "chipper",
@@ -213,13 +215,13 @@
     "volume": "300 ml",
     "longest_side": "5 cm",
     "price": 7000,
-    "price_postapoc": 100,
+    "price_postapoc": 15,
     "to_hit": 1,
-    "cutting": 2,
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP" ],
+    "melee_damage": { "cut": 2 }
   },
   {
     "id": "clamp",
@@ -231,32 +233,32 @@
     "price": 500,
     "price_postapoc": 100,
     "to_hit": -2,
-    "bashing": 1,
-    "cutting": 1,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "VISE", 1 ] ]
+    "qualities": [ [ "VISE", 1 ] ],
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "claw_bar",
     "type": "TOOL",
     "name": { "str": "claw bar" },
     "description": "A small prying tool with a clawed bend at one end for pulling spikes.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
-    "weight": "350 g",
-    "volume": "375 ml",
-    "longest_side": "25 cm",
-    "price": 1000,
+    "weight": "318 g",
+    "volume": "470 ml",
+    "//1": "With the assumption that it's a cylinder of 9.2in length and 2in diameter. Listing says 10in length but that's a lie - comparison images attached show it's 9.2in length. 2 inches diameter due to larger curvature than a normal crowbar.",
+    "longest_side": "24 cm",
+    "price": "19 USD",
     "price_postapoc": 250,
-    "to_hit": 1,
-    "bashing": 10,
-    "cutting": 1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "CROWBAR" ],
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP" ],
+    "melee_damage": { "bash": 13, "cut": 1 },
+    "//2": "Based on https://www.amazon.com/dp/B000A24RCA"
   },
   {
     "id": "con_mix",
@@ -268,14 +270,13 @@
     "price": 50000,
     "price_postapoc": 500,
     "to_hit": -6,
-    "bashing": 15,
     "material": [ "steel" ],
     "symbol": "$",
     "color": "dark_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 20,
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": [ "HOTPLATE" ],
+    "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 15, "charge_rate": "1500 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -283,7 +284,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 15 }
   },
   {
     "id": "cordless_drill",
@@ -296,8 +298,6 @@
     "price": 2000,
     "price_postapoc": 250,
     "to_hit": -2,
-    "bashing": 3,
-    "cutting": 1,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
@@ -313,7 +313,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 3, "cut": 1 }
   },
   {
     "id": "cordless_impact_wrench",
@@ -328,8 +329,6 @@
     "price": 20000,
     "price_postapoc": 250,
     "to_hit": -2,
-    "bashing": 3,
-    "cutting": 1,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
@@ -345,7 +344,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 3, "cut": 1 }
   },
   {
     "id": "distaff_spindle",
@@ -357,13 +357,13 @@
     "volume": "1500 ml",
     "longest_side": "61 cm",
     "price": 7000,
-    "price_postapoc": 100,
+    "price_postapoc": 15,
     "to_hit": 1,
-    "bashing": 4,
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
-    "techniques": [ "WBLOCK_1" ]
+    "techniques": [ "WBLOCK_1" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "elec_jackhammer",
@@ -376,16 +376,15 @@
     "price": 40000,
     "price_postapoc": 500,
     "to_hit": -8,
-    "bashing": 14,
-    "cutting": 6,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 7920 } } ],
     "charges_per_use": 3960,
-    "use_action": [ "JACKHAMMER" ],
-    "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ]
+    "use_action": [ "JACKHAMMER", { "type": "link_up", "cable_length": 33, "charge_rate": "2200 W" } ],
+    "flags": [ "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
+    "melee_damage": { "bash": 14, "stab": 6 }
   },
   {
     "id": "hacksaw",
@@ -398,34 +397,32 @@
     "price": 2500,
     "price_postapoc": 100,
     "to_hit": -1,
-    "bashing": 1,
-    "cutting": 1,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "SAW_M", 2 ], [ "SAW_W", 1 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -90 ] ],
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP" ],
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "tin_snips",
     "type": "TOOL",
     "name": { "str_sp": "tin snips" },
     "description": "A pair of tin snips, resembling a sturdy pair of scissors with beefy blades designed to cut through thin sheets of soft metal.  These cannot cut through thick metals like a hacksaw can, but are better suited to precision work and leave a cleaner edge.",
-    "//": "Loosely based on Stanley FATMAX straight cut 9-7/8-inch aviation snip",
+    "//": "Based on https://www.amazon.com/dp/B00009OYFY",
     "weight": "400 g",
-    "volume": "200 ml",
-    "longest_side": "20 cm",
-    "price": 2500,
+    "volume": "500 ml",
+    "longest_side": "25 cm",
+    "price": "16 USD",
     "price_postapoc": 100,
-    "to_hit": -1,
-    "bashing": 1,
-    "cutting": 1,
-    "material": [ "steel" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "material": [ { "type": "steel", "portion": 17 }, { "type": "plastic", "portion": 3 } ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "SAW_M", 1 ], [ "SAW_M_FINE", 2 ] ],
     "use_action": [ "BOLTCUTTERS" ],
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "hammer",
@@ -439,14 +436,28 @@
     "price": 700,
     "price_postapoc": 100,
     "to_hit": -1,
-    "bashing": 9,
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "CROWBAR" ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "BATONS" ]
+    "weapon_category": [ "BATONS" ],
+    "melee_damage": { "bash": 9 }
+  },
+  {
+    "id": "hammer_bronze",
+    "type": "TOOL",
+    "name": { "str": "bronze hammer" },
+    "description": "A simple crude bronze hammer.  It is not as sophisticated or useful as its steel alternative but it does get the job of hammering in nails well enough.",
+    "copy-from": "hammer",
+    "ascii_picture": "hammer",
+    "weight": "500 g",
+    "price_postapoc": 50,
+    "material": [ "bronze", "wood" ],
+    "qualities": [ [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ] ],
+    "use_action": [  ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "hand_drill",
@@ -459,12 +470,11 @@
     "price": 500,
     "price_postapoc": 100,
     "to_hit": -3,
-    "bashing": 3,
-    "cutting": 1,
     "material": [ "wood", "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "DRILL", 2 ] ]
+    "qualities": [ [ "DRILL", 2 ] ],
+    "melee_damage": { "bash": 3, "cut": 1 }
   },
   {
     "id": "hose",
@@ -477,11 +487,11 @@
     "price": 200,
     "price_postapoc": 100,
     "to_hit": -1,
-    "bashing": 2,
     "material": [ "rubber" ],
     "symbol": ",",
     "color": "green",
-    "qualities": [ [ "HOSE", 1 ] ]
+    "qualities": [ [ "HOSE", 1 ] ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "jack",
@@ -496,9 +506,9 @@
     "longest_side": "25 cm",
     "price": 18000,
     "price_postapoc": 500,
-    "bashing": 8,
     "to_hit": -2,
-    "qualities": [ [ "JACK", 16 ] ]
+    "qualities": [ [ "JACK", 16 ] ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "jack_makeshift",
@@ -513,9 +523,9 @@
     "longest_side": "18 cm",
     "price": 800,
     "price_postapoc": 100,
-    "bashing": 4,
     "to_hit": -2,
-    "qualities": [ [ "JACK", 3 ] ]
+    "qualities": [ [ "JACK", 3 ] ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "jack_small",
@@ -530,9 +540,9 @@
     "longest_side": "14 cm",
     "price": 5000,
     "price_postapoc": 750,
-    "bashing": 4,
     "to_hit": -2,
-    "qualities": [ [ "JACK", 4 ] ]
+    "qualities": [ [ "JACK", 4 ] ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "jackhammer",
@@ -545,8 +555,6 @@
     "price": 40000,
     "price_postapoc": 1000,
     "to_hit": -8,
-    "bashing": 14,
-    "cutting": 6,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -555,7 +563,8 @@
     "charges_per_use": 300,
     "use_action": [ "JACKHAMMER" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 1200 } } ],
-    "flags": [ "STAB", "DIG_TOOL", "POWERED" ]
+    "flags": [ "DIG_TOOL", "POWERED" ],
+    "melee_damage": { "bash": 14, "stab": 6 }
   },
   {
     "id": "kiln",
@@ -567,12 +576,12 @@
     "price": 50000,
     "price_postapoc": 750,
     "to_hit": -3,
-    "bashing": 12,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1500 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -580,25 +589,25 @@
         "flag_restriction": [ "BATTERY_HEAVY" ],
         "default_magazine": "heavy_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "large_repairkit",
     "type": "TOOL",
     "name": { "str": "gunsmith repair kit" },
-    "description": "A complete tool kit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires 25 charges of battery power per use.",
+    "description": "A complete tool kit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires 1 charge of battery power per use.",
     "weight": "9860 g",
     "volume": "2500 ml",
     "longest_side": "36 cm",
     "price": 5000,
     "price_postapoc": 1500,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "steel", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
-    "charges_per_use": 25,
+    "charges_per_use": 1,
     "qualities": [
       [ "HAMMER_FINE", 1 ],
       [ "HAMMER", 3 ],
@@ -625,7 +634,8 @@
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
-      }
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "70 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
@@ -635,7 +645,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "makeshift_hammer",
@@ -647,13 +658,13 @@
     "longest_side": "30 cm",
     "price": 0,
     "price_postapoc": 10,
-    "bashing": 9,
     "to_hit": -1,
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 2 ] ],
-    "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
+    "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "metal_file",
@@ -666,12 +677,11 @@
     "price": 300,
     "price_postapoc": 100,
     "to_hit": -2,
-    "bashing": 1,
-    "cutting": 1,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "FILE", 2 ], [ "GRIND", 2 ] ]
+    "qualities": [ [ "FILE", 2 ], [ "GRIND", 2 ] ],
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "metal_smoother",
@@ -683,11 +693,11 @@
     "longest_side": "15 cm",
     "price": 1000,
     "price_postapoc": 50,
-    "bashing": 4,
     "material": [ "iron" ],
     "symbol": ",",
     "color": "light_gray",
-    "qualities": [ [ "SMOOTH", 2 ] ]
+    "qualities": [ [ "SMOOTH", 2 ] ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "misc_repairkit",
@@ -700,7 +710,6 @@
     "price": 1000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 2,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -712,14 +721,15 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "acidchitin", "bone", "chitin", "paper", "cardboard", "wood", "kevlar_rigid" ],
+        "materials": [ "bone", "chitin", "paper", "cardboard", "wood", "kevlar_rigid" ],
         "skill": "fabrication",
         "tool_quality": 5,
         "cost_scaling": 0.1,
         "move_cost": 1000
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "multitool",
@@ -733,19 +743,18 @@
     "price": 3000,
     "price_postapoc": 500,
     "to_hit": -4,
-    "bashing": 1,
-    "cutting": 4,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "WRENCH", 1 ], [ "SCREW", 1 ], [ "SCREW_FINE", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
+    "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "WRENCH", 1 ], [ "SCREW", 1 ], [ "BUTCHER", 7 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "bash": 1, "stab": 4 }
   },
   {
     "id": "oxy_torch",
     "type": "TOOL",
     "name": { "str": "acetylene torch", "str_pl": "acetylene torches" },
-    "description": "A compact tool kit intended for welding and cutting metal, this portable oxyacetylene torch includes a torch handle and cutting attachment in an easy-to-carry tote.  It needs to be connected to a pressurized cylinder of an appropriate welding gas before use.  In addition to its metalworking uses, you can activate it in order to destroy metal barriers.",
+    "description": "A compact tool kit intended for welding and cutting metal, this portable oxygen-acetylene torch includes a torch handle and cutting attachment in an easy-to-carry tote.  It needs to be connected to a pressurized cylinder of an appropriate welding gas before use.  In addition to its metalworking uses, you can activate it in order to destroy metal barriers.",
     "weight": "1600 g",
     "volume": "1 L",
     "price": 20000,
@@ -754,7 +763,9 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "weldgas" ],
-    "charges_per_use": 4,
+    "//": "power usage: acy torch delivers about 20 kj per gram adjusted for efficiency, needs about 800 degrees c to ignite steel, which is specific heat 420j so to ignite a kg of steel, it is about 16units of acetylene",
+    "charges_per_use": 8,
+    "//0": "above is for 1/2 kg of steel - currently a door is 7 kg of material to cut",
     "use_action": [ "OXYTORCH" ],
     "charged_qualities": [ [ "WELD", 2 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
@@ -787,15 +798,14 @@
     "price": 16000,
     "price_postapoc": 1250,
     "to_hit": -2,
-    "bashing": 30,
-    "cutting": 15,
     "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "use_action": [ "PICKAXE" ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STAB", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ],
+    "melee_damage": { "bash": 30, "stab": 15 }
   },
   {
     "id": "bronze_pickaxe",
@@ -808,15 +818,14 @@
     "price": 16000,
     "price_postapoc": 1250,
     "to_hit": -2,
-    "bashing": 30,
-    "cutting": 12,
     "material": [ "wood", "bronze" ],
     "symbol": "/",
     "color": "yellow",
     "use_action": [ "PICKAXE" ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STAB", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ],
+    "melee_damage": { "bash": 30, "stab": 12 }
   },
   {
     "id": "pin_reamer",
@@ -829,12 +838,11 @@
     "price": 300,
     "price_postapoc": 100,
     "to_hit": -2,
-    "bashing": 1,
-    "cutting": 1,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "REAM", 2 ] ]
+    "qualities": [ [ "REAM", 2 ] ],
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "pliers",
@@ -847,12 +855,12 @@
     "longest_side": "17 cm",
     "price": 800,
     "price_postapoc": 100,
-    "bashing": 3,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 1 ] ],
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "big_pliers",
@@ -865,12 +873,12 @@
     "longest_side": "30 cm",
     "price": 800,
     "price_postapoc": 100,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ] ],
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "pliers_locking",
@@ -883,12 +891,12 @@
     "longest_side": "18 cm",
     "price": 1200,
     "price_postapoc": 100,
-    "bashing": 3,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ], [ "VISE", 1 ] ],
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "polisher",
@@ -900,8 +908,6 @@
     "price": 35000,
     "price_postapoc": 250,
     "to_hit": -2,
-    "bashing": 6,
-    "cutting": 2,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -909,6 +915,7 @@
     "charged_qualities": [ [ "GRIND", 2 ] ],
     "ammo": [ "battery" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
+    "use_action": [ { "type": "link_up", "cable_length": 5, "charge_rate": "1600 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -916,7 +923,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6, "cut": 2 }
   },
   {
     "id": "primitive_hammer",
@@ -928,13 +936,13 @@
     "longest_side": "30 cm",
     "price": 0,
     "price_postapoc": 10,
-    "bashing": 14,
     "to_hit": -1,
     "material": [ "stone", "wood" ],
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 2 ] ],
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP" ],
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "reciprocating_saw",
@@ -946,8 +954,6 @@
     "price": 5000,
     "price_postapoc": 250,
     "to_hit": -3,
-    "bashing": 2,
-    "cutting": 2,
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
@@ -956,6 +962,7 @@
     "charges_per_use": 1,
     "power_draw": "800 W",
     "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "800 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -963,7 +970,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2, "cut": 2 }
   },
   {
     "id": "robofac_gun_kit",
@@ -976,7 +984,6 @@
     "price": 1500,
     "price_postapoc": 10,
     "to_hit": -1,
-    "bashing": 6,
     "material": [ "nylon", "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -989,7 +996,8 @@
         "max_item_length": "60 cm",
         "item_restriction": [ "robofac_gun_ar", "robofac_gun_smg", "robofac_gun_dmr", "robofac_gun_shotgun", "robofac_gun_exodii" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "screwdriver",
@@ -1003,14 +1011,13 @@
     "price": 450,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 2,
-    "cutting": 6,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ] ],
     "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
-    "weapon_category": [ "SHIVS" ]
+    "weapon_category": [ "SHIVS" ],
+    "melee_damage": { "bash": 2, "stab": 6 }
   },
   {
     "id": "screwdriver_set",
@@ -1024,13 +1031,12 @@
     "price": 2000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 2,
-    "cutting": 6,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ], [ "SCREW_FINE", 1 ] ],
-    "flags": [ "BELT_CLIP", "NO_SALVAGE" ]
+    "flags": [ "BELT_CLIP", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 2, "cut": 6 }
   },
   {
     "id": "socket_screwdriver_set",
@@ -1044,13 +1050,12 @@
     "price": 2000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 2,
-    "cutting": 6,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ], [ "WRENCH", 1 ], [ "WRENCH_FINE", 1 ] ],
-    "flags": [ "BELT_CLIP", "NO_SALVAGE" ]
+    "flags": [ "BELT_CLIP", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 2, "cut": 6 }
   },
   {
     "id": "socket_wrench_set",
@@ -1065,30 +1070,29 @@
     "price": 2000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 2,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "small_repairkit",
     "type": "TOOL",
     "name": { "str": "firearm repair kit" },
-    "description": "A portable tool kit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires 100 charges of battery power per use.",
+    "description": "A portable tool kit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires one charge of battery power per use.",
     "weight": "2420 g",
     "volume": "1500 ml",
     "longest_side": "32 cm",
     "price": 1500,
     "price_postapoc": 750,
     "to_hit": -1,
-    "bashing": 6,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "charges_per_use": 100,
+    "charges_per_use": 1,
     "qualities": [
       [ "HAMMER_FINE", 1 ],
       [ "HAMMER", 3 ],
@@ -1115,7 +1119,8 @@
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
-      }
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "70 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
@@ -1125,20 +1130,19 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_disposable_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "soldering_iron",
     "type": "TOOL",
     "name": { "str": "soldering iron" },
-    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  You could also use it to cauterize wounds, if you had to.",
+    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.",
     "weight": "90 g",
     "volume": "120 ml",
     "longest_side": "22 cm",
     "price": 1000,
     "price_postapoc": 100,
-    "bashing": 2,
-    "cutting": 6,
     "material": [ { "type": "plastic", "portion": 75 }, { "type": "copper", "portion": 25 } ],
     "symbol": ",",
     "color": "light_gray",
@@ -1152,7 +1156,8 @@
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
-      }
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "70 W" }
     ],
     "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
@@ -1162,24 +1167,26 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_disposable_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2, "stab": 6 }
   },
   {
     "id": "lug_wrench",
     "type": "TOOL",
     "name": { "str": "lug wrench", "str_pl": "lug wrenches" },
     "description": "A steel rod bent 90 degrees with a socket on the shorter end, made to hold the lug nuts of a car's wheels to either fasten or loosen for convenient removal and replacement.  Makes for a decent melee weapon in a pinch.",
-    "weight": "454 g",
+    "weight": "1565 g",
     "longest_side": "46 cm",
-    "volume": "1500 ml",
-    "price": 1200,
-    "price_postapoc": 2000,
-    "to_hit": 1,
-    "bashing": 11,
+    "volume": "460 ml",
+    "price": "23 USD",
+    "price_postapoc": 300,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "L",
     "color": "light_gray",
-    "qualities": [ [ "WHEEL_FAST", 1 ] ]
+    "qualities": [ [ "WHEEL_FAST", 1 ] ],
+    "melee_damage": { "bash": 11 },
+    "//": "Based on https://www.amazon.com/dp/B06XPWS3HJ"
   },
   {
     "id": "toolbox_empty",
@@ -1190,14 +1197,14 @@
     "weight": "4377 g",
     "volume": "8000 ml",
     "longest_side": "42 cm",
-    "price": 12999,
-    "price_postapoc": 3000,
+    "price": "17 USD",
+    "price_postapoc": 100,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
-    "pocket_data": [ { "max_contains_volume": "7800 ml", "max_contains_weight": "15 kg", "max_item_length": "40 cm", "rigid": true } ]
+    "pocket_data": [ { "max_contains_volume": "7800 ml", "max_contains_weight": "15 kg", "max_item_length": "40 cm", "rigid": true } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "toolbox_workshop_empty",
@@ -1212,28 +1219,27 @@
     "price": 14099,
     "price_postapoc": 3250,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
-    "pocket_data": [ { "max_contains_volume": "34000 ml", "max_contains_weight": "34 kg", "max_item_length": "65 cm", "rigid": true } ]
+    "pocket_data": [ { "max_contains_volume": "34000 ml", "max_contains_weight": "34 kg", "max_item_length": "65 cm", "rigid": true } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "welder",
     "type": "TOOL",
     "name": { "str": "arc welder" },
-    "description": "A battery-powered tool for welding metal pieces together using an electric arc.  It is an indispensable tool for construction or repair.",
+    "description": "A battery-powered tool for welding metal pieces together using an electric arc.  It is an indispensable tool for construction or repair.  Accepts most batteries.",
     "weight": "4200 g",
     "volume": "2500 ml",
     "price": 9000,
     "price_postapoc": 750,
     "to_hit": -1,
-    "bashing": 7,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
     "ammo": [ "battery" ],
-    "charges_per_use": 10,
+    "charges_per_use": 20,
     "charged_qualities": [ [ "WELD", 2 ] ],
     "use_action": [
       {
@@ -1248,6 +1254,7 @@
           "fancy_bronze",
           "silver",
           "gold",
+          "budget_steel",
           "lc_steel",
           "mc_steel",
           "hc_steel",
@@ -1263,34 +1270,48 @@
         "tool_quality": 10,
         "cost_scaling": 0.1,
         "move_cost": 500
-      }
+      },
+      { "type": "link_up", "cable_length": 7, "charge_rate": "3000 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
+        "magazine_well": "500 ml",
+        "default_magazine": "medium_storage_battery",
+        "item_restriction": [
+          "medium_storage_battery",
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_disposable_cell",
+          "medium_atomic_battery_cell",
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell",
+          "heavy_disposable_cell",
+          "heavy_atomic_battery_cell",
+          "small_storage_battery",
+          "large_storage_battery",
+          "storage_battery"
+        ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "welder_crude",
     "type": "TOOL",
     "name": { "str": "makeshift arc welder" },
-    "description": "A crude arc welder fashioned from a few small transformers, some wire, an improvised electrode holder, and a complete disregard for personal safety.  While it's not as efficient as a factory-made welder, it will serve in a pinch.",
+    "description": "A crude arc welder fashioned from a few small transformers, some wire, an improvised electrode holder, and a complete disregard for personal safety.  While it's not as efficient as a factory-made welder, it will serve in a pinch.  Accepts most batteries.",
     "weight": "7250 g",
     "volume": "3500 ml",
     "price": 5000,
     "price_postapoc": 250,
     "to_hit": -2,
-    "bashing": 7,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_red",
     "ammo": [ "battery" ],
-    "charges_per_use": 25,
+    "charges_per_use": 40,
     "charged_qualities": [ [ "WELD", 1 ] ],
     "use_action": [
       {
@@ -1307,6 +1328,7 @@
           "gold",
           "platinum",
           "superalloy",
+          "budget_steel",
           "lc_steel",
           "mc_steel",
           "hc_steel",
@@ -1320,34 +1342,48 @@
         "tool_quality": 5,
         "cost_scaling": 0.1,
         "move_cost": 1000
-      }
+      },
+      { "type": "link_up", "cable_length": 7, "charge_rate": "1500 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
+        "magazine_well": "1250 ml",
+        "item_restriction": [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_disposable_cell",
+          "medium_atomic_battery_cell",
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell",
+          "heavy_disposable_cell",
+          "heavy_atomic_battery_cell",
+          "small_storage_battery",
+          "medium_storage_battery",
+          "large_storage_battery",
+          "storage_battery"
+        ],
+        "default_magazine": "heavy_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "welding_kit",
     "type": "TOOL",
-    "name": { "str": "welding kit" },
-    "description": "A welder combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels.",
+    "name": { "str": "high-temperature welding kit" },
+    "description": "A welder combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels.  Accepts most batteries.",
     "weight": "10500 g",
     "volume": "12500 ml",
     "price": 9000,
     "price_postapoc": 750,
     "to_hit": -1,
-    "bashing": 7,
     "material": [ "steel", "asbestos" ],
     "symbol": ";",
     "color": "red",
     "ammo": [ "battery" ],
-    "charges_per_use": 10,
+    "charges_per_use": 20,
     "charged_qualities": [ [ "WELD", 2 ] ],
     "use_action": [
       {
@@ -1362,6 +1398,7 @@
           "fancy_bronze",
           "silver",
           "gold",
+          "budget_steel",
           "lc_steel",
           "mc_steel",
           "hc_steel",
@@ -1379,17 +1416,32 @@
         "tool_quality": 10,
         "cost_scaling": 0.1,
         "move_cost": 500
-      }
+      },
+      { "type": "link_up", "cable_length": 7, "charge_rate": "3000 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
+        "magazine_well": "500 ml",
+        "item_restriction": [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_disposable_cell",
+          "medium_atomic_battery_cell",
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell",
+          "heavy_disposable_cell",
+          "heavy_atomic_battery_cell",
+          "small_storage_battery",
+          "medium_storage_battery",
+          "large_storage_battery",
+          "storage_battery"
+        ],
+        "default_magazine": "medium_storage_battery"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "wood_smoother",
@@ -1402,11 +1454,11 @@
     "price": 2000,
     "price_postapoc": 50,
     "to_hit": -3,
-    "bashing": 12,
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "SMOOTH", 1 ] ]
+    "qualities": [ [ "SMOOTH", 1 ] ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "wool_staple",
@@ -1435,12 +1487,12 @@
     "price": 400,
     "price_postapoc": 100,
     "to_hit": -3,
-    "cutting": 6,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 2 ], [ "BUTCHER", 7 ], [ "FABRIC_CUT", 1 ] ],
-    "flags": [ "FRAGILE_MELEE" ]
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "cut": 6 }
   },
   {
     "id": "wrench_small",
@@ -1454,30 +1506,32 @@
     "longest_side": "15 cm",
     "price": 500,
     "price_postapoc": 100,
-    "bashing": 1,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 1 ], [ "WRENCH_FINE", 1 ] ],
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "wrench",
     "type": "TOOL",
     "name": { "str": "adjustable wrench", "str_pl": "adjustable wrenches" },
-    "description": "An adjustable crescent wrench.  It could be a decent melee weapon, and is used in many mechanics crafting recipes.",
-    "weight": "907 g",
-    "volume": "120 ml",
-    "longest_side": "20 cm",
-    "price": 1200,
+    "description": "An adjustable crescent wrench.  It is used in many mechanics crafting recipes.",
+    "weight": "417 g",
+    "volume": "75 ml",
+    "longest_side": "25 cm",
+    "price": "18 USD",
     "price_postapoc": 100,
-    "bashing": 9,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
     "flags": [ "BELT_CLIP" ],
-    "weapon_category": [ "BATONS" ]
+    "weapon_category": [ "BATONS" ],
+    "//": "Based on: https://www.amazon.com/Crescent-AC210VS-Tools-Wrenches-Adjustable/dp/B00002N5L1/ref=sr_1_5?crid=2979KVN9DXDUH&keywords=10+inch+crescent+wrench+adjustable&qid=1680859779&sprefix=10+inch+crescent+wrench+adjustable%2Caps%2C555&sr=8-5",
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "wrench_large",
@@ -1491,12 +1545,12 @@
     "longest_side": "46 cm",
     "price": 1200,
     "price_postapoc": 100,
-    "bashing": 12,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ], [ "WHEEL_FAST", 1 ] ],
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP" ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "makeshift_hose",
@@ -1524,13 +1578,12 @@
     "price": 100,
     "price_postapoc": 50,
     "to_hit": -3,
-    "bashing": 4,
-    "cutting": 1,
     "material": [ "wood", "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "looks_like": "hand_drill",
-    "qualities": [ [ "DRILL", 1 ] ]
+    "qualities": [ [ "DRILL", 1 ] ],
+    "melee_damage": { "bash": 4, "cut": 1 }
   },
   {
     "id": "wire_draw_machine",
@@ -1542,11 +1595,11 @@
     "price": 1000,
     "price_postapoc": 10,
     "to_hit": -3,
-    "bashing": 7,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1500 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1554,14 +1607,14 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "propane_torch",
     "type": "TOOL",
     "name": { "str": "propane torch", "str_pl": "propane torches" },
     "description": "A compact tool kit intended for cutting metal, this portable propane torch includes a torch handle and cutting attachment in an easy-to-carry tote.  It needs to be connected to a pressurized propane cylinder before use.  While not appropriate for welding, you can activate it in order to destroy metal barriers.",
-    "//": "Propane has roughly half the energy per unit as acetylene, so this uses 112 charges to cut a door. this is likely wrong and will be addressed in the welding audit",
     "weight": "1600 g",
     "volume": "1 L",
     "price": 20000,
@@ -1570,10 +1623,17 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "propane" ],
-    "charges_per_use": 8,
+    "charges_per_use": 64,
+    "//0": "above is for 1/2 kg of steel - currently a door is 7 kg of material to cut",
+    "//": "power usage: propane torch delivers about 2.5 kj per ml adjusted for efficiency, needs about 800 degrees c to ignite steel, which is specific heat 420j so to ignite a kg of steel, it is about 128 units of propane",
     "use_action": [ "OXYTORCH" ],
     "flags": [ "ALLOWS_REMOTE_USE", "FIRESTARTER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "small_propane_tank", "medium_propane_tank" ] } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "small_propane_tank", "medium_propane_tank", "large_propane_tank", "xl_propane_tank" ]
+      }
+    ]
   },
   {
     "id": "block_and_tackle",
@@ -1611,6 +1671,7 @@
     "weight": "6 kg",
     "volume": "11500 ml",
     "price": 30000,
+    "price_postapoc": 500,
     "material": [ "asbestos" ],
     "symbol": "#",
     "color": "light_gray"
@@ -1623,6 +1684,7 @@
     "weight": "3 kg",
     "volume": "11500 ml",
     "price": 3000,
+    "price_postapoc": 200,
     "material": [ "epoxy", "kevlar" ],
     "symbol": "#",
     "color": "light_gray"

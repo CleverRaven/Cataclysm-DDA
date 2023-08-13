@@ -134,6 +134,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
 
     std::set<tripoint> vpts = veh.get_points();
     while( veh.engine_on && veh.safe_velocity() > 0 && cycles < 10 ) {
+        clear_creatures();
         CAPTURE( cycles );
         for( const tripoint &checkpt : vpts ) {
             int partnum = 0;

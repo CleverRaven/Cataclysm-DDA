@@ -108,7 +108,7 @@ void harvest_drop_type::reset()
     harvest_drop_type_factory.reset();
 }
 
-void harvest_drop_type::load( const JsonObject &jo, const std::string & )
+void harvest_drop_type::load( const JsonObject &jo, const std::string_view )
 {
     harvest_skills.clear();
     optional( jo, was_loaded, "group", is_group_, false );
@@ -169,7 +169,7 @@ void harvest_list::finalize_all()
     }
 }
 
-void harvest_list::load( const JsonObject &obj, const std::string & )
+void harvest_list::load( const JsonObject &obj, const std::string_view )
 {
     mandatory( obj, was_loaded, "id", id );
     mandatory( obj, was_loaded, "entries", entries_ );

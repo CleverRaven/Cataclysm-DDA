@@ -161,6 +161,26 @@ TEST_CASE( "npc_talk_start", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
 }
 
+TEST_CASE( "npc_talk_failures", "[npc_talk]" )
+{
+    dialogue d;
+    prep_test( d );
+
+    d.add_topic( "TALK_TEST_FAIL_RESPONSE" );
+    gen_response_lines( d, 1 );
+    CHECK( d.responses[0].text == "*Impossible Test: Never See this." );
+}
+
+TEST_CASE( "npc_talk_failures_topic", "[npc_talk]" )
+{
+    dialogue d;
+    prep_test( d );
+
+    d.add_topic( "TALK_TEST_FAIL_RESPONSE" );
+    gen_response_lines( d, 1 );
+    CHECK( d.responses[0].success.next_topic.id == "TALK_TEST_START" );
+}
+
 TEST_CASE( "npc_talk_describe_mission", "[npc_talk]" )
 {
     dialogue d;
@@ -608,7 +628,7 @@ TEST_CASE( "npc_talk_conditionals", "[npc_talk]" )
     talk_response &chosen = d.responses[2];
     bool trial_success = chosen.trial.roll( d );
     CHECK( trial_success == true );
-    talk_effect_t<dialogue> &trial_effect = trial_success ? chosen.success : chosen.failure;
+    talk_effect_t &trial_effect = trial_success ? chosen.success : chosen.failure;
     CHECK( trial_effect.next_topic.id == "TALK_TEST_TRUE_CONDITION_NEXT" );
     player_character.cash = 0;
     gen_response_lines( d, 3 );
@@ -658,7 +678,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     gen_response_lines( d, 19 );
     // add and remove effect
     REQUIRE_FALSE( player_character.has_effect( effect_infection ) );
-    talk_effect_t<dialogue> &effects = d.responses[1].success;
+    talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
     CHECK( player_character.has_effect( effect_infection ) );
     CHECK( player_character.get_effect_dur( effect_infection ) == time_duration::from_turns( 10 ) );
@@ -826,7 +846,7 @@ TEST_CASE( "npc_talk_vars", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_add_var test response." );
     CHECK( d.responses[2].text == "This is a npc_add_var test response." );
-    talk_effect_t<dialogue> &effects = d.responses[1].success;
+    talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
     effects = d.responses[2].success;
     effects.apply( d );
@@ -866,7 +886,7 @@ TEST_CASE( "npc_talk_adjust_vars", "[npc_talk]" )
     CHECK( d.responses[10].text == "This is a npc_compare_var test response for >= 0." );
 
     // Increment the u and npc vars by 1, so that it has a value of 1.
-    talk_effect_t<dialogue> &effects = d.responses[1].success;
+    talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
     effects = d.responses[3].success;
     effects.apply( d );
@@ -920,7 +940,7 @@ TEST_CASE( "npc_talk_vars_time", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_add_var time test response." );
     CHECK( d.responses[2].text == "This is a npc_add_var time test response." );
-    talk_effect_t<dialogue> &effects = d.responses[1].success;
+    talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
@@ -965,7 +985,7 @@ TEST_CASE( "npc_faction_trust", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "Add 50 to faction trust." );
     CHECK( d.responses[2].text == "Start trade." );
-    talk_effect_t<dialogue> &effects = d.responses[1].success;
+    talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
     REQUIRE( beta.get_faction()->trusts_u == 50 );
     gen_response_lines( d, 4 );
@@ -1048,7 +1068,7 @@ TEST_CASE( "npc_talk_effects", "[npc_talk]" )
     talker_npc.myclass = NC_TEST_CLASS;
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
-    talk_effect_t<dialogue> &effects = d.responses[18].success;
+    talk_effect_t &effects = d.responses[18].success;
     effects.apply( d );
     CHECK( talker_npc.myclass == NC_NONE );
 }
@@ -1062,7 +1082,7 @@ TEST_CASE( "npc_change_topic", "[npc_talk]" )
     REQUIRE( original_chat != "TALK_TEST_SET_TOPIC" );
     d.add_topic( "TALK_TEST_SET_TOPIC" );
     gen_response_lines( d, 2 );
-    talk_effect_t<dialogue> &effects = d.responses[1].success;
+    talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
     CHECK( talker_npc.chatbin.first_topic != original_chat );
     CHECK( talker_npc.chatbin.first_topic == "TALK_TEST_SET_TOPIC" );
@@ -1096,7 +1116,8 @@ TEST_CASE( "npc_test_tags", "[npc_talk]" )
     globvars.set_global_value( "npctalk_var_test_var", "It's global" );
 
     d.add_topic( "TALK_TEST_TAGS" );
-    gen_response_lines( d, 7 );
+    d.set_value( "npctalk_var_test_var", "It's context" );
+    gen_response_lines( d, 8 );
     CHECK( d.responses[0].create_option_line( d, input_event() ).text ==
            "Avatar tag is set to It's avatar." );
     CHECK( d.responses[1].create_option_line( d, input_event() ).text ==
@@ -1111,6 +1132,8 @@ TEST_CASE( "npc_test_tags", "[npc_talk]" )
            "Trait name is Ink glands." );
     CHECK( d.responses[6].create_option_line( d, input_event() ).text ==
            "Trait description is A mutation to test enchantments." );
+    CHECK( d.responses[7].create_option_line( d, input_event() ).text ==
+           "Context tag is set to It's context." );
     globvars.clear_global_values();
 }
 
@@ -1119,6 +1142,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     dialogue d;
     npc &beta = prep_test( d );
     Character &player_character = get_avatar();
+    clear_avatar();
 
     player_character.str_cur = 4;
     player_character.dex_cur = 4;
@@ -1175,7 +1199,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     calendar::turn = calendar::turn + time_duration( 4_days );
     REQUIRE( then < calendar::turn );
     // Increment the u var by 1, so that it has a value of 1.
-    talk_effect_t<dialogue> &effects = d.responses[ 0 ].success;
+    talk_effect_t &effects = d.responses[ 0 ].success;
     effects.apply( d );
     // Increment the npc var by 2, so that it has a value of 2.
     effects = d.responses[ 1 ].success;
@@ -1192,7 +1216,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     get_weather().weather_precise->humidity = 16;
     get_weather().weather_precise->pressure = 17;
     get_weather().clear_temp_cache();
-    player_character.setpos( tripoint( 18, 19, 20 ) );
+    player_character.setpos( tripoint( -1, -2, -3 ) );
     player_character.set_pain( 21 );
     player_character.add_bionic( bio_power_storage );
     player_character.set_power_level( 22_mJ );
@@ -1248,14 +1272,14 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 16 ].text == "Cash equals 13" );
     CHECK( d.responses[ 17 ].text == "Owed amount equals 14" );
     CHECK( d.responses[ 18 ].text == "Driving skill more than or equal to 5" );
-    // TODO: Relaibly test the random number generator.
+    // TODO: Reliably test the random number generator.
     CHECK( d.responses[ 19 ].text == "Temperature is 21." );
     CHECK( d.responses[ 20 ].text == "Windpower is 15." );
     CHECK( d.responses[ 21 ].text == "Humidity is 16." );
     CHECK( d.responses[ 22 ].text == "Pressure is 17." );
-    CHECK( d.responses[ 23 ].text == "Pos_x is 18." );
-    CHECK( d.responses[ 24 ].text == "Pos_y is 19." );
-    CHECK( d.responses[ 25 ].text == "Pos_z is 20. This should be cause for alarm." );
+    CHECK( d.responses[ 23 ].text == "Pos_x is -1." );
+    CHECK( d.responses[ 24 ].text == "Pos_y is -2." );
+    CHECK( d.responses[ 25 ].text == "Pos_z is -3." );
     CHECK( d.responses[ 26 ].text == "Pain level is 21." );
     CHECK( d.responses[ 27 ].text == "Bionic power is 22." );
     CHECK( d.responses[ 28 ].text == "Bionic power max is 44." );
@@ -1302,7 +1326,7 @@ TEST_CASE( "npc_arithmetic_op", "[npc_talk]" )
     calendar::turn = calendar::turn_zero;
     REQUIRE( calendar::turn == time_point( 0 ) );
     // "Sets time since cataclysm to 2 * 5 turns.  (10)"
-    talk_effect_t<dialogue> &effects = d.responses[ 0 ].success;
+    talk_effect_t &effects = d.responses[ 0 ].success;
     effects.apply( d );
     CHECK( calendar::turn == time_point( 10 ) );
 
@@ -1397,7 +1421,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     calendar::turn = calendar::turn_zero;
     REQUIRE( calendar::turn == time_point( 0 ) );
     // "Sets time since cataclysm to 1."
-    talk_effect_t<dialogue> &effects = d.responses[ 0 ].success;
+    talk_effect_t &effects = d.responses[ 0 ].success;
     effects.apply( d );
     CHECK( calendar::turn == time_point( 1 ) );
 
@@ -1477,22 +1501,22 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     // "Sets skill level in driving to 10."
     effects = d.responses[ 12 ].success;
     effects.apply( d );
-    CHECK( player_character.get_skill_level( skill ) == 10 );
+    CHECK( static_cast<int>( player_character.get_skill_level( skill ) ) == 10 );
 
     // "Sets pos_x to 14."
     effects = d.responses[ 13 ].success;
     effects.apply( d );
-    CHECK( player_character.posx() == 14 );
+    CHECK( player_character.posx() == -1 );
 
     // "Sets pos_y to 15."
     effects = d.responses[ 14 ].success;
     effects.apply( d );
-    CHECK( player_character.posy() == 15 );
+    CHECK( player_character.posy() == -2 );
 
     // "Sets pos_z to 16."
     effects = d.responses[ 15 ].success;
     effects.apply( d );
-    CHECK( player_character.posz() == 16 );
+    CHECK( player_character.posz() == -3 );
 
     // "Sets pain to 17."
     effects = d.responses[ 16 ].success;
@@ -1626,4 +1650,27 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
 
     // Teardown
     player_character.remove_value( var_name );
+}
+
+TEST_CASE( "test_topic_item_mutator", "[npc_talk]" )
+{
+    dialogue d;
+    prep_test( d );
+    Character &player_character = get_avatar();
+    clear_avatar();
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    player_character.inv->add_item( item( itype_bottle_glass ) );
+    CHECK( player_character.has_amount( itype_bottle_glass, 1 ) );
+    d.add_topic( "TALK_TEST_TOPIC_ITEM_MUTATOR" );
+    gen_response_lines( d, 2 );
+    talk_response &chosen = d.responses[0];
+    CHECK( chosen.text == "This is a repeated item bottle_glass test response" );
+    d.add_topic( chosen.success.next_topic );
+    gen_dynamic_line( d );
+    gen_response_lines( d, 1 );
+    chosen = d.responses[0];
+    chosen.success.apply( d );
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "bottle_glass" );
 }

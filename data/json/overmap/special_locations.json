@@ -31,6 +31,11 @@
   },
   {
     "type": "overmap_location",
+    "id": "crater",
+    "terrains": [ "crater" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "special_field",
     "terrains": [ "special_field" ]
   },
@@ -83,7 +88,7 @@
   {
     "type": "overmap_location",
     "id": "road",
-    "terrains": [ "hiway_ns", "hiway_ew", "ranch_camp_77", "road", "road_nesw_manhole" ]
+    "terrains": [ "ranch_camp_77", "road", "road_nesw_manhole" ]
   },
   {
     "type": "overmap_location",
@@ -108,7 +113,7 @@
   {
     "type": "overmap_location",
     "id": "railroad_level_crossing_allowed",
-    "terrains": [ "hiway_ns", "hiway_ew", "road" ]
+    "terrains": [ "road" ]
   },
   {
     "type": "overmap_location",

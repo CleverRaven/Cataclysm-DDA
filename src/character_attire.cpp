@@ -9,6 +9,7 @@
 #include "game.h"
 #include "inventory.h"
 #include "itype.h"
+#include "make_static.h"
 #include "melee.h"
 #include "memorial_logger.h"
 #include "messages.h"
@@ -25,6 +26,12 @@ static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
 
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
 
+static const material_id material_acidchitin( "acidchitin" );
+static const material_id material_bone( "bone" );
+static const material_id material_chitin( "chitin" );
+static const material_id material_fur( "fur" );
+static const material_id material_gutskin( "gutskin" );
+static const material_id material_leather( "leather" );
 static const material_id material_wool( "wool" );
 
 static const sub_bodypart_str_id sub_body_part_foot_sole_l( "foot_sole_l" );
@@ -34,6 +41,7 @@ static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
+static const trait_id trait_VEGAN( "VEGAN" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 nc_color item_penalties::color_for_stacking_badness() const
@@ -81,6 +89,17 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_wool ) ||
                                             it.has_own_flag( flag_wooled ) ) ) {
         return ret_val<void>::make_failure( _( "Can't wear that, it's made of wool!" ) );
+    }
+
+    if( has_trait( trait_VEGAN ) && ( it.made_of( material_leather ) ||
+                                      it.has_own_flag( flag_ANIMAL_PRODUCT ) ||
+                                      it.made_of( material_fur ) ||
+                                      it.made_of( material_wool ) ||
+                                      it.made_of( material_chitin ) ||
+                                      it.made_of( material_bone ) ||
+                                      it.made_of( material_gutskin ) ||
+                                      it.made_of( material_acidchitin ) ) ) {
+        return ret_val<void>::make_failure( _( "Can't wear that, it's made from an animal!" ) );
     }
 
     if( it.is_filthy() && has_trait( trait_SQUEAMISH ) ) {
@@ -326,15 +345,54 @@ std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, cons
         guy.calc_discomfort();
     }
 
+    if( to_wear.is_rigid() || to_wear.is_ablative() ) {
+        recalc_ablative_blocking( &guy );
+    }
+
     guy.recoil = MAX_RECOIL;
 
     return new_item_it;
+}
+
+void outfit::recalc_ablative_blocking( const Character *guy )
+{
+    std::set<sub_bodypart_id> rigid_locations;
+
+    // get all rigid locations
+    // ablative pocketed armor shouldn't block adding ablative pieces
+    for( const item &w : worn ) {
+        if( w.is_rigid() && !w.is_ablative() ) {
+            for( const sub_bodypart_id &sbp : w.get_covered_sub_body_parts() ) {
+                if( w.is_bp_rigid( sbp ) ) {
+                    rigid_locations.emplace( sbp );
+                }
+            }
+        }
+    }
+
+    bool should_warn = false;
+
+    // pass that info to all the ablative pockets
+    for( item &w : worn ) {
+        if( w.is_ablative() ) {
+            should_warn = true;
+            for( item_pocket *p : w.get_all_ablative_pockets() ) {
+                p->set_no_rigid( rigid_locations );
+            }
+        }
+    }
+
+    if( should_warn && !rigid_locations.empty() ) {
+        guy->add_msg_if_player( m_warning,
+                                _( "You are wearing rigid armor with armor that has pockets for armor.  Until hard armor is removed inserting plates on those locations will be disabled." ) );
+    }
 }
 
 std::optional<std::list<item>::iterator> Character::wear_item( const item &to_wear,
         bool interactive, bool do_calc_encumbrance )
 {
     invalidate_inventory_validity_cache();
+    invalidate_leak_level_cache();
     const auto ret = can_wear( to_wear );
     if( !ret.success() ) {
         if( interactive ) {
@@ -421,6 +479,7 @@ bool Character::takeoff( item_location loc, std::list<item> *res )
 
         recalc_sight_limits();
         calc_encumbrance();
+        worn.recalc_ablative_blocking( this );
         calc_discomfort();
         recoil = MAX_RECOIL;
         return true;
@@ -464,6 +523,12 @@ item Character::item_worn_with_flag( const flag_id &f ) const
 {
     return worn.item_worn_with_flag( f );
 }
+
+item *Character::item_worn_with_id( const itype_id &i )
+{
+    return worn.item_worn_with_id( i );
+}
+
 
 bool Character::wearing_something_on( const bodypart_id &bp ) const
 {
@@ -716,7 +781,7 @@ bool Character::is_wearing_active_optcloak() const
 }
 
 static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const item &it,
-                        std::map<bodypart_id, layer_level> &highest_layer_so_far, const Character &c )
+                        std::map<sub_bodypart_id, layer_level> &highest_layer_so_far, const Character &c )
 {
     body_part_set covered_parts = it.get_covered_body_parts();
     for( const bodypart_id &bp : c.get_all_body_parts() ) {
@@ -745,22 +810,46 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
             // do the sublayers of this armor conflict
             bool conflicts = false;
 
+            // check if we've already added conflict for the layer and body part since each sbp is check individually
+            std::map<layer_level, bool> bpcovered;
+
             // add the sublocations to the overall body part layer and update if we are conflicting
-            if( !bp->sub_parts.empty() && item_layer >= highest_layer_so_far[bp] ) {
-                conflicts = vals[bp].add_sub_locations( item_layer, it.get_covered_sub_body_parts() );
-            } else {
-                // the body part doesn't have sublocations it for sure conflicts
-                // if its on the wrong layer it for sure conflicts
-                conflicts = true;
-            }
+            for( sub_bodypart_id &sbp : it.get_covered_sub_body_parts() ) {
+                if( std::count_if( bp->sub_parts.begin(),
+                bp->sub_parts.end(), [sbp]( const sub_bodypart_str_id & bpid ) {
+                return sbp.id() == bpid;
+                } ) == 0 ) {
+                    // the sub part isn't part of the bodypart we are checking
+                    continue;
+                }
+                // bit hacky but needed since we are doing one layer at a time
+                std::vector<layer_level> ll;
+                ll.push_back( item_layer );
+                if( !it.has_layer( ll, sbp ) ) {
+                    // skip this layer and sbp if it doesn't cover it
+                    continue;
+                }
 
-            highest_layer_so_far[bp] = std::max( highest_layer_so_far[bp], item_layer );
+                if( item_layer >= highest_layer_so_far[sbp] ) {
+                    conflicts = vals[bp].add_sub_location( item_layer, sbp );
+                } else {
+                    // if it is on a lower layer it conflicts for sure
+                    conflicts = true;
+                }
 
-            // Apply layering penalty to this layer, as well as any layer worn
-            // within it that would normally be worn outside of it.
-            for( layer_level penalty_layer = item_layer;
-                 penalty_layer <= highest_layer_so_far[bp]; ++penalty_layer ) {
-                vals[bp].layer( penalty_layer, layering_encumbrance, conflicts );
+                highest_layer_so_far[sbp] = std::max( highest_layer_so_far[sbp], item_layer );
+
+                // Apply layering penalty to this layer, as well as any layer worn
+                // within it that would normally be worn outside of it.
+                for( layer_level penalty_layer = item_layer;
+                     penalty_layer <= highest_layer_so_far[sbp]; ++penalty_layer ) {
+
+                    // make sure we haven't already found a subpart that covers and would cause penalty
+                    if( !bpcovered[penalty_layer] ) {
+                        vals[bp].layer( penalty_layer, layering_encumbrance, conflicts );
+                        bpcovered[penalty_layer] = true;
+                    }
+                }
             }
         }
         vals[bp].armor_encumbrance += encumber_val;
@@ -802,7 +891,7 @@ void outfit::item_encumb( std::map<bodypart_id, encumbrance_data> &vals,
 
     // Track highest layer observed so far so we can penalize out-of-order
     // items
-    std::map<bodypart_id, layer_level> highest_layer_so_far;
+    std::map<sub_bodypart_id, layer_level> highest_layer_so_far;
 
     for( auto w_it = worn.begin(); w_it != worn.end(); ++w_it ) {
         if( w_it == new_item_position ) {
@@ -857,6 +946,15 @@ bool outfit::is_worn( const itype_id &clothing ) const
     }
     return false;
 }
+bool outfit::is_worn_module( const item &thing ) const
+
+{
+    return thing.has_flag( flag_CANT_WEAR ) &&
+    std::any_of( worn.cbegin(), worn.cend(), [&thing]( item const & elem ) {
+        return elem.contained_where( thing ) != nullptr;
+    } );
+}
+
 
 bool outfit::is_wearing_on_bp( const itype_id &clothing, const bodypart_id &bp ) const
 {
@@ -920,6 +1018,18 @@ item outfit::item_worn_with_flag( const flag_id &f ) const
         }
     }
     return it_with_flag;
+}
+
+item *outfit::item_worn_with_id( const itype_id &i )
+{
+    item *it_with_id = nullptr;
+    for( item &it : worn ) {
+        if( it.typeId() == i ) {
+            it_with_id = &it;
+            break;
+        }
+    }
+    return it_with_id;
 }
 
 std::list<item> outfit::get_visible_worn_items( const Character &guy ) const
@@ -1170,7 +1280,7 @@ bool outfit::is_wearing_active_optcloak() const
     return false;
 }
 
-ret_val<void> outfit::only_one_conflicts( const item &clothing ) const
+static ret_val<void> test_only_one_conflicts( const item &clothing, const item &i )
 {
     const bool this_restricts_only_one = clothing.has_flag( json_flag_ONE_PER_LAYER );
 
@@ -1190,25 +1300,74 @@ ret_val<void> outfit::only_one_conflicts( const item &clothing ) const
         return ret;
     };
 
+    if( i.has_flag( flag_ONLY_ONE ) && i.typeId() == clothing.typeId() ) {
+        return ret_val<void>::make_failure( _( "Can't wear more than one %s!" ), clothing.tname() );
+    }
+
+    if( this_restricts_only_one || i.has_flag( json_flag_ONE_PER_LAYER ) ) {
+        std::optional<side> overlaps = clothing.covers_overlaps( i );
+        if( overlaps && sidedness_conflicts( *overlaps ) ) {
+            return ret_val<void>::make_failure( _( "%1$s conflicts with %2$s!" ), clothing.tname(), i.tname() );
+        }
+    }
+
+    return ret_val<void>::make_success();
+}
+
+ret_val<void> outfit::only_one_conflicts( const item &clothing ) const
+{
     for( const item &i : worn ) {
-        if( i.has_flag( flag_ONLY_ONE ) && i.typeId() == clothing.typeId() ) {
-            return ret_val<void>::make_failure( _( "Can't wear more than one %s!" ), clothing.tname() );
+        ret_val<void> result = test_only_one_conflicts( clothing, i );
+        if( !result.success() ) {
+            return result;
         }
 
-        if( this_restricts_only_one || i.has_flag( json_flag_ONE_PER_LAYER ) ) {
-            std::optional<side> overlaps = clothing.covers_overlaps( i );
-            if( overlaps && sidedness_conflicts( *overlaps ) ) {
-                return ret_val<void>::make_failure( _( "%1$s conflicts with %2$s!" ), clothing.tname(), i.tname() );
+        if( i.is_ablative() ) {
+            // if item has ablative armor we should check those too.
+            for( const item *ablative_armor : i.all_ablative_armor() ) {
+                result = test_only_one_conflicts( clothing, *ablative_armor );
+                if( !result.success() ) {
+                    return result;
+                }
             }
         }
     }
     return ret_val<void>::make_success();
 }
 
+static ret_val<void> rigid_test( const item &clothing, const item &i,
+                                 const std::unordered_set<sub_bodypart_id> &to_test )
+{
+    // check each sublimb individually
+    for( const sub_bodypart_id &sbp : to_test ) {
+        // skip if the item doesn't currently cover the bp
+        if( !i.covers( sbp ) ) {
+            continue;
+        }
+
+        // skip if either item cares only about its layer and they don't match up
+        if( ( i.is_bp_rigid_selective( sbp ) || clothing.is_bp_rigid_selective( sbp ) ) &&
+            !i.has_layer( clothing.get_layer( sbp ), sbp ) ) {
+            continue;
+        }
+
+        // allow wearing splints on integrated armor such as protective bark
+        if( i.has_flag( flag_INTEGRATED ) && clothing.has_flag( flag_SPLINT ) ) {
+            continue;
+        }
+
+        if( i.is_bp_rigid( sbp ) ) {
+            return ret_val<void>::make_failure( _( "Can't wear more than one rigid item on %s!" ), sbp->name );
+        }
+    }
+
+    return ret_val<void>::make_success();
+}
+
 ret_val<void> outfit::check_rigid_conflicts( const item &clothing, side s ) const
 {
 
-    std::vector<sub_bodypart_id> to_test;
+    std::unordered_set<sub_bodypart_id> to_test;
 
     // if not overridden get the actual side of the item
     if( s == side::num_sides ) {
@@ -1223,41 +1382,23 @@ ret_val<void> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
         // figure out which sublimbs need to be tested
         for( const sub_bodypart_id &sbp : swapped_item.get_covered_sub_body_parts() ) {
             if( swapped_item.is_bp_rigid( sbp ) ) {
-                to_test.push_back( sbp );
+                to_test.emplace( sbp );
             }
         }
     } else {
         // figure out which sublimbs need to be tested
         for( const sub_bodypart_id &sbp : clothing.get_covered_sub_body_parts() ) {
             if( clothing.is_bp_rigid( sbp ) ) {
-                to_test.push_back( sbp );
+                to_test.emplace( sbp );
             }
         }
     }
 
     // go through all worn and see if already wearing something rigid
     for( const item &i : worn ) {
-        // check each sublimb individually
-        for( const sub_bodypart_id &sbp : to_test ) {
-            // skip if the item doesn't currently cover the bp
-            if( !i.covers( sbp ) ) {
-                continue;
-            }
-
-            // skip if either item cares only about its layer and they don't match up
-            if( ( i.is_bp_rigid_selective( sbp ) || clothing.is_bp_rigid_selective( sbp ) ) &&
-                !i.has_layer( clothing.get_layer( sbp ), sbp ) ) {
-                continue;
-            }
-
-            // allow wearing splints on integrated armor such as protective bark
-            if( i.has_flag( flag_INTEGRATED ) && clothing.has_flag( flag_SPLINT ) ) {
-                continue;
-            }
-
-            if( i.is_bp_rigid( sbp ) ) {
-                return ret_val<void>::make_failure( _( "Can't wear more than one rigid item on %s!" ), sbp->name );
-            }
+        ret_val<void> result = rigid_test( clothing, i, to_test );
+        if( !result.success() ) {
+            return result;
         }
     }
 
@@ -1650,8 +1791,13 @@ void outfit::get_overlay_ids( std::vector<std::pair<std::string, std::string>> &
         if( worn_item.has_flag( json_flag_HIDDEN ) ) {
             continue;
         }
-        const std::string variant = worn_item.has_itype_variant() ? worn_item.itype_variant().id : "";
-        overlay_ids.emplace_back( "worn_" + worn_item.typeId().str(), variant );
+        if( worn_item.has_var( "sprite_override" ) ) {
+            overlay_ids.emplace_back( "worn_" + worn_item.get_var( "sprite_override" ),
+                                      worn_item.get_var( "sprite_override_variant", "" ) );
+        } else {
+            const std::string variant = worn_item.has_itype_variant() ? worn_item.itype_variant().id : "";
+            overlay_ids.emplace_back( "worn_" + worn_item.typeId().str(), variant );
+        }
     }
 }
 
@@ -1689,36 +1835,25 @@ item &outfit::front()
 
 static void item_armor_enchantment_adjust( Character &guy, damage_unit &du, item &armor )
 {
-    switch( du.type ) {
-        case damage_type::ACID:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ACID );
-            break;
-        case damage_type::BASH:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BASH );
-            break;
-        case damage_type::BIOLOGICAL:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BIO );
-            break;
-        case damage_type::COLD:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_COLD );
-            break;
-        case damage_type::CUT:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_CUT );
-            break;
-        case damage_type::ELECTRIC:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ELEC );
-            break;
-        case damage_type::HEAT:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_HEAT );
-            break;
-        case damage_type::STAB:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_STAB );
-            break;
-        case damage_type::BULLET:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BULLET );
-            break;
-        default:
-            return;
+    // FIXME: hardcoded damage types -> enchantments
+    if( du.type == STATIC( damage_type_id( "acid" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ACID );
+    } else if( du.type == STATIC( damage_type_id( "bash" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BASH );
+    } else if( du.type == STATIC( damage_type_id( "biological" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BIO );
+    } else if( du.type == STATIC( damage_type_id( "cold" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_COLD );
+    } else if( du.type == STATIC( damage_type_id( "cut" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_CUT );
+    } else if( du.type == STATIC( damage_type_id( "electric" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ELEC );
+    } else if( du.type == STATIC( damage_type_id( "heat" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_HEAT );
+    } else if( du.type == STATIC( damage_type_id( "stab" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_STAB );
+    } else if( du.type == STATIC( damage_type_id( "bullet" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BULLET );
     }
     du.amount = std::max( 0.0f, du.amount );
 }
@@ -1756,7 +1891,8 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
         item_armor_enchantment_adjust( guy, elem, armor );
         // Heat damage can set armor on fire
         // Even though it doesn't cause direct physical damage to it
-        if( outermost && elem.type == damage_type::HEAT && elem.amount >= 1.0f ) {
+        // FIXME: Hardcoded damage type
+        if( outermost && elem.type == STATIC( damage_type_id( "heat" ) ) && elem.amount >= 1.0f ) {
             // TODO: Different fire intensity values based on damage
             fire_data frd{ 2 };
             destroy = !armor.has_flag( flag_INTEGRATED ) && armor.burn( frd );
@@ -1768,18 +1904,16 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
         }
 
         if( !destroy ) {
-            // if we don't have sub parts data
-            // this is the feet head and hands
-            if( bp->sub_parts.empty() ) {
-                destroy = guy.armor_absorb( elem, armor, bp, roll );
-            } else {
-                // if this armor has sublocation data test against it instead of just a generic roll
-                destroy = guy.armor_absorb( elem, armor, bp, sbp, roll );
-                // for the torso we also need to consider if it hits anything hanging off the character or their neck
-                if( secondary_sbp != sub_bodypart_id() ) {
-                    destroy = guy.armor_absorb( elem, armor, bp, secondary_sbp, roll );
-                }
+            // if the armor location has ablative armor apply that first
+            if( armor.is_ablative() ) {
+                guy.ablative_armor_absorb( elem, armor, sbp, roll );
+            }
 
+            // if not already destroyed to an armor absorb
+            destroy = guy.armor_absorb( elem, armor, bp, sbp, roll );
+            // for the torso we also need to consider if it hits anything hanging off the character or their neck
+            if( secondary_sbp != sub_bodypart_id() ) {
+                destroy = guy.armor_absorb( elem, armor, bp, secondary_sbp, roll );
             }
         }
 
@@ -1805,13 +1939,13 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
     }
 }
 
-float outfit::damage_resist( const damage_type dmg_type, const bodypart_id &bp,
+float outfit::damage_resist( const damage_type_id &dt, const bodypart_id &bp,
                              const bool to_self ) const
 {
     float ret = 0.0f;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
-            ret += i.resist( dmg_type, to_self, bp );
+            ret += i.resist( dt, to_self, bp );
         }
     }
     return ret;
@@ -1896,8 +2030,7 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
             return it.is_gun();
         } );
 
-        if( !guns.empty() && clothing.type->can_use( "holster" ) &&
-            !clothing.has_flag( flag_NO_QUICKDRAW ) ) {
+        if( !guns.empty() && clothing.type->can_use( "holster" ) ) {
             //~ draw (first) gun contained in holster
             //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
             options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
@@ -1967,10 +2100,10 @@ void outfit::best_pocket( Character &guy, const item &it, const item *avoid,
     }
 }
 
-void outfit::overflow( const tripoint &pos )
+void outfit::overflow( Character &guy )
 {
-    for( item &clothing : worn ) {
-        clothing.overflow( pos );
+    for( item_location &clothing : top_items_loc( guy ) ) {
+        clothing.overflow();
     }
 }
 
@@ -2349,24 +2482,18 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
             if( pocke == nullptr ) {
                 continue;
             }
-            if( pocke->rigid() ) {
-                // Rigid container allow to fill unconditionally till volume limit
-                // because do not depend on the capacity of the parent's pocket.
-                filled_count = pocke->fill_with( newit, guy, remaining_charges, false, false );
-            } else {
-                int max_contain_value = pocke->remaining_capacity_for_item( newit );
-                const item_location parent_data = pocket_data_ptr.parent;
+            int max_contain_value = pocke->remaining_capacity_for_item( newit );
+            const item_location parent_data = pocket_data_ptr.parent;
 
-                if( parent_data.has_parent() ) {
-                    if( parent_data.parents_can_contain_recursive( &temp_it ) ) {
-                        max_contain_value = parent_data.max_charges_by_parent_recursive( temp_it );
-                    } else {
-                        max_contain_value = 0;
-                    }
+            if( parent_data.has_parent() ) {
+                if( parent_data.parents_can_contain_recursive( &temp_it ) ) {
+                    max_contain_value = parent_data.max_charges_by_parent_recursive( temp_it );
+                } else {
+                    max_contain_value = 0;
                 }
-                const int charges = std::min( max_contain_value, remaining_charges ) ;
-                filled_count = pocke->fill_with( newit, guy, charges, false, false );
             }
+            const int charges = std::min( max_contain_value, remaining_charges ) ;
+            filled_count = pocke->fill_with( newit, guy, charges, false, false );
             num_contained += filled_count;
             remaining_charges -= filled_count;
         }
@@ -2499,7 +2626,25 @@ std::vector<item_pocket *> outfit::grab_drop_pockets()
 {
     std::vector<item_pocket *> pd;
     for( item &i : worn ) {
-        // if the item has ripoff pockets we should itterate on them also grabs only effect the torso
+        if( i.has_ripoff_pockets() ) {
+            for( item_pocket *pocket : i.get_all_contained_pockets() ) {
+                if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
+                    pd.push_back( pocket );
+                }
+            }
+        }
+    }
+    return pd;
+}
+
+std::vector<item_pocket *> outfit::grab_drop_pockets( const bodypart_id &bp )
+{
+    std::vector<item_pocket *> pd;
+    for( item &i : worn ) {
+        // Check if we wear it on the grabbed limb in the first place
+        if( !is_wearing_on_bp( i.typeId(), bp ) ) {
+            continue;
+        }
         if( i.has_ripoff_pockets() ) {
             for( item_pocket *pocket : i.get_all_contained_pockets() ) {
                 if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {

@@ -1,7 +1,10 @@
 #include "cata_utility.h"
 
 #include <cctype>
+#include <cerrno>
+#include <charconv>
 #include <clocale>
+#include <cstdlib>
 #include <cwctype>
 #include <algorithm>
 #include <cmath>
@@ -14,7 +17,6 @@
 
 #include "cached_options.h"
 #include "catacharset.h"
-#include "cata_utility.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "filesystem.h"
@@ -79,8 +81,15 @@ bool isBetween( int test, int down, int up )
     return test > down && test < up;
 }
 
-bool lcmatch( const std::string &str, const std::string &qry )
+bool lcmatch( const std::string_view str, const std::string_view qry )
 {
+    // It will be quite common for the query string to be empty.  Anything will
+    // match in that case, so short-circuit and avoid the expensive
+    // conversions.
+    if( qry.empty() ) {
+        return true;
+    }
+
     std::u32string u32_str = utf8_to_utf32( str );
     std::u32string u32_qry = utf8_to_utf32( qry );
     std::for_each( u32_str.begin(), u32_str.end(), u32_to_lowercase );
@@ -101,12 +110,12 @@ bool lcmatch( const std::string &str, const std::string &qry )
     return false;
 }
 
-bool lcmatch( const translation &str, const std::string &qry )
+bool lcmatch( const translation &str, const std::string_view qry )
 {
     return lcmatch( str.translated(), qry );
 }
 
-bool match_include_exclude( const std::string &text, std::string filter )
+bool match_include_exclude( const std::string_view text, std::string filter )
 {
     size_t iPos;
     bool found = false;
@@ -288,7 +297,14 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
 
     } catch( const std::exception &err ) {
         if( fail_message ) {
-            popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message, path.c_str(), err.what() );
+            const std::string msg =
+                string_format( _( "Failed to write %1$s to \"%2$s\": %3$s" ),
+                               fail_message, path, err.what() );
+            if( test_mode ) {
+                DebugLog( D_ERROR, DC_ALL ) << msg;
+            } else {
+                popup( "%s", msg );
+            }
         }
         return false;
     }
@@ -311,8 +327,14 @@ bool write_to_file( const cata_path &path, const std::function<void( std::ostrea
 
     } catch( const std::exception &err ) {
         if( fail_message ) {
-            popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message,
-                   path.generic_u8string().c_str(), err.what() );
+            const std::string msg =
+                string_format( _( "Failed to write %1$s to \"%2$s\": %3$s" ),
+                               fail_message, path.generic_u8string(), err.what() );
+            if( test_mode ) {
+                DebugLog( D_ERROR, DC_ALL ) << msg;
+            } else {
+                popup( "%s", msg );
+            }
         }
         return false;
     }
@@ -447,7 +469,7 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const std::string &pat
 std::unique_ptr<std::istream> read_maybe_compressed_file( const fs::path &path )
 {
     try {
-        cata::ifstream fin( path, std::ios::binary );
+        std::ifstream fin( path, std::ios::binary );
         if( !fin ) {
             throw std::runtime_error( "opening file failed" );
         }
@@ -465,7 +487,7 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const fs::path &path )
             inflated_contents_stream.write( outstring.data(), outstring.size() );
             return std::make_unique<std::stringstream>( std::move( inflated_contents_stream ) );
         } else {
-            return std::make_unique<cata::ifstream>( std::move( fin ) );
+            return std::make_unique<std::ifstream>( std::move( fin ) );
         }
         if( fin.bad() ) {
             throw std::runtime_error( "reading file failed" );
@@ -491,7 +513,7 @@ std::optional<std::string> read_whole_file( const fs::path &path )
 {
     std::string outstring;
     try {
-        cata::ifstream fin( path, std::ios::binary );
+        std::ifstream fin( path, std::ios::binary );
         if( !fin ) {
             throw std::runtime_error( "opening file failed" );
         }
@@ -511,7 +533,7 @@ std::optional<std::string> read_whole_file( const fs::path &path )
             fin.seekg( 0 );
 
             outstring.resize( size );
-            fin.read( &outstring[0], size );
+            fin.read( outstring.data(), size );
         }
         if( fin.bad() ) {
             throw std::runtime_error( "reading file failed" );
@@ -628,17 +650,6 @@ void deserialize_wrapper( const std::function<void( const JsonValue & )> &callba
     callback( jsin );
 }
 
-bool string_starts_with( const std::string &s1, const std::string &s2 )
-{
-    return s1.compare( 0, s2.size(), s2 ) == 0;
-}
-
-bool string_ends_with( const std::string &s1, const std::string &s2 )
-{
-    return s1.size() >= s2.size() &&
-           s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
-}
-
 bool string_empty_or_whitespace( const std::string &s )
 {
     if( s.empty() ) {
@@ -651,7 +662,34 @@ bool string_empty_or_whitespace( const std::string &s )
     } );
 }
 
-std::vector<std::string> string_split( const std::string &string, char delim )
+int string_view_cmp( const std::string_view l, const std::string_view r )
+{
+    size_t min_len = std::min( l.size(), r.size() );
+    int result = memcmp( l.data(), r.data(), min_len );
+    if( result ) {
+        return result;
+    }
+    if( l.size() == r.size() ) {
+        return 0;
+    }
+    return l.size() < r.size() ? -1 : 1;
+}
+
+template<typename Integer>
+Integer svto( const std::string_view s )
+{
+    Integer result = 0;
+    const char *end = s.data() + s.size();
+    std::from_chars_result r = std::from_chars( s.data(), end, result );
+    if( r.ptr != end ) {
+        cata_fatal( "could not parse string_view as an integer" );
+    }
+    return result;
+}
+
+template int svto<int>( std::string_view );
+
+std::vector<std::string> string_split( const std::string_view string, char delim )
 {
     std::vector<std::string> elems;
 
@@ -659,7 +697,7 @@ std::vector<std::string> string_split( const std::string &string, char delim )
         return elems; // Well, that was easy.
     }
 
-    std::stringstream ss( string );
+    std::stringstream ss( std::string{ string } );
     std::string item;
     while( std::getline( ss, item, delim ) ) {
         elems.push_back( item );
@@ -827,4 +865,16 @@ std::string io::enum_to_string<aggregate_type>( aggregate_type agg )
             break;
     }
     cata_fatal( "Invalid aggregate type." );
+}
+
+std::optional<double> svtod( std::string_view token )
+{
+    char *pEnd = nullptr;
+    double const val = std::strtod( token.data(), &pEnd );
+    if( pEnd == token.data() + token.size() ) {
+        return { val };
+    }
+    errno = 0;
+
+    return std::nullopt;
 }

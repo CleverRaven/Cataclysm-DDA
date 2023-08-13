@@ -11,7 +11,6 @@
     "longest_side": "205 mm",
     "price": 59200,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "superalloy" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -30,7 +29,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "afs_84k_20mag" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "afs_silvergram_pistol",
@@ -44,7 +44,6 @@
     "longest_side": "205 mm",
     "price": "750 kUSD",
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "superalloy" ],
     "built_in_mods": [ "afs_smart_scope" ],
     "skill": "smartgun",
@@ -75,6 +74,7 @@
     ],
     "valid_mod_locations": [ [ "sights", 1 ], [ "sling", 1 ] ],
     "flags": [ "NEVER_JAMS", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_smart_gun" } ] }
+    "relic_data": { "passive_effects": [ { "id": "ench_smart_gun" } ] },
+    "melee_damage": { "bash": 8 }
   }
 ]

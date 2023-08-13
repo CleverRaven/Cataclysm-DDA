@@ -263,7 +263,7 @@ static std::array<const char *, static_cast<size_t>( mod_type::MAX )> MOD_TYPE_S
 };
 
 void effect_type::extract_effect(
-    const JsonObject &j,
+    const std::array<std::optional<JsonObject>, 2> &j,
     const std::string &effect_name,
     const std::vector<std::pair<std::string, mod_action>> &action_keys )
 {
@@ -271,11 +271,11 @@ void effect_type::extract_effect(
 
     for( uint32_t cur_mod_type = 0; cur_mod_type < static_cast<size_t>( mod_type::MAX );
          cur_mod_type++ ) {
-        if( !j.has_object( MOD_TYPE_STRINGS[cur_mod_type] ) ) {
+        if( !j[cur_mod_type].has_value() ) {
             continue;
         }
 
-        const JsonObject base = j.get_object( MOD_TYPE_STRINGS[cur_mod_type] );
+        const JsonObject &base = *j[cur_mod_type];
 
         for( const auto &action_key : action_keys ) {
             if( !base.has_array( action_key.first ) ) {
@@ -310,15 +310,25 @@ void effect_type::extract_effect(
 
 void effect_type::load_mod_data( const JsonObject &j )
 {
+
+    // Fetch the JSON objects at the start so we can do unvisited member checking
+    std::array<std::optional<JsonObject>, 2> to_extract;
+    to_extract[0] = j.has_object( MOD_TYPE_STRINGS[0] ) ?
+                    std::optional<JsonObject>( j.get_object( MOD_TYPE_STRINGS[0] ) ) :
+                    std::nullopt;
+    to_extract[1] = j.has_object( MOD_TYPE_STRINGS[1] ) ?
+                    std::optional<JsonObject>( j.get_object( MOD_TYPE_STRINGS[1] ) ) :
+                    std::nullopt;
+
     // Stats first
-    extract_effect( j, "STR",   { {"str_mod",   mod_action::MIN} } );
-    extract_effect( j, "DEX",   { {"dex_mod",   mod_action::MIN} } );
-    extract_effect( j, "PER",   { {"per_mod",   mod_action::MIN} } );
-    extract_effect( j, "INT",   { {"int_mod",   mod_action::MIN} } );
-    extract_effect( j, "SPEED", { {"speed_mod", mod_action::MIN} } );
+    extract_effect( to_extract, "STR",   { {"str_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "DEX",   { {"dex_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "PER",   { {"per_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "INT",   { {"int_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "SPEED", { {"speed_mod", mod_action::MIN} } );
 
     // Then pain
-    extract_effect( j, "PAIN", {
+    extract_effect( to_extract, "PAIN", {
         { "pain_amount",     mod_action::AMOUNT},
         { "pain_min",        mod_action::MIN},
         { "pain_max",        mod_action::MAX},
@@ -329,7 +339,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then hurt
-    extract_effect( j, "HURT", {
+    extract_effect( to_extract, "HURT", {
         {"hurt_amount",      mod_action::AMOUNT},
         {"hurt_min",         mod_action::MIN},
         {"hurt_max",         mod_action::MAX},
@@ -339,7 +349,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then sleep
-    extract_effect( j, "SLEEP", {
+    extract_effect( to_extract, "SLEEP", {
         {"sleep_amount",      mod_action::AMOUNT},
         {"sleep_min",         mod_action::MIN},
         {"sleep_max",         mod_action::MAX},
@@ -349,7 +359,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then pkill
-    extract_effect( j, "PKILL", {
+    extract_effect( to_extract, "PKILL", {
         {"pkill_amount",      mod_action::AMOUNT},
         {"pkill_min",         mod_action::MIN},
         {"pkill_max",         mod_action::MAX},
@@ -360,7 +370,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then stim
-    extract_effect( j, "STIM", {
+    extract_effect( to_extract, "STIM", {
         {"stim_amount",      mod_action::AMOUNT},
         {"stim_min",         mod_action::MIN},
         {"stim_max",         mod_action::MAX},
@@ -372,7 +382,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then health
-    extract_effect( j, "HEALTH", {
+    extract_effect( to_extract, "HEALTH", {
         {"health_amount",      mod_action::AMOUNT},
         {"health_min",         mod_action::MIN},
         {"health_max",         mod_action::MAX},
@@ -384,7 +394,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then health mod
-    extract_effect( j, "H_MOD", {
+    extract_effect( to_extract, "H_MOD", {
         {"h_mod_amount",      mod_action::AMOUNT},
         {"h_mod_min",         mod_action::MIN},
         {"h_mod_max",         mod_action::MAX},
@@ -396,7 +406,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then radiation
-    extract_effect( j, "RAD", {
+    extract_effect( to_extract, "RAD", {
         {"rad_amount",      mod_action::AMOUNT},
         {"rad_min",         mod_action::MIN},
         {"rad_max",         mod_action::MAX},
@@ -407,7 +417,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then hunger
-    extract_effect( j, "HUNGER", {
+    extract_effect( to_extract, "HUNGER", {
         {"hunger_amount",      mod_action::AMOUNT},
         {"hunger_min",         mod_action::MIN},
         {"hunger_max",         mod_action::MAX},
@@ -419,7 +429,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then thirst
-    extract_effect( j, "THIRST", {
+    extract_effect( to_extract, "THIRST", {
         {"thirst_amount",      mod_action::AMOUNT},
         {"thirst_min",         mod_action::MIN},
         {"thirst_max",         mod_action::MAX},
@@ -431,7 +441,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then thirst
-    extract_effect( j, "PERSPIRATION", {
+    extract_effect( to_extract, "PERSPIRATION", {
         {"perspiration_amount",      mod_action::AMOUNT},
         {"perspiration_min",         mod_action::MIN},
         {"perspiration_max",         mod_action::MAX},
@@ -443,7 +453,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then fatigue
-    extract_effect( j, "FATIGUE", {
+    extract_effect( to_extract, "FATIGUE", {
         {"fatigue_amount",      mod_action::AMOUNT},
         {"fatigue_min",         mod_action::MIN},
         {"fatigue_max",         mod_action::MAX},
@@ -455,7 +465,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then stamina
-    extract_effect( j, "STAMINA", {
+    extract_effect( to_extract, "STAMINA", {
         {"stamina_amount",      mod_action::AMOUNT},
         {"stamina_min",         mod_action::MIN},
         {"stamina_max",         mod_action::MAX},
@@ -466,30 +476,30 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then coughing
-    extract_effect( j, "COUGH", {
+    extract_effect( to_extract, "COUGH", {
         {"cough_chance",      mod_action::CHANCE_TOP},
         {"cough_chance_bot",  mod_action::CHANCE_BOT},
         {"cough_tick",        mod_action::TICK},
     } );
 
     // Then vomiting
-    extract_effect( j, "VOMIT", {
+    extract_effect( to_extract, "VOMIT", {
         {"vomit_chance",      mod_action::CHANCE_TOP},
         {"vomit_chance_bot",  mod_action::CHANCE_BOT},
         {"vomit_tick",        mod_action::TICK},
     } );
 
     // Then healing effects
-    extract_effect( j, "HEAL_RATE",  { {"healing_rate",  mod_action::AMOUNT} } );
-    extract_effect( j, "HEAL_HEAD",  { {"healing_head",  mod_action::AMOUNT} } );
-    extract_effect( j, "HEAL_TORSO", { {"healing_torso", mod_action::AMOUNT} } );
+    extract_effect( to_extract, "HEAL_RATE",  { {"healing_rate",  mod_action::AMOUNT} } );
+    extract_effect( to_extract, "HEAL_HEAD",  { {"healing_head",  mod_action::AMOUNT} } );
+    extract_effect( to_extract, "HEAL_TORSO", { {"healing_torso", mod_action::AMOUNT} } );
 
     // creature stats mod
-    extract_effect( j, "DODGE", { {"dodge_mod", mod_action::MIN} } );
-    extract_effect( j, "HIT",   { {"hit_mod",   mod_action::MIN} } );
-    extract_effect( j, "BASH",  { {"bash_mod",  mod_action::MIN} } );
-    extract_effect( j, "CUT",   { {"cut_mod",   mod_action::MIN} } );
-    extract_effect( j, "SIZE",  { {"size_mod",  mod_action::MIN} } );
+    extract_effect( to_extract, "DODGE", { {"dodge_mod", mod_action::MIN} } );
+    extract_effect( to_extract, "HIT",   { {"hit_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "BASH",  { {"bash_mod",  mod_action::MIN} } );
+    extract_effect( to_extract, "CUT",   { {"cut_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "SIZE",  { {"size_mod",  mod_action::MIN} } );
 }
 
 double effect_type::get_mod_value( const std::string &type, mod_action action,
@@ -539,9 +549,13 @@ bool effect_type::has_flag( const flag_id &flag ) const
     return flags.count( flag );
 }
 
-effect_rating effect_type::get_rating() const
+game_message_type effect_type::get_rating( int intensity ) const
 {
-    return rating;
+    if( apply_msgs.size() < static_cast<size_t>( intensity ) ) {
+        return apply_msgs[intensity - 1].second;
+    } else {
+        return apply_msgs[0].second;
+    }
 }
 
 bool effect_type::use_name_ints() const
@@ -558,41 +572,35 @@ bool effect_type::use_desc_ints( bool reduced ) const
     }
 }
 
-game_message_type effect_type::gain_game_message_type() const
+game_message_type effect_type::lose_game_message_type( int intensity ) const
 {
-    switch( rating ) {
-        case e_good:
-            return m_good;
-        case e_bad:
+    switch( get_rating( intensity ) ) {
+        case m_good:
             return m_bad;
-        case e_neutral:
+        case m_bad:
+            return m_good;
+        case m_neutral:
             return m_neutral;
-        case e_mixed:
+        case m_mixed:
             return m_mixed;
         default:
             // Should never happen
             return m_neutral;
     }
 }
-game_message_type effect_type::lose_game_message_type() const
+void effect_type::add_apply_msg( int intensity ) const
 {
-    switch( rating ) {
-        case e_good:
-            return m_bad;
-        case e_bad:
-            return m_good;
-        case e_neutral:
-            return m_neutral;
-        case e_mixed:
-            return m_mixed;
-        default:
-            // Should never happen
-            return m_neutral;
+    if( intensity == 0 ) {
+        return;
     }
-}
-std::string effect_type::get_apply_message() const
-{
-    return apply_message.translated();
+    if( intensity - 1 < static_cast<int>( apply_msgs.size() ) ) {
+        add_msg( apply_msgs[intensity - 1].second,
+                 apply_msgs[intensity - 1].first.translated() );
+    } else if( !apply_msgs.empty() && !apply_msgs[0].first.empty() ) {
+        // if the apply message is empty we shouldn't show the message
+        add_msg( apply_msgs[0].second,
+                 apply_msgs[0].first.translated() );
+    }
 }
 std::string effect_type::get_apply_memorial_log( const memorial_gender gender ) const
 {
@@ -630,34 +638,72 @@ bool effect_type::is_show_in_info() const
 {
     return show_in_info;
 }
-bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &member )
+bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string_view member )
 {
     return jo.read( member, miss_msgs );
 }
-bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &member )
+
+static std::optional<game_message_type> process_rating( const std::string &r )
+{
+    if( r == "good" ) {
+        return m_good;
+    } else if( r == "neutral" ) {
+        return m_neutral;
+    } else if( r == "bad" ) {
+        return m_bad;
+    } else if( r == "mixed" ) {
+        return m_mixed;
+    } else {
+        // handle errors for returning nothing above
+        return {};
+    }
+}
+
+// helps load the internal message arrays for decay and apply into the msgs vector
+static void load_msg_help( const JsonArray &ja,
+                           std::vector<std::pair<translation, game_message_type>> &apply_msgs )
+{
+    translation msg;
+    ja.read( 0, msg );
+    std::string r = ja.get_string( 1 );
+    std::optional<game_message_type> rate = process_rating( r );
+    if( !rate.has_value() ) {
+        ja.throw_error(
+            1, string_format( "Unexpected message type \"%s\"; expected \"good\", "
+                              "\"neutral\", " "\"bad\", or \"mixed\"", r ) );
+        rate = m_neutral;
+    }
+    apply_msgs.emplace_back( msg, rate.value() );
+}
+
+bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string_view member )
 {
     if( jo.has_array( member ) ) {
         for( JsonArray inner : jo.get_array( member ) ) {
-            translation msg;
-            inner.read( 0, msg );
-            std::string r = inner.get_string( 1 );
-            game_message_type rate = m_neutral;
-            if( r == "good" ) {
-                rate = m_good;
-            } else if( r == "neutral" ) {
-                rate = m_neutral;
-            } else if( r == "bad" ) {
-                rate = m_bad;
-            } else if( r == "mixed" ) {
-                rate = m_mixed;
-            } else {
-                inner.throw_error(
-                    1, string_format( "Unexpected message type \"%s\"; expected \"good\", "
-                                      "\"neutral\", " "\"bad\", or \"mixed\"", r ) );
-            }
-            decay_msgs.emplace_back( msg, rate );
+            load_msg_help( inner, decay_msgs );
         }
         return true;
+    }
+    return false;
+}
+
+bool effect_type::load_apply_msgs( const JsonObject &jo, const std::string_view member )
+{
+    if( jo.has_array( member ) ) {
+        JsonArray ja = jo.get_array( member );
+        for( JsonArray inner : jo.get_array( member ) ) {
+            load_msg_help( inner, apply_msgs );
+        }
+        return true;
+    } else {
+        translation msg;
+        optional( jo, false, member, msg );
+        if( jo.has_string( "rating" ) ) {
+            std::optional<game_message_type> rate = process_rating( jo.get_string( "rating" ) );
+            apply_msgs.emplace_back( msg, rate.value() );
+        } else {
+            apply_msgs.emplace_back( msg, game_message_type::m_neutral );
+        }
     }
     return false;
 }
@@ -1050,6 +1096,7 @@ static vitamin_applied_effect applied_from_rate( const bool reduced, const int i
 std::vector<vitamin_applied_effect> effect::vit_effects( const bool reduced ) const
 {
     std::vector<vitamin_applied_effect> ret;
+    ret.reserve( eff_type->vitamin_data.size() );
     for( const vitamin_rate_effect &vreff : eff_type->vitamin_data ) {
         ret.push_back( applied_from_rate( reduced, intensity, vreff ) );
     }
@@ -1124,6 +1171,8 @@ int effect::set_intensity( int val, bool alert )
         val - 1 < static_cast<int>( eff_type->decay_msgs.size() ) ) {
         add_msg( eff_type->decay_msgs[ val - 1 ].second,
                  eff_type->decay_msgs[ val - 1 ].first.translated() );
+    } else if( alert && val != 0 ) {
+        eff_type->add_apply_msg( val );
     }
 
     if( val == 0 && !eff_type->int_decay_remove ) {
@@ -1432,26 +1481,6 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.part_descs = jo.get_bool( "part_descs", false );
 
-    if( jo.has_member( "rating" ) ) {
-        std::string r = jo.get_string( "rating" );
-        if( r == "good" ) {
-            new_etype.rating = e_good;
-        } else if( r == "neutral" ) {
-            new_etype.rating = e_neutral;
-        } else if( r == "bad" ) {
-            new_etype.rating = e_bad;
-        } else if( r == "mixed" ) {
-            new_etype.rating = e_mixed;
-        } else {
-            jo.throw_error_at(
-                "rating",
-                string_format( "Unexpected rating \"%s\"; expected \"good\", \"neutral\", "
-                               "\"bad\", or \"mixed\"", r ) );
-        }
-    } else {
-        new_etype.rating = e_neutral;
-    }
-    jo.read( "apply_message", new_etype.apply_message );
     jo.read( "remove_message", new_etype.remove_message );
     optional( jo, false, "apply_memorial_log", new_etype.apply_memorial_log,
               text_style_check_reader() );
@@ -1500,6 +1529,7 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.load_miss_msgs( jo, "miss_messages" );
     new_etype.load_decay_msgs( jo, "decay_messages" );
+    new_etype.load_apply_msgs( jo, "apply_message" );
 
     new_etype.main_parts_only = jo.get_bool( "main_parts_only", false );
     new_etype.show_in_info = jo.get_bool( "show_in_info", false );

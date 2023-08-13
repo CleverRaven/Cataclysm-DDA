@@ -296,6 +296,21 @@
   },
   {
     "type": "recipe",
+    "result": "rifle_380",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_32",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_9x18",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "rifle_223",
     "obsolete": true
   },
@@ -812,11 +827,6 @@
   {
     "type": "recipe",
     "result": "reloaded_4570_bp",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_5x50dart",
     "obsolete": true
   },
   {
@@ -1502,11 +1512,6 @@
   {
     "type": "recipe",
     "result": "reloaded_4570_bp",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_5x50dart",
     "obsolete": true
   },
   {

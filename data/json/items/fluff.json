@@ -49,6 +49,7 @@
     "volume": "5 ml",
     "price": 800,
     "price_postapoc": 0,
+    "flags": [ "BANK_NOTE_SHAPED", "PAPER_SHAPED" ],
     "material": [ "paper" ],
     "symbol": "*",
     "color": "light_gray"
@@ -60,8 +61,9 @@
     "category": "other",
     "weight": "150 g",
     "color": "red",
-    "//": "The pom poms could make use of their own type of use_action.",
-    "use_action": {
+    "use_action": [ { "type": "play_instrument" } ],
+    "//": "The pom poms could make use of their own type of tick_action.",
+    "tick_action": {
       "type": "musical_instrument",
       "speed_penalty": 10,
       "volume": 10,
@@ -101,15 +103,17 @@
     "category": "other",
     "name": { "str": "chess set" },
     "description": "A wooden box containing all the pieces needed to play a game of chess.",
-    "weight": "907 g",
-    "volume": "2 L",
-    "price": 7500,
+    "weight": "550 g",
+    "volume": "2400 ml",
+    "longest_side": "30 cm",
+    "price": "16 USD",
     "price_postapoc": 500,
     "material": [ "wood" ],
     "symbol": "?",
     "color": "brown",
     "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
+    "use_action": [ "PLAY_GAME" ],
+    "//": "Based on folded volume of https://www.amazon.co.uk/Big-Game-Hunters-Portable-Wooden/dp/B07XVKG4YY/ref=sr_1_6?crid=1N6NEJ01S0U4V&keywords=chess+set&qid=1684582085&sprefix=chess+se%2Caps%2C117&sr=8-6"
   },
   {
     "id": "checkers",
@@ -598,7 +602,6 @@
     "price": 24000,
     "price_postapoc": 50,
     "to_hit": -4,
-    "bashing": 16,
     "material": [ "steel" ],
     "symbol": "?",
     "looks_like": "briefcase",
@@ -606,7 +609,8 @@
     "sided": true,
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 45, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 45, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 16 }
   },
   {
     "type": "GENERIC",
@@ -645,27 +649,13 @@
     "volume": "5 ml",
     "price": 3000,
     "price_postapoc": 50,
-    "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "light_cyan",
     "intelligence": 5,
-    "time": "10 m"
-  },
-  {
-    "type": "GENERIC",
-    "id": "train_data_card",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str_sp": "laboratory shipping records" },
-    "description": "Some type of advanced data storage device, filled with logistical data on subterranean train routes and schedules.",
-    "price": 10000,
-    "price_postapoc": 50,
-    "material": [ "plastic" ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "to_hit": -3
+    "time": "10 m",
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -706,5 +696,18 @@
     "material": [ "plastic" ],
     "symbol": "o",
     "color": "light_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "doormat",
+    "name": { "str_sp": "doormat" },
+    "description": "A non-slip mat with a welcoming message.  Once used to keep a house clean and inviting.",
+    "weight": "2200 g",
+    "volume": "3 L",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "cotton" ],
+    "symbol": "_",
+    "color": "brown"
   }
 ]

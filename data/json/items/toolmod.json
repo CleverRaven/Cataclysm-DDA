@@ -44,6 +44,17 @@
     "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "battery_car", "battery_motorbike" ] ] ]
   },
   {
+    "id": "pseudo_magazine_mod",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": { "str": "pseudo magazine mod" },
+    "description": "If you see this - you see a bug.",
+    "color": "light_green",
+    "flags": [ "PSEUDO" ],
+    "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_magazine", "item_restriction": [ "pseudo_magazine" ] } ]
+  },
+  {
     "id": "magazine_battery_light_mod",
     "copy-from": "mod_battery",
     "type": "TOOLMOD",

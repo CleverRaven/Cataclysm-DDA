@@ -1,19 +1,19 @@
 [
   {
-    "id": "glacier_mage_push_attacks",
+    "id": "glacier_mage_attack",
     "type": "SPELL",
-    "name": "Glacier Mage Push",
-    "description": "Push enemies when you attack them in melee.",
+    "name": "Glacier Mage Attack",
+    "description": "Deal some damage to a monster you attack.",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
-    "effect": "directed_push",
-    "effect_str": "downed",
+    "effect": "attack",
+    "effect_str": "ice_age_eff",
     "min_range": 1,
     "max_range": 1,
-    "min_damage": 1,
-    "max_damage": 2,
+    "min_damage": 19,
+    "max_damage": 31,
     "min_duration": 150,
-    "max_duration": 600,
+    "max_duration": 900,
     "shape": "blast",
     "damage_type": "bash"
   },
@@ -21,8 +21,11 @@
     "type": "enchantment",
     "id": "GLACIER_MAGE",
     "condition": "ALWAYS",
+    "name": { "str": "Stalactite" },
+    "description": "Your Glacier Mage abilities grant you good resistance to temperature conditions.  Also your attacks may deal additional cold damage from time to time.",
+    "//": "push attacks",
     "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ],
-    "hit_you_effect": [ { "id": "glacier_mage_push_attacks", "once_in": 4 } ]
+    "hit_you_effect": [ { "id": "glacier_mage_attack", "once_in": 14 } ]
   },
   {
     "id": "glacier_mage_bash_damage",

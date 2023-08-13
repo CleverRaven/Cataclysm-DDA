@@ -31,7 +31,6 @@
         "name": { "str": "Out of the Cage", "str_pl": "copies of Out of the Cage" },
         "description": "This book shows lot of techniques to defeat an experienced martial artist - brutal and dirty.",
         "//": "978-0989038201",
-        "fun": 1,
         "weight": 1
       },
       {
@@ -39,8 +38,6 @@
         "name": { "str": "Combat Pressure Points", "str_pl": "copies of Combat Pressure Points" },
         "description": "An illustrated handbook about the human body, how it works, and how to destroy it with fairly easy steps.",
         "//": "978-1941845677",
-        "intelligence": 8,
-        "fun": 1,
         "weight": 1
       }
     ],

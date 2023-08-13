@@ -12,9 +12,9 @@
     "weight": "150 g",
     "volume": "100 ml",
     "longest_side": "20 cm",
-    "bashing": 3,
     "to_hit": -1,
-    "qualities": [ [ "HAMMER_SOFT", 1 ] ]
+    "qualities": [ [ "HAMMER_SOFT", 1 ] ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -29,9 +29,9 @@
     "weight": "150 g",
     "volume": "100 ml",
     "longest_side": "20 cm",
-    "bashing": 3,
     "to_hit": -1,
-    "qualities": [ [ "HAMMER_SOFT", 1 ] ]
+    "qualities": [ [ "HAMMER_SOFT", 1 ] ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -46,9 +46,9 @@
     "weight": "150 g",
     "volume": "100 ml",
     "longest_side": "20 cm",
-    "bashing": 3,
     "to_hit": -1,
-    "qualities": [ [ "DRILL_ROCK", 1 ] ]
+    "qualities": [ [ "DRILL_ROCK", 1 ] ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -63,11 +63,10 @@
     "weight": "150 g",
     "volume": "100 ml",
     "longest_side": "15 cm",
-    "bashing": 2,
-    "cutting": 2,
     "to_hit": -3,
     "qualities": [ [ "PUNCH", 1 ] ],
-    "flags": [ "SPEAR" ]
+    "flags": [ "SPEAR" ],
+    "melee_damage": { "bash": 2, "stab": 2 }
   },
   {
     "type": "GENERIC",
@@ -82,10 +81,9 @@
     "weight": "150 g",
     "volume": "100 ml",
     "longest_side": "15 cm",
-    "bashing": 2,
-    "cutting": 4,
     "to_hit": -3,
     "qualities": [ [ "PUNCH", 2 ] ],
-    "flags": [ "SPEAR" ]
+    "flags": [ "SPEAR" ],
+    "melee_damage": { "bash": 2, "stab": 4 }
   }
 ]

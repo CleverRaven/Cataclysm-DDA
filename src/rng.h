@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_RNG_H
 #define CATA_SRC_RNG_H
 
-#include <functional>
 #include <array>
 #include <cstddef>
 #include <functional>
@@ -11,7 +10,7 @@
 #include <random>
 #include <type_traits>
 
-#include "units.h"
+#include "units_fwd.h"
 
 class map;
 class time_duration;
@@ -71,7 +70,11 @@ inline double rng_normal( double hi )
     return rng_normal( 0.0, hi );
 }
 
+float normal_roll_chance( float center, float stddev, float difficulty );
+
 double normal_roll( double mean, double stddev );
+
+double chi_squared_roll( double trial_num );
 
 double rng_exponential( double min, double mean );
 

@@ -19,6 +19,10 @@ TEST_CASE( "map_coordinate_conversion_functions" )
 {
     map &here = get_map();
 
+    const on_out_of_scope restore_vertical_shift( [&here]() {
+        here.vertical_shift( 0 );
+    } );
+
     tripoint test_point =
         GENERATE( tripoint_zero, tripoint_south, tripoint_east, tripoint_above, tripoint_below );
     tripoint_bub_ms test_bub( test_point );
@@ -264,4 +268,45 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
     }
     here.check_submap_active_item_consistency();
     CHECK( here.get_submaps_with_active_items().count( test_loc_sm ) == static_cast<size_t>( sealed ) );
+}
+
+TEST_CASE( "active_monster_drops", "[active_item][map]" )
+{
+    clear_map();
+    get_avatar().setpos( tripoint_zero );
+    tripoint start_loc = get_avatar().pos() + tripoint_east;
+    map &here = get_map();
+    restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
+                get_weather().forced_temperature );
+    get_weather().forced_temperature = units::from_celsius( 21 );
+
+    bool const cookie_rotten_before_death = GENERATE( true, false );
+    CAPTURE( cookie_rotten_before_death );
+
+    item bag_plastic( "bag_plastic" );
+    item cookie( "cookies" );
+    REQUIRE( cookie.needs_processing() );
+    if( cookie_rotten_before_death ) {
+        cookie.set_relative_rot( 10 );
+        REQUIRE( cookie.has_rotten_away() );
+    }
+    REQUIRE( bag_plastic.put_in( cookie, item_pocket::pocket_type::CONTAINER ).success() );
+
+    monster &zombo = spawn_test_monster( "mon_zombie", start_loc, true );
+    zombo.no_extra_death_drops = true;
+    zombo.inv.emplace_back( bag_plastic );
+    calendar::turn += time_duration::from_seconds( cookie.processing_speed() + 1 );
+    zombo.die( nullptr );
+    REQUIRE( here.i_at( start_loc ).size() == 1 );
+    item &dropped_bag = here.i_at( start_loc ).begin()->only_item();
+
+    if( !cookie_rotten_before_death ) {
+        item &dropped_cookie = dropped_bag.only_item();
+        dropped_cookie.set_relative_rot( 10 );
+        REQUIRE( dropped_cookie.has_rotten_away() );
+        calendar::turn += time_duration::from_seconds( cookie.processing_speed() + 1 );
+        here.process_items(); // only corpse is scheduled here
+        here.process_items(); // only cookie is scheduled here
+    }
+    CHECK( dropped_bag.empty() );
 }

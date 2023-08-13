@@ -1,0 +1,99 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_airdrop_mil",
+    "//": "extra rare version, also has few mil troops.  Should be a separate map extra, but i still don't know what one should contain, ",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        { "chunks": [ [ "supply_generatos_mil", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_water_drums_55", 100 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_water_drums_55", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_water_drums_55", 20 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_fuel_gas", 35 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_fuel_diesel", 35 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_fuel_jp8", 35 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_military_kit", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_military_kit", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] }
+      ],
+      "place_monster": [ { "group": "GROUP_MIL_EXTRA", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 10, 16 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "supply_generatos_mil",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_item": [ { "item": "parachute_mil", "x": [ 0, 1 ], "y": 1 }, { "item": "parachute_mil", "x": 1, "y": [ 0, 1 ] } ],
+      "place_items": [ { "item": "airdrop_generator", "x": 0, "y": 0, "chance": 100 } ],
+      "place_furniture": [ { "furn": "f_pallet_belted", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "supply_water_drums_55",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_item": [ { "item": "parachute_mil", "x": [ 0, 1 ], "y": 1 }, { "item": "parachute_mil", "x": 1, "y": [ 0, 1 ] } ],
+      "place_items": [ { "item": "airdrop_water_drum", "x": 0, "y": 0, "chance": 100, "repeat": 4 } ],
+      "place_furniture": [ { "furn": "f_pallet_belted", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "supply_fuel_gas",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_furniture": [ { "furn": "f_432gal_drum_rubber", "x": 0, "y": 0 }, { "furn": "f_432gal_drum_rubber", "x": 1, "y": 1 } ],
+      "place_item": [ { "item": "parachute_mil", "x": [ 0, 1 ], "y": 1 }, { "item": "parachute_mil", "x": 1, "y": [ 0, 1 ] } ],
+      "place_liquids": [
+        { "liquid": "gasoline", "x": 0, "y": 0, "amount": [ 900000, 1000000 ] },
+        { "liquid": "gasoline", "x": 1, "y": 1, "amount": [ 900000, 1000000 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "supply_fuel_diesel",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_furniture": [ { "furn": "f_432gal_drum_rubber", "x": 0, "y": 0 }, { "furn": "f_432gal_drum_rubber", "x": 1, "y": 1 } ],
+      "place_liquids": [
+        { "liquid": "diesel", "x": 0, "y": 0, "amount": [ 900000, 1000000 ] },
+        { "liquid": "diesel", "x": 1, "y": 1, "amount": [ 900000, 1000000 ] }
+      ],
+      "place_item": [ { "item": "parachute_mil", "x": [ 0, 1 ], "y": 1 }, { "item": "parachute_mil", "x": 1, "y": [ 0, 1 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "supply_fuel_jp8",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_furniture": [ { "furn": "f_432gal_drum_rubber", "x": 0, "y": 0 }, { "furn": "f_432gal_drum_rubber", "x": 1, "y": 1 } ],
+      "place_item": [ { "item": "parachute_mil", "x": [ 0, 1 ], "y": 1 }, { "item": "parachute_mil", "x": 1, "y": [ 0, 1 ] } ],
+      "place_liquids": [
+        { "liquid": "jp8", "x": 0, "y": 0, "amount": [ 900000, 1000000 ] },
+        { "liquid": "jp8", "x": 1, "y": 1, "amount": [ 900000, 1000000 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "supply_military_kit",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_item": [ { "item": "parachute_mil", "x": [ 0, 1 ], "y": 1 }, { "item": "parachute_mil", "x": 1, "y": [ 0, 1 ] } ],
+      "place_items": [ { "item": "airdrop_military_kit", "x": 0, "y": 0, "chance": 100 } ],
+      "place_furniture": [ { "furn": "f_pallet_belted", "x": 0, "y": 0 } ]
+    }
+  }
+]

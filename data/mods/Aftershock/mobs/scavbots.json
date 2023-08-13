@@ -29,9 +29,9 @@
     "aggression": 0,
     "morale": 50,
     "dodge": 8,
-    "armor_cut": 4,
     "revert_to_itype": "bot_light_hack",
-    "extend": { "flags": [ "STUMBLES", "HARDTOSHOOT" ] }
+    "extend": { "flags": [ "STUMBLES", "HARDTOSHOOT" ] },
+    "armor": { "cut": 4 }
   },
   {
     "id": "mon_eyebot_heater",
@@ -40,11 +40,11 @@
     "name": "floating heater",
     "color": "pink",
     "luminance": 8,
-    "armor_fire": 10,
     "description": "A salvaged eyebot repurposed into a floating space heater.  It emits a constant jet of warm air to heat an enclosed space.",
     "revert_to_itype": "bot_eyebot_heater",
     "fear_triggers": [ "HURT" ],
     "emit_fields": [ { "emit_id": "emit_hot_air2_stream", "delay": "1 s" } ],
-    "extend": { "flags": [ "PET_WONT_FOLLOW", "WARM" ] }
+    "extend": { "flags": [ "PET_WONT_FOLLOW", "WARM" ] },
+    "armor": { "bash": 8, "cut": 10, "bullet": 8, "heat": 10 }
   }
 ]

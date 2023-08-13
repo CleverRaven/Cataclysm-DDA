@@ -24,7 +24,7 @@ class window;
 }  // namespace catacurses
 
 // TODO: Redefine?
-static constexpr int MAX_FAC_NAME_SIZE = 40;
+constexpr int MAX_FAC_NAME_SIZE = 40;
 
 std::string fac_ranking_text( int val );
 std::string fac_respect_text( int val );

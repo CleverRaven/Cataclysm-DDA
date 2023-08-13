@@ -88,14 +88,16 @@ struct mut_transform {
     bool active = false;
     /** subtracted from @ref Creature::moves when transformation is successful */
     int moves = 0;
+    // If true the transformation uses the "normal" mutation rules - canceling conflicting traits etc
+    bool safe = false;
     mut_transform();
-    bool load( const JsonObject &jsobj, const std::string &member );
+    bool load( const JsonObject &jsobj, std::string_view member );
 };
 
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
-    std::function<bool( const dialogue & )>trigger;
+    std::function<bool( dialogue & )>trigger;
 
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
@@ -204,6 +206,7 @@ struct mutation_branch {
         std::optional<float> healing_multiplier = std::nullopt;
         // Limb mending bonus
         std::optional<float> mending_modifier = std::nullopt;
+        std::optional<float> pain_modifier = std::nullopt;
         // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
         std::optional<float> hp_modifier = std::nullopt;
         // Second HP modifier that stacks with first but is otherwise identical.
@@ -342,6 +345,10 @@ struct mutation_branch {
         std::map<mtype_id, int> moncams;
         /** effect_on_conditions triggered when this mutation activates */
         std::vector<effect_on_condition_id> activated_eocs;
+        // if the above activated eocs should be run without turning on the mutation
+        bool activated_is_setup = false;
+        /** effect_on_conditions triggered while this mutation is active */
+        std::vector<effect_on_condition_id> processed_eocs;
         /** effect_on_conditions triggered when this mutation deactivates */
         std::vector<effect_on_condition_id> deactivated_eocs;
         /** mutation enchantments */
@@ -476,8 +483,9 @@ struct mutation_branch {
         static const trait_replacement &trait_migration( const trait_id &tid );
 
         /** called after all JSON has been read and performs any necessary cleanup tasks */
-        static void finalize();
+        static void finalize_all();
         static void finalize_trait_blacklist();
+        void finalize();
 
         /**
          * @name Trait groups

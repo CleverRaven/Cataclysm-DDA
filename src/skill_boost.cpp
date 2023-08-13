@@ -34,7 +34,7 @@ void skill_boost::load_boost( const JsonObject &jo, const std::string &src )
     all_skill_boosts.load( jo, src );
 }
 
-void skill_boost::load( const JsonObject &jo, const std::string & )
+void skill_boost::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "skills", _skills );
     mandatory( jo, was_loaded, "skill_offset", _offset );

@@ -48,8 +48,21 @@
   },
   {
     "type": "effect_type",
+    "id": "spooked",
+    "name": [ "Cornered Fighter Spooked" ],
+    "desc": [ "AI tag to let CORNERED_FIGHTER monsters try to flee.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "spooked_recent",
+    "name": [ "Cornered Fighter Recently Spooked" ],
+    "desc": [ "AI tag to allow CORNERED_FIGHTER monsters to turn and fight.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "dragging",
     "name": [ "Dragging" ],
+    "show_in_info": true,
     "desc": [ "AI tag for when a monster is dragging you behind it.  This is a bug if you have it." ]
   },
   {
@@ -143,6 +156,12 @@
     "id": "npc_said",
     "name": [ "Said Something Recently" ],
     "desc": [ "AI tag to control NPC verbosity.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "socialized_recently",
+    "name": [ "Socialized Recently" ],
+    "desc": [ "AI tag for asking to NPCs to socialize.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
@@ -305,8 +324,9 @@
     "//": "Mainly for monsters",
     "desc": [ "You've been knocked off-balance by an attack." ],
     "apply_message": "You're staggered off-balance.",
+    "max_duration": "5 s",
     "base_mods": { "speed_mod": [ -20 ] },
-    "removes_effects": [ "grabbing" ],
+    "removes_effects": [ "grabbing", "grabbing_2" ],
     "rating": "bad",
     "show_in_info": true
   },
@@ -358,6 +378,13 @@
   },
   {
     "type": "effect_type",
+    "id": "maimed_arm",
+    "name": [ "Broken Arm" ],
+    "//": "Disables base grabs and scratches",
+    "desc": [ "Your arms are broken.  Your imaginary monster arms, so this is probably a bug." ]
+  },
+  {
+    "type": "effect_type",
     "id": "maimed_mandible",
     "name": [ "Maimed Mandibles" ],
     "//": "Given by weakpoints, used to disable bites if specified in the bite def",
@@ -384,6 +411,12 @@
     "//": "Hardcoded effect handled by monster::flies via effect flag",
     "desc": [ "Your wings are useless, robbing you of unlimited flight." ],
     "flags": [ "DISABLE_FLIGHT" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "stumbled_into_invisible",
+    "name": [ "Stumbled Into Invisible Player" ],
+    "desc": [ "This creature has stumbled into an invisible player and is now aware of their presence." ]
   },
   {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
@@ -592,16 +625,6 @@
     "id": "glowy_led",
     "apply_message": "A bionic LED is glowing softly beneath your skin.",
     "rating": "mixed"
-  },
-  {
-    "type": "effect_type",
-    "id": "stung",
-    "name": [ "Stung" ],
-    "desc": [ "You have been stung!" ],
-    "rating": "bad",
-    "base_mods": { "pain_min": [ 1 ] },
-    "show_in_info": true,
-    "blood_analysis_description": "Stung"
   },
   {
     "type": "effect_type",
@@ -1686,6 +1709,31 @@
   },
   {
     "type": "effect_type",
+    "id": "mutagen_crustacean",
+    "name": [ "Crustacean Mutation", "Crustacean Transformation", "Crustacean Metamorphosis" ],
+    "desc": [
+      "You consumed crustacean mutagen.",
+      "You consumed a large amount of crustacean mutagen.",
+      "You consumed a life-changing amount of crustacean mutagen."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_CRUSTACEAN" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Crustacean Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
     "id": "beartrap",
     "name": [ "Stuck in a Beartrap" ],
     "desc": [ "You can't move until you get free!" ],
@@ -1743,15 +1791,68 @@
   },
   {
     "type": "effect_type",
-    "id": "smoke",
-    "name": [ { "ctxt": "inhaled", "str": "Smoke" } ],
-    "desc": [ "You've inhaled a lungful of thick smoke." ],
-    "apply_message": "You inhale a lungful of thick smoke.",
-    "rating": "bad",
+    "id": "smoke_eyes",
+    "name": [
+      "Little Eye Irritation (Smoke)",
+      "Minor Eye Irritation (Smoke)",
+      "Huge Eye Irritation (Smoke)",
+      "Bad Eye Irritation (Smoke)"
+    ],
+    "desc": [
+      "Your eyes mildly irritate.",
+      "Your eyes watering.",
+      "Your eyes tear and stings heavily.",
+      "Your eyes burn out of smoke, and you hardly see anything."
+    ],
+    "apply_message": [
+      [ "Your eyes mildly irritate.", "bad" ],
+      [ "Your eyes watering out of smoke.", "bad" ],
+      [ "Your eyes tear and stings heavily.", "bad" ],
+      [ "Your eyes burn out of smoke, and you hardly see anything.", "bad" ]
+    ],
+    "miss_messages": [ [ "Your eyes sting and tear from the smoke.", 1 ] ],
+    "max_duration": "3 m",
+    "max_intensity": 4,
+    "int_decay_tick": 40,
+    "base_mods": { "per_mod": [ -1 ] },
+    "scaling_mods": { "per_mod": [ -1 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2 },
+      { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "smoke_lungs",
+    "name": [ "Inhaled Some Smoke", "Inhaled Plenty of Smoke", "Smoke Inhalation", "Bad Smoke Inhalation" ],
+    "desc": [
+      "You draw in a faint whiff of smoke.",
+      "Noticeable amount of smoke fills your lungs.",
+      "Dense cloud of smoke enter your lungs.",
+      "You inhale an overwhelming amount of smoke."
+    ],
+    "apply_message": [
+      [ "You draw in a faint whiff of smoke.", "bad" ],
+      [ "Noticeable amount of smoke fills your lungs.", "bad" ],
+      [ "Dense cloud of smoke enter your lungs.", "bad" ],
+      [ "You inhale an overwhelming amount of smoke.", "bad" ]
+    ],
     "miss_messages": [ [ "Your lungs burn from the smoke.", 1 ] ],
     "harmful_cough": true,
-    "max_duration": "10 m",
-    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 10 ] },
+    "max_duration": "3 m",
+    "max_intensity": 4,
+    "int_decay_tick": 40,
+    "scaling_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 10 ] },
+    "limb_score_mods": [
+      { "limb_score": "breathing", "resist_modifier": 1, "scaling": -0.25 },
+      { "limb_score": "reaction", "resist_modifier": 1, "scaling": -0.1 },
+      { "limb_score": "balance", "resist_modifier": 1, "scaling": -0.1 },
+      { "limb_score": "lift", "resist_modifier": 1, "scaling": -0.1 },
+      { "limb_score": "manip", "resist_modifier": 1, "scaling": -0.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true
   },
   {
@@ -2356,14 +2457,14 @@
     "desc": [ "You're covered in thick goo!" ],
     "apply_message": "You're covered in thick goo!",
     "rating": "bad",
-    "miss_messages": [ [ "This goo makes you slip", 2 ] ],
+    "miss_messages": [ [ "This goo makes you slip.", 2 ] ],
     "base_mods": { "dex_mod": [ -2 ], "speed_mod": [ -25 ], "vomit_chance": [ 2100 ] },
     "show_in_info": true,
     "limb_score_mods": [
       { "limb_score": "lift", "modifier": 0.8, "scaling": -0.15 },
       { "limb_score": "block", "modifier": 0.8, "scaling": -0.15 },
       { "limb_score": "breathing", "modifier": 0.9, "scaling": -0.1 },
-      { "limb_score": "balance", "modifier": 8, "scaling": -0.2 }
+      { "limb_score": "balance", "modifier": 0.8, "scaling": -0.2 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
@@ -2559,6 +2660,7 @@
     "apply_message": "You feel a cold coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
+    "immune_flags": [ "NO_DISEASE" ],
     "miss_messages": [ [ "You're too stuffed up to fight effectively.", 1 ] ],
     "base_mods": {
       "thirst_tick": [ 1800 ],
@@ -2585,6 +2687,8 @@
     "apply_message": "You feel a flu coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
+    "immune_flags": [ "NO_DISEASE" ],
+    "miss_messages": [ [ "You're too stuffed up to fight effectively.", 1 ] ],
     "base_mods": {
       "thirst_tick": [ 1800 ],
       "thirst_min": [ 1 ],
@@ -2600,6 +2704,27 @@
       "vomit_chance": [ 3600, 7200 ]
     },
     "blood_analysis_description": "Viral Infection"
+  },
+  {
+    "type": "effect_type",
+    "id": "common_cold_immunity",
+    "name": [ "Common Cold Antibodies" ],
+    "desc": [ "Common cold antibodies in your bloodstream prevent you from catching common cold." ],
+    "blocks_effects": [ "common_cold" ],
+    "rating": "good",
+    "blood_analysis_description": "Common Cold Antibodies",
+    "max_duration": 14515200,
+    "dur_add_perc": 50
+  },
+  {
+    "type": "effect_type",
+    "id": "fake_common_cold",
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "fake_flu",
+    "show_in_info": false
   },
   {
     "type": "effect_type",
@@ -3052,34 +3177,50 @@
     "type": "effect_type",
     "id": "grabbed",
     "name": [ "Grabbed" ],
-    "desc": [ "You have been grabbed by an attack.\nYou are being held in place, and dodging and blocking are very difficult." ],
+    "desc": [
+      "You have been grabbed and held in place by an attack.  You're not able to move until breaking the grab, and depending on the strength of your opponent using this limb is difficult to impossible.\nWait in place or attempt to move without attacking to try and remove this effect."
+    ],
     "rating": "bad",
-    "max_duration": "2 s",
-    "max_intensity": 15,
-    "base_mods": { "speed_mod": [ -15 ] },
-    "scaling_mods": { "speed_mod": [ -5 ] },
+    "//": "Removal handled in code, so no max duration needed, intensity set by the grab_strength, all effects are local-only",
+    "max_intensity": 100,
     "show_in_info": true,
     "show_intensity": true,
-    "//": "Monster attacks only grab the torso to keep the intensity check consistent, but assume limbs getting grabbed as well",
+    "//mods": "No swimmin' or manipulatin' with a held limb, other scores start severly debilitated and reach useless at about 50 grab strength",
+    "base_mods": { "dodge_mod": [ -10 ] },
     "limb_score_mods": [
-      { "limb_score": "manip", "modifier": 0.8, "scaling": -0.05 },
-      { "limb_score": "lift", "modifier": 0.9, "scaling": -0.1 },
-      { "limb_score": "block", "modifier": 0.7, "scaling": -0.1 },
-      { "limb_score": "breathing", "modifier": 0.8, "scaling": -0.1 },
-      { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.1 },
-      { "limb_score": "balance", "modifier": 0.655, "scaling": -0.07 },
-      { "limb_score": "swim", "modifier": 0.8, "scaling": -0.2 }
+      { "limb_score": "manip", "modifier": 0.0 },
+      { "limb_score": "grip", "modifier": 0.0 },
+      { "limb_score": "lift", "modifier": 0.6, "scaling": -0.015 },
+      { "limb_score": "block", "modifier": 0.25, "scaling": -0.01 },
+      { "limb_score": "breathing", "modifier": 0.75, "scaling": -0.005 },
+      { "limb_score": "balance", "modifier": 0.6, "scaling": -0.016 },
+      { "limb_score": "move_speed", "modifier": 0.6, "scaling": -0.01 },
+      { "limb_score": "footing", "modifier": 0.6, "scaling": -0.01 },
+      { "limb_score": "swim", "modifier": 0.0 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL", "GRAB" ]
   },
   {
     "type": "effect_type",
     "id": "grabbing",
     "name": [ "Grabbing" ],
     "desc": [ "Grabbing another creature and holding them in place." ],
-    "max_duration": "2 s",
-    "max_intensity": 15,
-    "show_in_info": true
+    "max_intensity": 1,
+    "show_in_info": true,
+    "//": "-dodge (can't really miss something holding you)",
+    "base_mods": { "dodge_mod": [ -8 ] },
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_2",
+    "name": [ "Grabbing" ],
+    "desc": [ "Grabbing another creature and holding them in place with a second appendage." ],
+    "max_intensity": 1,
+    "show_in_info": true,
+    "//": "-dodge (can't really miss something holding you)",
+    "base_mods": { "dodge_mod": [ -8 ] },
+    "flags": [ "GRAB_FILTER" ]
   },
   {
     "type": "effect_type",
@@ -3966,7 +4107,9 @@
     "show_intensity": false,
     "enchantments": [
       {
-        "values": [ { "value": "CARRY_WEIGHT", "add": { "global_val": "var", "var_name": "portal_dungeon_carry_strength" } } ]
+        "values": [
+          { "value": "CARRY_WEIGHT", "add": { "global_val": "var", "var_name": "portal_dungeon_carry_strength", "default": -1 } }
+        ]
       }
     ]
   },
@@ -3979,6 +4122,120 @@
     "remove_message": "Reality reasserts itself and your time returns to normal.",
     "rating": "bad",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "global_val": "var", "var_name": "portal_dungeon_slow_strength" } } ] } ]
+    "enchantments": [
+      {
+        "values": [ { "value": "SPEED", "add": { "global_val": "var", "var_name": "portal_dungeon_slow_strength", "default": -1 } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "glowing_gas",
+    "name": [ { "ctxt": "inhaled", "str": "Glowing Gas" } ],
+    "desc": [
+      "You've inhaled a lungful of glowing nether parasite spores.  Thankfully, they don't seem adapted to the human physiology."
+    ],
+    "apply_message": "You inhale a lungful of the glowing gas, and you have an urge to violently cough.",
+    "rating": "bad",
+    "miss_messages": [ [ "Your lungs burn from the glowing gas.", 1 ] ],
+    "harmful_cough": true,
+    "max_duration": "10 m",
+    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 10 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "glowing_gas_cover",
+    "name": [ "Glowing" ],
+    "desc": [ "You are covered in glowing nether spores!" ],
+    "apply_message": "The glowing spores settle on you!",
+    "rating": "bad"
+  },
+  {
+    "id": "lightsnare",
+    "type": "effect_type",
+    "name": [ "Snared" ],
+    "desc": [ "For such a tiny creature, you're in a very big pickle." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "//": "Don't multiply speed by 0 or else the effect will never be removed for creatures with 0 damage(e.g. rabbits)",
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 0.01 } ] } ]
+  },
+  {
+    "id": "Shadow_Reveal",
+    "type": "effect_type",
+    "max_duration": "60 s",
+    "name": [ "Revealed" ],
+    "desc": [ "The shadows no longer hide you!" ],
+    "rating": "bad",
+    "show_intensity": false,
+    "show_in_info": true,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LUMINATION", "add": 10 } ] } ]
+  },
+  {
+    "id": "photophobia",
+    "type": "effect_type",
+    "max_duration": "5 s",
+    "name": [ "photophobia" ],
+    "base_mods": { "speed_mod": [ -100 ] },
+    "desc": [ "It burns!  Thankfully, this can't ever happen to you.  This is a bug if you have it." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "show_in_info": true,
+    "//": "Enchantments don't actually work for monsters! If you find that shadow is suddenly very killable, they probably got hooked up!",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": 0.5 },
+          { "value": "ARMOR_BASH", "add": 15 },
+          { "value": "ARMOR_STAB", "add": 15 },
+          { "value": "ARMOR_CUT", "add": 15 },
+          { "value": "ARMOR_HEAT", "add": 15 },
+          { "value": "ARMOR_COLD", "add": 15 },
+          { "value": "ARMOR_ELEC", "add": 15 },
+          { "value": "ARMOR_ACID", "add": 15 },
+          { "value": "ARMOR_BULLET", "add": 400 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "molting",
+    "name": [ "Molting" ],
+    "desc": [ "You feel a strong urge to hide somewhere safe." ],
+    "apply_message": "Your chitin plating itches against your body.",
+    "rating": "bad",
+    "base_mods": {
+      "per_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "str_mod": [ -1 ],
+      "speed_mod": [ -10 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 1 ],
+      "pain_max_val": [ 15 ]
+    },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.95 }, { "limb_score": "manip", "modifier": 0.95 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "molting_imminent",
+    "name": [ "Imminent Molting" ],
+    "desc": [ "Seek shelter, you will be helpless when it begins." ],
+    "apply_message": "You can hardly move in your tightening exoskeleton, and you feel a strong impulse to hunker down somewhere safe.",
+    "rating": "bad",
+    "base_mods": {
+      "per_mod": [ -2 ],
+      "dex_mod": [ -3 ],
+      "str_mod": [ -3 ],
+      "speed_mod": [ -30 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 1 ],
+      "pain_max_val": [ 35 ]
+    },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.75 }, { "limb_score": "manip", "modifier": 0.75 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]

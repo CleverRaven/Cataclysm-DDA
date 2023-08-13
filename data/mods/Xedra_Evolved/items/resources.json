@@ -9,11 +9,26 @@
     "weight": "683 g",
     "volume": "250 ml",
     "price": 6399,
-    "bashing": 6,
     "to_hit": -3,
     "material": [ "moon_tears" ],
     "symbol": "=",
-    "color": "light_blue"
+    "color": "light_blue",
+    "melee_damage": { "bash": 6 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "moon_tear_wire",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": { "str": "moon tear wire" },
+    "description": "A length of thin, relatively stiff moon tear wire.",
+    "category": "spare_parts",
+    "price": 20000,
+    "price_postapoc": 100,
+    "material": [ "moon_tears" ],
+    "weight": "151 g",
+    "volume": "100 ml",
+    "to_hit": -2
   },
   {
     "id": "scrap_dreamdross",
@@ -43,12 +58,12 @@
     "volume": "25 ml",
     "price": 2000,
     "price_postapoc": 500,
-    "bashing": 12,
     "to_hit": -4,
     "material": [ "dreamstuff" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "forged_dreamstuff_ingot",
@@ -60,11 +75,11 @@
     "volume": "250 ml",
     "price": 6399,
     "price_postapoc": 5000,
-    "bashing": 6,
     "to_hit": -3,
     "material": [ "forged_dreamstuff" ],
     "symbol": "=",
-    "color": "light_blue"
+    "color": "light_blue",
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",

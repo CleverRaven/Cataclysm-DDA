@@ -43,7 +43,7 @@
  * The main entry point is do_autodrive(), which is intended to be called from the do_turn() of
  * a long-running activity. This will cause the driver character to perform one or more driving
  * actions (as long as they have enough moves), which could be steering and/or changing the
- * cruise control speed. The driver may also do nothing if the vehicle is going in the right
+ * desired speed. The driver may also do nothing if the vehicle is going in the right
  * direction.
  *
  * Most of the logic is inside the private implementation class autodrive_controller, which is
@@ -604,7 +604,7 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
     }
     for( int part_num : driven_veh.rotors ) {
         const vehicle_part &part = driven_veh.part( part_num );
-        const int diameter = part.info().rotor_diameter();
+        const int diameter = part.info().rotor_info->rotor_diameter;
         const int radius = ( diameter + 1 ) / 2;
         if( radius > 0 ) {
             tripoint pos;
@@ -650,7 +650,7 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
         return &ovp->vehicle() == &driven_veh;
     }
 
-    const tripoint_abs_ms pt_abs( here.getabs( pt ) );
+    const tripoint_abs_ms pt_abs = here.getglobal( pt );
     const tripoint_abs_omt pt_omt = project_to<coords::omt>( pt_abs );
     // only check visibility for the current OMT, we'll check other OMTs when
     // we reach them
@@ -659,7 +659,13 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
         if( !driver.sees( pt ) ) {
             if( !driver.is_avatar() ) {
                 return false;
-            } else if( driver.as_avatar()->get_memorized_tile( pt_abs.raw() ) == mm_submap::default_tile ) {
+            }
+            const avatar &avatar = *driver.as_avatar();
+            if( !avatar.is_map_memory_valid() ) {
+                debugmsg( "autodrive querying uninitialized map memory at %s", pt_abs.to_string() );
+                return false;
+            }
+            if( avatar.get_memorized_tile( pt_abs ) == mm_submap::default_tile ) {
                 // apparently open air doesn't get memorized, so pretend it is or else
                 // we can't fly helicopters due to the many unseen tiles behind the driver
                 if( !( data.air_ok && here.ter( pt ) == t_open_air ) ) {
@@ -1260,7 +1266,6 @@ autodrive_result vehicle::do_autodrive( Character &driver )
         stop_autodriving( false );
         return autodrive_result::finished;
     }
-    cruise_on = true;
     cruise_velocity = next_step->target_speed_tps * VMIPH_PER_TPS;
 
     // check for collisions before we steer, since steering may end our turn
@@ -1308,7 +1313,6 @@ void vehicle::stop_autodriving( bool apply_brakes )
     }
     if( apply_brakes ) {
         cruise_velocity = 0;
-        cruise_on = true;
     }
     is_autodriving = false;
     is_patrolling = false;

@@ -1,0 +1,22 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID_DM",
+    "default": "mon_triffid",
+    "monsters": [
+      { "monster": "mon_triffid", "weight": 205 },
+      { "monster": "mon_triffid", "weight": 300, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_fungal_fighter", "weight": 160, "cost_multiplier": 0 },
+      { "monster": "mon_vinebeast", "weight": 160, "cost_multiplier": 10, "starts": "240 hours" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ROBOT_DM",
+    "monsters": [
+      { "monster": "mon_manhack", "weight": 515, "cost_multiplier": 0 },
+      { "monster": "mon_skitterbot", "weight": 220, "cost_multiplier": 0 },
+      { "monster": "mon_molebot", "weight": 40, "cost_multiplier": 0 }
+    ]
+  }
+]

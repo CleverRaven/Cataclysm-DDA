@@ -125,7 +125,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "20 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "cotton_patchwork", 35 ] ], [ [ "down_feather", 160 ] ] ]
+    "components": [ [ [ "sheet_cotton", 33 ] ], [ [ "down_feather", 160 ] ] ]
   },
   {
     "result": "under_armor_shorts",

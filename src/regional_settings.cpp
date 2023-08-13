@@ -781,7 +781,7 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     cityjo.read( "park_radius", region.city_spec.park_radius );
     cityjo.read( "park_sigma", region.city_spec.park_sigma );
 
-    const auto load_building_types = [&cityjo]( const std::string & type, building_bin & dest ) {
+    const auto load_building_types = [&cityjo]( const std::string_view type, building_bin & dest ) {
         for( const JsonMember member : cityjo.get_object( type ) ) {
             if( member.is_comment() ) {
                 continue;

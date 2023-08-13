@@ -270,7 +270,7 @@
     "name": "GROUP_WORM",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_graboid", "weight": 30, "cost_multiplier": 20 },
+      { "monster": "mon_graboid", "weight": 30, "cost_multiplier": 20, "starts": "13 days" },
       { "monster": "mon_halfworm", "weight": 0, "cost_multiplier": 0 },
       { "monster": "mon_worm_small", "weight": 970, "cost_multiplier": 0 }
     ]

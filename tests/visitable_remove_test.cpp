@@ -14,6 +14,7 @@
 #include "item.h"
 #include "itype.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "map_selector.h"
 #include "pimpl.h"
 #include "player_helpers.h"
@@ -60,6 +61,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     Character &p = get_player_character();
     p.worn.wear_item( p, item( "backpack" ), false, false );
     p.wear_item( item( "backpack" ) ); // so we don't drop anything
+    clear_map();
     map &here = get_map();
 
     // check if all tiles within radius are loaded within current submap and passable
@@ -431,15 +433,15 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             return static_cast<bool>( here.veh_at( e ) );
         } ) == 1 );
 
-        const std::optional<vpart_reference> vp = here.veh_at( veh ).part_with_feature( "CARGO", true );
+        const std::optional<vpart_reference> vp = here.veh_at( veh ).cargo();
         REQUIRE( vp );
         vehicle *const v = &vp->vehicle();
         const int part = vp->part_index();
         REQUIRE( part >= 0 );
         // Empty the vehicle of any cargo.
-        v->get_items( part ).clear();
+        v->get_items( vp->part() ).clear();
         for( int i = 0; i != count; ++i ) {
-            v->add_item( part, obj );
+            v->add_item( vp->part(), obj );
         }
 
         vehicle_selector sel( p.pos(), 1 );
@@ -506,12 +508,12 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 TEST_CASE( "inventory_remove_invalidates_binning_cache", "[visitable][inventory]" )
 {
     inventory inv;
-    std::list<item> items = { item( "bone" ) };
+    std::list<item> items = { item( itype_bone ) };
     inv += items;
-    CHECK( inv.charges_of( itype_bone ) == 1 );
+    CHECK( inv.amount_of( itype_bone ) == 1 );
     inv.remove_items_with( return_true<item> );
     CHECK( inv.size() == 0 );
     // The following used to be a heap use-after-free due to a caching bug.
     // Now should be safe.
-    CHECK( inv.charges_of( itype_bone ) == 0 );
+    CHECK( inv.amount_of( itype_bone ) == 0 );
 }

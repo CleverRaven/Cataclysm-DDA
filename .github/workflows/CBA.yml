@@ -13,10 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest    
     steps:
-    - name: checkout repository
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+    - uses: actions/checkout@v3
     - name: install dependencies
       run: sudo apt-get install libncursesw5-dev gettext
     - name: Prepare Build Analyzer
@@ -37,7 +34,7 @@ jobs:
         ClangBuildAnalyzer --stop . buildAnalysis
     - name: Analyze
       run: ClangBuildAnalyzer --analyze buildAnalysis
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3.1.2
       with:
         name: ClangBuildAnalyzer-traces
         path: "**/obj/*.json"

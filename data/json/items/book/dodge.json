@@ -75,7 +75,6 @@
         "id": "manual_dodge_1",
         "name": { "str": "The Complete Book about Dodgeball", "str_pl": "copies of The Complete Book about Dodgeball" },
         "description": "A small book from a Physical Education and Health teacher about the simple game of dodgeball, its rules and variations, tricks, and what it can teach students.  Sadly, the book contains surprisingly poor grammar, and the informal conversational tone makes it difficult to follow at times.",
-        "fun": -1,
         "//": "978-1420875485",
         "weight": 1
       },
@@ -125,7 +124,6 @@
         "name": { "str": "Self-defense for Your Child", "str_pl": "copies of Self-defense for Your Child" },
         "description": "A fully-illustrated practical course of simple techniques to defend your child from bullies or predators.  You doubt it will help much for a real child, but you found some interesting info here.",
         "//": "978-0874070248",
-        "fun": 0,
         "weight": 1
       },
       {

@@ -21,8 +21,7 @@
 # Win32 (non-Cygwin)
 #   Run: make NATIVE=win32
 # OS X
-#   Run: make NATIVE=osx OSX_MIN=10.13
-#     The minimum OSX_MIN version supported is 10.13
+#   Run: make NATIVE=osx
 
 # Build types:
 # Debug (no optimizations)
@@ -85,8 +84,10 @@
 #  make ASTYLE=0
 # Disable format check of whitelisted json files.
 #  make LINTJSON=0
-# Disable building and running tests.
-#  make RUNTESTS=0
+# Disable building tests.
+#  make TESTS=0
+# Enable running tests.
+#  make RUNTESTS=1
 # Build source files in order of how often the matching header is included
 #  make HEADERPOPULARITY=1
 
@@ -108,7 +109,9 @@ WARNINGS = \
   -Wsuggest-override \
   -Wunused-macros \
   -Wzero-as-null-pointer-constant \
-  -Wno-unknown-warning-option
+  -Wno-unknown-warning-option \
+  -Wno-dangling-reference \
+  -Wno-c++20-compat
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
@@ -173,9 +176,46 @@ ifndef LINTJSON
   LINTJSON = 1
 endif
 
-# Enable running tests by default
+# We don't want to have both 'check' and 'tests' as targets, because that will
+# result in make trying to build the tests twice in parallel, wasting time
+# (The tests target will be launched parallel to the check target, and both
+#  will build the tests executable)
+# There are three possible outcomes we expect:
+#   a. Tests are built and run (check)
+#   b. Tests are built (tests)
+#   c. Tests are not built
+#
+# This table defines the expected behavior for the possible values of TESTS and
+# RUNTESTS.
+# TESTS defaults to 1, RUNTESTS defaults to 0.
+#
+#   RUNTESTS
+# T # | 0 | 1
+# E ----------
+# S 0 | c | c
+# T ----------
+# S 1 | b | a
+#
+
+# Enable building tests by default
+ifndef TESTS
+  TESTS = 1
+endif
+
+# Disable running tests by default
 ifndef RUNTESTS
-  RUNTESTS = 1
+  RUNTESTS = 0
+endif
+
+# Can't run tests if we aren't going to build them
+ifeq ($(TESTS), 1)
+  ifeq ($(RUNTESTS), 1)
+    # Build and run the tests
+    TESTSTARGET = check
+  else
+    # Only build the tests
+    TESTSTARGET = tests
+  endif
 endif
 
 ifndef PCH
@@ -246,10 +286,6 @@ ifeq ($(BACKTRACE), 1)
       LIBBACKTRACE = 1
     endif
   endif
-endif
-
-ifeq ($(RUNTESTS), 1)
-  TESTS = tests
 endif
 
 # tiles object directories are because gcc gets confused
@@ -524,29 +560,12 @@ endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  ifeq ($(OSX_MIN),)
-    ifneq ($(findstring Darwin,$(OS)),)
-      OSX_MIN = $(shell sw_vers -productVersion | awk -F '.' '{print $$1 "." $$2}')
-    else
-      ifneq ($(CLANG), 0)
-        ifneq ($(SANITIZE),)
-          # sanitizers does not function properly (e.g. false positive errors) if OSX_MIN < 10.9
-          # https://github.com/llvm/llvm-project/blob/release/11.x/compiler-rt/CMakeLists.txt#L183
-          OSX_MIN = 10.9
-        else
-          OSX_MIN = 10.7
-        endif
-      else
-        OSX_MIN = 10.5
-      endif
-    endif
-  endif
   DEFINES += -DMACOSX
-  CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
-  LDFLAGS += -mmacosx-version-min=$(OSX_MIN) -framework CoreFoundation -Wl,-headerpad_max_install_names
-  ifeq ($(ARCH),arm64)
-    CXXFLAGS += -arch arm64
-    LDFLAGS += -arch arm64
+  CXXFLAGS += -mmacosx-version-min=10.13
+  LDFLAGS += -mmacosx-version-min=10.13 -framework CoreFoundation -Wl,-headerpad_max_install_names
+  ifeq ($(UNIVERSAL_BINARY), 1)
+    CXXFLAGS += -arch x86_64 -arch arm64
+    LDFLAGS += -arch x86_64 -arch arm64
   endif
   ifdef FRAMEWORK
     ifeq ($(FRAMEWORKSDIR),)
@@ -642,11 +661,7 @@ ifeq ($(SOUND), 1)
     $(error "SOUND=1 only works with TILES=1")
   endif
   ifeq ($(NATIVE),osx)
-    ifdef FRAMEWORK
-      CXXFLAGS += -I$(FRAMEWORKSDIR)/SDL2_mixer.framework/Headers
-      LDFLAGS += -F$(FRAMEWORKSDIR)/SDL2_mixer.framework/Frameworks \
-		 -framework SDL2_mixer -framework Vorbis -framework Ogg
-    else # libsdl build
+    ifndef FRAMEWORK # libsdl build
       ifeq ($(MACPORTS), 1)
         LDFLAGS += -lSDL2_mixer -lvorbisfile -lvorbis -logg
       else # homebrew
@@ -681,12 +696,12 @@ ifeq ($(TILES), 1)
 		-I$(FRAMEWORKSDIR)/SDL2.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_image.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_ttf.framework/Headers
-			ifdef SOUND
+			ifeq ($(SOUND), 1)
 				OSX_INC += -I$(FRAMEWORKSDIR)/SDL2_mixer.framework/Headers
 			endif
       LDFLAGS += -F$(FRAMEWORKSDIR) \
 		 -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework Cocoa
-		 ifdef SOUND
+		 ifeq ($(SOUND), 1)
 		 	LDFLAGS += -framework SDL2_mixer
 		 endif
       CXXFLAGS += $(OSX_INC)
@@ -697,7 +712,7 @@ ifeq ($(TILES), 1)
 		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       LDFLAGS += -lSDL2_image
-      ifdef SOUND
+      ifeq ($(SOUND), 1)
         LDFLAGS += -lSDL2_mixer
       endif
     endif
@@ -725,6 +740,8 @@ ifeq ($(TILES), 1)
       ifneq (,$(findstring mingw32,$(CROSS)))
         # We use pkg-config to find out which libs are needed with MXE
         LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_image SDL2_ttf)
+        # We don't use SDL_main -- we have proper main()/WinMain()
+        LDFLAGS := $(filter-out -lSDL2main,$(LDFLAGS))
       else
         ifeq ($(MSYS2),1)
           LDFLAGS += -Wl,--start-group -lharfbuzz -lfreetype -Wl,--end-group -lgraphite2 -lpng -lz -ltiff -lbz2 -lglib-2.0 -llzma -lws2_32 -lwebp -ljpeg -luuid
@@ -842,9 +859,9 @@ THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
-JSON_FORMATTER_SOURCES := $(wildcard tools/format/*.cpp) src/json.cpp
+JSON_FORMATTER_SOURCES := $(wildcard tools/format/*.cpp) src/wcwidth.cpp src/json.cpp
 JSON_FORMATTER_HEADERS := $(wildcard tools/format/*.h)
-CHKJSON_SOURCES := $(wildcard src/chkjson/*.cpp) src/json.cpp
+CHKJSON_SOURCES := $(wildcard src/chkjson/*.cpp) src/wcwidth.cpp src/json.cpp
 CLANG_TIDY_PLUGIN_SOURCES := \
   $(wildcard tools/clang-tidy-plugin/*.cpp tools/clang-tidy-plugin/*/*.cpp)
 CLANG_TIDY_PLUGIN_HEADERS := \
@@ -932,7 +949,7 @@ endif
 
 LDFLAGS += -lz
 
-all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTS)
+all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTSTARGET)
 	@
 
 $(TARGET): $(OBJS)
@@ -1151,7 +1168,7 @@ endif
 ifeq ($(TILES), 1)
 ifeq ($(SOUND), 1)
 	cp -R data/sound $(APPDATADIR)
-endif  # ifdef SOUND
+endif  # ifeq ($(SOUND), 1)
 	cp -R gfx $(APPRESOURCESDIR)/
 ifdef FRAMEWORK
 	cp -R $(FRAMEWORKSDIR)/SDL2.framework $(APPRESOURCESDIR)/
@@ -1159,10 +1176,7 @@ ifdef FRAMEWORK
 	cp -R $(FRAMEWORKSDIR)/SDL2_ttf.framework $(APPRESOURCESDIR)/
 ifeq ($(SOUND), 1)
 	cp -R $(FRAMEWORKSDIR)/SDL2_mixer.framework $(APPRESOURCESDIR)/
-	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Vorbis.framework Vorbis.framework
-	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Ogg.framework Ogg.framework
-	cd $(APPRESOURCESDIR)/SDL2_mixer.framework/Frameworks && find . -maxdepth 1 -type d -not -name '*Vorbis.framework' -not -name '*Ogg.framework' -not -name '.' | xargs rm -rf
-endif  # ifdef SOUND
+endif  # ifeq ($(SOUND), 1)
 endif  # ifdef FRAMEWORK
 endif  # ifdef TILES
 
@@ -1233,7 +1247,7 @@ astyle-fast: $(ASTYLE_SOURCES)
 	echo $(ASTYLE_SOURCES) | xargs -P 0 -L 1 $(ASTYLE_BINARY) --quiet --options=.astylerc -n
 
 astyle-diff: $(ASTYLE_SOURCES)
-	$(ASTYLE_BINARY) --options=.astylerc -n $$(git diff --name-only src/*.h src/*.cpp tests/*.h tests/*.cpp)
+	$(ASTYLE_BINARY) --options=.astylerc -n $$(git diff --name-only src/*.h src/*.cpp tests/*.h tests/*.cpp tools/*.h tools/*.cpp)
 
 astyle-all: $(ASTYLE_SOURCES)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
@@ -1295,6 +1309,7 @@ clean-pch:
 	rm -f pch/*pch.hpp.gch
 	rm -f pch/*pch.hpp.pch
 	rm -f pch/*pch.hpp.d
+	$(MAKE) -C tests clean-pch
 
 .PHONY: tests check ctags etags clean-tests clean-object_creator clean-pch install lint
 

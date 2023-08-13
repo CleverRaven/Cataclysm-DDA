@@ -9,7 +9,7 @@
 
 namespace pinyin
 {
-bool pinyin_match( const std::u32string &str, const std::u32string &qry )
+bool pinyin_match( const std::u32string_view str, const std::u32string_view qry )
 {
     // we convert the data to an unordered map to lower the cost of looking up entries.
     // O(1) instead of O(n)

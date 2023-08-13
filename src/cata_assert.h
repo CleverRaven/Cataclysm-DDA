@@ -1,26 +1,24 @@
+#pragma once
 // NOLINTNEXTLINE(cata-header-guard)
-// Due to an inability to suppress assert popups when building against mingw-w64 and running on wine
-// We are wrapping the assert macro so that we can substitute functional behavior with that setup
+// Due to an inability to suppress assert popups when building against mingw-w64
+// and running on wine, and to suppress unused variable warnings in release builds,
+// we are wrapping the assert macro so that we can substitute functional behavior.
 
 // This copies the semantics of cassert, re-including the file re-defines the macro.
 #undef cata_assert
 
 // Might as well handle NDEBUG at the top level instead of just wrapping one variant.
 #ifdef NDEBUG
-#ifdef __GNUC__
-#define cata_assert(expression) \
-    do { \
-        if( !( expression ) ) { \
-            __builtin_unreachable(); \
-        } \
-    } while(false)
+// Use the expression to (hopefully) avoid unused variable warnings, hint compiler with
+// unreachable intrinsics, and place the code in decltype to avoid actual evaluation.
+#if defined(_MSC_VER)
+#define cata_assert(exp) decltype((exp) ? void() : __assume(0))()
+#elif defined(__GNUC__) || defined(__clang__)
+#define cata_assert(exp) decltype((exp) ? void() : __builtin_unreachable())()
 #else
-// Goes the convoluted way to avoid unused variable warnings. The inner declval
-// and decltype expressions are to workaround incorrect "left operand has no
-// effect" warning on some compilers.
-#define cata_assert(expression) \
-    ( static_cast<void>( decltype( std::declval<decltype( expression )>(), int() )() ) )
-#endif // __GNUC__
+#include <cstdlib>
+#define cata_assert(exp) decltype((exp) ? void() : std::abort())()
+#endif
 #else
 #ifdef _WIN32
 #include <cstdlib>

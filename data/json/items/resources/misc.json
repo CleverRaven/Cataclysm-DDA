@@ -10,11 +10,11 @@
     "symbol": ",",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "cutting": 10,
     "flags": [ "SPEAR", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
     "price": 3000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "melee_damage": { "stab": 10 }
   },
   {
     "type": "GENERIC",
@@ -30,9 +30,9 @@
     "techniques": [ "WBLOCK_1" ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "volume": "1250 ml",
-    "bashing": 4,
     "price": 2400,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -40,15 +40,15 @@
     "symbol": "*",
     "color": "white",
     "name": { "str": "ceramic shard" },
-    "description": "A broken ceramic shard.  It is heavy and has a somewhat sharp edge, but it's too irregular to cut properly.",
+    "description": "A broken ceramic shard.  It is relatively heavy for its size and has a somewhat sharp edge, but it's too irregular to cut properly.",
     "material": [ "ceramic" ],
     "flags": [ "TRADER_AVOID" ],
-    "weight": "750 g",
-    "volume": "250 ml",
-    "bashing": 5,
-    "cutting": 2,
-    "to_hit": -1,
-    "qualities": [ [ "BUTCHER", -66 ] ]
+    "weight": "150 g",
+    "volume": "50 ml",
+    "longest_side": "8 cm",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
+    "qualities": [ [ "BUTCHER", -66 ] ],
+    "melee_damage": { "bash": 2, "cut": 2 }
   },
   {
     "type": "GENERIC",
@@ -61,11 +61,11 @@
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "cutting": 8,
     "flags": [ "SPEAR", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
     "price": 500,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "melee_damage": { "stab": 8 }
   },
   {
     "id": "incendiary",
@@ -93,13 +93,21 @@
     "description": "A single, or twin, sized mattress.",
     "weight": "20000 g",
     "volume": "300000 ml",
+    "longest_side": "190 cm",
     "price": 1000,
     "price_postapoc": 500,
     "material": [ "cotton", "steel" ],
     "symbol": "0",
     "color": "white",
-    "flags": [ "NONCONDUCTIVE" ],
-    "use_action": { "type": "deploy_furn", "furn_type": "f_floor_mattress" }
+    "flags": [ "NONCONDUCTIVE", "SINGLE_USE" ],
+    "use_action": {
+      "type": "place_trap",
+      "allow_under_player": true,
+      "trap": "tr_mattress",
+      "moves": 100,
+      "practice": 0,
+      "done_message": "You lay the mattress flat on the ground."
+    }
   },
   {
     "id": "down_mattress",
@@ -109,12 +117,21 @@
     "description": "A single, or twin, sized down-filled mattress.",
     "weight": "6 kg",
     "volume": "300000 ml",
+    "longest_side": "190 cm",
     "price": 1000,
     "price_postapoc": 750,
     "material": [ "cotton" ],
     "symbol": "0",
     "color": "white",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_down_mattress" }
+    "flags": [ "SINGLE_USE" ],
+    "use_action": {
+      "type": "place_trap",
+      "allow_under_player": true,
+      "trap": "tr_down_mattress",
+      "moves": 100,
+      "practice": 0,
+      "done_message": "You lay the down mattress flat on the ground."
+    }
   },
   {
     "id": "fuse",
@@ -145,10 +162,9 @@
     "weight": "500 g",
     "volume": "250 ml",
     "longest_side": "8 cm",
-    "bashing": 5,
-    "cutting": 3,
     "to_hit": -3,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ] ],
+    "melee_damage": { "bash": 5, "cut": 3 }
   },
   {
     "id": "sole_rubber",
@@ -249,11 +265,11 @@
     "symbol": ",",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "cutting": 8,
     "flags": [ "SPEAR", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
     "price": 1000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "melee_damage": { "stab": 8 }
   },
   {
     "type": "GENERIC",
@@ -265,9 +281,9 @@
     "material": [ "steel" ],
     "weight": "1814 g",
     "volume": "200 ml",
-    "bashing": 15,
     "to_hit": -5,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "melee_damage": { "bash": 15 }
   },
   {
     "id": "radio_car_wheel",
@@ -281,6 +297,20 @@
     "price_postapoc": 10,
     "material": [ "rubber", "steel" ],
     "symbol": "o",
+    "color": "dark_gray"
+  },
+  {
+    "id": "armor_star_samurai_helmet_destroyed",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "destroyed ryūsei kabuto" },
+    "description": "A conical shaped massive slab of inscrutable rock now in two pieces, strange metallic tubes visibly on display.  Something seems to have cracked it from the inside out.",
+    "weight": "150 kg",
+    "volume": "4000 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ { "type": "monolith_heavy", "portion": 19 }, { "type": "superalloy", "portion": 1 } ],
+    "symbol": ",",
     "color": "dark_gray"
   }
 ]

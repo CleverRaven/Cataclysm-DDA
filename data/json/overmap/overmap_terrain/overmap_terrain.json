@@ -17,6 +17,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "omt_obsolete",
+    "//": "this omt is used for replacing obsoleted overmap terrain",
+    "name": "nether-chewed field",
+    "sym": "%",
+    "color": "dark_gray",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_city_building_no_sidewalk",
     "name": "city building",
     "sym": "^",
@@ -145,36 +154,6 @@
     "sym": "C",
     "color": "i_green",
     "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "special_field",
-    "name": "field",
-    "sym": ".",
-    "color": "brown",
-    "looks_like": "field",
-    "see_cost": 1,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "special_forest",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "looks_like": "forest",
-    "see_cost": 1,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "special_forest_thick",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "looks_like": "forest_thick",
-    "see_cost": 1,
-    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -340,7 +319,12 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodge_basement_residential1", "lodge_basement_residential2" ],
+    "id": [
+      "lodge_basement_residential1",
+      "lodge_basement_residential2",
+      "lodge_basement_residential3",
+      "lodge_basement_residential4"
+    ],
     "name": "hunting lodge basement",
     "copy-from": "generic_forest",
     "sym": "L",
@@ -408,14 +392,15 @@
     "type": "overmap_terrain",
     "id": "crater",
     "name": "crater",
-    "sym": "O",
+    "sym": "o",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "crater_core",
+    "id": [ "crater_core_large", "crater_core_small" ],
+    "sym": "O",
     "copy-from": "crater"
   },
   {
@@ -481,6 +466,26 @@
     ],
     "name": "wooden fort",
     "sym": "+",
+    "color": "brown",
+    "see_cost": 5,
+    "//": "RISK_LOW due to risk and safety being based on NPCs perception of what the area may contain",
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "bandit_farm_3",
+      "bandit_farm_2",
+      "bandit_farm_1",
+      "bandit_farm_6",
+      "bandit_farm_5",
+      "bandit_farm_4",
+      "bandit_farm_9",
+      "bandit_farm_8",
+      "bandit_farm_7"
+    ],
+    "name": "farm",
+    "sym": "#",
     "color": "brown",
     "see_cost": 5,
     "//": "RISK_LOW due to risk and safety being based on NPCs perception of what the area may contain",
@@ -598,6 +603,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "survivor_forest_camp" ],
+    "name": "survivor forest camp",
+    "sym": "+",
+    "color": "green",
+    "see_cost": 5,
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "hunter_shack_roof", "hunter_shack_roof_1" ],
     "name": "swamp shack roof",
     "sym": "+",
@@ -606,8 +620,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "drug_lab",
+    "id": [ "drug_lab", "bandit_drug_lab" ],
     "name": "drug lab",
+    "sym": "^",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "drug_lab_roof",
+    "name": "drug lab roof",
     "sym": "^",
     "color": "brown",
     "see_cost": 5
@@ -705,25 +727,6 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "parking_2x1_0",
-      "parking_2x1_1",
-      "parking_2x2_0_0",
-      "parking_2x2_0_1",
-      "parking_2x2_1_0",
-      "parking_2x2_1_1",
-      "parking_3x1_0",
-      "parking_3x1_1",
-      "parking_3x1_2"
-    ],
-    "name": "parking lot",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 2,
-    "flags": [ "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [
       "irradiator_1_1",
       "irradiator_1_2",
       "irradiator_1_3",
@@ -776,43 +779,40 @@
     "type": "overmap_terrain",
     "id": [
       "airliner_1a",
-      "airliner_2a",
       "airliner_3a",
-      "airliner_1b",
       "airliner_3b",
-      "airliner_1c",
-      "airliner_2c",
-      "airliner_3c",
       "airliner_1d",
-      "airliner_2d",
       "airliner_3d",
       "airliner_1e",
-      "airliner_2e",
       "airliner_3e",
       "airliner_1f",
-      "airliner_2f",
       "airliner_3f",
       "airliner_1g",
-      "airliner_2g",
       "airliner_3g",
       "airliner_1h",
-      "airliner_2h",
       "airliner_3h",
       "airliner_1i",
-      "airliner_2i",
       "airliner_3i",
       "airliner_1j",
-      "airliner_2j",
       "airliner_3j"
     ],
     "name": "field",
     "sym": ".",
     "color": "brown",
-    "see_cost": 5
+    "see_cost": 1
   },
   {
     "type": "overmap_terrain",
-    "id": [ "airliner_2b", "airliner_2b_1", "airliner_2b_-1", "airliner_2c_-1" ],
+    "id": [
+      "airliner_2a",
+      "airliner_2a_1",
+      "airliner_2b",
+      "airliner_2b_1",
+      "airliner_2b_-1",
+      "airliner_2c",
+      "airliner_2c_1",
+      "airliner_2c_-1"
+    ],
     "name": "crashed airliner",
     "sym": "A",
     "color": "red",
@@ -820,21 +820,36 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "airliner_2a_1", "airliner_2c_1", "wasp_tower_roof" ],
+    "id": [ "airliner_1b", "airliner_3c" ],
+    "name": "wreckage",
+    "sym": "A",
+    "color": "light_gray",
+    "see_cost": 4
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "airliner_1c",
+      "airliner_2d",
+      "airliner_2e",
+      "airliner_2f",
+      "airliner_2g",
+      "airliner_2h",
+      "airliner_2i",
+      "airliner_2j"
+    ],
+    "name": "crash trail",
+    "sym": ",",
+    "color": "brown",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "wasp_tower_roof" ],
     "name": "open air",
     "sym": ".",
     "color": "blue",
     "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_subway_vent_shaft_surface",
-    "copy-from": "forest"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_subway_vent_shaft_roof",
-    "copy-from": "open_air"
   },
   {
     "type": "overmap_terrain",
@@ -856,6 +871,13 @@
   },
   {
     "type": "overmap_terrain",
+    "abstract": "generic_bastion_fort",
+    "name": "bastion fort",
+    "sym": "F",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "fort_1a",
       "fort_2a",
@@ -868,7 +890,15 @@
       "fort_1c",
       "fort_2c",
       "fort_3c",
-      "fort_4c",
+      "fort_4c"
+    ],
+    "copy-from": "generic_bastion_fort",
+    "see_cost": 5,
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
       "fort_1a_1",
       "fort_2a_1",
       "fort_3a_1",
@@ -882,10 +912,8 @@
       "fort_3c_1",
       "fort_4c_1"
     ],
-    "name": "bastion fort",
-    "sym": "F",
-    "color": "red",
-    "see_cost": 5
+    "copy-from": "generic_bastion_fort",
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",

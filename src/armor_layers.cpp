@@ -318,17 +318,17 @@ void add_category_and_values( std::vector<std::string> &current_text, const int 
 
 std::vector<std::pair<std::string, std::string>> collect_protection_subvalues(
             const resistances &worst_res, const resistances &best_res, const resistances &median_res,
-            const bool display_median, const damage_type type )
+            const bool display_median, const damage_type_id &type )
 {
     std::vector<std::pair<std::string, std::string>> subvalues;
-    subvalues.emplace_back( std::make_pair( _( "Worst:" ), string_format( "%.2f",
-                                            worst_res.type_resist( type ) ) ) );
+    subvalues.emplace_back( _( "Worst:" ), string_format( "%.2f",
+                            worst_res.type_resist( type ) ) );
     if( display_median ) {
-        subvalues.emplace_back( std::make_pair( _( "Median:" ), string_format( "%.2f",
-                                                median_res.type_resist( type ) ) ) );
+        subvalues.emplace_back( _( "Median:" ), string_format( "%.2f",
+                                median_res.type_resist( type ) ) );
     }
-    subvalues.emplace_back( std::make_pair( _( "Best:" ), string_format( "%.2f",
-                                            best_res.type_resist( type ) ) ) );
+    subvalues.emplace_back( _( "Best:" ), string_format( "%.2f",
+                            best_res.type_resist( type ) ) );
     return subvalues;
 }
 
@@ -352,8 +352,6 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
         }
     }
 
-    prot.reserve( 6 );
-
     // prebuild and calc some values
     // the rolls are basically a perfect hit for protection and a
     // worst possible and a median hit
@@ -373,34 +371,28 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
     bool display_median = percent_best < 50 && percent_worst < 50;
 
     prot.push_back( string_format( "<color_c_green>[%s]</color>", _( "Protection" ) ) );
-    // bash ballistic and cut can have more involved info based on armor complexity
-    if( percent_worst > 0 ) {
-        std::vector<std::pair<std::string, std::string>> bash_subvalues = collect_protection_subvalues(
-                    worst_res, best_res, median_res, display_median, damage_type::BASH );
-        std::vector<std::pair<std::string, std::string>> cut_subvalues = collect_protection_subvalues(
-                    worst_res, best_res, median_res, display_median, damage_type::CUT );;
-        std::vector<std::pair<std::string, std::string>> ballistic_subvalues = collect_protection_subvalues(
-                    worst_res, best_res, median_res, display_median, damage_type::BULLET );;
-
-        add_category_and_values( prot, width, _( "Bash:" ), bash_subvalues );
-        add_category_and_values( prot, width, _( "Cut:" ), cut_subvalues );
-        add_category_and_values( prot, width, _( "Ballistic:" ), ballistic_subvalues );
-    } else {
-        add_folded_name_and_value( prot, _( "Bash:" ),
-                                   string_format( "%.2f", best_res.type_resist( damage_type::BASH ) ), width );
-        add_folded_name_and_value( prot, _( "Cut:" ),
-                                   string_format( "%.2f", best_res.type_resist( damage_type::CUT ) ), width );
-        add_folded_name_and_value( prot, _( "Ballistic:" ),
-                                   string_format( "%.2f", best_res.type_resist( damage_type::BULLET ) ), width );
+    for( const damage_type &dt : damage_type::get_all() ) {
+        bool skipped_details = false;
+        const std::string dtname = uppercase_first_letter( dt.name.translated() );
+        damage_info_order_id dio( dt.id.c_str() );
+        if( dio->info_display == damage_info_order::info_disp::DETAILED ) {
+            if( percent_worst > 0 ) {
+                std::vector<std::pair<std::string, std::string>> subvalues = collect_protection_subvalues(
+                            worst_res, best_res, median_res, display_median, dt.id );
+                add_category_and_values( prot, width, dtname, subvalues );
+            } else {
+                skipped_details = true;
+            }
+        }
+        if( skipped_details || dio->info_display == damage_info_order::info_disp::BASIC ) {
+            add_folded_name_and_value( prot, dtname,
+                                       string_format( "%.2f", best_res.type_resist( dt.id ) ), width );
+        }
     }
-    add_folded_name_and_value( prot, _( "Acid:" ),
-                               string_format( "%.2f", best_res.type_resist( damage_type::ACID ) ), width );
-    add_folded_name_and_value( prot, _( "Fire:" ),
-                               string_format( "%.2f", best_res.type_resist( damage_type::HEAT ) ), width );
     add_folded_name_and_value( prot, _( "Environmental:" ),
-                               string_format( "%3d", static_cast<int>( worn_item.get_env_resist() ) ), width );
+                               string_format( "%3d", worn_item.get_env_resist() ), width );
     add_folded_name_and_value( prot, _( "Breathability:" ),
-                               string_format( "%3d", static_cast<int>( worn_item.breathability( used_bp ) ) ), width );
+                               string_format( "%3d", worn_item.breathability( used_bp ) ), width );
     return prot;
 }
 
@@ -673,6 +665,8 @@ void outfit::sort_armor( Character &guy )
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "MOVE_ARMOR" );
     ctxt.register_action( "CHANGE_SIDE" );
     ctxt.register_action( "TOGGLE_CLOTH" );
@@ -996,24 +990,16 @@ void outfit::sort_armor( Character &guy )
                     popup( _( "Can't sort this under your integrated armor!" ) );
                 }
             }
-        } else if( action == "LEFT" ) {
+        } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             mid_pane.offset = 0;
-            tabindex--;
-            if( tabindex < 0 ) {
-                tabindex = tabcount - 1;
-            }
+            tabindex = inc_clamp_wrap( tabindex, action == "RIGHT" || action == "NEXT_TAB", tabcount );
             leftListIndex = leftListOffset = 0;
             selected = -1;
-        } else if( action == "RIGHT" ) {
-            mid_pane.offset = 0;
-            tabindex = ( tabindex + 1 ) % tabcount;
-            leftListIndex = leftListOffset = 0;
-            selected = -1;
-        } else if( action == "NEXT_TAB" ) {
+        } else if( action == "PAGE_DOWN" ) {
             if( rightListOffset + rightListLines < rightListSize ) {
                 rightListOffset++;
             }
-        } else if( action == "PREV_TAB" ) {
+        } else if( action == "PAGE_UP" ) {
             if( rightListOffset > 0 ) {
                 rightListOffset--;
             }

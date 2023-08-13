@@ -304,7 +304,8 @@
       "sound_fail_vol": 10,
       "ter_set": "t_carpet_red",
       "items": [ { "item": "glass_shard", "count": [ 0, 2 ] } ]
-    }
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
   {
     "type": "terrain",
@@ -334,6 +335,16 @@
     "connects_to": "RAIL",
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
-    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "glass_shard", "count": [ 0, 2 ] } ]
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   }
 ]

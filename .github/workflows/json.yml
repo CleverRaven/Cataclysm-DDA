@@ -16,7 +16,7 @@ jobs:
         cancel_others: 'true'
         paths: '["**.json", ".github/workflows/json.yml"]'
     - run: echo ${{ github.event.number }} > pull_request_id
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3.1.2
       with:
         name: pull_request_id
         path: pull_request_id

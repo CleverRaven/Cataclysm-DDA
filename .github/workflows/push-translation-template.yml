@@ -31,7 +31,7 @@ jobs:
           sudo apt install python3-pip
           sudo pip3 install polib
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: "Generate translation template"
         run: |
           lang/update_pot.sh

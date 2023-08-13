@@ -139,7 +139,7 @@
       "items": [
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "steel_chunk", "count": [ 1, 6 ] },
-        { "item": "plutonium", "charges": [ 0, 3 ] },
+        { "item": "plutonium", "count": [ 0, 3 ] },
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     },
@@ -185,7 +185,7 @@
         { "item": "steel_chunk", "count": [ 1, 5 ] },
         { "item": "bearing", "charges": [ 4, 12 ] },
         { "item": "frame", "prob": 50 },
-        { "item": "motor", "prob": 50 }
+        { "item": "motor_small", "prob": 50 }
       ]
     },
     "bash": {
@@ -202,7 +202,7 @@
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "bearing", "charges": [ 2, 8 ] },
         { "item": "frame", "prob": 20 },
-        { "item": "motor", "prob": 10 }
+        { "item": "motor_small", "prob": 10 }
       ]
     }
   },
@@ -324,7 +324,7 @@
         { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "bearing", "charges": [ 2, 6 ] },
-        { "item": "motor", "prob": 40 },
+        { "item": "motor_small", "prob": 40 },
         { "item": "processor", "count": 1 },
         { "item": "RAM", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 4 ] },
@@ -347,7 +347,7 @@
         { "item": "pipe", "prob": 40 },
         { "item": "steel_chunk", "prob": 40 },
         { "item": "bearing", "charges": [ 2, 4 ] },
-        { "item": "motor", "prob": 10 },
+        { "item": "motor_small", "prob": 10 },
         { "item": "processor", "prob": 40 },
         { "item": "RAM", "count": [ 1, 2 ] },
         { "item": "cable", "charges": [ 1, 2 ] },
@@ -382,7 +382,7 @@
         { "item": "spring", "prob": 80 },
         { "item": "steel_lump", "prob": 60 },
         { "item": "sheet_metal", "prob": 50 },
-        { "item": "motor", "prob": 60 }
+        { "item": "motor_small", "prob": 60 }
       ]
     },
     "bash": {
@@ -400,7 +400,7 @@
         { "item": "steel_lump", "prob": 50 },
         { "item": "sheet_metal", "prob": 30 },
         { "item": "scrap", "count": [ 2, 5 ] },
-        { "item": "motor", "prob": 30 }
+        { "item": "motor_small", "prob": 30 }
       ]
     }
   },
@@ -560,9 +560,9 @@
       "items": [
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "steel_chunk", "count": [ 1, 6 ] },
-        { "item": "uranium", "charges": [ 10, 50 ] },
+        { "item": "uranium", "count": [ 10, 50 ] },
         { "item": "uran_cell", "charges": [ 10, 150 ] },
-        { "item": "plutonium", "charges": [ 0, 20 ] },
+        { "item": "plutonium", "count": [ 0, 20 ] },
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     }
@@ -578,7 +578,8 @@
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": 8,
-    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "ACTIVE_GENERATOR" ],
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "active_backup_generator" },
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "ACTIVE_GENERATOR", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 5,
       "str_max": 40,
@@ -594,14 +595,6 @@
         { "item": "bearing", "charges": [ 5, 60 ] }
       ]
     },
-    "deconstruct": {
-      "items": [
-        { "item": "scrap", "count": [ 5, 15 ] },
-        { "item": "sheet_metal", "count": [ 4, 6 ] },
-        { "item": "jp8", "charges": [ 1000, 10000 ], "container-item": "jerrycan_big" },
-        { "item": "i4_diesel" },
-        { "item": "bearing", "charges": [ 5, 40 ] }
-      ]
-    }
+    "deconstruct": { "items": [ { "item": "active_backup_generator" } ] }
   }
 ]

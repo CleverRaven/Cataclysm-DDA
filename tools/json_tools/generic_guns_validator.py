@@ -27,6 +27,7 @@ AMMO_TYPE_WHITELIST = {
     'metal_rail',
     'nail',
     'nuts_bolts',
+    'oxygen',
     'paintball',
     'pebble',
     'plasma',
@@ -50,13 +51,16 @@ ID_WHITELIST = {
     'l_bak_223',
     'pneumatic_shotgun',
     'rifle_223',
-    'feral_militia_gun',
-    'feral_jackboot_gun',
-    'feral_m9',
     # Magazines
     '223_speedloader5',
     'coin_wrapper',
     'bio_shotgun_gun',
+    'gasfilter_med',
+    'gasfilter_sm',
+    "rebreather_cartridge",
+    "rebreather_cartridge_air",
+    "rebreather_cartridge_o2",
+    "rebreather_cartridge_regen"
 }
 
 

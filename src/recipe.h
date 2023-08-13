@@ -89,6 +89,7 @@ class recipe
 
     private:
         itype_id result_ = itype_id::NULL_ID();
+        std::string variant_;
 
         int64_t time = 0; // in movement points (100 per turn)
 
@@ -108,6 +109,10 @@ class recipe
 
         const itype_id &result() const {
             return result_;
+        }
+
+        const std::string &variant() const {
+            return variant_;
         }
 
         const itype_id &container_id() const {
@@ -160,6 +165,8 @@ class recipe
 
         std::function<bool( const item & )> get_component_filter(
             recipe_filter_flags = recipe_filter_flags::none ) const;
+
+        bool npc_can_craft( std::string &reason ) const;
 
         /** Prevent this recipe from ever being added to the player's learned recipes ( used for special NPC crafting ) */
         bool never_learn = false;
@@ -268,6 +275,7 @@ class recipe
         std::string get_consistency_error() const;
 
         bool is_practice() const;
+        /* Return true if this is NOT a recipe but instead only nested recipe (folder for recipes).*/
         bool is_nested() const;
         bool is_blueprint() const;
         const update_mapgen_id &get_blueprint() const;

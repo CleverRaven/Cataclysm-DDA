@@ -20,8 +20,17 @@
     "id": "a180mag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "American-180 165-round magazine" },
-    "description": "An unusually shaped pan magazine for the American-180.",
+    "name": { "str": ".22 165-round magazine" },
+    "description": "An unusually-shaped pan magazine for use with .22 caliber submachine guns.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "a180mag",
+        "name": { "str": "American-180 165-round magazine" },
+        "description": "An unusually-shaped pan magazine for the American-180.",
+        "weight": 1
+      }
+    ],
     "weight": "760 g",
     "volume": "500 ml",
     "price": 7300,
@@ -38,8 +47,17 @@
     "id": "a180mag1",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "American-180 polymer 165-round magazine" },
-    "description": "An unusually shaped pan magazine for the American-180, made of polymer.",
+    "name": { "str": ".22 165-round polymer magazine" },
+    "description": "An unusually-shaped polymer constructed pan magazine for use with .22 caliber submachine guns.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "a180mag1",
+        "name": { "str": "American-180 polymer 165-round magazine" },
+        "description": "An unusually-shaped, polymer pan magazine for the American-180.",
+        "weight": 1
+      }
+    ],
     "weight": "500 g",
     "volume": "500 ml",
     "price": 7300,
@@ -56,8 +74,17 @@
     "id": "a180mag2",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "American-180 177-round magazine" },
-    "description": "An unusually shaped pan magazine for the American-180",
+    "name": { "str": ".22 177-round magazine" },
+    "description": "An unusually-shaped pan magazine for use with .22 caliber submachine guns.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "a180mag2",
+        "name": { "str": "American-180 177-round magazine" },
+        "description": "An unusually-shaped pan magazine for the American-180.",
+        "weight": 1
+      }
+    ],
     "weight": "600 g",
     "volume": "500 ml",
     "price": 7500,
@@ -74,8 +101,17 @@
     "id": "a180mag3",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "American-180 polymer 220-round magazine" },
-    "description": "An unusually shaped pan magazine for the American-180, made of polymer.",
+    "name": { "str": ".22 220-round polymer magazine" },
+    "description": "An unusually-shaped polymer pan magazine for use with .22 caliber submachine guns.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "a180mag3",
+        "name": { "str": "American-180 polymer 220-round magazine" },
+        "description": "An unusually-shaped polymer pan magazine for the American-180.",
+        "weight": 1
+      }
+    ],
     "weight": "660 g",
     "volume": "500 ml",
     "price": 8000,
@@ -92,8 +128,17 @@
     "id": "a180mag4",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "American-180 polymer 275-round magazine" },
-    "description": "An unusually shaped pan magazine for the American-180, made of polymer.",
+    "name": { "str": ".22 275-round polymer magazine" },
+    "description": "An unusually-shaped polymer pan magazine for use with .22 caliber submachine guns.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "a180mag4",
+        "name": { "str": "American-180 polymer 275-round magazine" },
+        "description": "An unusually-shaped polymer pan magazine for the American-180.",
+        "weight": 1
+      }
+    ],
     "weight": "770 g",
     "volume": "600 ml",
     "price": 8000,
@@ -111,7 +156,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": ".22 19-round tube loader" },
-    "description": "A tube which holds 19 rounds of .22, designed for quick reloading of a compatible rifle with tubular magazine.",
+    "description": "A tube which holds 19 rounds of .22, designed for quick reloading of a compatible rifle with a tubular magazine.",
     "weight": "180 g",
     "volume": "250 ml",
     "price": 1200,
@@ -127,8 +172,17 @@
     "id": "mosquitomag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "SIG Mosquito 10-round magazine" },
-    "description": "A factory specification 10-round magazine for the SIG Mosquito.",
+    "name": { "str": "Mosquito 10-round magazine" },
+    "description": "A factory specification 10-round magazine for the Mosquito pistol.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mosquitomag",
+        "name": { "str": "SIG Mosquito 10-round magazine" },
+        "description": "A factory specification 10-round magazine for the SIG Mosquito.",
+        "weight": 1
+      }
+    ],
     "weight": "60 g",
     "volume": "250 ml",
     "price": 1700,
@@ -144,8 +198,17 @@
     "id": "ruger1022bigmag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Ruger 10/22 25-round magazine" },
-    "description": "An extended 25-round stick magazine for the Ruger 10/22, known as the BX-25.",
+    "name": { "str": "25-round varmint magazine" },
+    "description": "An extended capacity 25-round magazine, for use with .22 caliber varmint rifles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger1022bigmag",
+        "name": { "str": "Ruger 10/22 25-round magazine" },
+        "description": "An extended 25-round stick magazine for the Ruger 10/22, known as the BX-25.",
+        "weight": 1
+      }
+    ],
     "weight": "180 g",
     "volume": "500 ml",
     "price": 7900,
@@ -161,8 +224,17 @@
     "id": "ruger1022mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Ruger 10/22 10-round rotary magazine" },
-    "description": "A removable 10-round rotary magazine for the Ruger 10/22 which allows the magazine to fit flush with the bottom of the stock.",
+    "name": { "str": "10-round varmint magazine" },
+    "description": "A flush fitting 10-round rotary magazine, for use with .22 caliber varmint rifles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger1022mag",
+        "name": { "str": "Ruger 10/22 10-round rotary magazine" },
+        "description": "A removable 10-round rotary magazine for the Ruger 10/22 which allows the magazine to fit flush with the bottom of the stock.",
+        "weight": 1
+      }
+    ],
     "weight": "80 g",
     "volume": "250 ml",
     "price": 1400,
@@ -179,8 +251,17 @@
     "id": "sw22mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "22A 10-round magazine" },
-    "description": "A standard capacity magazine for the popular S&W 22A pistol.",
+    "name": { "str": ".22 10-round S&W magazine" },
+    "description": "A 10-round handgun magazine for use with Smith and Wesson’s .22 caliber pocket pistol.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "sw22mag",
+        "name": { "str": "22A 10-round magazine" },
+        "description": "A standard capacity magazine for the popular S&W 22A pistol.",
+        "weight": 1
+      }
+    ],
     "weight": "70 g",
     "volume": "250 ml",
     "price": 2100,
@@ -196,8 +277,17 @@
     "id": "j22mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "J-22 6-round magazine" },
-    "description": "A cheap 6-round steel box magazine for the Jennings J-22.",
+    "name": { "str": "cheap 6-round magazine" },
+    "description": "A cheaply built, low quality 6-round magazine, for use in only the most ineffectual of .22 caliber pocket pistols.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "j22mag",
+        "name": { "str": "J-22 6-round magazine" },
+        "description": "A cheap 6-round steel box magazine for the Jennings J-22.",
+        "weight": 1
+      }
+    ],
     "weight": "55 g",
     "volume": "27ml",
     "price": 2800,
@@ -213,8 +303,17 @@
     "id": "wp22mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "P22 10-round magazine" },
-    "description": "A 10-round box magazine for the Walther P22.",
+    "name": { "str": ".22 10-round Walther magazine" },
+    "description": "A 10-round handgun magazine for use with Walther's .22 caliber pocket pistol.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "wp22mag",
+        "name": { "str": "P22 10-round magazine" },
+        "description": "A 10-round box magazine for the Walther P22.",
+        "weight": 1
+      }
+    ],
     "weight": "25 g",
     "volume": "126 ml",
     "price": 3250,

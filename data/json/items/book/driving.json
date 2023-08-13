@@ -17,7 +17,6 @@
         "name": { "str": "Driving Around", "str_pl": "copies of Driving Around" },
         "description": "A travelogue about a group of teenagers in the late nineties.",
         "//": "978-1638607175",
-        "max_level": 1,
         "weight": 1
       },
       {
@@ -25,7 +24,6 @@
         "name": { "str": "Off The Road", "str_pl": "copies of Off The Road" },
         "description": "A notebook about living off-the-grid, with a wide collection of stories, examples, tips, and advice.",
         "//": "978-3899555943",
-        "fun": 1,
         "weight": 1
       },
       {
@@ -33,7 +31,6 @@
         "name": { "str": "Traffic: Why We Drive the Way We Do", "str_pl": "copies of Traffic: Why We Drive the Way We Do" },
         "description": "A big research book that talks about how roads are built, why they're built in such a manner, and what we can do to improve it.",
         "//": "978-0307277190",
-        "fun": 0,
         "weight": 1
       }
     ],
@@ -86,7 +83,6 @@
         "id": "mag_cars_4",
         "name": { "str": "Car and Driver", "str_pl": "issues of Car and Driver" },
         "description": "An absolutely generic monthly magazine about the automotive industry.",
-        "fun": 0,
         "weight": 1
       },
       {
@@ -117,15 +113,12 @@
         "id": "mag_cars_9",
         "name": { "str": "Motor Trend", "str_pl": "issues of Motor Trend" },
         "description": "Boring automobile magazine with a big shiny label.",
-        "fun": -1,
         "weight": 1
       },
       {
         "id": "mag_cars_10",
         "name": { "str": "Quatro Rodas", "str_pl": "issues of Quatro Rodas" },
         "description": "It seems to be a car magazine, but you can only understand the images, as the text is written in another language.",
-        "fun": -1,
-        "intelligence": 7,
         "weight": 1
       }
     ],
@@ -178,9 +171,6 @@
         },
         "description": "This book explains the technologies and approaches of advanced driving systems, how they are designed, and why it is hard to get a good result.  It is difficult to understand sometimes, but it shows driving from a perspective an average driver wouldn't think about.",
         "//": "978-0367265595",
-        "required_level": 2,
-        "max_level": 5,
-        "intelligence": 8,
         "weight": 1
       },
       {
@@ -222,10 +212,6 @@
         "name": { "str": "The Anarchist Cookbook", "str_pl": "copies of The Anarchist Cookbook" },
         "description": "Classic illegal manual about making weapons and explosives.  The first page contains a quote from its author William Powell, that describes it as \"a youthful indiscretion or mistake that can haunt someone during their early years or even longer\".",
         "//": "really? you don't know how to find the anarchist cookbook?",
-        "skill": "chemistry",
-        "required_level": 2,
-        "max_level": 5,
-        "fun": 0,
         "weight": 1
       },
       {
@@ -233,10 +219,6 @@
         "name": { "str": "Science of Revolutionary Warfare", "str_pl": "copies of Science of Revolutionary Warfare" },
         "description": "A small, shabby book about making explosives, poisons, and weapons with resources you may find in your backyard.",
         "//": "978-0879472115",
-        "skill": "chemistry",
-        "required_level": 2,
-        "max_level": 5,
-        "fun": 0,
         "weight": 1
       },
       {
@@ -244,10 +226,6 @@
         "name": { "str": "The Poor Man's James Bond", "str_pl": "copies of The Poor Man's James Bond" },
         "description": "A collection of American paramilitary knowledge throughout history, containing a lot of information about how to make dangerous weapons and explosives in pretty dry language.",
         "//": "978-0879472306",
-        "skill": "chemistry",
-        "required_level": 2,
-        "max_level": 5,
-        "fun": -1,
         "weight": 1
       }
     ],

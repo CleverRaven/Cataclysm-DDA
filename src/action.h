@@ -10,11 +10,6 @@
 #include <string>
 #include <vector>
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 struct input_event;
 struct point;
 struct tripoint;
@@ -229,6 +224,8 @@ enum action_id : int {
     ACTION_TOGGLE_AUTOSAFE,
     /** Toggle permanent attitude to stealing */
     ACTION_TOGGLE_THIEF_MODE,
+    /** Switch current language to English and back */
+    ACTION_TOGGLE_LANGUAGE_TO_EN,
     /** Ignore the enemy that triggered safemode */
     ACTION_IGNORE_ENEMY,
     /** Whitelist the enemy that triggered safemode */
@@ -255,11 +252,9 @@ enum action_id : int {
     ACTION_SKY,
     /** Display missions screen */
     ACTION_MISSIONS,
-    /** Display scores screen */
-    ACTION_SCORES,
     /** Display factions screen */
     ACTION_FACTIONS,
-    /** Display morale effects screen */
+    /** Displays morale menu */
     ACTION_MORALE,
     /** Displays medical menu */
     ACTION_MEDICAL,
@@ -496,9 +491,11 @@ std::optional<tripoint> choose_direction( const std::string &message,
  * @param[in] failure_message Message used if there is no valid adjacent tile
  * @param[in] action An action ID to drive the highlighting output
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
+ * @param[in] allow_autoselect Automatically select location if there's only one valid option and the appropriate setting is enabled
  */
 std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, action_id action, bool allow_vertical = false );
+        const std::string &failure_message, action_id action,
+        bool allow_vertical = false, bool allow_autoselect = true );
 
 /**
  * Request player input of adjacent tile with highlighting, possibly on different z-level
@@ -515,10 +512,11 @@ std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  * @param[in] failure_message Message used if there is no valid adjacent tile
  * @param[in] allowed A function that will be called to determine if a given location is allowed for selection
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
+ * @param[in] allow_autoselect Automatically select location if there's only one valid option and the appropriate setting is enabled
  */
 std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
-        bool allow_vertical = false );
+        bool allow_vertical = false, bool allow_autoselect = true );
 
 // (Press X (or Y)|Try) to Z
 std::string press_x( action_id act );

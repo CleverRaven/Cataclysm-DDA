@@ -121,12 +121,25 @@
     "autolearn": true,
     "tools": [
       [
-        [ "m27_assault_rifle", -1 ],
-        [ "m16_auto_rifle", -1 ],
-        [ "m4_carbine", -1 ],
-        [ "ar15", -1 ],
+        [ "modular_m27_assault_rifle", -1 ],
+        [ "modular_m16_auto_rifle", -1 ],
+        [ "modular_m4_carbine", -1 ],
+        [ "ar15_223long", -1 ],
+        [ "modular_ar15", -1 ],
+        [ "ar15_223medium", -1 ],
+        [ "ar15_223short", -1 ],
+        [ "ar15_300", -1 ],
+        [ "ar15_300medium", -1 ],
+        [ "ar15_300short", -1 ],
+        [ "ar15_50", -1 ],
+        [ "ar15_50medium", -1 ],
+        [ "ar15_50short", -1 ],
+        [ "ar15_450", -1 ],
+        [ "ar15_450medium", -1 ],
+        [ "ar15_450short", -1 ],
+        [ "ar15_762", -1 ],
         [ "m249", -1 ],
-        [ "m16a4", -1 ]
+        [ "modular_m16a4", -1 ]
       ],
       [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
     ],
@@ -411,5 +424,177 @@
     "tools": [ [ [ "coilgun", -1 ] ], [ [ "nail", -1 ], [ "combatnail", -1 ] ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "scrap", 1 ] ], [ [ "duct_tape", 20 ] ] ]
+  },
+  {
+    "result": "stanag20_beowulf",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "rifle", 1 ],
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 2 ] ],
+    "time": "5 m",
+    "tools": [
+      [
+        [ "ar15_223long", -1 ],
+        [ "modular_ar15", -1 ],
+        [ "ar15_223medium", -1 ],
+        [ "ar15_223short", -1 ],
+        [ "ar15_300", -1 ],
+        [ "ar15_300medium", -1 ],
+        [ "ar15_300short", -1 ],
+        [ "ar15_50", -1 ],
+        [ "ar15_50medium", -1 ],
+        [ "ar15_50short", -1 ],
+        [ "ar15_450", -1 ],
+        [ "ar15_450medium", -1 ],
+        [ "ar15_450short", -1 ],
+        [ "ar15_762", -1 ],
+        [ "modular_m4_carbine", -1 ],
+        [ "m4_cqbr", -1 ],
+        [ "modular_m27_assault_rifle", -1 ],
+        [ "modular_m16a4", -1 ],
+        [ "modular_m16_auto_rifle", -1 ]
+      ],
+      [
+        [ "retool_ar15_50beowulf", -1 ],
+        [ "retool_ar15_50beowulf_medium", -1 ],
+        [ "retool_ar15_50beowulf_short", -1 ]
+      ]
+    ],
+    "using": [ [ "50beowulf_casehead", 1 ] ],
+    "qualities": [ { "id": "FILE", "level": 2 }, { "id": "GRIND", "level": 1 } ],
+    "components": [ [ [ "stanag20", 1 ] ] ]
+  },
+  {
+    "result": "stanag30_beowulf",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "rifle", 1 ],
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 2 ] ],
+    "time": "5 m",
+    "tools": [
+      [
+        [ "ar15_223long", -1 ],
+        [ "modular_ar15", -1 ],
+        [ "ar15_223medium", -1 ],
+        [ "ar15_223short", -1 ],
+        [ "ar15_300", -1 ],
+        [ "ar15_300medium", -1 ],
+        [ "ar15_300short", -1 ],
+        [ "ar15_50", -1 ],
+        [ "ar15_50medium", -1 ],
+        [ "ar15_50short", -1 ],
+        [ "ar15_450", -1 ],
+        [ "ar15_450medium", -1 ],
+        [ "ar15_450short", -1 ],
+        [ "ar15_762", -1 ],
+        [ "modular_m4_carbine", -1 ],
+        [ "m4_cqbr", -1 ],
+        [ "modular_m27_assault_rifle", -1 ],
+        [ "modular_m16a4", -1 ],
+        [ "modular_m16_auto_rifle", -1 ]
+      ],
+      [
+        [ "retool_ar15_50beowulf", -1 ],
+        [ "retool_ar15_50beowulf_medium", -1 ],
+        [ "retool_ar15_50beowulf_short", -1 ]
+      ]
+    ],
+    "using": [ [ "50beowulf_casehead", 1 ] ],
+    "qualities": [ { "id": "FILE", "level": 2 }, { "id": "GRIND", "level": 1 } ],
+    "components": [ [ [ "stanag30", 1 ] ] ]
+  },
+  {
+    "result": "stanag20ranger_beowulf",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "rifle", 1 ],
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 2 ] ],
+    "time": "5 m",
+    "tools": [
+      [
+        [ "ar15_223long", -1 ],
+        [ "modular_ar15", -1 ],
+        [ "ar15_223medium", -1 ],
+        [ "ar15_223short", -1 ],
+        [ "ar15_300", -1 ],
+        [ "ar15_300medium", -1 ],
+        [ "ar15_300short", -1 ],
+        [ "ar15_50", -1 ],
+        [ "ar15_50medium", -1 ],
+        [ "ar15_50short", -1 ],
+        [ "ar15_450", -1 ],
+        [ "ar15_450medium", -1 ],
+        [ "ar15_450short", -1 ],
+        [ "ar15_762", -1 ],
+        [ "modular_m4_carbine", -1 ],
+        [ "m4_cqbr", -1 ],
+        [ "modular_m27_assault_rifle", -1 ],
+        [ "modular_m16a4", -1 ],
+        [ "modular_m16_auto_rifle", -1 ]
+      ],
+      [
+        [ "retool_ar15_50beowulf", -1 ],
+        [ "retool_ar15_50beowulf_medium", -1 ],
+        [ "retool_ar15_50beowulf_short", -1 ]
+      ]
+    ],
+    "using": [ [ "50beowulf_casehead", 1 ] ],
+    "qualities": [ { "id": "FILE", "level": 2 }, { "id": "GRIND", "level": 1 } ],
+    "components": [ [ [ "stanag20ranger", 1 ] ] ]
+  },
+  {
+    "result": "stanag30ranger_beowulf",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "rifle", 1 ],
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 2 ] ],
+    "time": "5 m",
+    "tools": [
+      [
+        [ "ar15_223long", -1 ],
+        [ "modular_ar15", -1 ],
+        [ "ar15_223medium", -1 ],
+        [ "ar15_223short", -1 ],
+        [ "ar15_300", -1 ],
+        [ "ar15_300medium", -1 ],
+        [ "ar15_300short", -1 ],
+        [ "ar15_50", -1 ],
+        [ "ar15_50medium", -1 ],
+        [ "ar15_50short", -1 ],
+        [ "ar15_450", -1 ],
+        [ "ar15_450medium", -1 ],
+        [ "ar15_450short", -1 ],
+        [ "ar15_762", -1 ],
+        [ "modular_m4_carbine", -1 ],
+        [ "m4_cqbr", -1 ],
+        [ "modular_m27_assault_rifle", -1 ],
+        [ "modular_m16a4", -1 ],
+        [ "modular_m16_auto_rifle", -1 ]
+      ],
+      [
+        [ "retool_ar15_50beowulf", -1 ],
+        [ "retool_ar15_50beowulf_medium", -1 ],
+        [ "retool_ar15_50beowulf_short", -1 ]
+      ]
+    ],
+    "using": [ [ "50beowulf_casehead", 1 ] ],
+    "qualities": [ { "id": "FILE", "level": 2 }, { "id": "GRIND", "level": 1 } ],
+    "components": [ [ [ "stanag30ranger", 1 ] ] ]
   }
 ]

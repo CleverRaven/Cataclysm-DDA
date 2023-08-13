@@ -61,6 +61,10 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_heat( "heat" );
+
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_emp( "emp" );
@@ -77,6 +81,11 @@ static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+
+static const mon_flag_str_id mon_flag_ELECTRIC_FIELD( "ELECTRIC_FIELD" );
+static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
+static const mon_flag_str_id mon_flag_HEARS( "HEARS" );
+static const mon_flag_str_id mon_flag_SEES( "SEES" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
@@ -180,7 +189,7 @@ static void do_blast( const Creature *source, const tripoint &p, const float pow
     std::set<tripoint> closed;
     std::set<tripoint> bashed{ p };
     std::map<tripoint, float> dist_map;
-    open.push( std::make_pair( 0.0f, p ) );
+    open.emplace( 0.0f, p );
     dist_map[p] = 0.0f;
     // Find all points to blast
     while( !open.empty() ) {
@@ -254,7 +263,7 @@ static void do_blast( const Creature *source, const tripoint &p, const float pow
             }
 
             if( dist_map.count( dest ) == 0 || dist_map[dest] > next_dist ) {
-                open.push( std::make_pair( next_dist, dest ) );
+                open.emplace( next_dist, dest );
                 dist_map[dest] = next_dist;
             }
         }
@@ -304,7 +313,7 @@ static void do_blast( const Creature *source, const tripoint &p, const float pow
         if( const optional_vpart_position vp = here.veh_at( pt ) ) {
             // TODO: Make this weird unit used by vehicle::damage more sensible
             vp->vehicle().damage( here, vp->part_index(), force,
-                                  fire ? damage_type::HEAT : damage_type::BASH, false );
+                                  fire ? damage_heat : damage_bash, false );
         }
 
         Creature *critter = creatures.creature_at( pt, true );
@@ -317,7 +326,8 @@ static void do_blast( const Creature *source, const tripoint &p, const float pow
 
         Character *pl = critter->as_character();
         if( pl == nullptr ) {
-            const double dmg = std::max( force - critter->get_armor_bash( bodypart_id( "torso" ) ) / 2.0, 0.0 );
+            const double dmg = std::max( force - critter->get_armor_type( damage_bash,
+                                         bodypart_id( "torso" ) ) / 2.0, 0.0 );
             const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
             critter->apply_damage( mutable_source, bodypart_id( "torso" ), actual_dmg );
             critter->check_dead_state();
@@ -351,8 +361,8 @@ static void do_blast( const Creature *source, const tripoint &p, const float pow
         for( const blastable_part &blp : blast_parts ) {
             const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
             const std::string hit_part_name = body_part_name_accusative( blp.bp );
-            const damage_instance dmg_instance = damage_instance( damage_type::BASH, part_dam, 0,
-                                                 blp.armor_mul );
+            // FIXME: Hardcoded damage type
+            const damage_instance dmg_instance = damage_instance( damage_bash, part_dam, 0, blp.armor_mul );
             const dealt_damage_instance result = pl->deal_damage( mutable_source, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();
 
@@ -428,7 +438,7 @@ static std::vector<tripoint> shrapnel( const Creature *source, const tripoint &s
             dealt_projectile_attack frag;
             frag.proj = proj;
             frag.proj.speed = cloud.velocity;
-            frag.proj.impact = damage_instance( damage_type::BULLET, damage );
+            frag.proj.impact = damage_instance( damage_bullet, damage );
             // dealt_dam.total_damage() == 0 means armor block
             // dealt_dam.total_damage() > 0 means took damage
             // Need to differentiate target among player, npc, and monster
@@ -577,10 +587,10 @@ void flashbang( const tripoint &p, bool player_immune )
             if( dist <= 4 ) {
                 critter.add_effect( effect_stunned, time_duration::from_turns( 10 - dist ) );
             }
-            if( critter.has_flag( MF_SEES ) && here.sees( critter.pos(), p, 8 ) ) {
+            if( critter.has_flag( mon_flag_SEES ) && here.sees( critter.pos(), p, 8 ) ) {
                 critter.add_effect( effect_blind, time_duration::from_turns( 18 - dist ) );
             }
-            if( critter.has_flag( MF_HEARS ) ) {
+            if( critter.has_flag( mon_flag_HEARS ) ) {
                 critter.add_effect( effect_deaf, time_duration::from_turns( 60 - dist * 4 ) );
             }
         }
@@ -629,7 +639,7 @@ void scrambler_blast( const tripoint &p )
 {
     if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
-        if( critter.has_flag( MF_ELECTRONIC ) ) {
+        if( critter.has_flag( mon_flag_ELECTRONIC ) ) {
             critter.make_friendly();
         }
         add_msg( m_warning, _( "The %s sparks and begins searching for a target!" ),
@@ -679,9 +689,9 @@ void emp_blast( const tripoint &p )
     }
     if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
-        if( critter.has_flag( MF_ELECTRONIC ) ) {
+        if( critter.has_flag( mon_flag_ELECTRONIC ) ) {
             int deact_chance = 0;
-            const auto mon_item_id = critter.type->revert_to_itype;
+            const itype_id mon_item_id = critter.type->revert_to_itype;
             switch( critter.get_size() ) {
                 case creature_size::tiny:
                     deact_chance = 6;
@@ -716,7 +726,7 @@ void emp_blast( const tripoint &p )
                     critter.make_friendly();
                 }
             }
-        } else if( critter.has_flag( MF_ELECTRIC_FIELD ) ) {
+        } else if( critter.has_flag( mon_flag_ELECTRIC_FIELD ) ) {
             if( !critter.has_effect( effect_emp ) ) {
                 if( sight ) {
                     add_msg( m_good, _( "The %s's electrical field momentarily goes out!" ), critter.name() );

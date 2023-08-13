@@ -212,13 +212,13 @@ tile_predicate ter_set(
  * Function that prints encountered char and fails.
  * Use at the end of the chain of char handlers.
  */
-static const tile_predicate fail = []( map_test_case::tile t )
+inline const tile_predicate fail = []( map_test_case::tile t )
 {
     FAIL( "Setup char is not handled: " << t.setup_c );
     return false;
 };
 
-static const tile_predicate noop = []( map_test_case::tile )
+inline const tile_predicate noop = []( map_test_case::tile )
 {
     return true;
 };

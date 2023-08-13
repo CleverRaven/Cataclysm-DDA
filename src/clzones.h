@@ -31,7 +31,7 @@ class map;
 struct construction;
 
 using faction_id = string_id<faction>;
-static const faction_id your_fac( "your_followers" );
+inline const faction_id your_fac( "your_followers" );
 const std::string type_fac_hash_str = "__FAC__";
 
 //Generic activity: maximum search distance for zones, constructions, etc.
@@ -60,7 +60,7 @@ class zone_type
 
         static void load_zones( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string & );
+        void load( const JsonObject &jo, std::string_view );
         /**
          * All spells in the game.
          */
@@ -368,12 +368,19 @@ class zone_data
         static std::string make_type_hash( const zone_type_id &_type, const faction_id &_fac ) {
             return _type.c_str() + type_fac_hash_str + _fac.c_str();
         }
-        static zone_type_id unhash_type( const std::string &hash_type ) {
+        static zone_type_id unhash_type( const std::string_view hash_type ) {
             size_t end = hash_type.find( type_fac_hash_str );
             if( end != std::string::npos && end < hash_type.size() ) {
                 return zone_type_id( hash_type.substr( 0, end ) );
             }
             return zone_type_id( "" );
+        }
+        static faction_id unhash_fac( const std::string_view hash_type ) {
+            size_t start = hash_type.find( type_fac_hash_str ) + type_fac_hash_str.size();
+            if( start != std::string::npos ) {
+                return faction_id( hash_type.substr( start ) );
+            }
+            return faction_id( "" );
         }
         std::string get_name() const {
             return name;
@@ -525,6 +532,9 @@ class zone_manager
         bool has_loot_dest_near( const tripoint_abs_ms &where ) const;
         bool custom_loot_has( const tripoint_abs_ms &where, const item *it,
                               const zone_type_id &ztype, const faction_id &fac = your_fac ) const;
+        std::vector<zone_data const *> get_near_zones( const zone_type_id &type,
+                const tripoint_abs_ms &where, int range,
+                const faction_id &fac = your_fac ) const;
         std::unordered_set<tripoint_abs_ms> get_near(
             const zone_type_id &type, const tripoint_abs_ms &where, int range = MAX_DISTANCE,
             const item *it = nullptr, const faction_id &fac = your_fac ) const;

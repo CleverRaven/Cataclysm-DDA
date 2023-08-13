@@ -1,4 +1,4 @@
-# vitamin
+# Vitamins
 
 ## definition
 
@@ -26,7 +26,7 @@ Mandatory. The id of the vitamin.
 Mandatory. Must be `vitamin`.
 
 ### `vit_type`
-The type of the vitamin. Valid values are:
+Mandatory. The type of the vitamin. Valid values are:
 
 #### `vitamin`
 When simplified nutrition is enabled, this vitamin will not be added to any items and any time the game attempts to retrieve it from the player it will give 0.

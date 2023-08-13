@@ -1,0 +1,161 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_ENHANCE_MOBILITY_SWITCHER",
+    "effect": {
+      "switch": { "math": [ "u_val('spell_level', 'spell: biokin_enhance_mobility')" ] },
+      "cases": [
+        { "case": 0, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_1" } } ] },
+        { "case": 4, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_2" } } ] },
+        { "case": 8, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_3" } } ] },
+        { "case": 12, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_4" } } ] },
+        { "case": 16, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_5" } } ] },
+        { "case": 20, "effect": [ { "u_cast_spell": { "id": "biokin_enhance_mobility_6" } } ] }
+      ]
+    }
+  },
+  {
+    "id": "biokin_enhance_mobility_1",
+    "type": "SPELL",
+    "name": "[Ψ]Enhance Mobility #1",
+    "description": "The spell that summons the enhanced mobility device.  It's a bug if you have it directly.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "spawn_item",
+    "effect_str": "biokin_enhance_mobility_item_1",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    }
+  },
+  {
+    "id": "biokin_enhance_mobility_2",
+    "type": "SPELL",
+    "name": "[Ψ]Enhance Mobility #2",
+    "description": "The spell that summons the enhanced mobility device.  It's a bug if you have it directly.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "spawn_item",
+    "effect_str": "biokin_enhance_mobility_item_2",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    }
+  },
+  {
+    "id": "biokin_enhance_mobility_3",
+    "type": "SPELL",
+    "name": "[Ψ]Enhance Mobility #3",
+    "description": "The spell that summons the enhanced mobility device.  It's a bug if you have it directly.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "spawn_item",
+    "effect_str": "biokin_enhance_mobility_item_3",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    }
+  },
+  {
+    "id": "biokin_enhance_mobility_4",
+    "type": "SPELL",
+    "name": "[Ψ]Enhance Mobility #4",
+    "description": "The spell that summons the enhanced mobility device.  It's a bug if you have it directly.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "spawn_item",
+    "effect_str": "biokin_enhance_mobility_item_4",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    }
+  },
+  {
+    "id": "biokin_enhance_mobility_5",
+    "type": "SPELL",
+    "name": "[Ψ]Enhance Mobility #5",
+    "description": "The spell that summons the enhanced mobility device.  It's a bug if you have it directly.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "spawn_item",
+    "effect_str": "biokin_enhance_mobility_item_5",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    }
+  },
+  {
+    "id": "biokin_enhance_mobility_6",
+    "type": "SPELL",
+    "name": "[Ψ]Enhance Mobility #6",
+    "description": "The spell that summons the enhanced mobility device.  It's a bug if you have it directly.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "spawn_item",
+    "effect_str": "biokin_enhance_mobility_item_6",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    }
+  }
+]

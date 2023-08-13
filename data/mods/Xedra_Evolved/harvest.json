@@ -13,5 +13,20 @@
       { "drop": "fae_fur", "type": "skin", "mass_ratio": 0.04 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.04 }
     ]
+  },
+  {
+    "id": "fig_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "fig", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "pomegranate_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "pomegranate", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "elder_ginseng_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "xe_elder_ginseng", "base_num": [ 1, 1 ] } ]
   }
 ]

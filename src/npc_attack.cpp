@@ -3,6 +3,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "creature_tracker.h"
+#include "dialogue.h"
 #include "flag.h"
 #include "item.h"
 #include "line.h"
@@ -16,6 +17,8 @@
 #include "ranged.h"
 
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
+
+static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
 namespace npc_attack_constants
 {
@@ -97,7 +100,7 @@ void npc_attack_spell::use( npc &source, const tripoint &location ) const
 {
     spell &sp = source.magic->get_spell( attack_spell_id );
     if( source.has_weapon() && !source.get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) &&
-        !sp.has_flag( spell_flag::NO_HANDS ) ) {
+        !sp.has_flag( spell_flag::NO_HANDS ) && !source.has_flag( json_flag_SUBTLE_SPELL ) ) {
         source.unwield();
     }
     add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is casting %s", source.disp_name(), sp.name() );
@@ -150,7 +153,7 @@ bool npc_attack_spell::can_use( const npc &source ) const
     // missing components or energy or something
     return attack_spell.can_cast( source ) &&
            // use the same rules as silent guns
-           !( source.rules.has_flag( ally_rule::use_silent ) && attack_spell.sound_volume() >= 5 );
+           !( source.rules.has_flag( ally_rule::use_silent ) && attack_spell.sound_volume( source ) >= 5 );
 }
 
 int npc_attack_spell::base_time_penalty( const npc &source ) const
@@ -158,7 +161,7 @@ int npc_attack_spell::base_time_penalty( const npc &source ) const
     const spell &attack_spell = source.magic->get_spell( attack_spell_id );
     int time_penalty = 0;
     if( source.has_weapon() && !source.get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) &&
-        !attack_spell.has_flag( spell_flag::NO_HANDS ) ) {
+        !attack_spell.has_flag( spell_flag::NO_HANDS ) && !source.has_flag( json_flag_SUBTLE_SPELL ) ) {
         time_penalty += npc_attack_constants::base_time_penalty;
     }
     // costs a point per second spent.
@@ -181,8 +184,9 @@ npc_attack_rating npc_attack_spell::evaluate_tripoint(
         if( !critter ) {
             // no critter? no damage! however, we assume fields are worth something
             if( attack_spell_id->field ) {
-                total_potential += static_cast<double>( attack_spell.field_intensity() ) /
-                                   static_cast<double>( attack_spell_id->field_chance ) / 2.0;
+                dialogue d( get_talker_for( source ), nullptr );
+                total_potential += static_cast<double>( attack_spell.field_intensity( source ) ) /
+                                   static_cast<double>( attack_spell_id->field_chance.evaluate( d ) ) / 2.0;
             }
             continue;
         }
@@ -585,7 +589,7 @@ std::vector<npc_attack_rating> npc_attack_activate_item::all_evaluations( const 
     }
     // until we have better logic for grenades it's better to keep this as a last resort...
     const int emergency = source.emergency() ? 1 : 0;
-    effectiveness.emplace_back( npc_attack_rating( emergency, source.pos() ) );
+    effectiveness.emplace_back( emergency, source.pos() );
     return effectiveness;
 }
 

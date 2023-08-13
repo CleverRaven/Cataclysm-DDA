@@ -1,0 +1,33 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_museum_display_mannequin",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "0" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "furniture": { "0": "f_mannequin" },
+      "items": {
+        "0": [
+          { "item": "pants", "chance": 100 },
+          { "item": "alt_shirts", "chance": 100 },
+          { "item": "museum_plaques_visitors", "chance": 100 },
+          { "item": "otherworld_gear", "chance": 50 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_museum_displaycase",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "0" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "furniture": { "0": "f_displaycase" },
+      "items": { "0": [ { "item": "display_case_items", "chance": 100 }, { "item": "museum_plaques_items", "chance": 100 } ] }
+    }
+  }
+]

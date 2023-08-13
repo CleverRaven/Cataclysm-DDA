@@ -43,8 +43,6 @@
     "price": 450,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 2,
-    "cutting": 6,
     "symbol": ";",
     "color": "yellow",
     "qualities": [
@@ -82,7 +80,8 @@
       [ "WRENCH", 3 ],
       [ "WRENCH_FINE", 4 ]
     ],
-    "flags": [ "SPEAR", "BELT_CLIP", "TRADER_AVOID" ]
+    "flags": [ "SPEAR", "BELT_CLIP", "TRADER_AVOID" ],
+    "melee_damage": { "bash": 2, "stab": 6 }
   },
   {
     "id": "artificer_toolkit",

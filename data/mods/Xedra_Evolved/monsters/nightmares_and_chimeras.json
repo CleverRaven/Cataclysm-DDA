@@ -22,13 +22,11 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
-    "armor_bash": 6,
-    "armor_cut": 2,
-    "armor_bullet": 2,
     "vision_day": 30,
     "vision_night": 5,
     "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "FLIES", "NO_BREATHE" ]
+    "flags": [ "SEES", "HEARS", "FLIES", "NO_BREATHE" ],
+    "armor": { "bash": 6, "cut": 2, "bullet": 2 }
   },
   {
     "id": "mon_endless_snake",

@@ -1,0 +1,328 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_alien_grass",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_nested": [ { "chunks": [ "grass_location_1" ], "x": [ 2, 13 ], "y": [ 2, 13 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "grass_location_1",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "  GGGGG  ",
+        " GGGGGGG ",
+        "GGGGGGGGG",
+        "GGGGGGGGG",
+        "GGGGGGGGG",
+        "GGGGGGGGG",
+        "GGGGGGGGG",
+        " GGGGGGG ",
+        "  GGGGG  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "G": [ [ "t_grass_alien", 1 ], [ "t_null", 1 ] ], " ": "t_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_alien_grass_2",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_nested": [ { "chunks": [ "grass_location_2" ], "x": [ 2, 10 ], "y": [ 2, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "grass_location_2",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    GGGG    ",
+        "   GGGGGG   ",
+        "  GGGGGGGG  ",
+        " GGGGGGGGGG ",
+        "GGGGGGGGGGGG",
+        "GGGGGGGGGGGG",
+        "GGGGGGGGGGGG",
+        "GGGGGGGGGGGG",
+        " GGGGGGGGGG ",
+        "  GGGGGGGG  ",
+        "   GGGGGG   ",
+        "    GGGG    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "G": [ [ "t_grass_alien_2", 2 ], [ "t_tree_small_alien_1", 1 ], [ "t_null", 1 ] ], " ": "t_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_alien_grass_3",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_nested": [ { "chunks": [ "grass_location_3" ], "x": [ 2, 13 ], "y": [ 2, 13 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "grass_location_3",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "  GGGGG  ",
+        " GGGGGGG ",
+        "GGGGGGGGG",
+        "GGGGGGGGG",
+        "GGGGGGGGG",
+        "GGGGGGGGG",
+        "GGGGGGGGG",
+        " GGGGGGG ",
+        "  GGGGG  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "G": [ [ "t_grass_alien_3", 1 ], [ "t_moss_alien_1", 1 ], [ "t_null", 1 ] ], " ": "t_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_alien_grass_4",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_nested": [ { "chunks": [ "grass_location_4" ], "x": [ 2, 12 ], "y": [ 2, 12 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "grass_location_4",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "   GGGG   ",
+        "  GGGGGG  ",
+        " GGGGGGGG ",
+        "GGGGGGGGGG",
+        "GGGGGGGGGG",
+        "GGGGGGGGGG",
+        "GGGGGGGGGG",
+        " GGGGGGGG ",
+        "  GGGGGG  ",
+        "   GGGG   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "G": [ [ "t_tree_small_alien_2", 1 ], [ "t_moss_alien_2", 1 ], [ "t_null", 1 ] ], " ": "t_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_alien_grass_5",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_nested": [ { "chunks": [ "grass_location_5" ], "x": [ 2, 10 ], "y": [ 2, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "grass_location_5",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    GGGG    ",
+        "   GGGGGG   ",
+        "  GGGGGGGG  ",
+        " GGGGGGGGGG ",
+        "GGGGGGGGGGGG",
+        "GGGGGGGGGGGG",
+        "GGGGGGGGGGGG",
+        "GGGGGGGGGGGG",
+        " GGGGGGGGGG ",
+        "  GGGGGGGG  ",
+        "   GGGGGG   ",
+        "    GGGG    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "G": [ [ "t_tree_small_alien_3", 1 ], [ "t_vines_alien_1", 1 ], [ "t_null", 1 ] ], " ": "t_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_alien_grove",
+    "object": {
+      "rows": [
+        ".............GGGGG......",
+        "......GGGGGGGGGGGGGG....",
+        "....GGGGGGGGGGGGGGGGGG..",
+        "...GGGGGGGGGGGGGGGGGGGG.",
+        "...GGGGGGGGGGGGGGGGDDGG.",
+        "..GGGGGGGGGGGGGDGGGGDDD.",
+        ".GGGGGGGGGGGGGGDDGGDDD..",
+        ".GGGGGGGGGGGGGGGGDDDGDD.",
+        ".GGGGGGGGGGGGGGGDGGDDDD.",
+        ".GGGGGGGGGGGGGGDDGDDDDD.",
+        "GGGGGGGGGGGGGDGGDDDDDDDD",
+        "GGGGGGGGGGGGDDDGDDDDDDDD",
+        "GGGGGGGDDGGDDDGGDDDDDDDD",
+        "GGGGGGGDDDDDDDDDDDDDDDDD",
+        ".GGGGGGGGGDDDDDDDDDDDDD.",
+        ".GGGGGGGDDDDDDDDDDDDDDD.",
+        ".GGGDGDGDDDDDDDDDDDDDD..",
+        ".GGDGDDDGDDDDDDDDDDDDD..",
+        "..GGDDDGGDDDDDDDDDDDDD..",
+        "..GGGDDDDDDDDDDDDDDDDD..",
+        "...DDDDDDDDDDDDDDDDDD...",
+        ".....DDDDDDDDDDDDDDD....",
+        ".......DDDDDDDDDDDD.....",
+        "..........DDDDDD........"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "G": [ [ "t_grass_alien_2", 2 ], [ "t_tree_small_alien_1", 1 ], [ "t_null", 1 ] ],
+        "D": [ [ "t_tree_small_alien_3", 3 ], [ "t_vines_alien_1", 3 ], [ "t_null", 2 ] ],
+        ".": "t_null"
+      }
+    }
+  }
+]

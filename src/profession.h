@@ -85,7 +85,7 @@ class profession
 
         void check_item_definitions( const itypedecvec &items ) const;
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
     public:
         //these three aren't meant for external use, but had to be made public regardless

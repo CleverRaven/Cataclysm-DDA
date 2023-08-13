@@ -22,7 +22,6 @@ class JsonObject;
 class JsonOut;
 class item;
 struct dialogue;
-template<class T>
 struct dbl_or_var;
 namespace enchant_vals
 {
@@ -55,11 +54,13 @@ enum class mod : int {
     BONUS_DODGE,
     BONUS_BLOCK,
     MELEE_DAMAGE,
+    RANGED_DAMAGE,
     ATTACK_NOISE,
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
     SIGHT_RANGE_ELECTRIC,
     MOTION_VISION_RANGE,
+    SIGHT_RANGE_NETHER,
     CARRY_WEIGHT,
     WEAPON_DISPERSION,
     SOCIAL_LIE,
@@ -116,6 +117,14 @@ enum class mod : int {
     ITEM_ATTACK_SPEED,
     CLIMATE_CONTROL_HEAT,
     CLIMATE_CONTROL_CHILL,
+    COMBAT_CATCHUP,
+    KNOCKBACK_RESIST,
+    KNOCKDOWN_RESIST,
+    FALL_DAMAGE,
+    FORCEFIELD,
+    EVASION,
+    OVERKILL_DAMAGE,
+    RANGE,
     NUM_MOD
 };
 } // namespace enchant_vals
@@ -142,12 +151,12 @@ class enchantment
 
         static void load_enchantment( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string &src = "",
+        void load( const JsonObject &jo, std::string_view src = {},
                    const std::optional<std::string> &inline_id = std::nullopt, bool is_child = false );
 
         // Takes in a JsonValue which can be either a string or an enchantment object and returns the id of the enchantment the caller will use.
         // If the input is a string return it as an enchantment_id otherwise create an enchantment with id inline_id and return inline_id as an enchantment id
-        static enchantment_id load_inline_enchantment( const JsonValue &jv, const std::string &src,
+        static enchantment_id load_inline_enchantment( const JsonValue &jv, std::string_view src,
                 std::string &inline_id );
 
         // this enchantment has a valid condition and is in the right location
@@ -169,7 +178,7 @@ class enchantment
         const std::set<trait_id> &get_mutations() const {
             return mutations;
         }
-        int get_value_add( enchant_vals::mod value, const Character &guy ) const;
+        double get_value_add( enchant_vals::mod value, const Character &guy ) const;
         double get_value_multiply( enchant_vals::mod value, const Character &guy ) const;
 
         body_part_set modify_bodyparts( const body_part_set &unmodified ) const;
@@ -196,14 +205,14 @@ class enchantment
         translation description;
 
         // values that add to the base value
-        std::map<enchant_vals::mod, dbl_or_var<dialogue>> values_add; // NOLINT(cata-serialize)
+        std::map<enchant_vals::mod, dbl_or_var> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
         // multipliers add to each other instead of multiply against themselves
-        std::map<enchant_vals::mod, dbl_or_var<dialogue>> values_multiply; // NOLINT(cata-serialize)
+        std::map<enchant_vals::mod, dbl_or_var> values_multiply; // NOLINT(cata-serialize)
 
         // the exact same as above, though specifically for skills
-        std::map<skill_id, dbl_or_var<dialogue>> skill_values_add; // NOLINT(cata-serialize)
-        std::map<skill_id, dbl_or_var<dialogue>> skill_values_multiply; // NOLINT(cata-serialize)
+        std::map<skill_id, dbl_or_var> skill_values_add; // NOLINT(cata-serialize)
+        std::map<skill_id, dbl_or_var> skill_values_multiply; // NOLINT(cata-serialize)
 
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;
@@ -211,7 +220,7 @@ class enchantment
         std::map<time_duration, std::vector<fake_spell>> intermittent_activation;
 
         std::pair<has, condition> active_conditions;
-        std::function<bool( const dialogue & )> dialog_condition; // NOLINT(cata-serialize)
+        std::function<bool( dialogue & )> dialog_condition; // NOLINT(cata-serialize)
 
         void add_activation( const time_duration &dur, const fake_spell &fake );
 };
@@ -230,7 +239,7 @@ class enchant_cache : public enchantment
 
         // modifies character stats, or does other passive effects
         void activate_passive( Character &guy ) const;
-        int get_value_add( enchant_vals::mod value ) const;
+        double get_value_add( enchant_vals::mod value ) const;
         double get_value_multiply( enchant_vals::mod value ) const;
         int mult_bonus( enchant_vals::mod value_type, int base_value ) const;
 
@@ -258,7 +267,7 @@ class enchant_cache : public enchantment
         void add_value_mult( enchant_vals::mod value, float mult_value );
         void add_hit_you( const fake_spell &sp );
         void add_hit_me( const fake_spell &sp );
-        void load( const JsonObject &jo, const std::string &src = "",
+        void load( const JsonObject &jo, std::string_view src = {},
                    const std::optional<std::string> &inline_id = std::nullopt );
         bool operator==( const enchant_cache &rhs ) const;
 
@@ -267,7 +276,7 @@ class enchant_cache : public enchantment
 
 
     private:
-        std::map<enchant_vals::mod, int> values_add; // NOLINT(cata-serialize)
+        std::map<enchant_vals::mod, double> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
         // multipliers add to each other instead of multiply against themselves
         std::map<enchant_vals::mod, double> values_multiply; // NOLINT(cata-serialize)

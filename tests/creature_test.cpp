@@ -47,8 +47,8 @@ static void calculate_bodypart_distribution( const bool can_attack_high,
 
     npc &defender = spawn_npc( point_zero, "thug" );
     clear_character( defender );
-    REQUIRE( defender.count_bodypart_with_flag( json_flag_LIMB_LOWER ) > 0 );
-    REQUIRE( defender.count_bodypart_with_flag( json_flag_LIMB_UPPER ) > 0 );
+    REQUIRE( defender.has_bodypart_with_flag( json_flag_LIMB_LOWER ) );
+    REQUIRE( defender.has_bodypart_with_flag( json_flag_LIMB_UPPER ) );
 
     const int num_tests = 15000;
 
@@ -71,7 +71,7 @@ static void calculate_bodypart_distribution( const bool can_attack_high,
     }
 }
 
-TEST_CASE( "Check distribution of attacks to body parts for attackers who can't attack upper limbs.",
+TEST_CASE( "Check_distribution_of_attacks_to_body_parts_for_attackers_who_can_not_attack_upper_limbs",
            "[anatomy]" )
 {
     rng_set_engine_seed( 4242424242 );
@@ -84,7 +84,7 @@ TEST_CASE( "Check distribution of attacks to body parts for attackers who can't 
                                      expected_weights_max[0] );
 }
 
-TEST_CASE( "Check distribution of attacks to body parts for attackers who can attack upper limbs.",
+TEST_CASE( "Check_distribution_of_attacks_to_body_parts_for_attackers_who_can_attack_upper_limbs",
            "[anatomy]" )
 {
     rng_set_engine_seed( 4242424242 );

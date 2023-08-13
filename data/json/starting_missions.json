@@ -163,7 +163,7 @@
     "name": { "str": "Prepare for your next show" },
     "description": "Become the best clown, make sure that your next show will make everyone laugh by training your social skills to perfection.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_skill": { "skill": "speech", "level": 6 } },
+    "goal_condition": { "math": [ "u_skill('speech')", ">=", "6" ] },
     "difficulty": 3,
     "value": 0,
     "end": {
@@ -209,8 +209,8 @@
     "goal": "MGOAL_CONDITION",
     "goal_condition": {
       "and": [
-        { "u_has_skill": { "skill": "melee", "level": 5 } },
-        { "u_has_skill": { "skill": "dodge", "level": 5 } },
+        { "math": [ "u_skill('melee')", ">=", "5" ] },
+        { "math": [ "u_skill('dodge')", ">=", "5" ] },
         { "u_has_item": "judo_belt_black" }
       ]
     },

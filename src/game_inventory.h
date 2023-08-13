@@ -14,11 +14,6 @@
 class Character;
 struct tripoint;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 class avatar;
 class item;
 class repair_item_actor;
@@ -83,7 +78,7 @@ bool compare_items( const item &first, const item &second,
  * Select items to drop.
  * @return A list of pairs of item_location, quantity.
  */
-drop_locations multidrop( avatar &you );
+drop_locations multidrop( Character &you );
 /**
  * Select items to pick up.
  * If target is provided, pick up items only from that tile (presumably adjacent to the avatar).
@@ -116,6 +111,8 @@ item_location disassemble( Character &you );
 item_location gun_to_modify( Character &you, const item &gunmod );
 /** Book reading menu. */
 item_location read( Character &you );
+/** E-Book reading menu. */
+item_location ereader_to_use( Character &you );
 /** eBook reading menu. */
 item_location ebookread( Character &you, item_location &ereader );
 /** Menu for stealing stuff. */
@@ -134,6 +131,9 @@ item_location saw_barrel( Character &you, item &tool );
 item_location saw_stock( Character &you, item &tool );
 /** Choosing an item to attach to a load bearing vest. */
 item_location molle_attach( Character &you, item &tool );
+/** Choosing an item to attach to a vehicle tool station. */
+item_location veh_tool_attach( Character &you, const std::string &vp_name,
+                               const std::set<itype_id> &allowed_types );
 /** Choose item to wear. */
 item_location wear( Character &you, const bodypart_id &bp = bodypart_id( "bp_null" ) );
 /** Choose item to take off. */
@@ -146,6 +146,8 @@ item_location repair( Character &you, const repair_item_actor *actor, const item
 item_location install_bionic( Character &you, Character &patient, bool surgeon = false );
 /**Autoclave sterilize menu*/
 item_location sterilize_cbm( Character &you );
+/** Change sprite menu. */
+item_location change_sprite( Character &you );
 /*@}*/
 
 } // namespace inv

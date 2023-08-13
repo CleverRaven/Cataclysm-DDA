@@ -24,6 +24,11 @@ int pixel_minimap_g;
 int pixel_minimap_b;
 int pixel_minimap_a;
 
+namespace cata::options
+{
+std::vector<std::string> damage_indicators;
+} // namespace cata::options
+
 #ifndef CATA_IN_TOOL
 error_log_format_t error_log_format = error_log_format_t::human_readable;
 check_plural_t check_plural = check_plural_t::certain;

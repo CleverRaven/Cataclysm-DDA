@@ -96,8 +96,14 @@
   },
   {
     "type": "mutation",
-    "id": "SKIN_ROUGH",
-    "copy-from": "SKIN_ROUGH",
+    "id": "SKIN_PEELING",
+    "copy-from": "SKIN_PEELING",
+    "extend": { "category": [ "DRAGON_BLACK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SPARSE_SCALES",
+    "copy-from": "SPARSE_SCALES",
     "extend": { "category": [ "DRAGON_BLACK" ] }
   },
   {
@@ -182,8 +188,8 @@
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
     "attacks": {
-      "attack_text_u": "You slash %s with your clawed feet",
-      "attack_text_npc": "%1$s slashes %2$s with their clawed feet",
+      "attack_text_u": "You slash %s with your clawed feet!",
+      "attack_text_npc": "%1$s slashes %2$s with their clawed feet!",
       "chance": 20,
       "base_damage": { "damage_type": "cut", "amount": 20 },
       "strength_damage": { "damage_type": "cut", "amount": 0.25 }
@@ -418,8 +424,8 @@
     "restricts_gear": [ "head" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You headbutt %s with your draconic horns",
-      "attack_text_npc": "%1$s headbutts %2$s with their draconic horns",
+      "attack_text_u": "You headbutt %s with your draconic horns!",
+      "attack_text_npc": "%1$s headbutts %2$s with their draconic horns!",
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 16 }
     }
@@ -450,8 +456,8 @@
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "dodge_modifier": -3,
     "attacks": {
-      "attack_text_u": "You bash %s with your powerful wings",
-      "attack_text_npc": "%1$s bashes %2$s with their powerful wings",
+      "attack_text_u": "You bash %s with your powerful wings!",
+      "attack_text_npc": "%1$s bashes %2$s with their powerful wings!",
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 20 },
       "strength_damage": { "damage_type": "bash", "amount": 0.5 }
@@ -610,8 +616,8 @@
     "social_modifiers": { "intimidate": 10 },
     "types": [ "MUZZLE" ],
     "attacks": {
-      "attack_text_u": "You bite a chunk out of %s",
-      "attack_text_npc": "%1$s bites a chunk out of %2$s",
+      "attack_text_u": "You bite a chunk out of %s!",
+      "attack_text_npc": "%1$s bites a chunk out of %2$s!",
       "body_part": "mouth",
       "chance": 15,
       "base_damage": { "damage_type": "stab", "amount": 15 },
@@ -634,8 +640,8 @@
     "types": [ "MUZZLE" ],
     "restricts_gear": [ "mouth" ],
     "attacks": {
-      "attack_text_u": "You bite a chunk out of %s",
-      "attack_text_npc": "%1$s bites a chunk out of %2$s",
+      "attack_text_u": "You bite a chunk out of %s!",
+      "attack_text_npc": "%1$s bites a chunk out of %2$s!",
       "body_part": "mouth",
       "chance": 20,
       "base_damage": { "damage_type": "stab", "amount": 25 },
@@ -668,12 +674,12 @@
     "prereqs2": [ "SCALES", "DRAGON_SCALES_BLACK" ],
     "category": [ "DRAGON_BLACK" ],
     "changes_to": [ "DRAGON_TAIL" ],
-    "restricts_gear": [ "leg_l", "leg_r" ],
+    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You whap %s with your tail",
-      "attack_text_npc": "%1$s whaps %2$s with their tail",
+      "attack_text_u": "You whap %s with your tail!",
+      "attack_text_npc": "%1$s whaps %2$s with their tail!",
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 10 }
     }
@@ -689,12 +695,12 @@
     "types": [ "TAIL" ],
     "prereqs": [ "DRAGON_TAIL_SCALED" ],
     "category": [ "DRAGON_BLACK" ],
-    "restricts_gear": [ "leg_l", "leg_r" ],
+    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You smash %s with your tail",
-      "attack_text_npc": "%1$s smashes %2$s with their tail",
+      "attack_text_u": "You smash %s with your tail!",
+      "attack_text_npc": "%1$s smashes %2$s with their tail!",
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 15 },
       "strength_damage": { "damage_type": "bash", "amount": 0.25 }

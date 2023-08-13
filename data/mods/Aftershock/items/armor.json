@@ -108,7 +108,6 @@
   },
   {
     "id": "xl_technician_pants_gray",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "XL work pants", "str_pl": "pairs of XL work pants" },
     "description": "A pair of gray work pants.",
@@ -126,7 +125,6 @@
   },
   {
     "id": "xl_technician_shirt_gray",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "XL work t-shirt" },
     "description": "A gray XL work t-shirt with a small front pocket.",
@@ -148,7 +146,6 @@
     "weight": "7500 g",
     "volume": "5 L",
     "price": 1500000,
-    "bashing": 10,
     "to_hit": -1,
     "material": [ "glass", "steel" ],
     "symbol": "[",
@@ -156,7 +153,8 @@
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ],
-    "armor": [ { "encumbrance": 12, "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 12, "coverage": 40, "covers": [ "torso" ] } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "q_solarpack_on",
@@ -167,7 +165,6 @@
     "weight": "7500 g",
     "volume": "15 L",
     "price": 1500000,
-    "bashing": 4,
     "to_hit": -2,
     "material": [ "glass", "steel" ],
     "symbol": "[",
@@ -176,11 +173,11 @@
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.3,
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ],
-    "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "torso" ] } ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xlswat_armor",
-    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "Uplifted SWAT armor" },
@@ -190,7 +187,6 @@
     "price": 585000,
     "price_postapoc": 5000,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "kevlar", "cotton" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -204,7 +200,8 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 }
     ],
-    "armor": [ { "encumbrance": 25, "coverage": 95, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 25, "coverage": 95, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "xlballistic_vest_empty",
@@ -243,7 +240,6 @@
   },
   {
     "id": "xlboots_combat",
-    "repairs_like": "boots_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of XL combat boots", "str_pl": "pairs of XL combat boots" },
@@ -253,7 +249,6 @@
     "price": 7000,
     "price_postapoc": 14000,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "kevlar", "leather" ],
     "symbol": "[",
     "looks_like": "boots",
@@ -262,11 +257,11 @@
     "material_thickness": 5,
     "environmental_protection": 2,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xlgloves_tactical",
-    "repairs_like": "gloves_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of XL tactical gloves", "str_pl": "pairs of XL tactical gloves" },
@@ -286,7 +281,6 @@
   },
   {
     "id": "tripaw_xlgloves_tactical",
-    "repairs_like": "gloves_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of Killophant gloves", "str_pl": "pairs of Killophant gloves" },
@@ -326,7 +320,6 @@
   },
   {
     "id": "xltac_fullhelmet",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "XL tactical full helmet" },
@@ -399,7 +392,8 @@
         "moves": 40,
         "flag_restriction": [ "BELT_CLIP" ],
         "rigid": true,
-        "holster": true
+        "holster": true,
+        "transparent": true
       },
       {
         "pocket_type": "CONTAINER",
@@ -457,7 +451,6 @@
     "material": [ "nanoprinted_alloy" ],
     "symbol": "[",
     "looks_like": "mt_chainmail_vest",
-    "repairs_like": "mt_chainmail_vest",
     "color": "light_red",
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
@@ -481,7 +474,6 @@
     "id": "carbide_cuirass",
     "type": "ARMOR",
     "category": "armor",
-    "repairs_like": "cuirass_lightplate",
     "looks_like": "cuirass_lightplate",
     "name": { "str": "vacuum cast cuirass", "str_pl": "vacuum cast cuirasses" },
     "description": "This piece of armor harkens back to renaissance designs.  It differs in that it is cast as a single piece in deep space installations where conditions can be controlled absolutely.",

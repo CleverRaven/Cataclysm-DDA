@@ -222,5 +222,22 @@
     "min_aoe": 90,
     "max_aoe": 270,
     "damage_type": "bash"
+  },
+  {
+    "type": "SPELL",
+    "id": "spell_feral_wizard_base",
+    "name": "Wild Magic Monster Sorcery",
+    "description": "Causes one of the spells to be cast, used for the feral wizard.",
+    "valid_targets": [ "hostile" ],
+    "effect": "none",
+    "shape": "blast",
+    "base_casting_time": 100,
+    "flags": [ "WONDER", "NO_PROJECTILE" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 10,
+    "max_range": 10,
+    "message": "",
+    "extra_effects": [ { "id": "blinding_flash" }, { "id": "ethereal_grasp" }, { "id": "point_flare" } ]
   }
 ]

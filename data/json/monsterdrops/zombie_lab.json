@@ -19,7 +19,6 @@
           { "group": "electronics", "prob": 40 },
           { "group": "radio", "prob": 15 },
           { "group": "textbooks", "prob": 25 },
-          { "group": "autodoc_installation_programs", "prob": 5 },
           { "group": "lab_files_generic", "prob": 15 }
         ]
       },

@@ -58,6 +58,8 @@ static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_jetinjector( "jetinjector" );
 
+static const mon_flag_str_id mon_flag_HUMAN( "HUMAN" );
+
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
@@ -67,7 +69,7 @@ memorial_log_entry::memorial_log_entry( const std::string &preformatted_msg ) :
 {}
 
 memorial_log_entry::memorial_log_entry( time_point time, const oter_type_str_id &oter_id,
-                                        const std::string &oter_name, const std::string &msg ) :
+                                        std::string_view oter_name, std::string_view msg ) :
     time_( time ), oter_id_( oter_id ), oter_name_( oter_name ), message_( msg )
 {}
 
@@ -115,11 +117,11 @@ void memorial_logger::clear()
  * the character dies. The message should contain only the informational string,
  * as the timestamp and location will be automatically prepended.
  */
-void memorial_logger::add( const std::string &male_msg,
-                           const std::string &female_msg )
+void memorial_logger::add( const std::string_view male_msg,
+                           const std::string_view female_msg )
 {
     Character &player_character = get_player_character();
-    const std::string &msg = player_character.male ? male_msg : female_msg;
+    const std::string_view msg = player_character.male ? male_msg : female_msg;
 
     if( msg.empty() ) {
         return;
@@ -160,7 +162,7 @@ void memorial_logger::load( std::istream &fin )
         size_t size = fin.tellg();
         fin.seekg( 0, std::ios_base::beg );
         memorial_data.resize( size );
-        fin.read( &memorial_data[0], size );
+        fin.read( memorial_data.data(), size );
         JsonValue jsin = json_loader::from_string( memorial_data );
         if( !jsin.read( log ) ) {
             debugmsg( "Error reading JSON memorial log" );
@@ -246,7 +248,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     //HP
 
     const auto limb_hp =
-    [&file, &indent, &u]( const std::string & desc, const bodypart_id & bp ) {
+    [&file, &indent, &u]( const std::string_view desc, const bodypart_id & bp ) {
         file << indent <<
              string_format( desc, u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) ) << eol;
     };
@@ -482,6 +484,10 @@ void memorial_logger::notify( const cata::event &e )
                  pgettext( "memorial_female", "Angered a group of amigara horrors!" ) );
             break;
         }
+        case event_type::avatar_dies: {
+            add( pgettext( "memorial_male", "Died" ), pgettext( "memorial_female", "Died" ) );
+            break;
+        }
         case event_type::awakes_dark_wyrms: {
             add( pgettext( "memorial_male", "Awoke a group of dark wyrms!" ),
                  pgettext( "memorial_female", "Awoke a group of dark wyrms!" ) );
@@ -523,7 +529,7 @@ void memorial_logger::notify( const cata::event &e )
                 const mtype &corpse_type = e.get<mtype_id>( "corpse_type" ).obj();
                 std::string corpse_name = e.get<cata_variant_type::string>( "corpse_name" );
                 if( corpse_name.empty() ) {
-                    if( corpse_type.has_flag( MF_HUMAN ) ) {
+                    if( corpse_type.has_flag( mon_flag_HUMAN ) ) {
                         add( pgettext( "memorial_male",
                                        "You buried an unknown victim of the Cataclysm." ),
                              pgettext( "memorial_female",
@@ -1091,6 +1097,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::avatar_moves:
         case event_type::character_consumes_item:
         case event_type::character_eats_item:
+        case event_type::character_finished_activity:
         case event_type::character_gets_headshot:
         case event_type::character_heals_damage:
         case event_type::character_melee_attacks_character:
@@ -1098,16 +1105,21 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_ranged_attacks_character:
         case event_type::character_ranged_attacks_monster:
         case event_type::character_smashes_tile:
+        case event_type::character_starts_activity:
         case event_type::character_takes_damage:
         case event_type::character_wakes_up:
         case event_type::character_wears_item:
         case event_type::character_wields_item:
+        case event_type::character_casts_spell:
         case event_type::cuts_tree:
+        case event_type::opens_spellbook:
         case event_type::reads_book:
+        case event_type::spellcasting_finish:
         case event_type::game_load:
         case event_type::game_over:
         case event_type::game_save:
         case event_type::game_start:
+        case event_type::game_begin:
         case event_type::u_var_changed:
         case event_type::vehicle_moves:
             break;

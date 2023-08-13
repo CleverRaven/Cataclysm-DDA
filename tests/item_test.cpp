@@ -8,10 +8,12 @@
 #include <vector>
 
 #include "avatar.h"
+#include "avatar_action.h"
 #include "calendar.h"
 #include "enums.h"
 #include "flag.h"
 #include "game.h"
+#include "item_category.h"
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -38,6 +40,8 @@ static const itype_id itype_test_duffelbag( "test_duffelbag" );
 static const itype_id itype_test_mp3( "test_mp3" );
 static const itype_id itype_test_smart_phone( "test_smart_phone" );
 static const itype_id itype_test_waterproof_bag( "test_waterproof_bag" );
+
+static const json_character_flag json_flag_DEAF( "DEAF" );
 
 TEST_CASE( "item_volume", "[item]" )
 {
@@ -188,7 +192,7 @@ TEST_CASE( "stacking_over_time", "[item]" )
     }
 }
 
-TEST_CASE( "liquids at different temperatures", "[item][temperature][stack][combine]" )
+TEST_CASE( "liquids_at_different_temperatures", "[item][temperature][stack][combine]" )
 {
     item liquid_hot( "test_liquid" );
     item liquid_cold( "test_liquid" );
@@ -254,7 +258,7 @@ static void assert_minimum_length_to_volume_ratio( const item &target )
     CHECK( units::to_millimeter( target.length() ) >= minimal_diameter * 10.0 );
 }
 
-TEST_CASE( "item length sanity check", "[item]" )
+TEST_CASE( "item_length_sanity_check", "[item]" )
 {
     for( const itype *type : item_controller->all() ) {
         const item sample( type, calendar::turn_zero, item::solitary_tag {} );
@@ -262,7 +266,7 @@ TEST_CASE( "item length sanity check", "[item]" )
     }
 }
 
-TEST_CASE( "corpse length sanity check", "[item]" )
+TEST_CASE( "corpse_length_sanity_check", "[item]" )
 {
     for( const mtype &type : MonsterGenerator::generator().get_all_mtypes() ) {
         const item sample = item::make_corpse( type.id );
@@ -292,7 +296,7 @@ static void check_spawning_in_container( const std::string &item_type )
     }
 }
 
-TEST_CASE( "items spawn in their default containers", "[item]" )
+TEST_CASE( "items_spawn_in_their_default_containers", "[item]" )
 {
     check_spawning_in_container( "water" );
     check_spawning_in_container( "gunpowder" );
@@ -307,7 +311,7 @@ TEST_CASE( "items spawn in their default containers", "[item]" )
     check_spawning_in_container( "software_useless" );
 }
 
-TEST_CASE( "item variables round-trip accurately", "[item]" )
+TEST_CASE( "item_variables_round-trip_accurately", "[item]" )
 {
     item i( "water" );
     i.set_var( "A", 17 );
@@ -318,7 +322,7 @@ TEST_CASE( "item variables round-trip accurately", "[item]" )
     CHECK( i.get_var( "C", tripoint() ) == tripoint( 2, 3, 4 ) );
 }
 
-TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" )
+TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" )
 {
     avatar &guy = get_avatar();
     clear_avatar();
@@ -804,6 +808,17 @@ TEST_CASE( "module_inheritance", "[item][armor]" )
     guy.worn.wear_item( guy, test_exo, false, false, false );
 
     CHECK( guy.worn.worn_with_flag( json_flag_FIX_NEARSIGHT ) );
+
+    clear_avatar();
+    item miner_hat( "miner_hat" );
+    item ear_muffs( "attachable_ear_muffs" );
+    REQUIRE( miner_hat.put_in( ear_muffs, item_pocket::pocket_type::CONTAINER ).success() );
+    REQUIRE( !miner_hat.has_flag( json_flag_DEAF ) );
+    guy.wear_item( miner_hat );
+    item_location worn_hat = guy.worn.top_items_loc( guy ).front();
+    item_location worn_muffs( worn_hat, &worn_hat->only_item() );
+    avatar_action::use_item( guy, worn_muffs, "transform" );
+    CHECK( worn_hat->has_flag( json_flag_DEAF ) );
 }
 
 TEST_CASE( "rigid_armor_compliance", "[item][armor]" )

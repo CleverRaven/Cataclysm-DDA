@@ -5,6 +5,7 @@
 #include <optional>
 #include <vector>
 
+#include "avatar.h"
 #include "character.h"
 #include "computer.h"
 #include "coordinates.h"
@@ -294,25 +295,26 @@ void mission_start::place_book( mission * )
 
 void mission_start::reveal_refugee_center( mission *miss )
 {
-    mission_target_params<dialogue> t;
-    str_or_var<dialogue> overmap_terrain;
+    mission_target_params t;
+    str_or_var overmap_terrain;
     overmap_terrain.str_val = "refctr_S3e";
     t.overmap_terrain = overmap_terrain;
-    str_or_var<dialogue> overmap_special;
+    str_or_var overmap_special;
     overmap_special.str_val = "evac_center";
     t.overmap_special = overmap_special;
     t.mission_pointer = miss;
-    dbl_or_var<dialogue> search_range;
+    dbl_or_var search_range;
     search_range.min.dbl_val = 0;
     t.search_range = search_range;
-    dbl_or_var<dialogue> reveal_radius;
+    dbl_or_var reveal_radius;
     reveal_radius.min.dbl_val = 1;
     t.reveal_radius = reveal_radius;
-    dbl_or_var<dialogue> min_distance;
+    dbl_or_var min_distance;
     min_distance.min.dbl_val = 0;
     t.min_distance = min_distance;
 
-    std::optional<tripoint_abs_omt> target_pos = mission_util::assign_mission_target( t );
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
+    std::optional<tripoint_abs_omt> target_pos = mission_util::assign_mission_target( t, d );
 
     if( !target_pos ) {
         add_msg( _( "You don't know where the address could be…" ) );
@@ -326,13 +328,13 @@ void mission_start::reveal_refugee_center( mission *miss )
 
     if( overmap_buffer.reveal_route( source_road, dest_road, 1, true ) ) {
         //reset the mission target to the refugee center entrance and reveal path from the road
-        str_or_var<dialogue> overmap_terrain;
+        str_or_var overmap_terrain;
         overmap_terrain.str_val = "refctr_S3e";
         t.overmap_terrain = overmap_terrain;
-        dbl_or_var<dialogue> reveal_radius;
+        dbl_or_var reveal_radius;
         reveal_radius.min.dbl_val = 3;
         t.reveal_radius = reveal_radius;
-        target_pos = mission_util::assign_mission_target( t );
+        target_pos = mission_util::assign_mission_target( t, d );
         const tripoint_abs_omt dest_refugee_center = overmap_buffer.find_closest( *target_pos,
                 "evac_center_18", 1, false );
         overmap_buffer.reveal_route( dest_road, dest_refugee_center, 1, false );

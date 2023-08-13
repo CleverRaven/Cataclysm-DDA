@@ -26,14 +26,14 @@
     "price": 35000,
     "price_postapoc": 1000,
     "to_hit": 1,
-    "bashing": 4,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "initial_charges": 1,
     "max_charges": 1,
     "charges_per_use": 1,
-    "use_action": [ "CAN_GOO" ]
+    "use_action": [ "CAN_GOO" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "chemistry_set",
@@ -47,7 +47,6 @@
     "price": 20000,
     "price_postapoc": 1000,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "glass", "cotton" ],
     "symbol": ";",
     "color": "light_gray",
@@ -56,7 +55,7 @@
     "sub": "hotplate",
     "charges_per_use": 1,
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
-    "use_action": [ "HOTPLATE" ],
+    "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 7, "charge_rate": "1 kW" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -64,7 +63,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "chemistry_set_basic",
@@ -78,11 +78,11 @@
     "price": 3200,
     "price_postapoc": 500,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "glass", "cotton" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 2 ], [ "BOIL", 1 ] ]
+    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 2 ], [ "BOIL", 1 ] ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "electrolysis_kit",
@@ -97,6 +97,7 @@
     "symbol": ";",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "300 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -119,6 +120,7 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "150 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -138,7 +140,6 @@
     "price": 20000,
     "price_postapoc": 1000,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "steel", "plastic" ],
     "symbol": "^",
     "color": "dark_gray",
@@ -152,7 +153,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "toy_makerspace_kit",
@@ -163,7 +165,8 @@
       { "item": "engineering_makerspace_kit" },
       { "item": "bubblewrap", "count": 2 },
       { "item": "manual_makerspace" },
-      { "item": "screwdriver" }
+      { "item": "screwdriver" },
+      { "item": "wrench_small" }
     ]
   },
   {
@@ -176,7 +179,6 @@
     "price": 20000,
     "price_postapoc": 1000,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "plastic" ],
     "symbol": ":",
     "color": "dark_gray",
@@ -190,7 +192,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "toy_robot_kit",
@@ -201,7 +204,8 @@
       { "item": "engineering_robotics_kit" },
       { "item": "bubblewrap", "count": 2 },
       { "item": "manual_robotics_kit" },
-      { "item": "screwdriver" }
+      { "item": "screwdriver" },
+      { "item": "wrench_small" }
     ]
   },
   {
@@ -214,13 +218,13 @@
     "price": 20000,
     "price_postapoc": 1000,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "steel", "glass" ],
     "symbol": "^",
     "color": "light_green",
     "ammo": [ "conc_alcohol" ],
     "charges_per_use": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "conc_alcohol": 750 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "conc_alcohol": 750 } } ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "toy_engine_kit",
@@ -231,7 +235,8 @@
       { "item": "engineering_engine_kit" },
       { "item": "bubblewrap", "count": 2 },
       { "item": "manual_engine_kit" },
-      { "item": "screwdriver" }
+      { "item": "screwdriver" },
+      { "item": "wrench_small" }
     ]
   },
   {
@@ -246,18 +251,19 @@
     "price": 100000,
     "price_postapoc": 3000,
     "to_hit": -10,
-    "bashing": 10,
     "material": [ "steel" ],
     "symbol": "E",
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "color": "dark_gray",
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1200 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "magazine_well": "5 L",
         "item_restriction": [ "large_storage_battery", "storage_battery" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "closed_loop_extractor_small",
@@ -272,11 +278,11 @@
     "price": 500000,
     "price_postapoc": 6000,
     "to_hit": -10,
-    "bashing": 40,
     "material": [ "steel" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "qualities": [ [ "EXTRACT", 2 ] ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "600 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -296,7 +302,8 @@
           "storage_battery"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 40 }
   },
   {
     "id": "closed_loop_extractor_large",
@@ -309,13 +316,13 @@
     "price": 2000000,
     "price_postapoc": 10000,
     "to_hit": -10,
-    "bashing": 40,
     "material": [ "steel" ],
     "symbol": "E",
     "color": "dark_gray",
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ],
     "ammo": [ "battery" ],
     "qualities": [ [ "EXTRACT", 1 ] ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1800 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -335,7 +342,8 @@
           "storage_battery"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 40 }
   },
   {
     "id": "oil_extractor_crude",
@@ -349,26 +357,24 @@
     "volume": "210 L",
     "price": 20000,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "steel" ],
-    "qualities": [ [ "EXTRACT", 1 ] ]
+    "qualities": [ [ "EXTRACT", 1 ] ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "catalytic_cracking_reactor",
-    "type": "TOOL",
-    "name": { "str": "catalytic cracking reactor" },
-    "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  Meticulously disassembled and reassembled.",
-    "symbol": "U",
-    "color": "dark_gray",
-    "looks_like": "household_water_heater",
-    "weight": "22700 g",
+    "type": "GENERIC",
+    "name": { "str": "disassembled catalytic cracking reactor" },
+    "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  Meticulously disassembled.  You can reassemble and plug it into your own power grid to use it.",
+    "symbol": "Y",
+    "color": "light_cyan",
+    "looks_like": "f_catalytic_cracking_reactor",
+    "weight": "500 kg",
     "volume": "500 L",
     "price": 20000,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "steel" ],
-    "use_action": { "type": "deploy_furn", "furn_type": "f_catalytic_cracking_reactor" },
-    "qualities": [ [ "EXTRACT", 3 ] ]
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "filter_paper_qualitative",
@@ -410,8 +416,8 @@
     "initial_charges": 200,
     "max_charges": 200,
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "neutral" },
-    "bashing": 1,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "vac_pump",
@@ -426,10 +432,10 @@
     "price": 300000,
     "price_postapoc": 4500,
     "to_hit": -5,
-    "bashing": 10,
     "material": [ "iron" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "ammo": [ "battery" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "250 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -449,7 +455,8 @@
           "storage_battery"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "recovery_pump",
@@ -464,8 +471,8 @@
     "price": 280000,
     "price_postapoc": 3500,
     "to_hit": -5,
-    "bashing": 10,
-    "material": [ "steel" ]
+    "material": [ "steel" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "electrolyzer_makeshift",
@@ -479,13 +486,14 @@
     "price": 800000,
     "price_postapoc": 120000,
     "to_hit": -4,
-    "bashing": 20,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "storage_battery", "large_storage_battery" ] } ]
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "150 W" } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "storage_battery", "large_storage_battery" ] } ],
+    "melee_damage": { "bash": 20 }
   },
   {
     "id": "ammonia_machine_reactor",
@@ -499,13 +507,14 @@
     "price": 800000,
     "price_postapoc": 120000,
     "to_hit": -4,
-    "bashing": 20,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "800 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ],
+    "melee_damage": { "bash": 20 }
   },
   {
     "id": "ammonia_machine_pipework",
@@ -519,13 +528,14 @@
     "price": 800000,
     "price_postapoc": 120000,
     "to_hit": -4,
-    "bashing": 20,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "350 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ],
+    "melee_damage": { "bash": 20 }
   },
   {
     "id": "nitrogen_generator",
@@ -539,11 +549,11 @@
     "price": 100000,
     "price_postapoc": 10000,
     "to_hit": -4,
-    "bashing": 20,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1200 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
@@ -557,7 +567,8 @@
           "large_storage_battery"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 20 }
   },
   {
     "id": "butane_tank",
@@ -571,7 +582,6 @@
     "price": 25000,
     "price_postapoc": 1000,
     "to_hit": -4,
-    "bashing": 10,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -587,13 +597,8 @@
     ],
     "looks_like": "oxygen_tank",
     "flags": [  ],
-    "explosion": {
-      "power": 90100,
-      "distance_factor": 0.5,
-      "fire": true,
-      "shrapnel": { "casing_mass": 200, "fragment_mass": 0.5, "recovery": 0 }
-    },
-    "explode_in_fire": true
+    "explode_in_fire": true,
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "hydrogen_tank",
@@ -605,14 +610,14 @@
     "price": 1000,
     "price_postapoc": 500,
     "to_hit": -4,
-    "bashing": 10,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "initial_charges": 24,
     "max_charges": 24,
     "charges_per_use": 1,
-    "looks_like": "oxygen_tank"
+    "looks_like": "oxygen_tank",
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "pressure_tank",
@@ -624,7 +629,6 @@
     "price": 1000,
     "price_postapoc": 500,
     "to_hit": -4,
-    "bashing": 10,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -639,7 +643,8 @@
         "watertight": true
       }
     ],
-    "flags": [ "NO_UNLOAD" ]
+    "flags": [ "NO_UNLOAD" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "hygrometer",
@@ -668,18 +673,19 @@
     "price": 1000,
     "price_postapoc": 250,
     "to_hit": -4,
-    "bashing": 10,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "initial_charges": 24,
     "max_charges": 24,
     "charges_per_use": 1,
-    "looks_like": "oxygen_tank"
+    "looks_like": "oxygen_tank",
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "oxygen_cylinder",
-    "type": "TOOL",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
     "name": { "str": "oxygen cylinder" },
     "description": "A large steel cylinder used for storing pressurized gas.  It is marked with a faded, but legible O2 symbol.",
     "weight": "19050 g",
@@ -688,7 +694,6 @@
     "price": 13400,
     "price_postapoc": 500,
     "to_hit": -4,
-    "bashing": 10,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "blue",
@@ -701,10 +706,10 @@
         "ammo_restriction": { "oxygen": 300 }
       }
     ],
-    "initial_charges": 300,
-    "max_charges": 300,
-    "charges_per_use": 1,
-    "use_action": [ "OXYGEN_BOTTLE" ]
+    "ammo_type": [ "oxygen" ],
+    "capacity": 300,
+    "count": 300,
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "platinum_grille",
@@ -716,12 +721,12 @@
     "price": 3000,
     "price_postapoc": 100,
     "to_hit": 1,
-    "bashing": 2,
     "material": [ "platinum" ],
     "symbol": ";",
     "color": "light_gray",
     "looks_like": "link_sheet",
-    "flags": [ "FRAGILE_MELEE" ]
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "portal",
@@ -733,14 +738,14 @@
     "price": 660000,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "bashing": 6,
     "material": [ "superalloy", "plastic" ],
     "symbol": ";",
     "color": "magenta",
     "initial_charges": 10,
     "max_charges": 10,
     "charges_per_use": 5,
-    "use_action": [ "PORTAL" ]
+    "use_action": [ "PORTAL" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "telepad",
@@ -752,13 +757,12 @@
     "price": 700000,
     "price_postapoc": 1000,
     "to_hit": -4,
-    "bashing": 1,
-    "cutting": 8,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
     "use_action": { "type": "place_trap", "trap": "tr_telepad", "moves": 350, "practice": 10, "done_message": "You place the telepad." },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 1, "cut": 8 }
   },
   {
     "id": "teleporter",
@@ -770,14 +774,14 @@
     "price": 600000,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "magenta",
     "initial_charges": 20,
     "max_charges": 20,
     "charges_per_use": 1,
-    "use_action": [ "TELEPORT" ]
+    "use_action": [ "TELEPORT" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "weather_reader",
@@ -790,7 +794,6 @@
     "price": 200,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
@@ -805,7 +808,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "analytical_set_basic",
@@ -820,7 +824,6 @@
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -832,7 +835,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "balance_small",
@@ -845,10 +849,10 @@
     "price": 1600,
     "price_postapoc": 100,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "steel" ],
     "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "spectrophotometer",
@@ -863,7 +867,6 @@
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -874,7 +877,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "cuvettes",
@@ -887,10 +891,10 @@
     "price": 1200,
     "price_postapoc": 250,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "plastic" ],
     "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "ph_meter",
@@ -905,7 +909,6 @@
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "plastic", "glass" ],
     "symbol": ";",
     "color": "light_gray",
@@ -916,7 +919,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "voltmeter",
@@ -931,7 +935,6 @@
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "plastic" ],
     "use_action": [ "VOLTMETER" ],
     "flags": [ "WATER_BREAK" ],
@@ -944,7 +947,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "multimeter",
@@ -960,7 +964,6 @@
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "plastic" ],
     "use_action": [ "VOLTMETER" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
@@ -973,7 +976,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "melting_point",
@@ -987,7 +991,6 @@
     "price_postapoc": 250,
     "ammo": [ "battery" ],
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "plastic", "glass" ],
     "symbol": ";",
     "color": "light_gray",
@@ -998,7 +1001,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "vortex",
@@ -1011,10 +1015,10 @@
     "price": 1000,
     "price_postapoc": 500,
     "to_hit": -5,
-    "bashing": 4,
     "material": [ "steel", "plastic" ],
     "symbol": "n",
-    "color": "light_blue"
+    "color": "light_blue",
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "light_detector",
@@ -1027,12 +1031,12 @@
     "price": 400,
     "price_postapoc": 250,
     "to_hit": -5,
-    "bashing": 2,
     "looks_like": "e_scrap",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "material": [ "plastic" ],
     "symbol": "#",
-    "color": "light_gray"
+    "color": "light_gray",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "glass_prism",
@@ -1045,10 +1049,10 @@
     "price": 50,
     "price_postapoc": 50,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "glass" ],
     "symbol": "^",
-    "color": "white"
+    "color": "white",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "glass_tube_small",
@@ -1062,10 +1066,10 @@
     "price": 10,
     "price_postapoc": 10,
     "to_hit": -5,
-    "bashing": 1,
     "material": [ "glass" ],
     "symbol": "|",
-    "color": "white"
+    "color": "white",
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "microscope",
@@ -1078,10 +1082,10 @@
     "price": 3000,
     "price_postapoc": 250,
     "to_hit": -5,
-    "bashing": 3,
     "material": [ "steel", "glass" ],
     "symbol": "G",
-    "color": "white"
+    "color": "white",
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "microscope_dissecting",
@@ -1094,10 +1098,10 @@
     "price": 3000,
     "price_postapoc": 250,
     "to_hit": -5,
-    "bashing": 3,
     "material": [ "steel", "glass" ],
     "symbol": "G",
-    "color": "white"
+    "color": "white",
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "funnel_separation",
@@ -1110,12 +1114,12 @@
     "price": 100,
     "price_postapoc": 100,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "glass", "plastic" ],
     "looks_like": "flask_glass",
     "symbol": "V",
     "color": "light_blue",
-    "qualities": [ [ "SEPARATE", 1 ] ]
+    "qualities": [ [ "SEPARATE", 1 ] ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "burette",
@@ -1128,11 +1132,11 @@
     "price": 1000,
     "price_postapoc": 100,
     "to_hit": -4,
-    "bashing": 2,
     "material": [ "glass", "plastic" ],
     "looks_like": "glass_tube_small",
     "symbol": "|",
-    "color": "light_blue"
+    "color": "light_blue",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "rotovap",
@@ -1145,12 +1149,22 @@
     "price": 8000,
     "price_postapoc": 500,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "steel", "glass" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "symbol": "R",
     "color": "white",
-    "qualities": [ [ "CONCENTRATE", 1 ] ]
+    "charges_per_use": 5,
+    "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "400 W" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "still_lab",
@@ -1163,12 +1177,12 @@
     "price": 2000,
     "price_postapoc": 750,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "glass" ],
     "looks_like": "glass_tube_small",
     "symbol": "N",
     "color": "light_blue",
-    "qualities": [ [ "FINE_DISTILL", 1 ] ]
+    "qualities": [ [ "FINE_DISTILL", 1 ], [ "CONCENTRATE", 1 ] ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "gelbox",
@@ -1181,11 +1195,11 @@
     "price": 500,
     "price_postapoc": 100,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "plastic" ],
     "looks_like": "geiger_off",
     "symbol": "N",
-    "color": "light_blue"
+    "color": "light_blue",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "microcentrifuge",
@@ -1198,14 +1212,15 @@
     "price": 1000,
     "price_postapoc": 500,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "aluminum", "steel", "plastic" ],
     "looks_like": "f_centrifuge",
     "symbol": "n",
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
-    "qualities": [ [ "CONCENTRATE", 1 ] ],
+    "charges_per_use": 5,
+    "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "400 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1213,7 +1228,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "stopcock",
@@ -1226,11 +1242,11 @@
     "price": 5,
     "price_postapoc": 10,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "plastic" ],
     "looks_like": "plastic_chunk",
     "symbol": "T",
-    "color": "white"
+    "color": "white",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "rack_test_tube",
@@ -1243,11 +1259,11 @@
     "price": 25,
     "price_postapoc": 10,
     "to_hit": -1,
-    "bashing": 2,
     "material": [ "plastic" ],
     "looks_like": "plastic_chunk",
     "symbol": "#",
-    "color": "yellow"
+    "color": "yellow",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "rack_test_tube_micro",
@@ -1260,11 +1276,11 @@
     "price": 25,
     "price_postapoc": 10,
     "to_hit": -1,
-    "bashing": 2,
     "material": [ "plastic" ],
     "looks_like": "plastic_chunk",
     "symbol": "#",
-    "color": "yellow"
+    "color": "yellow",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "stand_ring",
@@ -1272,16 +1288,19 @@
     "category": "spare_parts",
     "name": { "str": "ring stand" },
     "description": "A heavy metal plate and a sturdy rod, for clamping lab stuff to.",
-    "weight": "900 g",
-    "volume": "550ml",
-    "price": 75,
+    "weight": "1100 g",
+    "volume": "3 L",
+    "//1": "The volume is lowered. The volume of the package of the attached amazon article is 5l+ but a lot of the parts are small enough to actually not take up much space. Yes, the number is relatively an asspull, but I refuse to believe a ring stand would be larger than a cooking pot in volume.",
+    "longest_side": "41 cm",
+    "price": "19 USD",
     "price_postapoc": 10,
-    "to_hit": -1,
-    "bashing": 2,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "looks_like": "rebar",
     "symbol": "l",
-    "color": "light_gray"
+    "color": "light_gray",
+    "melee_damage": { "bash": 2 },
+    "//2": "Based on https://www.amazon.com/dp/B08ZSC1H5F"
   },
   {
     "id": "stand_ring_clamps",
@@ -1294,11 +1313,11 @@
     "price": 75,
     "price_postapoc": 10,
     "to_hit": -1,
-    "bashing": 2,
     "material": [ "steel", "plastic" ],
     "looks_like": "scrap",
     "symbol": "[",
-    "color": "light_gray"
+    "color": "light_gray",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "sextant",
@@ -1433,10 +1452,7 @@
         {
           "id": "EOC_MIGO_BIO_TECH_PAIN",
           "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "pain" },
-          "effect": [
-            { "u_message": "You feel your aches and pains fade away!" },
-            { "arithmetic": [ { "u_val": "pain" }, "-=", { "const": 30 } ] }
-          ]
+          "effect": [ { "u_message": "You feel your aches and pains fade away!" }, { "math": [ "u_pain()", "-=", "30" ] } ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_FATIGUE",
@@ -1448,5 +1464,61 @@
         }
       ]
     }
+  },
+  {
+    "id": "weather_glass",
+    "type": "GENERIC",
+    "category": "TOOL",
+    "name": { "str_sp": "Weather glass" },
+    "description": "also called storm glass or 'Goethe barometer', The weather glass barometer consists of a glass container with a sealed body, half filled with water.  A narrow spout connects to the body below the water level and rises above the water level.  the difference between the sealed water level and after opening the narrow spout determines the atmospheric pressure.  Activate to get current atmospheric pressure",
+    "//": "this is based on wikipedia's page on barometers, in section 'water barometers'",
+    "material": [ "glass" ],
+    "weight": "6000 g",
+    "volume": "4 L",
+    "longest_side": "50 cm",
+    "to_hit": -3,
+    "price": 500,
+    "price_postapoc": 100,
+    "symbol": "W",
+    "color": "light_blue",
+    "use_action": [ "WEATHER_TOOL" ],
+    "flags": [ "BAROMETER" ]
+  },
+  {
+    "id": "hygroscope",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "hygroscope" },
+    "description": "This is a small rectangular box, Inside it is a device that measures humidity by utilizing the hygroscopy of hair, The hair's length changes with humidity, And indicated on a dial",
+    "//": "this is based on Hair tension hygrometers, https://en.wikipedia.org/wiki/Hygrometer",
+    "weight": "3000 g",
+    "volume": "2 L",
+    "longest_side": "40 cm",
+    "price": 100,
+    "price_postapoc": 300,
+    "to_hit": -3,
+    "material": [ "wood", "steel" ],
+    "symbol": ";",
+    "color": "light_red",
+    "use_action": [ "WEATHER_TOOL" ],
+    "flags": [ "HYGROMETER" ]
+  },
+  {
+    "id": "glass_thermometer",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "glass thermometer" },
+    "description": "A device used to measure temperature.  This one is made entirely of glass.  Mercury is used as its temperature sensor.  You could use this to get accurate information on current air temperature.",
+    "weight": "600 g",
+    "volume": "700 ml",
+    "longest_side": "15 cm",
+    "price": 100,
+    "price_postapoc": 200,
+    "to_hit": -3,
+    "material": [ "glass" ],
+    "symbol": ";",
+    "color": "light_red",
+    "use_action": [ "WEATHER_TOOL" ],
+    "flags": [ "THERMOMETER" ]
   }
 ]

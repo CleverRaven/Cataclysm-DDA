@@ -78,7 +78,7 @@
   {
     "id": "book_nonf_soft_sports_bdgt",
     "type": "BOOK",
-    "name": { "str": "Budgetball: Winning a Rigged Game", "str_pl": "copies of Budgetball" },
+    "name": { "str": "Budgetball: Winning a Rigged Game", "str_pl": "copies of Budgetball: Winning a Rigged Game" },
     "description": "Budgetball tells the true story of the curious case of Benny Bobbin and his quixotic quest to defeat the deep-pocketed Orlando O's.",
     "//isbn13": 9780393324815,
     "weight": "245 g",
@@ -104,7 +104,7 @@
   {
     "id": "book_nonf_soft_sports_vlly",
     "type": "BOOK",
-    "name": { "str": "Volleyball: Get Ready to Get Ready", "str_pl": "copies of Volleyball" },
+    "name": { "str": "Volleyball: Get Ready to Get Ready", "str_pl": "copies of Volleyball: Get Ready to Get Ready" },
     "description": "\"Volleyball: Get Ready to Get Ready\" is YOUR illustrated guide to level up your game.  With full-color photos and diagrams, you will learn the drills and techniques you need to dominate the competition.",
     "//isbn13": 9781450468824,
     "weight": "703 g",
@@ -130,7 +130,7 @@
   {
     "id": "book_nonf_hard_sports_bike",
     "type": "BOOK",
-    "name": { "str": "Legendary Bike Rides", "str_pl": "copies of Bike Rides" },
+    "name": { "str": "Legendary Bike Rides", "str_pl": "copies of Legendary Bike Rides" },
     "description": "This unwieldy coffeetable book is titled \"LEGENDARY Bike Rides Around the WORLD.\"  It provides a wealth of detail about paved bike trails in every part of the globe except New England.  But if you make it to Patagonia on bike, you're all set.",
     "//isbn13": 9781760340834,
     "weight": "1589 g",
@@ -159,7 +159,7 @@
   {
     "id": "book_nonf_hard_sports_hoop",
     "type": "BOOK",
-    "name": { "str": "Stratosphere: The Rise of Hoops", "str_pl": "copies of Stratosphere" },
+    "name": { "str": "Stratosphere: The Rise of Hoops", "str_pl": "copies of Stratosphere: The Rise of Hoops" },
     "description": "\"Stratosphere: The Rise of Hoops\" chronicles four decades of professional basketball against a backdrop of sustained social change.",
     "//isbn13": 9781629376509,
     "weight": "818 g",

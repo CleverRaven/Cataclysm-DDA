@@ -10,14 +10,14 @@
     "price": 2000,
     "to_hit": -1,
     "looks_like": "clay_hydria",
-    "bashing": 1,
     "material": [ "demon_chitin" ],
     "symbol": ")",
     "color": "red",
     "pocket_data": [ { "open_container": true, "watertight": true, "max_contains_volume": "16 L", "max_contains_weight": "50 kg" } ],
     "//": "I went ahead and gave this a level of 2 for when magical mutagens become a thing as I figured dragonblood for instance should need different tools than making alpha mutagen.",
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 2 ], [ "MAGIC_CAULDRON", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ]
+    "use_action": [ "HEAT_FOOD" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "cauldron_orichalcum",
@@ -30,13 +30,13 @@
     "price": "750 USD",
     "to_hit": -4,
     "looks_like": "canning_pot",
-    "bashing": 6,
     "material": [ "orichalcum_metal" ],
     "symbol": "U",
     "color": "yellow",
     "pocket_data": [ { "open_container": true, "watertight": true, "max_contains_volume": "16 L", "max_contains_weight": "50 kg" } ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 1 ], [ "MAGIC_CAULDRON", 2 ] ],
-    "use_action": [ "HEAT_FOOD" ]
+    "use_action": [ "HEAT_FOOD" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "demon_forge",
@@ -47,14 +47,14 @@
     "volume": "8 L",
     "price": 200000,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "demon_chitin" ],
     "symbol": ";",
     "color": "red",
     "ammo": [ "alumentum" ],
     "sub": "forge",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "alumentum": 500 } } ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "type": "GENERIC",
@@ -69,7 +69,7 @@
     "material": [ "powder_nonflam" ],
     "weight": "2340 g",
     "volume": "1 L",
-    "bashing": 4
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "sewing_kit",
@@ -160,6 +160,6 @@
     "category": "other",
     "description": "A broken shard of glassteel covered in sharp edges.  You could use it as a weapon, but you might want to wear gloves.",
     "material": [ "glassteel" ],
-    "cutting": 7
+    "melee_damage": { "cut": 7 }
   }
 ]

@@ -5,13 +5,15 @@
     "category": "tools",
     "name": { "str": "stapler" },
     "description": "A desk tool for fastening sheets of paper together.",
-    "weight": "300 g",
-    "volume": "150 ml",
-    "price": 1000,
+    "weight": "148 g",
+    "volume": "320 ml",
+    "longest_side": "16 cm",
+    "price": "6 USD",
     "price_postapoc": 10,
-    "material": [ "steel" ],
+    "material": [ { "type": "plastic", "portion": 17 }, { "type": "aluminum", "portion": 3 } ],
     "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
+    "//": "Based on https://www.amazon.com/dp/B079ZV4V3C"
   },
   {
     "id": "office_holepunch",
@@ -41,11 +43,10 @@
     "material": [ "silver" ],
     "symbol": ";",
     "techniques": [ "PRECISE" ],
-    "flags": [ "STAB", "FRAGILE_MELEE", "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "FRAGILE_MELEE", "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "to_hit": 1,
-    "bashing": 2,
-    "cutting": 9,
-    "color": "light_gray"
+    "color": "light_gray",
+    "melee_damage": { "bash": 2, "stab": 9 }
   },
   {
     "id": "scissors",
@@ -53,19 +54,20 @@
     "name": { "str": "pair of office scissors", "str_pl": "pairs of office scissors" },
     "description": "A long pair of heavy-duty scissors.  You can use them to cut things such as fabric or plastic apart.",
     "ascii_picture": "scissors",
-    "weight": "90 g",
-    "volume": "150 ml",
-    "longest_side": "22 cm",
-    "price": 500,
+    "weight": "48 g",
+    "volume": "93 ml",
+    "longest_side": "18 cm",
+    "price": "14 USD",
     "price_postapoc": 25,
-    "to_hit": -1,
-    "cutting": 6,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": ",",
     "color": "light_red",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 3 ], [ "FABRIC_CUT", 1 ] ],
-    "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "SHIVS" ]
+    "flags": [ "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
+    "weapon_category": [ "SHIVS" ],
+    "melee_damage": { "stab": 6 },
+    "//": "Based on https://www.amazon.com/dp/B001M0GB6Y"
   },
   {
     "id": "scissors_child",
@@ -79,13 +81,13 @@
     "price": 400,
     "price_postapoc": 15,
     "to_hit": -1,
-    "cutting": 2,
     "material": [ "steel", "plastic" ],
     "symbol": ",",
     "color": "light_red",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 1 ] ],
-    "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ],
-    "weapon_category": [ "SHIVS" ]
+    "flags": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+    "weapon_category": [ "SHIVS" ],
+    "melee_damage": { "stab": 2 }
   },
   {
     "id": "scissors_wavy",
@@ -102,7 +104,7 @@
     "symbol": ",",
     "color": "light_red",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -3 ] ],
-    "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ]
+    "flags": [ "BELT_CLIP", "SHEATH_KNIFE" ]
   },
   {
     "id": "pen",
@@ -128,7 +130,7 @@
       }
     ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "STAB", "FRAGILE_MELEE", "WRITE_MESSAGE", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "id": "pencil",
@@ -147,7 +149,7 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "graphite": 100 }, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "STAB", "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "NO_UNLOAD", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "NO_UNLOAD", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "id": "black_pen",
@@ -166,7 +168,7 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "black_pen_ink": 100 }, "watertight": true, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "STAB", "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "id": "blue_pen",
@@ -185,7 +187,7 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "blue_pen_ink": 100 }, "watertight": true, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "STAB", "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "id": "red_pen",
@@ -204,7 +206,7 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "red_pen_ink": 100 }, "watertight": true, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "STAB", "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "id": "green_pen",
@@ -223,7 +225,7 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "green_pen_ink": 100 }, "watertight": true, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "STAB", "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "id": "leather_journal",
@@ -247,28 +249,7 @@
         "max_contains_volume": "2500 ml",
         "max_item_length": "300 mm",
         "moves": 150,
-        "item_restriction": [
-          "paper",
-          "militarymap",
-          "survivormap",
-          "roadmap",
-          "subwaymap",
-          "trailmap",
-          "touristmap",
-          "restaurantmap",
-          "flyer",
-          "survnote",
-          "character_sheet",
-          "newest_newspaper",
-          "many_years_old_newspaper",
-          "years_old_newspaper",
-          "one_year_old_newspaper",
-          "months_old_newspaper",
-          "weeks_old_newspaper",
-          "death_note",
-          "note_mutant_alpha_boss",
-          "evac_pamphlet"
-        ]
+        "flag_restriction": [ "PAPER_SHAPED" ]
       }
     ]
   }

@@ -11,8 +11,8 @@
   <PropertyGroup>
     <_CDDA_BACKTRACE>false</_CDDA_BACKTRACE>
     <_CDDA_BACKTRACE Condition="'$(BACKTRACE)'!=''">true</_CDDA_BACKTRACE>
-    <_CDDA_STRIPPED_PDB>false</_CDDA_STRIPPED_PDB>
-    <_CDDA_STRIPPED_PDB Condition="'$(CDDA_STRIPPED_PDB)'!=''">true</_CDDA_STRIPPED_PDB>
+    <_CDDA_RELEASE_BUILD>false</_CDDA_RELEASE_BUILD>
+    <_CDDA_RELEASE_BUILD Condition="'$(CDDA_RELEASE_BUILD)'!=''">true</_CDDA_RELEASE_BUILD>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">
     <VcpkgAdditionalInstallOptions>--clean-after-build</VcpkgAdditionalInstallOptions>
@@ -51,13 +51,18 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <LinkStatus>true</LinkStatus>
       <AdditionalOptions>/LTCG:OFF %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>dbghelp.lib;winmm.lib;imm32.lib;version.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;setupapi.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <Link Condition="$(_CDDA_STRIPPED_PDB)">
+    <!-- VS2022 DebugFastLink segfaults https://developercommunity.visualstudio.com/t/Visual-Studio-2022-version-1742-crashe/10243923 -->
+    <Link Condition="$(PlatformToolsetVersion) == 143">
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+    </Link>
+    <Link Condition="$(_CDDA_RELEASE_BUILD)">
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <StripPrivateSymbols>$(OutDir)$(TargetName).stripped.pdb</StripPrivateSymbols>
     </Link>
     <ProjectReference>

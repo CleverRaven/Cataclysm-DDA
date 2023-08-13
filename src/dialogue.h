@@ -11,6 +11,7 @@
 #include <utility>
 #include <vector>
 
+#include "cata_lazy.h"
 #include "dialogue_win.h"
 #include "global_vars.h"
 #include "npc.h"
@@ -56,12 +57,12 @@ using trial_mod = std::pair<std::string, int>;
 struct talk_trial {
     talk_trial_type type = TALK_TRIAL_NONE;
     int difficulty = 0;
-    std::function<bool( const dialogue & )> condition;
+    std::function<bool( dialogue & )> condition;
 
     // If this talk_trial is skill check, this is the string ID of the skill that we check the level of.
     std::string skill_required;
 
-    int calc_chance( const dialogue &d ) const;
+    int calc_chance( dialogue &d ) const;
     /**
      * Returns a user-friendly representation of @ref type
      */
@@ -96,7 +97,6 @@ struct talk_topic {
  * Defines what happens when the trial succeeds or fails. If trial is
  * TALK_TRIAL_NONE it always succeeds.
  */
-template<class T>
 struct talk_effect_t {
         /**
           * How (if at all) the NPCs opinion of the player character (@ref npc::op_of_u)
@@ -113,19 +113,20 @@ struct talk_effect_t {
           */
         talk_topic next_topic = talk_topic( "TALK_NONE" );
 
-        talk_topic apply( const T &d ) const;
-        void update_missions( T &d ) const;
-        dialogue_consequence get_consequence( const T &d ) const;
+        talk_topic apply( dialogue &d )
+        const;
+        static void update_missions( dialogue &d );
+        dialogue_consequence get_consequence( dialogue const &d ) const;
 
         /**
           * Sets an effect and consequence based on function pointer.
           */
         void set_effect( talkfunction_ptr );
-        void set_effect( const talk_effect_fun_t<T> & );
+        void set_effect( const talk_effect_fun_t & );
         /**
           * Sets an effect to a function object and consequence to explicitly given one.
           */
-        void set_effect_consequence( const talk_effect_fun_t<T> &fun, dialogue_consequence con );
+        void set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con );
         void set_effect_consequence( const std::function<void( npc &p )> &ptr, dialogue_consequence con );
 
         void load_effect( const JsonObject &jo, const std::string &member_name );
@@ -138,7 +139,7 @@ struct talk_effect_t {
         /**
          * Functions that are called when the response is chosen.
          */
-        std::vector<talk_effect_fun_t<T>> effects;
+        std::vector<talk_effect_fun_t> effects;
     private:
         dialogue_consequence guaranteed_consequence = dialogue_consequence::none;
 };
@@ -157,7 +158,7 @@ struct talk_response {
      */
     translation truetext;
     translation falsetext;
-    std::function<bool( const dialogue & )> truefalse_condition;
+    std::function<bool( dialogue & )> truefalse_condition;
 
     talk_trial trial;
     /**
@@ -169,12 +170,12 @@ struct talk_response {
     spell_id dialogue_spell = spell_id();
     proficiency_id proficiency = proficiency_id();
 
-    talk_effect_t<dialogue> success;
-    talk_effect_t<dialogue> failure;
+    talk_effect_t success;
+    talk_effect_t failure;
 
-    talk_data create_option_line( const dialogue &d, const input_event &hotkey,
+    talk_data create_option_line( dialogue &d, const input_event &hotkey,
                                   bool is_computer = false );
-    std::set<dialogue_consequence> get_consequences( const dialogue &d ) const;
+    std::set<dialogue_consequence> get_consequences( dialogue &d ) const;
 
     talk_response();
     explicit talk_response( const JsonObject & );
@@ -192,13 +193,22 @@ struct dialogue {
 
         talk_topic opt( dialogue_window &d_win, const talk_topic &topic );
         dialogue() = default;
+        dialogue( const dialogue &d );
+        dialogue( dialogue && ) = default;
+        dialogue &operator=( const dialogue & );
+        dialogue &operator=( dialogue && ) = default;
         dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in );
+        dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in,
+                  const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond );
+        dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in,
+                  const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond,
+                  const std::unordered_map<std::string, std::string> &ctx );
         talker *actor( bool is_beta ) const;
 
         mutable itype_id cur_item;
         mutable std::string reason;
 
-        std::string dynamic_line( const talk_topic &topic ) const;
+        std::string dynamic_line( const talk_topic &topic );
         void apply_speaker_effects( const talk_topic &the_topic );
 
         /** This dialogue is happening over a radio */
@@ -213,6 +223,19 @@ struct dialogue {
         void add_topic( const talk_topic &topic );
         bool has_beta;
         bool has_alpha;
+
+        // Methods for setting/getting misc key/value pairs.
+        void set_value( const std::string &key, const std::string &value );
+        void remove_value( const std::string &key );
+        std::string get_value( const std::string &key ) const;
+
+        void set_conditional( const std::string &key, const std::function<bool( dialogue & )> &value );
+        bool evaluate_conditional( const std::string &key, dialogue &d );
+
+        const std::unordered_map<std::string, std::string> &get_context() const;
+        const std::unordered_map<std::string, std::function<bool( dialogue & )>> &get_conditionals() const;
+        void amend_callstack( const std::string &value );
+        std::string get_callstack() const;
     private:
         /**
          * The talker that speaks (almost certainly representing the avatar, ie get_avatar() )
@@ -222,6 +245,15 @@ struct dialogue {
          * The talker responded to alpha, usually a talker_npc.
          */
         std::unique_ptr<talker> beta;
+
+        // dialogue specific variables that can be passed down to additional EOCs but are one way
+        lazy<std::unordered_map<std::string, std::string>> context;
+        // Weirdly unnecessarily in context.
+        std::string callstack;
+
+        // conditionals that were set at the upper level
+        lazy<std::unordered_map<std::string, std::function<bool( dialogue & )>>> conditionals;
+
         /**
          * Add a simple response that switches the topic to the new one. If first == true, force
          * this topic to the front of the responses.
@@ -288,7 +320,7 @@ struct dialogue {
         talk_response &add_response( const std::string &text, const std::string &r,
                                      const itype_id &item_type, bool first = false );
 
-        int get_best_quit_response() const;
+        int get_best_quit_response();
 };
 
 /**
@@ -300,16 +332,16 @@ struct dialogue {
  */
 struct dynamic_line_t {
     private:
-        std::function<std::string( const dialogue & )> function;
+        std::function<std::string( dialogue & )> function;
 
     public:
         dynamic_line_t() = default;
         explicit dynamic_line_t( const translation &line );
         explicit dynamic_line_t( const JsonObject &jo );
         explicit dynamic_line_t( const JsonArray &ja );
-        static dynamic_line_t from_member( const JsonObject &jo, const std::string &member_name );
+        static dynamic_line_t from_member( const JsonObject &jo, std::string_view member_name );
 
-        std::string operator()( const dialogue &d ) const {
+        std::string operator()( dialogue &d ) const {
             if( !function ) {
                 return std::string{};
             }
@@ -325,13 +357,18 @@ class json_talk_response
 {
     private:
         talk_response actual_response;
-        std::function<bool( const dialogue & )> condition;
+        std::function<bool( dialogue & )> condition;
         bool has_condition_ = false;
         bool is_switch = false;
         bool is_default = false;
 
+        // this text appears if the conditions fail explaining why
+        translation failure_explanation;
+        // the topic to move to on failure
+        std::string failure_topic;
+
         void load_condition( const JsonObject &jo );
-        bool test_condition( const dialogue &d ) const;
+        bool test_condition( dialogue &d ) const;
 
     public:
         json_talk_response() = default;
@@ -367,11 +404,11 @@ class json_talk_repeat_response
 class json_dynamic_line_effect
 {
     private:
-        std::function<bool( const dialogue & )> condition;
-        talk_effect_t<dialogue> effect;
+        std::function<bool( dialogue & )> condition;
+        talk_effect_t effect;
     public:
         json_dynamic_line_effect( const JsonObject &jo, const std::string &id );
-        bool test_condition( const dialogue &d ) const;
+        bool test_condition( dialogue &d ) const;
         void apply( dialogue &d ) const;
 };
 
@@ -397,7 +434,7 @@ class json_talk_topic
          */
         void load( const JsonObject &jo );
 
-        std::string get_dynamic_line( const dialogue &d ) const;
+        std::string get_dynamic_line( dialogue &d ) const;
         std::vector<json_dynamic_line_effect> get_speaker_effects() const;
 
         void check_consistency() const;

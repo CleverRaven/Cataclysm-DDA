@@ -133,9 +133,9 @@ void stomach_contents::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-static units::volume string_to_ml( const std::string &str )
+static units::volume string_to_ml( const std::string_view str )
 {
-    return units::from_milliliter( std::stoi( str.substr( 0, str.size() - 3 ) ) );
+    return units::from_milliliter( svto<int>( str.substr( 0, str.size() - 3 ) ) );
 }
 
 void stomach_contents::deserialize( const JsonObject &jo )

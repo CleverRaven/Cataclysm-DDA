@@ -1,3 +1,5 @@
+# Developer Tooling
+
 ## Pre-commit hook
 
 If you have all the relevant tools installed, you can have git automatically
@@ -29,7 +31,7 @@ If you have only `astyle` then use:
 astyle --options=.astylerc --recursive src/*.cpp,*.h tests/*.cpp,*.h
 ```
 
-On Windows, there is an [AStyle extension for Visual Studio](https://github.com/lukamicoder/astyle-extension).
+On Windows, there is an [AStyle extension for Visual Studio 2019](https://github.com/lukamicoder/astyle-extension) with an unmerged update for [Visual Studio 2022](https://github.com/lukamicoder/astyle-extension/pull/21).
 
 #### Instruction:
 
@@ -362,8 +364,8 @@ diff <(ls src/*.h | sed 's!.*/!!') <(for i in src/*.cpp; do echo $i; sed -n '/^#
   types, which leads to other requirements for `IWYU pragma: keep`.
 
 * IWYU seems to have particular trouble with types used in maps and
-  `cata::optional`.  Have not looked into this in detail, but again worked
-  around it with pragmas.
+  `cata::optional` (NOTE: cata::optional replaced with std::optional around the C++17 migration).
+  Have not looked into this in detail, but again worked around it with pragmas.
 
 ## Python and pyvips on Windows
 

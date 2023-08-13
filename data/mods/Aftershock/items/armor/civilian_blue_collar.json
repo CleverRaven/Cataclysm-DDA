@@ -41,7 +41,6 @@
   },
   {
     "id": "afs_hi_vis_vest",
-    "repairs_like": "vest",
     "type": "ARMOR",
     "copy-from": "vest",
     "looks_like": "vest",
@@ -54,7 +53,6 @@
   },
   {
     "id": "afs_company_jacket",
-    "repairs_like": "jacket_windbreaker",
     "type": "ARMOR",
     "copy-from": "jacket_windbreaker",
     "looks_like": "jacket_windbreaker",
@@ -64,7 +62,6 @@
   },
   {
     "id": "afs_supervisor_jacket",
-    "repairs_like": "jacket_windbreaker",
     "type": "ARMOR",
     "copy-from": "jacket_windbreaker",
     "looks_like": "jacket_windbreaker",
@@ -74,7 +71,6 @@
   },
   {
     "id": "afs_work_tie",
-    "repairs_like": "tie_skinny",
     "type": "ARMOR",
     "copy-from": "tie_skinny",
     "looks_like": "tie_skinny",
@@ -83,7 +79,6 @@
   },
   {
     "id": "spacer_jumpsuit",
-    "repairs_like": "jumpsuit",
     "type": "ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "jumpsuit",
@@ -93,7 +88,6 @@
   },
   {
     "id": "spacer_cap",
-    "repairs_like": "hat_cotton",
     "type": "ARMOR",
     "copy-from": "hat_cotton",
     "material": [ "plastic", "cotton" ],
@@ -130,7 +124,8 @@
         "moves": 40,
         "flag_restriction": [ "BELT_CLIP" ],
         "rigid": true,
-        "holster": true
+        "holster": true,
+        "transparent": true
       },
       {
         "max_contains_volume": "2 L",
@@ -139,7 +134,8 @@
         "moves": 40,
         "flag_restriction": [ "BELT_CLIP" ],
         "rigid": true,
-        "holster": true
+        "holster": true,
+        "transparent": true
       },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
