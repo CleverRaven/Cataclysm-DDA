@@ -46,6 +46,7 @@
     "description": "Extremely thin lenses provides user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
     "charges_per_use": 1,
     "use_action": [ "CAMERA", "PORTABLE_GAME", "EINKTABLETPC", "ELECTRICSTORAGE", "EBOOKSAVE", "EBOOKREAD" ],
+    "tick_action": [ "EPIC_MUSIC" ],
     "pocket_data": [
       {
         "pocket_type": "EBOOK",

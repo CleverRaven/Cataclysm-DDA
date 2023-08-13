@@ -80,7 +80,8 @@
         "max_contains_weight": "6 kg",
         "max_item_length": "90 cm",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store item", "holster_msg": "You put your %1$s in your %2$s" },

@@ -71,8 +71,8 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 4 ] },
       { "item": "cable", "charges": [ 5, 20 ] },
-      { "item": "RAM", "charges": [ 1, 4 ] },
-      { "item": "e_scrap", "charges": [ 3, 8 ] }
+      { "item": "RAM", "count": [ 1, 4 ] },
+      { "item": "e_scrap", "count": [ 3, 8 ] }
     ],
     "variants": [ { "symbols": "$", "symbols_broken": "$" } ]
   },

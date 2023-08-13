@@ -1423,8 +1423,9 @@
     "skill_used": "fabrication",
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
-    "tools": [ [ [ "matches", 20 ], [ "ref_matches", 20 ] ] ]
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "sieve_steel", -1 ] ] ],
+    "components": [ [ [ "match", 85 ] ] ]
   },
   {
     "type": "recipe",
@@ -2233,7 +2234,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_muriatic_acid",
     "id_suffix": "with_blood",
-    "byproduct_group": [ { "item": "salt", "container-item": "null", "charges": [ 80, 100 ] } ],
+    "byproduct_group": [ { "item": "salt", "container-item": "null", "count": [ 80, 100 ] } ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -2263,7 +2264,7 @@
     "result": "chem_muriatic_acid",
     "id_suffix": "with_blood_distill",
     "byproduct_group": [
-      { "item": "salt", "container-item": "null", "charges": [ 80, 100 ] },
+      { "item": "salt", "container-item": "null", "count": [ 80, 100 ] },
       { "item": "water_clean", "container-item": "null", "charges": 1 },
       { "item": "chem_ethanol", "container-item": "null", "charges": [ 200, 250 ] }
     ],

@@ -122,12 +122,38 @@
       {
         "text": "Hold still.  *Remove <npc_name>'s asthma*",
         "topic": "TALK_DONE",
-        "condition": { "and": [ { "npc_has_trait": "ASTHMA" }, { "not": { "u_has_trait": "ASTHMA" } } ] },
+        "condition": {
+          "and": [
+            { "npc_has_trait": "ASTHMA" },
+            { "not": { "u_has_trait": "ASTHMA" } },
+            { "not": { "u_has_bionics": "bio_synlungs" } }
+          ]
+        },
         "effect": [
           { "npc_lose_trait": "ASTHMA" },
           { "u_add_trait": "ASTHMA" },
           {
             "u_message": "You touch <npc_name> and reach out with your powers, looking for the illness within them.  You soon find it, a shadow over their lungs, and draw it into yourself.",
+            "popup": true
+          },
+          { "u_assign_activity": "ACT_VITAKIN_BANISH_FOLLOWER_ILLNESS", "duration": "10 minutes" }
+        ]
+      },
+      {
+        "text": "Hold still.  *Remove <npc_name>'s asthma*",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "npc_has_trait": "ASTHMA" },
+            { "not": { "u_has_effect": "effect_asthma_disease_absorbed" } },
+            { "u_has_bionics": "bio_synlungs" }
+          ]
+        },
+        "effect": [
+          { "npc_lose_trait": "ASTHMA" },
+          { "u_add_effect": "effect_asthma_disease_absorbed", "duration": "60 days" },
+          {
+            "u_message": "You touch <npc_name> and reach out with your powers, looking for the illness within them.  You soon find it, a shadow over their lungs, and draw it into yourself.  It tries to find purchase in your lungs, but it can't; plastic and steel are immune to the weaknesses of the flesh.  Denied purchase there, it settles into the surrounding tissue.",
             "popup": true
           },
           { "u_assign_activity": "ACT_VITAKIN_BANISH_FOLLOWER_ILLNESS", "duration": "10 minutes" }

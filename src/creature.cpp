@@ -124,7 +124,6 @@ static const mon_flag_str_id mon_flag_WATER_CAMOUFLAGE( "WATER_CAMOUFLAGE" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
-static const trait_id trait_GLASSJAW( "GLASSJAW" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 const std::map<std::string, creature_size> Creature::size_map = {
@@ -1128,13 +1127,14 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             add_msg_player_or_npc(
                 m_warning,
                 _( "You avoid %s projectile!" ),
-                _( "<npcname> avoids %s projectile." ),
+                get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? _( "<npcname> avoids %s projectile." ) : "",
                 source->disp_name( true ) );
         } else {
             add_msg_player_or_npc(
                 m_warning,
                 _( "You avoid an incoming projectile!" ),
-                _( "<npcname> avoids an incoming projectile." ) );
+                get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? _( "<npcname> avoids an incoming projectile." ) :
+                "" );
         }
         return;
     }
@@ -2105,29 +2105,6 @@ void Creature::set_body()
     body.clear();
     for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
         body.emplace( bp.id(), bodypart( bp.id() ) );
-    }
-}
-
-void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max, int dex_max,
-                                  int per_max,  int int_max, int healthy_mod,  int fat_to_max_hp )
-{
-    for( std::pair<const bodypart_str_id, bodypart> &part : body ) {
-        int new_max = ( part.first->base_hp + str_max * part.first->hp_mods.str_mod + dex_max *
-                        part.first->hp_mods.dex_mod + int_max * part.first->hp_mods.int_mod + per_max *
-                        part.first->hp_mods.per_mod + part.first->hp_mods.health_mod * healthy_mod + fat_to_max_hp +
-                        hp_adjustment ) * hp_mod;
-
-        if( has_trait( trait_GLASSJAW ) && part.first == body_part_head ) {
-            new_max *= 0.8;
-        }
-
-        float max_hp_ratio = static_cast<float>( new_max ) /
-                             static_cast<float>( part.second.get_hp_max() );
-
-        int new_cur = std::ceil( static_cast<float>( part.second.get_hp_cur() ) * max_hp_ratio );
-
-        part.second.set_hp_max( std::max( new_max, 1 ) );
-        part.second.set_hp_cur( std::max( std::min( new_cur, new_max ), 0 ) );
     }
 }
 

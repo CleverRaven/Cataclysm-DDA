@@ -571,7 +571,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "chem_sulphur", "container-item": "null", "count-min": 100 } ]
+    "entries": [ { "item": "chem_sulphur", "container-item": "null", "charges-min": 100 } ]
   },
   {
     "type": "item_group",

@@ -111,6 +111,7 @@ void npc_die( npc &p );
 void npc_thankful( npc &p );
 void clear_overrides( npc &p );
 void pick_style( npc &p );
+void do_craft( npc & );
 void do_disassembly( npc &p );
 } // namespace talk_function
 

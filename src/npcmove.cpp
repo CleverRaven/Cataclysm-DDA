@@ -80,6 +80,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
@@ -1760,8 +1761,8 @@ void outfit::activate_combat_items( npc &guy )
             if( transform->target->has_flag( flag_USE_UPS ) && guy.available_ups() == 0_kJ ) {
                 continue;
             }
-            if( transform->can_use( guy, candidate, false, tripoint_zero ).success() ) {
-                transform->use( &guy, candidate, false, tripoint_zero );
+            if( transform->can_use( guy, candidate, tripoint_zero ).success() ) {
+                transform->use( &guy, candidate, tripoint_zero );
                 guy.add_msg_if_npc( _( "<npcname> activates their %s." ), candidate.display_name() );
             }
         }
@@ -1780,8 +1781,8 @@ void outfit::deactivate_combat_items( npc &guy )
             candidate.active ) {
             const iuse_transform *transform = dynamic_cast<const iuse_transform *>
                                               ( candidate.type->get_use( "transform" )->get_actor_ptr() );
-            if( transform->can_use( guy, candidate, false, tripoint_zero ).success() ) {
-                transform->use( &guy, candidate, false, tripoint_zero );
+            if( transform->can_use( guy, candidate, tripoint_zero ).success() ) {
+                transform->use( &guy, candidate, tripoint_zero );
                 guy.add_msg_if_npc( _( "<npcname> deactivates their %s." ), candidate.display_name() );
             }
         }
@@ -3313,6 +3314,10 @@ bool npc::do_player_activity()
     }
     /* if the activity is finished, grab any backlog or change the mission */
     if( !has_destination() && !activity ) {
+        // workaround: auto resuming craft activity may cause infinite loop
+        while( !backlog.empty() && backlog.front().id() == ACT_CRAFT ) {
+            backlog.pop_front();
+        }
         if( !backlog.empty() ) {
             activity = backlog.front();
             backlog.pop_front();
@@ -3655,7 +3660,7 @@ void npc::heal_self()
             }
         }
         if( treatment != nullptr ) {
-            treatment->get_use( iusage )->call( this, *treatment, treatment->active, pos() );
+            treatment->get_use( iusage )->call( this, *treatment, pos() );
             treatment->ammo_consume( treatment->ammo_required(), pos(), this );
             return;
         }

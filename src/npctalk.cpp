@@ -338,6 +338,7 @@ enum npc_chat_menu {
     NPC_CHAT_ACTIVITIES_CHOP_PLANKS,
     NPC_CHAT_ACTIVITIES_CHOP_TREES,
     NPC_CHAT_ACTIVITIES_CONSTRUCTION,
+    NPC_CHAT_ACTIVITIES_CRAFT,
     NPC_CHAT_ACTIVITIES_DISASSEMBLY,
     NPC_CHAT_ACTIVITIES_FARMING,
     NPC_CHAT_ACTIVITIES_FISHING,
@@ -587,6 +588,7 @@ static int npc_activities_menu()
     nmenu.addentry( NPC_CHAT_ACTIVITIES_CHOP_TREES, true, 't', _( "Chopping down trees" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_CHOP_PLANKS, true, 'p', _( "Chopping logs into planks" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_CONSTRUCTION, true, 'c', _( "Constructing blueprints" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_CRAFT, true, 'C', _( "Crafting item" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_DISASSEMBLY, true, 'd', _( "Disassembly of items" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_FARMING, true, 'f', _( "Farming plots" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_FISHING, true, 'F', _( "Fishing in a zone" ) );
@@ -1027,6 +1029,10 @@ void game::chat()
                     }
                     case NPC_CHAT_ACTIVITIES_CONSTRUCTION: {
                         talk_function::do_construction( *selected_npc );
+                        break;
+                    }
+                    case NPC_CHAT_ACTIVITIES_CRAFT: {
+                        talk_function::do_craft( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_DISASSEMBLY: {
@@ -1985,13 +1991,13 @@ void dialogue::set_value( const std::string &key, const std::string &value )
 
 void dialogue::remove_value( const std::string &key )
 {
-    context.erase( key );
+    context->erase( key );
 }
 
 std::string dialogue::get_value( const std::string &key ) const
 {
-    auto it = context.find( key );
-    return ( it == context.end() ) ? "" : it->second;
+    auto it = context->find( key );
+    return ( it == context->end() ) ? "" : it->second;
 }
 
 void dialogue::set_conditional( const std::string &key,
@@ -2002,8 +2008,8 @@ void dialogue::set_conditional( const std::string &key,
 
 bool dialogue::evaluate_conditional( const std::string &key, dialogue &d )
 {
-    auto it = conditionals.find( key );
-    return ( it == conditionals.end() ) ? false : it->second( d );
+    auto it = conditionals->find( key );
+    return ( it == conditionals->end() ) ? false : it->second( d );
 }
 
 const std::unordered_map<std::string, std::string> &dialogue::get_context() const
@@ -2019,17 +2025,17 @@ const std::unordered_map<std::string, std::function<bool( dialogue & )>>
 
 void dialogue::amend_callstack( const std::string &value )
 {
-    if( !context["callstack"].empty() ) {
-        context["callstack"] += " \\ " + value;
+    if( !callstack.empty() ) {
+        callstack += " \\ " + value;
     } else {
-        context["callstack"] = value;
+        callstack = value;
     }
 }
 
 std::string dialogue::get_callstack() const
 {
-    if( context.count( "callstack" ) != 0 ) {
-        return "Callstack: " + context.find( "callstack" )->second;
+    if( !callstack.empty() ) {
+        return "Callstack: " + callstack;
     }
     return "";
 }
@@ -2067,29 +2073,49 @@ dialogue::dialogue( const dialogue &d ) : has_beta( d.has_beta ), has_alpha( d.h
     if( !has_alpha && !has_beta ) {
         debugmsg( "Constructed a dialogue with no actors!  %s", get_callstack() );
     }
-    context = d.get_context();
-    conditionals = d.get_conditionals();
+    if( d.context.has_value() ) {
+        context = *d.context;
+    }
+    if( d.conditionals.has_value() ) {
+        conditionals = *d.conditionals;
+    }
+    callstack = d.callstack;
+}
+
+dialogue::dialogue( std::unique_ptr<talker> alpha_in,
+                    std::unique_ptr<talker> beta_in ) : alpha( std::move( alpha_in ) ), beta( std::move( beta_in ) )
+{
+    has_alpha = alpha != nullptr;
+    has_beta = beta != nullptr;
+    if( !has_alpha && !has_beta ) {
+        debugmsg( "Constructed a dialogue with no actors!  %s", get_callstack() );
+    }
+}
+
+dialogue::dialogue( std::unique_ptr<talker> alpha_in,
+                    std::unique_ptr<talker> beta_in,
+                    const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond ) : alpha( std::move(
+                                    alpha_in ) ), beta( std::move( beta_in ) ), conditionals( cond )
+{
+    has_alpha = alpha != nullptr;
+    has_beta = beta != nullptr;
+    if( !has_alpha && !has_beta ) {
+        debugmsg( "Constructed a dialogue with no actors!  %s", get_callstack() );
+    }
 }
 
 dialogue::dialogue( std::unique_ptr<talker> alpha_in,
                     std::unique_ptr<talker> beta_in,
                     const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond,
-                    const std::unordered_map<std::string, std::string> &ctx )
+                    const std::unordered_map<std::string, std::string> &ctx ) : alpha( std::move( alpha_in ) ),
+    beta( std::move( beta_in ) ), context( ctx ), conditionals( cond )
 {
-    has_alpha = alpha_in != nullptr;
-    has_beta = beta_in != nullptr;
-    if( has_alpha ) {
-        alpha = std::move( alpha_in );
-    }
-    if( has_beta ) {
-        beta = std::move( beta_in );
-    }
+    has_alpha = alpha != nullptr;
+    has_beta = beta != nullptr;
+
     if( !has_alpha && !has_beta ) {
         debugmsg( "Constructed a dialogue with no actors!  %s", get_callstack() );
     }
-
-    context = ctx;
-    conditionals = cond;
 }
 
 talk_data talk_response::create_option_line( dialogue &d, const input_event &hotkey,
@@ -5415,6 +5441,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( do_read ),
             WRAP( do_eread ),
             WRAP( do_read_repeatedly ),
+            WRAP( do_craft ),
             WRAP( do_butcher ),
             WRAP( do_farming ),
             WRAP( assign_guard ),

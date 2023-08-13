@@ -176,6 +176,8 @@ static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 
 static const matec_id RAPID( "RAPID" );
 
@@ -2447,8 +2449,9 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     if( recipe_exemplar.empty() ) {
         min_nutr = max_nutr = player_character.compute_effective_nutrients( *food_item );
     } else {
+        std::map<recipe_id, std::pair<nutrients, nutrients>> rec_cache;
         std::tie( min_nutr, max_nutr ) =
-            player_character.compute_nutrient_range( *food_item, recipe_id( recipe_exemplar ) );
+            player_character.compute_nutrient_range( *food_item, recipe_id( recipe_exemplar ), rec_cache );
     }
 
     bool show_nutr = parts->test( iteminfo_parts::FOOD_NUTRITION ) ||
@@ -2566,7 +2569,9 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
     if( food_item->has_flag( flag_CANNIBALISM ) &&
         parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
-        if( !player_character.has_flag( json_flag_CANNIBAL ) ) {
+        if( !player_character.has_flag( json_flag_CANNIBAL ) &&
+            !player_character.has_flag( json_flag_PSYCHOPATH ) &&
+            !player_character.has_flag( json_flag_SAPIOVORE ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* This food contains <bad>human flesh</bad>." ) );
         } else {
@@ -2800,8 +2805,13 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         parts->test( iteminfo_parts::AMMO_FX_RECYCLED ) ) {
         fx.emplace_back( _( "This ammo has been <bad>hand-loaded</bad>." ) );
     }
-    if( ammo.ammo_effects.count( "BLACKPOWDER" ) &&
+    if( ammo.ammo_effects.count( "MATCHHEAD" ) &&
         parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
+        fx.emplace_back(
+            _( "This ammo has been loaded with <bad>matchhead powder</bad>, and will quickly "
+               "clog and rust most guns like blackpowder, but will also rarely cause the gun damage from pressure spikes." ) );
+    } else if( ammo.ammo_effects.count( "BLACKPOWDER" ) &&
+               parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
         fx.emplace_back(
             _( "This ammo has been loaded with <bad>blackpowder</bad>, and will quickly "
                "clog up most guns, and cause rust if the gun is not cleaned." ) );
@@ -2826,7 +2836,7 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 } else if( recover_chance <= 10 ) {
                     fx.emplace_back( _( "Stands a <bad>low</bad> chance of remaining intact once fired." ) );
                 } else if( recover_chance <= 20 ) {
-                    fx.emplace_back( _( "Stands a somewhat low chance of remaining intact once fired." ) );
+                    fx.emplace_back( _( "Stands a <bad>somewhat low</bad> chance of remaining intact once fired." ) );
                 } else if( recover_chance <= 30 ) {
                     fx.emplace_back( _( "Stands a <good>decent</good> chance of remaining intact once fired." ) );
                 } else {
@@ -5590,11 +5600,11 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_BREWABLE_PRODUCTS ) ) {
-            for( const itype_id &res : brewed.brewing_results() ) {
+            for( const std::pair<const itype_id, int> &res : brewed.brewing_results() ) {
                 info.emplace_back( "DESCRIPTION",
                                    string_format( _( "* Fermenting this will produce "
                                                      "<neutral>%s</neutral>." ),
-                                                  nname( res, brewed.charges ) ) );
+                                                  res.first->nname( res.second ) ) );
             }
         }
     }
@@ -8354,9 +8364,9 @@ time_duration item::brewing_time() const
     return is_brewable() ? type->brewable->time * calendar::season_from_default_ratio() : 0_turns;
 }
 
-const std::vector<itype_id> &item::brewing_results() const
+const std::map<itype_id, int> &item::brewing_results() const
 {
-    static const std::vector<itype_id> nulresult{};
+    static const std::map<itype_id, int> nulresult{};
     return is_brewable() ? type->brewable->results : nulresult;
 }
 
@@ -9860,6 +9870,20 @@ ret_val<void> item::can_contain( const item &it, const bool nested, const bool i
                                  const bool ignore_pkt_settings, const item_location &parent_it,
                                  units::volume remaining_parent_volume, const bool allow_nested ) const
 {
+    int copies = 1;
+    return can_contain( it, copies, nested, ignore_rigidity,
+                        ignore_pkt_settings, parent_it,
+                        remaining_parent_volume, allow_nested );
+}
+
+ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bool nested,
+                                 const bool ignore_rigidity, const bool ignore_pkt_settings,
+                                 const item_location &parent_it, units::volume remaining_parent_volume,
+                                 const bool allow_nested ) const
+{
+    if( copies_remaining <= 0 ) {
+        return ret_val<void>::make_success();
+    }
     if( this == &it || ( parent_it.where() != item_location::type::invalid &&
                          this == parent_it.get_item() ) ) {
         // does the set of all sets contain itself?
@@ -9898,17 +9922,18 @@ ret_val<void> item::can_contain( const item &it, const bool nested, const bool i
                 if( !internal_it->is_container() ) {
                     continue;
                 }
-                if( internal_it->can_contain( it, true, ignore_nested_rigidity, ignore_pkt_settings,
-                                              parent_it, pkt->remaining_volume() ).success() ) {
-                    return ret_val<void>::make_success();
+                auto ret = internal_it->can_contain( it, copies_remaining, true, ignore_nested_rigidity,
+                                                     ignore_pkt_settings, parent_it, pkt->remaining_volume() );
+                if( copies_remaining <= 0 ) {
+                    return ret;
                 }
             }
         }
     }
 
     return nested && !ignore_rigidity ?
-           contents.can_contain_rigid( it, ignore_pkt_settings ) :
-           contents.can_contain( it, ignore_pkt_settings, remaining_parent_volume );
+           contents.can_contain_rigid( it, copies_remaining, ignore_pkt_settings ) :
+           contents.can_contain( it, copies_remaining, ignore_pkt_settings, remaining_parent_volume );
 }
 
 bool item::can_contain( const itype &tp ) const
@@ -13228,9 +13253,8 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
 
 int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
 {
-    if( link->charge_rate == 0 || turns_elapsed < 1 ||
-        link->charge_interval < 1 || link->efficiency < MIN_LINK_EFFICIENCY ) {
-        return link->charge_rate;
+    if( link->charge_rate == 0 || link->charge_interval < 1 ) {
+        return 0;
     }
 
     if( !is_battery() ) {
@@ -13250,8 +13274,8 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
     // time spent ouside the reality bubble it should be applied as a percentage of the total instead.
     bool short_time_passed = turns_elapsed <= link->charge_interval;
 
-    if( short_time_passed &&
-        !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) ) {
+    if( turns_elapsed < 1 || ( short_time_passed &&
+                               !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) ) ) {
         return link->charge_rate;
     }
 
@@ -13528,7 +13552,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
         if( calendar::turn >= countdown_point ) {
             active = false;
             if( type->countdown_action ) {
-                type->countdown_action.call( carrier, *this, false, pos );
+                type->countdown_action.call( carrier, *this, pos );
             }
             countdown_point = calendar::turn_max;
             if( type->revert_to ) {
@@ -14090,7 +14114,7 @@ bool item::on_drop( const tripoint &pos, map &m )
     avatar &player_character = get_avatar();
     player_character.flag_encumbrance();
     player_character.invalidate_weight_carried_cache();
-    return type->drop_action && type->drop_action.call( &player_character, *this, false, pos );
+    return type->drop_action && type->drop_action.call( &player_character, *this, pos );
 }
 
 time_duration item::age() const
