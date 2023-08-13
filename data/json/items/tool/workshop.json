@@ -453,11 +453,27 @@
     "copy-from": "hammer",
     "ascii_picture": "hammer",
     "weight": "500 g",
+    "price": "17 USD",
     "price_postapoc": 50,
     "material": [ "bronze", "wood" ],
     "qualities": [ [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ] ],
     "use_action": [  ],
     "melee_damage": { "bash": 7 }
+  },
+  {
+    "id": "nail_puller_bronze",
+    "type": "TOOL",
+    "name": { "str": "bronze nail puller" },
+    "description": "A crude nail puller made of bronze.  But it does get the job of pulling out nails.",
+    "symbol": "N",
+    "weight": "650 g",
+    "volume": "340 ml",
+    "longest_side": "25 cm",
+    "price": "16 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "bronze" ],
+    "qualities": [ [ "PRYING_NAIL", 1 ], [ "HAMMER", 1 ], [ "PRY", 1 ] ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "hand_drill",
