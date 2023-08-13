@@ -541,6 +541,10 @@ void veh_app_interact::merge()
 
 void veh_app_interact::populate_app_actions()
 {
+
+    int const part = veh->part_at( a_point );
+    const vehicle_part &vp = veh->part( part >= 0 ? part : 0 );
+
     const std::string ctxt_letters = ctxt.get_available_single_char_hotkeys();
     imenu.entries.clear();
     app_actions.clear();
@@ -568,7 +572,7 @@ void veh_app_interact::populate_app_actions()
     app_actions.emplace_back( [this]() {
         remove();
     } );
-    imenu.addentry( -1, true, ctxt.keys_bound_to( "REMOVE" ).front(),
+    imenu.addentry( -1, veh->can_unmount( vp ).success(), ctxt.keys_bound_to( "REMOVE" ).front(),
                     ctxt.get_action_name( "REMOVE" ) );
     // Plug
     app_actions.emplace_back( [this]() {
