@@ -612,7 +612,7 @@ void Character::mutation_loss_effect( const trait_id &mut )
 
     if( !branch.enchantments.empty() ) {
         recalculate_enchantment_cache();
-		tally_organic_size();
+        tally_organic_size();
         recalculate_bodyparts();
     }
 
