@@ -616,7 +616,7 @@
     "remove_message": "Your radiation sense is gone.",
     "decay_messages": [
       [ "The ambient glow of radiation is almost invisible now.", "bad" ],
-      [ "Your ability to sense radation is fading.", "bad" ]
+      [ "Your ability to sense radiation is fading.", "bad" ]
     ],
     "rating": "good",
     "max_duration": "12 hours",
