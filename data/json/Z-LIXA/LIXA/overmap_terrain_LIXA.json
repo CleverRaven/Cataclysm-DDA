@@ -57,7 +57,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "LIXA_device_1", "LIXA_device_2", "LIXA_device_3" ],
+    "id": [ "LIXA_device_1", "LIXA_device_2", "LIXA_device_3", "LIXA_device_2_roof", "LIXA_device_3_roof" ],
     "name": "LIXA device floor",
     "sym": "L",
     "color": "light_blue",
