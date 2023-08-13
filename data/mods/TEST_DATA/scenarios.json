@@ -80,6 +80,6 @@
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ],
     "start_of_cataclysm": { "day": 60, "season": "spring", "year": 1, "hour": 0 },
-    "start_of_game": { "year": "random", "season": "summer", "hour": 8 }
+    "start_of_game": { "year": "random", "day": 60, "season": "summer", "hour": 8 }
   }
 ]
