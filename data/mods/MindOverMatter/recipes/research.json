@@ -10,7 +10,7 @@
     "skill_used": "chemistry",
     "difficulty": 4,
     "time": "2 h",
-    "tools": [ [ [ "laptop", -1 ] ] ],
+    "tools": [ [ [ "laptop", -1 ] ], [ [ "psi_usb_rad_recipes", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -44,7 +44,7 @@
     "skill_used": "chemistry",
     "difficulty": 6,
     "time": "12 h",
-    "tools": [ [ [ "laptop", -1 ] ] ],
+    "tools": [ [ [ "laptop", -1 ] ], [ [ "psi_usb_rad_recipes", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_intro_biology", "required": false },
@@ -70,6 +70,7 @@
             "type": "good"
           },
           { "u_roll_remainder": [ "clair_sense_rads" ], "type": "spell" },
+          { "u_learn_recipe": "practice_clair_sense_rads" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           { "u_forget_recipe": "psi_research_rad_powers" }
         ],
@@ -95,7 +96,7 @@
     "skill_used": "chemistry",
     "difficulty": 6,
     "time": "16 h",
-    "tools": [ [ [ "laptop", -1 ] ] ],
+    "tools": [ [ [ "laptop", -1 ] ], [ [ "psi_usb_rad_recipes", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_intro_biology", "required": false },
@@ -123,6 +124,7 @@
           },
           { "u_roll_remainder": [ "vita_purge_rads" ], "type": "spell" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          { "u_learn_recipe": "practice_vita_purge_rads" },
           { "u_forget_recipe": "psi_research_rad_powers" }
         ],
         "false_effect": [

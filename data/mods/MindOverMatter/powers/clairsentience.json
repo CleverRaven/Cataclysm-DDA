@@ -372,19 +372,34 @@
     "valid_targets": [ "self" ],
     "spell_class": "CLAIRSENTIENT",
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_clair_sense_rads_self",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_sense_rads') * 23000) + 180000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_sense_rads') * 48000) + 450000) * (scaling_factor(u_val('intelligence') ) )" ]
+    }
+  },
+  {
+    "id": "clair_sense_rads_outside_spawn_item",
+    "type": "SPELL",
+    "name": "[Ψ]Radiation Sense summon item",
+    "description": "This is the reoccurring item summon for Radiation Sense.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "effect": "spawn_item",
     "effect_str": "clair_sense_rad_item",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
     "max_level": { "math": [ "int_to_level(1)" ] },
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: clair_sense_rads') * 14000) + 180000) * (scaling_factor(u_val('intelligence') ) )" ]
-    },
-    "max_duration": {
-      "math": [ "( (u_val('spell_level', 'spell: clair_sense_rads') * 23000) + 450000) * (scaling_factor(u_val('intelligence') ) )" ]
-    }
+    "min_duration": 1100,
+    "max_duration": 1100
   },
   {
     "id": "clair_dodge_power",

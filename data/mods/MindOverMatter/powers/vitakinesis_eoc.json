@@ -68,7 +68,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_RAD_PURGE",
-    "condition": [ { "math": [ "u_val('rad') >= 500" ] } ],
+    "condition": { "math": [ "u_val('rad')", ">=", "500" ] },
     "effect": [
       { "u_add_effect": "effect_vitakin_purge_rads", "duration": "250 minutes" },
       { "u_add_effect": "effect_vitakin_purge_rads_sideeffects", "duration": "250 minutes", "intensity": 6 },
@@ -78,7 +78,7 @@
       "run_eocs": [
         {
           "id": "EOC_VITAKIN_RAD_PURGE_2",
-          "condition": { "and": [ { "math": [ "u_val('rad') > 250" ] }, { "math": [ "u_val('rad') <= 499" ] } ] },
+          "condition": { "and": [ { "math": [ "u_val('rad')", ">", "250" ] }, { "math": [ "u_val('rad')", "<=", "499" ] } ] },
           "effect": [
             { "u_add_effect": "effect_vitakin_purge_rads", "duration": "125 minutes" },
             { "u_add_effect": "effect_vitakin_purge_rads_sideeffects", "duration": "125 minutes", "intensity": 5 },
@@ -88,7 +88,7 @@
             "run_eocs": [
               {
                 "id": "EOC_VITAKIN_RAD_PURGE_3",
-                "condition": { "and": [ { "math": [ "u_val('rad') >= 125" ] }, { "math": [ "u_val('rad') <= 249" ] } ] },
+                "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "125" ] }, { "math": [ "u_val('rad')", "<=", "249" ] } ] },
                 "effect": [
                   { "u_add_effect": "effect_vitakin_purge_rads", "duration": "65 minutes" },
                   {
@@ -102,7 +102,7 @@
                   "run_eocs": [
                     {
                       "id": "EOC_VITAKIN_RAD_PURGE_4",
-                      "condition": { "and": [ { "math": [ "u_val('rad') >= 60" ] }, { "math": [ "u_val('rad') <= 124" ] } ] },
+                      "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "60" ] }, { "math": [ "u_val('rad')", "<=", "124" ] } ] },
                       "effect": [
                         { "u_add_effect": "effect_vitakin_purge_rads", "duration": "30 minutes" },
                         {
@@ -116,7 +116,7 @@
                         "run_eocs": [
                           {
                             "id": "EOC_VITAKIN_RAD_PURGE_5",
-                            "condition": { "and": [ { "math": [ "u_val('rad') >= 30" ] }, { "math": [ "u_val('rad') <= 59" ] } ] },
+                            "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "30" ] }, { "math": [ "u_val('rad')", "<=", "59" ] } ] },
                             "effect": [
                               { "u_add_effect": "effect_vitakin_purge_rads", "duration": "15 minutes" },
                               {
@@ -130,7 +130,7 @@
                               "run_eocs": [
                                 {
                                   "id": "EOC_VITAKIN_RAD_PURGE_6",
-                                  "condition": { "and": [ { "math": [ "u_val('rad') >= 1" ] }, { "math": [ "u_val('rad') <= 29" ] } ] },
+                                  "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "1" ] }, { "math": [ "u_val('rad')", "<=", "29" ] } ] },
                                   "effect": [
                                     { "u_add_effect": "effect_vitakin_purge_rads", "duration": "7 minutes" },
                                     {

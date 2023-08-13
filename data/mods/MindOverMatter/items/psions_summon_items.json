@@ -184,7 +184,7 @@
     "price_postapoc": 0,
     "symbol": "[",
     "color": "dark_gray",
-    "flags": [ "RAD_DETECT", "INTEGRATED", "PERSONAL", "ZERO_WEIGHT" ],
+    "flags": [ "RAD_DETECT", "PERSONAL", "ZERO_WEIGHT" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   },
   {
