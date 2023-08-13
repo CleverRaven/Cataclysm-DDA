@@ -3,64 +3,106 @@
     "type": "GENERIC",
     "id": "id_LIXA",
     "symbol": ",",
-    "copy-from": "id_science",
+    "looks_like": "id_science",
     "name": { "str": "LIXA ID badge" },
     "description": "An ID badge for the LIXA facility, with a photo of an awkwardly smiling scientist on the front.  Instructions on the back explain that this will grant you access to the LIXA experiment floor.",
-    "flags": [ "LIXA_SCIENCE_CARD", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "LIXA_SCIENCE_CARD", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ],
+    "price_postapoc": 250,
+    "material": [ "plastic" ],
+    "weight": "3 g",
+    "volume": "5 ml",
+    "category": "keys",
+    "to_hit": -3
   },
   {
     "type": "GENERIC",
     "id": "id_LIXA_2",
     "symbol": ",",
-    "copy-from": "id_science",
+    "looks_like": "id_science",
     "name": { "str": "modified LIXA ID badge" },
     "description": "An ID badge for the LIXA facility, with a photo of an awkwardly smiling scientist on the front.  It is heavily scratched, and there is a line on the back in black marker.",
-    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ],
+    "price_postapoc": 250,
+    "material": [ "plastic" ],
+    "weight": "3 g",
+    "volume": "5 ml",
+    "category": "keys",
+    "to_hit": -3
   },
   {
     "type": "GENERIC",
     "id": "id_LIXA_najma",
     "symbol": ",",
-    "copy-from": "id_science",
+    "looks_like": "id_science",
     "name": { "str": "LIXA ID badge:  Dr.  Najma Saed" },
     "description": "An ID badge for the LIXA facility.  The photo is of a pleasantly smiling woman in a hijab.",
-    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ],
+    "price_postapoc": 250,
+    "material": [ "plastic" ],
+    "weight": "3 g",
+    "volume": "5 ml",
+    "category": "keys",
+    "to_hit": -3
   },
   {
     "type": "GENERIC",
     "id": "id_LIXA_jason",
     "symbol": ",",
-    "copy-from": "id_science",
+    "looks_like": "id_science",
     "name": { "str": "LIXA ID badge:  Dr.  Jason Mitchell" },
     "description": "An ID badge for the LIXA facility.  The photo is of a confidently smiling young man.",
-    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ],
+    "price_postapoc": 250,
+    "material": [ "plastic" ],
+    "weight": "3 g",
+    "volume": "5 ml",
+    "category": "keys",
+    "to_hit": -3
   },
   {
     "type": "GENERIC",
     "id": "id_LIXA_kai_mei",
     "symbol": ",",
-    "copy-from": "id_science",
+    "looks_like": "id_science",
     "name": { "str": "LIXA ID badge:  Dr.  Kai-Mei Luo" },
     "description": "An ID badge for the LIXA facility.  The photo is of an awkwardly smiling woman, who blinked during the picture.",
-    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ],
+    "price_postapoc": 250,
+    "material": [ "plastic" ],
+    "weight": "3 g",
+    "volume": "5 ml",
+    "category": "keys",
+    "to_hit": -3
   },
   {
     "type": "GENERIC",
     "id": "id_LIXA_rich",
     "symbol": ",",
-    "copy-from": "id_science",
+    "looks_like": "id_science",
     "name": { "str": "LIXA ID badge:  Dr.  Richard Raimes" },
     "description": "An ID badge for the LIXA facility.  The photo is of a gently smiling older man, with kind eyes.",
-    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ],
+    "price_postapoc": 250,
+    "material": [ "plastic" ],
+    "weight": "3 g",
+    "volume": "5 ml",
+    "category": "keys",
+    "to_hit": -3
   },
   {
     "type": "GENERIC",
     "id": "id_LIXA_mil",
     "symbol": ",",
-    "copy-from": "id_LIXA_mil",
+    "looks_like": "id_LIXA_mil",
     "name": { "str": "LIXA military police badge" },
     "description": "An id card bearing the name, rank, and serial number of a soldier stationed at LIXA.",
-    "flags": [ "LIXA_MILITARY_CARD", "LIXA_SCIENCE_CARD", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "LIXA_MILITARY_CARD", "LIXA_SCIENCE_CARD", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ],
+    "price_postapoc": 250,
+    "material": [ "plastic" ],
+    "weight": "3 g",
+    "volume": "5 ml",
+    "category": "keys",
+    "to_hit": -3
   },
   {
     "id": "LIXA_SCIENCE_CARD",
@@ -80,7 +122,6 @@
   {
     "type": "GENERIC",
     "id": "LIXA_lab_file",
-    "category": "books",
     "symbol": ",",
     "color": "white",
     "name": { "str": "LIXA on-site staff notice" },
@@ -90,8 +131,16 @@
   },
   {
     "type": "GENERIC",
+    "id": "LIXA_generic_file",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "LIXA data file" },
+    "copy-from": "file",
+    "description": "A sheaf of papers containing a truly dizzying assortment of graphs, diagrams, and equations, on LIXA letterhead."
+  },
+  {
+    "type": "GENERIC",
     "id": "LIXA_mil_file",
-    "category": "books",
     "symbol": ",",
     "color": "white",
     "name": { "str": "LIXA military notice" },
@@ -102,7 +151,6 @@
   {
     "type": "GENERIC",
     "id": "LIXA_lab_postit",
-    "category": "books",
     "symbol": ",",
     "color": "white",
     "name": { "str": "post-it note" },
@@ -112,8 +160,6 @@
     "price_postapoc": 0,
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID" ],
-    "weight": "12 mg",
-    "volume": "1 ml",
     "copy-from": "lab_postit_bio"
   }
 ]
