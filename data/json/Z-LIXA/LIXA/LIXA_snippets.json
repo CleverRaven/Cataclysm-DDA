@@ -104,7 +104,7 @@
   },
   {
     "type": "snippet",
-    "category": "<LIXA_personal_snip>",
+    "category": "<LIXA_personal_snip_1>",
     "text": [
       "\"-they said that the temporal distortion will never reach more than 10 seconds.  It's been saturday for three days.\"",
       "\"They've been telling us the lockdown is temporary for three weeks.  Now they're saying we need escorts to even go to the surface level and get some damn sun. How much more-\"",
@@ -113,7 +113,13 @@
       "You open an application that turns out to be a top-down strategy game of some sort, set in space.  Shortly after selecting anything in the menu, the game freezes and crashes to desktop.",
       "\"Listen, I know it's upsetting, and I agree.  You're right that there's no way a cat could cause any real problems down here.  But, and I apologize for the cold comfort;  this way, you can be sure Yujin will see the sun again.  Cats need sun to be happy.\"",
       "\"-how are you recovering?  They tried to get on us about testing times, I told them they can eat my entire ass.  If they don't want delays they will keep those jackboot bastards from breaking someone's fucking jaw.  I also put in an order for-\"",
-      "\"Had the dream again.  An ocean, as far as the eye can see.  Gently rolling waves.  All of it, photons.\"",
+      "\"Had the dream again.  An ocean, as far as the eye can see.  Gently rolling waves.  All of it, photons.\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<LIXA_personal_snip_2>",
+    "text": [
       "\"It's getting bad up there.  The soldiers seem tense, a little shocked.  I don't think they're allowed any news either, so it must be something they can see happening.\"",
       "This is a saved file that opens in a digital painting program.  The linework, and some shading, has been done on a painting of a long-furred cat.",
       "\"They must have done something to Keaton.  The soldiers seem very upset with us.  As though it's our fault he couldn't keep his temper?\"",
@@ -122,7 +128,13 @@
       "\"I can't remember loving this project.  I know that I did;  I was so excited.  We were going to change the world.  But I cannot remember the feeling of anything other than hate.\"",
       "\"I wiped the last of the documentation drives last night.  I think we all know that if they replace us, it won't be because we've been let go and allowed to resume our lives.  Now they no longer have that option.\"",
       "This is a spreadsheet that passes several cells of what look like poker hands through a mathematical function, directing them to a cell with the heading CHEATCHANCE and the number 77.",
-      "This is an entire folder of video files, apparently the complete first season of an animated series called The Shepherd House.  Every file crashes to desktop ten seconds into the opening credits, so all you can tell is that the theme music seems interesting.",
+      "This is an entire folder of video files, apparently the complete first season of an animated series called The Shepherd House.  Every file crashes to desktop ten seconds into the opening credits, so all you can tell is that the theme music seems interesting."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<LIXA_personal_snip_3>",
+    "text": [
       "\"I just don't get what's in this for Kim.  He says he won't be in any more trouble if they bust him for smuggling stuff for us on top of his own, but we have nothing to offer him in exchange.  I'd like to believe he's just a good guy, but I don't have that luxury anymore.\"",
       "This is a saved file that opens in a digital painting program.  All it contains are the words THEY BURIED US ALIVE in shaky handwriting.",
       "\"The last I heard, dad was very sick.  That was 8 months ago.  What am I SUPPOSED to think?\"",
@@ -134,7 +146,13 @@
       "\"At this point?  The only reason I haven't killed myself is because they'd make you guys work even harder to make up for me.  So yeah.  Not doing great.\"",
       "\"I wonder what they've told my children.  I hope it's that I am dead.  The alternative, that they think I abandoned them?  I would rather BE dead.\"",
       "\"Whatever is happening up there, it's not our fault.  We cannot be responsible for the ways other people use our research.  Any scientist who has ever lived has only been able to hope their work is used well.  The work must be done, regardless.\"",
-      "This is a random page from what appears to be an original work of erotic fiction.  The things described here seem anatomically unlikely, at best.",
+      "This is a random page from what appears to be an original work of erotic fiction.  The things described here seem anatomically unlikely, at best."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<LIXA_personal_snip_4>",
+    "text": [
       "\"Something is wrong.  I don't think the compression factor numbers are a bug or error.  I think we've lost control of this thing entirely.\"",
       "This is a text document. All it contains are the words SPACE IS A WASTE TIME IS A CRIME several thousand times.",
       "\"Kim spent his last takeout order on us, enough to give us leftovers for days.  He got it from Ping's.  He remembers I said their siu mai are made the real way.  I don't understand.\"",
