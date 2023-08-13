@@ -2866,6 +2866,8 @@ class Character : public Creature, public visitable
         void burn_energy_arms( int mod );
         void burn_energy_legs( int mod );
         void burn_energy_all( int mod );
+        // how many bionic arms/legs we have vs how many arms/legs we have total
+        float get_bionic_limb_percentage() const;
         void mod_stamina( int mod );
         void burn_move_stamina( int moves );
         /** Regenerates stamina */
