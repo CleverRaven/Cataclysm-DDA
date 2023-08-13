@@ -1226,6 +1226,15 @@
   },
   {
     "type": "mutation",
+    "id": "MARTIAL_KICKBOXING",
+    "name": { "str": "Cage Fighter" },
+    "points": 0,
+    "description": "You were a brutal cage fighter, mastering the art of kickboxing through pain and perseverence.",
+    "initial_ma_styles": [ "style_kickboxing" ],
+    "valid": false
+  },
+  {
+    "type": "mutation",
     "id": "MARTIAL_FENCING",
     "name": { "str": "Competitive Fencer" },
     "points": 0,
