@@ -1117,7 +1117,7 @@ class item : public visitable
         /** Time for this item to be fully fermented. */
         time_duration brewing_time() const;
         /** The results of fermenting this item. */
-        const std::vector<itype_id> &brewing_results() const;
+        const std::map<itype_id, int> &brewing_results() const;
 
         /**
          * Detonates the item and adds remains (if any) to drops.
@@ -1622,6 +1622,12 @@ class item : public visitable
          */
         /*@{*/
         ret_val<void> can_contain( const item &it, bool nested = false,
+                                   bool ignore_rigidity = false,
+                                   bool ignore_pkt_settings = true,
+                                   const item_location &parent_it = item_location(),
+                                   units::volume remaining_parent_volume = 10000000_ml,
+                                   bool allow_nested = true ) const;
+        ret_val<void> can_contain( const item &it, int &copies_remaining, bool nested = false,
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
                                    const item_location &parent_it = item_location(),

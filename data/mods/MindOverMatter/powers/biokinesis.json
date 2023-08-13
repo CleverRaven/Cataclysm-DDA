@@ -32,7 +32,7 @@
     "base_casting_time": 120,
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
-    "learn_spells": { "biokin_reflex_enhance": 7, "biokin_combat_dance": 15 }
+    "learn_spells": { "biokin_enhance_mobility": 7, "biokin_reflex_enhance": 12, "biokin_combat_dance": 15 }
   },
   {
     "id": "biokin_overcome_pain",
@@ -254,42 +254,7 @@
     "base_casting_time": 50,
     "final_casting_time": 15,
     "casting_time_increment": -2.5,
-    "learn_spells": { "biokin_reflex_enhance": 7, "biokin_combat_dance": 15 }
-  },
-  {
-    "id": "biokin_reflex_enhance",
-    "type": "SPELL",
-    "name": "[Ψ]Heightened Reflexes",
-    "description": "You can improve your sensory acuity and the speed at which your brain processes sensory inputs.",
-    "message": "You enhance your speed and sensory prowess.",
-    "valid_targets": [ "self" ],
-    "spell_class": "BIOKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
-    "effect": "attack",
-    "effect_str": "effect_biokin_reflex",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
-    "shape": "blast",
-    "difficulty": 5,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
-    "final_energy_cost": 1250,
-    "energy_increment": -175,
-    "min_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_reflex_enhance') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_val('spell_level', 'spell: biokin_reflex_enhance') * 2000) + 45000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
-    },
-    "base_casting_time": 175,
-    "final_casting_time": 100,
-    "casting_time_increment": -5.5,
-    "learn_spells": { "biokin_combat_dance": 9, "biokin_overcome_pain": 12 }
+    "learn_spells": { "biokin_enhance_mobility": 6, "biokin_reflex_enhance": 12, "biokin_combat_dance": 15 }
   },
   {
     "id": "biokin_armor_skin",
@@ -358,7 +323,7 @@
     "base_casting_time": 250,
     "final_casting_time": 150,
     "casting_time_increment": -8.5,
-    "learn_spells": { "biokin_sealed_system": 4 }
+    "learn_spells": { "biokin_sealed_system": 6 }
   },
   {
     "id": "biokin_climate_remove_sealed",
@@ -375,6 +340,76 @@
     "max_level": 1
   },
   {
+    "id": "biokin_enhance_mobility",
+    "type": "SPELL",
+    "name": "[Ψ]Enhance Mobility",
+    "description": "Increase your range of motion and flexibility such that you can move more easily even in encumbering gear.",
+    "message": "You gear doesn't seem to encumber you as much.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_ENHANCE_MOBILITY_SWITCHER",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": 1,
+    "min_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 1500 ) + 10000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_val('spell_level', 'spell: biokin_enhance_mobility') * 3000 ) + 50000) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 4500,
+    "final_energy_cost": 2000,
+    "energy_increment": -150,
+    "base_casting_time": 275,
+    "final_casting_time": 50,
+    "casting_time_increment": -15,
+    "learn_spells": { "biokin_reflex_enhance": 4, "biokin_combat_dance": 10 }
+  },
+  {
+    "id": "biokin_reflex_enhance",
+    "type": "SPELL",
+    "name": "[Ψ]Heightened Reflexes",
+    "description": "You can improve your sensory acuity and the speed at which your brain processes sensory inputs.",
+    "message": "You enhance your speed and sensory prowess.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_biokin_reflex",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 5500,
+    "final_energy_cost": 1750,
+    "energy_increment": -205,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_reflex_enhance') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: biokin_reflex_enhance') * 2000) + 45000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "base_casting_time": 175,
+    "final_casting_time": 100,
+    "casting_time_increment": -5.5,
+    "learn_spells": { "biokin_combat_dance": 9, "biokin_overcome_pain": 12 }
+  },
+  {
     "id": "biokin_sealed_system",
     "type": "SPELL",
     "name": "[Ψ]Sealed System",
@@ -387,11 +422,11 @@
     "effect": "attack",
     "effect_str": "effect_biokin_sealed",
     "extra_effects": [
-      { "id": "biokin_climate_remove_sealed", "hit_self": true },
-      { "id": "psionic_drained_difficulty_six", "hit_self": false }
+      { "id": "biokin_sealed_remove_climate", "hit_self": true },
+      { "id": "psionic_drained_difficulty_seven", "hit_self": false }
     ],
     "shape": "blast",
-    "difficulty": 6,
+    "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
     "base_energy_cost": 5000,
@@ -409,7 +444,7 @@
     "learn_spells": { "biokin_overcome_pain": 4 }
   },
   {
-    "id": "biokin_sealed_removee_climate",
+    "id": "biokin_sealed_remove_climate",
     "type": "SPELL",
     "name": "[Ψ]Sealed System Cancel Temperature Adaptability",
     "description": "The part of Sealed System that cancels Temperature Adaptability.  It's a bug if you have it.",
@@ -426,7 +461,7 @@
     "id": "biokin_combat_dance",
     "type": "SPELL",
     "name": "[Ψ]Combat Dance",
-    "description": "You can flood your body with psionic power to enhance your combat prowess, though the effect leaves you drained.",
+    "description": "You can flood your body with psionic power to enhance your combat prowess.",
     "message": "A surge of power fills your body and you begin moving with terrible purpose!",
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
@@ -434,12 +469,12 @@
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "effect_str": "effect_biokin_combat_dance",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": false } ],
+    "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": false } ],
     "shape": "blast",
-    "difficulty": 7,
+    "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
-    "base_energy_cost": 3000,
+    "base_energy_cost": 3500,
     "final_energy_cost": 1750,
     "energy_increment": -125,
     "min_duration": {
@@ -450,7 +485,6 @@
     },
     "base_casting_time": 100,
     "final_casting_time": 40,
-    "casting_time_increment": -4,
-    "learn_spells": { "biokin_physical_enhance": 4 }
+    "casting_time_increment": -4
   }
 ]

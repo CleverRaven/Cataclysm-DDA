@@ -1579,6 +1579,34 @@
   },
   {
     "type": "keybinding",
+    "id": "RANDOMIZE_SCENARIO_START_OF_CATACLYSM",
+    "category": "NEW_CHAR_SCENARIOS",
+    "name": "Randomize cataclysm start date (if supported by scenario)",
+    "bindings": [ { "input_method": "keyboard_char", "key": "^" }, { "input_method": "keyboard_code", "key": "6", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RANDOMIZE_SCENARIO_START_OF_GAME",
+    "category": "NEW_CHAR_SCENARIOS",
+    "name": "Randomize game start date (if supported by scenario)",
+    "bindings": [ { "input_method": "keyboard_char", "key": "&" }, { "input_method": "keyboard_code", "key": "7", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RESET_SCENARIO_START_OF_CATACLYSM",
+    "category": "NEW_CHAR_SCENARIOS",
+    "name": "Reset cataclysm start date",
+    "bindings": [ { "input_method": "keyboard_char", "key": "$" }, { "input_method": "keyboard_code", "key": "4", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RESET_SCENARIO_START_OF_GAME",
+    "category": "NEW_CHAR_SCENARIOS",
+    "name": "Reset game start date",
+    "bindings": [ { "input_method": "keyboard_char", "key": "%" }, { "input_method": "keyboard_code", "key": "5", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SORT",
     "category": "NEW_CHAR_SCENARIOS",
     "name": "Toggle sorting order",
@@ -3943,7 +3971,7 @@
     "type": "keybinding",
     "id": "QUIT",
     "category": "YESNOQUIT",
-    "name": "Quit",
+    "name": "Cancel",
     "bindings": [
       { "input_method": "keyboard_char", "key": "Q" },
       { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
@@ -4296,6 +4324,34 @@
     "id": "SNIPPET",
     "name": "Choose snippet",
     "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "WISH_ITEM",
+    "id": "SCROLL_DESC_UP",
+    "name": "Scroll item description up",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "WISH_ITEM",
+    "id": "SCROLL_DESC_DOWN",
+    "name": "Scroll item description Down",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_UP",
+    "category": "VENDING_MACHINE",
+    "name": "Scroll item info up",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_DOWN",
+    "category": "VENDING_MACHINE",
+    "name": "Scroll item info down",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",

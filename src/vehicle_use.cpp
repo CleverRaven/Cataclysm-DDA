@@ -372,7 +372,7 @@ void vehicle::build_electronics_menu( veh_menu &menu )
             menu.add( _( "Play arcade machine" ) )
             .hotkey( "ARCADE" )
             .enable( !!arc_itm )
-            .on_submit( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, false, tripoint_zero ); } );
+            .on_submit( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, tripoint_zero ); } );
             break;
         }
     }
@@ -560,7 +560,7 @@ void vehicle::plug_in( const tripoint &pos )
     item cord = init_cord( pos );
 
     if( cord.get_use( "link_up" ) ) {
-        cord.type->get_use( "link_up" )->call( &get_player_character(), cord, false, pos );
+        cord.type->get_use( "link_up" )->call( &get_player_character(), cord, pos );
     }
 }
 
@@ -961,7 +961,7 @@ void vehicle::play_music() const
 {
     Character &player_character = get_player_character();
     for( const vpart_reference &vp : get_enabled_parts( "STEREO" ) ) {
-        iuse::play_music( player_character, vp.pos(), 15, 30 );
+        iuse::play_music( &player_character, vp.pos(), 15, 30 );
     }
 }
 
@@ -1874,7 +1874,11 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .skip_theft_check()
         .skip_locked_check()
         .hotkey( "EXAMINE_VEHICLE" )
-        .on_submit( [this] { g->exam_vehicle( *this ); } );
+        .on_submit( [this, vp] {
+            const vpart_position non_fake( *this, get_non_fake_part( vp.part_index() ) );
+            const point start_pos = non_fake.mount().rotate( 2 );
+            g->exam_vehicle( *this, start_pos );
+        } );
 
         menu.add( tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ) )
         .skip_theft_check()
@@ -2113,6 +2117,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 if( vp_part->has_flag( vp_flag::linked_flag ) ) {
                     vp_part->last_disconnected = calendar::turn;
                     vp_part->remove_flag( vp_flag::linked_flag );
+                    linked_item_epower_this_turn = 0_W;
                     add_msg( _( "You detached the %s's cables." ), vp_part->name( false ) );
                 }
                 if( vp_part->info().has_flag( "TOW_CABLE" ) ) {

@@ -291,5 +291,27 @@
         { "item": "stick", "count": [ 1, 3 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_styling_station",
+    "name": "Styling station",
+    "symbol": "}",
+    "description": "A styling station, is a countertop with a mirror mounted above it and just enough room and cubbies to store a stylist's equipment on it.",
+    "color": "white",
+    "move_cost_mod": 5,
+    "coverage": 80,
+    "required_str": -1,
+    "crafting_pseudo_item": "mirror",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH" ],
+    "examine_action": "change_appearance",
+    "bash": {
+      "str_min": 7,
+      "str_max": 16,
+      "sound": "glass breaking",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] }, { "item": "splinter", "count": [ 5, 15 ] } ]
+    }
   }
 ]

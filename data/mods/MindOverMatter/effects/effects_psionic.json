@@ -334,10 +334,7 @@
             "multiply": {
               "math": [ "( ( u_val('spell_level', 'spell: biokin_combat_dance') * -0.03) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
             }
-          },
-          { "value": "FATIGUE", "add": 5 },
-          { "value": "HUNGER", "multiply": 3 },
-          { "value": "THIRST", "multiply": 3 }
+          }
         ]
       }
     ]
@@ -935,6 +932,32 @@
     "dur_add_perc": 5,
     "base_mods": { "speed_mod": [ -40 ] },
     "immune_flags": [ "DIMENSIONAL_ANCHOR", "TELESTOP" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_teleport_stride",
+    "name": [ "Extended Stride" ],
+    "desc": [ "Every step takes you further than your eyes tell you it should." ],
+    "apply_message": "",
+    "remove_message": "Your steps are normal once again.",
+    "decay_messages": [ [ "Your warped movement are almost gone.", "bad" ], [ "Your steps are no longer taking you quite so far.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "10 minutes",
+    "max_intensity": 16,
+    "dur_add_perc": 10,
+    "int_dur_factor": "37 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [ "( ( ( u_val('spell_level', 'spell: teleport_stride') * -0.02 ) - 0.05 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",

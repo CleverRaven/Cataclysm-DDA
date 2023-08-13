@@ -1038,7 +1038,7 @@
     "volume": "200 ml",
     "weight": "931 mg",
     "//": "Density somewhere around 0.931 g/cm3 (bulk density of anthracite), roughly 31kJ per unit of coal",
-    "ammo_type": "charcoal",
+    "ammo_type": "coal",
     "count": 1000,
     "stack_size": 200
   },

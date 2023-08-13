@@ -767,8 +767,7 @@ void game::setup()
 
     weather.weather_id = WEATHER_CLEAR;
     // Weather shift in 30
-    weather.nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
-                              get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
+    weather.nextweather = calendar::start_of_game + 30_minutes;
 
     turnssincelastmon = 0_turns; //Auto safe mode init
 
@@ -6859,7 +6858,6 @@ void game::zones_manager()
     } );
     ui.mark_resize();
 
-    std::string action;
     input_context ctxt( "ZONES_MANAGER" );
     ctxt.register_navigate_ui_list();
     ctxt.register_action( "CONFIRM" );
@@ -7089,9 +7087,34 @@ void game::zones_manager()
     } );
 
     const int scroll_rate = zone_cnt > 20 ? 10 : 3;
+    bool quit = false;
+    bool save = false;
     zones_manager_open = true;
     zone_manager::get_manager().save_zones( "zmgr-temp" );
-    do {
+    while( !quit ) {
+        if( zone_cnt > 0 ) {
+            blink = !blink;
+            const zone_data &zone = zones[active_index].get();
+            zone_start = m.getlocal( zone.get_start_point() );
+            zone_end = m.getlocal( zone.get_end_point() );
+            ctxt.set_timeout( get_option<int>( "BLINK_SPEED" ) );
+        } else {
+            blink = false;
+            zone_start = zone_end = std::nullopt;
+            ctxt.reset_timeout();
+        }
+
+        // Actually accessed from the terrain overlay callback `zone_cb` in the
+        // call to `ui_manager::redraw`.
+        //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
+        zone_blink = blink;
+        invalidate_main_ui_adaptor();
+
+        ui_manager::redraw();
+
+        //Wait for input
+        const std::string action = ctxt.handle_input();
+
         if( action == "ADD_ZONE" ) {
             do { // not a loop, just for quick bailing out if canceled
                 const auto maybe_id = mgr.query_type();
@@ -7186,6 +7209,25 @@ void game::zones_manager()
             .edit( facname );
             zones_faction = faction_id( facname );
             zones = get_zones();
+        } else if( action == "QUIT" ) {
+            if( stuff_changed ) {
+                const query_ynq_result res = query_ynq( _( "Save changes?" ) );
+                switch( res ) {
+                    case query_ynq_result::quit:
+                        break;
+                    case query_ynq_result::no:
+                        save = false;
+                        quit = true;
+                        break;
+                    case query_ynq_result::yes:
+                        save = true;
+                        quit = true;
+                        break;
+                }
+            } else {
+                save = false;
+                quit = true;
+            }
         } else if( zone_cnt > 0 ) {
             if( navigate_ui_list( action, active_index, scroll_rate, zone_cnt, true ) ) {
                 blink = false;
@@ -7354,37 +7396,14 @@ void game::zones_manager()
                 stuff_changed = zones_changed;
             }
         }
-
-        if( zone_cnt > 0 ) {
-            blink = !blink;
-            const zone_data &zone = zones[active_index].get();
-            zone_start = m.getlocal( zone.get_start_point() );
-            zone_end = m.getlocal( zone.get_end_point() );
-            ctxt.set_timeout( get_option<int>( "BLINK_SPEED" ) );
-        } else {
-            blink = false;
-            zone_start = zone_end = std::nullopt;
-            ctxt.reset_timeout();
-        }
-
-        // Actually accessed from the terrain overlay callback `zone_cb` in the
-        // call to `ui_manager::redraw`.
-        //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-        zone_blink = blink;
-        invalidate_main_ui_adaptor();
-
-        ui_manager::redraw();
-
-        //Wait for input
-        action = ctxt.handle_input();
-    } while( action != "QUIT" );
+    }
     zones_manager_open = false;
     ctxt.reset_timeout();
     zone_cb = nullptr;
 
     if( stuff_changed ) {
         zone_manager &zones = zone_manager::get_manager();
-        if( !query_yn( _( "Save changes?" ) ) ) {
+        if( !save ) {
             zones.load_zones( "zmgr-temp" );
         }
 
@@ -10896,19 +10915,22 @@ point game::place_player( const tripoint &dest_loc, bool quick )
                         and_the_rest += counts[i];
                     }
                 }
-                if( names.size() == 1 ) {
-                    add_msg( _( "You see here %s." ), names[0] );
-                } else if( names.size() == 2 ) {
-                    add_msg( _( "You see here %s and %s." ), names[0], names[1] );
-                } else if( names.size() == 3 ) {
-                    add_msg( _( "You see here %s, %s, and %s." ), names[0], names[1], names[2] );
-                } else if( and_the_rest < 7 ) {
-                    add_msg( n_gettext( "You see here %s, %s and %d more item.",
-                                        "You see here %s, %s and %d more items.",
-                                        and_the_rest ),
-                             names[0], names[1], and_the_rest );
-                } else {
-                    add_msg( _( "You see here %s and many more items." ), names[0] );
+
+                if( get_option<bool>( "LOG_ITEMS_ON_THE_GROUND" ) ) {
+                    if( names.size() == 1 ) {
+                        add_msg( _( "You see here %s." ), names[0] );
+                    } else if( names.size() == 2 ) {
+                        add_msg( _( "You see here %s and %s." ), names[0], names[1] );
+                    } else if( names.size() == 3 ) {
+                        add_msg( _( "You see here %s, %s, and %s." ), names[0], names[1], names[2] );
+                    } else if( and_the_rest < 7 ) {
+                        add_msg( n_gettext( "You see here %s, %s and %d more item.",
+                                            "You see here %s, %s and %d more items.",
+                                            and_the_rest ),
+                                 names[0], names[1], and_the_rest );
+                    } else {
+                        add_msg( _( "You see here %s and many more items." ), names[0] );
+                    }
                 }
             }
         }
@@ -12182,14 +12204,18 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     } else if( u.has_amount( itype_grapnel, 1 ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Climb your grappling hook down?" ) ) ) {
             rope_ladder = true;
-            u.use_amount( itype_grapnel, 1 );
+            for( item &used_item : u.use_amount( itype_grapnel, 1 ) ) {
+                used_item.spill_contents( u );
+            }
         } else {
             return std::nullopt;
         }
     } else if( u.has_amount( itype_rope_30, 1 ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Climb your rope down?" ) ) ) {
             rope_ladder = true;
-            u.use_amount( itype_rope_30, 1 );
+            for( item &used_item : u.use_amount( itype_rope_30, 1 ) ) {
+                used_item.spill_contents( u );
+            }
         } else {
             return std::nullopt;
         }
@@ -12799,7 +12825,7 @@ void game::start_calendar()
     calendar::start_of_game = scen->start_of_game();
     calendar::turn = calendar::start_of_game;
     calendar::initial_season = static_cast<season_type>( ( to_days<int>( calendar::start_of_game -
-                               calendar::turn_zero ) / get_option<int>( "SEASON_LENGTH" ) ) % 4 );
+                               calendar::turn_zero ) / get_option<int>( "SEASON_LENGTH" ) ) % season_type::NUM_SEASONS );
 }
 
 overmap &game::get_cur_om() const
@@ -13146,6 +13172,24 @@ void game::climb_down( const tripoint &examp )
         }
     }
 
+    if( web_rappel || has_grapnel ) {
+        tripoint p = examp;
+        for( int i = 0; i < height; i++ ) {
+            p.z--;
+            if( here.has_furn( p ) ) {
+                // We disallow climbing down with grappling hook or webs if there is furniture
+                // in the way. This is because there was a problem here before where the deployed
+                // grappling hook "furniture" added by the code further below would replace any
+                // already existing furniture on the destination, such as a stepladder.
+                you.add_msg_if_player(
+                    web_rappel ?
+                    _( "There is something in the way that prevent your webs from sticking there." )
+                    : _( "There is something in the way that prevents you from using your grappling hook there." ) );
+                return;
+            }
+        }
+    }
+
     you.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod ) * weary_mult;
     you.setpos( examp );
 
@@ -13163,7 +13207,9 @@ void game::climb_down( const tripoint &examp )
     } else if( has_grapnel ) {
         you.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
         g->vertical_move( -1, true );
-        you.use_amount( itype_grapnel, 1 );
+        for( item &used_item : you.use_amount( itype_grapnel, 1 ) ) {
+            used_item.spill_contents( you );
+        }
         here.furn_set( you.pos(), furn_f_rope_up );
     } else if( !g->slip_down( true ) ) {
         // One tile of falling less (possibly zero)
@@ -13271,7 +13317,6 @@ const scenario *get_scenario()
 }
 void set_scenario( const scenario *new_scenario )
 {
-    new_scenario->rerandomize();
     g->scen = new_scenario;
 }
 

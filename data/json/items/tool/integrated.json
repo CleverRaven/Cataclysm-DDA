@@ -100,8 +100,8 @@
     "id": "toolset",
     "type": "TOOL_ARMOR",
     "category": "armor",
-    "weight": "200 g",
-    "volume": "125 ml",
+    "weight": "100 g",
+    "volume": "75 ml",
     "price": 0,
     "price_postapoc": 0,
     "symbol": ",",
@@ -117,8 +117,7 @@
       "SOFT",
       "NO_REPAIR",
       "ALLOWS_NATURAL_ATTACKS",
-      "TRADER_AVOID",
-      "USES_BIONIC_POWER"
+      "TRADER_AVOID"
     ],
     "material": [ "superalloy", "copper" ],
     "name": { "str_sp": "integrated multitool" },
@@ -149,8 +148,38 @@
       [ "PRYING_NAIL", 1 ],
       [ "BUTCHER", -15 ]
     ],
+    "use_action": [ { "type": "CROWBAR", "ammo_scale": 0 } ],
+    "melee_damage": { "bash": 1, "cut": 3 }
+  },
+  {
+    "id": "integrated_welder",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "weight": "100 g",
+    "volume": "50 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": ",",
+    "color": "brown",
+    "warmth": 0,
+    "environmental_protection": 0,
+    "material_thickness": 0.5,
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "WATER_FRIENDLY",
+      "SOFT",
+      "NO_REPAIR",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID",
+      "USES_BIONIC_POWER"
+    ],
+    "material": [ "superalloy", "copper" ],
+    "name": { "str_sp": "integrated welder" },
+    "description": "Integrated bionic miniature welding tool implanted in your fingers.",
+    "to_hit": -1,
     "use_action": [
-      { "type": "CROWBAR", "ammo_scale": 0 },
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
@@ -188,6 +217,6 @@
     "ammo": [ "battery" ],
     "charges_per_use": 20,
     "charged_qualities": [ [ "WELD", 2 ] ],
-    "melee_damage": { "bash": 1, "cut": 3 }
+    "melee_damage": { "bash": 2, "cut": -1 }
   }
 ]

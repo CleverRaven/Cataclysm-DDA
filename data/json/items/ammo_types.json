@@ -535,6 +535,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "coal",
+    "name": "coal",
+    "default": "coal_lump"
+  },
+  {
+    "type": "ammunition_type",
     "id": "thrown",
     "name": "throwing weapon",
     "default": "thrown"

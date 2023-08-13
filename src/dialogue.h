@@ -11,6 +11,7 @@
 #include <utility>
 #include <vector>
 
+#include "cata_lazy.h"
 #include "dialogue_win.h"
 #include "global_vars.h"
 #include "npc.h"
@@ -194,11 +195,14 @@ struct dialogue {
         dialogue() = default;
         dialogue( const dialogue &d );
         dialogue( dialogue && ) = default;
-        dialogue &operator=( const dialogue & ) = delete;
+        dialogue &operator=( const dialogue & );
         dialogue &operator=( dialogue && ) = default;
+        dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in );
         dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in,
-                  const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond = {},
-                  const std::unordered_map<std::string, std::string> &ctx = {} );
+                  const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond );
+        dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in,
+                  const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond,
+                  const std::unordered_map<std::string, std::string> &ctx );
         talker *actor( bool is_beta ) const;
 
         mutable itype_id cur_item;
@@ -243,10 +247,12 @@ struct dialogue {
         std::unique_ptr<talker> beta;
 
         // dialogue specific variables that can be passed down to additional EOCs but are one way
-        std::unordered_map<std::string, std::string> context;
+        lazy<std::unordered_map<std::string, std::string>> context;
+        // Weirdly unnecessarily in context.
+        std::string callstack;
 
         // conditionals that were set at the upper level
-        std::unordered_map<std::string, std::function<bool( dialogue & )>> conditionals;
+        lazy<std::unordered_map<std::string, std::function<bool( dialogue & )>>> conditionals;
 
         /**
          * Add a simple response that switches the topic to the new one. If first == true, force

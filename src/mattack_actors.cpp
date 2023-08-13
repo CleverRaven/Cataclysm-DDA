@@ -219,7 +219,7 @@ bool leap_actor::call( monster &z ) const
     bool seen = player_view.sees( z ); // We can see them jump...
     z.setpos( chosen );
     seen |= player_view.sees( z ); // ... or we can see them land
-    if( seen ) {
+    if( seen && get_option<bool>( "LOG_MONSTER_MOVEMENT" ) ) {
         add_msg( message, z.name() );
     }
 
@@ -717,8 +717,9 @@ bool melee_actor::call( monster &z ) const
         game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
-        target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, z.name(),
-                                       body_part_name_accusative( bp_id ) );
+        target->add_msg_player_or_npc( msg_type, miss_msg_u,
+                                       get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : to_translation( "" ),
+                                       z.name(), body_part_name_accusative( bp_id ) );
         return true;
     }
 
@@ -726,8 +727,9 @@ bool melee_actor::call( monster &z ) const
         if( hitspread < 0 ) {
             sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                      sfx::get_heard_angle( z.pos() ) );
-            target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, mon_name,
-                                           body_part_name_accusative( bp_id ) );
+            target->add_msg_player_or_npc( msg_type, miss_msg_u,
+                                           get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : to_translation( "" ),
+                                           mon_name, body_part_name_accusative( bp_id ) );
             return true;
         }
     }
@@ -857,8 +859,9 @@ bool melee_actor::call( monster &z ) const
     } else {
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
-        target->add_msg_player_or_npc( msg_type, no_dmg_msg_u, no_dmg_msg_npc, mon_name,
-                                       body_part_name_accusative( bp_id ) );
+        target->add_msg_player_or_npc( msg_type, no_dmg_msg_u,
+                                       get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? no_dmg_msg_npc : to_translation( "" ),
+                                       mon_name, body_part_name_accusative( bp_id ) );
         if( !effects_require_dmg ) {
             for( const mon_effect_data &eff : effects ) {
                 if( x_in_y( eff.chance, 100 ) ) {
@@ -873,7 +876,9 @@ bool melee_actor::call( monster &z ) const
     if( throw_strength > 0 ) {
         if( g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
                                throw_strength ) ) {
-            target->add_msg_player_or_npc( msg_type, throw_msg_u, throw_msg_npc, mon_name );
+            target->add_msg_player_or_npc( msg_type, throw_msg_u,
+                                           get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? throw_msg_npc : to_translation( "" ),
+                                           mon_name );
 
             // Items strapped to you may fall off as you hit the ground
             // when you break out of a grab you have a chance to lose some things from your pockets
@@ -917,8 +922,9 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     const bodypart_id &bp = dealt.bp_hit ;
     const std::string mon_name = get_player_character().sees( z.pos() ) ?
                                  z.disp_name( false, true ) : _( "Something" );
-    target.add_msg_player_or_npc( msg_type, hit_dmg_u, hit_dmg_npc, mon_name,
-                                  body_part_name_accusative( bp ) );
+    target.add_msg_player_or_npc( msg_type, hit_dmg_u,
+                                  get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? hit_dmg_npc : to_translation( "" ),
+                                  mon_name, body_part_name_accusative( bp ) );
 
     for( const mon_effect_data &eff : effects ) {
         if( x_in_y( eff.chance, 100 ) ) {

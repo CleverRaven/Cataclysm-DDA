@@ -143,6 +143,7 @@ aquaculture
 aquamarines
 aqueles
 aquilops
+arachnophobia
 aramid
 arapaima
 arborescent
@@ -290,6 +291,8 @@ biofuel
 biofuels
 biographic
 biohacker
+biokinesis
+biokinetic
 biollante
 biomachine
 biomancer
@@ -1394,7 +1397,10 @@ hydria
 hydrocracking
 hydrogel
 hygrometer
+hygroscope
+hygroscopes
 hygroscopic
+hygroscopy
 hyolith
 hypacrosaurus
 hyperaggressive
@@ -1639,6 +1645,7 @@ lemony
 lemure
 lense
 leptoceratops
+lessers
 letal
 lettin
 leuchtet
@@ -1668,8 +1675,8 @@ listlessly
 lithely
 litheness
 liturgies
-livingrooms
 livestream
+livingrooms
 lizardfolk
 lizardlike
 ll
@@ -1748,6 +1755,7 @@ massproduced
 masterkey
 mastiffs
 matar
+matchhead
 matryoshka
 mausketeer
 mausoleums
@@ -2341,6 +2349,8 @@ pushmower
 pussywillows
 putrescent
 pwn
+pyrokinesis
+pyrokinetic
 pyrolusite
 pyrolysis
 pyrometer

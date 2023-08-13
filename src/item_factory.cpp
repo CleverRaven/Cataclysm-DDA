@@ -1323,8 +1323,11 @@ void Item_factory::finalize()
             it->second.recipes.push_back( p.first );
         }
     }
+    for( auto &e : m_template_groups ) {
+        auto &isd = e.second;
+        isd->finalize( itype_id::NULL_ID() );
+    }
 }
-
 void item_blacklist_t::clear()
 {
     blacklist.clear();
@@ -1550,8 +1553,8 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        std::optional<int> use( Character *p, item &it, bool a, const tripoint &pos ) const override {
-            return cpp_function( p, &it, a, pos );
+        std::optional<int> use( Character *p, item &it, const tripoint &pos ) const override {
+            return cpp_function( p, &it, pos );
         }
         std::unique_ptr<iuse_actor> clone() const override {
             return std::make_unique<iuse_function_wrapper>( *this );
@@ -1662,6 +1665,7 @@ void Item_factory::init()
     add_iuse( "DATURA", &iuse::datura );
     add_iuse( "DIG", &iuse::dig );
     add_iuse( "DIVE_TANK", &iuse::dive_tank );
+    add_iuse( "DIVE_TANK_ACTIVATE", &iuse::dive_tank_activate );
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
     add_iuse( "DISASSEMBLE", &iuse::disassemble );
     add_iuse( "CRAFT", &iuse::craft );
@@ -1669,6 +1673,8 @@ void Item_factory::init()
     add_iuse( "DOLLCHAT", &iuse::talking_doll );
     add_iuse( "ECIG", &iuse::ecig );
     add_iuse( "EHANDCUFFS", &iuse::ehandcuffs );
+    add_iuse( "EHANDCUFFS_TICK", &iuse::ehandcuffs_tick );
+    add_iuse( "EPIC_MUSIC", &iuse::epic_music );
     add_iuse( "EINKTABLETPC", &iuse::einktabletpc );
     add_iuse( "ELECTRICSTORAGE", &iuse::electricstorage );
     add_iuse( "EBOOKSAVE", &iuse::ebooksave );
@@ -1684,19 +1690,23 @@ void Item_factory::init()
     add_iuse( "FIRECRACKER_PACK_ACT", &iuse::firecracker_pack_act );
     add_iuse( "FISH_ROD", &iuse::fishing_rod );
     add_iuse( "FISH_TRAP", &iuse::fish_trap );
+    add_iuse( "FISH_TRAP_TICK", &iuse::fish_trap_tick );
     add_iuse( "FITNESS_CHECK", &iuse::fitness_check );
     add_iuse( "FLUMED", &iuse::flumed );
     add_iuse( "FLUSLEEP", &iuse::flusleep );
     add_iuse( "FLU_VACCINE", &iuse::flu_vaccine );
     add_iuse( "FOODPERSON", &iuse::foodperson );
+    add_iuse( "FOODPERSON_VOICE", &iuse::foodperson_voice );
     add_iuse( "FUNGICIDE", &iuse::fungicide );
-    add_iuse( "GASMASK", &iuse::gasmask,
+    add_iuse( "GASMASK_ACTIVATE", &iuse::gasmask_activate,
               to_translation( "Can be activated to <good>increase environmental "
                               "protection</good>.  Will consume charges when active, "
                               "but <info>only when environmental hazards are "
                               "present</info>."
                             ) );
+    add_iuse( "GASMASK", &iuse::gasmask );
     add_iuse( "GEIGER", &iuse::geiger );
+    add_iuse( "GEIGER_ACTIVE", &iuse::geiger_active );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
     add_iuse( "GUN_REPAIR", &iuse::gun_repair );
@@ -1731,9 +1741,10 @@ void Item_factory::init()
     add_iuse( "MOP", &iuse::mop );
     add_iuse( "MP3", &iuse::mp3 );
     add_iuse( "MP3_ON", &iuse::mp3_on );
+    add_iuse( "MP3_DEACTIVATE", &iuse::mp3_deactivate );
     add_iuse( "MULTICOOKER", &iuse::multicooker );
+    add_iuse( "MULTICOOKER_TICK", &iuse::multicooker_tick );
     add_iuse( "MYCUS", &iuse::mycus );
-    add_iuse( "NOISE_EMITTER_OFF", &iuse::noise_emitter_off );
     add_iuse( "NOISE_EMITTER_ON", &iuse::noise_emitter_on );
     add_iuse( "OXYGEN_BOTTLE", &iuse::oxygen_bottle );
     add_iuse( "OXYTORCH", &iuse::oxytorch );
@@ -1752,6 +1763,7 @@ void Item_factory::init()
     add_iuse( "RADIOCAR", &iuse::radiocar );
     add_iuse( "RADIOCARON", &iuse::radiocaron );
     add_iuse( "RADIOCONTROL", &iuse::radiocontrol );
+    add_iuse( "RADIOCONTROL_TICK", &iuse::radiocontrol_tick );
     add_iuse( "RADIO_MOD", &iuse::radio_mod );
     add_iuse( "RADIO_OFF", &iuse::radio_off );
     add_iuse( "RADIO_ON", &iuse::radio_on );
@@ -1759,6 +1771,7 @@ void Item_factory::init()
     add_iuse( "BINDER_ADD_RECIPE", &iuse::binder_add_recipe );
     add_iuse( "BINDER_MANAGE_RECIPE", &iuse::binder_manage_recipe );
     add_iuse( "REMOTEVEH", &iuse::remoteveh );
+    add_iuse( "REMOTEVEH_TICK", &iuse::remoteveh_tick );
     add_iuse( "REMOVE_ALL_MODS", &iuse::remove_all_mods );
     add_iuse( "RM13ARMOR_OFF", &iuse::rm13armor_off );
     add_iuse( "RM13ARMOR_ON", &iuse::rm13armor_on );
@@ -2136,9 +2149,9 @@ void Item_factory::check_definitions() const
                 msg += "empty product list\n";
             }
 
-            for( auto &b : type->brewable->results ) {
-                if( !has_template( b ) ) {
-                    msg += string_format( "invalid result id %s\n", b.c_str() );
+            for( const std::pair<const itype_id, int> &b : type->brewable->results ) {
+                if( !has_template( b.first ) ) {
+                    msg += string_format( "invalid result id %s\n", b.first.c_str() );
                 }
             }
         }
@@ -3314,7 +3327,13 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
 void islot_brewable::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "time", time, 1_turns );
-    mandatory( jo, was_loaded, "results", results );
+    if( jo.has_array( "results" ) ) {
+        for( std::string entry : jo.get_string_array( "results" ) ) {
+            results[itype_id( entry )] = 1;
+        }
+    } else {
+        mandatory( jo, was_loaded, "results", results );
+    }
 }
 
 void islot_brewable::deserialize( const JsonObject &jo )
@@ -4881,6 +4900,9 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
     use_modifier |= load_min_max( modifier.charges, obj, "charges" );
     use_modifier |= load_min_max( modifier.count, obj, "count" );
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
+    if( obj.has_string( "entry-wrapper" ) ) {
+        sptr->set_container_item( itype_id( obj.get_string( "entry-wrapper" ) ) );
+    }
     use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
     use_modifier |= load_str_arr( modifier.snippets, obj, "snippets" );

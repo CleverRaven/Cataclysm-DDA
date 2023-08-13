@@ -1717,5 +1717,66 @@
       [ [ "copper", 3 ] ],
       [ [ "incendiary", 6 ] ]
     ]
+  },
+  {
+    "result": "matchhead_22_fmj",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_pistol", 2 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
+    "components": [ [ [ "22_casing_new", 1 ] ], [ [ "red_phosphorous", 1 ] ], [ [ "copper", 1 ] ] ]
+  },
+  {
+    "result": "matchhead_22_lr",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_pistol", 2 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
+    "components": [ [ [ "22_casing_new", 1 ] ], [ [ "red_phosphorous", 1 ] ] ]
+  },
+  {
+    "result": "matchhead_30carbine",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 20 ] ],
+    "//": "971 mg gunpowder rounded to 10 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
+    "components": [
+      [ [ "30carbine_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "red_phosphorous", 10 ] ],
+      [ [ "lead", 1 ] ],
+      [ [ "copper", 1 ] ]
+    ]
   }
 ]

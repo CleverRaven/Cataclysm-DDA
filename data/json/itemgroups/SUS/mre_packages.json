@@ -93,8 +93,14 @@
       { "item": "heatpack" },
       {
         "distribution": [
-          { "item": "can_cheese", "charges": 8, "container-item": "mre_bag_small", "sealed": true },
-          { "item": "spread_peanutbutter", "charges": 1, "container-item": "mre_bag_small", "sealed": true }
+          { "item": "can_cheese", "count": 8, "container-item": "null", "entry-wrapper": "mre_bag_small", "sealed": true },
+          {
+            "item": "spread_peanutbutter",
+            "count": 1,
+            "container-item": "null",
+            "entry-wrapper": "mre_bag_small",
+            "sealed": true
+          }
         ]
       },
       { "sealed": true, "group": "crackers_mre_bag_small_2" },

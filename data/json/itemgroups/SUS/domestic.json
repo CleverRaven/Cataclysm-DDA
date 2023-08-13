@@ -523,7 +523,13 @@
         "distribution": [
           { "item": "coffee_raw", "prob": 30 },
           { "item": "instant_coffee", "prob": 40, "count": [ 1, 5 ] },
-          { "item": "coffee_raw", "prob": 30, "charges": [ 1, 200 ], "container-item": "can_food_big" }
+          {
+            "item": "coffee_raw",
+            "prob": 30,
+            "count": [ 1, 200 ],
+            "container-item": "null",
+            "entry-wrapper": "can_food_big"
+          }
         ],
         "prob": 80
       },
@@ -534,7 +540,14 @@
       { "prob": 90, "sealed": false, "group": "sugar_jar_glass_sealed_10_120" },
       {
         "distribution": [
-          { "item": "milk_powder", "charges": [ 5, 20 ], "container-item": "jar_glass_sealed", "prob": 60, "sealed": false },
+          {
+            "item": "milk_powder",
+            "count": [ 5, 20 ],
+            "container-item": "null",
+            "entry-wrapper": "jar_3l_glass_sealed",
+            "prob": 60,
+            "sealed": false
+          },
           { "item": "con_milk", "count": [ 1, 6 ], "prob": 10 },
           { "item": "milk_evap", "count": [ 1, 6 ], "prob": 20 },
           { "item": "milk_UHT", "prob": 10 }
@@ -562,16 +575,34 @@
           { "item": "toaster" },
           {
             "distribution": [
-              { "item": "bread", "charges": [ 2, 14 ], "prob": 70 },
-              { "item": "sourdough_bread", "charges": [ 2, 12 ], "prob": 30 }
+              { "item": "bread", "count": [ 2, 14 ], "prob": 70, "container-item": "null", "entry-wrapper": "bag_plastic" },
+              {
+                "item": "sourdough_bread",
+                "count": [ 2, 12 ],
+                "prob": 30,
+                "container-item": "null",
+                "entry-wrapper": "bag_plastic"
+              }
             ],
             "prob": 80
           },
           {
             "distribution": [
-              { "item": "toastem", "charges": [ 1, 8 ], "prob": 40 },
-              { "item": "toastem2", "charges": [ 1, 8 ], "prob": 30 },
-              { "item": "toastem3", "charges": [ 1, 8 ], "prob": 30 }
+              { "item": "toastem", "count": [ 1, 8 ], "prob": 40, "container-item": "null", "entry-wrapper": "box_small" },
+              {
+                "item": "toastem2",
+                "count": [ 1, 8 ],
+                "prob": 30,
+                "container-item": "null",
+                "entry-wrapper": "box_small"
+              },
+              {
+                "item": "toastem3",
+                "count": [ 1, 8 ],
+                "prob": 30,
+                "container-item": "null",
+                "entry-wrapper": "box_small"
+              }
             ],
             "prob": 60
           }
@@ -590,7 +621,14 @@
       },
       {
         "distribution": [
-          { "item": "milk_powder", "charges": [ 5, 20 ], "container-item": "jar_glass_sealed", "prob": 60, "sealed": false },
+          {
+            "item": "milk_powder",
+            "count": [ 5, 20 ],
+            "container-item": "null",
+            "entry-wrapper": "jar_3l_glass_sealed",
+            "prob": 60,
+            "sealed": false
+          },
           { "item": "milk_evap", "count": [ 1, 6 ], "prob": 20 },
           { "item": "milk_UHT", "prob": 20 }
         ],
@@ -624,10 +662,34 @@
       {
         "distribution": [
           { "item": "pot", "prob": 20 },
-          { "item": "tuna_noodle_casserole", "charges": 8, "container-item": "casserole", "prob": 10 },
-          { "item": "hot_corn_casserole", "charges": 8, "container-item": "casserole", "prob": 10 },
-          { "item": "cheesy_spinach_casserole", "charges": 8, "container-item": "casserole", "prob": 5 },
-          { "item": "lazy_lobster_casserole", "charges": 8, "container-item": "casserole", "prob": 2 },
+          {
+            "item": "tuna_noodle_casserole",
+            "count": 4,
+            "container-item": "null",
+            "entry-wrapper": "casserole",
+            "prob": 10
+          },
+          {
+            "item": "hot_corn_casserole",
+            "count": 4,
+            "container-item": "null",
+            "entry-wrapper": "casserole",
+            "prob": 10
+          },
+          {
+            "item": "cheesy_spinach_casserole",
+            "count": 4,
+            "container-item": "null",
+            "entry-wrapper": "casserole",
+            "prob": 5
+          },
+          {
+            "item": "lazy_lobster_casserole",
+            "count": 4,
+            "container-item": "null",
+            "entry-wrapper": "casserole",
+            "prob": 2
+          },
           { "item": "pot_copper", "prob": 5 },
           { "item": "iron_pot", "prob": 5 }
         ],
@@ -705,9 +767,27 @@
     "entries": [
       {
         "distribution": [
-          { "item": "aspirin", "prob": 160, "charges": [ 1, 30 ] },
-          { "item": "codeine", "prob": 30, "charges": [ 1, 15 ] },
-          { "item": "tramadol", "prob": 10, "charges": [ 1, 15 ] }
+          {
+            "item": "aspirin",
+            "prob": 160,
+            "count": [ 1, 30 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_painkiller"
+          },
+          {
+            "item": "codeine",
+            "prob": 30,
+            "count": [ 1, 15 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_painkiller"
+          },
+          {
+            "item": "tramadol",
+            "prob": 10,
+            "count": [ 1, 15 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_painkiller"
+          }
         ],
         "prob": 95
       },
@@ -723,8 +803,20 @@
       { "group": "alcohol_wipes_box_used", "prob": 60 },
       {
         "distribution": [
-          { "item": "pills_sleep", "prob": 60, "charges": [ 1, 10 ] },
-          { "item": "melatonin_tablet", "prob": 40, "charges": [ 1, 30 ] }
+          {
+            "item": "pills_sleep",
+            "prob": 60,
+            "count": [ 1, 10 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          },
+          {
+            "item": "melatonin_tablet",
+            "prob": 40,
+            "count": [ 1, 30 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          }
         ],
         "prob": 10
       },
@@ -744,46 +836,71 @@
       },
       {
         "distribution": [
-          { "item": "vitamins", "prob": 60, "charges-min": 1, "charges-max": 40, "container-item": "bottle_plastic_small" },
+          {
+            "item": "vitamins",
+            "prob": 60,
+            "count-min": 1,
+            "count-max": 40,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_small"
+          },
           {
             "item": "gummy_vitamins",
             "prob": 20,
-            "charges-min": 1,
-            "charges-max": 20,
-            "container-item": "bottle_plastic_small"
+            "count-min": 1,
+            "count-max": 20,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_small"
           },
           {
             "item": "calcium_tablet",
             "prob": 10,
-            "charges-min": 1,
-            "charges-max": 40,
-            "container-item": "bottle_plastic_small"
+            "count-min": 1,
+            "count-max": 40,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_small"
           }
         ],
         "prob": 80
       },
       {
         "distribution": [
-          { "item": "weak_antibiotic", "prob": 40, "charges-min": 1, "charges-max": 20, "container-item": "bottle_plastic_small" },
+          {
+            "item": "weak_antibiotic",
+            "prob": 40,
+            "count-min": 1,
+            "count-max": 20,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_small"
+          },
           {
             "item": "antibiotics",
             "prob": 10,
-            "charges-min": 1,
-            "charges-max": 20,
-            "container-item": "bottle_plastic_small"
+            "count-min": 1,
+            "count-max": 20,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_small"
           }
         ],
         "prob": 10
       },
       {
         "distribution": [
-          { "item": "antifungal", "prob": 5, "charges-min": 1, "charges-max": 10, "container-item": "bottle_plastic_small" },
+          {
+            "item": "antifungal",
+            "prob": 5,
+            "count-min": 1,
+            "count-max": 10,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_small"
+          },
           {
             "item": "antiparasitic",
             "prob": 20,
-            "charges-min": 1,
-            "charges-max": 10,
-            "container-item": "bottle_plastic_small"
+            "count-min": 1,
+            "count-max": 10,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
           }
         ],
         "prob": 5

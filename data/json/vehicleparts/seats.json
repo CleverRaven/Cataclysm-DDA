@@ -157,6 +157,7 @@
     "item": "sheet",
     "folded_volume": "2500 ml",
     "location": "anywhere",
+    "requirements": { "repair": { "skills": [ [ "tailor", 2 ] ], "time": "200 s", "using": [ [ "sewing_standard", 4 ] ] } },
     "breaks_into": [ { "item": "cotton_patchwork", "count": [ 1, 6 ] } ],
     "variants": [ { "symbols": "#", "symbols_broken": "*" } ]
   },
