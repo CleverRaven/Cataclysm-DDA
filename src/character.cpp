@@ -6698,7 +6698,8 @@ void Character::burn_energy_arms( int mod )
     }
     // if we have at least 1 organic limb, burn stamina
     if( bionic_limb_count < total_limb_count ) {
-		add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed stamina cost: %.1f", mod - mod * ( bionic_limb_count / total_limb_count ) );
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "Proposed stamina cost: %.1f",
+                       mod - mod * ( bionic_limb_count / total_limb_count ) );
         mod_stamina( mod - mod * ( bionic_limb_count / total_limb_count ) );
     }
 }
