@@ -464,7 +464,7 @@
     "id": "nail_puller_bronze",
     "type": "TOOL",
     "name": { "str": "bronze nail puller" },
-    "description": "A crude nail puller made of bronze.  But it does get the job of pulling out nails.",
+    "description": "A crude nail puller made of bronze.  Not really as good as its steel alternative but it gets job of pulling out nails good enough.",
     "symbol": "N",
     "weight": "650 g",
     "volume": "340 ml",
@@ -474,6 +474,21 @@
     "material": [ "bronze" ],
     "qualities": [ [ "PRYING_NAIL", 1 ], [ "HAMMER", 1 ], [ "PRY", 1 ] ],
     "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "saw_bronze",
+    "type": "TOOL",
+    "name": { "str": "bronze wood saw" },
+    "description": "A simple wood saw made of bronze.  Not as great as its steel equivalent, but it's good enough.",
+    "symbol": "W",
+    "weight": "450 g",
+    "volume": "1 L",
+    "longest_side": "50 cm",
+    "price": "16 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "bronze" ],
+    "qualities": [ [ "AXE", 1 ], [ "SAW_W", 2 ] ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "hand_drill",
