@@ -32,7 +32,6 @@
     "flags": [ "SECRET" ],
     "difficulty": 2,
     "time": "160 m",
-    "result_mult": 3,
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_inorganic_chemistry" },
@@ -41,7 +40,8 @@
     ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "corpse_ash", 1 ] ], [ [ "poppy_bud", 1 ] ], [ [ "royal_jelly", 1 ] ] ]
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "corpse_ash", 1 ] ], [ [ "poppy_bud", 1 ] ], [ [ "royal_jelly", 1 ] ] ],
+    "charges": 3
   },
   {
     "type": "recipe",
@@ -53,9 +53,9 @@
     "difficulty": 3,
     "time": "1 m",
     "batch_time_factors": [ 50, 4 ],
-    "result_mult": 6,
     "flags": [ "SECRET" ],
-    "components": [ [ [ "energy_drink", 3 ] ], [ [ "vodka", 3 ], [ "tequila", 3 ] ], [ [ "lotus_blossom", 1 ] ] ]
+    "components": [ [ [ "energy_drink", 3 ] ], [ [ "vodka", 3 ], [ "tequila", 3 ] ], [ [ "lotus_blossom", 1 ] ] ],
+    "charges": 6
   },
   {
     "type": "recipe",
@@ -104,7 +104,6 @@
     "skill_used": "deduction",
     "difficulty": 6,
     "time": "1 h",
-    "result_mult": 20,
     "batch_time_factors": [ 80, 1 ],
     "flags": [ "SECRET" ],
     "proficiencies": [
@@ -133,7 +132,7 @@
       [ [ "scrap_dreamdross", 5 ] ],
       [ [ "lotus_blossom", 2 ] ]
     ],
-    "charges": 5
+    "charges": 100
   },
   {
     "type": "recipe",
