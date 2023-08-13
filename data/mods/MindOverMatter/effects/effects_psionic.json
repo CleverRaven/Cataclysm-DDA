@@ -619,10 +619,10 @@
       [ "Your ability to sense radiation is fading.", "bad" ]
     ],
     "rating": "good",
-    "max_duration": "12 hours",
-    "max_intensity": 142,
+    "max_duration": "6 hours",
+    "max_intensity": 198,
     "dur_add_perc": 10,
-    "int_dur_factor": "102 s",
+    "int_dur_factor": "109 s",
     "enchantments": [ "enchant_clair_sense_rads" ]
   },
   {
