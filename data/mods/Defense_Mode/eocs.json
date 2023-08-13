@@ -34,6 +34,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "defense_mode_hire_merc_true",
+    "global": true,
+    "effect": [ { "u_spawn_npc": "follower_mercenary", "real_count": 1, "min_radius": 2, "max_radius": 3 } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "defense_mode_money_add",
     "global": true,
     "effect": [ { "math": [ "wave_cash", "=", "wave_cash_number * -1000" ] } ]
