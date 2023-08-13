@@ -320,24 +320,9 @@
     "id": "mc_chainmail_face",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_face",
-    "material": [ "mc_steel_chain" ],
     "name": { "str": "medium steel chainmail partial aventail" },
     "description": "A wide medium steel chainmail ring designed to attach to a cap helmet, hanging down to extend protection to the face and neck.",
-    "armor": [
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_nape", "head_throat" ],
-        "coverage": 90,
-        "encumbrance": 5
-      },
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "mouth" ],
-        "coverage": 100,
-        "encumbrance": 5
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_mc_chainmail_face",
@@ -361,24 +346,9 @@
     "id": "hc_chainmail_face",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_face",
-    "material": [ "hc_steel_chain" ],
     "name": { "str": "high steel chainmail partial aventail" },
     "description": "A wide high steel chainmail ring designed to attach to a cap helmet, hanging down to extend protection to the face and neck.",
-    "armor": [
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_nape", "head_throat" ],
-        "coverage": 90,
-        "encumbrance": 5
-      },
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "mouth" ],
-        "coverage": 100,
-        "encumbrance": 5
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_hc_chainmail_face",
@@ -402,24 +372,9 @@
     "id": "qt_chainmail_face",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_face",
-    "material": [ "qt_steel_chain" ],
     "name": { "str": "tempered steel chainmail partial aventail" },
     "description": "A wide tempered steel chainmail ring designed to attach to a cap helmet, hanging down to extend protection to the face and neck.",
-    "armor": [
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_nape", "head_throat" ],
-        "coverage": 90,
-        "encumbrance": 5
-      },
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "mouth" ],
-        "coverage": 100,
-        "encumbrance": 5
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_qt_chainmail_face",
@@ -446,21 +401,7 @@
     "material": [ "ch_steel_chain" ],
     "name": { "str": "hardened steel chainmail partial aventail" },
     "description": "A wide hardened steel chainmail ring designed to attach to a cap helmet, hanging down to extend protection to the face and neck.",
-    "armor": [
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_nape", "head_throat" ],
-        "coverage": 90,
-        "encumbrance": 5
-      },
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "mouth" ],
-        "coverage": 100,
-        "encumbrance": 5
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_ch_chainmail_face",
@@ -534,24 +475,9 @@
     "id": "mc_chainmail_aventail",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_aventail",
-    "material": [ "mc_steel_chain" ],
     "name": { "str": "medium steel chainmail aventail" },
     "description": "A wide medium steel chainmail draping designed to attach to a cap helmet, hanging down to extend protection to the face, neck and shoulders.",
-    "armor": [
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "arm_l", "arm_r" ],
-        "specifically_covers": [ "head_nape", "head_throat", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 90,
-        "encumbrance": 5
-      },
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "mouth" ],
-        "coverage": 100,
-        "encumbrance": 5
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_mc_chainmail_aventail",
@@ -575,24 +501,9 @@
     "id": "hc_chainmail_aventail",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_aventail",
-    "material": [ "hc_steel_chain" ],
     "name": { "str": "high steel chainmail aventail" },
     "description": "A wide high steel chainmail draping designed to attach to a cap helmet, hanging down to extend protection to the face, neck and shoulders.",
-    "armor": [
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "arm_l", "arm_r" ],
-        "specifically_covers": [ "head_nape", "head_throat", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 90,
-        "encumbrance": 5
-      },
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "mouth" ],
-        "coverage": 100,
-        "encumbrance": 5
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_hc_chainmail_aventail",
@@ -616,24 +527,9 @@
     "id": "qt_chainmail_aventail",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_aventail",
-    "material": [ "qt_steel_chain" ],
     "name": { "str": "tempered steel chainmail aventail" },
     "description": "A wide tempered steel draping designed to attach to a cap helmet, hanging down to extend protection to the face, neck and shoulders.",
-    "armor": [
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "arm_l", "arm_r" ],
-        "specifically_covers": [ "head_nape", "head_throat", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 90,
-        "encumbrance": 5
-      },
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "mouth" ],
-        "coverage": 100,
-        "encumbrance": 5
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_qt_chainmail_aventail",
@@ -657,24 +553,9 @@
     "id": "ch_chainmail_aventail",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_aventail",
-    "material": [ "ch_steel_chain" ],
     "name": { "str": "hardened steel chainmail aventail" },
     "description": "A wide hardened steel draping designed to attach to a cap helmet, hanging down to extend protection to the face, neck and shoulders.",
-    "armor": [
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "arm_l", "arm_r" ],
-        "specifically_covers": [ "head_nape", "head_throat", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 90,
-        "encumbrance": 5
-      },
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "mouth" ],
-        "coverage": 100,
-        "encumbrance": 5
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_ch_chainmail_aventail",
@@ -748,24 +629,9 @@
     "id": "mc_steel_facemask",
     "type": "ARMOR",
     "copy-from": "lc_steel_facemask",
-    "material": [ "mc_steel" ],
     "name": { "str": "medium steel armored face mask" },
     "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of medium carbon steel, and at least has some ornamentation, but not much.",
-    "armor": [
-      {
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_forehead" ],
-        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "encumbrance": 7,
-        "coverage": 100
-      },
-      {
-        "covers": [ "mouth" ],
-        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "encumbrance": 7,
-        "coverage": 100
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "xl_mc_steel_facemask",
@@ -789,24 +655,9 @@
     "id": "hc_steel_facemask",
     "type": "ARMOR",
     "copy-from": "lc_steel_facemask",
-    "material": [ "hc_steel" ],
     "name": { "str": "high steel armored face mask" },
     "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of high carbon steel, and you've got it with a fancy mustache and everything.",
-    "armor": [
-      {
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_forehead" ],
-        "material": [ { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "encumbrance": 7,
-        "coverage": 100
-      },
-      {
-        "covers": [ "mouth" ],
-        "material": [ { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "encumbrance": 7,
-        "coverage": 100
-      }
-    ]
+    "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
     "id": "xl_hc_steel_facemask",
@@ -829,31 +680,11 @@
   {
     "id": "qt_steel_facemask",
     "type": "ARMOR",
-    "copy-from": "lc_steel_facemask",
+    "copy-from": "ch_steel_facemask",
     "material": [ "qt_steel", "gold" ],
     "name": { "str": "tempered steel armored face mask" },
     "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of tempered steel with gold inlays and a setting for a gemstone.  This isn't just surviving the apocalypse, this is about living truly apocalypse fancy.",
-    "armor": [
-      {
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_forehead" ],
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "gold", "covered_by_mat": 25, "thickness": 0.1 }
-        ],
-        "encumbrance": 7,
-        "coverage": 100
-      },
-      {
-        "covers": [ "mouth" ],
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "gold", "covered_by_mat": 25, "thickness": 0.1 }
-        ],
-        "encumbrance": 7,
-        "coverage": 100
-      }
-    ],
+    "replace_materials": { "ch_steel": "qt_steel" },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
