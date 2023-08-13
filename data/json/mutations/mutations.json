@@ -1229,7 +1229,7 @@
     "id": "MARTIAL_KICKBOXING",
     "name": { "str": "Cage Fighter" },
     "points": 0,
-    "description": "You were a brutal cage fighter, mastering the art of kickboxing through pain and perseverence.",
+    "description": "You were a brutal cage fighter, mastering the art of kickboxing through pain and perseverance.",
     "initial_ma_styles": [ "style_kickboxing" ],
     "valid": false
   },

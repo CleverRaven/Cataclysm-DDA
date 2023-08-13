@@ -6688,7 +6688,7 @@
     "type": "profession",
     "id": "soviet_reenactor",
     "name": "Red Army Soldier",
-    "description": "You are a massive history buff when it comes down to the Second World War. You were dressed as a Red Army soldier on your way to test your mettle at a gun match with your PPSh, but the Cataclysm derailed your plans.  Now you're going to feel like a real soldier.",
+    "description": "You are a massive history buff when it comes down to the Second World War.  You were dressed as a Red Army soldier on your way to test your mettle at a gun match with your PPSh, but the Cataclysm derailed your plans.  Now you're going to feel like a real soldier.",
     "points": 4,
     "proficiencies": [ "prof_gun_cleaning" ],
     "skills": [
@@ -7133,7 +7133,7 @@
     "type": "profession",
     "id": "getaway",
     "name": "Getaway Driver",
-    "description": "You were supposed to drive your accomplices to safety, but you decided to bail after bystanders started banging on your SUV. You may have let your crew down, but you got away with your life.",
+    "description": "You were supposed to drive your accomplices to safety, but you decided to bail after bystanders started banging on your SUV.  You may have let your crew down, but you got away with your life.",
     "points": 4,
     "skills": [ { "level": 6, "name": "driving" }, { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" } ],
     "vehicle": "suv",
