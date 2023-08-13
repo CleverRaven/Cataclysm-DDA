@@ -2178,7 +2178,7 @@
     "items": {
       "both": {
         "items": [ "jeans", "longshirt", "socks", "sneakers", "knit_scarf", "pockknife", "water_clean", "wristwatch", "mbag" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" }, { "item": "catfood_dry" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" }, { "item": "catfood_dry", "count": 10 } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -5481,7 +5481,7 @@
           "multitool",
           "wristwatch",
           "boots",
-          "aspirin",
+          { "item": "aspirin", "count": 5 },
           "adrenaline_injector",
           { "item": "adhesive_bandages", "count": 8 }
         ],
@@ -5704,8 +5704,11 @@
     ],
     "items": {
       "both": {
-        "items": [ "hoodie", "jeans", "mbag", "socks", "sneakers", "bandana", "gloves_medical", "switchblade", "crack" ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "items": [ "hoodie", "jeans", "mbag", "socks", "sneakers", "bandana", "gloves_medical", "switchblade" ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "item": "crack", "count": 25, "container-item": "null", "entry-wrapper": "bag_zipper" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "boy_shorts" ]
@@ -5741,7 +5744,7 @@
         ],
         "entries": [
           { "group": "charged_cell_phone" },
-          { "item": "cigar", "entry-wrapper": "case_cigar", "count": 2 },
+          { "item": "cigar", "entry-wrapper": "case_cigar", "container-item": "null", "count": 2 },
           { "item": "deagle_44", "ammo-item": "44fmj", "container-item": "holster", "charges": 8 },
           { "item": "deaglemag", "ammo-item": "44fmj", "charges": 8, "count": 2 },
           { "item": "knuckle_brass", "container-item": "tux" }
