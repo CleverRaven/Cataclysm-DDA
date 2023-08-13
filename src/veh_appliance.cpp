@@ -515,27 +515,36 @@ void veh_app_interact::plug()
 
 void veh_app_interact::merge()
 {
-    const std::optional<tripoint> dir = choose_direction(
-                                            _( "Merge the appliance into which grid?" ) );
-    if( !dir ) {
+    map &here = get_map();
+
+    const int part = veh->part_at( a_point );
+    const tripoint app_pos = veh->global_part_pos3( part );
+
+    const std::function<bool( const tripoint & )> f = [&here, app_pos]( const tripoint & pnt ) {
+        if( pnt == app_pos ) {
+            return false;
+        }
+        const optional_vpart_position target_vp = here.veh_at( pnt );
+        if( !target_vp ) {
+            return false;
+        }
+        vehicle &target_veh = target_vp->vehicle();
+        if( !target_veh.has_tag( flag_APPLIANCE ) || !target_veh.is_powergrid() ) {
+            return false;
+        }
+        return true;
+    };
+
+    const std::optional<tripoint> target_pos = choose_adjacent_highlight( app_pos,
+            _( "Merge the appliance into which grid?" ), _( "Target must be adjacent." ), f, false, false );
+    if( !target_pos ) {
         return;
     }
-
-    const tripoint target_pos = get_player_character().pos() + *dir;
-    map &here = get_map();
-    const optional_vpart_position target_vp = here.veh_at( target_pos );
+    const optional_vpart_position target_vp = here.veh_at( *target_pos );
     if( !target_vp ) {
         return;
     }
     vehicle &target_veh = target_vp->vehicle();
-    if( !target_veh.has_tag( flag_APPLIANCE ) ) {
-        popup( _( "Target must be an appliance." ) );
-        return;
-    }
-    if( !target_veh.is_powergrid() ) {
-        popup( _( "A power grid must be wires, power generation or batteries." ) );
-        return;
-    }
     veh->merge_appliance_into_grid( target_veh );
 }
 
