@@ -2,7 +2,6 @@
   {
     "type": "terrain",
     "id": "t_carpet_concrete_green_olight",
-    "copy-from": "t_carpet_base_concrete",
     "name": "industrial green carpet",
     "description": "Firm, low-pile, high-durability carpet in a green color, for laying down on bare concrete, with a still-functioning light attached to the ceiling above.",
     "symbol": ".",
@@ -33,7 +32,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "THIN_OBSTACLE", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "THIN_OBSTACLE", "MINEABLE", "UNSTABLE", "INDOORS" ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -53,7 +52,7 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": -1,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "INDOORS", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -81,10 +80,11 @@
     "description": "This space is infinite, and has no beginning or end.  But you can see both right here, in this churning mass of angles.",
     "symbol": "{",
     "color": "light_gray",
+    "light_emitted": 120,
     "looks_like": "f_machinery_electronic",
     "move_cost": -1,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "INDOORS", "PERMEABLE" ],
     "bash": { "str_min": 5, "str_max": 15, "explosive": 10, "ter_set": "t_LIXA_thconc_floor", "sound_fail": "clang!" }
   },
   {
@@ -97,7 +97,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "THIN_OBSTACLE", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "INDOORS", "THIN_OBSTACLE", "UNSTABLE", "MINEABLE" ],
     "bash": {
       "str_min": 7,
       "str_max": 17,
@@ -114,9 +114,10 @@
     "description": "Gobbets of congealed light drip from the gash in the side of this chamber like hot marmalade.",
     "symbol": "1",
     "color": "light_gray",
+    "light_emitted": 120,
     "move_cost": 0,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "THIN_OBSTACLE", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "INDOORS", "THIN_OBSTACLE", "UNSTABLE", "MINEABLE" ],
     "emissions": [ "emit_congealed_light" ]
   },
   {
@@ -156,7 +157,7 @@
     "color": "pink",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "flags": [ "NOITEM", "CONNECT_WITH_WALL", "INDOORS" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "LIXA_SCIENCE_CARD" ],
@@ -184,7 +185,7 @@
     "color": "pink",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "flags": [ "NOITEM", "INDOORS", "CONNECT_WITH_WALL" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "LIXA_SCIENCE_CARD_2" ],
@@ -212,7 +213,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL" ],
+    "flags": [ "NOITEM", "INDOORS", "CONNECT_WITH_WALL" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "LIXA_MILITARY_CARD" ],
@@ -284,5 +285,31 @@
     "move_cost_mod": 1,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "NOCOLLIDE" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_lixa_whiteboard",
+    "name": "whiteboard",
+    "description": "A wide space of whiteboard, for writing on with washable markers.  No one has washed it in a long time, though;  it is covered in dense scrawls of equations and waveform diagarams.",
+    "symbol": "6",
+    "color": "blue",
+    "looks_like": "f_bulletin",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE", "ORGANIC", "TRANSPARENT" ],
+    "max_volume": "120 ml",
+    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 4, 8 ] } ] },
+    "bash": {
+      "str_min": 3,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "nail", "charges": [ 4, 6 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
   }
 ]
