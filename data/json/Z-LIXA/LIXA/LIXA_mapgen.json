@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "LIXA_surface_1a", "LIXA_surface_2a" ], [ "LIXA_surface_2a", "LIXA_surface_2b" ] ],
+    "om_terrain": [ [ "LIXA_surface_1a", "LIXA_surface_1b" ], [ "LIXA_surface_2a", "LIXA_surface_2b" ] ],
     "object": {
       "fill_ter": "t_pavement",
       "rows": [
@@ -52,23 +52,18 @@
         "/                  /      /////       /T+.....l/",
         "/                  /DDDDDDDe../       ///..i.../",
         "/                  /      w{../       ///....../",
-        "/                  /      w{H.d      7/T+.l/L/L/",
+        "/                  /      w{H.d       /T+.l/L/L/",
         "////////////////////      //////////////////////"
       ],
       "palettes": [ "LIXA_ground_palette" ],
       "items": {
-        "l": [
-          { "item": "army_personal_locker", "chance": 50, "repeat": [ 5, 10 ] },
-          { "item": "mil_base_coats", "chance": 10 },
-          { "item": "LIXA_mil_file", "chance": 30, "repeat": 1 }
-        ],
+        "l": [ { "item": "army_personal_locker", "chance": 50, "repeat": [ 5, 10 ] }, { "item": "mil_base_coats", "chance": 10 } ],
         "K": [ { "item": "army_bed", "chance": 30, "repeat": [ 1, 2 ] } ],
         "!": [
           { "item": "military_standard_assault_rifles", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "military_ballistic_vest_light", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "military_patrol_food", "chance": 40, "repeat": [ 3, 6 ] },
-          { "item": "military_patrol_food", "chance": 40, "repeat": [ 3, 6 ] },
-          { "item": "id_LIXA_mil", "chance": 40, "repeat": 1 }
+          { "item": "military_patrol_food", "chance": 40, "repeat": [ 3, 6 ] }
         ],
         "R": [
           { "item": "military_patrol_food", "chance": 40, "repeat": [ 5, 7 ] },
@@ -76,11 +71,6 @@
           { "item": "softdrinks_canned", "chance": 40, "repeat": [ 3, 6 ] },
           { "item": "salty_snacks", "chance": 40, "repeat": [ 3, 6 ] },
           { "item": "alcohol_bottled_canned", "chance": 40, "repeat": [ 3, 6 ] }
-        ],
-        "$": [
-          { "item": "LIXA_generic_file", "chance": 100, "repeat": [ 4, 8 ] },
-          { "item": "LIXA_lab_file", "chance": 10, "repeat": 1 },
-          { "item": "id_LIXA", "chance": 20, "repeat": 1 }
         ],
         "?": [
           { "item": "tools_workshop", "chance": 40, "repeat": [ 1, 2 ] },
@@ -93,6 +83,15 @@
           { "item": "foodintincan", "chance": 40, "repeat": [ 2, 4 ] }
         ]
       },
+      "item": {
+        "$": [
+          { "item": "LIXA_generic_file", "chance": 3, "repeat": [ 4, 8 ] },
+          { "item": "LIXA_lab_file", "chance": 5 },
+          { "item": "id_LIXA", "chance": 6 }
+        ],
+        "!": [ { "item": "id_LIXA_mil", "chance": 10 } ],
+        "l": [ { "item": "LIXA_mil_file", "chance": 8 } ]
+      },
       "computers": {
         "0": {
           "name": "Presentation Computer",
@@ -100,15 +99,15 @@
           "chat_topics": [ "LIXA_presentation_computer_main" ]
         }
       },
-      "place_items": [ { "item": "microwave", "x": 41, "y": 35, "chance": 100 } ],
+      "place_item": [ { "item": "microwave", "x": 41, "y": 33, "chance": 1 }, { "item": "id_LIXA", "x": 14, "y": 14, "chance": 1 } ],
       "place_monsters": [
-        { "monster": "GROUP_MIL_STRONG", "x": [ 1, 13 ], "y": [ 14, 23 ], "repeat": [ 1, 3 ], "density": 0.1 },
-        { "monster": "GROUP_MIL_STRONG", "x": [ 35, 45 ], "y": [ 4, 15 ], "repeat": [ 1, 3 ], "density": 0.1 },
-        { "monster": "GROUP_MIL_STRONG", "x": [ 25, 37 ], "y": [ 25, 42 ], "repeat": [ 2, 4 ], "density": 0.1 },
-        { "monster": "GROUP_MIL_STRONG", "x": [ 40, 46 ], "y": [ 25, 32 ], "repeat": [ 3, 5 ], "density": 0.1 },
-        { "monster": "GROUP_MIL_STRONG", "x": [ 40, 46 ], "y": [ 35, 42 ], "repeat": [ 3, 5 ], "density": 0.1 },
-        { "monster": "GROUP_MIL_STRONG", "x": [ 3, 10 ], "y": [ 28, 41 ], "repeat": [ 2, 4 ], "density": 0.1 },
-        { "monster": "GROUP_CIVILIAN_NO_FERAL", "x": [ 14, 23 ], "y": [ 13, 21 ], "repeat": [ 3, 6 ], "density": 0.1 }
+        { "monster": "GROUP_MIL_STRONG", "x": [ 1, 13 ], "y": [ 14, 23 ], "density": 0.1 },
+        { "monster": "GROUP_MIL_STRONG", "x": [ 35, 45 ], "y": [ 4, 15 ], "density": 0.1 },
+        { "monster": "GROUP_MIL_STRONG", "x": [ 25, 37 ], "y": [ 25, 42 ], "density": 0.1 },
+        { "monster": "GROUP_MIL_STRONG", "x": [ 40, 46 ], "y": [ 25, 32 ], "density": 0.1 },
+        { "monster": "GROUP_MIL_STRONG", "x": [ 40, 46 ], "y": [ 35, 42 ], "density": 0.1 },
+        { "monster": "GROUP_MIL_STRONG", "x": [ 3, 10 ], "y": [ 28, 41 ], "density": 0.1 },
+        { "monster": "GROUP_CIVILIAN_NO_FERAL", "x": [ 14, 23 ], "y": [ 13, 21 ], "density": 0.1 }
       ],
       "signs": { "P": { "signage": "LIXA" } },
       "place_vehicles": [ { "vehicle": "military_cargo_truck", "x": 14, "y": 36, "chance": 100, "rotation": 270 } ]
@@ -276,7 +275,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { " ": "t_rock", "<": "t_stairs_up", "_": "t_stairs_down", "/": "t_strconc_wall" }
+      "terrain": { " ": "t_rock", "<": "t_stairs_up", ">": "t_stairs_down", "/": "t_strconc_wall" }
     }
   },
   {
@@ -310,7 +309,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { " ": "t_rock", "<": "t_stairs_up", "_": "t_stairs_down", "/": "t_strconc_wall" }
+      "terrain": { " ": "t_rock", "<": "t_stairs_up", ">": "t_stairs_down", "/": "t_strconc_wall" }
     }
   },
   {
@@ -325,8 +324,8 @@
         "                        ",
         "                        ",
         "                        ",
-        "                        ",
         "     //////             ",
+        "     /____/             ",
         "     /____/             ",
         "     /____/             ",
         "     /____/             ",
@@ -350,7 +349,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "LIXA__roof_1a", "LIXA_roof_1b" ], [ "LIXA_roof_2a", "LIXA_roof_2b" ] ],
+    "om_terrain": [ [ "LIXA_roof_1a", "LIXA_roof_1b" ], [ "LIXA_roof_2a", "LIXA_roof_2b" ] ],
     "object": {
       "rows": [
         "ffffffffffffffffffffff     fffffffffffffffffffff",
@@ -402,7 +401,7 @@
         "f                  f      .....       .........f",
         "ffffffffffffffffffff      ffffffffffffffffffffff"
       ],
-      "terrain": { " ": "t_open_air", "f": "t_fence_barbed", ".": "t_flat_roof", "z": "t_radio_tower" }
+      "terrain": { " ": "t_open_air", "f": "t_fence_barbed", ".": "t_flat_roof", "Z": "t_radio_tower" }
     }
   },
   {
@@ -420,19 +419,19 @@
         "   /./       /B,q/#,B//////                     ",
         "   /./ ////////+///+//8888/                     ",
         "   /./ /KK,,B/A,,B,,A/8888/                     ",
-        "   /./ /,j,h,+,,jE,,A/888X/                     ",
+        "   /./ /,jQh,+,,jE,,A/888X/                     ",
         "   /./ /q,,#,/,,h,,,A//dd//////////             ",
-        "   /./ ///////E,tth,4/6.../.llll../             ",
-        "   /./ /#h,,a/,,tth,o/i..i/......u/             ",
+        "   /./ ///////B,tth,4/6.../.llll../             ",
+        "   /./ /#h,fa/,,tth,o/i..i/......u/             ",
         "   /./ /B,j,,+,,jh,,c/....d...i..u/             ",
-        "   /./ /qf,KK/Ba,,,FF/....d......u/             ",
+        "   /./ /q,,KK/Ba,,,FF/....d......u/             ",
         "   /./ //////////+////...e/....7../             ",
         "   /./ /T/T/./,!#,,$$/....///DD////             ",
         " ///d///+/+/.+,,h,,,,d..../****7**/             ",
         " /V...V/..i../,,,j,,,/i..i/*******/             ",
         " /V...V/LL.SS/,,,#,,,/..../*******//////////////",
         " /u...u////////////////dd//******7//////////////",
-        " /M.i........d.....i....../*******D...,.C.0...//",
+        " /M.i........d.....i....../*******D.....C.0...//",
         " /...........d............/////////7..H...H...//",
         " /w....uu...e//////////////////////.....i.....//",
         " /w...M////////////////////////////...........//",
@@ -463,103 +462,108 @@
       ],
       "palettes": [ "LIXA_workfloor_palette" ],
       "place_nested": [
-        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 22, "y": 7 },
-        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 14, "y": 18 },
-        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 15, "y": 14 },
-        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 22, "y": 14 },
-        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 14, "y": 29 },
-        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 2, "y": 21 },
-        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 27, "y": 11 },
-        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 23, "y": 9 },
+        { "chunks": [ [ "null", 30 ], [ "LIXA_sad_graffiti", 70 ] ], "x": 21, "y": 7 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 13, "y": 18 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 14, "y": 14 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 21, "y": 14 },
+        { "chunks": [ [ "null", 20 ], [ "LIXA_sad_graffiti", 80 ] ], "x": 14, "y": 27 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 14, "y": 22 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 26, "y": 21 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_sad_graffiti", 50 ] ], "x": 1, "y": 21 },
+        { "chunks": [ [ "null", 30 ], [ "LIXA_bored_graffiti", 70 ] ], "x": 26, "y": 11 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 22, "y": 9 },
         { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 19, "y": 14 },
-        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 22, "y": 18 },
-        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 11, "y": 21 },
-        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 27, "y": 11 },
-        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 14, "y": 15 },
-        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 29, "y": 23 },
-        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 32, "y": 23 },
-        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 35, "y": 16 },
-        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 35, "y": 24 },
-        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 45, "y": 21 },
-        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 47, "y": 27 },
+        { "chunks": [ [ "null", 30 ], [ "LIXA_bored_graffiti", 70 ] ], "x": 21, "y": 18 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 11, "y": 23 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 26, "y": 10 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 13, "y": 14 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 17, "y": 22 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 19, "y": 22 },
+        { "chunks": [ [ "null", 50 ], [ "LIXA_bored_graffiti", 50 ] ], "x": 21, "y": 19 },
+        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 29, "y": 21 },
+        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 32, "y": 21 },
+        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 34, "y": 16 },
+        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 30, "y": 21 },
+        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 45, "y": 19 },
+        { "chunks": [ [ "null", 25 ], [ "LIXA_raving_graffiti", 75 ] ], "x": 46, "y": 24 },
         { "chunks": [ [ "LIXA_goodbye_graffiti", 100 ] ], "x": 34, "y": 21 }
       ],
       "items": {
-        "B": [ { "item": "lab_bookshelves", "chance": 50, "repeat": [ 3, 6 ] } ],
-        "K": [ { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] } ],
-        "F": [ { "item": "SUS_fridge_bachelor", "chance": 70, "repeat": [ 4, 6 ] } ],
-        "f": [
-          { "item": "SUS_fridge_bachelor", "chance": 70, "repeat": [ 1, 3 ] },
-          { "item": "rootbeer", "chance": 100, "repeat": [ 8, 15 ] }
+        "B": [ { "item": "lab_bookshelves", "chance": 80 } ],
+        "K": [ { "item": "bed", "chance": 40 } ],
+        "F": [ { "item": "SUS_fridge_bachelor", "chance": 70 } ],
+        "f": [ { "item": "SUS_fridge_bachelor", "chance": 70 } ],
+        "#": [ { "item": "SUS_office_desk", "chance": 60 } ],
+        "u": [
+          { "item": "electronics", "chance": 70, "repeat": [ 1, 2 ] },
+          { "item": "tools_robotics", "chance": 30, "repeat": [ 1, 2 ] }
         ],
+        "V": [ { "item": "tools_robotics", "chance": 30 } ],
+        "l": [ { "item": "decontamination_room", "chance": 60 } ],
+        "c": [
+          { "item": "SUS_dishes", "chance": 100 },
+          { "item": "SUS_silverware", "chance": 100 },
+          { "item": "SUS_cookware", "chance": 100 }
+        ],
+        "E": [ { "item": "entertainment_center_loot", "chance": 100 } ]
+      },
+      "item": {
+        "f": [ { "item": "rootbeer", "chance": 1, "amount": [ 8, 15 ] } ],
         "$": [
           { "item": "LIXA_generic_file", "chance": 80, "repeat": [ 4, 8 ] },
           { "item": "LIXA_lab_file", "chance": 50, "repeat": 2 }
         ],
         "#": [
-          { "item": "LIXA_lab_postit", "chance": 70, "repeat": 1 },
-          { "item": "LIXA_lab_file", "chance": 20, "repeat": 2 },
-          { "item": "SUS_office_desk", "chance": 60, "repeat": 3 },
-          { "item": "software_math", "chance": 60, "repeat": 1 },
-          { "item": "software_lab_data", "chance": 60, "repeat": 4 },
-          { "item": "software_electronics_reference", "chance": 60, "repeat": 1 }
+          { "item": "LIXA_lab_postit", "chance": 3, "repeat": 1 },
+          { "item": "LIXA_lab_file", "chance": 7, "repeat": 2 },
+          { "item": "software_math", "chance": 3, "repeat": 1 },
+          { "item": "software_lab_data", "chance": 2, "repeat": 4 },
+          { "item": "software_electronics_reference", "chance": 4, "repeat": 2 }
         ],
-        "q": [ { "item": "adderall", "chance": 100, "repeat": [ 2, 5 ] } ],
-        "u": [
-          { "item": "electronics", "chance": 70, "repeat": [ 3, 7 ] },
-          { "item": "tools_robotics", "chance": 30, "repeat": [ 3, 5 ] }
-        ],
-        "V": [ { "item": "tools_robotics", "chance": 30, "repeat": [ 1, 3 ] } ],
-        "l": [ { "item": "decontamination_room", "chance": 60, "repeat": [ 1, 3 ] } ],
-        "c": [
-          { "item": "SUS_dishes", "chance": 100, "repeat": [ 3, 6 ] },
-          { "item": "SUS_silverware", "chance": 100, "repeat": [ 3, 6 ] },
-          { "item": "SUS_cookware", "chance": 100, "repeat": [ 3, 6 ] }
-        ],
-        "E": [
-          { "item": "entertainment_center_loot", "chance": 100, "repeat": [ 2, 5 ] },
-          { "item": "television", "chance": 100, "repeat": 1 }
-        ]
+        "q": [ { "item": "adderall", "amount": [ 2, 5 ] } ],
+        "E": [ { "item": "television", "amount": 1 } ]
       },
-      "place_items": [
-        { "item": "heroin", "x": 10, "y": 15, "chance": 100, "repeat": [ 3, 7 ] },
-        { "item": "syringe", "x": 10, "y": 15, "chance": 100, "repeat": [ 1, 3 ] },
-        { "item": "SUS_book_nonf_hard", "x": 9, "y": 12, "chance": 100, "repeat": [ 1, 3 ] },
-        { "item": "SUS_book_nonf_hard", "x": 13, "y": 7, "chance": 100, "repeat": [ 2, 3 ] },
-        { "item": "SUS_book_fict_soft_scifi", "x": 15, "y": 5, "chance": 100, "repeat": [ 1, 3 ] },
-        { "item": "SUS_fiction_bookcase", "x": 21, "y": 5, "chance": 100, "repeat": [ 1, 3 ] },
-        { "item": "SUS_dresser_mens", "x": 9, "y": 13, "chance": 100, "repeat": [ 2, 4 ] },
-        { "item": "SUS_dresser_womens", "x": 9, "y": 9, "chance": 100, "repeat": [ 3, 5 ] },
-        { "item": "headscarf", "x": 9, "y": 9, "chance": 100, "repeat": 3 },
-        { "item": "teddy_bear", "x": 17, "y": 1, "chance": 100, "repeat": 1 },
-        { "item": "holybook_quran", "x": 13, "y": 7, "chance": 100, "repeat": 1 },
-        { "item": "holybook_hadith", "x": 13, "y": 7, "chance": 100, "repeat": 1 },
-        { "item": "quilt", "x": 9, "y": 11, "chance": 100, "repeat": 1 },
-        { "item": "transgender_pride_flag", "x": 19, "y": 1, "chance": 100, "repeat": 1 },
-        { "item": "long_knit_scarf", "x": 19, "y": 1, "chance": 100, "repeat": 1 },
-        { "item": "knit_scarf", "x": 19, "y": 1, "chance": 100, "repeat": 2 },
-        { "item": "jar_weed", "x": 19, "y": 1, "chance": 100, "repeat": 1 },
-        { "item": "stoner", "x": 19, "y": 5, "chance": 100, "repeat": [ 2, 6 ] },
-        { "item": "SUS_dresser_mens", "x": 19, "y": 1, "chance": 100, "repeat": [ 2, 4 ] },
-        { "item": "laptop", "x": 19, "y": 5, "chance": 100, "repeat": 1 },
-        { "item": "software_useless", "x": 19, "y": 5, "chance": 100, "repeat": [ 4, 7 ] },
-        { "item": "knitting_needles", "x": 19, "y": 5, "chance": 100, "repeat": [ 4, 8 ] },
-        { "item": "yarn", "x": 19, "y": 5, "chance": 100, "charges": [ 100, 200 ] },
-        { "item": "laptop", "x": 15, "y": 1, "chance": 100, "repeat": 1 },
-        { "item": "software_useless", "x": 15, "y": 1, "chance": 100, "repeat": [ 4, 7 ] },
-        { "item": "paint_brush", "x": 15, "y": 1, "repeat": 4 },
-        { "item": "pen", "x": 15, "y": 1, "charges-min": 70, "repeat": 6 },
-        { "item": "permanent_marker", "x": 15, "y": 1, "charges-min": 70, "repeat": 6 },
-        { "item": "paper", "x": 15, "y": 1, "charges": [ 10, 30 ] },
-        { "item": "stoner", "x": 15, "y": 1, "chance": 100, "repeat": [ 2, 6 ] },
-        { "item": "SUS_dresser_womens", "x": 17, "y": 5, "chance": 100, "repeat": [ 3, 5 ] },
-        { "item": "id_LIXA_2", "x": 11, "y": 17, "chance": 100, "repeat": 1 },
-        { "item": "id_LIXA_2", "x": 21, "y": 1, "chance": 100, "repeat": 1 },
-        { "item": "dnd", "x": 17, "y": 10, "chance": 100, "repeat": 2 },
-        { "item": "dnd_handbook", "x": 17, "y": 10, "chance": 100, "repeat": 1 },
-        { "item": "character_sheet", "x": 17, "y": 10, "chance": 100, "repeat": 4 },
-        { "item": "rpg_die", "x": 17, "y": 10, "chance": 100, "repeat": [ 6, 12 ] }
+      "place_item": [
+        { "item": "heroin", "x": 11, "y": 11, "amount": [ 3, 7 ] },
+        { "item": "syringe", "x": 11, "y": 11, "amount": [ 1, 3 ] },
+        { "item": "headscarf", "x": 8, "y": 9, "amount": 3 },
+        { "item": "teddy_bear", "x": 16, "y": 1, "amount": 1 },
+        { "item": "holybook_quran", "x": 11, "y": 9, "amount": 1 },
+        { "item": "holybook_hadith", "x": 12, "y": 7, "amount": 1 },
+        { "item": "pride_flag", "variant": "transgender_pride_flag", "x": 18, "y": 1, "amount": 1 },
+        { "item": "long_knit_scarf", "x": 18, "y": 1, "amount": 1 },
+        { "item": "knit_scarf", "x": 18, "y": 1, "amount": 2 },
+        { "item": "laptop", "x": 18, "y": 5, "amount": 1 },
+        { "item": "software_useless", "x": 18, "y": 5, "amount": [ 4, 7 ] },
+        { "item": "knitting_needles", "x": 18, "y": 5, "amount": [ 4, 8 ] },
+        { "item": "yarn", "x": 18, "y": 5, "amount": [ 20, 40 ] },
+        { "item": "laptop", "x": 14, "y": 1, "amount": 1 },
+        { "item": "software_useless", "x": 14, "y": 1, "amount": [ 4, 7 ] },
+        { "item": "paint_brush", "x": 14, "y": 1, "amount": 4 },
+        { "item": "pen", "x": 14, "y": 1, "amount": 2 },
+        { "item": "permanent_marker", "x": 14, "y": 1, "amount": 6 },
+        { "item": "paper", "x": 14, "y": 1, "amount": [ 20, 30 ] },
+        { "item": "id_LIXA_2", "x": 10, "y": 15, "amount": 1 },
+        { "item": "id_LIXA_2", "x": 20, "y": 1, "amount": 1 },
+        { "item": "dnd", "x": 17, "y": 10, "amount": 2 },
+        { "item": "dnd_handbook", "x": 17, "y": 10, "amount": 1 },
+        { "item": "character_sheet", "x": 17, "y": 10, "amount": 4 },
+        { "item": "RPG_die", "x": 17, "y": 10, "amount": [ 6, 12 ] }
       ],
+      "place_items": [
+        { "item": "SUS_book_nonf_hard", "x": 8, "y": 12, "repeat": [ 1, 2 ] },
+        { "item": "SUS_book_nonf_hard", "x": 12, "y": 7 },
+        { "item": "SUS_book_fict_soft_scifi", "x": 14, "y": 5 },
+        { "item": "SUS_fiction_bookcase", "x": 20, "y": 5 },
+        { "item": "SUS_dresser_mens", "x": 9, "y": 13 },
+        { "item": "SUS_dresser_womens", "x": 9, "y": 9 },
+        { "item": "jar_weed", "x": 19, "y": 1, "repeat": 1 },
+        { "item": "stoner", "x": 19, "y": 5, "repeat": [ 1, 3 ] },
+        { "item": "SUS_dresser_mens", "x": 19, "y": 1 },
+        { "item": "stoner", "x": 15, "y": 1, "chance": 1, "repeat": [ 2, 4 ] },
+        { "item": "SUS_dresser_womens", "x": 17, "y": 5 }
+      ],
+      "traps": { "Q": "tr_rollmat" },
       "computers": {
         "!": {
           "name": "Personal Computer",
@@ -575,9 +579,9 @@
         }
       },
       "place_monsters": [
-        { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 2, 6 ], "y": [ 19, 24 ], "repeat": [ 1, 3 ], "density": 0.1 },
-        { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 2, 6 ], "y": [ 25, 33 ], "repeat": [ 1, 3 ], "density": 0.1 },
-        { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 15, 21 ], "y": [ 18, 21 ], "repeat": [ 1, 2 ], "density": 0.1 }
+        { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 2, 6 ], "y": [ 19, 23 ], "density": 0.1 },
+        { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 2, 6 ], "y": [ 25, 33 ], "density": 0.1 },
+        { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 15, 21 ], "y": [ 18, 21 ], "density": 0.1 }
       ]
     }
   },
@@ -613,7 +617,24 @@
         "    //Q....--TT--....Q//",
         "    //LWwwwwETTEwwwwWL//"
       ],
-      "set": [ { "line": "trap", "id": "tr_LIXA_unfold_entry", "x": 6, "y": 9, "x2": 21, "y2": 9 } ],
+      "set": [
+        { "point": "trap", "id": "tr_LIXA_unfold_entry_1", "x": 6, "y": 9 },
+        { "point": "trap", "id": "tr_LIXA_unfold_entry_2", "x": 7, "y": 9 },
+        { "point": "trap", "id": "tr_LIXA_unfold_entry_3", "x": 8, "y": 9 },
+        { "point": "trap", "id": "tr_LIXA_unfold_entry_4", "x": 9, "y": 9 },
+        { "point": "trap", "id": "tr_LIXA_unfold_entry_5", "x": 10, "y": 9 },
+        { "point": "trap", "id": "tr_LIXA_unfold_entry_6", "x": 11, "y": 9 },
+        { "point": "trap", "id": "tr_LIXA_unfold_entry_7", "x": 12, "y": 9 },
+        { "point": "trap", "id": "tr_LIXA_unfold_entry_8", "x": 13, "y": 9 },
+        { "point": "trap", "id": "tr_LIXA_unfold_entry_9", "x": 14, "y": 9 },
+        { "point": "trap", "id": "tr_LIXA_unfold_entry_10", "x": 15, "y": 9 },
+        { "point": "trap", "id": "tr_LIXA_unfold_entry_11", "x": 16, "y": 9 },
+        { "point": "trap", "id": "tr_LIXA_unfold_entry_12", "x": 17, "y": 9 },
+        { "point": "trap", "id": "tr_LIXA_unfold_entry_13", "x": 18, "y": 9 },
+        { "point": "trap", "id": "tr_LIXA_unfold_entry_14", "x": 19, "y": 9 },
+        { "point": "trap", "id": "tr_LIXA_unfold_entry_15", "x": 20, "y": 9 },
+        { "point": "trap", "id": "tr_LIXA_unfold_entry_16", "x": 21, "y": 9 }
+      ],
       "palettes": [ "LIXA_device_palette" ]
     }
   },
@@ -826,8 +847,38 @@
         "    //QWwwwwETTEwwwwWQ//"
       ],
       "set": [
-        { "line": "variable", "id": "LIXA_forward_tp", "x": 6, "y": 1, "x2": 21, "y2": 1 },
-        { "line": "trap", "id": "tr_LIXA_back", "x": 6, "y": 2, "x2": 21, "y2": 2 }
+        { "point": "variable", "id": "LIXA_forward_tp_1", "x": 6, "y": 1 },
+        { "point": "trap", "id": "tr_LIXA_back_1", "x": 6, "y": 0 },
+        { "point": "variable", "id": "LIXA_forward_tp_2", "x": 7, "y": 1 },
+        { "point": "trap", "id": "tr_LIXA_back_2", "x": 7, "y": 0 },
+        { "point": "variable", "id": "LIXA_forward_tp_3", "x": 8, "y": 1 },
+        { "point": "trap", "id": "tr_LIXA_back_3", "x": 8, "y": 0 },
+        { "point": "variable", "id": "LIXA_forward_tp_4", "x": 9, "y": 1 },
+        { "point": "trap", "id": "tr_LIXA_back_4", "x": 9, "y": 0 },
+        { "point": "variable", "id": "LIXA_forward_tp_5", "x": 10, "y": 1 },
+        { "point": "trap", "id": "tr_LIXA_back_5", "x": 10, "y": 0 },
+        { "point": "variable", "id": "LIXA_forward_tp_6", "x": 11, "y": 1 },
+        { "point": "trap", "id": "tr_LIXA_back_6", "x": 11, "y": 0 },
+        { "point": "variable", "id": "LIXA_forward_tp_7", "x": 12, "y": 1 },
+        { "point": "trap", "id": "tr_LIXA_back_7", "x": 12, "y": 0 },
+        { "point": "variable", "id": "LIXA_forward_tp_8", "x": 13, "y": 1 },
+        { "point": "trap", "id": "tr_LIXA_back_8", "x": 13, "y": 0 },
+        { "point": "variable", "id": "LIXA_forward_tp_9", "x": 14, "y": 1 },
+        { "point": "trap", "id": "tr_LIXA_back_9", "x": 14, "y": 0 },
+        { "point": "variable", "id": "LIXA_forward_tp_10", "x": 15, "y": 1 },
+        { "point": "trap", "id": "tr_LIXA_back_10", "x": 15, "y": 0 },
+        { "point": "variable", "id": "LIXA_forward_tp_11", "x": 16, "y": 1 },
+        { "point": "trap", "id": "tr_LIXA_back_11", "x": 16, "y": 0 },
+        { "point": "variable", "id": "LIXA_forward_tp_12", "x": 17, "y": 1 },
+        { "point": "trap", "id": "tr_LIXA_back_12", "x": 17, "y": 0 },
+        { "point": "variable", "id": "LIXA_forward_tp_13", "x": 18, "y": 1 },
+        { "point": "trap", "id": "tr_LIXA_back_13", "x": 18, "y": 0 },
+        { "point": "variable", "id": "LIXA_forward_tp_14", "x": 19, "y": 1 },
+        { "point": "trap", "id": "tr_LIXA_back_14", "x": 19, "y": 0 },
+        { "point": "variable", "id": "LIXA_forward_tp_15", "x": 20, "y": 1 },
+        { "point": "trap", "id": "tr_LIXA_back_15", "x": 20, "y": 0 },
+        { "point": "variable", "id": "LIXA_forward_tp_16", "x": 21, "y": 1 },
+        { "point": "trap", "id": "tr_LIXA_back_16", "x": 21, "y": 0 }
       ],
       "palettes": [ "LIXA_unfolded_palette" ]
     }
@@ -865,8 +916,38 @@
         "    //QWwwwwETTEwwwwWQ//"
       ],
       "set": [
-        { "line": "variable", "id": "LIXA_back_tp", "x": 6, "y": 22, "x2": 21, "y2": 22 },
-        { "line": "trap", "id": "tr_LIXA_forward", "x": 6, "y": 23, "x2": 21, "y2": 23 }
+        { "point": "variable", "id": "LIXA_back_tp_1", "x": 6, "y": 22 },
+        { "point": "trap", "id": "tr_LIXA_forward_1", "x": 6, "y": 23 },
+        { "point": "variable", "id": "LIXA_back_tp_2", "x": 7, "y": 22 },
+        { "point": "trap", "id": "tr_LIXA_forward_2", "x": 7, "y": 23 },
+        { "point": "variable", "id": "LIXA_back_tp_3", "x": 8, "y": 22 },
+        { "point": "trap", "id": "tr_LIXA_forward_3", "x": 8, "y": 23 },
+        { "point": "variable", "id": "LIXA_back_tp_4", "x": 9, "y": 22 },
+        { "point": "trap", "id": "tr_LIXA_forward_4", "x": 9, "y": 23 },
+        { "point": "variable", "id": "LIXA_back_tp_5", "x": 10, "y": 22 },
+        { "point": "trap", "id": "tr_LIXA_forward_5", "x": 10, "y": 23 },
+        { "point": "variable", "id": "LIXA_back_tp_6", "x": 11, "y": 22 },
+        { "point": "trap", "id": "tr_LIXA_forward_6", "x": 11, "y": 23 },
+        { "point": "variable", "id": "LIXA_back_tp_7", "x": 12, "y": 22 },
+        { "point": "trap", "id": "tr_LIXA_forward_7", "x": 12, "y": 23 },
+        { "point": "variable", "id": "LIXA_back_tp_8", "x": 13, "y": 22 },
+        { "point": "trap", "id": "tr_LIXA_forward_8", "x": 13, "y": 23 },
+        { "point": "variable", "id": "LIXA_back_tp_9", "x": 14, "y": 22 },
+        { "point": "trap", "id": "tr_LIXA_forward_9", "x": 14, "y": 23 },
+        { "point": "variable", "id": "LIXA_back_tp_10", "x": 15, "y": 22 },
+        { "point": "trap", "id": "tr_LIXA_forward_10", "x": 15, "y": 23 },
+        { "point": "variable", "id": "LIXA_back_tp_11", "x": 16, "y": 22 },
+        { "point": "trap", "id": "tr_LIXA_forward_11", "x": 16, "y": 23 },
+        { "point": "variable", "id": "LIXA_back_tp_12", "x": 17, "y": 22 },
+        { "point": "trap", "id": "tr_LIXA_forward_12", "x": 17, "y": 23 },
+        { "point": "variable", "id": "LIXA_back_tp_13", "x": 18, "y": 22 },
+        { "point": "trap", "id": "tr_LIXA_forward_13", "x": 18, "y": 23 },
+        { "point": "variable", "id": "LIXA_back_tp_14", "x": 19, "y": 22 },
+        { "point": "trap", "id": "tr_LIXA_forward_14", "x": 19, "y": 23 },
+        { "point": "variable", "id": "LIXA_back_tp_15", "x": 20, "y": 22 },
+        { "point": "trap", "id": "tr_LIXA_forward_15", "x": 20, "y": 23 },
+        { "point": "variable", "id": "LIXA_back_tp_16", "x": 21, "y": 22 },
+        { "point": "trap", "id": "tr_LIXA_forward_16", "x": 21, "y": 23 }
       ],
       "palettes": [ "LIXA_unfolded_palette" ]
     }
@@ -902,8 +983,8 @@
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^"
       ],
-      "ter_furn_transforms": [ { "^": { "transform": "LIXA_power_out" } } ],
-      "set": [ { "square": "trap_remove", "id": "tr_LIXA_unfold_entry", "x": 0, "y": 0, "x2": 23, "y2": 23 } ]
+      "ter_furn_transforms": { "^": { "transform": "LIXA_power_out" } },
+      "set": [ { "square": "trap_remove", "id": "tr_null", "x": 0, "y": 0, "x2": 23, "y2": 23 } ]
     }
   },
   {
@@ -921,17 +1002,43 @@
     "type": "mapgen",
     "update_mapgen_id": "spawn_LIXA_1",
     "method": "json",
-    "object": {
-      "place_monsters": [ { "monster": "LIXA_eigenspectre_1", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 2, "density": 0.1 } ]
-    }
+    "object": { "place_monster": [ { "monster": "LIXA_eigenspectre_1", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 2 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "spawn_LIXA_2a",
     "method": "json",
     "object": {
-      "place_monsters": [ { "monster": "LIXA_eigenspectre_1", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 2, "density": 0.1 } ],
-      "terrain": { "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ] }
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "    //Q....--TT--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--T2--.....//",
+        "    //Q....--3T--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--23--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--T3--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--2T--....Q//",
+        "    //.....--T2--.....//",
+        "    //Q....--3T--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--3T--....Q//",
+        "    //.....--T3--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//"
+      ],
+      "palettes": [ "LIXA_unfolded_palette" ],
+      "terrain": { "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ] },
+      "place_monster": [ { "monster": "LIXA_eigenspectre_1", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 2 } ]
     }
   },
   {
@@ -939,10 +1046,38 @@
     "update_mapgen_id": "spawn_LIXA_2b",
     "method": "json",
     "object": {
-      "place_monsters": [
-        { "monster": "LIXA_eigenspectre_1", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 },
-        { "monster": "LIXA_eigenspectre_2", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 }
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "    //Q....--TT--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--T2--.....//",
+        "    //Q....--3T--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--23--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--T3--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--2T--....Q//",
+        "    //.....--T2--.....//",
+        "    //Q....--3T--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--3T--....Q//",
+        "    //.....--T3--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//"
       ],
+      "place_monster": [
+        { "monster": "LIXA_eigenspectre_1", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1 },
+        { "monster": "LIXA_eigenspectre_2", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1 }
+      ],
+      "palettes": [ "LIXA_unfolded_palette" ],
       "terrain": { "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ] }
     }
   },
@@ -951,10 +1086,38 @@
     "update_mapgen_id": "spawn_LIXA_3a",
     "method": "json",
     "object": {
-      "place_monsters": [
-        { "monster": "LIXA_eigenspectre_1", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 },
-        { "monster": "LIXA_eigenspectre_2", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 }
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "    //Q....--TT--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--T2--.....//",
+        "    //Q....--3T--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--23--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--T3--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--2T--....Q//",
+        "    //.....--T2--.....//",
+        "    //Q....--3T--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--3T--....Q//",
+        "    //.....--T3--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//"
       ],
+      "place_monster": [
+        { "monster": "LIXA_eigenspectre_1", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1 },
+        { "monster": "LIXA_eigenspectre_2", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1 }
+      ],
+      "palettes": [ "LIXA_unfolded_palette" ],
       "terrain": {
         "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ],
         "3": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ]
@@ -966,9 +1129,37 @@
     "update_mapgen_id": "spawn_LIXA_3b",
     "method": "json",
     "object": {
-      "place_monsters": [
-        { "monster": "LIXA_eigenspectre_3", "x": [ 7, 18 ], "y": [ 7, 18 ], "repeat": 1, "density": 0.1 },
-        { "monster": "LIXA_eigenspectre_1", "x": [ 7, 18 ], "y": [ 7, 18 ], "repeat": 1, "density": 0.1 }
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "    //Q....--TT--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--T2--.....//",
+        "    //Q....--3T--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--23--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--T3--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--2T--....Q//",
+        "    //.....--T2--.....//",
+        "    //Q....--3T--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--3T--....Q//",
+        "    //.....--T3--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//"
+      ],
+      "palettes": [ "LIXA_unfolded_palette" ],
+      "place_monster": [
+        { "monster": "LIXA_eigenspectre_3", "x": [ 7, 18 ], "y": [ 7, 18 ], "repeat": 1 },
+        { "monster": "LIXA_eigenspectre_1", "x": [ 7, 18 ], "y": [ 7, 18 ], "repeat": 1 }
       ],
       "terrain": {
         "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ],
@@ -981,10 +1172,38 @@
     "update_mapgen_id": "spawn_LIXA_4a",
     "method": "json",
     "object": {
-      "place_monsters": [
-        { "monster": "LIXA_eigenspectre_2", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 },
-        { "monster": "LIXA_eigenspectre_3", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 }
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "    //Q....--TT--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--T2--.....//",
+        "    //Q....--3T--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--23--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--T3--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--2T--....Q//",
+        "    //.....--T2--.....//",
+        "    //Q....--3T--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--3T--....Q//",
+        "    //.....--T3--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//"
       ],
+      "place_monster": [
+        { "monster": "LIXA_eigenspectre_2", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1 },
+        { "monster": "LIXA_eigenspectre_3", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1 }
+      ],
+      "palettes": [ "LIXA_unfolded_palette" ],
       "terrain": {
         "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ],
         "3": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ]
@@ -996,6 +1215,34 @@
     "update_mapgen_id": "spawn_LIXA_4b",
     "method": "json",
     "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "    //Q....--TT--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--T2--.....//",
+        "    //Q....--3T--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--23--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--T3--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--2T--....Q//",
+        "    //.....--T2--.....//",
+        "    //Q....--3T--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--3T--....Q//",
+        "    //.....--T3--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//"
+      ],
+      "palettes": [ "LIXA_unfolded_palette" ],
       "terrain": {
         "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ],
         "3": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ]
@@ -1007,11 +1254,39 @@
     "update_mapgen_id": "spawn_LIXA_5b",
     "method": "json",
     "object": {
-      "place_monsters": [
-        { "monster": "LIXA_eigenspectre_2", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 2, "density": 0.1 },
-        { "monster": "LIXA_eigenspectre_3", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 },
-        { "monster": "LIXA_eigenspectre_4", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 },
-        { "monster": "LIXA_living_vector", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1, "density": 0.1 }
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "    //Q....--TT--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--T2--.....//",
+        "    //Q....--3T--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--23--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--TT--....Q//",
+        "    //.....--2T--.....//",
+        "    //Q....--T3--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--2T--....Q//",
+        "    //.....--T2--.....//",
+        "    //Q....--3T--....Q//",
+        "    //QWwwwwETTEwwwwWQ//",
+        "    //Q....--3T--....Q//",
+        "    //.....--T3--.....//",
+        "    //Q....--TT--....Q//",
+        "    //QWwwwwETTEwwwwWQ//"
+      ],
+      "palettes": [ "LIXA_unfolded_palette" ],
+      "place_monster": [
+        { "monster": "LIXA_eigenspectre_2", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 2 },
+        { "monster": "LIXA_eigenspectre_3", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1 },
+        { "monster": "LIXA_eigenspectre_4", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1 },
+        { "monster": "LIXA_living_vector", "x": [ 7, 18 ], "y": [ 2, 21 ], "repeat": 1 }
       ],
       "terrain": {
         "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ],
@@ -1021,14 +1296,14 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "spawn_LIXA_5b",
+    "update_mapgen_id": "LIXA_goodbye_cards",
     "method": "json",
     "object": {
-      "place_items": [
-        { "item": "id_LIXA_najma", "x": 9, "y": 12, "chance": 100, "repeat": 1 },
-        { "item": "id_LIXA_jason", "x": 9, "y": 12, "chance": 100, "repeat": 1 },
-        { "item": "id_LIXA_kai_mei", "x": 9, "y": 12, "chance": 100, "repeat": 1 },
-        { "item": "id_LIXA_rich", "x": 9, "y": 12, "chance": 100, "repeat": 1 }
+      "place_item": [
+        { "item": "id_LIXA_najma", "x": 9, "y": 12 },
+        { "item": "id_LIXA_jason", "x": 9, "y": 12 },
+        { "item": "id_LIXA_kai_mei", "x": 9, "y": 12 },
+        { "item": "id_LIXA_rich", "x": 9, "y": 12 }
       ]
     }
   },
@@ -1036,8 +1311,8 @@
     "type": "ter_furn_transform",
     "id": "LIXA_power_out",
     "terrain": [
-      { "result": "t_carpet_concrete_green", "valid_terrain": [ "t_carpet_concrete_olight" ] },
-      { "result": "t_thconc_floor", "valid_terrain": [ "t_thconc_floor_olight" ] }
+      { "result": [ "t_carpet_concrete_green" ], "valid_terrain": [ "t_carpet_concrete_green_olight" ] },
+      { "result": [ "t_thconc_floor" ], "valid_terrain": [ "t_thconc_floor_olight" ] }
     ],
     "furniture": [ { "result": [ "f_console_broken" ], "valid_furniture": [ "f_console" ] } ]
   },
