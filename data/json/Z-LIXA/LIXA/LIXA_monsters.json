@@ -7,6 +7,7 @@
     "default_faction": "nether_player_hate",
     "species": [ "NETHER_EMANATION" ],
     "bodytype": "human",
+    "looks_like": "mon_memory",
     "volume": "62500 ml",
     "weight": "2 kg",
     "hp": 120,
@@ -36,6 +37,7 @@
     "default_faction": "nether_player_hate",
     "species": [ "NETHER_EMANATION" ],
     "bodytype": "human",
+    "looks_like": "mon_memory",
     "volume": "62500 ml",
     "weight": "2 kg",
     "hp": 130,
@@ -90,6 +92,7 @@
     "default_faction": "nether_player_hate",
     "species": [ "NETHER_EMANATION" ],
     "bodytype": "human",
+    "looks_like": "mon_memory",
     "volume": "62500 ml",
     "weight": "2 kg",
     "hp": 120,
@@ -113,7 +116,7 @@
       {
         "type": "spell",
         "spell_data": { "id": "LIXA_spawn_copy", "hit_self": true },
-        "cooldown": 10,
+        "cooldown": 20,
         "monster_message": "The %s is in two places at once, and leaves something of itself behind."
       }
     ],
@@ -133,6 +136,7 @@
     "default_faction": "nether_player_hate",
     "species": [ "NETHER_EMANATION" ],
     "bodytype": "human",
+    "looks_like": "mon_memory",
     "volume": "62500 ml",
     "weight": "2 kg",
     "hp": 40,
@@ -156,7 +160,7 @@
       {
         "type": "spell",
         "spell_data": { "id": "LIXA_spawn_copy", "hit_self": true },
-        "cooldown": 15,
+        "cooldown": 30,
         "monster_message": "The %s is in two places at once, and leaves something of itself behind."
       },
       [ "DISAPPEAR", 5 ]
@@ -177,6 +181,7 @@
     "default_faction": "nether_player_hate",
     "species": [ "NETHER_EMANATION" ],
     "bodytype": "human",
+    "looks_like": "mon_memory",
     "volume": "72500 ml",
     "weight": "2 kg",
     "hp": 200,
@@ -191,7 +196,7 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "pure", "amount": 0, "armor_penetration": 1 } ],
     "special_attacks": [
-      { "type": "smash", "throw_strength": 50, "cooldown": 20 },
+      { "id": "smash", "move_cost": 100, "cooldown": 8, "min_mul": 0.8, "throw_strength": 50 },
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "LUNGE", 10 ]
     ],
@@ -210,6 +215,7 @@
     "description": "This is the entirety of the infinite chamber you are in, which perfectly contains itself.  If you look very closely, you might see yourself looking back.  You are sure that at any other time, seeing this would crack your brain like an eggshell.  But you understand it just fine right now.  And you can see it breathing.",
     "default_faction": "nether_player_hate",
     "species": [ "NETHER_EMANATION" ],
+    "looks_like": "mon_impossible_shape",
     "volume": "62500 ml",
     "weight": "0 g",
     "speed": 120,
