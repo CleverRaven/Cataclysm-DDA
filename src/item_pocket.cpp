@@ -1750,11 +1750,16 @@ void item_pocket::overflow( const tripoint &pos, const item_location &loc )
     }
 
     // first remove items that shouldn't be in there anyway
+    std::unordered_map<itype_id, bool> contained_type_validity;
     for( auto iter = contents.begin(); iter != contents.end(); ) {
-        ret_val<contain_code> ret_contain = can_contain( *iter );
-        if( is_type( pocket_type::MIGRATION ) || ( !ret_contain.success() &&
-                ret_contain.value() != contain_code::ERR_NO_SPACE &&
-                ret_contain.value() != contain_code::ERR_CANNOT_SUPPORT ) ) {
+        auto contained_type = contained_type_validity.emplace( iter->typeId(), true );
+        if( contained_type.second ) {
+            ret_val<contain_code> ret_contain = can_contain( *iter );
+            contained_type.first->second = !is_type( pocket_type::MIGRATION ) && ( ret_contain.success() ||
+                                           ret_contain.value() == contain_code::ERR_NO_SPACE ||
+                                           ret_contain.value() == contain_code::ERR_CANNOT_SUPPORT );
+        }
+        if( !contained_type.first->second ) {
             move_to_parent_pocket_recursive( pos, *iter, loc );
             iter = contents.erase( iter );
         } else {
