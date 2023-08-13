@@ -58,14 +58,14 @@
     "half_life": "5 seconds",
     "phase": "liquid",
     "display_field": true,
-    "looks_like": "fd_sap"
+    "looks_like": "fd_bile"
   },
   {
     "id": "emit_congealed_light",
     "type": "emit",
     "field": "fd_congealed_light",
     "intensity": 2,
-    "qty": 20
+    "qty": 50
   },
   {
     "type": "effect_type",
@@ -101,6 +101,7 @@
     "legacy_enum_id": 19,
     "intensity_levels": [
       {
+        "name": "decompressed space",
         "effects": [
           {
             "effect_id": "LIXA_decompressed",
@@ -114,6 +115,7 @@
         "light_emitted": 5
       },
       {
+        "name": "decompressed space",
         "effects": [
           {
             "effect_id": "LIXA_decompressed",
@@ -127,6 +129,7 @@
         "light_emitted": 15
       },
       {
+        "name": "decompressed space",
         "effects": [
           {
             "effect_id": "LIXA_decompressed",
