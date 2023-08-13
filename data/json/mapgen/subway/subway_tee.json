@@ -1,0 +1,60 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "subway_tee",
+    "object": {
+      "rotation": [ 0 ],
+      "fallback_predecessor_mapgen": "empty_rock",
+      "place_nested": [ { "chunks": [ "24x24_subway_tee" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "lab_subway_tee",
+    "object": {
+      "rotation": [ 0 ],
+      "fallback_predecessor_mapgen": "deep_rock",
+      "place_nested": [ { "chunks": [ "24x24_subway_tee" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_subway_tee",
+    "//": "Need to reverse if next to opposite curved?",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "........................",
+        "........................",
+        "^^^^^^^|^^|^^|^^|^^|^^|^",
+        "DXXXXXXxXXxXXxXXxXXxXXxX",
+        "/D^^^^^|^^|^^|^^|^^|^^|^",
+        "^/D^^^^|^^|^^|^^|^^|^^|^",
+        "^^/D^^^|^^|^^|^^|^^|^^|^",
+        "DXXXDXXxXXxXXxXXxXXxXXxX",
+        "/D^^/D^|^^|^^|^^|^^|^^|^",
+        "^/D^^/D^................",
+        ".^/D^^/D^...............",
+        "..^/D^^/D^..............",
+        "...^/D^^/D^.............",
+        "^^^^^/D^^/D^^^^^^^^|^^|^",
+        "DXXXXXXDXXXDXXXXXXXxXXxX",
+        "/D^^^^^^^^^/D^^^^^^|^^|^",
+        "^/D^^^^^^^^^/D^^^^^|^^|^",
+        "^^/D^^^^^^^^^/D^^^^|^^|^",
+        "DXXXDXXXXXXDXXXDXXXxXXxX",
+        "/D^^/D^^^^^/D^^/D^^|^^|^",
+        "^/D^^/D^...^/D^^/D^.....",
+        ".^/D^^/D^...^/D^^/D^....",
+        " .^/D^^/D^...^/D^^/D^.. "
+      ],
+      "palettes": [ "subway_tmp_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

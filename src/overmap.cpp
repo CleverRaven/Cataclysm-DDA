@@ -99,13 +99,8 @@ static const oter_str_id oter_river_sw( "river_sw" );
 static const oter_str_id oter_river_west( "river_west" );
 static const oter_str_id oter_road_nesw( "road_nesw" );
 static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
-static const oter_str_id oter_sewer_end_north( "sewer_end_north" );
 static const oter_str_id oter_sewer_isolated( "sewer_isolated" );
-static const oter_str_id oter_sewer_sub_station( "sewer_sub_station" );
 static const oter_str_id oter_solid_earth( "solid_earth" );
-static const oter_str_id oter_subway_end_north( "subway_end_north" );
-static const oter_str_id oter_subway_isolated( "subway_isolated" );
-static const oter_str_id oter_underground_sub_station( "underground_sub_station" );
 
 static const oter_type_str_id oter_type_ants_queen( "ants_queen" );
 static const oter_type_str_id oter_type_bridge( "bridge" );
@@ -115,12 +110,12 @@ static const oter_type_str_id oter_type_ice_lab_core( "ice_lab_core" );
 static const oter_type_str_id oter_type_ice_lab_stairs( "ice_lab_stairs" );
 static const oter_type_str_id oter_type_lab_core( "lab_core" );
 static const oter_type_str_id oter_type_lab_stairs( "lab_stairs" );
-static const oter_type_str_id oter_type_microlab_sub_connector( "microlab_sub_connector" );
+static const oter_type_str_id oter_type_lab_subway( "lab_subway" );
 static const oter_type_str_id oter_type_railroad_bridge( "railroad_bridge" );
 static const oter_type_str_id oter_type_road( "road" );
 static const oter_type_str_id oter_type_road_nesw_manhole( "road_nesw_manhole" );
-static const oter_type_str_id oter_type_sewer_connector( "sewer_connector" );
-static const oter_type_str_id oter_type_sub_station( "sub_station" );
+static const oter_type_str_id oter_type_sewer( "sewer" );
+static const oter_type_str_id oter_type_subway( "subway" );
 
 static const oter_vision_id oter_vision_default( "default" );
 
@@ -2985,9 +2980,7 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
             shared_ptr_fast<fixed_overmap_special_data> fixed_data =
                 make_shared_fast<fixed_overmap_special_data>();
             optional( jo, was_loaded, "overmaps", fixed_data->terrains );
-            if( is_special ) {
-                optional( jo, was_loaded, "connections", fixed_data->connections );
-            }
+            optional( jo, was_loaded, "connections", fixed_data->connections );
             data_ = std::move( fixed_data );
             break;
         }
@@ -3800,33 +3793,12 @@ bool overmap::generate_sub( const int z )
             tripoint_om_omt p( i, j, z );
             const oter_id oter_id_here = ter_unsafe( p );
             const oter_t &oter_here = *oter_id_here;
-            const oter_id oter_above = ter_unsafe( p + tripoint::above );
-            const oter_id oter_ground = ter_unsafe( tripoint_om_omt( p.xy(), 0 ) );
-
-            if( oter_here.get_type_id() == oter_type_sewer_connector ) {
-                om_direction::type rotation = oter_here.get_dir();
-                ter_set( p, oter_sewer_end_north.id()->get_rotated( rotation ) );
+            const oter_type_str_id oter_type_here = oter_here.get_type_id();
+            const oter_id oter_above = ter_unsafe( p + tripoint_rel_omt::above );
+            if( oter_type_here == oter_type_sewer ) {
                 sewer_points.emplace_back( p.xy() );
-            }
-
-            if( oter_here.get_type_id() == oter_type_microlab_sub_connector ) {
-                om_direction::type rotation = oter_here.get_dir();
-                ter_set( p, oter_subway_end_north.id()->get_rotated( rotation ) );
+            } else if( oter_type_here == oter_type_subway || oter_type_here == oter_type_lab_subway ) {
                 subway_points.emplace_back( p.xy() );
-            }
-
-            if( oter_ground->get_type_id() == oter_type_sub_station ) {
-                if( z == -1 ) {
-                    ter_set( p, oter_sewer_sub_station.id() );
-                    requires_sub = true;
-                    continue;
-                } else if( z == -2 ) {
-                    ter_set( p, oter_subway_isolated.id() );
-                    subway_points.emplace_back( i, j - 1 );
-                    subway_points.emplace_back( i, j );
-                    subway_points.emplace_back( i, j + 1 );
-                    continue;
-                }
             }
 
             auto above_action_it = oter_above_actions.find( oter_above->get_type_id().id() );
@@ -3923,12 +3895,6 @@ bool overmap::generate_sub( const int z )
     const overmap_connection_id &overmap_connection_subway_tunnel =
         settings->overmap_connection.subway_connection;
     connect_closest_points( subway_points, z, *overmap_connection_subway_tunnel );
-
-    for( auto &i : subway_points ) {
-        if( ( ter( tripoint_om_omt( i, z + 2 ) )->get_type_id() == oter_type_sub_station ) ) {
-            ter_set( tripoint_om_omt( i, z ), oter_underground_sub_station.id() );
-        }
-    }
 
     // The first lab point is adjacent to a lab, set it a depot (as long as track was actually laid).
     const auto create_train_depots = [this, z,
@@ -6014,7 +5980,8 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
 
 void overmap::build_city_street(
     const overmap_connection &connection, const point_om_omt &p, int cs, om_direction::type dir,
-    const city &town, std::unordered_set<overmap_special_id> &placed_unique_buildings, int block_width )
+    const city &town, std::unordered_set<overmap_special_id> &placed_unique_buildings,
+    int block_width )
 {
     int c = cs;
     int croad = cs;
@@ -6206,8 +6173,9 @@ bool overmap::build_lab(
 
             adjacent_labs = 0;
             for( const point &offset : four_adjacent_offsets ) {
-                if( is_ot_match( "lab", ter( train + offset ), ot_match_type::contains ) &&
-                    !is_ot_match( "lab_subway", ter( train + offset ), ot_match_type::contains ) ) {
+                const oter_id offset_oter = ter( train + offset );
+                if( is_ot_match( "lab", offset_oter, ot_match_type::contains ) &&
+                    !( oter_type_lab_subway == offset_oter->get_type_id() ) ) {
                     ++adjacent_labs;
                 }
             }
@@ -6220,8 +6188,9 @@ bool overmap::build_lab(
             lab_train_points->push_back( train.xy() ); // possible train depot
             // next is rail connection
             for( const point &offset : four_adjacent_offsets ) {
-                if( is_ot_match( "lab", ter( train + offset ), ot_match_type::contains ) &&
-                    !is_ot_match( "lab_subway", ter( train + offset ), ot_match_type::contains ) ) {
+                const oter_id offset_oter = ter( train + offset );
+                if( is_ot_match( "lab", offset_oter, ot_match_type::contains ) &&
+                    !( oter_type_lab_subway == offset_oter->get_type_id() ) ) {
                     lab_train_points->push_back( train.xy() - offset );
                     break;
                 }
@@ -6242,8 +6211,9 @@ bool overmap::build_lab(
 
             adjacent_labs = 0;
             for( const point &offset : four_adjacent_offsets ) {
-                if( is_ot_match( "lab", ter( cell + offset ), ot_match_type::contains ) &&
-                    !is_ot_match( "lab_subway", ter( cell + offset ), ot_match_type::contains ) ) {
+                const oter_id offset_oter = ter( cell + offset );
+                if( is_ot_match( "lab", offset_oter, ot_match_type::contains ) &&
+                    !( oter_type_lab_subway == offset_oter->get_type_id() ) ) {
                     ++adjacent_labs;
                 }
             }

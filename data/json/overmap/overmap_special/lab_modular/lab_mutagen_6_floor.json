@@ -124,7 +124,6 @@
       { "point": [ 1, 2, -4 ], "overmap": "lab_2x2_cargo_SE_north" },
       { "point": [ 0, 0, -4 ], "overmap": "underground_lab_cargo_stationB_east" },
       { "point": [ 1, 0, -4 ], "overmap": "underground_lab_cargo_stationA_east" },
-      { "point": [ 2, 0, -4 ], "overmap": "microlab_sub_connector_east" },
       { "point": [ 0, 0, -5 ], "overmap": "underground_lab_central_-5W_east" },
       { "point": [ 1, 0, -5 ], "overmap": "underground_lab_central_-5E_east" },
       { "point": [ 0, 0, -6 ], "overmap": "underground_lab_central_-6W_east" },
@@ -141,7 +140,10 @@
       { "point": [ 1, 2, -6 ], "overmap": "lab_2x2_MUT_tier_2_SE_north" },
       { "point": [ -2, 3, 0 ], "locations": [ "land", "road" ] }
     ],
-    "connections": [ { "point": [ -2, 3, 0 ], "connection": "local_road", "terrain": "road", "from": [ -2, 2, 0 ] } ],
+    "connections": [
+      { "point": [ -2, 3, 0 ], "connection": "local_road", "terrain": "road", "from": [ -2, 2, 0 ] },
+      { "point": [ 2, 0, -4 ], "connection": "subway_tunnel", "terrain": "lab_subway", "from": [ 1, 0, -4 ] }
+    ],
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 30, 100 ],

@@ -274,6 +274,7 @@ enum class ter_furn_flag : int {
     TFLAG_BLOCK_WIND,
     TFLAG_FLAT,
     TFLAG_RAIL,
+    TFLAG_RAIL_D,
     TFLAG_THIN_OBSTACLE,
     TFLAG_SMALL_PASSAGE,
     TFLAG_Z_TRANSPARENT,

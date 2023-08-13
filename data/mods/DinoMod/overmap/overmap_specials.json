@@ -20,7 +20,6 @@
     "overmaps": [
       { "point": [ 2, 1, 1 ], "overmap": "microlab_DinoLab_surface_roof_north" },
       { "point": [ 2, 1, 0 ], "overmap": "microlab_DinoLab_surface_north" },
-      { "point": [ 2, -2, -2 ], "overmap": "microlab_sub_connector_north" },
       { "point": [ 2, -1, -2 ], "overmap": "microlab_sub_station_north" },
       { "point": [ 0, -1, -2 ], "overmap": "special_rock" },
       { "point": [ 1, -1, -2 ], "overmap": "special_rock" },
@@ -57,7 +56,10 @@
       { "point": [ 3, 4, -2 ], "overmap": "special_rock" },
       { "point": [ 4, 4, -2 ], "overmap": "special_rock" }
     ],
-    "connections": [ { "point": [ 2, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 1, 0 ] } ],
+    "connections": [
+      { "point": [ 2, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 1, 0 ] },
+      { "point": [ 2, -2, -2 ], "connection": "subway_tunnel", "terrain": "subway", "from": [ 2, -1, -2 ] }
+    ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 30, 100 ],

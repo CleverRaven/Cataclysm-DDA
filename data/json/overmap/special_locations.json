@@ -83,12 +83,22 @@
   {
     "type": "overmap_location",
     "id": "subterranean_subway",
-    "terrains": [ "empty_rock", "subway" ]
+    "terrains": [ "empty_rock" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "subway",
+    "terrains": [ "subway" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "subterranean_subway_deep",
+    "terrains": [ "deep_rock" ]
   },
   {
     "type": "overmap_location",
     "id": "lab_subway",
-    "terrains": [ "deep_rock" ]
+    "terrains": [ "lab_subway" ]
   },
   {
     "type": "overmap_location",

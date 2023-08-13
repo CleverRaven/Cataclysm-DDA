@@ -1,0 +1,60 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "subway_curved",
+    "object": {
+      "rotation": [ 0 ],
+      "fallback_predecessor_mapgen": "empty_rock",
+      "place_nested": [ { "chunks": [ "24x24_subway_curved" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "lab_subway_curved",
+    "object": {
+      "rotation": [ 0 ],
+      "fallback_predecessor_mapgen": "deep_rock",
+      "place_nested": [ { "chunks": [ "24x24_subway_curved" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_subway_curved",
+    "//": "Need to change to deal with long diag",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                       .",
+        "                      ..",
+        "                     ..^",
+        "                    ..^D",
+        "                   ..^DD",
+        "                  ..^DD^",
+        "                 ..^DD^^",
+        "                ..^DD^^D",
+        "               ..^DD^^DD",
+        "              ..^DD^^DD^",
+        "             ..^DD^^DD^.",
+        "            ..^DD^^DD^..",
+        "           ..^DD^^DD^...",
+        "          ..^DD^^DD^...^",
+        "         ..^DD^^DD^...^D",
+        "        ..^DD^^DD^...^DD",
+        "       ..^DD^^DD^...^DD^",
+        "      ..^DD^^DD^...^DD^^",
+        "     ..^DD^^DD^...^DD^^D",
+        "    ..^DD^^DD^...^DD^^DD",
+        "   ..^DD^^DD^...^DD^^DD^",
+        "  ..^DD^^DD^...^DD^^DD^.",
+        " ..^DD^^DD^...^DD^^DD^. "
+      ],
+      "palettes": [ "subway_tmp_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

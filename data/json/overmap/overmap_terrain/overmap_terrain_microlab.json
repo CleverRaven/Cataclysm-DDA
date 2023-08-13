@@ -36,15 +36,10 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "microlab_sub_connector",
-    "copy-from": "microlab_sub_station"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "microlab_generic_sub_entry",
     "name": "science lab",
     "sym": "L",
-    "copy-from": "microlab_sub_connector"
+    "copy-from": "microlab_sub_station"
   },
   {
     "type": "overmap_terrain",
@@ -221,11 +216,5 @@
     "spawns": { "group": "GROUP_RATKIN_LAB", "population": [ 12, 25 ], "chance": 80 },
     "see_cost": "full_high",
     "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "microlab_sub_connector_ratkin",
-    "copy-from": "microlab_sub_station",
-    "flags": [ "SHOULD_NOT_SPAWN" ]
   }
 ]

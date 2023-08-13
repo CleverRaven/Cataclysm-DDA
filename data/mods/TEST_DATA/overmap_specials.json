@@ -122,7 +122,6 @@
       { "id": "hallway_to_microlab", "opposite": "microlab_to_hallway" },
       { "id": "microlab_to_hallway", "opposite": "hallway_to_microlab" },
       "microlab_entry_to_station",
-      "microlab_station_to_subway",
       "stairs_down_to_middle",
       "stairs_up_to_middle"
     ],
@@ -169,8 +168,11 @@
         "south": "microlab_to_hallway",
         "west": "microlab_to_microlab"
       },
-      "microlab_sub_station": { "overmap": "microlab_sub_station_north", "north": "microlab_station_to_subway", "south": "microlab_entry_to_station" },
-      "microlab_subway": { "overmap": "microlab_sub_connector_south", "south": "microlab_station_to_subway" },
+      "microlab_sub_station": {
+        "overmap": "microlab_sub_station_north",
+        "south": "microlab_entry_to_station",
+        "connections": { "north": { "connection": "subway_tunnel" } }
+      },
       "firebreak": { "overmap": "microlab_generic_firebreak_north", "north": "hallway_to_hallway", "south": "hallway_to_hallway" },
       "hallway_cross": {
         "overmap": "microlab_generic_hallway_nesw",
@@ -246,8 +248,7 @@
           "chunk": [
             { "overmap": "hallway_end", "pos": [ 0, 1, 0 ], "rot": "east" },
             { "overmap": "microlab_sub_entry", "pos": [ 0, 0, 0 ] },
-            { "overmap": "microlab_sub_station", "pos": [ 0, -1, 0 ] },
-            { "overmap": "microlab_subway", "pos": [ 0, -2, 0 ] }
+            { "overmap": "microlab_sub_station", "pos": [ 0, -1, 0 ] }
           ],
           "max": 1
         }
@@ -285,11 +286,7 @@
       [
         {
           "name": "subway_chunk_at_-4",
-          "chunk": [
-            { "overmap": "microlab_sub_entry", "pos": [ 0, 0, 0 ] },
-            { "overmap": "microlab_sub_station", "pos": [ 0, -1, 0 ] },
-            { "overmap": "microlab_subway", "pos": [ 0, -2, 0 ] }
-          ],
+          "chunk": [ { "overmap": "microlab_sub_entry", "pos": [ 0, 0, 0 ] }, { "overmap": "microlab_sub_station", "pos": [ 0, -1, 0 ] } ],
           "max": 1
         }
       ],

@@ -1641,8 +1641,7 @@ float get_collision_factor( const float delta_v )
     }
 }
 
-void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool check_rail_direction,
-        const ter_furn_flag ter_flag_to_check, int &wheels_on_rail,
+void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, int &wheels_on_rail,
         int &turning_wheels_that_are_one_axis ) const
 {
     // The direction we're moving
@@ -1690,31 +1689,27 @@ void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool chec
         for( int try_num = 0; try_num < 3; try_num++ ) {
             // advance precalculated wheel position 1 time in direction of moving
             wheel_tripoint += dp;
+            const ter_t &terrain_at_wheel = here.ter( wheel_tripoint ).obj();
+            bool rail_at_wheel = terrain_at_wheel.has_flag( ter_furn_flag::TFLAG_RAIL );
 
-            if( !here.has_flag_ter_or_furn( ter_flag_to_check, wheel_tripoint ) ) {
+            if( !rail_at_wheel ) {
                 // this tile is not allowed, disallow turn
                 rails_ahead = false;
                 break;
             }
 
-            // special case for rails
-            if( check_rail_direction ) {
-                const ter_str_id &terrain_at_wheel = here.ter( wheel_tripoint ).id();
-                // check is it correct tile to turn into
-                if( !is_diagonal_movement ) {
-                    const std::unordered_set<ter_str_id> diagonal_track_ters = { ter_t_railroad_track_d, ter_t_railroad_track_d1, ter_t_railroad_track_d2, ter_t_railroad_track_d_on_tie };
-                    if( diagonal_track_ters.find( terrain_at_wheel ) != diagonal_track_ters.end() ) {
-                        incorrect_tiles_not_diagonal++;
-                    }
-                } else if( const std::unordered_set<ter_str_id> straight_track_ters = { ter_t_railroad_track, ter_t_railroad_track_on_tie, ter_t_railroad_track_h, ter_t_railroad_track_v, ter_t_railroad_track_h_on_tie, ter_t_railroad_track_v_on_tie };
-                           straight_track_ters.find( terrain_at_wheel ) != straight_track_ters.end() ) {
-                    incorrect_tiles_not_diagonal++;
-                }
-                if( incorrect_tiles_diagonal > allowed_incorrect_tiles_diagonal ||
-                    incorrect_tiles_not_diagonal > allowed_incorrect_tiles_not_diagonal ) {
-                    rails_ahead = false;
-                    break;
-                }
+            bool diag_at_wheel = terrain_at_wheel.has_flag( ter_furn_flag::TFLAG_RAIL_D );
+
+            // check is it correct tile to turn into
+            if( !is_diagonal_movement && diag_at_wheel ) {
+                incorrect_tiles_not_diagonal++;
+            } else if( is_diagonal_movement && !diag_at_wheel ) {
+                incorrect_tiles_diagonal++;
+            }
+            if( incorrect_tiles_diagonal > allowed_incorrect_tiles_diagonal ||
+                incorrect_tiles_not_diagonal > allowed_incorrect_tiles_not_diagonal ) {
+                rails_ahead = false;
+                break;
             }
         }
         // found a wheel that turns correctly on rails
@@ -1749,21 +1744,17 @@ static units::angle get_corrected_turn_dir( const units::angle &turn_dir,
 
 bool vehicle::allow_manual_turn_on_rails( units::angle &corrected_turn_dir ) const
 {
-    bool allow_turn_on_rail = false;
-    // driver tried to turn rails vehicle
-    if( turn_dir != face.dir() ) {
-        corrected_turn_dir = get_corrected_turn_dir( turn_dir, face.dir() );
+    corrected_turn_dir = get_corrected_turn_dir( turn_dir, face.dir() );
 
-        int wheels_on_rail;
-        int turning_wheels_that_are_one_axis;
-        precalculate_vehicle_turning( corrected_turn_dir, true, ter_furn_flag::TFLAG_RAIL, wheels_on_rail,
-                                      turning_wheels_that_are_one_axis );
-        if( is_wheel_state_correct_to_turn_on_rails( wheels_on_rail, rail_wheelcache.size(),
-                turning_wheels_that_are_one_axis ) ) {
-            allow_turn_on_rail = true;
-        }
+    int wheels_on_rail;
+    int turning_wheels_that_are_one_axis;
+    precalculate_vehicle_turning( corrected_turn_dir, wheels_on_rail,
+                                  turning_wheels_that_are_one_axis );
+    if( is_wheel_state_correct_to_turn_on_rails( wheels_on_rail, rail_wheelcache.size(),
+            turning_wheels_that_are_one_axis ) ) {
+        return true;
     }
-    return allow_turn_on_rail;
+    return false;
 }
 
 bool vehicle::allow_auto_turn_on_rails( units::angle &corrected_turn_dir ) const
@@ -1774,14 +1765,14 @@ bool vehicle::allow_auto_turn_on_rails( units::angle &corrected_turn_dir ) const
         // precalculate wheels for every direction
         int straight_wheels_on_rail;
         int straight_turning_wheels_that_are_one_axis;
-        precalculate_vehicle_turning( face.dir(), true, ter_furn_flag::TFLAG_RAIL, straight_wheels_on_rail,
+        precalculate_vehicle_turning( face.dir(), straight_wheels_on_rail,
                                       straight_turning_wheels_that_are_one_axis );
 
         units::angle left_turn_dir =
             get_corrected_turn_dir( face.dir() - 45_degrees, face.dir() );
         int leftturn_wheels_on_rail;
         int leftturn_turning_wheels_that_are_one_axis;
-        precalculate_vehicle_turning( left_turn_dir, true, ter_furn_flag::TFLAG_RAIL,
+        precalculate_vehicle_turning( left_turn_dir,
                                       leftturn_wheels_on_rail,
                                       leftturn_turning_wheels_that_are_one_axis );
 
@@ -1789,7 +1780,7 @@ bool vehicle::allow_auto_turn_on_rails( units::angle &corrected_turn_dir ) const
             get_corrected_turn_dir( face.dir() + 45_degrees, face.dir() );
         int rightturn_wheels_on_rail;
         int rightturn_turning_wheels_that_are_one_axis;
-        precalculate_vehicle_turning( right_turn_dir, true, ter_furn_flag::TFLAG_RAIL,
+        precalculate_vehicle_turning( right_turn_dir,
                                       rightturn_wheels_on_rail,
                                       rightturn_turning_wheels_that_are_one_axis );
 
@@ -1954,8 +1945,11 @@ vehicle *vehicle::act_on_map()
     bool allow_turn_on_rail = false;
     if( can_use_rails && !falling_only ) {
         units::angle corrected_turn_dir;
-        allow_turn_on_rail = allow_manual_turn_on_rails( corrected_turn_dir );
-        if( !allow_turn_on_rail ) {
+        // Driver tried to turn
+        if( turn_dir != face.dir() ) {
+            allow_turn_on_rail = allow_manual_turn_on_rails(
+                                     corrected_turn_dir ); //If this fails shouldn't we check auto turn?
+        } else {
             allow_turn_on_rail = allow_auto_turn_on_rails( corrected_turn_dir );
         }
         if( allow_turn_on_rail ) {
@@ -1969,7 +1963,8 @@ vehicle *vehicle::act_on_map()
         // If skidding, it's the move vector
         // Same for falling - no air control
         mdir = move;
-    } else if( turn_dir != face.dir() && ( !can_use_rails || allow_turn_on_rail ) ) {
+    } else if( turn_dir != face.dir() && ( !can_use_rails ||
+                                           allow_turn_on_rail ) ) { //Only situation where second part required is if a rail vehicle trying to manually turn can't
         // Driver turned vehicle, get turn_dir
         mdir.init( turn_dir );
     } else {
