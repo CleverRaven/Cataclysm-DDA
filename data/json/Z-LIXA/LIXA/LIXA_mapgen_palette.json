@@ -37,6 +37,7 @@
       "B": "t_carpet_concrete_green",
       "0": "t_carpet_concrete_green",
       "'": "t_carpet_concrete_green",
+      "Q": "t_carpet_concrete_green",
       "e": "t_gates_mech_control",
       "5": "t_card_LIXA",
       "6": "t_card_LIXA_mil",
@@ -106,6 +107,7 @@
       "o": "t_carpet_concrete_green",
       "4": "t_carpet_concrete_green",
       "E": "t_carpet_concrete_green",
+      "t": "t_carpet_concrete_green",
       "_": "t_open_air_rooved",
       "-": "t_metal_floor",
       "*": "t_linoleum_white",
@@ -134,6 +136,7 @@
       "o": "f_oven",
       "E": "f_entertainment_center",
       "T": "f_table",
+      "t": "f_table",
       "4": "f_dishwasher",
       "$": "f_filing_cabinet",
       "M": "f_machinery_heavy",
@@ -143,12 +146,12 @@
       "w": "f_machinery_electronic",
       "0": "f_console",
       "!": "f_console",
-      "P": "f_heavy_bag",
+      "P": "f_punching_bag",
       "L": "f_shower",
       "S": "f_sink",
       "F": "f_fridge",
       "C": "f_control_station",
-      "f": "ap_minifridge"
+      "f": "f_fridge"
     },
     "toilets": { "T": {  } }
   },
