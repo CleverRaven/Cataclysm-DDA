@@ -629,41 +629,9 @@
     "id": "armor_mc_lightplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
-    "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel light plate armor" },
     "description": "A light suit of plate armor with a 2mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.8 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 15
-      },
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 10
-      },
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_armor_mc_lightplate",
@@ -677,41 +645,9 @@
     "id": "armor_hc_lightplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
-    "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel light plate armor" },
     "description": "A light suit of plate armor with a 2mm thick chestpiece.  Made with high carbon steel, offering excellent protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.8 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 15
-      },
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 10
-      },
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_armor_hc_lightplate",
@@ -725,41 +661,9 @@
     "id": "armor_ch_lightplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
-    "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "case hardened light plate armor" },
     "description": "A light suit of plate armor with a 2mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.8 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 15
-      },
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 10
-      },
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_lightplate",
@@ -773,41 +677,9 @@
     "id": "armor_qt_lightplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
-    "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered light plate armor" },
     "description": "A light suit of plate armor with a 2mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.8 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 15
-      },
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 10
-      },
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_armor_qt_lightplate",
@@ -882,41 +754,9 @@
     "id": "armor_mc_plate",
     "type": "ARMOR",
     "copy-from": "armor_lc_plate",
-    "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel plate armor" },
     "description": "A suit of plate armor with a 4mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 2.8 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 15
-      },
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_armor_mc_plate",
@@ -933,38 +773,7 @@
     "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel plate armor" },
     "description": "A suit of plate armor with a 4mm thick chestpiece.  Made with high carbon steel, offering excellent protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 2.8 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 15
-      },
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_armor_hc_plate",
@@ -981,38 +790,7 @@
     "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "case hardened plate armor" },
     "description": "A suit of plate armor with a 4mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 2.8 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 15
-      },
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_plate",
@@ -1029,38 +807,7 @@
     "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered plate armor" },
     "description": "A suit of plate armor with a 4mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 2.8 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 15
-      },
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_armor_qt_plate",
@@ -1135,41 +882,9 @@
     "id": "armor_mc_heavyplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
-    "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel heavy plate armor" },
     "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 4.8 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 25
-      },
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_armor_mc_heavyplate",
@@ -1183,41 +898,9 @@
     "id": "armor_hc_heavyplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
-    "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel heavy plate armor" },
     "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  Made with high carbon steel, offering excellent protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 4.8 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 25
-      },
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_armor_hc_heavyplate",
@@ -1231,41 +914,9 @@
     "id": "armor_ch_heavyplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
-    "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "case hardened heavy plate armor" },
     "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 4.8 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 25
-      },
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_heavyplate",
@@ -1279,41 +930,9 @@
     "id": "armor_qt_heavyplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
-    "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered heavy plate armor" },
     "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 4.8 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 25
-      },
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_armor_qt_heavyplate",
@@ -1850,24 +1469,9 @@
     "id": "mc_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hauberk",
-    "material": [ "mc_steel_chain" ],
     "name": { "str": "medium steel chainmail hauberk" },
     "description": "A fully customized medium steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      },
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "coverage": 50,
-        "encumbrance": 0
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_mc_chainmail_hauberk",
@@ -1960,24 +1564,9 @@
     "id": "hc_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hauberk",
-    "material": [ "hc_steel_chain" ],
     "name": { "str": "high steel chainmail hauberk" },
     "description": "A fully customized high steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      },
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "coverage": 50,
-        "encumbrance": 0
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_hc_chainmail_hauberk",
@@ -2069,24 +1658,9 @@
     "id": "ch_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hauberk",
-    "material": [ "ch_steel_chain" ],
     "name": { "str": "hardened steel chainmail hauberk" },
     "description": "A fully customized hardened steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      },
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "coverage": 50,
-        "encumbrance": 0
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_ch_chainmail_hauberk",
@@ -2178,24 +1752,9 @@
     "id": "qt_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hauberk",
-    "material": [ "qt_steel_chain" ],
     "name": { "str": "tempered steel chainmail hauberk" },
     "description": "A fully customized tempered steel chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      },
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "coverage": 50,
-        "encumbrance": 0
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_qt_chainmail_hauberk",
@@ -2510,24 +2069,9 @@
     "id": "mc_chainmail_sjumpsuit",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_sjumpsuit",
-    "material": [ "mc_steel_chain" ],
     "name": { "str": "medium steel chainmail sleeveless jumpsuit" },
     "description": "A fully customized medium steel chainmail outfit, covering torso and legs.  Combine with a gambeson or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      },
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
-        "coverage": 50,
-        "encumbrance": 0
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_mc_chainmail_sjumpsuit",
@@ -2619,24 +2163,9 @@
     "id": "hc_chainmail_sjumpsuit",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_sjumpsuit",
-    "material": [ "hc_steel_chain" ],
     "name": { "str": "high steel chainmail sleeveless jumpsuit" },
     "description": "A fully customized high steel chainmail outfit, covering torso and legs.  Combine with a gambeson or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      },
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
-        "coverage": 50,
-        "encumbrance": 0
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_hc_chainmail_sjumpsuit",
@@ -2728,24 +2257,9 @@
     "id": "ch_chainmail_sjumpsuit",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_sjumpsuit",
-    "material": [ "ch_steel_chain" ],
     "name": { "str": "hardened steel chainmail sleeveless jumpsuit" },
     "description": "A fully customized hardened steel chainmail outfit, covering torso and legs.  Combine with a gambeson or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      },
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
-        "coverage": 50,
-        "encumbrance": 0
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_ch_chainmail_sjumpsuit",
@@ -2837,24 +2351,9 @@
     "id": "qt_chainmail_sjumpsuit",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_sjumpsuit",
-    "material": [ "qt_steel_chain" ],
     "name": { "str": "tempered steel chainmail sleeveless jumpsuit" },
     "description": "A fully customized tempered steel chainmail outfit, covering torso and legs.  Combine with a gambeson or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      },
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
-        "coverage": 50,
-        "encumbrance": 0
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_qt_chainmail_sjumpsuit",
@@ -3242,17 +2741,9 @@
     "id": "mc_chainmail_jumpsuit",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_jumpsuit",
-    "material": [ "mc_steel_chain" ],
     "name": { "str": "medium steel chainmail jumpsuit" },
     "description": "A fully customized medium steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_mc_chainmail_jumpsuit",
@@ -3388,17 +2879,9 @@
     "id": "hc_chainmail_jumpsuit",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_jumpsuit",
-    "material": [ "hc_steel_chain" ],
     "name": { "str": "high steel chainmail jumpsuit" },
     "description": "A fully customized high steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_hc_chainmail_jumpsuit",
@@ -3537,14 +3020,7 @@
     "copy-from": "lc_chainmail_jumpsuit",
     "name": { "str": "hardened steel chainmail jumpsuit" },
     "description": "A fully customized hardened steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_ch_chainmail_jumpsuit",
@@ -3680,17 +3156,9 @@
     "id": "qt_chainmail_jumpsuit",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_jumpsuit",
-    "material": [ "qt_steel_chain" ],
     "name": { "str": "tempered steel chainmail jumpsuit" },
     "description": "A fully customized tempered steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_qt_chainmail_jumpsuit",
@@ -4122,17 +3590,9 @@
     "id": "mc_chainmail_suit",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_suit",
-    "material": [ "mc_steel_chain" ],
     "name": { "str": "medium steel chainmail armor" },
     "description": "A fully customized medium steel chainmail suit.  Combine with an aketon or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_mc_chainmail_suit",
@@ -4268,17 +3728,9 @@
     "id": "hc_chainmail_suit",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_suit",
-    "material": [ "hc_steel_chain" ],
     "name": { "str": "high steel chainmail armor" },
     "description": "A fully customized high steel chainmail suit.  Combine with an aketon or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_hc_chainmail_suit",
@@ -4417,14 +3869,7 @@
     "copy-from": "lc_chainmail_suit",
     "name": { "str": "hardened steel chainmail armor" },
     "description": "A fully customized hardened steel chainmail suit.  Combine with an aketon or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_ch_chainmail_suit",
@@ -4560,17 +4005,9 @@
     "id": "qt_chainmail_suit",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_suit",
-    "material": [ "qt_steel_chain" ],
     "name": { "str": "tempered steel chainmail armor" },
     "description": "A fully customized tempered steel chainmail suit.  Combine with an aketon or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_qt_chainmail_suit",

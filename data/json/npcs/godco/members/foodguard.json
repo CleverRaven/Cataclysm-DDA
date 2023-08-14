@@ -3,48 +3,95 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_guard_food",
     "dynamic_line": {
-      "npc_has_var": "u_met_food_guard",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
       "value": "yes",
-      "yes": [ "Hey there.", "You're back.", "So…?" ],
-      "no": "Hello.  What brings you around here?"
+      "yes": "You better step away from me real quick, sinner.  I don't want your kind here.",
+      "no": {
+        "npc_has_var": "u_met_food_guard",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": [ "Hey there.", "You're back.", "So…?" ],
+        "no": "Hello.  What brings you around here?"
+      }
     },
     "responses": [
       {
         "text": "Who are you?",
         "effect": { "npc_add_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_guard_food_who"
       },
       {
         "text": "Just stopping by for a moment.  See ya.",
-        "condition": { "not": { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_DONE"
       },
       {
         "text": "Who are you again?",
-        "condition": { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_guard_food_who"
       },
       {
         "text": "Could I borrow something from the stock?",
-        "condition": { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_guard_food_borrow"
       },
       {
         "text": "Has anyone stolen from here?",
-        "condition": { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_guard_food_theft"
       },
       {
         "text": "How much food do you have?",
-        "condition": { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_guard_food_stock"
       },
       {
         "text": "I'll see you around.",
-        "condition": { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Alright then, fuck you <name_b>.",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]

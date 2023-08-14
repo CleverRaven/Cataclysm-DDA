@@ -1,6 +1,45 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_godco_hate_u_mutant",
+    "recurrence": [ 20, 40 ],
+    "condition": {
+      "or": [
+        {
+          "u_has_any_trait": [
+            "THRESH_LIZARD",
+            "THRESH_GASTROPOD",
+            "THRESH_BIRD",
+            "THRESH_FISH",
+            "THRESH_BEAST",
+            "THRESH_FELINE",
+            "THRESH_LUPINE",
+            "THRESH_URSINE",
+            "THRESH_CATTLE",
+            "THRESH_INSECT",
+            "THRESH_PLANT",
+            "THRESH_SLIME",
+            "THRESH_TROGLOBITE",
+            "THRESH_CEPHALOPOD",
+            "THRESH_SPIDER",
+            "THRESH_RAT",
+            "THRESH_ELPHA",
+            "THRESH_CHIMERA",
+            "THRESH_RAPTOR",
+            "THRESH_BATRACHIAN",
+            "THRESH_MOUSE",
+            "THRESH_MARLOSS",
+            "THRESH_MYCUS",
+            "THRESH_CRUSTACEAN"
+          ]
+        }
+      ]
+    },
+    "deactivate_condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+    "effect": [ { "u_add_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "godco_place_coop",
     "recurrence": 100,
     "global": false,

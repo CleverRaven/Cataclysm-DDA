@@ -1323,8 +1323,11 @@ void Item_factory::finalize()
             it->second.recipes.push_back( p.first );
         }
     }
+    for( auto &e : m_template_groups ) {
+        auto &isd = e.second;
+        isd->finalize( itype_id::NULL_ID() );
+    }
 }
-
 void item_blacklist_t::clear()
 {
     blacklist.clear();
@@ -2146,9 +2149,9 @@ void Item_factory::check_definitions() const
                 msg += "empty product list\n";
             }
 
-            for( auto &b : type->brewable->results ) {
-                if( !has_template( b ) ) {
-                    msg += string_format( "invalid result id %s\n", b.c_str() );
+            for( const std::pair<const itype_id, int> &b : type->brewable->results ) {
+                if( !has_template( b.first ) ) {
+                    msg += string_format( "invalid result id %s\n", b.first.c_str() );
                 }
             }
         }
@@ -3324,7 +3327,13 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
 void islot_brewable::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "time", time, 1_turns );
-    mandatory( jo, was_loaded, "results", results );
+    if( jo.has_array( "results" ) ) {
+        for( std::string entry : jo.get_string_array( "results" ) ) {
+            results[itype_id( entry )] = 1;
+        }
+    } else {
+        mandatory( jo, was_loaded, "results", results );
+    }
 }
 
 void islot_brewable::deserialize( const JsonObject &jo )
@@ -4891,6 +4900,9 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
     use_modifier |= load_min_max( modifier.charges, obj, "charges" );
     use_modifier |= load_min_max( modifier.count, obj, "count" );
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
+    if( obj.has_string( "entry-wrapper" ) ) {
+        sptr->set_container_item( itype_id( obj.get_string( "entry-wrapper" ) ) );
+    }
     use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
     use_modifier |= load_str_arr( modifier.snippets, obj, "snippets" );
