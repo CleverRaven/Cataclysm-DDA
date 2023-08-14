@@ -437,10 +437,7 @@
       { "item": "gloves_wool", "new": [ "gloves_leather" ] },
       { "item": "socks_wool", "new": [ "socks" ] },
       { "item": "kilt", "new": [ "kilt_leather" ] },
-      { "item": "mask_ski", "new": [ "balclava" ] },
-      { "item": "aketon_wool", "new": [ "aketon_nylon" ] },
-      { "item": "aketon_pants_wool", "new": [ "aketon_pants_nylon" ] },
-      { "item": "aketon_hood_wool", "new": [ "aketon_hood_nylon" ] }
+      { "item": "mask_ski", "new": [ "balclava" ] }
     ]
   },
   {
