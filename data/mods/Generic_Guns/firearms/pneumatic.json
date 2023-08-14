@@ -5,7 +5,7 @@
     "type": "GUN",
     "name": { "str": "varmint air rifle" },
     "description": "A cheap varmint air rifle chambered in .177, suitable for hunting small game.",
-    "ammo": [ "ammo_rifle_pellet" ],
+    "ammo": [ "airgun_pellet" ],
     "reload": 300,
     "valid_mod_locations": [
       [ "accessories", 4 ],
