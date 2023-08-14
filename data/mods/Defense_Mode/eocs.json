@@ -87,7 +87,8 @@
           [ "DEFENSE_MODE_WAVE_SPAWN_SPIDERS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_ROBOTS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_TRIFFIDS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_SUBSPACE", { "const": 1 } ]
+          [ "DEFENSE_MODE_WAVE_SPAWN_SUBSPACE", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_MEGAFAUNA", { "const": 1 } ]
         ]
       }
     ]
