@@ -2,6 +2,52 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "driving_license",
+    "name": "Driving License",
+    "description": "You got your driving license and know how to drive a car.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "driving" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "simple_home_cooking",
+    "name": "Simple Home Cooking",
+    "description": "You've been living on your own long enough that you know how to cook basic dishes and feed yourself.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "cooking" } ],
+    "proficiencies": [ "prof_food_prep" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "computer_literate",
+    "name": "Computer Literate",
+    "description": "Either through school, your job, or from your family you've learned the basis of how to use a computer.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "computer" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "socially_adequate",
+    "name": "Socially Adequate",
+    "description": "You've spent a significant portion of your life living amongs other people here in New England and are familiar with the local social norms. You know how to talk with other people, and how to convey your emotions and understand those of others.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "speech" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "mundane_survival",
+    "name": "Mundane Survival",
+    "description": "You've managed to survive modern life in a first world country, through your ordeals you've learned how to treat scraps and bruises and how to assemble basic furnitures.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "firstaid" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "heroin_addict",
     "name": "Heroin Dependence",
     "description": "The last thing you remember was meeting God behind the local Foodplace.  Then people started eating each other.  This doesn't feel like a fever dream.",
