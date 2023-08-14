@@ -167,7 +167,7 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "COVERED", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "ARCADE", "CTRL_ELECTRONIC" ],
     "epower": "-150 W",
-    "light_emitted": 4,
+    "light_emitted": 10,
     "item": "arcade_machine",
     "looks_like": "f_arcade_machine",
     "breaks_into": [
