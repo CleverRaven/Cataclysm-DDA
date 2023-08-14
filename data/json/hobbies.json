@@ -4,9 +4,9 @@
     "subtype": "hobby",
     "id": "driving_license",
     "name": "Driving License",
-    "description": "You got your driving license and know how to drive a car.",
+    "description": "You got your driving license and know how to drive a car, change the oil and tires, and other basics.",
     "points": 0,
-    "skills": [ { "level": 1, "name": "driving" } ]
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" } ]
   },
   {
     "type": "profession",
@@ -30,8 +30,8 @@
   {
     "type": "profession",
     "subtype": "hobby",
-    "id": "socially_adequate",
-    "name": "Socially Adequate",
+    "id": "social_skills",
+    "name": "Social Skills",
     "description": "You've spent a significant portion of your life living among other people and are familiar with social norms.  You know how to talk with other people, and how to convey your emotions and understand those of others.",
     "points": 0,
     "skills": [ { "level": 1, "name": "speech" } ]
