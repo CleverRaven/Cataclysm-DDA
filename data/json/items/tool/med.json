@@ -268,8 +268,8 @@
     "name": { "str": "autopsy kit" },
     "description": "A post-mortem set used by veterenarians for examining and diagnosing the cause of death of deseased animals.",
     "looks_like": "1st_aid_box",
-    "weight": "1790 g",
-    "volume": "1860 ml",
+    "weight": "1810 g",
+    "volume": "1870 ml",
     "longest_side": "30 cm",
     "price": 35000,
     "price_postapoc": 1500,
@@ -277,10 +277,18 @@
     "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 4 ], [ "BUTCHER", 30 ], [ "FABRIC_CUT", 1 ], [ "SAW_M", 2 ], [ "SAW_W", 1 ], [ "SAW_M_FINE", 1 ] ],
+    "qualities": [
+      [ "CUT", 2 ],
+      [ "CUT_FINE", 4 ],
+      [ "BUTCHER", 30 ],
+      [ "FABRIC_CUT", 1 ],
+      [ "SAW_M", 2 ],
+      [ "SAW_W", 1 ],
+      [ "SAW_M_FINE", 1 ]
+    ],
     "charged_qualities": [ [ "CUT_FINE", 4 ] ],
     "melee_damage": { "cut": 16 },
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "smoxygen_tank",
