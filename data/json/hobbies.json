@@ -39,6 +39,15 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "high_school_graduate",
+    "name": "High School Graduate",
+    "description": "You've graduated from high school and thus know a little bit about applied science and electronics.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "chemistry" }, { "level": 1, "name": "electronics" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "mundane_survival",
     "name": "Mundane Survival",
     "description": "You've managed to survive modern life in a first world country, through your ordeals you've learned how to treat scraps and bruises and how to assemble basic furnitures.",
