@@ -79,8 +79,8 @@
   },
   {
     "type": "enchantment",
-    "id": "cloud_skin_enchantment",
-    "name": { "str": "cloud skin" },
+    "id": "storm_skin_enchantment",
+    "name": { "str": "storm skin" },
     "description": "Your storm skin grant you good resistance to temperature conditions.  Also your hands emit a moderate amount of electricity, increasing your damage in melee.",
     "condition": "ALWAYS",
     "values": [
