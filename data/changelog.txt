@@ -41,6 +41,9 @@ Player character now can get sick with common cold or flu only after contacts wi
 Generate vehicle prototypes from in-game vehicles
 In-game Armor sprite change
 Cockroaches flee light, hide under furniture, eat corpses, and breed faster when fed
+Cataclysm and game start dates are to be set through scenarios
+Friendly NPC crafting by crafting menu
+Show inventory selector for tinder when starting fires with tools that require tinder
 
 
 ## Content:
@@ -73,6 +76,18 @@ Adds new skateboard vehicle
 Most scenarios now provide vision of the nearest city on start
 Alternative resolution to clean back bay quest
 Add a synagogue
+Add larger refrigerated tank
+Make Alpha more cool & flavorful
+Adds hillbilly profession.
+Flesh out the Free Merchant representative for the God's Chosen
+New handloading option, matchhead powder (red phosphorous) bullets
+Give the God's Chosen NPCs some anti-mutant dialogue
+Add barbershops
+overhaul profession skills
+Give Luo unique dialogue after recruitment
+Expand the Hells' Raiders
+JSONify Defense Mode
+Add in a bronze nail puller, and bronze wood saw
 
 
 ## Interface:
@@ -91,6 +106,12 @@ NPC selects melee style
 Add sundial, wind and radiation badge to "spacebar" sidebar
 fix widget error if player has no body part
 AIM: Add key to step outside containers; AIM: mark container that the other pane is looking inside
+Vehicle interaction to start at point of examination
+Crafting menu shows furniture qualities
+Enable/disable showing several non-player-related messages in the log
+Scroll one page when displaying item info
+Adds scrollbar to the item info display in vending machine ui
+Added scrollbar for wish item menu
 
 
 ## Mods:
@@ -124,6 +145,13 @@ Add the Mind Over Matter mod to the CDDA repository
 [MoM] Add additional portal storm remnant map extras
 [Sky Island] Mainline Sky Island mod
 [Magiclysm] Add a spell-using feral human to Magiclysm
+Intensify center of Quell Fire mist
+New powers, part 3
+Fix Vitakinetic/Synthetic Lungs interaction
+Mind Over Matter-specific Research facility overhaul
+Add VERDANT HAND Combat Protocol
+Mutation selector mod
+Add mercenary hiring to Defense Mode
 
 
 ## Balance:
@@ -152,6 +180,7 @@ Intelligence provides a multiplier to current focus rather than adding to its va
 More monsters fight back if cornered
 Higher dodge skill lowers the stamina cost to dodge
 Adds a mutable stream to the mapgen
+[Aftershock] Adjust bionic toolkit qualities
 
 
 ## Bugfixes:
@@ -215,6 +244,27 @@ Prevent car from spawning into a house wall
 HP widgets gets equivalent bodypart
 Fix grainy glyphs in blended font rendering mode
 Stop dodging good spells, fix uncanny dodge spell crash
+Canceling 'save zone' query returns you to zone manager instead of discarding changes
+Cotton sheet folded seat isn't repaired with welding but sewing
+Integrated Multitool consumes power only when welding
+Fix component distribution errors for crafted food
+Fix radio modded explosives
+Fix teleportocalypse
+Replaces Forge of Wonder kitchen tongs with flat jaw tongs.
+Minor fix of NPC crafting
+Fermentation can produce multiples of resulting items
+sulfur is treated like a chem rather than a comestible
+Fix Fountain of Flames
+Fix scenario start dates
+Fix appliance power drain display right after plugging in/unplugging device
+Prevent deleting furniture with grappling hook
+Do not destroy items when climbing grappling hook
+fix a spot where nuts_bolts spawned too few
+Add transparency to some pockets
+coal and charcoal are separate
+Close helms transform into the correct grade
+Consumption code now checks for JSON Flag instead of ID
+Fix component distribution error false positives for a bunch of recipes
 
 
 ## Performance:
@@ -222,6 +272,9 @@ Make `Character::best_item_with_quality` examine items non-recursively
 Refactor effect types to use map indirection and enums instead of strings
 Removes the ludicrous amount of OMs the refugee and research centres define
 Fix Nested List lag in crafting menu
+Cache nutrient results for recipes while calculating nutrient range for food info
+Add functions for efficiently creating massive amounts of identical items and finding pockets for them, use to greatly speed up debug spawning
+Optimize eoc processing and other fixes to speed up waiting near many npcs
 
 
 ## Infrastructure:
