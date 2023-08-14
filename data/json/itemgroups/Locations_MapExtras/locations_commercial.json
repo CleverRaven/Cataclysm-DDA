@@ -1975,6 +1975,7 @@
       [ "canister_empty", 5 ],
       [ "stethoscope", 50 ],
       [ "scalpel", 50 ],
+      [ "autopsy_kit", 10 ],
       [ "gloves_medical", 50 ],
       [ "medical_gauze", 25 ],
       { "prob": 10, "group": "quikclot_bag_plastic_1_6" },

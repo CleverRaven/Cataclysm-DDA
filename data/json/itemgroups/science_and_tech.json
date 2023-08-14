@@ -461,6 +461,7 @@
       { "group": "adhesive_bandages_box_used", "prob": 20 },
       { "group": "cotton_ball_bag_used", "prob": 50 },
       [ "scalpel", 48 ],
+      [ "autopsy_kit", 4 ],
       [ "syringe", 8 ],
       [ "pouch_autoclave", 15 ],
       [ "adrenaline_injector", 2 ],
