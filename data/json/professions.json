@@ -2138,7 +2138,7 @@
     "name": "Dog Lover",
     "description": "You spent your days running around with your faithful dogs by your side.  When the world ended, you grabbed your companions along with some of their things to protect them.  The zombies could be nearby, but at least your canine friends won't have to worry about the rain.",
     "points": 2,
-    "skills": [ { "level": 3, "name": "survival" } ],
+    "skills": [ { "level": 2, "name": "survival" } ],
     "traits": [ "ANIMALEMPATH" ],
     "pets": [ { "name": "mon_dog", "amount": 2 } ],
     "items": {
@@ -2157,7 +2157,7 @@
     "name": { "male": "Crazy Cat Dude", "female": "Crazy Cat Lady" },
     "description": "Everyone is dead?  Oh well, it doesn't matter; it's not like you got along with people much anyway.  Your beloved cats are all the friends you need!",
     "points": 2,
-    "skills": [ { "level": 3, "name": "tailor" }, { "level": 3, "name": "survival" }, { "level": 3, "name": "cooking" } ],
+    "skills": [ { "level": 2, "name": "tailor" }, { "level": 2, "name": "survival" }, { "level": 2, "name": "cooking" } ],
     "proficiencies": [ "prof_knitting", "prof_knitting_speed" ],
     "pets": [
       { "name": "mon_cat", "amount": 5 },
@@ -2535,7 +2535,7 @@
     "description": "A great fan of the archers of old, but at the same time a follower of the latest trends in archery.  You always tried to keep up with the times, acquiring a takedown bow as well as several accessories to complement it.  You can only hope all the training you did with them can help you survive in this trying times.",
     "points": 4,
     "proficiencies": [ "prof_bow_basic", "prof_bow_expert" ],
-    "skills": [ { "level": 5, "name": "gun" }, { "level": 5, "name": "archery" }, { "level": 2, "name": "swimming" } ],
+    "skills": [ { "level": 4, "name": "gun" }, { "level": 4, "name": "archery" }, { "level": 2, "name": "swimming" } ],
     "items": {
       "both": {
         "items": [
@@ -2568,7 +2568,7 @@
     "description": "Ever since you were a child you loved hunting, and quickly developed a talent for archery.  Why, if the world ended, there's nothing you'd want at your side more than your trusty bow.  So, when it did, you made sure to bring it along.",
     "points": 3,
     "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_bowyery" ],
-    "skills": [ { "level": 5, "name": "gun" }, { "level": 5, "name": "archery" }, { "level": 2, "name": "swimming" } ],
+    "skills": [ { "level": 4, "name": "gun" }, { "level": 4, "name": "archery" }, { "level": 2, "name": "swimming" } ],
     "items": {
       "both": {
         "items": [
@@ -2602,7 +2602,7 @@
     "description": "Ever since you were a child you loved hunting, and crossbow hunting was always your favorite.  Why, if the world ended, there's nothing you'd want at your side more than your trusty crossbow.  So, when it did, you made sure to bring it along, though most of your bolts were lost during the escape.",
     "points": 3,
     "proficiencies": [ "prof_bow_basic", "prof_gunsmithing_spring" ],
-    "skills": [ { "level": 5, "name": "gun" }, { "level": 5, "name": "rifle" }, { "level": 2, "name": "swimming" } ],
+    "skills": [ { "level": 4, "name": "gun" }, { "level": 4, "name": "rifle" }, { "level": 2, "name": "swimming" } ],
     "items": {
       "both": {
         "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "single_sling" ],
@@ -2632,7 +2632,7 @@
     "description": "Ever since you were a child you loved hunting, and one year you got a shotgun for your birthday.  Why, if the world ended, there's nothing you'd want at your side more than your trusty shotgun.  So, when it did, you made sure to bring it along.",
     "points": 3,
     "proficiencies": [ "prof_gun_cleaning" ],
-    "skills": [ { "level": 5, "name": "gun" }, { "level": 5, "name": "shotgun" } ],
+    "skills": [ { "level": 4, "name": "gun" }, { "level": 4, "name": "shotgun" } ],
     "items": {
       "both": {
         "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "back_holster" ],
@@ -2663,7 +2663,7 @@
     "description": "Ever since you were a child you loved hunting, and you fancy yourself a crack shot.  Why, if the world ended, there's nothing you'd want at your side more than your trusty rifle.  So, when it did, you made sure to bring it along.",
     "points": 3,
     "proficiencies": [ "prof_gun_cleaning" ],
-    "skills": [ { "level": 5, "name": "gun" }, { "level": 5, "name": "rifle" } ],
+    "skills": [ { "level": 4, "name": "gun" }, { "level": 4, "name": "rifle" } ],
     "items": {
       "both": {
         "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "back_holster" ],
@@ -2694,7 +2694,7 @@
     "description": "You always harbored a passion for hunting and a particular fondness for big-bore rifle calibers and affordable conversion kits.  Whether it was their cost-effective nature or the simple, testosterone-amplifying notion that you could retool your rifle to belt out .50-caliber bullets, you preferred them for your hunting trips.  Now, with your converted rifle in hand, you fancy that there isn't any game too large for you to take down.",
     "points": 3,
     "proficiencies": [ "prof_gun_cleaning" ],
-    "skills": [ { "level": 5, "name": "gun" }, { "level": 5, "name": "rifle" } ],
+    "skills": [ { "level": 4, "name": "gun" }, { "level": 4, "name": "rifle" } ],
     "items": {
       "both": {
         "items": [
@@ -6431,8 +6431,8 @@
     "description": "Whether with criminal intent or just for fun, you've always enjoyed blowing stuff up with DIY explosives.  Your skillset will surely prove useful in this new target rich environment.",
     "points": 4,
     "skills": [
-      { "level": 5, "name": "fabrication" },
-      { "level": 5, "name": "chemistry" },
+      { "level": 4, "name": "fabrication" },
+      { "level": 4, "name": "chemistry" },
       { "level": 3, "name": "throw" },
       { "level": 2, "name": "firstaid" },
       { "level": 2, "name": "swimming" }
@@ -6489,7 +6489,7 @@
     "name": "Sommelier",
     "description": "You have an undying passion for wine.  Not even the end of the world is going to stop you from degustating more kinds of it.  Hell, perhaps it's time to make some of your own.",
     "points": 3,
-    "skills": [ { "level": 5, "name": "cooking" }, { "level": 3, "name": "chemistry" } ],
+    "skills": [ { "level": 4, "name": "cooking" }, { "level": 3, "name": "chemistry" } ],
     "traits": [ "GOURMAND" ],
     "proficiencies": [ "prof_beverage_distilling", "prof_fermenting", "prof_winemaking" ],
     "items": {
@@ -6547,91 +6547,6 @@
   },
   {
     "type": "profession",
-    "id": "superspy",
-    "name": "Spy of Legend",
-    "requirement": "achievement_kill_100_monsters",
-    "description": "You were a spy of many a folk tale.  The whole world knew about your exploits, yet you managed to keep your identity a secret.  The Cataclysm looks to be your hardest mission yet.",
-    "points": 9,
-    "skills": [
-      { "level": 8, "name": "gun" },
-      { "level": 8, "name": "pistol" },
-      { "level": 6, "name": "melee" },
-      { "level": 6, "name": "unarmed" },
-      { "level": 6, "name": "speech" },
-      { "level": 5, "name": "rifle" },
-      { "level": 5, "name": "smg" },
-      { "level": 5, "name": "shotgun" },
-      { "level": 5, "name": "bashing" },
-      { "level": 5, "name": "cutting" },
-      { "level": 5, "name": "stabbing" },
-      { "level": 5, "name": "dodge" },
-      { "level": 4, "name": "firstaid" },
-      { "level": 4, "name": "throw" },
-      { "level": 4, "name": "swimming" },
-      { "level": 3, "name": "survival" }
-    ],
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_wp_syn_armored", "prof_gun_cleaning" ],
-    "items": {
-      "both": {
-        "items": [ "shoulder_holster", "platinum_watch", "suppressor" ],
-        "entries": [
-          { "group": "charged_two_way_radio" },
-          { "item": "pants", "variant": "pants_black" },
-          { "item": "walther_ppk", "ammo-item": "32_acp", "charges": 8 },
-          { "item": "ppkmag", "ammo-item": "32_acp", "charges": 8 },
-          { "item": "ppkmag", "ammo-item": "32_acp", "charges": 8 },
-          { "item": "32_acp", "charges": 20 }
-        ]
-      },
-      "male": [ "briefs", "tux", "dress_shoes", "socks" ],
-      "female": [ "panties", "bra", "gown", "heels", "purse" ]
-    }
-  },
-  {
-    "type": "profession",
-    "id": "mad_bomber",
-    "name": "Mad Bomber",
-    "description": "Your lifelong fascination with explosive ordnance has resulted in you cobbling a rocket launcher and some rockets from scrap.  You would've been likely labeled a terrorist in the old world, but there's no one left to pass that judgement now.  It's time to reduce some zombies to thin red paste.",
-    "points": 8,
-    "skills": [
-      { "level": 7, "name": "launcher" },
-      { "level": 6, "name": "fabrication" },
-      { "level": 6, "name": "mechanics" },
-      { "level": 6, "name": "chemistry" },
-      { "level": 5, "name": "gun" },
-      { "level": 2, "name": "firstaid" },
-      { "level": 2, "name": "swimming" }
-    ],
-    "proficiencies": [
-      "prof_gunsmithing_improv",
-      "prof_gunsmithing_basic",
-      "prof_handloading",
-      "prof_gun_cleaning",
-      "prof_intro_chemistry",
-      "prof_inorganic_chemistry"
-    ],
-    "items": {
-      "both": {
-        "items": [ "tank_top", "bandana_head", "socks", "sneakers", "textbook_anarch", "backpack" ],
-        "entries": [
-          { "group": "charged_smart_phone" },
-          { "item": "pants", "variant": "pants_black_camo" },
-          {
-            "item": "surv_rocket_launcher",
-            "ammo-item": "explosive_hm_rocket",
-            "charges": 1,
-            "custom-flags": [ "auto_wield" ]
-          },
-          { "item": "explosive_hm_rocket", "count": 10 },
-          { "item": "manual_launcher", "variant": "manual_launcher_2" }
-        ]
-      },
-      "male": [ "briefs" ],
-      "female": [ "panties", "bra" ]
-    }
-  },
-  {
-    "type": "profession",
     "id": "carpenter",
     "name": "Carpenter",
     "description": "You spent most of your days in the workshop making furniture for a living.  Let's hope whatever you build is strong enough to keep the undead at bay.",
@@ -6686,41 +6601,6 @@
   },
   {
     "type": "profession",
-    "id": "soviet_reenactor",
-    "name": "Red Army Soldier",
-    "description": "You are a massive history buff when it comes down to the Second World War.  You were dressed as a Red Army soldier on your way to test your mettle at a gun match with your PPSh, but the Cataclysm derailed your plans.  Now you're going to feel like a real soldier.",
-    "points": 4,
-    "proficiencies": [ "prof_gun_cleaning" ],
-    "skills": [
-      { "level": 4, "name": "gun" },
-      { "level": 4, "name": "smg" },
-      { "level": 3, "name": "pistol" },
-      { "level": 2, "name": "mechanics" },
-      { "level": 2, "name": "tailor" }
-    ],
-    "items": {
-      "both": {
-        "items": [ "jacket_army", "leather_belt", "undershirt", "mbag", "e_tool", "breeches", "socks" ],
-        "entries": [
-          {
-            "item": "ppsh",
-            "ammo-item": "762_25",
-            "charges": 71,
-            "contents-item": "shoulder_strap",
-            "custom-flags": [ "auto_wield" ]
-          },
-          { "item": "ppshdrum", "ammo-item": "762_25", "charges": 71 },
-          { "item": "knee_high_boots", "variant": "jackboots" },
-          { "item": "helmet_army_outdated", "variant": "helmet_ssh" },
-          { "group": "charged_smart_phone" }
-        ]
-      },
-      "male": [ "briefs" ],
-      "female": [ "panties", "bra" ]
-    }
-  },
-  {
-    "type": "profession",
     "id": "bootlegger",
     "name": "Bootlegger",
     "description": "Nothing beats a good swig of moonshine after a day of hard work!  You sure as hell ain't gonna let the Cataclysm stop you from making some more of that good stuff.",
@@ -6735,45 +6615,6 @@
           { "group": "charged_ref_lighter" },
           { "item": "jeans", "variant": "jeans5" },
           { "item": "moonshine", "custom-flags": [ "auto_wield" ] }
-        ]
-      },
-      "male": [ "briefs" ],
-      "female": [ "panties", "bra" ]
-    }
-  },
-  {
-    "type": "profession",
-    "id": "american_reenactor",
-    "name": { "male": "G.I. Joe", "female": "G.I. Jane" },
-    "description": "You are a massive history buff when it comes down to the Second World War.  You were dressed as an American soldier on your way to test your mettle at a gun match with your Garand, but the Cataclysm derailed your plans.  Now you're going to feel like a real soldier.",
-    "points": 4,
-    "proficiencies": [ "prof_gun_cleaning" ],
-    "skills": [
-      { "level": 4, "name": "gun" },
-      { "level": 4, "name": "rifle" },
-      { "level": 3, "name": "pistol" },
-      { "level": 2, "name": "mechanics" },
-      { "level": 2, "name": "tailor" }
-    ],
-    "items": {
-      "both": {
-        "items": [ "jacket_army", "boots", "undershirt", "mbag", "e_tool", "socks" ],
-        "entries": [
-          { "item": "helmet_army_outdated", "variant": "helmet_m1" },
-          { "item": "pants", "variant": "generic_pants" },
-          {
-            "item": "garand",
-            "ammo-item": "3006",
-            "charges": 8,
-            "contents-item": "shoulder_strap",
-            "custom-flags": [ "auto_wield" ]
-          },
-          { "item": "garandclip", "ammo-item": "3006", "charges": 8 },
-          { "item": "garandclip", "ammo-item": "3006", "charges": 8 },
-          { "item": "garandclip", "ammo-item": "3006", "charges": 8 },
-          { "item": "garandclip", "ammo-item": "3006", "charges": 8 },
-          { "item": "garandclip", "ammo-item": "3006", "charges": 8 },
-          { "group": "charged_smart_phone" }
         ]
       },
       "male": [ "briefs" ],
@@ -6822,7 +6663,7 @@
     "description": "There was never a shortage of tough guys in need of patching up or organs in need of removal.  You may have never had a medical license, but that doesn't matter to anyone now that the world has ended.",
     "points": 3,
     "skills": [
-      { "level": 6, "name": "firstaid" },
+      { "level": 5, "name": "firstaid" },
       { "level": 4, "name": "speech" },
       { "level": 2, "name": "melee" },
       { "level": 2, "name": "cutting" }
@@ -6887,33 +6728,8 @@
   },
   {
     "type": "profession",
-    "id": "slasher",
-    "name": "Slasher",
-    "description": "You are completely obsessed with a certain machete wielding maniac.  You often posted pictures and videos of yourself cosplaying as him, much to the enjoyment of your online following.  Perhaps it's time to put your machete practice to good use.",
-    "points": 3,
-    "skills": [
-      { "level": 4, "name": "melee" },
-      { "level": 4, "name": "cutting" },
-      { "level": 3, "name": "unarmed" },
-      { "level": 2, "name": "computer" }
-    ],
-    "items": {
-      "both": {
-        "items": [ "undershirt", "socks", "boots", "wristwatch", "jacket_light", "gloves_light", "mask_hockey" ],
-        "entries": [
-          { "group": "charged_smart_phone" },
-          { "item": "pants", "variant": "generic_pants" },
-          { "item": "machete", "custom-flags": [ "auto_wield" ] }
-        ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
-    }
-  },
-  {
-    "type": "profession",
     "id": "idol",
-    "name": "Idol",
+    "name": "Pop Star",
     "description": "You were a famous pop star touring all across the US.  During your latest performance the crowd started getting a little too wild and you made your way backstage.  Looks like you're going to have to fend off more than just your adoring fans.",
     "points": 2,
     "skills": [ { "level": 5, "name": "speech" }, { "level": 3, "name": "dodge" } ],
@@ -7048,26 +6864,6 @@
       },
       "male": [ "briefs" ],
       "female": [ "panties", "bra" ]
-    }
-  },
-  {
-    "type": "profession",
-    "id": "bbgunner",
-    "name": "BB Gunner",
-    "description": "You were the bane of the neighbourhood, causing all sorts of mischief with the BB gun you got for your birthday.  Your streak of prankishness has come to an end, however, as there are no adults left to pester.",
-    "points": 0,
-    "skills": [ { "level": 2, "name": "gun" }, { "level": 1, "name": "rifle" } ],
-    "items": {
-      "both": {
-        "items": [ "hoodie", "jeans", "socks", "sneakers", "wristwatch" ],
-        "entries": [
-          { "group": "charged_smart_phone" },
-          { "item": "bbgun", "ammo-item": "bb", "charges": 150, "contents-item": "shoulder_strap" },
-          { "item": "tshirt", "variant": "generic_tshirt" }
-        ]
-      },
-      "male": [ "briefs" ],
-      "female": [ "boy_shorts" ]
     }
   },
   {
