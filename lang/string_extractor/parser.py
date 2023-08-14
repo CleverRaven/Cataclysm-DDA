@@ -198,6 +198,7 @@ parsers = {
     "playlist": dummy_parser,
     "practice": parse_practice,
     "profession": parse_profession,
+    "profession_group": dummy_parser,
     "profession_item_substitutions": dummy_parser,
     "proficiency": parse_proficiency,
     "proficiency_category": parse_proficiency_category,
