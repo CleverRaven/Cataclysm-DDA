@@ -397,7 +397,7 @@
     "type": "TOOL",
     "name": { "str": "bionic maintenance toolkit" },
     "description": "A set of very small tools and encrypted digital keys normally used to repair bionic modules in clinical settings.  They will allow you to disassemble simple bionics, but anything more complex would require even more specialized tools.",
-    "qualities": [ [ "BIONIC_ASSEMBLY", 1 ], [ "SAW_M_FINE", 1 ] ]
+    "qualities": [ [ "BIONIC_ASSEMBLY", 1 ], [ "SCREW_FINE", 1 ], [ "WRENCH_FINE", 1 ] ]
   },
   {
     "id": "afs_complete_bionic_toolkit",
@@ -405,7 +405,7 @@
     "type": "TOOL",
     "name": { "str": "complete bionic toolkit" },
     "description": "A set of very small robotic tools and encrypted digital keys originally designed to disassemble and test the quality of industrially produced bionics.  A highly skilled and patient engineer could use them to manually assemble new cybernetics.",
-    "qualities": [ [ "BIONIC_ASSEMBLY", 2 ], [ "SAW_M_FINE", 1 ] ]
+    "qualities": [ [ "BIONIC_ASSEMBLY", 2 ], [ "SCREW_FINE", 1 ], [ "WRENCH_FINE", 1 ] ]
   },
   {
     "id": "afs_bionic_power_mod",

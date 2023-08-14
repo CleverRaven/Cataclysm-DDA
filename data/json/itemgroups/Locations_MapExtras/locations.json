@@ -1716,7 +1716,7 @@
       { "item": "knuckle_steel_forged", "prob": 3 },
       { "item": "switchblade", "prob": 4 },
       { "item": "throwing_knife", "prob": 5 },
-      { "item": "throwing_knife", "charges-min": 1, "charges-max": 6, "container-item": "leg_sheath6", "prob": 1 },
+      { "item": "throwing_knife", "count-min": 1, "count-max": 6, "entry-wrapper": "leg_sheath6", "prob": 1 },
       { "item": "leg_sheath6", "prob": 2 },
       { "item": "knife_combat", "container-item": "gartersheath1", "prob": 1 },
       { "item": "gartersheath1", "prob": 10 },

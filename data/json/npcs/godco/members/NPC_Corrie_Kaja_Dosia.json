@@ -4,6 +4,7 @@
     "id": [
       "TALK_GODCO_Corrie_FirstmeetA",
       "TALK_GODCO_Corrie_FirstmeetB",
+      "TALK_GODCO_Corrie_FirstmeetC",
       "TALK_GODCO_Corrie_2",
       "TALK_GODCO_Corrie_Story",
       "TALK_GODCO_Corrie_Mission",
@@ -43,7 +44,8 @@
         "condition": {
           "and": [
             { "not": { "npc_has_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } }
+            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Corrie_FirstmeetA"
@@ -54,13 +56,25 @@
         "condition": {
           "and": [
             { "not": { "npc_has_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
             { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" }
           ]
         },
         "topic": "TALK_GODCO_Corrie_FirstmeetB"
       },
       {
-        "text": "Hey Corrie, what's up?",
+        "text": "Nice to meet you.",
+        "effect": { "npc_add_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" } },
+            { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_GODCO_Corrie_FirstmeetC"
+      },
+      {
+        "text": "Hey Corrie, you free?",
         "condition": { "npc_has_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_GODCO_Corrie_2"
       },
@@ -84,6 +98,15 @@
     "responses": [
       { "text": "What needs to be done?", "topic": "TALK_GODCO_Corrie_Mission" },
       { "text": "Sorry, not interested.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_FirstmeetC",
+    "dynamic_line": "Just so you know, a lot of the folks here might not take to kindly to your appearance.  I'm cool with it, though.",
+    "responses": [
+      { "text": "Why would that be?", "topic": "TALK_GODCO_Corrie_You_Mutant" },
+      { "text": "Thank you for your politeness and generosity.  I'll be seeing you.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -225,5 +248,14 @@
     "id": "TALK_GODCO_Corrie_Recruit",
     "dynamic_line": "Sure, I'll come.  I hate staying here, and you've gone out of your way to help me.  I appreciate that, <name_g>.",
     "responses": [ { "text": "Let's hit the road.", "topic": "TALK_DONE", "effect": "follow" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Corrie_You_Mutant",
+    "dynamic_line": "Nearly everyone here went to a church that was a bit… out there, shall we say.  They hate what they call \"mutants\", how some creatures and people have physically changed inexplicably after everything went to shit.  I'm glad they didn't kill you on the spot, not many people are left out there.",
+    "responses": [
+      { "text": "Well, thank's for telling me.  Let's talk about something else.", "topic": "TALK_GODCO_Corrie_2" },
+      { "text": "Wow.  This place is <swear> crazy, I'm outta here.", "topic": "TALK_DONE" }
+    ]
   }
 ]

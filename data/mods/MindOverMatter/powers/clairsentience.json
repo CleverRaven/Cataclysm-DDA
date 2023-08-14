@@ -245,9 +245,16 @@
     "base_energy_cost": 2500,
     "final_energy_cost": 1000,
     "energy_increment": -125,
-    "//": "Duration is fake--it's set in the EoC, this just makes the power display an accurate duration.",
-    "min_duration": 360000,
-    "max_duration": 1080000,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: clair_speed_reading') * 36000) + 360000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: clair_speed_reading') * 72000) + 1080000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
     "base_casting_time": 500,
     "final_casting_time": 250,
     "casting_time_increment": -12,
@@ -318,6 +325,81 @@
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
     "learn_spells": { "clair_ranged_enhance": 4, "clair_voyance": 7, "clair_clear_sight": 12 }
+  },
+  {
+    "id": "clair_sense_rads",
+    "type": "SPELL",
+    "name": "[Ψ]Radiation Sense",
+    "description": "You can open your tenses to the tell-tale glow of radiation.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_RAD_SENSE",
+    "//": "Drain is handled in the subspells below",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "base_energy_cost": 2500,
+    "final_energy_cost": 500,
+    "energy_increment": -125,
+    "base_casting_time": 250,
+    "final_casting_time": 100,
+    "casting_time_increment": -4.5
+  },
+  {
+    "id": "clair_sense_rads_self",
+    "type": "SPELL",
+    "name": "[Ψ]Radiation Sense on you",
+    "description": "Sense your personal radiation.  It's a bug if you have it directly.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_RAD_SENSE_SELF_REPORT",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] }
+  },
+  {
+    "id": "clair_sense_rads_outside",
+    "type": "SPELL",
+    "name": "[Ψ]Radiation Sense on your environment",
+    "description": "Sense your environmental radiation.  It's a bug if you have it directly.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_clair_sense_rads_self",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_sense_rads') * 23000) + 180000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_sense_rads') * 48000) + 450000) * (scaling_factor(u_val('intelligence') ) )" ]
+    }
+  },
+  {
+    "id": "clair_sense_rads_outside_spawn_item",
+    "type": "SPELL",
+    "name": "[Ψ]Radiation Sense summon item",
+    "description": "This is the reoccurring item summon for Radiation Sense.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "spawn_item",
+    "effect_str": "clair_sense_rad_item",
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 1100,
+    "max_duration": 1100
   },
   {
     "id": "clair_dodge_power",

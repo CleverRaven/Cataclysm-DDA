@@ -535,6 +535,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "coal",
+    "name": "coal",
+    "default": "coal_lump"
+  },
+  {
+    "type": "ammunition_type",
     "id": "thrown",
     "name": "throwing weapon",
     "default": "thrown"
@@ -814,5 +820,11 @@
     "id": "turpentine",
     "name": "turpentine",
     "default": "chem_turpentine"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "airgun_pellet",
+    "name": "airgun pellet",
+    "default": "airgun_pellet_target"
   }
 ]

@@ -20,26 +20,52 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Maria",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_maria",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
       "value": "yes",
-      "yes": "Hey <name_g>!  Nice to see you again!",
-      "no": "I don't think I've met you before, have I?  I'm Maria Serrano, it's nice to see an new face."
+      "yes": "Ahh!  What the <swear> are you?  Get the <swear> away from me!",
+      "no": {
+        "npc_has_var": "u_met_godco_maria",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": "Hey <name_g>!  Nice to see you again!",
+        "no": "I don't think I've met you before, have I?  I'm Maria Serrano, it's nice to see an new face."
+      }
     },
     "responses": [
       {
         "text": "It's a pleasure to meet you, Maria.",
         "effect": { "npc_add_var": "u_met_godco_maria", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "u_met_godco_maria", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_maria", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Maria_Feeling"
       },
       {
         "text": "Hey Maria.  What's up?",
-        "condition": { "npc_has_var": "u_met_godco_maria", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_maria", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Maria_2"
       },
-      { "text": "Hey Maria.  I can't stay to talk right now.", "topic": "TALK_DONE" }
+      {
+        "text": "Hey Maria.  I can't stay to talk right now.",
+        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Alright, alright, chill the <swear> out, I'm leaving!",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {

@@ -67,6 +67,98 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_RAD_PURGE",
+    "condition": { "math": [ "u_val('rad')", ">=", "500" ] },
+    "effect": [
+      { "u_add_effect": "effect_vitakin_purge_rads", "duration": "250 minutes" },
+      { "u_add_effect": "effect_vitakin_purge_rads_sideeffects", "duration": "250 minutes", "intensity": 6 },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_seven", "hit_self": true } }
+    ],
+    "false_effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_VITAKIN_RAD_PURGE_2",
+          "condition": { "and": [ { "math": [ "u_val('rad')", ">", "250" ] }, { "math": [ "u_val('rad')", "<=", "499" ] } ] },
+          "effect": [
+            { "u_add_effect": "effect_vitakin_purge_rads", "duration": "125 minutes" },
+            { "u_add_effect": "effect_vitakin_purge_rads_sideeffects", "duration": "125 minutes", "intensity": 5 },
+            { "u_cast_spell": { "id": "psionic_drained_difficulty_six", "hit_self": true } }
+          ],
+          "false_effect": {
+            "run_eocs": [
+              {
+                "id": "EOC_VITAKIN_RAD_PURGE_3",
+                "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "125" ] }, { "math": [ "u_val('rad')", "<=", "249" ] } ] },
+                "effect": [
+                  { "u_add_effect": "effect_vitakin_purge_rads", "duration": "65 minutes" },
+                  {
+                    "u_add_effect": "effect_vitakin_purge_rads_sideeffects",
+                    "duration": "65 minutes",
+                    "intensity": 4
+                  },
+                  { "u_cast_spell": { "id": "psionic_drained_difficulty_five", "hit_self": true } }
+                ],
+                "false_effect": {
+                  "run_eocs": [
+                    {
+                      "id": "EOC_VITAKIN_RAD_PURGE_4",
+                      "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "60" ] }, { "math": [ "u_val('rad')", "<=", "124" ] } ] },
+                      "effect": [
+                        { "u_add_effect": "effect_vitakin_purge_rads", "duration": "30 minutes" },
+                        {
+                          "u_add_effect": "effect_vitakin_purge_rads_sideeffects",
+                          "duration": "30 minutes",
+                          "intensity": 3
+                        },
+                        { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } }
+                      ],
+                      "false_effect": {
+                        "run_eocs": [
+                          {
+                            "id": "EOC_VITAKIN_RAD_PURGE_5",
+                            "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "30" ] }, { "math": [ "u_val('rad')", "<=", "59" ] } ] },
+                            "effect": [
+                              { "u_add_effect": "effect_vitakin_purge_rads", "duration": "15 minutes" },
+                              {
+                                "u_add_effect": "effect_vitakin_purge_rads_sideeffects",
+                                "duration": "15 minutes",
+                                "intensity": 2
+                              },
+                              { "u_cast_spell": { "id": "psionic_drained_difficulty_three", "hit_self": true } }
+                            ],
+                            "false_effect": {
+                              "run_eocs": [
+                                {
+                                  "id": "EOC_VITAKIN_RAD_PURGE_6",
+                                  "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "1" ] }, { "math": [ "u_val('rad')", "<=", "29" ] } ] },
+                                  "effect": [
+                                    { "u_add_effect": "effect_vitakin_purge_rads", "duration": "7 minutes" },
+                                    {
+                                      "u_add_effect": "effect_vitakin_purge_rads_sideeffects",
+                                      "duration": "7 minutes",
+                                      "intensity": 1
+                                    },
+                                    { "u_cast_spell": { "id": "psionic_drained_difficulty_two", "hit_self": true } }
+                                  ],
+                                  "false_effect": [ { "u_message": "You have no radiation in your body, and so no need to do anything.", "type": "good" } ]
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_SELECTOR",
     "effect": [
       {

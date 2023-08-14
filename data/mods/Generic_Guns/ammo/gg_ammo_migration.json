@@ -573,6 +573,16 @@
     "replace": "rocket_hedp"
   },
   {
+    "id": [ "airgun_pellet_target" ],
+    "type": "MIGRATION",
+    "replace": "rifle_pellet_target"
+  },
+  {
+    "id": [ "airgun_pellet_hunting" ],
+    "type": "MIGRATION",
+    "replace": "rifle_pellet_hunting"
+  },
+  {
     "id": [ "84x246mm_smoke" ],
     "type": "MIGRATION",
     "replace": "rocket_smoke"

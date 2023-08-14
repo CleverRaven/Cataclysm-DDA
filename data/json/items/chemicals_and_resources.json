@@ -35,23 +35,23 @@
     "volume": "10 ml"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "chem_sulphur",
+    "ammo_type": "components",
     "category": "chems",
-    "price": "1 cent",
-    "price_postapoc": "2 cent",
+    "price": 50,
+    "price_postapoc": 50,
     "name": { "str_sp": "sulfur" },
     "symbol": "=",
     "color": "yellow",
     "flags": [ "EDIBLE_FROZEN", "NO_INGEST" ],
-    "use_action": [ "FUNGICIDE" ],
-    "comestible_type": "MED",
-    "description": "A handful of pure sulfur.  Primarily used to make battery acid, sulfur is sometimes used as fuel for explosives.  Can be burned to produce acidic smoke that is deadly to bacteria and humans alike, or oxidized to make paper-bleaching agents.  It is also a fungicide, and could be rubbed on your skin to treat fungal infection.",
+    "description": "A handful of pure sulfur.  Primarily used to make battery acid, sulfur is sometimes used as fuel for explosives.  Can be burned to produce acidic smoke that is deadly to bacteria and humans alike, or oxidized to make paper-bleaching agents.  It also serves as a basis for many kinds of fungicide.",
     "material": [ "powder" ],
-    "volume": "1 ml",
+    "volume": "16 ml",
     "weight": "320 mg",
     "//": "Density: 2g/cm3.  NOTE: Weights for chemical powders are 1/100 mol.  Weights are given for ONE UNIT.  Volume is for all units.",
-    "container": "bottle_plastic_small"
+    "container": "bottle_plastic_small",
+    "count": 100
   },
   {
     "type": "AMMO",

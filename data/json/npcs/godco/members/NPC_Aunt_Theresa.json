@@ -27,26 +27,57 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Theresa_1",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_theresa",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
       "value": "yes",
-      "yes": [ "Praise the Lord.  It's good to see you're still around, <granny_name_g>." ],
-      "no": "Welcome, <granny_name_g>.  I don't think I recognize you, I'm Theresa."
+      "yes": "I have no interest in dealing with you, unnatural abomination.  Keep away from me.",
+      "no": {
+        "npc_has_var": "u_met_godco_theresa",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": "Praise the Lord.  It's good to see you're still around, <granny_name_g>.",
+        "no": "Welcome, <granny_name_g>.  I don't think I recognize you, I'm Theresa."
+      }
     },
     "responses": [
       {
         "text": "Nice to meet you, Theresa.",
         "effect": { "npc_add_var": "u_met_godco_theresa", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "u_met_godco_theresa", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_theresa", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Theresa_Firstmeet"
       },
       {
         "text": "Hello, Theresa.  How are you doing?",
-        "condition": { "npc_has_var": "u_met_godco_theresa", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_theresa", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_GODCO_Theresa_2"
       },
-      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      {
+        "text": "I'm afraid I can't talk right now.",
+        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "What's the insults for?",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_GODCO_Theresa_You_Mutant"
+      },
+      {
+        "text": "Fuck you then, I'm leaving.",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -235,5 +266,11 @@
       { "text": "Is there anything I can do to help?", "topic": "TALK_MISSION_LIST" },
       { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Theresa_You_Mutant",
+    "dynamic_line": "You clearly have the mark of a sinner.  I've seen your kind out and about after the Flood, killing and maiming like wild animals.  None of you are any good, not even to God, and you're of no good to me either.  Run on back to your sinful ways, now.  God has judged you already.",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   }
 ]

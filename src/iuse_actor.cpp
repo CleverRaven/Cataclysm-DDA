@@ -4584,11 +4584,17 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
         return std::nullopt;
 
     } else if( choice >= 998 ) {
-        // Selection: Unconnect & respool.
+        // Selection: Detach & respool.
 
         // Reopen the menu after respooling.
         p->assign_activity( invoke_item_activity_actor( item_location{*p, &it}, "link_up" ) );
         p->activity.auto_resume = true;
+
+        if( it.link->t_veh_safe ) {
+            // Cancel out the linked device's power draw so the vehicle's power display will be accurate.
+            int power_draw = it.charge_linked_batteries( *it.link->t_veh_safe, 0 );
+            it.link->t_veh_safe->linked_item_epower_this_turn += units::from_milliwatt( power_draw );
+        }
 
         it.reset_link( p );
         // Cables that are too long need to be manually rewound before reuse.
