@@ -41,9 +41,6 @@ Player character now can get sick with common cold or flu only after contacts wi
 Generate vehicle prototypes from in-game vehicles
 In-game Armor sprite change
 Cockroaches flee light, hide under furniture, eat corpses, and breed faster when fed
-More port arithmetic functions to math
-NPC reads books repeatedly
-Cable rework part 2: Adds extending cables with extension cords; adds disconnecting cables from examined vehicle part; improves cable status in item name; other cable improvements
 
 
 ## Content:
@@ -76,16 +73,8 @@ Adds new skateboard vehicle
 Most scenarios now provide vision of the nearest city on start
 Alternative resolution to clean back bay quest
 Add a synagogue
-Construction menu allows for players to mine and jackhammer through resin cages.
-synthetic lungs bionic
  adds a chance for small, personal photographs to spawn within people’s wallets and creates a starting pool of 34 snippets from which to pull.
 Adds curved road bends, rotaries and rest stops/laybys
-Micro dialogue update 1: Small talk with Jenny Forcette
-homemade ballistic vests for XL characters
-Micro dialogue update 3: Story time with Mandeep
-Micro dialogue update 2: Small talk with Uyen Tran
-Add a bunch of new backgrounds that are tiers of existing ones.
-Add low-tech weather tools
 
 
 ## Interface:
@@ -107,7 +96,6 @@ AIM: Add key to step outside containers; AIM: mark container that the other pane
 Change description of highlighted regions when editing the overmap
 Detailed information for stats on character creation menu
 Larger and more I18n-friendly safemode UI
-Bionics now show that they need n kJ of charge instead of just a number with no units
 
 
 ## Mods:
@@ -141,12 +129,7 @@ Add the Mind Over Matter mod to the CDDA repository
 [MoM] Add additional portal storm remnant map extras
 [Sky Island] Mainline Sky Island mod
 [Magiclysm] Add a spell-using feral human to Magiclysm
-Add OS647-P protection prototype device
-Add telepathic and telekinetic damage types
-Add new powers, part 2
-Add newly-awakened psionic disciplines as hobbies
-Bombastic Perks: Perk for faster swing speed with powered blades
-Add weakpoints system to Megafauna mod
+[MoM] Add telepathic and telekinetic damage types
 
 
 ## Balance:
@@ -175,14 +158,7 @@ Intelligence provides a multiplier to current focus rather than adding to its va
 More monsters fight back if cornered
 Higher dodge skill lowers the stamina cost to dodge
 Adds a mutable stream to the mapgen
-Batch savings for making pasta
 Limit the times assassins can try to kill you.
-fried seeds uses oil and the plants that make fryable seeds make more
-5.56x45mm ammo has greater armor penetration
-Allow roach dirt to make liquid fertilizer
-Less frequent large sealed food items in residential locations, more in commercial kitchens
-placing carpet needs 0 fab instead of 1 and takes 1 minute instead of 30
-tone down police armories a little more
 Increase plastic variety, adjust plastics to be more realistic in terms of protection
 
 
@@ -247,22 +223,9 @@ Prevent car from spawning into a house wall
 HP widgets gets equivalent bodypart
 Fix grainy glyphs in blended font rendering mode
 Stop dodging good spells, fix uncanny dodge spell crash
-Remove matrix dust default container, move to itemgroups
-Fix typo in webbing belt pocket description
 Fix and improve NPC randomizer
-blocks_effects blocks already had effects from stacking up. fix #67179
-apply new energy audit to filled charcoal kiln
-Remove error when remote_use item is deleted during its use function
-[Magiclysm] Update Enchanted Boots armor coverage
-Fix bone broth and bone stuff being inedible
-Spear straps should use leather sheets now, instead of canvas.
 Make sure overconfident officers reliably drop their guns
-Fix zombie telepathic stuns
-Remove the final uses of data cards.
-correct calories of cannabis seeds
-Pad various Aftershock armor and clothing items
-Fix crash when respooling/detaching cables
-more fixes for blackpowder rusting
+[MoM] Fix zombie telepathic stuns
 
 
 ## Performance:
@@ -270,9 +233,6 @@ Make `Character::best_item_with_quality` examine items non-recursively
 Refactor effect types to use map indirection and enums instead of strings
 Removes the ludicrous amount of OMs the refugee and research centres define
 Fix Nested List lag in crafting menu
-Make AIM navigation feel faster by updating sidebar less
-Fix NPC faction camp task slowdown
-Improve turn performance when having many solar panels
 
 
 ## Infrastructure:
