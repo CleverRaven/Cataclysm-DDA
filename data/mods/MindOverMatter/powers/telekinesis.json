@@ -100,7 +100,45 @@
     "base_casting_time": 300,
     "final_casting_time": 125,
     "casting_time_increment": -7.5,
-    "learn_spells": { "telekinetic_wave": 7, "telekinetic_strength": 10, "telekinetic_shield": 15, "telekinetic_vehicle_lift": 17 }
+    "learn_spells": {
+      "telekinetic_slowfall": 5,
+      "telekinetic_wave": 7,
+      "telekinetic_strength": 10,
+      "telekinetic_shield": 15,
+      "telekinetic_vehicle_lift": 17
+    }
+  },
+  {
+    "id": "telekinetic_slowfall",
+    "type": "SPELL",
+    "name": "[Ψ]Slowfall",
+    "description": "Counteract the pull of gravity with telekinetic force, greatly reducing or even eliminating damage from falling and becoming much more buoyant.",
+    "//": "If player flying ever becomes possible, it'll build off this.",
+    "message": "You feel lighter.",
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_telekinetic_slowfall",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_slowfall') * 100) + 300) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: telekinetic_slowfall') * 200) + 1500) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 1750,
+    "final_energy_cost": 650,
+    "energy_increment": -85,
+    "base_casting_time": 85,
+    "final_casting_time": 25,
+    "casting_time_increment": -4.5,
+    "learn_spells": { "telekinetic_vehicle_lift": 7, "telekinetic_shield": 11 }
   },
   {
     "id": "telekinetic_wave",

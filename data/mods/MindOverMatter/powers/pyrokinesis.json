@@ -111,7 +111,7 @@
     "base_casting_time": 250,
     "final_casting_time": 75,
     "casting_time_increment": -10,
-    "learn_spells": { "pyrokinetic_thermogenesis": 6, "pyrokinetic_blast": 8, "pyrokinetic_aura": 12 }
+    "learn_spells": { "pyrokinetic_lance": 5, "pyrokinetic_thermogenesis": 6, "pyrokinetic_blast": 8, "pyrokinetic_aura": 12 }
   },
   {
     "id": "pyrokin_call_flame_short_term",
@@ -317,7 +317,37 @@
     "casting_time_increment": -6,
     "sound_type": "combat",
     "sound_description": "a crackle!",
-    "learn_spells": { "pyrokinetic_blast": 9, "pyrokinetic_aura": 12 }
+    "learn_spells": { "pyrokinetic_lance": 6, "pyrokinetic_blast": 9, "pyrokinetic_aura": 12 }
+  },
+  {
+    "id": "pyrokinetic_lance",
+    "type": "SPELL",
+    "name": "[Ψ]Incandescent Lance",
+    "description": "Concentrate heat into a thin, searing beam capable of cutting through solid metal or welding it together.",
+    "message": "A searing line of flame springs forth from your finger.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "spawn_item",
+    "effect_str": "pyrokinetic_torch_weld",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_lance') * 12000) + 360000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_lance') * 36000) + 720000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 4000,
+    "final_energy_cost": 2000,
+    "energy_increment": -125,
+    "base_casting_time": 250,
+    "final_casting_time": 125,
+    "casting_time_increment": -6
   },
   {
     "id": "pyrokinetic_thermogenesis",
@@ -327,7 +357,7 @@
     "message": "",
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_SPELL_PYROKIN_THERMOGENESIS_SELECTOR",
     "//": "No drain on the spell, it's all in the selector.",
@@ -351,7 +381,7 @@
     "base_casting_time": 1500,
     "final_casting_time": 1200,
     "casting_time_increment": -10,
-    "learn_spells": { "pyrokinetic_aura": 4, "pyrokinetic_blast": 8 }
+    "learn_spells": { "pyrokinetic_aura": 4, "pyrokinetic_lance": 6, "pyrokinetic_blast": 8 }
   },
   {
     "id": "pyrokin_summon_thermogenesis_1",
@@ -359,7 +389,7 @@
     "name": "[Ψ]Thermogenesis #1",
     "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
     "valid_targets": [ "ground" ],
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "summon",
     "effect_str": "mon_pyrokin_hotair_1",
     "shape": "blast",
@@ -383,7 +413,7 @@
     "name": "[Ψ]Thermogenesis #2",
     "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
     "valid_targets": [ "ground" ],
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "summon",
     "effect_str": "mon_pyrokin_hotair_2",
     "shape": "blast",
@@ -407,7 +437,7 @@
     "name": "[Ψ]Thermogenesis #1",
     "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
     "valid_targets": [ "ground" ],
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "summon",
     "effect_str": "mon_pyrokin_hotair_3",
     "shape": "blast",
@@ -431,7 +461,7 @@
     "name": "[Ψ]Thermogenesis #1",
     "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
     "valid_targets": [ "ground" ],
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "summon",
     "effect_str": "mon_pyrokin_hotair_4",
     "shape": "blast",
