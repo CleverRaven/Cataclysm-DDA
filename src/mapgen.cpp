@@ -3599,7 +3599,6 @@ class jmapgen_nested : public jmapgen_piece
                     return neighbors.empty();
                 }
         };
-        
         class predecessor_oter_check
         {
             private:
@@ -3615,7 +3614,7 @@ class jmapgen_nested : public jmapgen_piece
                             JsonObject jo = entry.get_object();
                             allowed_predecessor.first = jo.get_string( "om_terrain" );
                             allowed_predecessor.second = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
-                                                  ot_match_type::contains );
+                                                         ot_match_type::contains );
                         }
                         allowed_predecessors.insert( allowed_predecessor );
                     }
@@ -3625,7 +3624,7 @@ class jmapgen_nested : public jmapgen_piece
                     const std::vector<oter_id> predecessors = dat.get_predecessors();
                     for( const std::pair<std::string, ot_match_type> &allowed_predecessor : allowed_predecessors ) {
                         for( const oter_id &predecessor : predecessors ) {
-                            if ( is_ot_match( allowed_predecessor.first, predecessor, allowed_predecessor.second ) ) {
+                            if( is_ot_match( allowed_predecessor.first, predecessor, allowed_predecessor.second ) ) {
                                 return true;
                             }
                         }
