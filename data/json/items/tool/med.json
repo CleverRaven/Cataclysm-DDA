@@ -266,7 +266,7 @@
     "id": "autopsy_kit",
     "type": "TOOL",
     "name": { "str": "autopsy kit" },
-    "description": "A post-mortem set used by veterinarians for examining and diagnosing the cause of death of deseased animals.",
+    "description": "A post-mortem set used by veterinarians for examining and diagnosing the cause of death of deceased animals.",
     "looks_like": "1st_aid_box",
     "weight": "1810 g",
     "volume": "1870 ml",
