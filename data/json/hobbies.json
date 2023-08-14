@@ -32,7 +32,7 @@
     "subtype": "hobby",
     "id": "socially_adequate",
     "name": "Socially Adequate",
-    "description": "You've spent a significant portion of your life living among other people and are familiar with social norms. You know how to talk with other people, and how to convey your emotions and understand those of others.",
+    "description": "You've spent a significant portion of your life living among other people and are familiar with social norms.  You know how to talk with other people, and how to convey your emotions and understand those of others.",
     "points": 0,
     "skills": [ { "level": 1, "name": "speech" } ]
   },
@@ -50,7 +50,7 @@
     "subtype": "hobby",
     "id": "mundane_survival",
     "name": "Mundane Survival",
-    "description": "You've managed to survive modern life in a first world country. Through your ordeals you've learned how to treat scraps and bruises and how to assemble basic furniture.",
+    "description": "You've managed to survive modern life in a first world country.  Through your ordeals you've learned how to treat scraps and bruises and how to assemble basic furniture.",
     "points": 0,
     "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "firstaid" } ]
   },
