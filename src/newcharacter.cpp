@@ -50,6 +50,7 @@
 #include "pimpl.h"
 #include "player_difficulty.h"
 #include "profession.h"
+#include "profession_group.h"
 #include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -75,6 +76,8 @@ static const std::string type_hair_style( "hair_style" );
 static const std::string type_skin_tone( "skin_tone" );
 static const std::string type_facial_hair( "facial_hair" );
 static const std::string type_eye_color( "eye_color" );
+
+static const profession_group_id prof_group_id_adult_basic_background( "adult_basic_background" );
 
 static const flag_id json_flag_auto_wield( "auto_wield" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
@@ -712,6 +715,8 @@ bool avatar::create( character_type type, const std::string &tempname )
             tabs.position.last();
             break;
     }
+
+    add_default_background();
 
     auto nameExists = [&]( const std::string & name ) {
         return world_generator->active_world->save_exists( save_t::from_save_id( name ) ) &&
@@ -4512,6 +4517,17 @@ std::optional<std::string> query_for_template_name()
 void avatar::character_to_template( const std::string &name )
 {
     save_template( name, pool_type::TRANSFER );
+}
+
+void avatar::add_default_background()
+{
+    for( const profession_group &prof_grp : profession_group::get_all() ) {
+        if( prof_grp.get_id() == prof_group_id_adult_basic_background ) {
+            for( const profession_id &hobb : prof_grp.get_professions() ) {
+                hobbies.insert( &hobb.obj() );
+            }
+        }
+    }
 }
 
 void avatar::save_template( const std::string &name, pool_type pool )

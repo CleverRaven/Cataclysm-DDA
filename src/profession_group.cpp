@@ -28,7 +28,7 @@ void profession_group::load_profession_group( const JsonObject &jo, const std::s
 void profession_group::load( const JsonObject &jo, const std::string & )
 {
     assign( jo, "id", id );
-    assign( jo, "professions", professions );
+    assign( jo, "professions", profession_list );
 
 }
 
@@ -40,11 +40,21 @@ const std::vector<profession_group> &profession_group::get_all()
 void profession_group::check_profession_group_consistency()
 {
     for( const profession_group &prof_grp : get_all() ) {
-        for( const profession_id prof : prof_grp.professions ) {
+        for( const profession_id prof : prof_grp.profession_list ) {
             if( !prof.is_valid() ) {
                 debugmsg( "profession_group %s contains invalid profession_id %s", prof_grp.id.c_str(),
                           prof.c_str() );
             }
         }
     }
+}
+
+std::vector<profession_id> profession_group::get_professions() const
+{
+    return profession_list;
+}
+
+profession_group_id profession_group::get_id() const
+{
+    return id;
 }
