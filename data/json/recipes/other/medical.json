@@ -315,7 +315,7 @@
     "skill_used": "tailor",
     "time": "54 m",
     "autolearn": true,
-    "byproduct_group": [ { "item": "seed_cotton_boll", "charges": 2 } ],
+    "byproduct_group": [ { "item": "seed_cotton_boll", "count": 2 } ],
     "result_mult": 10,
     "components": [ [ [ "cotton_boll", 1 ] ] ]
   },

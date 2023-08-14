@@ -407,17 +407,9 @@
     "id": "mc_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_legs",
-    "material": [ "mc_steel_chain" ],
     "name": { "str": "medium steel chainmail leggings", "str_pl": "pairs of medium steel chainmail leggings" },
     "description": "Customized medium steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "armor": [
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_mc_chainmail_legs",
@@ -489,17 +481,9 @@
     "id": "hc_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_legs",
-    "material": [ "hc_steel_chain" ],
     "name": { "str": "high steel chainmail leggings", "str_pl": "pairs of high steel chainmail leggings" },
     "description": "Customized high steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "armor": [
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_hc_chainmail_legs",
@@ -571,17 +555,9 @@
     "id": "ch_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_legs",
-    "material": [ "ch_steel_chain" ],
     "name": { "str": "hardened steel chainmail leggings", "str_pl": "pairs of hardened steel chainmail leggings" },
     "description": "Customized hardened steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "armor": [
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_ch_chainmail_legs",
@@ -653,17 +629,9 @@
     "id": "qt_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_legs",
-    "material": [ "qt_steel_chain" ],
     "name": { "str": "tempered steel chainmail leggings", "str_pl": "pairs of tempered steel chainmail leggings" },
     "description": "Customized tempered steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "armor": [
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 14
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_qt_chainmail_legs",
@@ -850,17 +818,9 @@
     "id": "mc_chainmail_half_legs",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_half_legs",
-    "material": [ "mc_steel_chain" ],
     "name": { "str": "medium steel chainmail half-leggings", "str_pl": "pairs of medium steel chainmail half-leggings" },
     "description": "Customized medium steel partial chainmail leggings only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "armor": [
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 75,
-        "encumbrance": 11
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_mc_chainmail_half_legs",
@@ -932,17 +892,9 @@
     "id": "hc_chainmail_half_legs",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_half_legs",
-    "material": [ "hc_steel_chain" ],
     "name": { "str": "high steel chainmail half-leggings", "str_pl": "pairs of high steel chainmail half-leggings" },
     "description": "Customized high steel partial chainmail leggings only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "armor": [
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 75,
-        "encumbrance": 11
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_hc_chainmail_half_legs",
@@ -1017,14 +969,7 @@
     "material": [ "ch_steel_chain" ],
     "name": { "str": "hardened steel chainmail half-leggings", "str_pl": "pairs of hardened steel chainmail half-leggings" },
     "description": "Customized hardened steel partial chainmail leggings only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "armor": [
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 75,
-        "encumbrance": 11
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_ch_chainmail_half_legs",
@@ -1096,17 +1041,9 @@
     "id": "qt_chainmail_half_legs",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_half_legs",
-    "material": [ "qt_steel_chain" ],
     "name": { "str": "tempered steel chainmail half-leggings", "str_pl": "pairs of tempered steel chainmail half-leggings" },
     "description": "Customized tempered steel partial chainmail leggings only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "armor": [
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 75,
-        "encumbrance": 11
-      }
-    ]
+    "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_qt_chainmail_half_legs",
@@ -1495,7 +1432,6 @@
     "price_postapoc": 1000,
     "to_hit": 1,
     "material": [ "lc_steel" ],
-    "repairs_with": [ "steel" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
@@ -1519,9 +1455,9 @@
     "id": "ch_legguard_metal_sheets",
     "type": "ARMOR",
     "copy-from": "legguard_metal_sheets",
-    "name": { "str": "pair of case hardened sheet metal leg guards", "str_pl": "pairs of case hardened sheet metal leg guards" },
-    "description": "These crude leg guards have been case hardened to further protect your legs from the mighty coffee table, destroyer of shins.",
-    "material": [ "ch_steel" ],
+    "name": { "str": "pair of hardened sheet metal leg guards", "str_pl": "pairs of hardened sheet metal leg guards" },
+    "description": "These crude leg guards have been hardened to further protect your legs from the mighty coffee table, destroyer of shins.",
+    "replace_materials": { "lc_steel": "ch_steel" },
     "extend": { "flags": [ "STURDY" ] }
   },
   {
@@ -1537,7 +1473,6 @@
     "price_postapoc": 500,
     "to_hit": 1,
     "material": [ "lc_steel" ],
-    "repairs_with": [ "steel" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
@@ -1562,8 +1497,8 @@
     "type": "ARMOR",
     "copy-from": "legguard_metal_sheets_greaves",
     "name": { "str": "pair of hardened sheet metal greaves", "str_pl": "pairs of hardened sheet metal greaves" },
-    "description": "These crude greaves have been case hardened to further protect your shins.",
-    "material": [ "ch_steel" ],
+    "description": "These crude greaves have been hardened to further protect your shins.",
+    "replace_materials": { "lc_steel": "ch_steel" },
     "extend": { "flags": [ "STURDY" ] }
   },
   {
@@ -1579,7 +1514,6 @@
     "price_postapoc": 400,
     "to_hit": 1,
     "material": [ "lc_steel" ],
-    "repairs_with": [ "steel" ],
     "symbol": "m",
     "color": "light_gray",
     "warmth": 5,
@@ -1600,9 +1534,9 @@
     "id": "ch_legguard_metal_sheets_hip",
     "type": "ARMOR",
     "copy-from": "legguard_metal_sheets_hip",
-    "name": { "str": "case hardened sheet metal skirt" },
-    "description": "This loose skirt made from several cut-down sheets of metal has been case hardened to provide maximum protection for your most vulnerable area.",
-    "material": [ "ch_steel" ],
+    "name": { "str": "hardened sheet metal skirt" },
+    "description": "This loose skirt made from several cut-down sheets of metal has been hardened to provide maximum protection for your most vulnerable area.",
+    "replace_materials": { "lc_steel": "ch_steel" },
     "extend": { "flags": [ "STURDY" ] }
   },
   {
@@ -1640,9 +1574,9 @@
     "id": "ch_legguard_metal_sheets_knees",
     "type": "ARMOR",
     "copy-from": "legguard_metal_sheets_knees",
-    "name": { "str": "pair of case hardened sheet metal knee guards", "str_pl": "pairs of case hardened sheet metal knee guards" },
-    "description": "Knee guards of sheet metal, case hardened to protect your kneecaps from any feral with a bat.",
-    "material": [ "ch_steel" ],
+    "name": { "str": "pair of hardened sheet metal knee guards", "str_pl": "pairs of hardened sheet metal knee guards" },
+    "description": "Knee guards of sheet metal, hardened to protect your kneecaps from any feral with a bat.",
+    "replace_materials": { "lc_steel": "ch_steel" },
     "extend": { "flags": [ "STURDY" ] }
   },
   {
@@ -1978,22 +1912,9 @@
     "id": "armor_mc_light_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_light_leg_guard",
-    "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel light leg guard" },
     "description": "A light leg guard, 1.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_armor_mc_light_leg_guard",
@@ -2007,22 +1928,9 @@
     "id": "armor_hc_light_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_light_leg_guard",
-    "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel light leg guard" },
-    "description": "A light leg guard, 1.25 mm at the thickest.  Made with high carbon steel offering excellent protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "description": "A light leg guard, 1.25 mm at the thickest.  Made with high steel offering excellent protection.",
+    "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_armor_hc_light_leg_guard",
@@ -2037,26 +1945,14 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_light_leg_guard",
     "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str": "case hardened light leg guard" },
-    "description": "A light leg guard, 1.25 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "name": { "str": "hardened light leg guard" },
+    "description": "A light leg guard, 1.25 mm at the thickest.  The mild steel has been hardened, offering superior protection.",
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_light_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened light leg guard" },
+    "name": { "str": "XL hardened light leg guard" },
     "copy-from": "armor_ch_light_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -2065,22 +1961,9 @@
     "id": "armor_qt_light_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_light_leg_guard",
-    "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered light leg guard" },
     "description": "A light leg guard, 1.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_armor_qt_light_leg_guard",
@@ -2137,22 +2020,9 @@
     "id": "armor_mc_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_leg_guard",
-    "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel leg guard" },
     "description": "A leg guard, 1.75 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_armor_mc_leg_guard",
@@ -2166,22 +2036,9 @@
     "id": "armor_hc_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_leg_guard",
-    "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel leg guard" },
-    "description": "A leg guard, 1.75 mm at the thickest.  Made with high carbon steel offering excellent protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "description": "A leg guard, 1.75 mm at the thickest.  Made with high steel offering excellent protection.",
+    "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_armor_hc_leg_guard",
@@ -2195,27 +2052,14 @@
     "id": "armor_ch_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_leg_guard",
-    "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str": "case hardened leg guard" },
-    "description": "A leg guard, 1.75 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "name": { "str": "hardened leg guard" },
+    "description": "A leg guard, 1.75 mm at the thickest.  The mild steel has been hardened, offering superior protection.",
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened leg guard" },
+    "name": { "str": "XL hardened leg guard" },
     "copy-from": "armor_ch_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -2224,22 +2068,9 @@
     "id": "armor_qt_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_leg_guard",
-    "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered leg guard" },
     "description": "A leg guard, 1.75 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_armor_qt_leg_guard",
@@ -2296,22 +2127,9 @@
     "id": "armor_mc_heavy_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_leg_guard",
-    "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel heavy leg guard" },
     "description": "A heavy leg guard, 2.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_armor_mc_heavy_leg_guard",
@@ -2325,22 +2143,9 @@
     "id": "armor_hc_heavy_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_leg_guard",
-    "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel heavy leg guard" },
-    "description": "A heavy leg guard, 2.25 mm at the thickest.  Made with high carbon steel offering excellent protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "description": "A heavy leg guard, 2.25 mm at the thickest.  Made with high steel offering excellent protection.",
+    "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_armor_hc_heavy_leg_guard",
@@ -2354,27 +2159,14 @@
     "id": "armor_ch_heavy_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_leg_guard",
-    "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str": "case hardened heavy leg guard" },
-    "description": "A heavy leg guard, 2.25 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "name": { "str": "hardened heavy leg guard" },
+    "description": "A heavy leg guard, 2.25 mm at the thickest.  The mild steel has been hardened, offering superior protection.",
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_heavy_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened heavy leg guard" },
+    "name": { "str": "XL hardened heavy leg guard" },
     "copy-from": "armor_ch_heavy_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -2383,22 +2175,9 @@
     "id": "armor_qt_heavy_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_leg_guard",
-    "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered heavy leg guard" },
     "description": "A heavy leg guard, 2.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_armor_qt_heavy_leg_guard",

@@ -4327,6 +4327,34 @@
   },
   {
     "type": "keybinding",
+    "category": "WISH_ITEM",
+    "id": "SCROLL_DESC_UP",
+    "name": "Scroll item description up",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "WISH_ITEM",
+    "id": "SCROLL_DESC_DOWN",
+    "name": "Scroll item description Down",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_UP",
+    "category": "VENDING_MACHINE",
+    "name": "Scroll item info up",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_DOWN",
+    "category": "VENDING_MACHINE",
+    "name": "Scroll item info down",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "category": "DIALOGUE_CHOOSE_RESPONSE",
     "id": "LOOK_AT",
     "name": "Look at",
