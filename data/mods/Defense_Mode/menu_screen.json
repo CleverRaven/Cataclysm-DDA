@@ -154,21 +154,13 @@
       },
       {
         "text": "Allow orcs.",
-        "condition": { "and": [
-          { "mod_is_loaded": "magiclysm" },
-          { "math": [ "orcs_allowed", "==", "0" ] }
-         ]
-        },
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "orcs_allowed", "==", "0" ] } ] },
         "effect": { "math": [ "orcs_allowed", "=", "1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable orcs.",
-        "condition": { "and": [
-          { "mod_is_loaded": "magiclysm" },
-          { "math": [ "orcs_allowed", "==", "1" ] }
-         ]
-        },
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "orcs_allowed", "==", "1" ] } ] },
         "effect": { "math": [ "orcs_allowed", "=", "0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
