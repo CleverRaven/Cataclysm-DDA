@@ -200,7 +200,7 @@ using overmap_special_migration_id = string_id<overmap_special_migration>;
 class profession;
 using profession_id = string_id<profession>;
 
-class profession_group;
+struct profession_group;
 using profession_group_id = string_id<profession_group>;
 
 class recipe;
