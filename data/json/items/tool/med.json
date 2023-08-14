@@ -286,7 +286,6 @@
       [ "SAW_W", 1 ],
       [ "SAW_M_FINE", 1 ]
     ],
-    "charged_qualities": [ [ "CUT_FINE", 4 ] ],
     "melee_damage": { "cut": 16 },
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
