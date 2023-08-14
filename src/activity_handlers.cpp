@@ -432,6 +432,9 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
             case 3:
                 you.add_msg_if_player( m_info, _( "You dissect the corpse with a trusty scalpel." ) );
                 break;
+            case 4:
+                you.add_msg_if_player( m_info, _( "You perform a post-mortem examination using your autopsy kit." ) );
+                break;
             case 5:
                 you.add_msg_if_player( m_info,
                                        _( "You dissect the corpse with a sophisticated system of surgical grade scalpels." ) );
