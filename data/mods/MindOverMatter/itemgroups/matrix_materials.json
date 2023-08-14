@@ -19,7 +19,7 @@
     "subtype": "distribution",
     "id": "dist_matrix_crystals_rare",
     "items": [
-      [ "null", 150 ],
+      [ "null", 50 ],
       [ "matrix_crystal_biokinesis", 5 ],
       [ "matrix_crystal_clairsentience", 5 ],
       [ "matrix_crystal_pyrokinesis", 5 ],
