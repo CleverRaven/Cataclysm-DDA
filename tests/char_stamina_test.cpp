@@ -355,11 +355,11 @@ TEST_CASE( "stamina_burn_for_movement", "[stamina][burn][move]" )
 
     GIVEN( "player has bionic limbs which will spend power instead of stamina" ) {
         THEN( "having one bionic leg means half the stamina cost" ) {
-            CHECK( one_bionic_burn_rate( dummy, move_mode_walk, 1.0 ) == normal_burn_rate / 2 );
+            CHECK( one_bionic_burn_rate( dummy, move_mode_walk ) == normal_burn_rate / 2 );
         }
 
         THEN( "having two bionic legs means movement takes no stamina" ) {
-            CHECK( two_bionic_burn_rate( dummy, move_mode_walk, 1.0 ) == 0 );
+            CHECK( two_bionic_burn_rate( dummy, move_mode_walk ) == 0 );
         }
     }
 }
