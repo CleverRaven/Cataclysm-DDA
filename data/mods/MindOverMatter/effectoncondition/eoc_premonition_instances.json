@@ -134,11 +134,11 @@
                 "popup": true
               },
               {
-                "queue_eocs": "EOC_BANDIT_ASSASSIN_1_ACTUAL",
+                "queue_eocs": "EOC_BANDIT_ASSASSIN_1_ACTUAL_FAR",
                 "time_in_future": { "math": [ "(u_val('spell_level', 'spell: clair_danger_sense') * 4) + 5" ] }
               }
             ],
-            "false_effect": [ { "run_eocs": [ "EOC_BANDIT_ASSASSIN_1_ACTUAL" ] } ]
+            "false_effect": [ { "run_eocs": [ "EOC_BANDIT_ASSASSIN_1_ACTUAL_NEAR" ] } ]
           }
         ]
       }
@@ -146,9 +146,31 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_BANDIT_ASSASSIN_1_ACTUAL",
+    "id": "EOC_BANDIT_ASSASSIN_1_ACTUAL_NEAR",
     "effect": [
-      { "mapgen_update": "bandit_killer_add" },
+      {
+        "u_spawn_npc": "hells_raiders_assassin",
+        "real_count": 1,
+        "outdoor_only": false,
+        "min_radius": 15,
+        "max_radius": 25,
+        "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you."
+      },
+      { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANDIT_ASSASSIN_1_ACTUAL_FAR",
+    "effect": [
+      {
+        "u_spawn_npc": "hells_raiders_assassin",
+        "real_count": 1,
+        "outdoor_only": false,
+        "min_radius": 30,
+        "max_radius": 50,
+        "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you."
+      },
       { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
     ]
   },
@@ -229,7 +251,7 @@
             "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "1" ] },
             "effect": [
               {
-                "u_message": "You feel hostile eyes watching you and rapidly getting closer.  Someone has it in for you.",
+                "u_message": "You feel several sets of hostile eyes watching you and rapidly getting closer.  Someone has it in for you.",
                 "type": "bad",
                 "popup": true
               },
