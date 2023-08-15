@@ -1402,14 +1402,27 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
     return ret_val<item_pocket::contain_code>::make_success();
 }
 
+ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
+        int &copies_remaining ) const
+{
+    return _can_contain( it, copies_remaining, true );
+}
+
 ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) const
 {
     int copies = 1;
-    return can_contain( it, copies );
+    return _can_contain( it, copies, true );
 }
 
-ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
-        int &copies_remaining ) const
+ret_val<item_pocket::contain_code> item_pocket::can_contain_skip_weight_volume(
+    const item &it ) const
+{
+    int copies = 1;
+    return _can_contain( it, copies, false );
+}
+
+ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
+        int &copies_remaining, const bool check_weight_volume ) const
 {
     ret_val<item_pocket::contain_code> compatible = is_compatible( it );
 
@@ -1530,6 +1543,10 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
     if( it.volume() > volume_capacity() ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_BIG, _( "item too big" ) );
+    }
+
+    if( !check_weight_volume ) {
+        return ret_val<item_pocket::contain_code>::make_success();
     }
 
     int fallback_capacity = it.count_by_charges() ? it.charges : copies_remaining;
@@ -1755,10 +1772,7 @@ void item_pocket::overflow( const tripoint &pos, const item_location &loc )
 
         // if item has any contents, check it individually
         if( !iter->get_contents().empty_with_no_mods() ) {
-            ret_val<contain_code> ret_contain = can_contain( *iter );
-            if( !is_type( pocket_type::MIGRATION ) && ( ret_contain.success() ||
-                    ret_contain.value() == contain_code::ERR_NO_SPACE ||
-                    ret_contain.value() == contain_code::ERR_CANNOT_SUPPORT ) ) {
+            if( !is_type( pocket_type::MIGRATION ) && can_contain_skip_weight_volume( *iter ).success() ) {
                 ++iter;
             } else {
                 move_to_parent_pocket_recursive( pos, *iter, loc );
@@ -1770,10 +1784,8 @@ void item_pocket::overflow( const tripoint &pos, const item_location &loc )
         // otherwise, use cached results per item type
         auto cont_copy_type = contained_type_validity.emplace( iter->typeId(), true );
         if( cont_copy_type.second ) {
-            ret_val<contain_code> ret_contain = can_contain( *iter );
-            cont_copy_type.first->second = !is_type( pocket_type::MIGRATION ) && ( ret_contain.success() ||
-                                           ret_contain.value() == contain_code::ERR_NO_SPACE ||
-                                           ret_contain.value() == contain_code::ERR_CANNOT_SUPPORT );
+            cont_copy_type.first->second = !is_type( pocket_type::MIGRATION ) &&
+                                           can_contain_skip_weight_volume( *iter ).success();
         }
         if( cont_copy_type.first->second ) {
             ++iter;

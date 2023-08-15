@@ -196,10 +196,15 @@ class item_pocket
 
         /**
          * Can the pocket contain the specified item?
-         * @param it the item being put in
+         * @param it The item being put in
+         * @param copies_remaining An optional integer reference that will be set to the number of item copies that won't fit
          */
-        ret_val<contain_code> can_contain( const item &it ) const;
         ret_val<contain_code> can_contain( const item &it, int &copies_remaining ) const;
+        ret_val<contain_code> can_contain( const item &it ) const;
+        /**
+        * @brief A version of can_contain that skips the weight and volume check.
+        */
+        ret_val<contain_code> can_contain_skip_weight_volume( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
 
@@ -419,6 +424,9 @@ class item_pocket
         bool _sealed = false;
         // list of sub body parts that can't currently support rigid ablative armor
         std::set<sub_bodypart_id> no_rigid;
+
+        ret_val<contain_code> _can_contain( const item &it, int &copies_remaining,
+                                            bool check_weight_volume ) const;
 };
 
 /**
