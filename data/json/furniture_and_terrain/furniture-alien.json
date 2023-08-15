@@ -684,7 +684,7 @@
       "type": "effect_on_condition",
       "effect_on_conditions": [
         {
-          "id": "EOC_EXODII_SIGNPOST_FALSE",
+          "id": "EOC_EXODII_LOCATOR_FALSE",
           "condition": { "not": { "u_has_item": "warehouse_rebooter" } },
           "effect": [
             {
@@ -693,7 +693,7 @@
           ]
         },
         {
-          "id": "EOC_EXODII_SIGNPOST",
+          "id": "EOC_EXODII_LOCATOR",
           "condition": { "not": { "u_has_mission": "directions_exodii_signpost" } },
           "effect": [
             {
