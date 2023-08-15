@@ -57,6 +57,7 @@
     "name": { "str": "Find the lost Exodii warehouse and reboot its locator antenna." },
     "type": "mission_definition",
     "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 5,
     "destination": "exo_warehouse_1",
     "item": "warehouse_rebooter",
     "start": {

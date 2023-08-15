@@ -679,6 +679,19 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": -1,
+    "bash": {
+      "str_min": 45,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "circuit", "count": [ 1, 3 ] },
+        { "item": "amplifier", "count": [ 1, 3 ] },
+        { "item": "power_supply", "count": [ 1, 4 ] },
+        { "item": "exodii_module", "count": [ 0, 1 ] } ] },
     "flags": [ "NOITEM", "TRANSPARENT", "MOUNTABLE" ],
     "examine_action": {
       "type": "effect_on_condition",
@@ -704,22 +717,7 @@
             { "arithmetic": [ { "u_val": "var", "var_name": "rebooted_locator" }, "=", { "const": 1 } ] } 
           ]
         }
-      ],
-    "bash": {
-      "str_min": 45,
-      "str_max": 200,
-      "sound": "metal screeching!",
-      "sound_fail": "crash!",
-      "items": [
-        { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
-        { "item": "circuit", "count": [ 1, 3 ] },
-        { "item": "amplifier", "count": [ 1, 3 ] },
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "exodii_module", "count": [ 0, 1 ] }
       ]
-    }
   }
   },
   {
