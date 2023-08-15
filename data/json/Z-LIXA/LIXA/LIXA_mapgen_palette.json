@@ -167,20 +167,14 @@
       "w": "t_thconc_floor",
       "-": "t_metal_floor",
       "C": "t_metal_floor",
-      "G": "t_metal_floor",
+      "G": "t_LIXA_laser",
       ";": "t_ramp_up_high",
       "<": "t_stairs_up",
       "T": "t_LIXA_tube",
       "W": "t_potential_trans",
       "E": "t_LIXA_portal_pulse"
     },
-    "furniture": {
-      "Q": "f_capacitor",
-      "L": "f_machinery_electronic",
-      "C": "f_control_station",
-      "G": "f_LIXA_laser",
-      "w": "f_electrical_conduit"
-    }
+    "furniture": { "Q": "f_capacitor", "L": "f_machinery_electronic", "C": "f_control_station", "w": "f_electrical_conduit" }
   },
   {
     "type": "palette",
