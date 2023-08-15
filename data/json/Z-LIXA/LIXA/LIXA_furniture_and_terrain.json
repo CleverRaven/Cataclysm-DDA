@@ -20,7 +20,7 @@
       "ter_set": "t_carpet_concrete_green",
       "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
     },
-    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
+    "shoot": { "chance_to_hit": 50, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
   {
     "type": "terrain",
@@ -30,7 +30,7 @@
     "description": "A large section of metal tubing, balanced on spring supports to prevent any vibration from affecting the laser inside.",
     "symbol": "1",
     "color": "light_gray",
-    "move_cost": 0,
+    "move_cost": 3,
     "coverage": 50,
     "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "THIN_OBSTACLE", "MINEABLE", "UNSTABLE", "INDOORS" ],
     "bash": {
@@ -40,7 +40,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_thconc_floor",
       "items": [ { "item": "scrap", "count": [ 6, 10 ] }, { "item": "spring", "count": [ 10, 20 ] } ]
-    }
+    },
+    "shoot": { "chance_to_hit": 100, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 10, 15 ] }
   },
   {
     "type": "terrain",
@@ -50,7 +51,7 @@
     "symbol": "{",
     "color": "light_gray",
     "looks_like": "f_machinery_electronic",
-    "move_cost": -1,
+    "move_cost": 0,
     "coverage": 50,
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "INDOORS", "PERMEABLE" ],
     "bash": {
@@ -71,7 +72,8 @@
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
         { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
       ]
-    }
+    },
+    "shoot": { "chance_to_hit": 100, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 20, 30 ] }
   },
   {
     "type": "terrain",
@@ -82,10 +84,11 @@
     "color": "light_gray",
     "light_emitted": 120,
     "looks_like": "f_machinery_electronic",
-    "move_cost": -1,
+    "move_cost": 0,
     "coverage": 50,
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "INDOORS", "PERMEABLE" ],
-    "bash": { "str_min": 5, "str_max": 15, "explosive": 10, "ter_set": "t_LIXA_thconc_floor", "sound_fail": "clang!" }
+    "bash": { "str_min": 5, "str_max": 15, "explosive": 10, "ter_set": "t_LIXA_thconc_floor", "sound_fail": "clang!" },
+    "shoot": { "chance_to_hit": 100, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 20, 30 ] }
   },
   {
     "type": "terrain",
@@ -95,7 +98,7 @@
     "description": "You can see the inside surface of this tube, and what it contains.  Thick, slimy red light oozes within it.",
     "symbol": "1",
     "color": "light_gray",
-    "move_cost": 0,
+    "move_cost": 3,
     "coverage": 50,
     "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "INDOORS", "THIN_OBSTACLE", "UNSTABLE", "MINEABLE" ],
     "bash": {
@@ -104,7 +107,8 @@
       "sound": "geometry crackling!",
       "sound_fail": "nothing.",
       "ter_set": "t_LIXA_unfolded_tube_broken"
-    }
+    },
+    "shoot": { "chance_to_hit": 100, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 10, 15 ] }
   },
   {
     "type": "terrain",
@@ -115,7 +119,7 @@
     "symbol": "1",
     "color": "light_gray",
     "light_emitted": 120,
-    "move_cost": 0,
+    "move_cost": 2,
     "coverage": 50,
     "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "INDOORS", "THIN_OBSTACLE", "UNSTABLE", "MINEABLE" ],
     "emissions": [ "emit_congealed_light" ]
@@ -155,12 +159,15 @@
     "//": "Science",
     "symbol": "6",
     "color": "pink",
+    "looks_like": "t_card_science",
     "move_cost": 0,
     "roof": "t_metal_roof",
     "flags": [ "NOITEM", "CONNECT_WITH_WALL", "INDOORS" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "LIXA_SCIENCE_CARD" ],
+      "consume_card": false,
+      "allow_hacking": true,
       "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
       "query_msg": "Swipe your ID card?",
       "success_msg": "You insert your ID card.\n<color_light_green>The nearby doors unlock.</color>",
@@ -183,12 +190,15 @@
     "//": "Science",
     "symbol": "6",
     "color": "pink",
+    "looks_like": "t_card_science",
     "move_cost": 0,
     "roof": "t_metal_roof",
     "flags": [ "NOITEM", "INDOORS", "CONNECT_WITH_WALL" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "LIXA_SCIENCE_CARD_2" ],
+      "consume_card": false,
+      "allow_hacking": false,
       "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
       "query_msg": "Swipe your ID card?",
       "success_msg": "You insert your ID card.\n<color_light_green>The nearby doors unlock.</color>",
@@ -211,12 +221,15 @@
     "//": "Science",
     "symbol": "6",
     "color": "dark_gray",
+    "looks_like": "t_card_military",
     "move_cost": 0,
     "roof": "t_metal_roof",
     "flags": [ "NOITEM", "INDOORS", "CONNECT_WITH_WALL" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "LIXA_MILITARY_CARD" ],
+      "consume_card": false,
+      "allow_hacking": false,
       "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
       "query_msg": "Swipe your ID card?",
       "success_msg": "You insert your ID card.\n<color_light_green>The nearby doors unlock.</color>",
@@ -232,18 +245,18 @@
     }
   },
   {
-    "type": "furniture",
-    "id": "f_LIXA_laser",
+    "type": "terrain",
+    "id": "t_LIXA_laser",
     "name": "precision laser emitter",
     "description": "A huge casing for a device that generates and focuses a laser of incredible wavelength purity and precision.",
     "symbol": "$",
     "color": "yellow",
     "looks_like": "t_machinery_electronic",
-    "move_cost_mod": 8,
-    "coverage": 55,
-    "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM" ],
+    "move_cost": 3,
+    "roof": "t_metal_roof",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
     "deconstruct": {
+      "ter_set": "t_metal_floor",
       "items": [
         { "item": "wire", "count": [ 1, 3 ] },
         { "item": "pipe", "count": [ 1, 2 ] },
@@ -260,6 +273,19 @@
         { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_LIXA_unfold_barrier",
+    "name": "wall of flat space",
+    "looks_like": "fd_fatigue",
+    "description": "From a distance, this looks like where the chamber ends; a flat wall, with a very detailed painting of a tunnel behind it.  But as you get closer, you can see how it ripples, like lazy water, and notice angles of the space beyond that a flat image could never give.",
+    "symbol": "@",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "coverage": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "type": "furniture",
