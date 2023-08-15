@@ -2118,7 +2118,6 @@
       },
       {
         "group": "GROUP_FROGS_ALL",
-        "monster": "mon_frog",
         "freq": 30,
         "cost_multiplier": 2,
         "ends": 24,
