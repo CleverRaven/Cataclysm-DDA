@@ -7,36 +7,39 @@
       "fill_ter": "t_grass",
       "rows": [
         "  ____________________  ",
-        " ______________________ ",
+        " __A_A_A_A_A_A_A_A_A_A_ ",
         "__A_A_A_A_A_A_A_A_A_A_A_",
         "_A_A_A_A_A_A_A_A_A_A_A__",
         "__A_A_A_A_A_A_A_A_A_A_A_",
         "_A_A_A_A_A_A_A_A_A_A_A__",
-        "__A_A_______________A_A_",
-        "_A_A_______________A_A__",
-        "__A_A_______________A_A_",
-        "_A_A_______________A_A__",
-        "__A_A_______________A_A_",
-        "_A_A_______________A_A__",
-        "__A_A_______________A_A_",
-        "_A_A_______________A_A__",
-        "__A_A_______________A_A_",
-        "_A_A_______________A_A__",
-        "__A_A_______________A_A_",
-        "_A_A_______________A_A__",
         "__A_A_A_A_A_A_A_A_A_A_A_",
+        "_A_A_A___________A_A_A__",
+        "__A_A_A___________A_A_A_",
+        "_A_A_A___________A_A_A__",
+        "__A_A_A___________A_A_A_",
+        "_A_A_A___________A_A_A__",
+        "__A_A_A___________A_A_A_",
+        "_A_A_A___________A_A_A__",
+        "__A_A_A___________A_A_A_",
+        "_A_A_A___________A_A_A__",
+        "__A_A_A___________A_A_A_",
         "_A_A_A_A_A_A_A_A_A_A_A__",
         "__A_A_A_A_A_A_A_A_A_A_A_",
         "_A_A_A_A_A_A_A_A_A_A_A__",
-        " ______________________ ",
+        "__A_A_A_A_A_A_A_A_A_A_A_",
+        "_A_A_A_A_A_A_A_A_A_A_A__",
+        " _A_A_A_A_A_A_A_A_A_A__ ",
         "  ____________________  "
       ],
       "terrain": {
         "_": [ [ "t_grass", 3 ], [ "t_dirt", 3 ], [ "t_grass_alien", 1 ], [ "t_grass_alien_2", 1 ], [ "t_grass_alien_3", 1 ], [ "t_grass_alien"_4, 1 ], [ "t_nether_stone", 1] ]
       },
-      "monsters": { "_": { "monster": "GROUP_CRYSTAL_FIELD", "chance": 1, "density": 0.0002 } },
+      "monsters": [{ "_": [{ "monster": "GROUP_CRYSTAL_FIELD", "chance": 1, "density": 0.0002 }, { "monster": "mon_swarm_structure", "chance": 30 }] , { "A": { "monster": "GROUP_CRYSTAL_FIELD", "chance": 1, "density": 0.0002 }, { }],
+
+
+      mon_swarm_structure
       "nested": { "A": { "chunks": [ [ "crystal_moss_or_trees_3x3", 1 ], [ "null", 15 ] ] },
-      "place_nested": [ { "chunks": [ "crystal_field_central_8x8" ], "x": 7, "y": 7 } ] }
+      "place_nested": [ { "chunks": [ "crystal_field_central_10x10" ], "x": 7, "y": 7 } ] }
       ]
     }
   }, 
@@ -125,6 +128,67 @@
         "N": "t_nether_stone"
       },
       "furniture": {"N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_field_central_10x10",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "   SSSS   ",
+        "  SSssSS  ",
+        " SSsddsSS ",
+        "SSsdDDdsSS",
+        "SsdDDDDdsS",
+        "SsdDDDDdsS",
+        "SSsdDDdsSS",
+        " SSsddsSS ",
+        "  SSssSS  ",
+        "   SSSS   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "D": "t_nether_water_dp",
+        "d": [ [ "t_nether_water_dp", 1 ], [ "t_nether_water_sh", 1 ] ],
+        "s": [ [ "t_nether_water_dp", 1 ], [ "t_nether_water_sh", 4 ] ],
+        "S": [ [ "t_nether_water_sh", 1 ], [ "t_nether_stone", 1 ] ],
+        " ": "t_null"
+      },
+      "furniture": [
+        {"S": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 3 ] ] }, 
+        {"S": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] }
+      ]
+    }
+  },
+    {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_field_central_10x10",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "   GGGG   ",
+        " GGGCCGGG ",
+        " GGCCCCGG ",
+        "GGCCCCCCGG",
+        "GCCCNNCCCG",
+        "GCCCNNCCCG",
+        "GGCCCCCCGG",
+        " GGCCCCGG ",
+        " GGGCCGGG ",
+        "   GGGG   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "C": "t_nether_stone",
+        "G": [ [ "t_nether_stone", 2 ], [ "t_null", 2 ] ],
+        "N": "t_nether_stone",
+        " ": "t_null" 
+      },
+      "furniture": {"C": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
+      "nested": { "N": { "chunks": [ "glass_and_crystal_chunk_center" ] } }
     }
   }
 ]
