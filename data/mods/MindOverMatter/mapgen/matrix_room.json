@@ -57,7 +57,7 @@
       "C": "t_nether_glass_floor",
       "R": "t_railing"
     },
-    "furniture": {"C": "f_nether_crystal_structure"},
+    "furniture": { "C": "f_nether_crystal_structure" },
     "items": { "c": { "item": "dist_matrix_crystals", "chance": 100 } }
   }
 ]

@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": "nether_crystal_field",
     "object": {
-      "fill_ter": "t_grass",
+      "fill_ter": "t_region_groundcover",
       "rows": [
         "  ____________________  ",
         " __A_A_A_A_A_A_A_A_A_A_ ",
@@ -32,18 +32,28 @@
         "  ____________________  "
       ],
       "terrain": {
-        "_": [ [ "t_grass", 3 ], [ "t_dirt", 3 ], [ "t_grass_alien", 1 ], [ "t_grass_alien_2", 1 ], [ "t_grass_alien_3", 1 ], [ "t_grass_alien"_4, 1 ], [ "t_nether_stone", 1] ]
+        "_": [
+          [ "t_region_groundcover", 3 ],
+          [ "t_dirt", 3 ],
+          [ "t_grass_alien", 1 ],
+          [ "t_grass_alien_2", 1 ],
+          [ "t_grass_alien_3", 1 ],
+          [ "t_grass_alien_4", 1 ],
+          [ "t_nether_stone", 1 ]
+        ]
       },
-      "monsters": [{ "_": [{ "monster": "GROUP_CRYSTAL_FIELD", "chance": 1, "density": 0.0002 }, { "monster": "mon_swarm_structure", "chance": 30 }] , { "A": { "monster": "GROUP_CRYSTAL_FIELD", "chance": 1, "density": 0.0002 }, { }],
-
-
-      mon_swarm_structure
-      "nested": { "A": { "chunks": [ [ "crystal_moss_or_trees_3x3", 1 ], [ "null", 15 ] ] },
-      "place_nested": [ { "chunks": [ "crystal_field_central_10x10" ], "x": 7, "y": 7 } ] }
-      ]
+      "monsters": {
+        "_": [
+          { "monster": "GROUP_CRYSTAL_FIELD", "chance": 1, "density": 0.0002 },
+          { "monster": "mon_swarm_structure", "chance": 30 }
+        ],
+        "A": { "monster": "GROUP_CRYSTAL_FIELD", "chance": 1, "density": 0.0002 }
+      },
+      "nested": { "A": { "chunks": [ [ "crystal_moss_or_trees_3x3", 1 ], [ "null", 15 ] ] } },
+      "place_nested": [ { "chunks": [ "crystal_field_central_10x10" ], "x": 7, "y": 7 } ]
     }
-  }, 
-   {
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "crystal_moss_or_trees_3x3",
@@ -55,12 +65,10 @@
         "   "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        " ": [ [ "t_grass_alien_2", 2 ], [ "t_tree_small_alien_1", 1 ], [ "t_null", 1 ] ]
-      }
+      "terrain": { " ": [ [ "t_grass_alien_2", 2 ], [ "t_tree_small_alien_1", 1 ], [ "t_null", 1 ] ] }
     }
   },
-     {
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "crystal_moss_or_trees_3x3",
@@ -72,12 +80,10 @@
         "   "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        " ": [ [ "t_grass_alien_3", 1 ], [ "t_moss_alien_1", 1 ], [ "t_null", 1 ] ]
-      }
+      "terrain": { " ": [ [ "t_grass_alien_3", 1 ], [ "t_moss_alien_1", 1 ], [ "t_null", 1 ] ] }
     }
   },
-     {
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "crystal_moss_or_trees_3x3",
@@ -89,12 +95,10 @@
         "   "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        " ": [ [ "t_tree_small_alien_2", 1 ], [ "t_moss_alien_2", 1 ], [ "t_null", 1 ] ]
-      }
+      "terrain": { " ": [ [ "t_tree_small_alien_2", 1 ], [ "t_moss_alien_2", 1 ], [ "t_null", 1 ] ] }
     }
   },
-     {
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "crystal_moss_or_trees_3x3",
@@ -106,12 +110,10 @@
         "   "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        " ": [ [ "t_tree_small_alien_3", 1 ], [ "t_vines_alien_1", 1 ], [ "t_null", 1 ] ]
-      }
+      "terrain": { " ": [ [ "t_tree_small_alien_3", 1 ], [ "t_vines_alien_1", 1 ], [ "t_null", 1 ] ] }
     }
   },
-   {
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "crystal_moss_or_trees_3x3",
@@ -123,11 +125,8 @@
         "   "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        " ": [ [ "t_nether_stone", 1 ], [ "t_null", 1 ] ],
-        "N": "t_nether_stone"
-      },
-      "furniture": {"N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] }
+      "terrain": { " ": [ [ "t_nether_stone", 1 ], [ "t_null", 1 ] ], "N": "t_nether_stone" },
+      "furniture": { "N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] }
     }
   },
   {
@@ -157,12 +156,12 @@
         " ": "t_null"
       },
       "furniture": [
-        {"S": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 3 ] ] }, 
-        {"S": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] }
+        { "S": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 3 ] ] },
+        { "S": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] }
       ]
     }
   },
-    {
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "crystal_field_central_10x10",
@@ -173,22 +172,90 @@
         " GGGCCGGG ",
         " GGCCCCGG ",
         "GGCCCCCCGG",
-        "GCCCNNCCCG",
-        "GCCCNNCCCG",
+        "GCCCCCCCCG",
+        "GCCCCCCCCG",
         "GGCCCCCCGG",
         " GGCCCCGG ",
         " GGGCCGGG ",
         "   GGGG   "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "C": "t_nether_stone",
-        "G": [ [ "t_nether_stone", 2 ], [ "t_null", 2 ] ],
-        "N": "t_nether_stone",
-        " ": "t_null" 
-      },
-      "furniture": {"C": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
-      "nested": { "N": { "chunks": [ "glass_and_crystal_chunk_center" ] } }
+      "terrain": { "C": "t_nether_stone", "G": [ [ "t_nether_stone", 2 ], [ "t_null", 2 ] ], "N": "t_nether_stone", " ": "t_null" },
+      "furniture": { "C": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
+      "place_nested": { "chunks": [ "crystal_field_chunk_center_2x2" ], "x": 4, "y": 4 }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_field_chunk_center_2x2",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "  ",
+        "  "
+      ],
+      "furniture": { "N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_field_chunk_center_2x2",
+    "weight": 500,
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "N ",
+        " N"
+      ],
+      "furniture": { "N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
+      "place_fields": [ { "field": "fd_fatigue", "x": 0, "y": 1, "intensity": 3 }, { "field": "fd_fatigue", "x": 1, "y": 0, "intensity": 3 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_field_chunk_center_2x2",
+    "weight": 500,
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        " N",
+        "N "
+      ],
+      "furniture": { "N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
+      "place_fields": [ { "field": "fd_fatigue", "x": 0, "y": 1, "intensity": 3 }, { "field": "fd_fatigue", "x": 1, "y": 0, "intensity": 3 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_field_chunk_center_2x2",
+    "weight": 500,
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "N ",
+        " N"
+      ],
+      "furniture": { "N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
+      "items": { " ": { "item": "dist_matrix_crystals", "chance": 50 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_field_chunk_center_2x2",
+    "weight": 500,
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        " N",
+        "N"
+      ],
+      "furniture": { "N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
+      "items": { " ": { "item": "dist_matrix_crystals", "chance": 50 } }
     }
   }
 ]

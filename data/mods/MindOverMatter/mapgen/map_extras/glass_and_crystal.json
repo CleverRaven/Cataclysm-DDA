@@ -53,12 +53,8 @@
         "   GGG   "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "c": "t_nether_stone",
-        "C": "t_nether_stone",
-        "G": [ [ "t_nether_stone", 2 ], [ "t_null", 2 ] ], " ": "t_null" 
-      },
-      "furniture": {"C": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
+      "terrain": { "c": "t_nether_stone", "C": "t_nether_stone", "G": [ [ "t_nether_stone", 2 ], [ "t_null", 2 ] ], " ": "t_null" },
+      "furniture": { "C": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
       "nested": { "N": { "chunks": [ "glass_and_crystal_chunk_center" ] } }
     }
   },
@@ -66,37 +62,27 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "glass_and_crystal_chunk_center",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "rows": [ "X" ],
-    },
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "X" ] },
     "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-     "terrain": { "X": "t_nether_stone" },
+    "terrain": { "X": "t_nether_stone" },
     "items": { "X": { "item": "dist_matrix_crystals", "chance": 100 } }
   },
-    {
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "glass_and_crystal_chunk_center",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "rows": [ "X" ],
-    },
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "X" ] },
     "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-     "terrain": { "X": "t_nether_stone" },
-       "furniture": {"X": "f_nether_crystal_structure" }
+    "terrain": { "X": "t_nether_stone" },
+    "furniture": { "X": "f_nether_crystal_structure" }
   },
-      {
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "glass_and_crystal_chunk_center",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "rows": [ "X" ],
-    },
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "X" ] },
     "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-     "terrain": { "X": "t_nether_stone" },
+    "terrain": { "X": "t_nether_stone" },
     "place_fields": { "field": "fd_fatigue", "x": 0, "y": 0, "intensity": 3 }
   }
-    
 ]
