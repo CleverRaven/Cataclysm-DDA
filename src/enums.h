@@ -150,7 +150,6 @@ struct enum_traits<ot_match_type> {
 enum class special_game_type : int {
     NONE = 0,
     TUTORIAL,
-    DEFENSE,
     NUM_SPECIAL_GAME_TYPES
 };
 
