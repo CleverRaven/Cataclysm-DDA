@@ -222,7 +222,7 @@
       { "prob": 16, "group": "chem_citric_acid_bottle_glass_100_inf" },
       { "item": "denat_alcohol", "prob": 6, "charges-min": 250 },
       { "item": "methed_alcohol", "prob": 4, "charges-min": 250 },
-      { "item": "red_phosphorous", "prob": 10 },
+      { "item": "red_phosphorous", "prob": 10, "charges": [ 100, 1200 ] },
       { "item": "acetic_anhydride", "prob": 8 },
       { "item": "iodine_crystal", "prob": 12 }
     ]
@@ -571,7 +571,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "chem_sulphur", "container-item": "null", "charges-min": 100 } ]
+    "entries": [ { "item": "chem_sulphur", "container-item": "null", "charges": [ 100, 1500 ] } ]
   },
   {
     "type": "item_group",
