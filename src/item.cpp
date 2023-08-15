@@ -12369,7 +12369,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             debugmsg( "Temperature flag enum not valid.  Using current temperature." );
     }
 
-    bool carried = carrier != nullptr && carrier->has_item( *this );
+    bool carried = carrier != nullptr;
     // body heat increases inventory temperature by 5 F (2.77 K) and insulation by 50%
     if( carried ) {
         insulation *= 1.5;
