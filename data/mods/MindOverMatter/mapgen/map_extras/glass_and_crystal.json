@@ -39,15 +39,17 @@
     "method": "json",
     "nested_mapgen_id": "glass_and_crystal_chunk",
     "object": {
-      "mapgensize": [ 7, 7 ],
+      "mapgensize": [ 9, 9 ],
       "rows": [
-        "  GGG  ",
-        " GCCCG ",
-        "GCCCCCG",
-        "GCCcCCG",
-        "GCCCCCG",
-        " GCCCG ",
-        "  GGG  "
+        "   GGG   ",
+        " GGGCGGG ",
+        " GGCCCGG ",
+        "GGCCCCCGG",
+        "GCCCcCCCG",
+        "GGCCCCCGG",
+        " GGCCCGG ",
+        " GGGCGGG ",
+        "   GGG   "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
