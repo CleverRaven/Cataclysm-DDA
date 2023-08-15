@@ -5,10 +5,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "spell_LIXA_unfold_enter_1" }
@@ -19,10 +20,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "spell_LIXA_unfold_enter_2" }
@@ -33,10 +35,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "spell_LIXA_unfold_enter_3" }
@@ -47,10 +50,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "spell_LIXA_unfold_enter_4" }
@@ -61,10 +65,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "spell_LIXA_unfold_enter_5" }
@@ -75,10 +80,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "spell_LIXA_unfold_enter_6" }
@@ -89,10 +95,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "spell_LIXA_unfold_enter_7" }
@@ -103,10 +110,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "spell_LIXA_unfold_enter_8" }
@@ -117,10 +125,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "spell_LIXA_unfold_enter_9" }
@@ -131,10 +140,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "spell_LIXA_unfold_enter_10" }
@@ -145,10 +155,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "spell_LIXA_unfold_enter_11" }
@@ -159,10 +170,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "spell_LIXA_unfold_enter_12" }
@@ -173,10 +185,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "spell_LIXA_unfold_enter_13" }
@@ -187,10 +200,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "spell_LIXA_unfold_enter_14" }
@@ -201,10 +215,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "spell_LIXA_unfold_enter_15" }
@@ -215,10 +230,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE" ],
     "spell_data": { "id": "spell_LIXA_unfold_enter_16" }
@@ -231,7 +247,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -247,7 +263,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -263,7 +279,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -279,7 +295,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -295,7 +311,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -311,7 +327,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -327,7 +343,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -343,7 +359,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -359,7 +375,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -375,7 +391,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -391,7 +407,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -407,7 +423,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -423,7 +439,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -439,7 +455,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -455,7 +471,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -471,7 +487,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -595,81 +611,82 @@
         "popup": true
       },
       { "math": [ "u_LIXA_unfold_level", "=", "0" ] },
+      { "math": [ "u_LIXA_hallway_direction", "=", "2" ] },
       {
         "u_location_variable": { "global_val": "LIXA_unfold_A" },
-        "target_params": { "om_terrain": "LIXA_device_unfolded_A", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_device_unfolded_A", "search_range": 400, "min_distance": 0, "z": 0 },
         "z_adjust": -8,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_unfold_B" },
-        "target_params": { "om_terrain": "LIXA_device_unfolded_B", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_device_unfolded_B", "search_range": 400, "min_distance": 0, "z": 0 },
         "z_adjust": -8,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_chamber_1" },
-        "target_params": { "om_terrain": "LIXA_device_1", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_device_1", "search_range": 400, "min_distance": 0, "z": 0 },
         "z_adjust": -4,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_chamber_2" },
-        "target_params": { "om_terrain": "LIXA_device_2", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_device_2", "search_range": 400, "min_distance": 0, "z": 0 },
         "z_adjust": -4,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_chamber_3" },
-        "target_params": { "om_terrain": "LIXA_device_3", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_device_3", "search_range": 400, "min_distance": 0, "z": 0 },
         "z_adjust": -4,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_workfloor_NW" },
-        "target_params": { "om_terrain": "LIXA_workfloor_1a", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_workfloor_1a", "search_range": 400, "min_distance": 0, "z": 0 },
         "z_adjust": -4,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_workfloor_NE" },
-        "target_params": { "om_terrain": "LIXA_workfloor_2a", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_workfloor_2a", "search_range": 400, "min_distance": 0, "z": 0 },
         "z_adjust": -3,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_workfloor_SW" },
-        "target_params": { "om_terrain": "LIXA_workfloor_1b", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_workfloor_1b", "search_range": 400, "min_distance": 0, "z": 0 },
         "z_adjust": -3,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_workfloor_SE" },
-        "target_params": { "om_terrain": "LIXA_workfloor_2b", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_workfloor_2b", "search_range": 400, "min_distance": 0, "z": 0 },
         "z_adjust": -3,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_surface_NW" },
-        "target_params": { "om_terrain": "LIXA_surface_1a", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_surface_1a", "search_range": 400, "min_distance": 0, "z": 0 },
         "z_adjust": 0,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_surface_NE" },
-        "target_params": { "om_terrain": "LIXA_surface_1b", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_surface_1b", "search_range": 400, "min_distance": 0, "z": 0 },
         "z_adjust": 0,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_surface_SW" },
-        "target_params": { "om_terrain": "LIXA_surface_2a", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_surface_2a", "search_range": 400, "min_distance": 0, "z": 0 },
         "z_adjust": 0,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_surface_SE" },
-        "target_params": { "om_terrain": "LIXA_surface_2b", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_surface_2b", "search_range": 400, "min_distance": 0, "z": 0 },
         "z_adjust": 0,
         "z_override": true
       }
@@ -681,10 +698,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_back_1" }
@@ -695,10 +713,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_forward_1" }
@@ -709,10 +728,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_back_2" }
@@ -723,10 +743,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_forward_2" }
@@ -737,10 +758,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_back_3" }
@@ -751,10 +773,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_forward_3" }
@@ -765,10 +788,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_back_4" }
@@ -779,10 +803,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_forward_4" }
@@ -793,10 +818,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_back_5" }
@@ -807,10 +833,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_forward_5" }
@@ -821,10 +848,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_back_6" }
@@ -835,10 +863,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_forward_6" }
@@ -849,10 +878,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_back_7" }
@@ -863,10 +893,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_forward_7" }
@@ -877,10 +908,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_back_8" }
@@ -891,10 +923,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_forward_8" }
@@ -905,10 +938,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_back_9" }
@@ -919,10 +953,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_forward_9" }
@@ -933,10 +968,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_back_10" }
@@ -947,10 +983,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_forward_10" }
@@ -961,10 +998,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_back_11" }
@@ -975,10 +1013,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_forward_11" }
@@ -989,10 +1028,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_back_12" }
@@ -1003,10 +1043,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_forward_12" }
@@ -1017,10 +1058,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_back_13" }
@@ -1031,10 +1073,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_forward_13" }
@@ -1045,10 +1088,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_back_14" }
@@ -1059,10 +1103,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_forward_14" }
@@ -1073,10 +1118,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_back_15" }
@@ -1087,10 +1133,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_forward_15" }
@@ -1101,10 +1148,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_back_16" }
@@ -1115,10 +1163,11 @@
     "name": "",
     "color": "green",
     "symbol": "#",
-    "visibility": -1,
+    "visibility": 99,
+    "always_invisible": true,
     "avoidance": 99,
     "difficulty": 99,
-    "trap_radius": 1,
+    "trap_radius": 0,
     "action": "spell",
     "flags": [ "UNDODGEABLE", "UNCONSUMED" ],
     "spell_data": { "id": "spell_LIXA_forward_16" }
@@ -1131,7 +1180,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1147,7 +1196,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1163,7 +1212,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1179,7 +1228,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1195,7 +1244,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1211,7 +1260,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1227,7 +1276,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1243,7 +1292,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1259,7 +1308,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1275,7 +1324,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1291,7 +1340,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1307,7 +1356,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1323,7 +1372,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1339,7 +1388,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1355,7 +1404,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1371,7 +1420,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1387,7 +1436,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1403,7 +1452,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1419,7 +1468,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1435,7 +1484,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1451,7 +1500,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1467,7 +1516,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1483,7 +1532,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1499,7 +1548,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1515,7 +1564,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1531,7 +1580,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1547,7 +1596,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1563,7 +1612,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1579,7 +1628,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1595,7 +1644,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1611,7 +1660,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1627,7 +1676,7 @@
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "base_casting_time": 75,
+    "base_casting_time": 1,
     "shape": "blast",
     "min_range": 0,
     "min_aoe": 1,
@@ -1799,7 +1848,6 @@
     "type": "effect_on_condition",
     "id": "EOC_LIXA_BACK",
     "effect": [
-      { "run_eocs": "EOC_LIXA_UNFOLD_SHIFT" },
       {
         "switch": { "math": [ "u_LIXA_tp_back" ] },
         "cases": [
@@ -1868,14 +1916,23 @@
             "effect": { "u_teleport": { "global_val": "LIXA_back_tp_16" }, "force": true, "success_message": "You walk for a long while." }
           }
         ]
-      }
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LIXA_back_check",
+            "condition": { "math": [ "u_LIXA_hallway_direction", "==", "1" ] },
+            "effect": [ { "run_eocs": "EOC_LIXA_UNFOLD_SHIFT" } ]
+          }
+        ]
+      },
+      { "math": [ "u_LIXA_hallway_direction", "=", "1" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_FORWARD",
     "effect": [
-      { "run_eocs": "EOC_LIXA_UNFOLD_SHIFT" },
       {
         "switch": { "math": [ "u_LIXA_tp_forward" ] },
         "cases": [
@@ -1944,7 +2001,17 @@
             "effect": { "u_teleport": { "global_val": "LIXA_forward_tp_16" }, "force": true, "success_message": "You walk for a long while." }
           }
         ]
-      }
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LIXA_forward_check",
+            "condition": { "math": [ "u_LIXA_hallway_direction", "==", "2" ] },
+            "effect": [ { "run_eocs": "EOC_LIXA_UNFOLD_SHIFT" } ]
+          }
+        ]
+      },
+      { "math": [ "u_LIXA_hallway_direction", "=", "2" ] }
     ]
   },
   {
@@ -1980,10 +2047,11 @@
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_SHIFT",
     "effect": [
+      { "u_message": "SHIFT INITIATED" },
       {
         "switch": { "math": [ "u_LIXA_unfold_level" ] },
         "cases": [
-          { "case": 0, "effect": { "math": [ "u_LIXA_unfold_level", "++" ] } },
+          { "case": 0, "effect": { "queue_eocs": "EOC_LIXA_unfold_shift_0", "time_in_future": "2 seconds" } },
           {
             "case": 1,
             "effect": {
@@ -1991,10 +2059,10 @@
                 {
                   "id": "EOC_LIXA_unfold_shift_1_setup",
                   "effect": [
-                    { "math": [ "u_LIXA_unfold_level", "++" ] },
                     { "mapgen_update": "cleanup_LIXA", "target_var": { "global_val": "LIXA_unfold_A" } },
                     { "mapgen_update": "cleanup_LIXA", "target_var": { "global_val": "LIXA_unfold_B" } },
-                    { "queue_eocs": "EOC_LIXA_unfold_shift_1", "time_in_future": "1 seconds" }
+                    { "queue_eocs": "EOC_LIXA_unfold_shift_1", "time_in_future": "2 seconds" },
+                    { "u_message": "PREPARING UNFOLD SHIFT 1" }
                   ]
                 }
               ]
@@ -2007,10 +2075,9 @@
                 {
                   "id": "EOC_LIXA_unfold_shift_2_setup",
                   "effect": [
-                    { "math": [ "u_LIXA_unfold_level", "++" ] },
                     { "mapgen_update": "cleanup_LIXA", "target_var": { "global_val": "LIXA_unfold_A" } },
                     { "mapgen_update": "cleanup_LIXA", "target_var": { "global_val": "LIXA_unfold_B" } },
-                    { "queue_eocs": "EOC_LIXA_unfold_shift_2", "time_in_future": "1 seconds" }
+                    { "queue_eocs": "EOC_LIXA_unfold_shift_2", "time_in_future": "2 seconds" }
                   ]
                 }
               ]
@@ -2023,10 +2090,9 @@
                 {
                   "id": "EOC_LIXA_unfold_shift_3_setup",
                   "effect": [
-                    { "math": [ "u_LIXA_unfold_level", "++" ] },
                     { "mapgen_update": "cleanup_LIXA", "target_var": { "global_val": "LIXA_unfold_A" } },
                     { "mapgen_update": "cleanup_LIXA", "target_var": { "global_val": "LIXA_unfold_B" } },
-                    { "queue_eocs": "EOC_LIXA_unfold_shift_3", "time_in_future": "1 seconds" }
+                    { "queue_eocs": "EOC_LIXA_unfold_shift_3", "time_in_future": "2 seconds" }
                   ]
                 }
               ]
@@ -2039,10 +2105,9 @@
                 {
                   "id": "EOC_LIXA_unfold_shift_4_setup",
                   "effect": [
-                    { "math": [ "u_LIXA_unfold_level", "++" ] },
                     { "mapgen_update": "cleanup_LIXA", "target_var": { "global_val": "LIXA_unfold_A" } },
                     { "mapgen_update": "cleanup_LIXA", "target_var": { "global_val": "LIXA_unfold_B" } },
-                    { "queue_eocs": "EOC_LIXA_unfold_shift_4", "time_in_future": "1 seconds" }
+                    { "queue_eocs": "EOC_LIXA_unfold_shift_4", "time_in_future": "2 seconds" }
                   ]
                 }
               ]
@@ -2055,18 +2120,13 @@
                 {
                   "id": "EOC_LIXA_unfold_shift_5_setup",
                   "effect": [
-                    { "math": [ "u_LIXA_unfold_level", "++" ] },
                     { "mapgen_update": "cleanup_LIXA", "target_var": { "global_val": "LIXA_unfold_A" } },
                     { "mapgen_update": "cleanup_LIXA", "target_var": { "global_val": "LIXA_unfold_B" } },
-                    { "queue_eocs": "EOC_LIXA_unfold_shift_5", "time_in_future": "1 seconds" }
+                    { "queue_eocs": "EOC_LIXA_unfold_shift_5", "time_in_future": "2 seconds" }
                   ]
                 }
               ]
             }
-          },
-          {
-            "case": 6,
-            "effect": { "run_eocs": [ { "id": "EOC_LIXA_unfold_shift_6", "effect": [ { "math": [ "u_LIXA_unfold_level", "++" ] } ] } ] }
           }
         ]
       }
@@ -2074,42 +2134,56 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_LIXA_unfold_shift_0",
+    "effect": [ { "math": [ "u_LIXA_unfold_level", "=", "1" ] }, { "u_message": "LIXA UNFOLD LEVEL 0 REACHED" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LIXA_unfold_shift_1",
     "effect": [
-      { "mapgen_update": "spawn_LIXA_1", "target_var": { "global_val": "LIXA_unfold_A" } },
-      { "mapgen_update": "spawn_LIXA_1", "target_var": { "global_val": "LIXA_unfold_B" } }
+      { "math": [ "u_LIXA_unfold_level", "=", "2" ] },
+      { "mapgen_update": "spawn_LIXA_1a", "target_var": { "global_val": "LIXA_unfold_A" } },
+      { "mapgen_update": "spawn_LIXA_1b", "target_var": { "global_val": "LIXA_unfold_B" } },
+      { "u_message": "LIXA UNFOLD LEVEL 1 REACHED" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_unfold_shift_2",
     "effect": [
+      { "math": [ "u_LIXA_unfold_level", "=", "3" ] },
       { "mapgen_update": "spawn_LIXA_2a", "target_var": { "global_val": "LIXA_unfold_A" } },
-      { "mapgen_update": "spawn_LIXA_2b", "target_var": { "global_val": "LIXA_unfold_B" } }
+      { "mapgen_update": "spawn_LIXA_2b", "target_var": { "global_val": "LIXA_unfold_B" } },
+      { "u_message": "LIXA UNFOLD LEVEL 2 REACHED" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_unfold_shift_3",
     "effect": [
+      { "math": [ "u_LIXA_unfold_level", "=", "4" ] },
       { "mapgen_update": "spawn_LIXA_3a", "target_var": { "global_val": "LIXA_unfold_A" } },
-      { "mapgen_update": "spawn_LIXA_3b", "target_var": { "global_val": "LIXA_unfold_B" } }
+      { "mapgen_update": "spawn_LIXA_3b", "target_var": { "global_val": "LIXA_unfold_B" } },
+      { "u_message": "LIXA UNFOLD LEVEL 3 REACHED" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_unfold_shift_4",
     "effect": [
+      { "math": [ "u_LIXA_unfold_level", "=", "5" ] },
       { "mapgen_update": "spawn_LIXA_4a", "target_var": { "global_val": "LIXA_unfold_A" } },
-      { "mapgen_update": "spawn_LIXA_4b", "target_var": { "global_val": "LIXA_unfold_B" } }
+      { "mapgen_update": "spawn_LIXA_4b", "target_var": { "global_val": "LIXA_unfold_B" } },
+      { "u_message": "LIXA UNFOLD LEVEL 4 REACHED" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_unfold_shift_5",
     "effect": [
-      { "mapgen_update": "spawn_LIXA_5a", "target_var": { "global_val": "LIXA_unfold_A" } },
-      { "mapgen_update": "spawn_LIXA_5b", "target_var": { "global_val": "LIXA_unfold_B" } }
+      { "math": [ "u_LIXA_unfold_level", "=", "6" ] },
+      { "mapgen_update": "spawn_LIXA_5", "target_var": { "global_val": "LIXA_unfold_B" } },
+      { "u_message": "LIXA UNFOLD LEVEL 5 REACHED" }
     ]
   },
   {
