@@ -71,7 +71,7 @@
     "num_args": 1,
     "return": "_0 * 13722"
   },
-          {
+  {
     "type": "jmath_function",
     "id": "difficulty_ten_contemplation",
     "num_args": 1,
