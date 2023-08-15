@@ -111,7 +111,7 @@
       "\"-look, I know we're all wigging out.  But you have got to remember to eat something.  Set an alarm if you have to, just-\"",
       "\"Dear mom. How are you doing?  I hope this message finds you alive, because by the time it gets to you I will be fuckin' dead.\"",
       "You open an application that turns out to be a top-down strategy game of some sort, set in space.  Shortly after selecting anything in the menu, the game freezes and crashes to desktop.",
-      "\"Listen, I know it's upsetting, and I agree.  You're right that there's no way a cat could cause any real problems down here.  But, and I apologize for the cold comfort;  this way, you can be sure Yujin will see the sun again.  Cats need sun to be happy.\"",
+      "\"Listen, I know it's upsetting, and I agree.  You're right that there's no way a cat could cause any real problems down here.  But, and I apologize for the cold comfort; this way, you can be sure Yujin will see the sun again.  Cats need sun to be happy.\"",
       "\"-how are you recovering?  They tried to get on us about testing times, I told them they can eat my entire ass.  If they don't want delays they will keep those jackboot bastards from breaking someone's fucking jaw.  I also put in an order for-\"",
       "\"Had the dream again.  An ocean, as far as the eye can see.  Gently rolling waves.  All of it, photons.\""
     ]
@@ -125,7 +125,7 @@
       "\"They must have done something to Keaton.  The soldiers seem very upset with us.  As though it's our fault he couldn't keep his temper?\"",
       "\"I can answer that for you, actually.  He's what those of us who took two semesters of psych 12 years ago call a 'fucking asshole'.\"",
       "\"-for understanding.  I was too jumbled up to find the right words, so I want to make it clear now:  I don't want to end our arrangement, I just need a break.  I actually think I could use physical intimacy now more than ever, so if you're alright with just cuddling-\"",
-      "\"I can't remember loving this project.  I know that I did;  I was so excited.  We were going to change the world.  But I cannot remember the feeling of anything other than hate.\"",
+      "\"I can't remember loving this project.  I know that I did; I was so excited.  We were going to change the world.  But I cannot remember the feeling of anything other than hate.\"",
       "\"I wiped the last of the documentation drives last night.  I think we all know that if they replace us, it won't be because we've been let go and allowed to resume our lives.  Now they no longer have that option.\"",
       "This is a spreadsheet that passes several cells of what look like poker hands through a mathematical function, directing them to a cell with the heading CHEATCHANCE and the number 77.",
       "This is an entire folder of video files, apparently the complete first season of an animated series called The Shepherd House.  Every file crashes to desktop ten seconds into the opening credits, so all you can tell is that the theme music seems interesting."
@@ -159,7 +159,7 @@
       "\"I've got a cask of the finest paradimensional research in my cellar.  Would you like a taste, Fortunato?\"",
       "\"Listen, I am very pleased for you two, in the abstract.  I just would like you to remember that your room shares a ventilation duct with mine.  A note on my door would be nice if you have plans for an evening.\"",
       "\"No, you can't get high off air freshener, you dumbass.  I just miss the smell of living things.  Cheap fake pine in close enough.\"",
-      "\"I hate to be the devil's advocate, but;  they're trapped as well.  It's easy to resent them for at least having the sun, but isn't having freedom that much closer and still beyond reach maddening as well?\"",
+      "\"I hate to be the devil's advocate, but; they're trapped as well.  It's easy to resent them for at least having the sun, but isn't having freedom that much closer and still beyond reach maddening as well?\"",
       "\"If there was a nuclear war, would anyone remember we're down here?  Has there been one already, and they just haven't told us?\"",
       "This is a saved file that opens in a digital painting program.  It is a crude cartoon of a woman in a suit with a manic expression, and a word balloon saying \"WIBBLEY WOBBLEY, SPACEY-WACEY, STUFF\".",
       "\"Because it's a stupid fucking acronym, is why.  Someone sat down and thought 'how do we make people take our DOUBLE SECRET agency seriously?  I know!  X's are super cool, right?  It's embarassing.\"",
@@ -222,7 +222,7 @@
         "id": "LIXA_lab_graffiti_bored_7",
         "text": "There is a large line sketch, in marker, of a tall wardrobe's closed doors here."
       },
-      { "id": "LIXA_lab_graffiti_bored_8", "text": "\"If anyone finds this message;  send more fucking tomatoes.\"" },
+      { "id": "LIXA_lab_graffiti_bored_8", "text": "\"If anyone finds this message; send more fucking tomatoes.\"" },
       {
         "id": "LIXA_lab_graffiti_bored_9",
         "text": "This is a drawing, combined together from several people's contributions.  The result is a deeply unflattering caracature of a soldier skipping down a road, alongside the words KEATON ON HIS WAY TO BUY MORE PAINT CHIPS."
@@ -258,7 +258,7 @@
     "text": [
       {
         "id": "LIXA_lab_graffiti_sadbye",
-        "text": "We went in.  We're going to try to fix it.  If someone finds this;  we were here.  We tried to make it right."
+        "text": "We went in.  We're going to try to fix it.  If someone finds this; we were here.  We tried to make it right."
       }
     ]
   }
