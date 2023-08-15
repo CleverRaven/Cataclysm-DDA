@@ -808,6 +808,8 @@ bool main_menu::opening_screen()
                         if( world == nullptr ) {
                             break;
                         }
+                        world->active_mod_order.clear();
+                        world->active_mod_order.emplace_back( mod_id( "dda" ) );
                         world_generator->set_active_world( world );
                         try {
                             g->setup();
