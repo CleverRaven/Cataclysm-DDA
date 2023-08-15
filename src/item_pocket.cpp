@@ -1752,18 +1752,34 @@ void item_pocket::overflow( const tripoint &pos, const item_location &loc )
     // first remove items that shouldn't be in there anyway
     std::unordered_map<itype_id, bool> contained_type_validity;
     for( auto iter = contents.begin(); iter != contents.end(); ) {
-        auto contained_type = contained_type_validity.emplace( iter->typeId(), true );
-        if( contained_type.second ) {
+
+        // if item has any contents, check it individually
+        if( !iter->get_contents().empty_with_no_mods() ) {
             ret_val<contain_code> ret_contain = can_contain( *iter );
-            contained_type.first->second = !is_type( pocket_type::MIGRATION ) && ( ret_contain.success() ||
+            if( !is_type( pocket_type::MIGRATION ) && ( ret_contain.success() ||
+                    ret_contain.value() == contain_code::ERR_NO_SPACE ||
+                    ret_contain.value() == contain_code::ERR_CANNOT_SUPPORT ) ) {
+                ++iter;
+            } else {
+                move_to_parent_pocket_recursive( pos, *iter, loc );
+                iter = contents.erase( iter );
+            }
+            continue;
+        }
+
+        // otherwise, use cached results per item type
+        auto cont_copy_type = contained_type_validity.emplace( iter->typeId(), true );
+        if( cont_copy_type.second ) {
+            ret_val<contain_code> ret_contain = can_contain( *iter );
+            cont_copy_type.first->second = !is_type( pocket_type::MIGRATION ) && ( ret_contain.success() ||
                                            ret_contain.value() == contain_code::ERR_NO_SPACE ||
                                            ret_contain.value() == contain_code::ERR_CANNOT_SUPPORT );
         }
-        if( !contained_type.first->second ) {
+        if( cont_copy_type.first->second ) {
+            ++iter;
+        } else {
             move_to_parent_pocket_recursive( pos, *iter, loc );
             iter = contents.erase( iter );
-        } else {
-            ++iter;
         }
     }
 
