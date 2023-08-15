@@ -1,0 +1,42 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "overmap_feature_flag_settings": { "whitelist": [ "CLASSIC" ] }
+  },
+  {
+    "type": "MONSTER_WHITELIST",
+    "mode": "EXCLUSIVE",
+    "categories": [ "WILDLIFE" ]
+  },
+  {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "whitelist",
+    "scenarios": [ "lights_out" ]
+  },
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "map_extras": {
+      "forest": { "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_spider": 0, "mx_exocrash_1": 0, "mx_exocrash_2": 0 } },
+      "forest_thick": {
+        "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_spider": 0, "mx_jabberwock": 0, "mx_exocrash_1": 0, "mx_exocrash_2": 0 }
+      },
+      "forest_water": { "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_spider": 0, "mx_exocrash_1": 0, "mx_exocrash_2": 0 } },
+      "field": { "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_exocrash_1": 0, "mx_exocrash_2": 0 } },
+      "road": { "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_exocrash_1": 0, "mx_exocrash_2": 0 } },
+      "build": {
+        "extras": { "mx_house_spider": 0, "mx_house_wasp": 0, "mx_portal": 0, "mx_portal_in": 0, "mx_exocrash_1": 0, "mx_exocrash_2": 0 }
+      },
+      "marloss": { "chance": 0, "extras": { "mx_marloss_pilgrimage": 0 } },
+      "subway": { "extras": { "mx_portal": 0, "mx_portal_in": 0 } }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING",
+    "recurrence": [ "10 days", "11 days" ],
+    "global": true,
+    "effect": [  ]
+  }
+]

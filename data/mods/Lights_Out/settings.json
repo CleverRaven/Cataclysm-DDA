@@ -1,0 +1,20 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "ETERNAL_TIME_OF_DAY",
+    "stype": "string_input",
+    "value": "night"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "NPC_SPAWNTIME",
+    "stype": "float",
+    "value": 999
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "STATIC_NPC",
+    "stype": "bool",
+    "value": false
+  }
+]

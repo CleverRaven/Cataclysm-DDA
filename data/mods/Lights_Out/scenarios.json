@@ -1,0 +1,39 @@
+[
+  {
+    "type": "scenario",
+    "id": "lights_out",
+    "name": "Lights out",
+    "points": 0,
+    "description": "The lights went out and everyone left.  You're alone now and the sun is not coming back.",
+    "allowed_locs": [
+      "sloc_house",
+      "sloc_house_boarded",
+      "sloc_grocery_store",
+      "sloc_garage",
+      "sloc_furniture_store",
+      "sloc_library",
+      "sloc_bookstore",
+      "sloc_zoo_giftshop",
+      "sloc_zoo_cages",
+      "sloc_golfcourse_mid_course",
+      "sloc_golfcourse_clubhouse",
+      "sloc_church",
+      "sloc_cemetery",
+      "sloc_hardware",
+      "sloc_gym",
+      "sloc_clothes",
+      "sloc_restaurant",
+      "sloc_bar",
+      "sloc_electronics",
+      "sloc_arcade",
+      "sloc_animalshelter",
+      "sloc_laundromat",
+      "sloc_stripclub",
+      "sloc_sexshop",
+      "sloc_candyshop",
+      "sloc_petstore"
+    ],
+    "start_name": "In Town",
+    "flags": [ "CITY_START", "LONE_START" ]
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "lights_out",
+    "name": "Lights Out",
+    "authors": [ "Fris0uman" ],
+    "maintainers": [ "Fris0uman" ],
+    "description": "The lights went out and everyone left.  You're alone now and the sun is not coming back.  Turns the game into PVE survival with no monsters and permanent night.",
+    "category": "total_conversion",
+    "dependencies": [ "dda" ]
+  }
+]
