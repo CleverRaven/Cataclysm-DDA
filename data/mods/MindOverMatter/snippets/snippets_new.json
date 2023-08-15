@@ -33,9 +33,126 @@
       { "name": "post-it", "id": "lab_postit_psi_12", "text": "It won't kill you but you'll wish it had" },
       { "name": "post-it", "id": "lab_postit_psi_13", "text": "Brains show no physical differences" },
       { "name": "post-it", "id": "lab_postit_psi_14", "text": "Animal testing approved.  Try the TK on the mice" },
-      { "name": "post-it", "id": "lab_postit_psi_15", "text": "Can't wait for cross-testing.  Will PE050 boost it?" },
+      { "name": "post-it", "id": "lab_postit_psi_15", "text": "Can't wait for cross-testing" },
       { "name": "post-it", "id": "lab_postit_psi_16", "text": "She tried to scan Y65-08.  Now in a coma" },
-      { "name": "post-it", "id": "lab_postit_psi_17", "text": "Scanning them doesn't work.  It's just static" }
+      { "name": "post-it", "id": "lab_postit_psi_17", "text": "Scanning them doesn't work.  It's just static" },
+      { "name": "post-it", "id": "lab_postit_psi_18", "text": "Stay away from those GRAY DAWN guys.  Creepy" },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_19",
+        "text": "Need to up monitoring of GRAY DAWN candidates.  Who watches the watchers?"
+      },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_20",
+        "text": "<given_name> is up for awakening.  Ban her from the poker game"
+      },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_21",
+        "text": "A better lightbulb.  What's next, a matrix mousetrap?"
+      },
+      { "name": "post-it", "id": "lab_postit_psi_22", "text": "So does my PB still count post-awakening?" },
+      { "name": "post-it", "id": "lab_postit_psi_23", "text": "What's my dog thinking?  I should ask" },
+      { "name": "post-it", "id": "lab_postit_psi_24", "text": "COLD BELOW is a bit too on-the-nose" },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_25",
+        "text": "\"Gentlemen, clinical immortality is within our grasp\". There, if I write it here I won't be tempted to put it in the powerpoint"
+      },
+      { "name": "post-it", "id": "lab_postit_psi_26", "text": "They've done it.  Frikkin laser beams" },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_27",
+        "text": "I get why.  But TIAMAT or SERVITOR would be much cooler than XE157, right?"
+      },
+      { "name": "post-it", "id": "lab_postit_psi_28", "text": "Better than kings.  Gods" },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_29",
+        "text": "There has be more out there.  Cryokinesis?  Prescience?"
+      },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_30",
+        "text": "Be careful in subplane R82-34.  Rodriguez nearly blew the entire team up"
+      },
+      { "name": "post-it", "id": "lab_postit_psi_31", "text": "SMOKE USHER can't cure zombification.  Had to try" },
+      { "name": "post-it", "id": "lab_postit_psi_32", "text": "Snapped as soon as he entered the dive" },
+      { "name": "post-it", "id": "lab_postit_psi_33", "text": "Mix with XE037 for better results?" },
+      { "name": "post-it", "id": "lab_postit_psi_34", "text": "Have we tried it with mice?" },
+      { "name": "post-it", "id": "lab_postit_psi_35", "text": "But what is the medium?" },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_36",
+        "text": "I am not going through that training.  Safe?  Yeah, no"
+      },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_37",
+        "text": "Why does no one else remember <family_name>?  And why isn't he in the employee roster?"
+      },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_38",
+        "text": "We finally find real superpowers and then it all goes to hell"
+      },
+      { "name": "post-it", "id": "lab_postit_psi_39", "text": "Brain injections make no difference" },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_40",
+        "text": "She ran a marathon on a treadmill.  That better be enough data"
+      },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_41",
+        "text": "Not meeting with that mathematician again.  Once was too much"
+      },
+      { "name": "post-it", "id": "lab_postit_psi_42", "text": "All of them, witches" },
+      { "name": "post-it", "id": "lab_postit_psi_43", "text": "Need to dive again.  It's better on the other side" },
+      { "name": "post-it", "id": "lab_postit_psi_44", "text": "Those poor mice" },
+      { "name": "post-it", "id": "lab_postit_psi_45", "text": "We should have just used regular cards" },
+      { "name": "post-it", "id": "lab_postit_psi_46", "text": "Going to put \"Psi-cop\" on my resume" },
+      {
+        "name": "post-it",
+        "id": "lab_postit_psi_47",
+        "text": "Five percent increase in lifting across the board.  Why?"
+      },
+      { "name": "post-it", "id": "lab_postit_psi_48", "text": "Can't block them out anymore" },
+      { "name": "post-it", "id": "lab_postit_psi_49", "text": "Can they go through halfway?" },
+      { "name": "post-it", "id": "lab_postit_psi_50", "text": "Same dream, every night" },
+      { "name": "post-it", "id": "lab_postit_psi_51", "text": "Great, some of the mice escaped" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_biokinesis",
+    "text": [
+      {
+        "name": "AAR ID# V78-08",
+        "id": "lab_file_biokinesis_01",
+        "text": "At 1756 (dive time), Sergeant Eric Collins's team came under attack by an XE157 entity near the end of scheduled in-phase time.  Despite the expenditure of most of their ordinance, XE157 suffered no significant damage and continued its attack.  Despite the known combat capabilities of XE157 and with no regard for his own safety, Sergeant Collins ordered his team to retreat to the dive breachhead and engaged it in hand-to-hand combat, holding it off for several minutes while his team exited the dive.  The apeture was held open for an additional minute afterward, allowing just enough time for a severely-injured Sergeant Collins to exit the dive and preventing the exit of XE157.  Sergeant Collins suffered severe lacerations, the loss of two fingers, and burns across fifty percent of his arms and upper body; he has since volunteered to be a test subject for SMOKE USHER.  In lieu of a medal, we have authorized a meritorious service bonus to be applied retroactive to the beginning of the year."
+      },
+      {
+        "name": "Notes written on the back of an unimportant memo",
+        "id": "lab_file_biokinesis_02",
+        "text": "Treadmills?  Blood ox tests?  Have them try to punch through walls or something\nAny cellular difference?  Should check\nBrains show no difference but what about organs?  Lactic acid production, inflammation, blood flow, etc.\n\nOutrun a horse?\n\nYeah, yeah, faster than a speeding bullet.  VERDANT HAND vs ONYX LIGHTNING?\nOh come on.\nWhat about jumping distance?  Height?\n\n\n*a doodle of two stick figures engaged in a martial arts battle*\nActually do the shoryuken.  Too bad gun still beats fist\nHadoken?  Wouldn't surprise me at this point\nGrip strength tests?  Charts?  zzzzz  *a surprisingly-detailed picture of a curled-up sleeping cat*\nSummary: Ban them from the Olympics"
+      },
+      {
+        "name": "Come One, Come All!",
+        "id": "lab_file_biokinesis_03",
+        "text": "The battle of the century!  H84 and E94 will fight to determine the true greatest VERDANT HAND graduate!  No holds barred, no attacks banned, no referee, don't sit in the front row or you might ruin your clothes!  Be there or be square!\n\n*below the text is an picture of a man and a woman striking a boxing pose at each other in an ordinary office room.  Both are wearing street clothes and baring their teeth at each other.  The date of the fight is one week before the end of the world*"
+      },
+      {
+        "name": "incident report: 385924",
+        "id": "lab_file_biokinesis_04",
+        "text": "Upon leaving for the evening, Dr. Erikson neglected to seal cage #3, allowing one of experimental mice (#748562) to gain access to the matrix crystal supplies.  One crystal discharged, affecting 748562 and apparently causing an awakening.  748562 escaped the room, squeezing under the door, and is currently loose within the facility.\n\nDr. Erickson has been placed on administrative leave pending a full investigation and new procedures for storing matrix crystals are currently being implemented.  A search for 748562 is still underway."
+      },
+      {
+        "name": "torn notebook page",
+        "id": "lab_file_biokinesis_05",
+        "text": "wanted me to keep a logbook of my daily exercise but I don't understand the point.  I run, I lift, I sleep, that's about all these have me do here.  What, they want \"5:40 a.m.: 30 reps 250 lbs, run 20 minutes, 100 burpees (10 sets)\" blah blah who cares?  That shit doesn't matter.  We're all trapped here and things are going to hell and we got some kind of poison in our bodies that's going to bring us back when we die so we can eat brains.\n\nWell, fine, here's my log: 6:05 a.m.: 50 reps 400 lbs, sprint 10 minutes, 200 pull-ups, triple sommersault from a standing start.  Put me in the Olympics right now."
+      }
     ]
   },
   {
@@ -43,14 +160,66 @@
     "category": "lab_file_telepathy",
     "text": [
       {
-        "name": "testing report",
+        "name": "testing report C3-6204",
         "id": "lab_file_telepathy_01",
         "text": "Subject is female, of East Asian descent, age 35 years.  In good health.\n\nInitial test using standard deck of playing cards.  Subject and experimenter facing away from each other, with opaque curtain blocking line of sight.  Prompt was triggered by a light on subject's desk to prevent drawing any information from experimenter's tone of voice or word choice.  Experimenter drew ten cards and asked subject to state number and suit.  Cards are shuffled back into the deck after each guess to prevent already-drawn cards from affecting future guesses.\n\nResults: Subject guessed two of ten correct on the first test and three of ten correct on the second test, versus control who guessed a single card correct on the first test and zero correct on the second test.  Very promising initial results."
       },
       {
-        "name": "incident report",
+        "name": "incident report: 897237",
         "id": "lab_file_telepathy_02",
-        "text": "INCIDENT REPORT: 897237\n\nDuring a routine visit by Dr. Davies, at 1134 a COLD BELOW mathematician diverted from their standard schedule and entered the room where Dr. Davies was being briefed about netherum mathematics developments.  The mathematician stared at Dr. Davies for approximately three seconds and then, before security could intervene, physically attacked the doctor with their bare hands.  Witnesses report the mathematician incoherently screaming, mixed with statements such as \"You'll kill us all\" and \"Stop, stop stop\".  The mathematician continued to scream until restrained and sedated.\n\nFollow-up: COLD BELOW overseers received official reprimand and required to attend additional training.  Mathematician diverted to project SUBSTRATE."
+        "text": "During a routine visit by Dr. Davies, at 1134 a COLD BELOW mathematician diverted from their standard schedule and entered the room where Dr. Davies was being briefed about netherum mathematics developments.  The mathematician stared at Dr. Davies for approximately three seconds and then, before security could intervene, physically attacked the doctor with their bare hands.  Witnesses report the mathematician incoherently screaming, mixed with statements such as \"You'll kill us all\" and \"Stop, stop stop\".  The mathematician continued to scream until restrained and sedated.\n\nFollow-up: COLD BELOW overseers received official reprimand and required to attend additional training.  Mathematician diverted to project SUBSTRATE."
+      },
+      {
+        "name": "AAR ID# T38-11",
+        "id": "lab_file_telepathy_03",
+        "text": "I don't know if an AAR is the best way to write this but I couldn't find anything else in the procedures that fit.  I want to be reassigned.  I went through GRAY DAWN two weeks ago and back home I can occasionally pick up a sentence or two but when we went through to T38-11 it was like everyone's brain was projected onto their forehead.  Mostly fine, I went through the exercises and managed to block it out, but it didn't work for Gallagher.  I don't know how he functions with what's going through his brain.  And not just the sex stuff, fine, whatever, but that he would get enraged whenever something would go wrong.  Carvalho came back from scouting and said he didn't find anything and Gallagher literally immediately thought about just shooting him and leaving him there!  \"Fucking worthless\" was the least-offensive thing Gallagher thought about him.  I know he's calm and professional on the surface but there's something wrong with him and one day he's going to snap.  I don't want to be there when he does."
+      },
+      {
+        "name": "Project DRIVING MIST (update)",
+        "id": "lab_file_telepathy_04",
+        "text": "We've been trying to find the medium that telepathy works by and have come up empty.  It works, it's replicable, that means it's amenable to the scientific method, right?  Okay.  It's not affected by gravity.  It's not affected by the atmosphere, since people in sealed rooms or environment suits can still communicate with others.  It's not affected by physical barriers, neither lead not steel nor a tinfoil hat.  It's not affected by light lag, either, so we finally have proof that FTL is possible at least for some things.  We've tried to send messages into the past but so far no luck--maybe we don't have a large enough distance between receivers?  Without an amplifier the range is still very short, so we can't do a two-way test.  We put the data into Melchior and didn't get any conclusive reply.\n\nI'll report back in two weeks as scheduled.  I refuse to throw up my hands and say \"It's magic, who knows how it works?\"  If it affects the physical world it must obey some set of physical laws."
+      },
+      {
+        "name": "testing report N2-7394",
+        "id": "lab_file_telepathy_05",
+        "text": "1) Subject native Arabic speaker.  Asked to think of word sequence in English.  Mathematician successfully determined sequence word.  Asked to think of word sequence in Arabic, mathematician unable to determine word boundaries and isolate words.\n2) Subject native English speaker.  Asked to attempt to think of Chinese poem (phonetic transcription provided).  Mathematician able to isolate word on second attempt.\n3) Subject native English speaker.  Asked to think of word randomly-generated using English phonemes.  Mathematician able to isolate word on second attempt.\n4) Subject native French speaker; also fluent in German, English, and Italian with some ability in Romanian, Latin, and Russian.  Asked to think of a word sequence in Russian.  Mathematician unable to isolate sequence word despite six attempts.\n6) Subject native Yiddish speaker.  Asked to think of word in German, which the subject did not speak.  Mathematician able to isolate word on third attempt.\n7) Subject native English speaker.  Asked to think of word sequence in Sindarian, the invented language from \"The Lord of the Rings\".  Mathematician unable to isolate word despite six attempts.\n\nUnfortunately, a deficit of mathematicians who lack English fluency limits the range of our experiments.  Nonetheless, the results are consistent with there being no universal language of thought."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_telekinesis",
+    "text": [
+      {
+        "name": "It's all just motion",
+        "id": "lab_file_telekinesis_01",
+        "text": "Why is there a distinction between pyrokinesis and telekinesis at all?  Fire isn't a fundamental element, it's the result of heat which is the result of molecular motion.  There's no conceptual reason why a pyrokinetic couldn't make all the molecules of an object move in a particular direction, producing motion of the entire object, or a telekinetic couldn't produce a more chaotic motion that resulted in the object's energy increasing.  Furthermore, in no test has a telekinetic been able to move part of an object unless that part is designe for motion; pulling a lever is possible, but breaking a plate in half is not.  And a pyrokinetic cannot apply the reverse and slow down an object's molecules to reduce heat unless that object is on fire.\n\nMy theory is that it's all psychological.  We've all grown up with modern culture and stories about what psychics are \"supposed\" to be capable of, and so the matrix crystals and Netherum mathematics shape the candidates' abilities toward those pre-determined pathways.  If we could get a SMOKE USHER mathematician from an uncontacted tribe, maybe they'd be able to induce diseases in their targets or steal or their soul, in accordance with that tribe's belief practices about supernatural powers.  But since our candidates come from a culture where pyrokinesis and telekinesis are separate things and geokinesis or osteokinesis are very rare in fiction, the former result from awakenings and the latter do not.\n\nI would like to formally request a wider variety of cultural backgrounds for our project candidates to test this theory."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_vitakinesis",
+    "text": [
+      {
+        "name": "SMOKE USHER anti-agapic properties (revised estimate)",
+        "id": "lab_file_vitakinesis_01",
+        "text": "Initial estimates of successful SMOKE USHER mathematicians showed increased vitality and vigor.  Testing post-awakening showed the oldest mathematician--Doreen McHugh, age 62--underwent a complete secession of her previously-diagnosed (at age 35) rheumatoid arthritis.  She is now capable of running a mile with a time of 7:12 despite minimal training, well below the average for a trained woman in her age group.  She expresses increased well-being and vitality, going for walks in the facility exercise area when before recruitment she was mostly homebound.  Furthermore, her grip strength, blood oxygen level, skin appearance, calcium levels, and muscle mass are more consistent with a woman decades younger, and most convincingly to me, the roots of her hair are coming in black instead of gray and just last week, she sent an urgent request for menstruation products for personal use.\n\nWe'll have to revise our estimates way up.  I originally thought that SMOKE USHER would provide health and vigor but the benefits would be modest, maybe 20% increased lifespan with a corresponding increase in healthy years.  Hey, living to 100 regularly would still be great, right?  But SMOKE USHER mathematicians literally getting younger means I have to throw all the initial estimates out the window.  Is SMOKE USHER the fountain of youth?  I know that sounds ridiculous but you can read the test data for yourself."
+      },
+      {
+        "name": "Compound XV471 update",
+        "id": "lab_file_vitakinesis_02",
+        "text": "Application of matrix technology and XE037 samples together with cutting-edge medical advances blah blah you know the drill.  Anyway, we sourced the samples, we synthesized the compound, we did the tests.  It's magic.  I know that sounds dumb but it's literally magic.  Animal testing showed complete remission of every cancer they developed.  \"Alright, Eric,\" you say, \"that's fine but cancer testing in animals is b̵u̵l̵l̵s̵h̵i̵t̵\"clinically irrelevant due to to high real-world failure rates in humans\".  Sure, yes, you're right.  But we sourced some enthusiastic voluntolds from XEDRA-12's stock and a couple of them had cancer they were planning on testing XE037 interactions with.  Well they aren't going to anymore because XV471 cleaned them right up.  Totally healthy.  Zero cancer.\n\nSubject B84 had cystic fibrosis and it's gone.  GONE.  Perfectly normal lungs.  Now what's that other than magic?\n\nYou want to get more funding for this, just authorize selling XV471 to some sick Russian oligarch for like $10 billion.  He gets cured and the money keeps flowing.  And honestly it needs to be that expensive with how much this stuff costs to produce.  We get the materials and process them and nine times out of ten it's just a sugar pill for no damn reason I can find.  But that tenth time, wow.\n\nShred this after you read it.  I don't need the director lecturing me about professionalism again."
+      },
+      {
+        "name": "Treatment time until complete recovery",
+        "id": "lab_file_vitakinesis_03",
+        "text": "Common cold: 34 hours\n\nInfluenza: 27 hours\n\nMononucleosis: 85 hours\n\nNorovirus: 26 hours\n\nGonorrhea: 43 hours\n\nHepatitis C: 71 hours\n\nHIV: 148 hours\n\nMalaria: 112 hours\n\nSmallpox: 76 hours\n\nEbola: 93 hours"
+      },
+      {
+        "name": "Zombie Revivification",
+        "id": "lab_file_vitakinesis_04",
+        "text": "Gentlemen, can we cure death?\n\nSorry, I had to.  Anyway, the answer is no.  We had multiple SMOKE USHER mathematicians try everything they could against a properly-restrained zombie and no luck.  The furthest we got was D93 managed to discover some way to kill zombies faster; her attempt to restart the normal biological processes caused accelerated decay and resulted in the zombie returning to an inert state after approximately thirty minutes from initial contact.  Subsequent revivication was delayed for an additional six hours.\n\nFurther testing on lab rats indicate that this ability functions on living subject as well.  I plan to start human testing once the lockdown ends and I can acquire suitable volunteers."
       }
     ]
   },
@@ -61,7 +230,65 @@
       {
         "name": "OS647-P Response",
         "id": "lab_file_item_OS647_P_01",
-        "text": "Dr. Zweidler, I understand your excitement at your breakthroughs in matrix technology, but I hope you understand there is no way I can approve OS647-P for general usage.  You write here that the effect field has a \"94% effectiveness rate\" but this is not comparable to ballistic performance standards because it has no ablative properties.  What if the first shot fired is part of that 6%?  How can an operative trust their life to your device when every possible shot might be the one to penetrate?  That fact that your data shows it provides complete protection against rifle rounds, grenades, and even anti-tank weapons is immaterial in the face of the effect field's failure rate.\n\nSecond, you write that currently OS647-P has a 2.67% device failure rate, over and above the chance of the effect field failing!  You want me to recommend this for general usage when our field operatives could end up not only with a bullet in the chest, but also a box full of burnt plastic while some horror is charging at them on an immersion dive?n\nFurthermore, the active time is simply unacceptable.  Ballistic protection works because it provides passive protection with no additional effort necessary.  When in danger, an operative would need to insert the matrix crystal, flip the toggle, and then hope that the attack occurs within the \"5.65 second median protection time\" in order to gain any benefit at all!  You've read those immersion dive reports too, Matthew.  If an operative is face to face with a shoggoth, what happens on the sixth second?\n\nI'll be frank with you.  I'm amazed that you asked me to approve this given its current device specs.  Matrix crystals--even depleted ones--are extremely valuable, and given their already unacceptably-high failure rate in training new mathematicians, Dr. Liu is not going to accept anything less than 100% effectiveness from an alternative use case.  You're simply going to have to refine OS647-P until it's more reliable.\n\nYours,\nAnna Stephenson\nDirector of Research"
+        "text": "Dr. Zweidler, I understand your excitement at your breakthroughs in matrix technology, but I hope you understand there is no way I can approve OS647-P for general usage.  You write here that the effect field has a \"94% effectiveness rate\" but this is not comparable to ballistic performance standards because it has no ablative properties.  What if the first shot fired is part of that 6%?  How can an operative trust their life to your device when every possible shot might be the one to penetrate?  That fact that your data shows it provides complete protection against rifle rounds, grenades, and even anti-tank weapons is immaterial in the face of the effect field's failure rate.\n\nSecond, you write that currently OS647-P has a 2.67% device failure rate, over and above the chance of the effect field failing!  You want me to recommend this for general usage when our field operatives could end up not only with a bullet in the chest, but also a box full of burnt plastic while some horror is charging at them on an immersion dive?n\nFurthermore, the active time is simply unacceptable.  Ballistic protection works because it provides passive protection with no additional effort necessary.  When in danger, an operative would need to insert the matrix crystal, flip the toggle, and then hope that the attack occurs within the \"5.65 second median protection time\" in order to gain any benefit at all!  You've read those immersion dive reports too, Matthew.  If an operative is face to face with XE157, what happens on the sixth second?\n\nI'll be frank with you.  I'm amazed that you asked me to approve this given its current device specs.  Matrix crystals--even depleted ones--are extremely valuable, and given their already unacceptably-high failure rate in training new mathematicians, Dr. Liu is not going to accept anything less than 100% effectiveness from an alternative use case.  You're simply going to have to refine OS647-P until it's more reliable.\n\nYours,\nAnna Stephenson\nDirector of Research"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_matrix_research",
+    "text": [
+      {
+        "name": "Response to Proposal 96255-R",
+        "id": "lab_file_matrix_research_01",
+        "text": "Yes, I saw your design specs for the \"Everglow Lamp\" and I understand that it provides a greatly-increased efficiency over standard off-the-shelf lighting.  But may I remind you that off-the-shelf lighting literally comes from a shelf and you can go down to the hardware store and buy a dozen LED bulbs for $50 and they'll last you ten years.  There is no use case for a matrix-powered lightbulb that makes any sort of sense, even in hostile or in-phase environments.  Until you can achieve a similar cost-benefit ratio using matrix technology--check the budget for a single immersion dive if you need the data--I strongly advise you to take your research in a different direction.\n\nYours,\nAnna Stephenson\nDirector of Research"
+      },
+      {
+        "name": "Hastily-scribbled note on XEDRA stationary",
+        "id": "lab_file_matrix_research_02",
+        "//": "Hank here is Dr. Harold Liu, the director of Project PHAVIAN",
+        "text": "Dammit, Hank, what the hell is wrong with these researchers?  Matrix-powered lamp, matrix-powered car, matrix-powered oven, next they'll want a matrix-powered vibrator.  Do they even understand how expensive a single matrix crystal is?  I keep trying to get them to work on something new and they bring me this.  We need force fields, jetpacks, laser guns, lightsabers, starships, I don't know, something!  It's all I can do to stop them from trying to make us the Amazon of XEDRA.  Do the XE037 researchers have this problem?"
+      },
+      {
+        "name": "Preliminary Report: Matrix Awakening",
+        "id": "lab_file_matrix_research_03",
+        "text": "Initial testing shows that the rate of awakening from matrix crystal exposure is over 50% with no side effects.  Candidates that failed to awaken complained of headaches and bad dreams but the effects rarely last longer than a week (see fig 4).  In approximately 5% of cases, however, awakening causes serious side effects including hallucinations, high fever exceeding 39.5°C, muscle tremors, unconsciousness, disassociation, and amnesia.  This can occur in either successful or unsuccessful awakening and is a serious danger in certain cases (e.g. incident reports ID39483 and IC49378).\n\nMultiple awakenings are not cost-effective.  Despite a wide range of candidates and repeated attempts, only two incidents have ever occurred and no specific commonality between the mathematicians other than gender exist.  No further attempts should be made until a similar effectiveness to initial awakenings has been achieved.\n\nIn-phase awakenings show variable efficacy, sometimes much lower or much higher than normal.  Efficacy is in general consistent within each plane, though some planes show variable efficacy.  Plane 398RG shows 99% efficacy; however, side effects rise to 35% of cases and so further experimentation with 398RG is prohibited.  Melchior has so far been unable to find any specific characteristics of a plane that would lead to greater or lesser efficacy.  Further testing and sampling are required."
+      },
+      {
+        "name": "LV-429 Analysis",
+        "id": "lab_file_matrix_research_04",
+        "text": "Human-portable laser weapons suffer from three major problems--high power draw preventing them from easily being transportable or usable in skirmish combat, long dwell times meaning that the operator must remain exposed to return fire in order to do anything more than blind the target, and common atmospheric conditions like dust or haze severely reducing the effectiveness of the beam.  The LV-429 solves all three of these problems.  Before the primary laser is fired, a secondary netherum mathemathical beam clears the path of the laser, removing atmospheric contaminants without affecting the target.  The laser is fired in a series of short pulses, each much higher intensity than a standard laser, eliminating the need for extensive dwell time.  Finally, the power source contains a small ND-cell, capable of powering the weapon effectively indefinitely.\n\nOne problem remains to be solved.  While the weapon is capable of providing enough power for every shot in succession, matrix technology has not yet provided us with more efficient battery storage.  This means that the ND-cell must charge existing batteries, allowing the LV-429 to be fired only once every few seconds, obviously too low a rate of fire for any live engagement.  Further enhancements in power storage technology will be necessary before proper deployment."
+      },
+      {
+        "name": "XE037 or whatever",
+        "id": "lab_file_matrix_research_05",
+        "text": "Yeah, we did the research.  We're all stuck here so what else can we do, right?  Just research our heart out while the world falls apart.  Well, I've attached all the figures so you can look at them, but the theory is right.  XE037 enhances exposed mathematicians (aka all of them) by a factor of anywhere from 10x to 100x or more, basically as much as using a matrix crystal.  Meshram used to be able to lift around 18.5g, one of our strongest telekinetics.  Now he's up to 2kg and with a crystal he can lift two bowling balls.  Or a dog, that was hilarious.\n\nSubject U76 could pick up surface thoughts if touching the target and now can easily read someone's mind from across the room and can occasionally pick up deeper memories.  We figured this out by accident, by the way, and I'm pretty sure when we get out of here Dr. Connolly is going to find divorce papers waiting for her.  You'll probably want to keep U76 away from anything sensitive, except that we only just discovered this and now it's too late.  Oops.\n\nOh yeah, K34 can just walk through walls now.  So much for security.  Everything's fucked and we're doomed.  That's my report, hope you like it."
+      },
+      {
+        "name": "Re: COBALT RAIN",
+        "id": "lab_file_matrix_research_06",
+        "text": "As my initial report indicated, COBALT RAIN has passed all the tests we've performed.  In fact, it exceeded our production predictions by over 15%.  It's not actually a perpetual motion machine but it might as well be from the end-user's point of view.  It produces energy with no fuel required, at a constant rate, with no waste byproducts and very little heat.\n\nHowever--there's always a however in this line of work--it has the significant disadvantage that prevents me from recommending it for deployment at this time.  COBALT RAIN works through a microportal to the Netherum, siphoning energy through without the possibility of hostile incursions.  During normal operation, this remains true, but if the device is damaged it can destabilize containment and the portal can rapidly expand without warning.  Just last week we had an incident during testing, and while the engineers were able to get the device shut down quickly, something still came through the portal.  We're lucky that it doesn't seem hostile or really even interested in us.  Despite its appearance (see attached), XE843 is indifferent to the presence or absence of others, light levels, food, or noise.  It just wanders around its containment cell.  We've contacted XEDRA-40 to ask them if they want to take a look at it. I'll forward the reply to you when we get it.\n\nWork to overcome this significant drawback is ongoing.  At the moment, however, COBALT RAIN should remain in the prototype stage.\n\nAnita Morales\nSenior Researcher"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_phavian_memo",
+    "text": [
+      {
+        "name": "To all employees: re: GASPAR",
+        "id": "lab_file_phavian_memo_01",
+        "text": "Colleagues,\n\nI'd like to take a moment to address the recent rumors.  I know that stress levels are high with the quarantine and the XE037 news, but there is no need to engage in unwarranted speculation.  In these unprecedented times, it's important to remember that we're all in this together and we will solve the problems before us, as we have no many others.\n\nI will be perfectly clear.  There is no \"Project GASPAR.\"  Trained mathematicians are the most important resource that we have, and it would be the height of folly to waste them on replicating a resource that already exists simply because the current state of emergency has placed us out of contact.  Furthemore, it is important to remember that Netherum mathematics are not magic.  They obey a consistent set of rules and we are capable of determining those rules empirically.  We can test how much an ONYX LIGHTNING mathematician can lift to the milligram.  We can determine the effective communication range for a GRAY DAWN candidate down to the decimeter.  We would never simply \"throw things at the wall and see what sticks.\"  Science requires rigor.\n\nThese are troubling times, but we will get through them together.\n\nSincerely,\nHarold Liu\nDirector, Project PHAVIAN"
+      },
+      {
+        "name": "To all employees: re: terminology",
+        "id": "lab_file_phavian_memo_02",
+        "text": "Greetings everyone,\n\nI would just like to take a moment to comment on the importance of proper nomenclature.  Just as we would respect the names and pronouns by which our co-workers wish to be addressed, we should use the approved terms for candidates for the various projects under our umbrella.  Some frankly disturbing news has reached me of harassment or even bullying aimed at those who have gone through the training process.  These people are not \"witches\" and they are most certainly not \"freaks,\" and I am frankly disturbed that I have to emphasize that point.  These are your colleagues who have volunteered to advance scientific understanding as we explore the unknown.  There is no reason standard HR policies do not still apply.  I have already received several complaints which I will be acting on in the near future, and hopefully I will not receive any more.\n\nSincerely,\nRosemary Pierce\nAdministrator, Human Resources"
+      },
+      {
+        "name": "Re: your proposal",
+        "id": "lab_file_phavian_memo_03",
+        "text": "Anna, I know things are stressful, especially with some of the irregularities in staff behavior we've been witnessing, and under normal circumstances I would never countenance your proposal.  I have to admit, though, that I was extremely disturbed by what I've heard of the behavior of several VERDANT HAND mathematicians, as well as Dr. Holland and Dr. Almeida's recent public argument.  As such, for the duration of the emergency, I think that your \"psi-cop\" proposal is a good one.  I'll draft a memo immediately to Dr. Nayak to organize the GREY DAWN mathematicians toward keeping order and maintaining morale.  Hopefully, this will only be the matter of a few weeks before Dr. Sidhu and his team can find a solution.  They already found one way to remove XE037 contamination, so hope remains.\n\nSincerely,\nHarold Liu"
       }
     ]
   }

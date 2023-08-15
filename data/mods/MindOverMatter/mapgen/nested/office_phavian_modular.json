@@ -183,7 +183,10 @@
         "-": "t_carpet_linoleum_white_purple"
       },
       "items": {
-        "d": { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 3 ] },
+        "d": [
+          { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 3 ] },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
@@ -216,7 +219,10 @@
         "-": "t_carpet_linoleum_white_purple"
       },
       "items": {
-        "d": { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 3 ] },
+        "d": [
+          { "item": "SUS_office_desk", "chance": 30, "repeat": [ 1, 3 ] },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
@@ -496,7 +502,9 @@
       ],
       "place_item": [
         { "item": "matrix_crystal_biokinesis", "x": 0, "y": 5, "chance": 25 },
-        { "item": "matrix_crystal_vitakinesis", "x": 0, "y": 5, "chance": 10 }
+        { "item": "matrix_crystal_vitakinesis", "x": 0, "y": 5, "chance": 10 },
+        { "item": "lab_file_biokinesis_item", "x": 0, "y": 3, "chance": 20 },
+        { "item": "lab_file_vitakinesis_item", "x": 0, "y": 3, "chance": 20 }
       ],
       "items": {
         "l": [ { "item": "boxing_clothes", "chance": 40, "repeat": [ 1, 8 ] } ],
@@ -541,7 +549,9 @@
       ],
       "place_item": [
         { "item": "matrix_crystal_biokinesis", "x": 7, "y": 2, "chance": 25 },
-        { "item": "matrix_crystal_vitakinesis", "x": 7, "y": 2, "chance": 10 }
+        { "item": "matrix_crystal_vitakinesis", "x": 7, "y": 2, "chance": 10 },
+        { "item": "lab_file_biokinesis_item", "x": 7, "y": 4, "chance": 20 },
+        { "item": "lab_file_vitakinesis_item", "x": 7, "y": 4, "chance": 20 }
       ],
       "items": {
         "l": [ { "item": "boxing_clothes", "chance": 40, "repeat": [ 1, 8 ] } ],

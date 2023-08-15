@@ -4,7 +4,12 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "[Vitakinetic] I noticed that you're sick.",
+        "text": "[Telepathy] *Read <npc_name>'s mind*",
+        "topic": "TALK_FRIEND_FOLLOWER_scan",
+        "condition": { "u_has_trait": "TELEPATH" }
+      },
+      {
+        "text": "[Vitakinesis] I noticed that you're sick.",
         "topic": "TALK_FRIEND_VITAKINETIC_CURE",
         "condition": {
           "and": [
@@ -24,6 +29,12 @@
         }
       }
     ]
+  },
+  {
+    "id": [ "TALK_FRIEND_FOLLOWER_scan" ],
+    "type": "talk_topic",
+    "dynamic_line": [ "<telepathy_generic>", "<telepathy_follower>" ],
+    "responses": [ { "text": "…", "topic": "TALK_FRIEND" } ]
   },
   {
     "id": [ "TALK_FRIEND_VITAKINETIC_CURE" ],
