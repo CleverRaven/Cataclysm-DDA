@@ -55,7 +55,7 @@
     "description_affix": "covered_in",
     "is_splattering": true,
     "priority": 2,
-    "half_life": "5 seconds",
+    "half_life": "10 seconds",
     "phase": "liquid",
     "display_field": true,
     "looks_like": "fd_bile"
@@ -64,8 +64,9 @@
     "id": "emit_congealed_light",
     "type": "emit",
     "field": "fd_congealed_light",
-    "intensity": 2,
-    "qty": 50
+    "intensity": 1,
+    "qty": 30,
+    "chance": 85
   },
   {
     "type": "effect_type",
@@ -142,7 +143,12 @@
         ],
         "light_emitted": 30
       }
-    ]
+    ],
+    "priority": 2,
+    "half_life": "5 seconds",
+    "phase": "plasma",
+    "display_field": true,
+    "looks_like": "fd_fog"
   },
   {
     "type": "effect_type",
