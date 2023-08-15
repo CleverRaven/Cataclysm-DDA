@@ -1414,7 +1414,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
     return _can_contain( it, copies, true );
 }
 
-ret_val<item_pocket::contain_code> item_pocket::can_contain_skip_weight_volume(
+ret_val<item_pocket::contain_code> item_pocket::can_contain_skip_space_checks(
     const item &it ) const
 {
     int copies = 1;
@@ -1422,7 +1422,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain_skip_weight_volume(
 }
 
 ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
-        int &copies_remaining, const bool check_weight_volume ) const
+        int &copies_remaining, const bool check_for_enough_space ) const
 {
     ret_val<item_pocket::contain_code> compatible = is_compatible( it );
 
@@ -1443,6 +1443,54 @@ ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
 
     if( !compatible.success() ) {
         return compatible;
+    }
+
+    if( it.made_of( phase_id::LIQUID ) ) {
+        if( size() != 0 && !contents.front().can_combine( it ) && data->watertight ) {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                contain_code::ERR_LIQUID, _( "can't mix liquid with contained item" ) );
+        }
+    } else if( size() == 1 && !it.is_frozen_liquid() &&
+        contents.front().made_of( phase_id::LIQUID ) && data->watertight ) {
+        return ret_val<item_pocket::contain_code>::make_failure(
+            contain_code::ERR_LIQUID, _( "can't put non liquid into pocket with liquid" ) );
+    }
+
+    if( it.is_frozen_liquid() ) {
+        if( size() != 0 && !contents.front().can_combine( it ) && data->watertight ) {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                contain_code::ERR_LIQUID,
+                _( "can't mix frozen liquid with contained item in the watertight container" ) );
+        }
+    } else if( data->watertight ) {
+        if( size() == 1 && contents.front().is_frozen_liquid() && !contents.front().can_combine( it ) ) {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                contain_code::ERR_LIQUID,
+                _( "can't mix item with contained frozen liquid in the watertight container" ) );
+        }
+    }
+
+    if( it.made_of( phase_id::GAS ) ) {
+        if( size() != 0 && !contents.front().can_combine( it ) ) {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                contain_code::ERR_GAS, _( "can't mix gas with contained item" ) );
+        }
+    } else if( size() == 1 && contents.front().made_of( phase_id::GAS ) ) {
+        return ret_val<item_pocket::contain_code>::make_failure(
+            contain_code::ERR_GAS, _( "can't put non gas into pocket with gas" ) );
+    }
+
+    if( !check_for_enough_space ) {
+        // Skip all the checks that could result in NO_SPACE or CANNOT_SUPPORT errors.
+        if( it.weight() > weight_capacity() ) {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                contain_code::ERR_TOO_HEAVY, _( "item is too heavy" ) );
+        }
+        if( it.volume() > volume_capacity() ) {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                contain_code::ERR_TOO_BIG, _( "item too big" ) );
+        }
+        return ret_val<item_pocket::contain_code>::make_success();
     }
 
     if( data->type == item_pocket::pocket_type::MAGAZINE && !empty() ) {
@@ -1490,41 +1538,6 @@ ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
         }
     }
 
-    if( it.made_of( phase_id::LIQUID ) ) {
-        if( size() != 0 && !contents.front().can_combine( it ) && data->watertight ) {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_LIQUID, _( "can't mix liquid with contained item" ) );
-        }
-    } else if( size() == 1 && !it.is_frozen_liquid() &&
-               contents.front().made_of( phase_id::LIQUID ) && data->watertight ) {
-        return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_LIQUID, _( "can't put non liquid into pocket with liquid" ) );
-    }
-
-    if( it.is_frozen_liquid() ) {
-        if( size() != 0 && !contents.front().can_combine( it ) && data->watertight ) {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_LIQUID,
-                       _( "can't mix frozen liquid with contained item in the watertight container" ) );
-        }
-    } else if( data->watertight ) {
-        if( size() == 1 && contents.front().is_frozen_liquid() && !contents.front().can_combine( it ) ) {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_LIQUID,
-                       _( "can't mix item with contained frozen liquid in the watertight container" ) );
-        }
-    }
-
-    if( it.made_of( phase_id::GAS ) ) {
-        if( size() != 0 && !contents.front().can_combine( it ) ) {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_GAS, _( "can't mix gas with contained item" ) );
-        }
-    } else if( size() == 1 && contents.front().made_of( phase_id::GAS ) ) {
-        return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_GAS, _( "can't put non gas into pocket with gas" ) );
-    }
-
     if( !data->ammo_restriction.empty() ) {
         const ammotype it_ammo = it.ammo_type();
         if( it.count() > remaining_ammo_capacity( it_ammo ) ) {
@@ -1536,23 +1549,21 @@ ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
         return ret_val<item_pocket::contain_code>::make_success();
     }
 
-    if( it.weight() > weight_capacity() ) {
+    units::mass weight = it.weight();
+    if( weight > weight_capacity() ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_HEAVY, _( "item is too heavy" ) );
     }
-    if( it.volume() > volume_capacity() ) {
+    units::volume volume = it.volume();
+    if( volume > volume_capacity() ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_BIG, _( "item too big" ) );
     }
 
-    if( !check_weight_volume ) {
-        return ret_val<item_pocket::contain_code>::make_success();
-    }
-
     int fallback_capacity = it.count_by_charges() ? it.charges : copies_remaining;
-    int copy_weight_capacity = it.weight() <= 0_gram ? fallback_capacity :
+    int copy_weight_capacity = weight <= 0_gram ? fallback_capacity :
                                charges_per_remaining_weight( it );
-    int copy_volume_capacity = it.volume() <= 0_ml ? fallback_capacity :
+    int copy_volume_capacity = volume <= 0_ml ? fallback_capacity :
                                charges_per_remaining_volume( it );
 
     if( copy_weight_capacity < it.count() ) {
@@ -1772,7 +1783,7 @@ void item_pocket::overflow( const tripoint &pos, const item_location &loc )
 
         // if item has any contents, check it individually
         if( !iter->get_contents().empty_with_no_mods() ) {
-            if( !is_type( pocket_type::MIGRATION ) && can_contain_skip_weight_volume( *iter ).success() ) {
+            if( !is_type( pocket_type::MIGRATION ) && can_contain_skip_space_checks( *iter ).success() ) {
                 ++iter;
             } else {
                 move_to_parent_pocket_recursive( pos, *iter, loc );
@@ -1785,7 +1796,7 @@ void item_pocket::overflow( const tripoint &pos, const item_location &loc )
         auto cont_copy_type = contained_type_validity.emplace( iter->typeId(), true );
         if( cont_copy_type.second ) {
             cont_copy_type.first->second = !is_type( pocket_type::MIGRATION ) &&
-                                           can_contain_skip_weight_volume( *iter ).success();
+                                           can_contain_skip_space_checks( *iter ).success();
         }
         if( cont_copy_type.first->second ) {
             ++iter;

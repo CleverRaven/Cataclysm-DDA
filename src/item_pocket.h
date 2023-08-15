@@ -204,7 +204,7 @@ class item_pocket
         /**
         * @brief A version of can_contain that skips the weight and volume check.
         */
-        ret_val<contain_code> can_contain_skip_weight_volume( const item &it ) const;
+        ret_val<contain_code> can_contain_skip_space_checks( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
 
@@ -426,7 +426,7 @@ class item_pocket
         std::set<sub_bodypart_id> no_rigid;
 
         ret_val<contain_code> _can_contain( const item &it, int &copies_remaining,
-                                            bool check_weight_volume ) const;
+                                            bool check_for_enough_space ) const;
 };
 
 /**
