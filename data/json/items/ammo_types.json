@@ -577,12 +577,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "RPG-7",
-    "name": "RPG-7 rocket",
-    "default": "RPG-7_ammo"
-  },
-  {
-    "type": "ammunition_type",
     "id": "rebreather_filter",
     "name": "rebreather CO2 scrubber",
     "default": "rebreather_filler_soda_lime"
