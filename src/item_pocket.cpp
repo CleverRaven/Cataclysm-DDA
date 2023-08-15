@@ -2275,9 +2275,9 @@ int item_pocket::charges_per_remaining_volume( const item &it ) const
                 non_it_volume -= contained.volume();
             }
         }
-        return it.charges_per_volume( non_it_volume ) - contained_charges;
+        return it.charges_per_volume( non_it_volume, true ) - contained_charges;
     } else {
-        return it.charges_per_volume( remaining_volume() );
+        return it.charges_per_volume( remaining_volume(), true );
     }
 }
 
@@ -2293,9 +2293,9 @@ int item_pocket::charges_per_remaining_weight( const item &it ) const
                 non_it_weight -= contained.weight();
             }
         }
-        return it.charges_per_weight( non_it_weight ) - contained_charges;
+        return it.charges_per_weight( non_it_weight, true ) - contained_charges;
     } else {
-        return it.charges_per_weight( remaining_weight() );
+        return it.charges_per_weight( remaining_weight(), true );
     }
 }
 

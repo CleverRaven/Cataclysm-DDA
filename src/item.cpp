@@ -1282,11 +1282,13 @@ void item::update_modified_pockets()
     contents.update_modified_pockets( mag_or_mag_well, container_pockets );
 }
 
-int item::charges_per_volume( const units::volume &vol ) const
+int item::charges_per_volume( const units::volume &vol, bool suppress_warning ) const
 {
     if( count_by_charges() ) {
         if( type->volume == 0_ml ) {
-            debugmsg( "Item '%s' with zero volume", tname() );
+            if( !suppress_warning ) {
+                debugmsg( "Item '%s' with zero volume", tname() );
+            }
             return INFINITE_CHARGES;
         }
         // Type cast to prevent integer overflow with large volume containers like the cargo
@@ -1295,25 +1297,31 @@ int item::charges_per_volume( const units::volume &vol ) const
     } else {
         units::volume my_volume = volume();
         if( my_volume == 0_ml ) {
-            debugmsg( "Item '%s' with zero volume", tname() );
+            if( !suppress_warning ) {
+                debugmsg( "Item '%s' with zero volume", tname() );
+            }
             return INFINITE_CHARGES;
         }
         return vol / my_volume;
     }
 }
 
-int item::charges_per_weight( const units::mass &m ) const
+int item::charges_per_weight( const units::mass &m, bool suppress_warning ) const
 {
     if( count_by_charges() ) {
         if( type->weight == 0_gram ) {
-            debugmsg( "Item '%s' with zero weight", tname() );
+            if( !suppress_warning ) {
+                debugmsg( "Item '%s' with zero weight", tname() );
+            }
             return INFINITE_CHARGES;
         }
         return m / type->weight;
     } else {
         units::mass my_weight = weight();
         if( my_weight == 0_gram ) {
-            debugmsg( "Item '%s' with zero weight", tname() );
+            if( !suppress_warning ) {
+                debugmsg( "Item '%s' with zero weight", tname() );
+            }
             return INFINITE_CHARGES;
         }
         return m / my_weight;
