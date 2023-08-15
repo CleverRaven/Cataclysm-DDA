@@ -7,7 +7,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_presentation_computer_main",
-    "dynamic_line": "This computer is somehow still powered;  an alarming buzz eminates from its wall plug.  The desktop is cluttered with dozens of unsorted powerpoint files.  After some investigation, you find one labeled \"LAYMAN BRIEFING\".",
+    "dynamic_line": "This computer is somehow still powered; an alarming buzz eminates from its wall plug.  The desktop is cluttered with dozens of unsorted powerpoint files.  After some investigation, you find one labeled \"LAYMAN BRIEFING\".",
     "responses": [ { "text": "Open LAYMAN BRIEFING.", "topic": "LIXA_LAYMAN_BRIEFING" }, { "text": "Leave.", "topic": "TALK_DONE" } ]
   },
   {
