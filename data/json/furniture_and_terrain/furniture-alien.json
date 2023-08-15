@@ -678,7 +678,7 @@
     "color": "light_gray",
     "move_cost_mod": -1,
     "coverage": 50,
-    "required_str": 50,
+    "required_str": -1,
     "flags": [ "NOITEM", "TRANSPARENT", "MOUNTABLE" ],
     "examine_action": {
       "type": "effect_on_condition",
@@ -700,7 +700,7 @@
               "u_message": "You plug the rebooter in the locator.\n<color_light_green>The locator reactivates.</color>",
               "popup": true
             },
-            { "u_lose_item": "warehouse_rebooter" },
+            { "u_sell_item": "warehouse_rebooter" },
             { "arithmetic": [ { "u_val": "var", "var_name": "rebooted_locator" }, "=", { "const": 1 } ] } 
           ]
         }
