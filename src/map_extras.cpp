@@ -2111,6 +2111,10 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
 
 static bool mx_looters( map &m, const tripoint &abs_sub )
 {
+    if( !get_option<bool>( "STATIC_NPC" ) ) {
+        return false; //Do not generate npcs.
+    }
+
     const tripoint center( rng( 5, SEEX * 2 - 5 ), rng( 5, SEEY * 2 - 5 ), abs_sub.z );
     //25% chance to spawn a corpse with some blood around it
     if( one_in( 4 ) && m.passable( center ) ) {

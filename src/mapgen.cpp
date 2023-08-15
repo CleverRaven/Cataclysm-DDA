@@ -1824,6 +1824,9 @@ class jmapgen_npc : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
+            if( !get_option<bool>( "STATIC_NPC" ) ) {
+                return; //Do not generate npcs.
+            }
             string_id<npc_template> chosen_id = npc_class.get( dat );
             if( chosen_id.is_null() ) {
                 return;

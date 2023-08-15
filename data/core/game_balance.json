@@ -362,5 +362,12 @@
     "info": "When mutating, displays a menu which allows players to pick from a list of possible mutations.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "STATIC_NPC",
+    "info": "Spawn static NPCs.  Does not affect the starting NPC or random NPC.",
+    "stype": "bool",
+    "value": true
   }
 ]
