@@ -712,6 +712,7 @@
     "name": { "str": "wire monopod, deployed" },
     "description": "A folding wire monopod designed to attach to a Type 99 Arisaka’s front barrel band, intended to give soldiers a stabler platform from which to shoot while prone.  Less effective than an actual bipod and ungainly long, it was largely cut from active issue relatively soon into the Second World War.  This one is currently locked in the unfolded position and will provide a measure of stability while firing.",
     "copy-from": "arisaka_monopod",
+    "integral_volume": "250 ml",
     "handling_modifier": 6,
     "min_skills": [ [ "weapon", 2 ] ],
     "use_action": {
