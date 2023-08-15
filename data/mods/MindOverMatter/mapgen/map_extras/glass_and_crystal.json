@@ -42,15 +42,21 @@
       "mapgensize": [ 7, 7 ],
       "rows": [
         "  GGG  ",
-        " GGGGG ",
-        "GGGGGGG",
-        "GGGGGGG",
-        "GGGGGGG",
-        " GGGGG ",
+        " GCCCG ",
+        "GCCCCCG",
+        "GCCcCCG",
+        "GCCCCCG",
+        " GCCCG ",
         "  GGG  "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "G": [ [ "t_nether_stone", 2 ], [ "t_nether_crystal_structure", 1 ], [ "t_null", 2 ] ], " ": "t_null" }
+      "terrain": {
+        "c": "t_nether_stone",
+        "C": "t_nether_stone",
+        "G": [ [ "t_nether_stone", 2 ], [ "t_null", 2 ] ], " ": "t_null" 
+      },
+      "furniture": {"C": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ]},
+      "items": { "c": { "item": "dist_matrix_crystals", "chance": 33 } }
     }
   }
 ]
