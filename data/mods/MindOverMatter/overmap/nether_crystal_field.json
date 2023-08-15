@@ -6,41 +6,125 @@
     "object": {
       "fill_ter": "t_grass",
       "rows": [
-        " _ _  __ ___    __   _ _",
-        "__ _____ ___    _______ ",
-        "_______________________ ",
-        " _______ ___A____A______",
-        "________ ___ _____A____ ",
-        " _ ____________________ ",
-        " __ __________A______ _ ",
-        " ________A_______A_____ ",
-        " ________A_N_AAA_______ ",
-        " ___ __AACAACAACAA______",
-        "_______CAACCNCAANA___  _",
-        "___ ___ANACNCCNNAA____ _",
-        " ______ANACCNCANA__A____",
-        " _______ACANCCAANAA____ ",
-        "  ___ AANAACAAACAA_____ ",
-        "_________NAAAN_A________",
-        "_________A_AA__A_______ ",
-        "____ __________________ ",
-        " _____A __________A_____",
-        " ____A_____ _____A_A___ ",
-        " ______A____  _________ ",
-        " ____ A____________ ____",
-        " ______  ______________ ",
-        " _  __ __  _   _ _ ___  "
+        "  ____________________  ",
+        " ______________________ ",
+        "__A_A_A_A_A_A_A_A_A_A_A_",
+        "_A_A_A_A_A_A_A_A_A_A_A__",
+        "__A_A_A_A_A_A_A_A_A_A_A_",
+        "_A_A_A_A_A_A_A_A_A_A_A__",
+        "__A_A_______________A_A_",
+        "_A_A_______________A_A__",
+        "__A_A_______________A_A_",
+        "_A_A_______________A_A__",
+        "__A_A_______________A_A_",
+        "_A_A_______________A_A__",
+        "__A_A_______________A_A_",
+        "_A_A_______________A_A__",
+        "__A_A_______________A_A_",
+        "_A_A_______________A_A__",
+        "__A_A_______________A_A_",
+        "_A_A_______________A_A__",
+        "__A_A_A_A_A_A_A_A_A_A_A_",
+        "_A_A_A_A_A_A_A_A_A_A_A__",
+        "__A_A_A_A_A_A_A_A_A_A_A_",
+        "_A_A_A_A_A_A_A_A_A_A_A__",
+        " ______________________ ",
+        "  ____________________  "
       ],
       "terrain": {
-        "_": [ [ "t_grass", 20 ], [ "t_dirt", 5 ], [ "t_grass_alien", 1 ] ],
-        "A": [ [ "t_grass_alien", 20 ], [ "t_dirt", 5 ], [ "t_grass", 1 ] ],
-        "N": [ [ "t_grass", 10 ], [ "t_grass_alien", 10 ], [ "t_nether_crystal_structure", 10 ] ],
-        "C": [ [ "t_grass", 5 ], [ "t_grass_alien", 10 ], [ "t_nether_crystal_structure", 20 ] ]
+        "_": [ [ "t_grass", 3 ], [ "t_dirt", 3 ], [ "t_grass_alien", 1 ], [ "t_grass_alien_2", 1 ], [ "t_grass_alien_3", 1 ], [ "t_grass_alien"_4, 1 ], [ "t_nether_stone", 1] ]
       },
-      "place_monster": [
-        { "group": "GROUP_NETHER", "x": [ 2, 23 ], "y": [ 2, 23 ], "chance": 25, "repeat": [ 1, 3 ] },
-        { "group": "GROUP_FERAL_PSYCHIC", "x": [ 2, 23 ], "y": [ 2, 23 ], "chance": 25, "repeat": [ 1, 3 ] }
+      "monsters": { "_": { "monster": "GROUP_CRYSTAL_FIELD", "chance": 1, "density": 0.0002 } },
+      "nested": { "A": { "chunks": [ [ "crystal_moss_or_trees_3x3", 1 ], [ "null", 15 ] ] },
+      "place_nested": [ { "chunks": [ "crystal_field_central_8x8" ], "x": 7, "y": 7 } ] }
       ]
+    }
+  }, 
+   {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_moss_or_trees_3x3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        "   ",
+        "   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        " ": [ [ "t_grass_alien_2", 2 ], [ "t_tree_small_alien_1", 1 ], [ "t_null", 1 ] ]
+      }
+    }
+  },
+     {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_moss_or_trees_3x3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        "   ",
+        "   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        " ": [ [ "t_grass_alien_3", 1 ], [ "t_moss_alien_1", 1 ], [ "t_null", 1 ] ]
+      }
+    }
+  },
+     {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_moss_or_trees_3x3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        "   ",
+        "   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        " ": [ [ "t_tree_small_alien_2", 1 ], [ "t_moss_alien_2", 1 ], [ "t_null", 1 ] ]
+      }
+    }
+  },
+     {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_moss_or_trees_3x3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        "   ",
+        "   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        " ": [ [ "t_tree_small_alien_3", 1 ], [ "t_vines_alien_1", 1 ], [ "t_null", 1 ] ]
+      }
+    }
+  },
+   {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crystal_moss_or_trees_3x3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        " N ",
+        "   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        " ": [ [ "t_nether_stone", 1 ], [ "t_null", 1 ] ],
+        "N": "t_nether_stone"
+      },
+      "furniture": {"N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] }
     }
   }
 ]
