@@ -681,13 +681,30 @@
     "required_str": 50,
     "flags": [ "NOITEM", "TRANSPARENT", "MOUNTABLE" ],
     "examine_action": {
-      "type": "cardreader",
-      "flags": [ "WAREHOUSE_REBOOTER" ],
-      "query_msg": "Reboot the locator?",
-      "success_msg": "You plug the rebooter in the locator.\n<color_light_green>The locator reactivates.</color>",
-      "effect": { "arithmetic": [ { "u_val": "var", "var_name": "rebooted_locator" }, "=", { "const": 1 } ] },
-      "redundant_msg": "The locator is active. No need to reboot it again."
-    },
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_EXODII_SIGNPOST_FALSE",
+          "condition": { "not": { "u_has_item": "warehouse_rebooter" } },
+          "effect": [
+            {
+              "u_message": "You don't have anything that could reactivate this device"
+            }
+          ]
+        },
+        {
+          "id": "EOC_EXODII_SIGNPOST",
+          "condition": { "not": { "u_has_mission": "directions_exodii_signpost" } },
+          "effect": [
+            {
+              "u_message": "You plug the rebooter in the locator.\n<color_light_green>The locator reactivates.</color>",
+              "popup": true
+            },
+            { "u_lose_item": "warehouse_rebooter" },
+            { "arithmetic": [ { "u_val": "var", "var_name": "rebooted_locator" }, "=", { "const": 1 } ] } 
+          ]
+        }
+      ],
     "bash": {
       "str_min": 45,
       "str_max": 200,
@@ -703,6 +720,7 @@
         { "item": "exodii_module", "count": [ 0, 1 ] }
       ]
     }
+  }
   },
   {
     "type": "furniture",

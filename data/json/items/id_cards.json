@@ -223,7 +223,7 @@
     "name": { "str": "exodii comm rebooter" },
     "description": "A small rectangular device that Rubik gave you.  It is meant to be plugged in a locator antenna to reactivate it.",
     "price": 0,
-    "flags": [ "WAREHOUSE_REBOOTER", "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID" ],
     "price_postapoc": 0,
     "category": "keys"
   }

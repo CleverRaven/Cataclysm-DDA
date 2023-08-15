@@ -909,7 +909,7 @@
     "type": "effect_on_condition",
     "id": "EOC_MISSION_EXODII_HUB_DRONE_CHECK",
     "global": true,
-    "condition": { "u_has_effect": { "robofac_surveillance" : true } },
+    "condition": { "or": [ { "u_has_trait": "PROF_HUB01_ANCILLIARY" }, { "u_has_effect": "robofac_surveillance" } ] },
     "effect": [
         { "arithmetic": [ { "global_val": "var", "var_name": "u_brought_drone_at_exobase" }, "=", { "const": 1 } ] }
     ]
