@@ -907,6 +907,15 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MISSION_EXODII_HUB_DRONE_CHECK",
+    "global": true,
+    "condition": { "u_has_effect": { "robofac_surveillance" : true } },
+    "effect": [
+        { "arithmetic": [ { "global_val": "var", "var_name": "u_brought_drone_at_exobase" }, "=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_MISSION_GODCO_TROPHY2_done",
     "global": true,
     "condition": {
