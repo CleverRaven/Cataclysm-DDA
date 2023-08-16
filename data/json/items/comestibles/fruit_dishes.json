@@ -253,7 +253,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
-      ],
+    ],
     "weight": "15 g",
     "color": "red",
     "spoils_in": "10 days",
