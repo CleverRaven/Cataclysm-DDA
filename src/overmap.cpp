@@ -595,7 +595,7 @@ bool is_ot_match( const std::string &name, const oter_id &oter,
         // but won't incorrectly match other locations that happen to contain the substring.
         return otype == oter->get_type_id().str();
     };
-    
+
     static const auto is_ot_subtype = []( const std::string & otype, const oter_id & oter ) {
         // Is a match if the base type and linear subtype (end/straight/curved/tee/four_way) are the same which will allow for handling rotations of linear features
         // but won't incorrectly match other locations that happen to contain the substring.
