@@ -701,11 +701,7 @@
         {
           "id": "EOC_EXODII_LOCATOR_FALSE",
           "condition": { "not": { "u_has_item": "warehouse_rebooter" } },
-          "effect": [
-            {
-              "u_message": "You don't have anything that could reactivate this device"
-            }
-          ]
+          "effect": [ { "u_message": "You don't have anything that could reactivate this device" } ]
         },
         {
           "id": "EOC_EXODII_LOCATOR",
