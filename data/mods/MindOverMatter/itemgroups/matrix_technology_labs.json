@@ -32,6 +32,7 @@
       { "item": "blindfold", "prob": 10 },
       { "item": "syringe", "prob": 12 },
       { "item": "matrix_crystal_drained", "prob": 15 },
+      { "group": "dist_matrix_crystals", "prob": 5 },
       { "item": "matrix_channeling_tool", "prob": 4 },
       { "item": "manual_meditation", "prob": 20 },
       { "item": "manual_meditation_int", "prob": 12 },
@@ -41,8 +42,7 @@
       { "group": "psionic_recipes_tools", "prob": 5 },
       { "group": "psionic_recipes_medicine", "prob": 2 },
       { "group": "psionic_recipes_powers", "prob": 2 },
-      { "group": "psionic_recipes_advanced", "prob": 1 },
-      { "group": "dist_matrix_crystals", "prob": 3 }
+      { "group": "psionic_recipes_advanced", "prob": 1 }
     ]
   },
   {
