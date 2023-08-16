@@ -283,39 +283,55 @@
         }
       }
     },
-    { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-    { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
-  ]
-},
-{
-  "id": "TALK_EXODII_MERCHANT_mission_2_intro1",
-  "type": "talk_topic",
-  "dynamic_line": "",
-  "//~": "Unfortunately no. We have no idea of where it is now. Maybe some other survivors could help you with that.",
-  "responses": [
-    { "text": "Shouldn't your quads be able to do that?", "topic": "TALK_EXODII_MERCHANT_mission_2_explain" },
-    { "text": "Then I'll find it.", "effect": { "assign_mission": "EXODII_WAREHOUSE" } },
-    { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-    { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
-  ]
-},
-{
-  "id": "TALK_EXODII_MERCHANT_mission_2_explain",
-  "type": "talk_topic",
-  "dynamic_line": "",
-  "//~": "Without any indication of its location, we cannot risk our quads when we can't even guarantee we would find the warehouse.",
-  "responses": [
-    { "text": "Then I'll find it.", "effect": { "assign_mission": "EXODII_WAREHOUSE" } },
-    { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-    { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
-  ]
-},
-{
-  "id": "TALK_EXODII_MERCHANT_mission_2_complete",
-  "type": "talk_topic",
-  "dynamic_line": { "compare_num": [ { "u_val": "rebooted_locator" }, "=", { "const": 1 } ],
-    "yes": "(insert congratulations here)",
-    "no": "(maybe a joke about not using the rebooter and surely a request to be told the path to the warehouse)"
+    "responses": [
+      { "text": "What's the mission?", "topic": "TALK_EXODII_MERCHANT_mission_2" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2",
+    "type": "talk_topic",
+    "dynamic_line": "Aye, ye kennit well. 'Tis a store-cabin, mayhap the likes you've seen. This'n be older'n most, clade o' iron and crete-stone. Abreast the ceil, high atop, there be a steely jut, piercin' the heavens. In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er. Oft times, the jut is wibbled on the wobble, an' it be coals'n coke. Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle.",
+    "//~": "We are unable to locate one of our warehouses since the last jump. We would need you to go find it and reactivate its locator",
+    "responses": [
+      {
+        "text": "Does it means that you can't even give me some directions?",
+        "topic": "TALK_EXODII_MERCHANT_mission_2_intro1"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_intro1",
+    "type": "talk_topic",
+    "dynamic_line": "",
+    "//~": "Unfortunately no. We have no idea of where it is now. Maybe some other survivors could help you with that.",
+    "responses": [
+      { "text": "Shouldn't your quads be able to do that?", "topic": "TALK_EXODII_MERCHANT_mission_2_explain" },
+      { "text": "Then I'll find it.", "effect": { "assign_mission": "EXODII_WAREHOUSE" } },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_explain",
+    "type": "talk_topic",
+    "dynamic_line": "",
+    "//~": "Without any indication of its location, we cannot risk our quads when we can't even guarantee we would find the warehouse.",
+    "responses": [
+      { "text": "Then I'll find it.", "effect": { "assign_mission": "EXODII_WAREHOUSE" } },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_complete",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_num": [ { "u_val": "rebooted_locator" }, "=", { "const": 1 } ],
+      "yes": "(insert congratulations here)",
+      "no": "(maybe a joke about not using the rebooter and surely a request to be told the path to the warehouse)"
     },
     "responses": [
       {
