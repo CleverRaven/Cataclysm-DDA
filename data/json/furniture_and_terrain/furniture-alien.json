@@ -673,7 +673,7 @@
     "type": "furniture",
     "id": "f_exodii_locator_antenna",
     "name": "locator antenna",
-    "description": "A tall metal pole solidly fixed to the roof. It does not look activated but there's a small set of holes near its base, maybe something could be plugged in one to reboot the locator.",
+    "description": "A tall metal pole solidly fixed to the roof.  It does not look activated but there's a small set of holes near its base, maybe something could be plugged in one to reboot the locator.",
     "symbol": "Z",
     "color": "light_gray",
     "move_cost_mod": -1,
