@@ -42,7 +42,7 @@
       { "group": "psionic_recipes_medicine", "prob": 2 },
       { "group": "psionic_recipes_powers", "prob": 2 },
       { "group": "psionic_recipes_advanced", "prob": 1 },
-      { "group": "dist_matrix_crystals", "prob": 1 }
+      { "group": "dist_matrix_crystals", "prob": 3 }
     ]
   },
   {
