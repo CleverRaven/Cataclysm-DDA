@@ -77,6 +77,13 @@
     "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
   },
   {
+    "id": "CONTROL_AUTOPILOT_CAS",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle pre-collision system",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
     "id": "CONTROL_SMART_ENGINE",
     "type": "keybinding",
     "category": "VEHICLE",
