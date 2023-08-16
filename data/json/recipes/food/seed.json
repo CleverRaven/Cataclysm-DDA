@@ -34,7 +34,7 @@
     "result": "seed_pumpkin",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "//p": "about 450-500 seeds per pumpkin, which is about a cup. these are fairly small pumpkins.,
+    "//p": "about 450-500 seeds per pumpkin, which is about a cup. these are fairly small pumpkins.",
     "components": [ [ [ "pumpkin", 1 ] ] ],
     "byproducts": [ [ "pumpkin_cut", 4 ] ],
     "charges": 1
