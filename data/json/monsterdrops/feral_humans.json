@@ -722,10 +722,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_swimmer_death_drops_kickboard",
-    "entries": [
-      { "item": "stick", "prob": 100, "damage": [ 2, 4 ] },
-      { "group": "mon_zombie_swimmer_death_drops", "prob": 100 }
-    ]
+    "entries": [ { "item": "stick", "prob": 100, "damage": [ 2, 4 ] }, { "group": "mon_zombie_swimmer_death_drops", "prob": 100 } ]
   },
   {
     "type": "item_group",
