@@ -361,6 +361,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     optional( jsobj, was_loaded, "learned_proficiencies", proficiencies );
     optional( jsobj, was_loaded, "canceled_mutations", canceled_mutations );
     optional( jsobj, was_loaded, "mutation_conflicts", mutation_conflicts );
+    optional( jsobj, was_loaded, "give_mut_on_removal", give_mut_on_removal );
     optional( jsobj, was_loaded, "included_bionics", included_bionics );
     optional( jsobj, was_loaded, "included", included );
     optional( jsobj, was_loaded, "upgraded_bionic", upgraded_bionic );
@@ -2224,6 +2225,12 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         add_msg( m_good, _( "Successfully removed %s." ), bio.id.obj().name );
         const bionic_id bio_id = bio.id;
         remove_bionic( bio );
+
+        for( const trait_id &mid : bioid->give_mut_on_removal ) {
+            if( !has_trait( mid ) ) {
+                set_mutation( mid );
+            }
+        }
 
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( bio_id->itype() ) ) {
