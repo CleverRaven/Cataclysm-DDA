@@ -996,14 +996,5 @@
     "copy-from": "mon_feral_cop",
     "description": "A maddened and crazed police officer infected by the fungus.  Their body armor is overgrown with fungal matter.  Though obviously in pain they don't seem any less keen to batter you to death with their baton.",
     "extend": { "flags": [ "NO_FUNG_DMG" ] }
-  },
-  {
-    "id": "mon_feral_human_archaeologist",
-    "type": "MONSTER",
-    "name": "feral archaeologist",
-    "description": "Judging by looks, this poor individual was probably an archeologist in their former life.  Rabid and bloodshot, they now seem intent to make you a part of their collection as they come at you with a shovel in hand.",
-    "copy-from": "mon_feral_human_pipe",
-    "looks_like": "mon_feral_human_tool",
-    "death_drops": "feral_archaelogist_death_drops"
   }
 ]
