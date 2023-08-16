@@ -3278,11 +3278,6 @@ void overmap::generate( const overmap *north, const overmap *east,
                         const overmap *south, const overmap *west,
                         overmap_special_batch &enabled_specials )
 {
-    if( g->gametype() == special_game_type::DEFENSE ) {
-        dbg( D_INFO ) << "overmap::generate skipped in Defense special game mode!";
-        return;
-    }
-
     dbg( D_INFO ) << "overmap::generate start…";
 
     const std::string overmap_pregenerated_path =
