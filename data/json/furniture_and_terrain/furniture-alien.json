@@ -712,7 +712,7 @@
               "popup": true
             },
             { "u_sell_item": "warehouse_rebooter" },
-            { "arithmetic": [ { "u_val": "var", "var_name": "rebooted_locator" }, "=", { "const": 1 } ] } 
+            { "arithmetic": [ { "u_val": "var", "var_name": "rebooted_locator" }, "=", { "const": 1 } ] }
           ]
         }
       ]
