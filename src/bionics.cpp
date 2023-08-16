@@ -2226,7 +2226,7 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         const bionic_id bio_id = bio.id;
         remove_bionic( bio );
 
-        for( const trait_id &mid : bio->give_mut_on_removal ) {
+        for( const trait_id &mid : bio_id->give_mut_on_removal ) {
             if( !has_trait( mid ) ) {
                 set_mutation( mid );
             }
