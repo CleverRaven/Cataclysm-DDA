@@ -352,6 +352,28 @@
     "learn_spells": { "vita_sleeping_trance": 4, "vita_banish_illness": 6, "vita_blood_purge": 8 }
   },
   {
+    "id": "vita_purge_rads",
+    "type": "SPELL",
+    "name": "[Ψ]Radiation Decontamination",
+    "description": "Use your powers to isolate and flush radiation from your body.  Depending on your level of contamination, this power may have serious side effects.",
+    "message": "You focus your powers on the corruption infusing your flesh.",
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_RAD_PURGE",
+    "//": "Drain is handled in the EoC",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "base_energy_cost": 5000,
+    "final_energy_cost": 3500,
+    "energy_increment": -125,
+    "base_casting_time": 6000
+  },
+  {
     "id": "vita_blood_purge",
     "type": "SPELL",
     "name": "[Ψ]Blood Purge",

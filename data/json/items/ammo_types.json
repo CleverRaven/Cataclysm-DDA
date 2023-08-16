@@ -535,6 +535,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "coal",
+    "name": "coal",
+    "default": "coal_lump"
+  },
+  {
+    "type": "ammunition_type",
     "id": "thrown",
     "name": "throwing weapon",
     "default": "thrown"
@@ -568,12 +574,6 @@
     "id": "components",
     "name": "components",
     "default": "components"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "RPG-7",
-    "name": "RPG-7 rocket",
-    "default": "RPG-7_ammo"
   },
   {
     "type": "ammunition_type",
@@ -814,5 +814,11 @@
     "id": "turpentine",
     "name": "turpentine",
     "default": "chem_turpentine"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "airgun_pellet",
+    "name": "airgun pellet",
+    "default": "airgun_pellet_target"
   }
 ]

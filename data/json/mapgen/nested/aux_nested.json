@@ -414,22 +414,5 @@
     "method": "json",
     "update_mapgen_id": "amigara_death",
     "object": { "place_items": [ { "item": "amigara_drops", "x": 11, "y": 12, "chance": 100 } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "bandit_killer_add",
-    "method": "json",
-    "object": { "place_npcs": [ { "class": "hells_raiders_assassin", "x": [ 5, 18 ], "y": [ 5, 18 ] } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "government_killteam_add",
-    "method": "json",
-    "object": {
-      "place_npcs": [
-        { "class": "old_guard_assassin", "x": [ 5, 18 ], "y": [ 5, 18 ] },
-        { "class": "old_guard_assassin", "x": [ 5, 18 ], "y": [ 5, 18 ] }
-      ]
-    }
   }
 ]

@@ -1089,6 +1089,22 @@
     "id": "gun_store_palette",
     "//": " P, U, S, h, F, e, |, o, k, z, c, and > are all still available for more terrain or furniture",
     "toilets": { "&": {  } },
+    "parameters": {
+      "interior_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_wall_b", 1 ],
+            [ "t_wall_g", 1 ],
+            [ "t_wall_p", 1 ],
+            [ "t_wall_P", 1 ],
+            [ "t_wall_r", 1 ],
+            [ "t_wall_w", 6 ],
+            [ "t_wall_y", 1 ]
+          ]
+        }
+      }
+    },
     "terrain": {
       "-": "t_wall_w",
       "#": "t_brick_wall",
@@ -1097,7 +1113,8 @@
       ":": "t_window_bars_alarm",
       "+": [ [ "t_door_metal_pickable", 90 ], [ "t_door_metal_o", 5 ], [ "t_door_metal_c", 15 ] ],
       "D": [ [ "t_door_o", 40 ], [ "t_door_c", 40 ], [ "t_door_locked_interior", 20 ] ],
-      ",": "t_region_groundcover_urban",
+      ",": [ [ "t_region_groundcover_urban", 100 ], [ "t_region_shrub", 10 ] ],
+      "I": { "param": "interior_wall_type", "fallback": "t_brick_wall" },
       "@": "t_region_shrub_decorative",
       "u": "t_region_shrub",
       "B": "t_region_groundcover_barren",
@@ -1142,6 +1159,7 @@
     },
     "furniture": {
       "C": "f_counter",
+      "3": "f_counter",
       "R": "f_counter",
       "a": "f_stool",
       "?": "f_console_broken",

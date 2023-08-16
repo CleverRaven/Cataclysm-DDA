@@ -176,6 +176,8 @@ static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 
 static const matec_id RAPID( "RAPID" );
 
@@ -1282,11 +1284,13 @@ void item::update_modified_pockets()
     contents.update_modified_pockets( mag_or_mag_well, container_pockets );
 }
 
-int item::charges_per_volume( const units::volume &vol ) const
+int item::charges_per_volume( const units::volume &vol, bool suppress_warning ) const
 {
     if( count_by_charges() ) {
         if( type->volume == 0_ml ) {
-            debugmsg( "Item '%s' with zero volume", tname() );
+            if( !suppress_warning ) {
+                debugmsg( "Item '%s' with zero volume", tname() );
+            }
             return INFINITE_CHARGES;
         }
         // Type cast to prevent integer overflow with large volume containers like the cargo
@@ -1295,25 +1299,31 @@ int item::charges_per_volume( const units::volume &vol ) const
     } else {
         units::volume my_volume = volume();
         if( my_volume == 0_ml ) {
-            debugmsg( "Item '%s' with zero volume", tname() );
+            if( !suppress_warning ) {
+                debugmsg( "Item '%s' with zero volume", tname() );
+            }
             return INFINITE_CHARGES;
         }
         return vol / my_volume;
     }
 }
 
-int item::charges_per_weight( const units::mass &m ) const
+int item::charges_per_weight( const units::mass &m, bool suppress_warning ) const
 {
     if( count_by_charges() ) {
         if( type->weight == 0_gram ) {
-            debugmsg( "Item '%s' with zero weight", tname() );
+            if( !suppress_warning ) {
+                debugmsg( "Item '%s' with zero weight", tname() );
+            }
             return INFINITE_CHARGES;
         }
         return m / type->weight;
     } else {
         units::mass my_weight = weight();
         if( my_weight == 0_gram ) {
-            debugmsg( "Item '%s' with zero weight", tname() );
+            if( !suppress_warning ) {
+                debugmsg( "Item '%s' with zero weight", tname() );
+            }
             return INFINITE_CHARGES;
         }
         return m / my_weight;
@@ -2567,7 +2577,9 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
     if( food_item->has_flag( flag_CANNIBALISM ) &&
         parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
-        if( !player_character.has_flag( json_flag_CANNIBAL ) ) {
+        if( !player_character.has_flag( json_flag_CANNIBAL ) &&
+            !player_character.has_flag( json_flag_PSYCHOPATH ) &&
+            !player_character.has_flag( json_flag_SAPIOVORE ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* This food contains <bad>human flesh</bad>." ) );
         } else {
@@ -12369,7 +12381,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             debugmsg( "Temperature flag enum not valid.  Using current temperature." );
     }
 
-    bool carried = carrier != nullptr && carrier->has_item( *this );
+    bool carried = carrier != nullptr;
     // body heat increases inventory temperature by 5 F (2.77 K) and insulation by 50%
     if( carried ) {
         insulation *= 1.5;
@@ -13249,9 +13261,8 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
 
 int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
 {
-    if( link->charge_rate == 0 || turns_elapsed < 1 ||
-        link->charge_interval < 1 || link->efficiency < MIN_LINK_EFFICIENCY ) {
-        return link->charge_rate;
+    if( link->charge_rate == 0 || link->charge_interval < 1 ) {
+        return 0;
     }
 
     if( !is_battery() ) {
@@ -13271,8 +13282,8 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
     // time spent ouside the reality bubble it should be applied as a percentage of the total instead.
     bool short_time_passed = turns_elapsed <= link->charge_interval;
 
-    if( short_time_passed &&
-        !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) ) {
+    if( turns_elapsed < 1 || ( short_time_passed &&
+                               !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) ) ) {
         return link->charge_rate;
     }
 

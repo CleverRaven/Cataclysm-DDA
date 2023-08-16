@@ -528,6 +528,8 @@
       { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "m1carbine", "prob": 1, "charges-min": 0, "charges-max": 15 },
       { "item": "ak556", "prob": 2, "charges-min": 0, "charges-max": 30 },
+      { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges-min": 0, "charges-max": 30 },
+      { "item": "varmint_airgun", "prob": 1, "charges-min": 0, "charges-max": 1 },
       { "item": "bren2_762", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "bren2_556", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "mdrx", "prob": 1, "charges-min": 0, "charges-max": 30 },
@@ -566,6 +568,8 @@
       { "item": "mdrx", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "cz600", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "ak556", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "ak556", "variant": "zpapm90", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "varmint_airgun", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "bren2_762", "prob": 6, "charges-min": 0, "charges-max": 0 },
       { "item": "bren2_556", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "ak556", "variant": "zpapm90", "prob": 10, "charges-min": 0, "charges-max": 0 },
@@ -676,6 +680,7 @@
       { "item": "1895sbl", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "browning_blr", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "ar10", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "varmint_airgun", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "ar15_50", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "ar15_450", "prob": 12, "charges-min": 0, "charges-max": 0 }
     ]

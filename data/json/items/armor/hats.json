@@ -574,7 +574,8 @@
         "max_item_length": "14 cm",
         "moves": 100,
         "description": "Pocket for a flashlight attachment.",
-        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ]
+        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ],
+        "transparent": true
       }
     ],
     "variant_type": "generic",
@@ -758,7 +759,8 @@
         "max_item_length": "14 cm",
         "moves": 100,
         "description": "Pocket for a flashlight attachment.",
-        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ]
+        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ],
+        "transparent": true
       }
     ],
     "variant_type": "generic",

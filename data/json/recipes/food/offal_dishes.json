@@ -131,7 +131,6 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "liver_onion",
-    "result_mult": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -146,7 +145,8 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 36, "LIST" ] ] ],
     "//": "liver is 32u total and onions are 2u, adding 2u on top since the onions are cooked more thoroughly than usual.",
-    "components": [ [ [ "meat_liver", 8, "LIST" ] ], [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ] ]
+    "components": [ [ [ "meat_liver", 8, "LIST" ] ], [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ] ],
+    "charges": 2
   },
   {
     "type": "recipe",

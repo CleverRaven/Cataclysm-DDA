@@ -684,7 +684,7 @@
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL", "BURROWABLE", "AUTO_WALL_SYMBOL" ],
     "deconstruct": {
       "ter_set": "t_floor",
-      "items": [ { "item": "screen_mesh", "count": 1 }, { "item": "nail", "charges": 10 }, { "item": "2x4", "charges": 4 } ]
+      "items": [ { "item": "screen_mesh", "count": 1 }, { "item": "nail", "charges": 10 }, { "item": "2x4", "count": 4 } ]
     },
     "bash": {
       "str_min": 5,
@@ -1185,7 +1185,7 @@
       "ter_set": "t_rock_floor",
       "items": [
         { "item": "glass_shard", "count": [ 50, 164 ] },
-        { "item": "pipe", "charges": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 1, 3 ] }
       ]
     }

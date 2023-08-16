@@ -526,6 +526,15 @@ void vehicle::toggle_autopilot()
         stop_engines();
     } );
 
+    menu.add( string_format( _( precollision_on ? ( "Disable %s" ) : ( "Enable %s" ) ),
+                             "pre-collision system" ) )
+    .hotkey( "CONTROL_AUTOPILOT_CAS" )
+    .desc( _( "Toggle pre-collision system" ) )
+    .on_submit( [this] {
+        precollision_on = !precollision_on;
+        add_msg( string_format( _( "You turn %s pre-collision system." ), precollision_on ? "on" : "off" ) );
+    } );
+
     menu.query();
 }
 
@@ -2117,6 +2126,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 if( vp_part->has_flag( vp_flag::linked_flag ) ) {
                     vp_part->last_disconnected = calendar::turn;
                     vp_part->remove_flag( vp_flag::linked_flag );
+                    linked_item_epower_this_turn = 0_W;
                     add_msg( _( "You detached the %s's cables." ), vp_part->name( false ) );
                 }
                 if( vp_part->info().has_flag( "TOW_CABLE" ) ) {

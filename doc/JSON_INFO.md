@@ -1879,7 +1879,7 @@ Crafting recipes are defined as a JSON object with the following fields:
 "contained": true, // Boolean value which defines if the resulting item comes in its designated container. Automatically set to true if any container is defined in the recipe. 
 "container": "jar_glass_sealed", //The resulting item will be contained by the item set here, overrides default container.
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
-"count": 2,                  // Number of resulting items/charges per craft. Uses default charges if not set. If a container is set, this is the amount that gets put inside it, capped by container capacity.
+"charges": 2,                // Number of resulting items/charges per craft. Uses default charges if not set. If a container is set, this is the amount that gets put inside it, capped by container capacity.
 "result_mult": 2,            // Multiplier for resulting items. Also multiplies container items.
 "flags": [                   // A set of strings describing boolean features of the recipe
   "BLIND_EASY",
@@ -5316,7 +5316,7 @@ A list of mission ids that will be started and assigned to the player at the sta
 ## `start_of_cataclysm`
 (optional, object with optional members "hour", "day", "season" and "year")
 
-Allows customization of cataclysm start date. If `start_of_cataclysm` is not set the corresponding default values are used instead - 0 hour, 0 day (which is day 1), Spring season, 1 year.
+Allows customization of cataclysm start date. If `start_of_cataclysm` is not set the corresponding default values are used instead - 0 hour, 60 day (which is day 61), Spring season, 1 year. By default this date be randomized in new character creation screen.
 
 ```C++
 "start_of_cataclysm": { "hour": "random", "day": 10, "season": "winter", "year": 1 }
@@ -5325,14 +5325,14 @@ Allows customization of cataclysm start date. If `start_of_cataclysm` is not set
  Identifier            | Description
 ---                    | ---
 `hour`                 | (optional, integer or `random` string) Hour of the day. Default value is 0. String `random` randomizes 0-23.
-`day`                  | (optional, integer or `random` string) Day of the season. Default value is 0 (which is day 1). String `random` randomizes 0-season length.
-`season`               | (optional, integer or `random` string) Season of the year. Default value is `SPRING`. String `random` randomizes to one of 4 season.
+`day`                  | (optional, integer or `random` string) Day of the season. Default value is 60 (which is day 61). String `random` randomizes 0-season length.
+`season`               | (optional, integer or `random` string) Season of the year. Default value is `spring`. String `random` randomizes to one of 4 season.
 `year`                 | (optional, integer or `random` string) Year. Default value is 1. String `random` randomizes 1-11.
 
 ## `start_of_game`
 (optional, object with optional members "hour", "day", "season" and "year")
 
-Allows customization of game start date. If `start_of_game` is not set the corresponding default values are used instead - random hour (0-23), 0 day (which is day 1), Spring season, 1 year.
+Allows customization of game start date. If `start_of_game` is not set the corresponding default values are used instead - random hour (0-23), 60 day (which is day 61), Spring season, 1 year. By default hour part of this date can be randomized in new character creation screen.
 
 If the scenario game start date is before the scenario cataclysm start date then the scenario game start would be automatically set to scenario cataclysm start date.
 
@@ -5342,9 +5342,9 @@ If the scenario game start date is before the scenario cataclysm start date then
 
  Identifier            | Description
 ---                    | ---
-`hour`                 | (optional, integer or `random` string) Hour of the day. Default value is 0. String `random` randomizes 0-23.
-`day`                  | (optional, integer or `random` string) Day of the season. Default value is 0 (which is day 1). String `random` randomizes 0-season length.
-`season`               | (optional, integer or `random` string) Season of the year. Default value is `SPRING`. String `random` randomizes to one of 4 season.
+`hour`                 | (optional, integer or `random` string) Hour of the day. Default value is 8. String `random` randomizes 0-23.
+`day`                  | (optional, integer or `random` string) Day of the season. Default value is 60 (which is day 61). String `random` randomizes 0-season length.
+`season`               | (optional, integer or `random` string) Season of the year. Default value is `spring`. String `random` randomizes to one of 4 season.
 `year`                 | (optional, integer or `random` string) Year. Default value is 1. String `random` randomizes 1-11.
 
 # Starting locations
