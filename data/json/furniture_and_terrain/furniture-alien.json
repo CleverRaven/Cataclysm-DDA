@@ -707,7 +707,7 @@
         },
         {
           "id": "EOC_EXODII_LOCATOR",
-          "condition": { "not": { "u_has_mission": "directions_exodii_signpost" } },
+          "condition": { "u_has_item": "warehouse_rebooter" },
           "effect": [
             {
               "u_message": "You plug the rebooter in the locator.\n<color_light_green>The locator reactivates.</color>",

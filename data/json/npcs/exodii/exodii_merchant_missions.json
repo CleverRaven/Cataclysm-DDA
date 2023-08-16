@@ -57,18 +57,12 @@
     "name": { "str": "Find the lost Exodii warehouse and reboot its locator antenna." },
     "type": "mission_definition",
     "goal": "MGOAL_GO_TO_TYPE",
-    "difficulty": 5,
     "destination": "exo_warehouse_1",
-    "item": "warehouse_rebooter",
-    "start": {
-      "assign_mission_target": {
-        "om_terrain": "exo_warehouse_1",
-        "om_special": "exo_warehouse_1"
-      },
-    "difficulty": 2,
-    "value": 240,
-    "origins": [ "ORIGIN_SECONDARY" ],
     "end": { "effect": [ { "u_add_var": "u_found_warehouse", "type": "mission", "context": "completed", "value": "yes" } ] },
+    "difficulty": 5,
+    "value": 2,
+    "item": "warehouse_rebooter",
+    "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "",
       "offer": "",
@@ -80,7 +74,6 @@
       "success_lie": "Fine an' fine.  We can pass it in when you like.",
       "failure": "Fine an' fine.  Come back to this'n if you like to try again."
     }
-  }
   },
   {
     "id": "TALK_EXODII_MERCHANT_mission_1_intro",
@@ -289,9 +282,7 @@
                   "no": "Well an surely, fruit gum!"
                 }
               }
-            }
-  },
-  {
+            },
   "responses": [
     { "text": "What's the mission?", "topic": "TALK_EXODII_MERCHANT_mission_2" },
     { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
@@ -348,7 +339,7 @@
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
       },
       {
-        "text": "[Detail the conditions at the collapsed tower and its basement.  This will advance time by ten minutes.]",
+        "text": "[Detail the road to the warehouse.  This will advance time by ten minutes.]",
         "effect": { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" },
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
       }
