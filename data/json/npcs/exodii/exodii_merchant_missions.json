@@ -278,7 +278,7 @@
         "yes": "Well an surely, fruit gum!  Mayhap this be a chance to show y'self a true, for Rubik's got sommat to ask yet again.  The way o' the Exode is t'shimmy an' wobble, an' on thislike wobble, a few bits wobbled off, kennit?  'Tis rightful common, alack.  One such is hidden for our escolts an' our screeds.  Mayhap as y'know the lands, ye'd have a see of it?",
         "no": {
           "compare_num": [ { "npc_val": "var", "var_name": "exodii_knows_hub01" }, "=", { "const": 1 } ],
-          "yes": "Well an surely, fruit gum! For an' such as ye've done us a good.",
+          "yes": "Well an surely, fruit gum!  For an' such as ye've done us a good.",
           "no": "Well an surely, fruit gum!"
         }
       }
