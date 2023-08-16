@@ -39,5 +39,10 @@
     "id": "5x50_100_mag",
     "type": "MIGRATION",
     "replace": "afs_5x50_100_mag"
+  },
+  {
+    "id": "afs_bio_skullgun",
+    "type": "MIGRATION",
+    "replace": "bio_skullgun"
   }
 ]
