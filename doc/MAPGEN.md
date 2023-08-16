@@ -1141,7 +1141,7 @@ an `update_mapgen`, as normal mapgen can just specify the terrain directly.
 
 ### Spawn nested chunks based on overmap neighbors with "place_nested"
 
-Place_nested allows for limited conditional spawning of chunks based on the `"id"`s of their overmap neighbors and the joins that were used in placing a mutable overmap special.  This is useful for creating smoother transitions between biome types or to dynamically create walls at the edges of a mutable structure.
+Place_nested allows for conditional spawning of chunks based on the `"id"`s and/or flags of their overmap neighbors, the joins that were used in placing a mutable overmap special or the maps' predecessors.  This is useful for creating smoother transitions between biome types or to dynamically create walls at the edges of a mutable structure.
 
 | Field              | Description
 | ---                | ---
@@ -1151,6 +1151,7 @@ Place_nested allows for limited conditional spawning of chunks based on the `"id
 | joins              | (optional) Any mutable overmap special joins that should be checked before placing the chunk.  Each direction is associated with a list of join `"id"` strings.
 | flags              | (optional) Any overmap terrain flags that should be checked before placing the chunk.  Each direction is associated with a list of `oter_flags` flags.
 | flags_any          | (optional) Identical to flags except only requires a single direction to pass.  Useful to check if there's at least one of a flag in cardinal or orthoganal directions etc.
+| predecessors       | (optional) Any of the maps' predecessors that should be checked before placing the chunk. Only useful if using fallback_predecessor_mapgen.
 
 
 The adjacent overmaps which can be checked in this manner are:
@@ -1168,7 +1169,8 @@ Example:
     { "chunks": [ "nest2" ], "x": 0, "y": 0, "neighbors": { "north": [ { "om_terrain": "fort", "om_terrain_match_type": "PREFIX" }, "mansion" ] } },
     { "chunks": [ "nest3" ], "x": 0, "y": 0, "joins": { "north": [ "interior_to_exterior" ] } },
     { "chunks": [ "nest4" ], "x": 0, "y": 0, "flags": { "north": [ "RIVER" ] }, "flags_any": { "north_east": [ "RIVER" ], "north_west": [ "RIVER" ] } },
-    { "else_chunks": [ "nest5" ], "x": 0, "y": 0, "flags": { "north_west": [ "RIVER", "LAKE", "LAKE_SHORE" ] } }
+    { "else_chunks": [ "nest5" ], "x": 0, "y": 0, "flags": { "north_west": [ "RIVER", "LAKE", "LAKE_SHORE" ] } },
+    { "chunks": [ "nest6" ], "x": 0, "y": 0, "predecessors": [ "field", { "om_terrain": "river", "om_terrain_match_type": "PREFIX" } ] }
   ],
 ```
 The code excerpt above will place chunks as follows:
@@ -1177,6 +1179,7 @@ The code excerpt above will place chunks as follows:
 * `"nest3"` if the join `"interior_to_exterior"` was used to the north during mutable overmap placement.
 * `"nest4"` if the north neighboring overmap terrain has a flag `"RIVER"` and either of the north east or north west neighboring overmap terrains have a `"RIVER"` flag.
 * `"nest5"` if the north west neighboring overmap terrain has neither the `"RIVER"`, `"LAKE"` nor `"LAKE_SHORE"` flags.
+* `"nest6"` if the there's a predecessor present of either `"field"` or any overmap with the prefix `"river"`.
 
 
 ### Place monster corpse from a monster group with "place_corpses"
