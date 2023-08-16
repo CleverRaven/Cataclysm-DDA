@@ -969,6 +969,7 @@
         "cooldown": 10,
         "monster_message": "%1$s glances at %3$s and the world lurches."
       },
+      { "id": "teleport_touch", "cooldown": 15 },
       {
         "type": "leap",
         "cooldown": 2,
@@ -1026,11 +1027,16 @@
     "vision_night": 3,
     "path_settings": { "max_dist": 40, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "feral_humans_death_drops_porter",
+    "death_function": {
+      "effect": { "id": "teleport_summon", "hit_self": true },
+      "message": "As the %1$s dies, the air warps around them!"
+    },
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "luminance": 25,
     "special_attacks": [
       [ "PARROT_AT_DANGER", 10 ],
+      { "id": "teleport_touch" },
       {
         "id": "psi_teleport3_slow",
         "type": "spell",
