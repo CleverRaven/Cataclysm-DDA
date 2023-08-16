@@ -691,7 +691,9 @@
         { "item": "circuit", "count": [ 1, 3 ] },
         { "item": "amplifier", "count": [ 1, 3 ] },
         { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "exodii_module", "count": [ 0, 1 ] } ] },
+        { "item": "exodii_module", "count": [ 0, 1 ] }
+      ]
+    },
     "flags": [ "NOITEM", "TRANSPARENT", "MOUNTABLE" ],
     "examine_action": {
       "type": "effect_on_condition",
