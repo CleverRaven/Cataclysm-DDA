@@ -723,15 +723,9 @@
     "subtype": "collection",
     "id": "feral_swimmer_death_drops_kickboard",
     "entries": [
-      { "item": "swimming_kickboard", "prob": 100, "damage": [ 2, 4 ] },
+      { "item": "stick", "prob": 100, "damage": [ 2, 4 ] },
       { "group": "mon_zombie_swimmer_death_drops", "prob": 100 }
     ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "feral_diver_death_drops_knife",
-    "entries": [ { "item": "diveknife", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_diver_clothing_drops", "prob": 100 } ]
   },
   {
     "type": "item_group",

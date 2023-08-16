@@ -32,6 +32,7 @@
       { "monster": "mon_zombie_hazmat", "weight": 10, "cost_multiplier": 3 },
       { "monster": "mon_zombie_fireman", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer_base", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_feral_swimmer_kickboard", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_static", "weight": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_paramilitary", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
@@ -71,6 +72,11 @@
       { "monster": "mon_feral_fancy_crossbow", "freq": 40, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "group": "GROUP_MANSION_ARMORED", "freq": 20, "cost_multiplier": 15 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MANSION_ARMORED",
+    "monsters": [ { "monster": "mon_feral_armored_mace", "freq": 100 }, { "monster": "mon_feral_armored_battleaxe", "freq": 100 } ]
   },
   {
     "type": "monstergroup",
