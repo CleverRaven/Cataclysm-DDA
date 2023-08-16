@@ -30,5 +30,20 @@
     "sound_id": "bionics",
     "sound_variant": "elec_crackle_low",
     "message": "You discharge energy from your Super Stun Gun."
+  },
+  {
+    "id": "skullgun_snapback",
+    "type": "SPELL",
+    "name": "Skullgun Snapback",
+    "//": "Used for activating Skullgun CBM, not castable",
+    "description": "This fake spell occurs on skullgun activation.  May be fatal if done in critical condition.",
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_FAIL", "NO_PROJECTILE" ],
+    "min_damage": 5,
+    "max_damage": 5,
+    "message": "Your head snaps back from the force of the shot.",
+    "damage_type": "biological"
   }
 ]
