@@ -128,5 +128,13 @@
         "rigid": true
       }
     ]
+  },
+  {
+    "id": "bio_skullgun_gun",
+    "copy-from": "bio_skullgun_gun",
+    "type": "GUN",
+    "name": { "str": "bionic skullgun" },
+    "ammo": [ "ammo_pistol" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol": 1 } } ]
   }
 ]
