@@ -24,14 +24,16 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
     INCPATH = -I. -I/opt/mxe/usr/x86_64-w64-mingw32.static/qt5/include 
     LINKER = /opt/mxe/usr/bin/x86_64-w64-mingw32.static-g++
 
-    LIBS = /opt/mxe/usr/x86_64-w64-mingw32.static/qt5/plugins/platforms/libqwindows.a -lwinspool -lwtsapi32 \
-           /opt/mxe/usr/x86_64-w64-mingw32.static/qt5/lib/libQt5EventDispatcherSupport.a \
-           /opt/mxe/usr/x86_64-w64-mingw32.static/qt5/lib/libQt5FontDatabaseSupport.a -lfontconfig -lexpat -ldwrite -ld2d1 \
-           /opt/mxe/usr/x86_64-w64-mingw32.static/qt5/lib/libQt5ThemeSupport.a \
-           /opt/mxe/usr/x86_64-w64-mingw32.static/qt5/lib/libQt5WindowsUIAutomationSupport.a \
-           /opt/mxe/usr/x86_64-w64-mingw32.static/qt5/lib/libQt5Widgets.a -luxtheme -ldwmapi \
-           /opt/mxe/usr/x86_64-w64-mingw32.static/qt5/lib/libQt5Gui.a -ld3d11 -ldxgi -ldxguid -lharfbuzz -lfreetype -lbz2 -lpng16 -lharfbuzz_too -lfreetype_too -lglib-2.0 -lintl -liconv -lm -lpcre -lshlwapi -lcomdlg32 -loleaut32 -limm32 \
-           /opt/mxe/usr/x86_64-w64-mingw32.static/qt5/lib/libQt5Core.a -lmpr -luserenv -lversion -lz -lpcre2-16 -lzstd -lnetapi32 -lws2_32 -ladvapi32 -lkernel32 -lole32 -lshell32 -luuid -luser32 -lwinmm  -lmingw32 
+    QT5DIR = /opt/mxe/usr/x86_64-w64-mingw32.static/qt5
+    LIBS = $(QT5DIR)/plugins/platforms/libqwindows.a \
+           $(QT5DIR)/lib/libQt5EventDispatcherSupport.a \
+           $(QT5DIR)/lib/libQt5FontDatabaseSupport.a \
+           $(QT5DIR)/lib/libQt5ThemeSupport.a \
+           $(QT5DIR)/lib/libQt5WindowsUIAutomationSupport.a \
+           $(QT5DIR)/lib/libQt5Widgets.a \
+           $(QT5DIR)/lib/libQt5Gui.a \
+           $(QT5DIR)/lib/libQt5Core.a \
+           -lwtsapi32 -luserenv -lpcre2-16 -lzstd -lnetapi32 -ldwmapi
     
     DESTDIR_TARGET = object_creator.exe
     LFLAGS = -Wl,-s -Wl,-subsystem,windows -mthreads
