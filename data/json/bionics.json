@@ -1898,6 +1898,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ],
     "stat_bonus": [ [ "INT", -4 ], [ "PER", -2 ] ],
     "canceled_mutations": [ "INT_UP", "INT_UP_2", "INT_UP_3", "INT_UP_4", "INT_ALPHA", "SKULLGUN_STUPID" ],
-    "spell_on_activation": { "id": "skullgun_snapback", "hit_self": true }
+    "spell_on_activation": { "id": "skullgun_snapback", "hit_self": true },
+    "give_mut_on_removal": [ "SKULLGUN_STUPID" ]
   }
 ]
