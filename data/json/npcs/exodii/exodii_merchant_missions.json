@@ -80,7 +80,6 @@
     "type": "talk_topic",
     "dynamic_line": "Them as offer as can, an it be so. Aye, there's summat the old Scythy been larkin' up Rubik's tailpipe.  B'ain't tass right for a clanker like this'n, but a pop-an-work like you'n, maybe well and suited.",
     "//~": "Just because you asked, I think we can work something out.  Yes, the Scythean has been bugging me about something.  It's not something a cyborg like me can do, but a mercenary would probably fit the bill.",
-    "run_eocs": { "id": "EOC_MISSION_EXODII_HUB_DRONE_CHECK" },
     "responses": [
       { "text": "What's \"the ol' Scythy\"?", "topic": "TALK_EXODII_MERCHANT_Scythean" },
       { "text": "Why can't one of you do this?", "topic": "TALK_EXODII_MERCHANT_mission_1_explain" },
@@ -274,7 +273,7 @@
       "days_since_cataclysm": 28,
       "yes": "Well an surely, fruit gum!",
       "no": {
-        "compare_num": [ { "global_val": "var", "var_name": "u_brought_drone_at_exobase" }, "=", { "const": 1 } ],
+        "compare_num": [ { "global_val": "var", "var_name": "u_talked_to_hub" }, "=", { "const": 1 } ],
         "yes": "Well an surely, fruit gum!  Mayhap this be a chance to show y'self a true, for Rubik's got sommat to ask yet again.  The way o' the Exode is t'shimmy an' wobble, an' on thislike wobble, a few bits wobbled off, kennit?  'Tis rightful common, alack.  One such is hidden for our escolts an' our screeds.  Mayhap as y'know the lands, ye'd have a see of it?",
         "no": {
           "compare_num": [ { "npc_val": "var", "var_name": "exodii_knows_hub01" }, "=", { "const": 1 } ],
