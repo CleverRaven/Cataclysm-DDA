@@ -60,6 +60,11 @@
     ]
   },
   {
+    "name": "GROUP_CRYSTAL_FIELD_PSYCHOACTIVE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_swarm_structure", "weight": 60, "cost_multiplier": 2 } ]
+  },
+  {
     "type": "monstergroup",
     "name": "GROUP_LAB_RESEARCH",
     "default": "mon_zombie_scientist_phavian",
