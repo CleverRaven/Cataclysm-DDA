@@ -74,11 +74,6 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MANSION_ARMORED",
-    "monsters": [ { "monster": "mon_feral_armored_mace", "freq": 100 }, { "monster": "mon_feral_armored_battleaxe", "freq": 100 } ]
-  },
-  {
-    "type": "monstergroup",
     "name": "GROUP_CHUD",
     "monsters": [
       { "monster": "mon_chud", "weight": 875, "cost_multiplier": 0 },
