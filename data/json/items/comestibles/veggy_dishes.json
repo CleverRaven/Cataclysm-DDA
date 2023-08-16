@@ -890,7 +890,7 @@
       { "type": "COMPONENT_ID", "condition": "wild_garlic", "name": { "str_sp": "%s, wild garlic" } },
       { "type": "COMPONENT_ID", "condition": "wild_herbs", "name": { "str_sp": "%s, wild herbs" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } }
-   ],
+    ],
     "weight": "192 g",
     "color": "green",
     "spoils_in": "3 days",
