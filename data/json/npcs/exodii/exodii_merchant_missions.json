@@ -346,23 +346,23 @@
       }
     ]
   },
-{
-  "id": "TALK_EXODII_MERCHANT_mission_2_complete_pay",
-  "type": "talk_topic",
-  "dynamic_line": "'Tis a fine an' dandy!  What can ol' Rubik stand ye for, then?",
-  "responses": [
-    {
-      "text": "Let's see what you have in stock.",
-      "effect": [ { "u_add_faction_trust": 5 }, { "u_spend_cash": -150000 }, "start_trade" ],
-      "opinion": { "trust": 4, "value": 3 },
-      "topic": "TALK_DONE"
-    },
-    {
-      "text": "I'm just glad to help, I don't need any payment.",
-      "effect": [ { "u_add_faction_trust": 10 } ],
-      "opinion": { "trust": 7, "value": 5 },
-      "topic": "TALK_DONE"
-    }
-  ]
-}
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_complete_pay",
+    "type": "talk_topic",
+    "dynamic_line": "'Tis a fine an' dandy!  What can ol' Rubik stand ye for, then?",
+    "responses": [
+      {
+        "text": "Let's see what you have in stock.",
+        "effect": [ { "u_add_faction_trust": 5 }, { "u_spend_cash": -150000 }, "start_trade" ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I'm just glad to help, I don't need any payment.",
+        "effect": [ { "u_add_faction_trust": 10 } ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_DONE"
+      }
+    ]
+  }
 ]
