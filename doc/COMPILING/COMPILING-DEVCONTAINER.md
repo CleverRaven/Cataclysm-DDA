@@ -96,5 +96,9 @@ These steps allow you to cross-compile the object creator from Linux to Windows
 
   ![Image showing prompt to rebuild the devcontainer](../img/Devcontainer-Enter-Build-Command-Object-Creator-Terminal.png)
 
+  Note: This will only work if you first build the windows version of cataclysm-tiles as described in `Cross-compiling from Linux to Windows`.
+
+  Note 2: If you want to make a clean built, enter `make clean-object_creator` in the terminal before you run the build command.
+
   This will build the object creator. After it is build, you should see the object_creator.exe file object_creator folder inside the folder where you cloned your fork to (e.g. /workspaces/Cataclysm-DDA/object_creator). Copy /object_creator/object_creator.exe to your windows machine in the same folder as cataclysm-tiles.exe
 
