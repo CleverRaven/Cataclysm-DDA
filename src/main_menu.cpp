@@ -49,6 +49,8 @@
 #include "wcwidth.h"
 #include "worldfactory.h"
 
+static const mod_id MOD_INFORMATION_dda( "dda" );
+
 enum class main_menu_opts : int {
     MOTD = 0,
     NEWCHAR,
@@ -809,7 +811,7 @@ bool main_menu::opening_screen()
                             break;
                         }
                         world->active_mod_order.clear();
-                        world->active_mod_order.emplace_back( mod_id( "dda" ) );
+                        world->active_mod_order.emplace_back( MOD_INFORMATION_dda );
                         world_generator->set_active_world( world );
                         try {
                             g->setup();
