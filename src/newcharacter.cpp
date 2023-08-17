@@ -77,12 +77,13 @@ static const std::string type_skin_tone( "skin_tone" );
 static const std::string type_facial_hair( "facial_hair" );
 static const std::string type_eye_color( "eye_color" );
 
-static const profession_group_id prof_group_id_adult_basic_background( "adult_basic_background" );
-
 static const flag_id json_flag_auto_wield( "auto_wield" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
+
+static const profession_group_id
+profession_group_adult_basic_background( "adult_basic_background" );
 
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
@@ -4522,7 +4523,7 @@ void avatar::character_to_template( const std::string &name )
 void avatar::add_default_background()
 {
     for( const profession_group &prof_grp : profession_group::get_all() ) {
-        if( prof_grp.get_id() == prof_group_id_adult_basic_background ) {
+        if( prof_grp.get_id() == profession_group_adult_basic_background ) {
             for( const profession_id &hobb : prof_grp.get_professions() ) {
                 hobbies.insert( &hobb.obj() );
             }
