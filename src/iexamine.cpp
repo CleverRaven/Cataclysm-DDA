@@ -5927,7 +5927,10 @@ static void smoker_finalize( Character &, const tripoint &examp, const time_poin
             } else {
                 it.calc_rot_while_processing( 6_hours );
 
-                item result( it.get_comestible()->smoking_result, start_time + 6_hours, it.charges );
+                item result( it.get_comestible()->smoking_result, start_time + 6_hours );
+                if( it.count_by_charges() ) {
+                    result.charges = it.charges;
+                }
 
                 // Set flag to tell set_relative_rot() to calc from bday not now
                 result.set_flag( flag_PROCESSING_RESULT );
@@ -5944,7 +5947,7 @@ static void smoker_finalize( Character &, const tripoint &examp, const time_poin
                     }
                     result.components.add( it );
                     // Smoking is always 1:1, so these must be equal for correct kcal/vitamin calculation.
-                    result.recipe_charges = it.charges;
+                    result.recipe_charges = it.count();
                     result.set_flag_recursive( flag_COOKED );
                 }
 

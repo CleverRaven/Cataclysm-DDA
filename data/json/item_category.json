@@ -183,6 +183,13 @@
     "sort_rank": 11
   },
   {
+    "id": "corpses",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "CORPSES" },
+    "zone": "LOOT_CORPSES",
+    "sort_rank": 12
+  },
+  {
     "id": "armor",
     "type": "ITEM_CATEGORY",
     "name": { "str": "ARMOR" },

@@ -55,6 +55,9 @@ static const itype_id itype_null( "null" );
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
 
+static const quality_id qual_PISTOL( "PISTOL" );
+static const quality_id qual_SMG( "SMG" );
+
 static const skill_id skill_launcher( "launcher" );
 
 static const vpart_id vpart_turret_generic( "turret_generic" );
@@ -536,6 +539,13 @@ void vehicles::parts::finalize()
             new_part.set_flag( "USE_BATTERIES" );
             // +1 electronics level per 15 battery charges used for electric plumbing
             electronics_req += static_cast<int>( std::ceil( battery_mags_drain / 15.0 ) );
+        }
+
+        // make part foldable for pistols and SMGs
+        bool is_foldable = item->qualities.count( qual_PISTOL ) > 0 ||
+                           item->qualities.count( qual_SMG ) > 0;
+        if( is_foldable ) {
+            new_part.folded_volume = item->volume;
         }
 
         // cap all skills at 8

@@ -8,7 +8,6 @@
       { "u_message": "Get ready for the first wave, it's not that far away!", "type": "good", "popup": true },
       {
         "u_location_variable": { "global_val": "your_spawnpoint" },
-        "terrain": "t_floor",
         "target_max_radius": 2,
         "min_radius": 0,
         "max_radius": 0
@@ -70,7 +69,13 @@
           [ "DEFENSE_MODE_WAVE_SPAWN_SPIDERS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_ROBOTS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_TRIFFIDS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_SUBSPACE", { "const": 1 } ]
+          [ "DEFENSE_MODE_WAVE_SPAWN_SUBSPACE", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_DINOS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_LIZARDFOLK", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_GOLEMS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_GOBLINS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_ORCS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_MEGAFAUNA", { "const": 1 } ]
         ]
       }
     ]
@@ -88,6 +93,11 @@
           [ "DEFENSE_MODE_WAVE_SPAWN_ROBOTS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_TRIFFIDS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_SUBSPACE", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_DINOS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_LIZARDFOLK", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_GOLEMS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_GOBLINS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_ORCS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_MEGAFAUNA", { "const": 1 } ]
         ]
       }
@@ -259,7 +269,7 @@
     "condition": { "math": [ "subspace_allowed", "==", "1" ] },
     "effect": [
       {
-        "u_spawn_monster": "GROUP_NETHER",
+        "u_spawn_monster": "GROUP_NETHER_DM",
         "real_count": { "global_val": "wave_number", "default": 1 },
         "outdoor_only": true,
         "group": true,
@@ -267,7 +277,7 @@
         "max_radius": 40
       },
       {
-        "u_spawn_monster": "GROUP_NETHER",
+        "u_spawn_monster": "GROUP_NETHER_DM",
         "real_count": { "global_val": "wave_number", "default": 1 },
         "outdoor_only": true,
         "group": true,
@@ -275,7 +285,7 @@
         "max_radius": 40
       },
       {
-        "u_spawn_monster": "GROUP_NETHER",
+        "u_spawn_monster": "GROUP_NETHER_DM",
         "real_count": { "global_val": "wave_number", "default": 1 },
         "outdoor_only": true,
         "group": true,
