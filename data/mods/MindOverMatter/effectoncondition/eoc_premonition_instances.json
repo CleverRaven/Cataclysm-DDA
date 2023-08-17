@@ -324,6 +324,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_OLD_GUARD_ASSASSIN",
+    "//": "Copy EoC: original in json/effect_on_condition.json",
     "recurrence": [ "60 days", "100 days" ],
     "condition": {
       "and": [
