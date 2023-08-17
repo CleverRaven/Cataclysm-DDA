@@ -56,5 +56,5 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 
 # #Additional steps to cross compile object_creator. Uncomment this if you want to cross-compile the object cretor
 # WORKDIR /opt/mxe
-# RUN make MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' qt5
+# RUN make MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' qtbase
 # RUN export PATH=/opt/mxe/usr/bin:$PATH
