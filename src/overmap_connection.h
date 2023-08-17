@@ -52,7 +52,7 @@ class overmap_connection
         void check() const;
         void finalize();
 
-        const cata::flat_set<std::pair<std::pair<std::string, ot_match_type>, unsigned int>> origin_terrains;
+        cata::flat_set<std::pair<std::pair<std::string, ot_match_type>, int>> origin_terrains;
         bool has_city_origin = false;
         int city_origin_max_distance;
 

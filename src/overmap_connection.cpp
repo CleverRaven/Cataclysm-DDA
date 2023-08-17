@@ -105,29 +105,16 @@ void overmap_connection::load( const JsonObject &jo, const std::string_view )
     for( const JsonObject entry : jo.get_array( "origin" ) ) {
 
         std::pair<std::string, ot_match_type> origin_terrain_partial;
-        std::pair<std::pair<std::string, ot_match_type>, unsigned int> origin_terrain;
+        std::pair<std::pair<std::string, ot_match_type>, int> origin_terrain;
         
-        if( entry.has_bool( "city" ) ) {
-            has_city_origin = entry.get_bool( "city" );
-            if ( entry.has_string( "max_distance" ) ) {
-                city_origin_max_distance = static_cast<unsigned int>( entry.get_string( "max_distance" ) );
-            } else {
-                city_origin_max_distance = 50;
-            }
+        if( entry.has_member( "city" ) ) {
+            mandatory( entry, false, "city", has_city_origin );
+            optional( entry, false, "max_distance", city_origin_max_distance, 50 );
         } else {
-            origin_terrain_partial.first = ( entry.get_string( "om_terrain" ) );
-            if( entry.has_string( "om_terrain_match_type" ) ) {
-            origin_terrain_partial.second = entry.get_enum_value<ot_match_type>( "om_terrain_match_type",
-                                    ot_match_type::type );
-            } else {
-                origin_terrain_partial.second = ot_match_type::type;
-            }
+            mandatory( entry, false, "om_terrain", origin_terrain_partial.first );
+            optional( entry, false, "om_terrain_match_type", origin_terrain_partial.second, ot_match_type::type );
             origin_terrain.first = origin_terrain_partial;
-            if ( entry.has_string( "max_distance" ) ) {
-                origin_terrain.second = static_cast<unsigned int>( entry.get_string( "max_distance" ) );
-            } else {
-                origin_terrain.second = 50;
-            }
+            optional( entry, false, "max_distance", origin_terrain.second, 50 );
             origin_terrains.insert( origin_terrain );
         }
     }

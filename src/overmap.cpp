@@ -1155,50 +1155,6 @@ struct overmap_special_data {
         const city &cit, bool must_be_unexplored ) const = 0;
 };
 
-bool find_city( const city &cit, const tripoint_om_omt &rp ) {
-    if( connection.has_city_origin && cit ) {
-        distance_to_city = cit.get_distance_from( rp );
-        if ( distance_to_city <= city_origin_max_distance ) {
-            city_connection_point = cit.pos;
-            return true;
-        }
-    }
-    return false;
-}
-
-bool find_origin() {
-    int max_range = 0;
-    for ( const std::pair<std::pair<std::string, ot_match_type>, unsigned int> &origin_terrain : origin_terrains ) {
-        max_range = std::max( max_range, origin_terrain.second;
-    }
-    for( const tripoint_om_omt &nearby_point : closest_points_first( rp, max_range ) ) {
-        while( !origin_terrains.empty() ) {
-            for( const std::pair<std::pair<std::string, ot_match_type>, unsigned int> &origin_terrain : origin_terrains ) {
-                if( origin_terrain.second < range ) {
-                    //ideally remove it from from origin_terrains
-                    continue;
-                }
-                if( om.check_ot( origin_terrain.first.first, origin_terrain.first.second, nearby_point ) ) {
-                    origin_connection_point = nearby_point.xy();
-                    distance_to_origin = rp.get_distance_from( nearby_point );
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
-}
-
-bool find_connection() {
-    for( const tripoint_om_omt &nearby_point : closest_points_first( rp, 50 ) ) {
-        if( connection.has( nearby_point.ter() ) ) {
-            connection_point = nearest_point.xy;
-            return true;
-        }
-    }
-    return false;
-}
-
 struct fixed_overmap_special_data : overmap_special_data {
     fixed_overmap_special_data() = default;
     explicit fixed_overmap_special_data( const overmap_special_terrain &ter )
@@ -1443,14 +1399,64 @@ struct fixed_overmap_special_data : overmap_special_data {
                 }
 
                 const overmap_connection &connection = *elem.connection;
-                cata::flat_set<std::pair<std::pair<std::string, ot_match_type>, unsigned int>> origin_terrains = connection.origin_terrains;
+                cata::flat_set<std::pair<std::pair<std::string, ot_match_type>, int>> origin_terrains = connection.origin_terrains;
                 point_om_omt connection_point;
                 point_om_omt origin_connection_point;
                 point_om_omt city_connection_point;
-                int distance_to_origin;
-                int distance_to_city;
+                int distance_to_origin = INT_MAX;
+                int distance_to_city = INT_MAX;
                 
-                if( find_origin() || find_city( cit, rp ) ) {
+                auto find_city = [&] () {
+                    if( connection.has_city_origin && cit ) {
+                        distance_to_city = cit.get_distance_from( rp );
+                        if ( distance_to_city <= connection.city_origin_max_distance ) {
+                            city_connection_point = cit.pos;
+                            return true;
+                        }
+                    }
+                    return false;
+                };
+
+                //Using this rather than a generic distance so it matches city's get_distance_from
+                auto get_distance_between = [&] ( tripoint_om_omt a, tripoint_om_omt b ) {
+                    return std::max( static_cast<int>( trig_dist( a, b ) ), 0 );
+                };
+                
+                auto find_origin = [&] () {
+                    int max_range = 0;
+                    for ( const std::pair<std::pair<std::string, ot_match_type>, int> &origin_terrain : origin_terrains ) {
+                        max_range = std::max( max_range, origin_terrain.second );
+                    }
+                    for( const tripoint_om_omt &nearby_point : closest_points_first( rp, max_range ) ) {
+                        while( !origin_terrains.empty() ) {
+                            for( const std::pair<std::pair<std::string, ot_match_type>, int> &origin_terrain : origin_terrains ) {
+                                const int distance = get_distance_between( rp, nearby_point );
+                                if( origin_terrain.second < distance ) {
+                                    //Ideally remove it from origin_terrains
+                                    continue;
+                                }
+                                if( om.check_ot( origin_terrain.first.first, origin_terrain.first.second, nearby_point ) ) {
+                                    origin_connection_point = nearby_point.xy();
+                                    distance_to_origin = distance;
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                    return false;
+                };
+                
+                auto find_connection = [&] () {
+                    for( const tripoint_om_omt &nearby_point : closest_points_first( rp, 50 ) ) {
+                        if( connection.has( om.ter( nearby_point ) ) ) {
+                            connection_point = nearby_point.xy();
+                            return true;
+                        }
+                    }
+                    return false;
+                };
+                
+                if( find_origin() || find_city() ) {
                     if( distance_to_origin < distance_to_city ) {
                         connection_point = origin_connection_point;
                     } else {
@@ -1458,9 +1464,7 @@ struct fixed_overmap_special_data : overmap_special_data {
                     }
                 } else if ( find_connection() ) {
                     om.build_connection( connection_point, rp.xy(), elem.p.z, connection,
-                                    must_be_unexplored, initial_dir ) );
-                } else {
-                    debugmsg( "Failed to form any \"%s\" connection to special.", connection.id.c_str() ); //Find the specials id to name
+                                    must_be_unexplored, initial_dir );
                 }
             }
         }
