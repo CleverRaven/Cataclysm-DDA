@@ -1391,6 +1391,7 @@
     "description": "A single shot 9mm gun which implants into the forehead.  It had the shortest time from thought to shot of all bionic guns in its origin world, but this poorly conceived bionic removes a distressing amount of grey matter to make room for it and gives you a concussion every time you fire it.",
     "price": 100000,
     "price_postapoc": 1500,
-    "difficulty": 16
+    "difficulty": 16,
+    "weight": "933 g"
   }
 ]
