@@ -173,6 +173,10 @@ template<>
 struct enum_traits<iteminfo::flags> {
     static constexpr bool is_flag_enum = true;
 };
+// Currently used to store the only throwing stats of character dropping this item. Default is -1
+struct dropped_by_character_stats {
+    float throwing;
+};
 
 iteminfo vol_to_info( const std::string &type, const std::string &left,
                       const units::volume &vol, int decimal_places = 2, bool lower_is_better = true );
@@ -220,6 +224,8 @@ class item : public visitable
         {}
 
         ~item() override;
+
+        struct dropped_by_character_stats dropped_char_stats = { -1.0f };
 
         /** Return a pointer-like type that's automatically invalidated if this
          * item is destroyed or assigned-to */

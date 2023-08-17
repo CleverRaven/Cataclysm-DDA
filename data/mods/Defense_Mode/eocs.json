@@ -8,7 +8,6 @@
       { "u_message": "Get ready for the first wave, it's not that far away!", "type": "good", "popup": true },
       {
         "u_location_variable": { "global_val": "your_spawnpoint" },
-        "terrain": "t_floor",
         "target_max_radius": 2,
         "min_radius": 0,
         "max_radius": 0
@@ -70,7 +69,12 @@
           [ "DEFENSE_MODE_WAVE_SPAWN_SPIDERS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_ROBOTS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_TRIFFIDS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_SUBSPACE", { "const": 1 } ]
+          [ "DEFENSE_MODE_WAVE_SPAWN_SUBSPACE", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_DINOS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_LIZARDFOLK", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_GOLEMS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_GOBLINS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_ORCS", { "const": 1 } ]
         ]
       }
     ]
@@ -87,7 +91,12 @@
           [ "DEFENSE_MODE_WAVE_SPAWN_SPIDERS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_ROBOTS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_TRIFFIDS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_SUBSPACE", { "const": 1 } ]
+          [ "DEFENSE_MODE_WAVE_SPAWN_SUBSPACE", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_DINOS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_LIZARDFOLK", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_GOLEMS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_GOBLINS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_ORCS", { "const": 1 } ]
         ]
       }
     ]

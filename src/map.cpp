@@ -69,6 +69,7 @@
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "mapgen.h"
+#include "material.h"
 #include "math_defines.h"
 #include "mission.h"
 #include "memory_fast.h"
@@ -82,6 +83,7 @@
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "projectile.h"
+#include "ranged.h"
 #include "relic.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -2799,22 +2801,70 @@ void map::drop_items( const tripoint &p )
     // rather than disappearing if it would be overloaded
 
     tripoint below( p );
+    int height_fallen = 0;
     while( !has_floor( below ) ) {
         below.z--;
+        height_fallen++;
     }
 
     if( below == p ) {
         return;
     }
 
-    for( const item &i : items ) {
-        // TODO: Bash the item up before adding it
-        // TODO: Bash the creature, terrain, furniture and vehicles on the tile
+    float damage_total = 0.0f;
+    for( item &i : items ) {
+        units::mass wt_dropped = i.weight();
+        float item_density = i.get_base_material().density();
+        float damage = 5 * to_kilogram( wt_dropped ) * height_fallen * item_density;
+        damage_total += damage;
+
         add_item_or_charges( below, i );
+
+        // Bash creature standing below
+        Creature *creature_below = get_creature_tracker().creature_at( below );
+        if( creature_below ) {
+            // creature's dodge modifier
+            float dodge_mod = creature_below->dodge_roll();
+            // if item dropped by character their throwing skill modifier -1 if not dropped by a character
+            float throwing_mod = i.dropped_char_stats.throwing == -1.0f ? 0.0f : 5 *
+                                 i.dropped_char_stats.throwing;
+
+            // values calibrated so that %hit chance starts from 60% going up and down according to the two modifiers
+            float hit_mod = ( throwing_mod + 18 ) / ( dodge_mod + 15 );
+
+            int creature_hit_chance = rng( 0, 100 );
+            creature_hit_chance /= hit_mod * occupied_tile_fraction( creature_below->get_size() );
+
+            if( creature_hit_chance < 15 ) {
+                add_msg( _( "Falling %s hits %s in the head!" ), i.tname(), creature_below->get_name() );
+                creature_below->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_bash,
+                                             damage ) );
+            } else if( creature_hit_chance < 30 ) {
+                add_msg( _( "Falling %s hits %s in the torso!" ), i.tname(), creature_below->get_name() );
+                creature_below->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_bash,
+                                             damage ) );
+            } else if( creature_hit_chance < 65 ) {
+                add_msg( _( "Falling %s hits %s in the left arm!" ), i.tname(), creature_below->get_name() );
+                creature_below->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_bash,
+                                             damage ) );
+            } else if( creature_hit_chance < 100 ) {
+                add_msg( _( "Falling %s hits %s in the right arm!" ), i.tname(), creature_below->get_name() );
+                creature_below->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_bash,
+                                             damage ) );
+            } else {
+                add_msg( _( "Falling %s misses the %s!" ), i.tname(), creature_below->get_name() );
+            }
+        }
+
+        // Bash items at bottom since currently bash_items only bash glass items
+        int chance = static_cast<int>( 200 * i.resist( damage_bash, true ) / damage + 1 );
+        if( one_in( chance ) ) {
+            i.inc_damage();
+        }
     }
 
-    // Just to make a sound for now
-    bash( below, 1 );
+    // Bash terain, furniture and vehicles on tile below
+    bash( below, damage_total / 2 );
     i_clear( p );
 }
 
