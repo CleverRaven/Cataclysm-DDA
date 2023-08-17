@@ -54,6 +54,7 @@ class overmap_connection
 
         const cata::flat_set<std::pair<std::pair<std::string, ot_match_type>, unsigned int>> origin_terrains;
         bool has_city_origin = false;
+        int city_origin_max_distance;
 
         string_id<overmap_connection> id;
         std::vector<std::pair<string_id<overmap_connection>, mod_id>> src;
