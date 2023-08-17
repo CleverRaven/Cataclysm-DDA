@@ -137,7 +137,7 @@
       { "item": "camera", "prob": 2, "charges": [ 0, 150 ] },
       { "item": "camera", "container-item": "camera_bag", "prob": 1, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "prob": 1, "charges": [ 0, 150 ] },
-      { "item": "camera_pro", "container-item": "camera_bag", "prob": 1, "charges": [ 0, 150 ] },
+      { "item": "camera_pro", "container-item": "camera_bag", "prob": 1, "charges": [ 0, 150 ] }
     ]
   }
 ]

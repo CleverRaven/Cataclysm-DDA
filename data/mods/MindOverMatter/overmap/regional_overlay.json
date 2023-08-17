@@ -59,18 +59,8 @@
           "mx_phavian_science": 10
         }
       },
-      "road": {
-        "chance": 75,
-        "extras": {
-          "mx_phavian_science": 400
-        }
-      },
-      "build": {
-        "chance": 90,
-        "extras": {
-          "mx_phavian_science": 12
-        }
-      },
+      "road": { "chance": 75, "extras": { "mx_phavian_science": 400 } },
+      "build": { "chance": 90, "extras": { "mx_phavian_science": 12 } },
       "subway": { "chance": 75, "extras": { "mx_phavian_science": 10 } },
       "lab_subway": { "chance": 25, "extras": { "mx_phavian_science": 10 } },
       "phavian_lab_lot": {
