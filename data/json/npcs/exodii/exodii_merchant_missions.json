@@ -308,7 +308,7 @@
     "//~": "Unfortunately no. We have no idea of where it is now. Maybe some other survivors could help you with that.",
     "responses": [
       { "text": "Shouldn't your quads be able to do that?", "topic": "TALK_EXODII_MERCHANT_mission_2_explain" },
-      { "text": "Then I'll find it.", "effect": { "assign_mission": "EXODII_WAREHOUSE" } },
+      { "text": "Then I'll find it.", "topic": "TALK_DONE", "effect": { "assign_mission": "EXODII_WAREHOUSE" } },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
@@ -319,7 +319,7 @@
     "dynamic_line": "",
     "//~": "Without any indication of its location, we cannot risk our quads when we can't even guarantee we would find the warehouse.",
     "responses": [
-      { "text": "Then I'll find it.", "effect": { "assign_mission": "EXODII_WAREHOUSE" } },
+      { "text": "Then I'll find it.", "topic": "TALK_DONE", "effect": { "assign_mission": "EXODII_WAREHOUSE" } },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
