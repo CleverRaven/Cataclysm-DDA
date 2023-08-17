@@ -555,7 +555,9 @@
       { "monster": "mon_feral_maid_knife", "weight": 10 },
       { "monster": "mon_feral_fancy_rapier", "weight": 5, "cost_multiplier": 5 },
       { "monster": "mon_feral_fancy_rapier_fake", "weight": 10 },
-      { "monster": "mon_feral_fancy_crossbow", "weight": 5, "cost_multiplier": 5 }
+      { "monster": "mon_feral_fancy_crossbow", "weight": 5, "cost_multiplier": 5 },
+      { "monster": "mon_feral_armored_mace", "weight": 1, "cost_multiplier": 10 },
+      { "monster": "mon_feral_armored_battleaxe", "weight": 1, "cost_multiplier": 10 }
     ]
   },
   {
@@ -568,7 +570,9 @@
       { "monster": "mon_feral_maid_knife", "weight": 100 },
       { "monster": "mon_feral_fancy_rapier", "weight": 50, "cost_multiplier": 5 },
       { "monster": "mon_feral_fancy_rapier_fake", "weight": 100 },
-      { "monster": "mon_feral_fancy_crossbow", "weight": 50, "cost_multiplier": 5 }
+      { "monster": "mon_feral_fancy_crossbow", "weight": 50, "cost_multiplier": 5 },
+      { "monster": "mon_feral_armored_mace", "weight": 10, "cost_multiplier": 10 },
+      { "monster": "mon_feral_armored_battleaxe", "weight": 10, "cost_multiplier": 10 }
     ]
   },
   {
