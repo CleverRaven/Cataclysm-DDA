@@ -1,7 +1,7 @@
 [
   {
     "type": "SPECIES",
-    "id": "SPIDER",
+    "id": "SPIDER_DM",
     "description": "a spider",
     "//": "Adding the ALL_SEEING and NEMESIS flags lets monsters track your position without fancy C++ stuff.",
     "anger_triggers": [ "FRIEND_DIED" ],

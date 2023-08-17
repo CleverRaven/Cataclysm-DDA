@@ -325,6 +325,8 @@ struct queued_eocs {
 
     queued_eocs &operator=( const queued_eocs &rhs ) {
         list = rhs.list;
+        // Why doesn't std::priority_queue have a clear() function.
+        queue = {};
         for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
             queue.emplace( it );
         }
