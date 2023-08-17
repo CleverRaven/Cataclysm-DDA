@@ -1,0 +1,7 @@
+[
+  {
+    "type": "overmap_location",
+    "id": "generic_loot_locations",
+    "flags": [ "GENERIC_LOOT" ]
+  }
+]
