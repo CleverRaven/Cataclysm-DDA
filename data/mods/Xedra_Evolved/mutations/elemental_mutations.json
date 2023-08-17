@@ -252,6 +252,7 @@
     "category": [ "HOMULLUS" ],
     "prereqs": [ "HOMULLUS_SKIN_1" ],
     "changes_to": [ "HOMULLUS_SKIN_3" ],
+    "healing_multiplier": 0.9,
     "wet_protection": [
       { "part": "head", "ignored": 2 },
       { "part": "leg_l", "ignored": 5 },
@@ -274,11 +275,12 @@
     "visibility": 10,
     "ugliness": -6,
     "mixed_effect": true,
-    "description": "Your skin has become latex like.  It provides some additional protection and flexibility but heals at a much slower rate.",
+    "description": "Your skin has become latex like.  It provides some additional protection and attractiveness but heals at a much slower rate.",
     "types": [ "SKIN" ],
     "prereqs": [ "HOMULLUS_SKIN_2" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ],
+    "healing_multiplier": 0.7,
     "wet_protection": [
       { "part": "head", "ignored": 5 },
       { "part": "leg_l", "ignored": 16 },
