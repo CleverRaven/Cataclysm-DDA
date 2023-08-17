@@ -1,7 +1,7 @@
 [
   {
     "type": "item_group",
-    "id": "NC_Motorhead_trousers",
+    "id": "NC_MOTORHEAD_pants",
     "subtype": "distribution",
     "entries": [
       { "item": "jeans", "prob": 70 },
@@ -11,13 +11,13 @@
   },
   {
     "type": "item_group",
-    "id": "NC_Motorhead_shoes",
+    "id": "NC_MOTORHEAD_shoes",
     "subtype": "distribution",
     "entries": [ { "item": "sneakers", "prob": 60 }, { "item": "boots", "prob": 40 } ]
   },
   {
     "type": "item_group",
-    "id": "NC_Motorhead_shirt",
+    "id": "NC_MOTORHEAD_shirt",
     "subtype": "distribution",
     "entries": [
       { "item": "tshirt", "prob": 70 },
@@ -27,7 +27,7 @@
   },
   {
     "type": "item_group",
-    "id": "NC_Motorhead_gloves",
+    "id": "NC_MOTORHEAD_gloves",
     "subtype": "distribution",
     "entries": [
       { "item": "null", "prob": 10 },
@@ -38,7 +38,7 @@
   },
   {
     "type": "item_group",
-    "id": "NC_Motorhead_coat",
+    "id": "NC_MOTORHEAD_coat",
     "subtype": "distribution",
     "entries": [
       { "item": "hoodie", "prob": 15 },
@@ -51,13 +51,13 @@
   },
   {
     "type": "item_group",
-    "id": "NC_Motorhead_vest",
+    "id": "NC_MOTORHEAD_vest",
     "subtype": "distribution",
     "entries": [ { "item": "null", "prob": 50 }, { "item": "kevlar", "prob": 50 } ]
   },
   {
     "type": "item_group",
-    "id": "NC_Motorhead_storage",
+    "id": "NC_MOTORHEAD_storage",
     "subtype": "distribution",
     "entries": [
       { "item": "backpack", "prob": 50 },
@@ -68,13 +68,13 @@
   },
   {
     "type": "item_group",
-    "id": "NC_Motorhead_belt",
+    "id": "NC_MOTORHEAD_holster",
     "subtype": "distribution",
     "entries": [ { "item": "leather_belt", "prob": 25 }, { "item": "tool_belt", "prob": 75 } ]
   },
   {
     "type": "item_group",
-    "id": "NC_Motorhead_hat",
+    "id": "NC_MOTORHEAD_hat",
     "subtype": "distribution",
     "entries": [
       { "item": "null", "prob": 10 },
