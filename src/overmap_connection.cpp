@@ -106,13 +106,13 @@ void overmap_connection::load( const JsonObject &jo, const std::string_view )
 
         std::pair<std::string, ot_match_type> origin_terrain_partial;
         std::pair<std::pair<std::string, ot_match_type>, int> origin_terrain;
-        
         if( entry.has_member( "city" ) ) {
             mandatory( entry, false, "city", has_city_origin );
             optional( entry, false, "max_distance", city_origin_max_distance, 50 );
         } else {
             mandatory( entry, false, "om_terrain", origin_terrain_partial.first );
-            optional( entry, false, "om_terrain_match_type", origin_terrain_partial.second, ot_match_type::type );
+            optional( entry, false, "om_terrain_match_type", origin_terrain_partial.second,
+                      ot_match_type::type );
             origin_terrain.first = origin_terrain_partial;
             optional( entry, false, "max_distance", origin_terrain.second, 50 );
             origin_terrains.insert( origin_terrain );
