@@ -765,7 +765,7 @@
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "death_function": {
-      "effect": { "id": "death_psychic_scream", "hit_self": false, "min_level": 5 },
+      "effect": { "id": "death_psychic_scream", "hit_self": true, "min_level": 5 },
       "message": "As the %1$s dies, a scream fills your mind!"
     },
     "upgrades": { "half_life": 45, "into": "mon_feral_human_teep2" },
@@ -826,7 +826,7 @@
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "death_function": {
-      "effect": { "id": "death_psychic_scream", "hit_self": false, "min_level": 10 },
+      "effect": { "id": "death_psychic_scream", "hit_self": true, "min_level": 10 },
       "message": "As the %1$s dies, a scream fills your mind!"
     },
     "special_attacks": [
@@ -1040,7 +1040,10 @@
     "vision_night": 3,
     "path_settings": { "max_dist": 40, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "feral_humans_death_drops_porter",
-    "death_function": { "effect": { "id": "teleport_summon_monster" }, "message": "As the %1$s dies, the air warps around them!" },
+    "death_function": {
+      "effect": { "id": "teleport_summon_monster", "hit_self": true },
+      "message": "As the %1$s dies, the air warps around them!"
+    },
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "luminance": 25,

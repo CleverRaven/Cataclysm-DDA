@@ -102,5 +102,32 @@
     "min_aoe": 1,
     "max_aoe": 30,
     "aoe_increment": 1
+  },
+  {
+    "id": "teleport_summon_monster",
+    "type": "SPELL",
+    "name": "[Ψ]Breach Monster",
+    "description": "Summons Nether creatures when the target dies.  It's a bug if you have it.",
+    "message": "The air nearby fractures and something comes through!",
+    "valid_targets": [ "self", "ally", "hostile", "ground" ],
+    "flags": [
+      "RANDOM_DAMAGE",
+      "RANDOM_AOE",
+      "SPAWN_GROUP",
+      "PERMANENT",
+      "HOSTILE_SUMMON",
+      "SPAWN_WITH_DEATH_DROPS",
+      "NO_EXPLOSION_SFX"
+    ],
+    "effect": "summon",
+    "effect_str": "GROUP_NETHER_BREACH",
+    "shape": "blast",
+    "max_level": 10,
+    "min_damage": 1,
+    "max_damage": 3,
+    "min_range": 3,
+    "min_aoe": 2,
+    "max_aoe": 6,
+    "min_duration": 9999999999999999999
   }
 ]
