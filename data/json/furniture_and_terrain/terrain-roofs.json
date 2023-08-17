@@ -40,6 +40,7 @@
   {
     "type": "terrain",
     "id": "t_gutter",
+    "alias": [ "t_gutter_north", "t_gutter_south", "t_gutter_east", "t_gutter_west" ],
     "description": "Channels water from the roof towards the ground, it looks flimsy.",
     "name": "rain gutter",
     "symbol": "LINE_OXOX",
