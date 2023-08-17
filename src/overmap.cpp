@@ -6686,13 +6686,12 @@ std::string enum_to_string<ot_match_type>( ot_match_type data )
 
 static const std::array<std::string, 4> suffixes = {{ "_north", "_west", "_south", "_east" }};
 
-std::string oter_no_dir( const oter_id &oter )
+std::string_view oter_no_dir( const oter_id &oter )
 {
-    std::string base_oter_id = oter.id().str();
+    std::string_view base_oter_id = oter.id().str();
     for( const std::string &suffix : suffixes ) {
         if( string_ends_with( base_oter_id, suffix ) ) {
-            base_oter_id.erase( base_oter_id.end() - suffix.size(), base_oter_id.end() );
-            break;
+            base_oter_id = base_oter_id.substr( 0, base_oter_id.size() - suffix.size() );
         }
     }
     return base_oter_id;
