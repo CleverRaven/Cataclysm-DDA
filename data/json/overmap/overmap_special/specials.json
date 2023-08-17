@@ -16,7 +16,7 @@
     "locations": [ "land" ],
     "city_distance": [ 8, 30 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "PRIORITY_LOW" ]
   },
   {
     "type": "overmap_special",
@@ -35,7 +35,7 @@
     "locations": [ "land" ],
     "city_distance": [ 8, 30 ],
     "occurrences": [ 1, 2 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "PRIORITY_LOW" ]
   },
   {
     "type": "overmap_special",
@@ -57,7 +57,7 @@
     "locations": [ "land" ],
     "city_distance": [ 8, 40 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "URBAN", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "URBAN", "MAN_MADE", "PRIORITY_LOW" ]
   },
   {
     "type": "overmap_special",
@@ -414,7 +414,7 @@
     "city_distance": [ 5, 25 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 4 ],
-    "flags": [ "CLASSIC", "URBAN", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "URBAN", "MAN_MADE", "PRIORITY_HIGH" ]
   },
   {
     "type": "overmap_special",
@@ -469,7 +469,7 @@
     "locations": [ "land" ],
     "city_distance": [ 20, -1 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "PRIORITY_LOW" ]
   },
   {
     "type": "overmap_special",
@@ -539,7 +539,7 @@
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "PRIORITY_LOW" ]
   },
   {
     "type": "overmap_special",
@@ -765,7 +765,7 @@
     "city_distance": [ 15, -1 ],
     "occurrences": [ 40, 100 ],
     "//": "Inflated chance, effective rate ~25%",
-    "flags": [ "UNIQUE", "LAB", "WILDERNESS", "MAN_MADE" ],
+    "flags": [ "UNIQUE", "LAB", "WILDERNESS", "MAN_MADE", "PRIORITY_HIGH" ],
     "rotate": false
   },
   {
@@ -953,7 +953,7 @@
     "locations": [ "field" ],
     "city_distance": [ 10, 40 ],
     "occurrences": [ 0, 6 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "PRIORITY_LOW" ]
   },
   {
     "type": "overmap_special",
@@ -3458,7 +3458,7 @@
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 3, 20 ],
     "occurrences": [ 35, 100 ],
-    "flags": [ "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+    "flags": [ "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE", "PRIORITY_HIGH" ]
   },
   {
     "type": "overmap_special",
@@ -3739,7 +3739,7 @@
     "locations": [ "land" ],
     "city_distance": [ 10, 200 ],
     "occurrences": [ 0, 4 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "PRIORITY_LOW" ]
   },
   {
     "type": "overmap_special",
@@ -3752,7 +3752,7 @@
     "locations": [ "land" ],
     "city_distance": [ 10, 200 ],
     "occurrences": [ 0, 4 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "PRIORITY_LOW" ]
   },
   {
     "type": "overmap_special",
@@ -3765,7 +3765,7 @@
     "locations": [ "land" ],
     "city_distance": [ 10, 200 ],
     "occurrences": [ 0, 4 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "PRIORITY_LOW" ]
   },
   {
     "type": "overmap_special",
@@ -3809,7 +3809,7 @@
     "locations": [ "land" ],
     "city_distance": [ -1, 100 ],
     "occurrences": [ 0, 4 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "PRIORITY_LOW" ]
   },
   {
     "type": "overmap_special",
@@ -4349,7 +4349,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 15, 150 ],
     "occurrences": [ 0, 4 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "PRIORITY_LOW" ]
   },
   {
     "type": "overmap_special",
@@ -4518,7 +4518,7 @@
     "city_distance": [ -1, 20 ],
     "city_sizes": [ 3, 12 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "CLASSIC", "UNIQUE", "URBAN", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "UNIQUE", "URBAN", "MAN_MADE", "PRIORITY_HIGH" ]
   },
   {
     "type": "overmap_special",
@@ -4664,7 +4664,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 33, 100 ],
-    "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+    "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE", "PRIORITY_LOW" ]
   },
   {
     "type": "overmap_special",
@@ -7202,11 +7202,11 @@
       { "point": [ 28, 29, 0 ], "overmap": "special_forest" },
       { "point": [ 29, 29, 0 ], "overmap": "special_forest_thick" }
     ],
-    "locations": [ "land", "road" ],
+    "locations": [ "land" ],
     "occurrences": [ 35, 100 ],
     "//": "Inflated chance, effective rate ~19% (n=726)",
     "connections": [ { "point": [ -1, 15, 0 ], "terrain": "road" } ],
-    "flags": [ "FARM", "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+    "flags": [ "FARM", "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE", "PRIORITY_HIGH" ]
   },
   {
     "id": "airliner_crashed",
@@ -7921,7 +7921,7 @@
     "locations": [ "potential_basement_lab_entrance" ],
     "//": "Low chance to find a matching location, so always try to place it",
     "occurrences": [ 99, 100 ],
-    "flags": [ "LAB", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "LAB", "UNIQUE", "MAN_MADE", "PRIORITY_LOW" ]
   },
   {
     "type": "overmap_special",
@@ -7957,7 +7957,7 @@
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE", "PRIORITY_LOW" ]
   },
   {
     "type": "overmap_special",
@@ -7975,7 +7975,7 @@
     "locations": [ "wilderness" ],
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE", "PRIORITY_LOW" ]
   },
   {
     "type": "overmap_special",
