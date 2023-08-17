@@ -36,6 +36,7 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
            -lwtsapi32 -luserenv -lpcre2-16 -lzstd -lnetapi32 -ldwmapi
     
     DESTDIR_TARGET = object_creator.exe
+    # Without this the resulting file size is about 8x larger
     LFLAGS = -Wl,-s -Wl,-subsystem,windows -mthreads
 
   else
@@ -59,7 +60,8 @@ $(shell mkdir -p $(ODIR))
 
 
 
-# Global settings for Windows targets
+# Build the windows version if the terget system is windows
+# Otherwise, build the linux version
 ifeq ($(TARGETSYSTEM),WINDOWS)
 $(ODIR)/%.o: %.cpp
 	$(LINKER) $(LFLAGS) $(LDFLAGS) $(CXXFLAGS) $(DEFINES) $(INCPATH) -c ../object_creator/$< -o $@
