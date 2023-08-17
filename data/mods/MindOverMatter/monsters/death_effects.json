@@ -95,6 +95,7 @@
     "shape": "blast",
     "effect": "attack",
     "damage_type": "psi_telepathic_damage",
+    "max_level": 30,
     "min_damage": 5,
     "max_damage": 15,
     "damage_increment": 0.5,
