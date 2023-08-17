@@ -51,8 +51,24 @@ void overmap_connection::subtype::load( const JsonObject &jo )
 {
     const auto flag_reader =
         make_flag_reader( connection_subtype_flag_map, "connection subtype flag" );
-
-    mandatory( jo, false, "terrain", terrain );
+        
+    if( !jo.has_string( "terrain" ) ) {
+        JsonObject jio = jo.get_object( "terrain" ) ) {
+            if( jio.test_string() ) {
+                terrain.first = ( jio.get_string() );
+                terrain.second = ot_match_type::type;
+            } else {
+                JsonObject pairobj = jio.get_object();
+                terrain.first = ( pairobj.get_string( "om_terrain" ) );
+                terrain.second = pairobj.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                                      ot_match_type::contains );
+            }
+        }
+    } else {
+        terrain.first = jo.get_string( "terrain" );
+        terrain.second = ot_match_type::type;
+    }
+    
     mandatory( jo, false, "locations", locations );
 
     optional( jo, false, "basic_cost", basic_cost, 0 );
@@ -101,6 +117,27 @@ bool overmap_connection::has( const int_id<oter_t> &oter ) const
 void overmap_connection::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, false, "subtypes", subtypes );
+
+    for( const JsonObject entry : jo.get_array( "origin" ) ) {
+
+        std::pair<std::string, ot_match_type> origin_terrain_partial;
+        std::pair<std::pair<std::string, ot_match_type>, unsigned int> origin_terrain;
+
+        origin_terrain_partial.first = ( entry.get_string( "om_terrain" ) );
+        if( entry.has_string( "om_terrain_match_type" ) ) {
+        origin_terrain_partial.second = entry.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                                ot_match_type::type );
+        } else {
+            origin_terrain_partial.second = ot_match_type::type;
+        }
+        origin_terrain.first = origin_terrain_partial;
+        if ( entry.has_string( "max_distance" ) ) {
+            origin_terrain.second = static_cast<unsigned int>( entry.get_string( "max_distance" ) );
+        } else {
+            origin_terrain.second = 100;
+        }
+        origin_terrains.insert( origin_terrain );
+    }
 }
 
 void overmap_connection::check() const

@@ -1397,18 +1397,41 @@ struct fixed_overmap_special_data : overmap_special_data {
                 if( initial_dir != cube_direction::last ) {
                     initial_dir = initial_dir + dir;
                 }
-                if( cit ) {
-                    om.build_connection( cit.pos, rp.xy(), elem.p.z, *elem.connection,
-                                         must_be_unexplored, initial_dir );
+                
+                bool made_connection = false;
+                const overmap_connection &connection = *elem.connection;
+                const cata::flat_set<std::pair<std::pair<std::string, ot_match_type>, unsigned int> &origin_terrains = connection.origin_terrains;
+
+                if( connection.connection.origin_is_city() ) {
+                    if( cit ) {
+                        if( om.build_connection_better_name_than_this_hopefully( cit.pos, rp.xy(), elem.p.z, *elem.connection,
+                                            must_be_unexplored, initial_dir ) ) {
+                            made_connection = true;
+                        }
+                    }
+                } else {
+                    for( const tripoint_om_omt &nearby_point : closest_points_first( rp, elem.connection.origin_max_distance ) ) {
+                        for( const std::pair<std::string, ot_match_type> &origin_terrain : *elem.connection.origin_terrains ) {
+                            if( !made_connection && om.check_ot( origin_terrain.first, origin_terrain.second, nearby_point ) ) {
+                                if( om.build_connection_better_name_than_this_hopefully(
+                                    nearby_point.xy(), rp.xy(), elem.p.z, *elem.connection,
+                                    must_be_unexplored, initial_dir ) ) {
+                                    made_connection = true;
+                                }
+                            }
+                        }
+                    }
                 }
-                // if no city present, search for nearby road within 50 tiles and make
-                // connection to it instead
-                else {
-                    for( const tripoint_om_omt &nearby_point : closest_points_first( rp, 50 ) ) {
-                        if( om.check_ot( "road", ot_match_type::contains, nearby_point ) ) {
-                            om.build_connection(
-                                nearby_point.xy(), rp.xy(), elem.p.z, *elem.connection,
-                                must_be_unexplored, initial_dir );
+                if ( !made_connection ) {
+                    for( const tripoint_om_omt &nearby_point : closest_points_first( rp, 100 ) ) { //What's the max number you can use here?
+                        for( const std::pair<std::string, ot_match_type> &connection_terrain : *elem.connection.connection_terrains ) {
+                            if( !made_connection && om.check_ot( connection_terrain.first, connection_terrain.second, nearby_point ) ) {
+                                if( om.build_connection_better_name_than_this_hopefully(
+                                    nearby_point.xy(), rp.xy(), elem.p.z, *elem.connection,
+                                    must_be_unexplored, initial_dir ) ) {
+                                    made_connection = true;
+                                }
+                            }
                         }
                     }
                 }
@@ -5659,6 +5682,16 @@ void overmap::build_connection(
 }
 
 void overmap::build_connection(
+    const point_om_omt &source, const point_om_omt &dest, int z,
+    const overmap_connection &connection, const bool must_be_unexplored,
+    const cube_direction initial_dir )
+{
+    build_connection(
+        connection, lay_out_connection( connection, source, dest, z, must_be_unexplored ),
+        z, initial_dir );
+}
+
+bool overmap::build_connection_better_name_than_this_hopefully(
     const point_om_omt &source, const point_om_omt &dest, int z,
     const overmap_connection &connection, const bool must_be_unexplored,
     const cube_direction initial_dir )
