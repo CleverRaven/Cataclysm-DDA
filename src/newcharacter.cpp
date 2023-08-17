@@ -783,7 +783,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     return true;
 }
 
-void Character::initialize()
+void Character::initialize( bool learn_recipes )
 {
     recalc_hp();
 
@@ -829,12 +829,13 @@ void Character::initialize()
         set_stored_kcal( std::floor( get_stored_kcal() * 5 ) );
     }
 
-    // Learn recipes
-    for( const auto &e : recipe_dict ) {
-        const recipe &r = e.second;
-        if( !r.is_practice() && !r.has_flag( flag_SECRET ) && !knows_recipe( &r ) &&
-            has_recipe_requirements( r ) ) {
-            learn_recipe( &r );
+    if( learn_recipes ) {
+        for( const auto &e : recipe_dict ) {
+            const recipe &r = e.second;
+            if( !r.is_practice() && !r.has_flag( flag_SECRET ) && !knows_recipe( &r ) &&
+                has_recipe_requirements( r ) ) {
+                learn_recipe( &r );
+            }
         }
     }
 

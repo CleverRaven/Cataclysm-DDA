@@ -517,7 +517,7 @@ class Character : public Creature, public visitable
         ~Character() override;
 
         // initialize avatar and avatar mocks
-        void initialize();
+        void initialize( bool learn_recipes = true );
 
 
         Character *as_character() override {
