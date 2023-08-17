@@ -12,6 +12,7 @@
     "description": "You do not know who you are, nor do you know why you're here.  All you know is that you must fight and defend yourself from the horde.",
     "allowed_locs": [ "bar", "hospital", "public_works", "megastore", "mansion" ],
     "eoc": [ "scenario_defense_mode" ],
+    "forced_traits": [ "HAS_NEMESIS" ],
     "flags": [ "LONE_START" ],
     "start_name": "Holdout",
     "reveal_locale": false
@@ -38,7 +39,7 @@
     "type": "start_location",
     "id": "megastore",
     "name": "Megastore",
-    "terrain": [ "megastore_0_0_0" ]
+    "terrain": [ "megastore_1_2_0" ]
   },
   {
     "type": "start_location",
