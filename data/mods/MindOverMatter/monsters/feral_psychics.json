@@ -765,7 +765,7 @@
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "death_function": {
-      "effect": { "id": "death_psychic_scream", "hit_self": false },
+      "effect": { "id": "death_psychic_scream", "hit_self": false, "min_level": 5 },
       "message": "As the %1$s dies, a scream fills your mind!"
     },
     "upgrades": { "half_life": 45, "into": "mon_feral_human_teep2" },
@@ -826,7 +826,7 @@
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "death_function": {
-      "effect": { "id": "death_psychic_scream", "hit_self": false },
+      "effect": { "id": "death_psychic_scream", "hit_self": false, "min_level": 10 },
       "message": "As the %1$s dies, a scream fills your mind!"
     },
     "special_attacks": [
