@@ -6666,12 +6666,12 @@ void prioritise_and_shuffle()
     std::vector<overmap_special_placement> placements_priority_low;
 
     for( auto &placement : placements ) {
-        if( iter->special_details->has_flag( "PRIORITY_HIGH" ) ) {
-            placements_priority_high.push_back( *iter );
-        } else if( iter->special_details->has_flag( "PRIORITY_LOW" ) ) {
-            placements_priority_low.push_back( *iter );
+        if( placement->special_details->has_flag( "PRIORITY_HIGH" ) ) {
+            placements_priority_high.push_back( placement );
+        } else if( placement->special_details->has_flag( "PRIORITY_LOW" ) ) {
+            placements_priority_low.push_back( placement );
         } else {
-            placements_priority_normal.push_back( *iter );
+            placements_priority_normal.push_back( placement );
         }
     }
     std::shuffle( placements_priority_high.begin(), placements_priority_high.end(), rng_get_engine() );
