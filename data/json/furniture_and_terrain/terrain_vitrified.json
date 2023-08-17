@@ -544,7 +544,7 @@
     "name": "black glass drain",
     "description": "A funnel of smooth glass, filled almost to the brim with sand.",
     "symbol": "o",
-    "looks_like": "t_gutter_north",
+    "looks_like": "t_gutter",
     "color": "light_gray",
     "move_cost": 3,
     "flags": [

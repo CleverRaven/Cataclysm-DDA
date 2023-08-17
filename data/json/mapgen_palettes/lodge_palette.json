@@ -114,10 +114,7 @@
       ".": "t_flat_roof",
       "=": "t_flat_roof",
       "%": "t_gutter_downspout",
-      "2": "t_gutter_north",
-      "-": "t_gutter_south",
-      "3": "t_gutter_east",
-      "|": "t_gutter_west",
+      "-": "t_gutter",
       "5": "t_gutter_drop"
     },
     "furniture": {
