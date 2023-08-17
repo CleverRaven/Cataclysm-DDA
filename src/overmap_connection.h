@@ -24,7 +24,7 @@ class overmap_connection
             public:
                 enum class flag : int { orthogonal };
 
-                std::pair<std::string, ot_match_type> terrain;
+                string_id<oter_type_t> terrain; //TODO: Make this std::pair<std::string, ot_match_type>
 
                 int basic_cost = 0;
 
@@ -53,6 +53,7 @@ class overmap_connection
         void finalize();
 
         const cata::flat_set<std::pair<std::pair<std::string, ot_match_type>, unsigned int>> origin_terrains;
+        bool has_city_origin = false;
 
         string_id<overmap_connection> id;
         std::vector<std::pair<string_id<overmap_connection>, mod_id>> src;

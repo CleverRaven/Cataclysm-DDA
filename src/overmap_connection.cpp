@@ -118,25 +118,33 @@ void overmap_connection::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, false, "subtypes", subtypes );
 
-    for( const JsonObject entry : jo.get_array( "origin" ) ) {
+    for( const JsonValue entry : jo.get_array( "origin" ) ) {
 
         std::pair<std::string, ot_match_type> origin_terrain_partial;
         std::pair<std::pair<std::string, ot_match_type>, unsigned int> origin_terrain;
-
-        origin_terrain_partial.first = ( entry.get_string( "om_terrain" ) );
-        if( entry.has_string( "om_terrain_match_type" ) ) {
-        origin_terrain_partial.second = entry.get_enum_value<ot_match_type>( "om_terrain_match_type",
-                                ot_match_type::type );
+        
+        if( entry.test_string() ) {
+            if ( entry == "city" ) {
+                has_city_origin = true;
+            } else {
+                entry.throw_error( "Terrains should be in an object" );
+            }
         } else {
-            origin_terrain_partial.second = ot_match_type::type;
+            origin_terrain_partial.first = ( entry.get_string( "om_terrain" ) );
+            if( entry.has_string( "om_terrain_match_type" ) ) {
+            origin_terrain_partial.second = entry.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                                    ot_match_type::type );
+            } else {
+                origin_terrain_partial.second = ot_match_type::type;
+            }
+            origin_terrain.first = origin_terrain_partial;
+            if ( entry.has_string( "max_distance" ) ) {
+                origin_terrain.second = static_cast<unsigned int>( entry.get_string( "max_distance" ) );
+            } else {
+                origin_terrain.second = 100;
+            }
+            origin_terrains.insert( origin_terrain );
         }
-        origin_terrain.first = origin_terrain_partial;
-        if ( entry.has_string( "max_distance" ) ) {
-            origin_terrain.second = static_cast<unsigned int>( entry.get_string( "max_distance" ) );
-        } else {
-            origin_terrain.second = 100;
-        }
-        origin_terrains.insert( origin_terrain );
     }
 }
 

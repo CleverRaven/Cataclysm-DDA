@@ -1397,47 +1397,71 @@ struct fixed_overmap_special_data : overmap_special_data {
                 if( initial_dir != cube_direction::last ) {
                     initial_dir = initial_dir + dir;
                 }
-                
-                bool made_connection = false;
-                const overmap_connection &connection = *elem.connection;
-                const cata::flat_set<std::pair<std::pair<std::string, ot_match_type>, unsigned int> &origin_terrains = connection.origin_terrains;
 
-                if( connection.connection.origin_is_city() ) {
-                    if( cit ) {
-                        if( om.build_connection_better_name_than_this_hopefully( cit.pos, rp.xy(), elem.p.z, *elem.connection,
-                                            must_be_unexplored, initial_dir ) ) {
-                            made_connection = true;
-                        }
+                const overmap_connection &connection = *elem.connection;
+                cata::flat_set<std::pair<std::pair<std::string, ot_match_type>, unsigned int>> origin_terrains = connection.origin_terrains;
+                point_om_omt connection_point;
+                point_om_omt origin_connection_point;
+                point_om_omt city_connection_point;
+                int distance_to_origin;
+                int distance_to_city;
+
+                bool find_city() {
+                    if( connection.has_city_origin && cit ) {
+                        distance_to_city = cit.get_distance_from( rp );
+                        city_connection_point = cit.pos;
+                        return true;
                     }
-                } else {
-                    for( const tripoint_om_omt &nearby_point : closest_points_first( rp, elem.connection.origin_max_distance ) ) {
-                        for( const std::pair<std::string, ot_match_type> &origin_terrain : *elem.connection.origin_terrains ) {
-                            if( !made_connection && om.check_ot( origin_terrain.first, origin_terrain.second, nearby_point ) ) {
-                                if( om.build_connection_better_name_than_this_hopefully(
-                                    nearby_point.xy(), rp.xy(), elem.p.z, *elem.connection,
-                                    must_be_unexplored, initial_dir ) ) {
-                                    made_connection = true;
-                                }
-                            }
-                        }
-                    }
+                    return false;
                 }
-                if ( !made_connection ) {
-                    for( const tripoint_om_omt &nearby_point : closest_points_first( rp, 100 ) ) { //What's the max number you can use here?
-                        for( const std::pair<std::string, ot_match_type> &connection_terrain : *elem.connection.connection_terrains ) {
-                            if( !made_connection && om.check_ot( connection_terrain.first, connection_terrain.second, nearby_point ) ) {
-                                if( om.build_connection_better_name_than_this_hopefully(
-                                    nearby_point.xy(), rp.xy(), elem.p.z, *elem.connection,
-                                    must_be_unexplored, initial_dir ) ) {
-                                    made_connection = true;
+
+                bool find_origin() {
+                    int max_range = 0;
+                    for ( const std::pair<std::pair<std::string, ot_match_type>, unsigned int> &origin_terrain : origin_terrains ) {
+                        max_range = std::max( max_range, origin_terrain.second;
+                    }
+                    for( const tripoint_om_omt &nearby_point : closest_points_first( rp, max_range ) ) {
+                        while( !origin_terrains.empty() ) {
+                            for( const std::pair<std::pair<std::string, ot_match_type>, unsigned int> &origin_terrain : origin_terrains ) {
+                                if( origin_terrain.second < range ) {
+                                    //ideally remove it from from origin_terrains
+                                    continue;
+                                }
+                                if( om.check_ot( origin_terrain.first.first, origin_terrain.first.second, nearby_point ) ) {
+                                    origin_connection_point = nearby_point.xy();
+                                    distance_to_origin = rp.get_distance_from( nearby_point );
+                                    return true;
                                 }
                             }
                         }
                     }
+                    return false;
+                }
+                
+                bool find_connection() {
+                    for( const tripoint_om_omt &nearby_point : closest_points_first( rp, 200 ) ) {
+                        if( connection.has( nearby_point.ter() ) ) {
+                            connection_point = nearest_point.xy;
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                
+                if( find_origin() || find_city() ) {
+                    if( distance_to_origin < distance_to_city ) {
+                        connection_point = origin_connection_point;
+                    } else {
+                        connection_point = city_connection_point;
+                    }
+                } else if ( find_connection() ) {
+                    om.build_connection( connection_point, rp.xy(), elem.p.z, connection,
+                                    must_be_unexplored, initial_dir ) );
+                } else {
+                    debugmsg( "Failed to form any \"%s\" connection to special.", connection.id.c_str() ); //Find the specials id to name
                 }
             }
         }
-
         return result;
     }
 
@@ -5682,16 +5706,6 @@ void overmap::build_connection(
 }
 
 void overmap::build_connection(
-    const point_om_omt &source, const point_om_omt &dest, int z,
-    const overmap_connection &connection, const bool must_be_unexplored,
-    const cube_direction initial_dir )
-{
-    build_connection(
-        connection, lay_out_connection( connection, source, dest, z, must_be_unexplored ),
-        z, initial_dir );
-}
-
-bool overmap::build_connection_better_name_than_this_hopefully(
     const point_om_omt &source, const point_om_omt &dest, int z,
     const overmap_connection &connection, const bool must_be_unexplored,
     const cube_direction initial_dir )
