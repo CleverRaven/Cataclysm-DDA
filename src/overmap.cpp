@@ -6659,6 +6659,33 @@ overmap_special_id overmap_specials::create_building_from( const string_id<oter_
     return specials.insert( new_special ).id;
 }
 
+void prioritise_and_shuffle() {
+    std::vector<overmap_special_placement> placements_priority_high;
+    std::vector<overmap_special_placement> placements_priority_normal;
+    std::vector<overmap_special_placement> placements_priority_low;
+    
+    for( auto & placement : placements ) {
+        if( iter->special_details->has_flag( "PRIORITY_HIGH" ) ) {
+            placements_priority_high.push_back( *iter );
+        } else if( iter->special_details->has_flag( "PRIORITY_LOW" ) ) {
+            placements_priority_low.push_back( *iter );
+        } else {
+            placements_priority_normal.push_back( *iter );
+        }
+    }
+    
+    std::shuffle( placements_priority_high.begin(), placements_priority_high.end(), rng_get_engine() );
+    std::shuffle( placements_priority_normal.begin(), placements_priority_normal.end(),
+                  rng_get_engine() );
+    std::shuffle( placements_priority_low.begin(), placements_priority_low.end(), rng_get_engine() );
+    
+    placements = placements_priority_high;
+    placements.insert( placements.end(), placements_priority_normal.begin(),
+                       placements_priority_normal.end() );
+    placements.insert( placements.end(), placements_priority_low.begin(),
+                       placements_priority_low.end() );
+}
+
 namespace io
 {
 template<>
