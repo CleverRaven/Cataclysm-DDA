@@ -203,6 +203,7 @@ static const quality_id qual_LIFT( "LIFT" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_survival( "survival" );
+static const skill_id skill_throw( "throw" );
 static const skill_id skill_weapon( "weapon" );
 
 static const species_id species_ROBOT( "ROBOT" );
@@ -14120,6 +14121,10 @@ bool item::on_drop( const tripoint &pos, map &m )
     }
 
     avatar &player_character = get_avatar();
+
+    // set variable storing information of character dropping item
+    dropped_char_stats.throwing = player_character.get_skill_level( skill_throw );
+
     player_character.flag_encumbrance();
     player_character.invalidate_weight_carried_cache();
     return type->drop_action && type->drop_action.call( &player_character, *this, pos );
