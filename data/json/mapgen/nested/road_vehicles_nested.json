@@ -231,6 +231,21 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "24x24_road_curved_layby_vehicles",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_vehicles": [
+        { "vehicle": "food_trucks", "x": 21, "y": 21, "fuel": -1, "status": -1, "chance": 75, "rotation": 90 },
+        { "vehicle": "small_cars_only", "x": 10, "y": 8, "fuel": -1, "status": -1, "chance": 75, "rotation": 225 },
+        { "vehicle": "small_cars_only", "x": 4, "y": 14, "fuel": -1, "status": -1, "chance": 75, "rotation": 225 },
+        { "vehicle": "back_alley", "x": 14, "y": 4, "fuel": -1, "status": -1, "chance": 75, "rotation": 225 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "24x24_road_tee_vehicles",
     "object": {
       "mapgensize": [ 24, 24 ],
