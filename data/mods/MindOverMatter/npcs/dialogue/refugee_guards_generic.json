@@ -24,7 +24,7 @@
   {
     "id": [ "TALK_GUARD_GENERIC_REFUGEE_scan" ],
     "type": "talk_topic",
-    "dynamic_line": [ "<telepathy_generic_guard>" ],
+    "dynamic_line": [ "<telepathy_refugee_guard>", "<telepathy_refugee_guard>", "<telepathy_refugee_guard>", "<telepathy_generic>" ],
     "responses": [ { "text": "…", "topic": "TALK_GUARD" } ]
   },
   {

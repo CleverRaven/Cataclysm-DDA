@@ -67,6 +67,21 @@
   },
   {
     "type": "terrain",
+    "id": "t_thconc_warning",
+    "name": "concrete floor",
+    "description": "A bare and cold concrete floor with painted stripes of black and yellow, could still insulate from the outdoors but roof collapse is possible if supporting walls are broken down.",
+    "symbol": ".",
+    "color": "black",
+    "looks_like": "t_thconc_warning",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "connect_groups": "CONCRETE",
+    "connects_to": "CONCRETE",
+    "move_cost": 2,
+    "roof": "t_concrete_roof",
+    "copy-from": "t_thconc_floor"
+  },
+  {
+    "type": "terrain",
     "id": "t_thconc_y_olight",
     "name": "concrete floor",
     "description": "A bare and cold concrete floor with a streak of yellow paint and a still-functioning light attached to the ceiling above, could still insulate from the outdoors but roof collapse is possible if supporting walls are broken down.",

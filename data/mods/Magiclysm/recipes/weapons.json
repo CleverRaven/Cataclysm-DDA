@@ -358,7 +358,6 @@
     "skills_required": [ [ "spellcraft", 4 ] ],
     "difficulty": 4,
     "time": "120 m",
-    "result_mult": 3,
     "book_learn": [ [ "necro_basic", 3 ] ],
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT_FINE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [
@@ -375,7 +374,8 @@
       [ [ "sinew", 60 ] ],
       [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_tainted", 2 ] ],
       [ [ "needle_bone", 1 ] ]
-    ]
+    ],
+    "charges": 3
   },
   {
     "type": "recipe",
@@ -387,7 +387,6 @@
     "skills_required": [ [ "spellcraft", 5 ] ],
     "difficulty": 5,
     "time": "180 m",
-    "result_mult": 3,
     "book_learn": [ [ "necro_basic", 4 ] ],
     "qualities": [
       { "id": "SEW", "level": 1 },
@@ -409,7 +408,8 @@
       [ [ "sinew", 60 ] ],
       [ [ "bone", 4 ], [ "bone_human", 4 ], [ "bone_tainted", 8 ] ],
       [ [ "needle_bone", 1 ] ]
-    ]
+    ],
+    "charges": 3
   },
   {
     "type": "recipe",
@@ -421,7 +421,6 @@
     "skills_required": [ [ "spellcraft", 7 ] ],
     "difficulty": 7,
     "time": "210 m",
-    "result_mult": 3,
     "book_learn": [ [ "necro_basic", 6 ] ],
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT_FINE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ], [ "rune_animist_weapon_adept", -1 ] ] ],
@@ -437,7 +436,8 @@
       [ [ "sinew", 60 ] ],
       [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_tainted", 2 ] ],
       [ [ "needle_bone", 1 ] ]
-    ]
+    ],
+    "charges": 3
   },
   {
     "type": "recipe",
