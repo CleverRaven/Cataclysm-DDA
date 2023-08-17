@@ -157,12 +157,15 @@ class overmap_special_batch
             }
 
             std::shuffle( placements_priority_high.begin(), placements_priority_high.end(), rng_get_engine() );
-            std::shuffle( placements_priority_normal.begin(), placements_priority_normal.end(), rng_get_engine() );
+            std::shuffle( placements_priority_normal.begin(), placements_priority_normal.end(),
+                          rng_get_engine() );
             std::shuffle( placements_priority_low.begin(), placements_priority_low.end(), rng_get_engine() );
 
             placements = placements_priority_high;
-            placements.insert( placements.end(), placements_priority_normal.begin(), placements_priority_normal.end() );
-            placements.insert( placements.end(), placements_priority_low.begin(), placements_priority_low.end() );
+            placements.insert( placements.end(), placements_priority_normal.begin(),
+                               placements_priority_normal.end() );
+            placements.insert( placements.end(), placements_priority_low.begin(),
+                               placements_priority_low.end() );
         }
         point_abs_om get_origin() const {
             return origin_overmap;

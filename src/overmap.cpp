@@ -6177,9 +6177,7 @@ bool overmap::place_special_attempt(
     const tripoint_om_omt p( rng( p2.x(), p2.x() + sector_width - 1 ),
                              rng( p2.y(), p2.y() + sector_width - 1 ), 0 );
     const city &nearest_city = get_nearest_city( p );
-    
     enabled_specials.prioritise_and_shuffle();
-    
     for( auto iter = enabled_specials.begin(); iter != enabled_specials.end(); ++iter ) {
         const overmap_special &special = *iter->special_details;
         const overmap_special_placement_constraints &constraints = special.get_constraints();
