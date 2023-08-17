@@ -6659,7 +6659,7 @@ overmap_special_id overmap_specials::create_building_from( const string_id<oter_
     return specials.insert( new_special ).id;
 }
 
-void prioritise_and_shuffle()
+void overmap_special_batch::prioritise_and_shuffle()
 {
     std::vector<overmap_special_placement> placements_priority_high;
     std::vector<overmap_special_placement> placements_priority_normal;
