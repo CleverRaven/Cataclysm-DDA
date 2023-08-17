@@ -94,7 +94,7 @@
         ".": "t_shingle_flat_roof",
         ",": "t_linoleum_gray",
         "!": "t_gutter_drop",
-        "-": "t_gutter",
+        "-": "t_gutter"
       }
     }
   },

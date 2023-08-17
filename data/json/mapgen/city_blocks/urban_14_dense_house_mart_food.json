@@ -308,7 +308,7 @@
         "B": "t_linoleum_gray",
         "F": "t_linoleum_gray",
         "O": "t_linoleum_gray",
-        "-": "t_linoleum_gray",
+        ",": "t_linoleum_gray",
         "Y": "t_linoleum_gray"
       },
       "furniture": { "!": [ "f_indoor_plant_y", "f_indoor_plant" ], "&": "f_stool", ")": "f_beaded_door" },
