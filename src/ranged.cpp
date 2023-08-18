@@ -975,7 +975,9 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     const islot_gun &firing = *gun.type->gun;
     for( const std::pair<const bodypart_str_id, int> &hurt_part : firing.hurt_part_when_fired ) {
         apply_damage( nullptr, bodypart_id( hurt_part.first ), hurt_part.second );
-        add_msg_player_or_npc( _( "Your %s is hurt by the recoil!" ), _( "<npcname>'s %s is hurt by the recoil!" ), body_part_name_accusative( bodypart_id( hurt_part.first ) ) );
+        add_msg_player_or_npc( _( "Your %s is hurt by the recoil!" ),
+                               _( "<npcname>'s %s is hurt by the recoil!" ),
+                               body_part_name_accusative( bodypart_id( hurt_part.first ) ) );
     }
 
     // Practice the base gun skill proportionally to number of hits, but always by one.
