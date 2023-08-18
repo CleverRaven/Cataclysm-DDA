@@ -303,9 +303,9 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
         }
     }
 
-	if( gun->has_flag( json_flag_ALWAYS_AIMED ) ) {
-		you.recoil = 0;
-	}
+    if( gun->has_flag( json_flag_ALWAYS_AIMED ) ) {
+        you.recoil = 0;
+    }
 
     g->temp_exit_fullscreen();
     target_handler::trajectory trajectory = target_handler::mode_fire( you, *this );
