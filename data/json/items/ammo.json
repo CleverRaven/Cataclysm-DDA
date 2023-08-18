@@ -1146,7 +1146,7 @@
   {
     "type": "AMMO",
     "id": "gasfilter_s",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "price": 2500,
     "price_postapoc": 500,
     "name": { "str": "filter mask cartridge" },
@@ -1161,7 +1161,7 @@
   {
     "type": "AMMO",
     "id": "gasfilter_m",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "price": 2500,
     "price_postapoc": 750,
     "name": { "str": "gas mask cartridge" },
