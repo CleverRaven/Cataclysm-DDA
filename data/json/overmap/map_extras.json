@@ -51,7 +51,7 @@
     "type": "map_extra",
     "name": { "str": "Road Mayhem" },
     "description": "Road mayhem is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_mayhem" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_mayhem" },
     "min_max_zlevel": [ 0, 0 ],
     "sym": "M",
     "color": "light_red",
