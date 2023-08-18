@@ -336,10 +336,7 @@
       },
       {
         "text": "[Detail the road to the warehouse.  This will advance time by ten minutes.]",
-        "effect": [
-          { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" },
-          { "u_add_faction_trust": 5 }
-        ],
+        "effect": [ { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" }, { "u_add_faction_trust": 5 } ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
       }
     ]
