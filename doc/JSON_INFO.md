@@ -1781,6 +1781,18 @@ Example:
 
 This gives the player pants, two rocks, a t-shirt with the snippet id "allyourbase" (giving it a special description), socks and (depending on the gender) briefs or panties.
 
+#### `age_lower`
+
+(optional, int)
+The lowest age that a character with this profession can generate with. 
+This places no limits on manual input, only on random generation (i.e. Play Now!). Defaults to 21.
+
+#### `age_upper`
+
+(optional, int)
+The highest age that a character with this profession can generate with.
+This places no limits on manual input, only on random generation (i.e. Play Now!). Defaults to 55.
+
 #### `pets`
 
 (optional, array of string mtype_ids )
