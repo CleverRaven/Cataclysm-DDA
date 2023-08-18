@@ -331,9 +331,7 @@
       {
         "text": "(insert appropriate text here)",
         "condition": { "compare_int": [ { "u_val": "var", "var_name": "rebooted_locator" }, "==", { "const": 1 } ] },
-        "effect": [
-          { "u_add_faction_trust": 5 }
-        ],
+        "effect": [ { "u_add_faction_trust": 5 } ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
       },
       {
