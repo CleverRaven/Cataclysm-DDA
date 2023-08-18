@@ -537,6 +537,8 @@ citrine
 citrines
 civilizational
 clairly
+clairsentience
+clairsentient
 clambers
 clanged
 clanker
@@ -2321,6 +2323,8 @@ pseudomagical
 pseudopod
 pseudopods
 pshht
+psionic
+psionics
 psychiatrically
 psychochemical
 psychopharmacological

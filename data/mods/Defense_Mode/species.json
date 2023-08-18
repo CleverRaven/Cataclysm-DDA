@@ -1,9 +1,9 @@
 [
   {
     "type": "SPECIES",
-    "id": "SPIDER",
+    "id": "SPIDER_DM",
     "description": "a spider",
-    "//": "Adding the ALL_SEEING flag lets monsters track your position without fancy C++ stuff.",
+    "//": "Adding the ALL_SEEING and NEMESIS flags lets monsters track your position without fancy C++ stuff.",
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "flags": [ "ALL_SEEING", "NEMESIS" ],
@@ -47,5 +47,11 @@
     "description": "a creature from the mi-go homeworld",
     "flags": [ "ALL_SEEING", "NEMESIS" ],
     "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "NETHER",
+    "flags": [ "ALL_SEEING", "NEMESIS" ],
+    "description": "a nether creature"
   }
 ]

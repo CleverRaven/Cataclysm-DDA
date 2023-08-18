@@ -387,12 +387,10 @@ bool Single_item_creator::remove_item( const itype_id &itemid )
             type = S_NONE;
             return true;
         }
-    } else if( type == S_ITEM_GROUP ) {
-        Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
-        if( isd != nullptr ) {
-            isd->remove_item( itemid );
-        }
     }
+    // This part of code is currently only used in Item_factory::finalize_item_blacklist(), not during the game.
+    // Else if type == S_ITEM_GROUP, the group must have been indexed in m_template_groups,
+    // and finalize_item_blacklist() will deal with it, so no need to find it and call its remove_item().
     return type == S_NONE;
 }
 
@@ -407,12 +405,10 @@ void Single_item_creator::replace_items( const std::unordered_map<itype_id, ityp
         if( it != replacements.end() ) {
             id = it->second.str();
         }
-    } else if( type == S_ITEM_GROUP ) {
-        Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
-        if( isd != nullptr ) {
-            isd->replace_items( replacements );
-        }
     }
+    // This part of code is currently only used in Item_factory::finalize_item_blacklist(), not during the game.
+    // Else if type == S_ITEM_GROUP, the group must have been indexed in m_template_groups,
+    // and finalize_item_blacklist() will deal with it, so no need to find it and call its replace_items().
 }
 
 bool Single_item_creator::has_item( const itype_id &itemid ) const

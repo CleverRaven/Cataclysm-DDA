@@ -3599,6 +3599,39 @@ class jmapgen_nested : public jmapgen_piece
                     return neighbors.empty();
                 }
         };
+        class predecessor_oter_check
+        {
+            private:
+                cata::flat_set<std::pair<std::string, ot_match_type>> allowed_predecessors;
+            public:
+                explicit predecessor_oter_check( const JsonArray &jarr ) {
+                    for( const JsonValue entry : jarr ) {
+                        std::pair<std::string, ot_match_type> allowed_predecessor;
+                        if( entry.test_string() ) {
+                            allowed_predecessor.first = entry.get_string();
+                            allowed_predecessor.second = ot_match_type::contains;
+                        } else {
+                            JsonObject jo = entry.get_object();
+                            allowed_predecessor.first = jo.get_string( "om_terrain" );
+                            allowed_predecessor.second = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                                                         ot_match_type::contains );
+                        }
+                        allowed_predecessors.insert( allowed_predecessor );
+                    }
+                }
+
+                bool test( const mapgendata &dat ) const {
+                    const std::vector<oter_id> predecessors = dat.get_predecessors();
+                    for( const std::pair<std::string, ot_match_type> &allowed_predecessor : allowed_predecessors ) {
+                        for( const oter_id &predecessor : predecessors ) {
+                            if( is_ot_match( allowed_predecessor.first, predecessor, allowed_predecessor.second ) ) {
+                                return true;
+                            }
+                        }
+                    }
+                    return allowed_predecessors.empty();
+                }
+        };
 
     public:
         weighted_int_list<mapgen_value<nested_mapgen_id>> entries;
@@ -3607,11 +3640,13 @@ class jmapgen_nested : public jmapgen_piece
         neighbor_join_check neighbor_joins;
         neighbor_flag_check neighbor_flags;
         neighbor_flag_any_check neighbor_flags_any;
+        predecessor_oter_check predecessors;
         jmapgen_nested( const JsonObject &jsi, const std::string_view/*context*/ )
             : neighbor_oters( jsi.get_object( "neighbors" ) )
             , neighbor_joins( jsi.get_object( "joins" ) )
             , neighbor_flags( jsi.get_object( "flags" ) )
-            , neighbor_flags_any( jsi.get_object( "flags_any" ) ) {
+            , neighbor_flags_any( jsi.get_object( "flags_any" ) )
+            , predecessors( jsi.get_array( "predecessors" ) ) {
             if( jsi.has_member( "chunks" ) ) {
                 load_weighted_list( jsi.get_member( "chunks" ), entries, 100 );
             }
@@ -3652,7 +3687,7 @@ class jmapgen_nested : public jmapgen_piece
         const weighted_int_list<mapgen_value<nested_mapgen_id>> &get_entries(
         const mapgendata &dat ) const {
             if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) && neighbor_flags.test( dat ) &&
-                neighbor_flags_any.test( dat ) ) {
+                neighbor_flags_any.test( dat ) && predecessors.test( dat ) ) {
                 return entries;
             } else {
                 return else_entries;

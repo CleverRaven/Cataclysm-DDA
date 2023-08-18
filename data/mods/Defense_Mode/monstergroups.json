@@ -12,11 +12,41 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_SPIDER_DM",
+    "default": "mon_spider_web_dm",
+    "monsters": [
+      { "monster": "mon_spider_cellar_giant_dm", "weight": 205 },
+      { "monster": "mon_spider_web_dm", "weight": 300, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_spider_jumping_mega_dm", "weight": 160, "cost_multiplier": 0 },
+      { "monster": "mon_spider_widow_giant_dm", "weight": 160, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_ROBOT_DM",
     "monsters": [
       { "monster": "mon_manhack", "weight": 515, "cost_multiplier": 0 },
       { "monster": "mon_skitterbot", "weight": 220, "cost_multiplier": 0 },
       { "monster": "mon_molebot", "weight": 40, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NETHER_DM",
+    "default": "mon_blank",
+    "monsters": [
+      { "monster": "mon_blank", "weight": 135, "cost_multiplier": 0 },
+      { "monster": "mon_flying_polyp", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_yugg", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "weight": 210, "cost_multiplier": 0 },
+      { "monster": "mon_gozu", "weight": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NEMESIS",
+    "default": "mon_zombie_nemesis",
+    "//": "nemesis squad, exists here to remove them from Defense Mode",
+    "monsters": [ { "monster": "mon_zombie", "freq": 1000, "cost_multiplier": 0 } ]
   }
 ]

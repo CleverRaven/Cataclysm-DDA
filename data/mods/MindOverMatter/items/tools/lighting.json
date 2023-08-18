@@ -43,7 +43,7 @@
       "menu_text": "Turn off",
       "type": "transform",
       "msg": "You turn the flashlight off.",
-      "target": "flashlight",
+      "target": "pyrokinetic_flashlight",
       "ammo_scale": 0
     },
     "flags": [ "LIGHT_225", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "WATER_BREAK" ]

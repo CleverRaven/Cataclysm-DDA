@@ -39,7 +39,7 @@
     "type": "start_location",
     "id": "megastore",
     "name": "Megastore",
-    "terrain": [ "megastore_0_0_0" ]
+    "terrain": [ "megastore_1_2_0" ]
   },
   {
     "type": "start_location",
