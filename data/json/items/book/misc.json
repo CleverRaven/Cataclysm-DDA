@@ -1493,5 +1493,43 @@
         "weight": 1
       }
     ]
-  }
+  },
+  {
+  "id": "fullmoon_highnoon",
+  "type": "BOOK",
+  "name": { "str": "Full Moon at High Noon", "str_pl": "copies of Full Moon at High Noon" },
+  "description": "A pseudoscientific documentary on the effects of solar eclipses on vampires and other sunlight-averse creatures from many a folklore. The book contains intricate handrawn renditions of rituals taken by the sunlight averse during the eclipse and rituals done in hopes of bringing an eclipse close. On the last few pages of this book are scarlet scribbles that resemble the ritual circles present in the book and a Mi-Go",
+  "//": "written by Mlazboyo on reddit",
+  "weight": "700 g",
+  "volume": "750 ml",
+  "price": 1250,
+  "price_postapoc": 50,
+  "material": [ "paper", "cardboard" ],
+  "symbol": "?",
+  "looks_like": "story_book",
+  "color": "blue",
+  "intelligence": 10,
+  "time": "25 m",
+  "chapters": 35,
+  "fun": 2
+},
+{
+  "id": "radiant_twilight",
+  "type": "BOOK",
+  "name": { "str": "Radiant Twilight", "str_pl": "copies of Radiant Twilight" },
+  "description": "The young swordsman, Asuma and dark elf Kimzel set out to tame five great spirits to save the kingdom.",
+  "//": "written by novelai",
+  "weight": "800 g",
+  "volume": "1000 ml",
+  "price": 1250,
+  "price_postapoc": 50,
+  "material": [ "paper", "cardboard" ],
+  "symbol": "?",
+  "looks_like": "story_book",
+  "color": "light_blue",
+  "intelligence": 10,
+  "time": "26 m",
+  "chapters": 16,
+  "fun": 3
+ }
 ]
