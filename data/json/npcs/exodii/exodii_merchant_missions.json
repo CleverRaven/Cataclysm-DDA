@@ -299,7 +299,11 @@
     "//~": "Unfortunately no. We have no idea of where it is now. Maybe some other survivors could help you with that.",
     "responses": [
       { "text": "Shouldn't your quads be able to do that?", "topic": "TALK_EXODII_MERCHANT_mission_2_explain" },
-      { "text": "Then I'll find it.", "topic": "TALK_DONE", "effect": { "assign_mission": "EXODII_MISSION_WAREHOUSE" } },
+      {
+        "text": "Then I'll find it.",
+        "topic": "TALK_DONE",
+        "effect": { "assign_mission": "EXODII_MISSION_WAREHOUSE" }
+      },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
