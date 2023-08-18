@@ -3661,7 +3661,7 @@
   {
     "id": "aquarium_medium_drying",
     "type": "GENERIC",
-    "category": "container",
+    "category": "other",
     "name": { "str": "50 gallon aquarium (drying)", "str_pl": "50 gallon aquariums (drying)" },
     "description": "A 50-gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
     "weight": "45 kg",
@@ -3725,7 +3725,7 @@
   {
     "id": "aquarium_small_drying",
     "type": "GENERIC",
-    "category": "container",
+    "category": "other",
     "name": { "str": "30 gallon aquarium (drying)", "str_pl": "30 gallon aquariums (drying)" },
     "description": "A 30-gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
     "weight": "22 kg",
@@ -3790,7 +3790,7 @@
   {
     "id": "aquarium_large_drying",
     "type": "GENERIC",
-    "category": "container",
+    "category": "other",
     "name": { "str": "100 gallon aquarium (drying)", "str_pl": "100 gallon aquariums (drying)" },
     "description": "A 100-gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
     "weight": "80 kg",
