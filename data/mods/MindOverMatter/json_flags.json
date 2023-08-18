@@ -1,5 +1,10 @@
 [
   {
+    "id": "LIFESHIELD",
+    "type": "json_flag",
+    "info": "You are immune to life drain."
+  },
+  {
     "id": "TELEKIN_SHIELD",
     "type": "json_flag",
     "//": "Immune to telekinetic damage"
@@ -53,6 +58,11 @@
     "id": "MATRIX_CRYSTAL_CORUSCATING",
     "type": "json_flag",
     "info": "This is a matrix crystal with an unclear attunement."
+  },
+  {
+    "id": "ENERVATE_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to cellular breakdown"
   },
   {
     "id": "TELEKIN_IMMUNE",
