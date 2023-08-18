@@ -17,7 +17,7 @@
   {
     "type": "overmap_special",
     "id": "Strange warehouse",
-    "//": "Exodii warehouse whose localisation was lost during the jump.",
+    "//": "Exodii warehouse whose localisation was lost during the jump that should become globally unique after quest is fully implemented.",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "exo_warehouse_1_north" },
       { "point": [ 0, 0, 1 ], "overmap": "exo_warehouse_2_north" }
