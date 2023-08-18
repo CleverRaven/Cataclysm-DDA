@@ -265,7 +265,7 @@
   {
     "id": "smoxygen_tank",
     "type": "TOOL",
-    "name": { "str": "emergency oxygen pack" },
+    "name": { "str": "mini oxygen delivery kit" },
     "description": "A small tank of compressed medical oxygen with a folding regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
     "weight": "800 g",
     "volume": "1100 ml",
@@ -322,8 +322,8 @@
   {
     "id": "oxygen_tank",
     "type": "TOOL",
-    "name": { "str": "emergency oxygen delivery kit" },
-    "category": "drugs",
+    "name": { "str": "oxygen delivery kit" },
+    "category": "tools",
     "description": "A tank of compressed medical oxygen with a regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
     "weight": "2721 g",
     "volume": "3750 ml",
