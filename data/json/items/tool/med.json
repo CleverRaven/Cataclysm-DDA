@@ -321,8 +321,9 @@
   },
   {
     "id": "oxygen_tank",
-    "type": "drugs",
+    "type": "TOOL",
     "name": { "str": "emergency oxygen delivery kit" },
+    "category": "drugs",
     "description": "A tank of compressed medical oxygen with a regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
     "weight": "2721 g",
     "volume": "3750 ml",
