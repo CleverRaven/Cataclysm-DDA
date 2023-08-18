@@ -53,15 +53,15 @@
     }
   },
   {
-    "id": "EXODII_WAREHOUSE",
+    "id": "EXODII_MISSION_WAREHOUSE",
     "name": { "str": "Find the lost Exodii warehouse and reboot its locator antenna." },
     "type": "mission_definition",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "exo_warehouse_1",
+    "start": { "effect": { "u_spawn_item": "warehouse_rebooter" } },
     "end": { "effect": [ { "u_add_var": "u_found_warehouse", "type": "mission", "context": "completed", "value": "yes" } ] },
     "difficulty": 5,
     "value": 2,
-    "item": "warehouse_rebooter",
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "",
@@ -273,10 +273,10 @@
       "days_since_cataclysm": 28,
       "yes": "Well an surely, fruit gum!",
       "no": {
-        "compare_num": [ { "global_val": "var", "var_name": "u_talked_to_hub" }, "=", { "const": 1 } ],
+        "compare_int": [ { "global_val": "var", "var_name": "u_talked_to_hub" }, "==", { "const": 1 } ],
         "yes": "Well an surely, fruit gum!  Mayhap this be a chance to show y'self a true, for Rubik's got sommat to ask yet again.  The way o' the Exode is t'shimmy an' wobble, an' on thislike wobble, a few bits wobbled off, kennit?  'Tis rightful common, alack.  One such is hidden for our escolts an' our screeds.  Mayhap as y'know the lands, ye'd have a see of it?",
         "no": {
-          "compare_num": [ { "npc_val": "var", "var_name": "exodii_knows_hub01" }, "=", { "const": 1 } ],
+          "compare_int": [ { "npc_val": "var", "var_name": "exodii_knows_hub01" }, "==", { "const": 1 } ],
           "yes": "Well an surely, fruit gum!  For an' such as ye've done us a good.",
           "no": "Well an surely, fruit gum!"
         }
@@ -304,11 +304,11 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_2_intro1",
     "type": "talk_topic",
-    "dynamic_line": "",
+    "dynamic_line": "INSERT_ANGLIK_HERE",
     "//~": "Unfortunately no. We have no idea of where it is now. Maybe some other survivors could help you with that.",
     "responses": [
       { "text": "Shouldn't your quads be able to do that?", "topic": "TALK_EXODII_MERCHANT_mission_2_explain" },
-      { "text": "Then I'll find it.", "topic": "TALK_DONE", "effect": { "assign_mission": "EXODII_WAREHOUSE" } },
+      { "text": "Then I'll find it.", "topic": "TALK_DONE", "effect": { "assign_mission": "EXODII_MISSION_WAREHOUSE" } },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
@@ -316,10 +316,10 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_2_explain",
     "type": "talk_topic",
-    "dynamic_line": "",
+    "dynamic_line": "INSERT_ANGLIK_HERE",
     "//~": "Without any indication of its location, we cannot risk our quads when we can't even guarantee we would find the warehouse.",
     "responses": [
-      { "text": "Then I'll find it.", "topic": "TALK_DONE", "effect": { "assign_mission": "EXODII_WAREHOUSE" } },
+      { "text": "Then I'll find it.", "topic": "TALK_DONE", "effect": { "assign_mission": "EXODII_MISSION_WAREHOUSE" } },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
@@ -328,19 +328,25 @@
     "id": "TALK_EXODII_MERCHANT_mission_2_complete",
     "type": "talk_topic",
     "dynamic_line": {
-      "compare_num": [ { "u_val": "rebooted_locator" }, "=", { "const": 1 } ],
+      "compare_int": [ { "u_val": "var", "var_name": "rebooted_locator" }, "==", { "const": 1 } ],
       "yes": "(insert congratulations here)",
       "no": "(maybe a joke about not using the rebooter and surely a request to be told the path to the warehouse)"
     },
     "responses": [
       {
         "text": "(insert appropriate text here)",
-        "condition": { "compare_num": [ { "u_val": "var", "var_name": "rebooted_locator" }, "", { "const": 1 } ] },
+        "condition": { "compare_int": [ { "u_val": "var", "var_name": "rebooted_locator" }, "==", { "const": 1 } ] },
+        "effect": [
+          { "u_add_faction_trust": 5 }
+        ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
       },
       {
         "text": "[Detail the road to the warehouse.  This will advance time by ten minutes.]",
-        "effect": { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" },
+        "effect": [
+          { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" },
+          { "u_add_faction_trust": 5 }
+        ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
       }
     ]

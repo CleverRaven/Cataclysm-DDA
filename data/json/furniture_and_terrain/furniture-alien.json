@@ -699,19 +699,23 @@
       "type": "effect_on_condition",
       "effect_on_conditions": [
         {
-          "id": "EOC_EXODII_LOCATOR_FALSE",
-          "condition": { "not": { "u_has_item": "warehouse_rebooter" } },
+          "id": "EOC_EXOWARE_LOCATOR_ACTIVE",
+          "condition": { "compare_int": [ { "u_val": "var", "var_name": "rebooted_locator" }, "==", { "const": 1 } ] },
+          "effect": [ { "u_message": "The locator is already active" } ]
+        },
+        {
+          "id": "EOC_EXOWARE_LOCATOR_FALSE",
+          "condition": { "and": [  { "not": { "u_has_item": "warehouse_rebooter" } }, { "compare_int": [ { "u_val": "var", "var_name": "rebooted_locator" }, "==", { "const": 0 } ] } ] },
           "effect": [ { "u_message": "You don't have anything that could reactivate this device" } ]
         },
         {
-          "id": "EOC_EXODII_LOCATOR",
+          "id": "EOC_EXOWARE_LOCATOR",
           "condition": { "u_has_item": "warehouse_rebooter" },
           "effect": [
             {
-              "u_message": "You plug the rebooter in the locator.\n<color_light_green>The locator reactivates.</color>",
-              "popup": true
+              "u_message": "You plug the rebooter in the locator.\n<color_light_green>The locator reactivates.</color>"
             },
-            { "u_sell_item": "warehouse_rebooter" },
+            { "u_consume_item": "warehouse_rebooter" },
             { "arithmetic": [ { "u_val": "var", "var_name": "rebooted_locator" }, "=", { "const": 1 } ] }
           ]
         }
