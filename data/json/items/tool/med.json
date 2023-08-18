@@ -32,7 +32,7 @@
   },
   {
     "id": "anesthetic_kit",
-    "type": "TOOL",
+    "type": "drugs",
     "name": { "str": "anesthesia kit" },
     "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgesic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
     "weight": "100 g",
@@ -231,6 +231,7 @@
     "type": "TOOL",
     "name": { "str": "RX12 jet injector" },
     "description": "A Rivtech RX12 jet injector, a small pistol-shaped device used to inject advanced fast-healing chemicals through the skin without using a needle.  A label on the side warns against using more than two doses per hour.",
+    "category": "drugs",
     "weight": "316 g",
     "volume": "500 ml",
     "price": 100000,
