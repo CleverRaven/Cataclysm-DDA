@@ -195,8 +195,8 @@ void profession::load( const JsonObject &jo, const std::string_view )
         _description_male = to_translation( "prof_desc_male", desc_male );
         _description_female = to_translation( "prof_desc_female", desc_female );
     }
-    age_lower = jo.get_int( "age_lower", 21 );
-    age_upper = jo.get_int( "age_upper", 55 );
+    optional( jo, was_loaded, "age_lower", age_lower );
+    optional( jo, was_loaded, "age_upper", age_upper );
 
     if( jo.has_string( "vehicle" ) ) {
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
