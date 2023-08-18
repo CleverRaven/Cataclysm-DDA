@@ -5,7 +5,7 @@
     "copy-from": "spinach",
     "name": { "str_sp": "kelp" },
     "description": "Thin wafers of kelp, the essential greens of frontier cuisine.  These were probably grown in some farm ship or another.",
-    "volume": "1500 ml"
+    "volume": "166 ml"
   },
   {
     "id": "afs_kibble",
@@ -15,12 +15,11 @@
     "description": "Kibble made for humans.  A heavy dressing of spices makes it impossible to discern the original flavours it might have had.",
     "weight": "223 g",
     "spoils_in": "1 day",
-    "volume": "250 ml",
-    "price": 500,
+    "volume": "125 ml",
+    "price": "250 cent",
     "to_hit": -5,
     "material": [ "veggy" ],
     "symbol": ";",
-    "charges": 2,
     "quench": 2,
     "calories": 800,
     "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "bad_food", 1 ] ],

@@ -259,9 +259,6 @@ WORLD *worldfactory::make_new_world( special_game_type special_type )
         case special_game_type::TUTORIAL:
             worldname = "TUTORIAL";
             break;
-        case special_game_type::DEFENSE:
-            worldname = "DEFENSE";
-            break;
         default:
             return nullptr;
     }

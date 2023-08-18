@@ -39,6 +39,7 @@
 #include "math_parser_shim.h"
 #include "mission.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -461,6 +462,22 @@ void conditional_t::set_has_trait( const JsonObject &jo, const std::string &memb
     };
 }
 
+void conditional_t::set_has_visible_trait( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var trait_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [trait_to_check, is_npc]( dialogue const & d ) {
+        const talker *observer = d.actor( !is_npc );
+        const talker *observed = d.actor( is_npc );
+        int visibility_cap = observer->get_character()->get_mutation_visibility_cap(
+                                 observed->get_character() );
+        bool observed_has = observed->has_trait( trait_id( trait_to_check.evaluate( d ) ) );
+        const mutation_branch &mut_branch = trait_id( trait_to_check.evaluate( d ) ).obj();
+        bool is_visible = mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap;
+        return observed_has && is_visible;
+    };
+}
+
 void conditional_t::set_has_martial_art( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
@@ -766,19 +783,20 @@ void conditional_t::set_at_om_location( const JsonObject &jo, const std::string 
     condition = [location, is_npc]( dialogue const & d ) {
         const tripoint_abs_omt omt_pos = d.actor( is_npc )->global_omt_location();
         const oter_id &omt_ter = overmap_buffer.ter( omt_pos );
-        const std::string &omt_str = omt_ter.id().c_str();
+        const std::string &omt_str = omt_ter.id().str();
+        std::string location_value = location.evaluate( d );
 
-        if( location.evaluate( d ) == "FACTION_CAMP_ANY" ) {
+        if( location_value == "FACTION_CAMP_ANY" ) {
             std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
             if( bcp ) {
                 return true;
             }
             // TODO: legacy check to be removed once primitive field camp OMTs have been purged
             return omt_str.find( "faction_base_camp" ) != std::string::npos;
-        } else if( location.evaluate( d ) == "FACTION_CAMP_START" ) {
+        } else if( location_value == "FACTION_CAMP_START" ) {
             return !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty();
         } else {
-            return oter_no_dir( omt_ter ) == location.evaluate( d );
+            return oter_no_dir( omt_ter ) == location_value;
         }
     };
 }
@@ -793,9 +811,10 @@ void conditional_t::set_near_om_location( const JsonObject &jo, const std::strin
         for( const tripoint_abs_omt &curr_pos : points_in_radius( omt_pos,
                 range.evaluate( d ) ) ) {
             const oter_id &omt_ter = overmap_buffer.ter( curr_pos );
-            const std::string &omt_str = omt_ter.id().c_str();
+            const std::string &omt_str = omt_ter.id().str();
+            std::string location_value = location.evaluate( d );
 
-            if( location.evaluate( d ) == "FACTION_CAMP_ANY" ) {
+            if( location_value == "FACTION_CAMP_ANY" ) {
                 std::optional<basecamp *> bcp = overmap_buffer.find_camp( curr_pos.xy() );
                 if( bcp ) {
                     return true;
@@ -804,11 +823,11 @@ void conditional_t::set_near_om_location( const JsonObject &jo, const std::strin
                 if( omt_str.find( "faction_base_camp" ) != std::string::npos ) {
                     return true;
                 }
-            } else if( location.evaluate( d ) == "FACTION_CAMP_START" &&
+            } else if( location_value  == "FACTION_CAMP_START" &&
                        !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty() ) {
                 return true;
             } else {
-                if( oter_no_dir( omt_ter ) == location.evaluate( d ) ) {
+                if( oter_no_dir( omt_ter ) == location_value ) {
                     return true;
                 }
             }
@@ -1683,7 +1702,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             }
         }
         return [eoc_id, given_unit]( dialogue const & ) {
-            std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> copy_queue =
+            queued_eocs copy_queue =
                 g->queued_global_effect_on_conditions;
             time_point turn;
             bool found = false;
@@ -2886,7 +2905,7 @@ void eoc_math::_validate_type( JsonArray const &objects, type_t type_ ) const
         if( action == oper::assign ) {
             objects.throw_error(
                 R"(Assignment operator "=" can't be used in a conditional statement.  Did you mean to use "=="? )" );
-        } else {
+        } else if( action != oper::ret ) {
             objects.throw_error( "Only comparison operators can be used in conditional statements" );
         }
     } else if( type_ == type_t::ret && action > oper::ret ) {
@@ -3212,6 +3231,10 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_has_trait( jo, "u_has_trait" );
     } else if( jo.has_member( "npc_has_trait" ) ) {
         set_has_trait( jo, "npc_has_trait", true );
+    } else if( jo.has_member( "u_has_visible_trait" ) ) {
+        set_has_visible_trait( jo, "u_has_visible_trait" );
+    } else if( jo.has_member( "npc_has_visible_trait" ) ) {
+        set_has_visible_trait( jo, "npc_has_visible_trait", true );
     } else if( jo.has_member( "u_has_martial_art" ) ) {
         set_has_martial_art( jo, "u_has_martial_art" );
     } else if( jo.has_member( "npc_has_martial_art" ) ) {

@@ -681,7 +681,7 @@ template<typename value_type>
 inline constexpr quantity<value_type, length_in_millimeter_tag> from_kilometer(
     const value_type v )
 {
-    return from_millimeter<value_type>( v * 1'000'000 );
+    return from_millimeter<value_type>( v * 1000000 );
 }
 
 template<typename value_type>
@@ -699,13 +699,13 @@ inline constexpr value_type to_centimeter( const quantity<value_type, length_in_
 template<typename value_type>
 inline constexpr value_type to_meter( const quantity<value_type, length_in_millimeter_tag> &v )
 {
-    return to_millimeter( v ) / 1'000.0;
+    return to_millimeter( v ) / 1000.0;
 }
 
 template<typename value_type>
 inline constexpr value_type to_kilometer( const quantity<value_type, length_in_millimeter_tag> &v )
 {
-    return to_millimeter( v ) / 1'000'000.0;
+    return to_millimeter( v ) / 1000000.0;
 }
 
 template<typename value_type>

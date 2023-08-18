@@ -229,6 +229,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```LASER``` Creates a trail of laser (the field type).
 - ```LIGHTNING``` Creates a trail of lightning.
 - ```magic``` Always best possible hit, do nothing special, no damage mults, nothing.
+- ```MATCHHEAD``` Bullet has a chance of damaging the gun from overpressure regardless of fouling level.
 - ```MININUKE_MOD``` Small thermo-nuclear detonation that leaves behind radioactive fallout.
 - ```MUZZLE_SMOKE``` Generate a small cloud of smoke at the source.
 - ```NAPALM``` Explosion that spreads fire.
@@ -1344,10 +1345,9 @@ Melee flags are fully compatible with tool flags, and vice versa.
 
 - ```ACT_ON_RANGED_HIT```  The item should activate when thrown or fired, then immediately get processed if it spawns on the ground.
 - ```ALLOWS_REMOTE_USE``` This item can be activated or reloaded from adjacent tile without picking it up.
-- ```AUTO_DELETE_CABLE``` This cable is automatically created and deleted by their appliance or device and the player should never be able to directly interact with it.
 - ```BELT_CLIP``` The item can be clipped or hooked on to a belt loop of the appropriate size (belt loops are limited by their max_volume and max_weight properties)
 - ```BOMB``` It can be a remote controlled bomb.
-- ```CABLE_SPOOL``` This item is a cable spool and must be processed as such. It should usually have a "link_up" iuse_action that describes what it can be connected to and how.
+- ```CABLE_SPOOL``` This item is a spool of cable and must be processed as such. It should usually have a "link_up" iuse_action, which it has special behavior for.
 - ```CANNIBALISM``` The item is a food that contains human flesh, and applies all applicable effects when consumed.
 - ```CHARGEDIM``` If illuminated, light intensity fades with charge, starting at 20% charge left.
 - ```DIG_TOOL``` If wielded, digs thorough terrain like rock and walls, as player walks into them. If item also has ```POWERED``` flag, then it digs faster, but uses up the item's ammo as if activating it.

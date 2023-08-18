@@ -354,7 +354,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_missile_exploded",
-      "items": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "plutonium", "charges": [ 0, 3 ] } ]
+      "items": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "plutonium", "count": [ 0, 3 ] } ]
     }
   },
   {

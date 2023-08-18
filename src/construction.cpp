@@ -30,6 +30,7 @@
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
+#include "iteminfo_query.h"
 #include "item_group.h"
 #include "item_stack.h"
 #include "iuse.h"
@@ -337,6 +338,23 @@ const std::vector<construction> &get_constructions()
     return constructions;
 }
 
+static std::string furniture_qualities_string( const furn_id &fid )
+{
+    std::string ret = "\n";
+    // Make a pseudo item instance so we can use qualities_info later
+    const item pseudo( fid->crafting_pseudo_item );
+    // Set up iteminfo query to show qualities
+    std::vector<iteminfo_parts> quality_part = { iteminfo_parts::QUALITIES };
+    const iteminfo_query quality_query( quality_part );
+    // Render info into info_vec
+    std::vector<iteminfo> info_vec;
+    pseudo.qualities_info( info_vec, &quality_query, 1, false );
+    // Get a newline-separated string of quality info, then parse and print each line
+    ret += format_item_info( info_vec, {} );
+
+    return ret;
+}
+
 construction_id construction_menu( const bool blueprint )
 {
     if( !finalized ) {
@@ -473,6 +491,10 @@ construction_id construction_menu( const bool blueprint )
                                             furn_str_id( current_con->post_terrain ).obj().description,
                                             color_data
                                         );
+                        furn_id fid( current_con->post_terrain );
+                        if( !fid->crafting_pseudo_item.is_empty() ) {
+                            current_line += furniture_qualities_string( fid );
+                        }
                     } else {
                         current_line += colorize(
                                             ter_str_id( current_con->post_terrain ).obj().description,
@@ -489,6 +511,10 @@ construction_id construction_menu( const bool blueprint )
                                             furn_str_id( current_con->post_terrain ).obj().description,
                                             color_data
                                         );
+                        furn_id fid( current_con->post_terrain );
+                        if( !fid->crafting_pseudo_item.is_empty() ) {
+                            current_line += furniture_qualities_string( fid );
+                        }
                     } else {
                         current_line += colorize(
                                             ter_str_id( current_con->post_terrain ).obj().description,

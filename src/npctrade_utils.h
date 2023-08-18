@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_NPCTRADE_UTILS_H
 #define CATA_SRC_NPCTRADE_UTILS_H
 #include <list>

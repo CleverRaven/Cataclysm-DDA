@@ -203,7 +203,6 @@
     "type": "recipe",
     "copy-from": "cats_grace_potion",
     "result": "twisted_restore_potion",
-    "result_mult": 5,
     "book_learn": [ [ "necro_basic", 3 ] ],
     "tools": [
       [ [ "surface_heat", 20, "LIST" ] ],
@@ -214,7 +213,8 @@
         [ "rune_animist_weapon_adept", -1 ]
       ]
     ],
-    "components": [ [ [ "potion_starter", 5 ] ], [ [ "edible_blood", 3, "LIST" ] ], [ [ "meat_tainted", 12 ] ] ]
+    "components": [ [ [ "potion_starter", 5 ] ], [ [ "edible_blood", 3, "LIST" ] ], [ [ "meat_tainted", 12 ] ] ],
+    "charges": 5
   },
   {
     "type": "recipe",
@@ -359,7 +359,6 @@
     "copy-from": "flask_healing",
     "result": "twisted_restore_potion_improved",
     "proficiencies": [ { "proficiency": "prof_alchemy" } ],
-    "result_mult": 5,
     "book_learn": [ [ "necro_basic", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
     "tools": [
@@ -371,7 +370,8 @@
       [ [ "edible_blood", 5, "LIST" ] ],
       [ [ "meat_tainted", 15 ] ],
       [ [ "horn_moss_capsule", 5 ] ]
-    ]
+    ],
+    "charges": 5
   },
   {
     "type": "recipe",

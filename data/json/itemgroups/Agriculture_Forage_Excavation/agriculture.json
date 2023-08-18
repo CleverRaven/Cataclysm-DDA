@@ -188,15 +188,20 @@
     "ammo": 100,
     "magazine": 100,
     "subtype": "distribution",
-    "entries": [
-      { "item": "wooden_barrel", "prob": 100, "sealed": true },
-      { "item": "juice_pulp", "prob": 100, "charges": [ 7, 77 ], "container-item": "wooden_barrel" }
-    ]
+    "entries": [ { "item": "wooden_barrel", "prob": 100, "sealed": true }, { "prob": 100, "group": "juice_pulp_wooden_barrel_7_77" } ]
   },
   {
     "type": "item_group",
     "id": "sometimes_manure",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 3 }, { "item": "feces_manure", "prob": 1 } ]
+    "entries": [ { "item": "null", "prob": 3 }, { "item": "feces_manure", "prob": 1, "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "juice_pulp_wooden_barrel_7_77",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "wooden_barrel",
+    "entries": [ { "item": "juice_pulp", "count": [ 7, 77 ] } ]
   }
 ]

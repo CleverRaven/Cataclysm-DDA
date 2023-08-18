@@ -55,16 +55,7 @@
     "sub": "hotplate",
     "charges_per_use": 1,
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
-    "use_action": [
-      "HOTPLATE",
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 7,
-        "charge_rate": "1 kW"
-      }
-    ],
+    "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 7, "charge_rate": "1 kW" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -106,7 +97,7 @@
     "symbol": ";",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "300 W" } ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "300 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -129,7 +120,7 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "150 W" } ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "150 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -264,7 +255,7 @@
     "symbol": "E",
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "color": "dark_gray",
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "1200 W" } ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1200 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -291,7 +282,7 @@
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "qualities": [ [ "EXTRACT", 2 ] ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "600 W" } ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "600 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -331,7 +322,7 @@
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ],
     "ammo": [ "battery" ],
     "qualities": [ [ "EXTRACT", 1 ] ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "1800 W" } ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1800 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -444,7 +435,7 @@
     "material": [ "iron" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "ammo": [ "battery" ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "250 W" } ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "250 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -500,7 +491,7 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "150 W" } ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "150 W" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "storage_battery", "large_storage_battery" ] } ],
     "melee_damage": { "bash": 20 }
   },
@@ -520,7 +511,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "800 W" } ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "800 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ],
     "melee_damage": { "bash": 20 }
@@ -541,7 +532,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "350 W" } ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "350 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "large_storage_battery" ] } ],
     "melee_damage": { "bash": 20 }
@@ -562,7 +553,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "1200 W" } ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1200 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
@@ -1164,7 +1155,7 @@
     "color": "white",
     "charges_per_use": 5,
     "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "400 W" } ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "400 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1229,7 +1220,7 @@
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 5,
     "charged_qualities": [ [ "CONCENTRATE", 1 ] ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 2, "charge_rate": "400 W" } ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "400 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1473,5 +1464,61 @@
         }
       ]
     }
+  },
+  {
+    "id": "weather_glass",
+    "type": "GENERIC",
+    "category": "TOOL",
+    "name": { "str_sp": "Weather glass" },
+    "description": "also called storm glass or 'Goethe barometer', The weather glass barometer consists of a glass container with a sealed body, half filled with water.  A narrow spout connects to the body below the water level and rises above the water level.  the difference between the sealed water level and after opening the narrow spout determines the atmospheric pressure.  Activate to get current atmospheric pressure",
+    "//": "this is based on wikipedia's page on barometers, in section 'water barometers'",
+    "material": [ "glass" ],
+    "weight": "6000 g",
+    "volume": "4 L",
+    "longest_side": "50 cm",
+    "to_hit": -3,
+    "price": 500,
+    "price_postapoc": 100,
+    "symbol": "W",
+    "color": "light_blue",
+    "use_action": [ "WEATHER_TOOL" ],
+    "flags": [ "BAROMETER" ]
+  },
+  {
+    "id": "hygroscope",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "hygroscope" },
+    "description": "This is a small rectangular box, Inside it is a device that measures humidity by utilizing the hygroscopy of hair, The hair's length changes with humidity, And indicated on a dial",
+    "//": "this is based on Hair tension hygrometers, https://en.wikipedia.org/wiki/Hygrometer",
+    "weight": "3000 g",
+    "volume": "2 L",
+    "longest_side": "40 cm",
+    "price": 100,
+    "price_postapoc": 300,
+    "to_hit": -3,
+    "material": [ "wood", "steel" ],
+    "symbol": ";",
+    "color": "light_red",
+    "use_action": [ "WEATHER_TOOL" ],
+    "flags": [ "HYGROMETER" ]
+  },
+  {
+    "id": "glass_thermometer",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "glass thermometer" },
+    "description": "A device used to measure temperature.  This one is made entirely of glass.  Mercury is used as its temperature sensor.  You could use this to get accurate information on current air temperature.",
+    "weight": "600 g",
+    "volume": "700 ml",
+    "longest_side": "15 cm",
+    "price": 100,
+    "price_postapoc": 200,
+    "to_hit": -3,
+    "material": [ "glass" ],
+    "symbol": ";",
+    "color": "light_red",
+    "use_action": [ "WEATHER_TOOL" ],
+    "flags": [ "THERMOMETER" ]
   }
 ]

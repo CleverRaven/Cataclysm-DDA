@@ -1,0 +1,177 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "study the Phavian USB documents",
+    "id": "psi_research_rad_powers",
+    "description": "Study the plethora of documents and files found on the Project PHAVIAN USB.  It has something to do with radiation; beyond that, you're not sure.",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "2 h",
+    "tools": [ [ [ "laptop", -1 ] ], [ [ "psi_usb_rad_recipes", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_UNLOCK_RAD_POWERS",
+        "condition": { "or": [ { "u_has_trait": "VITAKINETIC" }, { "u_has_trait": "CLAIRSENTIENT" } ] },
+        "effect": [
+          { "u_learn_recipe": "psi_research_rad_powers_clair" },
+          { "u_learn_recipe": "psi_research_rad_powers_vita" },
+          {
+            "u_message": "There's a lot here, but you've discovered that it's organized into two main tracks.  One has a lot of detailed scans of the body and health data and is labeled HONEY BRAVO, and the other has a series of photos that seem oddly distorted, charts with some kind of waveforms on them, and other documents and is labeled RED SAFARI.",
+            "type": "neutral"
+          }
+        ],
+        "false_effect": [
+          {
+            "u_message": "You can understand the technical principles but the actual processes make no sense.  It must be some aspect of psionics that you don't possess or don't fully grasp.",
+            "type": "bad"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "study the RED SAFARI documents",
+    "id": "psi_research_rad_powers_clair",
+    "description": "Study the plethora of documents and files found on the Project PHAVIAN USB relating to RED SAFARI.  It has something to do with radiation detection; beyond that, you're not sure.",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 6,
+    "time": "12 h",
+    "tools": [
+      [ [ "laptop", -1 ] ],
+      [ [ "psi_usb_rad_recipes", -1 ] ],
+      [
+        [ "atomic_coffeepot", -1 ],
+        [ "wearable_atomic_light", -1 ],
+        [ "wearable_atomic_light_off", -1 ],
+        [ "atomic_lamp", -1 ],
+        [ "atomic_lamp_off", -1 ],
+        [ "atomic_light", -1 ],
+        [ "atomic_light_off", -1 ],
+        [ "betavoltaic", -1 ],
+        [ "atomic_coffeepot", -1 ],
+        [ "huge_atomic_battery_cell", -1 ],
+        [ "light_atomic_battery_cell", -1 ],
+        [ "medium_atomic_battery_cell", -1 ],
+        [ "light_minus_atomic_battery_cell", -1 ]
+      ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry", "required": false },
+      { "proficiency": "prof_intro_biology", "required": false },
+      { "proficiency": "prof_psionic_basic", "required": true },
+      { "proficiency": "prof_psionic_ritual", "required": false }
+    ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_UNLOCK_RAD_POWERS_CLAIR",
+        "condition": {
+          "and": [
+            { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 10 },
+            { "roll_contested": { "math": [ "u_skill('chemistry')" ] }, "difficulty": 8 },
+            { "math": [ "u_val('spell_level', 'spell: clair_spot_weakness')", ">=", "6" ] },
+            { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "8" ] },
+            { "math": [ "u_val('spell_level', 'spell: clair_voyance')", ">=", "5" ] }
+          ]
+        },
+        "effect": [
+          {
+            "u_message": "This would have been so much easier if you had an actual tutor, but you finally understand.  All the documents, the videos, the reports, they're trying document a method of using clairsentience to detect radiation.  And you're pretty sure you can do it now.",
+            "type": "good"
+          },
+          { "u_roll_remainder": [ "clair_sense_rads" ], "type": "spell" },
+          { "u_learn_recipe": "practice_clair_sense_rads" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          { "u_forget_recipe": "psi_research_rad_powers" }
+        ],
+        "false_effect": [
+          {
+            "u_message": "There's a lot here.  Maybe you didn't understand it, or maybe your powers aren't advanced enough.  You'll need to try again.",
+            "type": "bad"
+          },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          { "u_forget_recipe": "psi_research_rad_powers" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "study the HONEY BRAVO documents",
+    "id": "psi_research_rad_powers_vita",
+    "description": "Study the plethora of documents and files found on the Project PHAVIAN USB relating to HONEY BRAVO.  It has something to do with radiation treatment; beyond that, you're not sure.",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 6,
+    "time": "16 h",
+    "tools": [
+      [ [ "laptop", -1 ] ],
+      [ [ "psi_usb_rad_recipes", -1 ] ],
+      [
+        [ "atomic_coffeepot", -1 ],
+        [ "wearable_atomic_light", -1 ],
+        [ "wearable_atomic_light_off", -1 ],
+        [ "atomic_lamp", -1 ],
+        [ "atomic_lamp_off", -1 ],
+        [ "atomic_light", -1 ],
+        [ "atomic_light_off", -1 ],
+        [ "betavoltaic", -1 ],
+        [ "atomic_coffeepot", -1 ],
+        [ "huge_atomic_battery_cell", -1 ],
+        [ "light_atomic_battery_cell", -1 ],
+        [ "medium_atomic_battery_cell", -1 ],
+        [ "light_minus_atomic_battery_cell", -1 ]
+      ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry", "required": false },
+      { "proficiency": "prof_intro_biology", "required": false },
+      { "proficiency": "prof_pharmaceutical", "required": false },
+      { "proficiency": "prof_psionic_basic", "required": true },
+      { "proficiency": "prof_psionic_ritual", "required": false }
+    ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_UNLOCK_RAD_POWERS_VITA",
+        "condition": {
+          "and": [
+            { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 11 },
+            { "roll_contested": { "math": [ "u_skill('chemistry')" ] }, "difficulty": 8 },
+            { "math": [ "u_val('spell_level', 'spell: vita_pain_split')", ">=", "8" ] },
+            { "math": [ "u_val('spell_level', 'spell: vita_stop_infection')", ">=", "6" ] },
+            { "math": [ "u_val('spell_level', 'spell: vita_healing_trance')", ">=", "2" ] }
+          ]
+        },
+        "effect": [
+          {
+            "u_message": "This would have been so much easier if you had an actual tutor, but you finally understand.  All the documents, the videos, the reports, they're trying document a method of using vitakinesis to cure radiation poisoning.  And you're pretty sure you can do it now.",
+            "type": "good"
+          },
+          { "u_roll_remainder": [ "vita_purge_rads" ], "type": "spell" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          { "u_learn_recipe": "practice_vita_purge_rads" },
+          { "u_forget_recipe": "psi_research_rad_powers" }
+        ],
+        "false_effect": [
+          {
+            "u_message": "There's a lot here.  Maybe you didn't understand it, or maybe your powers aren't advanced enough.  You'll need to try again.",
+            "type": "bad"
+          },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          { "u_forget_recipe": "psi_research_rad_powers" }
+        ]
+      }
+    ]
+  }
+]

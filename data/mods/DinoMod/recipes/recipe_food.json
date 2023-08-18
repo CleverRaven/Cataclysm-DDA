@@ -26,7 +26,6 @@
     "skills_required": [ "tailor", 1 ],
     "time": "110 m",
     "book_learn": [ [ "survival_book", 6 ], [ "scots_cookbook", 3 ] ],
-    "result_mult": 4,
     "batch_time_factors": [ 50, 4 ],
     "using": [ [ "sewing_standard", 4 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 2 } ],
@@ -36,6 +35,7 @@
       [ [ "stomach_sauropod", 1 ] ],
       [ [ "meat_offal", 4, "LIST" ] ],
       [ [ "oatmeal", 16 ], [ "buckwheat", 4 ] ]
-    ]
+    ],
+    "charges": 4
   }
 ]

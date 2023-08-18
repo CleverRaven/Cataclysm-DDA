@@ -3196,8 +3196,8 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                         item *tmp_seed = seed_inv.back();
                         seed_inv.pop_back();
                         std::list<item> used_seed;
+                        used_seed.push_back( *tmp_seed );
                         if( tmp_seed->count_by_charges() ) {
-                            used_seed.push_back( *tmp_seed );
                             tmp_seed->charges -= 1;
                             if( tmp_seed->charges > 0 ) {
                                 seed_inv.push_back( tmp_seed );

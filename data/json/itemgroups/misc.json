@@ -7,17 +7,17 @@
     "entries": [
       {
         "distribution": [
-          { "item": "cig", "prob": 70, "charges": [ 1, 10 ] },
+          { "item": "cig", "prob": 70, "count": [ 1, 10 ], "container-item": "null", "entry-wrapper": "box_cigarette" },
           {
             "collection": [
-              { "item": "tobacco", "charges-min": 1, "charges-max": 20 },
+              { "item": "tobacco", "count-min": 1, "count-max": 20, "container-item": "null", "entry-wrapper": "bag_plastic" },
               {
                 "distribution": [ { "item": "rolling_paper", "prob": 70, "charges-min": 1, "charges-max": 30 }, { "item": "pipe_tobacco", "prob": 30 } ]
               }
             ],
             "prob": 20
           },
-          { "item": "cigar", "prob": 5, "charges": [ 1, 1 ] },
+          { "item": "cigar", "prob": 5, "count": [ 1, 1 ] },
           { "item": "joint", "prob": 5 }
         ]
       },

@@ -90,6 +90,11 @@
   },
   {
     "type": "vehicle_group",
+    "id": "food_trucks",
+    "vehicles": [ [ "icecream_truck", 10 ], [ "food_truck", 10 ], [ "food_truck_taco", 10 ], [ "wienermobile", 1 ] ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "lake",
     "vehicles": [ [ "DUKW", 250 ], [ "cabin_cruiser_wood", 1500 ] ]
   },
@@ -997,6 +1002,11 @@
     ]
   },
   {
+    "id": "food_carts",
+    "type": "vehicle_group",
+    "vehicles": [ [ "ice_cream_cart", 100 ], [ "food_cart", 200 ] ]
+  },
+  {
     "id": "wagons_all",
     "type": "vehicle_group",
     "vehicles": [ [ "gig_carriage", 100 ], [ "stagecoach", 100 ], [ "covered_wagon", 100 ], [ "uncovered_wagon", 100 ] ]
@@ -1020,6 +1030,7 @@
       [ "car_diesel", 750 ],
       [ "car_hatch", 750 ],
       [ "car_hatch_diesel", 400 ],
+      [ "car_hatch_rack", 200 ],
       [ "car_luxury", 500 ],
       [ "suv", 800 ],
       [ "suv_electric", 100 ],
@@ -1028,6 +1039,19 @@
       [ "electric_car", 750 ],
       [ "hippie_van", 250 ],
       [ "car_sports", 30 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "small_cars_only",
+    "vehicles": [
+      [ "car_sports_electric", 50 ],
+      [ "car_mini", 375 ],
+      [ "beetle", 750 ],
+      [ "car_hatch", 750 ],
+      [ "car_hatch_diesel", 400 ],
+      [ "car_hatch_rack", 200 ],
+      [ "car_sports", 50 ]
     ]
   }
 ]
