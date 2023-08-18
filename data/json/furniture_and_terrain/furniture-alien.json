@@ -705,7 +705,12 @@
         },
         {
           "id": "EOC_EXOWARE_LOCATOR_FALSE",
-          "condition": { "and": [  { "not": { "u_has_item": "warehouse_rebooter" } }, { "compare_int": [ { "u_val": "var", "var_name": "rebooted_locator" }, "==", { "const": 0 } ] } ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_item": "warehouse_rebooter" } },
+              { "compare_int": [ { "u_val": "var", "var_name": "rebooted_locator" }, "==", { "const": 0 } ] }
+            ]
+          },
           "effect": [ { "u_message": "You don't have anything that could reactivate this device" } ]
         },
         {
@@ -717,9 +722,7 @@
             ]
           },
           "effect": [
-            {
-              "u_message": "You plug the rebooter in the locator.\n<color_light_green>The locator reactivates.</color>"
-            },
+            { "u_message": "You plug the rebooter in the locator.\n<color_light_green>The locator reactivates.</color>" },
             { "u_consume_item": "warehouse_rebooter" },
             { "arithmetic": [ { "u_val": "var", "var_name": "rebooted_locator" }, "=", { "const": 1 } ] }
           ]
