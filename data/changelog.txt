@@ -220,11 +220,8 @@ Prevent car from spawning into a house wall
 HP widgets gets equivalent bodypart
 Fix grainy glyphs in blended font rendering mode
 Stop dodging good spells, fix uncanny dodge spell crash
-Fix teleportocalypse
-Fix Fountain of Flames
 Fix appliance power drain display right after plugging in/unplugging device
-Prevent deleting furniture with grappling hook
-Do not destroy items when climbing grappling hook
+Fix items and furniture being deleted from grappling hook usage
 
 
 ## Performance:
