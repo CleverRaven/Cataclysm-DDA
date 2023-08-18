@@ -878,7 +878,8 @@
       },
       "male": [ "boxer_briefs" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    }
+    },
+    "age_lower": 18
   },
   {
     "type": "profession",
@@ -929,7 +930,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "panties" ]
-    }
+    },
+    "age_lower": 16
   },
   {
     "type": "profession",
@@ -945,7 +947,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "panties" ]
-    }
+    },
+    "age_lower": 16
   },
   {
     "type": "profession",
@@ -977,7 +980,8 @@
       },
       "male": [ "under_armor_shorts" ],
       "female": [ "sports_bra", "panties" ]
-    }
+    },
+    "age_lower": 16
   },
   {
     "type": "profession",
@@ -1082,7 +1086,8 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
     },
-    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ],
+    "age_lower": 45
   },
   {
     "type": "profession",
@@ -2005,7 +2010,8 @@
       },
       "male": [ "undershirt" ],
       "female": [ "camisole" ]
-    }
+    },
+    "age_lower": 18
   },
   {
     "type": "profession",
@@ -2974,7 +2980,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
-    }
+    },
+    "age_lower": 18
   },
   {
     "type": "profession",
@@ -3071,7 +3078,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "age_lower": 16
   },
   {
     "type": "profession",
@@ -3145,7 +3153,9 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
-    }
+    },
+    "age_lower": 16,
+    "age_upper": 25
   },
   {
     "type": "profession",
@@ -3197,7 +3207,8 @@
       "both": { "items": [ "socks", "knit_scarf", "dance_shoes" ], "entries": [ { "group": "charged_smart_phone" } ] },
       "male": [ "briefs", "tux", "tourmaline_silver_cufflinks" ],
       "female": [ "bra", "panties", "dress", "purse", "tourmaline_silver_bracelet" ]
-    }
+    },
+    "age_lower": 16
   },
   {
     "type": "profession",
@@ -3214,7 +3225,8 @@
       "female": [ "bra", "panties" ]
     },
     "flags": [ "SCEN_ONLY" ],
-    "missions": [ "MISSION_PATIENT" ]
+    "missions": [ "MISSION_PATIENT" ],
+    "age_lower": 16
   },
   {
     "type": "profession",
@@ -3223,7 +3235,8 @@
     "description": "You were a human guinea pig, used by laboratory technicians to understand the immense power of mutation.  You are determined to live on, if only to spite them for what they did to you.",
     "points": -1,
     "items": { "both": [ "subsuit_xl" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16
   },
   {
     "type": "profession",
@@ -3349,7 +3362,8 @@
       },
       "male": [ "briefs", "dress_shirt", "pants_checkered", "pocketwatch" ],
       "female": [ "panties", "bra", "dress", "fanny", "gold_watch" ]
-    }
+    },
+    "age_lower": 50
   },
   {
     "type": "profession",
@@ -4381,7 +4395,9 @@
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
-    }
+    },
+    "age_lower": 16,
+    "age_upper": 21
   },
   {
     "type": "profession",
@@ -4410,7 +4426,9 @@
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
-    }
+    },
+    "age_lower": 16,
+    "age_upper": 21
   },
   {
     "type": "profession",
@@ -4450,7 +4468,9 @@
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
-    }
+    },
+    "age_lower": 16,
+    "age_upper": 18
   },
   {
     "type": "profession",
@@ -4491,7 +4511,9 @@
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
-    }
+    },
+    "age_lower": 16,
+    "age_upper": 18
   },
   {
     "type": "profession",
@@ -4507,7 +4529,9 @@
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
-    }
+    },
+    "age_lower": 16,
+    "age_upper": 18
   },
   {
     "type": "profession",
@@ -4523,7 +4547,9 @@
       },
       "male": [ "briefs" ],
       "female": [ "panties" ]
-    }
+    },
+    "age_lower": 16,
+    "age_upper": 18
   },
   {
     "type": "profession",
@@ -4549,7 +4575,9 @@
       },
       "male": [ "briefs" ],
       "female": [ "panties" ]
-    }
+    },
+    "age_lower": 16,
+    "age_upper": 18
   },
   {
     "type": "profession",
@@ -4681,7 +4709,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "boy_shorts" ]
-    }
+    },
+    "age_lower": 18
   },
   {
     "type": "profession",
@@ -4986,7 +5015,8 @@
         "opal_gold_ring",
         "opal_gold_earring"
       ]
-    }
+    },
+    "age_upper": 25
   },
   {
     "type": "profession",
@@ -5711,7 +5741,8 @@
       "female": [ "bra", "panties", "diamond_gold_earring" ]
     },
     "traits": [ "LIAR" ],
-    "missions": [ "MISSION_MAFIA_BOSS", "MISSION_SOCIAL_BUTTERFLY" ]
+    "missions": [ "MISSION_MAFIA_BOSS", "MISSION_SOCIAL_BUTTERFLY" ],
+    "age_lower": 30
   },
   {
     "type": "profession",
@@ -5831,7 +5862,9 @@
       "male": [ "briefs", "shorts", "tank_top" ],
       "female": [ "sports_bra", "panties", "cheerleader_skirt" ]
     },
-    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ],
+    "age_lower": 16,
+    "age_upper": 23
   },
   {
     "type": "profession",
@@ -6200,7 +6233,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts", "bra" ]
-    }
+    },
+    "age_lower": 50
   },
   {
     "type": "profession",
@@ -6238,7 +6272,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts", "sports_bra" ]
-    }
+    },
+    "age_lower": 16
   },
   {
     "type": "profession",

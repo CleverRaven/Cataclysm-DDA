@@ -424,8 +424,6 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     } else {
         name = MAP_SHARING::getUsername();
     }
-    // if adjusting min and max age from 16 and 55, make sure to see set_description()
-    init_age = rng( 16, 55 );
     randomize_height();
     randomize_blood();
     randomize_heartrate();
@@ -447,6 +445,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     }
 
     prof = get_scenario()->weighted_random_profession();
+    init_age = rng( this->prof->age_lower, this->prof->age_upper );
     randomize_hobbies();
     starting_city = std::nullopt;
     world_origin = std::nullopt;

@@ -119,6 +119,8 @@ class profession
         std::vector<proficiency_id> proficiencies() const;
         StartingSkillList skills() const;
         const std::vector<mission_type_id> &missions() const;
+        int age_lower; 
+        int age_upper;
 
         std::optional<achievement_id> get_requirement() const;
 
