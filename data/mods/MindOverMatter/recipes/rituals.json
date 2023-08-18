@@ -11,6 +11,10 @@
     "difficulty": 5,
     "time": "5 h",
     "book_learn": [ [ "phavian_psionic_martial_power_book", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_psionic_basic", "required": true },
+      { "proficiency": "prof_psionic_ritual", "required": false }
+    ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {

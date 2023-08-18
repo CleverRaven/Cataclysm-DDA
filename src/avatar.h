@@ -108,6 +108,7 @@ class avatar : public Character
         bool load_template( const std::string &template_name, pool_type & );
         void save_template( const std::string &name, pool_type );
         void character_to_template( const std::string &name );
+        void add_default_background();
 
         bool is_avatar() const override {
             return true;

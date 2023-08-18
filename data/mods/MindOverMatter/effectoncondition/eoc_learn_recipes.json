@@ -38,6 +38,7 @@
       { "u_learn_recipe": "practice_pyrokinetic_call_flames" },
       { "u_learn_recipe": "practice_pyrokinetic_quell_flames" },
       { "u_learn_recipe": "practice_pyrokinetic_cloak" },
+      { "u_learn_recipe": "practice_pyrokinetic_lance" },
       { "u_learn_recipe": "practice_pyrokinetic_thermogenesis" },
       { "u_learn_recipe": "practice_pyrokinetic_flamethrower" },
       { "u_learn_recipe": "practice_pyrokinetic_aura" },
@@ -51,6 +52,7 @@
       { "u_learn_recipe": "practice_telekinetic_pull" },
       { "u_learn_recipe": "practice_telekinetic_push" },
       { "u_learn_recipe": "practice_telekinetic_momentum" },
+      { "u_learn_recipe": "practice_telekinetic_slowfall" },
       { "u_learn_recipe": "practice_telekinetic_wave" },
       { "u_learn_recipe": "practice_telekinetic_strength" },
       { "u_learn_recipe": "practice_telekinetic_hammer" },
@@ -163,5 +165,18 @@
     "required_event": "game_begin",
     "condition": { "u_has_trait": "VITAKINETIC" },
     "effect": [ { "queue_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_USB_RAD_RECIPE",
+    "condition": { "or": [ { "u_has_item": "laptop" }, { "u_has_item": "laptop_screen_lit" } ] },
+    "effect": [
+      { "u_learn_recipe": "psi_research_rad_powers" },
+      {
+        "u_message": "You plug in the USB and find a series of powerpoint presentations, long technical-looking documents, video files, and other documents.  It's going to take a long while to sort through these.",
+        "type": "neutral"
+      }
+    ],
+    "false_effect": [ { "u_message": "Without a laptop, you can't access the data on the USB", "type": "bad" } ]
   }
 ]

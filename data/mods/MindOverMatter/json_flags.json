@@ -1,5 +1,10 @@
 [
   {
+    "id": "TELEKIN_SHIELD",
+    "type": "json_flag",
+    "//": "Immune to telekinetic damage"
+  },
+  {
     "id": "TEEPSHIELD",
     "type": "json_flag",
     "info": "You are immune to telepathy."
