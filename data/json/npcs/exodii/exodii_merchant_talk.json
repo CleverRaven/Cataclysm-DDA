@@ -779,9 +779,7 @@
             {
               "not": { "compare_int": [ { "global_val": "var", "var_name": "warehouse_was_found" }, "==", { "const": 1 } ] }
             },
-            {
-              "compare_int": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "==", { "const": 1 } ]
-            }
+            { "compare_int": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "==", { "const": 1 } ] }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_mission_2_intro"
