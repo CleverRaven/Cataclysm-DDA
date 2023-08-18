@@ -269,32 +269,23 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_2_intro",
     "type": "talk_topic",
+    "//~": "We are unable to locate one of our warehouses since the last jump. We would need you to go find it and reactivate its locator",
     "dynamic_line": {
       "days_since_cataclysm": 28,
-      "yes": "Well an surely, fruit gum!",
+      "yes": "Well an surely, fruit gum! Aye, ye kennit well.  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle.",
       "no": {
         "compare_int": [ { "global_val": "var", "var_name": "u_talked_to_hub" }, "==", { "const": 1 } ],
-        "yes": "Well an surely, fruit gum!  Mayhap this be a chance to show y'self a true, for Rubik's got sommat to ask yet again.  The way o' the Exode is t'shimmy an' wobble, an' on thislike wobble, a few bits wobbled off, kennit?  'Tis rightful common, alack.  One such is hidden for our escolts an' our screeds.  Mayhap as y'know the lands, ye'd have a see of it?",
+        "yes": "Well an surely, fruit gum!  Mayhap this be a chance to show y'self a true, for Rubik's got sommat to ask yet again.  The way o' the Exode is t'shimmy an' wobble, an' on thislike wobble, a few bits wobbled off, kennit?  'Tis rightful common, alack.  One such is hidden for our escolts an' our screeds.  Mayhap as y'know the lands, ye'd have a see of it? Aye, ye kennit well.  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle.",
         "no": {
           "compare_int": [ { "npc_val": "var", "var_name": "exodii_knows_hub01" }, "==", { "const": 1 } ],
-          "yes": "Well an surely, fruit gum!  For an' such as ye've done us a good.",
-          "no": "Well an surely, fruit gum!"
+          "yes": "Well an surely, fruit gum!  For an' such as ye've done us a good. Aye, ye kennit well.  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle.",
+          "no": "Well an surely, fruit gum! Aye, ye kennit well.  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle."
         }
       }
     },
     "responses": [
-      { "text": "What's the mission?", "topic": "TALK_EXODII_MERCHANT_mission_2" },
-      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "id": "TALK_EXODII_MERCHANT_mission_2",
-    "type": "talk_topic",
-    "dynamic_line": "Aye, ye kennit well.  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle.",
-    "//~": "We are unable to locate one of our warehouses since the last jump. We would need you to go find it and reactivate its locator",
-    "responses": [
       {
-        "text": "Does it means that you can't even give me some directions?",
+        "text": "So you want me to find a lost warehouse. Does it means that you can't even give me some directions?",
         "topic": "TALK_EXODII_MERCHANT_mission_2_intro1"
       },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },

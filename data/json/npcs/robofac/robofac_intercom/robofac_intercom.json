@@ -525,11 +525,10 @@
         "text": "I'm just looking for valuables.  Maybe we can trade?",
         "topic": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE"
       },
-      { "text": "Look, there must be something we can work out.", "topic": "TALK_ROBOFAC_INTERCOM_INTRO_2" },
+      { "text": "Look, there must be something we can work out.", "topic": "TALK_ROBOFAC_INTERCOM_INTRO_2",  "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "u_talked_to_hub" }, "=", { "const": 1 } ] } ]},
       {
         "text": "[Leave.]",
-        "topic": "TALK_DONE",
-        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "u_talked_to_hub" }, "=", { "const": 1 } ] } ]
+        "topic": "TALK_DONE"
       }
     ]
   },
