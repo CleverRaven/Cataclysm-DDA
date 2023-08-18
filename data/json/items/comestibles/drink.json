@@ -284,7 +284,7 @@
     "calories": 88,
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "extend": { "flags": [ "EATEN_COLD" ] },
-    "description": "The morning ritual of the post-apocalyptic world.  Brewed from the Kentucky coffeetree, this drink has no actual caffeine, but serves as a replacement for those who dearly miss the aroma of real coffee.",
+    "description": "The morning ritual of the post-apocalyptic world.  Brewed from the Kentucky coffeetree, this drink has no actual caffeine, but serves as a replacement for those who dearly miss the aroma of real coffee.  Can also be served cold as iced coffee.",
     "fun": 4
   },
   {
@@ -1539,7 +1539,7 @@
     "copy-from": "coffee",
     "name": { "str": "sweetened coffee" },
     "calories": 21,
-    "description": "The morning ritual of the pre-apocalyptic world, created from coffee cherries through a complex process of seed removal, roasting, grinding, and brewing.  Coffee is substantially richer in caffeine than its rival tea.  With added sweetener for better taste.",
+    "description": "The morning ritual of the pre-apocalyptic world, created from coffee cherries through a complex process of seed removal, roasting, grinding, and brewing.  Coffee is substantially richer in caffeine than its rival tea.  With added sweetener for better taste.  Can also be served cold as iced coffee.",
     "price": 110,
     "price_postapoc": 60,
     "material": [ "water" ],
@@ -1553,7 +1553,7 @@
     "name": { "str": "sweetened tea" },
     "conditional_names": [ { "type": "FLAG", "condition": "COLD", "name": { "str_sp": "iced tea" } } ],
     "calories": 21,
-    "description": "The beverage of gentlemen everywhere, made from applying hot water to leaves of the tea plant \"Camellia sinensis\".  With added sweetener for a better taste.",
+    "description": "The beverage of gentlemen everywhere, made from applying hot water to leaves of the tea plant \"Camellia sinensis\".  With added sweetener for a better taste.  Can also be served cold as iced tea.",
     "price": 100,
     "price_postapoc": 35,
     "extend": { "flags": [ "EATEN_COLD" ] },
