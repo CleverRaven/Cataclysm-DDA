@@ -108,7 +108,7 @@ class mapgendata
         int zlevel_;
         mapgen_arguments mapgen_args_;
         enum_bitset<jmapgen_flags> mapgen_flags_;
-        std::vector<oter_id> predecessors_;
+        cata::flat_set<oter_id> predecessors_;
 
     public:
         std::array<oter_id, 8> t_nesw;
@@ -237,7 +237,7 @@ class mapgendata
         const oter_id &first_predecessor() const;
         const oter_id &last_predecessor() const;
         void clear_predecessors();
-        void pop_last_predecessor();
+        void erase_last_predecessor();
 
         template<typename Result>
         Result get_arg( const std::string &name ) const {
