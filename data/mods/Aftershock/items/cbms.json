@@ -178,7 +178,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Skullgun CBM" },
-    "description": "Concealed in your head is a single shot 9mm pistol.  Activate the bionic to fire and reload the skullgun.",
+    "description": "Concealed in your head is a single shot 10mm pistol.  Activate the bionic to fire and reload the skullgun.",
     "price": 100000,
     "price_postapoc": 1500,
     "difficulty": 16
