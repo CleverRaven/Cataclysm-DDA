@@ -340,7 +340,8 @@ class basecamp
                             float exertion_level );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
-        std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );
+        drop_locations give_basecamp_equipment( inventory_filter_preset &preset, const std::string &title,
+                                                const std::string &column_title, const std::string &msg_empty ) const;
         drop_locations give_equipment( Character *pc, const inventory_filter_preset &preset,
                                        const std::string &msg, const std::string &title, units::volume &total_volume,
                                        units::mass &total_mass );
