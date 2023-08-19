@@ -5128,7 +5128,7 @@ void mapgen_function_json::generate( mapgendata &md )
     } else if( expects_predecessor() ) {
         if( md.has_predecessor() ) {
             mapgendata predecessor_md( md, md.last_predecessor() );
-            predecessor_md.erase_last_predecessor();
+            predecessor_md.pop_last_predecessor();
             do_predecessor_mapgen( predecessor_md );
         } else {
             mapgendata predecessor_md( md, fallback_predecessor_mapgen_ );

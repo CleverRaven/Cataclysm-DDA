@@ -305,15 +305,15 @@ const oter_id &mapgendata::last_predecessor() const
         static const oter_id null( oter_str_id::NULL_ID() );
         return null;
     }
-    return *predecessors_.end();
+    return predecessors_.back();
 }
 
-void mapgendata::erase_last_predecessor()
+void mapgendata::pop_last_predecessor()
 {
     if( predecessors_.empty() ) {
-        debugmsg( "Tried to erase predecessor when none available in mapgendata" );
+        debugmsg( "Tried to pop predecessor when none available in mapgendata" );
     }
-    predecessors_.erase( *predecessors_.end() );
+    predecessors_.pop_back();
 }
 
 void mapgendata::clear_predecessors()

@@ -229,7 +229,7 @@ class overmap
         const oter_id &ter_unsafe( const tripoint_om_omt &p ) const;
         std::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
         std::string *join_used_at( const om_pos_dir & );
-        cata::flat_set<oter_id> predecessors( const tripoint_om_omt & );
+        std::vector<oter_id> predecessors( const tripoint_om_omt & );
         void set_seen( const tripoint_om_omt &p, bool val );
         bool seen( const tripoint_om_omt &p ) const;
         bool &explored( const tripoint_om_omt &p );
@@ -356,7 +356,7 @@ class overmap
 
         // For oter_ts with the requires_predecessor flag, we need to store the
         // predecessor terrains so they can be used for mapgen later
-        std::unordered_map<tripoint_om_omt, cata::flat_set<oter_id>> predecessors_;
+        std::unordered_map<tripoint_om_omt, std::vector<oter_id>> predecessors_;
 
         // Records mapgen parameters required at the overmap special level
         // These are lazily evaluated; empty optional means that they have yet

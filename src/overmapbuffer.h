@@ -172,7 +172,7 @@ class overmapbuffer
         void ter_set( const tripoint_abs_omt &p, const oter_id &id );
         std::optional<mapgen_arguments> *mapgen_args( const tripoint_abs_omt & );
         std::string *join_used_at( const std::pair<tripoint_abs_omt, cube_direction> & );
-        cata::flat_set<oter_id> predecessors( const tripoint_abs_omt & );
+        std::vector<oter_id> predecessors( const tripoint_abs_omt & );
         /**
          * Uses global overmap terrain coordinates.
          */
