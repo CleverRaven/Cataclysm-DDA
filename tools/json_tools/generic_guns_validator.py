@@ -60,8 +60,7 @@ ID_WHITELIST = {
     "rebreather_cartridge",
     "rebreather_cartridge_air",
     "rebreather_cartridge_o2",
-    "rebreather_cartridge_regen",
-    'bio_skullgun_gun'
+    "rebreather_cartridge_regen"
 }
 
 
