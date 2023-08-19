@@ -65,6 +65,8 @@ Use the `Home` key to return to the top.
       - [`missions`](#missions)
       - [`proficiencies`](#proficiencies)
       - [`items`](#items)
+      - [`age_lower`](#age_lower)
+      - [`age_upper`](#age_upper)
       - [`pets`](#pets)
       - [`vehicle`](#vehicle)
       - [`flags`](#flags)
