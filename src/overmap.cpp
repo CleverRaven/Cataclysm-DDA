@@ -6665,7 +6665,7 @@ void overmap_special_batch::prioritise_and_shuffle()
     std::vector<overmap_special_placement> placements_priority_normal;
     std::vector<overmap_special_placement> placements_priority_low;
 
-    for( auto &placement : placements ) {
+    for( overmap_special_placement &placement : placements ) {
         if( placement->special_details->has_flag( "PRIORITY_HIGH" ) ) {
             placements_priority_high.push_back( placement );
         } else if( placement->special_details->has_flag( "PRIORITY_LOW" ) ) {
