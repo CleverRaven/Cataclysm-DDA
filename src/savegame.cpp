@@ -655,12 +655,6 @@ void overmap::unserialize( const JsonObject &jsobj )
                 joins_used.insert( p );
             }
         } else if( name == "predecessors" ) {
-            std::vector<std::pair<tripoint_om_omt, std::vector<oter_id>>> flattened_predecessors_old;
-            om_member.read( flattened_predecessors_old, true );
-            for( std::pair<tripoint_om_omt, std::vector<oter_id>> &p : flattened_predecessors_old ) {
-                predecessors_.insert( std::move( p ) );
-            }
-        } else if( name == "flat_set_predecessors" ) {
             std::vector<std::pair<tripoint_om_omt, std::vector<oter_id>>> flattened_predecessors;
             om_member.read( flattened_predecessors, true );
             for( std::pair<tripoint_om_omt, std::vector<oter_id>> &p : flattened_predecessors ) {
@@ -1222,7 +1216,7 @@ void overmap::serialize( std::ostream &fout ) const
                 joins_used.begin(), joins_used.end() );
     json.member( "joins_used", flattened_joins_used );
     fout << std::endl;
-    
+
     std::vector<std::pair<tripoint_om_omt, std::vector<oter_id>>> flattened_predecessors(
         predecessors_.begin(), predecessors_.end() );
     json.member( "predecessors", flattened_predecessors );
