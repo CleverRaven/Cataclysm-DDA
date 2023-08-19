@@ -9436,7 +9436,8 @@ bool item::is_map() const
 
 bool item::seal()
 {
-    if( is_container_full() ) {
+    // Check the actual fullness of all kinds of containers.
+    if( is_container_full( /*allow_bucket = */ true ) ) {
         return contents.seal_all_pockets();
     } else {
         return false;
