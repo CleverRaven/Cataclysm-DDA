@@ -260,13 +260,7 @@
   {
     "type": "item_group",
     "id": "EXODII_CBM_tier1_fun",
-    "items": [
-      [ "bio_tattoo_led", 10 ],
-      [ "bio_nostril", 1 ],
-      [ "bio_voice", 10 ],
-      [ "bio_sleep_shutdown", 2 ],
-      [ "bio_skullgun", 1 ]
-    ]
+    "items": [ [ "bio_tattoo_led", 10 ], [ "bio_nostril", 1 ], [ "bio_voice", 10 ], [ "bio_sleep_shutdown", 2 ] ]
   },
   {
     "type": "item_group",
