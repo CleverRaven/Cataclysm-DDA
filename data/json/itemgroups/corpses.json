@@ -291,6 +291,167 @@
     "entries": [ { "group": "default_zombie_death_drops" } ]
   },
   {
+    "id": "everyday_corpse",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "everyday_corpse_male", "prob": 80, "damage": 4 },
+      { "group": "everyday_corpse_female", "prob": 80, "damage": 4 },
+      { "group": "everyday_corpse_child", "prob": 15, "damage": 4 }
+    ]
+  },
+  {
+    "id": "everyday_corpse_male",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "corpse_generic_male",
+    "entries": [
+      { "group": "everyday_corpse_generic" },
+      { "group": "everyday_gear", "prob": 40 },
+      { "group": "coats_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "common_gloves", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "scarfs_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "accesories_personal_unisex", "prob": 15 },
+      {
+        "distribution": [
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "group": "male_underwear", "prob": 90, "damage": [ 1, 4 ] },
+                  { "item": "union_suit", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_male", "prob": 60, "damage": [ 1, 4 ] },
+                      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
+                      { "item": "leather_belt", "prob": 30, "damage": [ 1, 4 ] }
+                    ]
+                  },
+                  { "item": "suit", "prob": 5, "damage": [ 1, 4 ] },
+                  { "item": "tux", "prob": 5, "damage": [ 1, 4 ] },
+                  { "item": "thawb", "prob": 10, "damage": [ 1, 4 ] },
+                  { "item": "cassock", "prob": 10, "damage": [ 1, 4 ] },
+                  { "item": "haori", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "group": "neckties", "prob": 15, "damage": [ 1, 4 ] },
+              { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
+              { "group": "socks_unisex", "damage": [ 1, 4 ], "prob": 50 },
+              { "group": "accesories_personal_mens", "prob": 15, "damage": [ 1, 4 ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_corpse_female",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "corpse_generic_female",
+    "entries": [
+      { "group": "everyday_corpse_generic" },
+      { "group": "female_underwear", "prob": 90, "damage": [ 1, 4 ] },
+      { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "group": "pants_female", "prob": 60, "damage": [ 1, 4 ] },
+              { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
+              { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      {
+                        "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                      },
+                      { "item": "garter_belt", "prob": 50, "damage": [ 1, 4 ] }
+                    ]
+                  },
+                  { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+                ]
+              }
+            ],
+            "prob": 70
+          },
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "item": "gown", "prob": 10, "damage": [ 1, 4 ] },
+                  { "item": "dress", "prob": 70, "damage": [ 1, 4 ] },
+                  { "item": "sundress", "prob": 50, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
+              {
+                "collection": [
+                  {
+                    "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                  },
+                  { "item": "garter_belt", "prob": 50, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "item": "long_glove_white", "prob": 20, "damage": [ 1, 4 ] }
+            ],
+            "prob": 20
+          },
+          {
+            "collection": [
+              { "item": "dress_wedding", "damage": [ 1, 4 ] },
+              { "item": "veil_wedding", "damage": [ 1, 4 ] },
+              { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
+              {
+                "collection": [
+                  {
+                    "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                  },
+                  { "item": "garter_belt", "prob": 50, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "item": "long_glove_white", "prob": 20, "damage": [ 1, 4 ] }
+            ],
+            "prob": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "everyday_corpse_child",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "corpse_child_calm",
+    "entries": [
+      { "group": "everyday_corpse_generic" },
+      { "group": "underwear", "prob": 90, "damage": [ 0, 4 ] },
+      { "group": "pants", "prob": 60, "damage": [ 0, 4 ] },
+      { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
+      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
+      { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "everyday_corpse_generic",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "everyday_gear", "prob": 40 },
+      { "group": "coats_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "common_gloves", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "scarfs_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "accesories_personal_unisex", "prob": 15 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "adderall_bottle_plastic_pill_prescription_10",
     "subtype": "collection",
