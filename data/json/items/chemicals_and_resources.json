@@ -1396,7 +1396,7 @@
   {
     "type": "AMMO",
     "id": "nanomaterial",
-    "category": "chems",
+    "category": "tool_magazine",
     "price": 250000,
     "price_postapoc": 500,
     "name": { "str": "nanomaterial canister" },
@@ -1943,12 +1943,12 @@
     "weight": "100 mg",
     "volume": "5 ml",
     "//": "Density around 2.2g/cm3, but since it's a powder, it's a bit lower, around 1.8-2.0 g/cm3",
-    "container": "bag_plastic",
+    "container": "bottle_plastic_small",
     "symbol": "=",
     "color": "red",
     "price": 50,
     "price_postapoc": 2,
-    "count": 10000,
+    "count": 1000,
     "stack_size": 25
   },
   {

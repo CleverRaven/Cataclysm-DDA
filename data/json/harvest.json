@@ -463,6 +463,15 @@
     ]
   },
   {
+    "id": "mutant_tiny",
+    "//": "mutants so tiny they don't drop chunks of meat",
+    "type": "harvest",
+    "entries": [
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.5 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 }
+    ]
+  },
+  {
     "id": "mammal_small_fur",
     "//": "does not drop stomach or other small organs",
     "type": "harvest",

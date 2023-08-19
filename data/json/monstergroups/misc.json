@@ -284,7 +284,8 @@
       { "monster": "mon_goose_golden", "weight": 1 },
       { "monster": "mon_llama", "weight": 10 },
       { "monster": "mon_woodlouse", "weight": 10 },
-      { "monster": "mon_cicada_nymph", "weight": 10 }
+      { "monster": "mon_cicada_nymph", "weight": 10 },
+      { "group": "GROUP_FROGS_NATURAL", "weight": 10 }
     ]
   },
   {
@@ -357,17 +358,17 @@
       { "monster": "mon_sewer_snake", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_sewer_rat", "weight": 50, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
       { "monster": "mon_gator", "weight": 25, "cost_multiplier": 2 },
-      { "monster": "mon_frog", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_frog_small", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_slug_small", "weight": 50, "ends": "180 hours" },
       { "monster": "mon_slug_giant", "weight": 75, "starts": "180 hours" },
       { "monster": "mon_sludge_crawler", "weight": 25 },
       { "monster": "mon_zombie_mancroc", "weight": 100, "starts": "180 hours" },
-      { "monster": "mon_toad", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_toad_small", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_gastro_bufo", "weight": 5, "cost_multiplier": 3, "starts": "15 days" },
       { "monster": "mon_zombullfrog", "weight": 10, "cost_multiplier": 2 },
-      { "monster": "mon_frog_mother", "weight": 5, "cost_multiplier": 3, "starts": "15 days" }
+      { "monster": "mon_frog_mother", "weight": 5, "cost_multiplier": 3, "starts": "15 days" },
+      { "group": "GROUP_TADPOLES_SEWER", "weight": 100 },
+      { "group": "GROUP_FROGS_SEWER", "weight": 100 }
     ]
   },
   {
@@ -488,12 +489,10 @@
       { "monster": "mon_sewer_snake", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_sewer_rat", "weight": 50, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
       { "monster": "mon_gator", "weight": 25, "cost_multiplier": 2 },
-      { "monster": "mon_frog", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_frog_small", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_slug_small", "weight": 50, "ends": "180 hours" },
       { "monster": "mon_sludge_crawler", "weight": 25 },
       { "monster": "mon_zombie_mancroc", "weight": 100, "starts": "180 hours" },
-      { "monster": "mon_toad", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_toad_small", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_gastro_bufo", "weight": 5, "cost_multiplier": 3, "starts": "15 days" }
     ]

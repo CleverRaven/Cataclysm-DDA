@@ -4313,10 +4313,10 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::s
             }
 
             if( eoc_keys.empty() ) {
-                eoc_list.entries.emplace_back( i, display, std::nullopt,
+                eoc_list.entries.emplace_back( static_cast<int>( i ), display, std::nullopt,
                                                ( eoc_names.empty() ? eoc_id.str() : eoc_names[i].evaluate( d ) ), description );
             } else {
-                eoc_list.entries.emplace_back( i, display, eoc_keys[i],
+                eoc_list.entries.emplace_back( static_cast<int>( i ), display, eoc_keys[i],
                                                ( eoc_names.empty() ? eoc_id.str() : eoc_names[i].evaluate( d ) ), description );
             }
         }

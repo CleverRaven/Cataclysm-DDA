@@ -15,7 +15,13 @@
             { "math": [ "spiders_allowed", "==", "1" ] },
             { "math": [ "triffids_allowed", "==", "1" ] },
             { "math": [ "robots_allowed", "==", "1" ] },
-            { "math": [ "subspace_allowed", "==", "1" ] }
+            { "math": [ "subspace_allowed", "==", "1" ] },
+            { "math": [ "megafauna_allowed", "==", "1" ] },
+            { "math": [ "dinos_allowed", "==", "1" ] },
+            { "math": [ "lizardfolk_allowed", "==", "1" ] },
+            { "math": [ "goblins_allowed", "==", "1" ] },
+            { "math": [ "golems_allowed", "==", "1" ] },
+            { "math": [ "orcs_allowed", "==", "1" ] }
           ]
         },
         "topic": "TALK_DONE"
@@ -88,6 +94,18 @@
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
+        "text": "Allow megafauna.",
+        "condition": { "and": [ { "mod_is_loaded": "megafauna" }, { "math": [ "megafauna_allowed", "==", "0" ] } ] },
+        "effect": { "math": [ "megafauna_allowed", "=", "1" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Disable megafauna.",
+        "condition": { "and": [ { "mod_is_loaded": "megafauna" }, { "math": [ "megafauna_allowed", "==", "1" ] } ] },
+        "effect": { "math": [ "megafauna_allowed", "=", "0" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
         "text": "Allow eldritch horrors.",
         "condition": { "math": [ "subspace_allowed", "==", "0" ] },
         "effect": { "math": [ "subspace_allowed", "=", "1" ] },
@@ -100,6 +118,66 @@
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
+        "text": "Allow dinosaurs.",
+        "condition": { "and": [ { "mod_is_loaded": "DinoMod" }, { "math": [ "dinos_allowed", "==", "0" ] } ] },
+        "effect": { "math": [ "dinos_allowed", "=", "1" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Disable dinosaurs.",
+        "condition": { "and": [ { "mod_is_loaded": "DinoMod" }, { "math": [ "dinos_allowed", "==", "1" ] } ] },
+        "effect": { "math": [ "dinos_allowed", "=", "0" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Allow lizardfolk.",
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "lizardfolk_allowed", "==", "0" ] } ] },
+        "effect": { "math": [ "lizardfolk_allowed", "=", "1" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Disable lizardfolk.",
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "lizardfolk_allowed", "==", "1" ] } ] },
+        "effect": { "math": [ "lizardfolk_allowed", "=", "0" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Allow golems.",
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "golems_allowed", "==", "0" ] } ] },
+        "effect": { "math": [ "golems_allowed", "=", "1" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Disable golems.",
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "golems_allowed", "==", "1" ] } ] },
+        "effect": { "math": [ "golems_allowed", "=", "0" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Allow goblins.",
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "goblins_allowed", "==", "0" ] } ] },
+        "effect": { "math": [ "goblins_allowed", "=", "1" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Disable goblins.",
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "goblins_allowed", "==", "1" ] } ] },
+        "effect": { "math": [ "goblins_allowed", "=", "0" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Allow orcs.",
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "orcs_allowed", "==", "0" ] } ] },
+        "effect": { "math": [ "orcs_allowed", "=", "1" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Disable orcs.",
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "orcs_allowed", "==", "1" ] } ] },
+        "effect": { "math": [ "orcs_allowed", "=", "0" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
         "text": "Play!",
         "condition": {
           "or": [
@@ -108,7 +186,13 @@
             { "math": [ "spiders_allowed", "==", "1" ] },
             { "math": [ "triffids_allowed", "==", "1" ] },
             { "math": [ "robots_allowed", "==", "1" ] },
-            { "math": [ "subspace_allowed", "==", "1" ] }
+            { "math": [ "subspace_allowed", "==", "1" ] },
+            { "math": [ "megafauna_allowed", "==", "1" ] },
+            { "math": [ "dinos_allowed", "==", "1" ] },
+            { "math": [ "lizardfolk_allowed", "==", "1" ] },
+            { "math": [ "goblins_allowed", "==", "1" ] },
+            { "math": [ "golems_allowed", "==", "1" ] },
+            { "math": [ "orcs_allowed", "==", "1" ] }
           ]
         },
         "topic": "TALK_DONE"

@@ -592,6 +592,31 @@
     "enchantments": [ { "mutations": [ "eater_unbreakable" ] } ]
   },
   {
+    "type": "effect_type",
+    "id": "mutagen_earthkin",
+    "name": [ "Ierde Mutation", "Ierde Transformation", "Ierde Metamorphosis" ],
+    "desc": [
+      "You consumed Ierde destiny draught.",
+      "You consumed a large amount of Ierde destiny draught.",
+      "You consumed a life-changing amount of Ierde destiny draught."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_IERDE" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Anomalous silicon content in blood sample"
+  },
+  {
     "id": "eater_unbreakable",
     "type": "mutation",
     "name": { "str": "Unbreakable" },
@@ -712,5 +737,130 @@
     "remove_message": "Your devil tail disappear in the air.",
     "rating": "good",
     "enchantments": [ { "mutations": [ "devil_tail" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_plantkin",
+    "name": [ "Arvore Mutation", "Arvore Transformation", "Arvore Metamorphosis" ],
+    "desc": [
+      "You consumed Arvore destiny draught.",
+      "You consumed a large amount of Arvore destiny draught.",
+      "You consumed a life-changing amount of Arvore destiny draught."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_ARVORE" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Anomalous chlorophyll content in blood sample"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_waterkin",
+    "name": [ "Undine Mutation", "Undine Transformation", "Undine Metamorphosis" ],
+    "desc": [
+      "You consumed Undine destiny draught.",
+      "You consumed a large amount of Undine destiny draught.",
+      "You consumed a life-changing amount of Undine destiny draught."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_UNDINE" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Excessive water content in blood sample"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_flamekin",
+    "name": [ "Salamander Mutation", "Salamander Transformation", "Salamander Metamorphosis" ],
+    "desc": [
+      "You consumed Salamander destiny draught.",
+      "You consumed a large amount of Salamander destiny draught.",
+      "You consumed a life-changing amount of Salamander destiny draught."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_SALAMANDER" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Blood sample displays unnatural heat generation"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_dollkin",
+    "name": [ "Homullus Mutation", "Homullus Transformation", "Homullus Metamorphosis" ],
+    "desc": [
+      "You consumed Homullus destiny draught.",
+      "You consumed a large amount of Homullus destiny draught.",
+      "You consumed a life-changing amount of Homullus destiny draught."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_HOMULLUS" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Inert elements providing some functions of blood"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_airkin",
+    "name": [ "Sylph Mutation", "Sylph Transformation", "Sylph Metamorphosis" ],
+    "desc": [
+      "You consumed Sylph destiny draught.",
+      "You consumed a large amount of Sylph destiny draught.",
+      "You consumed a life-changing amount of Sylph destiny draught."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_SYLPH" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Dangerous levels of oxygen and nitrogen in blood sample"
   }
 ]

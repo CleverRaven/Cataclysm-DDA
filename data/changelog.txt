@@ -41,6 +41,8 @@ Player character now can get sick with common cold or flu only after contacts wi
 Generate vehicle prototypes from in-game vehicles
 In-game Armor sprite change
 Cockroaches flee light, hide under furniture, eat corpses, and breed faster when fed
+Cataclysm and game start dates are to be set through scenarios
+Friendly NPC crafting by crafting menu
 
 
 ## Content:
@@ -73,8 +75,9 @@ Adds new skateboard vehicle
 Most scenarios now provide vision of the nearest city on start
 Alternative resolution to clean back bay quest
 Add a synagogue
- adds a chance for small, personal photographs to spawn within people’s wallets and creates a starting pool of 34 snippets from which to pull.
+Adds a chance for small, personal photographs to spawn within people’s wallets and creates a starting pool of 34 snippets from which to pull.
 Adds curved road bends, rotaries and rest stops/laybys
+JSONify Defense Mode
 
 
 ## Interface:
@@ -96,6 +99,7 @@ AIM: Add key to step outside containers; AIM: mark container that the other pane
 Change description of highlighted regions when editing the overmap
 Detailed information for stats on character creation menu
 Larger and more I18n-friendly safemode UI
+Enable/disable showing several non-player-related messages in the log
 
 
 ## Mods:
@@ -130,6 +134,7 @@ Add the Mind Over Matter mod to the CDDA repository
 [Sky Island] Mainline Sky Island mod
 [Magiclysm] Add a spell-using feral human to Magiclysm
 [MoM] Add telepathic and telekinetic damage types
+[MoM] Mind Over Matter-specific Research facility overhaul
 
 
 ## Balance:
@@ -226,6 +231,8 @@ Stop dodging good spells, fix uncanny dodge spell crash
 Fix and improve NPC randomizer
 Make sure overconfident officers reliably drop their guns
 [MoM] Fix zombie telepathic stuns
+Fix appliance power drain display right after plugging in/unplugging device
+Fix items and furniture being deleted from grappling hook usage
 
 
 ## Performance:
@@ -233,6 +240,7 @@ Make `Character::best_item_with_quality` examine items non-recursively
 Refactor effect types to use map indirection and enums instead of strings
 Removes the ludicrous amount of OMs the refugee and research centres define
 Fix Nested List lag in crafting menu
+Optimize eoc processing and other fixes to speed up waiting near many npcs
 
 
 ## Infrastructure:

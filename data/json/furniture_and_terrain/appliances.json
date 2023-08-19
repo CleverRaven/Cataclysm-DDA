@@ -165,8 +165,9 @@
     "damage_modifier": 10,
     "damage_reduction": { "all": 10 },
     "durability": 80,
-    "flags": [ "OBSTACLE", "COVERED", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "ARCADE", "CTRL_ELECTRONIC" ],
+    "flags": [ "OBSTACLE", "COVERED", "HALF_CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "ARCADE", "CTRL_ELECTRONIC" ],
     "epower": "-150 W",
+    "bonus": 10,
     "item": "arcade_machine",
     "looks_like": "f_arcade_machine",
     "breaks_into": [

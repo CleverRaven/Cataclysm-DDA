@@ -65,6 +65,8 @@ Use the `Home` key to return to the top.
       - [`missions`](#missions)
       - [`proficiencies`](#proficiencies)
       - [`items`](#items)
+      - [`age_lower`](#age_lower)
+      - [`age_upper`](#age_upper)
       - [`pets`](#pets)
       - [`vehicle`](#vehicle)
       - [`flags`](#flags)
@@ -1780,6 +1782,18 @@ Example:
 ```
 
 This gives the player pants, two rocks, a t-shirt with the snippet id "allyourbase" (giving it a special description), socks and (depending on the gender) briefs or panties.
+
+#### `age_lower`
+
+(optional, int)
+The lowest age that a character with this profession can generate with. 
+This places no limits on manual input, only on random generation (i.e. Play Now!). Defaults to 21.
+
+#### `age_upper`
+
+(optional, int)
+The highest age that a character with this profession can generate with.
+This places no limits on manual input, only on random generation (i.e. Play Now!). Defaults to 55.
 
 #### `pets`
 
@@ -5394,6 +5408,10 @@ If it is an object - it has following attributes:
 * `TYPE` - The provided string must completely match the base type id of the
   overmap terrain id, which means that suffixes for rotation and linear terrain
   types are ignored.
+ 
+* `SUBTYPE` - The provided string must completely match the base type id of the
+  overmap terrain id as well as the linear terrain type ie "road_curved" will match
+  "road_ne", "road_es", "road_sw" and "road_wn".
 
 * `PREFIX` - The provided string must be a complete prefix (with additional
   parts delimited by an underscore) of the overmap terrain id. For example,

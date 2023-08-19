@@ -507,7 +507,7 @@
         "moves": 30,
         "flag_restriction": [ "SHEATH_SPEAR" ],
         "max_contains_volume": "4000 ml",
-        "max_contains_weight": "4 kg",
+        "max_contains_weight": "7 kg",
         "max_item_length": "250 cm",
         "volume_encumber_modifier": 0.5
       }
