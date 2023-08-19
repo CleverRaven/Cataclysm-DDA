@@ -123,6 +123,32 @@
     "ammo_type": "oxygen"
   },
   {
+    "type": "AMMO",
+    "id": "hydrogen",
+    "name": { "str_sp": "hydrogen" },
+    "symbol": "~",
+    "color": "white",
+    "description": "Compressed hydrogen.",
+    "weight": "1 mg",
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
+    "phase": "gas",
+    "ammo_type": "hydrogen"
+  },
+  {
+    "type": "AMMO",
+    "id": "nitrogen",
+    "name": { "str_sp": "nitrogen" },
+    "symbol": "~",
+    "color": "white",
+    "description": "Compressed nitrogen.",
+    "weight": "1 mg",
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
+    "phase": "gas",
+    "ammo_type": "nitrogen"
+  },
+  {
     "type": "TOOL",
     "id": "betavoltaic",
     "category": "spare_parts",
@@ -701,7 +727,7 @@
     "id": "plasma",
     "price": 80000,
     "price_postapoc": 1000,
-    "name": { "str": "hydrogen canister" },
+    "name": { "str": "solid hydrogen canister" },
     "symbol": "=",
     "color": "light_gray",
     "description": "A canister of pressurized hydrogen so heavily compressed it has turned solid.  With proper equipment, it could be heated into plasma.",
@@ -1146,7 +1172,7 @@
   {
     "type": "AMMO",
     "id": "gasfilter_s",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "price": 2500,
     "price_postapoc": 500,
     "name": { "str": "filter mask cartridge" },
@@ -1161,7 +1187,7 @@
   {
     "type": "AMMO",
     "id": "gasfilter_m",
-    "category": "spare_parts",
+    "category": "tool_magazine",
     "price": 2500,
     "price_postapoc": 750,
     "name": { "str": "gas mask cartridge" },
