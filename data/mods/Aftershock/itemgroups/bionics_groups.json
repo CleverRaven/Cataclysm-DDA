@@ -13,6 +13,7 @@
         [ "bio_forcefield_bash_cut_weak", 25 ],
         [ "afs_bio_translocator", 5 ],
         [ "bio_shock_absorber", 2 ],
+        [ "afs_bio_skullgun", 5 ],
         [ "afs_bio_chemical_enhancement_rig", 10 ]
       ]
     }
@@ -155,7 +156,8 @@
       [ "afs_bio_dopamine_stimulators", 10 ],
       [ "bio_forcefield_ballistic_heavy", 1 ],
       [ "afs_bio_translocator", 5 ],
-      [ "bio_shock_absorber", 2 ]
+      [ "bio_shock_absorber", 2 ],
+      [ "afs_bio_skullgun", 2 ]
     ]
   },
   {
