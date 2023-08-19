@@ -661,7 +661,7 @@
         "watertight": true
       }
     ],
-    "flags": [ "NO_UNLOAD" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "melee_damage": { "bash": 10 }
   },
   {
