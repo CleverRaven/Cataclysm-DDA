@@ -621,9 +621,18 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 24,
-    "max_charges": 24,
     "charges_per_use": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "airtight": true,
+        "initial_charges": [ 12, 24 ],
+        "ammo_restriction": { "hydrogen": 24 },
+        "watertight": true
+      }
+    ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "looks_like": "oxygen_tank",
     "melee_damage": { "bash": 10 }
   },
@@ -686,9 +695,18 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 24,
-    "max_charges": 24,
     "charges_per_use": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "airtight": true,
+        "initial_charges": [ 12, 24 ],
+        "ammo_restriction": { "hydrogen": 24 },
+        "watertight": true
+      }
+    ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "looks_like": "oxygen_tank",
     "melee_damage": { "bash": 10 }
   },

@@ -123,6 +123,32 @@
     "ammo_type": "oxygen"
   },
   {
+    "type": "AMMO",
+    "id": "hydrogen",
+    "name": { "str_sp": "hydrogen" },
+    "symbol": "~",
+    "color": "white",
+    "description": "Compressed hydrogen.",
+    "weight": "1 mg",
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
+    "phase": "gas",
+    "ammo_type": "hydrogen"
+  },
+  {
+    "type": "AMMO",
+    "id": "nitrogen",
+    "name": { "str_sp": "nitrogen" },
+    "symbol": "~",
+    "color": "white",
+    "description": "Compressed nitrogen.",
+    "weight": "1 mg",
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
+    "phase": "gas",
+    "ammo_type": "nitrogen"
+  },
+  {
     "type": "TOOL",
     "id": "betavoltaic",
     "category": "spare_parts",
