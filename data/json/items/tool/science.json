@@ -734,6 +734,7 @@
         "ammo_restriction": { "oxygen": 300 }
       }
     ],
+    "flags": [ "NO_UNLOAD" ],
     "ammo_type": [ "oxygen" ],
     "capacity": 300,
     "count": 300,
