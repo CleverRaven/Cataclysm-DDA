@@ -147,6 +147,25 @@
     "color": "white"
   },
   {
+    "type": "COMESTIBLE",
+    "id": "egg_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "copy-from": "egg_chicken",
+    "weight": "20 g",
+    "volume": "650 ml",
+    "description": "A large clump of frog eggs.  They're gelatinous and transparent.",
+    "extend": { "flags": [ "OBSOLETE" ] },
+    "rot_spawn": "GROUP_EGG_FROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_toad",
+    "name": { "str": "cluster of toad's eggs", "str_pl": "clusters of toad's eggs" },
+    "copy-from": "egg_frog",
+    "description": "A large clump of the eggs of a toad.  The eggs themselves are gelatinous and transparent.",
+    "rot_spawn": "GROUP_EGG_TOAD"
+  },
+  {
     "type": "PET_ARMOR",
     "id": "superalloy_harness_dog",
     "copy-from": "kevlar_harness",
