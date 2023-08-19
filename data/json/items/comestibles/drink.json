@@ -280,9 +280,11 @@
     "id": "milk_coffee_substitute_sweetened",
     "copy-from": "milk_coffee_substitute",
     "name": { "str_sp": "sweetened coffee substitute with milk" },
+    "conditional_names": [ { "type": "FLAG", "condition": "COLD", "name": { "str_sp": "iced coffee substitute" } } ],
     "calories": 88,
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "description": "The morning ritual of the post-apocalyptic world.  Brewed from the Kentucky coffeetree, this drink has no actual caffeine, but serves as a replacement for those who dearly miss the aroma of real coffee.",
+    "extend": { "flags": [ "EATEN_COLD" ] },
+    "description": "The morning ritual of the post-apocalyptic world.  Brewed from the Kentucky coffeetree, this drink has no actual caffeine, but serves as a replacement for those who dearly miss the aroma of real coffee.  Can also be served cold as iced coffee.",
     "fun": 4
   },
   {
@@ -1548,8 +1550,10 @@
     "id": "tea_sweetened",
     "copy-from": "tea",
     "name": { "str": "sweetened tea" },
+    "conditional_names": [ { "type": "FLAG", "condition": "COLD", "name": { "str_sp": "iced tea" } } ],
     "calories": 21,
-    "description": "The beverage of gentlemen everywhere, made from applying hot water to leaves of the tea plant \"Camellia sinensis\".  With added sweetener for a better taste.",
+    "extend": { "flags": [ "EATEN_COLD" ] },
+    "description": "The beverage of gentlemen everywhere, made from applying hot water to leaves of the tea plant \"Camellia sinensis\".  With added sweetener for a better taste.  Can also be served cold as iced tea.",
     "price": 100,
     "price_postapoc": 35,
     "fun": 10
@@ -1583,8 +1587,10 @@
     "id": "milk_coffee_sweetened",
     "copy-from": "milk_coffee",
     "name": { "str": "sweetened coffee milk" },
+    "conditional_names": [ { "type": "FLAG", "condition": "COLD", "name": { "str_sp": "iced coffee" } } ],
     "calories": 88,
-    "description": "Coffee syrup mixed into milk.  It's been the state drink of Rhode Island since 1993.  With added sweetener for those who like it even sweeter.",
+    "extend": { "flags": [ "EATEN_COLD" ] },
+    "description": "Coffee syrup mixed into milk.  It's been the state drink of Rhode Island since 1993.  With added sweetener for those who like it even sweeter.  Can also be served cold as iced coffee.",
     "price": 490,
     "price_postapoc": 60,
     "fun": 14
