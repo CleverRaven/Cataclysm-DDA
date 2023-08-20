@@ -1769,9 +1769,9 @@
     "type": "GENERIC",
     "id": "exodii_club",
     "name": "crusher",
-    "description": "Resembling a tetsubo or baseball bat studded with metal spikes, this is a simple and brutal weapon used by Exodii when the ammo runs low.",
+    "description": "Resembling a tetsubo or baseball bat studded with metal spikes, this is a simple and brutal weapon used by Exodii when the ammo runs low. The massive weight makes this a daunting weapon to wield for those without artificial muscles.",
     "weight": "10 kg",
-    "min_strength": 10,
+    "min_strength": 12,
     "price_postapoc": 400,
     "color": "grey",
     "symbol": "|",
@@ -1784,5 +1784,44 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "uneven" },
     "qualities": { "HAMMER": 1 },
     "melee_damage": { "bash": 40, "pierce": 20 }
+  },
+  {
+    "id": "exodii_powerfist",
+    "type": "ARMOR",
+    "name": { "str_sp": "hammerhand" },
+    "description": "A weapon used by bipedal Exodii when the ammo runs low. Delivering a punch with this glove triggers a pneumatic hammer that slams into the target. A built-in compressor requires a few seconds between strikes.",
+    "weight": "3 kg",
+    "volume": "300 ml",
+    "longest_side": "50 cm",
+    "price": 1100,
+    "price_postapoc": 250,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
+    "material": [ "qt_steel" ],
+	"sided": "true",
+    "symbol": "[",
+    "color": "light_gray",
+    "power_armor": true,
+    "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "OVERSIZE", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 },
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "rigid": true,
+        "watertight": true,
+        "ammo_restriction": { "oxygen": 100 }
+      }
+    ],
+    "melee_damage": { "bash": 50, "cut": 10 },
+    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "4 s" } }
   }
 ]
