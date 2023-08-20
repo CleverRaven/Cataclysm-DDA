@@ -21,6 +21,7 @@
 #include "achievement.h"
 #include "addiction.h"
 #include "bionics.h"
+#include "calendar_ui.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -116,8 +117,6 @@ static bool isWide = false;
 #define COL_SKILL_USED      c_green   // A skill with at least one point
 #define COL_HEADER          c_white   // Captions, like "Profession items"
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
-#define COL_DATE_FIXED      c_light_red  // Fixed part of cataclysm/game start date
-#define COL_DATE_RANDOM     c_light_cyan  // Random part of cataclysm/game start date
 
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 
@@ -3054,19 +3053,10 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
     std::string assembled;
     assembled += string_format( g_switch_msg( u ), ctxt.get_desc( "CHANGE_GENDER" ),
                                 current_scenario->gender_appropriate_name( !u.male ) ) + "\n";
-    if( current_scenario->is_random_start_of_cataclysm() ) {
-        assembled += string_format(
-                         _( "Press <color_light_green>%1$s</color> to randomize (or <color_light_green>%2$s</color> to reset) cataclysm start date." ),
-                         ctxt.get_desc( "RANDOMIZE_SCENARIO_START_OF_CATACLYSM" ),
-                         ctxt.get_desc( "RESET_SCENARIO_START_OF_CATACLYSM" ) ) + "\n";
-    }
-    if( current_scenario->is_random_start_of_game() ) {
-        assembled += string_format(
-                         _( "Press <color_light_green>%1$s</color> to randomize (or <color_light_green>%2$s</color> to reset) game start date." ),
-                         ctxt.get_desc( "RANDOMIZE_SCENARIO_START_OF_GAME" ),
-                         ctxt.get_desc( "RESET_SCENARIO_START_OF_GAME" ) ) + "\n";
-    }
-
+    assembled += string_format(
+                     _( "Press <color_light_green>%1$s</color> to change cataclysm start date, <color_light_green>%2$s</color> to change game start date, <color_light_green>%3$s</color> to reset calendar." ),
+                     ctxt.get_desc( "CHANGE_START_OF_CATACLYSM" ), ctxt.get_desc( "CHANGE_START_OF_GAME" ),
+                     ctxt.get_desc( "RESET_CALENDAR" ) ) + "\n";
     assembled += "\n" + colorize( _( "Scenario Story:" ), COL_HEADER ) + "\n";
     assembled += colorize( current_scenario->description( u.male ), c_green ) + "\n";
     const std::optional<achievement_id> scenRequirement = current_scenario->get_requirement();
@@ -3118,42 +3108,11 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
         assembled += current_scenario->vehicle()->name + "\n";
     }
 
-    assembled += "\n" + colorize( string_format( _( "Start of cataclysm (%s):" ),
-                                  current_scenario->is_random_start_of_cataclysm()
-                                  ? colorize( "random", COL_DATE_RANDOM )
-                                  : colorize( "fixed",  COL_DATE_FIXED ) ), COL_HEADER ) + "\n";
-    assembled += string_format( _( "Hour %1$s of %3$s, day %2$s (year %4$s)" ),
-                                colorize( string_format( "%d",
-                                          current_scenario->start_of_cataclysm_hour() ),
-                                          current_scenario->is_random_start_of_cataclysm_hour() ? COL_DATE_RANDOM : COL_DATE_FIXED ),
-                                colorize( string_format( "%d",
-                                          current_scenario->start_of_cataclysm_day() + 1 ),
-                                          current_scenario->is_random_start_of_cataclysm_day() ? COL_DATE_RANDOM : COL_DATE_FIXED ),
-                                colorize( string_format( "%s",
-                                          calendar::name_season( current_scenario->start_of_cataclysm_season() ) ),
-                                          current_scenario->is_random_start_of_cataclysm_season() ? COL_DATE_RANDOM : COL_DATE_FIXED ),
-                                colorize( string_format( "%d",
-                                          current_scenario->start_of_cataclysm_year() + 1 ),
-                                          current_scenario->is_random_start_of_cataclysm_year() ? COL_DATE_RANDOM : COL_DATE_FIXED )
-                              ) + "\n";
-    assembled += "\n" + colorize( string_format( _( "Start of game (%s):" ),
-                                  current_scenario->is_random_start_of_game()
-                                  ? colorize( "random", COL_DATE_RANDOM )
-                                  : colorize( "fixed",  COL_DATE_FIXED ) ), COL_HEADER ) + "\n";
-    assembled += string_format( _( "Hour %1$s of %3$s, day %2$s (year %4$s)" ),
-                                colorize( string_format( "%d",
-                                          current_scenario->start_of_game_hour() ),
-                                          current_scenario->is_random_start_of_game_hour() ? COL_DATE_RANDOM : COL_DATE_FIXED ),
-                                colorize( string_format( "%d",
-                                          current_scenario->start_of_game_day() + 1 ),
-                                          current_scenario->is_random_start_of_game_day() ? COL_DATE_RANDOM : COL_DATE_FIXED ),
-                                colorize( string_format( "%s",
-                                          calendar::name_season( current_scenario->start_of_game_season() ) ),
-                                          current_scenario->is_random_start_of_game_season() ? COL_DATE_RANDOM : COL_DATE_FIXED ),
-                                colorize( string_format( "%d",
-                                          current_scenario->start_of_game_year() + 1 ),
-                                          current_scenario->is_random_start_of_game_year() ? COL_DATE_RANDOM : COL_DATE_FIXED )
-                              ) + "\n";
+    assembled += "\n" + colorize( _( "Start of cataclysm:" ), COL_HEADER ) + "\n";
+    assembled += to_string( current_scenario->start_of_cataclysm() ) + "\n";
+
+    assembled += "\n" + colorize( _( "Start of game:" ), COL_HEADER ) + "\n";
+    assembled += to_string( current_scenario->start_of_game() ) + "\n";
 
     if( !current_scenario->missions().empty() ) {
         assembled += "\n" + colorize( _( "Scenario missions:" ), COL_HEADER ) + "\n";
@@ -3219,14 +3178,11 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
-    ctxt.register_action( "RANDOMIZE" );
-    ctxt.register_action( "RANDOMIZE_SCENARIO_START_OF_GAME" );
-    ctxt.register_action( "RANDOMIZE_SCENARIO_START_OF_CATACLYSM" );
-    ctxt.register_action( "RESET_SCENARIO_START_OF_GAME" );
-    ctxt.register_action( "RESET_SCENARIO_START_OF_CATACLYSM" );
+    ctxt.register_action( "CHANGE_START_OF_CATACLYSM" );
+    ctxt.register_action( "CHANGE_START_OF_GAME" );
+    ctxt.register_action( "RESET_CALENDAR" );
 
     bool recalc_scens = true;
     size_t scens_length = 0;
@@ -3392,33 +3348,28 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
             }
         } else if( action == "RANDOMIZE" ) {
             cur_id = rng( 0, scens_length - 1 );
-        } else if( action == "RANDOMIZE_SCENARIO_START_OF_CATACLYSM" ) {
+        } else if( action == "CHANGE_START_OF_CATACLYSM" ) {
+            const scenario *scen = sorted_scens[cur_id];
             if( cur_id != id_for_curr_description ) {
-                get_scenario()->rerandomize( true, false );
-            } else {
-                sorted_scens[cur_id]->rerandomize( true, false );
+                scen = get_scenario();
             }
+            scen->change_start_of_cataclysm( calendar_ui::select_time_point( scen->start_of_cataclysm(),
+                                             "Select cataclysm start date" ) );
             details_recalc = true;
-        } else if( action == "RANDOMIZE_SCENARIO_START_OF_GAME" ) {
+        } else if( action == "CHANGE_START_OF_GAME" ) {
+            const scenario *scen = sorted_scens[cur_id];
             if( cur_id != id_for_curr_description ) {
-                get_scenario()->rerandomize( false, true );
-            } else {
-                sorted_scens[cur_id]->rerandomize( false, true );
+                scen = get_scenario();
             }
+            scen->change_start_of_game( calendar_ui::select_time_point( scen->start_of_game(),
+                                        "Select game start date" ) );
             details_recalc = true;
-        } else if( action == "RESET_SCENARIO_START_OF_CATACLYSM" ) {
+        } else if( action == "RESET_CALENDAR" ) {
+            const scenario *scen = sorted_scens[cur_id];
             if( cur_id != id_for_curr_description ) {
-                get_scenario()->reset_start_of_dates( true, false );
-            } else {
-                sorted_scens[cur_id]->reset_start_of_dates( true, false );
+                get_scenario()->reset_calendar();
             }
-            details_recalc = true;
-        } else if( action == "RESET_SCENARIO_START_OF_GAME" ) {
-            if( cur_id != id_for_curr_description ) {
-                get_scenario()->reset_start_of_dates( false, true );
-            } else {
-                sorted_scens[cur_id]->reset_start_of_dates( false, true );
-            }
+            scen->reset_calendar();
             details_recalc = true;
         }
 
@@ -3549,6 +3500,7 @@ static void draw_location( ui_adaptor &ui, const catacurses::window &w_location,
 
 } // namespace char_creation
 
+// NOLINTNEXTLINE(readability-function-size)
 void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                       pool_type pool )
 {
@@ -3573,6 +3525,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
     catacurses::window w_height;
     catacurses::window w_age;
     catacurses::window w_blood;
+    catacurses::window w_calendar;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
         isWide = ( TERMX > FULL_SCREEN_WIDTH && freeWidth > 15 );
@@ -3593,7 +3546,8 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             w_addictions = catacurses::newwin( 1, ncol3, point( beginx3, 8 ) );
             w_stats = catacurses::newwin( 6, 20, point( 2, 10 ) );
             w_traits = catacurses::newwin( TERMY - 11, ncol2, point( beginx2, 10 ) );
-            w_bionics = catacurses::newwin( TERMY - 11, ncol3, point( beginx3, 10 ) );
+            w_calendar = catacurses::newwin( 4, ncol3, point( beginx3, 10 ) );
+            w_bionics = catacurses::newwin( TERMY - 16, ncol3, point( beginx3, 15 ) );
             w_proficiencies = catacurses::newwin( TERMY - 21, 19, point( 2, 16 ) );
             // Extra - 11 to avoid overlap with long text in w_guide.
             w_hobbies = catacurses::newwin( TERMY - 11 - 11, ncol4, point( beginx4, 10 ) );
@@ -3616,8 +3570,9 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             w_stats = catacurses::newwin( 6, ncol_small, point( 2, 10 ) );
             w_scenario = catacurses::newwin( 1, ncol_small, point( begin_sncol, 10 ) );
             w_profession = catacurses::newwin( 1, ncol_small, point( begin_sncol, 11 ) );
-            w_vehicle = catacurses::newwin( 2, ncol_small, point( begin_sncol, 13 ) );
-            w_addictions = catacurses::newwin( 2, ncol_small, point( begin_sncol, 15 ) );
+            w_calendar = catacurses::newwin( 4, ncol_small, point( begin_sncol, 13 ) );
+            w_vehicle = catacurses::newwin( 2, ncol_small, point( begin_sncol, 18 ) );
+            w_addictions = catacurses::newwin( 2, ncol_small, point( begin_sncol, 20 ) );
             w_guide = catacurses::newwin( 2, TERMX - 3, point( 2, TERMY - 3 ) );
             w_traits = catacurses::window();
             w_bionics = catacurses::window();
@@ -3642,6 +3597,9 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
     }
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "CHANGE_START_OF_CATACLYSM" );
+    ctxt.register_action( "CHANGE_START_OF_GAME" );
+    ctxt.register_action( "RESET_CALENDAR" );
     if( get_option<bool>( "SELECT_STARTING_CITY" ) ) {
         ctxt.register_action( "CHOOSE_CITY" );
     }
@@ -3901,6 +3859,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                             _( "Press <color_light_green>%s</color> to switch gender." ),
                             ctxt.get_desc( "CHANGE_GENDER" ) );
 
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 6 ), TERMX, c_light_gray,
+                            _( "Press <color_light_green>%1$s</color> to change cataclysm start date, <color_light_green>%2$s</color> to change game start date, <color_light_green>%3$s</color> to reset calendar." ),
+                            ctxt.get_desc( "CHANGE_START_OF_CATACLYSM" ), ctxt.get_desc( "CHANGE_START_OF_GAME" ),
+                            ctxt.get_desc( "RESET_CALENDAR" ) );
+
             if( !get_option<bool>( "SELECT_STARTING_CITY" ) ) {
                 fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), TERMX, c_light_gray,
                                 _( "Press <color_light_green>%s</color> to select a specific starting location." ),
@@ -4022,6 +3985,21 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         mvwprintz( w_profession, point_zero, COL_HEADER, _( "Profession: " ) );
         wprintz( w_profession, c_light_gray, you.prof->gender_appropriate_name( you.male ) );
         wnoutrefresh( w_profession );
+
+        werase( w_scenario );
+        mvwprintz( w_scenario, point_zero, COL_HEADER, _( "Scenario: " ) );
+        wprintz( w_scenario, c_light_gray, get_scenario()->gender_appropriate_name( you.male ) );
+        wnoutrefresh( w_scenario );
+
+        werase( w_calendar );
+        mvwprintz( w_calendar, point_zero, COL_HEADER, _( "Start of cataclysm:" ) );
+        wprintz( w_calendar, c_light_gray, "\n" );
+        wprintz( w_calendar, c_light_gray, to_string( get_scenario()->start_of_cataclysm() ) );
+        wprintz( w_calendar, c_light_gray, "\n" );
+        wprintz( w_calendar, COL_HEADER, _( "Start of game:" ) );
+        wprintz( w_calendar, c_light_gray, "\n" );
+        wprintz( w_calendar, c_light_gray, to_string( get_scenario()->start_of_game() ) );
+        wnoutrefresh( w_calendar );
 
         if( isWide ) {
             werase( w_hobbies );
@@ -4224,6 +4202,16 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             you.randomize_heartrate();
         } else if( action == "CHANGE_GENDER" ) {
             you.male = !you.male;
+        } else if( action == "CHANGE_START_OF_CATACLYSM" ) {
+            const scenario *scen = get_scenario();
+            scen->change_start_of_cataclysm( calendar_ui::select_time_point( scen->start_of_cataclysm(),
+                                             "Select cataclysm start date" ) );
+        } else if( action == "CHANGE_START_OF_GAME" ) {
+            const scenario *scen = get_scenario();
+            scen->change_start_of_game( calendar_ui::select_time_point( scen->start_of_game(),
+                                        "Select game start date" ) );
+        } else if( action == "RESET_CALENDAR" ) {
+            get_scenario()->reset_calendar();
         } else if( action == "CHOOSE_CITY" ) {
             std::vector<city> cities( city::get_all() );
             const auto cities_cmp_population = []( const city & a, const city & b ) {

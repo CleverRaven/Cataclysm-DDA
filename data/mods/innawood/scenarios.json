@@ -261,8 +261,8 @@
     "start_name": "Outside Town",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
     "flags": [ "LONE_START" ],
-    "start_of_cataclysm": { "hour": 0, "day": 60, "season": "spring", "year": 1 },
-    "start_of_game": { "day": "random", "hour": "random", "season": "winter", "year": 1 },
+    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
+    "start_of_game": { "hour": 8, "day": 1, "season": "winter", "year": 1 },
     "professions": [
       "svictim",
       "naked",
@@ -302,7 +302,7 @@
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island", "sloc_river" ],
     "start_name": "Outside Town",
     "flags": [ "LONE_START" ],
-    "start_of_cataclysm": { "hour": 0, "day": 60, "season": "spring", "year": 1 },
+    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
     "start_of_game": { "hour": 8, "day": 1, "season": "summer", "year": 2 },
     "professions": [
       "svictim",

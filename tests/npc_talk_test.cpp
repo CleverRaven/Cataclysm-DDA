@@ -1139,6 +1139,10 @@ TEST_CASE( "npc_test_tags", "[npc_talk]" )
 
 TEST_CASE( "npc_compare_int", "[npc_talk]" )
 {
+    calendar::turn = calendar::turn_zero;
+    calendar::start_of_cataclysm = calendar::turn_zero;
+    calendar::start_of_game = calendar::turn_zero;
+
     dialogue d;
     npc &beta = prep_test( d );
     Character &player_character = get_avatar();
@@ -1324,6 +1328,9 @@ TEST_CASE( "npc_arithmetic_op", "[npc_talk]" )
     gen_response_lines( d, 14 );
 
     calendar::turn = calendar::turn_zero;
+    calendar::start_of_cataclysm = calendar::turn_zero;
+    calendar::start_of_game = calendar::turn_zero;
+
     REQUIRE( calendar::turn == time_point( 0 ) );
     // "Sets time since cataclysm to 2 * 5 turns.  (10)"
     talk_effect_t &effects = d.responses[ 0 ].success;
