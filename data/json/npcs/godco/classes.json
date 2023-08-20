@@ -405,7 +405,6 @@
     "weapon_override": "GODCO_felicity_wield",
     "traits": [
       { "group": "NPC_starting_traits" },
-      { "trait": "STYLISH" },
       { "trait": "SPIRITUAL" },
       { "group": "Appearance_Mixed" },
       { "trait": "NO_BASH" },
