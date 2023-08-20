@@ -1,0 +1,191 @@
+[
+  {
+    "id": "zap_electrical_emission",
+    "type": "SPELL",
+    "name": "Zap",
+    "description": "Electricity emits from your extremities.",
+    "message": "tsszappp!",
+    "skill": "deduction",
+    "effect": "attack",
+    "shape": "cone",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "flags": [ "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "max_level": { "math": [ "dex_to_level(1)" ] },
+    "min_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: zap_electrical_emission') * 1) + 3) * (scaling_factor(u_val('dexterity') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: zap_electrical_emission') * 4) + 7) * (scaling_factor(u_val('dexterity') ) )" ]
+    },
+    "min_range": 2,
+    "max_range": 6,
+    "range_increment": 0.25,
+    "base_casting_time": 100,
+    "final_casting_time": 35,
+    "casting_time_increment": -4,
+    "base_energy_cost": 150,
+    "final_energy_cost": 50,
+    "energy_increment": 5,
+    "energy_source": "MANA",
+    "difficulty": 1,
+    "sound_description": "a crackle",
+    "damage_type": "electric",
+    "learn_spells": {
+      "sylph_call_lightning": 5,
+      "sylph_crash_of_lightning": 9
+    }
+  },
+  {
+    "id": "sylph_call_lightning",
+    "type": "SPELL",
+    "name": "Lightning Bolt",
+    "description": "The goto ability for many Sylphs, this does just what you expect: you shoot lightning from your fingertips.  However, this lightning is more directed than most lightning, and travels in a line through most non-solid targets.",
+    "effect": "attack",
+    "shape": "line",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "flags": [ "LOUD", "SOMATIC", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "dex_to_level(1)" ] },
+    "min_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: sylph_call_lightning') * 3) + 6) * (scaling_factor(u_val('dexterity') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: sylph_call_lightning') * 4) + 26) * (scaling_factor(u_val('dexterity') ) )" ]
+    },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: sylph_call_lightning') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ]
+    },
+    "max_range": 70,
+    "difficulty": 6,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "base_casting_time": 200,
+    "final_casting_time": 100,
+    "casting_time_increment": -5,
+    "base_energy_cost": 240,
+    "final_energy_cost": 60,
+    "energy_increment": 8,
+    "field_id": "fd_electricity",
+    "min_field_intensity": 1,
+    "max_field_intensity": 1,
+    "field_chance": 1,
+    "damage_type": "electric",
+    "sound_description": "a crackle",
+    "energy_source": "MANA"
+  },
+  {
+    "id": "sylph_crash_of_lightning",
+    "type": "SPELL",
+    "name": "Crash of lightning",
+    "description": "The crash of lightning strikes your foes with a blast of electricity and a physical force that knocks them prone.",
+    "effect": "attack",
+    "shape": "line",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "extra_effects": [ { "id": "crash", "hit_self": false, "max_level": 3 } ],
+    "flags": [ "LOUD", "SOMATIC", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "dex_to_level(1)" ] },
+    "min_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: sylph_crash_of_lightning') * 3) + 6) * (scaling_factor(u_val('dexterity') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: sylph_crash_of_lightning') * 4) + 26) * (scaling_factor(u_val('dexterity') ) )" ]
+    },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: sylph_crash_of_lightning') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ]
+    },
+    "max_range": 70,
+    "difficulty": 6,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "base_casting_time": 200,
+    "final_casting_time": 100,
+    "casting_time_increment": -5,
+    "base_energy_cost": 240,
+    "final_energy_cost": 60,
+    "energy_increment": 8,
+    "field_id": "fd_electricity",
+    "min_field_intensity": 1,
+    "max_field_intensity": 1,
+    "field_chance": 1,
+    "damage_type": "electric",
+    "sound_description": "a crackle",
+    "energy_source": "MANA"
+  },
+  {
+    "type": "SPELL",
+    "id": "crash",
+    "name": "crash",
+    "description": "A thunder clap at a distance.",
+    "valid_targets": [ "hostile", "ground", "self", "ally" ],
+    "effect": "downed",
+    "shape": "line",
+    "flags": [ "LOUD" ],
+    "max_level": { "math": [ "dex_to_level(1)" ] },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: sylph_crash_of_lightning') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ]
+    },
+    "max_range": 70
+  },
+  {
+    "type": "SPELL",
+    "id": "clap_of_thunder",
+    "name": "clap of thunder",
+    "description": "A thunder clap at a distance.",
+    "valid_targets": [ "hostile", "ground", "self", "ally" ],
+    "effect": "flashbang",
+    "shape": "blast",
+    "flags": [ "LOUD" ],
+    "max_level": { "math": [ "dex_to_level(1)" ] },
+    "min_range": 12,
+    "max_range": 24,
+    "range_increment": 0.4,
+    "base_casting_time": 200,
+    "final_casting_time": 80,
+    "casting_time_increment": -5,
+    "base_energy_cost": 90,
+    "final_energy_cost": 20,
+    "energy_increment": 8
+  },
+  {
+    "id": "zap_electrical_emission",
+    "type": "SPELL",
+    "name": "Zap",
+    "description": "Electricity emits from your extremities.",
+    "message": "tsszappp!",
+    "valid_targets": [ "hostile", "ground" ],
+    "skill": "deduction",
+    "flags": [ "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "effect": "attack",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
+    "shape": "blast",
+    "damage_type": "electric",
+    "difficulty": 2,
+    "max_level": { "math": [ "dex_to_level(1)" ] },
+    "min_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_eruption') * 3) + 6) * (scaling_factor(u_val('dexterity') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_eruption') * 4) + 26) * (scaling_factor(u_val('dexterity') ) )" ]
+    },
+    "min_range": {
+      "math": [ "( (u_val('spell_level', 'spell: pyrokinetic_eruption') * 1.5) + 2) * (scaling_factor(u_val('dexterity') ) )" ]
+    },
+    "max_range": 70,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 1500,
+    "final_energy_cost": 300,
+    "energy_increment": -125,
+    "base_casting_time": 100,
+    "final_casting_time": 35,
+    "casting_time_increment": -4,
+    "sound_type": "combat",
+    "sound_description": "a crackle!",
+    "learn_spells": {
+      "pyrokinetic_call_flames": 5,
+      "pyrokinetic_flamethrower": 7,
+      "pyrokinetic_flash": 9,
+      "pyrokinetic_thermogenesis": 12,
+      "pyrokinetic_blast": 15,
+      "pyrokinetic_cloak": 17
+    }
+  }
+]
