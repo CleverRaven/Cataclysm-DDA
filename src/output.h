@@ -1244,7 +1244,7 @@ class tab_list
 
         std::string cur() const {
             if( _list->empty() ) {
-                return std::string( "" );
+                return std::string();
             }
             return ( *_list )[_index];
         }
