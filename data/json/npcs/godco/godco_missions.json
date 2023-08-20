@@ -120,7 +120,12 @@
       "success_lie": "Thanks for trying… I guess.",
       "failure": "Don't worry about it, I'll do it myself."
     },
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 1 } ] }
+    "end": {
+      "effect": [
+        { "npc_add_var": "sonia_guitar_fixed", "type": "mission", "context": "completed", "value": "yes" },
+        { "u_spawn_item": "icon", "count": 1 }
+      ]
+    }
   },
   {
     "id": "MISSION_GODCO_DARRYL_WELL1",
