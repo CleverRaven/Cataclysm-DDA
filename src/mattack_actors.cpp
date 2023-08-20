@@ -612,7 +612,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                 tripoint zpt = z.pos();
                 z.move_to( target_square, false, false, grab_data.drag_movecost_mod );
                 if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
-                    return false;
+                    return 0;
                 }
                 if( target->is_avatar() && ( zpt.x < HALF_MAPSIZE_X ||
                                              zpt.y < HALF_MAPSIZE_Y ||
