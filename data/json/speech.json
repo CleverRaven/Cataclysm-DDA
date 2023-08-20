@@ -2528,19 +2528,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_dog_samoyed", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "BARK!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_mutant_mongrel", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "BARK!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_mutant_loper", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_dog_samoyed", "mon_dog_mutant_mongrel", "mon_dog_mutant_loper", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "BARK!",
     "volume": 40
   },
