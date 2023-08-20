@@ -103,7 +103,12 @@ class veh_app_interact
          * can be disconnected by the player.
          * @returns True if the appliance can be unplugged.
         */
-        bool can_unplug();
+        bool can_merge();
+        /**
+         * Function associated with the "MERGE" action.
+         * Merge power grid elements together into a single appliance
+         */
+        void merge();
         /**
          * Function associated with the "REFILL" action.
          * Checks all appliance parts for a watertight container to refill. If multiple

@@ -16,6 +16,7 @@
             { "math": [ "triffids_allowed", "==", "1" ] },
             { "math": [ "robots_allowed", "==", "1" ] },
             { "math": [ "subspace_allowed", "==", "1" ] },
+            { "math": [ "megafauna_allowed", "==", "1" ] },
             { "math": [ "dinos_allowed", "==", "1" ] },
             { "math": [ "lizardfolk_allowed", "==", "1" ] },
             { "math": [ "goblins_allowed", "==", "1" ] },
@@ -90,6 +91,18 @@
         "text": "Disable robots.",
         "condition": { "math": [ "robots_allowed", "==", "1" ] },
         "effect": { "math": [ "robots_allowed", "=", "0" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Allow megafauna.",
+        "condition": { "and": [ { "mod_is_loaded": "megafauna" }, { "math": [ "megafauna_allowed", "==", "0" ] } ] },
+        "effect": { "math": [ "megafauna_allowed", "=", "1" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Disable megafauna.",
+        "condition": { "and": [ { "mod_is_loaded": "megafauna" }, { "math": [ "megafauna_allowed", "==", "1" ] } ] },
+        "effect": { "math": [ "megafauna_allowed", "=", "0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
@@ -174,6 +187,7 @@
             { "math": [ "triffids_allowed", "==", "1" ] },
             { "math": [ "robots_allowed", "==", "1" ] },
             { "math": [ "subspace_allowed", "==", "1" ] },
+            { "math": [ "megafauna_allowed", "==", "1" ] },
             { "math": [ "dinos_allowed", "==", "1" ] },
             { "math": [ "lizardfolk_allowed", "==", "1" ] },
             { "math": [ "goblins_allowed", "==", "1" ] },

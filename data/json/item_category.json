@@ -190,6 +190,13 @@
     "sort_rank": 12
   },
   {
+    "id": "tool_magazine",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "TOOL MAGAZINES" },
+    "zone": "LOOT_TOOL_MAGAZINE",
+    "sort_rank": -15
+  },
+  {
     "id": "armor",
     "type": "ITEM_CATEGORY",
     "name": { "str": "ARMOR" },

@@ -13,7 +13,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "water", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "tools": [ [ [ "water", -1 ] ], [ [ "metalworking_tongs", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "components": [
       [ [ "q_staff", 1 ] ],
@@ -36,7 +36,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 2 }, { "id": "MANA_INFUSE", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "water", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "tools": [ [ [ "water", -1 ] ], [ [ "metalworking_tongs", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 } ],
     "components": [
       [ [ "enchanted_wood", 1 ] ],
@@ -138,7 +138,7 @@
       { "id": "MANA_INFUSE", "level": 1 }
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "rune_animist", 1 ] ] ]
   },
   {
@@ -164,7 +164,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "rune_animist_weapon", 1 ] ], [ [ "twisted_restore_potion", 1 ] ], [ [ "blood", 5 ] ] ]
   },
   {
@@ -203,7 +203,7 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "rune_technomancer", 1 ] ] ]
   },
   {
@@ -314,7 +314,7 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "rune_kelvinist", 1 ] ] ]
   },
   {
@@ -340,7 +340,7 @@
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 },
       { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [
       [ [ "2x4", 1 ], [ "stick", 2 ] ],
       [ [ "fur", 2 ], [ "leather", 2 ] ],
@@ -490,7 +490,7 @@
     "book_learn": [ [ "book_mythological", 10 ] ],
     "using": [ [ "forging_standard", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3 },
@@ -524,7 +524,7 @@
       { "proficiency": "prof_almetallurgy" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "spear_steel", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "silver_small", 2 ] ], [ [ "orichalcum_ingot", 2 ] ] ]
   },
   {
@@ -546,7 +546,7 @@
       { "proficiency": "prof_almetallurgy" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "broadsword", 1 ] ], [ [ "gold_small", 20 ] ], [ [ "orichalcum_ingot", 2 ] ] ]
   },
   {
@@ -568,7 +568,7 @@
       { "proficiency": "prof_almetallurgy" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 }, { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [
       [ [ "stick_long", 1 ], [ "2x4", 1 ] ],
       [ [ "cordage_superior", 2, "LIST" ] ],
@@ -595,7 +595,7 @@
       { "proficiency": "prof_almetallurgy" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "i_staff", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "orichalcum_ingot", 1 ] ] ]
   },
   {
@@ -618,7 +618,7 @@
     "time": "30 m",
     "book_learn": [ [ "book_mythological", 9 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ] ],
     "components": [
       [ [ "orichalcum_ingot", 1 ] ],
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
@@ -694,7 +694,7 @@
       { "id": "CHISEL", "level": 3 }
     ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_alchemy" }, { "proficiency": "prof_almetallurgy" } ],
-    "tools": [ [ [ "rune_alchemist", -1 ], [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "rune_alchemist", -1 ], [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "enchanted_wood", 1 ] ], [ [ "bulette_pearl", 1 ] ], [ [ "mithril_ingot", 1 ] ], [ [ "mana_dust", 10 ] ] ]
   }
 ]
