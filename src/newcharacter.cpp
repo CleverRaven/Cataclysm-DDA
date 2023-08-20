@@ -3228,7 +3228,6 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                                                "Scenario costs %2$d points", pointsForScen );
                 }
 
-
                 int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
                 mvwprintz( w, point( pMsg_length + 9, 3 ), can_afford.success() ? c_green : c_light_red,
                            scen_msg_temp, sorted_scens[cur_id]->gender_appropriate_name( u.male ), pointsForScen );

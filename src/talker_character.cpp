@@ -282,7 +282,6 @@ bool talker_character_const::bodytype( const bodytype_id &bt ) const
     return bt == "human";
 }
 
-
 bool talker_character_const::crossed_threshold() const
 {
     return me_chr_const->crossed_threshold();
@@ -974,7 +973,6 @@ void talker_character::attack_target( Creature &t, bool allow_special,
 {
     me_chr->melee_attack( t, allow_special, force_technique, allow_unarmed, forced_movecost );
 }
-
 
 void talker_character::learn_martial_art( const matype_id &id ) const
 {

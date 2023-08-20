@@ -2602,7 +2602,6 @@ static npc *select_follower_to_export()
     return followers[charmenu.ret];
 }
 
-
 static cata_path prepare_export_dir_and_find_unused_name( const std::string &character_name )
 {
     cata_path export_dir{ cata_path::root_path::user,  "export_dir" };

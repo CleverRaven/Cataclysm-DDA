@@ -2755,9 +2755,6 @@ void monster::die( Creature *nkiller )
         set_hp( current_hp );
     }
 
-
-
-
     item_location corpse;
     // drop a corpse, or not - this needs to happen after the spell, for e.g. revivification effects
     switch( type->mdeath_effect.corpse_type ) {
@@ -2786,7 +2783,6 @@ void monster::die( Creature *nkiller )
             add_item( item( "snare_trigger", calendar::turn_zero ) );
         }
     }
-
 
     if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death( corpse.get_item() );
@@ -3188,7 +3184,6 @@ void monster::process_effects()
             }
         }
     }
-
 
     if( has_flag( mon_flag_PHOTOPHOBIC ) && get_map().ambient_light_at( pos() ) >= 30.0f ) {
         add_msg_if_player_sees( *this, m_good, _( "The shadow withers in the light!" ), name() );

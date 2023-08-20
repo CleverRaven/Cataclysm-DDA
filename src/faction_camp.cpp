@@ -156,7 +156,6 @@ static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_traps( "traps" );
 static const skill_id skill_unarmed( "unarmed" );
 
-
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static const update_mapgen_id update_mapgen_faction_wall_level_E_1( "faction_wall_level_E_1" );
@@ -186,7 +185,6 @@ static const std::string var_time_between_succession =
 
 static const std::string var_timer_time_of_last_succession =
     "npctalk_var_timer_time_of_last_succession";
-
 
 //  These strings are matched against recipe group 'building_type'. Definite candidates for JSON definitions of
 //  the various UI strings corresponding to these groups.

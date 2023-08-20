@@ -2164,7 +2164,6 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             variant, point() );
 }
 
-
 bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                       const std::string &subcategory, const tripoint &pos,
                                       int subtile, int rota, lit_level ll,
@@ -2185,7 +2184,6 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, const trip
             subtile,
             rota, ll, retract, apply_night_vision_goggles, height_3d, 0, "", point() );
 }
-
 
 std::optional<tile_lookup_res>
 cata_tiles::find_tile_with_season( const std::string &id ) const
@@ -2405,7 +2403,6 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
 
     const tile_type *tt = nullptr;
     std::optional<tile_lookup_res> res;
-
 
     // translate from player-relative to screen relative tile position
     const point screen_pos = player_to_screen( pos.xy() );

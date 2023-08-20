@@ -1502,7 +1502,6 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     json.end_object();
 }
 
-
 /**
  *Works through cached vehicle definitions and creates vehicle objects from them.
  */

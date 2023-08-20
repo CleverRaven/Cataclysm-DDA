@@ -37,7 +37,6 @@ bool string_id<fault_fix>::is_valid() const
     return fault_fixes_all.count( *this );
 }
 
-
 /** @relates string_id */
 template<>
 const fault_fix &string_id<fault_fix>::obj() const

@@ -948,7 +948,6 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
             break;
         }
 
-
         // Vehicle turrets drain vehicle battery and do not care about this
         if( !gun.has_flag( flag_VEHICLE ) ) {
             const units::energy energ_req = gun.get_gun_energy_drain();

@@ -1941,7 +1941,6 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
     }
 }
 
-
 static std::map<action_id, std::string> get_actions_disabled_in_shell()
 {
     return std::map<action_id, std::string> {
