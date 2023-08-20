@@ -530,5 +530,45 @@
     "color": "light_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "acc_stair_up",
+    "name": "accessible stairs",
+    "description": "A flight of stairs adjacent to a switchback ramp wide enough for a wheelchair, leading up.",
+    "symbol": ">",
+    "color": "light_gray",
+    "move_cost": 8,
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "GOES_UP", "INDOORS", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "acc_stair_down",
+    "name": "accessible stairs",
+    "description": "A flight of stairs adjacent to a switchback ramp wide enough for a wheelchair, leading down.",
+    "symbol": ">",
+    "color": "light_gray",
+    "move_cost": 8,
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "GOES_DOWN", "INDOORS", "PLACE_ITEM", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "acc_stair_up_no_roof",
+    "name": "accessible stairs",
+    "description": "A flight of stairs adjacent to a switchback ramp wide enough for a wheelchair, leading up.",
+    "symbol": ">",
+    "color": "light_gray",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "acc_stair_down_no_roof",
+    "name": "accessible stairs",
+    "description": "A flight of stairs adjacent to a switchback ramp wide enough for a wheelchair, leading down.",
+    "symbol": ">",
+    "color": "light_gray",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "ROAD" ]
   }
 ]
