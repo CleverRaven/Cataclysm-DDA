@@ -610,7 +610,7 @@ inline typename std::enable_if < !std::is_enum<V>::value, V >::type
 inc_clamp( V val, bool inc, S max )
 {
     // NOLINTNEXTLINE(cata-no-long)
-    return inc_clamp( val, static_cast<int>( val + ( inc ? 1 : -1 ) ), static_cast<S>( 0 ), max );
+    return inc_clamp( val, inc ? 1 : -1, static_cast<S>( 0 ), max );
 }
 
 /**
@@ -633,7 +633,7 @@ template<typename V, typename S>
 inline typename std::enable_if < !std::is_enum<V>::value, V >::type
 inc_clamp( V val, bool inc, S min, S max )
 {
-    return inc_clamp( val, val + ( inc ? 1 : -1 ), min, max );
+    return inc_clamp( val, inc ? 1 : -1, min, max );
 }
 
 /**
