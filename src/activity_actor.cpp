@@ -2773,8 +2773,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     int moves = 0;
     Character &player_character = get_player_character();
     if( consume_location ) {
-        ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
-        ret = player_character.will_eat( *consume_location, true );
+        ret_val<edible_rating> ret = player_character.will_eat( *consume_location, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -2784,8 +2783,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
             moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
         }
     } else if( !consume_item.is_null() ) {
-        ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
-        ret = player_character.will_eat( consume_item, true );
+        ret_val<edible_rating> ret = player_character.will_eat( consume_item, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
