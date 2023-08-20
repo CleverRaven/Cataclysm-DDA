@@ -1876,7 +1876,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
             recalc_traits = true;
         } else if( action == "RESET_FILTER" ) {
             if( !filterstring.empty() ) {
-                filterstring = "";
+                filterstring.clear();
                 recalc_traits = true;
             }
         }
@@ -2327,7 +2327,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
             recalc_profs = true;
         } else if( action == "RESET_FILTER" ) {
             if( !filterstring.empty() ) {
-                filterstring = "";
+                filterstring.clear();
                 recalc_profs = true;
             }
         } else if( action == "RANDOMIZE" ) {
@@ -2651,7 +2651,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
             recalc_hobbies = true;
         } else if( action == "RESET_FILTER" ) {
             if( !filterstring.empty() ) {
-                filterstring = "";
+                filterstring.clear();
                 recalc_hobbies = true;
             }
         } else if( action == "RANDOMIZE" ) {
@@ -3342,7 +3342,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
             recalc_scens = true;
         } else if( action == "RESET_FILTER" ) {
             if( !filterstring.empty() ) {
-                filterstring = "";
+                filterstring.clear();
                 recalc_scens = true;
             }
         } else if( action == "RANDOMIZE" ) {

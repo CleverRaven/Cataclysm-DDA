@@ -3729,7 +3729,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
             }
         }
 
-        variant = "";
+        variant.clear();
         if( drawtop || it_overridden ) {
             if( it_overridden ) {
                 it_id = std::get<0>( it_override->second );
