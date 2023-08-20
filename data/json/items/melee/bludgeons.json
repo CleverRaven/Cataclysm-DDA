@@ -1805,7 +1805,7 @@
     "armor": [
       {
         "material": [
-          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 }
         ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
