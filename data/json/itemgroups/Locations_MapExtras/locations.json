@@ -203,7 +203,7 @@
       [ "oxy_powder", 2 ],
       [ "hazmat_suit", 5 ],
       [ "fungicide", 10 ],
-      [ "insecticide", 5 ],
+      { "group": "insecticide_bag_plastic", "prob": 5 },
       { "item": "oxygen_tank", "prob": 40, "charges": [ 0, 24 ] },
       [ "autoclave", 20 ],
       { "item": "smoxygen_tank", "prob": 10, "charges": [ 0, 12 ] },

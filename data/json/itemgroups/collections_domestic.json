@@ -1268,7 +1268,7 @@
       { "item": "boots_rubber", "prob": 20 },
       { "item": "charcoal", "prob": 5 },
       { "prob": 2, "group": "fungicide_bag_plastic_400" },
-      { "prob": 2, "group": "insecticide_bag_plastic_400" },
+      { "group": "insecticide_bag_plastic", "prob": 2 },
       { "item": "soap", "prob": 80 },
       { "item": "detergent", "prob": 80 },
       { "item": "chem_hydrogen_peroxide", "prob": 20 },
@@ -2079,10 +2079,9 @@
   },
   {
     "type": "item_group",
-    "id": "insecticide_bag_plastic_400",
+    "id": "insecticide_bag_plastic",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic",
-    "entries": [ { "item": "insecticide", "container-item": "null", "count": 400 } ]
+    "entries": [ { "item": "insecticide", "container-item": "null", "count": 9 } ]
   }
 ]
