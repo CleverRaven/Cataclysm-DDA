@@ -1168,7 +1168,9 @@ units::mass outfit::weight_carried_with_tweaks( const std::map<const item *, int
 {
     units::mass ret = 0_gram;
     for( const item &i : worn ) {
-        if( !without.count( &i ) ) {
+        if( without.empty() ) {
+            ret += i.weight();
+        } else if( !without.count( &i ) ) {
             for( const item *j : i.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
                 if( j->count_by_charges() ) {
                     ret -= get_selected_stack_weight( j, without );

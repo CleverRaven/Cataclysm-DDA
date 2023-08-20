@@ -3,7 +3,6 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "atomic_butter",
-    "result_mult": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",

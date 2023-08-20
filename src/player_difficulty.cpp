@@ -45,7 +45,7 @@ void player_difficulty::npc_from_avatar( const avatar &u, npc &dummy )
     }
 
     dummy.reset();
-    dummy.initialize();
+    dummy.initialize( false );
 }
 
 void player_difficulty::reset_npc( Character &dummy )

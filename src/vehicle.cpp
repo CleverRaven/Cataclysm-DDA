@@ -109,6 +109,7 @@ static const itype_id fuel_type_plutonium_cell( "plut_cell" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_plut_cell( "plut_cell" );
+static const itype_id itype_wall_wiring( "wall_wiring" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
@@ -123,9 +124,13 @@ static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
+static const std::string flag_CANT_DRAG( "CANT_DRAG" );
+static const std::string flag_WIRING( "WIRING" );
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
+
+static const int MAX_WIRE_VEHICLE_SIZE = 24;
 
 void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
 {
@@ -713,6 +718,9 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
 {
     Character &player_character = get_player_character();
     if( follow_protocol && player_character.in_vehicle ) {
+        sounds::sound( global_pos3(), 30, sounds::sound_t::alert,
+                       string_format( _( "the %s emitting a beep and saying \"Autonomous driving protocols suspended!\"" ),
+                                      name ) );
         stop_autodriving();
         return;
     }
@@ -720,6 +728,58 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     map &here = get_map();
     tripoint vehpos = global_square_location().raw();
     units::angle angle = get_angle_from_targ( target );
+
+    bool stop = precollision_check( angle, here, follow_protocol );
+    if( stop ) {
+        if( autopilot_on ) {
+            sounds::sound( global_pos3(), 30, sounds::sound_t::alert,
+                           string_format( _( "the %s emitting a beep and saying \"Obstacle detected!\"" ),
+                                          name ) );
+        }
+        stop_autodriving();
+        return;
+    }
+    int turn_x = get_turn_from_angle( angle, vehpos, target );
+    int accel_y = 0;
+    // best to cruise around at a safe velocity or 40mph, whichever is lowest
+    // accelerate when it doesn't need to turn.
+    // when following player, take distance to player into account.
+    // we really want to avoid running the player over.
+    // If its a helicopter, we dont need to worry about airborne obstacles so much
+    // And fuel efficiency is terrible at low speeds.
+    const int safe_player_follow_speed = 400 *
+                                         player_character.current_movement_mode()->move_speed_mult();
+    if( follow_protocol ) {
+        if( ( ( turn_x > 0 || turn_x < 0 ) && velocity > safe_player_follow_speed ) ||
+            rl_dist( vehpos, here.getabs( player_character.pos() ) ) < 7 + ( ( mount_max.y * 3 ) + 4 ) ) {
+            accel_y = 1;
+        }
+        if( ( velocity < std::min( safe_velocity(), safe_player_follow_speed ) && turn_x == 0 &&
+              rl_dist( vehpos, here.getabs( player_character.pos() ) ) > 8 + ( ( mount_max.y * 3 ) + 4 ) ) ||
+            velocity < 100 ) {
+            accel_y = -1;
+        }
+    } else {
+        if( ( turn_x > 0 || turn_x < 0 ) && velocity > 1000 ) {
+            accel_y = 1;
+        }
+        if( ( velocity < std::min( safe_velocity(), is_rotorcraft() &&
+                                   is_flying_in_air() ? 12000 : 32 * 100 ) && turn_x == 0 ) || velocity < 500 ) {
+            accel_y = -1;
+        }
+        if( is_patrolling && velocity > 400 ) {
+            accel_y = 1;
+        }
+    }
+    selfdrive( point( turn_x, accel_y ) );
+}
+
+bool vehicle::precollision_check( units::angle &angle, map &here, bool follow_protocol )
+{
+    if( !precollision_on ) {
+        return false;
+    }
+    Character &player_character = get_player_character();
     // now we got the angle to the target, we can work out when we are heading towards disaster.
     // Check the tileray in the direction we need to head towards.
     std::set<point> points_to_check = immediate_path( angle );
@@ -764,48 +824,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
             }
         }
     }
-    if( stop ) {
-        if( autopilot_on ) {
-            sounds::sound( global_pos3(), 30, sounds::sound_t::alert,
-                           string_format( _( "the %s emitting a beep and saying \"Obstacle detected!\"" ),
-                                          name ) );
-        }
-        stop_autodriving();
-        return;
-    }
-    int turn_x = get_turn_from_angle( angle, vehpos, target );
-    int accel_y = 0;
-    // best to cruise around at a safe velocity or 40mph, whichever is lowest
-    // accelerate when it doesn't need to turn.
-    // when following player, take distance to player into account.
-    // we really want to avoid running the player over.
-    // If its a helicopter, we dont need to worry about airborne obstacles so much
-    // And fuel efficiency is terrible at low speeds.
-    const int safe_player_follow_speed = 400 *
-                                         player_character.current_movement_mode()->move_speed_mult();
-    if( follow_protocol ) {
-        if( ( ( turn_x > 0 || turn_x < 0 ) && velocity > safe_player_follow_speed ) ||
-            rl_dist( vehpos, here.getabs( player_character.pos() ) ) < 7 + ( ( mount_max.y * 3 ) + 4 ) ) {
-            accel_y = 1;
-        }
-        if( ( velocity < std::min( safe_velocity(), safe_player_follow_speed ) && turn_x == 0 &&
-              rl_dist( vehpos, here.getabs( player_character.pos() ) ) > 8 + ( ( mount_max.y * 3 ) + 4 ) ) ||
-            velocity < 100 ) {
-            accel_y = -1;
-        }
-    } else {
-        if( ( turn_x > 0 || turn_x < 0 ) && velocity > 1000 ) {
-            accel_y = 1;
-        }
-        if( ( velocity < std::min( safe_velocity(), is_rotorcraft() &&
-                                   is_flying_in_air() ? 12000 : 32 * 100 ) && turn_x == 0 ) || velocity < 500 ) {
-            accel_y = -1;
-        }
-        if( is_patrolling && velocity > 400 ) {
-            accel_y = 1;
-        }
-    }
-    selfdrive( point( turn_x, accel_y ) );
+    return stop;
 }
 
 units::angle vehicle::get_angle_from_targ( const tripoint &targ ) const
@@ -1772,8 +1791,12 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
 bool vehicle::merge_vehicle_parts( vehicle *veh )
 {
     for( const vehicle_part &part : veh->parts ) {
+        if( part.is_fake || part.removed ) {
+            continue;
+        }
         point part_loc = veh->mount_to_tripoint( part.mount ).xy();
 
+        remove_fake_parts();
         parts.push_back( part );
         vehicle_part &copied_part = parts.back();
         copied_part.mount = part_loc - global_pos3().xy();
@@ -1787,6 +1810,61 @@ bool vehicle::merge_vehicle_parts( vehicle *veh )
     return true;
 }
 
+void vehicle::merge_appliance_into_grid( vehicle &veh_target )
+{
+    if( &veh_target == this ) {
+        return;
+    }
+    //Reset both grid turn_dir to prevent rotation on merge
+    turn_dir = 0_degrees;
+    veh_target.turn_dir = 0_degrees;
+
+    veh_target.shift_parts( get_map(), veh_target.pivot_displacement() );
+
+    bounding_box vehicle_box = get_bounding_box( true, true );
+    point size;
+    size.x = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
+    size.y = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
+
+    bounding_box target_vehicle_box = veh_target.get_bounding_box( true, true );
+
+    point target_size;
+    target_size.x = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
+    target_size.y = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
+    //Make sur the resulting vehicle would not be too large
+    if( size.x + target_size.x <= MAX_WIRE_VEHICLE_SIZE &&
+        size.y + target_size.y <= MAX_WIRE_VEHICLE_SIZE ) {
+        if( !merge_vehicle_parts( &veh_target ) ) {
+            debugmsg( "failed to merge vehicle parts" );
+        } else {
+            //The grid needs to stay undraggable
+            add_tag( flag_CANT_DRAG );
+
+            //Keep wall wiring sections from losing their flag
+            //A grid with only wires needs this flag to count as a powergrid
+            //But it's not a problem if a grid without any has this flag, thus we can add it without issue
+            add_tag( flag_WIRING );
+            name = _( "power grid" );
+        }
+    } else {
+        add_msg( m_bad, _( "Can't merge into %s, the resulting grid would be too big." ), veh_target.name );
+    }
+}
+
+bool vehicle::is_powergrid() const
+{
+    if( !has_tag( flag_APPLIANCE ) ) {
+        return false;
+    }
+
+    return  !solar_panels.empty() || !reactors.empty() || !wind_turbines.empty() ||
+            !water_wheels.empty() || !alternators.empty() || !batteries.empty() || has_tag( flag_WIRING );
+}
+
+/**
+ * Mark a part as removed from the vehicle.
+ * @return bool true if the vehicle's 0,0 point shifted.
+ */
 bool vehicle::remove_part( vehicle_part &vp )
 {
     DefaultRemovePartHandler handler;
@@ -2169,7 +2247,9 @@ bool vehicle::find_and_split_vehicles( map &here, std::set<int> exclude )
         std::vector<vehicle *> mark_wreckage { this };
         if( split_vehicles( here, all_vehicles, null_vehicles, null_mounts, &mark_wreckage ) ) {
             for( vehicle *veh : mark_wreckage ) {
-                veh->add_tag( "wreckage" ); // wreckages don't get fake parts added
+                if( !veh->has_tag( flag_APPLIANCE ) ) { // Appliances don't turn into wrecks when split
+                    veh->add_tag( "wreckage" ); // wreckages don't get fake parts added
+                }
             }
             shift_parts( here, point_zero ); // update the active cache
             return true;
@@ -2214,6 +2294,10 @@ bool vehicle::split_vehicles( map &here,
         tripoint new_v_pos3;
         point mnt_offset;
 
+        // if one part is an appliance it means we're dealing with a power grid
+        bool is_appliance = parts[split_part0].info().has_flag( flag_APPLIANCE );
+        bool is_wiring = parts[split_part0].info().base_item == itype_wall_wiring;
+
         decltype( labels ) new_labels;
         decltype( loot_zones ) new_zones;
         if( new_vehicle == nullptr ) {
@@ -2248,6 +2332,14 @@ bool vehicle::split_vehicles( map &here,
             new_vehicle->engine_on = engine_on;
             new_vehicle->tracking_on = tracking_on;
             new_vehicle->camera_on = camera_on;
+
+            // If we were splitting appliances the resulting vehicles are still appliances
+            if( is_appliance ) {
+                new_vehicle->add_tag( flag_APPLIANCE );
+            }
+            if( is_wiring ) {
+                new_vehicle->add_tag( flag_WIRING );
+            }
         }
 
         std::vector<Character *> passengers;
@@ -7347,7 +7439,7 @@ bool vehicle::restore_folded_parts( const item &it )
     return true;
 }
 
-const std::set<tripoint> &vehicle::get_points( const bool force_refresh ) const
+const std::set<tripoint> &vehicle::get_points( const bool force_refresh, const bool no_fake ) const
 {
     if( force_refresh || occupied_cache_pos != global_pos3() ||
         occupied_cache_direction != face.dir() ) {
@@ -7355,6 +7447,9 @@ const std::set<tripoint> &vehicle::get_points( const bool force_refresh ) const
         occupied_cache_direction = face.dir();
         occupied_points.clear();
         for( const std::pair<const point, std::vector<int>> &part_location : relative_parts ) {
+            if( no_fake && part( part_location.second.front() ).is_fake ) {
+                continue;
+            }
             occupied_points.insert( global_part_pos3( part_location.second.front() ) );
         }
     }
@@ -7671,7 +7766,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
     }
 }
 
-bounding_box vehicle::get_bounding_box( bool use_precalc )
+bounding_box vehicle::get_bounding_box( bool use_precalc, bool no_fake )
 {
     int min_x = INT_MAX;
     int max_x = INT_MIN;
@@ -7682,7 +7777,7 @@ bounding_box vehicle::get_bounding_box( bool use_precalc )
 
     precalc_mounts( 0, turn_dir, point() );
 
-    for( const tripoint &p : get_points( true ) ) {
+    for( const tripoint &p : get_points( true, no_fake ) ) {
         point pt;
         if( use_precalc ) {
             const int i_use = 0;

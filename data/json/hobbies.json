@@ -2,6 +2,61 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "driving_license",
+    "name": "Driving License",
+    "description": "You got your driving license and know how to drive a car, change the oil and tires, and other basics.",
+    "points": 0,
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "simple_home_cooking",
+    "name": "Simple Home Cooking",
+    "description": "You've been living on your own long enough that you know how to cook basic dishes and feed yourself.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "cooking" } ],
+    "proficiencies": [ "prof_food_prep" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "computer_literate",
+    "name": "Computer Literate",
+    "description": "Either through school, your job, or from your family, you've learned the basics of how to use a computer.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "computer" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "social_skills",
+    "name": "Social Skills",
+    "description": "You've spent a significant portion of your life living among other people and are familiar with social norms.  You know how to talk with other people, and how to convey your emotions and understand those of others.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "speech" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "high_school_graduate",
+    "name": "High School Graduate",
+    "description": "You've graduated from high school and thus know a little bit about applied science and electronics.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "chemistry" }, { "level": 1, "name": "electronics" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "mundane_survival",
+    "name": "Mundane Survival",
+    "description": "You've managed to survive modern life in a first world country.  Through your ordeals you've learned how to treat scraps and bruises and how to assemble basic furniture.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "firstaid" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "heroin_addict",
     "name": "Heroin Dependence",
     "description": "The last thing you remember was meeting God behind the local Foodplace.  Then people started eating each other.  This doesn't feel like a fever dream.",

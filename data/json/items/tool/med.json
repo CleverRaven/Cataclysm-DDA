@@ -35,6 +35,7 @@
     "type": "TOOL",
     "name": { "str": "anesthesia kit" },
     "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgesic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
+    "category": "drugs",
     "weight": "100 g",
     "volume": "3250 ml",
     "price": 1000,
@@ -231,6 +232,7 @@
     "type": "TOOL",
     "name": { "str": "RX12 jet injector" },
     "description": "A Rivtech RX12 jet injector, a small pistol-shaped device used to inject advanced fast-healing chemicals through the skin without using a needle.  A label on the side warns against using more than two doses per hour.",
+    "category": "drugs",
     "weight": "316 g",
     "volume": "500 ml",
     "price": 100000,
@@ -265,7 +267,7 @@
   {
     "id": "smoxygen_tank",
     "type": "TOOL",
-    "name": { "str": "emergency oxygen pack" },
+    "name": { "str": "small oxygen delivery kit" },
     "description": "A small tank of compressed medical oxygen with a folding regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
     "weight": "800 g",
     "volume": "1100 ml",
@@ -322,7 +324,7 @@
   {
     "id": "oxygen_tank",
     "type": "TOOL",
-    "name": { "str": "oxygen tank" },
+    "name": { "str": "oxygen delivery kit" },
     "description": "A tank of compressed medical oxygen with a regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
     "weight": "2721 g",
     "volume": "3750 ml",

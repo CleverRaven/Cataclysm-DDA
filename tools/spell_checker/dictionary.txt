@@ -163,6 +163,7 @@ arthropod
 arthropodology
 artificer
 artisanals
+arvore
 asexuality
 askin
 aspirants
@@ -537,6 +538,8 @@ citrine
 citrines
 civilizational
 clairly
+clairsentience
+clairsentient
 clambers
 clanged
 clanker
@@ -653,6 +656,7 @@ cryopod
 cryopreservation
 cryosleep
 crystaltender
+cthonic
 ctivate
 ctulaly
 cudgels
@@ -810,6 +814,7 @@ doffing
 dogbane
 doggo
 doglike
+dollkin
 domestica
 dongle
 doomseer
@@ -868,6 +873,7 @@ earmuff
 earsplitting
 earthbag
 earthbags
+earthkin
 earthlike
 earthshaper
 earthside
@@ -1064,6 +1070,7 @@ flagration
 flairs
 flamberge
 flamesword
+flametouched
 flammenschwert
 flanged
 flappin
@@ -1227,6 +1234,7 @@ goops
 gores
 gorget
 gorgosaurus
+gouts
 goverments
 gowod
 gozu
@@ -1363,6 +1371,7 @@ homebrewing
 homemaking
 homewrecker
 homovorus
+homullus
 homunculi
 homunculus
 honeygold
@@ -1419,6 +1428,7 @@ ibalalehu
 ichor
 ichthys
 idkont
+ierde
 ifoundramsesthecat
 ignitable
 ignto
@@ -1997,6 +2007,7 @@ nigromancie
 nimbelemnite
 nimbleness
 nimbler
+nimue
 niter
 nitrox
 nittlebam
@@ -2138,12 +2149,15 @@ parst
 parthenogenetic
 partyin
 passionfruit
+pastes
 pasteurize
 pathfinding
 patios
 pauldrons
+pebbled
 peacoat
 peanutbutter
+pearlescent
 peccari
 peccary
 pecial
@@ -2219,6 +2233,7 @@ placidly
 planar
 planer
 planetside
+plantkin
 plantlike
 plastron
 platemail
@@ -2270,6 +2285,7 @@ posteriori
 posthuman
 potboiler
 potentiates
+poultices
 pouncer
 powerlifting
 powerplants
@@ -2321,6 +2337,8 @@ pseudomagical
 pseudopod
 pseudopods
 pshht
+psionic
+psionics
 psychiatrically
 psychochemical
 psychopharmacological
@@ -2399,6 +2417,7 @@ rangehands
 raptorial
 rashguard
 rashy
+ratatosk
 ratlike
 rattigan
 rayed
@@ -2666,6 +2685,7 @@ silage
 siloed
 siloing
 sinensis
+sinously
 sintering
 sithen
 sixdust
@@ -2679,6 +2699,7 @@ skulduggery
 skulker
 skullgun
 skybridge
+skyglass
 slackness
 slaked
 slamfire
@@ -2825,6 +2846,8 @@ stompers
 stompy
 stompy-clanker
 stonelike
+stoneling
+stonelings
 stoneskin
 stook
 stooking
@@ -2900,6 +2923,7 @@ swipin
 switchgear
 swordmanship
 syde
+sylph
 sylvatica
 sylvite
 sym
@@ -3101,6 +3125,7 @@ underbarrel
 underbody
 undercovering
 underfongen
+underhill
 undergrown
 underlayer
 underlayers
@@ -3109,6 +3134,7 @@ underslung
 understandingly
 underwelming
 undescribed
+undine
 undried
 undulates
 uneasing
@@ -3205,6 +3231,7 @@ vars
 vatgrown
 vaulters
 veggy
+vegital
 veined
 venandi
 ventrolateral
@@ -3224,9 +3251,12 @@ viewport
 viewports
 vikeys
 vinegared
+vineling
+vinelings
 viny
 viperine
 virginica
+viridian
 virions
 vises
 vitakinesis
@@ -3265,6 +3295,7 @@ wastebread
 watchband
 waterfowl
 waterproofed
+waterkin
 waterskin
 waterskins
 waterskis
@@ -3396,6 +3427,7 @@ zombified
 zomborg
 zombull
 zombullfrog
+zoomorphic
 zoonotic
 zpzzzzpzz
 zubon

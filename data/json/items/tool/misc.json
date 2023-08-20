@@ -102,6 +102,7 @@
     "id": "clay_urn",
     "type": "TOOL",
     "name": { "str": "clay urn" },
+    "category": "container",
     "description": "A clay container for storing cremated ashes.",
     "weight": "1600 g",
     "volume": "4280 ml",

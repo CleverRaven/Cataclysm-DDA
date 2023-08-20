@@ -37,7 +37,8 @@
     "professions": [ "sct_mid" ],
     "map_extra": "mx_sct_mid",
     "flags": [ "CITY_START", "LONE_START" ],
-    "start_of_game": { "hour": 8, "day": 45, "season": "summer" }
+    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
+    "start_of_game": { "hour": 8, "day": 45, "season": "summer", "year": 1 }
   },
   {
     "type": "scenario",
@@ -50,7 +51,8 @@
     "professions": [ "sct_late" ],
     "map_extra": "mx_sct_late",
     "flags": [ "CITY_START", "LONE_START" ],
-    "start_of_game": { "hour": 8, "day": 45, "season": "autumn" }
+    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
+    "start_of_game": { "hour": 8, "day": 45, "season": "autumn", "year": 1 }
   },
   {
     "id": "mx_sct_day1",

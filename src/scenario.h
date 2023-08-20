@@ -57,25 +57,8 @@ class scenario
 
         bool reveal_locale = true;
 
-        bool _is_random_start_of_cataclysm_hour = true;
-        bool _is_random_start_of_cataclysm_day = true;
-        bool _is_random_start_of_cataclysm_season = true;
-        bool _is_random_start_of_cataclysm_year = true;
-
-        int _start_of_cataclysm_hour = 0;
-        int _start_of_cataclysm_day = 60;
-        season_type _start_of_cataclysm_season = SPRING;
-        int _start_of_cataclysm_year = 1;
-
-        bool _is_random_start_of_game_hour = true;
-        bool _is_random_start_of_game_day = false;
-        bool _is_random_start_of_game_season = false;
-        bool _is_random_start_of_game_year = false;
-
-        int _start_of_game_hour = 8;
-        int _start_of_game_day = 60;
-        season_type _start_of_game_season = SPRING;
-        int _start_of_game_year = 1;
+        time_point _default_start_of_cataclysm;
+        time_point _default_start_of_game;
 
         time_point _start_of_cataclysm;
         time_point _start_of_game;
@@ -118,39 +101,13 @@ class scenario
 
         bool get_reveal_locale() const;
 
-        void rerandomize( bool randomize_start_of_cataclysm = true,
-                          bool randomize_start_of_game = true ) const;
-        void update_start_dates() const;
-
-        void reset_start_of_dates( bool reset_start_of_cataclysm = true,
-                                   bool reset_start_of_game = true ) const;
-
-        bool is_random_start_of_cataclysm_hour() const;
-        bool is_random_start_of_cataclysm_day() const;
-        bool is_random_start_of_cataclysm_season() const;
-        bool is_random_start_of_cataclysm_year() const;
-        bool is_random_start_of_cataclysm() const;
-
-        int start_of_cataclysm_hour() const;
-        // Returns day of the season cataclysm in this scenario starts on
-        int start_of_cataclysm_day() const;
-        season_type start_of_cataclysm_season() const;
-        int start_of_cataclysm_year() const;
-
-        bool is_random_start_of_game_hour() const;
-        bool is_random_start_of_game_day() const;
-        bool is_random_start_of_game_season() const;
-        bool is_random_start_of_game_year() const;
-        bool is_random_start_of_game() const;
-
-        int start_of_game_hour() const;
-        // Returns day of the season game in this scenario starts on
-        int start_of_game_day() const;
-        season_type start_of_game_season() const;
-        int start_of_game_year() const;
+        void normalize_calendar() const;
+        void reset_calendar() const;
 
         time_point start_of_cataclysm() const;
         time_point start_of_game() const;
+        void change_start_of_cataclysm( const time_point &t ) const;
+        void change_start_of_game( const time_point &t ) const;
 
         vproto_id vehicle() const;
 
