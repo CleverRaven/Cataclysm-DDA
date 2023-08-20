@@ -1150,7 +1150,7 @@
       { "item": "lye_powder", "prob": 5, "container-item": "bag_canvas_small" },
       [ "oxy_powder", 5 ],
       [ "fungicide", 5 ],
-      [ "insecticide", 5 ],
+      { "item": "insecticide", "prob": 5, "count": 9 },
       { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" },
       [ "toilet_paper", 30 ],
       [ "plunger_toilet", 10 ],

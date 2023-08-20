@@ -332,7 +332,7 @@
       { "group": "writing_utensils", "prob": 25 },
       [ "cu_pipe", 50 ],
       [ "fungicide", 5 ],
-      [ "insecticide", 5 ],
+      { "item": "insecticide", "prob": 5, "count": 9 },
       { "item": "charcoal", "prob": 5, "charges": [ 200, 400 ] },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "solar_cell", 5 ],

@@ -1969,7 +1969,7 @@
       [ "towel", 50 ],
       [ "scissors_medical", 50 ],
       [ "fungicide", 10 ],
-      [ "insecticide", 10 ],
+      { "item": "insecticide", "prob": 10, "count": 9 },
       { "item": "soap", "prob": 20, "charges": [ 1, 10 ] },
       { "item": "chem_hydrogen_peroxide", "prob": 10, "charges": [ 1, 10 ] },
       [ "canister_empty", 5 ],
