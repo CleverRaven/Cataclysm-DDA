@@ -3109,11 +3109,11 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
     }
 
     assembled += "\n" + colorize( _( "Start of cataclysm:" ), COL_HEADER );
-    assembled += string_format(" Does not advance food rot and evolution") + "\n";
+    assembled += string_format( " Does not advance food rot and evolution" ) + "\n";
     assembled += to_string( current_scenario->start_of_cataclysm() ) + "\n";
 
     assembled += "\n" + colorize( _( "Start of game:" ), COL_HEADER );
-    assembled += string_format(" Advances food rot and evolution") + "\n";
+    assembled += string_format( " Advances food rot and evolution" ) + "\n";
     assembled += to_string( current_scenario->start_of_game() ) + "\n";
 
     if( !current_scenario->missions().empty() ) {
