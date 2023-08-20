@@ -53,7 +53,7 @@
         "type": "general",
         "context": "meeting",
         "value": "yes",
-        "yes": [ "Praise the Lord, <name_g>.", "Greetings, <name_g><punc>  You okay?" ],
+        "yes": [ "Praise the Lord, <name_g>.", "Praise the Lord, <u_name>.", "Greetings, <name_g><punc>  You okay?" ],
         "no": "Huh, so it was you over there.  It's always great to see a new face.  Name's Russell, Russell Connelly."
       }
     },
