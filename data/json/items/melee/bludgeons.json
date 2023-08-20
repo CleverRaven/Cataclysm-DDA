@@ -1797,7 +1797,7 @@
     "price_postapoc": 250,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "qt_steel" ],
-	"sided": "true",
+    "sided": "true",
     "symbol": "[",
     "color": "light_gray",
     "power_armor": true,
