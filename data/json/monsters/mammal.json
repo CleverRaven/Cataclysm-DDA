@@ -1090,7 +1090,7 @@
     "melee_skill": 4,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-    "special_attacks": [ [ "LUNGE", 5 ] ],
+    "extend": { "special_attacks": [ [ "LUNGE", 5 ] ] },
     "harvest": "dog_with_skull_leather",
     "reproduction": { "baby_monster": "mon_dog_pitbullmix_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
@@ -1254,7 +1254,7 @@
     "morale": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 4,
-    "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ],
+    "extend": { "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ] },
     "reproduction": { "baby_monster": "mon_dog_bcollie_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
     "petfood": {
@@ -1330,7 +1330,7 @@
     "vision_night": 4,
     "harvest": "dog_with_skull_leather",
     "fear_triggers": [ "HURT" ],
-    "special_attacks": [ [ "LUNGE", 5 ] ],
+    "extend": { "special_attacks": [ [ "LUNGE", 5 ] ] },
     "reproduction": { "baby_monster": "mon_dog_boxer_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines"
   },
@@ -1564,7 +1564,7 @@
     "morale": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "vision_night": 6,
-    "special_attacks": [ [ "LUNGE", 5 ] ],
+    "extend": { "special_attacks": [ [ "LUNGE", 5 ] ] },
     "reproduction": { "baby_monster": "mon_dog_gshepherd_pup", "baby_count": 7, "baby_timer": 300 },
     "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
     "petfood": {
@@ -1719,7 +1719,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "vision_night": 6,
     "harvest": "dog_with_skull_leather",
-    "special_attacks": [ [ "LUNGE", 5 ] ],
+    "extend": { "special_attacks": [ [ "LUNGE", 5 ] ] },
     "reproduction": { "baby_monster": "mon_dog_rottweiler_pup", "baby_count": 7, "baby_timer": 300 },
     "//2": "1-7 puppies & 300-320 days per-litter for size medium canines",
     "petfood": {
@@ -1794,7 +1794,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 4,
     "vision_night": 6,
-    "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ],
+    "extend": { "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ] },
     "reproduction": { "baby_monster": "mon_dog_auscattle_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
     "petfood": {
