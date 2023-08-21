@@ -140,6 +140,7 @@
       [ "spell_scroll_holographic_transposition", 15 ],
       [ "spell_scroll_dark_sight", 30 ],
       [ "spell_scroll_druidic_regrowth", 20 ],
+      [ "spell_scroll_druid_whisper_leaves", 30 ],
       [ "spell_scroll_stormshaper_ionization", 40 ],
       [ "spell_scroll_storm_superconductor", 40 ],
       [ "spell_scroll_shocking_dash", 40 ],

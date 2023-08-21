@@ -1246,6 +1246,7 @@
           { "item": "druid_spellbook", "prob": 20 },
           { "item": "spell_scroll_druid_veggrasp", "prob": 100 },
           { "item": "spell_scroll_druid_naturebow1", "prob": 100 },
+          { "item": "spell_scroll_druid_whisper_leaves", "prob": 100 },
           { "item": "spell_scroll_druid_rootstrike", "prob": 100 },
           { "item": "spell_scroll_purification_seed", "prob": 100 }
         ],

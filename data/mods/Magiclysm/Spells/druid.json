@@ -600,5 +600,44 @@
     "max_level": 15,
     "spell_class": "DRUID",
     "energy_source": "MANA"
+  },
+  {
+    "id": "druid_whisper_leaves",
+    "type": "SPELL",
+    "name": "Whisper of the Leaves",
+    "description": "This spell allows you to hear the trees' wisdom in the rustle of the leaves and the creaking of their roots, discerning the layout of the forest.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_GAIN_WHISPER_LEAVES",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "spell_class": "DRUID",
+    "difficulty": 6,
+    "max_level": 15,
+    "base_casting_time": 6000,
+    "final_casting_time": 1000,
+    "casting_time_increment": -350,
+    "base_energy_cost": 800,
+    "final_energy_cost": 500,
+    "energy_increment": -40,
+    "min_duration": 6000,
+    "max_duration": 6000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GAIN_WHISPER_LEAVES",
+    "condition": { "not": { "u_has_trait": "TREE_COMMUNION" } },
+    "effect": [
+      { "u_message": "You are in tune with the wood and the wilds.  [Check mutations to activate]" },
+      { "u_add_trait": "TREE_COMMUNION" },
+      { "queue_eocs": "EOC_LOSE_WHISPER_LEAVES", "time_in_future": [ "60 seconds", "60 seconds" ] }
+    ],
+    "false_effect": [ { "u_message": "You are already in tune with the rhythm of the forest.  Further magic cannot deepen your bond." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LOSE_WHISPER_LEAVES",
+    "effect": [ { "u_lose_trait": "TREE_COMMUNION" } ]
   }
 ]

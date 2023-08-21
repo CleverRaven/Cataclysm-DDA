@@ -1383,5 +1383,14 @@
     "name": { "str": "Scroll of seed of growth", "str_pl": "Scrolls of seed of growth" },
     "description": "Offer some of your life in a ritual to get tokens of growth in return.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_growth" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_whisper_leaves",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of whisper of the leaves", "str_pl": "Scrolls of whisper of the leaves" },
+    "description": "Deepen your bond with the forest and understand the whispers of the trees.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_whisper_leaves" ] }
   }
 ]
