@@ -803,7 +803,7 @@
     "id": "earthshaper_danger_sense",
     "type": "SPELL",
     "name": "Tremorsense",
-    "description": "By sensing their movements upon the earth, you can detect nearby sources of danger.",
+    "description": "By sensing their movements upon the earth, you can detect nearby sources of danger.  You must maintain a connection to the earth for the spell to function.",
     "valid_targets": [ "self" ],
     "spell_class": "EARTHSHAPER",
     "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_EXPLOSION_SFX" ],
@@ -822,18 +822,20 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_DANGERSENSE",
-    "condition": { "compare_int": [ { "u_val": "pos_z" }, "<=", { "const": 0 } ] },
-    "effect": [ { "u_cast_spell": { "id": "earth_danger_sense_real" } }, { "run_eocs": "EOC_EARTHSHAPER_DANGERSENSE_CHECKER" } ],
+    "condition": { "math": [ "u_val('pos_z')", "<=", "0" ] },
+    "effect": [
+      {
+        "u_add_effect": "effect_tremorsense",
+        "duration": { "math": [ "(u_val('spell_level', 'spell: earthshaper_danger_sense') * 30000)" ] }
+      }
+    ],
     "false_effect": [ { "u_message": "Without a direct connection to the living earth, the spell fails.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_DANGERSENSE_CHECKER",
     "recurrence": 1,
-    "condition": {
-      "and": [ { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 1 } ] }, { "u_has_effect": "effect_tremorsense" } ]
-    },
-    "deactivate_condition": { "not": { "u_has_effect": "effect_tremorsense" } },
+    "condition": { "and": [ { "math": [ "u_val('pos_z')", ">=", "1" ] }, { "u_has_effect": "effect_tremorsense" } ] },
     "effect": [
       { "u_lose_effect": "effect_tremorsense" },
       {
@@ -841,19 +843,6 @@
         "type": "bad"
       }
     ]
-  },
-  {
-    "id": "earth_danger_sense_real",
-    "type": "SPELL",
-    "name": "Tremorsense Effect Creator",
-    "description": "This is the actual spell that invokes tremorsense.  It's a bug if you see it.",
-    "valid_targets": [ "self" ],
-    "flags": [ "CONCENTRATE", "SILENT", "NO_EXPLOSION_SFX" ],
-    "effect": "attack",
-    "effect_str": "effect_tremorsense",
-    "shape": "blast",
-    "max_level": 10,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: earthshaper_danger_sense') * 30000)" ] }
   },
   {
     "id": "earthshaper_fortitude_of_stone",
@@ -865,7 +854,7 @@
     "spell_class": "EARTHSHAPER",
     "energy_source": "MANA",
     "effect": "attack",
-    "effect_str": "effect_fortitude_of_stone",
+    "effect_str": "earthshaper_fortitude_of_stone",
     "shape": "blast",
     "difficulty": 4,
     "base_casting_time": 500,

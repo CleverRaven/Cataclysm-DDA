@@ -683,9 +683,9 @@
   },
   {
     "type": "effect_type",
-    "id": "earth_fortitude_of_stone",
+    "id": "earthshaper_fortitude_of_stone",
     "name": [ "Stones' Fortitude" ],
-    "desc": [ "You feel no hunger or thirst." ],
+    "desc": [ "You feel little hunger or thirst." ],
     "apply_message": "",
     "remove_message": "Your stomach suddenly rumbles as you feel a pang of hunger.",
     "rating": "good",
