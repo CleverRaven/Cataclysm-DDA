@@ -155,6 +155,7 @@
           "failures": [ { "action": "alarm" } ]
         }
       },
+      "place_monster": [ { "monster": "mon_feral_human_archaeologist", "chance": 13, "repeat": [ 1, 2 ], "x": [ 4, 7 ], "y": [ 5, 8 ] } ],
       "gaspumps": { "@": { "fuel": "gasoline", "amount": [ 10000, 50000 ] }, "$": { "fuel": "diesel", "amount": [ 10000, 50000 ] } },
       "vehicles": { "Ø": { "vehicle": "tatra_truck", "chance": 50, "fuel": 40 } },
       "nested": { "`": { "chunks": [ [ "mechanical_fluid", 10 ], [ "gasoline_diesel_motor_oil", 80 ], [ "null", 80 ] ] } },
