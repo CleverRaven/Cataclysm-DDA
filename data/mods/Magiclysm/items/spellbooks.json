@@ -403,7 +403,15 @@
     "color": "green",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "earthshaper_turning_of_earth", "move_earth", "druid_growth", "druid_natures_commune", "druidic_regrowth", "purify_seed", "electric_eye" ]
+      "spells": [
+        "earthshaper_turning_of_earth",
+        "move_earth",
+        "druid_growth",
+        "druid_natures_commune",
+        "druidic_regrowth",
+        "purify_seed",
+        "electric_eye"
+      ]
     }
   },
   {
