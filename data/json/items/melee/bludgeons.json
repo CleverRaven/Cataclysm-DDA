@@ -54,7 +54,7 @@
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "SPEAR", "NONCONDUCTIVE" ],
-    "volume": "3000 ml",
+    "volume": "2700 ml",
     "price": 50000,
     "price_postapoc": 2000,
     "melee_damage": { "bash": 44 }
