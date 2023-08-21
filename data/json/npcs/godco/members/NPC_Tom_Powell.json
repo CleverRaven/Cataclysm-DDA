@@ -38,7 +38,7 @@
         "type": "general",
         "context": "meeting",
         "value": "yes",
-        "yes": "Hey, it's you again!  Any news from the outside world?",
+        "yes": "Hey, it's you again <u_name>!  Any news from the outside world?",
         "no": "Ah, another survivor!  I hope you come in peace.  I'm Tom, nice to meet you."
       }
     },

@@ -5127,16 +5127,9 @@ void mapgen_function_json::generate( mapgendata &md )
         do_predecessor_mapgen( predecessor_md );
     } else if( expects_predecessor() ) {
         if( md.has_predecessor() ) {
-            // Gets around connections changing terrain type
-            if( ter.has_flag( oter_flags::line_drawing ) ) {
-                mapgendata predecessor_md( md, md.first_predecessor() );
-                predecessor_md.clear_predecessors();
-                do_predecessor_mapgen( predecessor_md );
-            } else {
-                mapgendata predecessor_md( md, md.last_predecessor() );
-                predecessor_md.pop_last_predecessor();
-                do_predecessor_mapgen( predecessor_md );
-            }
+            mapgendata predecessor_md( md, md.last_predecessor() );
+            predecessor_md.pop_last_predecessor();
+            do_predecessor_mapgen( predecessor_md );
         } else {
             mapgendata predecessor_md( md, fallback_predecessor_mapgen_ );
             do_predecessor_mapgen( predecessor_md );

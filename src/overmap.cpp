@@ -2889,7 +2889,11 @@ void overmap::ter_set( const tripoint_om_omt &p, const oter_id &id )
 
     oter_id &val = layer[p.z() + OVERMAP_DEPTH].terrain[p.xy()];
     if( id->has_flag( oter_flags::requires_predecessor ) ) {
-        predecessors_[p].push_back( val );
+        const oter_type_id id_type = id->get_type_id();
+        // Stops linear fallback_predecessor maps (roads etc) spawning over themselves
+        if( !( id_type->is_linear() && id_type == val->get_type_id() ) ) {
+            predecessors_[p].push_back( val );
+        }
     }
     val = id;
 }

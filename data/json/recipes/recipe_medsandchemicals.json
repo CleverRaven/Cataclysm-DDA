@@ -382,7 +382,7 @@
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [ [ [ "chem_ethanol", 46 ] ], [ [ "salt_water", 4 ] ], [ [ "chem_benzene", 90 ] ] ],
-    "charges": 400
+    "result_mult": 8
   },
   {
     "type": "recipe",
@@ -414,7 +414,7 @@
       [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ], [ "liquid_soap", 1 ], [ "soapy_water", 1 ] ],
       [ [ "water_clean", 1 ], [ "water", 1 ] ]
     ],
-    "charges": 400
+    "result_mult": 8
   },
   {
     "type": "recipe",
