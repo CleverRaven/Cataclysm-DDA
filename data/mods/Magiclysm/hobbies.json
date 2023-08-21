@@ -22,7 +22,8 @@
       "FLIMSY",
       "WEAKSTOMACH",
       "PALE",
-      "DISIMMUNE"
+      "DISIMMUNE",
+      "PICKYEATER"
     ]
   },
   {
@@ -41,11 +42,41 @@
       "INFRESIST",
       "DISRESISTANT",
       "ALCMET",
+      "GOODCARDIO",
       "TUNNEL_FIGHTER",
       "TROGLO",
       "HIRSUTE",
       "GOURMAND",
-      "SMELLY"
+      "SMELLY",
+      "HEAVYSLEEPER2"
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_species_lizardfolk",
+    "name": "Lizardfolk (Species)",
+    "description": "You are one of the Scaled Ones, called \"lizardfolk\" by the warmbloods.  For generations, your tribe served a dragon as its eyes and ears in the outside world, until civilization encroached far enough that even all the dragon's might could not hold it back.  You were sent out to integrate into the modern world, but you were only there a few years before human science ended their world.  Now, you have to survive in the mess they've created.",
+    "points": 4,
+    "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "unarmed" } ],
+    "traits": [
+      "THRESH_LIZARD",
+      "LARGE_OK",
+      "SCALES",
+      "MEMBRANE",
+      "COLDBLOOD4",
+      "FORKED_TONGUE",
+      "HISS",
+      "ANTIWHEAT",
+      "TAIL_THICK",
+      "RESISTWARM",
+      "LIZ_IR",
+      "MUZZLE_LONG",
+      "WEBBED_FEET",
+      "TALONS",
+      "SLIT_NOSTRILS",
+      "PRED2",
+      "PADDED_FEET"
     ]
   }
 ]
