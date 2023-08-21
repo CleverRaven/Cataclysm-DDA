@@ -42,7 +42,7 @@
   {
     "type": "GENERIC",
     "id": "2h_club_kanabo_studded",
-    "name": { "str": "studded kanabō" },
+    "name": { "str_sp": "studded kanabō" },
     "description": "A two-handed war club used in feudal Japan by samurai against armored opponents.  Made from hardwood with metal stud inlays.",
     "weight": "1800 g",
     "longest_side": "140 cm",
@@ -64,7 +64,7 @@
     "type": "GENERIC",
     "id": "2h_club_kanabo_spiked",
     "copy-from": "2h_club_kanabo_studded",
-    "name": { "str": "spiked kanabō" },
+    "name": { "str_sp": "spiked kanabō" },
     "description": "A two-handed war club used in feudal Japan by samurai against armored opponents.  Made from hardwood with metal spike inlays.",
     "looks_like": "nailbat",
     "melee_damage": { "bash": 39, "stab": 7 }
