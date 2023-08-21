@@ -505,6 +505,15 @@ ifeq ($(PCH), 1)
   endif
 endif
 
+# Workaround for GCC 7 and 8.
+FS_TEST_FILE := $(shell printf "\#include <filesystem>\\\n int main() { std::filesystem::path p; p.parent_path(); }")
+ifeq   ($(shell echo "$(FS_TEST_FILE)" | $(CXX) -o /dev/null -x c++ -std=c++17 -            >/dev/null 2>&1 || echo fail),fail)
+  ifeq ($(shell echo "$(FS_TEST_FILE)" | $(CXX) -o /dev/null -x c++ -std=c++17 - -lstdc++fs >/dev/null 2>&1 || echo fail),fail)
+    $(error "Unable to compile test filesystem program")
+  endif
+  LDFLAGS += -lstdc++fs
+endif
+
 CPPFLAGS += -Isrc -isystem ${SRC_DIR}/third-party
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS)
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
