@@ -629,11 +629,16 @@
     "id": "EOC_GAIN_WHISPER_LEAVES",
     "condition": { "not": { "u_has_trait": "TREE_COMMUNION" } },
     "effect": [
-      { "u_message": "You are in tune with the wood and the wilds.  [Check mutations to activate]" },
+      { "u_message": "You are in tune with the wood and the wilds.  [Check mutations to activate]", "type": "good" },
       { "u_add_trait": "TREE_COMMUNION" },
       { "queue_eocs": "EOC_LOSE_WHISPER_LEAVES", "time_in_future": [ "60 seconds", "60 seconds" ] }
     ],
-    "false_effect": [ { "u_message": "You are already in tune with the rhythm of the forest.  Further magic cannot deepen your bond." } ]
+    "false_effect": [
+      {
+        "u_message": "You are already in tune with the rhythms of the forest.  Further magic cannot deepen your bond.",
+        "type": "good"
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
