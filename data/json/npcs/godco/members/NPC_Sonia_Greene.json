@@ -35,12 +35,12 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": "Well now, good to see you again, friend.",
+      "yes": [ "Well now, good to see you again, friend.", "Nice of you to come around <u_name>." ],
       "no": "Good to see people like you in the world.  I'm Sonia, Sonia Greene.  I entertain the people."
     },
     "responses": [
       {
-        "text": "Sonia?  Nice to meet you.  How are things here?",
+        "text": "Sonia?  Nice to meet you, I'm <u_name>.  How are things here?",
         "effect": { "npc_add_var": "u_met_godco_sonia", "type": "general", "context": "meeting", "value": "yes" },
         "condition": { "not": { "npc_has_var": "u_met_godco_sonia", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_GODCO_Sonia_Feeling"

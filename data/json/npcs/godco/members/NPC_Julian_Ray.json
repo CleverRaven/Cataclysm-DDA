@@ -51,7 +51,7 @@
         "type": "general",
         "context": "meeting",
         "value": "yes",
-        "yes": [ "Praise the Lord.", "Hey, <name_g>.", "Good to see you again." ],
+        "yes": [ "Praise the Lord.", "Hey, <name_g>.", "Good to see you again <u_name>." ],
         "no": "Hey, a new face.  I'm Julian, the guy in charge of this room.  You're planning on sticking around or somethin'?"
       }
     },
