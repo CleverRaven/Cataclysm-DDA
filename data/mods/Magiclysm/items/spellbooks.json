@@ -387,6 +387,25 @@
       ]
     }
   },
+    {
+    "id": "farmer_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "The Farm-Wizard's Almanac", "str_pl": "copies of The Farm-Wizard's Almanac" },
+    "//": "2 earthshaper spells, 4 druid spells, 1 stormshaper spell",
+    "description": "While no longer popular in the age of nitrogen fertilizer and industrial farm equipment, copies of this tome continued to be published for years for a small audience of back-to-nature, do-it-yourself organic mage-farmers.",
+    "weight": "483 g",
+    "volume": "825 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "green",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "earthshaper_turning_of_earth", "move_earth", "druid_growth", "druid_natures_commune", "druidic_regrowth", "purify_seed", "electric_eye" ]
+    }
+  },
   {
     "id": "magus_spellbook",
     "type": "BOOK",
