@@ -813,7 +813,7 @@
     "energy_source": "MANA",
     "difficulty": 3,
     "max_level": 10,
-    "base_casting_time": 400w,
+    "base_casting_time": 400,
     "base_energy_cost": 350,
     "min_duration": 30000,
     "max_duration": 300000,
@@ -823,16 +823,24 @@
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_DANGERSENSE",
     "condition": { "compare_int": [ { "u_val": "pos_z" }, "<=", { "const": 0 } ] },
-    "effect": [{ "u_cast_spell": { "id": "earth_danger_sense_real" } }, { "run_eocs": "EOC_EARTHSHAPER_DANGERSENSE_CHECKER" } ],
+    "effect": [ { "u_cast_spell": { "id": "earth_danger_sense_real" } }, { "run_eocs": "EOC_EARTHSHAPER_DANGERSENSE_CHECKER" } ],
     "false_effect": [ { "u_message": "Without a direct connection to the living earth, the spell fails.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_DANGERSENSE_CHECKER",
     "recurrence": 1,
-    "condition": { "and": [ { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 1 } ] }, { "u_has_effect": "effect_tremorsense" }],
-    "deactivate_condition": { "not":  { "u_has_effect": "effect_tremorsense" } },
-    "effect": [ { "u_lose_effect": "effect_tremorsense" }, { "u_message": "As you break your connection to the living earth, your magical senses fade away.", "type": "bad" }  ]
+    "condition": {
+      "and": [ { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 1 } ] }, { "u_has_effect": "effect_tremorsense" } ]
+    },
+    "deactivate_condition": { "not": { "u_has_effect": "effect_tremorsense" } },
+    "effect": [
+      { "u_lose_effect": "effect_tremorsense" },
+      {
+        "u_message": "As you break your connection to the living earth, your magical senses fade away.",
+        "type": "bad"
+      }
+    ]
   },
   {
     "id": "earth_danger_sense_real",
