@@ -3282,16 +3282,27 @@
     "price": 35000,
     "price_postapoc": 4500,
     "use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "helmet_sallet_raised", "menu_text": "Raise" },
-    "material": [ "steel", "leather" ],
+    "material": [ "steel" ],
     "symbol": "s",
     "looks_like": "helmet_barbute",
     "color": "light_gray",
     "armor": [
-      { "covers": [ "head" ], "coverage": 90, "encumbrance": 20 },
-      { "covers": [ "eyes" ], "coverage": 60, "encumbrance": 20 }
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.7 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_l", "head_ear_r" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.7 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
     ],
     "warmth": 15,
-    "material_thickness": 4,
+    "material_thickness": 1.7,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
@@ -3313,17 +3324,127 @@
       "target": "helmet_sallet",
       "menu_text": "Lower"
     },
-    "material": [ "steel", "leather" ],
+    "material": [ "steel" ],
     "symbol": "s",
     "looks_like": "helmet_barbute",
     "color": "light_gray",
-    "armor": [ { "covers": [ "head" ], "coverage": 90, "encumbrance": 20 } ],
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.7 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_l", "head_ear_r" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "NONE" ]
+      }
+    ],
     "warmth": 15,
-    "material_thickness": 4,
+    "material_thickness": 1.7,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
     "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "lc_helmet_sallet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel sallet helm" },
+    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes. This one has been made with mild steel.  Activate it to toggle the visor.",
+    "weight": "1800 g",
+    "volume": "2050 ml",
+    "price": 35000,
+    "price_postapoc": 4500,
+    "use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "lc_helmet_sallet_raised", "menu_text": "Raise" },
+    "material": [ "lc_steel" ],
+    "symbol": "s",
+    "looks_like": "helmet_barbute",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.7 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_l", "head_ear_r" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "NONE" ]
+      },
+      {
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.7 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ],
+    "warmth": 15,
+    "material_thickness": 1.7,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "lc_helmet_sallet_raised",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel sallet helm (raised)", "str_pl": "mild steel sallet helms (raised)" },
+    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes.  Activate it to toggle the visor.",
+    "weight": "1800 g",
+    "volume": "2050 ml",
+    "price": 35000,
+    "price_postapoc": 4500,
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the sallet visor over your eyes.",
+      "target": "lc_helmet_sallet",
+      "menu_text": "Lower"
+    },
+    "material": [ "lc_steel" ],
+    "symbol": "s",
+    "looks_like": "helmet_barbute",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.7 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_l", "head_ear_r" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "NONE" ]
+      }
+    ],
+    "warmth": 15,
+    "material_thickness": 1.7,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "mc_helmet_sallet",
+    "type": "ARMOR",
+    "category": "armor",
+	"copy-from": "lc_helmet_sallet",
+    "name": { "str": "medium steel sallet helm" },
+    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes. This one has been made with medium steel.  Activate it to toggle the visor.",
+    "price": 35000,
+    "price_postapoc": 4500,
+    "use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "mc_helmet_sallet_raised", "menu_text": "Raise" },
+	"replace_materials": { "lc_steel": "mc_steel" }
+  },
+  {
+    "id": "mc_helmet_sallet_raised",
+    "type": "ARMOR",
+    "category": "armor",
+	"copy-from": "lc_helmet_sallet_raised",
+    "name": { "str": "medium steel sallet helm (raised)", "str_pl": "medium steel sallet helms (raised)" },
+    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes.  Activate it to toggle the visor.",
+    "price": 35000,
+    "price_postapoc": 4500,
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the sallet visor over your eyes.",
+      "target": "mc_helmet_sallet",
+      "menu_text": "Lower"
+    },
+    "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "helmet_armet",
