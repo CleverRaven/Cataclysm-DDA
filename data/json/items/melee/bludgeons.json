@@ -54,7 +54,7 @@
     "weapon_category": [ "GREAT_HAMMERS" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "SPEAR", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "NONCONDUCTIVE" ],
     "volume": "2700 ml",
     "price": 50000,
     "price_postapoc": 2000,
