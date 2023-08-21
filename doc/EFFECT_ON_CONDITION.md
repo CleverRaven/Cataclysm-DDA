@@ -43,8 +43,8 @@ Effect on Condidion uses a huge variety of different values for effects or for c
 | name | description | example |
 | --- | --- | --- |
 | simple string | technically lack of any type - you just write a sting, and effect is called or check is performed: "barber_beard", "u_female", "u_is_deaf" | N/A |
-| int | simple number:  etc. Decimals also allowed most of the time | `0`, `10`, `-55`, `987`, `0.1`, `0.5`, `-0.00001`, `9.87654321` |
-| string | anything within of quotation marks `"`, usually id's or plain text:  | "mon_zombie", "fd_blood", "just generic text i want to print in message" |
+| int | simple number. Decimals also allowed most of the time | `0`, `10`, `-55`, `987`, `0.1`, `0.5`, `-0.00001`, `9.87654321` |
+| string | anything within of quotation marks `"`, usually id's or plain text:  | `"mon_zombie"`, `"fd_blood"`, `"just generic text i want to print in message"` |
 | boolean | just boolean | `true`, `false` |
 | duration | string, that contain number and unit of time, that the game code transform into seconds and put into the game. It is possible to use int instead of duration, but it is recommended to use duration for the readability sake. Possible values are `s`/`seconds`, `m`/`minutes`, `h`/`hours`, `d`/`days` | `1`, `"1 s"`, `"1 seconds"`, `"60 minutes"`, `3600`, `"99 minutes"`, `"2 d"`, `"365 days"`   |
 | value between two | not a separate format, it means the field can accept two values simultaneously, and pick a random between this two; only values, that uses int can utilize it (int, duration or variable object usually) | `[ 1, 10 ]`,</br> `[ "30 seconds", "50 seconds" ]`,</br> `[ -1, 1 ]`,</br> `[ { "global_val": "small_variable" }, { "global_val": "big_variable" } ]`, </br> `[ { "global_val": "small_variable" }, 100 ]` |
@@ -55,11 +55,12 @@ Effect on Condidion uses a huge variety of different values for effects or for c
 
 Variable object is a value, that changes due some conditions. Variable can be int, time, string, `arithmetic`/`math` expression or value between two. Types of values are:
 
-`u_val` - variable, that is stored in this character, and, if player dies, the variable is lost also (despite player can swap to another NPC, for example); 
-`npc_val` - variable, that is stored in beta talker
-`global_val` - variable, that is store in the world, and won't be lost untill you delete said world
-`context_val` - variable, that was delivered from some another entity; For example, EVENT type EoCs can deliver specific variables contributor can use to perform specific checks: `character_casts_spell` event, that is called every time, you guess it, character cast spell, it also store infromation about spell name, difficulty and damage, so contributor can create a specific negative effect for every spell casted, depending on this values; Generalized EoCs can also create and use context variables; math equivalent is variable name with `_`
-`var_val` - var_val is a unique variable object in the fact that it attempts to resolve the variable stored inside a context variable. So if you had
+- `u_val` - variable, that is stored in this character, and, if player dies, the variable is lost also (despite player can swap to another NPC, for example); 
+- `npc_val` - variable, that is stored in beta talker
+- `global_val` - variable, that is store in the world, and won't be lost untill you delete said world
+- `context_val` - variable, that was delivered from some another entity; For example, EVENT type EoCs can deliver specific variables contributor can use to perform specific checks:
+`character_casts_spell` event, that is called every time, you guess it, character cast spell, it also store infromation about spell name, difficulty and damage, so contributor can create a specific negative effect for every spell casted, depending on this values; Generalized EoCs can also create and use context variables; math equivalent is variable name with `_`
+- `var_val` - var_val is a unique variable object in the fact that it attempts to resolve the variable stored inside a context variable. So if you had
 
 | Name | Type | Value |
 | --- | --- | --- |
@@ -68,8 +69,8 @@ Variable object is a value, that changes due some conditions. Variable can be in
 | key1 | global_val | SOME TEXT |
 | key2 | u_val | SOME OTHER TEXT |
 
-If you access "ref" as a context val it will have the value of "key1", if you access it as a var_val it will have a value of "SOME TEXT". 
-If you access "ref2" as a context val it will have the value of "u_key2", if you access it as a var_val it will have a value of "SOME OTHER TEXT". 
+- If you access "ref" as a context val it will have the value of "key1", if you access it as a var_val it will have a value of "SOME TEXT". 
+- If you access "ref2" as a context val it will have the value of "u_key2", if you access it as a var_val it will have a value of "SOME OTHER TEXT". 
 
 The values for var_val use the same syntax for scope that math [variables](#variables) do.
 
@@ -151,9 +152,9 @@ The following keys and strings are available:
 ## Boolean logic
 Conditions can be combined into blocks using `"and"`, `"or"` and `"not"`
 
-`"and"` allow to check multiple conditions, and if each of them are `true`, condition return `true`, otherwise `false`
-`"or"` allow to check multiple conditions, and if at least one of them is `true`, condition return `true`, otherwise `false`
-`"not"` allow to check only one condition (but this condition could be `"and"` or `"or"`, that themselves can check multiple conditions), and swap the result of condition: if you get `true`, the condition return `false`
+- `"and"` allow to check multiple conditions, and if each of them are `true`, condition return `true`, otherwise `false`
+- `"or"` allow to check multiple conditions, and if at least one of them is `true`, condition return `true`, otherwise `false`
+- `"not"` allow to check only one condition (but this condition could be `"and"` or `"or"`, that themselves can check multiple conditions), and swap the result of condition: if you get `true`, the condition return `false`
 
 Examples:
 
@@ -217,8 +218,8 @@ Checks there is portal storm **and** you have `MAKAYLA_MUTATOR` mutation **and**
 ## Possible conditions
 
 ### `u_male`, `u_female`, `npc_male`, `npc_female`
-type: simple string
-return true if alpha or beta talker is male or female
+- type: simple string
+- return true if alpha or beta talker is male or female
 
 #### Valid talkers:
 
@@ -238,10 +239,10 @@ return true if beta talker is male or female; return false, if talker is not cap
 ```
 
 ### `u_at_om_location`, `npc_at_om_location`
-type: string or [variable object](##variable-object)
-return true if alpha talker stands on specific overmap tile;
-`FACTION_CAMP_ANY` can be used, that return true if alpha or beta talker stand on faction camp tile; 
-`FACTION_CAMP_START` can be used, that return true if alpha or beta talker stand on tile, that can be turned into faction camp
+- type: string or [variable object](##variable-object)
+- return true if alpha talker stands on specific overmap tile;
+- `FACTION_CAMP_ANY` can be used, that return true if alpha or beta talker stand on faction camp tile; 
+- `FACTION_CAMP_START` can be used, that return true if alpha or beta talker stand on tile, that can be turned into faction camp
 
 #### Valid talkers:
 
@@ -266,9 +267,10 @@ return true if alpha talker at location that can be transformed to faction camp
 ```
 
 ### `u_has_trait`, `npc_has_trait`, `u_has_any_trait`, `npc_has_any_trait`
-type: string or [variable object](##variable-object)
-check does alpha or beta talker have specific trait/mutation;
-`_has_trait` checks only 1 trait, when `_has_any_trait` check a range, and return true if at least one trait is presented;
+- type: string or [variable object](##variable-object)
+- check does alpha or beta talker have specific trait/mutation;
+- `_has_trait` checks only 1 trait, when `_has_any_trait` check a range, and return true if at least one trait is presented;
+
 #### Valid talkers:
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |
@@ -291,8 +293,8 @@ using `_has_any_trait` with single trait is also possible
 ```
 
 ### `u_has_visible_trait`, `npc_has_visible_trait`
-type: string or [variable object](##variable-object)
-return true if the alpha or beta talker has a trait/mutation that has any visibility (defined in mutation `visibility` field); probably was designed if alpha or beta talker was able to hide it's mutations, but it's hard to say
+- type: string or [variable object](##variable-object)
+- return true if the alpha or beta talker has a trait/mutation that has any visibility (defined in mutation `visibility` field); probably was designed if alpha or beta talker was able to hide it's mutations, but it's hard to say
 
 #### Valid talkers:
 
@@ -307,8 +309,8 @@ Checks do alpha talker has `FEATHERS` mutation
 ```
 
 ### `u_has_martial_art`, `npc_has_martial_art`
-type: string or [variable object](##variable-object)
-return true if alpha or beta talker has some martial art
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker has some martial art
 
 #### Valid talkers:
 
@@ -322,8 +324,8 @@ return true if alpha or beta talker has some martial art
 ```
 
 ### `u_has_flag`, `npc_has_flag`
-type: string or [variable object](##variable-object)
-return true if alpha or beta talker has specific flag; special flag `MUTATION_THRESHOLD` can be used to check do alpha talker has any mutant threshold; for monsters both json flags (applied by effects) and monster flags can be checked
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker has specific flag; special flag `MUTATION_THRESHOLD` can be used to check do alpha talker has any mutant threshold; for monsters both json flags (applied by effects) and monster flags can be checked
 
 #### Valid talkers:
 
@@ -338,8 +340,8 @@ Alpha talker has `GRAB` flag, and beta talker has `GRAB_FILTER` flag; monster us
 ```
 
 ### `u_has_species`, `npc_has_species`
-type: string or [variable object](##variable-object)
-true if alpha or beta talker has the defined species
+- type: string or [variable object](##variable-object)
+- true if alpha or beta talker has the defined species
 
 #### Valid talkers:
 
@@ -354,9 +356,9 @@ alpha talker is `SLIME`
 ```
 
 ### `u_bodytype`, `npc_bodytype`
-type: string or [variable object](##variable-object)
-true if alpha / beta talker monster has the defined bodytype
-for player / NPC return true if bodytype is `human`
+- type: string or [variable object](##variable-object)
+- true if alpha / beta talker monster has the defined bodytype
+- for player / NPC return true if bodytype is `human`
 
 #### Valid talkers:
 
@@ -371,9 +373,9 @@ alpha talker has bodytype `migo` , and beta has bodytype `human`
 ```
 
 ### `u_has_var`, `npc_has_var`
-type: string
-checks do alpha or beta talker has specific variables, that was added `u_add_var` or `npc_add_var`
-`type`, `context` and `value` of the variable is also required
+- type: string
+- checks do alpha or beta talker has specific variables, that was added `u_add_var` or `npc_add_var`
+- `type`, `context` and `value` of the variable is also required
 
 #### Valid talkers:
 
@@ -388,9 +390,9 @@ Checks do alpha talker has `u_met_sadie` variable
 ```
 
 ### `expects_vars`
-type: array of strings and/or [variable object](##variable-object)
-return true if each provided variable exist
-return false and create debug error message if check fails
+- type: array of strings and/or [variable object](##variable-object)
+- return true if each provided variable exist
+- return false and create debug error message if check fails
 
 #### Valid talkers:
 
@@ -405,9 +407,9 @@ checks this vars exist
 ```
 
 ### `u_compare_var`, `npc_compare_var`
-type: int or [variable object](##variable-object)
-If talker has a stored variable, you can compare it to some value using `op`. 
-**deprecated in favor of [math](#math) syntax, please do not use it**
+- type: int or [variable object](##variable-object)
+- If talker has a stored variable, you can compare it to some value using `op`. 
+- **deprecated in favor of [math](#math) syntax, please do not use it**
 
 #### Valid talkers:
 
@@ -422,8 +424,8 @@ If talker has a stored variable, you can compare it to some value using `op`.
 ```
 
 ### `u_compare_time_since_var`, `npc_compare_time_since_var`
-type: duration
-Same as `u_compare_var`, allows to check how much time passed since variable with `"type": "timer"` was create or updated, using one of `==`, `!=`, `<`, `>`, `<=`, `>=` operators; `type`, `context`, `op` and `time` is required
+- type: duration
+- Same as `u_compare_var`, allows to check how much time passed since variable with `"type": "timer"` was create or updated, using one of `==`, `!=`, `<`, `>`, `<=`, `>=` operators; `type`, `context`, `op` and `time` is required
 
 #### Examples
 Checks is RandEnc was added more than 1 hour ago
@@ -432,8 +434,8 @@ Checks is RandEnc was added more than 1 hour ago
 ```
 
 ### `compare_string`
-type: pair of strings or [variable objects](##variable-object)
-Compare two strings, and return true if strings are equal
+- type: pair of strings or [variable objects](##variable-object)
+- Compare two strings, and return true if strings are equal
 
 #### Examples
 checks if `victim_type` is `mon_zombie_phase_shrike`
@@ -447,8 +449,8 @@ checks is `victim_type` has `zombie` faction
 ```
 
 ### `u_has_strength`, `npc_has_strength`, `u_has_dexterity`, `npc_has_dexterity`, `u_has_intelligence`, `npc_has_intelligence`, `u_has_perception`, `npc_has_perception`
-type: int or [variable object](##variable-object)
-Return true if alpha or beta talker stat is at least the value or higher
+- type: int or [variable object](##variable-object)
+- Return true if alpha or beta talker stat is at least the value or higher
 
 #### Valid talkers:
 
@@ -463,8 +465,8 @@ True, if alpha talker has str 7 or more
 ```
 
 ### `u_has_hp`, `npc_has_hp`
-type: int or [variable object](##variable-object)
-Return true, if alpha or beta talker HP is value or bigger; additional parameter `bodypart` can be used to check HP of specific body part, otherwise sum of all body parts (or just hp, if monster uses it) is used. Effect checks only current HP, not max HP
+- type: int or [variable object](##variable-object)
+- Return true, if alpha or beta talker HP is value or bigger; additional parameter `bodypart` can be used to check HP of specific body part, otherwise sum of all body parts (or just hp, if monster uses it) is used. Effect checks only current HP, not max HP
 
 #### Valid talkers:
 
@@ -479,9 +481,10 @@ Checks does your torso has more than 84 hp
 ```
 
 ### `u_has_part_temp`, `npc_has_part_temp`
-type: int or [variable object](##variable-object)
-return true if alpha or beta talker's body part has temperature higher than value; additional parameter `bodypart` specifies the body part
-temperature is written in arbitrary units, described in `weather.h`: `Body temperature is measured on a scale of 0u to 10000u, where 10u = 0.02C and 5000u is 37C`
+- type: int or [variable object](##variable-object)
+- return true if alpha or beta talker's body part has temperature higher than value; additional parameter `bodypart` specifies the body part
+- temperature is written in arbitrary units, described in `weather.h`: `Body temperature is measured on a scale of 0u to 10000u, where 10u = 0.02C and 5000u is 37C`
+
 #### Valid talkers:
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |
@@ -495,9 +498,9 @@ check is your torso is 37 centigrade
 ```
 
 ### `u_has_item`, `npc_has_item`, `u_has_items`, `npc_has_items`
-type: string or [variable object](##variable-object)
-return true if item or items are presented in your or NPC inventory;
-`_has_items` require `count` or `charges` to define how much copies of items (for `count`) or charges inside item (for `charges`) alpha or beta talker has
+- type: string or [variable object](##variable-object)
+- return true if item or items are presented in your or NPC inventory;
+- `_has_items` require `count` or `charges` to define how much copies of items (for `count`) or charges inside item (for `charges`) alpha or beta talker has
 
 #### Valid talkers:
 
@@ -517,9 +520,9 @@ check do you have 6 ropes
 ```
 
 ### `u_has_item_category`, `npc_has_item_category`
-type: string or [variable object](##variable-object)
-return true if alpha or beta talker have items of specific category;
-`count` can be used to check amount of items bigger than 1
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker have items of specific category;
+- `count` can be used to check amount of items bigger than 1
 
 #### Valid talkers:
 
@@ -539,8 +542,8 @@ check do you have 3 manuals in inventory
 ```
 
 ### `u_has_bionics`, `npc_has_bionics`
-type: string or [variable object](##variable-object)
-return true if alpha or beta talker has specific bionic; `ANY` can be used to return true if any bionic is presented
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker has specific bionic; `ANY` can be used to return true if any bionic is presented
 
 #### Valid talkers:
 
@@ -560,11 +563,11 @@ check do you have any bionic presented
 ```
 
 ### `u_has_effect`, `npc_has_effect`
-type: string or [variable object](##variable-object)
-return true if alpha or beta talker has specific effect applied;
-`intensity` can be used to check an effect of specific intensity;
-`bodypart` can be used to check effect applied on specific body part
-martial arts `static_buffs` can be checked in form `mabuff:buff_id`
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker has specific effect applied;
+- `intensity` can be used to check an effect of specific intensity;
+- `bodypart` can be used to check effect applied on specific body part
+- martial arts `static_buffs` can be checked in form `mabuff:buff_id`
 
 #### Valid talkers:
 
@@ -589,8 +592,8 @@ checks do you have aikido stance active
 ```
 
 ### `u_can_stow_weapon`, `npc_can_stow_weapon`
-type: simple string
-return true if alpha or beta talker wield an item, and have enough space to put it away
+- type: simple string
+- return true if alpha or beta talker wield an item, and have enough space to put it away
 
 #### Valid talkers:
 
@@ -610,8 +613,8 @@ You have equipped an item with
 ```
 
 ### `u_can_drop_weapon`, `npc_can_drop_weapon`
-type: simple string
-return true if alpha or beta talker wield an item, and can drop it on the ground (ie weapon has no `NO_UNWIELD` flag like retracted bionic claws or monomolecular blade bionics)
+- type: simple string
+- return true if alpha or beta talker wield an item, and can drop it on the ground (ie weapon has no `NO_UNWIELD` flag like retracted bionic claws or monomolecular blade bionics)
 
 #### Valid talkers:
 
@@ -637,8 +640,8 @@ return true if alpha or beta talker wield an item, and can drop it on the ground
 
 
 ### `u_has_weapon`, `npc_has_weapon`
-type: simple string
-return true if alpha or beta talker wield any item
+- type: simple string
+- return true if alpha or beta talker wield any item
 
 #### Valid talkers:
 
@@ -658,8 +661,8 @@ You don't wield anything
 ```
 
 ### `u_driving`, `npc_driving`
-type: simple string
-return true if alpha or beta talker operate a vehicles; Nota bene: NPCs cannot currently operate vehicles
+- type: simple string
+- return true if alpha or beta talker operate a vehicles; Nota bene: NPCs cannot currently operate vehicles
 
 #### Valid talkers:
 
@@ -679,9 +682,9 @@ true if you do not drive
 ```
 
 ### `u_know_recipe`
-type: string or [variable object](##variable-object)
-return true if character know specific recipe;
-only memorized recipes count, not recipes written in the book
+- type: string or [variable object](##variable-object)
+- return true if character know specific recipe;
+- only memorized recipes count, not recipes written in the book
 
 #### Valid talkers:
 
@@ -696,8 +699,8 @@ check do you memorize `meat_hunk` recipe
 ```
 
 ### `u_has_worn_with_flag`, `npc_has_worn_with_flag`
-type: string or [variable object](##variable-object)
-return true if alpha or beta talker wear some item with specific flag
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker wear some item with specific flag
 
 #### Valid talkers:
 
@@ -712,8 +715,8 @@ check do you wear something with `RAD_DETECT` flag
 ```
 
 ### `u_has_wielded_with_flag`, `npc_has_wielded_with_flag`
-type: string or [variable object](##variable-object)
-return true if alpha or beta talker wield something with specific flag
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker wield something with specific flag
 
 #### Valid talkers:
 
@@ -728,8 +731,8 @@ check do you wield something with `WHIP` flag
 ```
 
 ### `u_can_see`, `npc_can_see`
-type: simple string
-return true if alpha or beta talker can see (not blind)
+- type: simple string
+- return true if alpha or beta talker can see (not blind)
 
 #### Valid talkers:
 
@@ -749,8 +752,8 @@ You can't see
 ```
 
 ### `u_is_deaf`, `npc_is_deaf`
-type: simple string
-return true if alpha or beta talker can't hear
+- type: simple string
+- return true if alpha or beta talker can't hear
 
 #### Valid talkers:
 
@@ -770,8 +773,8 @@ You can hear
 ```
 
 ### `u_is_alive`, `npc_is_alive`
-type: simple string
-return true if alpha or beta talker is not dead
+- type: simple string
+- return true if alpha or beta talker is not dead
 
 #### Valid talkers:
 
@@ -791,8 +794,8 @@ NPC is dead
 ```
 
 ### `u_is_on_terrain`, `npc_is_on_terrain`
-type: string or [variable object](##variable-object)
-return true if alpha or beta talker stand on specific terrain
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker stand on specific terrain
 
 #### Valid talkers:
 
@@ -807,8 +810,8 @@ check do you stand on grass
 ```
 
 ### `u_is_on_terrain_with_flag`, `npc_is_on_terrain_with_flag`
-type: string or [variable object](##variable-object)
-return true if alpha or beta talker stand on terrain with specific flag
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker stand on terrain with specific flag
 
 #### Valid talkers:
 
@@ -823,8 +826,8 @@ check do you stand on terrain with `SHRUB` flag
 ```
 
 ### `u_is_in_field`, `npc_is_in_field`
-type: string or [variable object](##variable-object)
-return true if alpha or beta talker stand on specific field
+- type: string or [variable object](##variable-object)
+- return true if alpha or beta talker stand on specific field
 
 #### Valid talkers:
 
@@ -839,10 +842,10 @@ check do you stand in a cloud of smoke
 ```
 
 ### `u_query`, `npc_query`
-type: string or [variable object](##variable-object)
-For avatar (player), create a popup with message, that could be answered as "yes" and "no". if "yes" is picked, true is returned, otherwise false;
-`default` field should be used to specify default output for NPC, that player do not control;
-popup is created only if the rest of conditions are true
+- type: string or [variable object](##variable-object)
+- For avatar (player), create a popup with message, that could be answered as "yes" and "no". if "yes" is picked, true is returned, otherwise false;
+- `default` field should be used to specify default output for NPC, that player do not control;
+- popup is created only if the rest of conditions are true
 
 #### Valid talkers:
 
