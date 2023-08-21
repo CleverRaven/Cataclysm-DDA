@@ -1,0 +1,51 @@
+[
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_species_elf",
+    "name": "Elf (Species)",
+    "description": "You are one of the Firstborn, called \"alfar\" or \"sidhe\" or, more recently, \"elves\" by the humans.  Your people had integrated into human society before the Cataclysm, doing jobs involving animals and nature since modern industry was never to your liking.  Had technological development continued, you might have been forced to make some unpleasant compromises, but not as unpleasant as you have during the end of the world.",
+    "points": 4,
+    "skills": [ { "level": 2, "name": "archery" }, { "level": 2, "name": "gun" } ],
+    "traits": [
+      "THRESH_ELFA",
+      "ANIMALEMPATH2",
+      "DEX_UP_2",
+      "PER_UP_1",
+      "ELFA_NV",
+      "FEYHEARING",
+      "BEAUTIFUL2",
+      "WAKEFUL2",
+      "ELFA_EARS",
+      "LIGHTSTEP",
+      "ANTIJUNK",
+      "FLIMSY",
+      "WEAKSTOMACH",
+      "PALE",
+      "DISIMMUNE"
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_species_dwarf",
+    "name": "Dwarf (Species)",
+    "description": "You are a Child of the Stone, called \"dwarf\" by the humans.  The legends tell that long ago you were born of stone and mined your way up to the surface world and its light, where you found the other sapient species of Earth.  While the scale of the human world was always a bit of a problem, you fit in well due to your people's long tradition of craftsmanship and hard work.  Now that society has collapsed, maybe you can turn that same drive to rebuilding it.",
+    "points": 4,
+    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 2, "name": "mechanics" } ],
+    "traits": [
+      "THRESH_TROGLOBITE",
+      "INFRARED",
+      "STOCKY_TROGLO",
+      "PAINRESIST",
+      "INFRESIST",
+      "DISRESISTANT",
+      "ALCMET",
+      "TUNNEL_FIGHTER",
+      "TROGLO",
+      "HIRSUTE",
+      "GOURMAND",
+      "SMELLY"
+    ]
+  }
+]
