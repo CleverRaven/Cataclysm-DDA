@@ -880,7 +880,7 @@
     "shape": "line",
     "difficulty": 2,
     "effect": "ter_transform",
-    "effect_str": "earth_turning_earth",
+    "effect_str": "earthshaper_turning_earth",
     "base_casting_time": 1500,
     "base_energy_cost": 800,
     "final_energy_cost": 350,
