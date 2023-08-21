@@ -790,7 +790,7 @@
     "id": "mon_mech_horse",
     "type": "MONSTER",
     "name": { "str": "STEED" },
-    "description": "Found on nearly every frontier planet, the ubiquitous TSKBEM STEED (Surface Traversing Equine Emulating Drone) is an incredibly rugged quadrapedal machine based on old Earth horses and mules.  Capable of crossing the roughest terrain, powered by a multifuel generator, generous storage capacity, light armor, and a lifetime warranty, the STEED is a priceless tool for prospectors and homesteaders.  This version has been ruggedized against Salus IV's extreme cold, but does not keep you warm while riding.",
+    "description": "Found on nearly every frontier planet, the ubiquitous TSKBEM STEED (Surface Traversing Equine Emulating Drone) is an incredibly rugged quadrapedal machine based on old Earth horses and mules.  Capable of crossing the roughest terrain, powered by a compact atomic reactor, generous storage capacity, light armor, and a lifetime warranty, the STEED is a priceless tool for prospectors and homesteaders.  This version has been ruggedized against Salus IV's extreme cold, but does not keep you warm while riding.",
     "default_faction": "mech_bot",
     "species": [ "ROBOT" ],
     "diff": 5,
@@ -809,7 +809,6 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
     "vision_night": 100,
     "mech_str_bonus": 5,
-    "mech_battery": "large_storage_battery",
     "revert_to_itype": "broken_mech_horse",
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "robots", 20 ] ] },
@@ -829,13 +828,13 @@
       "PATH_AVOID_FIRE",
       "STUN_IMMUNE"
     ],
-    "armor": { "bash": 15, "cut": 25, "bullet": 20 }
+    "armor": { "bash": 10, "cut": 15, "bullet": 10 }
   },
   {
     "type": "GENERIC",
     "id": "broken_mech_horse",
     "name": { "str": "broken HORSE" },
-    "description": "A broken STEED, it looks beyond repair.",
+    "description": "A broken STEED, it looks beyond repair.  At least the atomic core's shielding should be intact.",
     "volume": "600 L",
     "weight": "800 kg",
     "price": 1000,
@@ -844,7 +843,7 @@
     "material": [ "qt_steel", "nanoprinted_alloy", "kevlar" ],
     "symbol": "H",
     "color": "silver",
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "flags": [ "TRADER_AVOID", "NO_REPAIR", "LEAK_DAM", "RADIOACTIVE" ],
     "melee_damage": { "bash": 7 }
   }
 ]
