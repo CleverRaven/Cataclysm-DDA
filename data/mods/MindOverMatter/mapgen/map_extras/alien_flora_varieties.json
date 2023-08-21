@@ -52,7 +52,7 @@
         "  GGGGG  "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "G": [ [ "t_grass_alien", 1 ], [ "t_region_groundcover", 1 ] ], " ": "t_null" }
+      "terrain": { "G": [ [ "t_grass_alien", 1 ], [ "t_null", 1 ] ], " ": "t_null" }
     }
   },
   {
@@ -111,7 +111,7 @@
         "    GGGG    "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "G": [ [ "t_grass_alien_2", 2 ], [ "t_tree_small_alien_1", 1 ], [ "t_region_groundcover", 1 ] ], " ": "t_null" }
+      "terrain": { "G": [ [ "t_grass_alien_2", 2 ], [ "t_tree_small_alien_1", 1 ], [ "t_null", 1 ] ], " ": "t_null" }
     }
   },
   {
@@ -167,7 +167,7 @@
         "  GGGGG  "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "G": [ [ "t_grass_alien_3", 1 ], [ "t_moss_alien_1", 1 ], [ "t_region_groundcover", 1 ] ], " ": "t_null" }
+      "terrain": { "G": [ [ "t_grass_alien_3", 1 ], [ "t_moss_alien_1", 1 ], [ "t_null", 1 ] ], " ": "t_null" }
     }
   },
   {
@@ -224,7 +224,7 @@
         "   GGGG   "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "G": [ [ "t_tree_small_alien_2", 1 ], [ "t_moss_alien_2", 1 ], [ "t_region_groundcover", 1 ] ], " ": "t_null" }
+      "terrain": { "G": [ [ "t_tree_small_alien_2", 1 ], [ "t_moss_alien_2", 1 ], [ "t_null", 1 ] ], " ": "t_null" }
     }
   },
   {
@@ -283,7 +283,7 @@
         "    GGGG    "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "G": [ [ "t_tree_small_alien_3", 1 ], [ "t_vines_alien_1", 1 ], [ "t_region_groundcover", 1 ] ], " ": "t_null" }
+      "terrain": { "G": [ [ "t_tree_small_alien_3", 1 ], [ "t_vines_alien_1", 1 ], [ "t_null", 1 ] ], " ": "t_null" }
     }
   },
   {
@@ -319,8 +319,8 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
-        "G": [ [ "t_grass_alien_2", 2 ], [ "t_tree_small_alien_1", 1 ], [ "t_region_groundcover", 1 ] ],
-        "D": [ [ "t_tree_small_alien_3", 3 ], [ "t_vines_alien_1", 3 ], [ "t_region_groundcover", 2 ] ],
+        "G": [ [ "t_grass_alien_2", 2 ], [ "t_tree_small_alien_1", 1 ], [ "t_null", 1 ] ],
+        "D": [ [ "t_tree_small_alien_3", 3 ], [ "t_vines_alien_1", 3 ], [ "t_null", 2 ] ],
         ".": "t_null"
       }
     }

@@ -299,6 +299,67 @@ struct eoc_compare {
     }
 };
 
+struct queued_eocs {
+    using storage_iter = std::list<queued_eoc>::iterator;
+
+    struct eoc_compare : ::eoc_compare {
+        bool operator()( const storage_iter &lhs, const storage_iter &rhs ) const {
+            return ::eoc_compare::operator()( *lhs, *rhs );
+        }
+    };
+    std::priority_queue<storage_iter, std::vector<storage_iter>, eoc_compare> queue;
+    std::list<queued_eoc> list;
+
+    queued_eocs() = default;
+
+    queued_eocs( const queued_eocs &rhs ) {
+        list = rhs.list;
+        for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
+            queue.emplace( it );
+        }
+    };
+    queued_eocs( queued_eocs &&rhs ) noexcept {
+        queue.swap( rhs.queue );
+        list.swap( rhs.list );
+    }
+
+    queued_eocs &operator=( const queued_eocs &rhs ) {
+        list = rhs.list;
+        // Why doesn't std::priority_queue have a clear() function.
+        queue = {};
+        for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
+            queue.emplace( it );
+        }
+        return *this;
+    }
+    queued_eocs &operator=( queued_eocs &&rhs ) noexcept {
+        queue.swap( rhs.queue );
+        list.swap( rhs.list );
+        return *this;
+    }
+
+    /* std::priority_queue compatibility layer where performance is less relevant */
+
+    bool empty() const {
+        return queue.empty();
+    }
+
+    const queued_eoc &top() const {
+        return *queue.top();
+    }
+
+    void push( const queued_eoc &eoc ) {
+        auto it = list.emplace( list.end(), eoc );
+        queue.push( it );
+    }
+
+    void pop() {
+        auto it = queue.top();
+        queue.pop();
+        list.erase( it );
+    }
+};
+
 struct aim_type {
     std::string name;
     std::string action;
@@ -387,6 +448,24 @@ enum class book_mastery {
     MASTERED // can no longer increase skill by reading
 };
 
+enum class read_condition_result {
+    SUCCESS = 0,
+    NOT_BOOK = 1 << 0,
+    CANT_UNDERSTAND = 1 << 1,
+    MASTERED = 1 << 2,
+    DRIVING = 1 << 3,
+    ILLITERATE = 1 << 4,
+    NEED_GLASSES = 1 << 5,
+    TOO_DARK = 1 << 6,
+    MORALE_LOW = 1 << 7,
+    BLIND = 1 << 8
+};
+
+template<>
+struct enum_traits<read_condition_result> {
+    static constexpr bool is_flag_enum = true;
+};
+
 /** @relates ret_val */
 template<>
 struct ret_val<edible_rating>::default_success : public
@@ -440,7 +519,7 @@ class Character : public Creature, public visitable
         ~Character() override;
 
         // initialize avatar and avatar mocks
-        void initialize();
+        void initialize( bool learn_recipes = true );
 
 
         Character *as_character() override {
@@ -1082,6 +1161,16 @@ class Character : public Creature, public visitable
 
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
+
+    private:
+        mutable std::optional<bool> cached_dead_state;
+    public:
+        void set_part_hp_cur( const bodypart_id &id, int set ) override;
+
+        void calc_all_parts_hp( float hp_mod = 0.0, float hp_adjust = 0.0, int str_max = 0,
+                                int dex_max = 0, int per_max = 0, int int_max = 0, int healthy_mod = 0,
+                                int fat_to_max_hp = 0 );
+
         /** Returns true if the player has stealthy movement */
         bool is_stealthy() const;
         /** Returns true if the current martial art works with the player's current weapon */
@@ -1450,6 +1539,9 @@ class Character : public Creature, public visitable
                           bool allow_neutral ) const;
         /** Roll, based on instability, whether next mutation should be good or bad */
         bool roll_bad_mutation() const;
+        /** Opens a menu which allows players to choose from a list of mutations */
+        bool mutation_selector( const std::vector<trait_id> &prospective_traits,
+                                const mutation_category_id &cat, const bool &use_vitamins );
         /** Picks a random valid mutation in a category and mutate_towards() it */
         void mutate_category( const mutation_category_id &mut_cat, bool use_vitamins,
                               bool true_random = false );
@@ -1891,8 +1983,15 @@ class Character : public Creature, public visitable
         item_location i_add( item it, bool should_stack = true, const item *avoid = nullptr,
                              const item *original_inventory_item = nullptr, bool allow_drop = true,
                              bool allow_wield = true, bool ignore_pkt_settings = false );
+        item_location i_add( item it, int &copies_remaining, bool should_stack = true,
+                             const item *avoid = nullptr,
+                             const item *original_inventory_item = nullptr, bool allow_drop = true,
+                             bool allow_wield = true, bool ignore_pkt_settings = false );
         /** tries to add to the character's inventory without a popup. returns nullptr if it fails. */
         item_location try_add( item it, const item *avoid = nullptr,
+                               const item *original_inventory_item = nullptr, bool allow_wield = true,
+                               bool ignore_pkt_settings = false );
+        item_location try_add( item it, int &copies_remaining, const item *avoid = nullptr,
                                const item *original_inventory_item = nullptr, bool allow_wield = true,
                                bool ignore_pkt_settings = false );
 
@@ -2324,6 +2423,13 @@ class Character : public Creature, public visitable
         time_duration time_to_read( const item &book, const Character &reader,
                                     const Character *learner = nullptr ) const;
 
+        /**
+         * Helper function for get_book_reader
+         *
+         * @param book The book being read
+         */
+        read_condition_result check_read_condition( const item &book ) const;
+
         /** Calls Creature::normalize()
          *  nulls out the player's weapon
          *  Should only be called through player::normalize(), not on it's own!
@@ -2547,7 +2653,7 @@ class Character : public Creature, public visitable
 
         std::vector <addiction> addictions;
         std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
-        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
+        queued_eocs queued_effect_on_conditions;
 
         /** Adds an addiction to the player */
         void add_addiction( const addiction_id &type, int strength );
@@ -2662,6 +2768,7 @@ class Character : public Creature, public visitable
                                    const player_activity &act_back = player_activity() );
         bool has_stashed_activity() const;
         bool can_stash( const item &it, bool ignore_pkt_settings = false );
+        bool can_stash( const item &it, int &copies_remaining, bool ignore_pkt_settings = false );
         bool can_stash_partial( const item &it, bool ignore_pkt_settings = false );
         void initialize_stomach_contents();
 
@@ -2924,6 +3031,8 @@ class Character : public Creature, public visitable
          * with ranged weapons, e.g. with infrared vision.
          */
         std::vector<Creature *> get_targetable_creatures( int range, bool melee ) const;
+        /** Returns the mutation visibility threshold for the observer ( *this ) */
+        int get_mutation_visibility_cap( const Character *observed ) const;
         /** Returns an enumeration of visible mutations with colors */
         std::string visible_mutations( int visibility_cap ) const;
 
@@ -3048,10 +3157,13 @@ class Character : public Creature, public visitable
          * depending on choice of ingredients */
         std::pair<nutrients, nutrients> compute_nutrient_range(
             const item &, const recipe_id &,
+            std::map<recipe_id, std::pair<nutrients, nutrients>> &rec_cache,
             const cata::flat_set<flag_id> &extra_flags = {} ) const;
         /** Same, but across arbitrary recipes */
         std::pair<nutrients, nutrients> compute_nutrient_range(
-            const itype_id &, const cata::flat_set<flag_id> &extra_flags = {} ) const;
+            const itype_id &,
+            std::map<recipe_id, std::pair<nutrients, nutrients>> &rec_cache,
+            const cata::flat_set<flag_id> &extra_flags = {} ) const;
         /** Returns allergy type or MORALE_NULL if not allergic for this character */
         morale_type allergy_type( const item &food ) const;
         nutrients compute_effective_nutrients( const item & ) const;
@@ -3123,7 +3235,7 @@ class Character : public Creature, public visitable
          * above 4.0 means these activities cannot be performed.
          * takes pos as a parameter so that remote spots can be judged
          * if they will potentially have enough light when player gets there */
-        float fine_detail_vision_mod( const tripoint &p = tripoint_zero ) const;
+        float fine_detail_vision_mod( const tripoint &p = tripoint_min ) const;
 
         // ---- CRAFTING ----
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long,
@@ -3172,7 +3284,7 @@ class Character : public Creature, public visitable
 
         // crafting.cpp
         float morale_crafting_speed_multiplier( const recipe &rec ) const;
-        float lighting_craft_speed_multiplier( const recipe &rec ) const;
+        float lighting_craft_speed_multiplier( const recipe &rec, const tripoint &p = tripoint_min ) const;
         float crafting_speed_multiplier( const recipe &rec ) const;
         float workbench_crafting_speed_multiplier( const item &craft,
                 const std::optional<tripoint> &loc )const;
@@ -3290,7 +3402,7 @@ class Character : public Creature, public visitable
         select_item_component( const std::vector<item_comp> &components,
                                int batch, read_only_visitable &map_inv, bool can_cancel = false,
                                const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true,
-                               const recipe *rec = nullptr );
+                               bool npc_query = false, const recipe *rec = nullptr );
         std::list<item> consume_items( const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter = return_true<item>, bool select_ind = false );
         std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
@@ -3305,7 +3417,7 @@ class Character : public Creature, public visitable
         bool consume_software_container( const itype_id &software_id );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, read_only_visitable &map_inv,
-                               bool can_cancel = false, bool player_inv = true,
+                               bool can_cancel = false, bool player_inv = true, bool npc_query = false,
         const std::function<int( int )> &charges_required_modifier = []( int i ) {
             return i;
         } );
@@ -3542,8 +3654,6 @@ class Character : public Creature, public visitable
 
         // Our weariness level last turn, so we know when we transition
         int old_weary_level = 0;
-        // Z-level on the last turn (used for edge-case "fine_detail_vision_mod" NPCs function override)
-        int last_pc_zlev = 0;
 
         trap_map known_traps;
         mutable std::map<std::string, double> cached_info;

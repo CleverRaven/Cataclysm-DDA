@@ -1,0 +1,446 @@
+[
+  {
+    "name": "GROUP_TADPOLES_ALL",
+    "type": "monstergroup",
+    "default": "mon_peeper_tadpole",
+    "monsters": [
+      { "monster": "mon_leo_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_pattern_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      {
+        "monster": "mon_bullfrog_tadpole",
+        "weight": 100,
+        "pack_size": [ 6, 12 ],
+        "conditions": [ "SPRING", "SUMMER" ]
+      },
+      { "monster": "mon_strange_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_fowler_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_foul_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      {
+        "monster": "mon_freedom_tadpole",
+        "weight": 100,
+        "pack_size": [ 6, 12 ],
+        "conditions": [ "SPRING", "SUMMER" ]
+      },
+      { "monster": "mon_odd_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_peeper_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_vocal_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_gray_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_shift_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] }
+    ]
+  },
+  {
+    "name": "GROUP_TADPOLES_SEWER",
+    "type": "monstergroup",
+    "default": "mon_leo_tadpole",
+    "monsters": [
+      { "monster": "mon_leo_tadpole", "weight": 60, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_pattern_tadpole", "weight": 40, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_bullfrog_tadpole", "weight": 60, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_strange_tadpole", "weight": 40, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_fowler_tadpole", "weight": 60, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_foul_tadpole", "weight": 40, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_freedom_tadpole", "weight": 60, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_odd_tadpole", "weight": 40, "pack_size": [ 4, 8 ], "conditions": [ "SPRING", "SUMMER" ] }
+    ]
+  },
+  {
+    "name": "GROUP_TADPOLES_RIVER",
+    "type": "monstergroup",
+    "default": "mon_bullfrog_tadpole",
+    "monsters": [
+      { "monster": "mon_leo_tadpole", "weight": 100, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_pattern_tadpole", "weight": 20, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      {
+        "monster": "mon_bullfrog_tadpole",
+        "weight": 100,
+        "pack_size": [ 6, 12 ],
+        "conditions": [ "SPRING", "SUMMER" ]
+      },
+      { "monster": "mon_strange_tadpole", "weight": 40, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] }
+    ]
+  },
+  {
+    "name": "GROUP_TADPOLES_SWAMP",
+    "type": "monstergroup",
+    "default": "mon_bullfrog_tadpole",
+    "monsters": [
+      { "monster": "mon_leo_tadpole", "weight": 60, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_pattern_tadpole", "weight": 40, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      {
+        "monster": "mon_bullfrog_tadpole",
+        "weight": 60,
+        "pack_size": [ 6, 12 ],
+        "conditions": [ "SPRING", "SUMMER" ]
+      },
+      { "monster": "mon_strange_tadpole", "weight": 40, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_fowler_tadpole", "weight": 60, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_foul_tadpole", "weight": 40, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_freedom_tadpole", "weight": 60, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_odd_tadpole", "weight": 40, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_peeper_tadpole", "weight": 60, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_vocal_tadpole", "weight": 40, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_gray_tadpole", "weight": 60, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_shift_tadpole", "weight": 40, "pack_size": [ 6, 12 ], "conditions": [ "SPRING", "SUMMER" ] }
+    ]
+  },
+  {
+    "name": "GROUP_FROGS_ALL",
+    "type": "monstergroup",
+    "default": "mon_peeper_frog",
+    "monsters": [
+      { "monster": "mon_leo_frog", "weight": 100, "pack_size": [ 1, 4 ], "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      {
+        "monster": "mon_pattern_frog",
+        "weight": 20,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_bullfrog_frog",
+        "weight": 100,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_strange_frog",
+        "weight": 20,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_fowler_toad",
+        "weight": 100,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_foul_toad",
+        "weight": 20,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_freedom_toad",
+        "weight": 100,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_odd_toad",
+        "weight": 20,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_peeper_frog",
+        "weight": 100,
+        "pack_size": [ 2, 6 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_vocal_frog",
+        "weight": 20,
+        "pack_size": [ 2, 6 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_gray_frog",
+        "weight": 100,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_shift_frog",
+        "weight": 20,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  },
+  {
+    "name": "GROUP_FROGS_NATURAL",
+    "type": "monstergroup",
+    "default": "mon_peeper_frog",
+    "monsters": [
+      { "monster": "mon_leo_frog", "weight": 100, "pack_size": [ 1, 4 ], "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      {
+        "monster": "mon_bullfrog_frog",
+        "weight": 100,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_fowler_toad",
+        "weight": 100,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_freedom_toad",
+        "weight": 100,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_peeper_frog",
+        "weight": 100,
+        "pack_size": [ 2, 6 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_gray_frog",
+        "weight": 100,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  },
+  {
+    "name": "GROUP_FROGS_SEWER",
+    "type": "monstergroup",
+    "default": "mon_bullfrog_frog",
+    "monsters": [
+      { "monster": "mon_leo_frog", "weight": 60, "pack_size": [ 1, 4 ], "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      {
+        "monster": "mon_pattern_frog",
+        "weight": 40,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_bullfrog_frog",
+        "weight": 60,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_strange_frog",
+        "weight": 40,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_fowler_toad",
+        "weight": 60,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_foul_toad",
+        "weight": 40,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_freedom_toad",
+        "weight": 60,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_odd_toad",
+        "weight": 40,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  },
+  {
+    "name": "GROUP_FROGS_FOREST",
+    "type": "monstergroup",
+    "default": "mon_peeper_frog",
+    "monsters": [
+      { "monster": "mon_leo_frog", "weight": 60, "pack_size": [ 1, 4 ], "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      {
+        "monster": "mon_pattern_frog",
+        "weight": 20,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_bullfrog_frog",
+        "weight": 20,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_strange_frog",
+        "weight": 20,
+        "pack_size": [ 1, 2 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_fowler_toad",
+        "weight": 100,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_foul_toad",
+        "weight": 40,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_freedom_toad",
+        "weight": 100,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_odd_toad",
+        "weight": 40,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_peeper_frog",
+        "weight": 100,
+        "pack_size": [ 2, 6 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_vocal_frog",
+        "weight": 40,
+        "pack_size": [ 2, 6 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_gray_frog",
+        "weight": 100,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_shift_frog",
+        "weight": 40,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  },
+  {
+    "name": "GROUP_FROGS_SWAMP",
+    "type": "monstergroup",
+    "default": "mon_bullfrog_frog",
+    "monsters": [
+      { "monster": "mon_leo_frog", "weight": 60, "pack_size": [ 1, 4 ], "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      {
+        "monster": "mon_pattern_frog",
+        "weight": 40,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_bullfrog_frog",
+        "weight": 60,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_strange_frog",
+        "weight": 40,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_fowler_toad",
+        "weight": 60,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_foul_toad",
+        "weight": 40,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_freedom_toad",
+        "weight": 60,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_odd_toad",
+        "weight": 40,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_peeper_frog",
+        "weight": 60,
+        "pack_size": [ 2, 6 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_vocal_frog",
+        "weight": 40,
+        "pack_size": [ 2, 6 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_gray_frog",
+        "weight": 60,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_shift_frog",
+        "weight": 40,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  },
+  {
+    "name": "GROUP_FROGS_RIVER",
+    "type": "monstergroup",
+    "default": "mon_bullfrog_frog",
+    "monsters": [
+      { "monster": "mon_leo_frog", "weight": 100, "pack_size": [ 1, 4 ], "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      {
+        "monster": "mon_pattern_frog",
+        "weight": 50,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_bullfrog_frog",
+        "weight": 100,
+        "pack_size": [ 1, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_strange_frog",
+        "weight": 50,
+        "pack_size": [ 1, 4 ],
+        "starts": "14 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  }
+]

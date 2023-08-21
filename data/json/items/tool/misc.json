@@ -102,6 +102,7 @@
     "id": "clay_urn",
     "type": "TOOL",
     "name": { "str": "clay urn" },
+    "category": "container",
     "description": "A clay container for storing cremated ashes.",
     "weight": "1600 g",
     "volume": "4280 ml",
@@ -371,13 +372,7 @@
         "menu_text": "Turn on",
         "type": "transform"
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "1 kW"
-      }
+      { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" }
     ],
     "pocket_data": [
       {
@@ -407,13 +402,7 @@
         "menu_text": "Turn off",
         "type": "transform"
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "1 kW"
-      }
+      { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" }
     ]
   },
   {
@@ -589,13 +578,7 @@
         "menu_text": "Turn on",
         "type": "transform"
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "500 W"
-      }
+      { "type": "link_up", "cable_length": 2, "charge_rate": "500 W" }
     ],
     "pocket_data": [
       {
@@ -625,13 +608,7 @@
         "menu_text": "Turn off",
         "type": "transform"
       },
-      {
-        "type": "link_up",
-        "menu_text": "Plug in / Unplug",
-        "ammo_scale": 0,
-        "cable_length": 2,
-        "charge_rate": "500 W"
-      }
+      { "type": "link_up", "cable_length": 2, "charge_rate": "500 W" }
     ]
   },
   {

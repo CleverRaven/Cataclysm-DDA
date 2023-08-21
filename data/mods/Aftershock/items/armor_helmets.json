@@ -22,7 +22,7 @@
     "material_thickness": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "PADDED" ],
     "melee_damage": { "bash": 10 }
   },
   {
@@ -50,11 +50,12 @@
     "material_thickness": 5,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ],
+    "flags": [ "VARSIZE", "STURDY", "PADDED", "SUN_GLASSES" ],
     "environmental_protection_with_filter": 16,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK" ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
     "melee_damage": { "bash": 10 }
   },
   {
@@ -77,7 +78,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATER_FRIENDLY", "STURDY" ],
+    "flags": [ "WATER_FRIENDLY", "STURDY", "PADDED" ],
     "melee_damage": { "bash": 10 }
   }
 ]

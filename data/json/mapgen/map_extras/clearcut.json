@@ -1,0 +1,41 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_clearcut",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "ter_furn_transforms": { " ": { "transform": "clearcut" } }
+    }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "clearcut",
+    "terrain": [ { "result": "t_stump", "valid_flags": [ "TREE", "YOUNG" ] } ]
+  }
+]

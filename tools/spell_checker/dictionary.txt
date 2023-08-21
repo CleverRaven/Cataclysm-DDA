@@ -143,6 +143,7 @@ aquaculture
 aquamarines
 aqueles
 aquilops
+arachnophobia
 aramid
 arapaima
 arborescent
@@ -162,6 +163,7 @@ arthropod
 arthropodology
 artificer
 artisanals
+arvore
 asexuality
 askin
 aspirants
@@ -237,6 +239,7 @@ bardiche
 barding
 barebones
 barghest
+barleycorn
 barony
 barosaurus
 barotrarumatic
@@ -247,7 +250,6 @@ baselines
 basiliscus
 bassline
 basswood
-barleycorn
 batching
 batlike
 batrachian
@@ -290,6 +292,8 @@ biofuel
 biofuels
 biographic
 biohacker
+biokinesis
+biokinetic
 biollante
 biomachine
 biomancer
@@ -436,6 +440,7 @@ camelops
 camphine
 campin
 camptosaurus
+camspies
 camspy
 canadensis
 canid
@@ -533,6 +538,8 @@ citrine
 citrines
 civilizational
 clairly
+clairsentience
+clairsentient
 clambers
 clanged
 clanker
@@ -628,6 +635,7 @@ craftsfolk
 craftswoman
 craftwork
 crappie
+creasing
 creeply
 creped
 criniere
@@ -648,6 +656,7 @@ cryopod
 cryopreservation
 cryosleep
 crystaltender
+cthonic
 ctivate
 ctulaly
 cudgels
@@ -805,6 +814,7 @@ doffing
 dogbane
 doggo
 doglike
+dollkin
 domestica
 dongle
 doomseer
@@ -863,6 +873,7 @@ earmuff
 earsplitting
 earthbag
 earthbags
+earthkin
 earthlike
 earthshaper
 earthside
@@ -1059,6 +1070,7 @@ flagration
 flairs
 flamberge
 flamesword
+flametouched
 flammenschwert
 flanged
 flappin
@@ -1213,6 +1225,7 @@ glitchiness
 gliters
 gloppy
 glowstick
+glumly
 glyceride
 glyptodont
 glyptotherium
@@ -1221,6 +1234,7 @@ goops
 gores
 gorget
 gorgosaurus
+gouts
 goverments
 gowod
 gozu
@@ -1264,8 +1278,8 @@ gunmods
 gunshop
 gunsmithing
 gunsmoke
-gushingly
 gurkha
+gushingly
 gutskin
 guvnah
 gymnocladus
@@ -1357,6 +1371,7 @@ homebrewing
 homemaking
 homewrecker
 homovorus
+homullus
 homunculi
 homunculus
 honeygold
@@ -1391,7 +1406,10 @@ hydria
 hydrocracking
 hydrogel
 hygrometer
+hygroscope
+hygroscopes
 hygroscopic
+hygroscopy
 hyolith
 hypacrosaurus
 hyperaggressive
@@ -1410,6 +1428,7 @@ ibalalehu
 ichor
 ichthys
 idkont
+ierde
 ifoundramsesthecat
 ignitable
 ignto
@@ -1430,6 +1449,7 @@ inclusiveness
 incompetencies
 incongruously
 incorporeal
+incredulously
 indemnifying
 indiscernible
 inductance
@@ -1545,10 +1565,11 @@ khru
 kickboard
 kickin
 kickstand
-killbasa
-killin
 kilij
 kilijes
+kilijs
+killbasa
+killin
 kilns
 kilroy
 kilted
@@ -1634,6 +1655,7 @@ lemony
 lemure
 lense
 leptoceratops
+lessers
 letal
 lettin
 leuchtet
@@ -1663,6 +1685,7 @@ listlessly
 lithely
 litheness
 liturgies
+livestream
 livingrooms
 lizardfolk
 lizardlike
@@ -1742,6 +1765,7 @@ massproduced
 masterkey
 mastiffs
 matar
+matchhead
 matryoshka
 mausketeer
 mausoleums
@@ -1983,6 +2007,7 @@ nigromancie
 nimbelemnite
 nimbleness
 nimbler
+nimue
 niter
 nitrox
 nittlebam
@@ -2124,12 +2149,15 @@ parst
 parthenogenetic
 partyin
 passionfruit
+pastes
 pasteurize
 pathfinding
 patios
 pauldrons
+pebbled
 peacoat
 peanutbutter
+pearlescent
 peccari
 peccary
 pecial
@@ -2205,6 +2233,7 @@ placidly
 planar
 planer
 planetside
+plantkin
 plantlike
 plastron
 platemail
@@ -2256,6 +2285,7 @@ posteriori
 posthuman
 potboiler
 potentiates
+poultices
 pouncer
 powerlifting
 powerplants
@@ -2264,6 +2294,7 @@ prancer
 prateleiras
 prayerbook
 prayeres
+preconditions
 precooked
 predatorially
 predatorily
@@ -2306,6 +2337,8 @@ pseudomagical
 pseudopod
 pseudopods
 pshht
+psionic
+psionics
 psychiatrically
 psychochemical
 psychopharmacological
@@ -2334,6 +2367,8 @@ pushmower
 pussywillows
 putrescent
 pwn
+pyrokinesis
+pyrokinetic
 pyrolusite
 pyrolysis
 pyrometer
@@ -2382,6 +2417,7 @@ rangehands
 raptorial
 rashguard
 rashy
+ratatosk
 ratlike
 rattigan
 rayed
@@ -2649,6 +2685,7 @@ silage
 siloed
 siloing
 sinensis
+sinously
 sintering
 sithen
 sixdust
@@ -2662,6 +2699,7 @@ skulduggery
 skulker
 skullgun
 skybridge
+skyglass
 slackness
 slaked
 slamfire
@@ -2808,12 +2846,14 @@ stompers
 stompy
 stompy-clanker
 stonelike
+stoneling
+stonelings
 stoneskin
+stook
+stooking
 stopcock
 stoppered
 stoppeth
-stook
-stooking
 storable
 stormcaller
 stormshaper
@@ -2844,6 +2884,7 @@ suborder
 subplanar
 subplane
 subplots
+subsuming
 subterraenean
 subtypes
 sudo
@@ -2878,9 +2919,11 @@ swages
 swappable
 swashbucklers
 sweetish
+swipin
 switchgear
 swordmanship
 syde
+sylph
 sylvatica
 sylvite
 sym
@@ -3015,6 +3058,7 @@ treelines
 trenchcoat
 trenchcoats
 trenchgun
+trenching
 triband
 tribesperson
 tribot
@@ -3073,6 +3117,7 @@ unbuckling
 unburnt
 uncleaned
 uncluttered
+uncoiling
 uncoils
 uncured
 undecipherable
@@ -3080,13 +3125,16 @@ underbarrel
 underbody
 undercovering
 underfongen
+underhill
 undergrown
 underlayer
 underlayers
 undersides
 underslung
+understandingly
 underwelming
 undescribed
+undine
 undried
 undulates
 uneasing
@@ -3183,6 +3231,7 @@ vars
 vatgrown
 vaulters
 veggy
+vegital
 veined
 venandi
 ventrolateral
@@ -3202,9 +3251,12 @@ viewport
 viewports
 vikeys
 vinegared
+vineling
+vinelings
 viny
 viperine
 virginica
+viridian
 virions
 vises
 vitakinesis
@@ -3243,6 +3295,7 @@ wastebread
 watchband
 waterfowl
 waterproofed
+waterkin
 waterskin
 waterskins
 waterskis
@@ -3374,6 +3427,7 @@ zombified
 zomborg
 zombull
 zombullfrog
+zoomorphic
 zoonotic
 zpzzzzpzz
 zubon

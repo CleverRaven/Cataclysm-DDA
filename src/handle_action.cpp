@@ -1515,7 +1515,7 @@ static void read()
         if( loc->type->can_use( "learn_spell" ) ) {
             item spell_book = *loc.get_item();
             spell_book.get_use( "learn_spell" )->call( &player_character, spell_book,
-                    spell_book.active, player_character.pos() );
+                    player_character.pos() );
         } else {
             loc = loc.obtain( player_character );
             player_character.read( loc );
@@ -1748,12 +1748,16 @@ void game::open_consume_item_menu()
 
     avatar &player_character = get_avatar();
     switch( as_m.ret ) {
-        case 0:
-            avatar_action::eat( player_character, game_menus::inv::consume_food( player_character ) );
+        case 0: {
+            item_location loc = game_menus::inv::consume_food( player_character );
+            avatar_action::eat( player_character, loc );
             break;
-        case 1:
-            avatar_action::eat( player_character, game_menus::inv::consume_drink( player_character ) );
+        }
+        case 1: {
+            item_location loc = game_menus::inv::consume_drink( player_character );
+            avatar_action::eat( player_character, loc );
             break;
+        }
         case 2:
             avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds( player_character ) );
             break;

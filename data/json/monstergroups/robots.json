@@ -7,7 +7,6 @@
       { "monster": "mon_skitterbot", "weight": 220, "cost_multiplier": 0 },
       { "monster": "mon_secubot", "weight": 150, "cost_multiplier": 0 },
       { "monster": "mon_talon_m202a1", "weight": 75, "cost_multiplier": 0 },
-      { "monster": "mon_copbot", "weight": 0, "cost_multiplier": 0 },
       { "monster": "mon_molebot", "weight": 40, "cost_multiplier": 0 }
     ]
   },
@@ -32,11 +31,6 @@
     "name": "GROUP_HAZMATBOT",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_hazmatbot" } ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_ROBOT_EYEBOT",
-    "monsters": [ { "monster": "mon_eyebot", "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",

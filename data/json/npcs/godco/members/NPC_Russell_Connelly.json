@@ -1,0 +1,243 @@
+[
+  {
+    "type": "effect_type",
+    "id": "hunt_godco_russell"
+  },
+  {
+    "type": "effect_type",
+    "id": "trade_godco_russell"
+  },
+  {
+    "type": "talk_topic",
+    "id": [
+      "TALK_GODCO_Russell_Joinee",
+      "TALK_GODCO_Russell_2",
+      "TALK_GODCO_Russell_Trophy2",
+      "TALK_GODCO_Russell_Mood",
+      "TALK_GODCO_Russell_Mood1",
+      "TALK_GODCO_Russell_Trophy3",
+      "TALK_GODCO_Russell_Trade2"
+    ],
+    "responses": [
+      {
+        "text": "Let's talk about getting you those trophies.",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "not": { "npc_has_effect": "hunt_godco_russell" } }
+      },
+      {
+        "text": "Why don't you hunt these trophies yourself?",
+        "topic": "TALK_GODCO_Russell_Trophy3",
+        "condition": { "not": { "npc_has_effect": "hunt_godco_russell" } }
+      },
+      {
+        "text": "Why didn't you hunt these trophies yourself?",
+        "topic": "TALK_GODCO_Russell_Trophy3",
+        "condition": { "npc_has_effect": "hunt_godco_russell" }
+      },
+      { "text": "Do you really need these trophies?", "topic": "TALK_GODCO_Russell_Trophy2" },
+      { "text": "How are things, living here?", "topic": "TALK_GODCO_Russell_Mood" },
+      { "text": "Care to trade?", "topic": "TALK_GODCO_Russell_Trade" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Russell_1",
+    "dynamic_line": {
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
+      "value": "yes",
+      "yes": "Get away from me, demon.  I shoot crazy sinners like you on a regular basis, and my rifle's right here.",
+      "no": {
+        "npc_has_var": "u_met_godco_russell",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": [ "Praise the Lord, <name_g>.", "Praise the Lord, <u_name>.", "Greetings, <name_g><punc>  You okay?" ],
+        "no": "Huh, so it was you over there.  It's always great to see a new face.  Name's Russell, Russell Connelly."
+      }
+    },
+    "responses": [
+      {
+        "text": "Russell, hey?  Nice to meet you.",
+        "effect": { "npc_add_var": "u_met_godco_russell", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_russell", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Russell_Firstmeet"
+      },
+      {
+        "text": "Hi, Russell.  Got a minute?",
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_russell", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Russell_2"
+      },
+      {
+        "text": "Hey, Russell.  I can't stay to talk.",
+        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Chill out man, I'll leave you alone.",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Russell_Firstmeet",
+    "dynamic_line": "It's not often that we see new folks around the remnants of the New England Community Church.  So, got any tales to share from the outside world?",
+    "responses": [
+      {
+        "text": "I'm just a curious traveler.  What's up with you?",
+        "condition": { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_GODCO_Russell_Story"
+      },
+      {
+        "text": "I'm seeking asylum here.  What's up with you?",
+        "condition": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_GODCO_Russell_Story"
+      },
+      { "text": "Actually I'm just heading out.", "topic": "TALK_GODCO_Russell_StoryB" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Russell_Story",
+    "dynamic_line": "Who cares what's up with me?  You're the new one here.  Let me put it another way: what have you seen out there?  I'm talking about the monsters that lurk deep in the woods.  Have you witnessed them with your very own eyes?",
+    "responses": [
+      { "text": "I wouldn't be here if I saw one.  Why do you ask?", "topic": "TALK_GODCO_Russell_Trophy" },
+      { "text": "I've seen too many things out there.  Why do you ask?", "topic": "TALK_GODCO_Russell_Trophy" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Russell_StoryB",
+    "dynamic_line": "I won't let you leave just yet.  You're the new one here, I have so much to ask.  Let me put it another way: what have you seen out there?  I'm talking about the monsters that lurk deep in the woods.  Have you witnessed them with your very own eyes?",
+    "responses": [
+      { "text": "I wouldn't be here if I saw one.  Why do you ask?", "topic": "TALK_GODCO_Russell_Trophy" },
+      { "text": "I've seen too much out there.  Why do you ask?", "topic": "TALK_GODCO_Russell_Trophy" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Russell_Trophy",
+    "dynamic_line": "Well, let's just say I'm interested in rare game.  I've heard stories, rumors and some tall tales about otherworldly beings out there in the wasteland.  That's where you come in.  I want to see the evidence, something physical I can collect as a trophy collection.  You seem to have experience, I was hoping you could help me.",
+    "responses": [
+      { "text": "Let's talk about getting you those trophies.", "topic": "TALK_MISSION_LIST" },
+      { "text": "Go and hunt them yourself.  You have a gun after all.", "topic": "TALK_GODCO_Russell_Trophy3" },
+      {
+        "text": "I've got other things to deal with.  Do you really need these trophies?",
+        "topic": "TALK_GODCO_Russell_Trophy2"
+      },
+      { "text": "I can help.  Anyway, how are things?", "topic": "TALK_GODCO_Russell_2" },
+      { "text": "Find somebody else, dude.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Russell_2",
+    "dynamic_line": "I've been better.  Having a hellish time keeping up with strange wildlife that suddenly want us dead… hey, let's forget the world while we're talking.  How's life treatin' ya?",
+    "responses": [ { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Russell_Trophy2",
+    "dynamic_line": {
+      "npc_has_effect": "hunt_godco_russell",
+      "yes": "Look, I'm just a regular God-fearing fella like you.  You gotta have something to keep your mind off stuff.  You'd get mad otherwise.  My passion happens to be collecting trophies.  I appreciate your help, by the way.",
+      "no": "Look, I'm just a regular God-fearing fella like you.  You gotta have something to keep your mind off stuff.  You'd get mad otherwise.  My passion happens to be collecting trophies."
+    },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Your life, your escape mechanism…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Russell_Mood",
+    "dynamic_line": "Oh it's nothing new to me.  Livin' off the land, far from everyone - it's just what I'm adjusted to.  I've kept in touch with the church folks, and that was enough.  I had a loyal companion back home, Betsey, my rottweiler.  Things have been very different since she passed away, though.",
+    "responses": [
+      { "text": "What do you do now?", "topic": "TALK_GODCO_Russell_Mood1" },
+      { "text": "Could you tell me more about Betsey?", "topic": "TALK_GODCO_Russell_Betsey" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Russell_Mood1",
+    "dynamic_line": "I hunt with most of my time these days.  Whatever game I spot, I bag and donate.  Thing is, it's getting harder and harder.  Have you also noticed how corruption is slowly overtaking the natural wildlife in this God-given planet?  They think the flesh is just rotten.  No, it's mutated, become something else.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Russell_Betsey",
+    "dynamic_line": "&Russel's expression becomes somber, and he briefly stares at the wall.  \"She was my dog, had her for seventeen years.  We used to go duck-hunting, she'd swim out and get anything I shot.  She helped me track many a deer through the woods…   When <the_cataclysm> hit, she saved me from some <zombies> when we were skippin' town, but she died…  Then she came back, wasn't herself…  I had to put her down.\"",
+    "responses": [
+      { "text": "I'm sorry for your loss.  Let's change the subject.", "topic": "TALK_GODCO_Russell_2" },
+      { "text": "I'm sorry for your loss.  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Russell_Trophy3",
+    "dynamic_line": "I may be more skilled or better equipped but you, my friend, have something I don't: experience.  A good hunter never leaves his hunting ground.  I sure ain't gonna leave it!  Now you <name_g>, you know what it's REALLY like out there!",
+    "responses": [
+      {
+        "text": "I hate to break it to you, but I came here because I don't want to see the world.",
+        "topic": "TALK_GODCO_Russell_Joinee",
+        "condition": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'm humbled by your words.  Well, bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Russell_Joinee",
+    "dynamic_line": "And I hate to break it to you, but my point still stands.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'm humbled by your words.  See ya later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Russell_Trade",
+    "dynamic_line": "We're all desperately holding on to our stockpiles, but I can find something for you.  I have some spare hides and pelts, if you're interested in buying.",
+    "responses": [
+      {
+        "text": "Since I helped you out with your trophies, can I get a discount?",
+        "topic": "TALK_GODCO_Russell_Trade2",
+        "condition": { "and": [ { "npc_has_effect": "hunt_godco_russell" }, { "not": { "npc_has_effect": "trade_godco_russell" } } ] }
+      },
+      { "text": "Let's make a deal.", "effect": "start_trade", "topic": "TALK_GODCO_Russell_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Russell_Trade2",
+    "dynamic_line": "I can't give a discount, but here's some meat instead.  Made by yours truly.",
+    "speaker_effect": {
+      "effect": [ { "u_spawn_item": "meat_smoked", "count": 3 }, { "npc_add_effect": "trade_godco_russell", "duration": "PERMANENT" } ]
+    },
+    "responses": [
+      { "text": "Thank you.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Thank you.  I'll see you around, Russell.", "topic": "TALK_DONE" }
+    ]
+  }
+]

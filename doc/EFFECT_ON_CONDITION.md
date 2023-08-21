@@ -85,6 +85,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_casts_spell |  | { "character", `character_id` }, { "spell", `spell_id` }, { "difficulty", `int` }, { "cost", `int` }, { "cast_time", `int` }, { "damage", `int` }, |
 | character_consumes_item |  | { "character", `character_id` }, { "itype", `itype_id` }, |
 | character_eats_item |  | { "character", `character_id` }, { "itype", `itype_id` }, |
+| character_finished_activity | Triggered when character finished or chanceled activity | { "character", `character_id` }, { "activity", `activity_id` }, { "canceled", `bool` } |
 | character_forgets_spell |  | { "character", `character_id` }, { "spell", `spell_id` } |
 | character_gains_effect |  | { "character", `character_id` }, { "effect", `efftype_id` }, |
 | character_gets_headshot |  | { "character", `character_id` } |
@@ -98,6 +99,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_ranged_attacks_character | |  { "attacker", `character_id` },  { "weapon", `itype_id` }, { "victim", `character_id` }, { "victim_name", `string` }, |
 | character_ranged_attacks_monster | | { "attacker", `character_id` }, { "weapon", `itype_id` }, { "victim_type", `mtype_id` }, |
 | character_smashes_tile | | { "character", `character_id` },  { "terrain", `ter_str_id` },  { "furniture", `furn_str_id` }, |
+| character_starts_activity | Triggered when character starts or resumes activity | { "character", `character_id` }, { "activity", `activity_id` }, { "resume", `bool` } |
 | character_takes_damage | | { "character", `character_id` }, { "damage", `int` }, |
 | character_triggers_trap | | { "character", `character_id` }, { "trap", `trap_str_id` }, |
 | character_wakes_up | | { "character", `character_id` }, |
@@ -134,7 +136,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | game_avatar_death | Triggers during bury screen with ASCII grave art is displayed (when avatar dies, obviously) | { "avatar_id", `character_id` }, { "avatar_name", `string` }, { "avatar_is_male", `bool` }, { "is_suicide", `bool` }, { "last_words", `string` }, |
 | game_avatar_new | Triggers when new character is controlled and during new game character initialization  | { "is_new_game", `bool` }, { "is_debug", `bool` }, { "avatar_id", `character_id` }, { "avatar_name", `string` }, { "avatar_is_male", `bool` }, { "avatar_profession", `profession_id` }, { "avatar_custom_profession", `string` }, |
 | game_load | Triggers only when loading a saved game (not a new game!) | { "cdda_version", `string` }, |
-| game_begin | Triggered during game load and new game start (apparently?) | { "cdda_version", `string` }, |
+| game_begin | Triggered during game load and new game start | { "cdda_version", `string` }, |
 | game_over | Triggers after fully accepting death, epilogues etc have played (probably not useable for eoc purposes?) | { "total_time_played", `chrono_seconds` }, |
 | game_save | | { "time_since_load", `chrono_seconds` }, { "total_time_played", `chrono_seconds` }, |
 | game_start | Triggered only during new game character initialization | { "game_version", `string` }, |
@@ -169,9 +171,10 @@ Other EOCs have some variables as well that they have access to, they are as fol
 
 | EOC            | Context Variables |
 | --------------------- | ----------- |
-| mutation: "activated_eocs" | { "this", `mutation_id` }
-| mutation: "processed_eocs" | { "this", `mutation_id` }
-| mutation: "deactivated_eocs" | { "this", `mutation_id` }
+| mutation: "activated_eocs" | { "this", `mutation_id` } |
+| mutation: "processed_eocs" | { "this", `mutation_id` } |
+| mutation: "deactivated_eocs" | { "this", `mutation_id` } |
+| damage_type: "ondamage_eocs" | { "bp", `bodypart_id` }, { "damage_taken", `double` damage the character will take post mitigation }, { "total_damage", `double` damage pre mitigation } |
 
 
 ## Character effects
@@ -1239,7 +1242,7 @@ You increase the HP of your minor parts to 50, if possible
 
 You heal your right leg for 10 HP; in detail, you set the HP of your right leg to be 10 HP bigger than it's current HP; what people could do to not add `u_adjust_hp` XD
 ```json
-{ "u_set_hp": { "math": { "u_val('hp', 'bodypart: leg_r') + 10" } }, "target_part": "leg_r" }
+{ "u_set_hp": { "math": { "u_hp('leg_r') + 10" } }, "target_part": "leg_r" }
 ```
 
 #### `u_die`, `npc_die`

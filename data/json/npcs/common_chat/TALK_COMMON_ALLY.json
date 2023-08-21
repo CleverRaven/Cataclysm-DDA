@@ -933,6 +933,12 @@
         "effect": "do_eread"
       },
       {
+        "text": "Please study from books you have in order.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_read_repeatedly"
+      },
+      {
         "text": "Please start deconstructing any vehicles in a deconstruction zone.",
         "topic": "TALK_DONE",
         "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
@@ -979,6 +985,12 @@
         "topic": "TALK_DONE",
         "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
         "effect": "do_disassembly"
+      },
+      {
+        "text": "Can you craft this item?",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_craft"
       }
     ]
   },

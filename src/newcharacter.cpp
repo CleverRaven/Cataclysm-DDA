@@ -21,6 +21,7 @@
 #include "achievement.h"
 #include "addiction.h"
 #include "bionics.h"
+#include "calendar_ui.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -50,6 +51,7 @@
 #include "pimpl.h"
 #include "player_difficulty.h"
 #include "profession.h"
+#include "profession_group.h"
 #include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -80,6 +82,9 @@ static const flag_id json_flag_auto_wield( "auto_wield" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
+
+static const profession_group_id
+profession_group_adult_basic_background( "adult_basic_background" );
 
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
@@ -418,8 +423,6 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     } else {
         name = MAP_SHARING::getUsername();
     }
-    // if adjusting min and max age from 16 and 55, make sure to see set_description()
-    init_age = rng( 16, 55 );
     randomize_height();
     randomize_blood();
     randomize_heartrate();
@@ -441,6 +444,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     }
 
     prof = get_scenario()->weighted_random_profession();
+    init_age = rng( this->prof->age_lower, this->prof->age_upper );
     randomize_hobbies();
     starting_city = std::nullopt;
     world_origin = std::nullopt;
@@ -711,6 +715,8 @@ bool avatar::create( character_type type, const std::string &tempname )
             break;
     }
 
+    add_default_background();
+
     auto nameExists = [&]( const std::string & name ) {
         return world_generator->active_world->save_exists( save_t::from_save_id( name ) ) &&
                !query_yn( _( "A save with the name '%s' already exists in this world.\n"
@@ -776,7 +782,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     return true;
 }
 
-void Character::initialize()
+void Character::initialize( bool learn_recipes )
 {
     recalc_hp();
 
@@ -822,12 +828,13 @@ void Character::initialize()
         set_stored_kcal( std::floor( get_stored_kcal() * 5 ) );
     }
 
-    // Learn recipes
-    for( const auto &e : recipe_dict ) {
-        const recipe &r = e.second;
-        if( !r.is_practice() && !r.has_flag( flag_SECRET ) && !knows_recipe( &r ) &&
-            has_recipe_requirements( r ) ) {
-            learn_recipe( &r );
+    if( learn_recipes ) {
+        for( const auto &e : recipe_dict ) {
+            const recipe &r = e.second;
+            if( !r.is_practice() && !r.has_flag( flag_SECRET ) && !knows_recipe( &r ) &&
+                has_recipe_requirements( r ) ) {
+                learn_recipe( &r );
+            }
         }
     }
 
@@ -1093,7 +1100,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     catacurses::window w_description;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_description = catacurses::newwin( 8, TERMX - iSecondColumn - 1,
+        w_description = catacurses::newwin( 30, TERMX - iSecondColumn - 1,
                                             point( iSecondColumn, 6 ) );
         ui.position_from_window( w );
     };
@@ -1161,7 +1168,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
         }
 
         switch( sel ) {
-            case 0:
+            case 0: {
                 u.recalc_hp();
                 u.set_stored_kcal( u.get_healthy_kcal() );
                 mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ),
@@ -1169,13 +1176,58 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
                 mvwprintz( w_description, point( 0, 1 ), COL_STAT_NEUTRAL, _( "Carry weight: %.1f %s" ),
                            convert_weight( u.weight_capacity() ), weight_units() );
-                mvwprintz( w_description, point( 0, 2 ), COL_STAT_BONUS, _( "Bash damage bonus: %.1f" ),
+                mvwprintz( w_description, point( 0, 2 ), COL_STAT_NEUTRAL,
+                           _( "Resistance to knock down effect when hit: %.1f" ), u.stability_roll() );
+                mvwprintz( w_description, point( 0, 3 ), COL_STAT_NEUTRAL, _( "Intimidation skill: %i" ),
+                           u.intimidation() );
+                mvwprintz( w_description, point( 0, 4 ), COL_STAT_NEUTRAL, _( "Maximum oxygen: %i" ),
+                           u.get_oxygen_max() );
+                mvwprintz( w_description, point( 0, 5 ), COL_STAT_NEUTRAL, _( "Shout volume: %i" ),
+                           u.get_shout_volume() );
+                mvwprintz( w_description, point( 0, 6 ), COL_STAT_NEUTRAL, _( "Lifting strength: %i" ),
+                           u.get_lift_str() );
+                mvwprintz( w_description, point( 0, 7 ), COL_STAT_NEUTRAL, _( "Move cost while swimming: %i" ),
+                           u.swim_speed() );
+                mvwprintz( w_description, point( 0, 8 ), COL_STAT_BONUS, _( "Bash damage bonus: %.1f" ),
                            u.bonus_damage( false ) );
-                fold_and_print( w_description, point( 0, 4 ), getmaxx( w_description ) - 1, c_green,
-                                _( "Strength also makes you more resistant to many diseases and poisons, and makes actions which require brute force more effective." ) );
-                break;
+                mvwprintz( w_description, point( 0, 10 ), COL_STAT_NEUTRAL, _( "Affects:" ) );
 
-            case 1:
+                int y = 11;
+
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Throwing range, accuracy, and damage" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Reload speed for weapons using muscle power to reload" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Pull strength of some mutations" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Resistance for being pulled or grabbed by some monsters" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Speed of corpses pulping" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Speed and effectiveness of prying things open, chopping wood, and mining" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance of escaping grabs and traps" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Power produced by muscle-powered vehicles" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Most aspects of melee combat" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Effectiveness of smashing furniture or terrain" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Resistance to many diseases and poisons" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Ability to drag heavy objects and grants bonus to speed when dragging them" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Ability to wield heavy weapons with one hand" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Ability to manage gun recoil" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Duration of action of various drugs and alcohol" ) );
+            }
+            break;
+
+            case 1: {
                 mvwprintz( w_description, point_zero, COL_STAT_BONUS, _( "Melee to-hit bonus: +%.2f" ),
                            u.get_melee_hit_base() );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1186,9 +1238,50 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                     mvwprintz( w_description, point( 0, 2 ), COL_STAT_PENALTY, _( "Ranged penalty: -%d" ),
                                std::abs( u.ranged_dex_mod() ) );
                 }
-                fold_and_print( w_description, point( 0, 4 ), getmaxx( w_description ) - 1, c_green,
-                                _( "Dexterity also enhances many actions which require finesse." ) );
-                break;
+                mvwprintz( w_description, point( 0, 3 ), COL_STAT_NEUTRAL, _( "Dodge skill: %.f" ),
+                           u.get_dodge() );
+                mvwprintz( w_description, point( 0, 4 ), COL_STAT_NEUTRAL, _( "Move cost while swimming: %i" ),
+                           u.swim_speed() );
+                mvwprintz( w_description, point( 0, 6 ), COL_STAT_NEUTRAL, _( "Affects:" ) );
+
+                int y = 7;
+
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Effectiveness of lockpicking" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Resistance for being grabbed by some monsters" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance of escaping grabs and traps" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Effectiveness of disarming traps" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance of success when manipulating with gun modifications" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Effectiveness of repairing and modifying clothes and armor" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Attack speed and chance of critical hits in melee combat" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Effectiveness of stealing" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Throwing speed" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Aiming speed" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Speed and effectiveness of chopping wood with powered tools" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance to avoid traps" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance to get better results when butchering corpses or cutting items" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance of avoiding cuts on sharp terrain" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance of losing control of vehicle when driving" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance of damaging melee weapon on attack" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Damage from falling" ) );
+            }
+            break;
 
             case 2: {
                 const int read_spd = u.read_speed();
@@ -1196,21 +1289,83 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                                                         ( read_spd < 100 ? COL_STAT_BONUS : COL_STAT_PENALTY ) ),
                            _( "Read times: %d%%" ), read_spd );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
+                mvwprintz( w_description, point( 0, 1 ), COL_STAT_NEUTRAL, _( "Persuade/lie skill: %i" ),
+                           u.persuade_skill() );
                 mvwprintz( w_description, point( 0, 2 ), COL_STAT_BONUS, _( "Crafting bonus: %2d%%" ),
                            u.get_int() );
-                fold_and_print( w_description, point( 0, 4 ), getmaxx( w_description ) - 1, c_green,
-                                _( "Intelligence is also used when crafting, installing bionics, and interacting with NPCs." ) );
+                mvwprintz( w_description, point( 0, 4 ), COL_STAT_NEUTRAL, _( "Affects:" ) );
+
+                int y = 5;
+
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Speed of 'catching up' practical experience to theoretical knowledge" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Detection and disarming traps" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance of success when installing bionics" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance of success when manipulating with gun modifications" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance to learn a recipe when crafting from a book" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance to learn martial arts techniques when using CQB bionic" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance of hacking computers and card readers" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance of successful robot reprogramming" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance of successful decrypting memory cards" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance of bypassing vehicle security system" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance to get better results when disassembling items" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance of being paralyzed by fear attack" ) );
             }
             break;
 
-            case 3:
+            case 3: {
                 if( u.ranged_per_mod() > 0 ) {
                     mvwprintz( w_description, point_zero, COL_STAT_PENALTY, _( "Aiming penalty: -%d" ),
                                u.ranged_per_mod() );
                 }
-                fold_and_print( w_description, point( 0, 2 ), getmaxx( w_description ) - 1, c_green,
-                                _( "Perception is also used for detecting traps and other things of interest." ) );
-                break;
+                // NOLINTNEXTLINE(cata-use-named-point-constants)
+                mvwprintz( w_description, point( 0, 1 ), COL_STAT_NEUTRAL, _( "Persuade/lie skill: %i" ),
+                           u.persuade_skill() );
+                mvwprintz( w_description, point( 0, 3 ), COL_STAT_NEUTRAL, _( "Affects:" ) );
+
+                int y = 4;
+
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Speed of 'catching up' practical experience to theoretical knowledge" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Time needed for safe cracking" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Sight distance on game map and overmap" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Effectiveness of stealing" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Throwing accuracy" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance of losing control of vehicle when driving" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance of spotting camouflaged creatures" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Effectiveness of lockpicking" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Effectiveness of foraging" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Precision when examining wounds and using first aid skill" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Detection and disarming traps" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Morale bonus when playing a musical instrument" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Effectiveness of repairing and modifying clothes and armor" ) );
+                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
+                                     _( "- Chance of critical hits in melee combat" ) );
+            }
+            break;
         }
 
         wnoutrefresh( w );
@@ -2898,7 +3053,10 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
     std::string assembled;
     assembled += string_format( g_switch_msg( u ), ctxt.get_desc( "CHANGE_GENDER" ),
                                 current_scenario->gender_appropriate_name( !u.male ) ) + "\n";
-
+    assembled += string_format(
+                     _( "Press <color_light_green>%1$s</color> to change cataclysm start date, <color_light_green>%2$s</color> to change game start date, <color_light_green>%3$s</color> to reset calendar." ),
+                     ctxt.get_desc( "CHANGE_START_OF_CATACLYSM" ), ctxt.get_desc( "CHANGE_START_OF_GAME" ),
+                     ctxt.get_desc( "RESET_CALENDAR" ) ) + "\n";
     assembled += "\n" + colorize( _( "Scenario Story:" ), COL_HEADER ) + "\n";
     assembled += colorize( current_scenario->description( u.male ), c_green ) + "\n";
     const std::optional<achievement_id> scenRequirement = current_scenario->get_requirement();
@@ -2950,21 +3108,11 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
         assembled += current_scenario->vehicle()->name + "\n";
     }
 
-    assembled += "\n" + colorize( _( "Scenario calendar:" ), COL_HEADER ) + "\n";
-    if( current_scenario->custom_start_date() ) {
-        assembled += string_format( current_scenario->is_random_year() ?
-                                    _( "Year:   Random" ) : _( "Year:   %s" ),
-                                    current_scenario->start_year() ) + "\n";
-        assembled += string_format( _( "Season: %s" ),
-                                    calendar::name_season( current_scenario->start_season() ) ) + "\n";
-        assembled += string_format( current_scenario->is_random_day() ? _( "Day:    Random" ) :
-                                    _( "Day:    %d" ), current_scenario->start_day() ) + "\n";
-        assembled += string_format( current_scenario->is_random_hour() ? _( "Hour:   Random" ) :
-                                    _( "Hour:   %d" ), current_scenario->start_hour() ) + "\n";
-    } else {
-        assembled += _( "Default" );
-        assembled += "\n";
-    }
+    assembled += "\n" + colorize( _( "Start of cataclysm:" ), COL_HEADER ) + "\n";
+    assembled += to_string( current_scenario->start_of_cataclysm() ) + "\n";
+
+    assembled += "\n" + colorize( _( "Start of game:" ), COL_HEADER ) + "\n";
+    assembled += to_string( current_scenario->start_of_game() ) + "\n";
 
     if( !current_scenario->missions().empty() ) {
         assembled += "\n" + colorize( _( "Scenario missions:" ), COL_HEADER ) + "\n";
@@ -3030,10 +3178,11 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
-    ctxt.register_action( "RANDOMIZE" );
+    ctxt.register_action( "CHANGE_START_OF_CATACLYSM" );
+    ctxt.register_action( "CHANGE_START_OF_GAME" );
+    ctxt.register_action( "RESET_CALENDAR" );
 
     bool recalc_scens = true;
     size_t scens_length = 0;
@@ -3178,6 +3327,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 continue;
             }
             reset_scenario( u, sorted_scens[cur_id] );
+            details_recalc = true;
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
             recalc_scens = true;
@@ -3198,6 +3348,29 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
             }
         } else if( action == "RANDOMIZE" ) {
             cur_id = rng( 0, scens_length - 1 );
+        } else if( action == "CHANGE_START_OF_CATACLYSM" ) {
+            const scenario *scen = sorted_scens[cur_id];
+            if( cur_id != id_for_curr_description ) {
+                scen = get_scenario();
+            }
+            scen->change_start_of_cataclysm( calendar_ui::select_time_point( scen->start_of_cataclysm(),
+                                             "Select cataclysm start date" ) );
+            details_recalc = true;
+        } else if( action == "CHANGE_START_OF_GAME" ) {
+            const scenario *scen = sorted_scens[cur_id];
+            if( cur_id != id_for_curr_description ) {
+                scen = get_scenario();
+            }
+            scen->change_start_of_game( calendar_ui::select_time_point( scen->start_of_game(),
+                                        "Select game start date" ) );
+            details_recalc = true;
+        } else if( action == "RESET_CALENDAR" ) {
+            const scenario *scen = sorted_scens[cur_id];
+            if( cur_id != id_for_curr_description ) {
+                get_scenario()->reset_calendar();
+            }
+            scen->reset_calendar();
+            details_recalc = true;
         }
 
         if( cur_id != id_for_curr_description || recalc_scens ) {
@@ -3327,6 +3500,7 @@ static void draw_location( ui_adaptor &ui, const catacurses::window &w_location,
 
 } // namespace char_creation
 
+// NOLINTNEXTLINE(readability-function-size)
 void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                       pool_type pool )
 {
@@ -3351,6 +3525,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
     catacurses::window w_height;
     catacurses::window w_age;
     catacurses::window w_blood;
+    catacurses::window w_calendar;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
         isWide = ( TERMX > FULL_SCREEN_WIDTH && freeWidth > 15 );
@@ -3371,7 +3546,8 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             w_addictions = catacurses::newwin( 1, ncol3, point( beginx3, 8 ) );
             w_stats = catacurses::newwin( 6, 20, point( 2, 10 ) );
             w_traits = catacurses::newwin( TERMY - 11, ncol2, point( beginx2, 10 ) );
-            w_bionics = catacurses::newwin( TERMY - 11, ncol3, point( beginx3, 10 ) );
+            w_calendar = catacurses::newwin( 4, ncol3, point( beginx3, 10 ) );
+            w_bionics = catacurses::newwin( TERMY - 16, ncol3, point( beginx3, 15 ) );
             w_proficiencies = catacurses::newwin( TERMY - 21, 19, point( 2, 16 ) );
             // Extra - 11 to avoid overlap with long text in w_guide.
             w_hobbies = catacurses::newwin( TERMY - 11 - 11, ncol4, point( beginx4, 10 ) );
@@ -3394,8 +3570,9 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             w_stats = catacurses::newwin( 6, ncol_small, point( 2, 10 ) );
             w_scenario = catacurses::newwin( 1, ncol_small, point( begin_sncol, 10 ) );
             w_profession = catacurses::newwin( 1, ncol_small, point( begin_sncol, 11 ) );
-            w_vehicle = catacurses::newwin( 2, ncol_small, point( begin_sncol, 13 ) );
-            w_addictions = catacurses::newwin( 2, ncol_small, point( begin_sncol, 15 ) );
+            w_calendar = catacurses::newwin( 4, ncol_small, point( begin_sncol, 13 ) );
+            w_vehicle = catacurses::newwin( 2, ncol_small, point( begin_sncol, 18 ) );
+            w_addictions = catacurses::newwin( 2, ncol_small, point( begin_sncol, 20 ) );
             w_guide = catacurses::newwin( 2, TERMX - 3, point( 2, TERMY - 3 ) );
             w_traits = catacurses::window();
             w_bionics = catacurses::window();
@@ -3420,6 +3597,9 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
     }
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "CHANGE_START_OF_CATACLYSM" );
+    ctxt.register_action( "CHANGE_START_OF_GAME" );
+    ctxt.register_action( "RESET_CALENDAR" );
     if( get_option<bool>( "SELECT_STARTING_CITY" ) ) {
         ctxt.register_action( "CHOOSE_CITY" );
     }
@@ -3679,6 +3859,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                             _( "Press <color_light_green>%s</color> to switch gender." ),
                             ctxt.get_desc( "CHANGE_GENDER" ) );
 
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 6 ), TERMX, c_light_gray,
+                            _( "Press <color_light_green>%1$s</color> to change cataclysm start date, <color_light_green>%2$s</color> to change game start date, <color_light_green>%3$s</color> to reset calendar." ),
+                            ctxt.get_desc( "CHANGE_START_OF_CATACLYSM" ), ctxt.get_desc( "CHANGE_START_OF_GAME" ),
+                            ctxt.get_desc( "RESET_CALENDAR" ) );
+
             if( !get_option<bool>( "SELECT_STARTING_CITY" ) ) {
                 fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), TERMX, c_light_gray,
                                 _( "Press <color_light_green>%s</color> to select a specific starting location." ),
@@ -3800,6 +3985,21 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         mvwprintz( w_profession, point_zero, COL_HEADER, _( "Profession: " ) );
         wprintz( w_profession, c_light_gray, you.prof->gender_appropriate_name( you.male ) );
         wnoutrefresh( w_profession );
+
+        werase( w_scenario );
+        mvwprintz( w_scenario, point_zero, COL_HEADER, _( "Scenario: " ) );
+        wprintz( w_scenario, c_light_gray, get_scenario()->gender_appropriate_name( you.male ) );
+        wnoutrefresh( w_scenario );
+
+        werase( w_calendar );
+        mvwprintz( w_calendar, point_zero, COL_HEADER, _( "Start of cataclysm:" ) );
+        wprintz( w_calendar, c_light_gray, "\n" );
+        wprintz( w_calendar, c_light_gray, to_string( get_scenario()->start_of_cataclysm() ) );
+        wprintz( w_calendar, c_light_gray, "\n" );
+        wprintz( w_calendar, COL_HEADER, _( "Start of game:" ) );
+        wprintz( w_calendar, c_light_gray, "\n" );
+        wprintz( w_calendar, c_light_gray, to_string( get_scenario()->start_of_game() ) );
+        wnoutrefresh( w_calendar );
 
         if( isWide ) {
             werase( w_hobbies );
@@ -4002,6 +4202,16 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             you.randomize_heartrate();
         } else if( action == "CHANGE_GENDER" ) {
             you.male = !you.male;
+        } else if( action == "CHANGE_START_OF_CATACLYSM" ) {
+            const scenario *scen = get_scenario();
+            scen->change_start_of_cataclysm( calendar_ui::select_time_point( scen->start_of_cataclysm(),
+                                             "Select cataclysm start date" ) );
+        } else if( action == "CHANGE_START_OF_GAME" ) {
+            const scenario *scen = get_scenario();
+            scen->change_start_of_game( calendar_ui::select_time_point( scen->start_of_game(),
+                                        "Select game start date" ) );
+        } else if( action == "RESET_CALENDAR" ) {
+            get_scenario()->reset_calendar();
         } else if( action == "CHOOSE_CITY" ) {
             std::vector<city> cities( city::get_all() );
             const auto cities_cmp_population = []( const city & a, const city & b ) {
@@ -4296,6 +4506,17 @@ std::optional<std::string> query_for_template_name()
 void avatar::character_to_template( const std::string &name )
 {
     save_template( name, pool_type::TRANSFER );
+}
+
+void avatar::add_default_background()
+{
+    for( const profession_group &prof_grp : profession_group::get_all() ) {
+        if( prof_grp.get_id() == profession_group_adult_basic_background ) {
+            for( const profession_id &hobb : prof_grp.get_professions() ) {
+                hobbies.insert( &hobb.obj() );
+            }
+        }
+    }
 }
 
 void avatar::save_template( const std::string &name, pool_type pool )

@@ -58,5 +58,19 @@
     "category": [ "perk" ],
     "active": true,
     "activated_eocs": [ "EOC_ALCHEMY5" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_LOW_INT_MANA",
+    "name": { "str": "Mana for Morons" },
+    "points": 0,
+    "description": "Maybe you aren't a genius, but something inside of you grants previously hidden reserves of mana.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "MAX_MANA", "add": { "math": [ "( 16 - clamp(u_val('intelligence'), 8, 16) ) * 62.5" ] } } ]
+      }
+    ]
   }
 ]

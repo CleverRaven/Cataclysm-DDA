@@ -200,7 +200,6 @@
       [ "The tingle across your skin is starting to lessen.", "bad" ]
     ],
     "rating": "good",
-    "show_intensity": false,
     "max_duration": "30 minutes",
     "max_intensity": 62,
     "dur_add_perc": 10,
@@ -216,6 +215,45 @@
             "value": "PAIN",
             "multiply": {
               "math": [ "( ( u_val('spell_level', 'spell: biokin_armor_skin') * -0.02) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_climate_control",
+    "name": [ "Climate Controlled" ],
+    "desc": [ "You are better at dealing with extremes of heat and cold." ],
+    "apply_message": "",
+    "remove_message": "The temperature feels uncomfortable again.",
+    "decay_messages": [
+      [ "The temperature is really starting to get to you.", "bad" ],
+      [ "Your adaptation to extreme temperatures is fading.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "4 hours",
+    "max_intensity": 128,
+    "dur_add_perc": 33,
+    "int_dur_factor": "122 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "CLIMATE_CONTROL_HEAT",
+            "add": {
+              "math": [
+                "( ( ( u_val('spell_level', 'spell: biokin_climate_control') * 7.5 ) + 15 ) * ( ( u_val('intelligence') + 10) / 20 ) )"
+              ]
+            }
+          },
+          {
+            "value": "CLIMATE_CONTROL_CHILL",
+            "add": {
+              "math": [
+                "( ( ( u_val('spell_level', 'spell: biokin_climate_control') * 7.5 ) + 15 ) * ( ( u_val('intelligence') + 10) / 20 ) )"
+              ]
             }
           }
         ]
@@ -296,10 +334,7 @@
             "multiply": {
               "math": [ "( ( u_val('spell_level', 'spell: biokin_combat_dance') * -0.03) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
             }
-          },
-          { "value": "FATIGUE", "add": 5 },
-          { "value": "HUNGER", "multiply": 3 },
-          { "value": "THIRST", "multiply": 3 }
+          }
         ]
       }
     ]
@@ -542,6 +577,56 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_clair_ranged_enhance",
+    "name": [ "Dead Aim" ],
+    "desc": [ "Your powers make aiming much easier for you." ],
+    "apply_message": "",
+    "remove_message": "The world lurches as apparent distances snap back into place.",
+    "decay_messages": [ [ "Your range of vision is narrowing rapidly.", "bad" ], [ "Your enhanced sight is fading.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "max_intensity": 46,
+    "dur_add_perc": 15,
+    "int_dur_factor": "41 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "RANGE",
+            "add": {
+              "math": [ "(1 + ( u_val('spell_level', 'spell: clair_ranged_enhance') * 0.5 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          },
+          {
+            "value": "WEAPON_DISPERSION",
+            "multiply": {
+              "math": [ "( ( u_val('spell_level', 'spell: clair_ranged_enhance') * -0.025) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_sense_rads_self",
+    "name": [ "Sensing Radiation" ],
+    "desc": [ "You can detect environmental radiation." ],
+    "apply_message": "",
+    "remove_message": "Your radiation sense is gone.",
+    "decay_messages": [
+      [ "The ambient glow of radiation is almost invisible now.", "bad" ],
+      [ "Your ability to sense radiation is fading.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "6 hours",
+    "max_intensity": 198,
+    "dur_add_perc": 10,
+    "int_dur_factor": "109 s",
+    "enchantments": [ "enchant_clair_sense_rads" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_clair_dodge",
     "name": [ "Anticipating Attack" ],
     "desc": [ "You can see your enemies' attacks in advance." ],
@@ -661,7 +746,7 @@
     "type": "effect_type",
     "id": "effect_telekinetic_momentum",
     "name": [ "Altered Momentum" ],
-    "desc": [ "Your powers are affecting movement around you." ],
+    "desc": [ "Your powers are affecting movement around you; dangerous objects are slowed and your own speed is increased." ],
     "apply_message": "",
     "remove_message": "Nearby movement returns to normal.",
     "decay_messages": [
@@ -718,6 +803,30 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_telekinetic_slowfall",
+    "name": [ "Slowfall" ],
+    "desc": [ "The ground isn't as eager to receive you." ],
+    "apply_message": "",
+    "remove_message": "You suddenly feel much heavier.",
+    "max_duration": "60 seconds",
+    "dur_add_perc": 10,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "FALL_DAMAGE",
+            "multiply": {
+              "math": [ "( -0.5 + ( u_val('spell_level', 'spell: telekinetic_slowfall') * -0.04) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ],
+    "limb_score_mods": [ { "limb_score": "swim", "modifier": 3.0 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_telekinetic_armor",
     "name": [ "Inertial Barrier" ],
     "desc": [ "A barrier of telekinetic force is protecting you." ],
@@ -733,6 +842,7 @@
     "max_intensity": 112,
     "dur_add_perc": 10,
     "int_dur_factor": "32 s",
+    "flags": [ "TELEKIN_SHIELD" ],
     "enchantments": [
       {
         "values": [
@@ -763,6 +873,29 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telekinetic_aegis",
+    "name": [ "Aegis" ],
+    "desc": [ "You are nearly invincible." ],
+    "apply_message": "",
+    "remove_message": "The air loses its structure and you are vulnerable once again.",
+    "rating": "good",
+    "max_duration": "20 seconds",
+    "removes_effects": [ "grabbed" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_CUT", "add": -100000 },
+          { "value": "ARMOR_BASH", "add": -100000 },
+          { "value": "ARMOR_STAB", "add": -100000 },
+          { "value": "ARMOR_BULLET", "add": -100000 }
+        ]
+      }
+    ],
+    "limb_score_mods": [ { "limb_score": "lift", "modifier": 0.51 }, { "limb_score": "grip", "modifier": 0.25 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_IMPEDING" ]
   },
   {
     "type": "effect_type",
@@ -844,6 +977,32 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_teleport_stride",
+    "name": [ "Extended Stride" ],
+    "desc": [ "Every step takes you further than your eyes tell you it should." ],
+    "apply_message": "",
+    "remove_message": "Your steps are normal once again.",
+    "decay_messages": [ [ "Your warped movement are almost gone.", "bad" ], [ "Your steps are no longer taking you quite so far.", "bad" ] ],
+    "rating": "good",
+    "max_duration": "10 minutes",
+    "max_intensity": 16,
+    "dur_add_perc": 10,
+    "int_dur_factor": "37 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [ "( ( ( u_val('spell_level', 'spell: teleport_stride') * -0.02 ) - 0.05 ) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vita_health",
     "name": [ "Healthy Glow" ],
     "desc": [ "You feel amazing." ],
@@ -869,5 +1028,50 @@
     "desc": [ "This reduces monsters' regeneration.  It's a bug if you have it." ],
     "rating": "bad",
     "max_duration": "1 minutes"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_purge_rads",
+    "name": [ "Radiation Purge" ],
+    "desc": [ "You are using your powers to cleanse yourself of radiation." ],
+    "rating": "good",
+    "base_mods": { "rad_min": [ -1 ], "rad_chance": [ 1 ], "rad_tick": [ 60 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_purge_rads_sideeffects",
+    "name": [ "Radiation Purge Side Effects" ],
+    "desc": [ "You are using your powers to cleanse yourself of radiation, but there are some side effects." ],
+    "rating": "bad",
+    "max_intensity": 10,
+    "base_mods": {
+      "str_mod": [ 0 ],
+      "dex_mod": [ 0 ],
+      "per_mod": [ 0 ],
+      "stamina_amount": [ -2000 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 10 ],
+      "pain_tick": [ 60 ],
+      "health_min": [ 0 ],
+      "health_chance": [ 1000 ],
+      "health_tick": [ 60 ],
+      "fatigue_min": [ 0 ],
+      "fatigue_chance": [ 500 ],
+      "fatigue_tick": [ 60 ],
+      "vomit_chance": [ 1000 ],
+      "vomit_tick": [ 60 ]
+    },
+    "scaling_mods": {
+      "stamina_amount": [ -1500 ],
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "per_mod": [ -0.7 ],
+      "pain_chance": [ -1 ],
+      "health_min": [ -1 ],
+      "health_chance": [ -135 ],
+      "fatigue_min": [ 0.6 ],
+      "fatigue_chance": [ -65 ],
+      "vomit_chance": [ -150 ]
+    }
   }
 ]

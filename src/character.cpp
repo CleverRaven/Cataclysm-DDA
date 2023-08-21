@@ -169,6 +169,7 @@ static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 static const bionic_id bio_soporific( "bio_soporific" );
+static const bionic_id bio_synlungs( "bio_synlungs" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id bio_voice( "bio_voice" );
@@ -407,7 +408,6 @@ static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
-static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
@@ -425,6 +425,7 @@ static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
+static const trait_id trait_GLASSJAW( "GLASSJAW" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
@@ -587,7 +588,6 @@ Character::Character() :
     leak_level_dirty = true;
     volume = 0;
     set_value( "THIEF_MODE", "THIEF_ASK" );
-	last_pc_zlev = 0; // Z-level on the last turn (used in character.cpp for "fine_detail_vision_mod" NPCs function override)																										  
     for( const auto &v : vitamin::all() ) {
         vitamin_levels[ v.first ] = 0;
         daily_vitamins[v.first] = { 0,0 };
@@ -658,13 +658,14 @@ void Character::set_wielded_item( const item &to_wield )
 
 int Character::get_oxygen_max() const
 {
-    return 30 + 2 * str_cur;
+    return 30 + ( has_bionic( bio_synlungs ) ? 30 : 2 * str_cur );
 }
 
 bool Character::can_recover_oxygen() const
 {
     return get_limb_score( limb_score_breathing ) > 0.5f && !is_underwater() &&
-           !has_effect_with_flag( json_flag_GRAB );
+           !has_effect_with_flag( json_flag_GRAB ) && !( has_bionic( bio_synlungs ) &&
+                   !has_active_bionic( bio_synlungs ) );
 }
 
 void Character::randomize_heartrate()
@@ -1438,6 +1439,21 @@ bool Character::can_stash( const item &it, bool ignore_pkt_settings )
     return best_pocket( it, nullptr, ignore_pkt_settings ).second != nullptr;
 }
 
+bool Character::can_stash( const item &it, int &copies_remaining, bool ignore_pkt_settings )
+{
+    bool stashed_any = false;
+
+    for( item_location loc : top_items_loc() ) {
+        if( loc->can_contain( it, copies_remaining, false, false, ignore_pkt_settings ).success() ) {
+            stashed_any = true;
+        }
+        if( copies_remaining <= 0 ) {
+            return stashed_any;
+        }
+    }
+    return stashed_any;
+}
+
 bool Character::can_stash_partial( const item &it, bool ignore_pkt_settings )
 {
     item copy = it;
@@ -1811,20 +1827,34 @@ float Character::stability_roll() const
 
 bool Character::is_dead_state() const
 {
+    if( cached_dead_state.has_value() ) {
+        return cached_dead_state.value();
+    }
+
+    cached_dead_state = false;
     // we want to warn the player with a debug message if they are invincible. this should be unimportant once wounds exist and bleeding is how you die.
     bool has_vitals = false;
-    for( const bodypart_id &part : get_all_body_parts( get_body_part_flags::only_main ) ) {
-        if( part->is_vital ) {
-            if( get_part_hp_cur( part ) <= 0 ) {
-                return true;
-            }
+    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
+        if( bp->is_vital ) {
             has_vitals = true;
+            if( get_part_hp_cur( bp ) <= 0 ) {
+                cached_dead_state = true;
+                return cached_dead_state.value();
+            }
         }
     }
     if( !has_vitals ) {
         debugmsg( _( "WARNING!  Player has no vital part and is invincible." ) );
     }
     return false;
+}
+
+void Character::set_part_hp_cur( const bodypart_id &id, int set )
+{
+    if( set <= 0 ) {
+        cached_dead_state.reset();
+    }
+    Creature::set_part_hp_cur( id, set );
 }
 
 void Character::on_try_dodge()
@@ -1839,7 +1869,8 @@ void Character::on_try_dodge()
     consume_dodge_attempts();
 
     const int base_burn_rate = get_option<int>( STATIC( "PLAYER_BASE_STAMINA_BURN_RATE" ) );
-    mod_stamina( -base_burn_rate * 6 );
+    const float dodge_skill_modifier = ( 20.0f - get_skill_level( skill_dodge ) ) / 20.0f;
+    mod_stamina( std::floor( -static_cast<float>( base_burn_rate ) * 6.0f * dodge_skill_modifier ) );
     set_activity_level( EXTRA_EXERCISE );
 }
 
@@ -2239,10 +2270,6 @@ void Character::process_turn()
     // Didn't just pick something up
     last_item = itype_null;
 
-    if( !is_npc() && has_trait( trait_DEBUG_BIONIC_POWER ) ) {
-        mod_power_level( get_max_power_level() );
-    }
-
     visit_items( [this]( item * e, item * ) {
         e->process_relic( this, pos() );
         return VisitResponse::NEXT;
@@ -2393,6 +2420,30 @@ void Character::recalc_hp()
                           enchantment_cache->get_value_add( enchant_vals::mod::MAX_HP );
     calc_all_parts_hp( hp_mod, hp_adjustment, get_str_base(), get_dex_base(), get_per_base(),
                        get_int_base(), get_lifestyle(), get_fat_to_hp() );
+    cached_dead_state.reset();
+}
+
+void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max, int dex_max,
+                                   int per_max, int int_max, int healthy_mod, int fat_to_max_hp )
+{
+    for( std::pair<const bodypart_str_id, bodypart> &part : body ) {
+        int new_max = ( part.first->base_hp + str_max * part.first->hp_mods.str_mod + dex_max *
+                        part.first->hp_mods.dex_mod + int_max * part.first->hp_mods.int_mod + per_max *
+                        part.first->hp_mods.per_mod + part.first->hp_mods.health_mod * healthy_mod + fat_to_max_hp +
+                        hp_adjustment ) * hp_mod;
+
+        if( has_trait( trait_GLASSJAW ) && part.first == body_part_head ) {
+            new_max *= 0.8;
+        }
+
+        float max_hp_ratio = static_cast<float>( new_max ) /
+                             static_cast<float>( part.second.get_hp_max() );
+
+        int new_cur = std::ceil( static_cast<float>( part.second.get_hp_cur() ) * max_hp_ratio );
+
+        part.second.set_hp_max( std::max( new_max, 1 ) );
+        part.second.set_hp_cur( std::max( std::min( new_cur, new_max ), 0 ) );
+    }
 }
 
 // This must be called when any of the following change:
@@ -2692,13 +2743,14 @@ float Character::fine_detail_vision_mod( const tripoint &p ) const
     float own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - active_light() - 2.0f );
 
     // Same calculation as above, but with a result 3 lower.
-    float ambient_light;
-    // Light is calculated for player's z-level; NPC actions on different Z-level would stop
-    // Check if NPC is on the same z-level - if not overwrite light level for it
-    // Additional check for "last_pc_zlev" value - solve edge case on first turn after changing player z-level
-    if( ( p.z == get_player_character().pos().z ) && ( p.z == get_player_character().last_pc_zlev ) ) {
+    float ambient_light{};
+    tripoint const check_p = p == tripoint_min ? pos() : p;
+    tripoint const avatar_p = get_avatar().pos();
+    // Light might not have been calculated on the NPC's z-level
+    if( is_avatar() || check_p.z == avatar_p.z ||
+        ( fov_3d && std::abs( avatar_p.z - check_p.z ) <= fov_3d_z_range ) ) {
         ambient_light = std::max( 1.0f,
-                                  LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0f );
+                                  LIGHT_AMBIENT_LIT - get_map().ambient_light_at( check_p ) + 1.0f );
     } else {
         ambient_light = 1.0f;
     }
@@ -3436,8 +3488,6 @@ void Character::do_skill_rust()
 
         const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::SKILL_RUST_RESIST, 0 );
         if( skill_level_obj.rust( rust_resist, mutation_value( "skill_rust_multiplier" ) ) ) {
-            add_msg_if_player( m_warning,
-                               _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
             mod_power_level( -bio_memory->power_trigger );
         }
     }
@@ -3813,7 +3863,7 @@ int Character::avg_encumb_of_limb_type( body_part_type::type part_type ) const
 
 int Character::encumb( const bodypart_id &bp ) const
 {
-    if( !has_part( bp ) ) {
+    if( !has_part( bp, body_part_filter::equivalent ) ) {
         debugmsg( "INFO: Tried to check encumbrance of a bodypart that does not exist." );
         return 0;
     }
@@ -6690,24 +6740,26 @@ void Character::update_stamina( int turns )
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
                         effective_regen_rate * get_modifier( character_modifier_stamina_recovery_breathing_mod ) );
-    stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
-                       stamina_recovery );
-    // TODO: recovering stamina causes hunger/thirst/fatigue.
-    // TODO: Tiredness slowing recovery
+    // only apply stim-related and mutant stamina boosts if you don't have bionic lungs
+    if( !has_bionic( bio_synlungs ) ) {
+        stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
+                           stamina_recovery );
+        // TODO: recovering stamina causes hunger/thirst/fatigue.
+        // TODO: Tiredness slowing recovery
 
-    // stim recovers stamina (or impairs recovery)
-    if( current_stim > 0 ) {
-        // TODO: Make stamina recovery with stims cost health
-        stamina_recovery += std::min( 5.0f, current_stim / 15.0f );
-    } else if( current_stim < 0 ) {
-        // Affect it less near 0 and more near full
-        // Negative stim kill at -200
-        // At -100 stim it inflicts -20 malus to regen at 100%  stamina,
-        // effectivly countering stamina gain of default 20,
-        // at 50% stamina its -10 (50%), cuts by 25% at 25% stamina
-        stamina_recovery += current_stim / 5.0f * get_stamina() / get_stamina_max();
+        // stim recovers stamina (or impairs recovery)
+        if( current_stim > 0 ) {
+            // TODO: Make stamina recovery with stims cost health
+            stamina_recovery += std::min( 5.0f, current_stim / 15.0f );
+        } else if( current_stim < 0 ) {
+            // Affect it less near 0 and more near full
+            // Negative stim kill at -200
+            // At -100 stim it inflicts -20 malus to regen at 100%  stamina,
+            // effectivly countering stamina gain of default 20,
+            // at 50% stamina its -10 (50%), cuts by 25% at 25% stamina
+            stamina_recovery += current_stim / 5.0f * get_stamina() / get_stamina_max();
+        }
     }
-
     const int max_stam = get_stamina_max();
     if( get_power_level() >= 3_kJ && has_active_bionic( bio_gills ) ) {
         int bonus = std::min<int>( units::to_kilojoule( get_power_level() ) / 3,
@@ -6736,6 +6788,11 @@ int Character::get_cardiofit() const
     if( is_npc() ) {
         // No point in doing a bunch of checks on NPCs for now since they can't use cardio.
         return 2 * get_cardio_acc_base();
+    }
+
+    if( has_bionic( bio_synlungs ) ) {
+        // If you have the synthetic lungs bionic your cardioacc is forced to a specific value
+        return 3 * get_cardio_acc_base();
     }
 
     const int cardio_base = get_cardio_acc();
@@ -6820,8 +6877,8 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
                                it_name, ammo_req );
         } else if( used->has_flag( flag_USES_BIONIC_POWER ) ) {
             add_msg_if_player( m_info,
-                               n_gettext( "Your %s needs %d bionic power.",
-                                          "Your %s needs %d bionic power.",
+                               n_gettext( "Your %s needs %d kJ of bionic power.",
+                                          "Your %s needs %d kJ of bionic power.",
                                           ammo_req ),
                                it_name, ammo_req );
         } else {
@@ -9025,7 +9082,7 @@ item Character::find_firestarter_with_charges( const int quantity ) const
             const use_function *usef = i->type->get_use( "firestarter" );
             if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-                if( actor->can_use( *this->as_character(), *i, false, tripoint_zero ).success() ) {
+                if( actor->can_use( *this->as_character(), *i, tripoint_zero ).success() ) {
                     return *i;
                 }
             }
@@ -9767,6 +9824,24 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
         bool valid_target = this != &critter && pos() != critter.pos() && attitude_to( critter ) != Creature::Attitude::FRIENDLY;
         return valid_target && in_range && can_see;
     } );
+}
+
+int Character::get_mutation_visibility_cap( const Character *observed ) const
+{
+    // as of now, visibility of mutations is between 0 and 10
+    // 10 perception and 10 distance would see all mutations - cap 0
+    // 10 perception and 30 distance - cap 5, some mutations visible
+    // 3 perception and 3 distance would see all mutations - cap 0
+    // 3 perception and 15 distance - cap 5, some mutations visible
+    // 3 perception and 20 distance would be barely able to discern huge antlers on a person - cap 10
+    const int dist = rl_dist( pos(), observed->pos() );
+    int visibility_cap;
+    if( per_cur <= 1 ) {
+        visibility_cap = INT_MAX;
+    } else {
+        visibility_cap = std::round( dist * dist / 20.0 / ( per_cur - 1 ) );
+    }
+    return visibility_cap;
 }
 
 std::vector<Creature *> Character::get_hostile_creatures( int range ) const
@@ -11017,6 +11092,49 @@ bool Character::beyond_final_warning( const faction_id &id )
     return false;
 }
 
+read_condition_result Character::check_read_condition( const item &book ) const
+{
+    read_condition_result result = read_condition_result::SUCCESS;
+    if( !book.is_book() ) {
+        result |= read_condition_result::NOT_BOOK;
+    } else {
+        const optional_vpart_position vp = get_map().veh_at( pos() );
+        if( vp && vp->vehicle().player_in_control( *this ) ) {
+            result |= read_condition_result::DRIVING;
+        }
+
+        if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
+            result |= read_condition_result::MORALE_LOW;
+        }
+
+        const book_mastery mastery = get_book_mastery( book );
+        if( mastery == book_mastery::CANT_UNDERSTAND ) {
+            result |= read_condition_result::CANT_UNDERSTAND;
+        }
+        if( mastery == book_mastery::MASTERED ) {
+            result |= read_condition_result::MASTERED;
+        }
+
+        const bool book_requires_intelligence = book.type->book->intel > 0;
+        if( book_requires_intelligence && has_trait( trait_ILLITERATE ) ) {
+            result |= read_condition_result::ILLITERATE;
+        }
+        if( has_flag( json_flag_HYPEROPIC ) &&
+            !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
+            !has_effect( effect_contacts ) &&
+            !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
+            result |= read_condition_result::NEED_GLASSES;
+        }
+        if( fine_detail_vision_mod() > 4 ) {
+            result |= read_condition_result::TOO_DARK;
+        }
+        if( is_blind() ) {
+            result |= read_condition_result::BLIND;
+        }
+    }
+    return result;
+}
+
 const Character *Character::get_book_reader( const item &book,
         std::vector<std::string> &reasons ) const
 {
@@ -11033,22 +11151,21 @@ const Character *Character::get_book_reader( const item &book,
     const cata::value_ptr<islot_book> &type = book.type->book;
     const skill_id &book_skill = type->skill;
     const int book_skill_requirement = type->req;
-    const bool book_requires_intelligence = type->intel > 0;
 
     // Check for conditions that immediately disqualify the player from reading:
-    const optional_vpart_position vp = get_map().veh_at( pos() );
-    if( vp && vp->vehicle().player_in_control( *this ) ) {
+    read_condition_result condition = check_read_condition( book );
+    if( condition & read_condition_result::DRIVING ) {
         reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
         return nullptr;
     }
-    if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
+    if( condition & read_condition_result::MORALE_LOW ) {
         // Low morale still permits skimming
         reasons.emplace_back( is_avatar() ?
                               _( "What's the point of studying?  (Your morale is too low!)" )  :
                               string_format( _( "What's the point of studying?  (%s)'s morale is too low!)" ), disp_name() ) );
         return nullptr;
     }
-    if( get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
+    if( condition & read_condition_result::CANT_UNDERSTAND ) {
         reasons.push_back( is_avatar() ? string_format( _( "%s %d needed to understand.  You have %d" ),
                            book_skill->name(), book_skill_requirement, get_knowledge_level( book_skill ) ) :
                            string_format( _( "%s %d needed to understand.  %s has %d" ), book_skill->name(),
@@ -11057,16 +11174,13 @@ const Character *Character::get_book_reader( const item &book,
     }
 
     // Check for conditions that disqualify us only if no NPCs can read to us
-    if( book_requires_intelligence && has_trait( trait_ILLITERATE ) ) {
+    if( condition & read_condition_result::ILLITERATE ) {
         reasons.emplace_back( is_avatar() ? _( "You're illiterate!" ) : string_format(
                                   _( "%s is illiterate!" ), disp_name() ) );
-    } else if( has_flag( json_flag_HYPEROPIC ) &&
-               !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
-               !has_effect( effect_contacts ) &&
-               !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
+    } else if( condition & read_condition_result::NEED_GLASSES ) {
         reasons.emplace_back( is_avatar() ? _( "Your eyes won't focus without reading glasses." ) :
                               string_format( _( "%s's eyes won't focus without reading glasses." ), disp_name() ) );
-    } else if( fine_detail_vision_mod() > 4 ) {
+    } else if( condition & read_condition_result::TOO_DARK ) {
         // Too dark to read only applies if the player can read to himself
         reasons.emplace_back( _( "It's too dark to read!" ) );
         return nullptr;
@@ -11091,30 +11205,28 @@ const Character *Character::get_book_reader( const item &book,
 
     for( const npc *elem : candidates ) {
         // Check for disqualifying factors:
-        if( book_requires_intelligence && elem->has_trait( trait_ILLITERATE ) ) {
+        condition = elem->check_read_condition( book );
+        if( condition & read_condition_result::ILLITERATE ) {
             reasons.push_back( string_format( _( "%s is illiterate!" ),
                                               elem->disp_name() ) );
-        } else if( elem->get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
+        } else if( condition & read_condition_result::CANT_UNDERSTAND ) {
             reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
                                               book_skill->name(), book_skill_requirement, elem->disp_name(),
                                               elem->get_knowledge_level( book_skill ) ) );
-        } else if( elem->has_flag( json_flag_HYPEROPIC ) &&
-                   !elem->worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
-                   !elem->has_effect( effect_contacts ) ) {
+        } else if( condition & read_condition_result::NEED_GLASSES ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
                                               elem->disp_name() ) );
-        } else if( std::min( fine_detail_vision_mod(), elem->fine_detail_vision_mod() ) > 4 ) {
+        } else if( condition & read_condition_result::TOO_DARK ) {
             reasons.push_back( string_format(
                                    _( "It's too dark for %s to read!" ),
                                    elem->disp_name() ) );
         } else if( !elem->sees( *this ) ) {
             reasons.push_back( string_format( _( "%s could read that to you, but they can't see you." ),
                                               elem->disp_name() ) );
-        } else if( !elem->fun_to_read( book ) && !elem->has_morale_to_read() &&
-                   has_identified( book.typeId() ) ) {
+        } else if( condition & read_condition_result::MORALE_LOW ) {
             // Low morale still permits skimming
             reasons.push_back( string_format( _( "%s morale is too low!" ), elem->disp_name( true ) ) );
-        } else if( elem->is_blind() ) {
+        } else if( condition & read_condition_result::BLIND ) {
             reasons.push_back( string_format( _( "%s is blind." ), elem->disp_name() ) );
         } else {
             time_duration proj_time = time_to_read( book, *elem );
@@ -11966,11 +12078,11 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
                 moves = pre_obtain_moves;
                 return;
             }
-            u->assign_activity( consume_activity_actor( item_location( *u, &used ) ) );
+            u->assign_activity( consume_activity_actor( loc ) );
         } else  {
             const time_duration &consume_time = get_consume_time( used );
             moves -= to_moves<int>( consume_time );
-            consume( used );
+            consume( loc );
         }
     } else if( used.is_book() ) {
         // TODO: Handle this with dynamic dispatch.
