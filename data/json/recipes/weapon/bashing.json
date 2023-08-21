@@ -143,7 +143,7 @@
     "book_learn": [ [ "textbook_weapeast", 2 ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
-      { "id": "SAW_W", "level": 1 },
+      { "id": "SAW_W", "level": 2 },
       { "id": "HAMMER", "level": 3 },
       { "id": "DRILL", "level": 3 }
     ],
