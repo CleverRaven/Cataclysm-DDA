@@ -91,7 +91,7 @@
     "damage_type": "pure",
     "max_level": 1,
     "min_damage": 1,
-    "max_damage": 10,
+    "max_damage": 2,
     "min_range": 30
   }
 ]

@@ -147,7 +147,7 @@
     "id": "psi_enervation_damage",
     "type": "damage_type",
     "physical": false,
-    "magic_color": "green",
+    "magic_color": "red_green",
     "name": "enervation",
     "skill": "metaphysics",
     "immune_flags": { "character": [ "LIFESHIELD" ], "monster": [ "ENERVATE_IMMUNE" ] },
