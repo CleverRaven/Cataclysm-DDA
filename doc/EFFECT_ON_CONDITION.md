@@ -47,9 +47,9 @@ Effect on Condidion uses a huge variety of different values for effects or for c
 | string | anything within of quotation marks `"`, usually id's or plain text:  | `"mon_zombie"`, `"fd_blood"`, `"just generic text i want to print in message"` |
 | boolean | just boolean | `true`, `false` |
 | duration | string, that contain number and unit of time, that the game code transform into seconds and put into the game. It is possible to use int instead of duration, but it is recommended to use duration for the readability sake. Possible values are `s`/`seconds`, `m`/`minutes`, `h`/`hours`, `d`/`days` | `1`, `"1 s"`, `"1 seconds"`, `"60 minutes"`, `3600`, `"99 minutes"`, `"2 d"`, `"365 days"`   |
-| value between two | not a separate format, it means the field can accept two values simultaneously, and pick a random between this two; only values, that uses int can utilize it (int, duration or variable object usually) | `[ 1, 10 ]`,</br> `[ "30 seconds", "50 seconds" ]`,</br> `[ -1, 1 ]`,</br> `[ { "global_val": "small_variable" }, { "global_val": "big_variable" } ]`, </br> `[ { "global_val": "small_variable" }, 100 ]` |
+| value between two | not a separate format, it means the field can accept two values simultaneously, and pick a random between this two; only values, that uses int can utilize it (int, duration or variable object usually) | `[ 1, 10 ]`,</br>`[ "30 seconds", "50 seconds" ]`,</br>`[ -1, 1 ]`,</br>`[ { "global_val": "small_variable" }, { "global_val": "big_variable" } ]`,</br>`[ { "global_val": "small_variable" }, 100 ]` |
 | array | not a separate format, it means the field can accept multiple values, and the game either will pick one random between them, or apply all of them simultaneously | `[ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ]`  |
-| variable object | any [variable object](##variable-object)  | { "global_val": "some_value" }, </br>{ "u_val": "some_personal_value" }, </br>{ "math": [ "some_value * 5 + 1" ] } |
+| variable object | any [variable object](##variable-object)  | `{ "global_val": "some_value" }`,</br>`{ "u_val": "some_personal_value" }`,</br>`{ "math": [ "some_value * 5 + 1" ] }` |
 
 ## Variable Object
 
