@@ -20,7 +20,7 @@
         "success": { "topic": "BEM_TEMPLATE_SELLER_DISCOUNT_BUY" },
         "failure": { "topic": "BEM_TEMPLATE_SELLER_NO_DEAL" }
       },
-      { "text": "I dont even know what that is", "topic": "BEM_TEMPLATE_SELLER_ASK" },
+      { "text": "I don't even know what that is.", "topic": "BEM_TEMPLATE_SELLER_ASK" },
       { "text": "Sorry, not interested.", "topic": "TALK_DONE" }
     ]
   },
@@ -40,7 +40,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Oh, it looks like I dont actually have two coins right now…",
+        "text": "Oh, it looks like I don't actually have two coins right now…",
         "condition": { "not": { "u_has_items": { "item": "RobofacCoin", "count": 2 } } },
         "topic": "TALK_DONE"
       },

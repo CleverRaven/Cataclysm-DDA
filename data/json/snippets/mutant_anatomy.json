@@ -403,7 +403,7 @@
       "The meat inside gives off a horrifying stench, and seems to be covered in thin damp hair, like a newborn animal gone horribly wrong",
       "Small bundles of fiber break loose as you work, splitting open to reveal twisted, half-formed copies of the creature itself",
       "It is difficult to work as the spongey tissue tears apart under your tools",
-      "Despite its outward appearance, both the organs and the endolymph of this creature is pristinely white",
+      "Despite its outward appearance, both the organs and the endolymph of this creature are pristinely white",
       "Some of your cuts meet nerves, and the already stiff corpse shudders with movement each time",
       "You follow what you think are superfluous veins into the deep, finding a gorged, tick-like creature at their convergence",
       "Every cut reveals an organ you can't quite recognize, and you start to wonder what your insides look like by now",
@@ -478,9 +478,9 @@
     "category": "<bug_harvest_ground_beetle_interior>",
     "text": [
       "A lattice of glossy tubes still holds the mound of foamy fat and organs in place after the abdomen falls apart",
-      "The head is occupied entirely by organic hydraulics wrapped in muscle, and you dont find tangled strands of brain tissue until the thorax",
+      "The head is occupied entirely by organic hydraulics wrapped in muscle, and you don't find tangled strands of brain tissue until the thorax",
       "A fist-sized organ next to the chain of hearts still subtly throbs, and you find broken shards of chitin inside it after a swift hacking",
-      "You find a clutch of stillborn grubs inside, curled up in their parents fatty innards with eggshells nearby",
+      "You find a clutch of stillborn grubs inside, curled up in their parent's fatty innards with eggshells nearby",
       "The reproductive organs of this beetle, sealed inside a chitin casket, have coiled into a mockery of nature and bristle with half-developed eggs",
       "Something that looks like it belongs in an engine lies between the splayed out lungs, and it sprays grease five paces when you puncture it"
     ]

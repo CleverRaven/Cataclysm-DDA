@@ -165,7 +165,7 @@
     "id": "TALK_ANCILLA_DOCTOR_AID_DONE",
     "dynamic_line": [
       "Take it easy now, or come back soon.  All the same to me.",
-      "Now try not to do whatever you did again.  No, dont tell me more."
+      "Now try not to do whatever you did again.  No, don't tell me more."
     ],
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },

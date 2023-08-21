@@ -49,7 +49,7 @@
     "type": "effect_type",
     "name": [ "Sol" ],
     "desc": [ "You feel your mana connected to the Sun, and it makes you better than ever." ],
-    "remove_message": "You don't feel a sun energy in your body anymore.",
+    "remove_message": "You don't feel Solar energy in your body anymore.",
     "rating": "good",
     "max_duration": "10 m",
     "show_intensity": false,
