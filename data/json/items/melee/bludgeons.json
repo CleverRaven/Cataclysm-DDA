@@ -48,6 +48,7 @@
     "longest_side": "140 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "color": "brown",
+    "looks_like": "bat",
     "symbol": "/",
     "material": [ { "type": "wood", "portion": 9 }, { "type": "iron", "portion": 1 } ],
     "weapon_category": [ "GREAT_HAMMERS" ],
@@ -65,6 +66,7 @@
     "copy-from": "2h_club_kanabo_studded",
     "name": { "str": "spiked kanabō" },
     "description": "A two-handed war club used in feudal Japan by samurai against armored opponents.  Made from hardwood with metal spike inlays.",
+    "looks_like": "nailbat",
     "melee_damage": { "bash": 39, "stab": 7 }
   },
   {
