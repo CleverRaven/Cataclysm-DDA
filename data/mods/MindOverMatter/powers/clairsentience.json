@@ -16,7 +16,7 @@
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
-    "base_energy_cost": 1000,
+    "base_energy_cost": 1500,
     "final_energy_cost": 500,
     "energy_increment": -50,
     "min_duration": {
@@ -278,8 +278,8 @@
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "base_energy_cost": 1500,
-    "final_energy_cost": 450,
-    "energy_increment": -125,
+    "final_energy_cost": 850,
+    "energy_increment": -85,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: clair_danger_sense') * 6000) + 12000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -313,7 +313,7 @@
     },
     "max_range": 70,
     "base_energy_cost": 2500,
-    "final_energy_cost": 500,
+    "final_energy_cost": 700,
     "energy_increment": -125,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: clair_spot_weakness') * 150) + 1350) * (scaling_factor(u_val('intelligence') ) )" ]
@@ -419,8 +419,8 @@
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "base_energy_cost": 3500,
-    "final_energy_cost": 850,
-    "energy_increment": -175,
+    "final_energy_cost": 1250,
+    "energy_increment": -145,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: clair_dodge_power') * 1200) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -491,7 +491,7 @@
     "min_field_intensity": 1,
     "max_field_intensity": 1,
     "base_energy_cost": 5000,
-    "final_energy_cost": 1500,
+    "final_energy_cost": 2500,
     "energy_increment": -250,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: clair_voyance') * 50) + 250) * (scaling_factor(u_val('intelligence') ) )" ]
@@ -549,8 +549,8 @@
     "max_duration": {
       "math": [ "( (u_val('spell_level', 'spell: clair_clear_sight') * 1000) + 45000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
-    "base_energy_cost": 3000,
-    "final_energy_cost": 1250,
+    "base_energy_cost": 5000,
+    "final_energy_cost": 2000,
     "energy_increment": -250,
     "base_casting_time": 75,
     "final_casting_time": 25,
