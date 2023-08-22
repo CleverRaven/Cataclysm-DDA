@@ -10,6 +10,17 @@
     "base_removal_chance": 0
   },
   {
+    "id": "mutagen_species_dwarf",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Dwarven Purifier" },
+    "excess": "mutagen_species_dwarf",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
     "type": "mutation_category",
     "id": "SPECIES_ELF",
     "name": "Elf",
@@ -20,6 +31,17 @@
     "base_removal_chance": 0
   },
   {
+    "id": "mutagen_species_elf",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Elven Purifier" },
+    "excess": "mutagen_species_elf",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
     "type": "mutation_category",
     "id": "SPECIES_LIZARDFOLK",
     "name": "Lizardfolk",
@@ -28,6 +50,17 @@
     "vitamin": "mutagen_species_lizardfolk",
     "memorial_message": "Returned to the World Egg.",
     "base_removal_chance": 0
+  },
+  {
+    "id": "mutagen_species_lizardfolk",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Lizardfolk Purifier" },
+    "excess": "mutagen_species_lizardfolk",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
   },
   {
     "type": "mutation",
@@ -78,8 +111,68 @@
   },
   {
     "type": "mutation",
+    "id": "TROGLO",
+    "copy-from": "ALCMET",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
     "id": "TUNNEL_FIGHTER",
     "copy-from": "TUNNEL_FIGHTER",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "GOURMAND",
+    "copy-from": "GOURMAND",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SMELLY",
+    "copy-from": "SMELLY",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HIRSUTE",
+    "copy-from": "HIRSUTE",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+    {
+    "type": "mutation",
+    "id": "GOODCARDIO",
+    "copy-from": "GOODCARDIO",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HEAVYSLEEPER",
+    "copy-from": "HEAVYSLEEPER",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HEAVYSLEEPER2",
+    "copy-from": "HEAVYSLEEPER2",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PAINRESIST",
+    "copy-from": "PAINRESIST",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INFRESIST",
+    "copy-from": "INFRESIST",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DISRESISTANT",
+    "copy-from": "DISRESISTANT",
     "extend": { "category": [ "SPECIES_DWARF" ] }
   },
   {
@@ -195,6 +288,48 @@
   },
   {
     "type": "mutation",
+    "id": "ANTIJUNK",
+    "copy-from": "ANTIJUNK",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FLIMSY",
+    "copy-from": "FLIMSY",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "WEAKSTOMACH",
+    "copy-from": "WEAKSTOMACH",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PALE",
+    "copy-from": "PALE",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DISIMMUNE",
+    "copy-from": "DISIMMUNE",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PICKYEATER",
+    "copy-from": "PICKYEATER",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LIGHTSTEP",
+    "copy-from": "LIGHTSTEP",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
     "id": "WEBBED_LIZ_FEET",
     "name": { "str": "Webbed Feet" },
     "\\": "Alternate so webbed hands are not a prerequisite",
@@ -225,5 +360,65 @@
     "copy-from": "LARGE_OK",
     "extend": { "category": [ "SPECIES_LIZARDFOLK" ] },
     "extend": { "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ] }
-  }
+  },
+  {
+    "type": "mutation",
+    "id": "SCALES",
+    "copy-from": "SCALES",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MEMBRANE",
+    "copy-from": "MEMBRANE",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ANTIWHEAT",
+    "copy-from": "ANTIWHEAT",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TAIL_STUB",
+    "copy-from": "TAIL_STUB",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TAIL_THICK",
+    "copy-from": "TAIL_THICK",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "RESISTWARM",
+    "copy-from": "RESISTWARM",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SNOUT",
+    "copy-from": "SNOUT",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUZZLE_LONG",
+    "copy-from": "MUZZLE_LONG",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "NAILS",
+    "copy-from": "NAILS",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TALONS",
+    "copy-from": "TALONS",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
 ]
