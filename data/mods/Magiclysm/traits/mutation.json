@@ -276,7 +276,20 @@
     "cancels": [ "MANA_MULT1", "MANA_MULT2", "MANA_MULT3" ],
     "changes_to": [ "BAD_MANA_MULT2" ],
     "types": [ "MANA_MULT" ],
-    "category": [ "BEAST", "FISH", "LUPINE", "INSECT", "TROGLOBITE", "SPIDER", "RAT", "MOUSE", "MEDICAL", "CHIMERA", "RAPTOR", "SPECIES_DWARF" ],
+    "category": [
+      "BEAST",
+      "FISH",
+      "LUPINE",
+      "INSECT",
+      "TROGLOBITE",
+      "SPIDER",
+      "RAT",
+      "MOUSE",
+      "MEDICAL",
+      "CHIMERA",
+      "RAPTOR",
+      "SPECIES_DWARF"
+    ],
     "starting_trait": true,
     "flags": [ "NON_THRESH" ],
     "mana_multiplier": 0.85
