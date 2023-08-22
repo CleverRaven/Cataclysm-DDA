@@ -299,7 +299,10 @@
     "dynamic_line": "A jut be a long, thin post, kennit. The store-cabin be made o' con-crete an' rusty iron, and atop it be a glintin' post. The post be broken, I'd razz. Turnt off. Rubik's got a tool for you to pop, make it turnt on.",
     "//~": "A jut is a long, thin pole. The warehouse is made of concrete and rusty iron, and atop it there's a glistening pole. The pole is broken, turned off. I got a tool for you to turn it back on.",
     "responses": [
-      { "text": "OK, got it. A metal and concrete building with some kind of metal pole on top that you want me to fix", "topic": "TALK_EXODII_MERCHANT_mission_2_intro1" },
+      {
+        "text": "OK, got it. A metal and concrete building with some kind of metal pole on top that you want me to fix",
+        "topic": "TALK_EXODII_MERCHANT_mission_2_intro1"
+      },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
