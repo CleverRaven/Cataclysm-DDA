@@ -1009,7 +1009,6 @@ static void draw_speed_tab( ui_adaptor &ui, const catacurses::window &w_speed,
                             const Character &you,
                             const std::vector<speedlist_entry> &speedlist, const int move_cost )
 {
-    //FIXME this tab needs to support scrolling
     werase( w_speed );
     const bool is_current_tab = curtab == player_display_tab::speed;
     if( is_current_tab ) {
@@ -1964,7 +1963,8 @@ void Character::disp_info( bool customize_character )
 
     bool done = false;
 
-    std::vector<catacurses::window *> windows{ &w_stats, &w_encumb, & w_skills, &w_traits, &w_bionics, &w_effects, &w_proficiencies };
+    // needs to have the same windows in the same order as player_display_tab so that mouse scrolling can work
+    std::vector<catacurses::window *> windows{ &w_stats, &w_encumb, &w_speed, &w_skills, &w_traits, &w_bionics, &w_effects, &w_proficiencies };
 
     do {
         ui_manager::redraw_invalidated();
