@@ -61,9 +61,6 @@ static spell_type default_spell_type()
     ret.min_field_intensity.min.dbl_val = 0;
     ret.field_intensity_increment.min.dbl_val = 0.0f;
     ret.field_intensity_variance.min.dbl_val = 0.0f;
-
-
-
     return ret;
 }
 
