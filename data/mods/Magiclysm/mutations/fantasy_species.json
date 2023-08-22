@@ -363,18 +363,6 @@
   },
   {
     "type": "mutation",
-    "id": "SCALES",
-    "copy-from": "SCALES",
-    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "MEMBRANE",
-    "copy-from": "MEMBRANE",
-    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
-  },
-  {
-    "type": "mutation",
     "id": "ANTIWHEAT",
     "copy-from": "ANTIWHEAT",
     "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
