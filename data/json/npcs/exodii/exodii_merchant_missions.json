@@ -285,9 +285,21 @@
     },
     "responses": [
       {
-        "text": "So you want me to find a lost warehouse. Does it means that you can't even give me some directions?",
+        "text": "I think I got most of that. A metal and concrete building with some kind of metal pole on top that you want me to fix?",
         "topic": "TALK_EXODII_MERCHANT_mission_2_intro1"
       },
+      { "text": "What? A jut? Fig and a fiddle?", "topic": "TALK_EXODII_MERCHANT_clarify" },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_clarify",
+    "type": "talk_topic",
+    "dynamic_line": "A jut be a long, thin post, kennit. The store-cabin be made o' con-crete an' rusty iron, and atop it be a glintin' post. The post be broken, I'd razz. Turnt off. Rubik's got a tool for you to pop, make it turnt on.",
+    "//~": "A jut is a long, thin pole. The warehouse is made of concrete and rusty iron, and atop it there's a glistening pole. The pole is broken, turned off. I got a tool for you to turn it back on.",
+    "responses": [
+      { "text": "OK, got it. A metal and concrete building with some kind of metal pole on top that you want me to fix", "topic": "TALK_EXODII_MERCHANT_mission_2_intro1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
@@ -295,8 +307,8 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_2_intro1",
     "type": "talk_topic",
-    "dynamic_line": "INSERT_ANGLIK_HERE",
-    "//~": "Unfortunately no. We have no idea of where it is now. Maybe some other survivors could help you with that.",
+    "dynamic_line": "Just so. 'Tis like yarkin' fit f'r me beloved jaryi, y'kennit so fine. What say you?",
+    "//~": "Exactly. This is some talking fit for my beloved jaryi. What do you think?",
     "responses": [
       { "text": "Shouldn't your quads be able to do that?", "topic": "TALK_EXODII_MERCHANT_mission_2_explain" },
       {
@@ -304,6 +316,29 @@
         "topic": "TALK_DONE",
         "effect": { "assign_mission": "EXODII_MISSION_WAREHOUSE" }
       },
+      { "text": "Beloved jaryi? What did you just call me?", "topic": "TALK_EXODII_MERCHANT_jaryi", "arithmetic": [ { "global_val": "var", "var_name": "u_know_jaryi" }, "=", { "const": 1 } ] },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_jaryi",
+    "type": "talk_topic",
+    "dynamic_line": "Ha, not callin' y'me jaryi. Jaryi be the mother-twice. 'Tis but a King's Landing assert f'r a grandmother, Rubik's makin' a chestnut at ye.",
+    "//~": "No, I'm not calling you jaryi. Jaryi is my grandmother",
+    "responses": [
+      { "text": "That word doesn't sound like any of the other Anglic words you've used, though. What's it from?", "topic": "TALK_EXODII_MERCHANT_jaryi2" },
+      { "text": "What were you talking about before?", "topic": "TALK_EXODII_MERCHANT_mission_2_intro1" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_jaryi2",
+    "type": "talk_topic",
+    "dynamic_line": "Right so, a fine notice. Rubik's mother-twice, she were a woman o'th'old kind. And were her mate, and Rubik's father-twice. Rubik's father-mother, she were a gran, a fitty bit of ol' London-Town, right so, but Rubik had a jaryi and a taita and a tamoi.\" Rubik's voice goes distant for a moment. \"An' they was all there, right to the end. Standin' by, we were, one and all.\" They pause, then seem to snap back. \"No time for stories, kennit? Back to the here an' now.",
+    "//~": "No, I'm not calling you jaryi. Jaryi is my grandmother",
+    "responses": [
+      { "text": "Yeah, let's talk about business again.", "topic": "TALK_EXODII_MERCHANT_mission_2_intro1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
