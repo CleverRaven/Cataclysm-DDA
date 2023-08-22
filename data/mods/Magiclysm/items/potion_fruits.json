@@ -3,18 +3,20 @@
     "type": "COMESTIBLE",
     "id": "potion_fruit_apple",
     "name": { "str": "potion fruit (apple)" },
+    "description": "An apple infused with mana.  It will heal you if you eat it.",
     "copy-from": "apple",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "66 days 16 hours",
-    "use_action": { "type": "cast_spell", "spell_id": "herbalism_pfruit_apple_heal", "no_fail": true, "level": 0 }
+    "use_action": { "type": "cast_spell", "spell_id": "pfruit_apple_heal", "no_fail": true, "level": 0 }
   },
   {
     "type": "COMESTIBLE",
     "id": "potion_fruit_peach",
     "name": { "str": "potion fruit (peach)" },
+    "description": "An peach infused with mana.  It will cure illness if you eat it.",
     "copy-from": "peach",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "30 days",
-    "use_action": { "type": "cast_spell", "spell_id": "herbalism_pfruit_peach_heal", "no_fail": true, "level": 0 }
+    "use_action": { "type": "cast_spell", "spell_id": "pfruit_peach_heal", "no_fail": true, "level": 0 }
   }
 ]
