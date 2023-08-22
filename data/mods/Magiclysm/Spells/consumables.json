@@ -66,7 +66,7 @@
     "max_damage": 20
   },
     {
-    "id": "herbalism_pfruit_apple_heal",
+    "id": "pfruit_apple_heal",
     "type": "SPELL",
     "name": "Eat the apple potion fruit",
     "description": "The spell cast when you eat an apple potion fruit.  It's a bug if you see this.  Name is so it displays in the UI.",
@@ -94,7 +94,7 @@
     "flags": [ "SILENT" ]
   },
   {
-    "id": "herbalism_pfruit_peach_heal",
+    "id": "pfruit_peach_heal",
     "type": "SPELL",
     "name": "Eat the peach potion fruit",
     "description": "The spell cast when you eat a peach potion fruit.  It's a bug if you see this.  Name is so it displays in the UI.",
