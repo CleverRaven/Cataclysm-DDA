@@ -44,7 +44,6 @@ Cockroaches flee light, hide under furniture, eat corpses, and breed faster when
 Cataclysm and game start dates are to be set through scenarios
 Friendly NPC crafting by crafting menu
 Functionality to drop items off ledges/cliffs onto creatures below
-Railroads mod
 
 
 ## Content:
@@ -138,6 +137,7 @@ Add the Mind Over Matter mod to the CDDA repository
 [MoM] Add telepathic and telekinetic damage types
 [MoM] Mind Over Matter-specific Research facility overhaul
 [XE] Paraclesians: Elemental Races
+[Railroads] New mod
 
 
 ## Balance:
