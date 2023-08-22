@@ -13,7 +13,7 @@
       { "proficiency": "prof_alchemy" },
       { "proficiency": "prof_botanical_enchantment" }
     ],
-    "book_learn": [ [ "history_botanical_enchantment", 4 ] ],
+    "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [ [ [ "apple", 1 ], [ "mana_dust", 10 ] ] ]
   },
@@ -31,7 +31,7 @@
       { "proficiency": "prof_alchemy" },
       { "proficiency": "prof_botanical_enchantment" }
     ],
-    "book_learn": [ [ "history_botanical_enchantment", 4 ] ],
+    "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [ [ [ "peach", 1 ], [ "mana_dust", 10 ] ] ]
   },
@@ -49,7 +49,7 @@
       { "proficiency": "prof_alchemy" },
       { "proficiency": "prof_botanical_enchantment" }
     ],
-    "book_learn": [ [ "history_botanical_enchantment", 4 ] ],
+    "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [ [ [ "pear", 1 ], [ "mana_dust", 10 ] ] ]
   },
@@ -67,8 +67,62 @@
       { "proficiency": "prof_alchemy" },
       { "proficiency": "prof_botanical_enchantment" }
     ],
-    "book_learn": [ [ "history_botanical_enchantment", 4 ] ],
+    "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [ [ [ "blackberries", 1 ], [ "mana_dust", 10 ] ] ]
+  },
+    {
+    "result": "potion_fruit_raspberries",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "spellcraft",
+    "difficulty": 4,
+    "time": "60 m",
+    "batch_time_factors": [ 15, 2 ],
+    "proficiencies": [
+      { "proficiency": "prof_alchemy" },
+      { "proficiency": "prof_botanical_enchantment" }
+    ],
+    "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [ [ [ "raspberries", 1 ], [ "mana_dust", 10 ] ] ]
+  },
+    {
+    "result": "potion_fruit_strawberries",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "spellcraft",
+    "difficulty": 4,
+    "time": "60 m",
+    "batch_time_factors": [ 15, 2 ],
+    "proficiencies": [
+      { "proficiency": "prof_alchemy" },
+      { "proficiency": "prof_botanical_enchantment" }
+    ],
+    "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [ [ [ "strawberries", 1 ], [ "mana_dust", 10 ] ] ]
+  },
+  {
+    "result": "potion_fruit_elderberries",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "spellcraft",
+    "difficulty": 4,
+    "time": "60 m",
+    "batch_time_factors": [ 15, 2 ],
+    "proficiencies": [
+      { "proficiency": "prof_alchemy" },
+      { "proficiency": "prof_botanical_enchantment" }
+    ],
+    "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [ [ [ "elderberries", 1 ], [ "mana_dust", 10 ] ] ]
   }
 ]
