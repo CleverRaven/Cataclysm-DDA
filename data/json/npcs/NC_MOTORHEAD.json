@@ -3,11 +3,7 @@
     "type": "item_group",
     "id": "NC_MOTORHEAD_pants",
     "subtype": "distribution",
-    "entries": [
-      { "item": "jeans", "prob": 70 },
-      { "item": "pants", "prob": 10 },
-      { "item": "pants_cargo", "prob": 20 }
-    ]
+    "entries": [ { "item": "jeans", "prob": 70 }, { "item": "pants", "prob": 10 }, { "item": "pants_cargo", "prob": 20 } ]
   },
   {
     "type": "item_group",
@@ -19,11 +15,7 @@
     "type": "item_group",
     "id": "NC_MOTORHEAD_shirt",
     "subtype": "distribution",
-    "entries": [
-      { "item": "tshirt", "prob": 70 },
-      { "item": "polo_shirt", "prob": 20 },
-      { "item": "tank_top", "prob": 10 }
-    ]
+    "entries": [ { "item": "tshirt", "prob": 70 }, { "item": "polo_shirt", "prob": 20 }, { "item": "tank_top", "prob": 10 } ]
   },
   {
     "type": "item_group",
