@@ -803,7 +803,7 @@
     "description": "The spell cast when you eat a pear potion fruit.  It's a bug if you see this.  Name is so it displays in the UI.",
     "valid_targets": [ "self" ],
     "effect": "attack",
-    "effect_str": "effect_pfruit_attack-speed",
+    "effect_str": "effect_pfruit_attack_speed",
     "shape": "blast",
     "flags": [ "SILENT" ],
     "max_level": 25,
