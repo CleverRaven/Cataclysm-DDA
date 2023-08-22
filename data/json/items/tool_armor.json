@@ -3386,7 +3386,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel sallet helm (raised)", "str_pl": "mild steel sallet helms (raised)" },
-    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes.  Activate it to toggle the visor.",
+    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes.  This one has been made with mild steel. Activate it to toggle the visor.",
     "weight": "1800 g",
     "volume": "2050 ml",
     "price": 35000,
@@ -3420,22 +3420,20 @@
   {
     "id": "mc_helmet_sallet",
     "type": "ARMOR",
-    "category": "armor",
-	"copy-from": "lc_helmet_sallet",
+    "copy-from": "lc_helmet_sallet",
     "name": { "str": "medium steel sallet helm" },
-    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes. This one has been made with medium steel.  Activate it to toggle the visor.",
+    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes. Made with tougher medium steel, this helm offers solid protection.  Activate it to toggle the visor.",
     "price": 35000,
     "price_postapoc": 4500,
     "use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "mc_helmet_sallet_raised", "menu_text": "Raise" },
-	"replace_materials": { "lc_steel": "mc_steel" }
+    "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
     "id": "mc_helmet_sallet_raised",
     "type": "ARMOR",
-    "category": "armor",
-	"copy-from": "lc_helmet_sallet_raised",
+    "copy-from": "lc_helmet_sallet_raised",
     "name": { "str": "medium steel sallet helm (raised)", "str_pl": "medium steel sallet helms (raised)" },
-    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes.  Activate it to toggle the visor.",
+    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes.  Made with tougher medium steel, this helm offers solid protection. Activate it to toggle the visor.",
     "price": 35000,
     "price_postapoc": 4500,
     "use_action": {
@@ -3445,6 +3443,87 @@
       "menu_text": "Lower"
     },
     "replace_materials": { "lc_steel": "mc_steel" }
+  },
+  {
+    "id": "hc_helmet_sallet",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_sallet",
+    "name": { "str": "high steel sallet helm" },
+    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes. Made with high carbon steel, offering excellent protection.  Activate it to toggle the visor.",
+    "price": 35000,
+    "price_postapoc": 4500,
+    "use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "hc_helmet_sallet_raised", "menu_text": "Raise" },
+    "replace_materials": { "lc_steel": "hc_steel" }
+  },
+  {
+    "id": "hc_helmet_sallet_raised",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_sallet_raised",
+    "name": { "str": "high steel sallet helm (raised)", "str_pl": "high steel sallet helms (raised)" },
+    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes.  Made with high carbon steel, offering excellent protection. Activate it to toggle the visor.",
+    "price": 35000,
+    "price_postapoc": 4500,
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the sallet visor over your eyes.",
+      "target": "hc_helmet_sallet",
+      "menu_text": "Lower"
+    },
+    "replace_materials": { "lc_steel": "hc_steel" }
+  },
+  {
+    "id": "ch_helmet_sallet",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_sallet",
+    "name": { "str": "case hardened sallet helm" },
+    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes. The mild steel has been case hardened, offering superior protection.  Activate it to toggle the visor.",
+    "price": 35000,
+    "price_postapoc": 4500,
+    "use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "ch_helmet_sallet_raised", "menu_text": "Raise" },
+    "replace_materials": { "lc_steel": "ch_steel" }
+  },
+  {
+    "id": "ch_helmet_sallet_raised",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_sallet_raised",
+    "name": { "str": "case hardened sallet helm (raised)", "str_pl": "case hardened sallet helms (raised)" },
+    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes.  The mild steel has been case hardened, offering superior protection. Activate it to toggle the visor.",
+    "price": 35000,
+    "price_postapoc": 4500,
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the sallet visor over your eyes.",
+      "target": "ch_helmet_sallet",
+      "menu_text": "Lower"
+    },
+    "replace_materials": { "lc_steel": "ch_steel" }
+  },
+  {
+    "id": "qt_helmet_sallet",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_sallet",
+    "name": { "str": "tempered sallet helm" },
+    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes. The medium steel has been quenched and tempered, offering top-of-the-line protection.  Activate it to toggle the visor.",
+    "price": 35000,
+    "price_postapoc": 4500,
+    "use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "qt_helmet_sallet_raised", "menu_text": "Raise" },
+    "replace_materials": { "lc_steel": "qt_steel" }
+  },
+  {
+    "id": "qt_helmet_sallet_raised",
+    "type": "ARMOR",
+    "copy-from": "lc_helmet_sallet_raised",
+    "name": { "str": "tempered sallet helm (raised)", "str_pl": "tempered sallet helms (raised)" },
+    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes.  The medium steel has been quenched and tempered, offering top-of-the-line protection. Activate it to toggle the visor.",
+    "price": 35000,
+    "price_postapoc": 4500,
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the sallet visor over your eyes.",
+      "target": "qt_helmet_sallet",
+      "menu_text": "Lower"
+    },
+    "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
     "id": "helmet_armet",
