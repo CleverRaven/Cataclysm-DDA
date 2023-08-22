@@ -713,7 +713,7 @@
     "name": [ "Quick Blows" ],
     "desc": [ "Thanks to that pear, you can attack faster." ],
     "apply_message": "You arms speed up.",
-    "remove_message": "You muscle's twitch as the pear's magic fades.",
+    "remove_message": "Your muscle's twitch as the pear's magic fades.",
     "rating": "good",
     "show_intensity": false,
    "enchantments": [
@@ -757,4 +757,21 @@
     "min_range": 1,
     "max_range": 1
   },
+    {
+    "id": "effect_pfruit_keep_warm",
+    "type": "effect_type",
+    "name": [ "Summer's Heat" ],
+    "desc": [ "The magic of those strawberries is keeping you warm." ],
+    "apply_message": "You feel a pleasant warmth.",
+    "remove_message": "You shiver as a cool breeze hits your skin.",
+    "rating": "good",
+    "show_intensity": false,
+   "enchantments": [
+      {
+        "values": [
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }
+        ]
+      }
+    ]
+  }
 ]
