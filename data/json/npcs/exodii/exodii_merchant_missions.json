@@ -327,7 +327,10 @@
     "dynamic_line": "Ha, not callin' y'me jaryi. Jaryi be the mother-twice. 'Tis but a King's Landing assert f'r a grandmother, Rubik's makin' a chestnut at ye.",
     "//~": "No, I'm not calling you jaryi. Jaryi is my grandmother",
     "responses": [
-      { "text": "That word doesn't sound like any of the other Anglic words you've used, though. What's it from?", "topic": "TALK_EXODII_MERCHANT_jaryi2" },
+      {
+        "text": "That word doesn't sound like any of the other Anglic words you've used, though. What's it from?",
+        "topic": "TALK_EXODII_MERCHANT_jaryi2"
+      },
       { "text": "What were you talking about before?", "topic": "TALK_EXODII_MERCHANT_mission_2_intro1" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
