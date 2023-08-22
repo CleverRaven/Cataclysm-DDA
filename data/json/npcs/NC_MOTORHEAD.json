@@ -9,7 +9,7 @@
     "type": "item_group",
     "id": "NC_MOTORHEAD_shoes",
     "subtype": "distribution",
-    "entries": [ { "item": "sneakers", "prob": 60 }, { "item": "boots", "prob": 40 } ]
+    "entries": [ { "item": "sneakers", "prob": 40 }, { "item": "boots", "prob": 30 }, { "item": "motorbike_boots", "prob": 30 } ]
   },
   {
     "type": "item_group",
@@ -36,7 +36,8 @@
       { "item": "hoodie", "prob": 15 },
       { "item": "jacket_light", "prob": 15 },
       { "item": "jacket_windbreaker", "prob": 15 },
-      { "item": "jacket_leather", "prob": 20 },
+      { "item": "jacket_leather", "prob": 15 },
+      { "item": "jacket_leather_mod", "prob": 5 },
       { "item": "touring_suit", "prob": 20 },
       { "item": "jacket_jean", "prob": 15 }
     ]
