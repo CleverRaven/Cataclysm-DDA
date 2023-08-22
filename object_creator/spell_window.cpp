@@ -1479,15 +1479,27 @@ void creator::spell_window::populate_fields()
             min_damage_box.setValue( sp_t.min_damage.min.dbl_val.value() );
             damage_increment_box.setValue( sp_t.damage_increment.min.dbl_val.value() );
             max_damage_box.setValue( sp_t.max_damage.min.dbl_val.value() );
-            min_aoe_box.setValue( sp_t.min_aoe.min.dbl_val.value() );
+            if(sp_t.min_aoe.min.dbl_val.has_value()) {
+                min_aoe_box.setValue( sp_t.min_aoe.min.dbl_val.value() );
+            } else {
+                min_aoe_box.setValue( 0 );
+            }
             aoe_increment_box.setValue( sp_t.aoe_increment.min.dbl_val.value() );
             max_aoe_box.setValue( sp_t.max_aoe.min.dbl_val.value() );
             min_dot_box.setValue( sp_t.min_dot.min.dbl_val.value() );
             dot_increment_box.setValue( sp_t.dot_increment.min.dbl_val.value() );
             max_dot_box.setValue( sp_t.max_dot.min.dbl_val.value() );
-            min_duration_box.setValue( sp_t.min_duration.min.dbl_val.value() );
+            if(sp_t.min_duration.min.dbl_val.has_value()) {
+                min_duration_box.setValue( sp_t.min_duration.min.dbl_val.value() );
+            } else {
+                min_duration_box.setValue( 0 );
+            }
             duration_increment_box.setValue( sp_t.duration_increment.min.dbl_val.value() );
-            max_duration_box.setValue( sp_t.max_duration.min.dbl_val.value() );
+            if( sp_t.max_duration.min.dbl_val.has_value() ) {
+                max_duration_box.setValue( sp_t.max_duration.min.dbl_val.value() );
+            } else {
+                max_duration_box.setValue( 0 );
+            }
             base_casting_time_box.setValue( sp_t.base_casting_time.min.dbl_val.value() );
             casting_time_increment_box.setValue( sp_t.casting_time_increment.min.dbl_val.value() );
             final_casting_time_box.setValue( sp_t.final_casting_time.min.dbl_val.value() );
