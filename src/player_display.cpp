@@ -805,23 +805,11 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
     }
     center_print( w_skills, 0, cstatus, _( title_SKILLS ) );
 
-    size_t min = 0;
-    size_t max = 0;
-
-    const size_t half_y = ( skill_win_size_y - 1 ) / 2;
-
-    if( !is_current_tab || line <= half_y ) {
-        min = 0;
-    } else if( line >= skillslist.size() - half_y ) {
-        min = ( skillslist.size() < skill_win_size_y - 1 ? 0 : skillslist.size() -
-                skill_win_size_y + 1 );
-    } else {
-        min = line - half_y;
-    }
-    max = std::min( min + skill_win_size_y - 1, skillslist.size() );
+    const auto& [i_start, i_end] = subindex_around_cursor( skillslist.size(), skill_win_size_y - 1,
+                                   line, is_current_tab );
 
     int y_pos = 1;
-    for( size_t i = min; i < max; ++i, ++y_pos ) {
+    for( int i = i_start; i < i_end; ++i, ++y_pos ) {
         const Skill *aSkill = skillslist[i].skill;
         if( skillslist[i].is_header ) {
             const SkillDisplayType t = SkillDisplayType::get_skill_type( aSkill->display_category() );
@@ -843,7 +831,7 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                 locked = true;
             }
             level_num = you.enchantment_cache->modify_value( aSkill->ident(), level_num );
-            if( is_current_tab && i == line ) {
+            if( is_current_tab && i == static_cast<int>( line ) ) {
                 ui.set_cursor( w_skills, point( 1, y_pos ) );
                 if( locked ) {
                     cstatus = h_yellow;
