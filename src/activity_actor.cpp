@@ -6100,7 +6100,8 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     if( used_tool->has_flag( flag_SINGLE_USE ) ) {
         it.remove_item();
     } else if( used_tool->is_medication() ) {
-        if( it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
+        if( !it->count_by_charges() ||
+            it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
             it.remove_item();
         }
     } else if( used_tool->is_tool() ) {

@@ -17,7 +17,7 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": [ "Hey, <name_g>.", "Good to see you again.", "What can I do for you?", "You don't look too shabby." ],
+      "yes": [ "Hey, <name_g>.", "Good to see you again.", "What can I do for you?", "You don't look too shabby, <u_name>." ],
       "no": "I definitely haven't met you yet.  Nice to meet you, I'm Olwen."
     },
     "responses": [

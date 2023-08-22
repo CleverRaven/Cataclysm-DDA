@@ -3024,6 +3024,16 @@ item_location npc::get_item_to_craft()
                 }
             }
         }
+        if( const std::optional<vpart_reference> vp = here.veh_at( adj ).cargo() ) {
+            for( item &itm : vp->items() ) {
+                if( itm.get_var( "crafter", "" ) == name ) {
+                    to_craft = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), &itm );
+                    if( !is_anyone_crafting( to_craft, this ) ) {
+                        return to_craft;
+                    }
+                }
+            }
+        }
     }
     return to_craft;
 }
@@ -3053,6 +3063,16 @@ void npc::do_npc_craft( const std::optional<tripoint> &loc, const recipe_id &got
                 item_location to_craft = item_location( map_cursor( adj ), &itm );
                 if( !is_anyone_crafting( to_craft, this ) ) {
                     craft_item_list.push_back( to_craft );
+                }
+            }
+        }
+        if( const std::optional<vpart_reference> vp = here.veh_at( adj ).cargo() ) {
+            for( item &itm : vp->items() ) {
+                if( itm.is_craft() && itm.get_making().npc_can_craft( dummy ) ) {
+                    item_location to_craft = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), &itm );
+                    if( !is_anyone_crafting( to_craft, this ) ) {
+                        craft_item_list.push_back( to_craft );
+                    }
                 }
             }
         }

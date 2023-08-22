@@ -398,7 +398,8 @@
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1200 g",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -407,7 +408,8 @@
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1200 g",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -416,7 +418,8 @@
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1200 g",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "transparent": true
       },
       {
         "holster": true,
@@ -425,7 +428,8 @@
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1200 g",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "transparent": true
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
@@ -463,7 +467,8 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "name": "P2"
+        "name": "P2",
+        "transparent": true
       },
       {
         "holster": true,
@@ -473,7 +478,8 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "name": "P3"
+        "name": "P3",
+        "transparent": true
       },
       {
         "holster": true,
@@ -483,7 +489,8 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "name": "P4"
+        "name": "P4",
+        "transparent": true
       },
       {
         "holster": true,
@@ -493,7 +500,8 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "name": "P5"
+        "name": "P5",
+        "transparent": true
       },
       {
         "holster": true,
@@ -503,7 +511,8 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "name": "P6"
+        "name": "P6",
+        "transparent": true
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
@@ -611,7 +620,8 @@
         "max_contains_weight": "1000 g",
         "max_item_length": "15 cm",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "transparent": true
       },
       {
         "//": "Large holster for an axe or Halligan bar",
@@ -622,7 +632,8 @@
         "max_contains_weight": "4000 g",
         "max_item_length": "80 cm",
         "moves": 200,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "transparent": true
       },
       {
         "//": "Flexible water pouch for drinks or other liquid.  Integrated straw for fast access.",

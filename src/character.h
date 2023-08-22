@@ -325,6 +325,8 @@ struct queued_eocs {
 
     queued_eocs &operator=( const queued_eocs &rhs ) {
         list = rhs.list;
+        // Why doesn't std::priority_queue have a clear() function.
+        queue = {};
         for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
             queue.emplace( it );
         }
@@ -517,7 +519,7 @@ class Character : public Creature, public visitable
         ~Character() override;
 
         // initialize avatar and avatar mocks
-        void initialize();
+        void initialize( bool learn_recipes = true );
 
 
         Character *as_character() override {

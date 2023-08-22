@@ -211,5 +211,17 @@
     "type": "MIGRATION",
     "replace": "bodypillow",
     "variant": "bodypillow_makeshift"
+  },
+  {
+    "id": "sword_sheets_bolted",
+    "type": "MIGRATION",
+    "replace": "sword_sheets_welded",
+    "variant": "sword_sheets_bolted"
+  },
+  {
+    "id": "sword_sheets_bolted_large",
+    "type": "MIGRATION",
+    "replace": "sword_sheets_welded_large",
+    "variant": "sword_sheets_bolted_large"
   }
 ]

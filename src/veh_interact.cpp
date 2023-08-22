@@ -3330,6 +3330,7 @@ void veh_interact::complete_vehicle( Character &you )
             // Remove any leftover power cords from the appliance
             if( appliance_removal && veh.part_count() >= 2 ) {
                 veh.shed_loose_parts( trinary::ALL );
+                veh.find_and_split_vehicles( here, { vp_index } );
                 veh.part_removal_cleanup();
                 //always stop after removing an appliance
                 you.activity.set_to_null();

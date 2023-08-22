@@ -53,7 +53,7 @@
         "type": "general",
         "context": "meeting",
         "value": "yes",
-        "yes": "Praise the Lord.",
+        "yes": [ "Praise the Lord.", "<u_name>, how can I help you?" ],
         "no": "You must be new here, nice to meet you.  They call me Kostas, I'm the local herbalist."
       }
     },

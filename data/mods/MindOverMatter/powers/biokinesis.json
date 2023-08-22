@@ -247,7 +247,7 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
     "base_energy_cost": 2500,
-    "final_energy_cost": 850,
+    "final_energy_cost": 1250,
     "energy_increment": -175,
     "min_duration": 200,
     "max_duration": 500,
@@ -367,7 +367,7 @@
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 4500,
-    "final_energy_cost": 2000,
+    "final_energy_cost": 2500,
     "energy_increment": -150,
     "base_casting_time": 275,
     "final_casting_time": 50,
@@ -392,7 +392,7 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
     "base_energy_cost": 5500,
-    "final_energy_cost": 1750,
+    "final_energy_cost": 2250,
     "energy_increment": -205,
     "min_duration": {
       "math": [
@@ -429,9 +429,9 @@
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
-    "base_energy_cost": 5000,
+    "base_energy_cost": 5500,
     "final_energy_cost": 2750,
-    "energy_increment": -225,
+    "energy_increment": -175,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 800) + 6000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -474,8 +474,8 @@
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
-    "final_energy_cost": 1750,
+    "base_energy_cost": 5500,
+    "final_energy_cost": 2250,
     "energy_increment": -125,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: biokin_sealed_system') * 600) + 4000) * (scaling_factor(u_val('intelligence') ) )" ]

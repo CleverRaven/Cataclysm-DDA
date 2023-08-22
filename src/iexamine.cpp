@@ -1024,6 +1024,8 @@ void iexamine::vending( Character &you, const tripoint &examp )
     bool used_machine = false;
     input_context ctxt( "VENDING_MACHINE" );
     ctxt.register_navigate_ui_list();
+    ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
+    ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1048,6 +1050,9 @@ void iexamine::vending( Character &you, const tripoint &examp )
     }
 
     int cur_pos = 0;
+    int item_info_scroll_pos = 0;
+    const int &item_info_scroll_delta = list_lines;
+
     ui.on_redraw( [&]( const ui_adaptor & ) {
         const int num_items = item_list.size();
         const int page_size = std::min( num_items, list_lines );
@@ -1088,19 +1093,12 @@ void iexamine::vending( Character &you, const tripoint &examp )
         auto &cur_items = item_list[static_cast<size_t>( cur_pos )]->second;
         auto &cur_item  = cur_items.back();
 
-        werase( w_item_info );
-        // | {line}|
-        // 12      3
-        fold_and_print( w_item_info, point( 2, 1 ), w_info_w - 3, c_light_gray, cur_item->info( true ) );
-        wborder( w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+        std::vector<iteminfo> cur_item_info;
+        cur_item->info( true, cur_item_info );
 
-        //+<{name}>+
-        //12      34
-        const std::string name = utf8_truncate( cur_item->display_name(),
-                                                static_cast<size_t>( w_info_w - 4 ) );
-        mvwprintw( w_item_info, point_east, "<%s>", name );
-        wnoutrefresh( w_item_info );
+        item_info_data data( cur_item->display_name(), "", cur_item_info, {}, item_info_scroll_pos );
+        data.without_getch = true;
+        draw_item_info( w_item_info, data );
     } );
 
     for( ;; ) {
@@ -1114,6 +1112,12 @@ void iexamine::vending( Character &you, const tripoint &examp )
 
         const std::string &action = ctxt.handle_input();
         if( navigate_ui_list( action, cur_pos, 3, num_items, true ) ) {
+            item_info_scroll_pos = 0;
+        } else if( action == "SCROLL_ITEM_INFO_UP" ) {
+            // clamping to min/max is done in draw_item_info
+            item_info_scroll_pos -= item_info_scroll_delta;
+        } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
+            item_info_scroll_pos += item_info_scroll_delta;
         } else if( action == "CONFIRM" ) {
             const int iprice = cur_item->price( false );
 
@@ -1137,6 +1141,7 @@ void iexamine::vending( Character &you, const tripoint &examp )
                 continue;
             }
 
+            item_info_scroll_pos = 0;
             item_list.erase( std::begin( item_list ) + cur_pos );
             if( item_list.empty() ) {
                 add_msg( _( "With a beep, the empty vending machine shuts down." ) );
@@ -5922,7 +5927,10 @@ static void smoker_finalize( Character &, const tripoint &examp, const time_poin
             } else {
                 it.calc_rot_while_processing( 6_hours );
 
-                item result( it.get_comestible()->smoking_result, start_time + 6_hours, it.charges );
+                item result( it.get_comestible()->smoking_result, start_time + 6_hours );
+                if( it.count_by_charges() ) {
+                    result.charges = it.charges;
+                }
 
                 // Set flag to tell set_relative_rot() to calc from bday not now
                 result.set_flag( flag_PROCESSING_RESULT );
@@ -5939,7 +5947,7 @@ static void smoker_finalize( Character &, const tripoint &examp, const time_poin
                     }
                     result.components.add( it );
                     // Smoking is always 1:1, so these must be equal for correct kcal/vitamin calculation.
-                    result.recipe_charges = it.charges;
+                    result.recipe_charges = it.count();
                     result.set_flag_recursive( flag_COOKED );
                 }
 

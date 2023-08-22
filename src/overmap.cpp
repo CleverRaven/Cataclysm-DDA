@@ -120,6 +120,7 @@ static const oter_type_str_id oter_type_ice_lab_stairs( "ice_lab_stairs" );
 static const oter_type_str_id oter_type_lab_core( "lab_core" );
 static const oter_type_str_id oter_type_lab_stairs( "lab_stairs" );
 static const oter_type_str_id oter_type_microlab_sub_connector( "microlab_sub_connector" );
+static const oter_type_str_id oter_type_railroad_bridge( "railroad_bridge" );
 static const oter_type_str_id oter_type_road( "road" );
 static const oter_type_str_id oter_type_road_nesw_manhole( "road_nesw_manhole" );
 static const oter_type_str_id oter_type_sewer_connector( "sewer_connector" );
@@ -129,6 +130,7 @@ static const oter_type_str_id oter_type_solid_earth( "solid_earth" );
 static const oter_type_str_id oter_type_sub_station( "sub_station" );
 
 static const overmap_connection_id overmap_connection_forest_trail( "forest_trail" );
+static const overmap_connection_id overmap_connection_local_railroad( "local_railroad" );
 static const overmap_connection_id overmap_connection_local_road( "local_road" );
 static const overmap_connection_id overmap_connection_sewer_tunnel( "sewer_tunnel" );
 static const overmap_connection_id overmap_connection_subway_tunnel( "subway_tunnel" );
@@ -596,6 +598,12 @@ bool is_ot_match( const std::string &name, const oter_id &oter,
         return otype == oter->get_type_id().str();
     };
 
+    static const auto is_ot_subtype = []( const std::string & otype, const oter_id & oter ) {
+        // Is a match if the base type and linear subtype (end/straight/curved/tee/four_way) are the same which will allow for handling rotations of linear features
+        // but won't incorrectly match other locations that happen to contain the substring.
+        return otype == oter->get_mapgen_id();
+    };
+
     static const auto is_ot_prefix = []( const std::string & otype, const oter_id & oter ) {
         const size_t oter_size = oter.id().str().size();
         const size_t compare_size = otype.size();
@@ -617,7 +625,7 @@ bool is_ot_match( const std::string &name, const oter_id &oter,
         return oter_str.str()[compare_size] == '_';
     };
 
-    static const auto is_ot_subtype = []( const std::string & otype, const oter_id & oter ) {
+    static const auto is_ot_contains = []( const std::string & otype, const oter_id & oter ) {
         // Checks for any partial match.
         return strstr( oter.id().c_str(), otype.c_str() );
     };
@@ -627,10 +635,12 @@ bool is_ot_match( const std::string &name, const oter_id &oter,
             return is_ot( name, oter );
         case ot_match_type::type:
             return is_ot_type( name, oter );
+        case ot_match_type::subtype:
+            return is_ot_subtype( name, oter );
         case ot_match_type::prefix:
             return is_ot_prefix( name, oter );
         case ot_match_type::contains:
-            return is_ot_subtype( name, oter );
+            return is_ot_contains( name, oter );
         default:
             return false;
     }
@@ -2879,7 +2889,11 @@ void overmap::ter_set( const tripoint_om_omt &p, const oter_id &id )
 
     oter_id &val = layer[p.z() + OVERMAP_DEPTH].terrain[p.xy()];
     if( id->has_flag( oter_flags::requires_predecessor ) ) {
-        predecessors_[p].push_back( val );
+        const oter_type_id id_type = id->get_type_id();
+        // Stops linear fallback_predecessor maps (roads etc) spawning over themselves
+        if( !( id_type->is_linear() && id_type == val->get_type_id() ) ) {
+            predecessors_[p].push_back( val );
+        }
     }
     val = id;
 }
@@ -3278,11 +3292,6 @@ void overmap::generate( const overmap *north, const overmap *east,
                         const overmap *south, const overmap *west,
                         overmap_special_batch &enabled_specials )
 {
-    if( g->gametype() == special_game_type::DEFENSE ) {
-        dbg( D_INFO ) << "overmap::generate skipped in Defense special game mode!";
-        return;
-    }
-
     dbg( D_INFO ) << "overmap::generate start…";
 
     const std::string overmap_pregenerated_path =
@@ -3335,8 +3344,20 @@ void overmap::generate( const overmap *north, const overmap *east,
     if( get_option<bool>( "OVERMAP_PLACE_FOREST_TRAILS" ) ) {
         place_forest_trails();
     }
-    if( get_option<bool>( "OVERMAP_PLACE_ROADS" ) ) {
-        place_roads( north, east, south, west );
+    if( get_option<bool>( "OVERMAP_PLACE_RAILROADS_BEFORE_ROADS" ) ) {
+        if( get_option<bool>( "OVERMAP_PLACE_RAILROADS" ) ) {
+            place_railroads( north, east, south, west );
+        }
+        if( get_option<bool>( "OVERMAP_PLACE_ROADS" ) ) {
+            place_roads( north, east, south, west );
+        }
+    } else {
+        if( get_option<bool>( "OVERMAP_PLACE_ROADS" ) ) {
+            place_roads( north, east, south, west );
+        }
+        if( get_option<bool>( "OVERMAP_PLACE_RAILROADS" ) ) {
+            place_railroads( north, east, south, west );
+        }
     }
     if( get_option<bool>( "OVERMAP_PLACE_SPECIALS" ) ) {
         place_specials( enabled_specials );
@@ -3659,6 +3680,7 @@ bool overmap::generate_over( const int z )
 {
     bool requires_over = false;
     std::vector<point_om_omt> bridge_points;
+    std::vector<point_om_omt> railroad_bridge_points;
 
     // These are so common that it's worth checking first as int.
     const std::set<oter_id> skip_below = {
@@ -3682,16 +3704,26 @@ bool overmap::generate_over( const int z )
                     ter_set( p, oter_id( "bridge_road" + oter_get_rotation_string( oter_ground ) ) );
                     bridge_points.push_back( p.xy() );
                 }
+                if( oter_ground->get_type_id() == oter_type_railroad_bridge ) {
+                    ter_set( p, oter_id( "railroad_bridge_overpass" + oter_get_rotation_string( oter_ground ) ) );
+                    railroad_bridge_points.push_back( p.xy() );
+                }
             }
         }
     }
 
-    generate_bridgeheads( bridge_points );
+    generate_bridgeheads( bridge_points, oter_type_bridge,
+                          "bridgehead_ground", "bridgehead_ramp" );
+    generate_bridgeheads( railroad_bridge_points, oter_type_railroad_bridge,
+                          "railroad_bridgehead_ground", "railroad_bridgehead_ramp" );
 
     return requires_over;
 }
 
-void overmap::generate_bridgeheads( const std::vector<point_om_omt> &bridge_points )
+void overmap::generate_bridgeheads( const std::vector<point_om_omt> &bridge_points,
+                                    const oter_type_str_id bridge_type,
+                                    const std::string &bridgehead_ground,
+                                    const std::string &bridgehead_ramp )
 {
     std::vector<std::pair<point_om_omt, std::string>> bridgehead_points;
     for( const point_om_omt &bp : bridge_points ) {
@@ -3700,15 +3732,13 @@ void overmap::generate_bridgeheads( const std::vector<point_om_omt> &bridge_poin
         const oter_id oter_ground_south = ter( tripoint_om_omt( bp, 0 ) + tripoint_south );
         const oter_id oter_ground_east = ter( tripoint_om_omt( bp, 0 ) + tripoint_east );
         const oter_id oter_ground_west = ter( tripoint_om_omt( bp, 0 ) + tripoint_west );
-        const bool is_bridge_north = ( oter_ground_north->get_type_id() ==
-                                       oter_type_bridge )
+        const bool is_bridge_north = ( oter_ground_north->get_type_id() == bridge_type )
                                      && ( oter_get_rotation( oter_ground_north ) % 2 == 0 );
-        const bool is_bridge_south = ( oter_ground_south->get_type_id() ==
-                                       oter_type_bridge )
+        const bool is_bridge_south = ( oter_ground_south->get_type_id() == bridge_type )
                                      && ( oter_get_rotation( oter_ground_south ) % 2 == 0 );
-        const bool is_bridge_east = ( oter_ground_east->get_type_id() == oter_type_bridge )
+        const bool is_bridge_east = ( oter_ground_east->get_type_id() == bridge_type )
                                     && ( oter_get_rotation( oter_ground_east ) % 2 == 1 );
-        const bool is_bridge_west = ( oter_ground_west->get_type_id() == oter_type_bridge )
+        const bool is_bridge_west = ( oter_ground_west->get_type_id() == bridge_type )
                                     && ( oter_get_rotation( oter_ground_west ) % 2 == 1 );
 
         if( is_bridge_north ^ is_bridge_south || is_bridge_east ^ is_bridge_west ) {
@@ -3727,8 +3757,8 @@ void overmap::generate_bridgeheads( const std::vector<point_om_omt> &bridge_poin
     }
     for( const std::pair<point_om_omt, std::string> &bhp : bridgehead_points ) {
         tripoint_om_omt p( bhp.first, 0 );
-        ter_set( p, oter_id( "bridgehead_ground" + bhp.second ) );
-        ter_set( p + tripoint_above, oter_id( "bridgehead_ramp" + bhp.second ) );
+        ter_set( p, oter_id( bridgehead_ground + bhp.second ) );
+        ter_set( p + tripoint_above, oter_id( bridgehead_ramp + bhp.second ) );
     }
 }
 
@@ -4860,6 +4890,82 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
 
     // And finally connect them via roads.
     connect_closest_points( road_points, 0, *overmap_connection_local_road );
+}
+
+void overmap::place_railroads( const overmap *north, const overmap *east, const overmap *south,
+                               const overmap *west )
+{
+    // no railroads if there are no cities
+    int op_city_size = get_option<int>( "CITY_SIZE" );
+    if( op_city_size <= 0 ) {
+        return;
+    }
+    std::vector<tripoint_om_omt> &railroads_out = connections_out[overmap_connection_local_railroad];
+
+    // At least 3 exit points, to guarantee railroad continuity across overmaps
+    if( railroads_out.size() < 3 ) {
+
+        std::array<const overmap *, 4> neighbors = { east, south, west, north };
+        static constexpr std::array<point, 4> neighbor_deltas = {
+            point_east, point_south, point_west, point_north
+        };
+
+        // x and y coordinates for a point on the edge in each direction
+        // -1 represents a variable one dimensional coordinate along that edge
+        // east == point( OMAPX - 1, n ); north == point( n, 0 );
+        static constexpr std::array<int, 4> edge_coords_x = {OMAPX - 1, -1, 0, -1};
+        static constexpr std::array<int, 4> edge_coords_y = {-1, OMAPY - 1, -1, 0};
+
+        // all the points on an edge except the 10 on each end
+        std::array < int, OMAPX - 20 > omap_num;
+        for( int i = 0; i < OMAPX - 20; i++ ) {
+            omap_num[i] = i + 10;
+        }
+
+        std::array < size_t, 4 > dirs = {0, 1, 2, 3};
+        std::shuffle( dirs.begin(), dirs.end(), rng_get_engine() );
+
+        for( size_t dir : dirs ) {
+            // only potentially add a new random connection toward ungenerated overmaps
+            if( neighbors[dir] == nullptr ) {
+                std::shuffle( omap_num.begin(), omap_num.end(), rng_get_engine() );
+                for( const int &i : omap_num ) {
+                    tripoint_om_omt tmp = tripoint_om_omt(
+                                              edge_coords_x[dir] >= 0 ? edge_coords_x[dir] : i,
+                                              edge_coords_y[dir] >= 0 ? edge_coords_y[dir] : i,
+                                              0 );
+                    // Make sure these points don't conflict with rivers.
+                    if( !( is_river( ter( tmp ) ) ||
+                           // avoid adjacent rivers
+                           // east/west of a point on the north/south edge, and vice versa
+                           is_river( ter( tmp + neighbor_deltas[( dir + 1 ) % 4] ) ) ||
+                           is_river( ter( tmp + neighbor_deltas[( dir + 3 ) % 4] ) ) ) ) {
+                        railroads_out.push_back( tmp );
+                        break;
+                    }
+                }
+                if( railroads_out.size() == 3 ) {
+                    break;
+                }
+            }
+        }
+    }
+
+    std::vector<point_om_omt> railroad_points; // cities and railroads_out together
+    // Compile our master list of railroads; it's less messy if railroads_out is first
+    railroad_points.reserve( railroads_out.size() + cities.size() );
+    for( const auto &elem : railroads_out ) {
+        railroad_points.emplace_back( elem.xy() );
+    }
+    for( const city &elem : cities ) {
+        // place railroads in random point around the center of the city
+        railroad_points.emplace_back( random_entry(
+                                          points_in_radius( tripoint_om_omt( elem.pos, 0 ), elem.size * 4 ) ).xy()
+                                    );
+    }
+
+    // And finally connect them via railroads.
+    connect_closest_points( railroad_points, 0, *overmap_connection_local_railroad );
 }
 
 void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb )
@@ -6674,6 +6780,7 @@ std::string enum_to_string<ot_match_type>( ot_match_type data )
         // *INDENT-OFF*
         case ot_match_type::exact: return "EXACT";
         case ot_match_type::type: return "TYPE";
+        case ot_match_type::subtype: return "SUBTYPE";
         case ot_match_type::prefix: return "PREFIX";
         case ot_match_type::contains: return "CONTAINS";
         // *INDENT-ON*
@@ -6686,13 +6793,12 @@ std::string enum_to_string<ot_match_type>( ot_match_type data )
 
 static const std::array<std::string, 4> suffixes = {{ "_north", "_west", "_south", "_east" }};
 
-std::string oter_no_dir( const oter_id &oter )
+std::string_view oter_no_dir( const oter_id &oter )
 {
-    std::string base_oter_id = oter.id().str();
+    std::string_view base_oter_id = oter.id().str();
     for( const std::string &suffix : suffixes ) {
         if( string_ends_with( base_oter_id, suffix ) ) {
-            base_oter_id.erase( base_oter_id.end() - suffix.size(), base_oter_id.end() );
-            break;
+            base_oter_id = base_oter_id.substr( 0, base_oter_id.size() - suffix.size() );
         }
     }
     return base_oter_id;

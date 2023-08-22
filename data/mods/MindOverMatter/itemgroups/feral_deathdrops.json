@@ -163,11 +163,10 @@
           { "group": "textbooks", "prob": 25 },
           { "group": "feral_humans_crystal_drops_telekin", "prob": 50 },
           { "group": "feral_humans_crystal_drops_teep", "prob": 50 },
-          { "item": "id_science_visitor_phavian", "prob": 15 },
           { "group": "collection_force_field_and_note", "prob": 2 }
         ]
       },
-      { "group": "wallets_science", "damage": [ 1, 4 ], "prob": 15 }
+      { "group": "wallets_phavian", "damage": [ 1, 4 ], "prob": 15 }
     ]
   },
   {

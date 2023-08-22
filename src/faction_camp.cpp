@@ -1883,7 +1883,11 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
             }
             for( item *i : equipment ) {
                 int count = i->count();
-                target_map.use_charges( src_set_pt, i->typeId(), count );
+                if( i->count_by_charges() ) {
+                    target_map.use_charges( src_set_pt, i->typeId(), count );
+                } else {
+                    target_map.use_amount( src_set_pt, i->typeId(), count );
+                }
             }
             target_map.save();
         }
@@ -3196,8 +3200,8 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                         item *tmp_seed = seed_inv.back();
                         seed_inv.pop_back();
                         std::list<item> used_seed;
+                        used_seed.push_back( *tmp_seed );
                         if( tmp_seed->count_by_charges() ) {
-                            used_seed.push_back( *tmp_seed );
                             tmp_seed->charges -= 1;
                             if( tmp_seed->charges > 0 ) {
                                 seed_inv.push_back( tmp_seed );
@@ -3206,6 +3210,9 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                         used_seed.front().set_age( 0_turns );
                         farm_map.add_item_or_charges( pos, used_seed.front() );
                         farm_map.set( pos, t_dirt, f_plant_seed );
+                        if( !tmp_seed->count_by_charges() ) {
+                            comp->companion_mission_inv.remove_item( tmp_seed );
+                        }
                     }
                 }
                 break;
@@ -3290,20 +3297,25 @@ void basecamp::start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id 
                            _( "begins to harvest the field…" ), false, {}, skill_survival, 1, exertion_level );
             break;
         case farm_ops::plant: {
-            std::vector<item *> seed_inv = _inv.items_with( farm_valid_seed );
-            if( seed_inv.empty() ) {
-                popup( _( "You have no additional seeds to give your companions…" ) );
+            inventory_filter_preset seed_filter( []( const item_location & loc ) {
+                return loc->is_seed() && loc->typeId() != itype_marloss_seed && loc->typeId() != itype_fungal_seeds;
+            } );
+            drop_locations seed_selection = give_basecamp_equipment( seed_filter,
+                                            _( "Which seeds do you wish to have planted?" ), _( "Selected seeds" ),
+                                            _( "You have no additional seeds to give your companions…" ) );
+            if( seed_selection.empty() ) {
                 return;
             }
-            std::vector<item *> plant_these = give_equipment( seed_inv,
-                                              _( "Which seeds do you wish to have planted?" ) );
             size_t seed_cnt = 0;
-            for( item *seeds : plant_these ) {
-                size_t num_seeds = seeds->count();
-                if( seed_cnt + num_seeds > plots_cnt ) {
-                    num_seeds = plots_cnt - seed_cnt;
-                    seeds->charges = num_seeds;
+            std::vector<item *> to_plant;
+            for( std::pair<item_location, int> &seeds : seed_selection ) {
+                size_t num_seeds = seeds.second;
+                item_location seed = seeds.first;
+                seed.overflow();
+                if( seed->count_by_charges() ) {
+                    seed->charges = num_seeds;
                 }
+                to_plant.push_back( &*seed );
                 seed_cnt += num_seeds;
             }
 
@@ -3312,7 +3324,7 @@ void basecamp::start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id 
             }
             work += 1_minutes * seed_cnt;
             start_mission( miss_id, work, true,
-                           _( "begins planting the field…" ), false, plant_these,
+                           _( "begins planting the field…" ), false, to_plant,
                            skill_survival, 1, exertion_level );
             break;
         }
@@ -4706,26 +4718,21 @@ std::vector<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &start, 
 
 // camp utility functions
 // mission support functions
-std::vector<item *> basecamp::give_equipment( std::vector<item *> equipment,
-        const std::string &msg )
+drop_locations basecamp::give_basecamp_equipment( inventory_filter_preset &preset,
+        const std::string &title, const std::string &column_title, const std::string &msg_empty ) const
 {
-    std::vector<item *> equipment_lost;
-    do {
-        std::vector<std::string> names;
-        names.reserve( equipment.size() );
-        for( item *&i : equipment ) {
-            names.push_back( i->tname() + " [" + std::to_string( i->charges ) + "]" );
-        }
+    inventory_multiselector inv_s( get_player_character(), preset, column_title );
 
-        // Choose item if applicable
-        const int i_index = uilist( msg, names );
-        if( i_index < 0 || static_cast<size_t>( i_index ) >= equipment.size() ) {
-            return equipment_lost;
-        }
-        equipment_lost.push_back( equipment[i_index] );
-        equipment.erase( equipment.begin() + i_index );
-    } while( !equipment.empty() );
-    return equipment_lost;
+    inv_s.set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
+    inv_s.add_basecamp_items( *this );
+    inv_s.set_title( title );
+
+    if( inv_s.empty() ) {
+        popup( std::string( msg_empty ), PF_GET_KEY );
+        return {};
+    }
+    drop_locations selected = inv_s.execute();
+    return selected;
 }
 
 drop_locations basecamp::give_equipment( Character *pc, const inventory_filter_preset &preset,
