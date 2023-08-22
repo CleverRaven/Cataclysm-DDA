@@ -720,7 +720,7 @@
     "id": "style_kickboxing",
     "name": { "str": "Kickboxing" },
     "description": "A martial art that combines western boxing with elements of Karate, Taekwondo, Muay Thai, and Savate, particularly in the use of kicks.",
-    "initiate": [ "You bring your fists up and stay light on your feet.", "%s assumes a kickboxing stance." ],
+    "initiate": [ "You bring your fists up and stay light on your feet.", "%s brings their fists up and stays light on their feet." ],
     "learn_difficulty": 4,
     "arm_block": 2,
     "leg_block": 4,
