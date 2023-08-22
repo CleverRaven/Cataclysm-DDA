@@ -723,5 +723,38 @@
         ]
       }
     ]
-  }
+  },
+  {
+    "id": "effect_pfruit_attack_speed",
+    "type": "effect_type",
+    "name": [ "Blackberry Thorns" ],
+    "desc": [ "Anyone who attacks you will regret it." ],
+    "apply_message": "Long thorns grow through your skin, clothes, and armor.",
+    "remove_message": "The thorns vanish without a trace, leaving your gear unharmed.",
+    "rating": "good",
+    "show_intensity": false,
+   "enchantments": [ "enchant_pfruit_thorns" ]
+  },
+   {
+    "type": "enchantment",
+    "id": "enchant_pfruit_thorns",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "hit_me_effect": [ { "id": "pfruit_aura_thorns", "hit_self": false } ]
+  },
+  {
+    "id": "pfruit_aura_thorns",
+    "type": "SPELL",
+    "name": "Blackberry fruit aura thorns",
+    "description": "Stab a monster that attacked you.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_DAMAGE" ],
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "stab",
+    "min_damage": 1,
+    "max_damage": 4,
+    "min_range": 1,
+    "max_range": 1
+  },
 ]
