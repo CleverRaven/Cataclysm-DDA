@@ -144,9 +144,8 @@
     "category": [ "SPECIES_ELF" ],
     "enchantments": [
       {
-        "condition": 
-        { "or":
-          [
+        "condition": {
+          "or": [
             { "u_is_on_terrain": "t_tree_young" },
             { "u_is_on_terrain": "t_mega_fern" },
             { "u_is_on_terrain": "t_fungus_colony" },
