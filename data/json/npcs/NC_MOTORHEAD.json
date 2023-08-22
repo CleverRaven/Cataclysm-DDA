@@ -3,7 +3,13 @@
     "type": "item_group",
     "id": "NC_MOTORHEAD_pants",
     "subtype": "distribution",
-    "entries": [ { "item": "jeans", "prob": 70 }, { "item": "pants", "prob": 10 }, { "item": "pants_cargo", "prob": 20 } ]
+    "entries": [
+      { "item": "jeans", "prob": 60 },
+      { "item": "pants", "prob": 5 },
+      { "item": "motorbike_pants", "prob": 15 },
+      { "item": "pants_leather", "prob": 10 },
+      { "item": "pants_cargo", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
