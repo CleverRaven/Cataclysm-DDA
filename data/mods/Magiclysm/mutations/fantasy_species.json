@@ -1,13 +1,230 @@
 [
   {
+    "type": "mutation_category",
+    "id": "SPECIES_DWARF",
+    "name": "Dwarf",
+    "threshold_mut": "THRESH_SPECIES_DWARF",
+    "mutagen_message": "Your heart beats in time with the rhythm of the Earth.",
+    "vitamin": "mutagen_species_dwarf",
+    "memorial_message": "Entered the halls of the King Under the Mountain.",
+    "base_removal_chance": 0
+  },
+  {
+    "type": "mutation_category",
+    "id": "SPECIES_ELF",
+    "name": "Elf",
+    "threshold_mut": "THRESH_SPECIES_ELF",
+    "mutagen_message": "You hear the songs of nature.",
+    "vitamin": "mutagen_species_elf",
+    "memorial_message": "Passed into the West.",
+    "base_removal_chance": 0
+  },
+  {
+    "type": "mutation_category",
+    "id": "SPECIES_LIZARDFOLK",
+    "name": "Lizardfolk",
+    "threshold_mut": "THRESH_SPECIES_LIZARDFOLK",
+    "mutagen_message": "You remember the warmth of your home swamps.",
+    "vitamin": "mutagen_species_lizardfolk",
+    "memorial_message": "Returned to the World Egg.",
+    "base_removal_chance": 0
+  },
+  {
     "type": "mutation",
     "id": "BORN_ARTISAN",
-    "name": { "str": "Born Artisan" },
-    "points": 1,
+    "name": { "str": "Earthborn Artisan" },
+    "description": "Born from the living earth, your people are naturally adept at the manipulation of the physical world.",
+    "points": 3,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Born from the living earth, your people are naturally adept at the manipulation of the natural world.",
+    "category": [ "SPECIES_DWARF" ],
+    "threshreq": [ "THRESH_SPECIES_DWARF" ],
     "crafting_speed_multiplier": 1.1
+  },
+  {
+    "type": "mutation",
+    "id": "DARKSIGHT",
+    "name": { "str": "Darksight" },
+    "description": "Long ages underground have made your people capable of seeing into the infrared spectrum.",
+    "points": 5,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "types": [ "VISION" ],
+    "flags": [ "INFRARED" ],
+    "category": [ "SPECIES_DWARF" ],
+    "threshreq": [ "THRESH_SPECIES_DWARF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DWARVEN_BUILD",
+    "name": { "str": "Dwarven Build" },
+    "//": "Slightly better version of STOCKY_TROGLO since dwarves are born this way",
+    "purifiable": false,
+    "points": 1,
+    "visibility": 3,
+    "ugliness": 0,
+    "description": "Dwarves are smaller than humans, the better to deal with confined spaces underground, but as solid as the mountains (+2 STR, -1 DEX).",
+    "category": [ "SPECIES_DWARF" ],
+    "threshreq": [ "THRESH_SPECIES_DWARF" ],
+    "passive_mods": { "str_mod": 2, "dex_mod": -1 }
+  },
+  {
+    "type": "mutation",
+    "id": "ALCMET",
+    "copy-from": "ALCMET",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TUNNEL_FIGHTER",
+    "copy-from": "TUNNEL_FIGHTER",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ELVEN_BUILD",
+    "name": { "str": "Elven Build" },
+    "//": "Opposite of Dwarven Build!",
+    "purifiable": false,
+    "points": 1,
+    "visibility": 3,
+    "ugliness": 0,
+    "description": "Elves are more lithe and frail than humans, but possess an almost otherworldly grace (-1 STR, +2 DEX).",
+    "category": [ "SPECIES_ELF" ],
+    "threshreq": [ "THRESH_SPECIES_ELF" ],
+    "passive_mods": { "str_mod": -1, "dex_mod": 2 }
+  },
+  {
+    "type": "mutation",
+    "id": "ELVEN_BEAUTY",
+    "name": { "str": "Passing Fair" },
+    "purifiable": false,
+    "points": 4,
+    "visibility": 8,
+    "ugliness": -8,
+    "description": "The elves are often called the \"Fair Folk\" due to their preternatural beauty, and you are no exception to this custom.",
+    "types": [ "ATTRACTIVENESS" ],
+    "category": [ "SPECIES_ELF" ],
+    "threshreq": [ "THRESH_SPECIES_ELF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELVEN_HEARING",
+    "purifiable": false,
+    "points": 2,
+    "description": "Your delicate pointed ears allow you to hear all the sounds of the world.",
+    "types": [ "HEARING" ],
+    "category": [ "SPECIES_ELF" ],
+    "threshreq": [ "THRESH_SPECIES_ELF" ],
+    "flags": [ "SUPER_HEARING" ],
+    "hearing_modifier": 1.75
+  },
+  {
+    "type": "mutation",
+    "id": "ELVEN_SLEEP",
+    "points": 4,
+    "description": "Rather than sleep insensate like humans do, you blend living night and dreams into a harmonious whole.  You are not bothered by light levels, and need much less sleep per night.",
+    "purifiable": false,
+    "types": [ "SLEEP" ],
+    "category": [ "SPECIES_ELF" ],
+    "threshreq": [ "THRESH_SPECIES_ELF" ],
+    "flags": [ "SEESLEEP" ],
+    "fatigue_modifier": -0.333,
+    "fatigue_regen_modifier": 0.333
+  },
+  {
+    "type": "mutation",
+    "id": "WILDWALKER",
+    "name": { "str": "Natural Stride" },
+    "points": 3,
+    "description": "The elves were born of nature and the elements, and long ages under the trees allow them to quickly pass through their forest homes.",
+    "//": "terrains below copied from the druid caster level boost.",
+    "category": [ "SPECIES_ELF" ],
+    "enchantments": [
+      {
+        "condition": 
+        { "or":
+          [
+            { "u_is_on_terrain": "t_tree_young" },
+            { "u_is_on_terrain": "t_mega_fern" },
+            { "u_is_on_terrain": "t_fungus_colony" },
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain": "t_bamboo_long" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_is_on_terrain": "t_bamboo" },
+            { "u_is_on_terrain": "t_bamboo_harvested" },
+            { "u_is_on_terrain": "t_underbrush_harvested_winter" },
+            { "u_is_on_terrain": "t_grass" },
+            { "u_is_on_terrain": "t_grass_white" },
+            { "u_is_on_terrain": "t_moss" },
+            { "u_is_on_terrain": "t_forestfloor" }
+          ]
+        },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELFAEYES",
+    "copy-from": "ELFAEYES",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ELFA_NV",
+    "copy-from": "ELFA_NV",
+    "extend": { "category": [ "SPECIES_ELF" ] },
+    "extend": { "threshreq": [ "THRESH_SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALEMPATH",
+    "copy-from": "ANIMALEMPATH",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALEMPATH2",
+    "copy-from": "ANIMALEMPATH2",
+    "extend": { "category": [ "SPECIES_ELF" ] },
+    "extend": { "threshreq": [ "THRESH_SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "WEBBED_LIZ_FEET",
+    "name": { "str": "Webbed Feet" },
+    "\\": "Alternate so webbed hands are not a prerequisite",
+    "points": 1,
+    "types": [ "FEET" ],
+    "description": "Your feet are heavily webbed, allowing you to swim faster if you aren't wearing footwear.",
+    "category": [ "SPECIES_LIZARDFOLK" ],
+    "flags": [ "WEBBED_FEET", "TOUGH_FEET" ],
+    "wet_protection": [ { "part": "foot_l", "good": 6 }, { "part": "foot_r", "good": 6 } ]
+  },
+  {
+    "type": "mutation",
+    "id": "GILLS",
+    "copy-from": "GILLS",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] },
+    "extend": { "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "COLDBLOOD4",
+    "copy-from": "COLDBLOOD4",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] },
+    "extend": { "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LARGE_OK",
+    "copy-from": "LARGE_OK",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] },
+    "extend": { "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ] }
   }
 ]
