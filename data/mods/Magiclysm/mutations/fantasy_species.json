@@ -139,7 +139,7 @@
     "copy-from": "HIRSUTE",
     "extend": { "category": [ "SPECIES_DWARF" ] }
   },
-    {
+  {
     "type": "mutation",
     "id": "GOODCARDIO",
     "copy-from": "GOODCARDIO",
