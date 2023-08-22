@@ -11900,9 +11900,12 @@ void Character::process_items()
 
     // Load all items that use the UPS and have their own battery to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
-    const auto inv_use_ups = items_with( []( const item & itm ) {
-        return itm.has_flag( flag_USE_UPS ) && itm.ammo_data();
-    } );
+    std::vector<item *> inv_use_ups;
+    for( item *flagged_item : all_items_with_flag( flag_USE_UPS ) ) {
+        if( flagged_item->ammo_data() ) {
+            inv_use_ups.push_back( flagged_item );
+        }
+    }
     if( !inv_use_ups.empty() ) {
         const units::energy available_charges = available_ups();
         units::energy ups_used = 0_kJ;

@@ -7363,9 +7363,7 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint & 
             }
         }
 
-        std::vector<item *> radio_containers = p->items_with( []( const item & itm ) {
-            return itm.has_flag( flag_RADIO_CONTAINER );
-        } );
+        std::set<item *> radio_containers = p->all_items_with_flag( flag_RADIO_CONTAINER );
 
         for( item *items : radio_containers ) {
             item *itm = items->get_item_with( [&]( const item & c ) {
