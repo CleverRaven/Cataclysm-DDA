@@ -231,7 +231,7 @@ class outfit
         const item &i_at( int position ) const;
 
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const;
-        std::list<item> remove_items_with( Character &guy,
+        std::list<item> remove_items_with( Character *carrier,
                                            const std::function<bool( const item & )> &filter, int &count );
 
         void organize_items_menu();

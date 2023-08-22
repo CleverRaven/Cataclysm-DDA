@@ -554,9 +554,29 @@ item visitable::remove_item( item &it )
     }
 }
 
+item item::remove_item( item &it, Character *carrier )
+{
+    auto obj = remove_items_with( carrier, [&it]( const item & e ) {
+        return &e == &it;
+    }, 1 );
+    if( !obj.empty() ) {
+        return obj.front();
+
+    } else {
+        debugmsg( "Tried removing item from object which did not contain it" );
+        return item();
+    }
+}
+
 /** @relates visitable */
-std::list<item> item::remove_items_with( const std::function<bool( const item &e )>
-        &filter, int count )
+std::list<item> item::remove_items_with( const std::function<bool( const item &e )> &filter,
+        int count )
+{
+    return remove_items_with( nullptr, filter, count );
+}
+
+std::list<item> item::remove_items_with( Character *carrier,
+        const std::function<bool( const item &e )> &filter, int count )
 {
     std::list<item> res;
 
@@ -565,13 +585,20 @@ std::list<item> item::remove_items_with( const std::function<bool( const item &e
         return res;
     }
 
-    contents.remove_internal( filter, count, res );
+    contents.remove_internal( filter, count, res, carrier );
     return res;
 }
 
 /** @relates visitable */
-std::list<item> inventory::remove_items_with( const
-        std::function<bool( const item &e )> &filter, int count )
+std::list<item> inventory::remove_items_with( const std::function<bool( const item &e )> &filter,
+        int count )
+{
+    return remove_items_with( nullptr, filter, count );
+}
+
+/** @relates visitable */
+std::list<item> inventory::remove_items_with( Character *carrier,
+        const std::function<bool( const item &e )> &filter, int count )
 {
     std::list<item> res;
 
@@ -587,6 +614,9 @@ std::list<item> inventory::remove_items_with( const
         for( auto istack_iter = istack.begin(); istack_iter != istack.end() && count > 0; ) {
             if( filter( *istack_iter ) ) {
                 count--;
+                if( carrier ) {
+                    carrier->remove_from_flagged_item_cache( *istack_iter );
+                }
                 res.splice( res.end(), istack, istack_iter++ );
                 // The non-first items of a stack may have different invlets, the code
                 // in inventory only ever checks the invlet of the first item. This
@@ -597,7 +627,7 @@ std::list<item> inventory::remove_items_with( const
                 }
 
             } else {
-                istack_iter->remove_internal( filter, count, res );
+                istack_iter->remove_internal( filter, count, res, carrier );
                 ++istack_iter;
             }
         }
@@ -615,19 +645,20 @@ std::list<item> inventory::remove_items_with( const
     return res;
 }
 
-std::list<item> outfit::remove_items_with( Character &guy,
+std::list<item> outfit::remove_items_with( Character *carrier,
         const std::function<bool( const item & )> &filter, int &count )
 {
     std::list<item> res;
     for( auto iter = worn.begin(); iter != worn.end(); ) {
         if( filter( *iter ) ) {
-            iter->on_takeoff( guy );
+            iter->on_takeoff( *carrier );
+            carrier->remove_from_flagged_item_cache( *iter );
             res.splice( res.end(), worn, iter++ );
             if( --count == 0 ) {
                 return res;
             }
         } else {
-            iter->remove_internal( filter, count, res );
+            iter->remove_internal( filter, count, res, carrier );
             if( count == 0 ) {
                 return res;
             }
@@ -638,8 +669,8 @@ std::list<item> outfit::remove_items_with( Character &guy,
 }
 
 /** @relates visitable */
-std::list<item> Character::remove_items_with( const
-        std::function<bool( const item &e )> &filter, int count )
+std::list<item> Character::remove_items_with( const std::function<bool( const item &e )> &filter,
+        int count )
 {
     std::list<item> res;
 
@@ -649,14 +680,14 @@ std::list<item> Character::remove_items_with( const
     }
 
     // first try and remove items from the inventory
-    res = inv->remove_items_with( filter, count );
+    res = inv->remove_items_with( this, filter, count );
     count -= res.size();
     if( count == 0 ) {
         return res;
     }
 
     // then try any worn items
-    std::list<item> worn_res = worn.remove_items_with( *this, filter, count );
+    std::list<item> worn_res = worn.remove_items_with( this, filter, count );
     res.insert( res.end(), worn_res.begin(), worn_res.end() );
 
     if( count > 0 ) {
@@ -673,8 +704,8 @@ std::list<item> Character::remove_items_with( const
 }
 
 /** @relates visitable */
-std::list<item> map_cursor::remove_items_with( const
-        std::function<bool( const item &e )> &filter, int count )
+std::list<item> map_cursor::remove_items_with( const std::function<bool( const item &e )> &filter,
+        int count )
 {
     std::list<item> res;
 
@@ -718,8 +749,8 @@ std::list<item> map_cursor::remove_items_with( const
 }
 
 /** @relates visitable */
-std::list<item> map_selector::remove_items_with( const
-        std::function<bool( const item &e )> &filter, int count )
+std::list<item> map_selector::remove_items_with( const std::function<bool( const item &e )> &filter,
+        int count )
 {
     std::list<item> res;
 
@@ -733,8 +764,8 @@ std::list<item> map_selector::remove_items_with( const
 }
 
 /** @relates visitable */
-std::list<item> vehicle_cursor::remove_items_with( const
-        std::function<bool( const item &e )> &filter, int count )
+std::list<item> vehicle_cursor::remove_items_with( const std::function<bool( const item &e )>
+        &filter, int count )
 {
     std::list<item> res;
 
@@ -775,8 +806,8 @@ std::list<item> vehicle_cursor::remove_items_with( const
 }
 
 /** @relates visitable */
-std::list<item> vehicle_selector::remove_items_with( const
-        std::function<bool( const item &e )> &filter, int count )
+std::list<item> vehicle_selector::remove_items_with( const std::function<bool( const item &e )>
+        &filter, int count )
 {
     std::list<item> res;
 

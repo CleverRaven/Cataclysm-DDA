@@ -14400,9 +14400,9 @@ int item::get_recursive_disassemble_moves( const Character &guy ) const
 }
 
 void item::remove_internal( const std::function<bool( item & )> &filter,
-                            int &count, std::list<item> &res )
+                            int &count, std::list<item> &res, Character *carrier )
 {
-    contents.remove_internal( filter, count, res );
+    contents.remove_internal( filter, count, res, carrier );
 }
 
 std::list<const item *> item::all_items_top() const

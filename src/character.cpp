@@ -2938,6 +2938,7 @@ std::list<item *> Character::get_dependent_worn_items( const item &it )
 item Character::remove_weapon()
 {
     item tmp = weapon;
+    remove_from_flagged_item_cache( weapon );
     weapon = item();
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     cached_info.erase( "weapon_value" );
@@ -8884,20 +8885,51 @@ bool Character::in_sleep_state() const
 
 bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) const
 {
-    return has_item_with( [&flag, &need_charges, this]( const item & it ) {
-        if( it.is_tool() && need_charges ) {
-            return it.has_flag( flag ) && ( it.type->tool->max_charges == 0 ||
-                                            it.ammo_remaining( this ) > 0 );
+    for( const item *it : all_items_with_flag( flag ) ) {
+        if( !need_charges || !it->is_tool() || it->type->tool->max_charges == 0 ||
+            it->ammo_remaining( this ) > 0 ) {
+            return true;
         }
-        return it.has_flag( flag );
-    } );
+    }
+    return false;
 }
 
-std::vector<const item *> Character::all_items_with_flag( const flag_id &flag ) const
+std::set<item *> &Character::all_items_with_flag( const flag_id &flag ) const
 {
-    return items_with( [&flag]( const item & it ) {
+    auto iter = flagged_item_cache.find( flag );
+
+    // If the flag set already exists in the cache, return it.
+    if( iter != flagged_item_cache.end() ) {
+        return iter->second;
+    }
+
+    // Otherwise, add a new flag set to the cache and populate with all appropriate items in the inventory. Empty sets are still created.
+    std::vector<const item *> items_with_flag = items_with( [&flag]( const item & it ) {
         return it.has_flag( flag );
     } );
+    for( const item *it : items_with_flag ) {
+        flagged_item_cache[flag].insert( const_cast<item *>( it ) );
+    }
+    return flagged_item_cache[flag];
+}
+
+void Character::add_to_flagged_item_cache( item &it ) const
+{
+    for( auto &flagged_items : flagged_item_cache ) {
+        if( it.has_flag( flagged_items.first ) ) {
+            flagged_items.second.insert( &it );
+        }
+    }
+}
+
+void Character::remove_from_flagged_item_cache( item &it ) const
+{
+    if( flagged_item_cache.empty() ) {
+        return;
+    }
+    for( auto &flagged_items : flagged_item_cache ) {
+        flagged_items.second.erase( &it );
+    }
 }
 
 bool Character::has_charges( const itype_id &it, int quantity,
@@ -8994,7 +9026,7 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from inventory
     if( qty != 0_kJ ) {
-        std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
+        std::set<item *> &ups_items = all_items_with_flag( flag_IS_UPS );
         for( const item *i : ups_items ) {
             if( i->is_tool() && i->type->tool->fuel_efficiency >= 0 ) {
                 qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr,
@@ -9275,9 +9307,18 @@ void Character::enchantment_wear_change()
 
 void Character::on_item_acquire( const item &it )
 {
-    if( is_avatar() && it.has_item_with( []( const item & it ) {
-    return it.has_flag( flag_ZOOM );
-    } ) ) {
+    bool check_for_zoom = is_avatar();
+    bool update_overmap_seen = false;
+
+    it.visit_items( [this, &check_for_zoom, &update_overmap_seen]( item * cont_it, item * ) {
+        add_to_flagged_item_cache( *cont_it );
+        if( check_for_zoom && !update_overmap_seen && cont_it->has_flag( flag_ZOOM ) ) {
+            update_overmap_seen = true;
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    if( update_overmap_seen ) {
         g->update_overmap_seen();
     }
 }

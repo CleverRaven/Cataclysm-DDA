@@ -2762,7 +2762,7 @@ void iexamine::fertilize_plant( Character &you, const tripoint &tile,
 itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
                                       bool ask_player )
 {
-    std::vector<const item *> f_inv = you.all_items_with_flag( flag_FERTILIZER );
+    std::set<item *> &f_inv = you.all_items_with_flag( flag_FERTILIZER );
     if( f_inv.empty() ) {
         add_msg( m_info, _( "You have no fertilizer for the %s." ), pname );
         return itype_id();
@@ -2770,7 +2770,7 @@ itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
 
     std::vector<itype_id> f_types;
     std::vector<std::string> f_names;
-    for( const item *&f : f_inv ) {
+    for( const item * const &f : f_inv ) {
         if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
             f_types.push_back( f->typeId() );
             f_names.push_back( f->tname() );
