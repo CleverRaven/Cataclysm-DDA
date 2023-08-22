@@ -150,12 +150,7 @@
     "faction": "free_merchants",
     "per": -20,
     "dex": -20,
-    "personality": {
-      "aggression": -100,
-      "bravery": -100,
-      "collector": 0,
-      "altruism": 0
-    }
+    "personality": { "aggression": -100, "bravery": -100, "collector": 0, "altruism": 0 }
   },
   {
     "type": "npc_class",
