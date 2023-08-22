@@ -810,5 +810,20 @@
     "min_duration": 15000,
     "max_duration": 90000,
     "duration_increment": 3000
+  },
+  {
+    "id": "pfruit_blackberry_thorns",
+    "type": "SPELL",
+    "name": "Eat the handful of blackberry potion fruits",
+    "description": "The spell cast when you eat a handful of blackberry potion fruits.  It's a bug if you see this.  Name is so it displays in the UI.",
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "effect_pfruit_thorns",
+    "shape": "blast",
+    "flags": [ "SILENT" ],
+    "max_level": 25,
+    "min_duration": 15000,
+    "max_duration": 90000,
+    "duration_increment": 3000
   }
 ]
