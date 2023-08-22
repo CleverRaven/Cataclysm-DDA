@@ -68,19 +68,19 @@
     "type": "mutation",
     "id": "LIZ_EYE",
     "copy-from": "LIZ_EYE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "LIZ_IR",
     "copy-from": "LIZ_IR",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "FASTHEALER",
     "copy-from": "FASTHEALER",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
@@ -92,7 +92,7 @@
     "type": "mutation",
     "id": "MEMBRANE",
     "copy-from": "MEMBRANE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
@@ -104,13 +104,13 @@
     "type": "mutation",
     "id": "SPARSE_SCALES",
     "copy-from": "SPARSE_SCALES",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "SCALES",
     "copy-from": "SCALES",
-    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "DRAGON_SCALES_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ], "changes_to": [ "DRAGON_SCALES_BLACK" ] }
   },
   {
     "type": "mutation",
@@ -394,7 +394,7 @@
     "type": "mutation",
     "id": "SLIT_NOSTRILS",
     "copy-from": "SLIT_NOSTRILS",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
@@ -434,7 +434,7 @@
     "type": "mutation",
     "id": "FORKED_TONGUE",
     "copy-from": "FORKED_TONGUE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
@@ -469,7 +469,7 @@
     "type": "mutation",
     "id": "WEAKSTOMACH",
     "copy-from": "WEAKSTOMACH",
-    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED", "SPECIES_ELF" ] }
   },
   {
     "type": "mutation",
@@ -570,7 +570,7 @@
     "type": "mutation",
     "id": "HISS",
     "copy-from": "HISS",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
@@ -759,13 +759,13 @@
     "type": "mutation",
     "id": "PRED1",
     "copy-from": "PRED1",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ], "threshreq": [ "THRESH_DRAGON_BLACK", "THRESH_SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "PRED2",
     "copy-from": "PRED2",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ], "threshreq": [ "THRESH_DRAGON_BLACK", "THRESH_SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
