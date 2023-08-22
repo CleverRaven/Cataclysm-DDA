@@ -13,10 +13,20 @@
     "type": "COMESTIBLE",
     "id": "potion_fruit_peach",
     "name": { "str": "potion fruit (peach)" },
-    "description": "An peach infused with mana.  It will cure illness if you eat it.",
+    "description": "A peach infused with mana.  It will cure illness if you eat it.",
     "copy-from": "peach",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "30 days",
     "use_action": { "type": "cast_spell", "spell_id": "pfruit_peach_heal", "no_fail": true, "level": 0 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "potion_fruit_pear",
+    "name": { "str": "potion fruit (pear)" },
+    "description": "A pear infused with mana.  It will allow your blows to strike quicker if you eat it.",
+    "copy-from": "peach",
+    "proportional": { "quench": 0.5, "calories": 0.5 },
+    "spoils_in": "40 days",
+    "use_action": { "type": "cast_spell", "spell_id": "pfruit_pear_attack_speed", "no_fail": true, "level": 0 }
   }
 ]
