@@ -10,6 +10,16 @@
     "base_removal_chance": 0
   },
   {
+    "type": "mutation",
+    "id": "THRESH_SPECIES_DWARF",
+    "name": { "str": "Child of the Stone" },
+    "points": 1,
+    "description": "Trust the humans to make a mess of the world.  Trust a dwarf to rebuild it better than they found it.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
     "id": "mutagen_species_dwarf",
     "type": "vitamin",
     "vit_type": "counter",
@@ -31,6 +41,16 @@
     "base_removal_chance": 0
   },
   {
+    "type": "mutation",
+    "id": "THRESH_SPECIES_ELF",
+    "name": { "str": "Firstborn" },
+    "points": 1,
+    "description": "The first elves sprang forth from magic and moonlight before the ancestors of humanity stopped scurrying through the underbrush to avoid the dinosaurs.  You won't let that legacy die with you.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
     "id": "mutagen_species_elf",
     "type": "vitamin",
     "vit_type": "counter",
@@ -50,6 +70,16 @@
     "vitamin": "mutagen_species_lizardfolk",
     "memorial_message": "Returned to the World Egg.",
     "base_removal_chance": 0
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_SPECIES_LIZARDFOLK",
+    "name": { "str": "Scaled One" },
+    "points": 1,
+    "description": "The old world was nothing like your home swamps, but this new world is something you understand.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
   },
   {
     "id": "mutagen_species_lizardfolk",
