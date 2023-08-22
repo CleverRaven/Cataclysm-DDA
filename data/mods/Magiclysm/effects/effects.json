@@ -680,5 +680,31 @@
     "show_intensity": true,
     "max_intensity": 25,
     "int_add_val": 1
+  },
+  {
+    "id": "effect_pfruit_heal",
+    "type": "effect_type",
+    "name": [ "Restore Flesh and Bone" ],
+    "desc": [ "Thanks to that apple, your wounds are slowly healing." ],
+    "apply_message": "Your flesh and bones start to knit together before your eyes.",
+    "remove_message": "Your regeneration slows down.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "intermittent_activation": { "effects": [ { "frequency": "30 seconds", "spell_effects": [ { "id": "pfruit_regeneration_spell" } ] } ] }
+      }
+    ]
+  },
+  {
+    "id": "herbalism_pfruit_peach_heal",
+    "type": "effect_type",
+    "name": [ "Ward off Miasma" ],
+    "desc": [ "No illness is going to get you down now." ],
+    "apply_message": "You feel revitalized.",
+    "remove_message": "You cough as the peach's magic fades.",
+    "rating": "good",
+    "show_intensity": false,
+    "removes_effects": [ "scurvy", "redcells_anemia", "anemia", "toxin_buildup", "common_cold", "flu" ]
   }
 ]
