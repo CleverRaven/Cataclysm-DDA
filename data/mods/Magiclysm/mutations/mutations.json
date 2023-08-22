@@ -56,7 +56,7 @@
     "id": "HOARDER",
     "copy-from": "HOARDER",
     "valid": true,
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
@@ -74,7 +74,7 @@
     "type": "mutation",
     "id": "LIZ_IR",
     "copy-from": "LIZ_IR",
-    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
+    "extend": { "category": [ "DRAGON_BLACK" ] }
   },
   {
     "type": "mutation",
@@ -86,7 +86,7 @@
     "type": "mutation",
     "id": "REGEN_LIZ",
     "copy-from": "REGEN_LIZ",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ], "threshreq": [ "THRESH_DRAGON_BLACK", "THRESH_SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
