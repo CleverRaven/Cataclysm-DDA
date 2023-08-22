@@ -3354,7 +3354,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 scen = get_scenario();
             }
             scen->change_start_of_cataclysm( calendar_ui::select_time_point( scen->start_of_cataclysm(),
-                                             "Select cataclysm start date" ) );
+                                             "Select cataclysm start date", calendar_ui::granularity::hour ) );
             details_recalc = true;
         } else if( action == "CHANGE_START_OF_GAME" ) {
             const scenario *scen = sorted_scens[cur_id];
@@ -3362,7 +3362,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 scen = get_scenario();
             }
             scen->change_start_of_game( calendar_ui::select_time_point( scen->start_of_game(),
-                                        "Select game start date" ) );
+                                        "Select game start date", calendar_ui::granularity::hour ) );
             details_recalc = true;
         } else if( action == "RESET_CALENDAR" ) {
             const scenario *scen = sorted_scens[cur_id];
@@ -4205,11 +4205,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         } else if( action == "CHANGE_START_OF_CATACLYSM" ) {
             const scenario *scen = get_scenario();
             scen->change_start_of_cataclysm( calendar_ui::select_time_point( scen->start_of_cataclysm(),
-                                             "Select cataclysm start date" ) );
+                                             "Select cataclysm start date", calendar_ui::granularity::hour ) );
         } else if( action == "CHANGE_START_OF_GAME" ) {
             const scenario *scen = get_scenario();
             scen->change_start_of_game( calendar_ui::select_time_point( scen->start_of_game(),
-                                        "Select game start date" ) );
+                                        "Select game start date", calendar_ui::granularity::hour ) );
         } else if( action == "RESET_CALENDAR" ) {
             get_scenario()->reset_calendar();
         } else if( action == "CHOOSE_CITY" ) {

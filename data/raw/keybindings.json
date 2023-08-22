@@ -2753,6 +2753,17 @@
   },
   {
     "type": "keybinding",
+    "id": "RESET",
+    "category": "CALENDAR_UI",
+    "name": "Reset time point to initial value",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "r" },
+      { "input_method": "keyboard_char", "key": "R" },
+      { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
     "name": "View scent map",
     "category": "DEFAULTMODE",
     "id": "debug_scent"
