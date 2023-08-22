@@ -768,7 +768,10 @@
     "type": "mutation",
     "id": "PRED2",
     "copy-from": "PRED2",
-    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ], "threshreq": [ "THRESH_DRAGON_BLACK", "THRESH_SPECIES_LIZARDFOLK" ] }
+    "extend": {
+      "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK", "THRESH_SPECIES_LIZARDFOLK" ]
+    }
   },
   {
     "type": "mutation",
