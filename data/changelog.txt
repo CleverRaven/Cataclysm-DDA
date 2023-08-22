@@ -43,12 +43,7 @@ In-game Armor sprite change
 Cockroaches flee light, hide under furniture, eat corpses, and breed faster when fed
 Cataclysm and game start dates are to be set through scenarios
 Friendly NPC crafting by crafting menu
-Corpses are now their own separate category and have a zone
-Vehicle improvements: togglable pre-collision system and foldable turrets
 Functionality to drop items off ledges/cliffs onto creatures below
-Add a recipe filter for activity level
-magazine tools now have their own item category and zone
-Allow free selection of cataclysm and game start dates in new character menu
 Railroads mod
 
 
@@ -85,12 +80,6 @@ Add a synagogue
 Adds a chance for small, personal photographs to spawn within people’s wallets and creates a starting pool of 34 snippets from which to pull.
 Adds curved road bends, rotaries and rest stops/laybys
 JSONify Defense Mode
-Add a new weapon, the varmint air rifle.
-Revamp one variant of gun stores
-campus interiors and great library faction
-Sonia can now play her guitar.
-Add iced tea and iced coffee
-Add diversity to amphibian species to reflect other animal varieties in game and set space to expand monstrous amphibian mutants (and their zombified remains).
 
 
 ## Interface:
@@ -113,8 +102,6 @@ Change description of highlighted regions when editing the overmap
 Detailed information for stats on character creation menu
 Larger and more I18n-friendly safemode UI
 Enable/disable showing several non-player-related messages in the log
-Show Tutorial on top level in main menu
-Multiselector menu for selecting seeds for basecamp farm missions
 
 
 ## Mods:
@@ -150,19 +137,7 @@ Add the Mind Over Matter mod to the CDDA repository
 [Magiclysm] Add a spell-using feral human to Magiclysm
 [MoM] Add telepathic and telekinetic damage types
 [MoM] Mind Over Matter-specific Research facility overhaul
-Add new powers, part 4
-Make nether waves easier in Defense Mode.
-Add many more snippets and reorganize itemgroups
- Revamp crystal fields and nether crystal map extra
-Add some mod compatibility to Defense Mode.
-Add Megafauna cross-compatibility to Defense Mode.
-Remove PLASTIC flag from Eater
-Mathify and jmathify practice recipes
-Consolidate awakening EoCs and check for awakened status on game start
-Update lifting field description
-XE Paraclesians
-Add phavian scientists map extra
-Add more feral psion attacks and fix current bugged attacks
+[XE] Paraclesians: Elemental Races
 
 
 ## Balance:
@@ -194,10 +169,6 @@ Adds a mutable stream to the mapgen
 Limit the times assassins can try to kill you.
 Increase plastic variety, adjust plastics to be more realistic in terms of protection
 Characters start with basic skills from their previous life
-Keep assassins from spawning on top of the player
-less calorie-dense seed availability
-Arcade machine appliance provides cloudy light
-Adjust spear strap max weight to be able to hold heavy crowbar
 
 
 ## Bugfixes:
@@ -266,15 +237,7 @@ Make sure overconfident officers reliably drop their guns
 [MoM] Fix zombie telepathic stuns
 Fix appliance power drain display right after plugging in/unplugging device
 Fix items and furniture being deleted from grappling hook usage
-Smoking racks delete calories of fishes and fruits
-correct two spawns of lab chemicals
-Fix everglow flashlight
-Fix some new bugs with Defense Mode
-Replaces the kitchen tongs with metalworking tongs in Magiclysm metalworking recipes.
-Fix NPC craft on the table in vehicle
 Randomly generated characters are now aged appropriately to their profession
-Remove STYLISH from Felicity Powell
-Stop getting Zachary's mission multiple times.
 
 
 ## Performance:
