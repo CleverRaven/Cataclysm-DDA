@@ -1032,10 +1032,10 @@ static void draw_speed_tab( ui_adaptor &ui, const catacurses::window &w_speed,
         if( entry.val != 0 ) {
             const char prefix = entry.val < 0 ? '-' : '+';
             const char suffix = entry.percent ? '%' : ' ';
-            if( entry.val < 1000 ) {
+            if( std::abs( entry.val ) < 1000 ) {
                 mvwprintz( w_speed, pos + point( 19, 0 ), hcol, "%c%3d%c", prefix, std::abs( entry.val ), suffix );
             } else {
-                // broken limbs can cause this
+                // broken limbs or very big numbers can cause this
                 mvwprintz( w_speed, pos + point( 19, 0 ), hcol, "%c!!!%c", prefix, suffix );
             }
         }
