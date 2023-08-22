@@ -25,6 +25,45 @@ static spell_type default_spell_type()
     ret.spell_class = trait_id( "NONE" );
     ret.effect_name = "area_pull";
     ret.spell_area = spell_shape::blast;
+    ret.min_damage.min.dbl_val = 0;
+    ret.max_damage.min.dbl_val = 0;
+    ret.damage_increment.min.dbl_val = 0.0f;
+    ret.min_accuracy.min.dbl_val = 20;
+    ret.accuracy_increment.min.dbl_val = 0.0f;
+    ret.max_accuracy.min.dbl_val = 20;
+    ret.min_range.min.dbl_val = 0;
+    ret.max_range.min.dbl_val = 0;
+    ret.range_increment.min.dbl_val = 0.0f;
+    ret.min_aoe.min.dbl_val = 0;
+    ret.max_aoe.min.dbl_val = 0;
+    ret.aoe_increment.min.dbl_val = 0.0f;
+    ret.min_dot.min.dbl_val = 0;
+    ret.max_dot.min.dbl_val = 0;
+    ret.dot_increment.min.dbl_val = 0.0f;
+    ret.min_duration.min.dbl_val = 0;
+    ret.max_duration.min.dbl_val = 0;
+    ret.duration_increment.min.dbl_val = 0.0f;
+    ret.min_pierce.min.dbl_val = 0;
+    ret.max_pierce.min.dbl_val = 0;
+    ret.pierce_increment.min.dbl_val = 0.0f;
+    ret.base_energy_cost.min.dbl_val = 0;
+    ret.final_energy_cost.min.dbl_val = 0;
+    ret.base_energy_cost.min.dbl_val = 0;
+    ret.energy_increment.min.dbl_val = 0.0f;
+    ret.difficulty.min.dbl_val = 0;
+    ret.max_level.min.dbl_val = 0;
+    ret.base_casting_time.min.dbl_val = 0;
+    ret.final_casting_time.min.dbl_val = 0;
+    ret.base_casting_time.min.dbl_val = 0;
+    ret.casting_time_increment.min.dbl_val = 0.0f;
+    ret.field_chance.min.dbl_val = 1;
+    ret.max_field_intensity.min.dbl_val = 0;
+    ret.min_field_intensity.min.dbl_val = 0;
+    ret.field_intensity_increment.min.dbl_val = 0.0f;
+    ret.field_intensity_variance.min.dbl_val = 0.0f;
+
+
+
     return ret;
 }
 
