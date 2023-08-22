@@ -62,7 +62,7 @@
     "id": "EOC_POTION_FRUIT_PEAR",
     "effect": {
         "u_add_effect": "effect_pfruit_attack_speed",
-        "duration": { "math": [ "150 + rand(350)" ] }
+        "duration": { "math": [ "250 + rand(1500)" ] }
       }
   },
   {
@@ -84,7 +84,7 @@
     "id": "EOC_POTION_FRUIT_BLACKBERRY",
     "effect": {
         "u_add_effect": "effect_pfruit_thorns",
-        "duration": { "math": [ "150 + rand(350)" ] }
+        "duration": { "math": [ "500 + rand(1500)" ] }
       }
   },
    {
@@ -105,5 +105,27 @@
     "type": "effect_on_condition",
     "id": "EOC_POTION_FRUIT_RASPBERRY",
     "effect": [{ "math": [ "u_pain()", "-=", "3" ] } ]
+  },
+   {
+    "type": "COMESTIBLE",
+    "id": "potion_fruit_strawberries",
+    "name": { "str": "potion fruit (strawberries)" },
+    "description": "A handful of strawberries infused with mana.  It will keep you warm even on an icy-cold day.",
+    "copy-from": "raspberries",
+    "proportional": { "quench": 0.5, "calories": 0.5 },
+    "spoils_in": "25 days",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Eat the handful of strawberry potion fruits.",
+      "effect_on_conditions": [ "EOC_POTION_FRUIT_STRAWBERRY" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POTION_FRUIT_STRAWBERRY",
+    "effect": {
+        "u_add_effect": "effect_pfruit_keep_warm",
+        "duration": { "math": [ "500 + rand(5000)" ] }
+      }
   }
 ]
