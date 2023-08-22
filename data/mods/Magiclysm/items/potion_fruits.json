@@ -24,9 +24,19 @@
     "id": "potion_fruit_pear",
     "name": { "str": "potion fruit (pear)" },
     "description": "A pear infused with mana.  It will allow your blows to strike quicker if you eat it.",
-    "copy-from": "peach",
+    "copy-from": "pear",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "40 days",
     "use_action": { "type": "cast_spell", "spell_id": "pfruit_pear_attack_speed", "no_fail": true, "level": 0 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "potion_fruit_blackberries",
+    "name": { "str": "potion fruit (blackberries)" },
+    "description": "A handful of blackberries infused with mana.  It will harm those who attack you if you eat it.",
+    "copy-from": "blackberries",
+    "proportional": { "quench": 0.5, "calories": 0.5 },
+    "spoils_in": "25 days",
+    "use_action": { "type": "cast_spell", "spell_id": "pfruit_blackberry_thorns", "no_fail": true, "level": 0 }
   }
 ]
