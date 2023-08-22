@@ -706,5 +706,22 @@
     "rating": "good",
     "show_intensity": false,
     "removes_effects": [ "scurvy", "redcells_anemia", "anemia", "toxin_buildup", "common_cold", "flu" ]
+  },
+  {
+    "id": "effect_pfruit_attack_speed",
+    "type": "effect_type",
+    "name": [ "Quick Blows" ],
+    "desc": [ "Thanks to that pear, you can attack faster." ],
+    "apply_message": "You arms speed up.",
+    "remove_message": "You muscle's twitch as the pear's magic fades.",
+    "rating": "good",
+    "show_intensity": false,
+   "enchantments": [
+      {
+        "values": [
+          { "value": "ATTACK_SPEED", "add": -15 }
+        ]
+      }
+    ]
   }
 ]
