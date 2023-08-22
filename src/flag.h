@@ -182,6 +182,7 @@ extern const flag_id flag_ITEM_BROKEN;
 extern const flag_id flag_LASER_SIGHT;
 extern const flag_id flag_LEAK_ALWAYS;
 extern const flag_id flag_LEAK_DAM;
+extern const flag_id flag_LIGHT;
 extern const flag_id flag_LITCIG;
 extern const flag_id flag_LUPINE;
 extern const flag_id flag_MAGIC_FOCUS;

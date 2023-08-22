@@ -5795,13 +5795,12 @@ float Character::active_light() const
     float lumination = 0.0f;
 
     int maxlum = 0;
-    has_item_with( [&maxlum]( const item & it ) {
-        const int lumit = it.getlight_emit();
+    for( item *flagged_item : all_items_with_flag( flag_LIGHT ) ) {
+        const int lumit = flagged_item->getlight_emit();
         if( maxlum < lumit ) {
             maxlum = lumit;
         }
-        return false; // continue search, otherwise has_item_with would cancel the search
-    } );
+    }
 
     lumination = static_cast<float>( maxlum );
 
@@ -8904,9 +8903,16 @@ std::set<item *> &Character::all_items_with_flag( const flag_id &flag ) const
     }
 
     // Otherwise, add a new flag set to the cache and populate with all appropriate items in the inventory. Empty sets are still created.
-    std::vector<const item *> items_with_flag = items_with( [&flag]( const item & it ) {
-        return it.has_flag( flag );
-    } );
+    std::vector<const item *> items_with_flag;
+    if( flag == flag_LIGHT ) {
+        items_with_flag = items_with( []( const item & it ) {
+            return it.type->light_emission > 0;
+        } );
+    } else {
+        items_with_flag = items_with( [&flag]( const item & it ) {
+            return it.has_flag( flag );
+        } );
+    }
     for( const item *it : items_with_flag ) {
         flagged_item_cache[flag].insert( const_cast<item *>( it ) );
     }
@@ -8916,7 +8922,11 @@ std::set<item *> &Character::all_items_with_flag( const flag_id &flag ) const
 void Character::add_to_flagged_item_cache( item &it ) const
 {
     for( auto &flagged_items : flagged_item_cache ) {
-        if( it.has_flag( flagged_items.first ) ) {
+        if( flagged_items.first == flag_LIGHT ) {
+            if( it.type->light_emission > 0 ) {
+                flagged_items.second.insert( &it );
+            }
+        } else if( it.has_flag( flagged_items.first ) ) {
             flagged_items.second.insert( &it );
         }
     }
