@@ -1,0 +1,13 @@
+[
+  {
+    "type": "mutation",
+    "id": "BORN_ARTISAN",
+    "name": { "str": "Born Artisan" },
+    "points": 1,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "description": "Born from the living earth, your people are naturally adept at the manipulation of the natural world.",
+    "crafting_speed_multiplier": 1.1
+  }
+]
