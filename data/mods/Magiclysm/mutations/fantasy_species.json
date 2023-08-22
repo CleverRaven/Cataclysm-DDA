@@ -420,5 +420,5 @@
     "id": "TALONS",
     "copy-from": "TALONS",
     "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
-  },
+  }
 ]
