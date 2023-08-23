@@ -2688,20 +2688,20 @@ class Character : public Creature, public visitable
         void stop_hauling();
         bool is_hauling() const;
 
-        // Has a weapon, inventory item or worn item with flag. Uses or creates flag sets from @ref flagged_item_cache.
+        // Has a weapon, inventory item or worn item with flag. Uses or creates flag sets from @ref inv_search_cache.
         bool has_item_with_flag( const flag_id &flag, bool need_charges = false ) const;
         /**
-         * Returns a set of all items that have the given flag (@ref item::has_flag). Uses or creates flag sets from @ref flagged_item_cache.
+         * Returns a set of all items that have the given flag (@ref item::has_flag). Uses or creates flag sets from @ref inv_search_cache.
          */
         std::set<item *> &all_items_with_flag( const flag_id &flag ) const;
         /**
-         * Add the specified item to the flags sets in @ref flagged_item_cache. Will NOT add any new flag sets to the cache.
+         * Add the specified item to the flags sets in @ref inv_search_cache. Will NOT add any new flag sets to the cache.
          */
-        void add_to_flagged_item_cache( item &it ) const;
+        void add_to_inv_search_cache( item &it ) const;
         /**
-         * Remove the specified item from all the flag sets of @ref flagged_item_cache.
+         * Remove the specified item from all the flag sets of @ref inv_search_cache.
          */
-        void remove_from_flagged_item_cache( item &it ) const;
+        void remove_from_inv_search_cache( item &it ) const;
 
         bool has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const override;
@@ -3837,8 +3837,8 @@ class Character : public Creature, public visitable
         mutable bool pseudo_items_valid = false;
         mutable std::vector<const item *> pseudo_items;
 
-        /** Cached results for @ref has_item_with_flag and @ref all_items_with_flag */
-        mutable std::map<flag_id, std::set<item *>> flagged_item_cache;
+        /** Cached results for functions that search through the inventory, like @ref all_items_with_flag */
+        mutable std::map<std::string, std::set<item *>> inv_search_cache;
     protected:
         // Bionic IDs are unique only within a character. Used to unambiguously identify bionics in a character
         bionic_uid weapon_bionic_uid = 0;

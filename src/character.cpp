@@ -2938,7 +2938,7 @@ std::list<item *> Character::get_dependent_worn_items( const item &it )
 item Character::remove_weapon()
 {
     item tmp = weapon;
-    remove_from_flagged_item_cache( weapon );
+    remove_from_inv_search_cache( weapon );
     weapon = item();
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     cached_info.erase( "weapon_value" );
@@ -8895,10 +8895,11 @@ bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) con
 
 std::set<item *> &Character::all_items_with_flag( const flag_id &flag ) const
 {
-    auto iter = flagged_item_cache.find( flag );
+    std::string flag_string = flag.c_str();
+    auto iter = inv_search_cache.find( flag_string );
 
     // If the flag set already exists in the cache, return it.
-    if( iter != flagged_item_cache.end() ) {
+    if( iter != inv_search_cache.end() ) {
         return iter->second;
     }
 
@@ -8914,31 +8915,31 @@ std::set<item *> &Character::all_items_with_flag( const flag_id &flag ) const
         } );
     }
     for( const item *it : items_with_flag ) {
-        flagged_item_cache[flag].insert( const_cast<item *>( it ) );
+        inv_search_cache[flag_string].insert( const_cast<item *>( it ) );
     }
-    return flagged_item_cache[flag];
+    return inv_search_cache[flag_string];
 }
 
-void Character::add_to_flagged_item_cache( item &it ) const
+void Character::add_to_inv_search_cache( item &it ) const
 {
-    for( auto &flagged_items : flagged_item_cache ) {
-        if( flagged_items.first == flag_LIGHT ) {
+    for( auto &cached_items : inv_search_cache ) {
+        if( cached_items.first == flag_LIGHT.c_str() ) {
             if( it.type->light_emission > 0 ) {
-                flagged_items.second.insert( &it );
+                cached_items.second.insert( &it );
             }
-        } else if( it.has_flag( flagged_items.first ) ) {
-            flagged_items.second.insert( &it );
+        } else if( it.has_flag( flag_id( cached_items.first ) ) ) {
+            cached_items.second.insert( &it );
         }
     }
 }
 
-void Character::remove_from_flagged_item_cache( item &it ) const
+void Character::remove_from_inv_search_cache( item &it ) const
 {
-    if( flagged_item_cache.empty() ) {
+    if( inv_search_cache.empty() ) {
         return;
     }
-    for( auto &flagged_items : flagged_item_cache ) {
-        flagged_items.second.erase( &it );
+    for( auto &cached_items : inv_search_cache ) {
+        cached_items.second.erase( &it );
     }
 }
 
@@ -9321,7 +9322,7 @@ void Character::on_item_acquire( const item &it )
     bool update_overmap_seen = false;
 
     it.visit_items( [this, &check_for_zoom, &update_overmap_seen]( item * cont_it, item * ) {
-        add_to_flagged_item_cache( *cont_it );
+        add_to_inv_search_cache( *cont_it );
         if( check_for_zoom && !update_overmap_seen && cont_it->has_flag( flag_ZOOM ) ) {
             update_overmap_seen = true;
         }
