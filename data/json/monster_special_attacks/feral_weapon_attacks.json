@@ -94,5 +94,53 @@
     "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
     "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "feral_weapon_broom",
+    "cooldown": 1,
+    "move_cost": 100,
+    "accuracy": 3,
+    "//": "Feral melee skill + weapon's to hit, so 2+1=3",
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 4 } ],
+    "hit_dmg_u": "%1$s hits your %2$s with a broom!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a broom!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "feral_weapon_knife_chef",
+    "cooldown": 1,
+    "move_cost": 72,
+    "accuracy": 2,
+    "//": "Feral melee skill + weapon's to hit, so 3-1=2",
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 2 }, { "damage_type": "pierce", "amount": 16 } ],
+    "hit_dmg_u": "%1$s hits your %2$s with a knife!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a knife!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "feral_weapon_candlestick",
+    "cooldown": 1,
+    "move_cost": 69,
+    "accuracy": 1,
+    "//": "Feral melee skill + weapon's to hit, so 2-1=1",
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 3 } ],
+    "hit_dmg_u": "%1$s hits your %2$s with a candlestick!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a candlestick!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
   }
 ]

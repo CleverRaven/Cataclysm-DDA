@@ -402,7 +402,7 @@
     "species": [ "FERAL" ],
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 80,
+    "hp": 84,
     "speed": 100,
     "material": [ "flesh" ],
     "symbol": "@",
@@ -411,12 +411,13 @@
     "morale": 100,
     "melee_skill": 2,
     "melee_dice": 1,
-    "melee_dice_sides": 3,
+    "melee_dice_sides": 6,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dodge": 1,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
+    "special_attacks": [ { "id": "feral_weapon_broom" } ],
     "vision_day": 30,
     "vision_night": 3,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
@@ -431,6 +432,7 @@
     "copy-from": "mon_feral_maid_broom",
     "name": { "str": "feral servant" },
     "description": "Once a fancy servant of some rich family, this maniac walks around with a candlestick in hand, ready to snuff out your life.",
+    "special_attacks": [ { "id": "feral_weapon_candlestick" } ],
     "death_drops": "feral_maids_death_drops_candlestick"
   },
   {
@@ -440,7 +442,7 @@
     "name": { "str": "feral servant" },
     "description": "Once a fancy servant of some rich family, this maniac walks around with a knife in hand, searching for some victims to butcher.",
     "melee_skill": 3,
-    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "special_attacks": [ { "id": "feral_weapon_knife_chef" } ],
     "death_drops": "feral_maids_death_drops_knife"
   },
   {
