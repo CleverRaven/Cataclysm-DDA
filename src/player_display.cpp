@@ -787,11 +787,8 @@ struct HeaderSkill {
 
 static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                              Character &you, unsigned int line, const player_display_tab curtab,
-                             std::vector<HeaderSkill> &skillslist,
-                             const size_t skill_win_size_y )
+                             std::vector<HeaderSkill> &skillslist )
 {
-    const int col_width = getmaxx( w_skills ) - 1;
-
     werase( w_skills );
     const bool is_current_tab = curtab == player_display_tab::skills;
     nc_color cstatus = is_current_tab ? h_light_gray : c_light_gray;
@@ -800,8 +797,12 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
     }
     center_print( w_skills, 0, cstatus, _( title_SKILLS ) );
 
-    const auto& [i_start, i_end] = subindex_around_cursor( skillslist.size(), skill_win_size_y - 1,
-                                   line, is_current_tab );
+    const int height = getmaxy( w_skills ) - 1;
+    const bool do_draw_scrollbar = height < static_cast<int>( skillslist.size() );
+    const int width = getmaxx( w_skills ) - 1 - ( do_draw_scrollbar ? 1 : 0 );
+
+    const auto& [i_start, i_end] = subindex_around_cursor( skillslist.size(), height, line,
+                                   is_current_tab );
 
     int y_pos = 1;
     for( int i = i_start; i < i_end; ++i, ++y_pos ) {
@@ -839,7 +840,7 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                 } else {
                     cstatus = training ? h_light_blue : h_blue;
                 }
-                mvwprintz( w_skills, point( 1, y_pos ), cstatus, std::string( col_width, ' ' ) );
+                mvwprintz( w_skills, point( 1, y_pos ), cstatus, std::string( width - 1, ' ' ) );
             } else {
                 if( locked ) {
                     cstatus = c_yellow;
@@ -850,26 +851,22 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                 } else {
                     cstatus = training ? c_light_blue : c_blue;
                 }
-                mvwprintz( w_skills, point( 1, y_pos ), c_light_gray, std::string( col_width, ' ' ) );
+                mvwprintz( w_skills, point( 1, y_pos ), c_light_gray, std::string( width - 1, ' ' ) );
             }
             mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
             if( aSkill->ident() == skill_dodge ) {
-                mvwprintz( w_skills, point( 14, y_pos ), cstatus, "%4.1f/%-2d(%2d%%)",
-                           you.get_dodge(),
-                           level_num,
-                           ( exercise < 0 ? 0 : exercise ) );
+                mvwprintz( w_skills, point( width - 11, y_pos ), cstatus, "%4.1f/%-2d(%2d%%)", you.get_dodge(),
+                           level_num, ( exercise < 0 ? 0 : exercise ) );
             } else {
-                mvwprintz( w_skills, point( 19, y_pos ), cstatus, "%-2d(%2d%%)",
-                           level_num,
+                mvwprintz( w_skills, point( width - 6, y_pos ), cstatus, "%-2d(%2d%%)", level_num,
                            ( exercise < 0 ? 0 : exercise ) );
             }
         }
     }
 
-    if( is_current_tab && skillslist.size() > skill_win_size_y - 1 ) {
-        draw_scrollbar( w_skills, line - 1, skill_win_size_y - 1, skillslist.size() - 1,
-                        // NOLINTNEXTLINE(cata-use-named-point-constants)
-                        point( 0, 1 ) );
+    if( do_draw_scrollbar ) {
+        draw_scrollbar( w_skills, i_start, height, skillslist.size(), point( width + 1, 1 ), c_white,
+                        true );
     }
     wnoutrefresh( w_skills );
 }
@@ -1898,7 +1895,7 @@ void Character::disp_info( bool customize_character )
         borders.draw_border( w_skills_border );
         wnoutrefresh( w_skills_border );
         ui_skills.disable_cursor();
-        draw_skills_tab( ui_skills, w_skills, *this, line, curtab, skillslist, skill_win_size_y );
+        draw_skills_tab( ui_skills, w_skills, *this, line, curtab, skillslist );
     } );
 
     // info panel
