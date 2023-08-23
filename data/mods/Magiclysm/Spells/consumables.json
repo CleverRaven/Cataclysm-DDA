@@ -65,7 +65,7 @@
     "min_damage": 20,
     "max_damage": 20
   },
-    {
+  {
     "id": "pfruit_apple_heal",
     "type": "SPELL",
     "name": "Eat the apple potion fruit",
