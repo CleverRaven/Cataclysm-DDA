@@ -479,10 +479,12 @@
   {
     "type": "effect_on_condition":,
     "id": "EOC_NATURE_COMMUNE",
+    "condition": "u_is_outside",
     "effect": [
       { "u_add_effect": "natures_commune", "duration": { "math": [ "( 10000 + (u_val('spell_level', 'spell: druid_natures_commune') * 2000) )" ] } },
       { "u_add_morale": "morale_forest_unity", "bonus": 10, "max_bonus": 15, "duration": { "math": [ "( 10000 + (u_val('spell_level', 'spell: druid_natures_commune') * 2000) )" ] }, "decay_start": { "math": [ "(( 10000 + (u_val('spell_level', 'spell: druid_natures_commune') * 2000) ) / 2)" ] } }
-    ]
+    ],
+    "false_effect": [ { "u_message": "You must be standing in nature to commune with nature", "type": "bad" } ]
   },
   {
     "id": "druid_growth",
