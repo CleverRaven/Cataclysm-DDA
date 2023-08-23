@@ -142,15 +142,9 @@
   },
   {
     "type": "mutation",
-    "id": "SAPROVORE",
-    "copy-from": "SAPROVORE",
-    "extend": { "category": [ "SPECIES_DWARF" ] }
-  },
-  {
-    "type": "mutation",
     "id": "ALCMET",
     "copy-from": "ALCMET",
-    "extend": { "category": [ "SPECIES_DWARF" ] }
+    "extend": { "category": [ "SPECIES_DWARF" ], "prereqs2": [ "DWARVEN_BUILD" ] " }
   },
   {
     "type": "mutation",
@@ -388,15 +382,21 @@
   },
   {
     "type": "mutation",
-    "id": "LARGE",
-    "copy-from": "LARGE",
-    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "LARGE_OK",
-    "copy-from": "LARGE_OK",
-    "extend": { "category": [ "SPECIES_LIZARDFOLK" ], "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ] }
+    "id": "LIZARDFOLK_BUILD",
+    "name": { "str": "Lizardfolk Build" },
+    "types": [ "SIZE" ],
+    "purifiable": false,
+    "points": 1,
+    "visibility": 3,
+    "ugliness": 0,
+    "description": "Lizardfolk are taller and stronger than humans but not much thicker and are surprisingly fast for their size (+1 STR, +1 DEX).",
+    "category": [ "SPECIES_LIZARDFOLK" ],
+    "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ],
+    "flags": [ "LARGE" ],
+    "passive_mods": { "str_mod": 1, "dex_mod": 1 },
+    "stomach_size_multiplier": 1.25,
+    "weight_capacity_modifier": 1.05,
+    "movecost_swim_modifier": 0.9
   },
   {
     "type": "mutation",
