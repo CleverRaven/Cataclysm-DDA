@@ -1419,5 +1419,32 @@
     "name": { "str": "Scroll of the turning of the earth", "str_pl": "Scrolls of the turning of the earth" },
     "description": "Ask the earth spirits to prepare the earth for planting and sowing.",
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_turning_of_earth" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_sense_outsiders",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of sense outsiders", "str_pl": "Scrolls of sense outsiders" },
+    "description": "Open your mystic senses and locate the things that should not be.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_sense_outsiders" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_anti_cold",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of cloak of warmth", "str_pl": "Scrolls of cloak of warmth" },
+    "description": "Winter-be-gone through the power of of modern magic.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_anti_cold" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_anti_heat",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of cloak of chill", "str_pl": "Scrolls of cloak of chill" },
+    "description": "Summer-be-gone through the power of of modern magic.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_anti_heat" ] }
   }
 ]
