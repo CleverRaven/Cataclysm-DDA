@@ -63,7 +63,7 @@
     "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "unarmed" } ],
     "traits": [
       "THRESH_SPECIES_LIZARDFOLK",
-      "LARGE_OK",
+      "LIZARDFOLK_BUILD",
       "SCALES",
       "MEMBRANE",
       "COLDBLOOD4_LIZ",
