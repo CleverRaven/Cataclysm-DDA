@@ -142,7 +142,7 @@
   {
     "type": "mutation",
     "id": "TROGLO",
-    "copy-from": "ALCMET",
+    "copy-from": "TROGLO",
     "extend": { "category": [ "SPECIES_DWARF" ] }
   },
   {
@@ -235,6 +235,7 @@
   {
     "type": "mutation",
     "id": "ELVEN_HEARING",
+    "name": { "str": "Elven Hearing" },
     "purifiable": false,
     "points": 2,
     "description": "Your delicate pointed ears allow you to hear all the sounds of the world.",
@@ -247,6 +248,7 @@
   {
     "type": "mutation",
     "id": "ELVEN_SLEEP",
+    "name": { "str": "Reverie" },
     "points": 4,
     "description": "Rather than sleep insensate like humans do, you blend living night and dreams into a harmonious whole.  You are not bothered by light levels, and need much less sleep per night.",
     "purifiable": false,
