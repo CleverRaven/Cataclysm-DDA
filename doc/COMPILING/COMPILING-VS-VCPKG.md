@@ -120,7 +120,7 @@ It is possible to use ccache with Visual Studio and gain the same benefits as ot
 
     - If you use the LLVM toolchain ("clang-cl.exe") when building, make another copy of `ccache.exe` called `clang-cl.exe`.
 
-4. Create a file called `Directory.Build.props` at the root of the Cataclysm-DDA folder with the following contents. The value of `CDDA_CCACHE_PATH` should be the folder where you put `ccache.exe`. Assuming this path is `C:\dev\ccache\` (note: `\` vs `/` matters, you need to use `\` here):
+4. Create a file called `Directory.Build.props` at the root of the Cataclysm-DDA folder with the following contents. If it already exists, merge it with the contents below. The value of `CDDA_CCACHE_PATH` should be the folder where you put `ccache.exe`. Assuming this path is `C:\dev\ccache\` (note: `\` vs `/` matters, you need to use `\` here):
 
 ```
 <Project>
@@ -132,3 +132,32 @@ It is possible to use ccache with Visual Studio and gain the same benefits as ot
 ```
 
 5. ccache should now just work when building with Release modes in Visual Studio. Debug builds do not work because of the size of CDDA and limitations in the msvc toolchain. However, Debug builds are almost intolerably slow anyway so this limitation is not something we are going to fix right now.
+
+### llvm tools integration
+
+It is possible to use `llvm-lib.exe` and `lld-link.exe` to speed up your local builds by skipping unnecessary copy steps.
+
+1. Install LLVM from Github or through the Visual Studio Installer.
+  - Github: Download a release from https://github.com/llvm/llvm-project/releases. You typically want the installer from the `Assets` section called eg. `LLVM-16.0.6-win64.exe`, or whatever version you are downloading.
+  - Visual Studio Installer: Open the Visual Studio Installer, select 'Modify' next to your install, click the 'Individual Components' section, search for 'C++ Clang Compiler for Windows', and make sure the result is selected.
+
+2. Create a file called `Directory.Build.props` at the root of the Cataclysm-DDA folder with the following contents.
+  - If you installed a release directly from LLVM releases, use these settings. If you installed to a non default location, set the two `_PATH` variables to the path you installed LLVM to.
+```
+<Project>
+  <PropertyGroup>
+    <CDDA_ENABLE_THIN_ARCHIVES>true</CDDA_ENABLE_THIN_ARCHIVES>
+    <CDDA_LLVM_LIB_PATH>C:\Program Files\LLVM\</CDDA_ENABLE_THIN_ARCHIVES>
+    <CDDA_LLD_LINK_PATH>C:\Program Files\LLVM\</CDDA_ENABLE_THIN_ARCHIVES>
+  </PropertyGroup>
+</Project>
+```
+
+  - If you installed LLVM through the Visual Studio Installer, then use these contents. The path to LLVM will be provided by MSBuild/Visual Studio directly and does not need to be set.
+```
+<Project>
+  <PropertyGroup>
+    <CDDA_ENABLE_THIN_ARCHIVES>true</CDDA_ENABLE_THIN_ARCHIVES>
+  </PropertyGroup>
+</Project>
+```

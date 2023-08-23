@@ -453,7 +453,7 @@
     "weight": "210 g",
     "volume": "500 ml",
     "price": 1000,
-    "price_postapoc": 50,
+    "price_postapoc": 300,
     "material": [ "nylon", "steel" ],
     "symbol": "[",
     "looks_like": "leather_belt",

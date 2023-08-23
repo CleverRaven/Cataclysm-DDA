@@ -6,9 +6,9 @@
     "effect": [
       { "open_dialogue": { "topic": "TALK_DEFENSE_MODE_MAIN_MENU" } },
       { "u_message": "Get ready for the first wave, it's not that far away!", "type": "good", "popup": true },
+      { "run_eocs": "DEFENSE_MODE_WAVE_CONTROL" },
       {
         "u_location_variable": { "global_val": "your_spawnpoint" },
-        "terrain": "t_floor",
         "target_max_radius": 2,
         "min_radius": 0,
         "max_radius": 0
@@ -20,7 +20,7 @@
     "id": "defense_mode_caravan_spawn",
     "recurrence": [ "2 days", "4 days" ],
     "global": true,
-    "condition": { "math": [ "u_monsters_nearby()", "<=", "0" ] },
+    "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 3)", "<=", "0" ] },
     "effect": [
       { "u_spawn_npc": "defense_mode_merchant", "lifespan": "2 hours", "real_count": 1, "min_radius": 2, "max_radius": 3 },
       { "u_message": "A caravan approaches!", "type": "good", "popup": false }
@@ -28,9 +28,9 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "defense_mode_caravan_remove",
-    "global": false,
-    "effect": [ { "mapgen_update": "defense_mode_caravan_remove" } ]
+    "id": "defense_mode_hire_merc_true",
+    "global": true,
+    "effect": [ { "u_spawn_npc": "follower_mercenary", "real_count": 1, "min_radius": 2, "max_radius": 3 } ]
   },
   {
     "type": "effect_on_condition",
@@ -56,7 +56,7 @@
       { "arithmetic": [ { "global_val": "var", "var_name": "wave_number" }, "+=", { "const": 1 } ] },
       { "math": [ "wave_cash_number", "++" ] },
       { "u_message": "Welcome to wave <global_val:wave_number>!", "type": "bad", "popup": false },
-      { "run_eocs": [ "defense_mode_caravan_remove", "defense_mode_money_add" ] },
+      { "run_eocs": [ "defense_mode_money_add" ] },
       {
         "weighted_list_eocs": [
           [ "DEFENSE_MODE_WAVE_SPAWN_ZOMBIES", { "const": 1 } ],
@@ -64,7 +64,14 @@
           [ "DEFENSE_MODE_WAVE_SPAWN_SPIDERS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_ROBOTS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_TRIFFIDS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_SUBSPACE", { "const": 1 } ]
+          [ "DEFENSE_MODE_WAVE_SPAWN_SUBSPACE", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_DINOS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_LIZARDFOLK", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_GOLEMS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_GOBLINS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_ORCS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_MEGAFAUNA", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_PSYCHICS", { "const": 1 } ]
         ]
       }
     ]
@@ -81,7 +88,14 @@
           [ "DEFENSE_MODE_WAVE_SPAWN_SPIDERS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_ROBOTS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_TRIFFIDS", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_SUBSPACE", { "const": 1 } ]
+          [ "DEFENSE_MODE_WAVE_SPAWN_SUBSPACE", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_DINOS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_LIZARDFOLK", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_GOLEMS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_GOBLINS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_ORCS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_MEGAFAUNA", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_PSYCHICS", { "const": 1 } ]
         ]
       }
     ]
@@ -156,7 +170,7 @@
     "condition": { "math": [ "spiders_allowed", "==", "1" ] },
     "effect": [
       {
-        "u_spawn_monster": "GROUP_SPIDER_BASEMENT",
+        "u_spawn_monster": "GROUP_SPIDER_DM",
         "real_count": { "global_val": "wave_number", "default": 1 },
         "outdoor_only": true,
         "group": true,
@@ -164,7 +178,7 @@
         "max_radius": 40
       },
       {
-        "u_spawn_monster": "GROUP_SPIDER",
+        "u_spawn_monster": "GROUP_SPIDER_DM",
         "real_count": { "global_val": "wave_number", "default": 1 },
         "outdoor_only": true,
         "group": true,
@@ -172,7 +186,7 @@
         "max_radius": 40
       },
       {
-        "u_spawn_monster": "GROUP_SPIDER_BASEMENT",
+        "u_spawn_monster": "GROUP_SPIDER_DM",
         "real_count": { "global_val": "wave_number", "default": 1 },
         "outdoor_only": true,
         "group": true,
@@ -252,7 +266,7 @@
     "condition": { "math": [ "subspace_allowed", "==", "1" ] },
     "effect": [
       {
-        "u_spawn_monster": "GROUP_NETHER",
+        "u_spawn_monster": "GROUP_NETHER_DM",
         "real_count": { "global_val": "wave_number", "default": 1 },
         "outdoor_only": true,
         "group": true,
@@ -260,7 +274,7 @@
         "max_radius": 40
       },
       {
-        "u_spawn_monster": "GROUP_NETHER",
+        "u_spawn_monster": "GROUP_NETHER_DM",
         "real_count": { "global_val": "wave_number", "default": 1 },
         "outdoor_only": true,
         "group": true,
@@ -268,7 +282,7 @@
         "max_radius": 40
       },
       {
-        "u_spawn_monster": "GROUP_NETHER",
+        "u_spawn_monster": "GROUP_NETHER_DM",
         "real_count": { "global_val": "wave_number", "default": 1 },
         "outdoor_only": true,
         "group": true,

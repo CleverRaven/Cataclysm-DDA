@@ -111,6 +111,11 @@
     "info": "This item can be activated or reloaded from an adjacent tile without picking it up."
   },
   {
+    "id": "ALWAYS_AIMED",
+    "type": "json_flag",
+    "info": "This gun is <good>always fully aimed</good>."
+  },
+  {
     "id": "AURA",
     "type": "json_flag",
     "//": "This item goes in the outer aura layer, intended for metaphysical effects.",

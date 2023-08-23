@@ -167,6 +167,8 @@ static const efftype_id effect_worked_on( "worked_on" );
 
 static const faction_id faction_your_followers( "your_followers" );
 
+static const flag_id json_flag_ALWAYS_AIMED( "ALWAYS_AIMED" );
+
 static const furn_str_id furn_f_gunsafe_mj( "f_gunsafe_mj" );
 static const furn_str_id furn_f_safe_o( "f_safe_o" );
 
@@ -299,6 +301,10 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
             act.moves_left = 0;
             return;
         }
+    }
+
+    if( gun->has_flag( json_flag_ALWAYS_AIMED ) ) {
+        you.recoil = 0;
     }
 
     g->temp_exit_fullscreen();
@@ -6100,7 +6106,8 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     if( used_tool->has_flag( flag_SINGLE_USE ) ) {
         it.remove_item();
     } else if( used_tool->is_medication() ) {
-        if( it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
+        if( !it->count_by_charges() ||
+            it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
             it.remove_item();
         }
     } else if( used_tool->is_tool() ) {

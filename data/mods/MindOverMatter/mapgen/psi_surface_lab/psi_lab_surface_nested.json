@@ -14,7 +14,11 @@
         " BBB"
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
@@ -39,7 +43,11 @@
         "  ix"
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "B": [
@@ -66,7 +74,11 @@
         "  dd"
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "B": [
@@ -93,7 +105,11 @@
         "BBB "
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
@@ -118,7 +134,11 @@
         "xi  "
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "B": [
@@ -145,7 +165,11 @@
         "dd  "
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "B": [
@@ -172,7 +196,11 @@
         " HHH"
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "B": [
@@ -199,7 +227,11 @@
         "  cd"
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "B": [
@@ -226,7 +258,11 @@
         "  dd"
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "B": [
@@ -272,7 +308,11 @@
         " xdd"
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "B": [
@@ -299,7 +339,11 @@
         " iBB"
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "B": [
@@ -326,7 +370,11 @@
         "BBB "
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "B": [
@@ -386,7 +434,11 @@
         "dc  "
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "B": [
@@ -413,7 +465,11 @@
         "dd  "
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "B": [
@@ -440,7 +496,11 @@
         "ddx "
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "B": [
@@ -467,7 +527,11 @@
         "BBi "
       ],
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "B": [
@@ -496,7 +560,11 @@
       ],
       "terrain": { " ": "t_floor", "f": "t_floor", "r": "t_floor", "H": "t_floor", "d": "t_floor", "c": "t_floor", "B": "t_floor" },
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "r": { "item": "tools_science", "chance": 80 },
@@ -536,7 +604,11 @@
         "B": "t_floor"
       },
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "r": { "item": "tools_science", "chance": 80 },
@@ -566,7 +638,11 @@
       ],
       "terrain": { " ": "t_floor", "r": "t_floor", "H": "t_floor", "d": "t_floor", "c": "t_floor", "B": "t_floor" },
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "r": { "item": "tools_science", "chance": 80 },
@@ -604,7 +680,11 @@
         "B": "t_carpet_concrete_red"
       },
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "r": { "item": "tools_science", "chance": 80 },
@@ -641,7 +721,11 @@
         "B": "t_linoleum_gray"
       },
       "items": {
-        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "d": [
+          { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
+          { "item": "electronics", "chance": 15 },
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+        ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "r": { "item": "tools_science", "chance": 80 },
@@ -670,7 +754,13 @@
         "     "
       ],
       "terrain": { " ": "t_floor", "c": "t_floor", "t": "t_floor" },
-      "items": { "t": [ { "item": "office", "chance": 15, "repeat": 2 }, { "item": "electronics", "chance": 5 } ] },
+      "items": {
+        "t": [
+          { "item": "office", "chance": 15, "repeat": 2 },
+          { "item": "electronics", "chance": 5 },
+          { "item": "dist_lab_file_phavian_memo", "chance": 3 }
+        ]
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -691,7 +781,13 @@
         "     "
       ],
       "terrain": { " ": "t_nether_water_sh", "c": "t_nether_water_sh", "t": "t_nether_water_sh" },
-      "items": { "t": [ { "item": "office", "chance": 15, "repeat": 2 }, { "item": "electronics", "chance": 5 } ] },
+      "items": {
+        "t": [
+          { "item": "office", "chance": 15, "repeat": 2 },
+          { "item": "electronics", "chance": 5 },
+          { "item": "dist_lab_file_phavian_memo", "chance": 3 }
+        ]
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -711,7 +807,13 @@
         " ccc "
       ],
       "terrain": { " ": "t_floor", "c": "t_floor", "t": "t_floor" },
-      "items": { "t": [ { "item": "office", "chance": 15, "repeat": 2 }, { "item": "electronics", "chance": 5 } ] },
+      "items": {
+        "t": [
+          { "item": "office", "chance": 15, "repeat": 2 },
+          { "item": "electronics", "chance": 5 },
+          { "item": "dist_lab_file_phavian_memo", "chance": 3 }
+        ]
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -731,6 +833,13 @@
         "  c  "
       ],
       "terrain": { " ": "t_floor", "c": "t_floor", "t": "t_floor" },
+      "items": {
+        "t": [
+          { "item": "office", "chance": 15, "repeat": 2 },
+          { "item": "electronics", "chance": 5 },
+          { "item": "dist_lab_file_phavian_memo", "chance": 3 }
+        ]
+      },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -966,7 +1075,8 @@
       "items": {
         "d": [
           { "item": "office", "chance": 50, "repeat": [ 2, 5 ] },
-          { "item": "tools_science", "chance": 30, "repeat": [ 1, 3 ] }
+          { "item": "tools_science", "chance": 30, "repeat": [ 1, 3 ] },
+          { "item": "dist_lab_file_matrix_research", "chance": 3 }
         ]
       },
       "palettes": [ "lab_workspace_palette" ]

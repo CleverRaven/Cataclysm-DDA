@@ -455,5 +455,125 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_ierde",
+    "name": { "male": "Ierde", "female": "Ierda" },
+    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.",
+    "points": 5,
+    "traits": [ "IERDE" ],
+    "pets": [ { "name": "mon_stoneling", "amount": 1 } ],
+    "items": {
+      "both": {
+        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
+        "entries": [
+          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "earthkin_tablet", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "female": [ "chestwrap" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_arvore",
+    "name": { "male": "Arvi", "female": "Arvori" },
+    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.",
+    "points": 5,
+    "traits": [ "ARVORE" ],
+    "pets": [ { "name": "mon_vineling", "amount": 1 } ],
+    "items": {
+      "both": {
+        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
+        "entries": [
+          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "plantkin_parchment", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "female": [ "chestwrap" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_undine",
+    "name": { "male": "Onduine", "female": "Ondua" },
+    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.",
+    "points": 5,
+    "traits": [ "UNDINE" ],
+    "pets": [ { "name": "mon_spitting_lizard", "amount": 1 } ],
+    "items": {
+      "both": {
+        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
+        "entries": [
+          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "waterkin_tablet", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "female": [ "chestwrap" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_salamander",
+    "name": { "male": "Kéményseprő", "female": "Bejárónő" },
+    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.",
+    "points": 5,
+    "traits": [ "SALAMANDER" ],
+    "pets": [ { "name": "mon_salamander_tiny", "amount": 1 } ],
+    "items": {
+      "both": {
+        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
+        "entries": [
+          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "flametouched_parchment", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "female": [ "chestwrap" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_homullus",
+    "name": { "male": "Dúln", "female": "Dúkka" },
+    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.",
+    "points": 5,
+    "traits": [ "HOMULLUS" ],
+    "pets": [ { "name": "mon_zoomorphic_figure_small", "amount": 1 } ],
+    "items": {
+      "both": {
+        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
+        "entries": [
+          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "female": [ "chestwrap" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_sylph",
+    "name": { "male": "Silvestris", "female": "Silvestra" },
+    "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.",
+    "points": 5,
+    "traits": [ "SYLPH" ],
+    "pets": [ { "name": "mon_dragonfly_fae", "amount": 1 } ],
+    "items": {
+      "both": {
+        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
+        "entries": [
+          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "sylph_parchment", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "female": [ "chestwrap" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
   }
 ]

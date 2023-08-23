@@ -1,6 +1,21 @@
 [
   {
     "type": "palette",
+    "id": "railroad_palette",
+    "//": "mapgendata::first_predecessor doesn't work perfectly so use 9 to overwrite other nests",
+    "terrain": {
+      "^": "t_railroad_rubble",
+      "-": "t_railroad_tie",
+      "D": "t_railroad_track_d",
+      "X": "t_railroad_track",
+      "x": "t_railroad_track_on_tie",
+      "S": "t_buffer_stop",
+      ".": "t_region_soil",
+      "9": "t_region_groundcover_urban"
+    }
+  },
+  {
+    "type": "palette",
     "id": "railroad",
     "terrain": {
       " ": "t_region_groundcover_urban",

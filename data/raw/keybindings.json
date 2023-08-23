@@ -1528,6 +1528,27 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_START_OF_CATACLYSM",
+    "category": "NEW_CHAR_DESCRIPTION",
+    "name": "Change cataclysm start date",
+    "bindings": [ { "input_method": "keyboard_char", "key": "%" }, { "input_method": "keyboard_code", "key": "5", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CHANGE_START_OF_GAME",
+    "category": "NEW_CHAR_DESCRIPTION",
+    "name": "Change game start date",
+    "bindings": [ { "input_method": "keyboard_char", "key": "^" }, { "input_method": "keyboard_code", "key": "6", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RESET_CALENDAR",
+    "category": "NEW_CHAR_DESCRIPTION",
+    "name": "Reset scenario calendar",
+    "bindings": [ { "input_method": "keyboard_char", "key": "$" }, { "input_method": "keyboard_code", "key": "4", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CHOOSE_CITY",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Choose character starting city",
@@ -1579,38 +1600,31 @@
   },
   {
     "type": "keybinding",
-    "id": "RANDOMIZE_SCENARIO_START_OF_CATACLYSM",
-    "category": "NEW_CHAR_SCENARIOS",
-    "name": "Randomize cataclysm start date (if supported by scenario)",
-    "bindings": [ { "input_method": "keyboard_char", "key": "^" }, { "input_method": "keyboard_code", "key": "6", "mod": [ "shift" ] } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "RANDOMIZE_SCENARIO_START_OF_GAME",
-    "category": "NEW_CHAR_SCENARIOS",
-    "name": "Randomize game start date (if supported by scenario)",
-    "bindings": [ { "input_method": "keyboard_char", "key": "&" }, { "input_method": "keyboard_code", "key": "7", "mod": [ "shift" ] } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "RESET_SCENARIO_START_OF_CATACLYSM",
-    "category": "NEW_CHAR_SCENARIOS",
-    "name": "Reset cataclysm start date",
-    "bindings": [ { "input_method": "keyboard_char", "key": "$" }, { "input_method": "keyboard_code", "key": "4", "mod": [ "shift" ] } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "RESET_SCENARIO_START_OF_GAME",
-    "category": "NEW_CHAR_SCENARIOS",
-    "name": "Reset game start date",
-    "bindings": [ { "input_method": "keyboard_char", "key": "%" }, { "input_method": "keyboard_code", "key": "5", "mod": [ "shift" ] } ]
-  },
-  {
-    "type": "keybinding",
     "id": "SORT",
     "category": "NEW_CHAR_SCENARIOS",
     "name": "Toggle sorting order",
     "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CHANGE_START_OF_CATACLYSM",
+    "category": "NEW_CHAR_SCENARIOS",
+    "name": "Change cataclysm start date",
+    "bindings": [ { "input_method": "keyboard_char", "key": "%" }, { "input_method": "keyboard_code", "key": "5", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CHANGE_START_OF_GAME",
+    "category": "NEW_CHAR_SCENARIOS",
+    "name": "Change game start date",
+    "bindings": [ { "input_method": "keyboard_char", "key": "^" }, { "input_method": "keyboard_code", "key": "6", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RESET_CALENDAR",
+    "category": "NEW_CHAR_SCENARIOS",
+    "name": "Reset scenario calendar",
+    "bindings": [ { "input_method": "keyboard_char", "key": "$" }, { "input_method": "keyboard_code", "key": "4", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -1686,6 +1700,20 @@
     "category": "APP_INTERACT",
     "name": "Plug in appliance",
     "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "UNPLUG",
+    "category": "APP_INTERACT",
+    "name": "Unplug power connections",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MERGE",
+    "category": "APP_INTERACT",
+    "name": "Merge power grids",
+    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
   },
   {
     "type": "keybinding",
@@ -2722,6 +2750,17 @@
     "name": "Debug menu",
     "category": "DEFAULTMODE",
     "id": "debug"
+  },
+  {
+    "type": "keybinding",
+    "id": "RESET",
+    "category": "CALENDAR_UI",
+    "name": "Reset time point to initial value",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "r" },
+      { "input_method": "keyboard_char", "key": "R" },
+      { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",

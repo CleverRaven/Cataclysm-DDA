@@ -80,6 +80,7 @@
 #include "overmap_location.h"
 #include "path_info.h"
 #include "profession.h"
+#include "profession_group.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
@@ -266,6 +267,7 @@ void DynamicDataLoader::initialize()
     add( "bionic", &bionic_data::load_bionic );
     add( "bionic_migration", &bionic_data::load_bionic_migration );
     add( "profession", &profession::load_profession );
+    add( "profession_group", &profession_group::load_profession_group );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );
     add( "proficiency_category", &proficiency_category::load_proficiency_categories );
@@ -815,6 +817,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Constructions" ), &check_constructions },
             { _( "Crafting recipes" ), &recipe_dictionary::check_consistency },
             { _( "Professions" ), &profession::check_definitions },
+            { _( "Profession groups" ), &profession_group::check_profession_group_consistency },
             { _( "Scenarios" ), &scenario::check_definitions },
             { _( "Martial arts" ), &check_martialarts },
             { _( "Mutations" ), &mutation_branch::check_consistency },

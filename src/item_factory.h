@@ -166,16 +166,6 @@ class Item_factory
          * Returns the idents of all item groups that are known.
          */
         std::vector<item_group_id> get_all_group_names();
-        /**
-         * Sets the chance of the specified item in the group.
-         * @param group_id Group to add item to
-         * @param item_id Id of item to add to group
-         * @param chance The relative weight of the item. A value of 0 removes the item from the
-         * group.
-         * @return false if the group doesn't exist.
-         */
-        bool add_item_to_group( const item_group_id &, const itype_id &item_id, int chance );
-        /*@}*/
 
         /**
          * @name Item type loading

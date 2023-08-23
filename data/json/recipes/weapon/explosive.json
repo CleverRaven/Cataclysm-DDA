@@ -187,7 +187,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
-      [ [ "insecticide", 50 ] ],
+      [ [ "insecticide", 1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "small_gas_canister_case", 1, "LIST" ] ],
       [ [ "superglue", 1 ] ]

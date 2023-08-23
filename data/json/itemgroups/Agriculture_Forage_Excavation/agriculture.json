@@ -54,7 +54,7 @@
       [ "fertilizer_liquid", 20 ],
       [ "fertilizer_commercial", 30 ],
       [ "fungicide", 20 ],
-      [ "insecticide", 30 ],
+      { "group": "insecticide_bag_plastic", "prob": 30 },
       { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 },
       [ "sickle", 40 ],
       { "group": "tools_toolbox", "prob": 10 },
@@ -160,7 +160,7 @@
     "items": [
       [ "fertilizer_liquid", 10 ],
       [ "fertilizer_commercial", 10 ],
-      [ "insecticide", 10 ],
+      { "group": "insecticide_bag_plastic", "prob": 10 },
       [ "pot_canning", 5 ],
       { "item": "jar_3l_glass_sealed", "prob": 25, "count": [ 2, 10 ] },
       { "item": "wooden_barrel", "prob": 20, "count": [ 2, 4 ] }

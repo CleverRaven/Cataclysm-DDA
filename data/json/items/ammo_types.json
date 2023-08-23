@@ -409,6 +409,18 @@
   },
   {
     "type": "ammunition_type",
+    "id": "hydrogen",
+    "name": "hydrogen",
+    "default": "hydrogen"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "nitrogen",
+    "name": "nitrogen",
+    "default": "nitrogen"
+  },
+  {
+    "type": "ammunition_type",
     "id": "motor_oil",
     "name": "motor oil",
     "default": "motor_oil"
@@ -574,12 +586,6 @@
     "id": "components",
     "name": "components",
     "default": "components"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "RPG-7",
-    "name": "RPG-7 rocket",
-    "default": "RPG-7_ammo"
   },
   {
     "type": "ammunition_type",
@@ -820,5 +826,11 @@
     "id": "turpentine",
     "name": "turpentine",
     "default": "chem_turpentine"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "airgun_pellet",
+    "name": "airgun pellet",
+    "default": "airgun_pellet_target"
   }
 ]

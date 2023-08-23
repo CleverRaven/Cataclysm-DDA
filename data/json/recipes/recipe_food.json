@@ -2871,7 +2871,6 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "almond_milk",
-    "result_mult": 3,
     "byproducts": [ [ "almond_pulp" ] ],
     "id_suffix": "mortar",
     "category": "CC_FOOD",
@@ -2884,13 +2883,13 @@
     "autolearn": true,
     "batch_time_factors": [ 30, 1 ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "almond_shelled", 2 ] ], [ [ "water_clean", 3 ] ] ]
+    "components": [ [ [ "almond_shelled", 2 ] ], [ [ "water_clean", 3 ] ] ],
+    "charges": 3
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "almond_milk",
-    "result_mult": 3,
     "byproducts": [ [ "almond_pulp" ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -2902,7 +2901,8 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "almond_shelled", 2 ] ], [ [ "water_clean", 3 ] ] ]
+    "components": [ [ [ "almond_shelled", 2 ] ], [ [ "water_clean", 3 ] ] ],
+    "charges": 3
   },
   {
     "type": "recipe",
@@ -2967,13 +2967,13 @@
     "activity_level": "NO_EXERCISE",
     "result": "milk_reconstituted",
     "id_suffix": "from_condensed",
-    "result_mult": 4,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [ [ [ "con_milk", 5 ] ], [ [ "water_clean", 3 ] ] ]
+    "components": [ [ [ "con_milk", 5 ] ], [ [ "water_clean", 3 ] ] ],
+    "charges": 4
   },
   {
     "type": "recipe",
@@ -3106,7 +3106,6 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "lemonade",
-    "result_mult": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -3114,7 +3113,8 @@
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "irradiated_lemon", 1 ], [ "lemon", 1 ] ], [ [ "sugar_powdered", 10, "LIST" ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "irradiated_lemon", 1 ], [ "lemon", 1 ] ], [ [ "sugar_powdered", 10, "LIST" ] ], [ [ "water_clean", 1 ] ] ],
+    "charges": 2
   },
   {
     "type": "recipe",
@@ -3132,7 +3132,6 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "spezi",
-    "result_mult": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -3140,13 +3139,13 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "orangesoda", 1 ] ], [ [ "cola", 1 ] ] ]
+    "components": [ [ [ "orangesoda", 1 ] ], [ [ "cola", 1 ] ] ],
+    "charges": 2
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "crispycran",
-    "result_mult": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -3154,7 +3153,8 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "lemonlime", 1 ] ], [ [ "cranberry_juice", 1 ] ] ]
+    "components": [ [ [ "lemonlime", 1 ] ], [ [ "cranberry_juice", 1 ] ] ],
+    "charges": 2
   },
   {
     "type": "recipe",
@@ -7750,9 +7750,9 @@
     "skill_used": "cooking",
     "time": "5 m",
     "autolearn": true,
-    "result_mult": 2,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "sweet_fruit", 1, "LIST" ] ], [ [ "hard_liquor", 1, "LIST" ] ] ]
+    "components": [ [ [ "sweet_fruit", 1, "LIST" ] ], [ [ "hard_liquor", 1, "LIST" ] ] ],
+    "charges": 2
   },
   {
     "type": "recipe",
@@ -8879,7 +8879,6 @@
     "skills_required": [ "tailor", 1 ],
     "time": "45 m",
     "book_learn": [ [ "survival_book", 6 ], [ "scots_cookbook", 3 ] ],
-    "result_mult": 2,
     "batch_time_factors": [ 50, 4 ],
     "using": [ [ "sewing_standard", 4 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 2 } ],
@@ -8890,7 +8889,8 @@
       [ [ "meat_stomach_large", 1, "LIST" ] ],
       [ [ "meat_offal", 2, "LIST" ] ],
       [ [ "oatmeal", 8 ], [ "buckwheat", 2 ] ]
-    ]
+    ],
+    "charges": 2
   },
   {
     "type": "recipe",
@@ -9022,7 +9022,6 @@
     "time": "5 m",
     "batch_time_factors": [ 20, 1 ],
     "autolearn": true,
-    "result_mult": 2,
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
@@ -9035,7 +9034,8 @@
       ],
       [ [ "water_clean", 1 ] ],
       [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ]
-    ]
+    ],
+    "charges": 2
   },
   {
     "result": "mex_chocolate",
@@ -9711,10 +9711,10 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "5 m",
-    "result_mult": 2,
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "flour_any", 4, "LIST" ] ], [ [ "sourdough_starter_uncovered", 1 ] ] ]
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "flour_any", 4, "LIST" ] ], [ [ "sourdough_starter_uncovered", 1 ] ] ],
+    "charges": 2
   },
   {
     "type": "recipe",
@@ -10153,7 +10153,6 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
-    "result_mult": 2,
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
@@ -10163,7 +10162,8 @@
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
       [ [ "pepper", 1 ], [ "curry_powder", 1 ], [ "chilly-p", 1 ], [ "hot_sauce", 1 ] ],
       [ [ "salt", 1 ], [ "irradiated_lemon", 1 ], [ "lemon", 1 ] ]
-    ]
+    ],
+    "charges": 2
   },
   {
     "type": "recipe",
@@ -10173,7 +10173,6 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "cooking",
     "difficulty": 1,
-    "result_mult": 2,
     "time": "30 s",
     "book_learn": [ [ "cookbook_bloodforgood", 2 ] ],
     "flags": [ "BLIND_HARD" ],
@@ -10183,7 +10182,8 @@
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
       [ [ "pepper", 1 ], [ "curry_powder", 1 ], [ "chilly-p", 1 ], [ "hot_sauce", 1 ] ],
       [ [ "salt", 1 ], [ "irradiated_lemon", 1 ], [ "lemon", 1 ] ]
-    ]
+    ],
+    "charges": 2
   },
   {
     "type": "recipe",
@@ -10193,7 +10193,6 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 3,
-    "result_mult": 6,
     "time": "45 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
@@ -10204,7 +10203,8 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sugar", 1 ], [ "artificial_sweetener", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
-    ]
+    ],
+    "charges": 6
   },
   {
     "type": "recipe",

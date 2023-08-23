@@ -168,7 +168,7 @@
     ]
   },
   {
-    "abstract": "car_abstract",
+    "abstract": "car_abstract_no_items_1_missing_wheel",
     "type": "vehicle",
     "name": "Car",
     "blueprint": [
@@ -200,7 +200,7 @@
       { "x": -1, "y": 1, "parts": [ "frame#vertical_2", "seat_back#right", "seatbelt", "roof" ] },
       { "x": -1, "y": 2, "parts": [ "frame#vertical_right", "door#se" ] },
       { "x": -2, "y": -1, "parts": [ "frame#vertical_left", "halfboard#wheel_left" ] },
-      { "x": -2, "y": -1, "parts": [ "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": -1, "parts": [ "wheel_mount_medium" ] },
       { "x": -2, "y": 0, "parts": [ "frame#vertical", "trunk", "muffler", "roof" ] },
       { "x": -2, "y": 1, "parts": [ "frame#vertical", "trunk", "roof" ] },
       { "x": -2, "y": 2, "parts": [ "frame#vertical_right", "halfboard#wheel_right" ] },
@@ -209,7 +209,13 @@
       { "x": -3, "y": 0, "parts": [ "frame#horizontal_rear", "door_trunk" ] },
       { "x": -3, "y": 1, "parts": [ "frame#horizontal_rear", "door_trunk" ] },
       { "x": -3, "y": 2, "parts": [ "frame#horizontal_rear", "halfboard#se" ] }
-    ],
+    ]
+  },
+  {
+    "abstract": "car_abstract",
+    "type": "vehicle",
+    "copy-from": "car_abstract_no_items_1_missing_wheel",
+    "parts": [ { "x": -2, "y": -1, "parts": [ "wheel" ] } ],
     "items": [
       { "x": 0, "y": 0, "chance": 90, "item_groups": [ "car_misc" ] },
       { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
@@ -225,6 +231,21 @@
     "parts": [
       { "x": 2, "y": 0, "parts": [ "engine_inline4", "alternator_car" ] },
       { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] }
+    ]
+  },
+  {
+    "id": "car_mayhem_tire_change",
+    "type": "vehicle",
+    "copy-from": "car_abstract_no_items_1_missing_wheel",
+    "parts": [
+      { "x": 2, "y": 0, "parts": [ "engine_inline4", "alternator_car" ] },
+      { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 90, "item_groups": [ "car_misc" ] },
+      { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
+      { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] },
+      { "x": -2, "y": 1, "chance": 90, "item_groups": [ "car_kit" ] }
     ]
   },
   {
