@@ -186,5 +186,29 @@
     "id": "ENCH_BIONIC_LEG_R",
     "condition": "ALWAYS",
     "modified_bodyparts": [ { "lose": "leg_r" }, { "lose": "foot_r" }, { "gain": "bionic_basic_leg_r" }, { "gain": "bionic_basic_foot_r" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_NO_ARM_L",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "hand_l" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_NO_ARM_R",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "arm_r" }, { "lose": "hand_r" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_NO_LEG_L",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "foot_l" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_NO_LEG_R",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "leg_r" }, { "lose": "foot_r" } ]
   }
 ]
