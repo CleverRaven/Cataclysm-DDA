@@ -756,7 +756,7 @@
     "type": "mutation",
     "id": "DENSE_BONES",
     "copy-from": "DENSE_BONES",
-    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
+    "extend": { "category": [ "DRAGON_BLACK" ] }
   },
   {
     "type": "mutation",
