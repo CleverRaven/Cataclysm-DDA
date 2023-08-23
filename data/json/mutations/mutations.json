@@ -3885,7 +3885,7 @@
     "purifiable": false,
     "prereqs": [ "BENDY2" ],
     "prereqs2": [ "AMORPHOUS" ],
-    "cancels": [ "HUMAN_ARMS", "HUMAN_LEGS" ],
+    "cancels": [ "HUMAN_ARMS", "HUMAN_LEGS", "NO_ARM_L", "NO_ARM_R", "NO_LEG_L", "NO_LEG_R" ],
     "threshreq": [ "THRESH_SLIME" ],
     "category": [ "SLIME" ],
     "passive_mods": { "dex_mod": 4, "str_mod": -4 },
@@ -3994,6 +3994,7 @@
     "prereqs": [ "PADDED_FEET" ],
     "category": [ "LUPINE", "FELINE", "BEAST", "RABBIT" ],
     "changes_to": [ "RABBIT_FEET" ],
+    "cancels": [ "HUMAN_LEGS", "NO_LEG_L", "NO_LEG_R" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
@@ -4132,6 +4133,7 @@
     "prereqs": [ "WINGS_BIRD" ],
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
+    "cancels": [ "HUMAN_LEGS", "NO_LEG_L", "NO_LEG_R" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
     "allowed_items": [ "ALLOWS_TALONS" ]
@@ -5143,6 +5145,7 @@
     "visibility": 8,
     "ugliness": 9,
     "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "cancels": [ "HUMAN_LEGS", "NO_LEG_L", "NO_LEG_R" ],
     "noise_modifier": 0.9,
     "destroys_gear": true,
     "flags": [ "TOUGH_FEET" ]
@@ -5161,6 +5164,7 @@
     "leads_to": [ "GASTROPOD_BALANCE" ],
     "flags": [ "SLUDGE_IMMUNE" ],
     "enchantments": [ "ENCH_GASTROPOD_FOOT" ],
+    "cancels": [ "HUMAN_LEGS", "NO_LEG_L", "NO_LEG_R" ],
     "visibility": 8,
     "ugliness": 9,
     "encumbrance_always": [ [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
@@ -7490,6 +7494,7 @@
     "changes_to": [ "INSECT_ARMS_OK", "ARACHNID_ARMS" ],
     "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
     "threshreq": [ "THRESH_INSECT", "THRESH_SPIDER" ],
+    "cancels": [ "HUMAN_ARMS", "NO_ARM_L", "NO_ARM_R" ],
     "category": [ "INSECT", "SPIDER" ],
     "restricts_gear": [ "torso" ],
     "passive_mods": { "dex_mod": -2 }
@@ -7502,6 +7507,7 @@
     "visibility": 4,
     "ugliness": 5,
     "description": "It's good having all your arms.  Though they're too thin to block or punch, you can fold them inside human-shaped gear if need be.",
+    "cancels": [ "HUMAN_ARMS", "NO_ARM_L", "NO_ARM_R" ],
     "purifiable": false,
     "types": [ "HANDS" ],
     "prereqs": [ "INSECT_ARMS" ],
@@ -7523,6 +7529,7 @@
     "changes_to": [ "ARACHNID_ARMS_OK" ],
     "prereqs": [ "INSECT_ARMS" ],
     "prereqs2": [ "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
+    "cancels": [ "HUMAN_ARMS", "NO_ARM_L", "NO_ARM_R" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ],
     "restricts_gear": [ "torso" ],
@@ -7540,6 +7547,7 @@
     "types": [ "HANDS" ],
     "prereqs": [ "ARACHNID_ARMS" ],
     "prereqs2": [ "POISONOUS", "POISONOUS2", "WEB_RAPPEL" ],
+    "cancels": [ "HUMAN_ARMS", "NO_ARM_L", "NO_ARM_R" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ]
   },
@@ -7557,6 +7565,7 @@
     "types": [ "HANDS", "CLAWS" ],
     "leads_to": [ "CLAWS_TENTACLE" ],
     "changes_to": [ "ARM_TENTACLES_4" ],
+    "cancels": [ "HUMAN_ARMS", "NO_ARM_L", "NO_ARM_R" ],
     "category": [ "CEPHALOPOD" ],
     "wet_protection": [
       { "part": "arm_l", "neutral": 19 },
@@ -7594,6 +7603,7 @@
     "restricts_gear": [ "hand_l", "hand_r" ],
     "types": [ "HANDS", "CLAWS" ],
     "prereqs": [ "ARM_TENTACLES" ],
+    "cancels": [ "HUMAN_ARMS", "NO_ARM_L", "NO_ARM_R" ],
     "leads_to": [ "CLAWS_TENTACLE" ],
     "changes_to": [ "ARM_TENTACLES_8" ],
     "category": [ "CEPHALOPOD" ],
@@ -7633,6 +7643,7 @@
     "restricts_gear": [ "hand_l", "hand_r" ],
     "types": [ "HANDS", "CLAWS" ],
     "prereqs": [ "ARM_TENTACLES_4" ],
+    "cancels": [ "HUMAN_ARMS", "NO_ARM_L", "NO_ARM_R" ],
     "leads_to": [ "CLAWS_TENTACLE" ],
     "category": [ "CEPHALOPOD" ],
     "wet_protection": [
@@ -9177,5 +9188,37 @@
     "prereqs": [ "INT_ALPHA", "PER_ALPHA" ],
     "prereqs2": [ "STR_ALPHA", "DEX_ALPHA" ],
     "threshreq": [ "THRESH_ALPHA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NO_ARM_L",
+    "name": { "str": "Missing Left Arm" },
+    "points": 0,
+    "description": "You lack a left arm.",
+    "enchantments": [ "ENCH_NO_ARM_L" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NO_ARM_L",
+    "name": { "str": "Missing Right Arm" },
+    "points": 0,
+    "description": "You lack a right arm.",
+    "enchantments": [ "ENCH_NO_ARM_R" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NO_LEG_L",
+    "name": { "str": "Missing Left Leg" },
+    "points": 0,
+    "description": "You lack a left arm.",
+    "enchantments": [ "ENCH_NO_ARM_L" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NO_LEG_R",
+    "name": { "str": "Missing Right Leg" },
+    "points": 0,
+    "description": "You lack a right arm.",
+    "enchantments": [ "ENCH_NO_ARM_R" ]
   }
 ]
