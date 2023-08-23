@@ -285,7 +285,7 @@ void iuse_transform::do_transform( Character *p, item &it ) const
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
     if( container.is_empty() ) {
-        obj = &it.convert( target );
+        obj = &it.convert( target, p );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
             int qty;
             if( !random_ammo_qty.empty() ) {
@@ -307,7 +307,7 @@ void iuse_transform::do_transform( Character *p, item &it ) const
             }
         }
     } else {
-        obj = &it.convert( container );
+        obj = &it.convert( container, p );
         int count = std::max( ammo_qty, 1 );
         item cont;
         if( target->count_by_charges() ) {
@@ -1881,7 +1881,7 @@ std::optional<int> fireweapon_off_actor::use( Character *p, item &it,
             p->add_msg_if_player( "%s", success_message );
         }
 
-        it.convert( target_id );
+        it.convert( target_id, p );
         it.active = true;
     } else if( !failure_message.empty() ) {
         p->add_msg_if_player( m_bad, "%s", failure_message );
@@ -3435,7 +3435,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
         // If the item is a tool, `make` it the new form
         // Otherwise it probably was consumed, so create a new one
         if( it.is_tool() ) {
-            it.convert( used_up_item_id );
+            it.convert( used_up_item_id, &healer );
             for( const auto &flag : used_up_item_flags ) {
                 it.set_flag( flag );
             }

@@ -611,8 +611,11 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
     return result;
 }
 
-item &item::convert( const itype_id &new_type )
+item &item::convert( const itype_id &new_type, Character *carrier )
 {
+    if( carrier ) {
+        carrier->remove_from_flagged_item_cache( *this );
+    }
     // Carry over relative rot similar to crafting
     const double rel_rot = get_relative_rot();
     type = find_type( new_type );
@@ -632,6 +635,9 @@ item &item::convert( const itype_id &new_type )
     if( temp.type->countdown_interval > 0_seconds ) {
         countdown_point = calendar::turn + type->countdown_interval;
         active = true;
+    }
+    if( carrier ) {
+        carrier->add_to_flagged_item_cache( *this );
     }
 
     return *this;
@@ -12849,11 +12855,11 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
             carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), tname() );
         }
         if( typeId() == itype_cig_lit ) {
-            convert( itype_cig_butt );
+            convert( itype_cig_butt, carrier );
         } else if( typeId() == itype_cigar_lit ) {
-            convert( itype_cigar_butt );
+            convert( itype_cigar_butt, carrier );
         } else { // joint
-            convert( itype_joint_roach );
+            convert( itype_joint_roach, carrier );
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
                 here.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), field_type_id( "fd_weedsmoke" ), 2 );
@@ -12975,15 +12981,15 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
     // cig dies out
     if( has_flag( flag_LITCIG ) ) {
         if( typeId() == itype_cig_lit ) {
-            convert( itype_cig_butt );
+            convert( itype_cig_butt, carrier );
         } else if( typeId() == itype_cigar_lit ) {
-            convert( itype_cigar_butt );
+            convert( itype_cigar_butt, carrier );
         } else { // joint
-            convert( itype_joint_roach );
+            convert( itype_joint_roach, carrier );
         }
     } else { // transform (lit) items
         if( type->revert_to ) {
-            convert( *type->revert_to );
+            convert( *type->revert_to, carrier );
         } else {
             type->invoke( carrier, *this, pos, "transform" );
         }
@@ -13407,11 +13413,11 @@ bool item::process_linked_item( Character *carrier, const tripoint & /*pos*/,
     return false;
 }
 
-bool item::process_wet( Character * /*carrier*/, const tripoint & /*pos*/ )
+bool item::process_wet( Character *carrier, const tripoint & /*pos*/ )
 {
     if( item_counter == 0 ) {
         if( type->revert_to ) {
-            convert( *type->revert_to );
+            convert( *type->revert_to, carrier );
         }
         unset_flag( flag_WET );
         active = false;
@@ -13565,7 +13571,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             }
             countdown_point = calendar::turn_max;
             if( type->revert_to ) {
-                convert( *type->revert_to );
+                convert( *type->revert_to, carrier );
 
                 active = needs_processing();
             } else {

@@ -2360,7 +2360,7 @@ std::optional<int> iuse::rm13armor_off( Character *p, item *it, const tripoint &
         p->add_msg_if_player( _( "Vision enhancement system:      ONLINE." ) );
         p->add_msg_if_player( _( "Electro-reactive armor system:  ONLINE." ) );
         p->add_msg_if_player( _( "All systems nominal." ) );
-        it->convert( itype_id( oname ) ).active = true;
+        it->convert( itype_id( oname ), p ).active = true;
         p->calc_encumbrance();
         return 1;
     }
@@ -2382,7 +2382,7 @@ std::optional<int> iuse::rm13armor_on( Character *p, item *it, const tripoint & 
         p->add_msg_if_player( _( "RivOS v2.19 shutdown sequence initiated." ) );
         p->add_msg_if_player( _( "Shutting down." ) );
         p->add_msg_if_player( _( "Your RM13 combat armor turns off." ) );
-        it->convert( itype_id( oname ) ).active = false;
+        it->convert( itype_id( oname ), p ).active = false;
         p->calc_encumbrance();
     }
     return 1;
@@ -2396,7 +2396,7 @@ std::optional<int> iuse::unpack_item( Character *p, item *it, const tripoint & )
     std::string oname = it->typeId().str() + "_on";
     p->moves -= to_moves<int>( 10_seconds );
     p->add_msg_if_player( _( "You unpack your %s for use." ), it->tname() );
-    it->convert( itype_id( oname ) ).active = false;
+    it->convert( itype_id( oname ), p ).active = false;
     // Check if unpacking led to invalid container state
     p->invalidate_inventory_validity_cache();
     return 0;
@@ -2457,7 +2457,7 @@ std::optional<int> iuse::pack_item( Character *p, item *it, const tripoint & )
         }
         p->moves -= to_moves<int>( 10_seconds );
         p->add_msg_if_player( _( "You pack your %s for storage." ), it->tname() );
-        it->convert( itype_id( oname ) ).active = false;
+        it->convert( itype_id( oname ), p ).active = false;
     }
     return 0;
 }
@@ -2493,7 +2493,7 @@ std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint 
     p->moves -= to_moves<int>( 2_seconds );
 
     for( item *water : liquids ) {
-        water->convert( itype_water_clean ).poison = 0;
+        water->convert( itype_water_clean, p ).poison = 0;
     }
     return charges_of_water;
 }
@@ -2504,7 +2504,7 @@ std::optional<int> iuse::radio_off( Character *p, item *it, const tripoint & )
         p->add_msg_if_player( _( "It's dead." ) );
     } else {
         p->add_msg_if_player( _( "You turn the radio on." ) );
-        it->convert( itype_radio_on ).active = true;
+        it->convert( itype_radio_on, p ).active = true;
     }
     return 1;
 }
@@ -3019,7 +3019,7 @@ static int toolweapon_off( Character &p, item &it, const bool fast_startup,
         }
         sounds::sound( p.pos(), volume, sounds::sound_t::combat, msg_success );
         // 4 is the length of "_off".
-        it.convert( itype_id( it.typeId().str().substr( 0, it.typeId().str().size() - 4 ) + "_on" ) );
+        it.convert( itype_id( it.typeId().str().substr( 0, it.typeId().str().size() - 4 ) + "_on" ), &p );
         it.active = true;
         return 1;
     } else {
@@ -3109,7 +3109,7 @@ static int toolweapon_running( Character *p, item &it, const tripoint &pos,
         if( p ) {
             p->add_msg_if_player( _( "Your %s gurgles in the water and stops." ), it.tname() );
         }
-        it.convert( *it.type->revert_to ).active = false;
+        it.convert( *it.type->revert_to, p ).active = false;
     } else if( one_in( sound_chance ) ) {
         sounds::ambient_sound( pos, volume, sounds::sound_t::activity, sound );
     }
@@ -3125,7 +3125,7 @@ std::optional<int> iuse::toolweapon_deactivate( Character *p, item *it, const tr
         sfx::fade_audio_channel( sfx::channel::chainsaw_theme, 3000 );
     }
     p->add_msg_if_player( _( "Your %s goes quiet." ), it->tname() );
-    it->convert( *it->type->revert_to ).active = false;
+    it->convert( *it->type->revert_to, p ).active = false;
     return 0; // Don't consume charges when turning off.
 }
 
@@ -3370,7 +3370,7 @@ std::optional<int> iuse::geiger( Character *p, item *it, const tripoint & )
             break;
         case 2:
             p->add_msg_if_player( _( "The geiger counter's scan LED turns on." ) );
-            it->convert( itype_geiger_on ).active = true;
+            it->convert( itype_geiger_on, p ).active = true;
             break;
         default:
             return std::nullopt;
@@ -3692,7 +3692,7 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint &po
     // 20% chance of going out harmlessly.
     if( one_in( 5 ) ) {
         p->add_msg_if_player( _( "Your lit Molotov goes out." ) );
-        it->convert( itype_molotov ).active = false;
+        it->convert( itype_molotov, p ).active = false;
     }
     return 0;
 }
@@ -3707,7 +3707,7 @@ std::optional<int> iuse::firecracker_pack( Character *p, item *it, const tripoin
         return std::nullopt;
     }
     p->add_msg_if_player( _( "You light the pack of firecrackers." ) );
-    it->convert( itype_firecracker_pack_act );
+    it->convert( itype_firecracker_pack_act, p );
     it->countdown_point = calendar::turn + 27_seconds;
     it->set_age( 0_turns );
     it->active = true;
@@ -3744,7 +3744,7 @@ std::optional<int> iuse::firecracker( Character *p, item *it, const tripoint & )
         return std::nullopt;
     }
     p->add_msg_if_player( _( "You light the firecracker." ) );
-    it->convert( itype_firecracker_act );
+    it->convert( itype_firecracker_act, p );
     it->countdown_point = calendar::turn + 2_seconds;
     it->active = true;
     return 1;
@@ -3761,7 +3761,7 @@ std::optional<int> iuse::mininuke( Character *p, item *it, const tripoint & )
     p->add_msg_if_player( _( "You set the timer to %s." ),
                           to_string( time_duration::from_turns( time ) ) );
     get_event_bus().send<event_type::activates_mininuke>( p->getID() );
-    it->convert( itype_mininuke_act );
+    it->convert( itype_mininuke_act, p );
     it->countdown_point = calendar::turn + time_duration::from_seconds( time );
     it->active = true;
     return 1;
@@ -3888,7 +3888,7 @@ std::optional<int> iuse::shocktonfa_off( Character *p, item *it, const tripoint 
                 return std::nullopt;
             } else {
                 p->add_msg_if_player( _( "You turn the light on." ) );
-                it->convert( itype_shocktonfa_on ).active = true;
+                it->convert( itype_shocktonfa_on, p ).active = true;
                 return 1;
             }
         }
@@ -3904,7 +3904,7 @@ std::optional<int> iuse::shocktonfa_on( Character *p, item *it, const tripoint &
     } else {
         if( !it->ammo_sufficient( p ) ) {
             p->add_msg_if_player( m_info, _( "Your tactical tonfa is out of power." ) );
-            it->convert( itype_shocktonfa_off ).active = false;
+            it->convert( itype_shocktonfa_off, p ).active = false;
         } else {
             int choice = uilist( _( "tactical tonfa" ), {
                 _( "Zap something" ), _( "Turn off light" )
@@ -3916,7 +3916,7 @@ std::optional<int> iuse::shocktonfa_on( Character *p, item *it, const tripoint &
                 }
                 case 1: {
                     p->add_msg_if_player( _( "You turn off the light." ) );
-                    it->convert( itype_shocktonfa_off ).active = false;
+                    it->convert( itype_shocktonfa_off, p ).active = false;
                 }
             }
         }
@@ -3936,13 +3936,13 @@ std::optional<int> iuse::mp3( Character *p, item *it, const tripoint & )
     } else {
         p->add_msg_if_player( m_info, _( "You put in the earbuds and start listening to music." ) );
         if( it->typeId() == itype_mp3 ) {
-            it->convert( itype_mp3_on ).active = true;
+            it->convert( itype_mp3_on, p ).active = true;
         } else if( it->typeId() == itype_smart_phone ) {
-            it->convert( itype_smartphone_music ).active = true;
+            it->convert( itype_smartphone_music, p ).active = true;
         } else if( it->typeId() == itype_afs_atomic_smartphone ) {
-            it->convert( itype_afs_atomic_smartphone_music ).active = true;
+            it->convert( itype_afs_atomic_smartphone_music, p ).active = true;
         } else if( it->typeId() == itype_afs_wraitheon_smartphone ) {
-            it->convert( itype_afs_atomic_wraitheon_music ).active = true;
+            it->convert( itype_afs_atomic_wraitheon_music, p ).active = true;
         }
         p->mod_moves( -200 );
     }
@@ -4027,16 +4027,16 @@ std::optional<int> iuse::mp3_deactivate( Character *p, item *it, const tripoint 
 
     if( it->typeId() == itype_mp3_on ) {
         p->add_msg_if_player( _( "The mp3 player turns off." ) );
-        it->convert( itype_mp3 ).active = false;
+        it->convert( itype_mp3, p ).active = false;
     } else if( it->typeId() == itype_smartphone_music ) {
         p->add_msg_if_player( _( "The phone turns off." ) );
-        it->convert( itype_smart_phone ).active = false;
+        it->convert( itype_smart_phone, p ).active = false;
     } else if( it->typeId() == itype_afs_atomic_smartphone_music ) {
         p->add_msg_if_player( _( "The phone turns off." ) );
-        it->convert( itype_afs_atomic_smartphone ).active = false;
+        it->convert( itype_afs_atomic_smartphone, p ).active = false;
     } else if( it->typeId() == itype_afs_atomic_wraitheon_music ) {
         p->add_msg_if_player( _( "The phone turns off." ) );
-        it->convert( itype_afs_wraitheon_smartphone ).active = false;
+        it->convert( itype_afs_wraitheon_smartphone, p ).active = false;
     }
     p->mod_moves( -200 );
     music::deactivate_music_id( music::music_id::mp3 );
@@ -4139,7 +4139,7 @@ std::optional<int> iuse::solarpack( Character *p, item *it, const tripoint & )
     p->add_msg_if_player(
         _( "You unfold the solar array from the pack.  You still need to connect it with a cable." ) );
 
-    it->convert( itype_id( it->typeId().str() + "_on" ) );
+    it->convert( itype_id( it->typeId().str() + "_on" ), p );
     return 0;
 }
 
@@ -4160,7 +4160,7 @@ std::optional<int> iuse::solarpack_off( Character *p, item *it, const tripoint &
 
     // 3 = "_on"
     it->convert( itype_id( it->typeId().str().substr( 0,
-                           it->typeId().str().size() - 3 ) ) ).active = false;
+                           it->typeId().str().size() - 3 ) ), p ).active = false;
     p->process_items(); // Process carried items to disconnect any connected cables
     return 0;
 }
@@ -4494,7 +4494,7 @@ std::optional<int> iuse::vortex( Character *p, item *it, const tripoint & )
         }
         p->add_msg_if_player( m_warning, _( "Air swirls all over…" ) );
         p->moves -= to_moves<int>( 1_seconds );
-        it->convert( itype_spiral_stone );
+        it->convert( itype_spiral_stone, p );
         mon->friendly = -1;
         return 1;
     }
@@ -5080,7 +5080,7 @@ static bool heat_item( Character &p )
 std::optional<int> iuse::heatpack( Character *p, item *it, const tripoint & )
 {
     if( heat_item( *p ) ) {
-        it->convert( itype_heatpack_used );
+        it->convert( itype_heatpack_used, p );
     }
     return 0;
 }
@@ -5182,7 +5182,7 @@ int iuse::towel_common( Character *p, item *it, bool )
         if( it && it->typeId() == itype_towel ) {
             it->item_counter = to_turns<int>( 30_minutes );
             // change "towel" to a "towel_wet" (different flavor text/color)
-            it->convert( itype_towel_wet );
+            it->convert( itype_towel_wet, p );
         }
 
         // default message
@@ -7171,7 +7171,7 @@ std::optional<int> iuse::radiocar( Character *p, item *it, const tripoint & )
             return std::nullopt;
         }
 
-        it->convert( itype_radio_car_on ).active = true;
+        it->convert( itype_radio_car_on, p ).active = true;
 
         p->add_msg_if_player(
             _( "You turned on your RC car; now place it on the ground, and use your radio control to play." ) );
@@ -7227,7 +7227,7 @@ std::optional<int> iuse::radiocaron( Character *p, item *it, const tripoint & )
 {
     if( !it->ammo_sufficient( p ) ) {
         // Deactivate since other mode has an iuse too.
-        it->convert( itype_radio_car ).active = false;
+        it->convert( itype_radio_car, p ).active = false;
         return 0;
     }
 
@@ -7240,7 +7240,7 @@ std::optional<int> iuse::radiocaron( Character *p, item *it, const tripoint & )
     }
 
     if( choice == 0 ) {
-        it->convert( itype_radio_car ).active = false;
+        it->convert( itype_radio_car, p ).active = false;
 
         p->add_msg_if_player( _( "You turned off your RC car." ) );
         return 1;
@@ -7711,7 +7711,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint &po
             it->erase_var( "DISH" );
             it->erase_var( "COOKTIME" );
             it->erase_var( "RECIPE" );
-            it->convert( itype_multi_cooker );
+            it->convert( itype_multi_cooker, p );
         }
         return 0;
     }
@@ -7830,7 +7830,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint &po
             p->add_msg_if_player( m_good,
                                   _( "The screen flashes blue symbols and scales as the multi-cooker begins to shake." ) );
 
-            it->convert( itype_multi_cooker_filled ).active = true;
+            it->convert( itype_multi_cooker_filled, p ).active = true;
             it->ammo_consume( charges_to_start - charge_buffer, pos, p );
 
             p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
@@ -7917,7 +7917,7 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
     if( it->ammo_remaining( p, true ) < charge_buffer ) {
         it->active = false;
         it->erase_var( "RECIPE" );
-        it->convert( itype_multi_cooker );
+        it->convert( itype_multi_cooker, p );
         //drain the buffer amount given at activation
         it->ammo_consume( charge_buffer, pos, p );
         p->add_msg_if_player( m_info,
@@ -7951,7 +7951,7 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
 
         it->active = false;
         it->erase_var( "COOKTIME" );
-        it->convert( itype_multi_cooker );
+        it->convert( itype_multi_cooker, p );
         if( it->can_contain( meal ).success() ) {
             it->put_in( meal, item_pocket::pocket_type::CONTAINER );
         } else {

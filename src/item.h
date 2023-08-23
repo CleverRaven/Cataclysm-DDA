@@ -234,9 +234,10 @@ class item : public visitable
         /**
          * Filter converting this instance to another type preserving all other aspects
          * @param new_type the type id to convert to
+         * @param carrier A pointer to the character that's carrying the item, nullptr if none, which is the default.
          * @return same instance to allow method chaining
          */
-        item &convert( const itype_id &new_type );
+        item &convert( const itype_id &new_type, Character *carrier = nullptr );
 
         /**
          * Filter converting this instance to the inactive type

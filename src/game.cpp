@@ -11423,7 +11423,7 @@ void game::water_affect_items( Character &ch ) const
                    && !loc.protected_from_liquids() ) {
             wet.emplace_back( loc );
         } else if( loc->typeId() == itype_towel && !loc.protected_from_liquids() ) {
-            loc->convert( itype_towel_wet ).active = true;
+            loc->convert( itype_towel_wet, &ch ).active = true;
         }
     }
 
