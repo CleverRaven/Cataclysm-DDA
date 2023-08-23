@@ -404,19 +404,20 @@
     "type": "talk_topic",
     "dynamic_line": {
       "compare_int": [ { "u_val": "var", "var_name": "rebooted_locator" }, "==", { "const": 1 } ],
-      "yes": "(insert congratulations here)",
-      "no": "(maybe a joke about not using the rebooter and surely a request to be told the path to the warehouse)"
+      "yes": "An' a fine farthing ye did, on that.  Thankee sai.  We've a crib on the walkway already.",
+      "no": "*gives you a long look, and somehow you know they're doing a slow blink inside their metal shell.  \"An' did ye forget sommat?  The booter?  Me heart and skelpy, 'tis not so hard a job.  Alas and alack, give us some directions then.\"  They pull out a notepad and pass a pencil your way."
     },
     "responses": [
       {
-        "text": "(insert appropriate text here)",
+        "text": "Long days and pleasant nights, Rubik.  Let's talk payment.",
         "condition": { "compare_int": [ { "u_val": "var", "var_name": "rebooted_locator" }, "==", { "const": 1 } ] },
         "effect": [ { "u_add_faction_trust": 5 } ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
       },
       {
         "text": "[Detail the road to the warehouse.  This will advance time by ten minutes.]",
-        "effect": [ { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" }, { "u_add_faction_trust": 5 } ],
+        "condition": { "compare_int": [ { "u_val": "var", "var_name": "rebooted_locator" }, "!=", { "const": 1 } ] },
+        "effect": [ { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" }, { "u_add_faction_trust": 4 } ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
       }
     ]
@@ -424,17 +425,36 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_2_complete_pay",
     "type": "talk_topic",
-    "dynamic_line": "'Tis a fine an' dandy!  What can ol' Rubik stand ye for, then?",
+    "dynamic_line": "Ol' Rubik's gone down into the stores an' slicked up a handful o' some dandies for ye.\"  They reach below the counter and take out three clear plastic bags, each containing a different cybernetic module.  \"Us'n can only spare one o', though.  Which'll it be?  We can slip an' crank 'em in as y'like.\"",
+    "//": "This dialogue should change if you're not exodized, allowing them to offer you exodization along with the new CBM.",
     "responses": [
       {
-        "text": "Let's see what you have in stock.",
-        "effect": [ { "u_add_faction_trust": 5 }, { "u_spend_cash": -150000 }, "start_trade" ],
+        "text": "[Install Air Filtration CBM] I like the look of that air filtration thingy.  Does it come with pine-fresh scent?",
+        "effect": [ { "u_add_bionic": "bio_purifier" }, { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" } ],
         "opinion": { "trust": 4, "value": 3 },
         "topic": "TALK_DONE"
       },
       {
-        "text": "I'm just glad to help, I don't need any payment.",
-        "effect": [ { "u_add_faction_trust": 10 } ],
+        "text": "[Install Blood Analysis CBM] I've always wondered what's in my veins.  Let's try that blood analysis module.",
+        "effect": [ { "u_add_bionic": "bio_blood_anal" }, { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" } ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Install Radiation Scrubber CBM] I have nightmares about ending up like Marie Curie.  Radiation scrubber it has to be.",
+        "effect": [ { "u_add_bionic": "bio_radscrubber" }, { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" } ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "How about store credit instead?  [adds $1500 in store credit].",
+        "effect": [ { "u_spend_cash": -150000 }, "start_trade" ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "How about instead, we turn this into a mutually beneficial relationship in the future.  I don't need anything from you at the moment, but now you know I get the job done.",
+        "effect": [ { "u_add_faction_trust": 4 } ],
         "opinion": { "trust": 7, "value": 5 },
         "topic": "TALK_DONE"
       }
