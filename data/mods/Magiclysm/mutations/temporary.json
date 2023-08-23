@@ -15,12 +15,6 @@
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "stomach_size_multiplier": 2.0,
     "weight_capacity_modifier": 1.1,
-    "enchantments": [
-      {
-        "values": [
-          { "value": "MAX_HP", "multiply": 0.3 }
-        ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.3 } ] } ]
   }
 ]
