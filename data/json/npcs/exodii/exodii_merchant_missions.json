@@ -363,8 +363,8 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_2_explain",
     "type": "talk_topic",
-    "dynamic_line": "INSERT_ANGLIK_HERE",
-    "//~": "Without any indication of its location, we cannot risk our quads when we can't even guarantee we would find the warehouse.",
+    "dynamic_line": "'Tis a gull's errand, with narry a sign.  Our stompers cannot cover each squarrel, and they've many a dropsy to search.  This'n be a right easy spot for keen eyes, so mayhap your sameworlds can be of a snap.",
+    "//~": "Without any indication of its location, there's too much ground to cover, and we have many other things to look for.  This one is pretty easy to see, so maybe some of the locals can help find it.",
     "responses": [
       { "text": "Then I'll find it.", "topic": "TALK_DONE", "effect": { "assign_mission": "EXODII_MISSION_WAREHOUSE" } },
       { "text": "Any clues on how to find it?", "topic": "TALK_EXODII_MERCHANT_mission_2_find" },
@@ -376,8 +376,8 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_2_find",
     "type": "talk_topic",
-    "dynamic_line": "INSERT_ANGLIK_HERE",
-    "//~": "Without any indication of its location, we cannot risk our quads when we can't even guarantee we would find the warehouse.",
+    "dynamic_line": "That's be for your assert, an I'm ken. If ol' Rubik could find 'er, us'n'd send out the stompers. For a yark an' a lark, though, couldst ask another of your sameworld?  Mercants or traveler-such?  It be a fine slick to a local guide.",
+    "//~": "that's up to you, I think.  If I could find it myself, I'd send quads out there.  Maybe it would be worth asking around to other survivors?  Seems like a good job for a local guide.",
     "responses": [
       { "text": "Then I'll find it.", "topic": "TALK_DONE", "effect": { "assign_mission": "EXODII_MISSION_WAREHOUSE" } },
       { "text": "Shouldn't your quads be able to do that?", "topic": "TALK_EXODII_MERCHANT_mission_2_explain" },
@@ -389,8 +389,8 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_2_reward",
     "type": "talk_topic",
-    "dynamic_line": "INSERT_ANGLIK_HERE",
-    "//~": "Without any indication of its location, we cannot risk our quads when we can't even guarantee we would find the warehouse.",
+    "dynamic_line": "Ye'll win the endless delight of ol' Rubik?\"  You hear a tinny chuckle from behind Rubik's faceplate.  \"O'course.  Ol' Rubik can find f'r ye something a mite special, from the ol' CBM vaults.  Mayahp a choice?  We're kickin' a thriceways.\"  Rubik reaches into the desk in front of them and pulls out a tiny, green-glowing CRT that, amid all the strange alien technology, looks bizarrely familiar, like something from a 1970's sci-fi movie.  They scroll rapidly down a list to find three items, which they tap to emphasize.  'air filtration CBM', 'blood analysis CBM', and 'radiation scrubber system CBM'.\n\n\"Think on it, decide on a last.",
+    "//~": "You'll win my endless happiness?  Of course not.  I can find you something special from the CBM vaults.  Maybe I can give you a choice?  Three different ones.  Think on it and decide when it's done.",
     "responses": [
       { "text": "Then I'll find it.", "topic": "TALK_DONE", "effect": { "assign_mission": "EXODII_MISSION_WAREHOUSE" } },
       { "text": "Shouldn't your quads be able to do that?", "topic": "TALK_EXODII_MERCHANT_mission_2_explain" },
