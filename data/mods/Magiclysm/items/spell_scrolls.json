@@ -1446,5 +1446,23 @@
     "name": { "str": "Scroll of cloak of chill", "str_pl": "Scrolls of cloak of chill" },
     "description": "Summer-be-gone through the power of of modern magic.",
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_anti_heat" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_slowfall",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of slowfall", "str_pl": "Scrolls of slowfall" },
+    "description": "Who's afraid of heights?  Not you, after you learn this spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_slowfall" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_spiderclimb",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of spider climb", "str_pl": "Scrolls of spider climb" },
+    "description": "Free climb better than the best.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_spiderclimb" ] }
   }
 ]
