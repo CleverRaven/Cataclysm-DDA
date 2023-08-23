@@ -810,7 +810,6 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
         if( skillslist[i].is_header ) {
             const SkillDisplayType t = SkillDisplayType::get_skill_type( aSkill->display_category() );
             std::string type_name = t.display_string();
-            mvwprintz( w_skills, point( 0, y_pos ), c_light_gray, std::string( grid_width, ' ' ) );
             center_print( w_skills, y_pos, c_yellow, type_name );
         } else {
             const SkillLevel &level = you.get_skill_level_object( aSkill->ident() );
@@ -840,7 +839,6 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                 } else {
                     cstatus = training ? h_light_blue : h_blue;
                 }
-                mvwprintz( w_skills, point( 1, y_pos ), cstatus, std::string( width - 1, ' ' ) );
             } else {
                 if( locked ) {
                     cstatus = c_yellow;
@@ -851,7 +849,6 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                 } else {
                     cstatus = training ? c_light_blue : c_blue;
                 }
-                mvwprintz( w_skills, point( 1, y_pos ), c_light_gray, std::string( width - 1, ' ' ) );
             }
             mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
             if( aSkill->ident() == skill_dodge ) {
