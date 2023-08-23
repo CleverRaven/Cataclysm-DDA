@@ -6,7 +6,7 @@
     "//": "Mostly copied from Huge with some Tough mixed in",
     "points": 2,
     "visibility": 4,
-    "ugliness": 3,
+    "ugliness": 8,
     "mixed_effect": true,
     "description": "Magic has made you grow to enormous size!",
     "flags": [ "HUGE" ],
