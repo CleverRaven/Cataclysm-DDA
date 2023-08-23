@@ -1876,7 +1876,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
             recalc_traits = true;
         } else if( action == "RESET_FILTER" ) {
             if( !filterstring.empty() ) {
-                filterstring = "";
+                filterstring.clear();
                 recalc_traits = true;
             }
         }
@@ -2327,7 +2327,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
             recalc_profs = true;
         } else if( action == "RESET_FILTER" ) {
             if( !filterstring.empty() ) {
-                filterstring = "";
+                filterstring.clear();
                 recalc_profs = true;
             }
         } else if( action == "RANDOMIZE" ) {
@@ -2651,7 +2651,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
             recalc_hobbies = true;
         } else if( action == "RESET_FILTER" ) {
             if( !filterstring.empty() ) {
-                filterstring = "";
+                filterstring.clear();
                 recalc_hobbies = true;
             }
         } else if( action == "RANDOMIZE" ) {
@@ -3228,7 +3228,6 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                                                "Scenario costs %2$d points", pointsForScen );
                 }
 
-
                 int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
                 mvwprintz( w, point( pMsg_length + 9, 3 ), can_afford.success() ? c_green : c_light_red,
                            scen_msg_temp, sorted_scens[cur_id]->gender_appropriate_name( u.male ), pointsForScen );
@@ -3343,7 +3342,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
             recalc_scens = true;
         } else if( action == "RESET_FILTER" ) {
             if( !filterstring.empty() ) {
-                filterstring = "";
+                filterstring.clear();
                 recalc_scens = true;
             }
         } else if( action == "RANDOMIZE" ) {
@@ -3740,8 +3739,6 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     while( i != hobby_skills.end() ) {
                         if( i->first == elem->ident() ) {
                             int skill_exp_bonus = leftover_exp + calculate_cumulative_experience( i->second );
-                            leftover_exp = 0;
-
                             // Calculate Level up to find final level and remaining exp
                             while( skill_exp_bonus >= exp_to_level ) {
                                 level++;

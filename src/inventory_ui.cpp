@@ -1973,7 +1973,6 @@ bool inventory_selector::drag_drop_item( item *sourceItem, item *destItem )
     return false;
 }
 
-
 bool inventory_selector::add_contained_items( item_location &container )
 {
     return add_contained_items( container, own_inv_column );
@@ -2490,7 +2489,6 @@ inventory_selector::stat inventory_selector::get_holster_stat( const units::volu
     std::string holster_caption = string_format( _( "Free Holster Volume (%s): %s Used Holsters:" ),
                                   volume_units_abbr(),
                                   colorize( format_volume( holster_volume ), c_light_gray ) );
-
 
     return display_stat( holster_caption, used_holsters, total_holsters, []( int v ) {
         return string_format( "%d", v );
@@ -3878,8 +3876,6 @@ inventory_selector::stats inventory_insert_selector::get_raw_stats() const
             holster->get_used_holsters() + holstered_items,
             holster->get_total_holsters() );
 }
-
-
 
 pickup_selector::pickup_selector( Character &p, const inventory_selector_preset &preset,
                                   const std::string &selection_column_title, const std::optional<tripoint> &where ) :
