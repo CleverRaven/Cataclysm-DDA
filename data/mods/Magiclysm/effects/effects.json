@@ -729,5 +729,70 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sense_outsiders",
+    "name": [ "Sense Outsider" ],
+    "desc": [ "You can sense the presence of things that should not be." ],
+    "apply_message": "",
+    "remove_message": "Your awareness of outsiders fades.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SIGHT_RANGE_NETHER",
+            "add": { "math": [ "(( u_val('spell_level', 'spell: animist_sense_outsiders') * 2.5) + 3)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_kelvinist_anti_cold",
+    "name": [ "Cloak of Warmth" ],
+    "desc": [ "The air around you is warmer thanks to your magic." ],
+    "apply_message": "",
+    "remove_message": "A cool breeze hits your skin.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "emitter": "emit_kelvinist_anti_cold",
+        "values": [
+          {
+            "value": "CLIMATE_CONTROL_HEAT", "add": 50
+          },
+          {
+            "value": "ARMOR_COLD",
+            "add": { "math": [ "( u_val('spell_level', 'spell: kelvinist_anti_cold') * -1)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_kelvinist_anti_heat",
+    "name": [ "Cloak of Chill" ],
+    "desc": [ "The air around you is cooler thanks to your magic." ],
+    "apply_message": "",
+    "remove_message": "A warm breeze hits your skin.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "emitter": "emit_kelvinist_anti_heat",
+        "values": [
+          {
+           "value": "CLIMATE_CONTROL_CHILL", "add": 50
+          },
+          {
+            "value": "ARMOR_HEAT",
+            "add": { "math": [ "( u_val('spell_level', 'spell: kelvinist_anti_heat') * -1)" ] }
+          }
+        ]
+      }
+    ]
   }
 ]
