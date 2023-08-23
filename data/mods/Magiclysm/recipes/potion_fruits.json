@@ -142,5 +142,21 @@
     "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [ [ [ "cranberries", 1 ], [ "mana_dust", 10 ] ] ]
+  },
+  {
+    "result": "potion_fruit_huckleberries",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "spellcraft",
+    "difficulty": 4,
+    "time": "60 m",
+    "batch_time_factors": [ 15, 2 ],
+    "autolearn": [ [ "spellcraft", 6 ], [ "cooking", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_alchemy" }, { "proficiency": "prof_botanical_enchantment" } ],
+    "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [ [ [ "huckleberries", 1 ], [ "mana_dust", 10 ] ] ]
   }
 ]
