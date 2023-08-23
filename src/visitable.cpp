@@ -615,7 +615,7 @@ std::list<item> inventory::remove_items_with( Character *carrier,
             if( filter( *istack_iter ) ) {
                 count--;
                 if( carrier ) {
-                    carrier->remove_from_inv_search_cache( *istack_iter );
+                    carrier->remove_from_inv_search_caches( *istack_iter );
                 }
                 res.splice( res.end(), istack, istack_iter++ );
                 // The non-first items of a stack may have different invlets, the code
@@ -652,7 +652,7 @@ std::list<item> outfit::remove_items_with( Character *carrier,
     for( auto iter = worn.begin(); iter != worn.end(); ) {
         if( filter( *iter ) ) {
             iter->on_takeoff( *carrier );
-            carrier->remove_from_inv_search_cache( *iter );
+            carrier->remove_from_inv_search_caches( *iter );
             res.splice( res.end(), worn, iter++ );
             if( --count == 0 ) {
                 return res;

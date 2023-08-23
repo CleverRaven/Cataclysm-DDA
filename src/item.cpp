@@ -614,7 +614,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 item &item::convert( const itype_id &new_type, Character *carrier )
 {
     if( carrier ) {
-        carrier->remove_from_inv_search_cache( *this );
+        carrier->remove_from_inv_search_caches( *this );
     }
     // Carry over relative rot similar to crafting
     const double rel_rot = get_relative_rot();
@@ -637,7 +637,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         active = true;
     }
     if( carrier ) {
-        carrier->add_to_inv_search_cache( *this );
+        carrier->add_to_inv_search_caches( *this );
     }
 
     return *this;

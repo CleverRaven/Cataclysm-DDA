@@ -2938,7 +2938,7 @@ std::list<item *> Character::get_dependent_worn_items( const item &it )
 item Character::remove_weapon()
 {
     item tmp = weapon;
-    remove_from_inv_search_cache( weapon );
+    remove_from_inv_search_caches( weapon );
     weapon = item();
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     cached_info.erase( "weapon_value" );
@@ -8896,10 +8896,10 @@ bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) con
 std::set<item *> &Character::all_items_with_flag( const flag_id &flag ) const
 {
     std::string flag_string = flag.c_str();
-    auto iter = inv_search_cache.find( flag_string );
+    auto iter = inv_search_caches.find( flag_string );
 
     // If the flag set already exists in the cache, return it.
-    if( iter != inv_search_cache.end() ) {
+    if( iter != inv_search_caches.end() ) {
         return iter->second;
     }
 
@@ -8915,14 +8915,14 @@ std::set<item *> &Character::all_items_with_flag( const flag_id &flag ) const
         } );
     }
     for( const item *it : items_with_flag ) {
-        inv_search_cache[flag_string].insert( const_cast<item *>( it ) );
+        inv_search_caches[flag_string].insert( const_cast<item *>( it ) );
     }
-    return inv_search_cache[flag_string];
+    return inv_search_caches[flag_string];
 }
 
-void Character::add_to_inv_search_cache( item &it ) const
+void Character::add_to_inv_search_caches( item &it ) const
 {
-    for( auto &cached_items : inv_search_cache ) {
+    for( auto &cached_items : inv_search_caches ) {
         if( cached_items.first == flag_LIGHT.c_str() ) {
             if( it.type->light_emission > 0 ) {
                 cached_items.second.insert( &it );
@@ -8933,12 +8933,12 @@ void Character::add_to_inv_search_cache( item &it ) const
     }
 }
 
-void Character::remove_from_inv_search_cache( item &it ) const
+void Character::remove_from_inv_search_caches( item &it ) const
 {
-    if( inv_search_cache.empty() ) {
+    if( inv_search_caches.empty() ) {
         return;
     }
-    for( auto &cached_items : inv_search_cache ) {
+    for( auto &cached_items : inv_search_caches ) {
         cached_items.second.erase( &it );
     }
 }
@@ -9322,7 +9322,7 @@ void Character::on_item_acquire( const item &it )
     bool update_overmap_seen = false;
 
     it.visit_items( [this, &check_for_zoom, &update_overmap_seen]( item * cont_it, item * ) {
-        add_to_inv_search_cache( *cont_it );
+        add_to_inv_search_caches( *cont_it );
         if( check_for_zoom && !update_overmap_seen && cont_it->has_flag( flag_ZOOM ) ) {
             update_overmap_seen = true;
         }

@@ -1715,7 +1715,7 @@ bool item_pocket::remove_internal( const std::function<bool( item & )> &filter,
     for( auto it = contents.begin(); it != contents.end(); ) {
         if( filter( *it ) ) {
             if( carrier ) {
-                carrier->remove_from_inv_search_cache( *it );
+                carrier->remove_from_inv_search_caches( *it );
             }
             res.splice( res.end(), contents, it++ );
             if( --count == 0 ) {
