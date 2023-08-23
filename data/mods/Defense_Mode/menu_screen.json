@@ -22,7 +22,8 @@
             { "math": [ "goblins_allowed", "==", "1" ] },
             { "math": [ "golems_allowed", "==", "1" ] },
             { "math": [ "orcs_allowed", "==", "1" ] },
-            { "math": [ "mindovermatter_allowed", "==", "1" ] }
+            { "math": [ "mindovermatter_allowed", "==", "1" ] },
+            { "math": [ "candymonsters_allowed", "==", "1" ] }
           ]
         },
         "topic": "TALK_DONE"
@@ -191,6 +192,18 @@
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
+        "text": "Allow sweets.",
+        "condition": { "and": [ { "mod_is_loaded": "my_sweet_cataclysm" }, { "math": [ "candymonsters_allowed", "==", "0" ] } ] },
+        "effect": { "math": [ "candymonsters_allowed", "=", "1" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Disable sweets.",
+        "condition": { "and": [ { "mod_is_loaded": "my_sweet_cataclysm" }, { "math": [ "candymonsters_allowed", "==", "1" ] } ] },
+        "effect": { "math": [ "candymonsters_allowed", "=", "0" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
         "text": "Play!",
         "condition": {
           "or": [
@@ -206,7 +219,8 @@
             { "math": [ "goblins_allowed", "==", "1" ] },
             { "math": [ "golems_allowed", "==", "1" ] },
             { "math": [ "orcs_allowed", "==", "1" ] },
-            { "math": [ "mindovermatter_allowed", "==", "1" ] }
+            { "math": [ "mindovermatter_allowed", "==", "1" ] },
+            { "math": [ "candymonsters_allowed", "==", "1" ] }
           ]
         },
         "topic": "TALK_DONE"

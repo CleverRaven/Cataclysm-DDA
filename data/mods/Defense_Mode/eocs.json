@@ -71,7 +71,8 @@
           [ "DEFENSE_MODE_WAVE_SPAWN_GOBLINS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_ORCS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_MEGAFAUNA", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_PSYCHICS", { "const": 1 } ]
+          [ "DEFENSE_MODE_WAVE_SPAWN_PSYCHICS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_CANDY", { "const": 1 } ]
         ]
       }
     ]
@@ -95,7 +96,8 @@
           [ "DEFENSE_MODE_WAVE_SPAWN_GOBLINS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_ORCS", { "const": 1 } ],
           [ "DEFENSE_MODE_WAVE_SPAWN_MEGAFAUNA", { "const": 1 } ],
-          [ "DEFENSE_MODE_WAVE_SPAWN_PSYCHICS", { "const": 1 } ]
+          [ "DEFENSE_MODE_WAVE_SPAWN_PSYCHICS", { "const": 1 } ],
+          [ "DEFENSE_MODE_WAVE_SPAWN_CANDY", { "const": 1 } ]
         ]
       }
     ]
