@@ -463,8 +463,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GIANT_GROWTH_MUTATION",
-    "condition": { "and": [ {"not": { "u_has_trait": "HUGE" } }, {"not": { "u_has_trait": "HUGE_OK" } } ]
-    },
+    "condition": { "and": [ { "not": { "u_has_trait": "HUGE" } }, { "not": { "u_has_trait": "HUGE_OK" } } ] },
     "effect": [
       { "u_message": "Your body swells and warps as your size increases!", "type": "good" },
       { "u_add_trait": "BIO_GIANT_GROWTH" },
