@@ -458,7 +458,7 @@
     "id": "druid_natures_commune",
     "type": "SPELL",
     "name": "Nature's Commune",
-    "description": "You concentrate on the nature around you and commune with it, improving your health and calming the nearby wildlife.",
+    "description": "You concentrate on the nature around you and commune with it, improving your health and calming the nearby wildlife.  This spell may only be cast outdoors.",
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_NATURE_COMMUNE",
