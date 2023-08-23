@@ -419,5 +419,25 @@
     "min_duration": 360000,
     "max_duration": 2160000,
     "duration_increment": 72000
+  },
+  {
+    "id": "biomancer_swim_frog",
+    "type": "SPELL",
+    "name": "Limbs of the Frog",
+    "description": "Grow webbing on your hands and feet, making quick swimming a breeze.",
+    "valid_targets": [ "self" ],
+    "spell_class": "MAGUS",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_biomancer_swim_speed",
+    "shape": "blast",
+    "difficulty": 4,
+    "max_level": 10,
+    "min_duration": 120000,
+    "max_duration": 360000,
+    "duration_increment": 24000,
+    "energy_source": "MANA",
+    "base_energy_cost": 300,
+    "base_casting_time": 1000
   }
 ]
