@@ -331,7 +331,6 @@ static std::string cata_fail_chance_string( const recipe &recp, const Character 
                           chance );
 }
 
-
 static std::vector<std::string> recipe_info(
     const recipe &recp,
     const availability &avail,

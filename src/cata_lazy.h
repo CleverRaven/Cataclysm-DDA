@@ -60,7 +60,6 @@ struct lazy {
         return &get();
     }
 
-
     template<typename Arg>
     auto &&operator[]( Arg &&arg ) {
         return get()[std::forward<Arg>( arg )];

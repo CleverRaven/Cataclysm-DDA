@@ -1628,7 +1628,6 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
 {
     npc_opinion npc_values = op_of_u;
 
-
     const item_location weapon = you.get_wielded_item();
     // FEAR
     if( !you.is_armed() ) {
