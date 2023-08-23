@@ -300,8 +300,7 @@
     "type": "mutation",
     "id": "ELFA_NV",
     "copy-from": "ELFA_NV",
-    "extend": { "category": [ "SPECIES_ELF" ] },
-    "extend": { "threshreq": [ "THRESH_SPECIES_ELF" ] }
+    "extend": { "category": [ "SPECIES_ELF" ], "threshreq": [ "THRESH_SPECIES_ELF" ] }
   },
   {
     "type": "mutation",
@@ -313,8 +312,7 @@
     "type": "mutation",
     "id": "ANIMALEMPATH2",
     "copy-from": "ANIMALEMPATH2",
-    "extend": { "category": [ "SPECIES_ELF" ] },
-    "extend": { "threshreq": [ "THRESH_SPECIES_ELF" ] }
+    "extend": { "category": [ "SPECIES_ELF" ], "threshreq": [ "THRESH_SPECIES_ELF" ] }
   },
   {
     "type": "mutation",
@@ -374,22 +372,19 @@
     "type": "mutation",
     "id": "GILLS",
     "copy-from": "GILLS",
-    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] },
-    "extend": { "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ] }
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ], "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "COLDBLOOD4",
     "copy-from": "COLDBLOOD4",
-    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] },
-    "extend": { "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ] }
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ], "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "LARGE_OK",
     "copy-from": "LARGE_OK",
-    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] },
-    "extend": { "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ] }
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ], "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
