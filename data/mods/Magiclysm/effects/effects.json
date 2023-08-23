@@ -716,13 +716,7 @@
     "remove_message": "Your muscle's twitch as the pear's magic fades.",
     "rating": "good",
     "show_intensity": false,
-   "enchantments": [
-      {
-        "values": [
-          { "value": "ATTACK_SPEED", "add": -15 }
-        ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "add": -15 } ] } ]
   },
   {
     "id": "effect_pfruit_attack_speed",
@@ -733,9 +727,9 @@
     "remove_message": "The thorns vanish without a trace, leaving your gear unharmed.",
     "rating": "good",
     "show_intensity": false,
-   "enchantments": [ "enchant_pfruit_thorns" ]
+    "enchantments": [ "enchant_pfruit_thorns" ]
   },
-   {
+  {
     "type": "enchantment",
     "id": "enchant_pfruit_thorns",
     "condition": "ALWAYS",
@@ -757,7 +751,7 @@
     "min_range": 1,
     "max_range": 1
   },
-    {
+  {
     "id": "effect_pfruit_keep_warm",
     "type": "effect_type",
     "name": [ "Summer's Heat" ],
@@ -766,12 +760,6 @@
     "remove_message": "You shiver as a cool breeze hits your skin.",
     "rating": "good",
     "show_intensity": false,
-   "enchantments": [
-      {
-        "values": [
-          { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }
-        ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ] } ]
   }
 ]

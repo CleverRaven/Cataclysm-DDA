@@ -16,10 +16,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POTION_FRUIT_APPLE",
-    "effect":[ {
-        "u_add_effect": "effect_pfruit_heal",
-        "duration": { "math": [ "150 + rand(350)" ] }
-      }]
+    "effect": [ { "u_add_effect": "effect_pfruit_heal", "duration": { "math": [ "150 + rand(350)" ] } } ]
   },
   {
     "type": "COMESTIBLE",
@@ -38,10 +35,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POTION_FRUIT_PEACH",
-    "effect": [{
-        "u_add_effect": "effect_pfruit_cure"",
-        "duration": "1 seconds"
-      }]
+    "effect": [ { "u_add_effect": "effect_pfruit_cure", "duration": "1 seconds" } ]
   },
   {
     "type": "COMESTIBLE",
@@ -60,10 +54,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POTION_FRUIT_PEAR",
-    "effect": [{
-        "u_add_effect": "effect_pfruit_attack_speed",
-        "duration": { "math": [ "250 + rand(1500)" ] }
-      }]
+    "effect": [ { "u_add_effect": "effect_pfruit_attack_speed", "duration": { "math": [ "250 + rand(1500)" ] } } ]
   },
   {
     "type": "COMESTIBLE",
@@ -82,12 +73,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POTION_FRUIT_BLACKBERRY",
-    "effect": [{
-        "u_add_effect": "effect_pfruit_thorns",
-        "duration": { "math": [ "500 + rand(1500)" ] }
-      }]
+    "effect": [ { "u_add_effect": "effect_pfruit_thorns", "duration": { "math": [ "500 + rand(1500)" ] } } ]
   },
-   {
+  {
     "type": "COMESTIBLE",
     "id": "potion_fruit_raspberries",
     "name": { "str": "potion fruit (raspberries)" },
@@ -104,9 +92,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POTION_FRUIT_RASPBERRY",
-    "effect": [{ "math": [ "u_pain()", "-=", "3" ] } ]
+    "effect": [ { "math": [ "u_pain()", "-=", "3" ] } ]
   },
-   {
+  {
     "type": "COMESTIBLE",
     "id": "potion_fruit_strawberries",
     "name": { "str": "potion fruit (strawberries)" },
@@ -123,10 +111,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POTION_FRUIT_STRAWBERRY",
-    "effect": [{
-        "u_add_effect": "effect_pfruit_keep_warm",
-        "duration": { "math": [ "500 + rand(5000)" ] }
-      }]
+    "effect": [ { "u_add_effect": "effect_pfruit_keep_warm", "duration": { "math": [ "500 + rand(5000)" ] } } ]
   },
   {
     "type": "COMESTIBLE",
