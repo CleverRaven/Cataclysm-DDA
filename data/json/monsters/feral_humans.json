@@ -247,9 +247,8 @@
     "copy-from": "mon_feral_human_pipe",
     "default_faction": "fungus",
     "upgrades": { "half_life": 14, "into_group": "GROUP_NULL", "into": "mon_fungaloid" },
-    "special_attacks": [ [ "FUNGUS", 40 ] ],
-    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "extend": { "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] }
+    "extend": { "special_attacks": [ [ "FUNGUS", 40 ] ], "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] },
+    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } }
   },
   {
     "id": "mon_feral_human_crowbar_fungal_corpse",
@@ -258,9 +257,8 @@
     "copy-from": "mon_feral_human_crowbar",
     "default_faction": "fungus",
     "upgrades": { "half_life": 14, "into_group": "GROUP_NULL", "into": "mon_fungaloid" },
-    "special_attacks": [ [ "FUNGUS", 40 ] ],
-    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "extend": { "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] }
+    "extend": { "special_attacks": [ [ "FUNGUS", 40 ] ], "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] },
+    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } }
   },
   {
     "id": "mon_feral_human_axe_fungal_corpse",
@@ -269,9 +267,8 @@
     "copy-from": "mon_feral_human_axe",
     "default_faction": "fungus",
     "upgrades": { "half_life": 14, "into_group": "GROUP_NULL", "into": "mon_fungaloid" },
-    "special_attacks": [ [ "FUNGUS", 40 ] ],
-    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "extend": { "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] }
+    "extend": { "special_attacks": [ [ "FUNGUS", 40 ] ], "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] },
+    "death_function": { "effect": { "id": "death_fungus", "hit_self": true } }
   },
   {
     "id": "mon_feral_scientist_scalpel",
