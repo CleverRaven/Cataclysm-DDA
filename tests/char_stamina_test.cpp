@@ -25,7 +25,6 @@ static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_walk( "walk" );
 
-
 static const trait_id trait_BADBACK( "BADBACK" );
 // These test cases cover stamina-related functions in the `Character` class, including:
 //
