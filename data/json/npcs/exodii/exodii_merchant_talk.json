@@ -748,7 +748,7 @@
                 {
                   "compare_int": [ { "global_val": "var", "var_name": "warehouse_was_found" }, "==", { "const": 1 } ],
                   "yes": ", but for the right-an-quick, this'n has nothin' t'be tassed for ye.",
-                  "no": ".  How'd ye be twigged by a (((SWAP_FOR_EXOSPEAK_treasure hunt for a lost warehouse_SWAP_FOR_EXOSPEAK)))?"
+                  "no": ".  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?"
                 }
               ],
               "no": ".  How'd ye be twigged by a quick an' round, a nice escoltin' out to a place sommat of curiosity?"
