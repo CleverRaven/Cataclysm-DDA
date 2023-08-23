@@ -22,6 +22,7 @@
             { "math": [ "goblins_allowed", "==", "1" ] },
             { "math": [ "golems_allowed", "==", "1" ] },
             { "math": [ "orcs_allowed", "==", "1" ] },
+            { "math": [ "mythos_allowed", "==", "1" ] },
             { "math": [ "mindovermatter_allowed", "==", "1" ] }
           ]
         },
@@ -178,6 +179,19 @@
         "effect": { "math": [ "orcs_allowed", "=", "0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
+      
+      {
+        "text": "Mgah'ehye ya nyth'drnn.",
+        "condition": { "and": [ { "mod_is_loaded": "Mythos-Creatures" }, { "math": [ "mythos_allowed", "==", "0" ] } ] },
+        "effect": { "math": [ "mythos_allowed", "=", "1" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Mgah ya nyth'drnn.",
+        "condition": { "and": [ { "mod_is_loaded": "Mythos-Creatures" }, { "math": [ "mythos_allowed", "==", "1" ] } ] },
+        "effect": { "math": [ "mythos_allowed", "=", "0" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
       {
         "text": "Allow psychics.",
         "condition": { "and": [ { "mod_is_loaded": "mindovermatter" }, { "math": [ "mindovermatter_allowed", "==", "0" ] } ] },
@@ -206,6 +220,7 @@
             { "math": [ "goblins_allowed", "==", "1" ] },
             { "math": [ "golems_allowed", "==", "1" ] },
             { "math": [ "orcs_allowed", "==", "1" ] },
+            { "math": [ "mythos_allowed", "==", "1" ] },
             { "math": [ "mindovermatter_allowed", "==", "1" ] }
           ]
         },
