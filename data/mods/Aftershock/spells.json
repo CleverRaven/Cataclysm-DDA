@@ -64,21 +64,6 @@
     "damage_type": "electric"
   },
   {
-    "id": "skullgun_snapback",
-    "type": "SPELL",
-    "name": "Skullgun Snapback",
-    "//": "Used for activating Skullgun CBM, not castable",
-    "description": "This fake spell occurs on skullgun activation.  May be fatal if done in critical condition.",
-    "effect": "attack",
-    "shape": "blast",
-    "valid_targets": [ "self" ],
-    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_FAIL", "NO_PROJECTILE" ],
-    "min_damage": 10,
-    "max_damage": 10,
-    "message": "Your head snaps back from the force of the shot.",
-    "damage_type": "biological"
-  },
-  {
     "id": "afs_generic_free_turn",
     "type": "SPELL",
     "name": "Aftershock Extra Turn",

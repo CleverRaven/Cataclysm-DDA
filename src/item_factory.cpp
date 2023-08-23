@@ -2734,6 +2734,7 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     }
 
     assign( jo, "modes", slot.modes );
+    assign( jo, "hurt_part_when_fired", slot.hurt_part_when_fired );
 }
 
 void Item_factory::load_gun( const JsonObject &jo, const std::string &src )
