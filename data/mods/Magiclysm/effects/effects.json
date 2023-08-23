@@ -769,6 +769,48 @@
     "apply_message": "You feel cleansed.",
     "rating": "good",
     "show_intensity": false,
-    "removes_effects": [ "scurvy", "redcells_anemia", "anemia", "toxin_buildup", "common_cold", "flu" ]
+    "removes_effects": [       "poison",
+      "venom_dmg",
+      "venom_weaken",     "badpoison",
+      "foodpoison",
+      "paralyzepoison",      "bloodworms",
+            "brainworms",
+      "tapeworm" ]
+  },
+  {
+    "id": "effect_pfruit_dodge",
+    "type": "effect_type",
+    "name": [ "Flexible" ],
+    "desc": [ "Your range of motion is greatly increased." ],
+    "apply_message": "You arms are as bendy as rubber.",
+    "remove_message": "Your limbs creak as they lose their flexibility.",
+    "rating": "good",
+    "show_intensity": false,
+     "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 2.0 },
+      { "limb_score": "block", "modifier": 1.2 },
+      { "limb_score": "crawl", "modifier": 1.5 }
+    ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BONUS_DODGE", "add": 1
+          }
+        ]
+      }
+    ],
+    "flags": [ "DOWNED_RECOVERY", "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_pfruit_nightvision",
+    "name": [ "Wintergreen Vision" ],
+    "desc": [ "You can see in the dark." ],
+    "apply_message": "The night doesn't seem so dark anymore",
+    "remove_message": "The darkness of the night rushes in again.",
+    "rating": "good",
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 6 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]
