@@ -761,9 +761,7 @@
       {
         "emitter": "emit_kelvinist_anti_cold",
         "values": [
-          {
-            "value": "CLIMATE_CONTROL_HEAT", "add": 50
-          },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
           {
             "value": "ARMOR_COLD",
             "add": { "math": [ "( u_val('spell_level', 'spell: kelvinist_anti_cold') * -1)" ] }
