@@ -473,7 +473,7 @@
     "energy_source": "MANA",
     "difficulty": 8
   },
-    {
+  {
     "id": "magus_slowfall",
     "type": "SPELL",
     "name": "Slowfall",
