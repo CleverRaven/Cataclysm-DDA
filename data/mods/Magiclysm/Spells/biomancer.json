@@ -426,7 +426,7 @@
     "name": "Limbs of the Frog",
     "description": "Grow webbing on your hands and feet, making quick swimming a breeze.",
     "valid_targets": [ "self" ],
-    "spell_class": "MAGUS",
+    "spell_class": "BIOMANCER",
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
     "effect": "attack",
     "effect_str": "effect_biomancer_swim_speed",
@@ -439,5 +439,45 @@
     "energy_source": "MANA",
     "base_energy_cost": 300,
     "base_casting_time": 1000
+  },
+  {
+    "id": "biomancer_giant_growth",
+    "type": "SPELL",
+    "name": "Giant Growth",
+    "description": "Grow to enormous size.  Your clothing and equipment will not grow with you.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_GIANT_GROWTH_MUTATION",
+    "shape": "blast",
+    "difficulty": 6,
+    "max_level": 15,
+    "min_duration": 30000,
+    "max_duration": 90000,
+    "duration_increment": 4000,
+    "energy_source": "MANA",
+    "base_energy_cost": 550,
+    "base_casting_time": 100
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIANT_GROWTH_MUTATION",
+    "condition": { "and": [ {"not": { "u_has_trait": "HUGE" } }, {"not": { "u_has_trait": "HUGE_OK" } } ]
+    },
+    "effect": [
+      { "u_message": "Your body swells and warps as your size increases!", "type": "good" },
+      { "u_add_trait": "BIO_GIANT_GROWTH" },
+      { "queue_eocs": "EOC_GIANT_GROWTH_MUTATION_REMOVE", "time_in_future": { "math": [ "(( u_val('spell_level', 'spell: biomancer_giant_growth') * 4000 ) + 30000 )" ] } }
+    ],
+    "false_effect": [ { "u_message": "You are already enormous--the spell cannot make you any larger!" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIANT_GROWTH_MUTATION_REMOVE",
+    "effect": [
+       { "u_message": "Your body shrinks and warps as your size decreases!", "type": "bad" },
+       { "u_lose_trait": "BIO_GIANT_GROWTH" }
+    ]
   }
 ]
