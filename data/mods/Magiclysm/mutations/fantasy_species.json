@@ -362,7 +362,7 @@
     "type": "mutation",
     "id": "WEBBED_LIZ_FEET",
     "name": { "str": "Webbed Feet" },
-    "\\": "Alternate so webbed hands are not a prerequisite",
+    "//": "Alternate so webbed hands are not a prerequisite",
     "points": 1,
     "types": [ "FEET" ],
     "description": "Your feet are heavily webbed, allowing you to swim faster if you aren't wearing footwear.",
