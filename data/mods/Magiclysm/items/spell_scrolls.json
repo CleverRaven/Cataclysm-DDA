@@ -1473,5 +1473,14 @@
     "name": { "str": "Scroll of Limbs of the Frog", "str_pl": "Scrolls of Limbs of the Frog" },
     "description": "Swim with the fishes, with your froggy hands and legs.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_swim_frog" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_giant_growth",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Giant Growth", "str_pl": "Scrolls of Giant Growth" },
+    "description": "Grow to enormous size and crush your enemies.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_giant_growth" ] }
   }
 ]
