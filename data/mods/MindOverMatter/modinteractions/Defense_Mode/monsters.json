@@ -1,0 +1,72 @@
+[
+  {
+    "id": "mon_feral_human_bio_dm",
+    "copy-from": "mon_feral_human_bio",
+    "type": "MONSTER",
+    "species": [ "HUMAN" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_clair_dm",
+    "copy-from": "mon_feral_human_clair",
+    "type": "MONSTER",
+    "species": [ "HUMAN" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_pyrokin_dm",
+    "copy-from": "mon_feral_human_pyrokin",
+    "type": "MONSTER",
+    "species": [ "HUMAN" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_telekin_dm",
+    "copy-from": "mon_feral_human_telekin",
+    "type": "MONSTER",
+    "species": [ "HUMAN" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_teep_dm",
+    "copy-from": "mon_feral_human_teep",
+    "type": "MONSTER",
+    "species": [ "HUMAN" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_porter_dm",
+    "copy-from": "mon_feral_human_porter",
+    "type": "MONSTER",
+    "species": [ "HUMAN" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_feral_human_vita_dm",
+    "copy-from": "mon_feral_human_vita",
+    "type": "MONSTER",
+    "species": [ "HUMAN" ],
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  }
+]
