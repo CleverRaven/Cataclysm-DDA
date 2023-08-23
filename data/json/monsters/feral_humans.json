@@ -738,7 +738,7 @@
     "species": [ "FERAL" ],
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 80,
+    "hp": 84,
     "speed": 100,
     "material": [ "flesh" ],
     "symbol": "@",
@@ -746,8 +746,8 @@
     "aggression": 75,
     "morale": 100,
     "melee_skill": 6,
-    "melee_dice": 2,
-    "melee_dice_sides": 3,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
     "dodge": 1,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
@@ -770,7 +770,8 @@
         "require_targeting_player": false,
         "target_moving_vehicles": true,
         "description": "The feral biker fires their shotgun!"
-      }
+      },
+      { "id": "feral_weapon_shotgun_melee" }
     ],
     "death_drops": "mon_feral_jackboot_death_drops",
     "zombify_into": "mon_zombie",
