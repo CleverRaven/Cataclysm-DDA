@@ -366,6 +366,7 @@
     "type": "GENERIC",
     "name": { "str": "disassembled catalytic cracking reactor" },
     "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  Meticulously disassembled.  You can reassemble and plug it into your own power grid to use it.",
+    "category": "tools",
     "symbol": "Y",
     "color": "light_cyan",
     "looks_like": "f_catalytic_cracking_reactor",
@@ -406,6 +407,7 @@
     "id": "gasket_plastic_set",
     "name": { "str": "plastic gasket set" },
     "description": "A set of three plastic gaskets.  They're intended to be single-use, but you could probably use it for some time before they're too worn out to use.",
+    "category": "spare_parts",
     "symbol": "(",
     "color": "dark_gray",
     "looks_like": "plastic_chunk",
@@ -463,6 +465,7 @@
     "type": "TOOL",
     "name": { "str": "recovery pump" },
     "description": "A medium-sized vacuum pump designed to recover solvent (hydrocarbons) from extracted essential oils.",
+    "category": "tools",
     "symbol": "E",
     "color": "dark_gray",
     "looks_like": "well_pump",
@@ -499,6 +502,7 @@
     "id": "ammonia_machine_reactor",
     "type": "TOOL",
     "name": { "str": "makeshift ammonia machine reactor" },
+    "category": "tool",
     "description": "A huge appliance built from salvaged industrial equipment, which produces ammonia via the Haber-Bosch process from hydrogen and nitrogen.  As it uses primitive catalysts for the reaction, energy efficiency is very low.  This one is powered by electricity.",
     "//": "Consumes 200 MJ for 1 kg of NH3.",
     "weight": "340 kg",
@@ -522,6 +526,7 @@
     "name": { "str": "makeshift ammonia machine pipework" },
     "description": "A rather complicated system of thick-walled pipes, powerful compressors, and wiring, meant to interface with a reactor producing ammonia from nitrogen and hydrogen via Haber-Bosch process.  It also acts as a power source for all the low-powered electrical components of the system.",
     "//": "Consumes 20 MJ for 1 kg of NH3.",
+    "category": "tool",
     "weight": "120 kg",
     "volume": "100 L",
     "longest_side": "300 cm",
@@ -543,6 +548,7 @@
     "name": { "str": "makeshift nitrogen generator" },
     "description": "A large makeshift appliance which captures nitrogen from the air for use in chemistry projects.  It includes a standard air filter for filtering out dust and other large particles, a deliquescent dryer to remove water vapor from air, and a nitrogen membrane filter to separate nitrogen from dry air.",
     "//": "Uses up 1.2 MJ for 1 m^3 of N2 (1.253 kg), assuming 99.5% purity.",
+    "category": "tool",
     "weight": "50 kg",
     "volume": "70 L",
     "longest_side": "150 cm",
@@ -576,6 +582,7 @@
     "//": "based on a 24lb N-butane tank such as https://www.usalab.com/24lb-n-butane-tank/.  That much butane occupies about 19 liters.  Roughly analogous to 5 gal propane tanks.",
     "name": { "str": "butane tank", "str_pl": "tanks of butane" },
     "description": "A tank of compressed butane.  Aside from its practicality as fuel, it can also be used to extract essential oils from organic material.",
+    "category": "tool_magazine",
     "weight": "7500 g",
     "volume": "24000 ml",
     "longest_side": "50 cm",
@@ -605,6 +612,7 @@
     "type": "TOOL",
     "name": { "str": "hydrogen tank" },
     "description": "A tank of compressed hydrogen gas.  If you need to make water from scratch, or lift a zeppelin, it could come in handy.",
+    "category": "other",
     "weight": "2268 g",
     "volume": "1500 ml",
     "price": 1000,
@@ -613,9 +621,18 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 24,
-    "max_charges": 24,
     "charges_per_use": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "airtight": true,
+        "initial_charges": [ 12, 24 ],
+        "ammo_restriction": { "hydrogen": 24 },
+        "watertight": true
+      }
+    ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "looks_like": "oxygen_tank",
     "melee_damage": { "bash": 10 }
   },
@@ -624,6 +641,7 @@
     "type": "GENERIC",
     "name": { "str": "pressurized tank" },
     "description": "A tank designed to hold high pressure gases.",
+    "category": "container",
     "weight": "2268 g",
     "volume": "3 L",
     "price": 1000,
@@ -643,7 +661,7 @@
         "watertight": true
       }
     ],
-    "flags": [ "NO_UNLOAD" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "melee_damage": { "bash": 10 }
   },
   {
@@ -668,6 +686,7 @@
     "type": "TOOL",
     "name": { "str": "nitrogen tank" },
     "description": "A tank of compressed nitrogen gas.  Nitrogen is useful for its lack of reactivity.  Don't try to breathe it.",
+    "category": "other",
     "weight": "2268 g",
     "volume": "1500 ml",
     "price": 1000,
@@ -676,18 +695,27 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 24,
-    "max_charges": 24,
     "charges_per_use": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "airtight": true,
+        "initial_charges": [ 12, 24 ],
+        "ammo_restriction": { "nitrogen": 24 },
+        "watertight": true
+      }
+    ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "looks_like": "oxygen_tank",
     "melee_damage": { "bash": 10 }
   },
   {
     "id": "oxygen_cylinder",
     "type": "MAGAZINE",
-    "category": "spare_parts",
-    "name": { "str": "oxygen cylinder" },
+    "name": { "str": "oxygen tank" },
     "description": "A large steel cylinder used for storing pressurized gas.  It is marked with a faded, but legible O2 symbol.",
+    "category": "container",
     "weight": "19050 g",
     "volume": "28000 ml",
     "longest_side": "92 cm",
@@ -706,6 +734,7 @@
         "ammo_restriction": { "oxygen": 300 }
       }
     ],
+    "flags": [ "NO_UNLOAD" ],
     "ammo_type": [ "oxygen" ],
     "capacity": 300,
     "count": 300,
@@ -715,6 +744,7 @@
     "id": "platinum_grille",
     "type": "TOOL",
     "name": { "str": "platinum grille" },
+    "category": "spare_parts",
     "description": "A metal grille with a layer of platinum plating, suitable for use as a catalyst for some chemical reactions.",
     "weight": "660 g",
     "volume": "250 ml",

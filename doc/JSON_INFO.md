@@ -65,6 +65,8 @@ Use the `Home` key to return to the top.
       - [`missions`](#missions)
       - [`proficiencies`](#proficiencies)
       - [`items`](#items)
+      - [`age_lower`](#age_lower)
+      - [`age_upper`](#age_upper)
       - [`pets`](#pets)
       - [`vehicle`](#vehicle)
       - [`flags`](#flags)
@@ -1093,6 +1095,7 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `dispersion_mod`             | (_optional_) Modifier to change firearm dispersion.
 | `activated_on_install`       | (_optional_) Auto-activates this bionic when installed.
 | `required_bionic`       | (_optional_) Bionic which is required to install this bionic, and which cannot be uninstalled if this bionic is installed
+| `give_mut_on_removal`         | (_optional_) A list of mutations/traits that are added when this bionic is uninstalled (for example a "blind" mutation if you removed bionic eyes after installation).
 
 ```JSON
 {
@@ -1138,6 +1141,20 @@ mod = min( max, ( limb_score / denominator ) - subtract );
     "react_cost": "10 kJ",
     "time": "1 s",
     "required_bionic": "bio_weight"
+  },
+  {
+    "type": "bionic",
+    "id": "afs_bio_skullgun",
+    "name": { "str": "Skullgun" },
+    "description": "Concealed in your head is a single shot 10mm pistol.  Activate the bionic to fire and reload the skullgun.",
+    "occupied_bodyparts": [ [ "head", 5 ] ],
+    "encumbrance": [ [ "head", 5 ] ],
+    "fake_weapon": "bio_skullgun_gun",
+    "flags": [ "BIONIC_GUN" ],
+    "stat_bonus": [ [ "INT", -4 ], [ "PER", -2 ] ],
+    "canceled_mutations": [ "INT_UP", "INT_UP_2", "INT_UP_3", "INT_UP_4", "INT_ALPHA", "SKULLGUN_STUPID" ],
+    "give_mut_on_removal": [ "SKULLGUN_STUPID" ],
+    "activated_close_ui": true
   }
 ```
 
@@ -1780,6 +1797,18 @@ Example:
 ```
 
 This gives the player pants, two rocks, a t-shirt with the snippet id "allyourbase" (giving it a special description), socks and (depending on the gender) briefs or panties.
+
+#### `age_lower`
+
+(optional, int)
+The lowest age that a character with this profession can generate with. 
+This places no limits on manual input, only on random generation (i.e. Play Now!). Defaults to 21.
+
+#### `age_upper`
+
+(optional, int)
+The highest age that a character with this profession can generate with.
+This places no limits on manual input, only on random generation (i.e. Play Now!). Defaults to 55.
 
 #### `pets`
 
@@ -5316,36 +5345,36 @@ A list of mission ids that will be started and assigned to the player at the sta
 ## `start_of_cataclysm`
 (optional, object with optional members "hour", "day", "season" and "year")
 
-Allows customization of cataclysm start date. If `start_of_cataclysm` is not set the corresponding default values are used instead - 0 hour, 60 day (which is day 61), Spring season, 1 year. By default this date be randomized in new character creation screen.
+Allows customization of cataclysm start date. If `start_of_cataclysm` is not set the corresponding default values are used instead - `Year 1, Spring, Day 61, 00:00:00`. Can be changed in new character creation screen.
 
 ```C++
-"start_of_cataclysm": { "hour": "random", "day": 10, "season": "winter", "year": 1 }
+"start_of_cataclysm": { "hour": 7, "day": 10, "season": "winter", "year": 1 }
 ```
 
  Identifier            | Description
 ---                    | ---
-`hour`                 | (optional, integer or `random` string) Hour of the day. Default value is 0. String `random` randomizes 0-23.
-`day`                  | (optional, integer or `random` string) Day of the season. Default value is 60 (which is day 61). String `random` randomizes 0-season length.
-`season`               | (optional, integer or `random` string) Season of the year. Default value is `spring`. String `random` randomizes to one of 4 season.
-`year`                 | (optional, integer or `random` string) Year. Default value is 1. String `random` randomizes 1-11.
+`hour`                 | (optional, integer) Hour of the day. Default value is 0.
+`day`                  | (optional, integer) Day of the season. Default value is 61.
+`season`               | (optional, integer) Season of the year. Default value is `spring`.
+`year`                 | (optional, integer) Year. Default value is 1.
 
 ## `start_of_game`
 (optional, object with optional members "hour", "day", "season" and "year")
 
-Allows customization of game start date. If `start_of_game` is not set the corresponding default values are used instead - random hour (0-23), 60 day (which is day 61), Spring season, 1 year. By default hour part of this date can be randomized in new character creation screen.
+Allows customization of game start date. If `start_of_game` is not set the corresponding default values are used instead - `Year 1, Spring, Day 61, 08:00:00`. Can be changed in new character creation screen.
 
-If the scenario game start date is before the scenario cataclysm start date then the scenario game start would be automatically set to scenario cataclysm start date.
+**Attention**: Game start date is automatically adjusted, so it is not before the cataclysm start date.
 
 ```C++
-"start_of_game": { "hour": "random", "day": "random", "season": "winter", "year": 2 }
+"start_of_game": { "hour": 8, "day": 16, "season": "winter", "year": 2 }
 ```
 
  Identifier            | Description
 ---                    | ---
-`hour`                 | (optional, integer or `random` string) Hour of the day. Default value is 8. String `random` randomizes 0-23.
-`day`                  | (optional, integer or `random` string) Day of the season. Default value is 60 (which is day 61). String `random` randomizes 0-season length.
-`season`               | (optional, integer or `random` string) Season of the year. Default value is `spring`. String `random` randomizes to one of 4 season.
-`year`                 | (optional, integer or `random` string) Year. Default value is 1. String `random` randomizes 1-11.
+`hour`                 | (optional, integer) Hour of the day. Default value is 8.
+`day`                  | (optional, integer) Day of the season. Default value is 61.
+`season`               | (optional, integer) Season of the year. Default value is `spring`.
+`year`                 | (optional, integer) Year. Default value is 1.
 
 # Starting locations
 

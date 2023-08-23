@@ -1161,7 +1161,10 @@
         "distribution": [
           { "item": "spell_scroll_stonefist", "prob": 50 },
           { "item": "spell_scroll_eshaper_piercing_bolt", "prob": 50 },
-          { "item": "spell_scroll_eshaper_rockbolt", "prob": 50 }
+          { "item": "spell_scroll_eshaper_rockbolt", "prob": 50 },
+          { "item": "spell_scroll_earthshaper_danger_sense", "prob": 50 },
+          { "item": "spell_scroll_earthshaper_fortitude_of_stone", "prob": 50 },
+          { "item": "spell_scroll_earthshaper_turning_of_earth", "prob": 50 }
         ],
         "prob": 45
       },

@@ -105,64 +105,44 @@ void scenario::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "eoc", _eoc, auto_flags_reader<effect_on_condition_id> {} );
 
     if( !was_loaded ) {
+
+        int _start_of_cataclysm_hour = 0;
+        int _start_of_cataclysm_day = 61;
+        season_type _start_of_cataclysm_season = SPRING;
+        int _start_of_cataclysm_year = 1;
         if( jo.has_member( "start_of_cataclysm" ) ) {
             JsonObject jocid = jo.get_member( "start_of_cataclysm" );
-            if( jocid.has_string( "hour" ) )  {
-                _is_random_start_of_cataclysm_hour = jocid.get_string( "hour" ) == "random";
-            } else if( jocid.has_int( "hour" ) ) {
-                _is_random_start_of_cataclysm_hour = false;
-                optional( jocid, was_loaded, "hour", _start_of_cataclysm_hour );
-            }
-            if( jocid.has_string( "day" ) ) {
-                _is_random_start_of_cataclysm_day = jocid.get_string( "day" ) == "random";
-            } else if( jocid.has_int( "day" ) ) {
-                _is_random_start_of_cataclysm_day = false;
-                optional( jocid, was_loaded, "day", _start_of_cataclysm_day );
-            }
-            if( jocid.has_string( "season" ) ) {
-                if( jocid.get_string( "season" ) == "random" ) {
-                    _is_random_start_of_cataclysm_season = true;
-                } else {
-                    _is_random_start_of_cataclysm_season = false;
-                    optional( jocid, was_loaded, "season", _start_of_cataclysm_season );
-                }
-            }
-            if( jocid.has_string( "year" ) ) {
-                _is_random_start_of_cataclysm_year = jocid.get_string( "year" ) == "random";
-            } else if( jocid.has_int( "year" ) ) {
-                _is_random_start_of_cataclysm_year = false;
-                optional( jocid, was_loaded, "year", _start_of_cataclysm_year );
-            }
+            optional( jocid, was_loaded, "hour", _start_of_cataclysm_hour );
+            optional( jocid, was_loaded, "day", _start_of_cataclysm_day );
+            optional( jocid, was_loaded, "season", _start_of_cataclysm_season );
+            optional( jocid, was_loaded, "year", _start_of_cataclysm_year );
         }
+        _default_start_of_cataclysm = calendar::turn_zero +
+                                      1_hours * _start_of_cataclysm_hour +
+                                      1_days * ( _start_of_cataclysm_day - 1 ) +
+                                      1_days * get_option<int>( "SEASON_LENGTH" ) * _start_of_cataclysm_season +
+                                      calendar::year_length() * ( _start_of_cataclysm_year - 1 )
+                                      ;
+
+        int _start_of_game_hour = 8;
+        int _start_of_game_day = 61;
+        season_type _start_of_game_season = SPRING;
+        int _start_of_game_year = 1;
         if( jo.has_member( "start_of_game" ) ) {
             JsonObject jocid = jo.get_member( "start_of_game" );
-            if( jocid.has_string( "hour" ) )  {
-                _is_random_start_of_game_hour = jocid.get_string( "hour" ) == "random";
-            } else if( jocid.has_int( "hour" ) ) {
-                _is_random_start_of_game_hour = false;
-                optional( jocid, was_loaded, "hour", _start_of_game_hour );
-            }
-            if( jocid.has_string( "day" ) ) {
-                _is_random_start_of_game_day = jocid.get_string( "day" ) == "random";
-            } else if( jocid.has_int( "day" ) ) {
-                _is_random_start_of_game_day = false;
-                optional( jocid, was_loaded, "day", _start_of_game_day );
-            }
-            if( jocid.has_string( "season" ) ) {
-                if( jocid.get_string( "season" ) == "random" ) {
-                    _is_random_start_of_game_season = true;
-                } else {
-                    _is_random_start_of_game_season = false;
-                    optional( jocid, was_loaded, "season", _start_of_game_season );
-                }
-            }
-            if( jocid.has_string( "year" ) ) {
-                _is_random_start_of_game_year = jocid.get_string( "year" ) == "random";
-            } else if( jocid.has_int( "year" ) ) {
-                _is_random_start_of_game_year = false;
-                optional( jocid, was_loaded, "year", _start_of_game_year );
-            }
+            optional( jocid, was_loaded, "hour", _start_of_game_hour );
+            optional( jocid, was_loaded, "day", _start_of_game_day );
+            optional( jocid, was_loaded, "season", _start_of_game_season );
+            optional( jocid, was_loaded, "year", _start_of_game_year );
         }
+        _default_start_of_game = calendar::turn_zero +
+                                 1_hours * _start_of_game_hour +
+                                 1_days * ( _start_of_game_day - 1 ) +
+                                 1_days * get_option<int>( "SEASON_LENGTH" ) * _start_of_game_season +
+                                 calendar::year_length() * ( _start_of_game_year - 1 )
+                                 ;
+
+        reset_calendar();
     }
 
     if( jo.has_string( "vehicle" ) ) {
@@ -173,14 +153,6 @@ void scenario::load( const JsonObject &jo, const std::string_view )
         _surround_groups.emplace_back( mongroup_id( ja.get_string( 0 ) ),
                                        static_cast<float>( ja.get_float( 1 ) ) );
     }
-    // Initial cataclysm start date would be always set to Hour 0 of Spring, 1 (year 1).
-    // Initial start game hour would be always set to 8.
-    // Both can be later randomized by player in new character menu if scenario allows it.
-    rerandomize( false, true );
-    if( is_random_start_of_game_hour() ) {
-        _start_of_game_hour = 8;
-    }
-    update_start_dates();
 }
 
 const scenario *scenario::generic()
@@ -544,197 +516,38 @@ bool scenario::get_reveal_locale() const
     return reveal_locale;
 }
 
-void scenario::rerandomize( bool randomize_start_of_cataclysm, bool randomize_start_of_game ) const
+void scenario::normalize_calendar() const
 {
     scenario *hack = const_cast<scenario *>( this );
-    if( randomize_start_of_cataclysm ) {
-        if( hack->is_random_start_of_cataclysm_hour() ) {
-            hack->_start_of_cataclysm_hour = rng( 0, 23 );
-        }
-        if( hack->is_random_start_of_cataclysm_day() ) {
-            hack->_start_of_cataclysm_day = rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 );
-        }
-        if( hack->is_random_start_of_cataclysm_season() ) {
-            hack->_start_of_cataclysm_season = static_cast<season_type>( rng( 0, 3 ) );
-        }
-        if( hack->is_random_start_of_cataclysm_year() ) {
-            hack->_start_of_cataclysm_year = rng( 1, 11 );
-        }
+    // We don't currently allow to start game before cataclysm
+    if( hack->_default_start_of_game < hack->_default_start_of_cataclysm ) {
+        hack->_default_start_of_game = hack->_default_start_of_cataclysm;
     }
-
-    if( randomize_start_of_game ) {
-        if( hack->is_random_start_of_game_hour() ) {
-            hack->_start_of_game_hour = rng( 0, 23 );
-        }
-        if( hack->is_random_start_of_game_day() ) {
-            hack->_start_of_game_day = rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 );
-        }
-        if( hack->is_random_start_of_game_season() ) {
-            hack->_start_of_game_season = static_cast<season_type>( rng( 0, 3 ) );
-        }
-        if( hack->is_random_start_of_game_year() ) {
-            hack->_start_of_game_year = rng( 1, 11 );
-        }
+    if( hack->_start_of_game < hack->_start_of_cataclysm ) {
+        hack->_start_of_game = hack->_start_of_cataclysm;
     }
-
-    update_start_dates();
 }
 
-void scenario::update_start_dates() const
+void scenario::reset_calendar() const
 {
     scenario *hack = const_cast<scenario *>( this );
-    hack->_start_of_cataclysm = calendar::turn_zero +
-                                1_hours * hack->start_of_cataclysm_hour() +
-                                1_days * hack->start_of_cataclysm_day() +
-                                1_days * get_option<int>( "SEASON_LENGTH" ) * hack->start_of_cataclysm_season() +
-                                calendar::year_length() * ( hack->start_of_cataclysm_year() - 1 )
-                                ;
-
-    hack->_start_of_game = calendar::turn_zero +
-                           1_hours * hack->start_of_game_hour() +
-                           1_days * hack->start_of_game_day() +
-                           1_days * get_option<int>( "SEASON_LENGTH" ) * hack->start_of_game_season() +
-                           calendar::year_length() * ( hack->start_of_game_year() - 1 )
-                           ;
-
-    // We don't currently allow to start game before Cataclysm
-    if( hack->start_of_game() < hack->start_of_cataclysm() ) {
-        hack->_start_of_game = hack->start_of_cataclysm();
-        hack->_start_of_game_hour = hack->start_of_cataclysm_hour();
-        hack->_start_of_game_day = hack->start_of_cataclysm_day();
-        hack->_start_of_game_season = hack->start_of_cataclysm_season();
-        hack->_start_of_game_year = hack->start_of_cataclysm_year();
-    }
+    hack->_start_of_cataclysm = _default_start_of_cataclysm;
+    hack->_start_of_game = _default_start_of_game;
+    hack->normalize_calendar();
 }
 
-void scenario::reset_start_of_dates( bool reset_start_of_cataclysm, bool reset_start_of_game ) const
+void scenario::change_start_of_cataclysm( const time_point &t ) const
 {
     scenario *hack = const_cast<scenario *>( this );
-    if( reset_start_of_cataclysm ) {
-        if( is_random_start_of_cataclysm_hour() ) {
-            hack->_start_of_cataclysm_hour = 0;
-        }
-        if( is_random_start_of_cataclysm_day() ) {
-            hack->_start_of_cataclysm_day = 60;
-        }
-        if( is_random_start_of_cataclysm_season() ) {
-            hack->_start_of_cataclysm_season = SPRING;
-        }
-        if( is_random_start_of_cataclysm_year() ) {
-            hack->_start_of_cataclysm_year = 1;
-        }
-    }
-    if( reset_start_of_game ) {
-        if( is_random_start_of_game_hour() ) {
-            hack->_start_of_game_hour = 8;
-        }
-        if( is_random_start_of_game_day() ) {
-            hack->_start_of_game_day = 60;
-        }
-        if( is_random_start_of_game_season() ) {
-            hack->_start_of_game_season = SPRING;
-        }
-        if( is_random_start_of_game_year() ) {
-            hack->_start_of_game_year = 1;
-        }
-    }
-    hack->update_start_dates();
+    hack->_start_of_cataclysm = t;
+    hack->normalize_calendar();
 }
 
-bool scenario::is_random_start_of_cataclysm_hour() const
+void scenario::change_start_of_game( const time_point &t ) const
 {
-    return _is_random_start_of_cataclysm_hour;
-}
-
-bool scenario::is_random_start_of_cataclysm_day() const
-{
-    return _is_random_start_of_cataclysm_day;
-}
-
-bool scenario::is_random_start_of_cataclysm_season() const
-{
-    return _is_random_start_of_cataclysm_season;
-}
-
-bool scenario::is_random_start_of_cataclysm_year() const
-{
-    return _is_random_start_of_cataclysm_year;
-}
-
-bool scenario::is_random_start_of_cataclysm() const
-{
-    return is_random_start_of_cataclysm_hour() ||
-           is_random_start_of_cataclysm_day() ||
-           is_random_start_of_cataclysm_season() ||
-           is_random_start_of_cataclysm_year();
-}
-
-int scenario::start_of_cataclysm_hour() const
-{
-    return _start_of_cataclysm_hour;
-}
-
-int scenario::start_of_cataclysm_day() const
-{
-    return _start_of_cataclysm_day;
-}
-
-season_type scenario::start_of_cataclysm_season() const
-{
-    return _start_of_cataclysm_season;
-}
-
-int scenario::start_of_cataclysm_year() const
-{
-    return _start_of_cataclysm_year;
-}
-
-bool scenario::is_random_start_of_game_hour() const
-{
-    return _is_random_start_of_game_hour;
-}
-
-bool scenario::is_random_start_of_game_day() const
-{
-    return _is_random_start_of_game_day;
-}
-
-bool scenario::is_random_start_of_game_season() const
-{
-    return _is_random_start_of_game_season;
-}
-
-bool scenario::is_random_start_of_game_year() const
-{
-    return _is_random_start_of_game_year;
-}
-
-bool scenario::is_random_start_of_game() const
-{
-    return is_random_start_of_game_hour() ||
-           is_random_start_of_game_day() ||
-           is_random_start_of_game_season() ||
-           is_random_start_of_game_year();
-}
-
-int scenario::start_of_game_hour() const
-{
-    return _start_of_game_hour;
-}
-
-int scenario::start_of_game_day() const
-{
-    return _start_of_game_day;
-}
-
-season_type scenario::start_of_game_season() const
-{
-    return _start_of_game_season;
-}
-
-int scenario::start_of_game_year() const
-{
-    return _start_of_game_year;
+    scenario *hack = const_cast<scenario *>( this );
+    hack->_start_of_game = t;
+    hack->normalize_calendar();
 }
 
 time_point scenario::start_of_cataclysm() const

@@ -521,8 +521,8 @@
     "start_name": "Outside Town",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
     "flags": [ "LONE_START" ],
-    "start_of_cataclysm": { "hour": 0, "day": 60, "season": "spring", "year": 1 },
-    "start_of_game": { "hour": "random", "day": "random", "season": "winter", "year": 1 },
+    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
+    "start_of_game": { "hour": 8, "day": 1, "season": "winter", "year": 1 },
     "add_professions": true,
     "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ],
     "requirement": "achievement_survive_91_days"
@@ -547,8 +547,8 @@
     ],
     "start_name": "Outside Town",
     "flags": [ "LONE_START" ],
-    "start_of_cataclysm": { "hour": 0, "day": 60, "season": "spring", "year": 1 },
-    "start_of_game": { "hour": "random", "day": "random", "season": "summer", "year": 2 },
+    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
+    "start_of_game": { "hour": 8, "day": 1, "season": "summer", "year": 2 },
     "add_professions": true,
     "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ],
     "requirement": "achievement_survive_91_days"
@@ -561,8 +561,8 @@
     "description": "It's been a year since the apocalypse, and winter is fast approaching.  You and your company have managed to gather up enough supplies to finally settle down somewhere, away from the death and destruction.  Life has been hard for you, but in your heart you still hold a vision of a bright future lying ahead.",
     "start_name": "Old Evac Shelter",
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
-    "start_of_cataclysm": { "hour": 0, "day": 60, "season": "spring", "year": 1 },
-    "start_of_game": { "hour": "random", "day": "random", "season": "autumn", "year": 2 },
+    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
+    "start_of_game": { "hour": 8, "day": 1, "season": "autumn", "year": 2 },
     "add_professions": true,
     "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ],
     "requirement": "achievement_survive_91_days",
@@ -578,8 +578,8 @@
     "allowed_locs": [ "sloc_lmoe_empty", "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Enclosed Shelter",
     "flags": [ "LONE_START" ],
-    "start_of_cataclysm": { "hour": 0, "day": 60, "season": "spring", "year": 1 },
-    "start_of_game": { "hour": "random", "day": "random", "season": "winter", "year": 1 },
+    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
+    "start_of_game": { "hour": 8, "day": 1, "season": "winter", "year": 1 },
     "professions": [ "sheltered_militia", "sheltered_survivor", "unemployed" ]
   },
   {
@@ -652,8 +652,8 @@
     "requirement": "achievement_reach_mi-Go_encampment",
     "reveal_locale": false,
     "flags": [ "LONE_START", "CHALLENGE" ],
-    "start_of_cataclysm": { "hour": 0, "day": 60, "season": "spring", "year": 1 },
-    "start_of_game": { "hour": "random", "day": "random", "season": "winter", "year": 1 }
+    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
+    "start_of_game": { "hour": 8, "day": 1, "season": "winter", "year": 1 }
   },
   {
     "type": "scenario",
@@ -1102,8 +1102,8 @@
     "description": "You were camping in the wild to let things back home cool off.  One night strange noises closed in on you and you were attacked.  You managed to get away but can feel things moving in the dark.",
     "id": "camp_attack_start",
     "points": 0,
-    "start_of_cataclysm": { "hour": 0, "day": 60, "season": "spring", "year": 1 },
-    "start_of_game": { "hour": 1, "day": 60, "season": "spring", "year": 1 },
+    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
+    "start_of_game": { "hour": 1, "day": 61, "season": "spring", "year": 1 },
     "start_name": "Wilderness",
     "eoc": [ "scenario_surrounded_zombie_heavy" ],
     "allowed_locs": [

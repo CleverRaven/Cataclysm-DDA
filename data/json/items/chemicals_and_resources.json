@@ -398,22 +398,20 @@
     "fun": -15
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "insecticide",
     "category": "chems",
     "name": { "str_sp": "insecticide" },
-    "weight": "1 g",
-    "//": "Typically sold in larger quantities, but that's handled in the charge count.",
+    "weight": "50 g",
     "color": "pink",
     "looks_like": "fungicide",
     "container": "bag_plastic",
     "symbol": "!",
     "description": "Agricultural-grade chemical insecticide powder designed to eradicate insect pests.",
-    "comestible_type": "INVALID",
     "price": "5 cent",
     "price_postapoc": "5 cent",
     "material": [ "powder" ],
-    "volume": "1 ml"
+    "volume": "50 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -1396,7 +1394,7 @@
   {
     "type": "AMMO",
     "id": "nanomaterial",
-    "category": "chems",
+    "category": "tool_magazine",
     "price": 250000,
     "price_postapoc": 500,
     "name": { "str": "nanomaterial canister" },

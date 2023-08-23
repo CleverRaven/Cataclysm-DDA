@@ -941,6 +941,10 @@ static recipe_subset filter_recipes( const recipe_subset &available_recipes,
                     break;
                 }
 
+                case 'a':
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                       recipe_subset::search_type::activity_level, progress_callback );
+                    break;
                 default:
                     break;
             }
@@ -978,6 +982,7 @@ static const std::vector<SearchPrefix> prefixes = {
     { 'P', to_translation( "Blacksmithing" ), to_translation( "<color_cyan>proficiency</color> used to craft" ) },
     { 'l', to_translation( "5" ), to_translation( "<color_cyan>difficulty</color> of the recipe as a number or range" ) },
     { 'r', to_translation( "buttermilk" ), to_translation( "recipe's (<color_cyan>by</color>)<color_cyan>products</color>; use * as wildcard" ) },
+    { 'a', to_translation( "brisk" ), to_translation( "recipe's <color_cyan>activity level</color>" ) }
 };
 
 static const translation filter_help_start = to_translation(

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "Railroad Station",
+    "type": "overmap_special",
+    "overmaps": [
+      { "point": [ 0, 1, 0 ], "overmap": "railroad_station_0_1_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "railroad_station_0_2_north" },
+      { "point": [ 0, 3, 0 ], "overmap": "railroad_station_0_3_north" },
+      { "point": [ 0, 4, 0 ], "overmap": "railroad_station_0_4_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "railroad_station_1_1_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "railroad_station_1_2_north" },
+      { "point": [ 1, 3, 0 ], "overmap": "railroad_station_1_3_north" },
+      { "point": [ 1, 4, 0 ], "overmap": "railroad_station_1_4_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "railroad_station_0_1_roof_north" },
+      { "point": [ 0, 2, 1 ], "overmap": "railroad_station_0_2_roof_north" },
+      { "point": [ 0, 3, 1 ], "overmap": "railroad_station_0_3_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "railroad_station_1_1_roof_north" },
+      { "point": [ 1, 2, 1 ], "overmap": "railroad_station_1_2_roof_north" },
+      { "point": [ 1, 3, 1 ], "overmap": "railroad_station_1_3_roof_north" },
+      { "point": [ 1, 4, 1 ], "overmap": "railroad_station_1_4_roof_north" },
+      { "point": [ 2, 4, 1 ], "overmap": "railroad_station_2_4_roof_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "road_end_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "railroad_station_2_1_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "railroad_station_2_2_north" },
+      { "point": [ 2, 3, 0 ], "overmap": "railroad_station_2_3_north" },
+      { "point": [ 2, 4, 0 ], "overmap": "railroad_station_2_4_north" },
+      { "point": [ 2, 5, 0 ], "overmap": "road_end_south" },
+      { "point": [ 0, 1, -1 ], "overmap": "railroad_station_under_0_1_north" },
+      { "point": [ 0, 2, -1 ], "overmap": "railroad_station_under_0_2_north" },
+      { "point": [ 0, 3, -1 ], "overmap": "railroad_station_under_0_3_north" },
+      { "point": [ 1, 1, -1 ], "overmap": "railroad_station_under_1_1_north" },
+      { "point": [ 1, 2, -1 ], "overmap": "railroad_station_under_1_2_north" },
+      { "point": [ 1, 3, -1 ], "overmap": "railroad_station_under_1_3_north" }
+    ],
+    "connections": [ { "point": [ 2, 0, 0 ], "terrain": "road" }, { "point": [ 2, 5, 0 ], "terrain": "road" } ],
+    "locations": [ "land", "forest" ],
+    "city_distance": [ -1, 20 ],
+    "city_sizes": [ 3, 12 ],
+    "occurrences": [ 50, 100 ],
+    "flags": [ "CLASSIC", "UNIQUE", "URBAN", "MAN_MADE" ]
+  }
+]
