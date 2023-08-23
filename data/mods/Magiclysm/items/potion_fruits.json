@@ -160,5 +160,119 @@
     "type": "effect_on_condition",
     "id": "EOC_POTION_FRUIT_CRANBERRY",
     "effect": [ { "u_add_effect": "effect_pfruit_purge", "duration": "1 seconds" } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "potion_fruit_huckleberries",
+    "name": { "str": "potion fruit (huckleberries)" },
+    "description": "A handful of huckleberries infused with mana.  It will make you much more flexible.",
+    "copy-from": "huckleberries",
+    "proportional": { "quench": 0.5, "calories": 0.5 },
+    "spoils_in": "25 days",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Eat the handful of huckleberry potion fruits.",
+      "effect_on_conditions": [ "EOC_POTION_FRUIT_HUCKLEBERRY" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POTION_FRUIT_HUCKLEBERRY",
+    "effect": [ { "u_add_effect": "effect_pfruit_dodge", "duration": { "math": [ "250 + rand(1500)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "potion_fruit_wintergreen",
+    "name": { "str": "potion fruit (wintergreen berries)" },
+    "description": "A handful of wintergreen berries infused with mana.  It will allow you to see in the dark.",
+    "copy-from": "wintergreen_berries",
+    "proportional": { "quench": 0.5, "calories": 0.5 },
+    "spoils_in": "25 days",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Eat the handful of wintergreen berry potion fruits.",
+      "effect_on_conditions": [ "EOC_POTION_FRUIT_WINTERGREEN" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POTION_FRUIT_WINTERGREEN",
+    "effect": [ { "u_add_effect": "effect_pfruit_nightvision", "duration": { "math": [ "500 + rand(5000)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "potion_fruit_cherry",
+    "name": { "str": "potion fruit (cherries)" },
+    "description": "A handful of cherries infused with mana.  It will prevent you from bleeding.",
+    "copy-from": "cherries",
+    "proportional": { "quench": 0.5, "calories": 0.5 },
+    "spoils_in": "25 days",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Eat the handful of cherry potion fruits.",
+      "effect_on_conditions": [ "EOC_POTION_FRUIT_CHERRY" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POTION_FRUIT_CHERRY",
+    "effect": [ { "u_add_effect": "effect_pfruit_nobleed", "duration": { "math": [ "250 + rand(1500)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "potion_fruit_grapes",
+    "name": { "str": "potion fruit (apricots)" },
+    "description": "A handful of apricots infused with mana.  It will enhance your visual acuity.",
+    "copy-from": "apricot",
+    "proportional": { "quench": 0.5, "calories": 0.5 },
+    "spoils_in": "20 days",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Eat the handful of apricot potion fruits.",
+      "effect_on_conditions": [ "EOC_POTION_FRUIT_APRICOT" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POTION_FRUIT_APRICOT",
+    "effect": [ { "u_add_effect": "effect_pfruit_vision", "duration": { "math": [ "250 + rand(1500)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "potion_fruit_grapes",
+    "name": { "str": "potion fruit (grapes)" },
+    "description": "A handful of grapes infused with mana.  It will cure intoxication.",
+    "copy-from": "grapes",
+    "proportional": { "quench": 0.5, "calories": 0.5 },
+    "spoils_in": "20 days",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Eat the handful of grape potion fruits.",
+      "effect_on_conditions": [ "EOC_POTION_FRUIT_GRAPE" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POTION_FRUIT_GRAPE",
+    "effect": [ { "u_add_effect": "effect_pfruit_no_drunk", "duration": "1 seconds" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "potion_fruit_mayapple",
+    "name": { "str": "potion fruit (mayapple)" },
+    "description": "A mayapple infused with mana.  It will allow you to eat questionable food without harm.",
+    "copy-from": "mayapple",
+    "proportional": { "quench": 0.5, "calories": 0.5 },
+    "spoils_in": "20 days",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Eat the mayapple potion fruits.",
+      "effect_on_conditions": [ "EOC_POTION_FRUIT_MAYAPPLE" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POTION_FRUIT_MAYAPPLE",
+    "effect": [ { "u_add_effect": "effect_pfruit_eat_poison", "duration": { "math": [ "250 + rand(1500)" ] } } ]
   }
 ]
