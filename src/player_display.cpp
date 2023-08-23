@@ -307,6 +307,24 @@ enum class player_display_tab : int {
 };
 } // namespace
 
+static void draw_x_info( const catacurses::window &w_info, const std::string &description,
+                         const unsigned info_line )
+{
+    std::vector<std::string> text_lines = foldstring( description, FULL_SCREEN_WIDTH - 3 );
+    const int winh = catacurses::getmaxy( w_info );
+    const bool do_scroll = text_lines.size() > static_cast<unsigned>( std::abs( winh ) );
+    const int first_line = do_scroll ? info_line % ( text_lines.size() + 1 - winh ) : 0;
+    const int last_line = do_scroll ? first_line + winh : text_lines.size();
+    for( int i = first_line; i < last_line; i++ ) {
+        trim_and_print( w_info, point( 1, i - first_line ), FULL_SCREEN_WIDTH - ( do_scroll ? 3 : 2 ),
+                        c_light_gray, text_lines[i] );
+    }
+    if( do_scroll ) {
+        draw_scrollbar( w_info, first_line, winh, text_lines.size(), point( FULL_SCREEN_WIDTH - 1, 0 ),
+                        c_white, true );
+    }
+}
+
 static void draw_proficiencies_tab( ui_adaptor &ui, const catacurses::window &win,
                                     const unsigned line, const Character &guy,
                                     const player_display_tab curtab, const input_context &ctxt )
@@ -639,20 +657,9 @@ static void draw_traits_info( const catacurses::window &w_info, const unsigned l
     werase( w_info );
     if( line < traitslist.size() ) {
         const trait_and_var &cur = traitslist[line];
-        std::vector<std::string> desc =
-            foldstring( string_format( "%s: %s", colorize( cur.name(), cur.trait->get_display_color() ),
-                                       cur.desc() ), FULL_SCREEN_WIDTH - 3 );
-        const int winh = catacurses::getmaxy( w_info );
-        const bool do_scroll = desc.size() > static_cast<unsigned>( std::abs( winh ) );
-        const int fline = do_scroll ? info_line % ( desc.size() + 1 - winh ) : 0;
-        const int lline = do_scroll ? fline + winh : desc.size();
-        for( int i = fline; i < lline; i++ ) {
-            trim_and_print( w_info, point( 1, i - fline ), FULL_SCREEN_WIDTH - 3, c_light_gray, desc[i] );
-        }
-        if( do_scroll ) {
-            draw_scrollbar( w_info, fline, winh, desc.size(), point( FULL_SCREEN_WIDTH - 3, 0 ), c_white,
-                            true );
-        }
+        const std::string desc =
+            string_format( "%s: %s", colorize( cur.name(), cur.trait->get_display_color() ), cur.desc() );
+        draw_x_info( w_info, desc, info_line );
     }
     wnoutrefresh( w_info );
 }
