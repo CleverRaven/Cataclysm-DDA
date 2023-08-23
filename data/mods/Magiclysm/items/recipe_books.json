@@ -278,5 +278,5 @@
     "time": "25 m",
     "fun": -1,
     "melee_damage": { "bash": 5 }
-  },
+  }
 ]
