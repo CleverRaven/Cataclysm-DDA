@@ -1464,5 +1464,14 @@
     "name": { "str": "Scroll of spider climb", "str_pl": "Scrolls of spider climb" },
     "description": "Free climb better than the best.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_spiderclimb" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_swim_frog",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of limbs of the frog", "str_pl": "Scrolls of limbs of the frog" },
+    "description": "Swim with the fishes, with your froggy hands and legs.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_swim_frog" ] }
   }
 ]
