@@ -794,5 +794,46 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "magus_slowfall",
+    "name": [ "Slowfall" ],
+    "desc": [ "You won't hit the ground nearly as hard anymore." ],
+    "apply_message": "",
+    "remove_message": "Your can feel gravity take hold of you again.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "FALL_DAMAGE",
+            "multiply": { "math": [ "(( u_val('spell_level', 'spell: magus_slowfall') * -0.1) - 0.9 )" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_magus_spiderclimb",
+    "name": [ "Spider Climb" ],
+    "desc": [ "You can quickly ascend sheer surfaces." ],
+    "apply_message": "",
+    "remove_message": "Your enhanced climbing ability vanishes.",
+    "rating": "good",
+    "flags": [ "CLIMB_NO_LADDER", "WALL_CLING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_swim_speed",
+    "name": [ "Frog Limbs" ],
+    "desc": [ "Your hands and feet have grown webbing, enabling faster swimming." ],
+    "//": "Minor stamina regen to help with swimming.  If people want to cast this spell as a stamina buff, they're welcome to do it and deal with their froggy limbs.",
+    "apply_message": "",
+    "remove_message": "With an unpleasant twisting sensation your hands and feet return to normal.",
+    "rating": "good",
+    "flags": [ "WEBBED_HANDS", "WEBBED_FEET" ],
+    "base_mods": { "stamina_min": [ 10 ] }
   }
 ]
