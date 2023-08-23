@@ -81,7 +81,7 @@
     "id": "STR_UP",
     "type": "mutation",
     "copy-from": "STR_UP",
-    "extend": { "cancels": [ "WEAK" ] }
+    "extend": { "cancels": [ "WEAK" ], "category": [ "SPECIES_LIZARDFOLK" ] }
   },
   {
     "id": "STR_UP_2",
@@ -121,7 +121,7 @@
     "type": "mutation",
     "id": "PALE",
     "copy-from": "PALE",
-    "extend": { "category": [ "MANATOUCHED" ] }
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_ELF" ] }
   },
   {
     "type": "mutation",

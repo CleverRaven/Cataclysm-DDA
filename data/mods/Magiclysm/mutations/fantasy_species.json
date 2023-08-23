@@ -135,6 +135,18 @@
   },
   {
     "type": "mutation",
+    "id": "TOLERANCE",
+    "copy-from": "TOLERANCE",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SAPROVORE",
+    "copy-from": "SAPROVORE",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
     "id": "ALCMET",
     "copy-from": "ALCMET",
     "extend": { "category": [ "SPECIES_DWARF" ] }
@@ -189,20 +201,8 @@
   },
   {
     "type": "mutation",
-    "id": "PAINRESIST",
-    "copy-from": "PAINRESIST",
-    "extend": { "category": [ "SPECIES_DWARF" ] }
-  },
-  {
-    "type": "mutation",
     "id": "INFRESIST",
     "copy-from": "INFRESIST",
-    "extend": { "category": [ "SPECIES_DWARF" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "DISRESISTANT",
-    "copy-from": "DISRESISTANT",
     "extend": { "category": [ "SPECIES_DWARF" ] }
   },
   {
@@ -330,15 +330,9 @@
   },
   {
     "type": "mutation",
-    "id": "WEAKSTOMACH",
-    "copy-from": "WEAKSTOMACH",
-    "extend": { "category": [ "SPECIES_ELF" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "PALE",
-    "copy-from": "PALE",
-    "extend": { "category": [ "SPECIES_ELF" ] }
+    "id": "DISRESISTANT",
+    "copy-from": "DISRESISTANT",
+    "extend": { "category": [ "SPECIES_ELF", "SPECIES_DWARF" ] }
   },
   {
     "type": "mutation",
@@ -378,9 +372,23 @@
   },
   {
     "type": "mutation",
-    "id": "COLDBLOOD4",
-    "copy-from": "COLDBLOOD4",
-    "extend": { "category": [ "SPECIES_LIZARDFOLK" ], "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ] }
+    "id": "COLDBLOOD4_LIZ",
+    "flags": [ "ECTOTHERM" ],
+    "name": { "str": "Ectothermia" },
+    "points": -3,
+    "description": "Your body has become permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  All this and you need even more food to maintain your energy.",
+    "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ],
+    "purifiable": false,
+    "types": [ "METABOLISM" ],
+    "category": [ "SPECIES_LIZARDFOLK" ],
+    "temperature_speed_modifier": 0.5,
+    "metabolism_modifier": 0.5
+  },
+  {
+    "type": "mutation",
+    "id": "LARGE",
+    "copy-from": "LARGE",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
@@ -392,6 +400,12 @@
     "type": "mutation",
     "id": "ANTIWHEAT",
     "copy-from": "ANTIWHEAT",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "CARNIVORE_FAKE",
+    "copy-from": "CARNIVORE_FAKE",
     "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
   },
   {

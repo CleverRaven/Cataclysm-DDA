@@ -13,7 +13,7 @@
     "type": "mutation",
     "id": "PAINRESIST",
     "copy-from": "PAINRESIST",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
   },
   {
     "type": "mutation",
@@ -101,7 +101,7 @@
     "type": "mutation",
     "id": "SKIN_PEELING",
     "copy-from": "SKIN_PEELING",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
@@ -756,7 +756,7 @@
     "type": "mutation",
     "id": "DENSE_BONES",
     "copy-from": "DENSE_BONES",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
