@@ -370,7 +370,7 @@ static void draw_proficiencies_tab( ui_adaptor &ui, const catacurses::window &wi
 }
 
 static void draw_proficiencies_info( const catacurses::window &w_info, const unsigned line,
-                                     const Character &guy )
+                                     const Character &guy, const unsigned info_line )
 {
     werase( w_info );
     const std::vector<display_proficiency> profs = guy.display_proficiencies();
@@ -387,10 +387,10 @@ static void draw_proficiencies_info( const catacurses::window &w_info, const uns
                                            to_string( cur.spent ) );
             }
         }
-        int y = 0;
-        y += fold_and_print( w_info, point( 1, y ), getmaxx( w_info ) - 1, cur.color, cur.id->name() );
-        y += fold_and_print( w_info, point( 1, y ), getmaxx( w_info ) - 1, c_cyan, progress );
-        fold_and_print( w_info, point( 1, y ), getmaxx( w_info ) - 1, c_white, cur.id->description() );
+        std::string desc = colorize( cur.id->name(), cur.color )
+                           + "\n" + colorize( progress, c_cyan )
+                           + "\n" + colorize( cur.id->description(), c_white );
+        draw_x_info( w_info, desc, info_line );
     }
     wnoutrefresh( w_info );
 }
@@ -601,17 +601,8 @@ static void draw_encumbrance_info( const catacurses::window &w_info, const Chara
         bp = bps[line].first;
     }
     const std::vector<std::string> s = get_encumbrance_description( you, bp );
-    const int winh = catacurses::getmaxy( w_info );
-    const bool do_scroll = s.size() > static_cast<unsigned>( std::abs( winh ) );
-    const int winw = FULL_SCREEN_WIDTH - ( do_scroll ? 3 : 2 );
-    const int fline = do_scroll ? info_line % ( s.size() + 1 - winh ) : 0;
-    const int lline = do_scroll ? fline + winh : s.size();
-    for( int i = fline; i < lline; i++ ) {
-        trim_and_print( w_info, point( 1, i - fline ), winw, c_light_gray, s[i] );
-    }
-    if( do_scroll ) {
-        draw_scrollbar( w_info, fline, winh, s.size(), point( winw, 0 ), c_white, true );
-    }
+    const std::string desc = string_join( s, "\n" );
+    draw_x_info( w_info, desc, info_line );
     wnoutrefresh( w_info );
 }
 
@@ -732,13 +723,11 @@ static void draw_bionics_tab( ui_adaptor &ui, const catacurses::window &w_bionic
 }
 
 static void draw_bionics_info( const catacurses::window &w_info, const unsigned line,
-                               const std::vector<bionic_grouping> &bionicslist )
+                               const std::vector<bionic_grouping> &bionicslist, const unsigned info_line )
 {
     werase( w_info );
     if( line < bionicslist.size() ) {
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, "%s",
-                        bionicslist[line].description );
+        draw_x_info( w_info, bionicslist[line].description.translated(), info_line );
     }
     wnoutrefresh( w_info );
 }
@@ -778,14 +767,13 @@ static void draw_effects_tab( ui_adaptor &ui, const catacurses::window &w_effect
 }
 
 static void draw_effects_info( const catacurses::window &w_info, const unsigned line,
-                               const std::vector<std::pair<std::string, std::string>> &effect_name_and_text )
+                               const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
+                               const unsigned info_line )
 {
     werase( w_info );
     const size_t actual_size = effect_name_and_text.size();
     if( line < actual_size ) {
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray,
-                        effect_name_and_text[line].second );
+        draw_x_info( w_info, effect_name_and_text[line].second, info_line );
     }
     wnoutrefresh( w_info );
 }
@@ -928,7 +916,7 @@ static void draw_speed_info( const catacurses::window &w_info,
 
 static void draw_skills_info( const catacurses::window &w_info, const Character &you,
                               unsigned int line,
-                              const std::vector<HeaderSkill> &skillslist )
+                              const std::vector<HeaderSkill> &skillslist, const unsigned info_line )
 {
     werase( w_info );
 
@@ -957,8 +945,7 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
                                            learning_bonus );
             }
         }
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, info_text );
+        draw_x_info( w_info, info_text, info_line );
     }
 
     wnoutrefresh( w_info );
@@ -1075,19 +1062,19 @@ static void draw_info_window( const catacurses::window &w_info, const Character 
             draw_speed_info( w_info, line, speedlist );
             break;
         case player_display_tab::skills:
-            draw_skills_info( w_info, you, line, skillslist );
+            draw_skills_info( w_info, you, line, skillslist, info_line );
             break;
         case player_display_tab::traits:
             draw_traits_info( w_info, line, traitslist, info_line );
             break;
         case player_display_tab::bionics:
-            draw_bionics_info( w_info, line, bionicslist );
+            draw_bionics_info( w_info, line, bionicslist, info_line );
             break;
         case player_display_tab::effects:
-            draw_effects_info( w_info, line, effect_name_and_text );
+            draw_effects_info( w_info, line, effect_name_and_text, info_line );
             break;
         case player_display_tab::proficiencies:
-            draw_proficiencies_info( w_info, line, you );
+            draw_proficiencies_info( w_info, line, you, info_line );
             break;
         case player_display_tab::num_tabs:
             cata_fatal( "Invalid curtab" );
@@ -1719,7 +1706,9 @@ void Character::disp_info( bool customize_character )
     border_helper borders;
 
     player_display_tab curtab = player_display_tab::stats;
+    // line marks at which line is selection in tab window, could be named tab_line
     unsigned int line = 0;
+    // info_line marks at which line is selection in info window
     unsigned int info_line = 0;
     int tip_btn_highlight = -1;
 
