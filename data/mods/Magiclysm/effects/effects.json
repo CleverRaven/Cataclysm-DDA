@@ -697,12 +697,11 @@
     ]
   },
   {
-    "id": "herbalism_pfruit_peach_heal",
+    "id": "effect_pfruit_cure",
     "type": "effect_type",
     "name": [ "Ward off Miasma" ],
     "desc": [ "No illness is going to get you down now." ],
     "apply_message": "You feel revitalized.",
-    "remove_message": "You cough as the peach's magic fades.",
     "rating": "good",
     "show_intensity": false,
     "removes_effects": [ "scurvy", "redcells_anemia", "anemia", "toxin_buildup", "common_cold", "flu" ]
@@ -761,5 +760,15 @@
     "rating": "good",
     "show_intensity": false,
     "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ] } ]
+  },
+  {
+    "id": "effect_pfruit_purge",
+    "type": "effect_type",
+    "name": [ "Ward off Toxins" ],
+    "desc": [ "Your body will not be corrupted by these vile substances." ],
+    "apply_message": "You feel cleansed.",
+    "rating": "good",
+    "show_intensity": false,
+    "removes_effects": [ "scurvy", "redcells_anemia", "anemia", "toxin_buildup", "common_cold", "flu" ]
   }
 ]
