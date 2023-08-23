@@ -478,8 +478,8 @@
     "type": "effect_on_condition",
     "id": "EOC_GIANT_GROWTH_MUTATION_REMOVE",
     "effect": [
-       { "u_message": "Your body shrinks and warps as your size decreases!", "type": "bad" },
-       { "u_lose_trait": "BIO_GIANT_GROWTH" }
+      { "u_message": "Your body shrinks and warps as your size decreases!", "type": "bad" },
+      { "u_lose_trait": "BIO_GIANT_GROWTH" }
     ]
   }
 ]
