@@ -182,12 +182,14 @@
       
       {
         "text": "Mgah'ehye ya nyth'drnn.",
+        "//": "Allow my servants.",
         "condition": { "and": [ { "mod_is_loaded": "Mythos-Creatures" }, { "math": [ "mythos_allowed", "==", "0" ] } ] },
         "effect": { "math": [ "mythos_allowed", "=", "1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Mgah ya nyth'drnn.",
+        "//": "Stop my servants.",
         "condition": { "and": [ { "mod_is_loaded": "Mythos-Creatures" }, { "math": [ "mythos_allowed", "==", "1" ] } ] },
         "effect": { "math": [ "mythos_allowed", "=", "0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
