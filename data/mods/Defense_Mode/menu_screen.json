@@ -179,7 +179,6 @@
         "effect": { "math": [ "orcs_allowed", "=", "0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
-      
       {
         "text": "Mgah'ehye ya nyth'drnn.",
         "//": "Allow my servants.",
