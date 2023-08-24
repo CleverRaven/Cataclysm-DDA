@@ -1372,6 +1372,13 @@ bool trapfunc::temple_toggle( const tripoint &p, Creature *c, item * )
         }
 
         if( blocked_tiles.size() == 8 ) {
+            for( int i = 7; i >= 0 ; --i ) {
+                if( here.ter( blocked_tiles.at( i ) ) != t_rock_red &&
+                    here.ter( blocked_tiles.at( i ) ) != t_rock_green &&
+                    here.ter( blocked_tiles.at( i ) ) != t_rock_blue ) {
+                    blocked_tiles.erase( blocked_tiles.begin() + i );
+                }
+            }
             const tripoint &pnt = random_entry( blocked_tiles );
             if( here.ter( pnt ) == t_rock_red ) {
                 here.ter_set( pnt, t_floor_red );
