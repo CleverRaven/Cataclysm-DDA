@@ -7120,7 +7120,7 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
 int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
                          const creature_size &viewer_size ) const
 {
-    if( viewer_p.z >= target_p.z ) {
+    if( viewer_p.z == target_p.z ) {
         return 0;
     }
 
@@ -7166,15 +7166,31 @@ int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
         eye_level += viewer_furn_coverage > 0 ? viewer_furn_coverage * 0.01f : 0.5f ;
     }
     const float dist_to_ledge_base = rl_dist( viewer_p, tripoint( ledge_p.xy(), viewer_p.z ) ) - 0.5f;
-    // Calculate tangent of elevation angle between viewer and ledge
-    const double tangent = ( ledge_height * zlevel_to_grid_ratio - eye_level ) / dist_to_ledge_base;
-
     const int flat_dist = rl_dist( viewer_p, tripoint( target_p.xy(), viewer_p.z ) );
-    // Amount of height relative to ground at viewer covered by ledge at target's distance in grids
-    const double covered_height = flat_dist * tangent + eye_level;
-    // Amount of coverage provided by ledge to view target
-    // 100 coverage represents a single grid's distance from ground at target
-    int ledge_coverage = ( covered_height - zlevel_to_grid_ratio * ledge_height ) * 100;
+
+    double tangent;
+    int ledge_coverage = 0;
+
+    if( viewer_p.z < target_p.z ) {
+        // Viewer looking at target above
+
+        // Calculate tangent of elevation angle between viewer and ledge
+        tangent = ( ledge_height * zlevel_to_grid_ratio - eye_level ) / dist_to_ledge_base;
+        // Amount of height relative to ground at viewer covered by ledge at target's distance in grids
+        const double covered_height = flat_dist * tangent + eye_level;
+        // Amount of coverage provided by ledge to view target
+        // 100 coverage represents a single grid's distance from ground at target
+        ledge_coverage = ( covered_height - zlevel_to_grid_ratio * ledge_height ) * 100;
+    } else {
+        // Viewer looking at target below
+
+        // Calculate tangent of elevation angle between viewer and ledge
+        tangent = dist_to_ledge_base / eye_level;
+        // Amount of coverage provided by ledge to view target
+        // 100 coverage represents a single grid's distance from ground at target
+        ledge_coverage = ( zlevel_to_grid_ratio * ledge_height - ( flat_dist / tangent - eye_level ) ) *
+                         100;
+    }
 
     // Target has a coverage penalty when standing on furniture
     const furn_id target_furn = furn( target_p );
