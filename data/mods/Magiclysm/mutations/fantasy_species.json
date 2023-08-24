@@ -126,13 +126,15 @@
     "//": "Slightly better version of STOCKY_TROGLO since dwarves are born this way",
     "types": [ "SIZE" ],
     "purifiable": false,
+    "mixed_effect": true,
     "points": 1,
     "visibility": 3,
     "ugliness": 0,
     "description": "Dwarves are smaller than humans, the better to deal with confined spaces underground, but as solid as the mountains (+2 STR, -1 DEX).",
     "category": [ "SPECIES_DWARF" ],
     "threshreq": [ "THRESH_SPECIES_DWARF" ],
-    "passive_mods": { "str_mod": 2, "dex_mod": -1 }
+    "passive_mods": { "str_mod": 2, "dex_mod": -1 },
+    "movecost_modifier": 1.1
   },
   {
     "type": "mutation",
@@ -207,6 +209,7 @@
     "//": "Opposite of Dwarven Build!",
     "types": [ "SIZE" ],
     "purifiable": false,
+    "mixed_effect": true,
     "points": 1,
     "visibility": 3,
     "ugliness": 0,
@@ -386,6 +389,7 @@
     "name": { "str": "Lizardfolk Build" },
     "types": [ "SIZE" ],
     "purifiable": false,
+    "mixed_effect": true,
     "points": 1,
     "visibility": 3,
     "ugliness": 0,
@@ -397,6 +401,18 @@
     "stomach_size_multiplier": 1.25,
     "weight_capacity_modifier": 1.05,
     "movecost_swim_modifier": 0.9
+  },
+  {
+    "type": "mutation",
+    "id": "PRED_LIZ",
+    "name": { "str": "Scalefolk Mindset" },
+    "description": "While not completely predatory, the lizardfolk are generally not particularly invested in the welfare of warmbloods.  Their death does not affect you greatly, and your ability to maintain combat skills is enhanced.",
+    "points": 2,
+    "category": [ "SPECIES_LIZARDFOLK" ],
+    "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ],
+    "types": [ "PREDATION" ],
+    "flags": [ "PRED2" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "COMBAT_CATCHUP", "multiply": 1.5 } ] } ]
   },
   {
     "type": "mutation",
