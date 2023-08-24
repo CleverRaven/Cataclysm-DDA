@@ -1943,9 +1943,7 @@ void npc::decide_needs()
     needrank[need_weapon] = weapon_value( weap );
     needrank[need_food] = 15 - get_hunger();
     needrank[need_drink] = 15 - get_thirst();
-    const auto inv_food = items_with( []( const item & itm ) {
-        return itm.is_food();
-    } );
+    const std::set<item *> &inv_food = all_items_with( "IS FOOD", &item::is_food );
     for( const item *food : inv_food ) {
         needrank[ need_food ] += nutrition_for( *food ) / 4.0;
         needrank[ need_drink ] += food->get_comestible()->quench / 4.0;

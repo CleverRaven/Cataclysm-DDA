@@ -3894,9 +3894,7 @@ bool npc::consume_food()
     int want_hunger = std::max( 0, get_hunger() );
     int want_quench = std::max( 0, get_thirst() );
 
-    const auto inv_food = items_with( []( const item & itm ) {
-        return itm.is_food();
-    } );
+    const std::set<item *> &inv_food = all_items_with( "IS FOOD", &item::is_food );
 
     if( inv_food.empty() ) {
         if( !is_player_ally() ) {
