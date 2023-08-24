@@ -7165,9 +7165,9 @@ int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
         const int viewer_furn_coverage = viewer_furn->coverage;
         eye_level += viewer_furn_coverage > 0 ? viewer_furn_coverage * 0.01f : 0.5f ;
     }
-    const float dist_to_ledge = rl_dist( viewer_p, ledge_p ) - 0.5f;
+    const float dist_to_ledge_base = rl_dist( viewer_p, tripoint( ledge_p.xy(), viewer_p.z ) ) - 0.5f;
     // Calculate tangent of elevation angle between viewer and ledge
-    const double tangent = ( ledge_height * zlevel_to_grid_ratio - eye_level ) / dist_to_ledge;
+    const double tangent = ( ledge_height * zlevel_to_grid_ratio - eye_level ) / dist_to_ledge_base;
 
     const int flat_dist = rl_dist( viewer_p, tripoint( target_p.xy(), viewer_p.z ) );
     // Amount of height relative to ground at viewer covered by ledge at target's distance in grids
