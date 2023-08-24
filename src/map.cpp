@@ -6805,6 +6805,9 @@ void map::drawsq( const catacurses::window &w, const tripoint &p,
     const tripoint view_center = params.center();
     const int k = p.x + getmaxx( w ) / 2 - view_center.x;
     const int j = p.y + getmaxy( w ) / 2 - view_center.y;
+    if( k < 0 || k >= getmaxx( w ) || j < 0 || j >= getmaxy( w ) ) {
+        return;
+    }
     wmove( w, point( k, j ) );
 
     const const_maptile tile = maptile_at( p );
