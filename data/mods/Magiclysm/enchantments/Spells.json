@@ -1,0 +1,10 @@
+[
+  {
+    "type": "enchantment",
+    "id": "enchant_stormshaper_electric_waves",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "hit_me_effect": [ { "id": "electric_waves_damage", "hit_self": false, "once_in": 3 } ],
+    "hit_you_effect": [ { "id": "electric_waves_damage", "hit_self": false } ]
+  }
+]
