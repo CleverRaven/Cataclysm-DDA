@@ -32,7 +32,7 @@
     ],
     "responses": [
       {
-        "text": "Bar… barshender! we… we?",
+        "text": "Bar… barshender!  we… we?",
         "effect": [
           "end_conversation",
           { "queue_eocs": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_MESSAGE", "time_in_future": [ "0s", "0s" ] }
@@ -140,7 +140,7 @@
   {
     "id": "BEM_CHATTING_VETERANS_TELL_STORY_TOWER",
     "type": "talk_topic",
-    "dynamic_line": "&The veteran's expressions turn to a mixture of awe and fear as your tale nears conclusion, the younger mercenary is finally after a long  \"We heard someone had gone and completed that death trap contract, but I still couldn't believe it.\"  \"You're a damn madman!\"  The older mercenary interjects in agreement. \"I'll drink to that!\".",
+    "dynamic_line": "&The veteran's expressions turn to a mixture of awe and fear as your tale nears conclusion, the younger mercenary is finally after a long  \"We heard someone had gone and completed that death trap contract, but I still couldn't believe it.\"  \"You're a damn madman!\"  The older mercenary interjects in agreement.  \"I'll drink to that!\".",
     "speaker_effect": [ { "effect": [ { "u_add_faction_trust": 10 } ] } ],
     "responses": [
       { "text": "Yeah looking back I really don't know why I did it.", "effect": "end_conversation", "topic": "TALK_DONE" }
