@@ -3382,6 +3382,24 @@
     "melee_damage": { "bash": 8 }
   },
   {
+    "id": "xl_lc_helmet_sallet",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel sallet helm" },
+    "copy-from": "lc_helmet_sallet",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xl_lc_helmet_sallet_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_lc_helmet_sallet",
+    "type": "ARMOR",
+    "name": { "str": "XS mild steel sallet helm" },
+    "copy-from": "lc_helmet_sallet",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xs_lc_helmet_sallet_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "lc_helmet_sallet_raised",
     "type": "ARMOR",
     "category": "armor",
@@ -3418,6 +3436,24 @@
     "melee_damage": { "bash": 8 }
   },
   {
+    "id": "xl_lc_helmet_sallet_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL mild steel sallet helm (raised)", "str_pl": "XL mild steel sallet helms (raised)" },
+    "copy-from": "lc_helmet_sallet_raised",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xl_lc_helmet_sallet", "menu_text": "Raise" },
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_lc_helmet_sallet_raised",
+    "type": "ARMOR",
+    "name": { "str": "XS mild steel sallet helm (raised)", "str_pl": "XS mild steel sallet helms (raised)" },
+    "copy-from": "lc_helmet_sallet_raised",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xs_lc_helmet_sallet", "menu_text": "Raise" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "mc_helmet_sallet",
     "type": "ARMOR",
     "copy-from": "lc_helmet_sallet",
@@ -3427,6 +3463,24 @@
     "price_postapoc": 4500,
     "use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "mc_helmet_sallet_raised", "menu_text": "Raise" },
     "replace_materials": { "lc_steel": "mc_steel" }
+  },
+  {
+    "id": "xl_mc_helmet_sallet",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel sallet helm" },
+    "copy-from": "mc_helmet_sallet",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xl_mc_helmet_sallet_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_mc_helmet_sallet",
+    "type": "ARMOR",
+    "name": { "str": "XS medium steel sallet helm" },
+    "copy-from": "mc_helmet_sallet",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xs_mc_helmet_sallet_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "mc_helmet_sallet_raised",
@@ -3445,6 +3499,24 @@
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
+    "id": "xl_mc_helmet_sallet_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel sallet helm (raised)", "str_pl": "XL medium steel sallet helms (raised)" },
+    "copy-from": "mc_helmet_sallet_raised",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xl_mc_helmet_sallet", "menu_text": "Raise" },
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_mc_helmet_sallet_raised",
+    "type": "ARMOR",
+    "name": { "str": "XS medium steel sallet helm (raised)", "str_pl": "XS medium steel sallet helms (raised)" },
+    "copy-from": "mc_helmet_sallet_raised",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xs_mc_helmet_sallet", "menu_text": "Raise" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "hc_helmet_sallet",
     "type": "ARMOR",
     "copy-from": "lc_helmet_sallet",
@@ -3454,6 +3526,24 @@
     "price_postapoc": 4500,
     "use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "hc_helmet_sallet_raised", "menu_text": "Raise" },
     "replace_materials": { "lc_steel": "hc_steel" }
+  },
+    {
+    "id": "xl_hc_helmet_sallet",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel sallet helm" },
+    "copy-from": "hc_helmet_sallet",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xl_hc_helmet_sallet_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_hc_helmet_sallet",
+    "type": "ARMOR",
+    "name": { "str": "XS high steel sallet helm" },
+    "copy-from": "hc_helmet_sallet",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xs_hc_helmet_sallet_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "hc_helmet_sallet_raised",
@@ -3471,6 +3561,24 @@
     },
     "replace_materials": { "lc_steel": "hc_steel" }
   },
+    {
+    "id": "xl_hc_helmet_sallet_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel sallet helm (raised)", "str_pl": "XL high steel sallet helms (raised)" },
+    "copy-from": "hc_helmet_sallet_raised",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xl_hc_helmet_sallet", "menu_text": "Raise" },
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_hc_helmet_sallet_raised",
+    "type": "ARMOR",
+    "name": { "str": "XS high steel sallet helm (raised)", "str_pl": "XS high steel sallet helms (raised)" },
+    "copy-from": "mc_helmet_sallet_raised",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xs_hc_helmet_sallet", "menu_text": "Raise" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
   {
     "id": "ch_helmet_sallet",
     "type": "ARMOR",
@@ -3481,6 +3589,24 @@
     "price_postapoc": 4500,
     "use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "ch_helmet_sallet_raised", "menu_text": "Raise" },
     "replace_materials": { "lc_steel": "ch_steel" }
+  },
+    {
+    "id": "xl_ch_helmet_sallet",
+    "type": "ARMOR",
+    "name": { "str": "XL case hardened sallet helm" },
+    "copy-from": "ch_helmet_sallet",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xl_ch_helmet_sallet_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ch_helmet_sallet",
+    "type": "ARMOR",
+    "name": { "str": "XS case hardened sallet helm" },
+    "copy-from": "ch_helmet_sallet",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xs_ch_helmet_sallet_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "ch_helmet_sallet_raised",
@@ -3498,6 +3624,24 @@
     },
     "replace_materials": { "lc_steel": "ch_steel" }
   },
+    {
+    "id": "xl_ch_helmet_sallet_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL case hardened sallet helm (raised)", "str_pl": "XL case hardened sallet helms (raised)" },
+    "copy-from": "ch_helmet_sallet_raised",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xl_ch_helmet_sallet", "menu_text": "Raise" },
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_mc_helmet_sallet_raised",
+    "type": "ARMOR",
+    "name": { "str": "XS case hardened sallet helm (raised)", "str_pl": "XS case hardened sallet helms (raised)" },
+    "copy-from": "ch_helmet_sallet_raised",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xs_ch_helmet_sallet", "menu_text": "Raise" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
   {
     "id": "qt_helmet_sallet",
     "type": "ARMOR",
@@ -3508,6 +3652,24 @@
     "price_postapoc": 4500,
     "use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "qt_helmet_sallet_raised", "menu_text": "Raise" },
     "replace_materials": { "lc_steel": "qt_steel" }
+  },
+   {
+    "id": "xl_qt_helmet_sallet",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered sallet helm" },
+    "copy-from": "qt_helmet_sallet",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xl_qt_helmet_sallet_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_qt_helmet_sallet",
+    "type": "ARMOR",
+    "name": { "str": "XS tempered sallet helm" },
+    "copy-from": "qt_helmet_sallet",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xs_qt_helmet_sallet_raised", "menu_text": "Raise" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "qt_helmet_sallet_raised",
@@ -3524,6 +3686,24 @@
       "menu_text": "Lower"
     },
     "replace_materials": { "lc_steel": "qt_steel" }
+  },
+    {
+    "id": "xl_qt_helmet_sallet_raised",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered sallet helm (raised)", "str_pl": "XL tempered sallet helms (raised)" },
+    "copy-from": "qt_helmet_sallet_raised",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xl_qt_helmet_sallet", "menu_text": "Raise" },
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_qt_helmet_sallet_raised",
+    "type": "ARMOR",
+    "name": { "str": "XS tempered sallet helm (raised)", "str_pl": "XS tempered sallet helms (raised)" },
+    "copy-from": "qt_helmet_sallet_raised",
+	"use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "xs_qt_helmet_sallet", "menu_text": "Raise" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "helmet_armet",
