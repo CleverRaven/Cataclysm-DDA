@@ -279,11 +279,22 @@ tripoint npc::good_escape_direction( bool include_pos )
         const zone_manager &mgr = zone_manager::get_manager();
         std::optional<tripoint_abs_ms> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
                 fac_id );
+        // if there is a retreat zone in range, go there
+        if( !retreat_target ) {
+            //if not, consider regrouping on the player if they're getting far away.
+            Character &player_character = get_player_character();
+            int dist = rl_dist( pos(), player_character.pos() );
+            int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
+            if( dist > def_radius ) {
+                tripoint_bub_ms player_pos = get_player_character().pos_bub();
+                retreat_target = here.getglobal( player_pos );
+            }
+        }
         if( retreat_target && *retreat_target != abs_pos ) {
             update_path( here.getlocal( *retreat_target ) );
-            if( !path.empty() ) {
-                return path[0];
-            }
+        }
+        if( !path.empty() ) {
+            return path[0];
         }
     }
 
@@ -436,7 +447,7 @@ void npc::assess_danger()
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
     float NPC_COWARDICE_MODIFIER = get_option<float>( NPC_COWARDICE_MODIFIER_OPT );
     float NPC_MONSTER_DANGER_MAX = get_option<float>( NPC_MONSTER_DANGER_MAX_OPT );
-    float NPC_CROWD_BRAVADO = get_option<float>( NPC_CROWD_BRAVADO_OPT );
+    float NPC_CROWD_BRAVADO = get_option<int>( NPC_CROWD_BRAVADO_OPT );
     float NPC_DANGER_VERY_LOW = get_option<float>( NPC_DANGER_VERY_LOW_OPT );
 
     if( !confident_range_cache ) {
@@ -685,20 +696,24 @@ void npc::assess_danger()
     }
 
     if( sees( player_character.pos() ) ) {
-        // Mod for the player's danger level
+        // Mod for the player's danger level, weight it higher if player is very close
+        // When the player is almost adjacent, it can exceed max danger ratings, so the
+        // NPC will try hard not to break and run while in formation.
         float player_diff = evaluate_enemy( player_character );
         int dist = rl_dist( pos(), player_character.pos() );
+        add_msg( m_bad, _( "I see you, you're %1f dangerous" ), player_diff );
         if( is_enemy() ) {
             assessment += handle_hostile( player_character, player_diff, translate_marker( "maniac" ),
                                           "kill_player" );
         } else if( is_friendly( player_character ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
-            // If a friendly player is very close, weight their combat value as more important.
-            if( dist <= 5 ) {
-                assessment = std::max( min_danger, assessment - player_diff * 0.75f );
+            add_msg( m_bad, _( "Danger level was %1f" ), assessment );
+            if( dist <= 3 ) {
+                assessment = std::max( min_danger, assessment - player_diff * ( 4 - dist ) / 2 );
             } else {
                 assessment = std::max( min_danger, assessment - player_diff * 0.5f );
             }
+            add_msg( m_bad, _( "now its %1f thanks to you" ), assessment );
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
     }
@@ -706,7 +721,7 @@ void npc::assess_danger()
     assessment *= NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
         float my_diff = evaluate_enemy( *this ) * 0.5f + rng( 0, personality.bravery * 2 );
-        add_msg_debug( debugmode::DF_NPC, "assessment: %1f, diff: %2f.", assessment, my_diff );
+        add_msg( m_bad, _( "Enemy Danger: %1f, Ally Strength: %2f." ), assessment, my_diff );
         if( my_diff < assessment ) {
             time_duration run_away_for = 10_turns + 1_turns * rng( 0, 10 ) - 1_turns * personality.bravery;
             warn_about( "run_away", run_away_for );
