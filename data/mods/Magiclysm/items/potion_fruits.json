@@ -185,7 +185,7 @@
     "id": "potion_fruit_wintergreen",
     "name": { "str": "potion fruit (wintergreen berries)" },
     "description": "A handful of wintergreen berries infused with mana.  It will allow you to see in the dark.",
-    "copy-from": "wintergreen_berries",
+    "copy-from": "wintergreen_berry",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
     "use_action": {
@@ -220,7 +220,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "potion_fruit_grapes",
+    "id": "potion_fruit_apricot",
     "name": { "str": "potion fruit (apricots)" },
     "description": "A handful of apricots infused with mana.  It will enhance your visual acuity.",
     "copy-from": "apricot",
