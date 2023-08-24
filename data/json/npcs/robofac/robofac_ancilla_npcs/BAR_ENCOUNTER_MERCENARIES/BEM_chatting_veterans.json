@@ -97,7 +97,7 @@
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
       },
       {
-        "text": "Tell them the story of how you dived into and were forced to fight for your life within a disgusting, toxic hellscape made from the un-living innards of some crushed zombie monstrosity.  All so the intercom could have some damned hdd back.",
+        "text": "Tell them the story of how you dived into and were forced to fight for your life within a disgusting, toxic hellscape made from the un-living innards of some crushed zombie monstrosity.  All so the intercom could have some damned HDD back.",
         "condition": { "u_has_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_TOWER"
       },
