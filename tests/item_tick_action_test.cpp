@@ -3,7 +3,6 @@
 #include "item.h"
 #include "map.h"
 
-
 TEST_CASE( "tick_action_triggering", "[item]" )
 {
     item chainsaw( "chainsaw_on" );

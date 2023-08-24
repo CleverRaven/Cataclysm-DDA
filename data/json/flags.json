@@ -1898,10 +1898,6 @@
     "type": "json_flag"
   },
   {
-    "id": "MODE_BURST",
-    "type": "json_flag"
-  },
-  {
     "id": "FIRE_TWOHAND",
     "info": "<bad>You must</bad> have two free hands to fire this item.",
     "type": "json_flag"

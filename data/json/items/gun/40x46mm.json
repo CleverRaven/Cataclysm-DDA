@@ -166,7 +166,7 @@
     "description": "A homemade triple-barrel 40mm grenade launcher.  Capable of launching all three grenades at once, it is extremely powerful for a homemade weapon.",
     "clip_size": 3,
     "price_postapoc": 1750,
-    "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ], [ "MULTI", "multi", 3, [ "NPC_AVOID", "SIMULTANEOUS" ] ] ],
+    "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ], [ "MULTI", "multi", 3, [ "NPC_AVOID" ] ] ],
     "proportional": { "weight": 1.5, "volume": 1.8, "price": 2 },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 3 } } ]
   },

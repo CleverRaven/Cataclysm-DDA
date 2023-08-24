@@ -48,7 +48,7 @@
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [ [ "rail", 1 ], [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "MODE_BURST", "NON_FOULING" ],
+    "flags": [ "NON_FOULING" ],
     "ammo_to_fire": 20,
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "rm4502", "rm4504" ] } ],
     "melee_damage": { "bash": 10 }

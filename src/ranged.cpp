@@ -948,7 +948,6 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
             break;
         }
 
-
         // Vehicle turrets drain vehicle battery and do not care about this
         if( !gun.has_flag( flag_VEHICLE ) ) {
             const units::energy energ_req = gun.get_gun_energy_drain();
@@ -2081,7 +2080,7 @@ void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
         sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
                        data.sound.empty() ? _( "Bang!" ) : data.sound );
     }
-    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, false, false ),
+    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, false, 0, false ),
                          uppercase_first_letter( data.sound ) );
 }
 

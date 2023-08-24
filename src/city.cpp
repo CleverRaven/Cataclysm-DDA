@@ -14,7 +14,6 @@
 #include "omdata.h"
 #include "overmap.h"
 
-
 generic_factory<city> &get_city_factory()
 {
     static generic_factory<city> city_factory( "city" );

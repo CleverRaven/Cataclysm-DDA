@@ -2528,7 +2528,6 @@ void talk_effect_fun_t::set_activate_trait( const JsonObject &jo, const std::str
     };
 }
 
-
 void talk_effect_fun_t::set_deactivate_trait( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
@@ -3835,7 +3834,6 @@ void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::strin
     };
 }
 
-
 void talk_effect_fun_t::set_give_achievment( const JsonObject &jo, const std::string &member )
 {
     str_or_var achieve = get_str_or_var( jo.get_member( member ), member, true );
@@ -4182,7 +4180,6 @@ void talk_effect_fun_t::set_run_eoc_until( const JsonObject &jo, const std::stri
     str_or_var condition = get_str_or_var( jo.get_member( "condition" ), "condition" );
 
     dbl_or_var iteration_count = get_dbl_or_var( jo, "iteration_count", false, 100 );
-
 
     function = [eoc, condition, iteration_count]( dialogue & d ) {
         auto itt = d.get_conditionals().find( condition.evaluate( d ) );
