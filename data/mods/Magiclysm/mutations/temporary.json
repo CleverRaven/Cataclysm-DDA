@@ -3,18 +3,19 @@
     "type": "mutation",
     "id": "BIO_GIANT_GROWTH",
     "name": { "str": "Giant-sized" },
-    "//": "Mostly copied from Huge with some Tough mixed in",
+    "//": "Mostly copied from Huge with some Tough mixed in.  Strength bonus includes improvements from STR_UP mutation that's normally required for LARGE",
     "points": 2,
     "visibility": 4,
     "ugliness": 8,
     "mixed_effect": true,
     "description": "Magic has made you grow to enormous size!",
     "flags": [ "HUGE" ],
-    "types": [ "SIZE" ],
-    "passive_mods": { "str_mod": 4 },
+    "passive_mods": { "str_mod": 6 },
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "stomach_size_multiplier": 2.0,
     "weight_capacity_modifier": 1.1,
+    "cardio_multiplier": 1.25, 
+    "social_modifiers": { "intimidate": 15 },
     "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.3 } ] } ]
   }
 ]
