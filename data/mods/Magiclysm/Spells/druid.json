@@ -479,7 +479,14 @@
   {
     "type": "effect_on_condition":,
     "id": "EOC_NATURE_COMMUNE",
-    "condition": "u_is_outside",
+    "condition": { "and": [ "u_is_outside", { 
+      { "not": { "u_near_om_location": "road_curved", "range": 1 } }, 
+      { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
+      { "not": { "u_near_om_location": "road_tee", "range": 1 } },
+      { "not": { "u_near_om_location": "road_straight", "range": 1 } },
+      { "not": { "u_near_om_location": "road_end", "range": 1 } }
+    ] 
+    },
     "effect": [
       { "u_add_effect": "natures_commune", "duration": { "math": [ "( 10000 + (u_val('spell_level', 'spell: druid_natures_commune') * 2000) )" ] } },
       { "u_add_morale": "morale_forest_unity", "bonus": 10, "max_bonus": 15, "duration": { "math": [ "( 10000 + (u_val('spell_level', 'spell: druid_natures_commune') * 2000) )" ] }, "decay_start": { "math": [ "(( 10000 + (u_val('spell_level', 'spell: druid_natures_commune') * 2000) ) / 2)" ] } }
