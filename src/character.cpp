@@ -8976,9 +8976,12 @@ void Character::add_to_inv_search_caches( item &it ) const
 
 void Character::remove_from_inv_search_caches( item &it ) const
 {
-    for( auto &cache : inv_search_caches ) {
-        cache.second.items.erase( &it );
-    }
+    it.visit_items( [this]( item * it, item * ) {
+        for( auto &cache : inv_search_caches ) {
+            cache.second.items.erase( it );
+        }
+        return VisitResponse::NEXT;
+    } );
 }
 
 bool Character::has_charges( const itype_id &it, int quantity,
