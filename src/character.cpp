@@ -7456,7 +7456,7 @@ void Character::recalculate_enchantment_cache()
     // start by resetting the cache to all inventory items
     *enchantment_cache = inv->get_active_enchantment_cache( *this );
 
-    visit_items( [&]( const item * it, item * ) {
+    for( item *it : all_items_with( "is_relic", &item::is_relic ) ) {
         for( const enchant_cache &ench : it->get_proc_enchantments() ) {
             if( ench.is_active( *this, *it ) ) {
                 enchantment_cache->force_add( ench );
@@ -7467,8 +7467,7 @@ void Character::recalculate_enchantment_cache()
                 enchantment_cache->force_add( ench, *this );
             }
         }
-        return VisitResponse::NEXT;
-    } );
+    }
 
     // get from traits/ mutations
     for( const std::pair<const trait_id, trait_data> &mut_map : my_mutations ) {
