@@ -883,7 +883,7 @@
     "id": "achievement_lvl_4_computer",
     "type": "achievement",
     "name": "Help Desk",
-    "description": "Have you tried turning it off and back on again?.",
+    "description": "Have you tried turning it off and back on again?",
     "requirements": [
       {
         "event_statistic": "num_gains_computer_level_4",
