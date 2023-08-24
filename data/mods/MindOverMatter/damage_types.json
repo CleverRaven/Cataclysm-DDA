@@ -142,5 +142,61 @@
       ]
     },
     "effect": [ { "npc_cast_spell": { "id": "teleport_blink", "min_level": 10 } } ]
+  },
+  {
+    "id": "psi_enervation_damage",
+    "type": "damage_type",
+    "physical": false,
+    "magic_color": "red_green",
+    "name": "enervation",
+    "skill": "metaphysics",
+    "immune_flags": { "character": [ "LIFESHIELD" ], "monster": [ "ENERVATE_IMMUNE" ] },
+    "ondamage_eocs": [ "EOC_ENERVATION_DRAIN" ]
+  },
+  {
+    "id": "psi_enervation_damage",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "enervating",
+    "bionic_info": { "order": 999902, "show_type": false },
+    "protection_info": { "order": 999902, "show_type": false },
+    "pet_prot_info": { "order": 999902, "show_type": false },
+    "melee_combat_info": { "order": 999902, "show_type": false },
+    "ablative_info": { "order": 999902, "show_type": false }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ENERVATION_DRAIN",
+    "condition": {
+      "and": [
+        { "math": [ "_damage_taken", ">", "0" ] },
+        { "not": { "npc_has_flag": "LIFESHIELD" } },
+        { "not": { "npc_has_flag": "ENERVATE_IMMUNE" } }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_ENERVATION_DRAIN_2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ENERVATION_DRAIN_2",
+    "condition": { "math": [ "n_val('mana')", ">=", "150" ] },
+    "effect": [
+      { "math": [ "n_val('mana')", "-=", "rng( 100,200 )" ] },
+      { "npc_message": "You feel a sudden sense of loss.", "type": "bad" }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_ENERVATION_DRAIN_3" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ENERVATION_DRAIN_3",
+    "condition": { "math": [ "n_val('stamina')", ">=", "200" ] },
+    "effect": [
+      { "math": [ "n_val('stamina')", "-=", "rng( 100,300 )" ] },
+      { "npc_message": "For a moment, you feel exhausted.", "type": "bad" }
+    ],
+    "false_effect": [
+      { "npc_cast_spell": { "id": "eater_drain_health" } },
+      { "npc_message": "You feel your life draining away!.", "type": "bad" }
+    ]
   }
 ]

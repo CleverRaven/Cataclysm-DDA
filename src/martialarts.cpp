@@ -262,7 +262,6 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
         has_condition = true;
     }
 
-
     reqs.load( jo, src );
     bonuses.load( jo );
 }

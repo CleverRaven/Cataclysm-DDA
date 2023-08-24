@@ -83,7 +83,6 @@ float Character::generic_weakpoint_skill( skill_id skill_1, skill_id skill_2,
     return ( skill + stat ) * mul;
 }
 
-
 float Character::melee_weakpoint_skill( const item &weapon ) const
 {
     return generic_weakpoint_skill( weapon.is_null() ? skill_unarmed : weapon.melee_skill(),

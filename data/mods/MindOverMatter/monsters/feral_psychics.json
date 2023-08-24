@@ -589,7 +589,10 @@
     "death_drops": "feral_humans_death_drops_telekin",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "death_function": { "effect": { "id": "death_telekeinetic_hit_oneinfive", "hit_self": false } },
+    "death_function": {
+      "effect": { "id": "death_telekeinetic_hit_oneinfive", "hit_self": true },
+      "message": "As the %1$s dies, a wave of force explodes outward!"
+    },
     "upgrades": { "half_life": 45, "into": "mon_feral_human_telekin2" },
     "starting_ammo": { "rock": 6 },
     "special_attacks": [
@@ -680,7 +683,10 @@
     "death_drops": "feral_humans_death_drops_telekin",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "death_function": { "effect": { "id": "death_telekeinetic_hit_oneinthree", "hit_self": false } },
+    "death_function": {
+      "effect": { "id": "death_telekeinetic_hit_oneinthree", "hit_self": true },
+      "message": "As the %1$s dies, a wave of force explodes outward!"
+    },
     "special_attacks": [
       {
         "id": "psi_telekin2_telegrab",
@@ -765,7 +771,7 @@
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "death_function": {
-      "effect": { "id": "death_psychic_scream", "hit_self": false },
+      "effect": { "id": "death_psychic_scream", "hit_self": true, "min_level": 5 },
       "message": "As the %1$s dies, a scream fills your mind!"
     },
     "upgrades": { "half_life": 45, "into": "mon_feral_human_teep2" },
@@ -826,7 +832,7 @@
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "death_function": {
-      "effect": { "id": "death_psychic_scream", "hit_self": false },
+      "effect": { "id": "death_psychic_scream", "hit_self": true, "min_level": 10 },
       "message": "As the %1$s dies, a scream fills your mind!"
     },
     "special_attacks": [
@@ -970,6 +976,20 @@
         "monster_message": "%1$s glances at %3$s and the world lurches."
       },
       {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "teleport_touch",
+        "move_cost": 80,
+        "cooldown": 15,
+        "accuracy": 5,
+        "damage_max_instance": [ { "damage_type": "psi_teleporter_teleporting_damage", "amount": 2, "armor_penetration": 10 } ],
+        "blockable": false,
+        "hit_dmg_u": "%1$s touches you and the world shifts around you!",
+        "hit_dmg_npc": "%1$s touches <npcname> and the world shifts around them!",
+        "miss_msg_u": "%s reaches for you but you avoid their touch!",
+        "miss_msg_npc": "%s reaches for <npcname> but they dodge!"
+      },
+      {
         "type": "leap",
         "cooldown": 2,
         "move_cost": 50,
@@ -1026,11 +1046,29 @@
     "vision_night": 3,
     "path_settings": { "max_dist": 40, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "feral_humans_death_drops_porter",
+    "death_function": {
+      "effect": { "id": "teleport_summon_monster", "hit_self": true },
+      "message": "As the %1$s dies, the air warps around them!"
+    },
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "luminance": 25,
     "special_attacks": [
       [ "PARROT_AT_DANGER", 10 ],
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "teleport_touch",
+        "move_cost": 65,
+        "cooldown": 10,
+        "accuracy": 6,
+        "damage_max_instance": [ { "damage_type": "psi_teleporter_teleporting_damage", "amount": 2, "armor_penetration": 10 } ],
+        "blockable": false,
+        "hit_dmg_u": "%1$s touches you and the world warps around you!",
+        "hit_dmg_npc": "%1$s touches <npcname> and the world warps around them!",
+        "miss_msg_u": "%s reaches for you but you avoid their touch!",
+        "miss_msg_npc": "%s reaches for <npcname> but they dodge!"
+      },
       {
         "id": "psi_teleport3_slow",
         "type": "spell",

@@ -383,7 +383,7 @@
     "volume": "250 ml",
     "fun": -2,
     "smoking_result": "dry_veggy",
-    "flags": [ "RAW" ],
+    "flags": [ "RAW", "SMOKABLE" ],
     "vitamins": [ [ "vitC", 18 ], [ "iron", 5 ], [ "calcium", 8 ] ]
   },
   {

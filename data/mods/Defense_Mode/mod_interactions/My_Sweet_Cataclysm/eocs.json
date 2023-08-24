@@ -1,0 +1,34 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "DEFENSE_MODE_WAVE_SPAWN_CANDY",
+    "condition": { "math": [ "candymonsters_allowed", "==", "1" ] },
+    "effect": [
+      {
+        "u_spawn_monster": "GROUP_SWEET_HORDE",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      },
+      {
+        "u_spawn_monster": "GROUP_SWEET_HORDE",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      },
+      {
+        "u_spawn_monster": "GROUP_SWEET_HORDE",
+        "real_count": { "global_val": "wave_number", "default": 1 },
+        "outdoor_only": true,
+        "group": true,
+        "min_radius": 20,
+        "max_radius": 40
+      }
+    ],
+    "false_effect": { "run_eocs": "DEFENSE_MODE_WAVE_SPAWN_FALLBACK" }
+  }
+]

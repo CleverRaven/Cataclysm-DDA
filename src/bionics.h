@@ -138,7 +138,10 @@ struct bionic_data {
      * Mutations/traits that prevent installing this CBM
      */
     std::set<trait_id> mutation_conflicts;
-
+    /**
+     * Mutations/traits the cbm adds if it is removed
+     */
+    std::set<trait_id> give_mut_on_removal;
     /**
      * The spells you learn when you install this bionic, and what level you learn them at.
      */

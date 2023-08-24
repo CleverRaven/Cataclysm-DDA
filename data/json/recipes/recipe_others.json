@@ -2301,8 +2301,14 @@
     "time": "10 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "metal_tank_little", 1 ] ], [ [ "pilot_light", 1 ] ] ]
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "pipe_fittings", 1 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "duct_tape", 50 ] ]
+    ]
   },
   {
     "type": "recipe",

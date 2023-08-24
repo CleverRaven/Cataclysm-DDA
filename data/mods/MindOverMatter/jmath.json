@@ -10,5 +10,71 @@
     "id": "scaling_factor",
     "num_args": 1,
     "return": "( ( _0 + 10) / 20 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "contemplation_factor",
+    "num_args": 1,
+    "return": "(u_val('focus') * 18) * (_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_one_contemplation",
+    "num_args": 1,
+    "return": "_0 * 49417"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_two_contemplation",
+    "num_args": 1,
+    "return": "_0 * 49417"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_three_contemplation",
+    "num_args": 1,
+    "return": "_0 * 49417"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_four_contemplation",
+    "num_args": 1,
+    "return": "_0 * 35278"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_five_contemplation",
+    "num_args": 1,
+    "return": "_0 * 35278"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_six_contemplation",
+    "num_args": 1,
+    "return": "_0 * 20513"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_seven_contemplation",
+    "num_args": 1,
+    "return": "_0 * 20513"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_eight_contemplation",
+    "num_args": 1,
+    "return": "_0 * 13722"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_nine_contemplation",
+    "num_args": 1,
+    "return": "_0 * 13722"
+  },
+  {
+    "type": "jmath_function",
+    "id": "difficulty_ten_contemplation",
+    "num_args": 1,
+    "return": "_0 * 13722"
   }
 ]

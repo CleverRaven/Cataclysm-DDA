@@ -181,6 +181,7 @@
   <ItemGroup>
     <ProjectReference Include="flatbuffers.vcxproj">
       <Project>{8a533a64-435d-4d4f-9ff0-1e97aace9374}</Project>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

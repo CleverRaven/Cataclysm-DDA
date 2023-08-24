@@ -39,7 +39,6 @@
     "name": "GROUP_CRYSTAL_FIELD",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_null", "weight": 50 },
       { "monster": "mon_feral_human_bio", "weight": 60, "cost_multiplier": 2 },
       { "monster": "mon_feral_human_clair", "weight": 60 },
       { "monster": "mon_feral_human_pyrokin", "weight": 60, "cost_multiplier": 3 },
@@ -48,13 +47,24 @@
       { "monster": "mon_feral_human_porter", "weight": 60 },
       { "monster": "mon_feral_human_vita", "weight": 60 },
       { "monster": "mon_gelatin", "weight": 40 },
+      { "monster": "mon_darkman", "weight": 15, "cost_multiplier": 0 },
+      { "monster": "mon_gozu", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_flying_polyp", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 60, "cost_multiplier": 2 },
       { "monster": "mon_flaming_eye", "weight": 25, "cost_multiplier": 10 },
       { "monster": "mon_kreck", "weight": 60, "cost_multiplier": 5 },
       { "monster": "mon_gracke", "weight": 100 },
-      { "monster": "mon_mi_go", "weight": 40 },
-      { "monster": "mon_mi_go_slaver", "weight": 20, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go", "weight": 60 },
+      { "monster": "mon_mi_go_slaver", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go_myrmidon", "weight": 10, "cost_multiplier": 4, "starts": "210 hours" },
       { "monster": "mon_nether_eater", "weight": 60 }
     ]
+  },
+  {
+    "name": "GROUP_CRYSTAL_FIELD_PSYCHOACTIVE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_swarm_structure", "weight": 60, "cost_multiplier": 2 } ]
   },
   {
     "type": "monstergroup",

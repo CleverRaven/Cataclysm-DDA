@@ -1,0 +1,17 @@
+[
+  {
+    "type": "overmap_location",
+    "id": "generic_loot_locations",
+    "flags": [ "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "railroad",
+    "terrains": [ "railroad" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "railroad_level_crossing_allowed",
+    "terrains": [ "road" ]
+  }
+]

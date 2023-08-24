@@ -104,6 +104,17 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "earthshaper_turning_earth",
+    "terrain": [
+      {
+        "result": "t_dirtmound",
+        "valid_terrain": [ "t_dirt", "t_dirtfloor", "t_grass", "t_grass_long", "t_grass_tall", "t_grass_dead", "t_grass_white", "t_pit_shallow" ],
+        "message": "The ground churns as a long straight furrow suitable for planting appears."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "earthshaper_boulder",
     "furniture": [
       {

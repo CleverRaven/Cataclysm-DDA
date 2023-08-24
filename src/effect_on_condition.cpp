@@ -237,6 +237,8 @@ static void process_eocs( queued_eocs &eoc_queue, std::vector<effect_on_conditio
                     eoc_queue.list.erase( it );
                 }
             }
+        } else {
+            eoc_queue.list.erase( it );
         }
     }
     for( queued_eocs::storage_iter &q_eoc : eocs_to_queue ) {

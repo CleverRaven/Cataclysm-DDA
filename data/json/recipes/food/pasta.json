@@ -238,7 +238,6 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "25 m",
-    "result_mult": 4,
     "book_learn": [ [ "cookbook_italian", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 13, "LIST" ] ] ],
@@ -250,7 +249,8 @@
       [ [ "eggs_any_shape", 3, "LIST" ] ],
       [ [ "cheese_standard", 1, "LIST" ], [ "pecorino_cheese", 1 ] ],
       [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "bacon", 1 ] ]
-    ]
+    ],
+    "charges": 4
   },
   {
     "result": "amatriciana_pasta",
@@ -261,7 +261,6 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "25 m",
-    "result_mult": 4,
     "book_learn": [ [ "cookbook_italian", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 13, "LIST" ] ] ],
@@ -273,6 +272,7 @@
       [ [ "sauce_red", 3 ] ],
       [ [ "cheese_standard", 1, "LIST" ], [ "pecorino_cheese", 1 ] ],
       [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "bacon", 1 ] ]
-    ]
+    ],
+    "charges": 4
   }
 ]

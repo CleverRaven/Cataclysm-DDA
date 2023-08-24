@@ -236,7 +236,6 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
 
     int result = 0;
 
-
     if( need_fire ) {
         if( !p->use_charges_if_avail( itype_fire, need_fire ) ) {
             p->add_msg_if_player( m_info, need_fire_msg, it.tname() );
@@ -357,7 +356,6 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
         return ret_val<void>::make_failure( _( "You need to empty the %1$s before activating it." ),
                                             it.tname() );
     }
-
 
     if( p.is_worn( it ) ) {
         item tmp = item( target );
@@ -4584,11 +4582,17 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
         return std::nullopt;
 
     } else if( choice >= 998 ) {
-        // Selection: Unconnect & respool.
+        // Selection: Detach & respool.
 
         // Reopen the menu after respooling.
         p->assign_activity( invoke_item_activity_actor( item_location{*p, &it}, "link_up" ) );
         p->activity.auto_resume = true;
+
+        if( it.link->t_veh_safe ) {
+            // Cancel out the linked device's power draw so the vehicle's power display will be accurate.
+            int power_draw = it.charge_linked_batteries( *it.link->t_veh_safe, 0 );
+            it.link->t_veh_safe->linked_item_epower_this_turn += units::from_milliwatt( power_draw );
+        }
 
         it.reset_link( p );
         // Cables that are too long need to be manually rewound before reuse.

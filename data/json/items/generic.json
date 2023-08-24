@@ -670,6 +670,7 @@
     "symbol": "*",
     "color": "light_gray",
     "name": { "str": "empty canister" },
+    "category": "container",
     "description": "An empty canister, which may have once held tear gas or other substances.",
     "material": [ "steel" ],
     "weight": "40 g",

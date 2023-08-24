@@ -57,34 +57,100 @@
       { "prob": 40, "sealed": false, "group": "veggy_pickled_jar_glass_sealed_1_inf" },
       {
         "distribution": [
-          { "item": "veggy_salad", "charges-min": 1, "prob": 10 },
-          { "item": "blt", "charges-min": 1, "prob": 10 },
+          { "item": "veggy_salad", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "bowl_plastic" },
+          { "item": "blt", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "wrapper" },
           { "item": "protein_shake", "charges-min": 1, "prob": 5 },
-          { "item": "fries", "charges-min": 1, "prob": 10 },
-          { "item": "cheese_fries", "charges-min": 1, "prob": 10 },
-          { "item": "onion_rings", "charges-min": 1, "prob": 10 },
+          { "item": "fries", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "box_small" },
+          {
+            "item": "cheese_fries",
+            "count-min": 1,
+            "prob": 10,
+            "container-item": "null",
+            "entry-wrapper": "box_small"
+          },
+          {
+            "item": "onion_rings",
+            "count-min": 1,
+            "prob": 10,
+            "container-item": "null",
+            "entry-wrapper": "box_small"
+          },
           { "item": "milkshake", "charges-min": 1, "prob": 10 },
           { "item": "milkshake_fastfood", "charges-min": 1, "prob": 10 },
           { "item": "frozen_lemonade", "charges-min": 1, "prob": 10 },
           { "item": "milkshake_deluxe", "charges-min": 1, "prob": 5 },
-          { "item": "pizza_meat", "charges-min": 1, "prob": 10 },
-          { "item": "pizza_veggy", "charges-min": 1, "prob": 10 },
-          { "item": "pizza_cheese", "charges-min": 1, "prob": 10 },
-          { "item": "pizza_supreme", "charges-min": 1, "prob": 10 },
-          { "item": "cheeseburger", "charges-min": 1, "prob": 10 },
-          { "item": "hamburger", "charges-min": 1, "prob": 10 },
-          { "item": "fish_fried", "charges-min": 1, "prob": 10 },
-          { "item": "fish_sandwich", "charges-min": 1, "prob": 10 },
-          { "item": "lobster_roll", "charges-min": 1, "prob": 10 },
-          { "item": "sloppyjoe", "charges-min": 1, "prob": 10 },
-          { "item": "sandwich_t", "charges-min": 1, "prob": 10 },
-          { "item": "junk_burrito", "charges-min": 1, "prob": 10 },
-          { "item": "chili", "charges-min": 1, "prob": 10 },
-          { "item": "hotdogs_cooked", "charges-min": 1, "prob": 10 },
-          { "item": "hotdogs_newyork", "charges-min": 1, "prob": 5 },
-          { "item": "crab_cakes", "charges-min": 1, "prob": 5 },
-          { "item": "lobster_cakes", "charges-min": 1, "prob": 5 },
-          { "item": "stuffed_clams", "charges-min": 1, "prob": 3 }
+          { "item": "pizza_meat", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "box_small" },
+          {
+            "item": "pizza_veggy",
+            "count-min": 1,
+            "prob": 10,
+            "container-item": "null",
+            "entry-wrapper": "box_small"
+          },
+          {
+            "item": "pizza_cheese",
+            "count-min": 1,
+            "prob": 10,
+            "container-item": "null",
+            "entry-wrapper": "box_small"
+          },
+          {
+            "item": "pizza_supreme",
+            "count-min": 1,
+            "prob": 10,
+            "container-item": "null",
+            "entry-wrapper": "box_small"
+          },
+          { "item": "cheeseburger", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "wrapper" },
+          { "item": "hamburger", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "wrapper" },
+          { "item": "fish_fried", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "box_small" },
+          {
+            "item": "fish_sandwich",
+            "count-min": 1,
+            "prob": 10,
+            "container-item": "null",
+            "entry-wrapper": "wrapper"
+          },
+          { "item": "lobster_roll", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "wrapper" },
+          { "item": "sloppyjoe", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "wrapper" },
+          { "item": "sandwich_t", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "wrapper" },
+          {
+            "item": "junk_burrito",
+            "count-min": 1,
+            "prob": 10,
+            "container-item": "null",
+            "entry-wrapper": "bag_plastic"
+          },
+          { "item": "chili", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "can_medium" },
+          {
+            "item": "hotdogs_cooked",
+            "count-min": 1,
+            "prob": 10,
+            "container-item": "null",
+            "entry-wrapper": "wrapper"
+          },
+          {
+            "item": "hotdogs_newyork",
+            "count-min": 1,
+            "prob": 5,
+            "container-item": "null",
+            "entry-wrapper": "wrapper"
+          },
+          { "item": "crab_cakes", "count-min": 1, "prob": 5, "container-item": "null", "entry-wrapper": "box_small" },
+          {
+            "item": "lobster_cakes",
+            "count-min": 1,
+            "prob": 5,
+            "container-item": "null",
+            "entry-wrapper": "box_small"
+          },
+          {
+            "item": "stuffed_clams",
+            "count-min": 1,
+            "prob": 3,
+            "container-item": "null",
+            "entry-wrapper": "box_small"
+          }
         ],
         "prob": 75
       },
@@ -350,15 +416,8 @@
       { "prob": 65, "group": "bacon_bag_plastic_2" },
       {
         "distribution": [
-          { "item": "pickle", "prob": 60, "charges-min": 1, "container-item": "jar_glass_sealed", "sealed": false },
-          {
-            "item": "pickle",
-            "prob": 40,
-            "charges": 1,
-            "count": [ 2, 3 ],
-            "container-item": "jar_glass_sealed",
-            "sealed": false
-          }
+          { "item": "pickle", "prob": 60, "count-min": 1, "entry-wrapper": "jar_glass_sealed", "sealed": false },
+          { "item": "pickle", "prob": 40, "count": [ 2, 3 ], "entry-wrapper": "jar_3l_glass_sealed", "sealed": false }
         ],
         "prob": 75
       },
@@ -378,7 +437,7 @@
       { "prob": 10, "group": "nachosv_bag_plastic_1_inf" },
       { "prob": 10, "group": "nachosmc_bag_plastic_1_inf" },
       { "prob": 10, "group": "nachosc_bag_plastic_1_inf" },
-      { "item": "spaghetti_bolognese", "prob": 10, "count-min": 1 },
+      { "item": "spaghetti_bolognese", "prob": 10, "count": [ 1, 3 ] },
       { "prob": 10, "group": "cheeseburger_wrapper_1_inf" },
       { "prob": 10, "group": "hamburger_wrapper_1_inf" },
       { "prob": 10, "group": "fish_fried_box_small_1_inf" },
@@ -698,32 +757,92 @@
       { "prob": 20, "sealed": false, "group": "veggy_pickled_jar_glass_sealed_1_inf" },
       {
         "distribution": [
-          { "item": "veggy_salad", "charges-min": 1, "prob": 10 },
-          { "item": "blt", "charges-min": 1, "prob": 10 },
+          { "item": "veggy_salad", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "bowl_plastic" },
+          { "item": "blt", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "wrapper" },
           { "item": "protein_shake", "charges-min": 1, "prob": 5 },
-          { "item": "fries", "charges-min": 1, "prob": 10 },
-          { "item": "cheese_fries", "charges-min": 1, "prob": 10 },
-          { "item": "onion_rings", "charges-min": 1, "prob": 10 },
+          { "item": "fries", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "box_small" },
+          {
+            "item": "cheese_fries",
+            "count-min": 1,
+            "prob": 10,
+            "container-item": "null",
+            "entry-wrapper": "box_small"
+          },
+          {
+            "item": "onion_rings",
+            "count-min": 1,
+            "prob": 10,
+            "container-item": "null",
+            "entry-wrapper": "box_small"
+          },
           { "item": "milkshake", "charges-min": 1, "prob": 10 },
           { "item": "milkshake_fastfood", "charges-min": 1, "prob": 10 },
           { "item": "frozen_lemonade", "charges-min": 1, "prob": 10 },
           { "item": "milkshake_deluxe", "charges-min": 1, "prob": 5 },
-          { "item": "pizza_meat", "charges-min": 1, "prob": 10 },
-          { "item": "pizza_veggy", "charges-min": 1, "prob": 10 },
-          { "item": "pizza_cheese", "charges-min": 1, "prob": 10 },
-          { "item": "pizza_supreme", "charges-min": 1, "prob": 10 },
-          { "item": "cheeseburger", "charges-min": 1, "prob": 10 },
-          { "item": "hamburger", "charges-min": 1, "prob": 10 },
-          { "item": "fish_fried", "charges-min": 1, "prob": 10 },
-          { "item": "fish_sandwich", "charges-min": 1, "prob": 10 },
-          { "item": "sloppyjoe", "charges-min": 1, "prob": 10 },
-          { "item": "sandwich_t", "charges-min": 1, "prob": 10 },
-          { "item": "junk_burrito", "charges-min": 1, "prob": 10 },
-          { "item": "chili", "charges-min": 1, "prob": 10 },
-          { "item": "hotdogs_cooked", "charges-min": 1, "prob": 10 },
-          { "item": "hotdogs_newyork", "charges-min": 1, "prob": 5 },
-          { "item": "crab_cakes", "charges-min": 1, "prob": 5 },
-          { "item": "stuffed_clams", "charges-min": 1, "prob": 3 }
+          { "item": "pizza_meat", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "box_small" },
+          {
+            "item": "pizza_veggy",
+            "count-min": 1,
+            "prob": 10,
+            "container-item": "null",
+            "entry-wrapper": "box_small"
+          },
+          {
+            "item": "pizza_cheese",
+            "count-min": 1,
+            "prob": 10,
+            "container-item": "null",
+            "entry-wrapper": "box_small"
+          },
+          {
+            "item": "pizza_supreme",
+            "count-min": 1,
+            "prob": 10,
+            "container-item": "null",
+            "entry-wrapper": "box_small"
+          },
+          { "item": "cheeseburger", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "wrapper" },
+          { "item": "hamburger", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "wrapper" },
+          { "item": "fish_fried", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "box_small" },
+          {
+            "item": "fish_sandwich",
+            "count-min": 1,
+            "prob": 10,
+            "container-item": "null",
+            "entry-wrapper": "wrapper"
+          },
+          { "item": "sloppyjoe", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "wrapper" },
+          { "item": "sandwich_t", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "wrapper" },
+          {
+            "item": "junk_burrito",
+            "count-min": 1,
+            "prob": 10,
+            "container-item": "null",
+            "entry-wrapper": "bag_plastic"
+          },
+          { "item": "chili", "count-min": 1, "prob": 10, "container-item": "null", "entry-wrapper": "can_medium" },
+          {
+            "item": "hotdogs_cooked",
+            "count-min": 1,
+            "prob": 10,
+            "container-item": "null",
+            "entry-wrapper": "wrapper"
+          },
+          {
+            "item": "hotdogs_newyork",
+            "count-min": 1,
+            "prob": 5,
+            "container-item": "null",
+            "entry-wrapper": "wrapper"
+          },
+          { "item": "crab_cakes", "count-min": 1, "prob": 5, "container-item": "null", "entry-wrapper": "box_small" },
+          {
+            "item": "stuffed_clams",
+            "count-min": 1,
+            "prob": 3,
+            "container-item": "null",
+            "entry-wrapper": "box_small"
+          }
         ],
         "prob": 20
       },

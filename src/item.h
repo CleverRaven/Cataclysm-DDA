@@ -173,6 +173,10 @@ template<>
 struct enum_traits<iteminfo::flags> {
     static constexpr bool is_flag_enum = true;
 };
+// Currently used to store the only throwing stats of character dropping this item. Default is -1
+struct dropped_by_character_stats {
+    float throwing;
+};
 
 iteminfo vol_to_info( const std::string &type, const std::string &left,
                       const units::volume &vol, int decimal_places = 2, bool lower_is_better = true );
@@ -220,6 +224,8 @@ class item : public visitable
         {}
 
         ~item() override;
+
+        struct dropped_by_character_stats dropped_char_stats = { -1.0f };
 
         /** Return a pointer-like type that's automatically invalidated if this
          * item is destroyed or assigned-to */
@@ -1230,8 +1236,6 @@ class item : public visitable
         */
         bool damage_type_can_damage_items( const damage_type_id &dmg_type ) const;
 
-
-
         /**
          * Resistance against different damage types (@ref damage_type).
          * Larger values means more resistance are thereby better, but there is no absolute value to
@@ -1794,8 +1798,8 @@ class item : public visitable
          *
          * For items not counted by charges, this returns vol / this->volume().
          */
-        int charges_per_volume( const units::volume &vol ) const;
-        int charges_per_weight( const units::mass &m ) const;
+        int charges_per_volume( const units::volume &vol, bool suppress_warning = false ) const;
+        int charges_per_weight( const units::mass &m, bool suppress_warning = false ) const;
 
         /**
          * @name Item variables
@@ -2333,7 +2337,6 @@ class item : public visitable
          * @param carrier is used for UPS and bionic power.
          */
         units::energy energy_remaining( const Character *carrier = nullptr ) const;
-
 
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.

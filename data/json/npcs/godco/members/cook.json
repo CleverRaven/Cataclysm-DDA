@@ -17,7 +17,7 @@
         "type": "general",
         "context": "meeting",
         "value": "yes",
-        "yes": [ "Welcome back.", "Hello again.  What do you need?", "*waves you over.  \"Hey <name_g>.  How's it going for you?\"" ],
+        "yes": [ "Welcome back.", "Hello again.  What do you need?", "*waves you over.  \"Hey <u_name>.  How's it going for you?\"" ],
         "no": "Hello stranger, I don't think we've met before.  Its nice to meet you, name's Simon."
       }
     },

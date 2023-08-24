@@ -4,6 +4,7 @@
 #include <optional>
 
 #include "activity_actor_definitions.h"
+#include "basecamp.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -1972,7 +1973,6 @@ bool inventory_selector::drag_drop_item( item *sourceItem, item *destItem )
     return false;
 }
 
-
 bool inventory_selector::add_contained_items( item_location &container )
 {
     return add_contained_items( container, own_inv_column );
@@ -2111,6 +2111,15 @@ void inventory_selector::add_remote_map_items( tinymap *remote_map, const tripoi
     _add_map_items( target, map_cat, items, [target]( item & it ) {
         return item_location( map_cursor( target ), &it );
     } );
+}
+
+void inventory_selector::add_basecamp_items( const basecamp &camp )
+{
+    std::unordered_set<tripoint_abs_ms> tiles = camp.get_storage_tiles();
+    map &here = get_map();
+    for( tripoint_abs_ms tile : tiles ) {
+        add_map_items( here.bub_from_abs( tile ).raw() );
+    }
 }
 
 void inventory_selector::clear_items()
@@ -2480,7 +2489,6 @@ inventory_selector::stat inventory_selector::get_holster_stat( const units::volu
     std::string holster_caption = string_format( _( "Free Holster Volume (%s): %s Used Holsters:" ),
                                   volume_units_abbr(),
                                   colorize( format_volume( holster_volume ), c_light_gray ) );
-
 
     return display_stat( holster_caption, used_holsters, total_holsters, []( int v ) {
         return string_format( "%d", v );
@@ -3868,8 +3876,6 @@ inventory_selector::stats inventory_insert_selector::get_raw_stats() const
             holster->get_used_holsters() + holstered_items,
             holster->get_total_holsters() );
 }
-
-
 
 pickup_selector::pickup_selector( Character &p, const inventory_selector_preset &preset,
                                   const std::string &selection_column_title, const std::optional<tripoint> &where ) :
