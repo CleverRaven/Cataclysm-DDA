@@ -972,7 +972,7 @@
   {
     "type": "construction_group",
     "id": "construct_open_air",
-    "name": "Turn a Pit into Open Air"
+    "name": "Dig out pit completely and remove anything remaining"
   },
   {
     "type": "construction_group",
