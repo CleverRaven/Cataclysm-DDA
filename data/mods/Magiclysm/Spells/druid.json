@@ -498,14 +498,14 @@
     "effect": [
       {
         "u_add_effect": "natures_commune",
-        "duration": { "math": [ "( 30000 + (u_val('spell_level', 'spell: druid_natures_commune') * 16500) )" ] }
+        "duration": { "math": [ "( 300 + (u_val('spell_level', 'spell: druid_natures_commune') * 165)) " ] }
       },
       {
         "u_add_morale": "morale_forest_unity",
         "bonus": 10,
         "max_bonus": 15,
-        "duration": { "math": [ "( 30000 + (u_val('spell_level', 'spell: druid_natures_commune') * 16500) )" ] },
-        "decay_start": { "math": [ "(( 30000 + (u_val('spell_level', 'spell: druid_natures_commune') * 16500) ) / 2)" ] }
+        "duration": { "math": [ "( 300 + (u_val('spell_level', 'spell: druid_natures_commune') * 165) )" ] },
+        "decay_start": { "math": [ "(( 300 + (u_val('spell_level', 'spell: druid_natures_commune') * 165) ) / 2)" ] }
       }
     ],
     "false_effect": [ { "u_message": "You must be surrounded by nature to commune with nature", "type": "bad" } ]
