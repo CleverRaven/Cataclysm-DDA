@@ -155,7 +155,7 @@ std::list<item> get_harvest_items( const itype &type, int plant_count,
                                    int seed_count, bool byproducts );
 
 // Planting functions
-std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );
+std::vector<seed_tuple> get_seed_entries( const std::set<item *> &seed_inv );
 int query_seed( const std::vector<seed_tuple> &seed_entries );
 void plant_seed( Character &you, const tripoint &examp, const itype_id &seed_id );
 void harvest_plant_ex( Character &you, const tripoint &examp );

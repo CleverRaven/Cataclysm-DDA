@@ -2448,7 +2448,7 @@ void iexamine::fungus( Character &you, const tripoint &examp )
 /**
  *  Make lists of unique seed types and names for the menu(no multiple hemp seeds etc)
  */
-std::vector<seed_tuple> iexamine::get_seed_entries( const std::vector<item *> &seed_inv )
+std::vector<seed_tuple> iexamine::get_seed_entries( const std::set<item *> &seed_inv )
 {
     std::map<itype_id, int> seed_map;
     for( const item *seed : seed_inv ) {
@@ -2526,9 +2526,7 @@ void iexamine::dirtmound( Character &you, const tripoint &examp )
         add_msg(m_info, _("It is too dark to plant anything now."));
         return;
     }*/
-    std::vector<item *> seed_inv = you.items_with( []( const item & itm ) {
-        return itm.is_seed();
-    } );
+    std::set<item *> &seed_inv = you.all_items_with( "IS SEED", &item::is_seed );
     if( seed_inv.empty() ) {
         add_msg( m_info, _( "You have no seeds to plant." ) );
         return;
