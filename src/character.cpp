@@ -2270,10 +2270,9 @@ void Character::process_turn()
     // Didn't just pick something up
     last_item = itype_null;
 
-    visit_items( [this]( item * e, item * ) {
-        e->process_relic( this, pos() );
-        return VisitResponse::NEXT;
-    } );
+    for( item *relic : all_items_with( "IS RELIC", &item::is_relic ) ) {
+        relic->process_relic( this, pos() );
+    }
 
     suffer();
     // NPCs currently don't make any use of their scent, pointless to calculate it
