@@ -2270,7 +2270,7 @@ void Character::process_turn()
     // Didn't just pick something up
     last_item = itype_null;
 
-    for( item *relic : all_items_with( "IS RELIC", &item::is_relic ) ) {
+    for( item *relic : all_items_with( "is_relic", &item::is_relic ) ) {
         relic->process_relic( this, pos() );
     }
 
@@ -5800,7 +5800,7 @@ float Character::active_light() const
     float lumination = 0.0f;
 
     int maxlum = 0;
-    for( item *flagged_item : all_items_with( "IS EMISSIVE", &item::is_emissive ) ) {
+    for( item *flagged_item : all_items_with( "is_emissive", &item::is_emissive ) ) {
         const int lumit = flagged_item->getlight_emit();
         if( maxlum < lumit ) {
             maxlum = lumit;
