@@ -7184,7 +7184,7 @@ int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
         ledge_coverage -= target_furn_coverage > 0 ? target_furn_coverage : 50 ;
     }
 
-    return ledge_coverage;
+    return ledge_coverage >= 0 ? ledge_coverage : 0;
 }
 
 int map::coverage( const tripoint &p ) const
