@@ -805,14 +805,15 @@ class atm_menu
         //!Move money from bank account onto cash card.
         bool do_withdraw_money() {
 
-            std::vector<item *> cash_cards_on_hand = you.items_with( []( const item & i ) {
-                return i.typeId() == itype_cash_card;
-            } );
-            if( cash_cards_on_hand.empty() ) {
+            std::set<item *> &_cash_cards_on_hand = you.all_items_with( "IS CASH CARD", &item::is_cash_card );
+            if( _cash_cards_on_hand.empty() ) {
                 //Just in case we run into an edge case
                 popup( _( "You do not have a cash card to withdraw money!" ) );
                 return false;
             }
+            std::vector<item *> cash_cards_on_hand;
+            cash_cards_on_hand.reserve( _cash_cards_on_hand.size() );
+            cash_cards_on_hand = { _cash_cards_on_hand.begin(), _cash_cards_on_hand.end() };
 
             const int amount = prompt_for_amount( n_gettext(
                     "Withdraw how much?  Max: %d cent.  (0 to cancel) ",
@@ -866,9 +867,7 @@ class atm_menu
                     return false;
                 }
             } else {
-                const std::vector<item *> cash_cards = you.items_with( []( const item & i ) {
-                    return i.typeId() == itype_cash_card;
-                } );
+                const std::set<item *> &cash_cards = you.all_items_with( "IS CASH CARD", &item::is_cash_card );
                 if( cash_cards.empty() ) {
                     popup( _( "You do not have a cash card." ) );
                     return false;
@@ -915,9 +914,7 @@ class atm_menu
         //!Move the money from all the cash cards in inventory to a single card.
         bool do_transfer_all_money() {
             item *dst;
-            std::vector<item *> cash_cards_on_hand = you.items_with( []( const item & i ) {
-                return i.typeId() == itype_cash_card;
-            } );
+            std::set<item *> &cash_cards_on_hand = you.all_items_with( "IS CASH CARD", &item::is_cash_card );
             if( you.activity.id() == ACT_ATM ) {
                 dst = you.activity.targets.front().get_item();
                 you.activity.set_to_null(); // stop for now, if required, it will be created again.
@@ -930,7 +927,7 @@ class atm_menu
                 if( cash_cards_on_hand.empty() ) {
                     return false;
                 }
-                dst = cash_cards_on_hand.front();
+                dst = *cash_cards_on_hand.begin();
             }
 
             for( item *i : cash_cards_on_hand ) {
@@ -4988,13 +4985,14 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
     }
 
     if( refund == choice ) {
-        std::vector<item *> cash_cards = you.items_with( []( const item & i ) {
-            return i.typeId() == itype_cash_card;
-        } );
-        if( cash_cards.empty() ) {
+        std::set<item *> &_cash_cards = you.all_items_with( "IS CASH CARD", &item::is_cash_card );
+        if( _cash_cards.empty() ) {
             popup( _( "You do not have a cash card to refund money!" ) );
             return;
         }
+        std::vector<item *> cash_cards;
+        cash_cards.reserve( _cash_cards.size() );
+        cash_cards = { _cash_cards.begin(), _cash_cards.end() };
 
         const std::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );

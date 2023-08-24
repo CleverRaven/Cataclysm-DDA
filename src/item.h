@@ -352,6 +352,7 @@ class item : public visitable
         bool ready_to_revive( map &here, const tripoint &pos ) const;
 
         bool is_money() const;
+        bool is_cash_card() const;
         bool is_software() const;
         bool is_software_storage() const;
 

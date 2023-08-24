@@ -158,6 +158,7 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_blood( "blood" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_bullet_crossbow( "bullet_crossbow" );
+static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_cig_butt( "cig_butt" );
 static const itype_id itype_cig_lit( "cig_lit" );
 static const itype_id itype_cigar_butt( "cigar_butt" );
@@ -8436,6 +8437,11 @@ bool item::ready_to_revive( map &here, const tripoint &pos ) const
 bool item::is_money() const
 {
     return ammo_types().count( ammo_money );
+}
+
+bool item::is_cash_card() const
+{
+    return typeId() == itype_cash_card;
 }
 
 bool item::is_software() const
