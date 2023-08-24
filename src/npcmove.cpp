@@ -146,8 +146,12 @@ static const trait_id trait_RETURN_TO_START_POS( "RETURN_TO_START_POS" );
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_NPC_RETREAT( "NPC_RETREAT" );
 
-static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
-static constexpr float NPC_DANGER_MAX = 150.0f;
+
+static const std::string NPC_DANGER_VERY_LOW_OPT( "NPC_DANGER_VERY_LOW" );
+static const std::string NPC_CROWD_BRAVADO_OPT( "NPC_CROWD_BRAVADO" );
+static const std::string NPC_COWARDICE_MODIFIER_OPT( "NPC_COWARDICE_MODIFIER" );
+static const std::string NPC_MONSTER_DANGER_MAX_OPT( "NPC_MONSTER_DANGER_MAX" );
+static const std::string NPC_CHARACTER_DANGER_MAX_OPT( "NPC_CHARACTER_DANGER_MAX" );
 static constexpr float MAX_FLOAT = 5000000000.0f;
 
 // TODO: These would be much better using common code or constants from character.cpp,
@@ -387,10 +391,12 @@ float npc::evaluate_enemy( const Creature &target ) const
     if( target.is_monster() ) {
         const monster &mon = dynamic_cast<const monster &>( target );
         float diff = static_cast<float>( mon.type->difficulty );
-        return std::min( diff, NPC_DANGER_MAX );
+        float NPC_MONSTER_DANGER_MAX = get_option<float>( NPC_MONSTER_DANGER_MAX_OPT );
+        return std::min( diff, NPC_MONSTER_DANGER_MAX );
     } else if( target.is_npc() || target.is_avatar() ) {
+        float NPC_CHARACTER_DANGER_MAX = get_option<float>( NPC_CHARACTER_DANGER_MAX_OPT );
         return std::min( character_danger( dynamic_cast<const Character &>( target ) ),
-                         NPC_DANGER_MAX );
+                         NPC_CHARACTER_DANGER_MAX );
     } else {
         return 0.0f;
     }
@@ -428,6 +434,10 @@ void npc::assess_danger()
     int hostile_count = 0;
     int friendly_count = 1; // count yourself as a friendly
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
+    float NPC_COWARDICE_MODIFIER = get_option<float>( NPC_COWARDICE_MODIFIER_OPT );
+    float NPC_MONSTER_DANGER_MAX = get_option<float>( NPC_MONSTER_DANGER_MAX_OPT );
+    float NPC_CROWD_BRAVADO = get_option<float>( NPC_CROWD_BRAVADO_OPT );
+    float NPC_DANGER_VERY_LOW = get_option<float>( NPC_DANGER_VERY_LOW_OPT );
 
     if( !confident_range_cache ) {
         invalidate_range_cache();
@@ -494,7 +504,7 @@ void npc::assess_danger()
             continue;
         }
         int dist = rl_dist( pos(), pt );
-        cur_threat_map[direction_from( pos(), pt )] += 2.0f * ( NPC_DANGER_MAX - dist );
+        cur_threat_map[direction_from( pos(), pt )] += 2.0f * ( NPC_MONSTER_DANGER_MAX - dist );
         if( dist < 3 && !has_effect( effect_npc_fire_bad ) ) {
             warn_about( "fire_bad", 1_minutes );
             add_effect( effect_npc_fire_bad, 5_turns );
@@ -604,11 +614,8 @@ void npc::assess_danger()
         ai_cache.danger_assessment = assessment;
         return;
     }
-    // being outnumbered is serious.  Scale up your assessment if you're outnumbered.
-    if( hostile_count > friendly_count ) {
-        assessment *= ( hostile_count / friendly_count );
-    }
 
+    // Warn about sufficiently risky nearby hostiles
     const auto handle_hostile = [&]( const Character & foe, float foe_threat,
     const std::string & bogey, const std::string & warning ) {
         int dist = rl_dist( pos(), foe.pos() );
@@ -637,6 +644,7 @@ void npc::assess_danger()
         }
 
 
+
         if( !is_player_ally() || is_too_close || ok_by_rules( foe, dist, scaled_distance ) ) {
             float priority = std::max( foe_threat - 2.0f * ( scaled_distance - 1 ),
                                        is_too_close ? std::max( foe_threat, NPC_DANGER_VERY_LOW ) :
@@ -651,6 +659,7 @@ void npc::assess_danger()
         }
         return foe_threat;
     };
+
 
     for( const weak_ptr_fast<Creature> &guy : ai_cache.hostile_guys ) {
         Character *foe = dynamic_cast<Character *>( guy.lock().get() );
@@ -669,21 +678,32 @@ void npc::assess_danger()
         assessment = std::max( min_danger, assessment - guy_threat * 0.5f );
     }
 
+    // being outnumbered is serious.  Do a flat scale up your assessment if you're outnumbered.
+    // This is a coarse tool that might be better handled
+    if( hostile_count > friendly_count + NPC_CROWD_BRAVADO ) {
+        assessment *= std::min( ( hostile_count / ( friendly_count + NPC_CROWD_BRAVADO ) ), 1.0f );
+    }
+
     if( sees( player_character.pos() ) ) {
-        // Mod for the player
-        // cap player difficulty at 150
+        // Mod for the player's danger level
         float player_diff = evaluate_enemy( player_character );
+        int dist = rl_dist( pos(), player_character.pos() );
         if( is_enemy() ) {
             assessment += handle_hostile( player_character, player_diff, translate_marker( "maniac" ),
                                           "kill_player" );
         } else if( is_friendly( player_character ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
-            assessment = std::max( min_danger, assessment - player_diff * 0.5f );
+            // If a friendly player is very close, weight their combat value as more important.
+            if( dist <= 5 ) {
+                assessment = std::max( min_danger, assessment - player_diff * 0.75f );
+            } else {
+                assessment = std::max( min_danger, assessment - player_diff * 0.5f );
+            }
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
     }
 
-    assessment *= 0.5f;
+    assessment *= NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
         float my_diff = evaluate_enemy( *this ) * 0.5f + rng( 0, personality.bravery * 2 );
         add_msg_debug( debugmode::DF_NPC, "assessment: %1f, diff: %2f.", assessment, my_diff );
@@ -742,6 +762,7 @@ void npc::regen_ai_cache()
     map &here = get_map();
     auto i = std::begin( ai_cache.sound_alerts );
     creature_tracker &creatures = get_creature_tracker();
+    float NPC_DANGER_VERY_LOW = get_option<float>( NPC_DANGER_VERY_LOW_OPT );
     if( has_trait( trait_RETURN_TO_START_POS ) ) {
         if( !ai_cache.guard_pos ) {
             ai_cache.guard_pos = get_location();
@@ -1858,6 +1879,7 @@ healing_options npc::patient_assessment( const Character &c )
 npc_action npc::address_needs( float danger )
 {
     Character &player_character = get_player_character();
+    float NPC_DANGER_VERY_LOW = get_option<float>( NPC_DANGER_VERY_LOW_OPT );
     // rng because NPCs are not meant to be hypervigilant hawks that notice everything
     // and swing into action with alarming alacrity.
     // no sometimes they are just looking the other way, sometimes they hestitate.
@@ -2578,6 +2600,7 @@ void npc::avoid_friendly_fire()
     const tripoint tar = current_target()->pos();
     // Calculate center of weight of friends and move away from that
     tripoint center;
+    float NPC_DANGER_VERY_LOW = get_option<float>( NPC_DANGER_VERY_LOW_OPT );
     for( const auto &fr : ai_cache.friends ) {
         if( shared_ptr_fast<Creature> fr_p = fr.lock() ) {
             center += fr_p->pos();
