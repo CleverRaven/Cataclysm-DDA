@@ -9084,8 +9084,7 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from inventory
     if( qty != 0_kJ ) {
-        std::set<item *> &ups_items = all_items_with( flag_IS_UPS );
-        for( const item *i : ups_items ) {
+        for( const item *i : all_items_with( flag_IS_UPS ) ) {
             if( i->is_tool() && i->type->tool->fuel_efficiency >= 0 ) {
                 qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr,
                         i->type->tool->fuel_efficiency );
