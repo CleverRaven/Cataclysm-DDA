@@ -1429,7 +1429,6 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
         // - 50% Skill at Per/Dex 8: 1-in-14 chance
         // - 50% Skill at Per/Dex 12: 1-in-16 chance
     }
-    
     if( z != 0 && is_rotorcraft() ) {
         driver.moves = std::min( driver.moves, 0 );
         thrust( 0, z );
