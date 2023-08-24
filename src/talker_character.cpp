@@ -662,7 +662,7 @@ bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
 int talker_character_const::item_rads( const flag_id &flag, aggregate_type agg_func ) const
 {
     std::vector<int> rad_vals;
-    for( const item *it : me_chr_const->all_items_with_flag( flag ) ) {
+    for( const item *it : me_chr_const->all_items_with( flag ) ) {
         if( me_chr_const->is_worn( *it ) || me_chr_const->is_wielding( *it ) ) {
             rad_vals.emplace_back( it->irradiation );
         }

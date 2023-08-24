@@ -5795,7 +5795,7 @@ float Character::active_light() const
     float lumination = 0.0f;
 
     int maxlum = 0;
-    for( item *flagged_item : all_items_with_flag( flag_LIGHT ) ) {
+    for( item *flagged_item : all_items_with( "IS EMISSIVE", &item::is_emissive ) ) {
         const int lumit = flagged_item->getlight_emit();
         if( maxlum < lumit ) {
             maxlum = lumit;
@@ -8884,7 +8884,7 @@ bool Character::in_sleep_state() const
 
 bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) const
 {
-    for( const item *it : all_items_with_flag( flag ) ) {
+    for( const item *it : all_items_with( flag ) ) {
         if( !need_charges || !it->is_tool() || it->type->tool->max_charges == 0 ||
             it->ammo_remaining( this ) > 0 ) {
             return true;
@@ -8893,53 +8893,91 @@ bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) con
     return false;
 }
 
-std::set<item *> &Character::all_items_with_flag( const flag_id &flag ) const
+std::set<item *> &Character::all_items_with( const flag_id &flag ) const
 {
-    std::string flag_string = flag.c_str();
-    auto iter = inv_search_caches.find( flag_string );
+    std::string key = string_format( "HAS FLAG %s", flag.c_str() );
 
-    // If the flag set already exists in the cache, return it.
+    auto iter = inv_search_caches.find( key );
     if( iter != inv_search_caches.end() ) {
-        return iter->second;
+        // If the cache already exists, use it.
+        return iter->second.items;
     }
 
-    // Otherwise, add a new flag set to the cache and populate with all appropriate items in the inventory. Empty sets are still created.
-    std::vector<const item *> items_with_flag;
-    if( flag == flag_LIGHT ) {
-        items_with_flag = items_with( []( const item & it ) {
-            return it.type->light_emission > 0;
-        } );
-    } else {
-        items_with_flag = items_with( [&flag]( const item & it ) {
-            return it.has_flag( flag );
-        } );
+    // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty sets are still created.
+    inv_search_caches[key].flag = flag;
+    std::vector<const item *> found_items;
+    found_items = items_with( [&flag]( const item & it ) {
+        return it.has_flag( flag );
+    } );
+
+    for( const item *it : found_items ) {
+        inv_search_caches[key].items.insert( const_cast<item *>( it ) );
     }
-    for( const item *it : items_with_flag ) {
-        inv_search_caches[flag_string].insert( const_cast<item *>( it ) );
+    return inv_search_caches[key].items;
+}
+
+std::set<item *> &Character::all_items_with( std::string key,
+        bool( item::*filter_func )() const ) const
+{
+    auto iter = inv_search_caches.find( key );
+    if( iter != inv_search_caches.end() ) {
+        // If the cache already exists, use it.
+        return iter->second.items;
     }
-    return inv_search_caches[flag_string];
+
+    // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty sets are still created.
+    inv_search_caches[key].filter_func = filter_func;
+    std::vector<const item *> found_items;
+    found_items = items_with( [&filter_func]( const item & it ) {
+        return ( it.*filter_func )();
+    } );
+    for( const item *it : found_items ) {
+        inv_search_caches[key].items.insert( const_cast<item *>( it ) );
+    }
+    return inv_search_caches[key].items;
+}
+
+std::set<item *> &Character::all_items_with( std::string key, const flag_id &flag,
+        bool( item::*filter_func )() const ) const
+{
+    auto iter = inv_search_caches.find( key );
+    if( iter != inv_search_caches.end() ) {
+        // If the cache already exists, use it.
+        return iter->second.items;
+    }
+
+    // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty sets are still created.
+    inv_search_caches[key].flag = flag;
+    inv_search_caches[key].filter_func = filter_func;
+    std::vector<const item *> found_items;
+    found_items = items_with( [&flag, &filter_func]( const item & it ) {
+        return it.has_flag( flag ) && ( it.*filter_func )();
+    } );
+    for( const item *it : found_items ) {
+        inv_search_caches[key].items.insert( const_cast<item *>( it ) );
+    }
+    return inv_search_caches[key].items;
 }
 
 void Character::add_to_inv_search_caches( item &it ) const
 {
-    for( auto &cached_items : inv_search_caches ) {
-        if( cached_items.first == flag_LIGHT.c_str() ) {
-            if( it.type->light_emission > 0 ) {
-                cached_items.second.insert( &it );
-            }
-        } else if( it.has_flag( flag_id( cached_items.first ) ) ) {
-            cached_items.second.insert( &it );
+    for( auto &cache : inv_search_caches ) {
+        if( cache.second.flag.is_valid() && !it.has_flag( cache.second.flag ) ) {
+            continue;
         }
+        if( cache.second.filter_func ) {
+            if( !( it.*cache.second.filter_func )() ) {
+                continue;
+            }
+        }
+        cache.second.items.insert( &it );
     }
 }
 
 void Character::remove_from_inv_search_caches( item &it ) const
 {
-    if( inv_search_caches.empty() ) {
-        return;
-    }
-    for( auto &cached_items : inv_search_caches ) {
-        cached_items.second.erase( &it );
+    for( auto &cache : inv_search_caches ) {
+        cache.second.items.erase( &it );
     }
 }
 
@@ -9010,7 +9048,7 @@ units::energy Character::available_ups() const
         available_charges += get_power_level();
     }
 
-    for( const item *i : all_items_with_flag( flag_IS_UPS ) ) {
+    for( const item *i : all_items_with( flag_IS_UPS ) ) {
         available_charges += units::from_kilojoule( i->ammo_remaining() );
     }
 
@@ -9037,7 +9075,7 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from inventory
     if( qty != 0_kJ ) {
-        std::set<item *> &ups_items = all_items_with_flag( flag_IS_UPS );
+        std::set<item *> &ups_items = all_items_with( flag_IS_UPS );
         for( const item *i : ups_items ) {
             if( i->is_tool() && i->type->tool->fuel_efficiency >= 0 ) {
                 qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr,
@@ -9120,7 +9158,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
 
 item Character::find_firestarter_with_charges( const int quantity ) const
 {
-    for( const item *i : all_items_with_flag( flag_FIRESTARTER ) ) {
+    for( const item *i : all_items_with( flag_FIRESTARTER ) ) {
         if( !i->typeId()->can_have_charges() ) {
             const use_function *usef = i->type->get_use( "firestarter" );
             if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
@@ -11912,7 +11950,7 @@ void Character::process_items()
     // Load all items that use the UPS and have their own battery to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     std::vector<item *> inv_use_ups;
-    for( item *flagged_item : all_items_with_flag( flag_USE_UPS ) ) {
+    for( item *flagged_item : all_items_with( flag_USE_UPS ) ) {
         if( flagged_item->ammo_data() ) {
             inv_use_ups.push_back( flagged_item );
         }

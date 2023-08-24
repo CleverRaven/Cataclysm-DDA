@@ -1140,7 +1140,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
         }
     } else if( bio.info().is_remote_fueled ) {
-        std::set<item *> cables = all_items_with_flag( flag_CABLE_SPOOL );
+        std::set<item *> cables = all_items_with( flag_CABLE_SPOOL );
         bool has_cable = !cables.empty();
         bool free_cable = false;
         bool success = false;

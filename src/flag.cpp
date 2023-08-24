@@ -172,7 +172,6 @@ const flag_id flag_ITEM_BROKEN( "ITEM_BROKEN" );
 const flag_id flag_LASER_SIGHT( "LASER_SIGHT" );
 const flag_id flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
 const flag_id flag_LEAK_DAM( "LEAK_DAM" );
-const flag_id flag_LIGHT( "LIGHT" ); // Note: not a valid item flag. Used for @ref inv_search_caches
 const flag_id flag_LITCIG( "LITCIG" );
 const flag_id flag_LUPINE( "LUPINE" );
 const flag_id flag_MAGIC_FOCUS( "MAGIC_FOCUS" );

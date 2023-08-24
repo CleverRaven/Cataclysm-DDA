@@ -2762,7 +2762,7 @@ void iexamine::fertilize_plant( Character &you, const tripoint &tile,
 itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
                                       bool ask_player )
 {
-    std::set<item *> &f_inv = you.all_items_with_flag( flag_FERTILIZER );
+    std::set<item *> &f_inv = you.all_items_with( flag_FERTILIZER );
     if( f_inv.empty() ) {
         add_msg( m_info, _( "You have no fertilizer for the %s." ), pname );
         return itype_id();
@@ -4691,7 +4691,7 @@ static int findBestGasDiscount( Character &you )
 {
     int discount = 0;
 
-    for( const item *it : you.all_items_with_flag( flag_GAS_DISCOUNT ) ) {
+    for( const item *it : you.all_items_with( flag_GAS_DISCOUNT ) ) {
         discount = std::max( discount, getGasDiscountCardQuality( *it ) );
     }
 
