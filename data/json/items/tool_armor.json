@@ -3674,7 +3674,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_mc_helmet_sallet_raised",
+    "id": "xs_ch_helmet_sallet_raised",
     "type": "ARMOR",
     "name": { "str": "XS case hardened sallet helm (raised)", "str_pl": "XS case hardened sallet helms (raised)" },
     "copy-from": "ch_helmet_sallet_raised",
