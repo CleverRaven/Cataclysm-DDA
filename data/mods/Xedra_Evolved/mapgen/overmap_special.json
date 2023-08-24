@@ -162,5 +162,125 @@
       { "point": [ 0, 1, -1 ], "overmap": "cathedralv_b_SW_north" },
       { "point": [ 1, 1, -1 ], "overmap": "cathedralv_b_SE_north" }
     ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "ierde altar",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "ierde_genius_loci_NW_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "ierde_genius_loci_NE_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "ierde_genius_loci_SW_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "ierde_genius_loci_SE_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "genius_loci_NW_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "genius_loci_NE_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "genius_loci_SW_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "genius_loci_SE_roof_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "UNIQUE", "WILDERNESS" ],
+    "spawns": { "group": "GROUP_GENIUS_IERDE", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "arvore altar",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "arvore_genius_loci_NW_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "arvore_genius_loci_NE_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "arvore_genius_loci_SW_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "arvore_genius_loci_SE_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "genius_loci_NW_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "genius_loci_NE_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "genius_loci_SW_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "genius_loci_SE_roof_north" }
+    ],
+    "locations": [ "forest" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "UNIQUE", "WILDERNESS" ],
+    "spawns": { "group": "GROUP_GENIUS_ARVORE", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "undine altar",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "undine_genius_loci_NW_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "undine_genius_loci_NE_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "undine_genius_loci_SW_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "undine_genius_loci_SE_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "genius_loci_NW_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "genius_loci_NE_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "genius_loci_SW_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "genius_loci_SE_roof_north" }
+    ],
+    "locations": [ "swamp" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "UNIQUE", "WILDERNESS" ],
+    "spawns": { "group": "GROUP_GENIUS_UNDINE", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "salamander altar",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "salamander_genius_loci_NW_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "salamander_genius_loci_NE_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "salamander_genius_loci_SW_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "salamander_genius_loci_SE_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "genius_loci_NW_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "genius_loci_NE_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "genius_loci_SW_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "genius_loci_SE_roof_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "UNIQUE", "WILDERNESS" ],
+    "spawns": { "group": "GROUP_GENIUS_SALAMANDER", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "sylph altar",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "sylph_genius_loci_NW_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "sylph_genius_loci_NE_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "sylph_genius_loci_SW_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "sylph_genius_loci_SE_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "genius_loci_NW_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "genius_loci_NE_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "genius_loci_SW_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "genius_loci_SE_roof_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "UNIQUE", "WILDERNESS" ],
+    "spawns": { "group": "GROUP_GENIUS_SYLPH", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "homullus altar",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "homullus_genius_loci_NW_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "homullus_genius_loci_NE_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "homullus_genius_loci_SW_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "homullus_genius_loci_SE_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "genius_loci_NW_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "genius_loci_NE_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "genius_loci_SW_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "genius_loci_SE_roof_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "UNIQUE", "WILDERNESS" ],
+    "spawns": { "group": "GROUP_GENIUS_HOMULLUS", "population": [ 10, 30 ], "radius": [ 1, 3 ] }
   }
 ]

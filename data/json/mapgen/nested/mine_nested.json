@@ -362,7 +362,7 @@
       "rows": [
         "!!!###",
         "#C  D#",
-        "##!Ac#",
+        "##! c#",
         "##GG##",
         "@####@",
         "@@@@@@"
@@ -391,7 +391,6 @@
         "C": { "item": "museum_misc", "chance": 90, "repeat": [ 1, 2 ] },
         "c": { "item": "museum_primitive", "chance": 90, "repeat": [ 1, 2 ] }
       },
-      "monster": { "A": { "monster": "mon_feral_human_archaeologist" } },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }

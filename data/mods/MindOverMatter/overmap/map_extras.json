@@ -78,5 +78,17 @@
     "sym": "C",
     "color": "dark_gray",
     "autonote": true
+  },
+  {
+    "id": "mx_phavian_science",
+    "type": "map_extra",
+    "name": { "str": "Scientists" },
+    "description": "Several corpses of scientists are here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_phavian_science" },
+    "min_max_zlevel": [ -5, 0 ],
+    "sym": "s",
+    "color": "light_blue",
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   }
 ]

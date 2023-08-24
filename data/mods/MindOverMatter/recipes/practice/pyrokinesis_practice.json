@@ -42,19 +42,15 @@
         "id": "EOC_PRACTICE_PYROKIN_FLASH",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_flash" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_flash" }, "<=", { "const": 49417 } ] }
+            { "math": [ "u_val('spell_level', 'spell: pyrokinetic_flash')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: pyrokinetic_flash')", "<=", "(difficulty_one_contemplation(1))" ]
+            }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          {
-            "arithmetic": [
-              { "u_val": "spell_exp", "spell": "pyrokinetic_flash" },
-              "+=",
-              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
-            ]
-          },
+          { "math": [ "u_val('spell_exp', 'spell: pyrokinetic_flash')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -62,7 +58,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_PYROKIN_FLASH_FALSE",
-              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_flash" }, ">=", { "const": 1 } ] },
+              "condition": { "math": [ "u_val('spell_level', 'spell: pyrokinetic_flash')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -96,19 +92,15 @@
         "id": "EOC_PRACTICE_PYROKIN_FLAMES",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_eruption" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_eruption" }, "<=", { "const": 49417 } ] }
+            { "math": [ "u_val('spell_level', 'spell: pyrokinetic_eruption')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: pyrokinetic_eruption')", "<=", "(difficulty_two_contemplation(1))" ]
+            }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          {
-            "arithmetic": [
-              { "u_val": "spell_exp", "spell": "pyrokinetic_eruption" },
-              "+=",
-              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
-            ]
-          },
+          { "math": [ "u_val('spell_exp', 'spell: pyrokinetic_eruption')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -116,7 +108,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_PYROKIN_FLAMES_FALSE",
-              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_eruption" }, ">=", { "const": 1 } ] },
+              "condition": { "math": [ "u_val('spell_level', 'spell: pyrokinetic_eruption')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -150,21 +142,15 @@
         "id": "EOC_PRACTICE_PYROKIN_QUELL_FIRE",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_quell_flames" }, ">=", { "const": 1 } ] },
+            { "math": [ "u_val('spell_level', 'spell: pyrokinetic_quell_flames')", ">=", "1" ] },
             {
-              "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_quell_flames" }, "<=", { "const": 49417 } ]
+              "math": [ "u_val('spell_exp', 'spell: pyrokinetic_quell_flames')", "<=", "(difficulty_three_contemplation(1))" ]
             }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          {
-            "arithmetic": [
-              { "u_val": "spell_exp", "spell": "pyrokinetic_quell_flames" },
-              "+=",
-              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
-            ]
-          },
+          { "math": [ "u_val('spell_exp', 'spell: pyrokinetic_quell_flames')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -172,7 +158,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_PYROKIN_QUELL_FIRE_FALSE",
-              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_quell_flames" }, ">=", { "const": 1 } ] },
+              "condition": { "math": [ "u_val('spell_level', 'spell: pyrokinetic_quell_flames')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -206,21 +192,15 @@
         "id": "EOC_PRACTICE_PYROKIN_CALL_FLAMES",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_call_flames" }, ">=", { "const": 1 } ] },
+            { "math": [ "u_val('spell_level', 'spell: pyrokinetic_call_flames')", ">=", "1" ] },
             {
-              "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_call_flames" }, "<=", { "const": 49417 } ]
+              "math": [ "u_val('spell_exp', 'spell: pyrokinetic_call_flames')", "<=", "(difficulty_three_contemplation(1))" ]
             }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          {
-            "arithmetic": [
-              { "u_val": "spell_exp", "spell": "pyrokinetic_call_flames" },
-              "+=",
-              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
-            ]
-          },
+          { "math": [ "u_val('spell_exp', 'spell: pyrokinetic_call_flames')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -228,7 +208,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_PYROKIN_CALL_FLAMES_FALSE",
-              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_call_flames" }, ">=", { "const": 1 } ] },
+              "condition": { "math": [ "u_val('spell_level', 'spell: pyrokinetic_call_flames')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -263,19 +243,15 @@
         "id": "EOC_PRACTICE_PYROKIN_CLOAK",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_cloak" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_cloak" }, "<=", { "const": 35278 } ] }
+            { "math": [ "u_val('spell_level', 'spell: pyrokinetic_cloak')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: pyrokinetic_cloak')", "<=", "(difficulty_four_contemplation(1))" ]
+            }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          {
-            "arithmetic": [
-              { "u_val": "spell_exp", "spell": "pyrokinetic_cloak" },
-              "+=",
-              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
-            ]
-          },
+          { "math": [ "u_val('spell_exp', 'spell: pyrokinetic_cloak')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -283,7 +259,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_PYROKIN_CLOAK_FALSE",
-              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_cloak" }, ">=", { "const": 1 } ] },
+              "condition": { "math": [ "u_val('spell_level', 'spell: pyrokinetic_cloak')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -318,21 +294,15 @@
         "id": "EOC_PRACTICE_PYROKIN_FLAMETHROWER",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_flamethrower" }, ">=", { "const": 1 } ] },
+            { "math": [ "u_val('spell_level', 'spell: pyrokinetic_flamethrower')", ">=", "1" ] },
             {
-              "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_flamethrower" }, "<=", { "const": 35278 } ]
+              "math": [ "u_val('spell_exp', 'spell: pyrokinetic_flamethrower')", "<=", "(difficulty_five_contemplation(1))" ]
             }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          {
-            "arithmetic": [
-              { "u_val": "spell_exp", "spell": "pyrokinetic_flamethrower" },
-              "+=",
-              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
-            ]
-          },
+          { "math": [ "u_val('spell_exp', 'spell: pyrokinetic_flamethrower')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -376,12 +346,14 @@
         "condition": {
           "and": [
             { "math": [ "u_val('spell_level', 'spell: pyrokinetic_lance')", ">=", "1" ] },
-            { "math": [ "u_val('spell_exp', 'spell: pyrokinetic_lance')", "<=", "35278" ] }
+            {
+              "math": [ "u_val('spell_exp', 'spell: pyrokinetic_lance')", "<=", "(difficulty_five_contemplation(1))" ]
+            }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          { "math": [ "u_val('spell_exp', 'spell: pyrokinetic_lance')", "+=", "(u_val('focus') * 18)" ] },
+          { "math": [ "u_val('spell_exp', 'spell: pyrokinetic_lance')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -424,19 +396,13 @@
         "id": "EOC_PRACTICE_PYROKIN_BLAZING",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_aura" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_aura" }, "<=", { "const": 20513 } ] }
+            { "math": [ "u_val('spell_level', 'spell: pyrokinetic_aura')", ">=", "1" ] },
+            { "math": [ "u_val('spell_exp', 'spell: pyrokinetic_aura')", "<=", "(difficulty_six_contemplation(1))" ] }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          {
-            "arithmetic": [
-              { "u_val": "spell_exp", "spell": "pyrokinetic_aura" },
-              "+=",
-              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
-            ]
-          },
+          { "math": [ "u_val('spell_exp', 'spell: pyrokinetic_aura')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -444,7 +410,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_PYROKIN_BLAZING_FALSE",
-              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_aura" }, ">=", { "const": 1 } ] },
+              "condition": { "math": [ "u_val('spell_level', 'spell: pyrokinetic_aura')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -479,21 +445,15 @@
         "id": "EOC_PRACTICE_PYROKIN_THERMOGENESIS",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_thermogenesis" }, ">=", { "const": 1 } ] },
+            { "math": [ "u_val('spell_level', 'spell: pyrokinetic_thermogenesis')", ">=", "1" ] },
             {
-              "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_thermogenesis" }, "<=", { "const": 20513 } ]
+              "math": [ "u_val('spell_exp', 'spell: pyrokinetic_thermogenesis')", "<=", "(difficulty_six_contemplation(1))" ]
             }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          {
-            "arithmetic": [
-              { "u_val": "spell_exp", "spell": "pyrokinetic_thermogenesis" },
-              "+=",
-              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
-            ]
-          },
+          { "math": [ "u_val('spell_exp', 'spell: pyrokinetic_thermogenesis')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -501,7 +461,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_PYROKIN_THERMOGENESIS_FALSE",
-              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_thermogenesis" }, ">=", { "const": 1 } ] },
+              "condition": { "math": [ "u_val('spell_level', 'spell: pyrokinetic_thermogenesis')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
@@ -536,19 +496,15 @@
         "id": "EOC_PRACTICE_PYROKIN_BLAST",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_blast" }, ">=", { "const": 1 } ] },
-            { "compare_num": [ { "u_val": "spell_exp", "spell": "pyrokinetic_blast" }, "<=", { "const": 20513 } ] }
+            { "math": [ "u_val('spell_level', 'spell: pyrokinetic_blast')", ">=", "1" ] },
+            {
+              "math": [ "u_val('spell_exp', 'spell: pyrokinetic_blast')", "<=", "(difficulty_six_contemplation(1))" ]
+            }
           ]
         },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
-          {
-            "arithmetic": [
-              { "u_val": "spell_exp", "spell": "pyrokinetic_blast" },
-              "+=",
-              { "arithmetic": [ { "u_val": "focus" }, "*", { "const": 18 } ] }
-            ]
-          },
+          { "math": [ "u_val('spell_exp', 'spell: pyrokinetic_blast')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_val('vitamin', 'name:vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
@@ -556,7 +512,7 @@
           "run_eocs": [
             {
               "id": "EOC_PRACTICE_PYROKIN_BLAST_FALSE",
-              "condition": { "compare_num": [ { "u_val": "spell_level", "spell": "pyrokinetic_blast" }, ">=", { "const": 1 } ] },
+              "condition": { "math": [ "u_val('spell_level', 'spell: pyrokinetic_blast')", ">=", "1" ] },
               "effect": [
                 { "u_message": "Your knowledge of your powers is so deep that mere contemplation is of no further use to you." },
                 { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }

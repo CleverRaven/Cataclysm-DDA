@@ -409,6 +409,18 @@
   },
   {
     "type": "ammunition_type",
+    "id": "hydrogen",
+    "name": "hydrogen",
+    "default": "hydrogen"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "nitrogen",
+    "name": "nitrogen",
+    "default": "nitrogen"
+  },
+  {
+    "type": "ammunition_type",
     "id": "motor_oil",
     "name": "motor oil",
     "default": "motor_oil"

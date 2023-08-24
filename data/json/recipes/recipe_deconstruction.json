@@ -5831,8 +5831,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "silver_small", 6 ] ] ],
-    "flags": [ "UNCRAFT_BY_CHARGE" ]
+    "components": [ [ [ "silver_small", 6 ] ] ]
   },
   {
     "result": "coin_gold",
@@ -5840,8 +5839,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "gold_small", 6 ] ] ],
-    "flags": [ "UNCRAFT_BY_CHARGE" ]
+    "components": [ [ [ "gold_small", 6 ] ] ]
   },
   {
     "result": "spray_can",
