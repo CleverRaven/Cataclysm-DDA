@@ -971,6 +971,11 @@
   },
   {
     "type": "construction_group",
+    "id": "construct_open_air",
+    "name": "Turn a Pit into Open Air"
+  },
+  {
+    "type": "construction_group",
     "id": "dig_a_water_channel",
     "name": "Dig a Water Channel"
   },
