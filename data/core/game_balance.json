@@ -107,7 +107,7 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "NPC_COWARDICE_MODIFIER",
-    "info": "This is a multiplier applied to an NPC's assessment of overall threat. The lower it is, the less likely they are to run away from their problems.  It has been tested between 0.1 and 0.5 pretty effectively.",
+    "info": "This is a multiplier applied to an NPC's assessment of overall threat.  The lower it is, the less likely they are to run away from their problems.  It has been tested between 0.1 and 0.5 pretty effectively.",
     "stype": "float",
     "value": 0.5
   },
