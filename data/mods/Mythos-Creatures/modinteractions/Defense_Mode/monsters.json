@@ -1,0 +1,57 @@
+[
+  {
+    "id": "mon_rat_thing_dm",
+    "copy-from": "mon_rat_thing",
+    "type": "MONSTER",
+    "species": [ "MYTHOS_DM" ],
+    "default_faction": "witches",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_ghoul_dm",
+    "copy-from": "mon_ghoul",
+    "type": "MONSTER",
+    "species": [ "MYTHOS_DM" ],
+    "default_faction": "witches",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_ghast_dm",
+    "copy-from": "mon_ghast",
+    "type": "MONSTER",
+    "species": [ "MYTHOS_DM" ],
+    "default_faction": "witches",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_nightgaunt_dm",
+    "copy-from": "mon_nightgaunt",
+    "type": "MONSTER",
+    "species": [ "MYTHOS_DM" ],
+    "default_faction": "witches",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_deep_one_dm",
+    "copy-from": "mon_deep_one",
+    "type": "MONSTER",
+    "species": [ "MYTHOS_DM" ],
+    "default_faction": "witches",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  }
+]
