@@ -689,7 +689,7 @@ void vpart_info::finalize()
     if( variants.empty() ) {
         debugmsg( "vehicle part %s defines no variants", id.str() );
         vpart_variant vv;
-        vv.id = "";
+        vv.id.clear();
         vv.label_ = "Default";
         vv.symbols.fill( '?' );
         vv.symbols_broken.fill( '?' );
@@ -1501,7 +1501,6 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
 
     json.end_object();
 }
-
 
 /**
  *Works through cached vehicle definitions and creates vehicle objects from them.

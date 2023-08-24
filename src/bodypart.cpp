@@ -894,8 +894,8 @@ bool bodypart::has_conditional_flag( const json_character_flag &flag ) const
 std::set<matec_id> bodypart::get_limb_techs() const
 {
     std::set<matec_id> result;
-    if( !x_in_y( get_encumbrance_data().encumbrance, id->technique_enc_limit  &&
-                 hp_cur > id->health_limit ) ) {
+    if( !x_in_y( get_encumbrance_data().encumbrance, id->technique_enc_limit ) &&
+        hp_cur > id->health_limit ) {
         result.insert( id->techniques.begin(), id->techniques.end() );
     }
     return result;

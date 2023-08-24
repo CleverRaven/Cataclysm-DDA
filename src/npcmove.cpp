@@ -273,8 +273,8 @@ tripoint npc::good_escape_direction( bool include_pos )
         zone_type_id retreat_zone = zone_type_NPC_RETREAT;
         const tripoint_abs_ms abs_pos = get_location();
         const zone_manager &mgr = zone_manager::get_manager();
-        std::optional<tripoint_abs_ms> retreat_target =
-            mgr.get_nearest( retreat_zone, abs_pos, 60, fac_id );
+        std::optional<tripoint_abs_ms> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
+                fac_id );
         if( retreat_target && *retreat_target != abs_pos ) {
             update_path( here.getlocal( *retreat_target ) );
             if( !path.empty() ) {
@@ -425,6 +425,8 @@ void npc::assess_danger()
 {
     float assessment = 0.0f;
     float highest_priority = 1.0f;
+    int hostile_count = 0;
+    int friendly_count = 1; // count yourself as a friendly
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
 
     if( !confident_range_cache ) {
@@ -530,6 +532,7 @@ void npc::assess_danger()
         Creature::Attitude att = critter.attitude_to( *this );
         if( att == Attitude::FRIENDLY ) {
             ai_cache.friends.emplace_back( g->shared_from( critter ) );
+            friendly_count += 1;
             continue;
         }
         if( att != Attitude::HOSTILE && ( critter.friendly || !is_enemy() ) ) {
@@ -542,6 +545,7 @@ void npc::assess_danger()
 
         ai_cache.hostile_guys.emplace_back( g->shared_from( critter ) );
         float critter_threat = evaluate_enemy( critter );
+        hostile_count += 1;
         // warn and consider the odds for distant enemies
         int dist = rl_dist( pos(), critter.pos() );
         if( is_enemy() || !critter.friendly ) {
@@ -600,6 +604,11 @@ void npc::assess_danger()
         ai_cache.danger_assessment = assessment;
         return;
     }
+    // being outnumbered is serious.  Scale up your assessment if you're outnumbered.
+    if( hostile_count > friendly_count ) {
+        assessment *= ( hostile_count / friendly_count );
+    }
+
     const auto handle_hostile = [&]( const Character & foe, float foe_threat,
     const std::string & bogey, const std::string & warning ) {
         int dist = rl_dist( pos(), foe.pos() );
@@ -626,6 +635,7 @@ void npc::assess_danger()
                 break;
             }
         }
+
 
         if( !is_player_ally() || is_too_close || ok_by_rules( foe, dist, scaled_distance ) ) {
             float priority = std::max( foe_threat - 2.0f * ( scaled_distance - 1 ),
@@ -672,11 +682,13 @@ void npc::assess_danger()
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
     }
-    assessment *= 0.1f;
+
+    assessment *= 0.5f;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
-        float my_diff = evaluate_enemy( *this );
-        if( ( my_diff * 0.5f + personality.bravery + rng( 0, 10 ) ) < assessment ) {
-            time_duration run_away_for = 5_turns + 1_turns * rng( 0, 5 );
+        float my_diff = evaluate_enemy( *this ) * 0.5f + rng( 0, personality.bravery * 2 );
+        add_msg_debug( debugmode::DF_NPC, "assessment: %1f, diff: %2f.", assessment, my_diff );
+        if( my_diff < assessment ) {
+            time_duration run_away_for = 10_turns + 1_turns * rng( 0, 10 ) - 1_turns * personality.bravery;
             warn_about( "run_away", run_away_for );
             add_effect( effect_npc_run_away, run_away_for );
             path.clear();

@@ -528,7 +528,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
                     if( charges ) {
                         found_quantity += i.charges_of( type->item_id, item_count - found_quantity );
                     } else {
-                        found_quantity += i.amount_of( type->item_id, item_count - found_quantity );
+                        found_quantity += i.amount_of( type->item_id, false, item_count - found_quantity );
                     }
                 }
             };
