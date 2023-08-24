@@ -529,7 +529,6 @@ item *Character::item_worn_with_id( const itype_id &i )
     return worn.item_worn_with_id( i );
 }
 
-
 bool Character::wearing_something_on( const bodypart_id &bp ) const
 {
     return worn.wearing_something_on( bp );
@@ -955,7 +954,6 @@ bool outfit::is_worn_module( const item &thing ) const
     } );
 }
 
-
 bool outfit::is_wearing_on_bp( const itype_id &clothing, const bodypart_id &bp ) const
 {
     for( const item &i : worn ) {
@@ -1168,7 +1166,9 @@ units::mass outfit::weight_carried_with_tweaks( const std::map<const item *, int
 {
     units::mass ret = 0_gram;
     for( const item &i : worn ) {
-        if( !without.count( &i ) ) {
+        if( without.empty() ) {
+            ret += i.weight();
+        } else if( !without.count( &i ) ) {
             for( const item *j : i.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
                 if( j->count_by_charges() ) {
                     ret -= get_selected_stack_weight( j, without );

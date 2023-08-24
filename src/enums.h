@@ -131,6 +131,9 @@ enum class ot_match_type : int {
     // terrain id, which means that suffixes for rotation and linear terrain types
     // are ignored.
     type,
+    // The provided string must completely match the base type id of the overmap
+    // terrain id as well as the linear subtype.
+    subtype,
     // The provided string must be a complete prefix (with additional parts delimited
     // by an underscore) of the overmap terrain id. For example, "forest" will match
     // "forest" or "forest_thick" but not "forestcabin".
@@ -150,7 +153,6 @@ struct enum_traits<ot_match_type> {
 enum class special_game_type : int {
     NONE = 0,
     TUTORIAL,
-    DEFENSE,
     NUM_SPECIAL_GAME_TYPES
 };
 

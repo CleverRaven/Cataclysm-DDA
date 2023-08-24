@@ -1023,8 +1023,7 @@
         "s_apt_2": 30,
         "school": 15,
         "motel_city": 10,
-        "fishing_pond_city": 10,
-        "railroad_city": 5
+        "fishing_pond_city": 10
       },
       "parks": {
         "park": 50,
@@ -1302,7 +1301,8 @@
         "cs_tire_shop": 100,
         "homeless_shelter": 100,
         "salon": 500,
-        "strip_mall": 750
+        "strip_mall": 750,
+        "barber_shop": 350
       }
     },
     "weather": {

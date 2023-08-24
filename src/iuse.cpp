@@ -7051,7 +7051,6 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint
     if( ( it->ammo_remaining() > it->type->maximum_charges() - 1000 ) && ( p2.x != pos.x ||
             p2.y != pos.y ) ) {
 
-
         if( p->is_elec_immune() ) {
             if( one_in( 10 ) ) {
                 add_msg( m_good, _( "The cuffs try to shock you, but you're protected from electricity." ) );
@@ -7064,7 +7063,6 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint
             p->mod_pain( rng( 2, 5 ) );
 
         }
-
 
         it->charges -= 50;
         if( it->charges < 1 ) {
@@ -7258,7 +7256,15 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
                 sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
                 if( it.has_flag( flag_RADIO_INVOKE_PROC ) ) {
                     // Invoke to transform a radio-modded explosive into its active form
-                    it.type->invoke( &p, it, loc );
+                    // The item activation may have all kinds of requirements. Like requiring item to be wielded.
+                    // We do not care. Call item action directly without checking can_use.
+                    // Items where this can be a problem should not be radio moddable
+                    std::map<std::string, use_function> use_methods = it.type->use_methods;
+                    if( use_methods.find( "transform" ) != use_methods.end() ) {
+                        it.type->get_use( "transform" )->call( &p, it, loc );
+                    } else {
+                        it.type->get_use( it.type->use_methods.begin()->first )->call( &p, it, loc );
+                    }
                 }
             } else if( !it.empty_container() ) {
                 item *itm = it.get_item_with( [&signal]( const item & c ) {
@@ -7464,6 +7470,9 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
     if( vehs.empty() ) {
         add_msg( m_bad, _( "No vehicle available." ) );
         return nullptr;
+    }
+    if( vehs.size() == 1 ) {
+        return vehs[0];
     }
 
     pointmenu_cb callback( locations );

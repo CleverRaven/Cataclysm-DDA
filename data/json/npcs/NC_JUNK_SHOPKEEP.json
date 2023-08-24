@@ -89,7 +89,7 @@
       { "item": "pickaxe", "prob": 20 },
       { "item": "makeshift_machete", "prob": 15 },
       { "prob": 20, "group": "fungicide_bag_plastic_400" },
-      { "prob": 20, "group": "insecticide_bag_plastic_400" },
+      { "group": "insecticide_bag_plastic", "prob": 20 },
       { "prob": 20, "group": "antifungal_bottle_plastic_pill_prescription_5" },
       { "prob": 20, "group": "antiparasitic_bottle_plastic_pill_prescription_5" },
       { "prob": 15, "group": "diazepam_bottle_plastic_pill_prescription_10" },

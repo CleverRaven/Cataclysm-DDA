@@ -95,7 +95,7 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": -1,
-    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND", "EMITTER" ],
+    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND" ],
     "emissions": [ "emit_smoke_plume", "afs_emit_geovent" ],
     "bash": {
       "str_min": 65,
@@ -121,7 +121,7 @@
     "color": "white",
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND", "EMITTER" ],
+    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND" ],
     "emissions": [ "emit_smoke_plume", "afs_emit_geovent" ],
     "bash": { "str_min": 45, "str_max": 140, "sound": "smash!", "sound_fail": "thump.", "ter_set": "t_fumarole" }
   },
@@ -145,7 +145,7 @@
     "symbol": ".",
     "color": "white",
     "move_cost": 10,
-    "flags": [ "TRANSPARENT", "FLAT", "ROUGH", "EMITTER" ],
+    "flags": [ "TRANSPARENT", "FLAT", "ROUGH" ],
     "emissions": [ "emit_smoke_plume", "afs_emit_geovent" ]
   },
   {

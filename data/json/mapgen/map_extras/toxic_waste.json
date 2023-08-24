@@ -5,7 +5,7 @@
     "items": [
       { "item": "sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
       { "item": "water_sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
-      { "item": "fetid_goop", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 200, "prob": 30 },
+      { "item": "fetid_goop", "entry-wrapper": "55gal_drum", "count-min": 26, "count-max": 200, "prob": 30 },
       { "prob": 1, "group": "meat_mutant_tainted_55gal_drum_3_15" },
       { "prob": 2, "group": "veggy_tainted_55gal_drum_3_50" },
       { "group": "toxic_waste_mx_chems", "prob": 35 },
@@ -44,8 +44,8 @@
     "id": "toxic_waste_mx_radioactive",
     "type": "item_group",
     "items": [
-      { "item": "cobalt_60", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 12, "prob": 5 },
-      { "item": "plutonium", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 3, "prob": 1 },
+      { "item": "cobalt_60", "entry-wrapper": "55gal_drum", "count-min": 1, "count-max": 12, "prob": 5 },
+      { "item": "plutonium", "entry-wrapper": "55gal_drum", "count-min": 1, "count-max": 3, "prob": 1 },
       { "item": "plut_slurry", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 45, "prob": 50 },
       { "item": "plut_slurry_dense", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 45, "prob": 30 }
     ]

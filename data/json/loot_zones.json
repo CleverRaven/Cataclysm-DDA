@@ -77,6 +77,13 @@
     "description": "Destination for tools."
   },
   {
+    "id": "LOOT_TOOL_MAGAZINE",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Tool Magazines",
+    "can_be_personal": true,
+    "description": "Destination for tool magazines."
+  },
+  {
     "id": "LOOT_CLOTHING",
     "type": "LOOT_ZONE",
     "name": "Loot: Clothing",

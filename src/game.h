@@ -1063,7 +1063,6 @@ class game
         pimpl<spell_events> spell_events_ptr; // NOLINT(cata-serialize)
         pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
 
-
         map &m;
         avatar &u;
         scent_map &scent;
@@ -1082,8 +1081,7 @@ class game
         bool unique_npc_exists( const std::string &id );
         void unique_npc_despawn( const std::string &id );
         std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
-        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
-        queued_global_effect_on_conditions;
+        queued_eocs queued_global_effect_on_conditions;
 
         // setting that specifies which reachability zone cache to display
         struct debug_reachability_zones_display {

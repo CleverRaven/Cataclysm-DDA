@@ -1161,7 +1161,10 @@
         "distribution": [
           { "item": "spell_scroll_stonefist", "prob": 50 },
           { "item": "spell_scroll_eshaper_piercing_bolt", "prob": 50 },
-          { "item": "spell_scroll_eshaper_rockbolt", "prob": 50 }
+          { "item": "spell_scroll_eshaper_rockbolt", "prob": 50 },
+          { "item": "spell_scroll_earthshaper_danger_sense", "prob": 50 },
+          { "item": "spell_scroll_earthshaper_fortitude_of_stone", "prob": 50 },
+          { "item": "spell_scroll_earthshaper_turning_of_earth", "prob": 50 }
         ],
         "prob": 45
       },
@@ -1246,6 +1249,7 @@
           { "item": "druid_spellbook", "prob": 20 },
           { "item": "spell_scroll_druid_veggrasp", "prob": 100 },
           { "item": "spell_scroll_druid_naturebow1", "prob": 100 },
+          { "item": "spell_scroll_druid_whisper_leaves", "prob": 100 },
           { "item": "spell_scroll_druid_rootstrike", "prob": 100 },
           { "item": "spell_scroll_purification_seed", "prob": 100 }
         ],
@@ -1425,7 +1429,7 @@
       [ "chisel", 90 ],
       [ "crucible", 30 ],
       [ "swage", 60 ],
-      [ "tongs", 90 ],
+      [ "metalworking_tongs", 90 ],
       [ "hammer", 90 ],
       [ "sandpaper", 90 ],
       [ "small_mana_crystal", 180 ]

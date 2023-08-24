@@ -204,7 +204,7 @@ struct islot_comestible {
 
 struct islot_brewable {
     /** What are the results of fermenting this item? */
-    std::vector<itype_id> results;
+    std::map<itype_id, int> results;
 
     /** How long for this brew to ferment. */
     time_duration time = 0_turns;
@@ -756,6 +756,11 @@ struct islot_gun : common_ranged_data {
     int ammo_to_fire = 1;
 
     std::map<ammotype, std::set<itype_id>> cached_ammos;
+
+    /**
+     * Used for the skullgun cbm. Hurts the bodypart by that much when fired
+     */
+    std::map<bodypart_str_id, int> hurt_part_when_fired;
 };
 
 /// The type of gun. The second "_type" suffix is only to distinguish it from `item::gun_type`.

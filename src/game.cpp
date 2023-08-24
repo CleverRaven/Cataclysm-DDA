@@ -767,8 +767,7 @@ void game::setup()
 
     weather.weather_id = WEATHER_CLEAR;
     // Weather shift in 30
-    weather.nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
-                              get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
+    weather.nextweather = calendar::start_of_game + 30_minutes;
 
     turnssincelastmon = 0_turns; //Auto safe mode init
 
@@ -2138,7 +2137,6 @@ int game::inventory_item_menu( item_location locThisItem,
                 exit = true;
                 ui = nullptr;
             }
-
 
             switch( cMenu ) {
                 case 'a': {
@@ -5204,7 +5202,6 @@ bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, 
     }
     return false;
 }
-
 
 bool game::find_nearby_spawn_point( const tripoint &target, int min_radius,
                                     int max_radius, tripoint &point, bool outdoor_only, bool indoor_only, bool open_air_allowed )
@@ -10916,19 +10913,22 @@ point game::place_player( const tripoint &dest_loc, bool quick )
                         and_the_rest += counts[i];
                     }
                 }
-                if( names.size() == 1 ) {
-                    add_msg( _( "You see here %s." ), names[0] );
-                } else if( names.size() == 2 ) {
-                    add_msg( _( "You see here %s and %s." ), names[0], names[1] );
-                } else if( names.size() == 3 ) {
-                    add_msg( _( "You see here %s, %s, and %s." ), names[0], names[1], names[2] );
-                } else if( and_the_rest < 7 ) {
-                    add_msg( n_gettext( "You see here %s, %s and %d more item.",
-                                        "You see here %s, %s and %d more items.",
-                                        and_the_rest ),
-                             names[0], names[1], and_the_rest );
-                } else {
-                    add_msg( _( "You see here %s and many more items." ), names[0] );
+
+                if( get_option<bool>( "LOG_ITEMS_ON_THE_GROUND" ) ) {
+                    if( names.size() == 1 ) {
+                        add_msg( _( "You see here %s." ), names[0] );
+                    } else if( names.size() == 2 ) {
+                        add_msg( _( "You see here %s and %s." ), names[0], names[1] );
+                    } else if( names.size() == 3 ) {
+                        add_msg( _( "You see here %s, %s, and %s." ), names[0], names[1], names[2] );
+                    } else if( and_the_rest < 7 ) {
+                        add_msg( n_gettext( "You see here %s, %s and %d more item.",
+                                            "You see here %s, %s and %d more items.",
+                                            and_the_rest ),
+                                 names[0], names[1], and_the_rest );
+                    } else {
+                        add_msg( _( "You see here %s and many more items." ), names[0] );
+                    }
                 }
             }
         }
@@ -11479,8 +11479,6 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
             c->remove_effect( eff.get_id(), eff.get_bp() );
         }
     }
-
-
 
     bool thru = true;
     const bool is_u = c == &u;
@@ -12202,14 +12200,18 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     } else if( u.has_amount( itype_grapnel, 1 ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Climb your grappling hook down?" ) ) ) {
             rope_ladder = true;
-            u.use_amount( itype_grapnel, 1 );
+            for( item &used_item : u.use_amount( itype_grapnel, 1 ) ) {
+                used_item.spill_contents( u );
+            }
         } else {
             return std::nullopt;
         }
     } else if( u.has_amount( itype_rope_30, 1 ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Climb your rope down?" ) ) ) {
             rope_ladder = true;
-            u.use_amount( itype_rope_30, 1 );
+            for( item &used_item : u.use_amount( itype_rope_30, 1 ) ) {
+                used_item.spill_contents( u );
+            }
         } else {
             return std::nullopt;
         }
@@ -12819,7 +12821,7 @@ void game::start_calendar()
     calendar::start_of_game = scen->start_of_game();
     calendar::turn = calendar::start_of_game;
     calendar::initial_season = static_cast<season_type>( ( to_days<int>( calendar::start_of_game -
-                               calendar::turn_zero ) / get_option<int>( "SEASON_LENGTH" ) ) % 4 );
+                               calendar::turn_zero ) / get_option<int>( "SEASON_LENGTH" ) ) % season_type::NUM_SEASONS );
 }
 
 overmap &game::get_cur_om() const
@@ -13166,6 +13168,24 @@ void game::climb_down( const tripoint &examp )
         }
     }
 
+    if( web_rappel || has_grapnel ) {
+        tripoint p = examp;
+        for( int i = 0; i < height; i++ ) {
+            p.z--;
+            if( here.has_furn( p ) ) {
+                // We disallow climbing down with grappling hook or webs if there is furniture
+                // in the way. This is because there was a problem here before where the deployed
+                // grappling hook "furniture" added by the code further below would replace any
+                // already existing furniture on the destination, such as a stepladder.
+                you.add_msg_if_player(
+                    web_rappel ?
+                    _( "There is something in the way that prevent your webs from sticking there." )
+                    : _( "There is something in the way that prevents you from using your grappling hook there." ) );
+                return;
+            }
+        }
+    }
+
     you.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod ) * weary_mult;
     you.setpos( examp );
 
@@ -13183,7 +13203,9 @@ void game::climb_down( const tripoint &examp )
     } else if( has_grapnel ) {
         you.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
         g->vertical_move( -1, true );
-        you.use_amount( itype_grapnel, 1 );
+        for( item &used_item : you.use_amount( itype_grapnel, 1 ) ) {
+            used_item.spill_contents( you );
+        }
         here.furn_set( you.pos(), furn_f_rope_up );
     } else if( !g->slip_down( true ) ) {
         // One tile of falling less (possibly zero)
@@ -13291,7 +13313,6 @@ const scenario *get_scenario()
 }
 void set_scenario( const scenario *new_scenario )
 {
-    new_scenario->rerandomize();
     g->scen = new_scenario;
 }
 

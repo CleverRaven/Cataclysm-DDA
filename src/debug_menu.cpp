@@ -33,6 +33,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "calendar_ui.h"
 #include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -136,7 +137,6 @@ static const mtype_id mon_generator( "mon_generator" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
-static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEBUG_CLAIRVOYANCE( "DEBUG_CLAIRVOYANCE" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -2524,71 +2524,6 @@ static void debug_menu_spawn_vehicle()
     }
 }
 
-static void debug_menu_change_time()
-{
-    auto set_turn = [&]( const int initial, const time_duration & factor, const char *const msg ) {
-        string_input_popup pop;
-        const int new_value = pop
-                              .title( msg )
-                              .width( 20 )
-                              .text( std::to_string( initial ) )
-                              .only_digits( true )
-                              .query_int();
-        if( pop.canceled() ) {
-            return;
-        }
-        const time_duration offset = ( new_value - initial ) * factor;
-        // Arbitrary maximal value.
-        const time_point max = calendar::turn_zero + time_duration::from_turns(
-                                   std::numeric_limits<int>::max() / 2 );
-        calendar::turn = std::max( std::min( max, calendar::turn + offset ), calendar::turn_zero );
-    };
-
-    uilist smenu;
-    static const auto years = []( const time_point & p ) {
-        return static_cast<int>( ( p - calendar::turn_zero ) / calendar::year_length() );
-    };
-    do {
-        const int iSel = smenu.ret;
-        smenu.reset();
-        smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), years( calendar::turn ) );
-        smenu.addentry( 1, !calendar::eternal_season(), 's', "%s: %d",
-                        _( "season" ), static_cast<int>( season_of_year( calendar::turn ) ) );
-        smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
-        smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
-        smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
-        smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ),
-                        to_turns<int>( calendar::turn - calendar::turn_zero ) );
-        smenu.selected = iSel;
-        smenu.query();
-
-        switch( smenu.ret ) {
-            case 0:
-                set_turn( years( calendar::turn ), calendar::year_length(), _( "Set year to?" ) );
-                break;
-            case 1:
-                set_turn( static_cast<int>( season_of_year( calendar::turn ) ), calendar::season_length(),
-                          _( "Set season to?  (0 = spring)" ) );
-                break;
-            case 2:
-                set_turn( day_of_season<int>( calendar::turn ), 1_days, _( "Set days to?" ) );
-                break;
-            case 3:
-                set_turn( hour_of_day<int>( calendar::turn ), 1_hours, _( "Set hour to?" ) );
-                break;
-            case 4:
-                set_turn( minute_of_hour<int>( calendar::turn ), 1_minutes, _( "Set minute to?" ) );
-                break;
-            case 5:
-                set_turn( to_turns<int>( calendar::turn - calendar::turn_zero ), 1_turns,
-                          string_format( _( "Set turn to?  (One day is %i turns)" ), to_turns<int>( 1_days ) ).c_str() );
-                break;
-            default:
-                break;
-        }
-    } while( smenu.ret != UILIST_CANCEL );
-}
-
 static void debug_menu_force_temperature()
 {
     uilist tempmenu;
@@ -2666,7 +2601,6 @@ static npc *select_follower_to_export()
     }
     return followers[charmenu.ret];
 }
-
 
 static cata_path prepare_export_dir_and_find_unused_name( const std::string &character_name )
 {
@@ -3138,7 +3072,7 @@ void debug()
             g->toggle_debug_hour_timer();
             break;
         case debug_menu_index::CHANGE_TIME:
-            debug_menu_change_time();
+            calendar::turn = calendar_ui::select_time_point( calendar::turn );
             break;
         case debug_menu_index::FORCE_TEMP:
             debug_menu_force_temperature();
@@ -3542,7 +3476,6 @@ void debug()
         case debug_menu_index::QUICK_SETUP: {
             std::vector<trait_id> setup_traits;
             setup_traits.emplace_back( trait_DEBUG_BIONICS );
-            setup_traits.emplace_back( trait_DEBUG_BIONIC_POWERGEN );
             setup_traits.emplace_back( trait_DEBUG_CLAIRVOYANCE );
             setup_traits.emplace_back( trait_DEBUG_CLOAK );
             setup_traits.emplace_back( trait_DEBUG_HS );

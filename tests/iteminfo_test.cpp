@@ -2800,7 +2800,6 @@ TEST_CASE( "ammo_restriction_info", "[iteminfo][ammo_restriction]" )
                "--\n"
                "Capacity: <color_c_yellow>1</color> round of arrows\n" );
 
-
     }
 }
 
@@ -2888,8 +2887,8 @@ TEST_CASE( "final_info", "[iteminfo][final]" )
 
         CHECK( item_info_str( wine_must, brew_products ) ==
                "--\n"
-               "* Fermenting this will produce <color_c_yellow>test tennis ball wine</color>.\n"
-               "* Fermenting this will produce <color_c_yellow>yeast</color>.\n" );
+               "* Fermenting this will produce <color_c_yellow>yeast</color>.\n"
+               "* Fermenting this will produce <color_c_yellow>test tennis ball wine</color>.\n" );
     }
 
     SECTION( "radioactivity" ) {

@@ -3378,8 +3378,8 @@
   {
     "id": "scuba_tank",
     "type": "TOOL_ARMOR",
-    "category": "other",
-    "name": { "str": "scuba tank" },
+    "category": "clothing",
+    "name": { "str": "diving cylinder" },
     "looks_like": "oxygen_tank",
     "description": "A high-pressure 232 bar diving tank that can contain up to 12L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
     "weight": "16000 g",
@@ -3405,8 +3405,8 @@
   {
     "id": "scuba_tank_on",
     "type": "TOOL_ARMOR",
-    "category": "other",
-    "name": { "str": "scuba tank (on)", "str_pl": "scuba tanks (on)" },
+    "category": "clothing",
+    "name": { "str": "diving cylinder (on)", "str_pl": "diving cylinders (on)" },
     "description": "A high-pressure 232 bar diving tank that can contain up to 12L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
     "looks_like": "oxygen_tank",
     "weight": "16000 g",
@@ -3438,8 +3438,8 @@
   {
     "id": "small_scuba_tank",
     "type": "TOOL_ARMOR",
-    "category": "other",
-    "name": { "str": "small scuba tank" },
+    "category": "clothing",
+    "name": { "str": "small diving cylinder" },
     "description": "A small, high-pressure 200 bar backup diving tank that can contain 4L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
     "looks_like": "smoxygen_tank",
     "weight": "7000 g",
@@ -3465,8 +3465,8 @@
   {
     "id": "small_scuba_tank_on",
     "type": "TOOL_ARMOR",
-    "category": "other",
-    "name": { "str": "small scuba tank (on)", "str_pl": "small scuba tanks (on)" },
+    "category": "clothing",
+    "name": { "str": "small diving cylinder (on)", "str_pl": "small diving cylinders (on)" },
     "description": "A small, high-pressure 200 bar backup diving tank that can contain 4L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
     "looks_like": "smoxygen_tank",
     "weight": "7000 g",

@@ -173,6 +173,10 @@ template<>
 struct enum_traits<iteminfo::flags> {
     static constexpr bool is_flag_enum = true;
 };
+// Currently used to store the only throwing stats of character dropping this item. Default is -1
+struct dropped_by_character_stats {
+    float throwing;
+};
 
 iteminfo vol_to_info( const std::string &type, const std::string &left,
                       const units::volume &vol, int decimal_places = 2, bool lower_is_better = true );
@@ -220,6 +224,8 @@ class item : public visitable
         {}
 
         ~item() override;
+
+        struct dropped_by_character_stats dropped_char_stats = { -1.0f };
 
         /** Return a pointer-like type that's automatically invalidated if this
          * item is destroyed or assigned-to */
@@ -1117,7 +1123,7 @@ class item : public visitable
         /** Time for this item to be fully fermented. */
         time_duration brewing_time() const;
         /** The results of fermenting this item. */
-        const std::vector<itype_id> &brewing_results() const;
+        const std::map<itype_id, int> &brewing_results() const;
 
         /**
          * Detonates the item and adds remains (if any) to drops.
@@ -1229,8 +1235,6 @@ class item : public visitable
         * damage_type.
         */
         bool damage_type_can_damage_items( const damage_type_id &dmg_type ) const;
-
-
 
         /**
          * Resistance against different damage types (@ref damage_type).
@@ -1627,6 +1631,12 @@ class item : public visitable
                                    const item_location &parent_it = item_location(),
                                    units::volume remaining_parent_volume = 10000000_ml,
                                    bool allow_nested = true ) const;
+        ret_val<void> can_contain( const item &it, int &copies_remaining, bool nested = false,
+                                   bool ignore_rigidity = false,
+                                   bool ignore_pkt_settings = true,
+                                   const item_location &parent_it = item_location(),
+                                   units::volume remaining_parent_volume = 10000000_ml,
+                                   bool allow_nested = true ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         ret_val<void> can_contain_directly( const item &it ) const;
@@ -1788,8 +1798,8 @@ class item : public visitable
          *
          * For items not counted by charges, this returns vol / this->volume().
          */
-        int charges_per_volume( const units::volume &vol ) const;
-        int charges_per_weight( const units::mass &m ) const;
+        int charges_per_volume( const units::volume &vol, bool suppress_warning = false ) const;
+        int charges_per_weight( const units::mass &m, bool suppress_warning = false ) const;
 
         /**
          * @name Item variables
@@ -2327,7 +2337,6 @@ class item : public visitable
          * @param carrier is used for UPS and bionic power.
          */
         units::energy energy_remaining( const Character *carrier = nullptr ) const;
-
 
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.

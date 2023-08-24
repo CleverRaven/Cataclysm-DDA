@@ -867,5 +867,15 @@
     "id": "WINGS_STUB",
     "copy-from": "WINGS_STUB",
     "extend": { "category": [ "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SKULLGUN_STUPID",
+    "name": { "str": "Skullgun Stupidity" },
+    "points": -1,
+    "description": "You took the bionic skullgun out of your noggin, but that didn't replace the brain cells you lost when you installed it.",
+    "valid": false,
+    "purifiable": false,
+    "passive_mods": { "int_mod": -4, "per_mod": -2 }
   }
 ]

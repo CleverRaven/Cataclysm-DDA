@@ -3378,7 +3378,7 @@
       [ "makeshift_machete", 4 ],
       [ "machete_gimmick", 3 ],
       [ "fungicide", 10 ],
-      [ "insecticide", 10 ],
+      { "group": "insecticide_bag_plastic", "prob": 10 },
       { "prob": 1, "group": "antifungal_bottle_plastic_pill_prescription_0_10" },
       { "prob": 5, "group": "antiparasitic_bottle_plastic_pill_prescription_0_10" },
       { "prob": 1, "group": "diazepam_bottle_plastic_pill_prescription_0_10" },

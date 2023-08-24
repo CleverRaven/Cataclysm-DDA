@@ -823,7 +823,7 @@
         { "compare_num": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "<=", { "const": 10 } ] },
         { "days_since_cataclysm": 9 },
         { "not": { "is_weather": "portal_storm" } },
-        { "not": { "u_near_om_location": "godco_enter", "range": 4 } },
+        { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
         { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
         { "not": { "u_near_om_location": "pagan_cult_enter", "range": 4 } },
         { "not": { "u_near_om_location": "lumbermill_0_0_ocu", "range": 4 } },
@@ -831,7 +831,7 @@
       ]
     },
     "effect": [
-      { "mapgen_update": "bandit_killer_add" },
+      { "u_spawn_npc": "hells_raiders_assassin", "real_count": 1, "min_radius": 15, "max_radius": 25 },
       { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 1 } ] }
     ]
   },
@@ -846,7 +846,7 @@
         { "compare_num": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "<=", { "const": 10 } ] },
         { "days_since_cataclysm": 15 },
         { "not": { "is_weather": "portal_storm" } },
-        { "not": { "u_near_om_location": "godco_enter", "range": 4 } },
+        { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
         { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
         { "not": { "u_near_om_location": "pagan_cult_enter", "range": 4 } },
         { "not": { "u_near_om_location": "lumbermill_0_0_ocu", "range": 4 } },
@@ -854,8 +854,7 @@
       ]
     },
     "effect": [
-      { "mapgen_update": "bandit_killer_add" },
-      { "mapgen_update": "bandit_killer_add" },
+      { "u_spawn_npc": "hells_raiders_assassin", "real_count": 2, "min_radius": 15, "max_radius": 25 },
       { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 2 } ] }
     ]
   },
@@ -869,7 +868,7 @@
         { "compare_num": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "<=", { "const": 10 } ] },
         { "days_since_cataclysm": 21 },
         { "not": { "is_weather": "portal_storm" } },
-        { "not": { "u_near_om_location": "godco_enter", "range": 4 } },
+        { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
         { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
         { "not": { "u_near_om_location": "pagan_cult_enter", "range": 4 } },
         { "not": { "u_near_om_location": "lumbermill_0_0_ocu", "range": 4 } },
@@ -877,9 +876,7 @@
       ]
     },
     "effect": [
-      { "mapgen_update": "bandit_killer_add" },
-      { "mapgen_update": "bandit_killer_add" },
-      { "mapgen_update": "bandit_killer_add" },
+      { "u_spawn_npc": "hells_raiders_assassin", "real_count": 3, "min_radius": 15, "max_radius": 25 },
       { "arithmetic": [ { "u_val": "var", "var_name": "bandit_assassins_sent" }, "+=", { "const": 3 } ] }
     ]
   },
@@ -893,7 +890,7 @@
         { "compare_num": [ { "u_val": "var", "var_name": "government_assassins_sent" }, "<=", { "const": 6 } ] },
         { "days_since_cataclysm": 9 },
         { "not": { "is_weather": "portal_storm" } },
-        { "not": { "u_near_om_location": "godco_enter", "range": 4 } },
+        { "not": { "u_near_om_location": "godco_enter", "range": 8 } },
         { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
         { "not": { "u_near_om_location": "pagan_cult_enter", "range": 4 } },
         { "not": { "u_near_om_location": "lumbermill_0_0_ocu", "range": 4 } },
@@ -901,7 +898,7 @@
       ]
     },
     "effect": [
-      { "mapgen_update": "government_killteam_add" },
+      { "u_spawn_npc": "old_guard_assassin", "real_count": 2, "min_radius": 15, "max_radius": 25 },
       { "arithmetic": [ { "u_val": "var", "var_name": "government_assassins_sent" }, "+=", { "const": 2 } ] }
     ]
   },
@@ -1332,6 +1329,14 @@
       { "u_add_trait": "CHITIN" },
       { "u_add_trait": "CHITIN2" },
       { "u_add_trait": "CRUSTACEAN_CARAPACE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "yrax_trifacet_activation",
+    "effect": [
+      { "u_spawn_monster": "mon_yrax_trifacet", "real_count": 1, "min_radius": 1, "max_radius": 2 },
+      { "u_message": "The hostile trifacet violently unfolds just clear of your hand!", "type": "bad" }
     ]
   }
 ]
