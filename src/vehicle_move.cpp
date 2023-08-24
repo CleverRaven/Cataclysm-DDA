@@ -1481,7 +1481,7 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
             int fumble_roll = rng( 0, 6 );
             int fumble_factor = 0;
             int fumble_time = 1;
-            if ( fumble_roll <= 1 ) {
+            if( fumble_roll <= 1 ) {
                 // On a 0 or 1, fumble briefly instead of steering for 1 turn
                 driver.add_msg_if_player( m_warning, _( "You fumble with the %s's controls." ), name );
             } else if ( fumble_roll <= 4 ) {
