@@ -1465,7 +1465,7 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
         ///\EFFECT_DRIVING reduces chance of losing control of vehicle when turning
         float skill = std::min( 10.0f, effective_driver_skill +
                                 ( driver.get_dex() + driver.get_per() ) / 10.0f );
-        float penalty = rng_float( 0.0f, handling_diff) - skill;
+        float penalty = rng_float( 0.0f, handling_diff ) - skill;
 
         int cost;
         if( penalty > 0.0f ) {
