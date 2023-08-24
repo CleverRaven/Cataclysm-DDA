@@ -508,7 +508,6 @@
     "remove_message": "The energy streams calm down.",
     "rating": "good",
     "show_intensity": false,
-    "//": "When #61693 will be resolved (or, in other words, the spell will start to throw electric waves, as it says), the ITEM_DAMAGE_ELEC must be removed, and the spell description must be edited.  Alternatively, the effect may be moved into electric gloves, instead of their flat bonus.",
     "enchantments": [ "enchant_stormshaper_electric_waves" ]
   },
   {
