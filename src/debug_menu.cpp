@@ -1923,7 +1923,7 @@ static void character_edit_menu()
                 break;
             }
             you.worn.on_takeoff( you );
-            you.worn.clear();
+            you.clear_worn();
             you.inv->clear();
             you.remove_weapon();
             break;

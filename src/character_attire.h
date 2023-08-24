@@ -59,6 +59,7 @@ struct dispose_option {
 
 class outfit
 {
+        friend class Character;
     private:
         std::list<item> worn;
     public:
@@ -217,7 +218,6 @@ class outfit
         void activate_combat_items( npc &guy );
         void deactivate_combat_items( npc &guy );
 
-        void clear();
         bool empty() const;
         item &front();
         size_t size() const;

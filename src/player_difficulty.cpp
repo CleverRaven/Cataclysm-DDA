@@ -54,7 +54,7 @@ void player_difficulty::reset_npc( Character &dummy )
     dummy.normalize(); // In particular this clears martial arts style
 
     // delete all worn items.
-    dummy.worn.clear();
+    dummy.clear_worn();
     dummy.calc_encumbrance();
     dummy.inv->clear();
     dummy.remove_weapon();

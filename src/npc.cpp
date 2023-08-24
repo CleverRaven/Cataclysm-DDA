@@ -1060,7 +1060,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     }
 
     who.worn.on_takeoff( who );
-    who.worn.clear();
+    who.clear_worn();
     for( item &it : ret ) {
         if( it.has_flag( flag_VARSIZE ) ) {
             it.set_flag( flag_FIT );

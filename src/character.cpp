@@ -2924,6 +2924,12 @@ std::list<item> Character::remove_worn_items_with( const std::function<bool( ite
     return worn.remove_worn_items_with( filter, *this );
 }
 
+void Character::clear_worn()
+{
+    worn.worn.clear();
+    inv_search_caches.clear();
+}
+
 std::list<item *> Character::get_dependent_worn_items( const item &it )
 {
     std::list<item *> dependent;

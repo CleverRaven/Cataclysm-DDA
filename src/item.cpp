@@ -6225,6 +6225,7 @@ void item::on_wear( Character &p )
 void item::on_takeoff( Character &p )
 {
     p.on_item_takeoff( *this );
+    p.remove_from_inv_search_caches( *this );
 
     if( is_sided() ) {
         set_side( side::BOTH );

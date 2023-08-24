@@ -45,7 +45,7 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
     REQUIRE_FALSE( character_has_item_with_var_val( they, "uid", rope_uid ) );
 
     WHEN( "avatar wears a hiking backpack from the ground with wear_item" ) {
-        they.worn.clear();
+        they.clear_worn();
         // Get the backpack from the iterator returned by wear_item,
         // for the reference to the backpack that the avatar is wearing now
         std::optional<std::list<item>::iterator> worn = they.wear_item( backpack_map );
@@ -97,7 +97,7 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
     // But Character::pick_up cannot wield or wear items in the act of picking them up;
     // the available storage needs to be worn ahead of time.
     GIVEN( "avatar is not wearing anything that can store items" ) {
-        they.worn.clear();
+        they.clear_worn();
 
         WHEN( "avatar tries to get the backpack with pick_up" ) {
             item_location backpack_loc( map_cursor( ground ), &backpack_map );

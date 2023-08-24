@@ -652,7 +652,6 @@ std::list<item> outfit::remove_items_with( Character *carrier,
     for( auto iter = worn.begin(); iter != worn.end(); ) {
         if( filter( *iter ) ) {
             iter->on_takeoff( *carrier );
-            carrier->remove_from_inv_search_caches( *iter );
             res.splice( res.end(), worn, iter++ );
             if( --count == 0 ) {
                 return res;

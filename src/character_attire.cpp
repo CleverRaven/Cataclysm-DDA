@@ -1130,7 +1130,6 @@ std::list<item> outfit::remove_worn_items_with( const std::function<bool( item &
     for( auto iter = worn.begin(); iter != worn.end(); ) {
         if( filter( *iter ) ) {
             iter->on_takeoff( guy );
-            guy.remove_from_inv_search_caches( *iter );
             result.splice( result.begin(), worn, iter++ );
         } else {
             ++iter;
@@ -1484,10 +1483,9 @@ bool outfit::takeoff( item_location loc, std::list<item> *res, Character &guy )
         return &it == &wit;
     } );
 
+    it.on_takeoff( guy );
     item takeoff_copy( it );
-    guy.remove_from_inv_search_caches( *iter );
     worn.erase( iter );
-    takeoff_copy.on_takeoff( guy );
     if( res == nullptr ) {
         guy.i_add( takeoff_copy, true, &it, &it, true, !guy.has_weapon() );
     } else {
@@ -1503,11 +1501,6 @@ void outfit::damage_mitigate( const bodypart_id &bp, damage_unit &dam ) const
             cloth.mitigate_damage( dam );
         }
     }
-}
-
-void outfit::clear()
-{
-    worn.clear();
 }
 
 bool outfit::empty() const

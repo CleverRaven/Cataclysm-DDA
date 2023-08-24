@@ -150,7 +150,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
             }
         }
         WHEN( "NPC has power armor" ) {
-            main_npc.worn.clear();
+            main_npc.clear_worn();
 
             item armor( "power_armor_basic" );
             std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
@@ -188,7 +188,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
             }
         }
         WHEN( "NPC has a headlamp" ) {
-            main_npc.worn.clear();
+            main_npc.clear_worn();
 
             item headlamp( "wearable_light" );
             std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( headlamp );
