@@ -1407,7 +1407,7 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
     if( ( !driver.has_proficiency( proficiency_prof_driver ) && !in_deep_water ) ) {
         is_non_proficient = true;
         vehicle_proficiency = driver.get_proficiency_practice( proficiency_prof_driver );
-    } else if ( !driver.has_proficiency( proficiency_prof_boat_pilot ) && in_deep_water ) {
+    } else if( !driver.has_proficiency( proficiency_prof_boat_pilot ) && in_deep_water ) {
         is_non_proficient = true;
         vehicle_proficiency = driver.get_proficiency_practice( proficiency_prof_boat_pilot );
     }
