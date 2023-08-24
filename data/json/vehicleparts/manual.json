@@ -21,7 +21,7 @@
     "item": "foot_crank",
     "durability": 50,
     "power": "360 W",
-    "description": "A set of bicycle-style foot pedals attached to a crank. If mounted on the same tile as a seat, they allow you to use your stamina to produce engine power, using your legs. Provides more power the stronger you are.",
+    "description": "A set of bicycle-style foot pedals attached to a crank.  If mounted on the same tile as a seat, they allow you to use your stamina to produce engine power, using your legs.  Provides more power the stronger you are.",
     "muscle_power_factor": 60,
     "folded_volume": "500 ml",
     "requirements": {
@@ -40,7 +40,7 @@
     "name": { "str": "hand rims" },
     "item": "hand_rims",
     "durability": 50,
-    "description": "A set of wheelchair-style hoop hand rims, often attached directly to the wheels. If mounted on the same tile as seat, they allow you to use your stamina to produce engine power, using your arms. Provides more power the stronger you are.",
+    "description": "A set of wheelchair-style hoop hand rims, often attached directly to the wheels.  If mounted on the same tile as seat, they allow you to use your stamina to produce engine power, using your arms.  Provides more power the stronger you are.",
     "power": "240 W",
     "muscle_power_factor": 40,
     "folded_volume": "500 ml",

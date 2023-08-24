@@ -54,8 +54,8 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 
-static const proficiency_id proficiency_prof_driver( "prof_driver" );
 static const proficiency_id proficiency_prof_boat_pilot( "prof_boat_pilot" );
+static const proficiency_id proficiency_prof_driver( "prof_driver" );
 
 static const skill_id skill_driving( "driving" );
 
@@ -1404,7 +1404,7 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
     float effective_driver_skill = driver.get_skill_level( skill_driving );
     float vehicle_proficiency;
     // Check if you're piloting on land or water, and reduce effective driving skill proportional to relevant proficiencies (10% Boat Proficiency = 10% driving skill on water)
-    if( ( !driver.has_proficiency( proficiency_prof_driver ) && !in_deep_water ) ) {
+    if( !driver.has_proficiency( proficiency_prof_driver ) && !in_deep_water ) {
         is_non_proficient = true;
         vehicle_proficiency = driver.get_proficiency_practice( proficiency_prof_driver );
     } else if( !driver.has_proficiency( proficiency_prof_boat_pilot ) && in_deep_water ) {
@@ -1418,16 +1418,17 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
     if( is_non_proficient ) {
         effective_driver_skill *= vehicle_proficiency;
         non_prof_penalty = std::max( 0.0f,
-                                     ( 1.0f - vehicle_proficiency ) * 10.0f - ( driver.get_dex() + driver.get_per() ) * 0.25f );
-        non_prof_fumble = one_in( vehicle_proficiency * 12.0f + ( driver.get_dex() + driver.get_per() ) *
-                                  0.5f + 6.0f );
+            ( 1.0f - vehicle_proficiency ) * 10.0f -
+            ( driver.get_dex() + driver.get_per() ) * 0.25f );
+        non_prof_fumble = one_in( vehicle_proficiency * 12.0f +
+            ( driver.get_dex() + driver.get_per() ) * 0.5f + 6.0f );
         // Penalties mitigated by proficiency progress, and dex/per stats.
-        // - Unskilled pilot at Per/Dex 4: 1-in-6 chance to fumble while turning
-        // - Unskilled pilot at Per/Dex 8: 1-in-8
-        // - Unskilled pilot at Per/Dex 12: 1-in-10
-        // - 50% Skill at Per/Dex 4: 1-in-12 chance
-        // - 50% Skill at Per/Dex 8: 1-in-14 chance
-        // - 50% Skill at Per/Dex 12: 1-in-16 chance
+        // - Unskilled pilot at Per/Dex 4: 1-in-8 chance to fumble while turning
+        // - Unskilled pilot at Per/Dex 8: 1-in-10
+        // - Unskilled pilot at Per/Dex 12: 1-in-12
+        // - 50% Skill at Per/Dex 4: 1-in-14 chance
+        // - 50% Skill at Per/Dex 8: 1-in-16 chance
+        // - 50% Skill at Per/Dex 12: 1-in-18 chance
     }
     if( z != 0 && is_rotorcraft() ) {
         driver.moves = std::min( driver.moves, 0 );

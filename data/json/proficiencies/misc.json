@@ -147,15 +147,6 @@
   },
   {
     "type": "proficiency",
-    "id": "prof_parkour",
-    "category": "prof_survival",
-    "name": { "str": "Parkour Expert" },
-    "description": "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
-    "can_learn": true,
-    "time_to_learn": "8 h"
-  },
-  {
-    "type": "proficiency",
     "id": "prof_appliance_repair",
     "category": "prof_mechanic",
     "name": { "str": "General Appliance Repair" },

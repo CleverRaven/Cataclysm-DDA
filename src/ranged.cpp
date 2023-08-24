@@ -1409,16 +1409,19 @@ static void mod_stamina_archery( Character &you, const item &relevant )
 {
     // Set activity level to 10 * str_ratio, with 10 being max (EXTRA_EXERCISE)
     // This ratio should never be below 0 and above 1
-    const int scaled_str_ratio = ( 10 * relevant.get_min_str() ) / you.str_cur;
-    you.set_activity_level( scaled_str_ratio );
+    const float str_ratio = static_cast<float>( relevant.get_min_str() ) / you.str_cur;
+    you.set_activity_level( 10 * str_ratio );
 
-    // Calculate stamina drain based on archery and athletics skill
+    // Calculate stamina drain based on archery, athletics skill, and effective bow strength ratio
     const float archery_skill = you.get_skill_level( skill_archery );
     const float athletics_skill = you.get_skill_level( skill_swimming );
-    const float skill_modifier = ( 2 * archery_skill + athletics_skill ) / 3.0f;
+    const float skill_modifier = ( 2.0f * archery_skill + athletics_skill ) / 3.0f;
+    const int stamina_cost = pow( 10.0f * str_ratio + 10 - skill_modifier, 2 );
 
-    const int stamina_cost = pow( 20 - skill_modifier, 2 );
     you.mod_stamina( -stamina_cost );
+    add_msg_debug( debugmode::DF_RANGED,
+                   "-%i stamina: %.1f str ratio, %.1f skill mod",
+                   stamina_cost, str_ratio, skill_modifier );
 }
 
 static void do_aim( Character &you, const item &relevant, const double min_recoil )

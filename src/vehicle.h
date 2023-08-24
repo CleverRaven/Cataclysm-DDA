@@ -65,7 +65,7 @@ class vehicle_part_with_feature_range;
 
 void handbrake();
 
-void practice_cycling_proficiency( Character &p );
+void practice_athletic_proficiency( Character &p );
 void practice_pilot_proficiencies( Character &p, bool &boating );
 
 namespace catacurses

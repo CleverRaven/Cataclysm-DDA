@@ -116,11 +116,13 @@ static const itype_id itype_water_faucet( "water_faucet" );
 static const itype_id itype_water_purifier( "water_purifier" );
 
 static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
-static const proficiency_id proficiency_prof_bike_basic( "prof_bike_basic" );
-static const proficiency_id proficiency_prof_bike_expert( "prof_bike_expert" );
-static const proficiency_id proficiency_prof_bike_master( "prof_bike_master" );
-static const proficiency_id proficiency_prof_driver( "prof_driver" );
+static const proficiency_id proficiency_prof_athlete_basic( "prof_athlete_basic" );
+static const proficiency_id proficiency_prof_athlete_expert( "prof_athlete_expert" );
+static const proficiency_id proficiency_prof_athlete_master( "prof_athlete_master" );
 static const proficiency_id proficiency_prof_boat_pilot( "prof_boat_pilot" );
+static const proficiency_id proficiency_prof_driver( "prof_driver" );
+
+static const skill_id skill_swimming( "swimming" );
 
 static const vproto_id vehicle_prototype_none( "none" );
 
@@ -1083,10 +1085,10 @@ units::power vehicle::part_vpower_w( const vehicle_part &vp, const bool at_full_
         } else if( vpi.fuel_type == fuel_type_muscle ) {
             if( const Character *muscle_user = get_passenger( vp_index ) ) {
                 // Calculate virtual strength bonus from cycling proficiency
-                const float biking_bonus = muscle_user->get_proficiency_bonus( "biking",
+                const float athlete_form_bonus = muscle_user->get_proficiency_bonus( "athlete",
                                            proficiency_bonus_type::strength );
                 ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-                const float muscle_multiplier = muscle_user->str_cur - 8 + biking_bonus;
+                const float muscle_multiplier = muscle_user->str_cur - 8 + athlete_form_bonus;
                 const float weary_multiplier = muscle_user->exertion_adjusted_move_multiplier();
                 const float engine_multiplier = vpi.engine_info->muscle_power_factor;
                 pwr += units::from_watt( muscle_multiplier * weary_multiplier * engine_multiplier );
@@ -4777,7 +4779,7 @@ void vehicle::consume_fuel( int load, bool idling )
         add_msg_debug( debugmode::DF_VEHICLE, "Burn: %d", -( base_burn + mod ) );
 
         // player is actively powering a muscle engine, so train cycling proficiency
-        practice_cycling_proficiency( player_character );
+        practice_athletic_proficiency( player_character );
     }
 }
 
@@ -4791,26 +4793,29 @@ void practice_pilot_proficiencies( Character &p, bool &boating )
     }
 }
 
-void practice_cycling_proficiency( Character &p )
+void practice_athletic_proficiency( Character &p )
 {
-    // We are already a master cyclist, practice has no effect
-    if( p.has_proficiency( proficiency_prof_bike_master ) ) {
+    // Perform athletics practice
+    p.practice( skill_swimming, 1 );
+
+    // We are already a master athlete, practice has no effect
+    if( p.has_proficiency( proficiency_prof_athlete_master ) ) {
         return;
     }
 
-    // We have no cycling experience
-    if( !p.has_proficiency( proficiency_prof_bike_basic ) ) {
-        p.practice_proficiency( proficiency_prof_bike_basic, 1_seconds );
+    // We have no athletic experience
+    if( !p.has_proficiency( proficiency_prof_athlete_basic ) ) {
+        p.practice_proficiency( proficiency_prof_athlete_basic, 1_seconds );
         return;
     }
-    // We know how to cycle, but aren't an expert yet
-    else if( !p.has_proficiency( proficiency_prof_bike_expert ) ) {
-        p.practice_proficiency( proficiency_prof_bike_expert, 1_seconds );
+    // We know athletics, but aren't an expert yet
+    else if( !p.has_proficiency( proficiency_prof_athlete_expert ) ) {
+        p.practice_proficiency( proficiency_prof_athlete_expert, 1_seconds );
         return;
     }
-    // We're an expert, so lets practice to become a master
+    // We're an expert, so lets practice to become a master athlete
     else {
-        p.practice_proficiency( proficiency_prof_bike_master, 1_seconds );
+        p.practice_proficiency( proficiency_prof_athlete_master, 1_seconds );
         return;
     }
 }
