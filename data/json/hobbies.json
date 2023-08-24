@@ -2,11 +2,22 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "boating_license",
+    "name": "Boating License",
+    "description": "You've trained in how to pilot marine craft, as well as general boating and swimming safety.",
+    "points": 0,
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_boat_pilot" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "driving_license",
     "name": "Driving License",
     "description": "You got your driving license and know how to drive a car, change the oil and tires, and other basics.",
     "points": 0,
-    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" } ]
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "proficiencies": [ "prof_driver" ]
   },
   {
     "type": "profession",
@@ -50,7 +61,7 @@
     "subtype": "hobby",
     "id": "mundane_survival",
     "name": "Mundane Survival",
-    "description": "You've managed to survive modern life in a first world country.  Through your ordeals you've learned how to treat scraps and bruises and how to assemble basic furniture.",
+    "description": "You've managed to survive modern life in a first world country.  Through your ordeals you've learned how to treat scrapes and bruises, and how to assemble basic furniture.",
     "points": 0,
     "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "firstaid" } ]
   },
@@ -612,7 +623,8 @@
     "name": "Motorsports",
     "description": "You're a big fan of cars and other things that go vroom, whether it's fixing them or driving them.  You may not be a professional, but you know your way around an engine.",
     "points": 1,
-    "skills": [ { "level": 3, "name": "driving" }, { "level": 1, "name": "mechanics" } ]
+    "skills": [ { "level": 3, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "proficiencies": [ "prof_driver" ]
   },
   {
     "type": "profession",
@@ -621,7 +633,8 @@
     "name": "Racing",
     "description": "You're a real speed demon in anything with an engine!  Pulling off hairpin turns at high speeds is a difficult skill to master but you can drift with the best of them.",
     "points": 5,
-    "skills": [ { "level": 8, "name": "driving" }, { "level": 2, "name": "mechanics" } ]
+    "skills": [ { "level": 8, "name": "driving" }, { "level": 2, "name": "mechanics" } ],
+    "proficiencies": [ "prof_driver" ]
   },
   {
     "type": "profession",
@@ -859,9 +872,41 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "cyclist_beginner",
+    "name": "Cyclist (Beginner)",
+    "description": "Whether through regular commuting, or just riding for the joy of it, you're no stranger to bicycles.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_driver", "prof_bike_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "cyclist_intermediate",
+    "name": "Cyclist (Intermediate)",
+    "description": "You've shed gallons of sweat, and more than a little blood, riding the streets and trails as a cyclist.",
+    "points": 4,
+    "skills": [ { "level": 4, "name": "driving" }, { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_driver", "prof_bike_basic", "prof_bike_expert" ],
+    "traits": [ "GOODCARDIO" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "cyclist_expert",
+    "name": "Cyclist (Expert)",
+    "description": "You've honed the fitness and form of a professional bicycle racer. When you're riding, your wheels are like an extension of your body.",
+    "points": 7,
+    "skills": [ { "level": 6, "name": "driving" }, { "level": 3, "name": "swimming" } ],
+    "proficiencies": [ "prof_driver", "prof_bike_basic", "prof_bike_expert", "prof_bike_master" ],
+    "traits": [ "GOODCARDIO", "DEFT" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "basketball_beginner",
     "name": "Basketball (Beginner)",
-    "description": "You'd shoot some b-ball outside of the school, until a couple of corpses up to no good started making trouble in the neighborhood.",
+    "description": "You used to shoot some b-ball outside of the school... at least, until a couple of corpses who were up to no good started making trouble in your neighborhood.",
     "points": 2,
     "skills": [ { "level": 2, "name": "throw" }, { "level": 2, "name": "dodge" }, { "level": 1, "name": "swimming" } ]
   },
@@ -872,14 +917,15 @@
     "name": "Basketball (Intermediate)",
     "description": "Your ability to play point or post will beat the undead in overtime.",
     "points": 4,
-    "skills": [ { "level": 4, "name": "throw" }, { "level": 3, "name": "dodge" }, { "level": 2, "name": "swimming" } ]
+    "skills": [ { "level": 4, "name": "throw" }, { "level": 3, "name": "dodge" }, { "level": 2, "name": "swimming" } ],
+    "traits": [ "FAST_REFLEXES" ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
     "id": "basketball_expert",
     "name": "Basketball (Expert)",
-    "description": "You can sink 3-pointers all day and dribble around the most determined defenders.",
+    "description": "You can sink 3-pointers all day, and dribble around the most determined defenders.",
     "points": 7,
     "skills": [ { "level": 6, "name": "throw" }, { "level": 4, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
     "traits": [ "GOODCARDIO", "FAST_REFLEXES" ]

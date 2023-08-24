@@ -1,0 +1,75 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_helicopter_pilot",
+    "category": "prof_vehicles",
+    "name": { "str": "Helicopter Piloting" },
+    "description": "Before the Cataclysm, you were a helicopter pilot.  Now, you just hope you can fly again.",
+    "can_learn": false
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_boat_pilot",
+    "category": "prof_vehicles",
+    "name": { "str": "Boat Piloting" },
+    "description": "You're familiar with the control and operation of marine vehicles, like boats.",
+    "can_learn": true,
+    "time_to_learn": "2 h",
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "ignore_focus": true
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_driver",
+    "category": "prof_vehicles",
+    "name": { "str": "Driving" },
+    "description": "You're comfortable with the basic controls of cars, and land vehicles in general.",
+    "can_learn": true,
+    "time_to_learn": "2 h",
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "ignore_focus": true
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_bike_basic",
+    "category": "prof_vehicles",
+    "name": { "str": "Cyclist's Form" },
+    "description": "You've spent some time riding bicycles and the like. When operating muscle-powered vehicles, and know how to get more power out of each stroke.",
+    "can_learn": true,
+    "time_to_learn": "8 h",
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "bonuses": { "biking": [ { "type": "strength", "value": 2 } ] },
+    "ignore_focus": true
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_bike_expert",
+    "category": "prof_vehicles",
+    "name": { "str": "Expert Cyclist's Form" },
+    "description": "With considerable practice operating muscle-powered vehicles, you've developed the fitness and posture needed to get the most out of your effort.",
+    "can_learn": true,
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "required_proficiencies": [ "prof_bike_basic" ],
+    "bonuses": { "biking": [ { "type": "strength", "value": 2 } ] },
+    "ignore_focus": true
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_bike_master",
+    "category": "prof_vehicles",
+    "name": { "str": "Master Cyclist's Form" },
+    "description": "You've honed your cycling to the level of a professional racer. When it comes to making vehicles move under your own power, your body is a well-oiled machine.",
+    "can_learn": true,
+    "time_to_learn": "32 h",
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "required_proficiencies": [ "prof_bike_expert" ],
+    "bonuses": { "biking": [ { "type": "strength", "value": 2 } ] },
+    "ignore_focus": true
+  }
+]

@@ -827,7 +827,7 @@
     "id": "mechanic",
     "name": "Home Mechanic",
     "description": "You've always loved cars, and there's nothing like getting under the hood and fixing it yourself.  You've kept ahold of some handy tools for the job, and at least now you'll never want for parts.",
-    "proficiencies": [ "prof_metalworking", "prof_welding_basic", "prof_elec_soldering" ],
+    "proficiencies": [ "prof_metalworking", "prof_welding_basic", "prof_elec_soldering", "prof_driver" ],
     "points": 2,
     "skills": [ { "level": 4, "name": "mechanics" }, { "level": 4, "name": "driving" } ],
     "items": {
@@ -1020,7 +1020,8 @@
     "id": "cyclist",
     "name": "Professional Cyclist",
     "description": "You were a promising cyclist with a bright career in front of you before this all happened.  Perhaps you'll never get to participate in the grand tours now, but as the saying goes, life is like riding a bicycle: you've got to keep moving.",
-    "points": 3,
+    "points": 4,
+    "proficiencies": [ "prof_bike_basic", "prof_bike_expert", "prof_driver" ],
     "skills": [ { "level": 5, "name": "driving" }, { "level": 4, "name": "dodge" } ],
     "items": {
       "both": {
@@ -2711,6 +2712,7 @@
     "name": "Hillbilly",
     "description": "You n' yer kin always figured shit would hit the fan some day, but never like this!  When they turned on you, you grabbed yer gun and a six pack, and hauled ass in the family truck.",
     "points": 4,
+    "proficiencies": [ "prof_driver" ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "shotgun" },
@@ -2767,6 +2769,7 @@
     "name": "Trucker",
     "description": "You once ruled the road in your big rig.  When the riots hit, you hopped in and drove it to safety.  Now it's just you and your truck against the world.",
     "points": 4,
+    "proficiencies": [ "prof_driver" ],
     "skills": [ { "level": 6, "name": "driving" }, { "level": 3, "name": "mechanics" } ],
     "vehicle": "semi_truck_scenario",
     "items": {
@@ -2784,6 +2787,7 @@
     "name": "Rideshare Driver",
     "description": "You love driving, and decided to start making some money doing it.  On your way to pick up a customer, a riot broke out around you.  You took a long detour to safety, only to find yourself somewhere unfamiliar.",
     "points": 3,
+    "proficiencies": [ "prof_driver" ],
     "skills": [ { "level": 5, "name": "driving" }, { "level": 2, "name": "speech" } ],
     "vehicle": "car",
     "items": {
@@ -2814,7 +2818,8 @@
       "prof_intro_biology",
       "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans"
+      "prof_dissect_humans",
+      "prof_driver"
     ],
     "vehicle": "fire_engine",
     "items": {
@@ -2853,13 +2858,13 @@
     "name": "Serviceman",
     "description": "Employed by a large company, you performed installation and troubleshooting services at the homes of ungrateful luddites.  Driving back from your last call, you were suddenly swarmed by what you believed to be angry rioters.  You veered off onto an old, neglected side road to escape, only to find yourself lost and low on gas.",
     "points": 3,
+    "proficiencies": [ "prof_appliance_repair", "prof_driver" ],
     "skills": [
       { "level": 4, "name": "mechanics" },
       { "level": 4, "name": "electronics" },
       { "level": 3, "name": "computer" },
       { "level": 3, "name": "driving" }
     ],
-    "proficiencies": [ "prof_appliance_repair" ],
     "vehicle": "cube_van_cheap",
     "items": {
       "both": {
@@ -2888,6 +2893,7 @@
     "name": "Bus Driver",
     "description": "You made a living driving kids to and from school, a career choice you regretted almost every day.  None of the brats were at their normal stops, and the noise of your bus quickly attracted hordes of zombies.  You escaped, but now you've gotten lost.  At least you're getting a break from the hellish screams of children, though you're starting to hear new ones…",
     "points": 3,
+    "proficiencies": [ "prof_driver" ],
     "skills": [ { "level": 5, "name": "driving" }, { "level": 1, "name": "speech" } ],
     "vehicle": "schoolbus",
     "items": {
@@ -2915,7 +2921,7 @@
       { "level": 2, "name": "dodge" },
       { "level": 2, "name": "swimming" }
     ],
-    "proficiencies": [ "prof_spotting", "prof_gun_cleaning" ],
+    "proficiencies": [ "prof_spotting", "prof_gun_cleaning", "prof_driver" ],
     "vehicle": "policecar",
     "traits": [ "PROF_POLICE" ],
     "items": {
@@ -2941,6 +2947,7 @@
     "requirement": "achievement_survive_28_days",
     "description": "You and a group of like-minded individuals built a hideout in the woods from which to launch looting raids in a jury-rigged pickup.  The last run went bad, and now all your comrades are dead.  Every breath you take now is an act of rebellion against the cruelty of this doomed world.  Do not let that flame of hope perish inside you.",
     "points": 4,
+    "proficiencies": [ "prof_driver" ],
     "skills": [
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "rifle" },
@@ -2989,6 +2996,7 @@
     "name": "Park Ranger",
     "description": "Your days of patrolling the park and protecting people and wildlife from each other have taught you many useful skills.  After finding a gruesome scene at a campsite and getting no response when you radioed for help, you stockpiled as many supplies as possible and set out in your pickup looking for answers.",
     "points": 5,
+    "proficiencies": [ "prof_driver" ],
     "skills": [
       { "level": 5, "name": "survival" },
       { "level": 5, "name": "firstaid" },
@@ -3172,6 +3180,7 @@
     "name": "Biker",
     "description": "You spent most of your life on a motorcycle, out on the open road with your club.  Now they're all dead.  Time to ride or die.",
     "points": 3,
+    "proficiencies": [ "prof_driver" ],
     "skills": [ { "level": 6, "name": "driving" }, { "level": 3, "name": "mechanics" } ],
     "vehicle": "motorcycle",
     "items": {
@@ -3959,6 +3968,7 @@
     "description": "You set out this morning to deliver the news of the apocalypse.  The undead hordes don't seem to value the latest news, but at least your trusty bicycle is still in working order.",
     "points": 2,
     "skills": [ { "level": 4, "name": "driving" }, { "level": 3, "name": "throw" }, { "level": 1, "name": "speech" } ],
+    "proficiencies": [ "prof_bike_basic", "prof_driver" ],
     "items": {
       "both": {
         "items": [
@@ -4405,6 +4415,7 @@
     "name": { "male": "Skater Boy (Skateboard)", "female": "Skater Girl (Skateboard)" },
     "description": "You love to skate!  You've probably spent more time on a skateboard than off.  Things have gotten pretty bad, but at least the grown-ups aren't telling you where you can't roll.",
     "points": 1,
+    "proficiencies": [ "prof_driver" ],
     "skills": [ { "level": 4, "name": "dodge" }, { "level": 3, "name": "driving" }, { "level": 2, "name": "swimming" } ],
     "traits": [ "PROF_SKATER" ],
     "items": {
@@ -4994,6 +5005,7 @@
     "name": { "male": "Frat Boy", "female": "Sorority Girl" },
     "description": "You were living the high life, spending your parents' money without a care in the world.  At one of your usual crazy parties, the guests became hungry for more than drugs and booze, but you still have a chance to use the last symbol of your luxurious life - your sports car - and get far away.",
     "points": 2,
+    "proficiencies": [ "prof_driver" ],
     "skills": [ { "level": 3, "name": "driving" }, { "level": 2, "name": "speech" } ],
     "vehicle": "car_sports",
     "items": {
@@ -5455,7 +5467,7 @@
     "description": "You were responding to a call with your partner before you got separated.  Now all you have is your trusty ambulance, ready to transport patients through the apocalypse.",
     "points": 3,
     "skills": [ { "level": 5, "name": "firstaid" }, { "level": 4, "name": "driving" }, { "level": 2, "name": "mechanics" } ],
-    "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
+    "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_physiology", "prof_burn_care", "prof_driver" ],
     "traits": [ "PROF_MED" ],
     "vehicle": "ambulance",
     "items": {
@@ -5633,6 +5645,7 @@
     "name": { "male": "Speed King", "female": "Speed Queen" },
     "description": "You used to rule the roads before they were filled with wrecks, undead, and unspeakable horrors.  At least there's no speed limits in the apocalypse!",
     "points": 4,
+    "proficiencies": [ "prof_driver" ],
     "skills": [ { "level": 8, "name": "driving" } ],
     "vehicle": "superbike",
     "items": {
@@ -6056,6 +6069,7 @@
     "name": "Ship Captain",
     "description": "You were the captain of your small ship, making a living by ferrying divers and tourists across the waves.  The last excursion went bad after your passengers tried to mutiny, but you managed to escape.  Will you ever sail the open ocean again?",
     "points": 3,
+    "proficiencies": [ "prof_boat_pilot" ],
     "skills": [ { "level": 4, "name": "driving" }, { "level": 3, "name": "swimming" } ],
     "traits": [ "OUTDOORSMAN" ],
     "items": {

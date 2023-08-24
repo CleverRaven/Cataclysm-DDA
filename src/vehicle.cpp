@@ -116,6 +116,11 @@ static const itype_id itype_water_faucet( "water_faucet" );
 static const itype_id itype_water_purifier( "water_purifier" );
 
 static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
+static const proficiency_id proficiency_prof_bike_basic( "prof_bike_basic" );
+static const proficiency_id proficiency_prof_bike_expert( "prof_bike_expert" );
+static const proficiency_id proficiency_prof_bike_master( "prof_bike_master" );
+static const proficiency_id proficiency_prof_driver( "prof_driver" );
+static const proficiency_id proficiency_prof_boat_pilot( "prof_boat_pilot" );
 
 static const vproto_id vehicle_prototype_none( "none" );
 
@@ -1077,8 +1082,10 @@ units::power vehicle::part_vpower_w( const vehicle_part &vp, const bool at_full_
             pwr = 15_W * factor;
         } else if( vpi.fuel_type == fuel_type_muscle ) {
             if( const Character *muscle_user = get_passenger( vp_index ) ) {
+                // Calculate virtual strength bonus from cycling proficiency
+                const float biking_bonus = muscle_user->get_proficiency_bonus("biking", proficiency_bonus_type::strength);
                 ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-                const float muscle_multiplier = muscle_user->str_cur - 8;
+                const float muscle_multiplier = muscle_user->str_cur - 8 + biking_bonus;
                 const float weary_multiplier = muscle_user->exertion_adjusted_move_multiplier();
                 const float engine_multiplier = vpi.engine_info->muscle_power_factor;
                 pwr += units::from_watt( muscle_multiplier * weary_multiplier * engine_multiplier );
@@ -4710,11 +4717,17 @@ void vehicle::consume_fuel( int load, bool idling )
             fuel_remainder[ ft ] = -to_consume;
         }
     }
-    // Only process muscle power things when moving.
+    // Only process muscle power and training things when moving.
     if( idling ) {
         return;
     }
     Character &player_character = get_player_character();
+
+    // if engine is under load, player is actively piloting a vehicle, so train appropriate vehicle proficiency
+    if( load > 0 ) {
+        practice_pilot_proficiencies( player_character, in_deep_water );
+    }
+
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 &&
         player_character.has_effect( effect_winded ) ) {
         cruise_velocity = 0;
@@ -4761,6 +4774,43 @@ void vehicle::consume_fuel( int load, bool idling )
         add_msg_debug( debugmode::DF_VEHICLE, "Load: %d", load );
         add_msg_debug( debugmode::DF_VEHICLE, "Mod: %d", mod );
         add_msg_debug( debugmode::DF_VEHICLE, "Burn: %d", -( base_burn + mod ) );
+
+        // player is actively powering a muscle engine, so train cycling proficiency
+        practice_cycling_proficiency( player_character );
+    }
+}
+
+void practice_pilot_proficiencies( Character &p, bool &boating )
+{
+    if( !p.has_proficiency( proficiency_prof_driver ) && !boating ) {
+        p.practice_proficiency( proficiency_prof_driver, 1_seconds );
+    }
+    if( !p.has_proficiency( proficiency_prof_boat_pilot ) && boating ) {
+        p.practice_proficiency( proficiency_prof_boat_pilot, 1_seconds );
+    }
+}
+
+void practice_cycling_proficiency( Character &p )
+{
+    // We are already a master cyclist, practice has no effect
+    if( p.has_proficiency( proficiency_prof_bike_master ) ) {
+        return;
+    }
+
+    // We have no cycling experience
+    if( !p.has_proficiency( proficiency_prof_bike_basic ) ) {
+        p.practice_proficiency( proficiency_prof_bike_basic, 1_seconds );
+        return;
+    }
+    // We know how to cycle, but aren't an expert yet
+    else if( !p.has_proficiency( proficiency_prof_bike_expert ) ) {
+        p.practice_proficiency( proficiency_prof_bike_expert, 1_seconds );
+        return;
+    }
+    // We're an expert, so lets practice to become a master
+    else {
+        p.practice_proficiency( proficiency_prof_bike_master, 1_seconds );
+        return;
     }
 }
 
