@@ -41,6 +41,8 @@ Player character now can get sick with common cold or flu only after contacts wi
 Generate vehicle prototypes from in-game vehicles
 In-game Armor sprite change
 Cockroaches flee light, hide under furniture, eat corpses, and breed faster when fed
+Cataclysm and game start dates are to be set through scenarios
+Friendly NPC crafting by crafting menu
 
 
 ## Content:
@@ -73,6 +75,9 @@ Adds new skateboard vehicle
 Most scenarios now provide vision of the nearest city on start
 Alternative resolution to clean back bay quest
 Add a synagogue
+Adds a chance for small, personal photographs to spawn within people’s wallets and creates a starting pool of 34 snippets from which to pull.
+Adds curved road bends, rotaries and rest stops/laybys
+JSONify Defense Mode
 
 
 ## Interface:
@@ -91,6 +96,10 @@ NPC selects melee style
 Add sundial, wind and radiation badge to "spacebar" sidebar
 fix widget error if player has no body part
 AIM: Add key to step outside containers; AIM: mark container that the other pane is looking inside
+Change description of highlighted regions when editing the overmap
+Detailed information for stats on character creation menu
+Larger and more I18n-friendly safemode UI
+Enable/disable showing several non-player-related messages in the log
 
 
 ## Mods:
@@ -124,6 +133,8 @@ Add the Mind Over Matter mod to the CDDA repository
 [MoM] Add additional portal storm remnant map extras
 [Sky Island] Mainline Sky Island mod
 [Magiclysm] Add a spell-using feral human to Magiclysm
+[MoM] Add telepathic and telekinetic damage types
+[MoM] Mind Over Matter-specific Research facility overhaul
 
 
 ## Balance:
@@ -152,6 +163,8 @@ Intelligence provides a multiplier to current focus rather than adding to its va
 More monsters fight back if cornered
 Higher dodge skill lowers the stamina cost to dodge
 Adds a mutable stream to the mapgen
+Limit the times assassins can try to kill you.
+Increase plastic variety, adjust plastics to be more realistic in terms of protection
 
 
 ## Bugfixes:
@@ -215,6 +228,11 @@ Prevent car from spawning into a house wall
 HP widgets gets equivalent bodypart
 Fix grainy glyphs in blended font rendering mode
 Stop dodging good spells, fix uncanny dodge spell crash
+Fix and improve NPC randomizer
+Make sure overconfident officers reliably drop their guns
+[MoM] Fix zombie telepathic stuns
+Fix appliance power drain display right after plugging in/unplugging device
+Fix items and furniture being deleted from grappling hook usage
 
 
 ## Performance:
@@ -222,6 +240,7 @@ Make `Character::best_item_with_quality` examine items non-recursively
 Refactor effect types to use map indirection and enums instead of strings
 Removes the ludicrous amount of OMs the refugee and research centres define
 Fix Nested List lag in crafting menu
+Optimize eoc processing and other fixes to speed up waiting near many npcs
 
 
 ## Infrastructure:
@@ -239,11 +258,15 @@ Support for material replacement in items
 Carrier for items on ground is nullptr
 Tick_action as a separate thing from use_action
 New documentation on how to test proposed changes
+Remove charges from solid comestibles
+New item categories for martial arts manuals and traps
+Update all active items to new tick action system and remove old system
 
 
 ## Build:
 Support Mac arm64 build
 Adds VS Code Dev Containers & Workspace Config
+Allow for cross-compiling from Linux to Windows in Devcontainer
 
 
 ## I18N and A11Y:

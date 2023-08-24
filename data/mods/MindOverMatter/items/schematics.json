@@ -138,5 +138,25 @@
     "time": "60 m",
     "symbol": "ç",
     "color": "white"
+  },
+  {
+    "type": "TOOL",
+    "id": "psi_usb_rad_recipes",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "USB drive (Phavian)", "str_pl": "USB drives (Phavian)" },
+    "description": "A USB thumb drive with the XEDRA logo over a large Ψ symbol printed on it.  You'd bet there's something important on here.",
+    "price": "12 USD",
+    "price_postapoc": 10,
+    "material": [ "plastic", "aluminum" ],
+    "weight": "4536 mg",
+    "volume": "4 ml",
+    "longest_side": "5 cm",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Use a laptop to access the data.",
+      "effect_on_conditions": [ "EOC_PSI_USB_RAD_RECIPE" ]
+    }
   }
 ]

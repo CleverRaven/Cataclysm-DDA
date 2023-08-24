@@ -918,7 +918,8 @@
     "description": "You've always felt that there is more to the world than we can see.  Whether driven by religious beliefs or philosophical interest, you find great inspiration in studying holy texts and experiencing mystical things.",
     "starting_trait": true,
     "social_modifiers": { "persuade": 5 },
-    "valid": false
+    "valid": false,
+    "flags": [ "SPIRITUAL" ]
   },
   {
     "type": "mutation",
@@ -1150,7 +1151,7 @@
     "valid": false,
     "social_modifiers": { "intimidate": 5 },
     "types": [ "HUMAN_EMPATHY" ],
-    "flags": [ "CANNIBAL" ]
+    "flags": [ "PSYCHOPATH" ]
   },
   {
     "type": "mutation",
@@ -1163,7 +1164,7 @@
     "social_modifiers": { "intimidate": 10 },
     "types": [ "HUMAN_EMPATHY" ],
     "prereqs": [ "PSYCHOPATH" ],
-    "flags": [ "CANNIBAL" ]
+    "flags": [ "PSYCHOPATH" ]
   },
   {
     "type": "mutation",
@@ -4999,7 +5000,7 @@
     "threshreq": [ "THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER" ],
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "URSINE", "LIZARD", "SPIDER" ],
-    "flags": [ "CANNIBAL" ]
+    "flags": [ "SAPIOVORE" ]
   },
   {
     "type": "mutation",
@@ -8941,7 +8942,8 @@
     "description": "Your ability to feel or express emotion has been greatly hampered.",
     "types": [ "HUMAN_EMPATHY" ],
     "category": [ "MEDICAL" ],
-    "threshreq": [ "THRESH_MEDICAL" ]
+    "threshreq": [ "THRESH_MEDICAL" ],
+    "flags": [ "NUMB" ]
   },
   {
     "type": "mutation",

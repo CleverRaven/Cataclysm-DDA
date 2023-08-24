@@ -17,7 +17,7 @@
     "//": "This group is for cupboard, drawer, or rack with spices.",
     "subtype": "collection",
     "entries": [
-      { "item": "salt", "count": [ 2, 4 ], "prob": 15, "container-item": "afs_foil_bag" },
+      { "item": "salt", "count": [ 2, 4 ], "prob": 15, "entry-wrapper": "afs_foil_bag", "container-item": "null" },
       { "item": "cinnamon", "prob": 5, "container-item": "afs_foil_bag" },
       { "item": "chilly-p", "prob": 15, "container-item": "afs_foil_bag" },
       { "item": "sugar", "prob": 5, "container-item": "afs_foil_bag" },

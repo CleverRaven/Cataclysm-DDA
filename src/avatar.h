@@ -108,6 +108,7 @@ class avatar : public Character
         bool load_template( const std::string &template_name, pool_type & );
         void save_template( const std::string &name, pool_type );
         void character_to_template( const std::string &name );
+        void add_default_background();
 
         bool is_avatar() const override {
             return true;
@@ -229,7 +230,6 @@ class avatar : public Character
         void add_snippet( snippet_id snippet );
         bool has_seen_snippet( const snippet_id &snippet ) const;
         const std::set<snippet_id> &get_snippets();
-
 
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.

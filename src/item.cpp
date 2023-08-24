@@ -176,6 +176,8 @@ static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 
 static const matec_id RAPID( "RAPID" );
 
@@ -201,6 +203,7 @@ static const quality_id qual_LIFT( "LIFT" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_survival( "survival" );
+static const skill_id skill_throw( "throw" );
 static const skill_id skill_weapon( "weapon" );
 
 static const species_id species_ROBOT( "ROBOT" );
@@ -1282,11 +1285,13 @@ void item::update_modified_pockets()
     contents.update_modified_pockets( mag_or_mag_well, container_pockets );
 }
 
-int item::charges_per_volume( const units::volume &vol ) const
+int item::charges_per_volume( const units::volume &vol, bool suppress_warning ) const
 {
     if( count_by_charges() ) {
         if( type->volume == 0_ml ) {
-            debugmsg( "Item '%s' with zero volume", tname() );
+            if( !suppress_warning ) {
+                debugmsg( "Item '%s' with zero volume", tname() );
+            }
             return INFINITE_CHARGES;
         }
         // Type cast to prevent integer overflow with large volume containers like the cargo
@@ -1295,25 +1300,31 @@ int item::charges_per_volume( const units::volume &vol ) const
     } else {
         units::volume my_volume = volume();
         if( my_volume == 0_ml ) {
-            debugmsg( "Item '%s' with zero volume", tname() );
+            if( !suppress_warning ) {
+                debugmsg( "Item '%s' with zero volume", tname() );
+            }
             return INFINITE_CHARGES;
         }
         return vol / my_volume;
     }
 }
 
-int item::charges_per_weight( const units::mass &m ) const
+int item::charges_per_weight( const units::mass &m, bool suppress_warning ) const
 {
     if( count_by_charges() ) {
         if( type->weight == 0_gram ) {
-            debugmsg( "Item '%s' with zero weight", tname() );
+            if( !suppress_warning ) {
+                debugmsg( "Item '%s' with zero weight", tname() );
+            }
             return INFINITE_CHARGES;
         }
         return m / type->weight;
     } else {
         units::mass my_weight = weight();
         if( my_weight == 0_gram ) {
-            debugmsg( "Item '%s' with zero weight", tname() );
+            if( !suppress_warning ) {
+                debugmsg( "Item '%s' with zero weight", tname() );
+            }
             return INFINITE_CHARGES;
         }
         return m / my_weight;
@@ -2567,7 +2578,9 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
     if( food_item->has_flag( flag_CANNIBALISM ) &&
         parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
-        if( !player_character.has_flag( json_flag_CANNIBAL ) ) {
+        if( !player_character.has_flag( json_flag_CANNIBAL ) &&
+            !player_character.has_flag( json_flag_PSYCHOPATH ) &&
+            !player_character.has_flag( json_flag_SAPIOVORE ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* This food contains <bad>human flesh</bad>." ) );
         } else {
@@ -2887,7 +2900,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         loaded_mod = &tmp;
         curammo = loaded_mod->ammo_data();
         // TODO: Should this be .is_null(), rather than comparing to "none"?
-        if( loaded_mod->typeId().str() == "none" || loaded_mod == nullptr ||
+        if( loaded_mod == nullptr || loaded_mod->typeId().str() == "none" ||
             curammo == nullptr ) {
             if( magazine_current() ) {
                 const itype_id mag_default = magazine_current()->ammo_default();
@@ -6448,7 +6461,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( is_engine() && engine_displacement() > 0 ) {
         vehtext = string_format( pgettext( "vehicle adjective", "%gL " ),
                                  engine_displacement() / 100.0f );
-
 
     } else if( is_wheel() && type->wheel->diameter > 0 ) {
         vehtext = string_format( pgettext( "vehicle adjective", "%d\" " ), type->wheel->diameter );
@@ -10313,7 +10325,6 @@ damage_instance item::gun_damage( itype_id ammo ) const
 
     ret.add( ammo->ammo->damage.di_considering_length( bl ) );
 
-
     if( damage() > 0 ) {
         // TODO: This isn't a good solution for multi-damage guns/ammos
         for( damage_unit &du : ret ) {
@@ -12369,7 +12380,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             debugmsg( "Temperature flag enum not valid.  Using current temperature." );
     }
 
-    bool carried = carrier != nullptr && carrier->has_item( *this );
+    bool carried = carrier != nullptr;
     // body heat increases inventory temperature by 5 F (2.77 K) and insulation by 50%
     if( carried ) {
         insulation *= 1.5;
@@ -14108,6 +14119,10 @@ bool item::on_drop( const tripoint &pos, map &m )
     }
 
     avatar &player_character = get_avatar();
+
+    // set variable storing information of character dropping item
+    dropped_char_stats.throwing = player_character.get_skill_level( skill_throw );
+
     player_character.flag_encumbrance();
     player_character.invalidate_weight_carried_cache();
     return type->drop_action && type->drop_action.call( &player_character, *this, pos );

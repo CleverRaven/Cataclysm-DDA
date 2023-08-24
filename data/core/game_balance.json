@@ -302,6 +302,20 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_RAILROADS",
+    "info": "Allows to place procgen railroads during overmap generation.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_RAILROADS_BEFORE_ROADS",
+    "info": "Defines whether to place railroads before roads.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_SPECIALS",
     "info": "Allows to place overmap specials during overmap generation.",
     "stype": "bool",

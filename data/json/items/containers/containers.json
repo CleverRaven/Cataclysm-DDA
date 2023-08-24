@@ -2,7 +2,7 @@
   {
     "id": "2lcanteen",
     "type": "GENERIC",
-    "category": "container",
+    "category": "clothing",
     "name": { "str": "2.5L canteen" },
     "looks_like": "bottle_plastic",
     "description": "A large plastic water canteen, with a 2.5 liter capacity and carrying strap.",
@@ -1479,7 +1479,7 @@
   {
     "id": "canteen",
     "type": "GENERIC",
-    "category": "container",
+    "category": "clothing",
     "name": { "str": "plastic canteen" },
     "looks_like": "2lcanteen",
     "description": "A military-style water canteen with a 1.5 liter capacity.  Commonly worn at the hip.",
@@ -1820,7 +1820,7 @@
   {
     "id": "flask_hip",
     "type": "GENERIC",
-    "category": "container",
+    "category": "clothing",
     "name": { "str": "hip flask" },
     "looks_like": "2lcanteen",
     "description": "A 250ml metal flask with a hinged screw-on lid, commonly used to discreetly transport alcohol.",
@@ -1869,7 +1869,7 @@
     "volume": "3530 ml",
     "longest_side": "20 cm",
     "price": "20 USD",
-    "price_postapoc": 10,
+    "price_postapoc": 60,
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
@@ -1900,6 +1900,7 @@
     "volume": "690 ml",
     "longest_side": "127 mm",
     "price": "5 USD",
+    "price_postapoc": 10,
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2202,7 +2203,7 @@
   {
     "id": "canteen_wood",
     "type": "GENERIC",
-    "category": "container",
+    "category": "clothing",
     "name": { "str": "wooden canteen" },
     "looks_like": "canteen",
     "description": "A water canteen made from wood, secured by metal bands and sealed with wax or pitch.  Holds 1.5 liters and has a simple carry strap.",
@@ -2858,7 +2859,7 @@
   {
     "id": "waterskin",
     "type": "GENERIC",
-    "category": "container",
+    "category": "clothing",
     "name": { "str": "small waterskin" },
     "looks_like": "canvas_bag",
     "description": "A small watertight leather bag with a carrying strap, can hold 1.5 liters of water.",
@@ -2896,7 +2897,7 @@
   {
     "id": "waterskin2",
     "type": "GENERIC",
-    "category": "container",
+    "category": "clothing",
     "name": { "str": "waterskin" },
     "looks_like": "waterskin",
     "description": "A watertight leather bag with a carrying strap, can hold 3 liters of water.",
@@ -2933,7 +2934,7 @@
   {
     "id": "waterskin3",
     "type": "GENERIC",
-    "category": "container",
+    "category": "clothing",
     "name": { "str": "large waterskin" },
     "looks_like": "waterskin2",
     "description": "A large watertight leather bag with a carrying strap, can hold 5 liters of water.",
@@ -3660,7 +3661,7 @@
   {
     "id": "aquarium_medium_drying",
     "type": "GENERIC",
-    "category": "container",
+    "category": "other",
     "name": { "str": "50 gallon aquarium (drying)", "str_pl": "50 gallon aquariums (drying)" },
     "description": "A 50-gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
     "weight": "45 kg",
@@ -3724,7 +3725,7 @@
   {
     "id": "aquarium_small_drying",
     "type": "GENERIC",
-    "category": "container",
+    "category": "other",
     "name": { "str": "30 gallon aquarium (drying)", "str_pl": "30 gallon aquariums (drying)" },
     "description": "A 30-gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
     "weight": "22 kg",
@@ -3789,7 +3790,7 @@
   {
     "id": "aquarium_large_drying",
     "type": "GENERIC",
-    "category": "container",
+    "category": "other",
     "name": { "str": "100 gallon aquarium (drying)", "str_pl": "100 gallon aquariums (drying)" },
     "description": "A 100-gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
     "weight": "80 kg",
@@ -3826,6 +3827,7 @@
   {
     "id": "small_propane_tank",
     "type": "TOOL",
+    "category": "tool_magazine",
     "name": { "str": "small propane tank" },
     "description": "A small tank of propane, commonly used for camping stoves and torches.",
     "//": "1 gallon tank, filled to 80% for safety.  1.3lbs while empty",
@@ -3855,6 +3857,7 @@
   {
     "id": "medium_propane_tank",
     "type": "TOOL",
+    "category": "tool_magazine",
     "name": { "str": "medium propane tank" },
     "description": "A medium-sized tank of propane, commonly used for barbeques.",
     "//": "5 gallon tank, filled to 80% for safety..  About 15lbs while empty.",
@@ -3884,6 +3887,7 @@
   {
     "id": "large_propane_tank",
     "type": "TOOL",
+    "category": "tool_magazine",
     "name": { "str": "large propane tank" },
     "description": "A large tank of propane, commonly used for heating.",
     "//": "20 gallon tank, filled to 80% for safety.  About 50 lbs while empty.",
@@ -3913,6 +3917,7 @@
   {
     "id": "xl_propane_tank",
     "type": "TOOL",
+    "category": "tool_magazine",
     "name": { "str": "extra large propane tank" },
     "description": "A massive tank of propane, commonly used for heating a home or vehicle.",
     "//": "100 gallon tank, filled to 80% for safety.  212 lbs while empty",
@@ -4082,7 +4087,7 @@
   {
     "id": "bottle_gourd",
     "type": "GENERIC",
-    "category": "container",
+    "category": "clothing",
     "name": { "str": "bottle gourd" },
     "looks_like": "clay_canister",
     "description": "A hard, watertight container made from a dried bottle gourd.  Can be used similar to a canteen or just for storing liquids.",

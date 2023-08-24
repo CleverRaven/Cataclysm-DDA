@@ -2528,7 +2528,6 @@ void talk_effect_fun_t::set_activate_trait( const JsonObject &jo, const std::str
     };
 }
 
-
 void talk_effect_fun_t::set_deactivate_trait( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
@@ -3835,7 +3834,6 @@ void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::strin
     };
 }
 
-
 void talk_effect_fun_t::set_give_achievment( const JsonObject &jo, const std::string &member )
 {
     str_or_var achieve = get_str_or_var( jo.get_member( member ), member, true );
@@ -4183,7 +4181,6 @@ void talk_effect_fun_t::set_run_eoc_until( const JsonObject &jo, const std::stri
 
     dbl_or_var iteration_count = get_dbl_or_var( jo, "iteration_count", false, 100 );
 
-
     function = [eoc, condition, iteration_count]( dialogue & d ) {
         auto itt = d.get_conditionals().find( condition.evaluate( d ) );
         if( itt == d.get_conditionals().end() ) {
@@ -4313,10 +4310,10 @@ void talk_effect_fun_t::set_run_eoc_selector( const JsonObject &jo, const std::s
             }
 
             if( eoc_keys.empty() ) {
-                eoc_list.entries.emplace_back( i, display, std::nullopt,
+                eoc_list.entries.emplace_back( static_cast<int>( i ), display, std::nullopt,
                                                ( eoc_names.empty() ? eoc_id.str() : eoc_names[i].evaluate( d ) ), description );
             } else {
-                eoc_list.entries.emplace_back( i, display, eoc_keys[i],
+                eoc_list.entries.emplace_back( static_cast<int>( i ), display, eoc_keys[i],
                                                ( eoc_names.empty() ? eoc_id.str() : eoc_names[i].evaluate( d ) ), description );
             }
         }

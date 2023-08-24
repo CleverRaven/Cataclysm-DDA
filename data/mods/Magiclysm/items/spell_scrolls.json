@@ -1383,5 +1383,41 @@
     "name": { "str": "Scroll of seed of growth", "str_pl": "Scrolls of seed of growth" },
     "description": "Offer some of your life in a ritual to get tokens of growth in return.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_growth" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_whisper_leaves",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of whisper of the leaves", "str_pl": "Scrolls of whisper of the leaves" },
+    "description": "Deepen your bond with the forest and understand the whispers of the trees.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_whisper_leaves" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_danger_sense",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of tremorsense", "str_pl": "Scrolls of tremorsense" },
+    "description": "Sink your senses into the earth and learn of the approach of anything walking upon it.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_danger_sense" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_fortitude_of_stone",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of stones' fortitude", "str_pl": "Scrolls of stones' fortitude" },
+    "description": "Like the unyielding stone, lessen your need for food or water.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_fortitude_of_stone" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_turning_of_earth",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of the turning of the earth", "str_pl": "Scrolls of the turning of the earth" },
+    "description": "Ask the earth spirits to prepare the earth for planting and sowing.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_turning_of_earth" ] }
   }
 ]

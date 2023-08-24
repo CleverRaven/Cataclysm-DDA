@@ -609,6 +609,24 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_clair_sense_rads_self",
+    "name": [ "Sensing Radiation" ],
+    "desc": [ "You can detect environmental radiation." ],
+    "apply_message": "",
+    "remove_message": "Your radiation sense is gone.",
+    "decay_messages": [
+      [ "The ambient glow of radiation is almost invisible now.", "bad" ],
+      [ "Your ability to sense radiation is fading.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "6 hours",
+    "max_intensity": 198,
+    "dur_add_perc": 10,
+    "int_dur_factor": "109 s",
+    "enchantments": [ "enchant_clair_sense_rads" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_clair_dodge",
     "name": [ "Anticipating Attack" ],
     "desc": [ "You can see your enemies' attacks in advance." ],
@@ -782,6 +800,30 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telekinetic_slowfall",
+    "name": [ "Slowfall" ],
+    "desc": [ "The ground isn't as eager to receive you." ],
+    "apply_message": "",
+    "remove_message": "You suddenly feel much heavier.",
+    "max_duration": "60 seconds",
+    "dur_add_perc": 10,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "FALL_DAMAGE",
+            "multiply": {
+              "math": [ "( -0.5 + ( u_val('spell_level', 'spell: telekinetic_slowfall') * -0.04) * ( ( u_val('intelligence') + 10) / 20 ) )" ]
+            }
+          }
+        ]
+      }
+    ],
+    "limb_score_mods": [ { "limb_score": "swim", "modifier": 3.0 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -986,5 +1028,50 @@
     "desc": [ "This reduces monsters' regeneration.  It's a bug if you have it." ],
     "rating": "bad",
     "max_duration": "1 minutes"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_purge_rads",
+    "name": [ "Radiation Purge" ],
+    "desc": [ "You are using your powers to cleanse yourself of radiation." ],
+    "rating": "good",
+    "base_mods": { "rad_min": [ -1 ], "rad_chance": [ 1 ], "rad_tick": [ 60 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_purge_rads_sideeffects",
+    "name": [ "Radiation Purge Side Effects" ],
+    "desc": [ "You are using your powers to cleanse yourself of radiation, but there are some side effects." ],
+    "rating": "bad",
+    "max_intensity": 10,
+    "base_mods": {
+      "str_mod": [ 0 ],
+      "dex_mod": [ 0 ],
+      "per_mod": [ 0 ],
+      "stamina_amount": [ -2000 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 10 ],
+      "pain_tick": [ 60 ],
+      "health_min": [ 0 ],
+      "health_chance": [ 1000 ],
+      "health_tick": [ 60 ],
+      "fatigue_min": [ 0 ],
+      "fatigue_chance": [ 500 ],
+      "fatigue_tick": [ 60 ],
+      "vomit_chance": [ 1000 ],
+      "vomit_tick": [ 60 ]
+    },
+    "scaling_mods": {
+      "stamina_amount": [ -1500 ],
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "per_mod": [ -0.7 ],
+      "pain_chance": [ -1 ],
+      "health_min": [ -1 ],
+      "health_chance": [ -135 ],
+      "fatigue_min": [ 0.6 ],
+      "fatigue_chance": [ -65 ],
+      "vomit_chance": [ -150 ]
+    }
   }
 ]
