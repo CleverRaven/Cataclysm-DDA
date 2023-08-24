@@ -4173,6 +4173,7 @@ std::optional<int> iuse::gasmask_activate( Character *p, item *it, const tripoin
     } else {
         p->add_msg_if_player( _( "You prepare your %s." ), it->tname() );
         it->active = true;
+        p->autoreload_activate( *it );
         it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
     }
 
@@ -4194,9 +4195,11 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint &pos )
         }
         if( it->get_var( "gas_absorbed", 0 ) >= 100 ) {
             it->ammo_consume( 1, pos, p );
+            p->autoreload_log_use( *it );
             it->set_var( "gas_absorbed", 0 );
         }
         if( it->ammo_remaining() == 0 ) {
+            p->autoreload_deactivate( *it );
             p->add_msg_player_or_npc(
                 m_bad,
                 _( "Your %s requires new filters!" ),
@@ -4206,6 +4209,7 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint &pos )
     }
 
     if( it->ammo_remaining() == 0 ) {
+        p->autoreload_deactivate( *it );
         it->set_var( "overwrite_env_resist", 0 );
         it->active = false;
     }

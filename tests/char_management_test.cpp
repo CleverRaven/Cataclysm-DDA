@@ -1,3 +1,4 @@
+#include "cata_catch.h"
 #include "character_management.h"
 #include "game.h"
 #include "item.h"
@@ -9,8 +10,6 @@
 
 // A backpack to hold things
 static const itype_id itype_backpack( "backpack" );
-// The charges that go in the cartridges
-static const itype_id itype_gasfilter_m( "gasfilter_m" );
 // The cartridges that go in the mask
 static const itype_id itype_gasfilter_med( "gasfilter_med" );
 // The gas mask
@@ -71,6 +70,7 @@ static void test_autoreload_works( Character &guy )
     // Then wait in the gas until it's almost out
     do {
         guy.process_items();
+        calendar::turn += 1_seconds;
     } while( gasmask->ammo_remaining() > 2 );
 
     // Ensure we're just about to replace, but not yet at the threshold

@@ -2754,6 +2754,9 @@ class Character : public Creature, public visitable
          * @param info Special considerations needed for this item
          */
         bool try_autoreload( item &it, const char_autoreload::params &info );
+        void autoreload_log_use( item &it );
+        void autoreload_activate( item &it );
+        void autoreload_deactivate( item &it );
 
 
         item find_firestarter_with_charges( int quantity ) const;
