@@ -1083,7 +1083,8 @@ units::power vehicle::part_vpower_w( const vehicle_part &vp, const bool at_full_
         } else if( vpi.fuel_type == fuel_type_muscle ) {
             if( const Character *muscle_user = get_passenger( vp_index ) ) {
                 // Calculate virtual strength bonus from cycling proficiency
-                const float biking_bonus = muscle_user->get_proficiency_bonus("biking", proficiency_bonus_type::strength);
+                const float biking_bonus = muscle_user->get_proficiency_bonus( "biking",
+                                           proficiency_bonus_type::strength );
                 ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
                 const float muscle_multiplier = muscle_user->str_cur - 8 + biking_bonus;
                 const float weary_multiplier = muscle_user->exertion_adjusted_move_multiplier();
