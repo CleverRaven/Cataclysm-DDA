@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "potion_fruit_apple",
-    "name": { "str": "potion fruit (apple)" },
+    "name": { "str": "potion fruit (apple)", "str_pl": "potion fruits (apple)" },
     "description": "An apple infused with mana.  It will heal you if you eat it.",
     "copy-from": "apple",
     "proportional": { "quench": 0.5, "calories": 0.5 },
@@ -21,7 +21,7 @@
   {
     "type": "COMESTIBLE",
     "id": "potion_fruit_peach",
-    "name": { "str": "potion fruit (peach)" },
+    "name": { "str": "potion fruit (peach)", "str_pl": "potion fruits (peach)" },
     "description": "A peach infused with mana.  It will cure illness if you eat it.",
     "copy-from": "peach",
     "proportional": { "quench": 0.5, "calories": 0.5 },
@@ -40,7 +40,7 @@
   {
     "type": "COMESTIBLE",
     "id": "potion_fruit_pear",
-    "name": { "str": "potion fruit (pear)" },
+    "name": { "str": "potion fruit (pear)", "str_pl": "potion fruits (pear)" },
     "description": "A pear infused with mana.  It will allow your blows to strike quicker if you eat it.",
     "copy-from": "pear",
     "proportional": { "quench": 0.5, "calories": 0.5 },
@@ -59,7 +59,7 @@
   {
     "type": "COMESTIBLE",
     "id": "potion_fruit_blackberries",
-    "name": { "str": "potion fruit (blackberries)" },
+    "name": { "str": "handful of potion fruits (blackberries)", "str_pl": "handfuls of potion fruits (blackberries)" },
     "description": "A handful of blackberries infused with mana.  It will harm those who attack you if you eat it.",
     "copy-from": "blackberries",
     "proportional": { "quench": 0.5, "calories": 0.5 },
@@ -78,7 +78,7 @@
   {
     "type": "COMESTIBLE",
     "id": "potion_fruit_raspberries",
-    "name": { "str": "potion fruit (raspberries)" },
+    "name": { "str": "handful of potion fruits (raspberries)", "str_pl": "handfuls of potion fruits (raspberries)" },
     "description": "A handful of raspberries infused with mana.  It will lessen your pain if you eat it.",
     "copy-from": "raspberries",
     "proportional": { "quench": 0.5, "calories": 0.5 },
@@ -97,7 +97,7 @@
   {
     "type": "COMESTIBLE",
     "id": "potion_fruit_strawberries",
-    "name": { "str": "potion fruit (strawberries)" },
+    "name": { "str": "handful of potion fruits (strawberries)", "str_pl": "handfuls of potion fruits (strawberries)" },
     "description": "A handful of strawberries infused with mana.  It will keep you warm even on an icy-cold day.",
     "copy-from": "strawberries",
     "proportional": { "quench": 0.5, "calories": 0.5 },
@@ -116,7 +116,7 @@
   {
     "type": "COMESTIBLE",
     "id": "potion_fruit_elderberries",
-    "name": { "str": "potion fruit (elderberries)" },
+    "name": { "str": "handful of potion fruits (elderberries)", "str_pl": "handfuls of potion fruits (elderberries)" },
     "description": "A handful of elderberries infused with mana.  It will keep you alert and awake.",
     "copy-from": "elderberries",
     "proportional": { "quench": 0.5, "calories": 0.5 },
@@ -135,7 +135,7 @@
   {
     "type": "COMESTIBLE",
     "id": "potion_fruit_blueberries",
-    "name": { "str": "potion fruit (blueberries)" },
+    "name": { "str": "handful of potion fruits (blueberries)", "str_pl": "handfuls of potion fruits (blueberries)" },
     "description": "A handful of blueberries infused with mana.  One handful is more satisfying than a whole bottle of water.",
     "copy-from": "blueberries",
     "proportional": { "calories": 0.5 },
@@ -145,7 +145,7 @@
   {
     "type": "COMESTIBLE",
     "id": "potion_fruit_cranberries",
-    "name": { "str": "potion fruit (cranberries)" },
+    "name": { "str": "handful of potion fruits (cranberries)", "str_pl": "handfuls of potion fruits (cranberries)" },
     "description": "A handful of cranberries infused with mana.  It will remove impurities in your blood.",
     "copy-from": "cranberries",
     "proportional": { "quench": 0.5, "calories": 0.5 },
@@ -164,7 +164,7 @@
   {
     "type": "COMESTIBLE",
     "id": "potion_fruit_huckleberries",
-    "name": { "str": "potion fruit (huckleberries)" },
+    "name": { "str": "handful of potion fruits (huckleberries)", "str_pl": "handfuls of potion fruits (huckleberries)" },
     "description": "A handful of huckleberries infused with mana.  It will make you much more flexible.",
     "copy-from": "huckleberries",
     "proportional": { "quench": 0.5, "calories": 0.5 },
@@ -183,7 +183,7 @@
   {
     "type": "COMESTIBLE",
     "id": "potion_fruit_wintergreen",
-    "name": { "str": "potion fruit (wintergreen berries)" },
+    "name": { "str": "handful of potion fruits (wintergreen berries)", "str_pl": "handfuls of potion fruits (wintergreen berries)" },
     "description": "A handful of wintergreen berries infused with mana.  It will allow you to see in the dark.",
     "copy-from": "wintergreen_berry",
     "proportional": { "quench": 0.5, "calories": 0.5 },
@@ -202,7 +202,7 @@
   {
     "type": "COMESTIBLE",
     "id": "potion_fruit_cherry",
-    "name": { "str": "potion fruit (cherries)" },
+    "name": { "str": "handful of potion fruits (cherries)", "str_pl": "handfuls of potion fruits (cherries)" },
     "description": "A handful of cherries infused with mana.  It will prevent you from bleeding.",
     "copy-from": "cherries",
     "proportional": { "quench": 0.5, "calories": 0.5 },
@@ -221,7 +221,7 @@
   {
     "type": "COMESTIBLE",
     "id": "potion_fruit_apricot",
-    "name": { "str": "potion fruit (apricots)" },
+    "name": { "str": "handful of potion fruits (apricots)", "str_pl": "handfuls of potion fruits (apricots)" },
     "description": "A handful of apricots infused with mana.  It will enhance your visual acuity.",
     "copy-from": "apricot",
     "proportional": { "quench": 0.5, "calories": 0.5 },
@@ -240,7 +240,7 @@
   {
     "type": "COMESTIBLE",
     "id": "potion_fruit_grapes",
-    "name": { "str": "potion fruit (grapes)" },
+    "name": { "str": "handful of potion fruits (grapes)", "str_pl": "handfuls of potion fruits (grapes)" },
     "description": "A handful of grapes infused with mana.  It will cure intoxication.",
     "copy-from": "grapes",
     "proportional": { "quench": 0.5, "calories": 0.5 },
@@ -259,7 +259,7 @@
   {
     "type": "COMESTIBLE",
     "id": "potion_fruit_mayapple",
-    "name": { "str": "potion fruit (mayapple)" },
+    "name": { "str": "potion fruit (mayapple)", "str_pl": "potion fruits (mayapple)" },
     "description": "A mayapple infused with mana.  It will allow you to eat questionable food without harm.",
     "copy-from": "mayapple",
     "proportional": { "quench": 0.5, "calories": 0.5 },
