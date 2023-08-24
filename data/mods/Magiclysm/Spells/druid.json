@@ -472,26 +472,43 @@
     "final_energy_cost": 400,
     "energy_increment": 10,
     "max_level": 20,
-    "min_duration": 10000,
-    "max_duration": 40000,
-    "duration_increment": 2000
+    "min_duration": 30000,
+    "max_duration": 360000,
+    "duration_increment": 16500
   },
   {
-    "type": "effect_on_condition":,
+    "type": "effect_on_condition",
     "id": "EOC_NATURE_COMMUNE",
-    "condition": { "and": [ "u_is_outside", { 
-      { "not": { "u_near_om_location": "road_curved", "range": 1 } }, 
-      { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
-      { "not": { "u_near_om_location": "road_tee", "range": 1 } },
-      { "not": { "u_near_om_location": "road_straight", "range": 1 } },
-      { "not": { "u_near_om_location": "road_end", "range": 1 } }
-    ] 
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "not": { "u_near_om_location": "road_curved", "range": 1 } },
+        { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
+        { "not": { "u_near_om_location": "road_tee", "range": 1 } },
+        { "not": { "u_near_om_location": "road_straight", "range": 1 } },
+        { "not": { "u_near_om_location": "road_end", "range": 1 } },
+        { "not": { "u_near_om_location": "road_sw", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ne", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ew", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ns", "range": 1 } },
+        { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
+        { "not": { "u_near_om_location": "road", "range": 1 } }
+      ]
     },
     "effect": [
-      { "u_add_effect": "natures_commune", "duration": { "math": [ "( 10000 + (u_val('spell_level', 'spell: druid_natures_commune') * 2000) )" ] } },
-      { "u_add_morale": "morale_forest_unity", "bonus": 10, "max_bonus": 15, "duration": { "math": [ "( 10000 + (u_val('spell_level', 'spell: druid_natures_commune') * 2000) )" ] }, "decay_start": { "math": [ "(( 10000 + (u_val('spell_level', 'spell: druid_natures_commune') * 2000) ) / 2)" ] } }
+      {
+        "u_add_effect": "natures_commune",
+        "duration": { "math": [ "( 30000 + (u_val('spell_level', 'spell: druid_natures_commune') * 16500) )" ] }
+      },
+      {
+        "u_add_morale": "morale_forest_unity",
+        "bonus": 10,
+        "max_bonus": 15,
+        "duration": { "math": [ "( 30000 + (u_val('spell_level', 'spell: druid_natures_commune') * 16500) )" ] },
+        "decay_start": { "math": [ "(( 30000 + (u_val('spell_level', 'spell: druid_natures_commune') * 16500) ) / 2)" ] }
+      }
     ],
-    "false_effect": [ { "u_message": "You must be standing in nature to commune with nature", "type": "bad" } ]
+    "false_effect": [ { "u_message": "You must be surrounded by nature to commune with nature", "type": "bad" } ]
   },
   {
     "id": "druid_growth",
