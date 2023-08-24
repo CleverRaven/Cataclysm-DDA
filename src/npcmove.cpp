@@ -717,7 +717,8 @@ void npc::assess_danger()
 
     assessment *= NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
-        float my_diff = evaluate_enemy( *this ) * 0.5f + rng( 0, personality.bravery * 2 );
+        float my_diff = evaluate_enemy( *this ) * 0.5f + rng( 0,
+                        ( personality.bravery - get_pain() / 10 ) * 2 ) ;
         add_msg_debug( debugmode::DF_NPC, "Enemy Danger: %1f, Ally Strength: %2f.", assessment, my_diff );
         if( my_diff < assessment ) {
             time_duration run_away_for = 10_turns + 1_turns * rng( 0, 10 ) - 1_turns * personality.bravery;
