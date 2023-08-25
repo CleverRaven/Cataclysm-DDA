@@ -988,7 +988,9 @@
           { "item": "wizard_utility", "prob": 20 },
           { "item": "spell_scroll_magic_missile", "prob": 70 },
           { "item": "spell_scroll_phase_door", "prob": 50 },
-          { "item": "spell_scroll_shadow_field", "prob": 40 }
+          { "item": "spell_scroll_shadow_field", "prob": 40 },
+          { "item": "spell_scroll_magus_slowfall", "prob": 50 },
+          { "item": "spell_scroll_magus_spiderclimb", "prob": 40 }
         ],
         "prob": 45
       },
@@ -1029,6 +1031,7 @@
       {
         "distribution": [
           { "item": "spell_scroll_smite", "prob": 50 },
+          { "item": "spell_scroll_animist_sense_outsiders", "prob": 30 },
           { "item": "spell_scroll_summon_undead", "prob": 50 },
           { "item": "spell_scroll_necrotic_gaze", "prob": 50 },
           { "item": "spell_scroll_summon_wisps", "prob": 50 }
@@ -1074,7 +1077,12 @@
     "subtype": "collection",
     "items": [
       {
-        "distribution": [ { "item": "spell_scroll_create_lighter", "prob": 50 }, { "item": "spell_scroll_chilling_touch", "prob": 50 } ],
+        "distribution": [
+          { "item": "spell_scroll_create_lighter", "prob": 50 },
+          { "item": "spell_scroll_chilling_touch", "prob": 50 },
+          { "item": "spell_scroll_kelvinist_anti_cold", "prob": 40 },
+          { "item": "spell_scroll_kelvinist_anti_heat", "prob": 40 }
+        ],
         "prob": 45
       },
       {
@@ -1203,7 +1211,8 @@
           { "item": "spell_scroll_light_healing", "prob": 50 },
           { "item": "spell_scroll_bio_acidicspray", "prob": 50 },
           { "item": "spell_scroll_biomancer_paralytic_dart", "prob": 50 },
-          { "item": "spell_scroll_biomancer_visceral_projection", "prob": 50 }
+          { "item": "spell_scroll_biomancer_visceral_projection", "prob": 50 },
+          { "item": "spell_scroll_biomancer_swim_frog", "prob": 35 }
         ],
         "prob": 45
       },
@@ -1221,6 +1230,7 @@
         "distribution": [
           { "item": "wizard_advanced", "prob": 10 },
           { "item": "biomancer_spellbook", "prob": 10 },
+          { "item": "spell_scroll_biomancer_giant_growth", "prob": 30 },
           { "item": "spell_scroll_vicious_tentacle", "prob": 50 },
           { "item": "spell_scroll_bio_bonespear", "prob": 50 }
         ],
