@@ -638,10 +638,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         active = true;
     }
     if( carrier ) {
-        visit_items( [&carrier]( item * cont_it, item * ) {
-            carrier->add_to_inv_search_caches( *cont_it );
-            return VisitResponse::NEXT;
-        } );
+        carrier->on_item_acquire( *this );
     }
 
     return *this;
