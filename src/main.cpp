@@ -149,7 +149,15 @@ void exit_handler( int s )
         signal( SIGABRT, SIG_DFL );
 #endif
 
-        exit( exit_status );
+#if !defined(_WIN32)
+        if( s == 2 ) {
+            signal( s, SIG_DFL );
+            kill( getpid(), s );
+        } else
+#endif
+        {
+            exit( exit_status );
+        }
     }
     inp_mngr.set_timeout( old_timeout );
     ui_manager::redraw_invalidated();
