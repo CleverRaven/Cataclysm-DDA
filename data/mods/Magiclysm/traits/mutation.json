@@ -135,7 +135,7 @@
     "cancels": [ "BAD_MANA_REGEN1", "BAD_MANA_REGEN2", "BAD_MANA_REGEN3" ],
     "changes_to": [ "MANA_REGEN2" ],
     "types": [ "MANA_REGEN" ],
-    "category": [ "FISH", "ELFA", "ALPHA", "PLANT", "CEPHALOPOD", "MANATOUCHED", "DRAGON_BLACK", "SPECIES_ELF" ],
+    "category": [ "FISH", "ELFA", "ALPHA", "PLANT", "CEPHALOPOD", "MANATOUCHED", "DRAGON_BLACK", "SPECIES_ELF", "SPECIES_LIZARDFOLK" ],
     "starting_trait": true,
     "flags": [ "NON_THRESH" ],
     "mana_regen_multiplier": 1.1

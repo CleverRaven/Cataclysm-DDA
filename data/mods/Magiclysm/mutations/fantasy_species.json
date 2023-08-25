@@ -132,7 +132,7 @@
     "category": [ "SPECIES_DWARF" ],
     "threshreq": [ "THRESH_SPECIES_DWARF" ],
     "passive_mods": { "str_mod": 2, "dex_mod": -1 },
-    "movecost_modifier": 1.1
+    "movecost_modifier": 1.05
   },
   {
     "type": "mutation",
@@ -319,6 +319,24 @@
     "id": "ANTIJUNK",
     "copy-from": "ANTIJUNK",
     "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP",
+    "copy-from": "DEX_UP",
+    "extend": { "category": [ "SPECIES_ELF", "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP_2",
+    "copy-from": "DEX_UP_2",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP",
+    "copy-from": "PER_UP",
+    "extend": { "category": [ "SPECIES_ELF", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",

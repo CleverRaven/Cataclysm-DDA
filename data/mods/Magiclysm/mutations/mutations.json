@@ -373,7 +373,7 @@
     "type": "mutation",
     "id": "INT_UP",
     "copy-from": "INT_UP",
-    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED", "SPECIES_ELF", "SPECIES_LIZARDFOLK" ] }
   },
   {
     "type": "mutation",
@@ -515,7 +515,7 @@
     "type": "mutation",
     "id": "THIRST",
     "copy-from": "THIRST",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
   },
   {
     "type": "mutation",
@@ -756,7 +756,7 @@
     "type": "mutation",
     "id": "DENSE_BONES",
     "copy-from": "DENSE_BONES",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
   },
   {
     "type": "mutation",
