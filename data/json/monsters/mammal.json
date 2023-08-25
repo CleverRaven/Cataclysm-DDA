@@ -2189,7 +2189,7 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
     "special_attacks": [ [ "EAT_CROP", 60 ], { "id": "bio_op_takedown", "move_cost": 200, "min_mul": 1.5, "max_mul": 3 } ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER" ],
-    "armor": { "bash": 12, "cut": 6, "bullet": 1,"stab": 6, "electric": 1 }
+    "armor": { "bash": 12, "cut": 6, "bullet": 1, "stab": 6, "electric": 1 }
   },
   {
     "id": "mon_moose_calf",
