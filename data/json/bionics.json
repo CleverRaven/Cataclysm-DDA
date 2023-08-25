@@ -1894,7 +1894,7 @@
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "enchantments": [ "ENCH_BIONIC_LEG_L" ],
     "passive_pseudo_items": [ "armor_bio_leg_l" ],
-    "add_mut_on_removal": [ "NO_LEG_L" ]
+    "give_mut_on_removal": [ "NO_LEG_L" ]
   },
   {
     "id": "bio_limb_leg_r",
@@ -1904,7 +1904,7 @@
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "enchantments": [ "ENCH_BIONIC_LEG_R" ],
     "passive_pseudo_items": [ "armor_bio_leg_r" ],
-    "add_mut_on_removal": [ "NO_LEG_R" ]
+    "give_mut_on_removal": [ "NO_LEG_R" ]
   },
   {
     "id": "bio_limb_treads",
@@ -1914,7 +1914,7 @@
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "enchantments": [ "ENCH_BIONIC_TREADS" ],
     "passive_pseudo_items": [ "armor_bio_treads" ],
-    "add_mut_on_removal": [ "NO_LEG_L", "NO_LEG_R" ]
+    "give_mut_on_removal": [ "NO_LEG_L", "NO_LEG_R" ]
   },
   {
     "id": "bio_limb_arm_l",
@@ -1924,7 +1924,7 @@
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "enchantments": [ "ENCH_BIONIC_ARM_L" ],
     "passive_pseudo_items": [ "armor_bio_arm_l" ],
-    "add_mut_on_removal": [ "NO_ARM_L" ]
+    "give_mut_on_removal": [ "NO_ARM_L" ]
   },
   {
     "id": "bio_limb_arm_r",
@@ -1934,6 +1934,6 @@
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "enchantments": [ "ENCH_BIONIC_ARM_R" ],
     "passive_pseudo_items": [ "armor_bio_arm_r" ],
-    "add_mut_on_removal": [ "NO_ARM_R" ]
+    "give_mut_on_removal": [ "NO_ARM_R" ]
   }
 ]
