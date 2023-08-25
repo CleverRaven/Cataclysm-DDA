@@ -7,6 +7,7 @@
     "copy-from": "apple",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "66 days 16 hours",
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the apple potion fruit.",
@@ -26,6 +27,7 @@
     "copy-from": "peach",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "30 days",
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the peach potion fruit.",
@@ -45,6 +47,7 @@
     "copy-from": "pear",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "40 days",
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the pear potion fruit.",
@@ -64,6 +67,7 @@
     "copy-from": "blackberries",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of blackberry potion fruits.",
@@ -83,6 +87,7 @@
     "copy-from": "raspberries",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of raspberry potion fruits.",
@@ -102,6 +107,7 @@
     "copy-from": "strawberries",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of strawberry potion fruits.",
@@ -121,6 +127,7 @@
     "copy-from": "elderberries",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of elderberry potion fruits.",
@@ -140,7 +147,8 @@
     "copy-from": "blueberries",
     "proportional": { "calories": 0.5 },
     "quench": 100,
-    "spoils_in": "25 days"
+    "spoils_in": "25 days",
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -150,6 +158,7 @@
     "copy-from": "cranberries",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of cranberry potion fruits.",
@@ -169,6 +178,7 @@
     "copy-from": "huckleberries",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of huckleberry potion fruits.",
@@ -188,6 +198,7 @@
     "copy-from": "wintergreen_berry",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of wintergreen berry potion fruits.",
@@ -207,6 +218,7 @@
     "copy-from": "cherries",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of cherry potion fruits.",
@@ -226,6 +238,7 @@
     "copy-from": "apricot",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "20 days",
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of apricot potion fruits.",
@@ -245,6 +258,7 @@
     "copy-from": "grapes",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "20 days",
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the handful of grape potion fruits.",
@@ -264,6 +278,7 @@
     "copy-from": "mayapple",
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "20 days",
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ] },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Eat the mayapple potion fruits.",
