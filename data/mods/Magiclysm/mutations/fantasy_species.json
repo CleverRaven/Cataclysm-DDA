@@ -100,7 +100,6 @@
     "points": 3,
     "starting_trait": false,
     "purifiable": false,
-    "valid": false,
     "category": [ "SPECIES_DWARF" ],
     "threshreq": [ "THRESH_SPECIES_DWARF" ],
     "crafting_speed_multiplier": 1.1
@@ -113,7 +112,6 @@
     "points": 5,
     "starting_trait": false,
     "purifiable": false,
-    "valid": false,
     "types": [ "VISION" ],
     "flags": [ "INFRARED" ],
     "category": [ "SPECIES_DWARF" ],
@@ -262,6 +260,7 @@
     "type": "mutation",
     "id": "WILDWALKER",
     "name": { "str": "Natural Stride" },
+    "purifiable": false,
     "points": 3,
     "description": "The elves were born of nature and the elements, and long ages under the trees allow them to quickly pass through their forest homes.",
     "//": "terrains below copied from the druid caster level boost.",
