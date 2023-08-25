@@ -60,13 +60,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_DEFENSE_WANDERER_STORY",
-    "dynamic_line": "I can't remember, actually.  I have a fauge sense of being in my house, asleep, before I woke up in the middle of a field.  I have this strange feeling that something's after me, keep seeing things out in the woods, so I had to keep moving.",
+    "dynamic_line": "I can't remember, actually.  I have a fague sense of being in my house, asleep, before I woke up in the middle of a field.  I have this strange feeling that something's after me, keep seeing things out in the woods, so I had to keep moving.",
     "//": "Potential lore?  This could be a good mystery.",
     "responses": [
       { "text": "Seems like a hard life.", "topic": "TALK_NPC_DEFENSE_WANDERER_INTRO" },
       { "text": "Where'd you get all your stuff at?", "topic": "TALK_NPC_DEFENSE_WANDERER_STUFF" },
       {
-        "text": "I guess we're both in a similar perdicament, then.  Why not team up with me?  We can hold out together and try to stay alive.",
+        "text": "I guess we're both in a similar predicament, then.  Why not team up with me?  We can hold out together and try to stay alive.",
         "trial": { "type": "PERSUADE", "difficulty": -35, "mod": [ [ "value", 2 ] ] },
         "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 0, "fear": 0 } }
