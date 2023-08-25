@@ -1419,5 +1419,14 @@
     "name": { "str": "Scroll of the turning of the earth", "str_pl": "Scrolls of the turning of the earth" },
     "description": "Ask the earth spirits to prepare the earth for planting and sowing.",
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_turning_of_earth" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_harvest_hunter",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Harvest of the Hunter", "str_pl": "Scrolls of Harvest of the Hunter" },
+    "description": "Create usable arrrows out of forest detritus.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_harvest_hunter" ] }
   }
 ]

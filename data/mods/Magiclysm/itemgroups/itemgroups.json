@@ -1240,7 +1240,8 @@
           { "item": "summon_scroll_smudged", "prob": 2 },
           { "item": "spell_scroll_tornskin", "prob": 2 },
           { "item": "spell_scroll_summon_cats", "prob": 50 },
-          { "item": "spell_scroll_seed_of_growth", "prob": 15 }
+          { "item": "spell_scroll_seed_of_growth", "prob": 15 },
+          { "item": "spell_scroll_druid_harvest_hunter", "prob": 30 }
         ],
         "prob": 45
       },
