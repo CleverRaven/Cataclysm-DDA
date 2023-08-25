@@ -31,7 +31,7 @@
       {
         "type": "bite",
         "cooldown": 15,
-        "move_cost":40,
+        "move_cost": 40,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 9, "armor_penetration": 10 } ],
         "min_mul": 0.8,
         "max_mul": 1.1,
