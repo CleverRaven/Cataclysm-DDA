@@ -307,6 +307,11 @@ item_location Character::i_add( item it, int &copies_remaining,
                                 const item *original_inventory_item, const bool allow_drop,
                                 const bool allow_wield, bool ignore_pkt_settings )
 {
+    if( it.count_by_charges() ) {
+        it.charges = copies_remaining;
+        copies_remaining = 0;
+        return i_add( it, true, avoid, original_inventory_item, allow_drop, allow_wield, ignore_pkt_settings );
+    }
     invalidate_inventory_validity_cache();
     invalidate_leak_level_cache();
     item_location added = try_add( it, copies_remaining, avoid, original_inventory_item, allow_wield,
