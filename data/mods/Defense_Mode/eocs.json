@@ -3,6 +3,7 @@
     "type": "effect_on_condition",
     "id": "scenario_defense_mode",
     "eoc_type": "SCENARIO_SPECIFIC",
+    "deactivate_condition": { "compare_num": [ { "global_val": "var", "var_name": "wave_number" }, ">=", { "const": 1 } ] },
     "effect": [
       { "open_dialogue": { "topic": "TALK_DEFENSE_MODE_MAIN_MENU" } },
       { "u_message": "Get ready for the first wave, it's not that far away!", "type": "good", "popup": true },
@@ -20,7 +21,6 @@
     "id": "defense_mode_caravan_spawn",
     "recurrence": [ "2 days", "4 days" ],
     "global": true,
-    "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 3)", "<=", "0" ] },
     "effect": [
       { "u_spawn_npc": "defense_mode_merchant", "lifespan": "2 hours", "real_count": 1, "min_radius": 2, "max_radius": 3 },
       { "u_message": "A caravan approaches!", "type": "good", "popup": false }
@@ -300,6 +300,7 @@
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_FORTRESS_TRAP",
     "//": "Keeps you from running away from your hideout.",
+    "global": true,
     "recurrence": 10,
     "condition": {
       "or": [
@@ -314,5 +315,44 @@
       { "u_message": "You can't leave your fortress behind!", "type": "bad", "popup": false },
       { "u_teleport": { "global_val": "your_spawnpoint" } }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "DEFENSE_MODE_RANDOM_EVENT",
+    "recurrence": [ "2 days", "4 days" ],
+    "//": "A general EOC for selecting a random event.  Can and should be expanded.",
+    "condition": { "and": [ { "not": { "is_weather": "portal_storm" } }, { "x_in_y_chance": { "x": 7, "y": 10 } } ] },
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [ "EOC_DEFENSE_MODE_RANDOM_NPC", { "const": 10 } ],
+          [ "EOC_DEFENSE_MODE_RANDOM_NPC_ROBBER", { "const": 6 } ],
+          [ "EOC_DEFENSE_MODE_BANDIT_ATTACK", { "const": 1 } ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEFENSE_MODE_RANDOM_NPC",
+    "effect": [ { "u_spawn_npc": "random_survivor", "outdoor_only": true, "real_count": 1, "min_radius": 15, "max_radius": 40 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEFENSE_MODE_RANDOM_NPC_ROBBER",
+    "effect": [
+      {
+        "u_spawn_npc": "random_survivor_nefarious",
+        "outdoor_only": true,
+        "real_count": 1,
+        "min_radius": 15,
+        "max_radius": 40
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEFENSE_MODE_BANDIT_ATTACK",
+    "effect": [ { "u_spawn_npc": "defense_mode_raider", "outdoor_only": true, "real_count": 5, "min_radius": 15, "max_radius": 25 } ]
   }
 ]
