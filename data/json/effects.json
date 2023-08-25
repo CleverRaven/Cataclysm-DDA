@@ -470,7 +470,7 @@
     "remove_message": "You catch your breath.",
     "rating": "bad",
     "max_duration": "30 s",
-    "base_mods": { "per_mod": [ -1 ], "speed_mod": [ -8 ], "pain_min": [ 1 ], "pain_chance": [ 5 ], "pain_max_val": [ 20 ] },
+    "base_mods": { "per_mod": [ -1 ], "speed_mod": [ -10 ], "pain_min": [ 1 ], "pain_chance": [ 5 ], "pain_max_val": [ 20 ] },
     "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.5 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
@@ -481,7 +481,7 @@
     "desc": [ "You're short of breath.  Your left leg has impaired function until you recover." ],
     "rating": "bad",
     "max_duration": "30 s",
-    "base_mods": { "speed_mod": [ -3 ], "pain_min": [ 1 ], "pain_chance": [ 10 ], "pain_max_val": [ 20 ] },
+    "base_mods": { "speed_mod": [ -5 ], "pain_min": [ 1 ], "pain_chance": [ 10 ], "pain_max_val": [ 20 ] },
     "limb_score_mods": [
       { "limb_score": "block", "modifier": 0.9 },
       { "limb_score": "swim", "modifier": 0.7 },
@@ -498,7 +498,7 @@
     "desc": [ "You're short of breath.  Your right leg has impaired function until you recover." ],
     "rating": "bad",
     "max_duration": "30 s",
-    "base_mods": { "speed_mod": [ -3 ], "pain_min": [ 1 ], "pain_chance": [ 10 ], "pain_max_val": [ 20 ] },
+    "base_mods": { "speed_mod": [ -5 ], "pain_min": [ 1 ], "pain_chance": [ 10 ], "pain_max_val": [ 20 ] },
     "limb_score_mods": [
       { "limb_score": "block", "modifier": 0.9 },
       { "limb_score": "swim", "modifier": 0.7 },
@@ -518,7 +518,7 @@
     "base_mods": {
       "dex_mod": [ -1 ],
       "str_mod": [ -1 ],
-      "speed_mod": [ -3 ],
+      "speed_mod": [ -5 ],
       "pain_min": [ 1 ],
       "pain_chance": [ 10 ],
       "pain_max_val": [ 20 ]
@@ -542,17 +542,100 @@
     "base_mods": {
       "dex_mod": [ -1 ],
       "str_mod": [ -1 ],
-      "speed_mod": [ -3 ],
+      "speed_mod": [ -5 ],
       "pain_min": [ 1 ],
       "pain_chance": [ 10 ],
       "pain_max_val": [ 20 ]
     },
     "limb_score_mods": [
-      { "limb_score": "lift", "modifier": 0.8 },
-      { "limb_score": "block", "modifier": 0.8 },
-      { "limb_score": "swim", "modifier": 0.8 },
-      { "limb_score": "manip", "modifier": 0.8 },
-      { "limb_score": "grip", "modifier": 0.8 }
+      { "limb_score": "block", "modifier": 0.5 },
+      { "limb_score": "swim", "modifier": 0.5 },
+      { "limb_score": "move_speed", "modifier": 0.5 },
+      { "limb_score": "footing", "modifier": 0.5 },
+      { "limb_score": "balance", "modifier": 0.5 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "no_power_leg_l",
+    "name": [ "Low Power (Left Leg)" ],
+    "desc": [ "You're low on power.  Your left leg is operating in emergency mode and has limited function." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": { "speed_mod": [ -5 ] },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.5 },
+      { "limb_score": "swim", "modifier": 0.5 },
+      { "limb_score": "move_speed", "modifier": 0.5 },
+      { "limb_score": "footing", "modifier": 0.5 },
+      { "limb_score": "balance", "modifier": 0.5 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "no_power_leg_r",
+    "name": [ "Low Power (Right Leg)" ],
+    "desc": [ "You're low on power.  Your left leg is operating in emergency mode and has limited function." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": { "speed_mod": [ -5 ] },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.5 },
+      { "limb_score": "swim", "modifier": 0.2 },
+      { "limb_score": "move_speed", "modifier": 0.2 },
+      { "limb_score": "footing", "modifier": 0.5 },
+      { "limb_score": "balance", "modifier": 0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "no_power_arm_l",
+    "name": [ "Low Power (Left Arm)" ],
+    "desc": [ "You're low on power.  Your left leg is operating in emergency mode and has limited function." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": { "dex_mod": [ -1 ], "str_mod": [ -1 ], "speed_mod": [ -5 ] },
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 0.5 },
+      { "limb_score": "block", "modifier": 0.5 },
+      { "limb_score": "swim", "modifier": 0.5 },
+      { "limb_score": "manip", "modifier": 0.5 },
+      { "limb_score": "grip", "modifier": 0.5 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "no_power_arm_r",
+    "name": [ "Low Power (Right Arm)" ],
+    "desc": [ "You're low on power.  Your left leg is operating in emergency mode and has limited function." ],
+    "rating": "bad",
+    "max_duration": "10 s",
+    "base_mods": { "dex_mod": [ -1 ], "str_mod": [ -1 ], "speed_mod": [ -5 ] },
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 0.5 },
+      { "limb_score": "block", "modifier": 0.5 },
+      { "limb_score": "swim", "modifier": 0.5 },
+      { "limb_score": "manip", "modifier": 0.5 },
+      { "limb_score": "grip", "modifier": 0.5 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "no_power_tank_treads",
+    "name": [ "Low Power (Tank Treads)" ],
+    "desc": [ "You're low on power.  Your tank treads are operating in emergency mode and have limited function." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": { "speed_mod": [ -10 ] },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.9 },
+      { "limb_score": "swim", "modifier": 0.2 },
+      { "limb_score": "move_speed", "modifier": 0.2 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
