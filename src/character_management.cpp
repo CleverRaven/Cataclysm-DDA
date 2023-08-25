@@ -5,6 +5,14 @@
 #include "output.h"
 #include "try_parse_integer.h"
 
+constexpr int expected_similar_logs = 5;
+const std::string log_var_name = "autoreload_use_log";
+constexpr float use_outlier_margin = 0.1f;
+constexpr time_duration low_time = 5_minutes;
+constexpr time_duration out_time = 1_minutes;
+constexpr int low_ammo = 9;
+constexpr int out_ammo = 1;
+
 static bool has_time_passed( const item &it, const std::string &var, const time_duration &interval )
 {
     return calendar::turn - it.get_var( var, calendar::turn - 2 * interval ) > ( interval - 1_seconds );
@@ -41,26 +49,26 @@ static std::optional<int> reload_options_menu( const std::vector<item_location> 
 
 static void add_use_log_entry( item &it )
 {
-    if( !it.has_var( "autoreload_use_log" ) ) {
+    if( !it.has_var( log_var_name ) ) {
         return;
     }
 
-    std::string log = it.get_var( "autoreload_use_log" );
+    std::string log = it.get_var( log_var_name );
     log = string_format( "%d:%s,%s",
                          it.ammo_remaining(),
                          calendar::turn.to_string(),
                          log );
-    it.set_var( "autoreload_use_log", log );
+    it.set_var( log_var_name, log );
 }
 
 static void clear_use_log( item &it )
 {
-    it.erase_var( "autoreload_use_log" );
+    it.erase_var( log_var_name );
 }
 
 static void init_use_log( item &it )
 {
-    it.set_var( "autoreload_use_log",
+    it.set_var( log_var_name,
                 string_format( "%d:%s", it.ammo_remaining(), calendar::turn.to_string() ) );
 }
 
@@ -68,7 +76,7 @@ static std::vector<std::pair<int, time_point>> get_use_log( item &it )
 {
     // The log is encoded as a string list of entries is the form amount:time,amount:time,...
     // Split those up and place them in a vector so we can examine them
-    std::string log_str = it.get_var( "autoreload_use_log" );
+    std::string log_str = it.get_var( log_var_name );
     std::vector<std::pair<int, time_point>> log;
 
     // Use std::getline to split into entries at the commas
@@ -97,7 +105,7 @@ static std::vector<std::pair<int, time_point>> get_use_log( item &it )
 
 static ret_val<time_duration> use_log_charge_interval_estimate( item &it )
 {
-    if( !it.has_var( "autoreload_use_log" ) ) {
+    if( !it.has_var( log_var_name ) ) {
         return ret_val<time_duration>::make_failure( 0_seconds );
     }
 
@@ -118,7 +126,7 @@ static ret_val<time_duration> use_log_charge_interval_estimate( item &it )
     // stop if we find a big outlier
     // N = 5
     time_duration expected = log[0].second - log[1].second;
-    for( size_t i = 2; i < 5 && i < log.size(); ) {
+    for( size_t i = 2; i < expected_similar_logs && i < log.size(); ) {
         if( log[i - 1].second - log[i].second != expected ) {
             break;
         }
@@ -126,7 +134,7 @@ static ret_val<time_duration> use_log_charge_interval_estimate( item &it )
         ++i;
         // Which is checking if the loop would repeat after this. If it would not, we've gone
         // through all N (or the entire list) and had the same difference for each
-        if( i == 5 || i == log.size() ) {
+        if( i == expected_similar_logs || i == log.size() ) {
             return ret_val<time_duration>::make_success( expected );
         }
     }
@@ -138,7 +146,7 @@ static ret_val<time_duration> use_log_charge_interval_estimate( item &it )
     float avg_time = to_seconds<float>( expected );
     for( size_t i = 2; i < log.size(); ++i ) {
         float difference = to_seconds<float>( log[i - 1].second - log[i].second );
-        if( avg_time * 0.1 > difference || avg_time < difference * 0.1 ) {
+        if( avg_time * use_outlier_margin > difference || avg_time < difference * use_outlier_margin ) {
             break;
         }
         avg_time *= static_cast<float>( i ) / ( i + 1.f );
@@ -150,26 +158,28 @@ static ret_val<time_duration> use_log_charge_interval_estimate( item &it )
 
 static bool item_is_low( item &it )
 {
-    if( it.has_var( "autoreload_use_log" ) ) {
+    if( it.has_var( log_var_name ) ) {
         ret_val<time_duration> time_left = use_log_charge_interval_estimate( it );
+        // Lower bounds estimate on how long we have left
         if( time_left.success() ) {
-            return ( it.ammo_remaining() - 1 ) * time_left.value() < 5_minutes;
+            return ( it.ammo_remaining() - 1 ) * time_left.value() < low_time;
         }
     }
 
-    return it.ammo_remaining() < 9;
+    return it.ammo_remaining() < low_ammo;
 }
 
 static bool item_almost_out( item &it )
 {
-    if( it.has_var( "autoreload_use_log" ) ) {
+    if( it.has_var( log_var_name ) ) {
         ret_val<time_duration> time_left = use_log_charge_interval_estimate( it );
+        // Lower bounds estimate on how long we have left
         if( time_left.success() ) {
-            return ( it.ammo_remaining() - 1 ) * time_left.value() < 1_minutes;
+            return ( it.ammo_remaining() - 1 ) * time_left.value() < out_time;
         }
     }
 
-    return it.ammo_remaining() < 1;
+    return it.ammo_remaining() < out_ammo;
 }
 
 bool Character::try_autoreload( item &it, const char_autoreload::params &info )
@@ -179,7 +189,7 @@ bool Character::try_autoreload( item &it, const char_autoreload::params &info )
     const bool is_npc = !is_avatar();
 
     // Just get the name once
-    std::string it_name = it.tname();
+    std::string it_name = it.display_name();//it.tname();
 
     // If it's not too low, we'll just let it be
     if( !item_is_low( it ) ) {
@@ -208,7 +218,7 @@ bool Character::try_autoreload( item &it, const char_autoreload::params &info )
             continue;
         }
         // Only mags with sufficient ammo to avoid immediate reload, too!
-        if( loc->ammo_remaining() < 2 ) {
+        if( loc->ammo_remaining() < 1 ) {
             continue;
         }
         mags.push_back( loc );
@@ -280,6 +290,7 @@ bool Character::try_autoreload( item &it, const char_autoreload::params &info )
 
     add_msg_if_player( m_good, _( "You notice your %s is running low and reload it with %s." ), it_name,
                        mag_name );
+    add_msg( m_good, it.get_var( log_var_name ) );
 
     // TODO: NPCs complain about running out of reloads
     if( mags.size() == 1 && info.warn_on_last && !is_npc ) {
@@ -290,7 +301,7 @@ bool Character::try_autoreload( item &it, const char_autoreload::params &info )
                            num_mags - 1, it_name );
     }
 
-    if( it.has_var( "autoreload_use_log" ) ) {
+    if( it.has_var( log_var_name ) ) {
         init_use_log( it );
     }
 
