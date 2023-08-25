@@ -2168,7 +2168,7 @@
     "species": [ "MAMMAL" ],
     "volume": "386000 ml",
     "weight": "386 kg",
-    "hp": 250,
+    "hp": 200,
     "speed": 200,
     "attack_cost": 200,
     "material": [ "flesh" ],
