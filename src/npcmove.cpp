@@ -17,7 +17,6 @@
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
-#include "cached_options.h"
 #include "cata_algo.h"
 #include "character.h"
 #include "character_id.h"
@@ -147,7 +146,10 @@ static const trait_id trait_RETURN_TO_START_POS( "RETURN_TO_START_POS" );
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_NPC_RETREAT( "NPC_RETREAT" );
 
-
+static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
+static constexpr float NPC_MONSTER_DANGER_MAX = 150.0f;
+static constexpr float NPC_CHARACTER_DANGER_MAX = 250.0f;
+static constexpr float NPC_COWARDICE_MODIFIER = 0.25f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
 
 // TODO: These would be much better using common code or constants from character.cpp,
@@ -680,10 +682,8 @@ void npc::assess_danger()
     }
 
     // being outnumbered is serious.  Do a flat scale up your assessment if you're outnumbered.
-    // This is a coarse tool that might be better handled
-    if( hostile_count > friendly_count + NPC_CROWD_BRAVADO ) {
-        assessment *= std::min( ( hostile_count / static_cast<float>( friendly_count +
-                                  NPC_CROWD_BRAVADO ) ), 1.0f );
+    if( hostile_count > friendly_count ) {
+        assessment *= std::min( ( hostile_count / static_cast<float>friendly_count, 1.0f );
     }
 
     if( sees( player_character.pos() ) ) {

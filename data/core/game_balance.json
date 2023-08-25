@@ -78,41 +78,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "NPC_DANGER_VERY_LOW",
-    "info": "This is the minimum amount of danger an NPC will assess a threat at, so even enemy squirrels and zombies register here.  The higher this is, the jumpier NPCs will become at small dangers.",
-    "stype": "float",
-    "value": 5.0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "NPC_MONSTER_DANGER_MAX",
-    "info": "This is the max amount of danger an NPC will assess a monster threat at.  It is a bit lower than character danger max, because in general monsters attack in swarms.  This is also used as the 'default' max danger rating for things where the NPC is quickly assessing an area and not discriminating between characters and monsters.",
-    "stype": "float",
-    "value": 150.0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "NPC_CHARACTER_DANGER_MAX",
-    "info": "This is the max amount of danger an NPC will assess a character (player or NPC) threat at.  By default it is higher than monsters, because a player charging at you with a machine gun on full auto should probably register as more deadly than a skeletal juggernaut, and because this generally comes up during careful assessment of a specific character.  Try increasing this if your heavily geared-up NPC is still running from everything.",
-    "stype": "float",
-    "value": 250.0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "NPC_CROWD_BRAVADO",
-    "info": "This determines how much the NPC hates being outnumbered by enemies.  They will increase their perceived number of allies by this value, so the higher it is, the less they care about a dozen zombies coming their way.  Don't set this to a negative number unless you like dividing by zero.",
-    "stype": "int",
-    "value": 0
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "NPC_COWARDICE_MODIFIER",
-    "info": "This is a multiplier applied to an NPC's assessment of overall threat.  The lower it is, the less likely they are to run away from their problems.  It has been tested between 0.1 and 0.5 pretty effectively.",
-    "stype": "float",
-    "value": 0.25
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "NO_FAULTS",
     "info": "Disables vehicle part faults.  If true, disables vehicle part faults, vehicle parts will be totally reliable unless destroyed, and can only be repaired via replacement.",
     "stype": "bool",
