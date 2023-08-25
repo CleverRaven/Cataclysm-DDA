@@ -1467,6 +1467,7 @@
     "base_hp": 150,
     "drench_capacity": 1000,
     "smash_message": "You elbow-smash the %s.",
+    "no_power_effect": "no_power_arm_l",
     "effects_on_hit": [
       {
         "id": "staggered_character",
@@ -1526,6 +1527,7 @@
     "base_hp": 150,
     "drench_capacity": 1000,
     "smash_message": "You elbow-smash the %s.",
+    "no_power_effect": "no_power_arm_r",
     "effects_on_hit": [
       {
         "id": "staggered_character",
@@ -1652,6 +1654,7 @@
     "base_hp": 150,
     "drench_capacity": 1100,
     "smash_message": "You bring your knee down on the %s, smashing it.",
+    "no_power_effect": "no_power_leg_l",
     "effects_on_hit": [
       {
         "id": "bouldering",
@@ -1725,6 +1728,7 @@
     "base_hp": 150,
     "drench_capacity": 1100,
     "smash_message": "You bring your knee down on the %s, smashing it.",
+    "no_power_effect": "no_power_leg_r",
     "sub_parts": [
       "bionic_basic_leg_hip_r",
       "bionic_basic_leg_upper_r",
@@ -2241,6 +2245,8 @@
     "bionic_slots": 58,
     "flags": [ "LIMB_LOWER", "BIONIC_LIMB", "IGNORE_TEMP" ],
     "sub_parts": [ "bionic_treads_body", "bionic_treads_treads" ],
+    "no_power_effect": "no_power_tank_treads",
+    "smash_message": "You ram the %s with the shell of your tank treads.",
     "effects_on_hit": [
       {
         "id": "bouldering",
