@@ -240,6 +240,8 @@ struct body_part_type {
 
         // Effect to trigger on being winded
         efftype_id windage_effect;
+        // Effect to trigger on draining all bionic power
+        efftype_id no_power_effect;
 
         // Effects to trigger on getting hit
         std::vector<bp_onhit_effect> effects_on_hit;
