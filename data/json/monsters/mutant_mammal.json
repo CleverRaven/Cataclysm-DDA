@@ -30,25 +30,7 @@
     "special_attacks": [
       {
         "type": "bite",
-        "cooldown": 15,
-        "move_cost": 40,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 9, "armor_penetration": 10 } ],
-        "min_mul": 0.8,
-        "max_mul": 1.1,
-        "infection_chance": 2
-      },
-      {
-        "type": "bite",
-        "cooldown": 15,
-        "move_cost": 40,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 9, "armor_penetration": 10 } ],
-        "min_mul": 0.8,
-        "max_mul": 1.1,
-        "infection_chance": 2
-      },
-      {
-        "type": "bite",
-        "cooldown": 15,
+        "cooldown": 5,
         "move_cost": 40,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 9, "armor_penetration": 10 } ],
         "min_mul": 0.8,
