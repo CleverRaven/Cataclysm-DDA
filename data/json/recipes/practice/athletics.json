@@ -24,9 +24,7 @@
     "skill_used": "swimming",
     "time": "1 h",
     "practice_data": { "min_difficulty": 2, "max_difficulty": 4, "skill_limit": 5 },
-    "proficiencies": [
-      { "proficiency": "prof_athlete_basic", "time_multiplier": 1.5, "skill_penalty": 0 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_athlete_basic", "time_multiplier": 1.5, "skill_penalty": 0 } ],
     "autolearn": [ [ "swimming", 2 ] ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ "pseudo_exercise_machine", "pseudo_punching_bag", "pseudo_ergometer_mechanical", "pseudo_treadmill_mechanical" ] ]
