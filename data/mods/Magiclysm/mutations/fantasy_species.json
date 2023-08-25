@@ -154,6 +154,18 @@
   },
   {
     "type": "mutation",
+    "id": "TROGLO2",
+    "copy-from": "TROGLO2",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THICKSKIN",
+    "copy-from": "THICKSKIN",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
     "id": "TUNNEL_FIGHTER",
     "copy-from": "TUNNEL_FIGHTER",
     "extend": { "category": [ "SPECIES_DWARF" ] }
@@ -162,6 +174,18 @@
     "type": "mutation",
     "id": "GOURMAND",
     "copy-from": "GOURMAND",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION",
+    "copy-from": "NIGHTVISION",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION2",
+    "copy-from": "NIGHTVISION2",
     "extend": { "category": [ "SPECIES_DWARF" ] }
   },
   {
@@ -294,6 +318,24 @@
     "type": "mutation",
     "id": "ELFAEYES",
     "copy-from": "ELFAEYES",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LIGHTEATER",
+    "copy-from": "LIGHTEATER",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "QUICK",
+    "copy-from": "QUICK",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEFT",
+    "copy-from": "DEFT",
     "extend": { "category": [ "SPECIES_ELF" ] }
   },
   {

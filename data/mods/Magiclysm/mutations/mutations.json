@@ -19,7 +19,7 @@
     "type": "mutation",
     "id": "POISRESIST",
     "copy-from": "POISRESIST",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
   },
   {
     "type": "mutation",
@@ -31,7 +31,7 @@
     "type": "mutation",
     "id": "BADTEMPER",
     "copy-from": "BADTEMPER",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
   },
   {
     "type": "mutation",
@@ -56,13 +56,13 @@
     "id": "HOARDER",
     "copy-from": "HOARDER",
     "valid": true,
-    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_LIZARDFOLK", "SPECIES_DWARF" ] }
   },
   {
     "type": "mutation",
     "id": "MOODSWINGS",
     "copy-from": "MOODSWINGS",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_ELF" ] }
   },
   {
     "type": "mutation",
@@ -204,13 +204,13 @@
     "type": "mutation",
     "id": "PAINREC1",
     "copy-from": "PAINREC1",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
   },
   {
     "type": "mutation",
     "id": "PAINREC2",
     "copy-from": "PAINREC2",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
   },
   {
     "type": "mutation",

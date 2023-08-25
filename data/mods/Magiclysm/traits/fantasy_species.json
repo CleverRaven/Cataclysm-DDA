@@ -37,6 +37,7 @@
     "traits": [
       "THRESH_SPECIES_DWARF",
       "DARKSIGHT",
+      "NIGHTVISION",
       "DWARVEN_BUILD",
       "PAINRESIST",
       "INFRESIST",
