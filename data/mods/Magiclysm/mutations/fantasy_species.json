@@ -476,12 +476,6 @@
   },
   {
     "type": "mutation",
-    "id": "ANTIWHEAT",
-    "copy-from": "ANTIWHEAT",
-    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
-  },
-  {
-    "type": "mutation",
     "id": "CARNIVORE_FAKE",
     "copy-from": "CARNIVORE_FAKE",
     "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
