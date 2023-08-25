@@ -2830,7 +2830,7 @@ Vehicle components when installed on a vehicle.
     "proficiencies": [ "prof_helicopter_pilot" ], // "proficiencies" is a list of proficiency names.
   },
   "land": {                    // Requirements of running on ground.
-    "skills": [ "prof_helicopter_pilot" ], // "skills" is a list of lists, with each list being a skill
+    "skills": [ [ "driving", 1 ] ], // "skills" is a list of lists, with each list being a skill
                               // name and skill level.
   }
 },
