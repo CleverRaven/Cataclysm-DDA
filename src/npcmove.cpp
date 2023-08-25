@@ -692,7 +692,7 @@ void npc::assess_danger()
     // being outnumbered is serious.  Do a flat scale up your assessment if you're outnumbered.
     // This is a coarse tool that might be better handled
     if( hostile_count > friendly_count + NPC_CROWD_BRAVADO ) {
-        assessment *= std::min( ( hostile_count / ( friendly_count + NPC_CROWD_BRAVADO ) ), 1.0f );
+        assessment *= std::min( ( hostile_count / static_cast<float>( friendly_count + NPC_CROWD_BRAVADO ) ), 1.0f );
     }
 
     if( sees( player_character.pos() ) ) {
