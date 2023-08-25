@@ -50,7 +50,7 @@
     "has": "WORN",
     "condition": "ACTIVE",
     "name": { "str": "Recoil Mitigation System" },
-    "values": [ { "value": "WEAPON_DISPERSION", "add": -50 } ],
+    "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.3 } ],
     "description": "Reduces weapon dispersion."
   },
   {
