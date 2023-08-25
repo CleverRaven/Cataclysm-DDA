@@ -18,7 +18,6 @@ static const itype_id itype_sword_wood( "sword_wood" );
 static const itype_id itype_test_weapon1( "test_weapon1" );
 static const itype_id itype_test_weapon2( "test_weapon2" );
 
-
 static const matec_id test_tech_condition_knockback( "test_tech_condition_knockback" );
 static const matec_id test_tech_condition_stun( "test_tech_condition_stun" );
 static const matec_id test_tech_condition_sweep( "test_tech_condition_sweep" );

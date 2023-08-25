@@ -1491,7 +1491,6 @@ int spell::get_temp_level_adjustment() const
     return temp_level_adjustment;
 }
 
-
 void spell::set_temp_level_adjustment( int adjustment )
 {
     temp_level_adjustment = adjustment;
@@ -1673,7 +1672,6 @@ void spell::cast_spell_effect( Creature &source, const tripoint &target ) const
                 this->casting_time( *caster ),
                 this->damage( source ) );
     }
-
 
     type->effect( *this, source, target );
 }

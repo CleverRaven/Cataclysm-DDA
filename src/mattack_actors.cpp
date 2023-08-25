@@ -93,7 +93,6 @@ void leap_actor::load_internal( const JsonObject &obj, const std::string & )
         has_condition = true;
     }
 
-
     if( obj.has_array( "self_effects" ) ) {
         for( JsonObject eff : obj.get_array( "self_effects" ) ) {
             mon_effect_data effect;
@@ -255,7 +254,6 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
         has_condition = true;
     }
 
-
 }
 
 bool mon_spellcasting_actor::call( monster &mon ) const
@@ -278,7 +276,6 @@ bool mon_spellcasting_actor::call( monster &mon ) const
             return false;
         }
     }
-
 
     const tripoint target = ( spell_data.self ||
                               allow_no_target ) ? mon.pos() : mon.attack_target()->pos();
@@ -326,7 +323,6 @@ void grab::load_grab( const JsonObject &jo )
     optional( jo, was_loaded, "pull_weight_ratio", pull_weight_ratio, 0.75f );
     was_loaded = true;
 }
-
 
 melee_actor::melee_actor()
 {
@@ -616,7 +612,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                 tripoint zpt = z.pos();
                 z.move_to( target_square, false, false, grab_data.drag_movecost_mod );
                 if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
-                    return false;
+                    return 0;
                 }
                 if( target->is_avatar() && ( zpt.x < HALF_MAPSIZE_X ||
                                              zpt.y < HALF_MAPSIZE_Y ||

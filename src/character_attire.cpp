@@ -529,7 +529,6 @@ item *Character::item_worn_with_id( const itype_id &i )
     return worn.item_worn_with_id( i );
 }
 
-
 bool Character::wearing_something_on( const bodypart_id &bp ) const
 {
     return worn.wearing_something_on( bp );
@@ -954,7 +953,6 @@ bool outfit::is_worn_module( const item &thing ) const
         return elem.contained_where( thing ) != nullptr;
     } );
 }
-
 
 bool outfit::is_wearing_on_bp( const itype_id &clothing, const bodypart_id &bp ) const
 {

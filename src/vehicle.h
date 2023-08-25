@@ -254,7 +254,6 @@ struct vehicle_part {
         friend item_location;
         friend class turret_data;
 
-
         // DefaultConstructible, with vpart_id::NULL_ID type and default base item
         vehicle_part();
         // constructs part with \p type and std::move()-ing \p base as part's base
