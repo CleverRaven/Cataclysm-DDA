@@ -1421,7 +1421,7 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
                                      ( 1.0f - vehicle_proficiency ) * 10.0f -
                                      ( driver.get_dex() + driver.get_per() ) * 0.25f );
         non_prof_fumble = one_in( vehicle_proficiency * 12.0f +
-            ( driver.get_dex() + driver.get_per() ) * 0.5f + 6.0f );
+                                  ( driver.get_dex() + driver.get_per() ) * 0.5f + 6.0f );
         // Penalties mitigated by proficiency progress, and dex/per stats.
         // - Unskilled pilot at Per/Dex 4: 1-in-8 chance to fumble while turning
         // - Unskilled pilot at Per/Dex 8: 1-in-10
