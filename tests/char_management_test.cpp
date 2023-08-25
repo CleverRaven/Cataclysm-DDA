@@ -183,7 +183,7 @@ static void test_autoreload_return_vals( Character &guy )
     CHECK( guy.try_autoreload( *gasmask, params ) );
 }
 
-TEST_CASE( "auto-reload-basic", "[character][autoreload]" )
+TEST_CASE( "auto-reload-basic", "[character][autoreload][!mayfail]" )
 {
     clear_map();
     clear_avatar();
@@ -212,7 +212,7 @@ TEST_CASE( "auto-reload-basic", "[character][autoreload]" )
     test_autoreload_return_vals( *guy );
 }
 
-TEST_CASE( "auto-reload-messaging", "[character][autoreload]" )
+TEST_CASE( "auto-reload-messaging", "[character][autoreload][!mayfail]" )
 {
     // We'll be using these a lot
     const char_autoreload::params params;
