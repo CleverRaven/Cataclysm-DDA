@@ -10,7 +10,7 @@
     "species": [ "MAMMAL" ],
     "volume": "154250 ml",
     "weight": "154250 g",
-    "hp": 180,
+    "hp": 250,
     "speed": 120,
     "material": [ "flesh" ],
     "symbol": "B",
@@ -30,9 +30,28 @@
     "special_attacks": [
       {
         "type": "bite",
-        "cooldown": 10,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_penetration": 8 } ]
-      }
+        "cooldown": 15,
+        "move_cost":40,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 9, "armor_penetration": 10 } ],
+        "min_mul": 0.8,
+        "max_mul": 1.1,
+        "infection_chance": 2
+      }, {
+        "type": "bite",
+        "cooldown": 15,
+        "move_cost":40,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 9, "armor_penetration": 10 } ],
+        "min_mul": 0.8,
+        "max_mul": 1.1,
+        "infection_chance": 2
+      }, {
+        "type": "bite",
+        "cooldown": 15,
+        "move_cost":40,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 9, "armor_penetration": 10 } ],
+        "min_mul": 0.8,
+        "max_mul": 1.1,
+        "infection_chance": 2 }
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "SOUND" ],
@@ -41,7 +60,7 @@
     "families": [ "prof_intro_biology" ],
     "zombify_into": "mon_meat_cocoon_med",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "STUMBLES", "KEENNOSE" ],
-    "armor": { "bash": 8, "cut": 12, "electric": 1 }
+    "armor": { "bash": 12,"cut": 12,"bullet": 8,"stab": 8, "electric": 1 }
   },
   {
     "id": "mon_beaver_mutant_huge",

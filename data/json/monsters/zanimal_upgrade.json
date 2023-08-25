@@ -282,7 +282,7 @@
     "copy-from": "mon_zombear",
     "description": "Most of this bear's fur has burnt off and its body looks to be falling apart, not entirely immune to its own acidic fluids.  Despite its weakened state, the strength of a bear hasn't left it.",
     "diff": 5,
-    "hp": 145,
+    "hp": 160,
     "speed": 135,
     "attack_cost": 135,
     "color": "light_gray_yellow",
@@ -294,7 +294,7 @@
     "harvest": "zombie_animal_acid",
     "special_attacks": [
       [ "ACID_BARF", 10 ],
-      { "id": "bite_grab", "move_cost": 150, "cooldown": 3, "min_mul": 0.75, "max_mul": 1.5 },
+      { "id": "bite_grab", "move_cost": 135, "cooldown": 3, "min_mul": 0.75, "max_mul": 1.5 },
       { "id": "scratch" }
     ],
     "extend": { "flags": [ "ACIDPROOF", "ACID_BLOOD" ] },
