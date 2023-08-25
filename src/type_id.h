@@ -23,6 +23,9 @@ struct ammo_effect;
 using ammo_effect_id = int_id<ammo_effect>;
 using ammo_effect_str_id = string_id<ammo_effect>;
 
+struct wip_attack_vector;
+using attack_vector_id = string_id<wip_attack_vector>;
+
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 

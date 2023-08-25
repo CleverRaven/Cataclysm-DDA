@@ -80,6 +80,8 @@ class character_martial_arts
         /** Fires all kill-triggered martial arts events */
         void ma_onkill_effects( Character &owner );
 
+        // Selects a valid attack vector
+        attack_vector_id choose_attack_vector( const Character &user, const matec_id &tech ) const;
         /** Returns an attack vector that the player can use */
         std::string get_valid_attack_vector( const Character &user,
                                              const std::vector<std::string> &attack_vectors ) const;

@@ -1593,6 +1593,8 @@ std::vector<matec_id> Character::evaluate_techniques( Creature &t, const item_lo
             continue;
         }
 
+        attack_vector_id wip = martial_arts_data->choose_attack_vector( *this, tec.id );
+
         // Does the player have a functional attack vector to deliver the technique?
         std::vector<std::string> shuffled_attack_vectors = tec.attack_vectors_random;
         std::shuffle( shuffled_attack_vectors.begin(), shuffled_attack_vectors.end(), rng_get_engine() );

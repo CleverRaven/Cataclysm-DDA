@@ -35,6 +35,9 @@
 #include "translations.h"
 #include "ui_manager.h"
 #include "value_ptr.h"
+#include "weighted_list.h"
+
+static const attack_vector_id attack_vector_null( "null" );
 
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
@@ -51,13 +54,50 @@ static const skill_id skill_unarmed( "unarmed" );
 
 static const weapon_category_id weapon_category_OTHER_INVALID_WEAP_CAT( "OTHER_INVALID_WEAP_CAT" );
 
+
 namespace
 {
 generic_factory<weapon_category> weapon_category_factory( "weapon category" );
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
 generic_factory<martialart> martialarts( "martial art style" );
 generic_factory<ma_buff> ma_buffs( "martial art buff" );
+generic_factory<wip_attack_vector> attack_vector_factory( "attack vector" );
 } // namespace
+
+/** @relates string_id */
+template<>
+const wip_attack_vector &string_id<wip_attack_vector>::obj() const
+{
+    return attack_vector_factory.obj( *this );
+}
+
+template<>
+bool attack_vector_id::is_valid() const
+{
+    return attack_vector_factory.is_valid( *this );
+}
+
+void wip_attack_vector::load_attack_vectors( const JsonObject &jo, const std::string &src )
+{
+    attack_vector_factory.load( jo, src );
+}
+
+void wip_attack_vector::reset()
+{
+    attack_vector_factory.reset();
+}
+
+void wip_attack_vector::load( const JsonObject &jo, const std::string_view )
+{
+    mandatory( jo, was_loaded, "id", id );
+    optional( jo, was_loaded, "weapon", weapon, false );
+    optional( jo, was_loaded, "limbs", limbs );
+    optional( jo, was_loaded, "sub_limbs", sub_limbs );
+    optional( jo, was_loaded, "limb_types", limb_types );
+    optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit );
+    optional( jo, was_loaded, "bp_hp_limit", bp_hp_limit );
+
+}
 
 template<>
 const weapon_category &weapon_category_id::obj() const
@@ -262,6 +302,9 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
         has_condition = true;
     }
 
+    if( jo.has_array( "wip_attack_vectors" ) ) {
+        optional( jo, was_loaded, "wip_attack_vectors", wip_attack_vectors );
+    }
     reqs.load( jo, src );
     bonuses.load( jo );
 }
@@ -1366,6 +1409,111 @@ std::string character_martial_arts::get_valid_attack_vector( const Character &us
     }
 
     return "NONE";
+}
+
+attack_vector_id character_martial_arts::choose_attack_vector( const Character &user,
+        const matec_id &tech ) const
+{
+    // Handle choosing the attack vector
+    // Deal with hard filters - DONE
+    // Consider expected damage?
+    // Weighted list based on damage? Hard priority?
+    // Return explicit bodypart id for unarmed stuff?
+    //
+    const std::vector<bodypart_id> anat = user.get_all_body_parts();
+    weighted_float_list<attack_vector_id> list;
+    for( const attack_vector_id &vec : tech.obj().wip_attack_vectors ) {
+        wip_attack_vector tmp = vec.obj();
+        bool found = false;
+        float weight = 0.0f;
+        // Early break for armed vectors
+        if( tmp.weapon && user.is_armed() ) {
+            item *weapon = user.get_wielded_item().get_item();
+            weight = weapon->average_dps( user );
+            if( tmp.primary ) {
+                return vec;
+            } else {
+                list.add_or_replace( vec, weight );
+            }
+            add_msg_debug( debugmode::DF_MELEE, "Weapon %s eligable for attack vector %s with weight %.1f",
+                           weapon->display_name(),
+                           vec.c_str(), weight );
+            found = true;
+            break;
+        }
+        if( found ) {
+            continue;
+        }
+        // If we defined explicit bodyparts
+        for( const bodypart_id &bp : vec.obj().limbs ) {
+            if( std::find( anat.begin(), anat.end(), bp ) != anat.end() ) {
+                const bodypart &part = *user.get_part( bp );
+                if( ( 100 * part.get_hp_cur() / part.get_hp_max() ) > tmp.bp_hp_limit &&
+                    part.get_encumbrance_data().encumbrance < tmp.encumbrance_limit ) {
+                    // Use the BP unarmed damage as the weight
+                    weight = bp.obj().total_unarmed_damage();
+                    if( tmp.primary ) {
+                        return vec;
+                    } else {
+                        list.add_or_replace( vec, weight );
+                    }
+                    add_msg_debug( debugmode::DF_MELEE, "Bodypart %s eligable for attack vector %s with weight %.1f",
+                                   bp.id().c_str(),
+                                   vec.c_str(), weight );
+                    found = true;
+                    break;
+                }
+            }
+        }
+        if( found ) {
+            continue;
+        }
+        // Sublimb check
+        for( const sub_bodypart_str_id &sbp : tmp.sub_limbs ) {
+            for( const bodypart_id &bp : anat ) {
+                if( std::find( bp.obj().sub_parts.begin(), bp.obj().sub_parts.end(),
+                               sbp ) != bp.obj().sub_parts.end() ) {
+                    list.add_or_replace( vec, weight );
+                    add_msg_debug( debugmode::DF_MELEE,
+                                   "Sub-bodypart %s eligable for attack vector %s with weight %.1f", sbp.c_str(),
+                                   vec.c_str(), weight );
+                    found = true;
+                    break;
+                }
+            }
+            if( found ) {
+                break;
+            }
+        }
+        if( found ) {
+            continue;
+        }
+        // More flexible search for limb types
+        for( const body_part_type::type &type : tmp.limb_types ) {
+            std::vector<bodypart_id> limbs = user.get_all_body_parts_of_type( type );
+            for( const bodypart_id &bp : limbs ) {
+                const bodypart &part = *user.get_part( bp );
+                if( ( 100 * part.get_hp_cur() / part.get_hp_max() ) > tmp.bp_hp_limit &&
+                    part.get_encumbrance_data().encumbrance < tmp.encumbrance_limit ) {
+                    list.add_or_replace( vec, weight );
+                    add_msg_debug( debugmode::DF_MELEE,
+                                   "Bodypart %s eligable for attack vector %s (limb type filter) with weight %.1f",
+                                   bp.id().c_str(),
+                                   vec.c_str(), weight );
+                    found = true;
+                    break;
+
+                }
+            }
+            if( found ) {
+                break;
+            }
+        }
+        if( found ) {
+            continue;
+        }
+    }
+    return *list.pick();
 }
 
 bool character_martial_arts::can_use_attack_vector( const Character &user,

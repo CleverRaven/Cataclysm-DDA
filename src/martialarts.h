@@ -57,6 +57,32 @@ class weapon_category
 
 matype_id martial_art_learned_from( const itype & );
 
+struct wip_attack_vector {
+    attack_vector_id id;
+    translation name;
+    // Used with a weapon, precludes most other checks
+    bool weapon = false;
+    // If true the vector will always be preferentially used when eligable
+    bool primary = false;
+    // Explicit bodypart definitions
+    std::vector<bodypart_str_id> limbs;
+    // Flexible bodypart type definition
+    std::vector<body_part_type::type> limb_types;
+    // Explicit sublimb requirement
+    std::vector<sub_bodypart_str_id> sub_limbs;
+
+    // Encumbrance limit in absolute encumbrance
+    int encumbrance_limit = 100;
+    // Percent of bodypart HP required
+    int bp_hp_limit = 100;
+
+    bool was_loaded = false;
+
+    static void load_attack_vectors( const JsonObject &jo, const std::string &src );
+    static void reset();
+    void load( const JsonObject &jo, std::string_view );
+};
+
 struct ma_requirements {
     bool was_loaded = false;
 
@@ -157,6 +183,7 @@ class ma_technique
         // What way is the technique delivered to the target?
         std::vector<std::string> attack_vectors; // by priority
         std::vector<std::string> attack_vectors_random; // randomly
+        std::vector<attack_vector_id> wip_attack_vectors;
 
         int repeat_min = 1;    // Number of times the technique is repeated on a successful proc
         int repeat_max = 1;
