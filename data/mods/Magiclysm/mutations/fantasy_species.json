@@ -408,6 +408,7 @@
     "name": { "str": "Scalefolk Mindset" },
     "description": "While not completely predatory, the lizardfolk are generally not particularly invested in the welfare of warmbloods.  Their death does not affect you greatly, and your ability to maintain combat skills is enhanced.",
     "points": 2,
+    "purifiable": false,
     "category": [ "SPECIES_LIZARDFOLK" ],
     "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ],
     "types": [ "PREDATION" ],
