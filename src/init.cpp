@@ -407,6 +407,7 @@ void DynamicDataLoader::initialize()
     add( "weapon_category", &weapon_category::load_weapon_categories );
     add( "martial_art", &load_martial_art );
     add( "climbing_aid", &climbing_aid::load_climbing_aid );
+    add( "attack_vector", &wip_attack_vector::load_attack_vectors );
     add( "effect_type", &load_effect_type );
     add( "oter_id_migration", &overmap::load_oter_id_migration );
     add( "overmap_terrain", &overmap_terrains::load );

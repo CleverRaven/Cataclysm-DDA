@@ -607,6 +607,11 @@ float body_part_type::unarmed_damage( const damage_type_id &dt ) const
     return damage.type_damage( dt );
 }
 
+float body_part_type::total_unarmed_damage() const
+{
+    return damage.total_damage();
+}
+
 float body_part_type::unarmed_arpen( const damage_type_id &dt ) const
 {
     return damage.type_arpen( dt );
