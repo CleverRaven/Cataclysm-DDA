@@ -148,11 +148,6 @@ static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_NPC_RETREAT( "NPC_RETREAT" );
 
 
-static const std::string NPC_DANGER_VERY_LOW_OPT( "NPC_DANGER_VERY_LOW" );
-static const std::string NPC_CROWD_BRAVADO_OPT( "NPC_CROWD_BRAVADO" );
-static const std::string NPC_COWARDICE_MODIFIER_OPT( "NPC_COWARDICE_MODIFIER" );
-static const std::string NPC_MONSTER_DANGER_MAX_OPT( "NPC_MONSTER_DANGER_MAX" );
-static const std::string NPC_CHARACTER_DANGER_MAX_OPT( "NPC_CHARACTER_DANGER_MAX" );
 static constexpr float MAX_FLOAT = 5000000000.0f;
 
 // TODO: These would be much better using common code or constants from character.cpp,
@@ -687,8 +682,8 @@ void npc::assess_danger()
     // being outnumbered is serious.  Do a flat scale up your assessment if you're outnumbered.
     // This is a coarse tool that might be better handled
     if( hostile_count > friendly_count + NPC_CROWD_BRAVADO ) {
-        assessment *= std::min( ( hostile_count / static_cast<float>( friendly_count + NPC_CROWD_BRAVADO ) ),
-                                          1.0f );
+        assessment *= std::min( ( hostile_count / static_cast<float>( friendly_count +
+                                  NPC_CROWD_BRAVADO ) ), 1.0f );
     }
 
     if( sees( player_character.pos() ) ) {
