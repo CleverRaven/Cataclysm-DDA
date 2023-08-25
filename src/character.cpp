@@ -2809,6 +2809,13 @@ void Character::set_max_power_level( const units::energy &capacity )
 void Character::mod_power_level( const units::energy &npower )
 {
     set_power_level( power_level + npower );
+    if( get_power_level() < 1_millijoule && npower < 0_joule ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            if( !bp->no_power_effect.is_null() ) {
+                add_effect( bp->no_power_effect, 2_turns );
+            }
+        }
+    }
 }
 
 void Character::mod_max_power_level_modifier( const units::energy &npower )
