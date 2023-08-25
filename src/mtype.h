@@ -259,7 +259,6 @@ struct mtype {
         pet_food_data petfood;
     private:
 
-
         behavior::node_t goals;
 
     public:
@@ -324,8 +323,6 @@ struct mtype {
         // Vision range is linearly scaled depending on lighting conditions
         int vision_day = 40;    /** vision range in bright light */
         int vision_night = 1;   /** vision range in total darkness */
-
-
 
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
         // Monster's ability to destroy terrain and vehicles

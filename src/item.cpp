@@ -2900,7 +2900,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         loaded_mod = &tmp;
         curammo = loaded_mod->ammo_data();
         // TODO: Should this be .is_null(), rather than comparing to "none"?
-        if( loaded_mod->typeId().str() == "none" || loaded_mod == nullptr ||
+        if( loaded_mod == nullptr || loaded_mod->typeId().str() == "none" ||
             curammo == nullptr ) {
             if( magazine_current() ) {
                 const itype_id mag_default = magazine_current()->ammo_default();
@@ -6461,7 +6461,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( is_engine() && engine_displacement() > 0 ) {
         vehtext = string_format( pgettext( "vehicle adjective", "%gL " ),
                                  engine_displacement() / 100.0f );
-
 
     } else if( is_wheel() && type->wheel->diameter > 0 ) {
         vehtext = string_format( pgettext( "vehicle adjective", "%d\" " ), type->wheel->diameter );
@@ -10325,7 +10324,6 @@ damage_instance item::gun_damage( itype_id ammo ) const
     }
 
     ret.add( ammo->ammo->damage.di_considering_length( bl ) );
-
 
     if( damage() > 0 ) {
         // TODO: This isn't a good solution for multi-damage guns/ammos

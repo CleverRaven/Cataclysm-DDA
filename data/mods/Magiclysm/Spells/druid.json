@@ -664,29 +664,47 @@
     "energy_source": "MANA"
   },
   {
-    "id": "druid_harvest_hunter",
+    "id": "druid_whisper_leaves",
     "type": "SPELL",
-    "name": "Harvest of the Hunter",
-    "description": "This spell creates a grouping of odd-looking but functional arrows out of forest detritus.",
-    "valid_targets": [ "none" ],
-    "flags": [ "CONCENTRATE", "NO_HANDS", "VERBAL", "NO_LEGS" ],
-    "min_damage": 5,
-    "max_damage": 40,
-    "damage_increment": 2.5,
-    "effect": "spawn_item",
-    "effect_str": "arrow_druid",
-    "components": "spell_components_druid_arrow",
+    "name": "Whisper of the Leaves",
+    "description": "This spell allows you to hear the trees' wisdom in the rustle of the leaves and the creaking of their roots, discerning the layout of the forest.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_GAIN_WHISPER_LEAVES",
     "shape": "blast",
-    "base_casting_time": 6000,
-    "final_casting_time": 600,
-    "casting_time_increment": -360,
-    "base_energy_cost": 250,
-    "min_duration": 180000,
-    "max_duration": 1440000,
-    "duration_increment": 84000,
-    "difficulty": 4,
-    "max_level": 15,
+    "energy_source": "MANA",
     "spell_class": "DRUID",
-    "energy_source": "MANA"
+    "difficulty": 6,
+    "max_level": 15,
+    "base_casting_time": 6000,
+    "final_casting_time": 1000,
+    "casting_time_increment": -350,
+    "base_energy_cost": 800,
+    "final_energy_cost": 500,
+    "energy_increment": -40,
+    "min_duration": 6000,
+    "max_duration": 6000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GAIN_WHISPER_LEAVES",
+    "condition": { "not": { "u_has_trait": "TREE_COMMUNION" } },
+    "effect": [
+      { "u_message": "You are in tune with the wood and the wilds.  [Check mutations to activate]", "type": "good" },
+      { "u_add_trait": "TREE_COMMUNION" },
+      { "queue_eocs": "EOC_LOSE_WHISPER_LEAVES", "time_in_future": [ "60 seconds", "60 seconds" ] }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You are already in tune with the rhythms of the forest.  Further magic cannot deepen your bond.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LOSE_WHISPER_LEAVES",
+    "effect": [ { "u_lose_trait": "TREE_COMMUNION" } ]
   }
 ]

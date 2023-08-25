@@ -101,11 +101,23 @@
     "traits": [ { "group": "BG_survival_story_MEDICAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "bonus_str": { "rng": [ -2, 0 ] },
     "bonus_int": { "rng": [ 0, 2 ] },
-    "bonus_per": { "one_in": 4 },
+    "bonus_per": { "rng": [ 0, 2 ] },
     "shopkeeper_item_group": "NC_DOCTOR_misc",
+    "proficiencies": [
+      "prof_intro_chemistry",
+      "prof_intro_biology",
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_burn_care",
+      "prof_dissect_humans",
+      "prof_physiology"
+    ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ -1, -3 ] } ] } ] } },
-      { "skill": "firstaid", "bonus": { "rng": [ 2, 6 ] } }
+      { "skill": "chemistry", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "dodge", "bonus": 1 },
+      { "skill": "firstaid", "bonus": { "rng": [ 2, 6 ] } },
+      { "skill": "speech", "bonus": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -2 } ] } }
     ]
   },
   {
@@ -201,10 +213,19 @@
     "bonus_str": { "rng": [ -1, -3 ] },
     "bonus_dex": { "rng": [ -1, 0 ] },
     "bonus_int": { "rng": [ 2, 5 ] },
+    "proficiencies": [
+      "prof_intro_chemistry",
+      "prof_intro_biology",
+      "prof_organic_chemistry",
+      "prof_biochemistry",
+      "prof_intro_chem_synth",
+      "prof_chem_synth"
+    ],
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -2 ] } ] } ] } },
       { "skill": "computer", "bonus": { "rng": [ 1, 5 ] } },
       { "skill": "electronics", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "chemistry", "bonus": { "rng": [ 4, 7 ] } },
       { "skill": "firstaid", "bonus": { "rng": [ 1, 4 ] } }
     ]
   },
@@ -219,6 +240,49 @@
       { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_MOTORHEAD",
+    "name": { "str": "Motorhead" },
+    "job_description": "I'm just about ready to ride off into the sunset…",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 0, 2 ] },
+    "bonus_dex": { "rng": [ 1, 3 ] },
+    "bonus_int": { "rng": [ -2, 2 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "proficiencies": [ "prof_metalworking", "prof_welding_basic", "prof_welding" ],
+    "weapon_override": "NC_MOTORHEAD_wield",
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -2 ] } ] } ] } },
+      { "skill": "bashing", "bonus": 1 },
+      { "skill": "driving", "bonus": { "rng": [ 2, 8 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "firstaid", "bonus": 1 },
+      { "skill": "mechanics", "bonus": { "rng": [ 2, 8 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_THUG",
+    "name": { "str": "Thug" },
+    "job_description": "I'm just here for the paycheck.",
+    "traits": [
+      { "group": "BG_survival_story_CRIMINAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "bonus_str": { "rng": [ 2, 4 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -4 } ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "bashing", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "stabbing", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 1, 5 ] } }
     ]
   },
   {
