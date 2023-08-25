@@ -4342,7 +4342,7 @@ bool vehicle::can_control_in_air( const Character &pc ) const
                 return false;
             }
         }
-        for( const auto skill : parts[index].info().control_air.skills ) {
+        for( const std::pair<string_id<Skill>, int> skill : parts[index].info().control_air.skills ) {
             if( pc.get_skill_level( skill.first ) < skill.second ) {
                 return false;
             }
@@ -4359,7 +4359,7 @@ bool vehicle::can_control_on_land( const Character &pc ) const
                 return false;
             }
         }
-        for( const auto skill : parts[index].info().control_land.skills ) {
+        for( const std::pair<string_id<Skill>, int> skill : parts[index].info().control_land.skills ) {
             if( pc.get_skill_level( skill.first ) < skill.second ) {
                 return false;
             }
