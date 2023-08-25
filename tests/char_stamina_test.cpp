@@ -97,7 +97,7 @@ static int actual_burn_rate( Character &dummy, const move_mode_id &move_mode )
     int after_stam = dummy.get_stamina();
     REQUIRE( before_stam >= after_stam );
 
-    // How much stamina was actually burned? 
+    // How much stamina was actually burned?
     return before_stam - after_stam;
 }
 
