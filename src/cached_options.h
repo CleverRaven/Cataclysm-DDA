@@ -31,6 +31,12 @@ extern int pixel_minimap_g;
 extern int pixel_minimap_b;
 extern int pixel_minimap_a;
 
+extern float NPC_DANGER_VERY_LOW;
+extern float NPC_COWARDICE_MODIFIER; 
+extern float NPC_MONSTER_DANGER_MAX; 
+extern float NPC_CHARACTER_DANGER_MAX;
+extern int NPC_CROWD_BRAVADO;
+
 namespace cata::options
 {
 extern std::vector<std::string> damage_indicators;

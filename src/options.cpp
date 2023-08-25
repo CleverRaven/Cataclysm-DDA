@@ -4003,6 +4003,12 @@ void options_manager::update_options_cache()
     prevent_occlusion_transp = ::get_option<bool>( "PREVENT_OCCLUSION_TRANSP" );
     prevent_occlusion_min_dist = ::get_option<float>( "PREVENT_OCCLUSION_MIN_DIST" );
     prevent_occlusion_max_dist = ::get_option<float>( "PREVENT_OCCLUSION_MAX_DIST" );
+    
+    NPC_DANGER_VERY_LOW = ::get_option<float>( "NPC_DANGER_VERY_LOW" );
+    NPC_CROWD_BRAVADO = ::get_option<int>( "NPC_CROWD_BRAVADO" );
+    NPC_COWARDICE_MODIFIER = ::get_option<float>( "NPC_COWARDICE_MODIFIER" );
+    NPC_MONSTER_DANGER_MAX = ::get_option<float>( "NPC_MONSTER_DANGER_MAX" );
+    NPC_CHARACTER_DANGER_MAX = ::get_option<float>( "NPC_CHARACTER_DANGER_MAX" );
 
     // if the tilesets are identical don't duplicate
     use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||

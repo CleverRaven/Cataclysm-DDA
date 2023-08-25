@@ -17,6 +17,7 @@
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "cata_algo.h"
 #include "character.h"
 #include "character_id.h"
@@ -402,10 +403,8 @@ float npc::evaluate_enemy( const Creature &target ) const
     if( target.is_monster() ) {
         const monster &mon = dynamic_cast<const monster &>( target );
         float diff = static_cast<float>( mon.type->difficulty );
-        float NPC_MONSTER_DANGER_MAX = get_option<float>( NPC_MONSTER_DANGER_MAX_OPT );
         return std::min( diff, NPC_MONSTER_DANGER_MAX );
     } else if( target.is_npc() || target.is_avatar() ) {
-        float NPC_CHARACTER_DANGER_MAX = get_option<float>( NPC_CHARACTER_DANGER_MAX_OPT );
         return std::min( character_danger( dynamic_cast<const Character &>( target ) ),
                          NPC_CHARACTER_DANGER_MAX );
     } else {
@@ -445,10 +444,6 @@ void npc::assess_danger()
     int hostile_count = 0;
     int friendly_count = 1; // count yourself as a friendly
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
-    float NPC_COWARDICE_MODIFIER = get_option<float>( NPC_COWARDICE_MODIFIER_OPT );
-    float NPC_MONSTER_DANGER_MAX = get_option<float>( NPC_MONSTER_DANGER_MAX_OPT );
-    float NPC_CROWD_BRAVADO = get_option<int>( NPC_CROWD_BRAVADO_OPT );
-    float NPC_DANGER_VERY_LOW = get_option<float>( NPC_DANGER_VERY_LOW_OPT );
 
     if( !confident_range_cache ) {
         invalidate_range_cache();
@@ -776,7 +771,6 @@ void npc::regen_ai_cache()
     map &here = get_map();
     auto i = std::begin( ai_cache.sound_alerts );
     creature_tracker &creatures = get_creature_tracker();
-    float NPC_DANGER_VERY_LOW = get_option<float>( NPC_DANGER_VERY_LOW_OPT );
     if( has_trait( trait_RETURN_TO_START_POS ) ) {
         if( !ai_cache.guard_pos ) {
             ai_cache.guard_pos = get_location();
@@ -1893,7 +1887,6 @@ healing_options npc::patient_assessment( const Character &c )
 npc_action npc::address_needs( float danger )
 {
     Character &player_character = get_player_character();
-    float NPC_DANGER_VERY_LOW = get_option<float>( NPC_DANGER_VERY_LOW_OPT );
     // rng because NPCs are not meant to be hypervigilant hawks that notice everything
     // and swing into action with alarming alacrity.
     // no sometimes they are just looking the other way, sometimes they hestitate.
@@ -2614,7 +2607,6 @@ void npc::avoid_friendly_fire()
     const tripoint tar = current_target()->pos();
     // Calculate center of weight of friends and move away from that
     tripoint center;
-    float NPC_DANGER_VERY_LOW = get_option<float>( NPC_DANGER_VERY_LOW_OPT );
     for( const auto &fr : ai_cache.friends ) {
         if( shared_ptr_fast<Creature> fr_p = fr.lock() ) {
             center += fr_p->pos();

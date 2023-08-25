@@ -24,6 +24,12 @@ int pixel_minimap_g;
 int pixel_minimap_b;
 int pixel_minimap_a;
 
+float NPC_DANGER_VERY_LOW;
+float NPC_COWARDICE_MODIFIER; 
+float NPC_MONSTER_DANGER_MAX; 
+float NPC_CHARACTER_DANGER_MAX;
+int NPC_CROWD_BRAVADO;
+
 namespace cata::options
 {
 std::vector<std::string> damage_indicators;
