@@ -285,6 +285,10 @@ tripoint npc::good_escape_direction( bool include_pos )
             int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
             if( dist > def_radius ) {
                 tripoint_bub_ms player_pos = get_player_character().pos_bub();
+                while( player_pos == get_player_character().pos_bub() ) {
+                    player_pos.x() += rng( -1, 1 );
+                    player_pos.y() += rng( -1, 1 );
+                }
                 retreat_target = here.getglobal( player_pos );
             }
         }
