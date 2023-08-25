@@ -646,6 +646,21 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "kickboxing_beginner",
+    "name": "Cardio Kickboxing",
+    "description": "You've trained in non-combat kickboxing at a gym as a way to exercise.  While you were taught the moves, you've never sparred or fought anything more dangerous than a falling punching bag.  Whether you can remember your training when push kick comes to jab is up to you.",
+    "points": 5,
+    "skills": [
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 2, "name": "swimming" },
+      { "level": 1, "name": "dodge" }
+    ],
+    "traits": [ "PROF_KICKBOXER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "martial_training",
     "name": "Martial Arts",
     "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, Taekwondo, or Pankration.",
@@ -658,7 +673,7 @@
     "subtype": "hobby",
     "id": "self_defense",
     "name": "Self-Defense",
-    "description": "You have taken some self-defense classes at a local gym.  You start with your choice of Boxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
+    "description": "You have taken some self-defense classes at a local gym.  You start with your choice of Boxing, Kickboxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
     "points": 5,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 3, "name": "unarmed" }, { "level": 3, "name": "dodge" } ],
     "traits": [ "MARTIAL_ARTS2" ]

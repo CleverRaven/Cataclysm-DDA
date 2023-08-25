@@ -2059,7 +2059,6 @@
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "file", 20 ],
       [ "howto_computer", 20 ],
-      [ "glassblowing_book", 4 ],
       [ "manual_fabrication", 30 ],
       [ "usb_drive", 5 ],
       { "group": "book_mag_tech", "prob": 70 },
