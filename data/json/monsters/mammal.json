@@ -113,15 +113,18 @@
     "reproduction": { "baby_monster": "mon_bear_cub", "baby_count": 1, "baby_timer": 700 },
     "//": "220 days gestation period, the mother and cubs remain together for 16-17 months.",
     "baby_flags": [ "SPRING" ],
-    "special_attacks": [ [ "EAT_FOOD", 20 ], {
-      "type": "bite",
-      "cooldown": 10,
-      "move_cost": 105,
-      "damage_max_instance": [ { "damage_type": "stab", "amount": 13, "armor_penetration": 10 } ],
-      "min_mul": 0.8,
-      "max_mul": 1.1,
-      "infection_chance": 2
-    }],
+    "special_attacks": [
+      [ "EAT_FOOD", 20 ],
+      {
+        "type": "bite",
+        "cooldown": 10,
+        "move_cost": 105,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 13, "armor_penetration": 10 } ],
+        "min_mul": 0.8,
+        "max_mul": 1.1,
+        "infection_chance": 2
+      }
+    ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "CORNERED_FIGHTER" ],
     "armor": { "bash": 12,"cut": 12,"bullet": 4,"stab": 6, "electric": 1 }
   },
