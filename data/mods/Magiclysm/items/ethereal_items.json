@@ -421,8 +421,8 @@
     "pocket_data": [
       {
         "ammo_restriction": { "arrow": 60, "bolt": 60, "arrow_orichalcum": 60 },
-        "weight_multiplier": 0.5,
-        "volume_multiplier": 0.5,
+        "weight_multiplier": 0.33333,
+        "volume_multiplier": 0.33333,
         "moves": 20
       }
     ],
@@ -455,8 +455,8 @@
     "pocket_data": [
       {
         "ammo_restriction": { "arrow": 120, "bolt": 120, "arrow_orichalcum": 120 },
-        "weight_multiplier": 0.25,
-        "volume_multiplier": 0.25,
+        "weight_multiplier": 0.16667,
+        "volume_multiplier": 0.16667,
         "moves": 20
       }
     ],
