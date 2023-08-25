@@ -203,7 +203,7 @@ static void parse_vp_reqs( const JsonObject &obj, const vpart_id &id, const std:
 }
 
 static void parse_vp_control_reqs( const JsonObject &obj, const vpart_id &id,
-                                   const std::string &key,
+                                   const std::string_view &key,
                                    vp_control_req &req )
 {
     if( !obj.has_object( key ) ) {
