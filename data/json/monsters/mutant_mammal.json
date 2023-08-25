@@ -31,27 +31,30 @@
       {
         "type": "bite",
         "cooldown": 15,
-        "move_cost":40,
+        "move_cost": 40,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 9, "armor_penetration": 10 } ],
         "min_mul": 0.8,
         "max_mul": 1.1,
         "infection_chance": 2
-      }, {
+      },
+      {
         "type": "bite",
         "cooldown": 15,
-        "move_cost":40,
+        "move_cost": 40,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 9, "armor_penetration": 10 } ],
         "min_mul": 0.8,
         "max_mul": 1.1,
         "infection_chance": 2
-      }, {
+      },
+      {
         "type": "bite",
         "cooldown": 15,
-        "move_cost":40,
+        "move_cost": 40,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 9, "armor_penetration": 10 } ],
         "min_mul": 0.8,
         "max_mul": 1.1,
-        "infection_chance": 2 }
+        "infection_chance": 2
+      }
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "SOUND" ],
@@ -60,7 +63,7 @@
     "families": [ "prof_intro_biology" ],
     "zombify_into": "mon_meat_cocoon_med",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "STUMBLES", "KEENNOSE" ],
-    "armor": { "bash": 12,"cut": 12,"bullet": 8,"stab": 8, "electric": 1 }
+    "armor": { "bash": 12, "cut": 12, "bullet": 8, "stab": 8, "electric": 1 }
   },
   {
     "id": "mon_beaver_mutant_huge",
