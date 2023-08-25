@@ -156,7 +156,6 @@ static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_traps( "traps" );
 static const skill_id skill_unarmed( "unarmed" );
 
-
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static const update_mapgen_id update_mapgen_faction_wall_level_E_1( "faction_wall_level_E_1" );
@@ -186,7 +185,6 @@ static const std::string var_time_between_succession =
 
 static const std::string var_timer_time_of_last_succession =
     "npctalk_var_timer_time_of_last_succession";
-
 
 //  These strings are matched against recipe group 'building_type'. Definite candidates for JSON definitions of
 //  the various UI strings corresponding to these groups.
@@ -575,7 +573,7 @@ static bool extract_and_check_orientation_flags( const recipe_id &recipe,
     } else if( dir == point_west ) {
         dir_string = "W";
     } else if( dir == point_zero ) {
-        dir_string = "";  //  Will result in "hidden" flags that can actually affect the core.
+        dir_string.clear();  //  Will result in "hidden" flags that can actually affect the core.
     } else if( dir == point_east ) {
         dir_string = "E";
     } else if( dir == point_south_west ) {
@@ -1106,7 +1104,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         }
 
         //  Code to deal with legacy construction (Changed during 0.F)
-        miss_id.parameters = "";
+        miss_id.parameters.clear();
         npc_list = get_mission_workers( miss_id );
 
         if( !npc_list.empty() ) {

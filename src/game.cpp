@@ -2138,7 +2138,6 @@ int game::inventory_item_menu( item_location locThisItem,
                 ui = nullptr;
             }
 
-
             switch( cMenu ) {
                 case 'a': {
                     contents_change_handler handler;
@@ -5203,7 +5202,6 @@ bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, 
     }
     return false;
 }
-
 
 bool game::find_nearby_spawn_point( const tripoint &target, int min_radius,
                                     int max_radius, tripoint &point, bool outdoor_only, bool indoor_only, bool open_air_allowed )
@@ -11481,8 +11479,6 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
             c->remove_effect( eff.get_id(), eff.get_bp() );
         }
     }
-
-
 
     bool thru = true;
     const bool is_u = c == &u;

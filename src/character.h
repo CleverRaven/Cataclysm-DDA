@@ -521,7 +521,6 @@ class Character : public Creature, public visitable
         // initialize avatar and avatar mocks
         void initialize( bool learn_recipes = true );
 
-
         Character *as_character() override {
             return this;
         }
@@ -3474,7 +3473,6 @@ class Character : public Creature, public visitable
         void calculate_leak_level();
         /** Sets leak_level_dirty to true */
         void invalidate_leak_level_cache();
-
 
         /** Creates an auditory hallucination */
         void sound_hallu();

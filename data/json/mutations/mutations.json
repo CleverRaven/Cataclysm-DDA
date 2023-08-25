@@ -1181,7 +1181,7 @@
     "id": "MARTIAL_ARTS2",
     "name": { "str": "Self-Defense Classes" },
     "points": 2,
-    "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Boxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
+    "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Boxing, Kickboxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
     "player_display": false,
     "initial_ma_styles": [
       "style_krav_maga",
@@ -1190,6 +1190,7 @@
       "style_capoeira",
       "style_zui_quan",
       "style_wingchun",
+      "style_kickboxing",
       "style_boxing"
     ],
     "valid": false
@@ -8326,6 +8327,17 @@
     "description": "You are experienced in the Sweet Science of boxing.  You could've had a shot at a local boxing tournament, if the Cataclysm hadn't screwed that up.",
     "valid": false,
     "initial_ma_styles": [ "style_boxing" ],
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_KICKBOXER",
+    "name": { "str": "Kickboxer" },
+    "points": 0,
+    "description": "You have some training in the art of kickboxing.  It's just boxing with kicks, right?",
+    "valid": false,
+    "initial_ma_styles": [ "style_kickboxing" ],
     "purifiable": false,
     "profession": true
   },

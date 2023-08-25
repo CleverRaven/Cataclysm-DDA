@@ -3231,7 +3231,6 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     std::string overlay_id;
     std::string variant;
 
-
     // first get effects
     for( const auto &eff_pr : *effects ) {
         rval.emplace_back( "effect_" + eff_pr.first.str(), "" );
@@ -3421,7 +3420,6 @@ bool Character::meets_requirements( const item &it, const item &context ) const
     const item &ctx = !context.is_null() ? context : it;
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
-
 
 void Character::normalize()
 {
@@ -6190,7 +6188,6 @@ float Character::get_bmi() const
     return get_bmi_lean() + get_bmi_fat();
 }
 
-
 float Character::get_bmi_lean() const
 {
     //strength BMIs decrease to zero as you starve (muscle atrophy)
@@ -6201,7 +6198,6 @@ float Character::get_bmi_lean() const
     }
     return 12.0f + get_str_base();
 }
-
 
 float Character::get_bmi_fat() const
 {
@@ -7965,7 +7961,6 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
             source->add_effect( effect_blind, 2_turns );
         }
     }
-
 
     map &here = get_map();
     const optional_vpart_position veh_part = here.veh_at( pos() );

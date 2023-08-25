@@ -78,7 +78,6 @@ static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
 static const bionic_id bio_razors( "bio_razors" );
 static const bionic_id bio_shock( "bio_shock" );
 
-
 static const character_modifier_id
 character_modifier_limb_dodge_mod( "limb_dodge_mod" );
 static const character_modifier_id
@@ -1233,7 +1232,6 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
     float dmg = dt == damage_bash ? 0.f : u.mabuff_damage_bonus( dt ) + weap.damage_melee( dt );
     bool unarmed = attack_vector != "WEAPON";
     int arpen = 0;
-
 
     float skill = u.get_skill_level( unarmed ? skill_unarmed : dt->skill );
 
