@@ -793,18 +793,18 @@
   },
   {
     "type": "effect_type",
-    "id": "magus_slowfall",
+    "id": "effect_magus_slowfall",
     "name": [ "Slowfall" ],
     "desc": [ "You won't hit the ground nearly as hard anymore." ],
     "apply_message": "",
-    "remove_message": "Your can feel gravity take hold of you again.",
+    "remove_message": "You can feel gravity take hold of you again.",
     "rating": "good",
     "enchantments": [
       {
         "values": [
           {
             "value": "FALL_DAMAGE",
-            "multiply": { "math": [ "(( u_val('spell_level', 'spell: magus_slowfall') * -0.1) - 0.9 )" ] }
+            "multiply": { "math": [ "(( u_val('spell_level', 'spell: magus_slowfall') * -0.01) - 0.9 )" ] }
           }
         ]
       }
