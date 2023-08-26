@@ -1625,7 +1625,7 @@ class Character : public Creature, public visitable
         /** Returns solar items connected to cable charger bionic */
         std::vector<item *> get_cable_solar();
         /** Returns vehicles connected to cable charger bionic */
-        std::vector<vehicle *> get_cable_vehicle();
+        std::vector<vehicle *> get_cable_vehicle() const;
 
         /**Get stat bonus from bionic*/
         int get_mod_stat_from_bionic( const character_stat &Stat ) const;

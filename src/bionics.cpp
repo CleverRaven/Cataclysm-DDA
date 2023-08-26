@@ -3432,7 +3432,7 @@ std::vector<item *> Character::get_cable_solar()
     return solar_sources;
 }
 
-std::vector<vehicle *> Character::get_cable_vehicle()
+std::vector<vehicle *> Character::get_cable_vehicle() const
 {
     std::vector<vehicle *> remote_vehicles;
 
