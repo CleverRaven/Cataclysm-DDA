@@ -55,6 +55,9 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#if defined(MACOSX)
+#   include <unitstd.h> // getpid()
+#endif
 
 #if defined(PREFIX)
 #   undef PREFIX
