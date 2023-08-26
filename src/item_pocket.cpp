@@ -2065,13 +2065,10 @@ void item_pocket::add( const item &it, item **ret )
     }
 }
 
-void item_pocket::add( const item &it, const int copies, item **ret )
+void item_pocket::add( const item &it, const int copies, std::vector<item *> &added )
 {
-    std::list<item>::iterator first = contents.insert( contents.end(), copies, it );
-    if( ret == nullptr ) {
-        restack();
-    } else {
-        *ret = restack( &*first );
+    for( auto iter = contents.insert( contents.end(), copies, it ); iter != contents.end(); iter++ ) {
+        added.push_back( &*iter );
     }
 }
 

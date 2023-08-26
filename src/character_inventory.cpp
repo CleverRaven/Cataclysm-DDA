@@ -246,23 +246,25 @@ item_location Character::try_add( item it, int &copies_remaining, const item *av
             max_copies = copies_remaining;
         }
 
-        item *newit = nullptr;
-        pocket.second->add( it, max_copies, &newit );
+        std::vector<item *>newits;
+        pocket.second->add( it, max_copies, newits );
 
         // Give invlet to the first item created.
         if( !first_item_added ) {
-            first_item_added = item_location( pocket.first, newit );
+            first_item_added = item_location( pocket.first, newits.front() );
             if( invlet ) {
                 first_item_added->invlet = invlet;
             }
         }
-        if( !invlet && ( !it.count_by_charges() || it.charges == newit->charges ) ) {
-            inv->update_invlet( *newit, true, original_inventory_item );
+        if( !invlet ) {
+            inv->update_invlet( *newits.front(), true, original_inventory_item );
         }
 
         copies_remaining -= max_copies;
 
-        newit->on_pickup( *this );
+        for( item *it : newits ) {
+            it->on_pickup( *this );
+        }
         pocket.first.on_contents_changed();
         pocket.second->on_contents_changed();
     }
@@ -310,7 +312,8 @@ item_location Character::i_add( item it, int &copies_remaining,
     if( it.count_by_charges() ) {
         it.charges = copies_remaining;
         copies_remaining = 0;
-        return i_add( it, true, avoid, original_inventory_item, allow_drop, allow_wield, ignore_pkt_settings );
+        return i_add( it, true, avoid, original_inventory_item,
+                      allow_drop, allow_wield, ignore_pkt_settings );
     }
     invalidate_inventory_validity_cache();
     invalidate_leak_level_cache();
