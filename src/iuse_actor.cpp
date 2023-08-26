@@ -4450,10 +4450,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
                 link_menu.addentry( 20, has_loose_end, -1, _( "Attach to Cable Charger System CBM" ) );
             }
         }
-        if( targets.count( link_state::ups ) > 0 ) {
-            if( !( p->all_items_with( flag_IS_UPS ) ).empty() ) {
-                link_menu.addentry( 21, has_loose_end, -1, _( "Attach to UPS" ) );
-            }
+        if( targets.count( link_state::ups ) > 0 && p->has_item_with_flag( flag_IS_UPS ) ) {
+            link_menu.addentry( 21, has_loose_end, -1, _( "Attach to UPS" ) );
         }
         if( targets.count( link_state::solarpack ) > 0 ) {
             const bool has_solar_pack_on = p->worn_with_flag( flag_SOLARPACK_ON );
@@ -4543,7 +4541,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
             link_menu.addentry( 20, has_loose_end && !it.link->has_state( link_state::bio_cable ),
                                 -1, _( "Attach loose end to Cable Charger System CBM" ) );
         }
-        if( targets.count( link_state::ups ) > 0 && !( p->all_items_with( flag_IS_UPS ) ).empty() ) {
+        if( targets.count( link_state::ups ) > 0 && p->has_item_with_flag( flag_IS_UPS ) ) {
             link_menu.addentry( 21, has_loose_end && it.link->has_state( link_state::bio_cable ),
                                 -1, _( "Attach loose end to UPS" ) );
         }
