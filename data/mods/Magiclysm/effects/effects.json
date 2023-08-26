@@ -722,5 +722,107 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sense_outsiders",
+    "name": [ "Sense Outsider" ],
+    "desc": [ "You can sense the presence of things that should not be." ],
+    "apply_message": "",
+    "remove_message": "Your awareness of outsiders fades.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SIGHT_RANGE_NETHER",
+            "add": { "math": [ "(( u_val('spell_level', 'spell: animist_sense_outsiders') * 2.5) + 3)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_kelvinist_anti_cold",
+    "name": [ "Cloak of Warmth" ],
+    "desc": [ "The air around you is warmer thanks to your magic." ],
+    "apply_message": "",
+    "remove_message": "A cool breeze hits your skin.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "emitter": "emit_kelvinist_anti_cold",
+        "values": [
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+          {
+            "value": "ARMOR_COLD",
+            "add": { "math": [ "( u_val('spell_level', 'spell: kelvinist_anti_cold') * -1)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_kelvinist_anti_heat",
+    "name": [ "Cloak of Chill" ],
+    "desc": [ "The air around you is cooler thanks to your magic." ],
+    "apply_message": "",
+    "remove_message": "A warm breeze hits your skin.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "emitter": "emit_kelvinist_anti_heat",
+        "values": [
+          { "value": "CLIMATE_CONTROL_CHILL", "add": 50 },
+          {
+            "value": "ARMOR_HEAT",
+            "add": { "math": [ "( u_val('spell_level', 'spell: kelvinist_anti_heat') * -1)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_magus_slowfall",
+    "name": [ "Slowfall" ],
+    "desc": [ "You won't hit the ground nearly as hard anymore." ],
+    "apply_message": "",
+    "remove_message": "You can feel gravity take hold of you again.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "FALL_DAMAGE",
+            "multiply": { "math": [ "(( u_val('spell_level', 'spell: magus_slowfall') * -0.01) - 0.9 )" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_magus_spiderclimb",
+    "name": [ "Spider Climb" ],
+    "desc": [ "You can quickly ascend sheer surfaces." ],
+    "apply_message": "",
+    "remove_message": "Your enhanced climbing ability vanishes.",
+    "rating": "good",
+    "flags": [ "CLIMB_NO_LADDER", "WALL_CLING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_swim_speed",
+    "name": [ "Frog Limbs" ],
+    "desc": [ "Your hands and feet have grown webbing, enabling faster swimming." ],
+    "//": "Minor stamina regen to help with swimming.  If people want to cast this spell as a stamina buff, they're welcome to do it and deal with their froggy limbs.",
+    "apply_message": "",
+    "remove_message": "With an unpleasant twisting sensation your hands and feet return to normal.",
+    "rating": "good",
+    "flags": [ "WEBBED_HANDS", "WEBBED_FEET" ],
+    "base_mods": { "stamina_min": [ 10 ] }
   }
 ]
