@@ -2693,9 +2693,10 @@ class Character : public Creature, public visitable
         // Returns a set of all items that have the given flag (@ref item::has_flag). Uses or creates caches from @ref inv_search_caches.
         std::set<item *> &all_items_with( const flag_id &flag ) const;
         // Returns a set of all items that pass the specified boolean item function. Uses or creates caches from @ref inv_search_caches with the given key.
-        std::set<item *> &all_items_with( std::string key, bool( item::*filter_func )() const ) const;
+        std::set<item *> &all_items_with( const std::string &key,
+                                          bool( item::*filter_func )() const ) const;
         // Returns a set of all items that have the given flag (@ref item::has_flag) and pass the specified boolean item function. Uses or creates caches from @ref inv_search_caches with the given key.
-        std::set<item *> &all_items_with( std::string key, const flag_id &flag,
+        std::set<item *> &all_items_with( const std::string &key, const flag_id &flag,
                                           bool( item::*filter_func )() const ) const;
 
         // Has a weapon, inventory item or worn item with flag. Uses or creates caches from @ref inv_search_caches.

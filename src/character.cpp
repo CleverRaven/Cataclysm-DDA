@@ -8920,7 +8920,7 @@ std::set<item *> &Character::all_items_with( const flag_id &flag ) const
     return inv_search_caches[key].items;
 }
 
-std::set<item *> &Character::all_items_with( std::string key,
+std::set<item *> &Character::all_items_with( const std::string &key,
         bool( item::*filter_func )() const ) const
 {
     auto iter = inv_search_caches.find( key );
@@ -8941,7 +8941,7 @@ std::set<item *> &Character::all_items_with( std::string key,
     return inv_search_caches[key].items;
 }
 
-std::set<item *> &Character::all_items_with( std::string key, const flag_id &flag,
+std::set<item *> &Character::all_items_with( const std::string &key, const flag_id &flag,
         bool( item::*filter_func )() const ) const
 {
     auto iter = inv_search_caches.find( key );
