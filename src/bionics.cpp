@@ -3366,9 +3366,12 @@ std::vector<item *> Character::get_cable_ups()
 {
     std::vector<item *> stored_fuels;
 
-    const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.link && it.link->has_states( link_state::ups, link_state::bio_cable );
-    } );
+    std::set<item *> cables = all_items_with( flag_CABLE_SPOOL );
+    for( item *it : cables ) {
+        if( !it->link || !it->link->has_states( link_state::ups, link_state::bio_cable ) ) {
+            cables.erase( it );
+        }
+    }
     int n = cables.size();
     if( n == 0 ) {
         return stored_fuels;
@@ -3399,9 +3402,12 @@ std::vector<item *> Character::get_cable_solar()
 {
     std::vector<item *> solar_sources;
 
-    const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.link && it.link->has_states( link_state::solarpack, link_state::bio_cable );
-    } );
+    std::set<item *> cables = all_items_with( flag_CABLE_SPOOL );
+    for( item *it : cables ) {
+        if( !it->link || !it->link->has_states( link_state::solarpack, link_state::bio_cable ) ) {
+            cables.erase( it );
+        }
+    }
     int n = cables.size();
     if( n == 0 ) {
         return solar_sources;
@@ -3430,11 +3436,14 @@ std::vector<vehicle *> Character::get_cable_vehicle()
 {
     std::vector<vehicle *> remote_vehicles;
 
-    const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.link && it.link->has_state( link_state::bio_cable ) &&
-               ( it.link->has_state( link_state::vehicle_battery ) ||
-                 it.link->has_state( link_state::vehicle_port ) );
-    } );
+    std::set<item *> cables = all_items_with( flag_CABLE_SPOOL );
+    for( item *it : cables ) {
+        if( !it->link || !it->link->has_state( link_state::bio_cable ) ||
+            ( !it->link->has_state( link_state::vehicle_battery ) &&
+              !it->link->has_state( link_state::vehicle_port ) ) ) {
+            cables.erase( it );
+        }
+    }
     int n = cables.size();
     if( n == 0 ) {
         return remote_vehicles;
