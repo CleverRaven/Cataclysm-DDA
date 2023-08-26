@@ -87,7 +87,7 @@
     "species": [ "MAMMAL" ],
     "volume": "154250 ml",
     "weight": "154250 g",
-    "hp": 200,
+    "hp": 180,
     "speed": 140,
     "attack_cost": 140,
     "material": [ "flesh" ],
@@ -126,7 +126,7 @@
       }
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "CORNERED_FIGHTER" ],
-    "armor": { "bash": 12, "cut": 12, "bullet": 4, "stab": 6, "electric": 1 }
+    "armor": { "bash": 12, "cut": 12, "bullet": 4, "electric": 1 }
   },
   {
     "id": "mon_beaver",
@@ -2168,7 +2168,7 @@
     "species": [ "MAMMAL" ],
     "volume": "386000 ml",
     "weight": "386 kg",
-    "hp": 200,
+    "hp": 180,
     "speed": 200,
     "attack_cost": 200,
     "material": [ "flesh" ],
