@@ -4344,6 +4344,40 @@ bool vehicle::is_in_water( bool deep_water ) const
     return deep_water ? in_deep_water : in_water;
 }
 
+bool vehicle::can_control_in_air( const Character &pc ) const
+{
+    for( const int index : control_req_parts ) {
+        for( const proficiency_id prof : parts[index].info().control_air.proficiencies ) {
+            if( !pc.has_proficiency( prof ) ) {
+                return false;
+            }
+        }
+        for( const std::pair<string_id<Skill>, int> &skill : parts[index].info().control_air.skills ) {
+            if( pc.get_skill_level( skill.first ) < skill.second ) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool vehicle::can_control_on_land( const Character &pc ) const
+{
+    for( const int index : control_req_parts ) {
+        for( const proficiency_id prof : parts[index].info().control_land.proficiencies ) {
+            if( !pc.has_proficiency( prof ) ) {
+                return false;
+            }
+        }
+        for( const std::pair<string_id<Skill>, int> &skill : parts[index].info().control_land.skills ) {
+            if( pc.get_skill_level( skill.first ) < skill.second ) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 double vehicle::coeff_water_drag() const
 {
     if( !coeff_water_dirty ) {
@@ -6027,6 +6061,7 @@ void vehicle::refresh( const bool remove_fakes )
     planters.clear();
     accessories.clear();
     cable_ports.clear();
+    control_req_parts.clear();
 
     alternator_load = 0;
     extra_drag = 0_W;
@@ -6184,6 +6219,9 @@ void vehicle::refresh( const bool remove_fakes )
         }
         if( vpi.has_flag( VPFLAG_CABLE_PORTS ) || vpi.has_flag( VPFLAG_APPLIANCE ) ) {
             cable_ports.push_back( p );
+        }
+        if( vpi.has_control_req() ) {
+            control_req_parts.push_back( p );
         }
     }
 

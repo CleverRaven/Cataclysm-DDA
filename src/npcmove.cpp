@@ -147,7 +147,9 @@ static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_NPC_RETREAT( "NPC_RETREAT" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
-static constexpr float NPC_DANGER_MAX = 150.0f;
+static constexpr float NPC_MONSTER_DANGER_MAX = 150.0f;
+static constexpr float NPC_CHARACTER_DANGER_MAX = 250.0f;
+static constexpr float NPC_COWARDICE_MODIFIER = 0.25f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
 
 // TODO: These would be much better using common code or constants from character.cpp,
@@ -275,11 +277,26 @@ tripoint npc::good_escape_direction( bool include_pos )
         const zone_manager &mgr = zone_manager::get_manager();
         std::optional<tripoint_abs_ms> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
                 fac_id );
+        // if there is a retreat zone in range, go there
+        if( !retreat_target ) {
+            //if not, consider regrouping on the player if they're getting far away.
+            Character &player_character = get_player_character();
+            int dist = rl_dist( pos(), player_character.pos() );
+            int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
+            if( dist > def_radius ) {
+                tripoint_bub_ms player_pos = get_player_character().pos_bub();
+                while( player_pos == get_player_character().pos_bub() ) {
+                    player_pos.x() += rng( -1, 1 );
+                    player_pos.y() += rng( -1, 1 );
+                }
+                retreat_target = here.getglobal( player_pos );
+            }
+        }
         if( retreat_target && *retreat_target != abs_pos ) {
             update_path( here.getlocal( *retreat_target ) );
-            if( !path.empty() ) {
-                return path[0];
-            }
+        }
+        if( !path.empty() ) {
+            return path[0];
         }
     }
 
@@ -387,10 +404,10 @@ float npc::evaluate_enemy( const Creature &target ) const
     if( target.is_monster() ) {
         const monster &mon = dynamic_cast<const monster &>( target );
         float diff = static_cast<float>( mon.type->difficulty );
-        return std::min( diff, NPC_DANGER_MAX );
+        return std::min( diff, NPC_MONSTER_DANGER_MAX );
     } else if( target.is_npc() || target.is_avatar() ) {
         return std::min( character_danger( dynamic_cast<const Character &>( target ) ),
-                         NPC_DANGER_MAX );
+                         NPC_CHARACTER_DANGER_MAX );
     } else {
         return 0.0f;
     }
@@ -494,7 +511,7 @@ void npc::assess_danger()
             continue;
         }
         int dist = rl_dist( pos(), pt );
-        cur_threat_map[direction_from( pos(), pt )] += 2.0f * ( NPC_DANGER_MAX - dist );
+        cur_threat_map[direction_from( pos(), pt )] += 2.0f * ( NPC_MONSTER_DANGER_MAX - dist );
         if( dist < 3 && !has_effect( effect_npc_fire_bad ) ) {
             warn_about( "fire_bad", 1_minutes );
             add_effect( effect_npc_fire_bad, 5_turns );
@@ -604,11 +621,8 @@ void npc::assess_danger()
         ai_cache.danger_assessment = assessment;
         return;
     }
-    // being outnumbered is serious.  Scale up your assessment if you're outnumbered.
-    if( hostile_count > friendly_count ) {
-        assessment *= ( hostile_count / static_cast<float>( friendly_count ) );
-    }
 
+    // Warn about sufficiently risky nearby hostiles
     const auto handle_hostile = [&]( const Character & foe, float foe_threat,
     const std::string & bogey, const std::string & warning ) {
         int dist = rl_dist( pos(), foe.pos() );
@@ -637,6 +651,7 @@ void npc::assess_danger()
         }
 
 
+
         if( !is_player_ally() || is_too_close || ok_by_rules( foe, dist, scaled_distance ) ) {
             float priority = std::max( foe_threat - 2.0f * ( scaled_distance - 1 ),
                                        is_too_close ? std::max( foe_threat, NPC_DANGER_VERY_LOW ) :
@@ -651,6 +666,7 @@ void npc::assess_danger()
         }
         return foe_threat;
     };
+
 
     for( const weak_ptr_fast<Creature> &guy : ai_cache.hostile_guys ) {
         Character *foe = dynamic_cast<Character *>( guy.lock().get() );
@@ -669,24 +685,36 @@ void npc::assess_danger()
         assessment = std::max( min_danger, assessment - guy_threat * 0.5f );
     }
 
+    // being outnumbered is serious.  Do a flat scale up your assessment if you're outnumbered.
+    if( hostile_count > friendly_count ) {
+        assessment *= std::min( hostile_count / static_cast<float>( friendly_count ), 1.0f );
+    }
+
     if( sees( player_character.pos() ) ) {
-        // Mod for the player
-        // cap player difficulty at 150
+        // Mod for the player's danger level, weight it higher if player is very close
+        // When the player is almost adjacent, it can exceed max danger ratings, so the
+        // NPC will try hard not to break and run while in formation.
         float player_diff = evaluate_enemy( player_character );
+        int dist = rl_dist( pos(), player_character.pos() );
         if( is_enemy() ) {
             assessment += handle_hostile( player_character, player_diff, translate_marker( "maniac" ),
                                           "kill_player" );
         } else if( is_friendly( player_character ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
-            assessment = std::max( min_danger, assessment - player_diff * 0.5f );
+            if( dist <= 3 ) {
+                assessment = std::max( min_danger, assessment - player_diff * ( 4 - dist ) / 2 );
+            } else {
+                assessment = std::max( min_danger, assessment - player_diff * 0.5f );
+            }
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
     }
 
-    assessment *= 0.5f;
+    assessment *= NPC_COWARDICE_MODIFIER;
     if( !has_effect( effect_npc_run_away ) && !has_effect( effect_npc_fire_bad ) ) {
-        float my_diff = evaluate_enemy( *this ) * 0.5f + rng( 0, personality.bravery * 2 );
-        add_msg_debug( debugmode::DF_NPC, "assessment: %1f, diff: %2f.", assessment, my_diff );
+        float my_diff = evaluate_enemy( *this ) * 0.5f + rng( 0,
+                        ( personality.bravery - get_pain() / 10 ) * 2 ) ;
+        add_msg_debug( debugmode::DF_NPC, "Enemy Danger: %1f, Ally Strength: %2f.", assessment, my_diff );
         if( my_diff < assessment ) {
             time_duration run_away_for = 10_turns + 1_turns * rng( 0, 10 ) - 1_turns * personality.bravery;
             warn_about( "run_away", run_away_for );
