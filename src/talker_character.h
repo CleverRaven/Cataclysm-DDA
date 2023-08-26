@@ -92,6 +92,17 @@ class talker_character_const: public talker_cloner<talker_character_const>
         bool is_mute() const override;
         std::string get_value( const std::string &var_name ) const override;
 
+        // stats, skills, traits, bionics, magic, and proficiencies
+        std::vector<skill_id> skills_offered_to( const talker &student ) const override;
+        std::string skill_training_text( const talker &, const skill_id & ) const override;
+        std::vector<proficiency_id> proficiencies_offered_to( const talker &student ) const override;
+        std::string proficiency_training_text( const talker &student,
+                                               const proficiency_id &proficiency ) const override;
+        std::vector<matype_id> styles_offered_to( const talker &student ) const override;
+        std::string style_training_text( const talker &, const matype_id & ) const override;
+        std::vector<spell_id> spells_offered_to( talker &student ) const override;
+        std::string spell_training_text( talker &, const spell_id & ) const override;
+
         // inventory, buying, and selling
         bool is_wearing( const itype_id &item_id ) const override;
         int charges_of( const itype_id &item_id ) const override;

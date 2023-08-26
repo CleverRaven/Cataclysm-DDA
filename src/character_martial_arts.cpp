@@ -147,11 +147,11 @@ std::string character_martial_arts::selected_style_name( const Character &owner 
 }
 
 std::vector<matype_id> character_martial_arts::get_unknown_styles( const character_martial_arts
-        &from ) const
+        &from, bool teachable_only ) const
 {
     std::vector<matype_id> ret;
     for( const matype_id &i : from.ma_styles ) {
-        if( !has_martialart( i ) ) {
+        if( ( !teachable_only || i->teachable ) && !has_martialart( i ) ) {
             ret.push_back( i );
         }
     }

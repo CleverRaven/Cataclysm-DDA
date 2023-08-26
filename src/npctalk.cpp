@@ -168,22 +168,12 @@ static std::vector<effect_on_condition_id> load_eoc_vector( const JsonObject &jo
     return eocs;
 }
 
-time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
-{
-    return calc_skill_training_time_char( p, get_player_character(), skill );
-}
-
 /** Time (in turns) and cost (in cent) for training: */
 time_duration calc_skill_training_time_char( const Character &teacher, const Character &student,
         const skill_id &skill )
 {
     return 1_hours + 30_minutes * student.get_skill_level( skill ) -
            1_minutes * teacher.get_skill_level( skill );
-}
-
-int calc_skill_training_cost( const npc &p, const skill_id &skill )
-{
-    return calc_skill_training_cost_char( p, get_player_character(), skill );
 }
 
 int calc_skill_training_cost_char( const Character &teacher, const Character &student,
@@ -194,12 +184,6 @@ int calc_skill_training_cost_char( const Character &teacher, const Character &st
     }
     int skill_level = student.get_knowledge_level( skill );
     return 1000 * ( 1 + skill_level ) * ( 1 + skill_level );
-}
-
-time_duration calc_proficiency_training_time( const proficiency_id &proficiency )
-{
-    const Character &c = get_player_character();
-    return calc_proficiency_training_time( c, c, proficiency );
 }
 
 time_duration calc_proficiency_training_time( const Character &, const Character &student,
@@ -214,17 +198,7 @@ int calc_proficiency_training_cost( const Character &teacher, const Character &s
     if( friendly_teacher( student, teacher ) ) {
         return 0;
     }
-    return to_seconds<int>( calc_proficiency_training_time( proficiency ) );
-}
-
-int calc_proficiency_training_cost( const npc &p, const proficiency_id &proficiency )
-{
-    return calc_proficiency_training_cost( p, get_player_character(), proficiency );
-}
-
-time_duration calc_ma_style_training_time( const npc &p, const matype_id &id )
-{
-    return calc_ma_style_training_time( p, get_player_character(), id );
+    return to_seconds<int>( calc_proficiency_training_time( teacher, student, proficiency ) );
 }
 
 // TODO: all styles cost the same and take the same time to train,
@@ -234,11 +208,6 @@ time_duration calc_ma_style_training_time( const Character &, const Character &,
         const matype_id & )
 {
     return 30_minutes;
-}
-
-int calc_ma_style_training_cost( const npc &p, const matype_id &id )
-{
-    return calc_ma_style_training_cost( p, get_player_character(), id );
 }
 
 int calc_ma_style_training_cost( const Character &teacher, const Character &student,
@@ -267,12 +236,13 @@ time_duration calc_spell_training_time( const Character &, const Character &stud
     }
 }
 
-int npc::calc_spell_training_cost( const bool knows, int difficulty, int level ) const
+static int calc_spell_training_cost_gen( const bool knows, int difficulty, int level )
 {
-    if( is_player_ally() ) {
-        return 0;
+    int ret = ( 100 * std::max( 1, difficulty ) * std::max( 1, level ) );
+    if( !knows ) {
+        ret = ret * 2;
     }
-    return ::calc_spell_training_cost_gen( knows, difficulty, level );
+    return ret;
 }
 
 int calc_spell_training_cost( const Character &teacher, const Character &student,
@@ -287,13 +257,13 @@ int calc_spell_training_cost( const Character &teacher, const Character &student
                                          temp_spell.get_level() );
 }
 
-int calc_spell_training_cost_gen( const bool knows, int difficulty, int level )
+int Character::calc_spell_training_cost( const bool knows, int difficulty, int level ) const
 {
-    int ret = ( 100 * std::max( 1, difficulty ) * std::max( 1, level ) );
-    if( !knows ) {
-        ret = ret * 2;
+    const npc *n = as_npc();
+    if( !n || n->is_player_ally() ) {
+        return 0;
     }
-    return ret;
+    return calc_spell_training_cost_gen( knows, difficulty, level );
 }
 
 // Rescale values from "mission scale" to "opinion scale"
@@ -464,6 +434,9 @@ static skill_id skill_select_menu( const Character &c, const std::string &prompt
     uilist nmenu;
     nmenu.text = prompt;
     for( const std::pair<const skill_id, SkillLevel> &s : *c._skills ) {
+        if( !s.first->is_teachable() ) {
+            continue;
+        }
         bool enabled = s.second.level() > 0;
         std::string entry = string_format( "%s (%d)", s.first.str(), s.second.level() );
         nmenu.addentry( i, enabled, MENU_AUTOASSIGN, entry );

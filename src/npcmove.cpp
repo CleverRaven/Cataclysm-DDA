@@ -606,7 +606,7 @@ void npc::assess_danger()
     }
     // being outnumbered is serious.  Scale up your assessment if you're outnumbered.
     if( hostile_count > friendly_count ) {
-        assessment *= ( hostile_count / friendly_count );
+        assessment *= ( hostile_count / static_cast<float>( friendly_count ) );
     }
 
     const auto handle_hostile = [&]( const Character & foe, float foe_threat,
