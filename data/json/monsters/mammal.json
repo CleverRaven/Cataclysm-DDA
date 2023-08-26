@@ -109,7 +109,33 @@
     "zombify_into": "mon_zombear",
     "harvest": "bear_with_skull",
     "dissect": "dissect_ursine_sample_small",
-    "families": [ "prof_intro_biology" ],
+    "weakpoints": [
+      {
+        "name": "the inside of the mouth",
+        "armor_penalty": { "physical": 20 },
+        "coverage": 3,
+        "damage_mult": { "all": 1.5 },
+        "crit_mult": { "all": 1.5 }
+      },
+      {
+        "name": "the eye",
+        "armor_penalty": { "physical": 20 },
+        "coverage": 1,
+        "damage_mult": { "all": 1.5 },
+        "crit_mult": { "all": 1.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 3 ], "chance": 50, "message": "The %s is blinded!", "damage_required": [ 1, 40 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 20,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 30, 199 ]
+          }
+        ]
+      }
+    ],
+    "families": [ "prof_intro_biology", "prof_wp_large_mammal" ],
     "reproduction": { "baby_monster": "mon_bear_cub", "baby_count": 1, "baby_timer": 700 },
     "//": "220 days gestation period, the mother and cubs remain together for 16-17 months.",
     "baby_flags": [ "SPRING" ],
@@ -2191,7 +2217,33 @@
     "upgrades": { "half_life": 90, "into": "mon_tusked_moose" },
     "harvest": "moose_with_skull",
     "dissect": "dissect_cattle_sample_large",
-    "families": [ "prof_intro_biology" ],
+    "weakpoints": [
+      {
+        "name": "the inside of the mouth",
+        "armor_penalty": { "physical": 20 },
+        "coverage": 3,
+        "damage_mult": { "all": 1.5 },
+        "crit_mult": { "all": 1.5 }
+      },
+      {
+        "name": "the eye",
+        "armor_penalty": { "physical": 20 },
+        "coverage": 1,
+        "damage_mult": { "all": 1.5 },
+        "crit_mult": { "all": 1.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 3 ], "chance": 50, "message": "The %s is blinded!", "damage_required": [ 1, 40 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 20,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 30, 199 ]
+          }
+        ]
+      }
+    ],
+    "families": [ "prof_intro_biology", "prof_wp_large_mammal" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
     "special_attacks": [ [ "EAT_CROP", 60 ], { "id": "bio_op_takedown", "move_cost": 200, "min_mul": 1.5, "max_mul": 3 } ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER" ],
