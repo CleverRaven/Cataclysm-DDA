@@ -1924,7 +1924,7 @@ static void character_edit_menu()
             }
             you.worn.on_takeoff( you );
             you.clear_worn();
-            you.inv->clear();
+            you.clear_inv();
             you.remove_weapon();
             break;
         case D_DROP_ITEMS:

@@ -56,7 +56,7 @@ void player_difficulty::reset_npc( Character &dummy )
     // delete all worn items.
     dummy.clear_worn();
     dummy.calc_encumbrance();
-    dummy.inv->clear();
+    dummy.clear_inv();
     dummy.remove_weapon();
     dummy.clear_mutations();
 

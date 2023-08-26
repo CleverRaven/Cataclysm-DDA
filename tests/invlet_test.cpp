@@ -457,7 +457,7 @@ static void invlet_test( avatar &dummy, const inventory_location from, const inv
         invlet_state expected_second_invlet_state = second_invlet_state;
 
         // remove all items
-        dummy.inv->clear();
+        dummy.clear_inv();
         dummy.clear_worn();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos() );
@@ -486,36 +486,36 @@ static void invlet_test( avatar &dummy, const inventory_location from, const inv
         item *final_first = nullptr;
         item *final_second = nullptr;
         switch( action ) {
-            case REMOVE_1ST_REMOVE_2ND_ADD_1ST_ADD_2ND:
-                move_item( dummy, "2", to, from );
-                move_item( dummy, "1", from, to );
-                move_item( dummy, "2", from, to );
-                final_first = &item_at( dummy, "1", to );
-                final_second = &item_at( dummy, "2", to );
-                break;
-            case REMOVE_1ST_REMOVE_2ND_ADD_2ND_ADD_1ST:
-                move_item( dummy, "2", to, from );
-                move_item( dummy, "2", from, to );
-                move_item( dummy, "1", from, to );
-                final_first = &item_at( dummy, "1", to );
-                final_second = &item_at( dummy, "2", to );
-                break;
-            case REMOVE_1ST_ADD_1ST:
-                move_item( dummy, "1", from, to );
-                final_first = &item_at( dummy, "1", to );
-                final_second = &item_at( dummy, "2", to );
-                break;
-            default:
-                FAIL( "unimplemented" );
-                break;
+        case REMOVE_1ST_REMOVE_2ND_ADD_1ST_ADD_2ND:
+            move_item( dummy, "2", to, from );
+            move_item( dummy, "1", from, to );
+            move_item( dummy, "2", from, to );
+            final_first = &item_at( dummy, "1", to );
+            final_second = &item_at( dummy, "2", to );
+            break;
+        case REMOVE_1ST_REMOVE_2ND_ADD_2ND_ADD_1ST:
+            move_item( dummy, "2", to, from );
+            move_item( dummy, "2", from, to );
+            move_item( dummy, "1", from, to );
+            final_first = &item_at( dummy, "1", to );
+            final_second = &item_at( dummy, "2", to );
+            break;
+        case REMOVE_1ST_ADD_1ST:
+            move_item( dummy, "1", from, to );
+            final_first = &item_at( dummy, "1", to );
+            final_second = &item_at( dummy, "2", to );
+            break;
+        default:
+            FAIL( "unimplemented" );
+            break;
         }
 
         invlet_state final_first_invlet_state = check_invlet( dummy, *final_first, invlet );
         invlet_state final_second_invlet_state = check_invlet( dummy, *final_second, invlet );
 
         INFO( test_action_desc( action, from, to, first_invlet_state, second_invlet_state,
-                                expected_first_invlet_state, expected_second_invlet_state, final_first_invlet_state,
-                                final_second_invlet_state ) );
+            expected_first_invlet_state, expected_second_invlet_state, final_first_invlet_state,
+            final_second_invlet_state ) );
         REQUIRE( final_first->typeId() == tshirt.typeId() );
         REQUIRE( final_second->typeId() == jeans.typeId() );
         CHECK( final_first_invlet_state == expected_first_invlet_state );
@@ -539,7 +539,7 @@ static void stack_invlet_test( avatar &dummy, inventory_location from, inventory
     }
 
     // remove all items
-    dummy.inv->clear();
+    dummy.clear_inv();
     dummy.clear_worn();
     dummy.remove_weapon();
     get_map().i_clear( dummy.pos() );
@@ -568,9 +568,9 @@ static void stack_invlet_test( avatar &dummy, inventory_location from, inventory
     ss << "3. " << move_action_desc( 0, from, to ) << std::endl;
     ss << "expect the two items to have different invlets" << std::endl;
     ss << "actually the two items have " <<
-       ( item_at( dummy, "1", to ).invlet != item_at( dummy, "2",
-               from ).invlet ? "different" : "the same" ) <<
-       " invlets" << std::endl;
+        ( item_at( dummy, "1", to ).invlet != item_at( dummy, "2",
+            from ).invlet ? "different" : "the same" ) <<
+        " invlets" << std::endl;
     INFO( ss.str() );
     REQUIRE( item_at( dummy, "1", to ).typeId() == tshirt1.typeId() );
     REQUIRE( item_at( dummy, "2", from ).typeId() == tshirt2.typeId() );
@@ -592,7 +592,7 @@ static void swap_invlet_test( avatar &dummy, inventory_location loc )
     REQUIRE( loc != GROUND );
 
     // remove all items
-    dummy.inv->clear();
+    dummy.clear_inv();
     dummy.clear_worn();
     dummy.remove_weapon();
     get_map().i_clear( dummy.pos() );
@@ -627,10 +627,10 @@ static void swap_invlet_test( avatar &dummy, inventory_location loc )
 
     std::stringstream ss;
     ss << "1. add two items of the same type to " << location_desc( loc ) <<
-       ", and ensure them do not stack" << std::endl;
+        ", and ensure them do not stack" << std::endl;
     ss << "2. assign different invlets to the two items" << std::endl;
     ss << "3. swap the invlets by assign one of the items with the invlet of the other item" <<
-       std::endl;
+        std::endl;
     ss << "4. move the items to " << location_desc( GROUND ) << std::endl;
     ss << "5. move the items to " << location_desc( loc ) << " again" << std::endl;
     ss << "expect the items to keep their swapped invlets" << std::endl;
@@ -672,12 +672,12 @@ static void merge_invlet_test( avatar &dummy, inventory_location from )
         invlet_state second_invlet_state = static_cast<invlet_state>( id / INVLET_STATE_NUM );
         // what the invlet should be for the merged stack
         invlet_state expected_merged_invlet_state = first_invlet_state != NONE ? first_invlet_state :
-                second_invlet_state;
+            second_invlet_state;
         char expected_merged_invlet = first_invlet_state != NONE ? invlet_1 : second_invlet_state != NONE ?
-                                      invlet_2 : 0;
+            invlet_2 : 0;
 
         // remove all items
-        dummy.inv->clear();
+        dummy.clear_inv();
         dummy.clear_worn();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos() );

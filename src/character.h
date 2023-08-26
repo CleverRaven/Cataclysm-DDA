@@ -1945,6 +1945,7 @@ class Character : public Creature, public visitable
         std::list<item> remove_worn_items_with( const std::function<bool( item & )> &filter );
 
         void clear_worn();
+        void clear_inv(); // Should always be used instead of Character.inv->clear();
 
         // returns a list of all item_location the character has, including items contained in other items.
         // only for CONTAINER pocket type; does not look for magazines

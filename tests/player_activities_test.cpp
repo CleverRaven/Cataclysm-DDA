@@ -1736,7 +1736,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
 
 static void cleanup( avatar &dummy )
 {
-    dummy.inv->clear();
+    dummy.clear_inv();
     clear_map();
 
     REQUIRE( dummy.activity.get_distractions().empty() );
