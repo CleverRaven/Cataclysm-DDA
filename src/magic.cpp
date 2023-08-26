@@ -1864,7 +1864,7 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
                     trait_cancel += ".";
                 }
             }
-            if( query_yn(
+            if( !guy.is_avatar() || query_yn(
                     _( "Learning this spell will make you a\n\n%s: %s\n\nand lock you out of\n\n%s\n\nContinue?" ),
                     sp->spell_class->name(), sp->spell_class->desc(), trait_cancel ) ) {
                 guy.set_mutation( sp->spell_class );
@@ -1878,9 +1878,10 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
     if( force || can_learn_spell( guy, sp->id ) ) {
         spellbook.emplace( sp->id, temp_spell );
         get_event_bus().send<event_type::character_learns_spell>( guy.getID(), sp->id );
-        guy.add_msg_if_player( m_good, _( "You learned %s!" ), sp->name );
+        guy.add_msg_player_or_npc( m_good, _( "You learned %s!" ), _( "<npcname> learned %s!" ), sp->name );
     } else {
-        guy.add_msg_if_player( m_bad, _( "You can't learn this spell." ) );
+        guy.add_msg_player_or_npc( m_bad, _( "You can't learn this spell." ),
+                                   _( "<npcname> can't learn this spell." ) );
     }
 }
 
