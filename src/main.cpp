@@ -151,7 +151,11 @@ void exit_handler( int s )
 
 #if !defined(_WIN32)
         if( s == 2 ) {
-            signal( s, SIG_DFL );
+            struct sigaction sigIntHandler;
+            sigIntHandler.sa_handler = SIG_DFL;
+            sigemptyset( &sigIntHandler.sa_mask );
+            sigIntHandler.sa_flags = 0;
+            sigaction( SIGINT, &sigIntHandler, nullptr );
             kill( getpid(), s );
         } else
 #endif
