@@ -376,7 +376,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_2_find",
     "type": "talk_topic",
-    "dynamic_line": "That's be for your assert, an I'm ken. If ol' Rubik could find 'er, us'n'd send out the stompers. For a yark an' a lark, though, couldst ask another of your sameworld?  Mercants or traveler-such?  It be a fine slick to a local guide.",
+    "dynamic_line": "That's be for your assert, an I'm ken.  If ol' Rubik could find 'er, us'n'd send out the stompers.  For a yark an' a lark, though, couldst ask another of your sameworld?  Mercants or traveler-such?  It be a fine slick to a local guide.",
     "//~": "that's up to you, I think.  If I could find it myself, I'd send quads out there.  Maybe it would be worth asking around to other survivors?  Seems like a good job for a local guide.",
     "responses": [
       { "text": "Then I'll find it.", "topic": "TALK_DONE", "effect": { "assign_mission": "EXODII_MISSION_WAREHOUSE" } },
