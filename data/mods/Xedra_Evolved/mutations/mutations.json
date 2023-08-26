@@ -282,5 +282,15 @@
     "starting_trait": false,
     "valid": false,
     "flags": [ "UNCANNY_DODGE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "EATER_SIXTH_SENSE",
+    "name": { "str": "Eater's Sixth Sense" },
+    "points": 0,
+    "description": "You are no longer limited to the five senses common to most humans in your hunt for the unnatural.",
+    "starting_trait": false,
+    "valid": false,
+    "enchantments": [ "hunter_of_weird" ]
   }
 ]

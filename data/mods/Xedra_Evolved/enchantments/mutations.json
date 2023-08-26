@@ -25,5 +25,21 @@
     "id": "BONUS_INVENTOR",
     "condition": "ALWAYS",
     "values": [ { "value": "MAX_MANA", "add": { "math": [ "u_skill('deduction')*50" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "hunter_of_weird",
+    "condition": "ALWAYS",
+    "hit_you_effect": [ { "id": "eater_sixth_sense", "hit_self": true, "once_in": 12 } ]
+  },
+  {
+    "id": "eater_sixth_sense",
+    "type": "SPELL",
+    "name": "Eater Sixth Sense",
+    "description": "Heals the caster.",
+    "valid_targets": [ "self" ],
+    "effect": "sense_unnatural",
+    "shape": "blast",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
   }
 ]

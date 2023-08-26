@@ -31,5 +31,25 @@
     "recurrence": [ "72 hours", "168 hours" ],
     "condition": { "u_has_items": { "item": "book_teens_deduction", "count": 1 } },
     "effect": [ { "u_message": "XE_SCRAGGY-BOO_MESSAGES_1", "snippet": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EATER_CHECK",
+    "recurrence": [ { "global_val": "ps_min_woc", "default": "1 days" }, { "global_val": "ps_max_woc", "default": "2 days" } ],
+    "global": true,
+    "effect": { "run_eocs": "EOC_eater_escalation" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_eater_escalation",
+    "recurrence": 1,
+    "condition": { "compare_num": [ { "u_val": "spell_count", "school": "EATER" }, "=", { "const": 6 } ] },
+    "effect": [
+      {
+        "u_message": "You suddenly realize that your ability to sense the unnatural has expanded to a level beyond those of the normal five senses.",
+        "type": "good",
+        "u_add_trait": "EATER_SIXTH_SENSE"
+      }
+    ]
   }
 ]
