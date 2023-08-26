@@ -10,17 +10,17 @@
 #include <QtCore/QCoreApplication>
 
 creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags flags )
-    : QMainWindow( parent, flags )
+    : QFrame( parent, flags )
 {
-    QWidget* wid = new QWidget( this );
-    this->setCentralWidget( wid );
+    // QWidget* wid = new QWidget( this );
+    // this->addWidget( wid );
     this->setAcceptDrops( true );
 
     QHBoxLayout* mainRow = new QHBoxLayout;
     QVBoxLayout* mainColumn1 = new QVBoxLayout;
     QVBoxLayout* mainColumn2 = new QVBoxLayout;
 
-    wid->setLayout( mainRow );
+    this->setLayout( mainRow );
     mainRow->addLayout( mainColumn1, 0 );
     mainRow->addLayout( mainColumn2, 1 );
 
@@ -328,7 +328,7 @@ bool creator::item_group_window::event( QEvent* event )
         return true;
     }
     //call the event method of the base class for the events that aren't handled
-    return QMainWindow::event( event );
+    return QFrame::event( event );
 }
 
 

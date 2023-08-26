@@ -65,7 +65,7 @@ static spell_type default_spell_type()
 }
 
 creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
-    : QMainWindow( parent, flags )
+    : QFrame( parent, flags )
 {
     editable_spell = default_spell_type();
 
