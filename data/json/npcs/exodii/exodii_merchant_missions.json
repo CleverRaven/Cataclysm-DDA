@@ -328,7 +328,7 @@
       {
         "text": "Beloved jaryi?  What did you just call me?",
         "topic": "TALK_EXODII_MERCHANT_jaryi",
-        "arithmetic": [ { "global_val": "var", "var_name": "u_know_jaryi" }, "=", { "const": 1 } ]
+        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "u_know_jaryi" }, "=", { "const": 1 } ] } ]
       },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
