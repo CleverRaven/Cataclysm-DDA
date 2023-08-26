@@ -56,7 +56,7 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #if defined(MACOSX)
-#   include <unitstd.h> // getpid()
+#   include <unistd.h> // getpid()
 #endif
 
 #if defined(PREFIX)
