@@ -66,7 +66,7 @@
     "id": "SPECIES_GOBLIN",
     "name": "Goblin",
     "threshold_mut": "THRESH_SPECIES_GOBLIN",
-    "mutagen_message": "You feel the urge to find a wolf to ride.",
+    "mutagen_message": "You feel the urge to steal a baby or two.",
     "vitamin": "mutagen_species_goblin",
     "memorial_message": "Went full goblin mode.",
     "base_removal_chance": 0
@@ -74,7 +74,7 @@
   {
     "type": "mutation",
     "id": "THRESH_SPECIES_GOBLIN",
-    "name": { "str": "Child of the Stone" },
+    "name": { "str": "Night Stalker" },
     "points": 1,
     "description": "Long ago, the others feared your people as hunters in the night.  In this new world, it's time to revive that legacy.",
     "valid": false,
@@ -124,6 +124,54 @@
     "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
   },
   {
+    "type": "mutation_category",
+    "id": "SPECIES_RAVENFOLK",
+    "name": "Dwarf",
+    "threshold_mut": "THRESH_SPECIES_RAVENFOLK",
+    "mutagen_message": "You feel the call of the sky.",
+    "vitamin": "mutagen_species_ravenfolk",
+    "memorial_message": "Fell from your perch on the World Tree.",
+    "base_removal_chance": 0
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_SPECIES_RAVENFOLK",
+    "name": { "str": "Thought and Memory" },
+    "points": 1,
+    "description": "In the ruins of the old world, you're sure there are plenty of new places to go and new things to find.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "id": "mutagen_species_ravenfolk",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Ravenfolk Purifier" },
+    "excess": "mutagen_species_ravenfolk",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "DWARVEN_BUILD",
+    "name": { "str": "Dwarven Build" },
+    "//": "Slightly better version of STOCKY_TROGLO since dwarves are born this way",
+    "types": [ "SIZE" ],
+    "purifiable": false,
+    "mixed_effect": true,
+    "points": 1,
+    "visibility": 3,
+    "ugliness": 0,
+    "description": "Dwarves are smaller than humans, the better to deal with confined spaces underground, but as solid as the mountains (+2 STR, -1 DEX).",
+    "category": [ "SPECIES_DWARF" ],
+    "threshreq": [ "THRESH_SPECIES_DWARF" ],
+    "passive_mods": { "str_mod": 2, "dex_mod": -1 },
+    "movecost_modifier": 1.05
+  },
+  {
     "type": "mutation",
     "id": "BORN_ARTISAN",
     "name": { "str": "Earthborn Artisan" },
@@ -147,23 +195,6 @@
     "flags": [ "INFRARED" ],
     "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ],
     "threshreq": [ "THRESH_SPECIES_DWARF", "THRESH_SPECIES_GOBLIN" ]
-  },
-  {
-    "type": "mutation",
-    "id": "DWARVEN_BUILD",
-    "name": { "str": "Dwarven Build" },
-    "//": "Slightly better version of STOCKY_TROGLO since dwarves are born this way",
-    "types": [ "SIZE" ],
-    "purifiable": false,
-    "mixed_effect": true,
-    "points": 1,
-    "visibility": 3,
-    "ugliness": 0,
-    "description": "Dwarves are smaller than humans, the better to deal with confined spaces underground, but as solid as the mountains (+2 STR, -1 DEX).",
-    "category": [ "SPECIES_DWARF" ],
-    "threshreq": [ "THRESH_SPECIES_DWARF" ],
-    "passive_mods": { "str_mod": 2, "dex_mod": -1 },
-    "movecost_modifier": 1.05
   },
   {
     "type": "mutation",
@@ -409,7 +440,7 @@
     "type": "mutation",
     "id": "PER_UP",
     "copy-from": "PER_UP",
-    "extend": { "category": [ "SPECIES_ELF", "SPECIES_LIZARDFOLK" ] }
+    "extend": { "category": [ "SPECIES_ELF", "SPECIES_LIZARDFOLK", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
@@ -658,12 +689,148 @@
     "type": "mutation",
     "id": "NAILS",
     "copy-from": "NAILS",
-    "extend": { "category": [ "SPECIES_LIZARDFOLK", "SPECIES_GOBLIN" ] }
+    "extend": { "category": [ "SPECIES_LIZARDFOLK", "SPECIES_GOBLIN", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "TALONS",
     "copy-from": "TALONS",
     "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "RAVENFOLK_BUILD",
+    "name": { "str": "Ravenfolk Build" },
+    "types": [ "SIZE" ],
+    "purifiable": false,
+    "mixed_effect": true,
+    "points": 1,
+    "visibility": 4,
+    "ugliness": 1,
+    "description": "Ravenfolk are about the same size as humans, though their feathers and wings obviously set them apart.",
+    "//": "Bird mutation path means this mutation is just to prevent multiple species and doesn't need any modifiers.",
+    "category": [ "SPECIES_RAVENFOLK" ],
+    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RAVENFOLK_LEGS",
+    "copy-from": "BIRD_LEGS",
+    "name": { "str": "Ravenfolk Legs" },
+    "description": "Your legs and feet are those of a raven, with three long talons at the front and one at the back, ending in wicked claws and preventing you from wearing shoes.  Fortunately they don't impede your movement.",
+    "category": [ "SPECIES_RAVENFOLK" ],
+    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BEAK_RAVEN",
+    "name": { "str": "Raven Beak" },
+    "points": 0,
+    "visibility": 10,
+    "ugliness": 5,
+    "description": "Your large beak allows you to imitate nearly every sound humans can make.  And also rip into flesh, if it comes to that.",
+    "purifiable": false,
+    "types": [ "TEETH", "MUZZLE" ],
+    "cancels": [ "MOUTH_TENTACLES" ],
+    "prereqs": [ "BEAK" ],
+    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ],
+    "category": [ "SPECIES_RAVENFOLK" ],
+    "wet_protection": [ { "part": "mouth", "ignored": 2 } ],
+    "restricts_gear": [ "mouth" ],
+    "destroys_gear": true,
+    "attacks": [
+      {
+        "attack_text_u": "You stab into %s with your beak!",
+        "attack_text_npc": "%1$s stabs into %2$s with their beak!",
+        "body_part": "mouth",
+        "chance": 15,
+        "base_damage": { "damage_type": "stab", "amount": 12 }
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "RAVEN_BONES",
+    "copy-from": "HOLLOW_BONES",
+    "description": "Your bones are nearly hollow, a remenant of your people's past as creatures of the air.  Your body is very light as a result, enabling you to move and attack 20% faster, but also frail; you can carry 40% less, and bashing attacks injure you more.",
+    "category": [ "SPECIES_RAVENFOLK" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BEAK",
+    "copy-from": "BEAK",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FLEET",
+    "copy-from": "FLEET",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SKIN_ROUGH",
+    "copy-from": "SKIN_ROUGH",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FEATHERS",
+    "copy-from": "FEATHERS",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TALONS",
+    "copy-from": "TALONS",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "NOMAD",
+    "copy-from": "NOMAD",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "EAGLEEYED",
+    "copy-from": "EAGLEEYED",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "WINGS_BIRD",
+    "copy-from": "WINGS_BIRD",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ], "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DOWN",
+    "copy-from": "DOWN",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ], "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP_2",
+    "copy-from": "PER_UP_2",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP_3",
+    "copy-from": "PER_UP_3",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ], "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP_4",
+    "copy-from": "PER_UP_4",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ], "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "BIRD_EYE",
+    "copy-from": "BIRD_EYE",
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ], "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ] }
   }
 ]
