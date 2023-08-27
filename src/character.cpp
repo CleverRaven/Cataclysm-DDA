@@ -656,6 +656,16 @@ void Character::set_wielded_item( const item &to_wield )
     weapon = to_wield;
 }
 
+std::vector<matype_id> Character::known_styles( bool teachable_only ) const
+{
+    return martial_arts_data->get_known_styles( teachable_only );
+}
+
+bool Character::has_martialart( const matype_id &m ) const
+{
+    return martial_arts_data->has_martialart( m );
+}
+
 int Character::get_oxygen_max() const
 {
     return 30 + ( has_bionic( bio_synlungs ) ? 30 : 2 * str_cur );
@@ -2817,32 +2827,36 @@ bool Character::enough_power_for( const bionic_id &bid ) const
     return get_power_level() >= bid->power_activate;
 }
 
-std::vector<skill_id> Character::skills_offered_to( const Character &you ) const
+std::vector<skill_id> Character::skills_offered_to( const Character *you ) const
 {
     std::vector<skill_id> ret;
     for( const auto &pair : *_skills ) {
         const skill_id &id = pair.first;
-        if( id->is_teachable() && you.get_knowledge_level( id ) < pair.second.level() ) {
+        if( id->is_teachable() && pair.second.level() > 0 &&
+            ( !you || you->get_knowledge_level( id ) < pair.second.level() ) ) {
             ret.push_back( id );
         }
     }
     return ret;
 }
 
-std::vector<matype_id> Character::styles_offered_to( const Character &you ) const
+std::vector<matype_id> Character::styles_offered_to( const Character *you ) const
 {
-    return you.martial_arts_data->get_unknown_styles( *martial_arts_data, true );
+    if( you ) {
+        return you->martial_arts_data->get_unknown_styles( *martial_arts_data, true );
+    }
+    return martial_arts_data->get_known_styles( true );
 }
 
-std::vector<spell_id> Character::spells_offered_to( const Character &you ) const
+std::vector<spell_id> Character::spells_offered_to( const Character *you ) const
 {
     std::vector<spell_id> teachable;
     for( const spell_id &sp : magic->spells() ) {
         const spell &teacher_spell = magic->get_spell( sp );
-        if( sp->teachable && you.magic->can_learn_spell( you, sp ) ) {
-            if( you.magic->knows_spell( sp ) ) {
-                const spell &student_spell = you.magic->get_spell( sp );
-                if( student_spell.is_max_level( you ) ||
+        if( sp->teachable && ( !you || you->magic->can_learn_spell( *you, sp ) ) ) {
+            if( you && you->magic->knows_spell( sp ) ) {
+                const spell &student_spell = you->magic->get_spell( sp );
+                if( student_spell.is_max_level( *you ) ||
                     student_spell.get_level() >= teacher_spell.get_level() ) {
                     continue;
                 }
