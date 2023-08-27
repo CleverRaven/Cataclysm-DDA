@@ -8946,14 +8946,13 @@ void Character::add_to_inv_search_caches( item &it ) const
 void Character::remove_from_inv_search_caches( item &it ) const
 {
     it.visit_items( [this]( item * i, item * ) {
-        for( auto &cache : inv_search_caches ) {
-            if( cache.second.flag.is_valid() && !i->has_flag( cache.second.flag ) ) {
-                continue;
+        for( auto iter = inv_search_caches.begin(); iter != inv_search_caches.end(); ) {
+            if( ( !iter->second.flag.is_valid() || i->has_flag( iter->second.flag ) ) &&
+                ( iter->second.filter_func == nullptr || ( i->*iter->second.filter_func )() ) ) {
+                iter = inv_search_caches.erase( iter );
+            } else {
+                ++iter;
             }
-            if( cache.second.filter_func && !( i->*cache.second.filter_func )() ) {
-                continue;
-            }
-            inv_search_caches.erase( cache.first );
         }
         return VisitResponse::NEXT;
     } );
