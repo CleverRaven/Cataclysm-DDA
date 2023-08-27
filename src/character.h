@@ -1425,20 +1425,20 @@ class Character : public Creature, public visitable
          * @return Skills of which this NPC has a higher level than the given player. In other
          * words: skills this NPC could teach the player.
          */
-        std::vector<skill_id> skills_offered_to( const Character &you ) const;
+        std::vector<skill_id> skills_offered_to( const Character *you ) const;
         /**
          * Proficiencies we know that the character doesn't
          */
-        std::vector<proficiency_id> proficiencies_offered_to( const Character &guy ) const;
+        std::vector<proficiency_id> proficiencies_offered_to( const Character *guy ) const;
         /**
          * Martial art styles that we known, but the player p doesn't.
          */
-        std::vector<matype_id> styles_offered_to( const Character &you ) const;
+        std::vector<matype_id> styles_offered_to( const Character *you ) const;
         /**
          * Spells that the NPC knows but that the player p doesn't.
          * not const because get_spell isn't const and both this and p call it
          */
-        std::vector<spell_id> spells_offered_to( const Character &you ) const;
+        std::vector<spell_id> spells_offered_to( const Character *you ) const;
 
         int calc_spell_training_cost( bool knows, int difficulty, int level ) const;
 
@@ -2630,6 +2630,8 @@ class Character : public Creature, public visitable
         int scent = 0;
         pimpl<bionic_collection> my_bionics;
         pimpl<character_martial_arts> martial_arts_data;
+        std::vector<matype_id> known_styles( bool teachable_only ) const;
+        bool has_martialart( const matype_id &m ) const;
 
         stomach_contents stomach;
         stomach_contents guts;
