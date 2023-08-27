@@ -428,13 +428,13 @@
     "type": "mutation",
     "id": "DEX_UP",
     "copy-from": "DEX_UP",
-    "extend": { "category": [ "SPECIES_ELF", "SPECIES_LIZARDFOLK" ] }
+    "extend": { "category": [ "SPECIES_ELF", "SPECIES_LIZARDFOLK", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
     "id": "DEX_UP_2",
     "copy-from": "DEX_UP_2",
-    "extend": { "category": [ "SPECIES_ELF" ] }
+    "extend": { "category": [ "SPECIES_ELF", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
@@ -488,9 +488,9 @@
     "flags": [ "TINY" ],
     "passive_mods": { "str_mod": -3, "dex_mod": 2 },
     "stomach_size_multiplier": 0.5,
-    "hp_modifier": -0.3,
+    "hp_modifier": -0.25,
     "dodge_modifier": 2,
-    "weight_capacity_modifier": 0.5,
+    "weight_capacity_modifier": 0.7,
     "noise_modifier": 0
   },
   {
@@ -506,8 +506,8 @@
     "category": [ "SPECIES_GOBLIN" ],
     "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
     "enchantments": [
-      { "condition": { "not": "is_day" }, "values": [ { "value": "SLEEPY", "add": 50 } ] },
-      { "condition": "is_day", "values": [ { "value": "SLEEPY", "add": -50 } ] }
+      { "condition": { "not": "is_day" }, "values": [ { "value": "SLEEPY", "add": -50 } ] },
+      { "condition": "is_day", "values": [ { "value": "SLEEPY", "add": 50 } ] }
     ]
   },
   {
@@ -723,7 +723,7 @@
     "type": "mutation",
     "id": "RAVEN_BONES",
     "copy-from": "HOLLOW_BONES",
-    "description": "Your bones are nearly hollow, a remenant of your people's past as creatures of the air.  Your body is very light as a result, enabling you to move and attack 20% faster, but also frail; you can carry 40% less, and bashing attacks injure you more.",
+    "description": "Your bones are nearly hollow, a remnant of your people's past as creatures of the air.  Your body is very light as a result, enabling you to move and attack 20% faster, but also frail; you can carry 40% less, and bashing attacks injure you more.",
     "category": [ "SPECIES_RAVENFOLK" ]
   },
   {

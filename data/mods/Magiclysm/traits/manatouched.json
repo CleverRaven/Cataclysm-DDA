@@ -263,7 +263,7 @@
     "type": "mutation",
     "id": "LIGHTWEIGHT",
     "copy-from": "LIGHTWEIGHT",
-    "extend": { "category": [ "MANATOUCHED" ] }
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
@@ -282,7 +282,7 @@
     "id": "FASTREADER",
     "copy-from": "FASTREADER",
     "valid": true,
-    "extend": { "category": [ "MANATOUCHED" ] }
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
