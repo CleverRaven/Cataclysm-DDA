@@ -3199,7 +3199,7 @@
         [ "leather_funnel", 1 ]
       ],
       [ [ "hotplate", 1 ] ],
-      [ [ "wire_mesh", 1 ] ],
+      [ [ "wire_mesh", 1 ], [ "cotton_patchwork", 1 ] ],
       [ [ "pipe", 1 ] ],
       [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ]
     ]
@@ -3231,7 +3231,7 @@
         [ "leather_funnel", 1 ]
       ],
       [ [ "oil_cooker", 1 ] ],
-      [ [ "wire_mesh", 1 ], [ "bag_canvas", 1 ] ],
+      [ [ "wire_mesh", 1 ], [ "cotton_patchwork", 1 ] ],
       [ [ "2x4", 20 ] ],
       [ [ "nail", 30 ] ],
       [ [ "stick_long", 1 ] ]
