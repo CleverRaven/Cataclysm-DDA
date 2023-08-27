@@ -7126,15 +7126,24 @@ int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
 
     // Find ledge between viewer and target
     // Only the first ledge found is calculated for performance reasons
-    tripoint ledge_p = target_p;
-    for( tripoint p : line_to( tripoint( viewer_p.xy(), target_p.z ), target_p ) ) {
+    tripoint high_p;
+    tripoint low_p;
+    if( viewer_p.z > target_p.z ) {
+        high_p = viewer_p;
+        low_p = target_p;
+    } else {
+        high_p = target_p;
+        low_p = viewer_p;
+    }
+    tripoint ledge_p = high_p;
+    for( tripoint p : line_to( tripoint( low_p.xy(), high_p.z ), high_p ) ) {
         if( dont_draw_lower_floor( p ) ) {
             ledge_p = p;
             break;
         }
     }
 
-    const int ledge_height = target_p.z - viewer_p.z;
+    const int ledge_height = std::abs( target_p.z - viewer_p.z );
     // Height of each z-level in grids
     const float zlevel_to_grid_ratio = 2.0f;
     // Viewer eye level from ground in grids
