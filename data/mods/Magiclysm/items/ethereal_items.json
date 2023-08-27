@@ -479,7 +479,7 @@
     "description": "A magically conjured arrow made of twisted wood.",
     "damage": { "damage_type": "stab", "armor_penetration": 3 },
     "count": 1,
-    "effects": [ "RECOVER_20" ]
+    "effects": [ "RECOVER_10" ]
   },
   {
     "id": "arrow_druid",
