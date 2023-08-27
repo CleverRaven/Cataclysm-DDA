@@ -343,6 +343,28 @@
     "fun": 6
   },
   {
+    "id": "coconut_water",
+    "type": "COMESTIBLE",
+    "symbol": "~",
+    "color": "light_cyan",
+    "spoils_in": "3 days",
+    "name": { "str_sp": "coconut water" },
+    "description": "Sweet-tasting cloudy liquid extracted from a coconut.",
+    "charges": 1,
+    "price": 50,
+    "price_postapoc": 10,
+    "material": [ "water" ],
+    "weight": "250 g",
+    "volume": "250 ml",
+    "comestible_type": "DRINK",
+    "container": "carton_sealed",
+    "quench": 47,
+    "calories": 47,
+    "fun": 3,
+    "phase": "liquid",
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 4 ], [ "vitC", 10 ] ]
+  },
+  {
     "type": "COMESTIBLE",
     "id": "salca",
     "name": { "str_sp": "salca" },
