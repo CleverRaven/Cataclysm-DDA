@@ -107,11 +107,11 @@ void Character::set_proficiency_practice( const proficiency_id &id, const time_d
     _proficiencies->practice( id, amount, std::nullopt );
 }
 
-std::vector<proficiency_id> Character::proficiencies_offered_to( const Character &guy ) const
+std::vector<proficiency_id> Character::proficiencies_offered_to( const Character *guy ) const
 {
     std::vector<proficiency_id> ret;
     for( const proficiency_id &known : known_proficiencies() ) {
-        if( known->is_teachable() && !guy.has_proficiency( known ) ) {
+        if( known->is_teachable() && ( !guy || !guy->has_proficiency( known ) ) ) {
             ret.push_back( known );
         }
     }

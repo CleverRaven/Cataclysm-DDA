@@ -93,14 +93,22 @@ class talker_character_const: public talker_cloner<talker_character_const>
         std::string get_value( const std::string &var_name ) const override;
 
         // stats, skills, traits, bionics, magic, and proficiencies
+        std::vector<skill_id> skills_teacheable() const override;
         std::vector<skill_id> skills_offered_to( const talker &student ) const override;
+        std::string skill_seminar_text( const skill_id &s ) const override;
         std::string skill_training_text( const talker &, const skill_id & ) const override;
+        std::vector<proficiency_id> proficiencies_teacheable() const override;
         std::vector<proficiency_id> proficiencies_offered_to( const talker &student ) const override;
+        std::string proficiency_seminar_text( const proficiency_id & ) const override;
         std::string proficiency_training_text( const talker &student,
                                                const proficiency_id &proficiency ) const override;
+        std::vector<matype_id> styles_teacheable() const override;
         std::vector<matype_id> styles_offered_to( const talker &student ) const override;
+        std::string style_seminar_text( const matype_id & ) const override;
         std::string style_training_text( const talker &, const matype_id & ) const override;
+        std::vector<spell_id> spells_teacheable() const override;
         std::vector<spell_id> spells_offered_to( talker &student ) const override;
+        std::string spell_seminar_text( const spell_id & ) const override;
         std::string spell_training_text( talker &, const spell_id & ) const override;
 
         // inventory, buying, and selling
@@ -253,8 +261,6 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void set_height( int ) override;
         void add_bionic( const bionic_id &new_bionic ) override;
         void remove_bionic( const bionic_id &old_bionic ) override;
-        std::vector<skill_id> skills_teacheable() const override;
-        std::string skill_seminar_text( const skill_id &s ) const override;
         std::vector<bodypart_id> get_all_body_parts( bool all, bool main_only ) const override;
         int get_part_hp_cur( const bodypart_id &id ) const override;
         int get_part_hp_max( const bodypart_id &id ) const override;
