@@ -166,6 +166,7 @@
     "visibility": 3,
     "ugliness": 0,
     "description": "Dwarves are smaller than humans, the better to deal with confined spaces underground, but as solid as the mountains (+2 STR, -1 DEX).",
+    "flags": [ "SMALL" ],
     "category": [ "SPECIES_DWARF" ],
     "threshreq": [ "THRESH_SPECIES_DWARF" ],
     "passive_mods": { "str_mod": 2, "dex_mod": -1 },
@@ -191,7 +192,6 @@
     "points": 5,
     "starting_trait": false,
     "purifiable": false,
-    "types": [ "VISION" ],
     "flags": [ "INFRARED" ],
     "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ],
     "threshreq": [ "THRESH_SPECIES_DWARF", "THRESH_SPECIES_GOBLIN" ]
@@ -224,7 +224,7 @@
     "type": "mutation",
     "id": "THICKSKIN",
     "copy-from": "THICKSKIN",
-    "extend": { "category": [ "SPECIES_DWARF" ] }
+    "extend": { "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -495,37 +495,20 @@
   },
   {
     "type": "mutation",
-    "id": "NOCTURNAL_NIGHT",
+    "id": "NOCTURNAL",
     "name": { "str": "Nocturnal" },
     "points": -2,
     "ugliness": 0,
     "visibility": 0,
-    "description": "Your people have always had an easier time operating at night, away from the hated light of the sun.  Now is the time to come alive.",
+    "description": "Your people have always had an easier time operating at night, away from the hated light of the sun.",
     "mixed_effect": true,
     "valid": false,
     "category": [ "SPECIES_GOBLIN" ],
     "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
-    "passive_mods": { "per_mod": 1 },
-    "triggers": [ [ { "condition": "is_day" } ] ],
-    "transform": { "target": "NOCTURNAL_DAY", "msg_transform": "", "active": false, "moves": 1 },
-    "enchantments": [ { "values": [ { "value": "SLEEPY", "add": -50 } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "NOCTURNAL_DAY",
-    "name": { "str": "Nocturnal" },
-    "points": -2,
-    "ugliness": 0,
-    "visibility": 0,
-    "description": "Your people have always had an easier time operating at night, away from the hated light of the sun.  Maybe it's time to go to bed.",
-    "//": "No negative mods needed here because goblins already have Sun Sensitive.",
-    "mixed_effect": true,
-    "valid": false,
-    "category": [ "SPECIES_GOBLIN" ],
-    "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
-    "triggers": [ [ { "condition": { "not": "is_day" } } ] ],
-    "transform": { "target": "NOCTURNAL_NIGHT", "msg_transform": "", "active": false, "moves": 1 },
-    "enchantments": [ { "values": [ { "value": "SLEEPY", "add": 50 } ] } ]
+    "enchantments": [
+      { "condition": { "not": "is_day" }, "values": [ { "value": "SLEEPY", "add": 50 } ] },
+      { "condition": "is_day", "values": [ { "value": "SLEEPY", "add": -50 } ] }
+    ]
   },
   {
     "type": "mutation",
@@ -557,21 +540,9 @@
   },
   {
     "type": "mutation",
-    "id": "SNOUT",
-    "copy-from": "SNOUT",
-    "extend": { "category": [ "SPECIES_GOBLIN" ] }
-  },
-  {
-    "type": "mutation",
     "id": "EATPOISON",
     "copy-from": "EATPOISON",
     "extend": { "category": [ "SPECIES_GOBLIN" ], "threshreq": [ "THRESH_SPECIES_GOBLIN" ], "prereqs": [ "GOBLIN_BUILD" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "THICKSKIN",
-    "copy-from": "THICKSKIN",
-    "extend": { "category": [ "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -677,7 +648,7 @@
     "type": "mutation",
     "id": "SNOUT",
     "copy-from": "SNOUT",
-    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+    "extend": { "category": [ "SPECIES_GOBLIN", "SPECIES_LIZARDFOLK", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
@@ -695,7 +666,7 @@
     "type": "mutation",
     "id": "TALONS",
     "copy-from": "TALONS",
-    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+    "extend": { "category": [ "SPECIES_LIZARDFOLK", "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
@@ -777,12 +748,6 @@
     "type": "mutation",
     "id": "FEATHERS",
     "copy-from": "FEATHERS",
-    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "TALONS",
-    "copy-from": "TALONS",
     "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
   },
   {

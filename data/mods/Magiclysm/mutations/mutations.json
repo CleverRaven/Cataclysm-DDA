@@ -472,20 +472,20 @@
     "type": "mutation",
     "id": "WEAKSTOMACH",
     "copy-from": "WEAKSTOMACH",
-    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED", "SPECIES_ELF" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED", "SPECIES_ELF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
     "id": "NAUSEA",
     "copy-from": "NAUSEA",
-    "extend": { "category": [ "DRAGON_BLACK" ] },
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_GOBLIN" ] },
     "leads_to": [ "OVERLY_ACID_GUT" ]
   },
   {
     "type": "mutation",
     "id": "VOMITOUS",
     "copy-from": "VOMITOUS",
-    "extend": { "category": [ "DRAGON_BLACK" ] },
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_GOBLIN" ] },
     "leads_to": [ "DRAGON_BREATH_BLACK" ]
   },
   {
