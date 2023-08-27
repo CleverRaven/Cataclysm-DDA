@@ -8899,43 +8899,13 @@ bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) con
 
 std::vector<item *> &Character::all_items_with( const flag_id &flag ) const
 {
-    std::string key = string_format( "HAS FLAG %s", flag.c_str() );
-
-    auto iter = inv_search_caches.find( key );
-    if( iter != inv_search_caches.end() ) {
-        // If the cache already exists, use it.
-        return iter->second.items;
-    }
-    // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty sets are still created.
-    inv_search_caches[key].flag = flag;
-    visit_items( [this, &key, &flag]( item * it, item * ) {
-        if( it->has_flag( flag ) ) {
-            inv_search_caches[key].items.push_back( it );
-        }
-        return VisitResponse::NEXT;
-    } );
-
-    return inv_search_caches[key].items;
+    return all_items_with( "HAS FLAG " + flag.str(), flag, nullptr );
 }
 
 std::vector<item *> &Character::all_items_with( const std::string &key,
         bool( item::*filter_func )() const ) const
 {
-    auto iter = inv_search_caches.find( key );
-    if( iter != inv_search_caches.end() ) {
-        // If the cache already exists, use it.
-        return iter->second.items;
-    }
-    // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty sets are still created.
-    inv_search_caches[key].filter_func = filter_func;
-    visit_items( [this, &key, &filter_func]( item * it, item * ) {
-        if( ( it->*filter_func )() ) {
-            inv_search_caches[key].items.push_back( it );
-        }
-        return VisitResponse::NEXT;
-    } );
-
-    return inv_search_caches[key].items;
+    return all_items_with( key, {}, filter_func );
 }
 
 std::vector<item *> &Character::all_items_with( const std::string &key, const flag_id &flag,
@@ -8950,7 +8920,8 @@ std::vector<item *> &Character::all_items_with( const std::string &key, const fl
     inv_search_caches[key].flag = flag;
     inv_search_caches[key].filter_func = filter_func;
     visit_items( [this, &key, &flag, &filter_func]( item * it, item * ) {
-        if( it->has_flag( flag ) && ( it->*filter_func )() ) {
+        if( ( !flag.is_valid() || it->has_flag( flag ) ) &&
+            ( filter_func == nullptr || ( it->*filter_func )() ) ) {
             inv_search_caches[key].items.push_back( it );
         }
         return VisitResponse::NEXT;
