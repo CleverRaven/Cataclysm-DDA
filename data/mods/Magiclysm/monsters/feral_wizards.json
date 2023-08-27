@@ -100,7 +100,7 @@
         "id": "feral_rad_mage_wall_of_fog",
         "type": "spell",
         "spell_data": { "id": "stormshaper_wall_of_fog", "min_level": 3 },
-        "cooldown": 10,
+        "cooldown": 15,
         "monster_message": "%1$s gestures and a sudden force slams you to the ground!"
       },
       {
@@ -118,7 +118,7 @@
         "monster_message": "%1$s smiles and duplicates appear!"
       },
       {
-        "id": "feral_thaum_sci_spell_summon_zombie_brute",
+        "id": "feral_thaum_sci_spell_summon_zombie",
         "type": "spell",
         "spell_data": { "id": "feral_rad_mage_summon_spell", "min_level": 0 },
         "cooldown": 30,

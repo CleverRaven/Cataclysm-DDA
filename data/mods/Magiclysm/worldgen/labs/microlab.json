@@ -55,10 +55,10 @@
           { "item": "enchanted_small_items", "chance": 10 }
         ],
         "l": [
-          { "group": "lab_shoes", "chance": 50, "repeat": [ 2, 3 ] },
-          { "group": "lab_torso_research_thaumaturge", "chance": 50, "repeat": [ 2, 3 ] },
-          { "group": "lab_pants", "chance": 50, "repeat": [ 2, 3 ] },
-          { "group": "underwear", "chance": 50, "repeat": [ 2, 3 ] }
+          { "item": "lab_shoes", "chance": 50, "repeat": [ 2, 3 ] },
+          { "item": "lab_torso_research_thaumaturge", "chance": 50, "repeat": [ 2, 3 ] },
+          { "item": "lab_pants", "chance": 50, "repeat": [ 2, 3 ] },
+          { "item": "underwear", "chance": 50, "repeat": [ 2, 3 ] }
         ]
       },
       "place_monster": [

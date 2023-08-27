@@ -38,16 +38,24 @@
     "type": "SPELL",
     "name": "Summon Zombie ",
     "description": "A spell for the feral rad mage to summon a zombie.  It's a bug if you have this.",
-    "valid_targets": [ "ground" ],
-    "flags": [ "LOUD", "WONDER", "NO_PROJECTILE" ],
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "WONDER", "NO_PROJECTILE" ],
+    "max_level": 1,
     "min_damage": 1,
     "max_damage": 1,
+    "min_range": 10,
+    "max_range": 10,
+    "message": "",
     "shape": "blast",
     "effect": "attack",
     "extra_effects": [
       { "id": "feral_animist_summon_zombie" },
       { "id": "feral_animist_summon_zombie" },
       { "id": "feral_animist_summon_zombie" },
+      { "id": "feral_animist_summon_zombie" },
+      { "id": "feral_animist_summon_zombie" },
+      { "id": "feral_animist_summon_tough_zombie" },
+      { "id": "feral_animist_summon_tough_zombie" },
       { "id": "feral_animist_summon_tough_zombie" },
       { "id": "feral_animist_summon_tough_zombie" },
       { "id": "feral_animist_summon_tough_zombie" },
@@ -76,11 +84,14 @@
     "max_damage": 1,
     "min_aoe": 3,
     "max_aoe": 5,
+    "min_range": 10,
+    "max_range": 10,
     "min_duration": 30000,
     "max_duration": 30000,
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "mon_zombie"
+    "effect_str": "mon_zombie",
+    "sound_description": "a roar"
   },
   {
     "id": "feral_animist_summon_tough_zombie",
@@ -93,11 +104,14 @@
     "max_damage": 1,
     "min_aoe": 3,
     "max_aoe": 5,
+    "min_range": 10,
+    "max_range": 10,
     "min_duration": 30000,
     "max_duration": 30000,
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "mon_tough_zombie"
+    "effect_str": "mon_zombie_tough",
+    "sound_description": "a roar"
   },
   {
     "id": "feral_animist_summon_zombie_brute",
@@ -110,11 +124,14 @@
     "max_damage": 1,
     "min_aoe": 3,
     "max_aoe": 5,
+    "min_range": 10,
+    "max_range": 10,
     "min_duration": 30000,
     "max_duration": 30000,
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "mon_zombie_brute"
+    "effect_str": "mon_zombie_brute",
+    "sound_description": "a roar"
   },
   {
     "id": "feral_animist_summon_zombie_hulk",
@@ -127,11 +144,14 @@
     "max_damage": 1,
     "min_aoe": 3,
     "max_aoe": 5,
+    "min_range": 10,
+    "max_range": 10,
     "min_duration": 30000,
     "max_duration": 30000,
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "mon_zombie_hulk"
+    "effect_str": "mon_zombie_hulk",
+    "sound_description": "a roar"
   },
   {
     "id": "feral_rad_mage_swap_spell",
