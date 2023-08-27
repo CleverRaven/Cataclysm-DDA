@@ -1034,7 +1034,8 @@
           { "item": "spell_scroll_animist_sense_outsiders", "prob": 30 },
           { "item": "spell_scroll_summon_undead", "prob": 50 },
           { "item": "spell_scroll_necrotic_gaze", "prob": 50 },
-          { "item": "spell_scroll_summon_wisps", "prob": 50 }
+          { "item": "spell_scroll_summon_wisps", "prob": 50 },
+          { "item": "spell_scroll_animist_summon_watcher", "prob": 50 }
         ],
         "prob": 45
       },

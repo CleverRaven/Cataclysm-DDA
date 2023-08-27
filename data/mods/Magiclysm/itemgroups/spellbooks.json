@@ -52,6 +52,7 @@
     "type": "item_group",
     "items": [
       [ "spell_scroll_sound_bomb", 35 ],
+      [ "spell_scroll_animist_summon_watcher", 30 ],
       [ "spell_scroll_pain_split", 25 ],
       [ "spell_scroll_bio_grotesque", 40 ],
       [ "spell_scroll_bio_fleshpouch", 30 ],

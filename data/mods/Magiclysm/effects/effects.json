@@ -766,8 +766,9 @@
     "remove_message": "You can't believe you even considered eating that!  Yuck!",
     "rating": "good",
     "show_intensity": false,
-    "flags": [ "IMMUNE_SPOIL" ],
-    "vitamins": [ { "vitamin": "mutant_toxin", "rate": [ [ -1, -1 ] ], "absorb_mult": [ 0.5 ], "tick": [ "1 s" ] } ]
+    "flags": [ "IMMUNE_SPOIL", "PARAIMMUNE" ],
+    "blocks_effects": [ "foodpoison" ],
+    "vitamins": [ { "vitamin": "mutant_toxin", "rate": [ [ -1, -1 ] ], "absorb_mult": [ 0.5 ], "tick": [ "30 s" ] } ]
   },
   {
     "id": "effect_classless_watch",

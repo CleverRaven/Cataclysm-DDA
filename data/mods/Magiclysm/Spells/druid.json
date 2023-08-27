@@ -651,7 +651,7 @@
     "name": "Beguiling the Savage Beast",
     "description": "Using your connection to nature, you can sway an animal to your service.  This spell even works on mutated animals.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "VERBAL", "SOMATIC" ],
+    "flags": [ "VERBAL", "SOMATIC", "SILENT" ],
     "effect": "charm_monster",
     "shape": "blast",
     "spell_class": "DRUID",
