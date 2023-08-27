@@ -359,7 +359,6 @@
     "color": "yellow",
     "flags": [ "FERTILIZER" ],
     "use_action": [ "PLANTBLECH" ],
-    "container": "bag_canvas",
     "comestible_type": "FOOD",
     "symbol": "~",
     "quench": -10,
