@@ -422,7 +422,7 @@ bool Creature::sees( const Creature &critter ) const
     if( ch != nullptr ) {
         if( ch->is_crouching() || ch->is_prone() || pos().z != critter.pos().z ) {
             const int coverage = std::max( here.obstacle_coverage( pos(), critter.pos() ),
-                                           here.ledge_coverage( pos(), critter.pos(), get_size() ) );
+                                           here.ledge_coverage( *this, critter.pos(), get_size() ) );
             if( coverage < 30 ) {
                 return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
             }

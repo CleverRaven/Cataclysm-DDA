@@ -584,7 +584,7 @@ class map
         * If there's no obstacle adjacent to the target - no coverage.
         */
         int obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const;
-        int ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
+        int ledge_coverage( const Creature &viewer, const tripoint &target_p,
                             const creature_size &viewer_size = creature_size::medium ) const;
         /**
         * Returns coverage value of the tile.
