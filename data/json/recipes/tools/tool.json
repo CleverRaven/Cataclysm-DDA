@@ -1034,8 +1034,8 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "time": "2 m",
-    "autolearn": true,
     "reversible": true,
+    "autolearn": true,
     "components": [ [ [ "wire_mesh", 1 ], [ "wire", 1 ] ] ]
   },
   {
