@@ -1431,6 +1431,7 @@
   },
   {
     "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_animist_sense_outsiders",
     "//": "Animist spell",
     "name": { "str": "Scroll of Sense Outsiders", "str_pl": "Scrolls of Sense Outsiders" },
