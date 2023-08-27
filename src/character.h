@@ -2691,13 +2691,13 @@ class Character : public Creature, public visitable
         bool is_hauling() const;
 
         // Returns a set of all items that have the given flag (@ref item::has_flag). Uses or creates caches from @ref inv_search_caches.
-        std::set<item *> &all_items_with( const flag_id &flag ) const;
+        std::vector<item *> &all_items_with( const flag_id &flag ) const;
         // Returns a set of all items that pass the specified boolean item function. Uses or creates caches from @ref inv_search_caches with the given key.
-        std::set<item *> &all_items_with( const std::string &key,
-                                          bool( item::*filter_func )() const ) const;
+        std::vector<item *> &all_items_with( const std::string &key,
+                                             bool( item::*filter_func )() const ) const;
         // Returns a set of all items that have the given flag (@ref item::has_flag) and pass the specified boolean item function. Uses or creates caches from @ref inv_search_caches with the given key.
-        std::set<item *> &all_items_with( const std::string &key, const flag_id &flag,
-                                          bool( item::*filter_func )() const ) const;
+        std::vector<item *> &all_items_with( const std::string &key, const flag_id &flag,
+                                             bool( item::*filter_func )() const ) const;
 
         // Has a weapon, inventory item or worn item with flag. Uses or creates caches from @ref inv_search_caches.
         bool has_item_with_flag( const flag_id &flag, bool need_charges = false ) const;
@@ -3848,9 +3848,9 @@ class Character : public Creature, public visitable
         struct inv_search_cache {
             flag_id flag;
             bool ( item::*filter_func )() const;
-            std::set<item *> items;
+            std::vector<item *> items;
         };
-        mutable std::map<std::string, inv_search_cache> inv_search_caches;
+        mutable std::unordered_map<std::string, inv_search_cache> inv_search_caches;
     protected:
         // Bionic IDs are unique only within a character. Used to unambiguously identify bionics in a character
         bionic_uid weapon_bionic_uid = 0;

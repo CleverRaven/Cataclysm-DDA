@@ -1326,9 +1326,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                     if( seed.is_empty() ) {
                         return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
                     }
-                    std::set<item *> &seed_inv = you.all_items_with( "is_seed", &item::is_seed );
-                    for( const item *elem : seed_inv ) {
-                        if( elem->typeId() == itype_id( seed ) ) {
+                    for( item *seed_it : you.all_items_with( "is_seed", &item::is_seed ) ) {
+                        if( seed_it->typeId() == itype_id( seed ) ) {
                             return activity_reason_info::ok( do_activity_reason::NEEDS_PLANTING );
                         }
                     }

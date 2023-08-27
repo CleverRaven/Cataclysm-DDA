@@ -302,7 +302,7 @@ unload_options::query_unload_result unload_options::query_unload()
 plot_options::query_seed_result plot_options::query_seed()
 {
     Character &player_character = get_player_character();
-    std::set<item *> &seed_inv = player_character.all_items_with( "is_seed", &item::is_seed );
+    std::vector<item *> seed_inv = player_character.all_items_with( "is_seed", &item::is_seed );
     zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
     const std::unordered_set<tripoint_abs_ms> zone_src_set =
@@ -311,7 +311,7 @@ plot_options::query_seed_result plot_options::query_seed()
         tripoint elem_loc = here.getlocal( elem );
         for( item &it : here.i_at( elem_loc ) ) {
             if( it.is_seed() ) {
-                seed_inv.insert( &it );
+                seed_inv.push_back( &it );
             }
         }
     }

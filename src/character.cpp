@@ -8897,7 +8897,7 @@ bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) con
     return false;
 }
 
-std::set<item *> &Character::all_items_with( const flag_id &flag ) const
+std::vector<item *> &Character::all_items_with( const flag_id &flag ) const
 {
     std::string key = string_format( "HAS FLAG %s", flag.c_str() );
 
@@ -8906,21 +8906,19 @@ std::set<item *> &Character::all_items_with( const flag_id &flag ) const
         // If the cache already exists, use it.
         return iter->second.items;
     }
-
     // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty sets are still created.
     inv_search_caches[key].flag = flag;
-    std::vector<const item *> found_items;
-    found_items = items_with( [&flag]( const item & it ) {
-        return it.has_flag( flag );
+    visit_items( [this, &key, &flag]( item * it, item * ) {
+        if( it->has_flag( flag ) ) {
+            inv_search_caches[key].items.push_back( it );
+        }
+        return VisitResponse::NEXT;
     } );
 
-    for( const item *it : found_items ) {
-        inv_search_caches[key].items.insert( const_cast<item *>( it ) );
-    }
     return inv_search_caches[key].items;
 }
 
-std::set<item *> &Character::all_items_with( const std::string &key,
+std::vector<item *> &Character::all_items_with( const std::string &key,
         bool( item::*filter_func )() const ) const
 {
     auto iter = inv_search_caches.find( key );
@@ -8928,20 +8926,19 @@ std::set<item *> &Character::all_items_with( const std::string &key,
         // If the cache already exists, use it.
         return iter->second.items;
     }
-
     // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty sets are still created.
     inv_search_caches[key].filter_func = filter_func;
-    std::vector<const item *> found_items;
-    found_items = items_with( [&filter_func]( const item & it ) {
-        return ( it.*filter_func )();
+    visit_items( [this, &key, &filter_func]( item * it, item * ) {
+        if( ( it->*filter_func )() ) {
+            inv_search_caches[key].items.push_back( it );
+        }
+        return VisitResponse::NEXT;
     } );
-    for( const item *it : found_items ) {
-        inv_search_caches[key].items.insert( const_cast<item *>( it ) );
-    }
+
     return inv_search_caches[key].items;
 }
 
-std::set<item *> &Character::all_items_with( const std::string &key, const flag_id &flag,
+std::vector<item *> &Character::all_items_with( const std::string &key, const flag_id &flag,
         bool( item::*filter_func )() const ) const
 {
     auto iter = inv_search_caches.find( key );
@@ -8949,17 +8946,16 @@ std::set<item *> &Character::all_items_with( const std::string &key, const flag_
         // If the cache already exists, use it.
         return iter->second.items;
     }
-
     // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty sets are still created.
     inv_search_caches[key].flag = flag;
     inv_search_caches[key].filter_func = filter_func;
-    std::vector<const item *> found_items;
-    found_items = items_with( [&flag, &filter_func]( const item & it ) {
-        return it.has_flag( flag ) && ( it.*filter_func )();
+    visit_items( [this, &key, &flag, &filter_func]( item * it, item * ) {
+        if( it->has_flag( flag ) && ( it->*filter_func )() ) {
+            inv_search_caches[key].items.push_back( it );
+        }
+        return VisitResponse::NEXT;
     } );
-    for( const item *it : found_items ) {
-        inv_search_caches[key].items.insert( const_cast<item *>( it ) );
-    }
+
     return inv_search_caches[key].items;
 }
 
@@ -8969,20 +8965,24 @@ void Character::add_to_inv_search_caches( item &it ) const
         if( cache.second.flag.is_valid() && !it.has_flag( cache.second.flag ) ) {
             continue;
         }
-        if( cache.second.filter_func ) {
-            if( !( it.*cache.second.filter_func )() ) {
-                continue;
-            }
+        if( cache.second.filter_func && !( it.*cache.second.filter_func )() ) {
+            continue;
         }
-        cache.second.items.insert( &it );
+        cache.second.items.push_back( &it );
     }
 }
 
 void Character::remove_from_inv_search_caches( item &it ) const
 {
-    it.visit_items( [this]( item * it, item * ) {
+    it.visit_items( [this]( item * i, item * ) {
         for( auto &cache : inv_search_caches ) {
-            cache.second.items.erase( it );
+            if( cache.second.flag.is_valid() && !i->has_flag( cache.second.flag ) ) {
+                continue;
+            }
+            if( cache.second.filter_func && !( i->*cache.second.filter_func )() ) {
+                continue;
+            }
+            inv_search_caches.erase( cache.first );
         }
         return VisitResponse::NEXT;
     } );

@@ -654,8 +654,7 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( unleash, true, 'L', _( "Remove leash from %s" ), pet_name );
     }
     if( !z.has_effect( effect_leashed ) && !z.has_flag( mon_flag_RIDEABLE_MECH ) ) {
-        std::set<item *> &rope_inv = player_character.all_items_with( json_flag_TIE_UP );
-        if( !rope_inv.empty() ) {
+        if( player_character.has_item_with_flag( json_flag_TIE_UP ) ) {
             amenu.addentry( leash, true, 't', _( "Attach leash to %s" ), pet_name );
         } else {
             amenu.addentry( leash, false, 't', _( "You need any type of rope to leash %s" ),
