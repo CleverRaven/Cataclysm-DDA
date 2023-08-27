@@ -135,5 +135,10 @@
       ],
       [ [ "alder_bark", 1 ], [ "tanbark", 1 ], [ "birchbark", 1 ], [ "willowbark", 1 ] ]
     ]
+  },
+  {
+    "id": "spell_components_remove_instability",
+    "type": "requirement",
+    "components": [ [ [ "purifier", 1 ] ] ]
   }
 ]

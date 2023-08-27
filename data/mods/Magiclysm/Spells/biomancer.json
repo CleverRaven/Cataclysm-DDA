@@ -483,5 +483,47 @@
       { "u_lose_trait": "BIO_GIANT_GROWTH" },
       { "math": [ "u_val('stored_kcal')", "-=", "100000" ] }
     ]
+  },
+  {
+    "id": "biomancer_remove_instability",
+    "type": "SPELL",
+    "name": "Restore Genetic Stability",
+    "description": "The scroll said that this spell is for \"Curing the aftereffects of XE037 overexposure\", whatever that means.  According the scroll, the spell should be allowed to run its course before reapplication",
+    "valid_targets": [ "self", "ally" ],
+    "spell_class": "BIOMANCER",
+    "components": "spell_components_remove_instability",
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_biomancer_remove_instability",
+    "shape": "blast",
+    "difficulty": 10,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "min_range": 1,
+    "base_energy_cost": 1500,
+    "base_casting_time": 180000,
+    "min_duration": 4500000,
+    "max_duration": 45000000,
+    "duration_increment": 2700000
+  },
+  {
+    "id": "biomancer_carrion_feast",
+    "type": "SPELL",
+    "name": "Carrion Feast",
+    "description": "Alter your digestive system to consume rotten food with no ill effects.  This is either a truly ancient spell or otherwise must have been the product of some university thaumaturgical research department.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_biomancer_carrion_feast",
+    "shape": "blast",
+    "difficulty": 3,
+    "energy_source": "MANA",
+    "max_level": 10,
+    "min_duration": 6000,
+    "max_duration": 36000,
+    "duration_increment": 2800,
+    "base_energy_cost": 250,
+    "base_casting_time": 1500
   }
 ]

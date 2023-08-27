@@ -27,6 +27,7 @@
       [ "spell_scroll_chilling_touch", 50 ],
       [ "spell_scroll_magic_missile", 50 ],
       [ "spell_scroll_bleed", 50 ],
+      [ "spell_scroll_classless_watch_spell", 30 ],
       [ "spell_scroll_disruption_bolt", 50 ],
       [ "spell_scroll_shocking_lash", 50 ],
       [ "spell_scroll_electric_arts", 50 ],
@@ -98,6 +99,7 @@
       [ "spell_scroll_repelling_arc", 30 ],
       [ "spell_scroll_knock", 35 ],
       [ "spell_scroll_caustic_aura", 30 ],
+      [ "spell_scroll_biomancer_carrion_feast", 20 ],
       [ "spell_scroll_impactsling", 20 ],
       [ "spell_scroll_boneclub", 20 ],
       [ "spell_scroll_flamesword", 35 ],
@@ -139,6 +141,7 @@
       [ "spell_scroll_magus_haste", 50 ],
       [ "spell_scroll_magus_mana_beam", 35 ],
       [ "spell_scroll_magus_escape", 50 ],
+      [ "spell_scroll_magus_teleport_mark", 25 ],
       [ "spell_scroll_cats_grace", 50 ],
       [ "spell_scroll_eagles_sight", 50 ],
       [ "spell_scroll_ogres_strength", 50 ],
@@ -171,6 +174,7 @@
     "type": "item_group",
     "items": [
       [ "spell_scroll_magus_mana_blast", 50 ],
+      [ "spell_scroll_magus_word_of_recall", 25 ],
       [ "lightning_storm_scroll", 50 ],
       [ "spell_scroll_vacuum_decompression", 50 ],
       [ "spell_scroll_invisibility", 10 ],
@@ -180,6 +184,7 @@
       [ "spell_scroll_druidic_healing", 20 ],
       [ "spell_scroll_summon_magic_motorcycle", 5 ],
       [ "bio_sneeze_beam", 50 ],
+      [ "spell_scroll_druid_beguile_savage_beast", 10 ],
       [ "spell_scroll_banishment_lesser", 30 ],
       [ "spell_scroll_nova_flare", 25 ],
       [ "spell_scroll_freezing_touch", 40 ],
@@ -224,7 +229,8 @@
       [ "bioelectricity", 60 ],
       [ "animist_spirits", 60 ],
       [ "wizard_advanced", 60 ],
-      [ "stat_up_spellbook", 45 ]
+      [ "stat_up_spellbook", 45 ],
+      [ "magic_movement_book", 30 ]
     ]
   },
   {
