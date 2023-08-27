@@ -5970,7 +5970,8 @@
           "chaps_leather",
           "gloves_leather",
           "boots_western",
-          "sunglasses"
+          "sunglasses",
+          "rope_30"
         ],
         "entries": [
           { "group": "charged_smart_phone" },
