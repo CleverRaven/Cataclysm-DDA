@@ -12,17 +12,17 @@
         "     |    |^^|    |cccc ",
         "  ||||||||||||||||||||c ",
         "  |------------------|6 ",
-        "  |-UUUU        UUhd-|r ",
-        "|||-β              6-||2",
-        "  |-β      ØØ      6-|  ",
-        "  |-β      ØØ      ☿-|c ",
-        "  |-☿h             β-|c ",
-        "  |-BBB            β-|  ",
-        "2|G--------22--------|||",
+        "  |-UUUUdd6-        -|r ",
+        "|||-β   h 6-   ¢¢¢¢ -||2",
+        "  |-β      2   ¢ØØ¢ -|  ",
+        "  |-β      2   ¢ØØ¢ -|c ",
+        "  |-☿h     -   ¢¢¢¢ -|c ",
+        "  |-BB     -ββ☿     -|  ",
+        "2|G---22-------------|||",
         "  5                 -|  ",
         "  5                 -|  ",
         "|||--------  --------|||",
-        "  |-dddddd-  -ii   ~-|c ",
+        "  |-dddddd-  -llii ~-|c ",
         "  |-h  h h-  2     ~-|  ",
         "  |-      -  --------|  ",
         " c|-      3  2     U-|c ",
@@ -34,14 +34,14 @@
         "    c|c   2  2    |     "
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "G": "t_card_science" },
-      "furniture": { "t": "f_counter", "p": "f_counter", "☿": "f_alembic", "β": "f_magic_bench", "Ø": "f_magic_circle" },
+      "terrain": { "G": "t_card_science", "Ø": "t_rock_floor", "¢": "t_rock_floor" },
+      "furniture": { "☿": "f_alembic", "β": "f_magic_bench", "Ø": "f_magic_circle" },
       "place_item": [
-        { "item": "spell_scroll_biomancer_remove_instability", "x": 19, "y": 9, "chance": 100 },
-        { "item": "candle", "x": 10, "y": 5, "chance": 100 },
-        { "item": "candle", "x": 10, "y": 8, "chance": 100 },
-        { "item": "candle", "x": 13, "y": 5, "chance": 100 },
-        { "item": "candle", "x": 13, "y": 8, "chance": 100 }
+        { "item": "spell_scroll_biomancer_remove_instability", "x": 12, "y": 9, "chance": 100 },
+        { "item": "candle", "x": 15, "y": 5, "chance": 100 },
+        { "item": "candle", "x": 15, "y": 8, "chance": 100 },
+        { "item": "candle", "x": 18, "y": 5, "chance": 100 },
+        { "item": "candle", "x": 18, "y": 8, "chance": 100 }
       ],
       "items": {
         "B": [
@@ -53,12 +53,18 @@
           { "item": "magic_shop_clothes", "chance": 20 },
           { "item": "enchanted_worn_items", "chance": 20 },
           { "item": "enchanted_small_items", "chance": 10 }
+        ],
+        "l": [
+          { "group": "lab_shoes", "chance": 50, "repeat": [ 2, 3 ] },
+          { "group": "lab_torso_research_thaumaturge", "chance": 50, "repeat": [ 2, 3 ] },
+          { "group": "lab_pants", "chance": 50, "repeat": [ 2, 3 ] },
+          { "group": "underwear", "chance": 50, "repeat": [ 2, 3 ] }
         ]
       },
       "place_monster": [
         { "monster": "mon_feral_lab_magician", "chance": 33, "x": [ 5, 17 ], "y": [ 4, 19 ], "repeat": [ 2, 4 ] },
         { "monster": "mon_feral_lab_magician", "chance": 100, "x": [ 5, 16 ], "y": [ 4, 9 ], "repeat": [ 1, 2 ] },
-        { "monster": "mon_feral_radiation_mage", "chance": 100, "x": [ 5, 16 ], "y": [ 4, 9 ] }
+        { "monster": "mon_feral_radiation_mage", "chance": 100, "x": [ 12, 18 ], "y": [ 4, 9 ] }
       ],
       "place_monsters": [ { "monster": "GROUP_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ]
     }
