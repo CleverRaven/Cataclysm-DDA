@@ -43,7 +43,7 @@
     "type": "mutation",
     "id": "CHEMIMBALANCE",
     "copy-from": "CHEMIMBALANCE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -62,7 +62,7 @@
     "type": "mutation",
     "id": "MOODSWINGS",
     "copy-from": "MOODSWINGS",
-    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_ELF" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_ELF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -204,13 +204,13 @@
     "type": "mutation",
     "id": "PAINREC1",
     "copy-from": "PAINREC1",
-    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
     "id": "PAINREC2",
     "copy-from": "PAINREC2",
-    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",

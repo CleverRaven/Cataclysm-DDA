@@ -63,6 +63,37 @@
   },
   {
     "type": "mutation_category",
+    "id": "SPECIES_GOBLIN",
+    "name": "Goblin",
+    "threshold_mut": "THRESH_SPECIES_GOBLIN",
+    "mutagen_message": "You feel the urge to find a wolf to ride.",
+    "vitamin": "mutagen_species_goblin",
+    "memorial_message": "Went full goblin mode.",
+    "base_removal_chance": 0
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_SPECIES_GOBLIN",
+    "name": { "str": "Child of the Stone" },
+    "points": 1,
+    "description": "Long ago, the others feared your people as hunters in the night.  In this new world, it's time to revive that legacy.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "id": "mutagen_species_goblin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Goblin Purifier" },
+    "excess": "mutagen_species_goblin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "type": "mutation_category",
     "id": "SPECIES_LIZARDFOLK",
     "name": "Lizardfolk",
     "threshold_mut": "THRESH_SPECIES_LIZARDFOLK",
@@ -108,14 +139,14 @@
     "type": "mutation",
     "id": "DARKSIGHT",
     "name": { "str": "Darksight" },
-    "description": "Long ages underground have made your people capable of seeing into the infrared spectrum.",
+    "description": "Long ages underground or under the night boughs have made your people capable of seeing into the infrared spectrum.",
     "points": 5,
     "starting_trait": false,
     "purifiable": false,
     "types": [ "VISION" ],
     "flags": [ "INFRARED" ],
-    "category": [ "SPECIES_DWARF" ],
-    "threshreq": [ "THRESH_SPECIES_DWARF" ]
+    "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ],
+    "threshreq": [ "THRESH_SPECIES_DWARF", "THRESH_SPECIES_GOBLIN" ]
   },
   {
     "type": "mutation",
@@ -150,13 +181,13 @@
     "type": "mutation",
     "id": "TROGLO",
     "copy-from": "TROGLO",
-    "extend": { "category": [ "SPECIES_DWARF" ] }
+    "extend": { "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
     "id": "TROGLO2",
     "copy-from": "TROGLO2",
-    "extend": { "category": [ "SPECIES_DWARF" ] }
+    "extend": { "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -168,7 +199,7 @@
     "type": "mutation",
     "id": "TUNNEL_FIGHTER",
     "copy-from": "TUNNEL_FIGHTER",
-    "extend": { "category": [ "SPECIES_DWARF" ] }
+    "extend": { "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -180,13 +211,13 @@
     "type": "mutation",
     "id": "NIGHTVISION",
     "copy-from": "NIGHTVISION",
-    "extend": { "category": [ "SPECIES_DWARF" ] }
+    "extend": { "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
     "id": "NIGHTVISION2",
     "copy-from": "NIGHTVISION2",
-    "extend": { "category": [ "SPECIES_DWARF" ] }
+    "extend": { "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -204,7 +235,7 @@
     "type": "mutation",
     "id": "GOODCARDIO",
     "copy-from": "GOODCARDIO",
-    "extend": { "category": [ "SPECIES_DWARF" ] }
+    "extend": { "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -222,7 +253,7 @@
     "type": "mutation",
     "id": "INFRESIST",
     "copy-from": "INFRESIST",
-    "extend": { "category": [ "SPECIES_DWARF" ] }
+    "extend": { "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",
@@ -412,6 +443,138 @@
   },
   {
     "type": "mutation",
+    "id": "GOBLIN_BUILD",
+    "name": { "str": "Goblin Build" },
+    "types": [ "SIZE" ],
+    "purifiable": false,
+    "mixed_effect": true,
+    "points": 1,
+    "visibility": 8,
+    "ugliness": 5,
+    "description": "Goblins are much smaller than humans, often no more than half the height.  You have a harder time carrying things and can't eat as much, but you're better at dodging and make very little noise when you move.",
+    "category": [ "SPECIES_GOBLIN" ],
+    "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
+    "flags": [ "TINY" ],
+    "passive_mods": { "str_mod": -3, "dex_mod": 2 },
+    "stomach_size_multiplier": 0.5,
+    "hp_modifier": -0.3,
+    "dodge_modifier": 2,
+    "weight_capacity_modifier": 0.5,
+    "noise_modifier": 0
+  },
+  {
+    "type": "mutation",
+    "id": "NOCTURNAL_NIGHT",
+    "name": { "str": "Nocturnal" },
+    "points": -2,
+    "ugliness": 0,
+    "visibility": 0,
+    "description": "Your people have always had an easier time operating at night, away from the hated light of the sun.  Now is the time to come alive.",
+    "mixed_effect": true,
+    "valid": false,
+    "category": [ "SPECIES_GOBLIN" ],
+    "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
+    "passive_mods": { "per_mod": 1 },
+    "triggers": [ [ { "condition": "is_day" } ] ],
+    "transform": { "target": "NOCTURNAL_DAY", "msg_transform": "", "active": false, "moves": 1 },
+    "enchantments": [ { "values": [ { "value": "SLEEPY", "add": -50 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "NOCTURNAL_DAY",
+    "name": { "str": "Nocturnal" },
+    "points": -2,
+    "ugliness": 0,
+    "visibility": 0,
+    "description": "Your people have always had an easier time operating at night, away from the hated light of the sun.  Maybe it's time to go to bed.",
+    "//": "No negative mods needed here because goblins already have Sun Sensitive.",
+    "mixed_effect": true,
+    "valid": false,
+    "category": [ "SPECIES_GOBLIN" ],
+    "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
+    "triggers": [ [ { "condition": { "not": "is_day" } } ] ],
+    "transform": { "target": "NOCTURNAL_NIGHT", "msg_transform": "", "active": false, "moves": 1 },
+    "enchantments": [ { "values": [ { "value": "SLEEPY", "add": 50 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "GOBLIN_TEETH",
+    "valid": false,
+    "name": { "str": "Goblin Teeth" },
+    "points": 2,
+    "visibility": 2,
+    "ugliness": 2,
+    "description": "Your teeth are longer and more pointed than not.  Before the Cataclysm it considered extremely gauche to bite anything in a fight; it was a mark of the goblins' uncivilized past.  But, needs must.",
+    "types": [ "TEETH" ],
+    "category": [ "SPECIES_GOBLIN" ],
+    "attacks": [
+      {
+        "attack_text_u": "You sink your teeth into %s!",
+        "attack_text_npc": "%1$s sinks their teeth into %2$s!",
+        "blocker_mutations": [ "FANGS", "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
+        "body_part": "mouth",
+        "chance": 20,
+        "base_damage": { "damage_type": "stab", "amount": 6 }
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "SAPROVORE",
+    "copy-from": "SAPROVORE",
+    "extend": { "category": [ "SPECIES_GOBLIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SNOUT",
+    "copy-from": "SNOUT",
+    "extend": { "category": [ "SPECIES_GOBLIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "EATPOISON",
+    "copy-from": "EATPOISON",
+    "extend": { "category": [ "SPECIES_GOBLIN" ], "threshreq": [ "THRESH_SPECIES_GOBLIN" ], "prereqs": [ "GOBLIN_BUILD" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THICKSKIN",
+    "copy-from": "THICKSKIN",
+    "extend": { "category": [ "SPECIES_GOBLIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PADDED_FEET",
+    "copy-from": "PADDED_FEET",
+    "extend": { "category": [ "SPECIES_GOBLIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALDISCORD",
+    "copy-from": "ANIMALDISCORD",
+    "extend": { "category": [ "SPECIES_GOBLIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LIZARDFOLK_BUILD",
+    "name": { "str": "Lizardfolk Build" },
+    "types": [ "SIZE" ],
+    "purifiable": false,
+    "mixed_effect": true,
+    "points": 1,
+    "visibility": 3,
+    "ugliness": 0,
+    "description": "Lizardfolk are taller and stronger than humans but not much thicker and are surprisingly fast for their size (+1 STR, +1 DEX).",
+    "category": [ "SPECIES_LIZARDFOLK" ],
+    "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ],
+    "flags": [ "LARGE" ],
+    "passive_mods": { "str_mod": 1, "dex_mod": 1 },
+    "stomach_size_multiplier": 1.25,
+    "weight_capacity_modifier": 1.05,
+    "movecost_swim_modifier": 0.9
+  },
+  {
+    "type": "mutation",
     "id": "WEBBED_LIZ_FEET",
     "name": { "str": "Webbed Feet" },
     "//": "Alternate so webbed hands are not a prerequisite",
@@ -441,25 +604,6 @@
     "category": [ "SPECIES_LIZARDFOLK" ],
     "temperature_speed_modifier": 0.5,
     "metabolism_modifier": 0.5
-  },
-  {
-    "type": "mutation",
-    "id": "LIZARDFOLK_BUILD",
-    "name": { "str": "Lizardfolk Build" },
-    "types": [ "SIZE" ],
-    "purifiable": false,
-    "mixed_effect": true,
-    "points": 1,
-    "visibility": 3,
-    "ugliness": 0,
-    "description": "Lizardfolk are taller and stronger than humans but not much thicker and are surprisingly fast for their size (+1 STR, +1 DEX).",
-    "category": [ "SPECIES_LIZARDFOLK" ],
-    "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ],
-    "flags": [ "LARGE" ],
-    "passive_mods": { "str_mod": 1, "dex_mod": 1 },
-    "stomach_size_multiplier": 1.25,
-    "weight_capacity_modifier": 1.05,
-    "movecost_swim_modifier": 0.9
   },
   {
     "type": "mutation",
@@ -514,7 +658,7 @@
     "type": "mutation",
     "id": "NAILS",
     "copy-from": "NAILS",
-    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+    "extend": { "category": [ "SPECIES_LIZARDFOLK", "SPECIES_GOBLIN" ] }
   },
   {
     "type": "mutation",

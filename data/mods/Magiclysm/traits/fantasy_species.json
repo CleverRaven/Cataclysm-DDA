@@ -58,6 +58,33 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "hobby_species_goblin",
+    "name": "Goblin (Species)",
+    "description": "You are a goblin.  Before the Cataclysm your people were always a little out of place: the houses weren't designed for you, the shops weren't open when you were awake, and your appearance sometimes gave human or elven children nightmares that you were going to steal them or reminded dwarves of the ancient wars your peoples fought.  As it turned out, you weren't what any of them should have been worrying about.",
+    "points": 4,
+    "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "unarmed" } ],
+    "traits": [
+      "THRESH_SPECIES_GOBLIN",
+      "DARKSIGHT",
+      "GOBLIN_BUILD",
+      "GOBLIN_TEETH",
+      "NIGHTVISION2",
+      "SAPROVORE",
+      "SNOUT",
+      "NAILS",
+      "THICKSKIN",
+      "PAINREC2",
+      "GOODCARDIO",
+      "EATPOISON",
+      "TUNNEL_FIGHTER",
+      "NOCTURNAL_DAY",
+      "MOODSWINGS",
+      "TROGLO2"
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "hobby_species_lizardfolk",
     "name": "Lizardfolk (Species)",
     "description": "You are one of the Scaled Ones, called \"lizardfolk\" by the warmbloods.  For generations, your tribe served a dragon as its eyes and ears in the outside world, until civilization encroached far enough that even all the dragon's might could not hold it back.  You were sent out to integrate into the modern world, but you were only there a few years before human science ended their world.  Now, you have to survive in the mess they've created.",
