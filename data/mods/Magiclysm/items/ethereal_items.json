@@ -426,7 +426,7 @@
         "moves": 20
       }
     ],
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE" ],
+    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE" ],
     "armor": [
       {
         "encumbrance": [ 3, 5 ],
@@ -460,7 +460,7 @@
         "moves": 20
       }
     ],
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE" ],
+    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE" ],
     "armor": [
       {
         "encumbrance": [ 3, 5 ],
@@ -479,7 +479,7 @@
     "color": "green",
     "looks_like": "arrow_fire_hardened_fletched",
     "description": "A magically conjured arrow made of twisted wood.",
-    "material": [ "wood", "steel" ],
+    "material": [ "wood" ],
     "volume": "250 ml",
     "price_postapoc": 50,
     "weight": "30 g",
@@ -505,7 +505,7 @@
     "material": [ "wood" ],
     "volume": "250 ml",
     "price_postapoc": 1,
-    "weight": "25 g",
+    "weight": "30 g",
     "longest_side": "76 cm",
     "melee_damage": { "bash": 3, "cut": 1 },
     "ammo_type": "arrow",
