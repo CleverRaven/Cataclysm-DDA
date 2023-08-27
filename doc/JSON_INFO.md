@@ -2847,6 +2847,15 @@ Vehicle components when installed on a vehicle.
   "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
   "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
 },
+"control_requirements": {     // (Optional) Control requirements of the vehicle this part is installed.
+  "air": {                    // Requirements of flying in air.
+    "proficiencies": [ "prof_helicopter_pilot" ], // "proficiencies" is a list of proficiency names.
+  },
+  "land": {                    // Requirements of running on ground.
+    "skills": [ [ "driving", 1 ] ], // "skills" is a list of lists, with each list being a skill
+                              // name and skill level.
+  }
+},
 "pseudo_tools" : [            // Crafting tools provided by this part
   { "id": "hotplate", "hotkey": "h" },
   { "id": "pot" }

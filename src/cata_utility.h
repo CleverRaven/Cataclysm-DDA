@@ -488,6 +488,8 @@ bool return_false( const T & )
 /**
  * Joins an iterable (class implementing begin() and end()) of elements into a single
  * string with specified delimiter by using `<<` ostream operator on each element
+ *
+ * keyword: implode
  */
 template<typename Container>
 std::string string_join( const Container &iterable, const std::string &joiner )
@@ -505,6 +507,8 @@ std::string string_join( const Container &iterable, const std::string &joiner )
 
 /**
 * Splits a string by delimiter into a vector of strings
+*
+* keyword: explode
 */
 std::vector<std::string> string_split( std::string_view string, char delim );
 

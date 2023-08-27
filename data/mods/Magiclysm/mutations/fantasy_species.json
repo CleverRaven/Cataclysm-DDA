@@ -1,0 +1,525 @@
+[
+  {
+    "type": "mutation_category",
+    "id": "SPECIES_DWARF",
+    "name": "Dwarf",
+    "threshold_mut": "THRESH_SPECIES_DWARF",
+    "mutagen_message": "Your heart beats in time with the rhythm of the Earth.",
+    "vitamin": "mutagen_species_dwarf",
+    "memorial_message": "Entered the halls of the King Under the Mountain.",
+    "base_removal_chance": 0
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_SPECIES_DWARF",
+    "name": { "str": "Child of the Stone" },
+    "points": 1,
+    "description": "Trust the humans to make a mess of the world.  Trust a dwarf to rebuild it better than they found it.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "id": "mutagen_species_dwarf",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Dwarven Purifier" },
+    "excess": "mutagen_species_dwarf",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "type": "mutation_category",
+    "id": "SPECIES_ELF",
+    "name": "Elf",
+    "threshold_mut": "THRESH_SPECIES_ELF",
+    "mutagen_message": "You hear the songs of nature.",
+    "vitamin": "mutagen_species_elf",
+    "memorial_message": "Passed into the West.",
+    "base_removal_chance": 0
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_SPECIES_ELF",
+    "name": { "str": "Firstborn" },
+    "points": 1,
+    "description": "The first elves sprang forth from magic and moonlight before the ancestors of humanity stopped scurrying through the underbrush to avoid the dinosaurs.  You won't let that legacy die with you.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "id": "mutagen_species_elf",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Elven Purifier" },
+    "excess": "mutagen_species_elf",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "type": "mutation_category",
+    "id": "SPECIES_LIZARDFOLK",
+    "name": "Lizardfolk",
+    "threshold_mut": "THRESH_SPECIES_LIZARDFOLK",
+    "mutagen_message": "You remember the warmth of your home swamps.",
+    "vitamin": "mutagen_species_lizardfolk",
+    "memorial_message": "Returned to the World Egg.",
+    "base_removal_chance": 0
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_SPECIES_LIZARDFOLK",
+    "name": { "str": "Scaled One" },
+    "points": 1,
+    "description": "The old world was nothing like your home swamps, but this new world is something you understand.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "id": "mutagen_species_lizardfolk",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Lizardfolk Purifier" },
+    "excess": "mutagen_species_lizardfolk",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BORN_ARTISAN",
+    "name": { "str": "Earthborn Artisan" },
+    "description": "Born from the living earth, your people are naturally adept at the manipulation of the physical world.",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "category": [ "SPECIES_DWARF" ],
+    "threshreq": [ "THRESH_SPECIES_DWARF" ],
+    "crafting_speed_multiplier": 1.1
+  },
+  {
+    "type": "mutation",
+    "id": "DARKSIGHT",
+    "name": { "str": "Darksight" },
+    "description": "Long ages underground have made your people capable of seeing into the infrared spectrum.",
+    "points": 5,
+    "starting_trait": false,
+    "purifiable": false,
+    "types": [ "VISION" ],
+    "flags": [ "INFRARED" ],
+    "category": [ "SPECIES_DWARF" ],
+    "threshreq": [ "THRESH_SPECIES_DWARF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DWARVEN_BUILD",
+    "name": { "str": "Dwarven Build" },
+    "//": "Slightly better version of STOCKY_TROGLO since dwarves are born this way",
+    "types": [ "SIZE" ],
+    "purifiable": false,
+    "mixed_effect": true,
+    "points": 1,
+    "visibility": 3,
+    "ugliness": 0,
+    "description": "Dwarves are smaller than humans, the better to deal with confined spaces underground, but as solid as the mountains (+2 STR, -1 DEX).",
+    "category": [ "SPECIES_DWARF" ],
+    "threshreq": [ "THRESH_SPECIES_DWARF" ],
+    "passive_mods": { "str_mod": 2, "dex_mod": -1 },
+    "movecost_modifier": 1.05
+  },
+  {
+    "type": "mutation",
+    "id": "TOLERANCE",
+    "copy-from": "TOLERANCE",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ALCMET",
+    "copy-from": "ALCMET",
+    "extend": { "category": [ "SPECIES_DWARF" ], "prereqs2": [ "DWARVEN_BUILD" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TROGLO",
+    "copy-from": "TROGLO",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TROGLO2",
+    "copy-from": "TROGLO2",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THICKSKIN",
+    "copy-from": "THICKSKIN",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TUNNEL_FIGHTER",
+    "copy-from": "TUNNEL_FIGHTER",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "GOURMAND",
+    "copy-from": "GOURMAND",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION",
+    "copy-from": "NIGHTVISION",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION2",
+    "copy-from": "NIGHTVISION2",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SMELLY",
+    "copy-from": "SMELLY",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HIRSUTE",
+    "copy-from": "HIRSUTE",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "GOODCARDIO",
+    "copy-from": "GOODCARDIO",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HEAVYSLEEPER",
+    "copy-from": "HEAVYSLEEPER",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HEAVYSLEEPER2",
+    "copy-from": "HEAVYSLEEPER2",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INFRESIST",
+    "copy-from": "INFRESIST",
+    "extend": { "category": [ "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ELVEN_BUILD",
+    "name": { "str": "Elven Build" },
+    "//": "Opposite of Dwarven Build!",
+    "types": [ "SIZE" ],
+    "purifiable": false,
+    "mixed_effect": true,
+    "points": 1,
+    "visibility": 3,
+    "ugliness": 0,
+    "description": "Elves are more lithe and frail than humans, but possess an almost otherworldly grace (-1 STR, +2 DEX).",
+    "category": [ "SPECIES_ELF" ],
+    "threshreq": [ "THRESH_SPECIES_ELF" ],
+    "passive_mods": { "str_mod": -1, "dex_mod": 2 }
+  },
+  {
+    "type": "mutation",
+    "id": "ELVEN_BEAUTY",
+    "name": { "str": "Passing Fair" },
+    "purifiable": false,
+    "points": 4,
+    "visibility": 8,
+    "ugliness": -8,
+    "description": "The elves are often called the \"Fair Folk\" due to their preternatural beauty, and you are no exception to this custom.",
+    "types": [ "ATTRACTIVENESS" ],
+    "category": [ "SPECIES_ELF" ],
+    "threshreq": [ "THRESH_SPECIES_ELF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELVEN_HEARING",
+    "name": { "str": "Elven Hearing" },
+    "purifiable": false,
+    "points": 2,
+    "description": "Your delicate pointed ears allow you to hear all the sounds of the world.",
+    "types": [ "HEARING" ],
+    "category": [ "SPECIES_ELF" ],
+    "threshreq": [ "THRESH_SPECIES_ELF" ],
+    "flags": [ "SUPER_HEARING" ],
+    "hearing_modifier": 1.75
+  },
+  {
+    "type": "mutation",
+    "id": "ELVEN_SLEEP",
+    "name": { "str": "Reverie" },
+    "points": 4,
+    "description": "Rather than sleep insensate like humans do, you blend living night and dreams into a harmonious whole.  You are not bothered by light levels, and need much less sleep per night.",
+    "purifiable": false,
+    "types": [ "SLEEP" ],
+    "category": [ "SPECIES_ELF" ],
+    "threshreq": [ "THRESH_SPECIES_ELF" ],
+    "flags": [ "SEESLEEP" ],
+    "fatigue_modifier": -0.333,
+    "fatigue_regen_modifier": 0.333
+  },
+  {
+    "type": "mutation",
+    "id": "WILDWALKER",
+    "name": { "str": "Natural Stride" },
+    "purifiable": false,
+    "points": 3,
+    "description": "The elves were born of nature and the elements, and long ages under the trees allow them to quickly pass through their forest homes.",
+    "//": "terrains below copied from the druid caster level boost.",
+    "category": [ "SPECIES_ELF" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "u_is_on_terrain": "t_tree_young" },
+            { "u_is_on_terrain": "t_mega_fern" },
+            { "u_is_on_terrain": "t_fungus_colony" },
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain": "t_bamboo_long" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_is_on_terrain": "t_bamboo" },
+            { "u_is_on_terrain": "t_bamboo_harvested" },
+            { "u_is_on_terrain": "t_underbrush_harvested_winter" },
+            { "u_is_on_terrain": "t_grass" },
+            { "u_is_on_terrain": "t_grass_white" },
+            { "u_is_on_terrain": "t_moss" },
+            { "u_is_on_terrain": "t_forestfloor" }
+          ]
+        },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELFAEYES",
+    "copy-from": "ELFAEYES",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LIGHTEATER",
+    "copy-from": "LIGHTEATER",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "QUICK",
+    "copy-from": "QUICK",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEFT",
+    "copy-from": "DEFT",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ELFA_NV",
+    "copy-from": "ELFA_NV",
+    "extend": { "category": [ "SPECIES_ELF" ], "threshreq": [ "THRESH_SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALEMPATH",
+    "copy-from": "ANIMALEMPATH",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALEMPATH2",
+    "copy-from": "ANIMALEMPATH2",
+    "extend": { "category": [ "SPECIES_ELF" ], "threshreq": [ "THRESH_SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ANTIJUNK",
+    "copy-from": "ANTIJUNK",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP",
+    "copy-from": "DEX_UP",
+    "extend": { "category": [ "SPECIES_ELF", "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP_2",
+    "copy-from": "DEX_UP_2",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP",
+    "copy-from": "PER_UP",
+    "extend": { "category": [ "SPECIES_ELF", "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FLIMSY",
+    "copy-from": "FLIMSY",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DISRESISTANT",
+    "copy-from": "DISRESISTANT",
+    "extend": { "category": [ "SPECIES_ELF", "SPECIES_DWARF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DISIMMUNE",
+    "copy-from": "DISIMMUNE",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PICKYEATER",
+    "copy-from": "PICKYEATER",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LIGHTSTEP",
+    "copy-from": "LIGHTSTEP",
+    "extend": { "category": [ "SPECIES_ELF" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "WEBBED_LIZ_FEET",
+    "name": { "str": "Webbed Feet" },
+    "//": "Alternate so webbed hands are not a prerequisite",
+    "points": 1,
+    "types": [ "FEET" ],
+    "description": "Your feet are heavily webbed, allowing you to swim faster if you aren't wearing footwear.",
+    "category": [ "SPECIES_LIZARDFOLK" ],
+    "flags": [ "WEBBED_FEET", "TOUGH_FEET" ],
+    "wet_protection": [ { "part": "foot_l", "good": 6 }, { "part": "foot_r", "good": 6 } ]
+  },
+  {
+    "type": "mutation",
+    "id": "GILLS",
+    "copy-from": "GILLS",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ], "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "COLDBLOOD4_LIZ",
+    "flags": [ "ECTOTHERM" ],
+    "name": { "str": "Ectothermia" },
+    "points": -3,
+    "description": "Your body has become permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  All this and you need even more food to maintain your energy.",
+    "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ],
+    "purifiable": false,
+    "types": [ "METABOLISM" ],
+    "category": [ "SPECIES_LIZARDFOLK" ],
+    "temperature_speed_modifier": 0.5,
+    "metabolism_modifier": 0.5
+  },
+  {
+    "type": "mutation",
+    "id": "LIZARDFOLK_BUILD",
+    "name": { "str": "Lizardfolk Build" },
+    "types": [ "SIZE" ],
+    "purifiable": false,
+    "mixed_effect": true,
+    "points": 1,
+    "visibility": 3,
+    "ugliness": 0,
+    "description": "Lizardfolk are taller and stronger than humans but not much thicker and are surprisingly fast for their size (+1 STR, +1 DEX).",
+    "category": [ "SPECIES_LIZARDFOLK" ],
+    "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ],
+    "flags": [ "LARGE" ],
+    "passive_mods": { "str_mod": 1, "dex_mod": 1 },
+    "stomach_size_multiplier": 1.25,
+    "weight_capacity_modifier": 1.05,
+    "movecost_swim_modifier": 0.9
+  },
+  {
+    "type": "mutation",
+    "id": "PRED_LIZ",
+    "name": { "str": "Scalefolk Mindset" },
+    "description": "While not completely predatory, the lizardfolk are generally not particularly invested in the welfare of warmbloods.  Their death does not affect you greatly, and your ability to maintain combat skills is enhanced.",
+    "points": 2,
+    "purifiable": false,
+    "category": [ "SPECIES_LIZARDFOLK" ],
+    "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ],
+    "types": [ "PREDATION" ],
+    "flags": [ "PRED2" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "COMBAT_CATCHUP", "multiply": 1.5 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "CARNIVORE_FAKE",
+    "copy-from": "CARNIVORE_FAKE",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TAIL_STUB",
+    "copy-from": "TAIL_STUB",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TAIL_THICK",
+    "copy-from": "TAIL_THICK",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "RESISTWARM",
+    "copy-from": "RESISTWARM",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SNOUT",
+    "copy-from": "SNOUT",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUZZLE_LONG",
+    "copy-from": "MUZZLE_LONG",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "NAILS",
+    "copy-from": "NAILS",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TALONS",
+    "copy-from": "TALONS",
+    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+  }
+]
