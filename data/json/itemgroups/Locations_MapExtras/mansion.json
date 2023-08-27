@@ -1628,7 +1628,7 @@
       [ "shovel", 40 ],
       [ "clay_pot_flower", 40 ],
       [ "plastic_pot_flower", 60 ],
-      { "group": "fertilizer_commercial_bag_canvas_60", "prob": 30 },
+      [ "fertilizer_commercial", 30 ],
       [ "material_quicklime", 30 ],
       [ "seed_sunflower", 30 ],
       [ "straw_basket", 30 ],

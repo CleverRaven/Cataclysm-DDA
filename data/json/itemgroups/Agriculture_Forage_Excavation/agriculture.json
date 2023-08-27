@@ -85,7 +85,7 @@
   {
     "type": "item_group",
     "id": "fertilizers",
-    "items": [ [ "fertilizer_liquid", 90 ], { "group": "fertilizer_commercial_bag_canvas_60", "prob": 60 } ]
+    "items": [ [ "fertilizer_liquid", 90 ], [ "fertilizer_commercial", 60 ] ]
   },
   {
     "type": "item_group",
