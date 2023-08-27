@@ -457,7 +457,7 @@ static void invlet_test( avatar &dummy, const inventory_location from, const inv
         invlet_state expected_second_invlet_state = second_invlet_state;
 
         // remove all items
-        dummy.clear_inv();
+        dummy.inv->clear();
         dummy.clear_worn();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos() );
@@ -539,7 +539,7 @@ static void stack_invlet_test( avatar &dummy, inventory_location from, inventory
     }
 
     // remove all items
-    dummy.clear_inv();
+    dummy.inv->clear();
     dummy.clear_worn();
     dummy.remove_weapon();
     get_map().i_clear( dummy.pos() );
@@ -592,7 +592,7 @@ static void swap_invlet_test( avatar &dummy, inventory_location loc )
     REQUIRE( loc != GROUND );
 
     // remove all items
-    dummy.clear_inv();
+    dummy.inv->clear();
     dummy.clear_worn();
     dummy.remove_weapon();
     get_map().i_clear( dummy.pos() );
@@ -677,7 +677,7 @@ static void merge_invlet_test( avatar &dummy, inventory_location from )
                                       invlet_2 : 0;
 
         // remove all items
-        dummy.clear_inv();
+        dummy.inv->clear();
         dummy.clear_worn();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos() );

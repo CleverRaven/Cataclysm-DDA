@@ -2929,12 +2929,6 @@ void Character::clear_worn()
     inv_search_caches.clear();
 }
 
-void Character::clear_inv()
-{
-    inv->clear();
-    inv_search_caches.clear();
-}
-
 std::list<item *> Character::get_dependent_worn_items( const item &it )
 {
     std::list<item *> dependent;
@@ -8668,7 +8662,7 @@ void Character::migrate_items_to_storage( bool disintegrate )
         }
         return VisitResponse::SKIP;
     } );
-    clear_inv();
+    inv->clear();
 }
 
 std::string Character::is_snuggling() const

@@ -988,7 +988,7 @@ void Character::load( const JsonObject &data )
         set_part_frostbite_timer( bodypart_id( "foot_r" ), frostbite_timer[11] );
     }
 
-    clear_inv();
+    inv->clear();
     if( data.has_member( "inv" ) ) {
         inv->json_load_items( data.get_member( "inv" ) );
     }

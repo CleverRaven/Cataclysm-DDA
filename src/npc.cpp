@@ -760,7 +760,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     }
 
     set_wielded_item( item( "null", calendar::turn_zero ) );
-    clear_inv();
+    inv->clear();
     personality.aggression = rng( -10, 10 );
     personality.bravery    = rng( -3, 10 );
     personality.collector  = rng( -1, 10 );
@@ -1076,7 +1076,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
 void starting_inv( npc &who, const npc_class_id &type )
 {
     std::list<item> res;
-    who.clear_inv();
+    who.inv->clear();
     if( item_group::group_is_defined( type->carry_override ) ) {
         *who.inv += item_group::items_from( type->carry_override );
         return;

@@ -75,7 +75,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.clear_worn();
     dummy.calc_encumbrance();
     dummy.invalidate_crafting_inventory();
-    dummy.clear_inv();
+    dummy.inv->clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
     dummy.mutation_category_level.clear();
@@ -208,7 +208,7 @@ void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
 {
     CHECK( !shooter.in_vehicle );
     shooter.clear_worn();
-    shooter.clear_inv();
+    shooter.inv->clear();
     for( const std::string &article : apparel ) {
         shooter.wear_item( item( article ) );
     }
