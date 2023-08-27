@@ -4,10 +4,12 @@
 #include <cstdlib>
 #include <iterator>
 
+#include "character.h"
 #include "cuboid_rectangle.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "line.h"
 #include "list.h"
+#include "map.h"
 #include "point.h"
 
 struct slope {
@@ -258,7 +260,8 @@ void cast_horizontal_zlight_segment(
                     // and "can see majority of tile".
                     bool floor_block = false;
                     if( current.z < offset.z ) {
-                        if( ( *floor_caches[z_index + 1] )[current.x][current.y] ) {
+                        if( ( *floor_caches[z_index + 1] )[current.x][current.y] ||
+                            get_map().ledge_coverage( get_player_character(), current ) > 100 ) {
                             floor_block = true;
                             new_transparency = LIGHT_TRANSPARENCY_SOLID;
                         }
@@ -430,7 +433,8 @@ void cast_vertical_zlight_segment(
                     // that tile is actually invisible to us.
                     bool floor_block = false;
                     if( current.z < offset.z ) {
-                        if( ( *floor_caches[z_index + 1] )[current.x][current.y] ) {
+                        if( ( *floor_caches[z_index + 1] )[current.x][current.y] ||
+                            get_map().ledge_coverage( get_player_character(), current ) > 100 ) {
                             floor_block = true;
                             new_transparency = LIGHT_TRANSPARENCY_SOLID;
                         }
