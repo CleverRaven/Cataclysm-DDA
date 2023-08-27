@@ -415,6 +415,7 @@ static std::vector<tripoint> shrapnel( const Creature *source, const tripoint &s
     fragment_cloud initial_cloud = accumulate_fragment_cloud( obstacle_cache[src.x][src.y],
     { fragment_velocity, static_cast<float>( fragment_count ) }, 1 );
     visited_cache[src.x][src.y] = initial_cloud;
+    visited_cache[src.x][src.y].density = static_cast<float>( fragment_count );
 
     castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
                  update_fragment_cloud, accumulate_fragment_cloud>
