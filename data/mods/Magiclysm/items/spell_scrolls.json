@@ -1430,6 +1430,7 @@
     "use_action": { "type": "learn_spell", "spells": [ "druid_harvest_hunter" ] }
   },
   {
+    "type": "BOOK",
     "id": "spell_scroll_animist_sense_outsiders",
     "//": "Animist spell",
     "name": { "str": "Scroll of Sense Outsiders", "str_pl": "Scrolls of Sense Outsiders" },
