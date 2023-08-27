@@ -7168,6 +7168,15 @@ int map::ledge_coverage( const Creature &viewer, const tripoint &target_p,
             debugmsg( "ERROR: Creature has invalid size class." );
             break;
     }
+    // Viewer eye level crouch / prone multipliers
+    const Character *viewer_ch = viewer.as_character();
+    if( viewer_ch ) {
+        if( viewer_ch->is_crouching() ) {
+            eye_level *= 0.5;
+        } else if( viewer_ch->is_prone() ) {
+            eye_level *= 0.275;
+        }
+    }
     // Viewer eye level is higher when standing on furniture
     const furn_id viewer_furn = furn( viewer_p );
     if( viewer_furn.obj().id || ( move_cost( viewer_p ) > 2 &&
