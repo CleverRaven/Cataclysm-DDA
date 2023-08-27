@@ -1363,6 +1363,7 @@
   {
     "id": "mon_XEDRA_officer",
     "type": "MONSTER",
+    "description": "A figure in a high-tech suit, their outline contorted as though you were viewing them through a prism.  Their movements are strained but determined, pushing through apparent pain with feverish resolve, dead-set on reaching their target.",
     "name": { "str": "mercenary officer" },
     "copy-from": "mon_zombie_bio_op",
     "hp": 150,
@@ -1385,6 +1386,7 @@
   {
     "id": "mon_XEDRA_soldier",
     "type": "MONSTER",
+    "description": "A figure in combat gear, distorted and shattered like broken glass.  They thrash around as they move, an expression of shock and anguish frozen on their face.",
     "name": { "str": "mercenary ghost" },
     "copy-from": "mon_zombie_soldier_blackops_1",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The soldier fades away to nothing." }
