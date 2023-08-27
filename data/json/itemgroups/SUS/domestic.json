@@ -431,7 +431,7 @@
       { "item": "pot_copper", "prob": 75 },
       { "item": "stock_pot", "prob": 50 },
       { "item": "pot_canning", "prob": 25 },
-      { "item": "colander_steel", "prob": 40 },
+      { "item": "colander_steel", "prob": 80 },
       { "item": "splatter_guard", "prob": 20 },
       { "item": "pan", "count": [ 1, 2 ] },
       { "item": "steel_pan", "prob": 80 },
