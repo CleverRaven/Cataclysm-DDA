@@ -4882,7 +4882,8 @@
           "pockknife",
           "cattlefodder",
           "cattlefodder",
-          "cig"
+          "cig",
+          "long_rope"
         ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
