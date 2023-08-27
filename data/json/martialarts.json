@@ -7,7 +7,8 @@
     "initiate": [ "You decide to not use any martial arts.", "%s enters a generic combat stance." ],
     "arm_block": 1,
     "leg_block": 99,
-    "allow_all_weapons": true
+    "allow_all_weapons": true,
+    "teachable": false
   },
   {
     "type": "martial_art",
@@ -18,7 +19,8 @@
     "arm_block": 1,
     "leg_block": 99,
     "force_unarmed": true,
-    "prevent_weapon_blocking": true
+    "prevent_weapon_blocking": true,
+    "teachable": false
   },
   {
     "type": "martial_art",

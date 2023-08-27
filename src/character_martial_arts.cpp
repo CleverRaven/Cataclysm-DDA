@@ -158,6 +158,20 @@ std::vector<matype_id> character_martial_arts::get_unknown_styles( const charact
     return ret;
 }
 
+std::vector<matype_id> character_martial_arts::get_known_styles( bool teachable_only ) const
+{
+    if( !teachable_only ) {
+        return ma_styles;
+    }
+    std::vector<matype_id> ret;
+    for( const matype_id &i : ma_styles ) {
+        if( i->teachable ) {
+            ret.push_back( i );
+        }
+    }
+    return ret;
+}
+
 void character_martial_arts::serialize( JsonOut &json ) const
 {
     json.start_object();
