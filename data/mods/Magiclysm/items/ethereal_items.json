@@ -429,7 +429,7 @@
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE" ],
     "armor": [
       {
-        "encumbrance": 3,
+        "encumbrance": [ 3, 5 ],
         "coverage": 25,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
@@ -463,7 +463,7 @@
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE" ],
     "armor": [
       {
-        "encumbrance": 3,
+        "encumbrance": [ 3, 5 ],
         "coverage": 25,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
