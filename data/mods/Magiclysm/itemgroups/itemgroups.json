@@ -1531,7 +1531,27 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "lab_torso_research_thaumaturge",
-    "copy-from": "lab_torso",
-    "extend": { "entries": [ { "item": "coat_lab_plus_one", "prob": 20 }, { "item": "coat_lab_plus_two", "prob": 5 } ] }
+    "items": [
+      [ "coat_lab", 20 ],
+      [ "coat_lab", 20 ],
+      [ "coat_lab", 20 ],
+      [ "coat_lab", 20 ],
+      [ "tshirt", 80 ],
+      [ "longshirt", 80 ],
+      [ "polo_shirt", 65 ],
+      [ "dress_shirt", 60 ],
+      [ "dress", 70 ],
+      [ "sweatshirt", 75 ],
+      [ "sweater", 75 ],
+      [ "turtleneck", 25 ],
+      [ "turtleneck_shirt", 25 ],
+      [ "hoodie", 65 ],
+      [ "jumpsuit", 20 ],
+      [ "badge_doctor", 10 ],
+      [ "hazmat_suit", 5 ],
+      [ "cleansuit", 10 ],
+      { "item": "coat_lab_plus_one", "prob": 20 },
+      { "item": "coat_lab_plus_two", "prob": 5 }
+    ]
   }
 ]
