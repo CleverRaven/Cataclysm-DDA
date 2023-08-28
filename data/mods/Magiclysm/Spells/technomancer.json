@@ -680,7 +680,7 @@
     "id": "technomancer_conjure_ups",
     "type": "SPELL",
     "name": "Power Supply",
-    "description": "For the technomancer with no enhancements, this spell summons a power supply composed of pure mana that can be used to charge any compatible device.  It cannot itself be recharged without recasting the spell.",
+    "description": "For the technomancer with no enhancements, this spell summons a power supply composed of pure mana that can be used to charge any compatible device.  It will continually recharge until the duration expires.",
     "valid_targets": [ "self" ],
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
     "effect": "spawn_item",
