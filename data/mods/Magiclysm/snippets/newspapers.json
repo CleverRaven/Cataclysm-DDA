@@ -2,7 +2,12 @@
   {
     "type": "snippet",
     "category": "weeks_old_newspaper",
-    "text": [ { "id": "magiclysm_weeks_old_news_1", "text": "Letter to the Editor:\n\nI am concerned about recent activity among the local goblin population.  While the ritos have us all on edge, lately many of them seem to be keeping to themselves.  My neighbors won't even say hello to me anymore or look at me when I pass them on the street.  Sometimes they leave for days at a time, and I swear I've seen fires burning on the hills.  There's something odd going on and we don't need any more strangeness with everything else that's wrong with the world lately.\n\nSincerely\nEdward Frost" } ]
+    "text": [
+      {
+        "id": "magiclysm_weeks_old_news_1",
+        "text": "Letter to the Editor:\n\nI am concerned about recent activity among the local goblin population.  While the ritos have us all on edge, lately many of them seem to be keeping to themselves.  My neighbors won't even say hello to me anymore or look at me when I pass them on the street.  Sometimes they leave for days at a time, and I swear I've seen fires burning on the hills.  There's something odd going on and we don't need any more strangeness with everything else that's wrong with the world lately.\n\nSincerely\nEdward Frost"
+      }
+    ]
   },
   {
     "type": "snippet",
