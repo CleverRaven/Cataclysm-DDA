@@ -6783,7 +6783,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
-                            if ( unload_sparse_only && item_counts[contained->typeId().str()] > 20) {
+                            if ( unload_sparse_only && item_counts[contained->typeId().str()] > get_option<int>("SPARSE_ITEM_THRESHOLD") ) {
                                 continue;
                             }
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );

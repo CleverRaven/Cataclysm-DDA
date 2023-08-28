@@ -1589,6 +1589,13 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
+    add( "SPARSE_ITEM_THRESHOLD", "general", to_translation( "Sparse unloading item limit" ),
+         to_translation( "Item stacks (not charges) greater than this number will be ignored when the 'unload sparse' option is enabled in 'Loot: Unload Everything' zones. Pass the salt." ),
+         0, 1000, 20
+    );
+
+    add_empty_line();
+
     add( "TURN_DURATION", "general", to_translation( "Realtime turn progression" ),
          to_translation( "If higher than 0, monsters will take periodic gameplay turns.  This value is the delay between each turn, in seconds.  Works best with Safe Mode disabled.  0 = disabled." ),
          0.0, 10.0, 0.0, 0.05
