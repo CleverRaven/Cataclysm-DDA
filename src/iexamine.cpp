@@ -2706,7 +2706,8 @@ ret_val<void> iexamine::can_fertilize( Character &you, const tripoint &tile,
     if( here.i_at( tile ).size() > 1 ) {
         return ret_val<void>::make_failure( _( "Tile is already fertilized" ) );
     }
-    if( !you.has_charges( fertilizer, 1 ) ) {
+    if( ( fertilizer->count_by_charges() && !you.has_charges( fertilizer, 1 ) ) ||
+        !you.has_amount( fertilizer, 1 ) ) {
         return ret_val<void>::make_failure(
                    _( "Tried to fertilize with %s, but player doesn't have any." ),
                    fertilizer.c_str() );
@@ -2724,7 +2725,12 @@ void iexamine::fertilize_plant( Character &you, const tripoint &tile,
         return;
     }
 
-    std::list<item> planted = you.use_charges( fertilizer, 1 );
+    std::list<item> planted;
+    if( fertilizer->count_by_charges() ) {
+        planted = you.use_charges( fertilizer, 1 );
+    } else {
+        planted = you.use_amount( fertilizer, 1 );
+    }
 
     // Reduce the amount of time it takes until the next stage of the plant by
     // 20% of a seasons length. (default 2.8 days).
