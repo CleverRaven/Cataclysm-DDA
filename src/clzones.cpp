@@ -42,6 +42,7 @@
 #include "vehicle.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "options.h"
 
 static const faction_id faction_your_followers( "your_followers" );
 
@@ -314,9 +315,9 @@ unload_options::query_unload_result unload_options::query_unload()
 {
     molle = query_yn( _( "Detach MOLLE attached pouches" ) );
     mods = query_yn( _( "Detach mods from weapons" ) );
-    sparse_only = query_yn(_("Avoid unloading items with quantity greater than 20 (Does not apply to item charges)" ) );
-    always_unload = query_yn(
-                        _( "Always unload (even if the container has a valid sorting location)" ) );
+    int threshold = get_option<int>("SPARSE_ITEM_THRESHOLD");
+    sparse_only = query_yn( _(string_format("Avoid unloading items stacks (not charges) greater than %i? (Threshold can be adjusted in options)", threshold)));
+    always_unload = query_yn( _( "Always unload (even if the container has a valid sorting location)" ) );
     return changed;
 }
 
