@@ -6731,6 +6731,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
 
         bool unload_mods = false;
         bool unload_molle = false;
+        bool unload_sparse_only = false;
 
         std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_zone_unload_all,
                 fac_id );
@@ -6740,6 +6741,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             unload_options const &options = dynamic_cast<const unload_options &>( zone->get_options() );
             unload_molle |= options.unload_molle();
             unload_mods |= options.unload_mods();
+            unload_sparse_only |= options.unload_sparse_only();
         }
 
         //Skip items that have already been processed
@@ -6770,9 +6772,20 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                 ( mgr.has_near( zone_type_zone_strip, abspos, 1, fac_id ) && it->first->is_corpse() ) ) {
                 if( you.rate_action_unload( *it->first ) == hint_rating::good &&
                     !it->first->any_pockets_sealed() ) {
+                    std::unordered_map<std::string, int> item_counts;
+                    if (unload_sparse_only) {
+                        for( item *contained : it->first->all_items_top(item_pocket::pocket_type::CONTAINER) ) {
+                            if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                                item_counts[contained->typeId().str()]++;
+                            }
+                        }
+                    }
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                            if ( unload_sparse_only && item_counts[contained->typeId().str()] > 20) {
+                                continue;
+                            }
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
                         }

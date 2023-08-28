@@ -284,6 +284,7 @@ class unload_options : public zone_options, public mark_option
         std::string mark;
         bool mods;
         bool molle;
+        bool sparse_only;
         bool always_unload;
 
         enum query_unload_result {
@@ -305,6 +306,10 @@ class unload_options : public zone_options, public mark_option
 
         bool unload_molle() const {
             return molle;
+        }
+
+        bool unload_sparse_only() const {
+            return sparse_only;
         }
 
         bool unload_always() const {
