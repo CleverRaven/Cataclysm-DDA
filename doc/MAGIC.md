@@ -1,4 +1,4 @@
-# How to add magic to a mod
+# Magic, Spells, and Enchantments
 
 - [How to add magic to a mod](#how-to-add-magic-to-a-mod)
   - [Spells](#spells)
@@ -711,7 +711,7 @@ Identifier           | Description
 
 ### Variables
 
-From now, EOC variables can be used inside enchantments, including both predefined (see [NPCs.md](NPCs.md#dialogue-conditions) for examples), and custom variables.  The `values` field also supports arithmetic operations, having the same syntax as EOCs.  Here are some examples:
+From now, EOC variables can be used inside enchantments, including predefined (see [NPCs.md](NPCs.md#dialogue-conditions) for examples), custom variables or [math equasions](NPCs.md#math).  Here are some examples:
 
 ```json
   {
@@ -719,11 +719,11 @@ From now, EOC variables can be used inside enchantments, including both predefin
     "id": "MON_NEARBY_STR",
     "has": "WIELD",
     "condition": "ALWAYS",
-    "values": [ { "value": "STRENGTH", "add": { "arithmetic": [ { "u_val": "dexterity" } ] } } ]
+    "values": [ { "value": "STRENGTH", "add": { "math": [ "u_val('dexterity') + 1" ] } } ]
   }
 ```
 
-This enchantment adds the dexterity value to strength: a character with str 8 and dex 10 will result with str 18 and dex 10.
+This enchantment adds the dexterity value to strength plus one: a character with str 8 and dex 10 will result with str 19 and dex 10.
 
 
 ```json
@@ -750,19 +750,13 @@ This enchantment checks the amount of monsters near the character (in a 25 tile 
     "id": "MOON_STR",
     "has": "WORN",
     "condition": "ALWAYS",
-    "values": [
-      {
-        "value": "STRENGTH",
-        "add": { "arithmetic": [ { "global_val": "var", "var_name": "IS_UNDER_THE_MOON" }, "*", { "const": 4 } ] }
-      }
-    ]
+    "values": [ { "value": "STRENGTH", "add": { "math": [ "IS_UNDER_THE_MOON * 4" ] } } ]
   }
 ```
 
 Here's an enchantment that relies on a custom variable check, the full power of EOCs in your hand.
 
 First, the custom variable IS_UNDER_THE_MOON is set behind the scenes, it checks if the character is under the moon's rays (by a combination of `{ "not": "is_day" }` and `"u_is_outside"`): if true value is 1, otherwise is 0.  Then, the custom variable is used inside an arithmetic operation that multiplies the truth value by 4: character is granted [ 1 * 4 ] = 4 additional strength if outside and during the night, or [ 0 * 4 ] = 0 additional strength otherwise.
-
 
 ### ID values
 
@@ -835,6 +829,7 @@ Character status value  | Description
 `SOCIAL_INTIMIDATE`     | Affects your ability to intimidate.
 `SOCIAL_LIE`            | Affects your ability to lie.
 `SOCIAL_PERSUADE`       | Affects your ability to persuade.
+`RANGE`                 | Modifies your characters range with firearms
 `READING_EXP`           | Changes the minimum you learn from each reading increment.
 `RECOIL_MODIFIER`       | Affects recoil when shooting a gun. Positive value increase the dispersion, negative decrease one.
 `REGEN_HP`              | Affects the rate you recover hp.

@@ -477,7 +477,7 @@
       "str_max": 150,
       "sound_fail": "clang!",
       "items": [
-        { "item": "afs_circuitry_1", "charges": [ 0, 4 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 4 ] },
         { "item": "afs_material_1", "count": [ 8, 12 ] },
         { "item": "afs_material_2", "count": [ 2, 4 ] },
         { "item": "afs_magnet_1", "count": [ 4, 10 ] },
@@ -486,7 +486,7 @@
     },
     "deconstruct": {
       "items": [
-        { "item": "afs_circuitry_1", "charges": [ 4, 8 ] },
+        { "item": "afs_circuitry_1", "count": [ 4, 8 ] },
         { "item": "afs_material_2", "count": [ 4, 6 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
         { "item": "afs_material_1", "count": [ 12, 16 ] },
@@ -514,7 +514,7 @@
       "str_max": 150,
       "sound_fail": "clang!",
       "items": [
-        { "item": "afs_circuitry_1", "charges": [ 0, 4 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 4 ] },
         { "item": "afs_material_1", "count": [ 8, 12 ] },
         { "item": "afs_material_2", "count": [ 2, 4 ] },
         { "item": "afs_magnet_1", "count": [ 4, 10 ] },
@@ -523,7 +523,7 @@
     },
     "deconstruct": {
       "items": [
-        { "item": "afs_circuitry_1", "charges": [ 4, 8 ] },
+        { "item": "afs_circuitry_1", "count": [ 4, 8 ] },
         { "item": "afs_material_2", "count": [ 4, 6 ] },
         { "item": "afs_energy_storage_1", "count": [ 1, 2 ] },
         { "item": "afs_material_1", "count": [ 12, 16 ] },

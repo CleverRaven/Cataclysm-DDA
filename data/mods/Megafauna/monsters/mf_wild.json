@@ -8,6 +8,7 @@
     "bodytype": "bear",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "100 L",
     "weight": "100 kg",
     "hp": 100,
@@ -32,7 +33,7 @@
     "reproduction": { "baby_monster": "mon_giant_beaver_cub", "baby_count": 4, "baby_timer": 360 },
     "baby_flags": [ "AUTUMN" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ],
-    "armor": { "bash": 3 }
+    "armor": { "bash": 5, "cut": 10, "stab": 5 }
   },
   {
     "id": "mon_giant_beaver_cub",
@@ -63,6 +64,7 @@
     "bodytype": "bear",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology", "prof_wp_megafauna" ],
     "volume": "1000 L",
     "weight": "1000 kg",
     "hp": 800,
@@ -93,7 +95,7 @@
       "pet": "The %s turns on its back and lets you scratch its huge, moss-overgrown belly."
     },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "PET_MOUNTABLE", "CANPLAY" ],
-    "armor": { "bash": 8, "cut": 12, "stab": 12 }
+    "armor": { "bash": 5, "cut": 15, "stab": 10 }
   },
   {
     "id": "mon_large_claw_sloth_cub",
@@ -125,6 +127,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology", "prof_wp_megafauna" ],
     "volume": "580 L",
     "weight": "560 kg",
     "hp": 540,
@@ -155,7 +158,7 @@
       "pet": "The %s bows down its massive antlered head to nuzzle your face."
     },
     "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "MILKABLE", "WARM", "CANPLAY" ],
-    "armor": { "bash": 4, "cut": 2 }
+    "armor": { "bash": 5, "cut": 5, "stab": 5 }
   },
   {
     "id": "mon_stagmoose_cub",
@@ -192,6 +195,7 @@
     "bodytype": "elephant",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology", "prof_wp_megafauna" ],
     "volume": "1000 L",
     "weight": "1000 kg",
     "hp": 600,
@@ -258,7 +262,7 @@
       "PUSH_MON",
       "CANPLAY"
     ],
-    "armor": { "bash": 10, "cut": 6, "stab": 4 }
+    "armor": { "bash": 10, "cut": 15, "stab": 5 }
   },
   {
     "id": "mon_mammoth_cub",
@@ -298,7 +302,7 @@
       "CANPLAY"
     ],
     "upgrades": { "age_grow": 450, "into": "mon_mammoth" },
-    "armor": { "cut": 6, "stab": 4, "bash": 2 }
+    "armor": { "cut": 5, "stab": 2, "bash": 5 }
   },
   {
     "id": "mon_mastodon",
@@ -309,6 +313,7 @@
     "bodytype": "elephant",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology", "prof_wp_megafauna" ],
     "volume": "1000 L",
     "weight": "1000 kg",
     "hp": 670,
@@ -371,7 +376,7 @@
       "PUSH_MON",
       "CANPLAY"
     ],
-    "armor": { "bash": 12, "cut": 2, "stab": 6 }
+    "armor": { "bash": 15, "cut": 10, "stab": 5 }
   },
   {
     "id": "mon_mastodon_cub",
@@ -410,7 +415,7 @@
       "CANPLAY"
     ],
     "upgrades": { "age_grow": 450, "into": "mon_mastodon" },
-    "armor": { "cut": 2, "stab": 6, "bash": 2 }
+    "armor": { "cut": 3, "stab": 2, "bash": 2 }
   },
   {
     "id": "mon_shortface",
@@ -421,6 +426,7 @@
     "bodytype": "bear",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology", "prof_wp_megafauna" ],
     "volume": "1000 L",
     "weight": "950 kg",
     "hp": 700,
@@ -454,7 +460,7 @@
       }
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON" ],
-    "armor": { "bash": 10, "cut": 6, "stab": 4 }
+    "armor": { "bash": 10, "cut": 15, "stab": 5 }
   },
   {
     "id": "mon_shortface_cub",
@@ -488,6 +494,7 @@
     "bodytype": "bird",
     "categories": [ "WILDLIFE" ],
     "species": [ "BIRD" ],
+    "families": [ "prof_intro_biology", "prof_wp_basic_bird" ],
     "volume": "25 L",
     "weight": "5000 g",
     "hp": 21,
@@ -527,6 +534,7 @@
     "bodytype": "bear",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology", "prof_wp_megafauna" ],
     "volume": "1000 L",
     "weight": "1000 kg",
     "hp": 600,
@@ -560,7 +568,7 @@
       }
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PUSH_MON" ],
-    "armor": { "bash": 6, "cut": 30, "stab": 15 }
+    "armor": { "bash": 10, "cut": 25, "stab": 20 }
   },
   {
     "id": "mon_glyptotherium_young",
@@ -596,6 +604,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "280 L",
     "weight": "280 kg",
     "hp": 90,
@@ -621,7 +630,7 @@
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "mountable_weight_ratio": 0.3,
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ],
-    "armor": { "bash": 2 }
+    "armor": { "bash": 5, "cut": 10, "stab": 5 }
   },
   {
     "id": "mon_zebra_foal",

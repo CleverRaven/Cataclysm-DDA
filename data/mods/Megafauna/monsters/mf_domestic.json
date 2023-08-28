@@ -8,6 +8,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "600 L",
     "weight": "600 kg",
     "hp": 400,
@@ -37,7 +38,7 @@
       "pet": "The %s lets you pet its shaggy-haired head, mooing loudly in satisfaction."
     },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ],
-    "armor": { "bash": 3 }
+    "armor": { "bash": 5, "cut": 7, "stab": 3 }
   },
   {
     "id": "mon_shrubox_calf",
@@ -48,6 +49,7 @@
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "90 L",
     "weight": "90 kg",
     "hp": 80,
@@ -77,6 +79,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "400 L",
     "weight": "400 kg",
     "hp": 120,
@@ -109,7 +112,7 @@
       "pet": "The %s lets you pet its shaggy-haired head, mooing loudly in satisfaction."
     },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ],
-    "armor": { "bash": 3 }
+    "armor": { "bash": 5, "cut": 7, "stab": 3 }
   },
   {
     "id": "mon_woodox_calf",
@@ -120,6 +123,7 @@
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "60 L",
     "weight": "60 kg",
     "hp": 50,
@@ -149,6 +153,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "200 L",
     "weight": "200 kg",
     "hp": 200,
@@ -178,7 +183,7 @@
       "pet": "The %s lets you scratch its big belly, letting of a sonorous bleat in satisfaction."
     },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ],
-    "armor": { "bash": 3 }
+    "armor": { "bash": 3, "cut": 4, "stab": 2 }
   },
   {
     "id": "mon_soergoat_kid",
@@ -189,6 +194,7 @@
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "40 L",
     "weight": "40 kg",
     "hp": 30,
@@ -217,6 +223,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "1000 L",
     "weight": "1000 kg",
     "hp": 420,
@@ -242,7 +249,7 @@
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ],
-    "armor": { "bash": 3 }
+    "armor": { "bash": 5, "cut": 7, "stab": 3 }
   },
   {
     "id": "mon_bison_calf",
@@ -253,6 +260,7 @@
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "160 L",
     "weight": "160 kg",
     "hp": 150,
@@ -282,6 +290,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "350 L",
     "weight": "350 kg",
     "hp": 120,
@@ -307,7 +316,7 @@
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "mountable_weight_ratio": 0.35,
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ],
-    "armor": { "bash": 2 }
+    "armor": { "bash": 3, "cut": 4, "stab": 3 }
   },
   {
     "id": "mon_scotts_foal",
@@ -355,6 +364,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "1000 L",
     "weight": "1000 kg",
     "hp": 500,
@@ -380,7 +390,7 @@
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "mountable_weight_ratio": 0.35,
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ],
-    "armor": { "bash": 2 }
+    "armor": { "bash": 5, "cut": 7, "stab": 3 }
   },
   {
     "id": "mon_giant_foal",
@@ -428,6 +438,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology", "prof_wp_megafauna" ],
     "volume": "1000 L",
     "weight": "1000 kg",
     "hp": 400,
@@ -453,7 +464,7 @@
     "baby_flags": [ "SUMMER" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ],
-    "armor": { "bash": 2 }
+    "armor": { "bash": 6, "cut": 9, "stab": 4 }
   },
   {
     "id": "mon_camelops_foal",
@@ -492,6 +503,7 @@
     "bodytype": "pig",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "50 L",
     "weight": "40 kg",
     "hp": 40,
@@ -516,7 +528,7 @@
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It squeals happily as you pet it." },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "CANPLAY" ],
-    "armor": { "bash": 1, "cut": 1 }
+    "armor": { "bash": 2, "cut": 3, "stab": 2 }
   },
   {
     "id": "mon_flathead_piglet",
@@ -573,7 +585,7 @@
     "fear_triggers": [ "SOUND", "FIRE" ],
     "reproduction": { "baby_monster": "mon_longnose_piglet", "baby_count": 1, "baby_timer": 200 },
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "WARM", "CANPLAY" ],
-    "armor": { "bash": 2, "cut": 1 }
+    "armor": { "bash": 4, "cut": 6, "stab": 4 }
   },
   {
     "id": "mon_longnose_piglet",

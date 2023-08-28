@@ -227,7 +227,8 @@ enum class vp_flag : uint32_t {
     animal_flag = 2,
     carried_flag = 4,
     carrying_flag = 8,
-    tracked_flag = 16 //carried vehicle part with tracking enabled
+    tracked_flag = 16, //carried vehicle part with tracking enabled
+    linked_flag = 32 //a cable is attached to this
 };
 
 class turret_cpu
@@ -511,6 +512,8 @@ struct vehicle_part {
         /** If it's a part with variants, which variant it is */
         std::string variant;
 
+        time_point last_disconnected = calendar::before_time_starts;
+
     private:
         // part type definition
         // note: this could be a const& but doing so would require hassle with implementing
@@ -540,11 +543,6 @@ struct vehicle_part {
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
-        /**
-         * Generate the corresponding item from this vehicle part. It includes
-         * the hp (item damage), fuel charges (battery or liquids), aspect, ...
-         */
-        item properties_to_item() const;
         /**
          * Returns an ItemList of the pieces that should arise from breaking
          * this part.
@@ -837,14 +835,6 @@ class vehicle
         /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
         void leak_fuel( vehicle_part &pt ) const;
 
-        /**
-         * Find a possibly off-map vehicle. If necessary, loads up its submap through
-         * the global MAPBUFFER and pulls it from there. For this reason, you should only
-         * give it the coordinates of the origin tile of a target vehicle.
-         * @param where Location of the other vehicle's origin tile.
-         */
-        static vehicle *find_vehicle( const tripoint &where );
-
         /// Returns a map of connected vehicle pointers to power loss factor:
         /// Keys are vehicles connected by POWER_TRANSFER parts, includes self
         /// Values are line loss, 0.01 corresponds to 1% charge loss to wire resistance
@@ -853,10 +843,19 @@ class vehicle
         template<typename Vehicle>
         static std::map<Vehicle *, float> search_connected_vehicles( Vehicle *start );
     public:
+        /**
+         * Find a possibly off-map vehicle. If necessary, loads up its submap through
+         * the global MAPBUFFER and pulls it from there. For this reason, you should only
+         * give it the coordinates of the origin tile of a target vehicle.
+         * @param where Location of the other vehicle's origin tile.
+         */
+        static vehicle *find_vehicle( const tripoint_abs_ms &where );
         //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
         std::map<vehicle *, float> search_connected_vehicles();
         //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
         std::map<const vehicle *, float> search_connected_vehicles() const;
+        //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
+        void get_connected_vehicles( std::unordered_set<vehicle *> &dest );
 
         /// Returns a map of connected battery references to power loss factor
         /// Keys are batteries in vehicles (includes self) connected by POWER_TRANSFER parts
@@ -985,6 +984,7 @@ class vehicle
         void plug_in( const tripoint &pos );
         void connect( const tripoint &source_pos, const tripoint &target_pos );
 
+        bool precollision_check( units::angle &angle, map &here, bool follow_protocol );
         // Try select any fuel for engine, returns true if some fuel is available
         bool auto_select_fuel( vehicle_part &vp );
         // Attempt to start an engine
@@ -1043,6 +1043,9 @@ class vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
         // merges vehicles together by copying parts, does not account for any vehicle complexities
         bool merge_vehicle_parts( vehicle *veh );
+        void merge_appliance_into_grid( vehicle &veh_target );
+
+        bool is_powergrid() const;
 
         /**
          * @param handler A class that receives various callbacks, e.g. for placing items.
@@ -1090,8 +1093,14 @@ class vehicle
         item_location part_base( int p );
 
         /**
-         * Remove a part from a targeted remote vehicle. Useful for, e.g. power cables that have
-         * a vehicle part on both sides.
+         * Get the remote vehicle and part that a part is targeting.
+         * Useful for, e.g. power cables that have a vehicle part on both sides.
+         * @param vp_local Vehicle part that is connected to the remote part.
+         */
+        std::optional<std::pair<vehicle *, vehicle_part *>> get_remote_part(
+                    const vehicle_part &vp_local ) const;
+        /**
+         * Remove the part on a targeted remote vehicle that a part is targeting.
          */
         void remove_remote_part( const vehicle_part &vp_local ) const;
         /**
@@ -1811,7 +1820,15 @@ class vehicle
         void shift_parts( map &here, const point &delta );
         bool shift_if_needed( map &here );
 
-        void shed_loose_parts( const tripoint_bub_ms *src = nullptr, const tripoint_bub_ms *dst = nullptr );
+        /**
+         * Drop parts with UNMOUNT_ON_MOVE onto the ground.
+         * @param shed_cables If cable parts should also be dropped.
+         * @param - If set to trinary::NONE, the default, don't drop any cables.
+         * @param - If set to trinary::SOME, calculate cable length, updating remote parts, and drop if it's too long.
+         * @param - If set to trinary::ALL, drop all cables.
+         * @param dst Future vehicle position, used for calculating cable length when shed_cables == trinary::SOME.
+         */
+        void shed_loose_parts( trinary shed_cables = trinary::NONE, const tripoint_bub_ms *dst = nullptr );
 
         /**
          * @name Vehicle turrets
@@ -1883,7 +1900,7 @@ class vehicle
         bool assign_seat( vehicle_part &pt, const npc &who );
 
         // Update the set of occupied points and return a reference to it
-        const std::set<tripoint> &get_points( bool force_refresh = false ) const;
+        const std::set<tripoint> &get_points( bool force_refresh = false, bool no_fake = false ) const;
 
         /**
         * Consumes specified charges (or fewer) from the vehicle part
@@ -2029,7 +2046,7 @@ class vehicle
         // Called by map.cpp to make sure the real position of each zone_data is accurate
         bool refresh_zones();
 
-        bounding_box get_bounding_box( bool use_precalc = true );
+        bounding_box get_bounding_box( bool use_precalc = true, bool no_fake = false );
         // Retroactively pass time spent outside bubble
         // Funnels, solar panels
         void update_time( const time_point &update_to );
@@ -2083,6 +2100,12 @@ class vehicle
         // map.cpp calls this in displace_vehicle
         void update_active_fakes();
 
+        /**
+        * Generate the corresponding item from this vehicle part. It includes
+        * the hp (item damage), fuel charges (battery or liquids), aspect, ...
+        */
+        item part_to_item( const vehicle_part &vp ) const;
+
         // Updates the internal precalculated mount offsets after the vehicle has been displaced
         // used in map::displace_vehicle()
         std::set<int> advance_precalc_mounts( const point &new_pos, const tripoint &src,
@@ -2102,7 +2125,7 @@ class vehicle
         std::vector<int> sails; // NOLINT(cata-serialize)
         std::vector<int> funnels; // NOLINT(cata-serialize)
         std::vector<int> emitters; // NOLINT(cata-serialize)
-        // Parts that will fall off the next time the vehicle moves.
+        // Parts that will fall off and cables that might disconnect when the vehicle moves.
         std::vector<int> loose_parts; // NOLINT(cata-serialize)
         std::vector<int> wheelcache; // NOLINT(cata-serialize)
         std::vector<int> rotors; // NOLINT(cata-serialize)
@@ -2281,6 +2304,7 @@ class vehicle
         bool is_alarm_on = false;
         bool camera_on = false;
         bool autopilot_on = false;
+        bool precollision_on = true;
         // skidding mode
         bool skidding = false;
         // has bloody or smoking parts

@@ -16,6 +16,7 @@
     "price": 6000,
     "price_postapoc": 250,
     "use_action": [ "RADIOCONTROL" ],
+    "tick_action": [ "RADIOCONTROL_TICK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -65,6 +66,15 @@
     "turns_per_charge": 5,
     "revert_to": "radio_car",
     "use_action": [ "RADIOCARON" ],
+    "tick_action": [
+      {
+        "type": "sound",
+        "sound_message": "buzzz…",
+        "sound_volume": 0,
+        "sound_id": "misc",
+        "sound_variant": "rc_car_drives"
+      }
+    ],
     "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID", "RADIOCAR", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -100,10 +110,7 @@
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
-    "use_action": [
-      "RADIO_OFF",
-      { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "5 W" }
-    ],
+    "use_action": [ "RADIO_OFF", { "type": "link_up", "cable_length": 3, "charge_rate": "5 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -145,7 +152,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "flags": [ "TWO_WAY_RADIO", "WATER_BREAK", "ELECTRONIC" ],
-    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "5 W" } ],
+    "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "5 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -174,6 +181,7 @@
     "charges_per_use": 1,
     "turns_per_charge": 10,
     "use_action": [ "REMOTEVEH" ],
+    "tick_action": "REMOTEVEH_TICK",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

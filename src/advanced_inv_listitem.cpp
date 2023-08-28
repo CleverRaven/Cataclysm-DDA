@@ -28,7 +28,7 @@ advanced_inv_listitem::advanced_inv_listitem( const std::vector<item_location> &
     area( area ),
     id( list.front()->typeId() ),
     items( list ),
-    name( list.front()->tname( list.size() ) ),
+    name( list.front()->tname( 1 ) ),
     name_without_prefix( list.front()->tname( 1, false ) ),
     autopickup( get_auto_pickup().has_rule( & * list.front() ) ),
     stacks( list.size() ),

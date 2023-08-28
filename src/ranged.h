@@ -1,9 +1,11 @@
+#pragma once
 #ifndef CATA_SRC_RANGED_H
 #define CATA_SRC_RANGED_H
 
 #include <iosfwd>
 #include <vector>
 
+#include "creature.h"
 #include "point.h"
 
 class aim_activity_actor;
@@ -74,6 +76,8 @@ double calc_steadiness( const Character &you, const item &weapon, const tripoint
                         double predicted_recoil );
 
 double calculate_aim_cap( const Character &you, const tripoint &target );
+
+double occupied_tile_fraction( creature_size target_size );
 
 struct Target_attributes {
     int range = 1;

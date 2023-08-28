@@ -249,7 +249,7 @@
     "id": "ch_battleaxe",
     "type": "TOOL",
     "name": { "str": "hardened steel battle axe" },
-    "description": "A huge axe designed for warfare.  Made of hardened steel, this would be the envy of any viking raider.",
+    "description": "A huge axe designed for warfare.  Made of hardened steel, this would be the envy of any Viking raider.",
     "weight": "2102 g",
     "volume": "2500 ml",
     "longest_side": "100 cm",

@@ -131,6 +131,9 @@ class talker
         virtual int get_cur_hp( const bodypart_id & ) const {
             return 0;
         }
+        virtual int get_hp_max( const bodypart_id & ) const {
+            return 0;
+        }
         virtual int get_cur_part_temp( const bodypart_id & ) const {
             return 0;
         }
@@ -641,6 +644,7 @@ class talker
         virtual int get_part_hp_max( const bodypart_id & ) const {
             return 0;
         }
+        virtual void set_all_parts_hp_cur( int ) const {}
         virtual void set_part_hp_cur( const bodypart_id &, int ) const {}
         virtual void die() {}
         virtual matec_id get_random_technique( Creature &, bool, bool,

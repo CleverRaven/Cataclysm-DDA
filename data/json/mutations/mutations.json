@@ -128,7 +128,19 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "METABOLISM", "CARDIO", "CONSTITUTION", "DIET", "GRAZING", "THIRST" ],
-    "cancels": [ "ALCMET", "ANTIJUNK", "CARNIVORE_FAKE", "DEFT", "FAT", "GOURMAND", "HIBERNATE", "PROJUNK", "QUICK", "SAPROVORE" ],
+    "cancels": [
+      "ALCMET",
+      "ANTIJUNK",
+      "CARNIVORE_FAKE",
+      "DEFT",
+      "FAT",
+      "GOURMAND",
+      "HIBERNATE",
+      "PROJUNK",
+      "QUICK",
+      "SAPROVORE",
+      "PICKYEATER"
+    ],
     "description": "Your digestive system and cardio health are standard for a human."
   },
   {
@@ -257,7 +269,8 @@
       "NOPAIN",
       "SCHIZOPHRENIC",
       "TOLERANCE",
-      "TREE_COMMUNION"
+      "TREE_COMMUNION",
+      "VANITY"
     ],
     "description": "Your mind and brain chemistry are not mutated."
   },
@@ -741,8 +754,9 @@
     "id": "BOVINE_BULK",
     "name": { "str": "Bovine Bulk" },
     "points": 2,
-    "description": "You've added a lot of weight, much of it muscle!  You get a 10% bonus to all hit points.  Swimming will be more difficult from now on.",
+    "description": "Your flesh has become dense with fat and muscle.  This makes you harder to take down, but also a poor swimmer.",
     "types": [ "BUILD" ],
+    "prereqs": [ "DENSE_BONES" ],
     "changes_to": [ "BOVINE_BULK2" ],
     "category": [ "CATTLE" ],
     "movecost_modifier": 1.02,
@@ -754,7 +768,7 @@
     "id": "BOVINE_BULK2",
     "name": { "str": "Bull Roids" },
     "points": 4,
-    "description": "There is no way you'd be allowed to compete in pre-Cataclysm sports.  You get a 20% bonus to all hit points.  Swimming is no longer recommended for someone built like you.",
+    "description": "Your bulk has rendered you a veritable living wall.  Be careful around water though; while you're as sturdy as a rock, you'll sink like one too.",
     "types": [ "BUILD" ],
     "prereqs": [ "BOVINE_BULK" ],
     "category": [ "CATTLE" ],
@@ -904,7 +918,8 @@
     "description": "You've always felt that there is more to the world than we can see.  Whether driven by religious beliefs or philosophical interest, you find great inspiration in studying holy texts and experiencing mystical things.",
     "starting_trait": true,
     "social_modifiers": { "persuade": 5 },
-    "valid": false
+    "valid": false,
+    "flags": [ "SPIRITUAL" ]
   },
   {
     "type": "mutation",
@@ -1136,7 +1151,7 @@
     "valid": false,
     "social_modifiers": { "intimidate": 5 },
     "types": [ "HUMAN_EMPATHY" ],
-    "flags": [ "CANNIBAL" ]
+    "flags": [ "PSYCHOPATH" ]
   },
   {
     "type": "mutation",
@@ -1149,7 +1164,7 @@
     "social_modifiers": { "intimidate": 10 },
     "types": [ "HUMAN_EMPATHY" ],
     "prereqs": [ "PSYCHOPATH" ],
-    "flags": [ "CANNIBAL" ]
+    "flags": [ "PSYCHOPATH" ]
   },
   {
     "type": "mutation",
@@ -1447,7 +1462,7 @@
     "description": "Things just keep getting you down.  You tend to be unhappy, and it takes some doing to cheer you up.",
     "starting_trait": true,
     "types": [ "ATTITUDE" ],
-    "category": [ "URSINE", "LIZARD", "CHIMERA" ]
+    "category": [ "URSINE", "LIZARD", "CHIMERA", "ALPHA" ]
   },
   {
     "type": "mutation",
@@ -1512,7 +1527,7 @@
     "description": "You have a hard time falling asleep, even under the best circumstances!",
     "types": [ "SLEEPINESS" ],
     "starting_trait": true,
-    "category": [ "MEDICAL" ],
+    "category": [ "MEDICAL", "ALPHA" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": -12 } ] } ]
   },
   {
@@ -1897,7 +1912,8 @@
       "CHIMERA",
       "SPIDER",
       "CRUSTACEAN"
-    ]
+    ],
+    "cancels": [ "VANITY" ]
   },
   {
     "type": "mutation",
@@ -4984,7 +5000,7 @@
     "threshreq": [ "THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER" ],
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "URSINE", "LIZARD", "SPIDER" ],
-    "flags": [ "CANNIBAL" ]
+    "flags": [ "SAPIOVORE" ]
   },
   {
     "type": "mutation",
@@ -6197,6 +6213,7 @@
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "PRETTY" ],
     "changes_to": [ "BEAUTIFUL2" ],
+    "leads_to": [ "VANITY" ],
     "category": [ "ALPHA", "ELFA" ]
   },
   {
@@ -6210,6 +6227,7 @@
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "BEAUTIFUL" ],
     "changes_to": [ "BEAUTIFUL3" ],
+    "leads_to": [ "VANITY" ],
     "category": [ "ALPHA", "ELFA" ],
     "threshreq": [ "THRESH_ALPHA", "THRESH_ELFA" ]
   },
@@ -6655,8 +6673,10 @@
     "description": "Your body is slowly wasting away!",
     "types": [ "HEALING" ],
     "prereqs": [ "ROT2" ],
+    "prereqs2": [ "STR_ALPHA", "DEX_ALPHA", "PER_ALPHA", "INT_ALPHA" ],
     "category": [ "ALPHA" ],
-    "healing_awake": -0.88,
+    "threshreq": [ "THRESH_ALPHA" ],
+    "healing_awake": -1.0,
     "healing_multiplier": 0.75
   },
   {
@@ -8670,26 +8690,6 @@
   },
   {
     "type": "mutation",
-    "id": "DEBUG_BIONIC_POWER",
-    "name": { "str": "Debug Bionic Power" },
-    "points": 99,
-    "valid": false,
-    "description": "For fueling your inner cybug.  Activate to increase power capacity by 100 (can be repeated).",
-    "debug": true,
-    "active": true
-  },
-  {
-    "type": "mutation",
-    "id": "DEBUG_BIONIC_POWERGEN",
-    "name": { "str": "Debug Bionic Powergen" },
-    "points": 99,
-    "valid": false,
-    "description": "Activate to increase power by an amount you specify (can be repeated).",
-    "debug": true,
-    "active": true
-  },
-  {
-    "type": "mutation",
     "id": "DEBUG_SPEED",
     "name": { "str": "Debug Speed" },
     "points": 99,
@@ -8942,7 +8942,8 @@
     "description": "Your ability to feel or express emotion has been greatly hampered.",
     "types": [ "HUMAN_EMPATHY" ],
     "category": [ "MEDICAL" ],
-    "threshreq": [ "THRESH_MEDICAL" ]
+    "threshreq": [ "THRESH_MEDICAL" ],
+    "flags": [ "NUMB" ]
   },
   {
     "type": "mutation",
@@ -9144,5 +9145,37 @@
     "category": [ "CEPHALOPOD" ],
     "prereqs": [ "INT_UP_4" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VANITY",
+    "name": { "str": "Highly Vain" },
+    "points": -1,
+    "description": "You know you're beautiful, and the world deserves to know it too.  You prefer to show off your stunningly good looks to the world and will be unhappy if you cover up your face.",
+    "category": [ "ALPHA" ],
+    "prereqs": [ "BEAUTIFUL", "BEAUTIFUL2" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PICKYEATER",
+    "name": { "str": "Picky Eater" },
+    "points": -1,
+    "description": "You're a very picky eater.  You refuse to eat any food that tastes bad unless you're starving.",
+    "category": [ "ALPHA" ],
+    "starting_trait": true
+  },
+  {
+    "type": "mutation",
+    "id": "ALPHA_COMPLEX",
+    "name": { "str": "Superiority Complex" },
+    "points": 0,
+    "description": "You can't stand to prostrate yourself before your lessers and hate it when they don't immediately do what you say.  Persuasion is much more difficult, but you're better at lying and intimidating.",
+    "purifiable": false,
+    "types": [ "HUMAN_EMPATHY" ],
+    "social_modifiers": { "lie": 10, "persuade": -25, "intimidate": 10 },
+    "category": [ "ALPHA" ],
+    "prereqs": [ "INT_ALPHA", "PER_ALPHA" ],
+    "prereqs2": [ "STR_ALPHA", "DEX_ALPHA" ],
+    "threshreq": [ "THRESH_ALPHA" ]
   }
 ]

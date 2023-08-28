@@ -21,5 +21,23 @@
     "min_field_intensity": 3,
     "max_field_intensity": 3,
     "damage_type": "cold"
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_salamander_glob",
+    "name": "Salamander Glob",
+    "description": "This is a monster only spell.",
+    "flags": [ "IGNITE_FLAMMABLE" ],
+    "valid_targets": [ "hostile", "ground", "ally", "self" ],
+    "min_damage": 5,
+    "max_damage": 5,
+    "min_range": 6,
+    "max_range": 6,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "base_casting_time": 120,
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "heat"
   }
 ]

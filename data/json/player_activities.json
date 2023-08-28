@@ -67,6 +67,17 @@
     "multi_activity": true
   },
   {
+    "id": "ACT_MULTIPLE_READ",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "reading",
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true,
+    "auto_needs": true
+  },
+  {
     "id": "ACT_MOP",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
@@ -147,6 +158,17 @@
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
     "verb": "chopping logs",
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true,
+    "auto_needs": true
+  },
+  {
+    "id": "ACT_MULTIPLE_CRAFT",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "crafting",
     "based_on": "neither",
     "suspendable": false,
     "no_resume": true,
@@ -899,6 +921,16 @@
     "activity_level": "NO_EXERCISE",
     "verb": "wielding item",
     "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_INVOKE_ITEM",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "using item",
+    "suspendable": false,
+    "rooted": true,
     "based_on": "neither",
     "no_resume": true
   },

@@ -121,7 +121,7 @@
       { "item": "sword_bayonet", "prob": 10 },
       { "item": "bagh_nakha", "prob": 5 },
       { "item": "kris", "prob": 5 },
-      { "item": "cheese_hard", "prob": 1 },
+      { "prob": 1, "group": "cheese_hard_wrapper_8" },
       { "item": "tinderbox", "prob": 4 },
       { "item": "flint_steel", "prob": 7 },
       { "item": "canteen_wood", "prob": 5 },
@@ -278,5 +278,13 @@
       [ "bead_ear", 5 ],
       [ "bead_necklace", 5 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "cheese_hard_wrapper_8",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "wrapper",
+    "entries": [ { "item": "cheese_hard", "container-item": "null", "count": 8 } ]
   }
 ]

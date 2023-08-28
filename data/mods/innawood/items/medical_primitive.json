@@ -6,14 +6,12 @@
     "name": { "str": "birchbark bandage" },
     "description": "A small roll of birchbark with cord, to tie around wounds to help stop bleeding and protect from dirt.  It's better than nothing.",
     "weight": "70 g",
-    "volume": "250 ml",
-    "price": 25,
-    "price_postapoc": 25,
+    "volume": "41 ml",
+    "price": "4 cent",
+    "price_postapoc": "4 cent",
     "material": "wood",
     "symbol": "!",
     "color": "white",
-    "charges": 3,
-    "stack_size": 6,
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": { "type": "heal", "bandages_power": 2, "bleed": 8, "move_cost": 6000 }
   },
@@ -30,7 +28,6 @@
     "material": "wood",
     "symbol": "!",
     "color": "white",
-    "charges": 1,
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 6000 }
   }

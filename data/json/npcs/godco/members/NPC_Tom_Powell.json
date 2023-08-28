@@ -1,0 +1,230 @@
+[
+  {
+    "type": "talk_topic",
+    "id": [
+      "TALK_GODCO_Tom_Firstmeet4",
+      "TALK_GODCO_Tom_2",
+      "TALK_GODCO_Tom_Goal",
+      "TALK_GODCO_Tom_Goal1",
+      "TALK_GODCO_Tom_Help"
+    ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_GODCO_Tom_Story" },
+      { "text": "Let's talk about your goals.", "topic": "TALK_GODCO_Tom_Goal" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "TALK_GODCO_Tom_Story", "TALK_GODCO_Tom_Background", "TALK_GODCO_Tom_Family", "TALK_GODCO_Tom_Community" ],
+    "responses": [
+      { "text": "Tell me about yourself.", "topic": "TALK_GODCO_Tom_Background" },
+      { "text": "Tell me about your family.", "topic": "TALK_GODCO_Tom_Family" },
+      { "text": "Tell me about the community.", "topic": "TALK_GODCO_Tom_Community" },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Tom_Story" },
+      { "text": "Let's talk about your goals.", "topic": "TALK_GODCO_Tom_Goal" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_1",
+    "dynamic_line": {
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
+      "value": "yes",
+      "yes": "What the <swear> are you?  Get the <swear> away from me!",
+      "no": {
+        "npc_has_var": "u_met_godco_tom",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": "Hey, it's you again <u_name>!  Any news from the outside world?",
+        "no": "Ah, another survivor!  I hope you come in peace.  I'm Tom, nice to meet you."
+      }
+    },
+    "responses": [
+      {
+        "text": "Nice to meet you, Tom.",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_godco_tom", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "effect": { "npc_add_var": "u_met_godco_tom", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_GODCO_Tom_Firstmeet"
+      },
+      {
+        "text": "Hi Tom, got a minute?",
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_godco_tom", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_Tom_2"
+      },
+      {
+        "text": "Hey, Tom.  I can't stay to talk.",
+        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Alright, alright, chill the <swear> out, I'm leaving!",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Firstmeet",
+    "dynamic_line": "Was it difficult to find us?  We haven't seen a single soul out there for so long, I'm starting to lose my hope.  So, tell me about yourself.",
+    "responses": [
+      {
+        "text": "I'm just a curious traveler.  What about you, how are you doing?",
+        "condition": { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_GODCO_Tom_Firstmeet2"
+      },
+      {
+        "text": "I'm seeking asylum here.  What about you, how are you doing?",
+        "condition": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_GODCO_Tom_Firstmeet2"
+      },
+      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Firstmeet2",
+    "dynamic_line": "Hey, that's nice of you to ask.  The people here are barely holding on.  Malnutrition, sleepless nights, odd sounds from the woods, everyone turns a little mad in these circumstances.  It's not their fault, I know, but they did get what they wanted.",
+    "responses": [
+      { "text": "Please continue.", "topic": "TALK_GODCO_Tom_Firstmeet3" },
+      { "text": "No rest for the weary.  See you around, Tom.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Firstmeet3",
+    "dynamic_line": "The sky has broken!  They received a rather passive-aggressive sign from God!  The wait is finally over.  Well, not for me.  So much is left unanswered, and I know for a fact the answer's out there.",
+    "responses": [
+      { "text": "Perhaps it's not worth finding out.", "topic": "TALK_GODCO_Tom_Firstmeet4" },
+      { "text": "Try not to get stuck in the past.  See you around, Tom.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Firstmeet4",
+    "dynamic_line": "Perhaps.  You don't wanna think about the stuff I'm thinking about, it would spiral a newbie independent thinker into madness.  I don't blame you for saying that.",
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_2",
+    "dynamic_line": "I'm currently in the middle of solving a pointless mystery for my own entertainment.  Of course I have time!",
+    "responses": [ { "text": "Sorry Tom, I can't stay to chat.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Story",
+    "dynamic_line": "I haven't got a story.  I'm an independent thinker.  Living out here, away from the Man.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Background",
+    "dynamic_line": "I was nobody but an ordinary office drone.  Lived the average suburban life, prepping for the inevitable.  Had the bright idea of purchasing a Last Man On Earth shelter, but I decided to settle for less when I found out it cost five times my annual salary.  That's how I ended up in a religious campground with my family and a survival kit.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Family",
+    "dynamic_line": "All of us are here; me, Felicity, and Olwen.  We're so <swear> lucky, I feel like crying tears of joy every time I see them.",
+    "responses": [
+      { "text": "Could you tell me about Felicity?", "topic": "TALK_GODCO_Tom_Felicity" },
+      { "text": "Could you tell me about Olwen?", "topic": "TALK_GODCO_Tom_Olwen" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Felicity",
+    "dynamic_line": "She's my wife, we've been married for a while now.  We used to live in Rhode Island, worked at a publishing firm, Stillwater.  She's always wanted to be a writer, that's why we moved away.  We've been a bit distant as of late, I don't think she's taking the \"whole end-of-the-world\" thing too well.",
+    "//": "Stillwater is a legitimate publishing firm, operating in Rhode Island.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Olwen",
+    "dynamic_line": "Olwen's a bright girl; she's fiddled with electronics and computers since she was in high school.  She got a master's in it from the University of Rhode Island.  Felicity's been a good mother for her, always been there for us.  Olwen might be able to teach you a few things, she should be around here somewhere.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Community",
+    "dynamic_line": "New England Church Community is what they're called.  My wife was the first in the family to come in contact with 'em.  She joined because of their charity work and as for myself, well… you know why I was there.  Let me tell you, being surrounded by like-minded folks was like a breath of fresh air.  Even if the only belief we shared was paranoia, but you get what I'm saying.  I tried everything to prep my family for the inevitable, I really did, but in the end it wasn't me who saved us all.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Goal",
+    "dynamic_line": "I want to find out the truth and preserve the past for the following generation, so that they'll know some of what <swear> happened.",
+    "responses": [
+      { "text": "Any progress?", "topic": "TALK_GODCO_Tom_Goal1" },
+      {
+        "text": "Sounds like an ambitious project.  Is there anything I can do to help you out?",
+        "topic": "TALK_GODCO_Tom_Help"
+      },
+      { "text": "Good luck with that.  See you around, Tom.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Goal1",
+    "dynamic_line": "So far?  Not so great.  Now that the Internet is down, I don't know.  Such abundant hidden information - all gone!",
+    "responses": [
+      { "text": "Is there anything I can do to help you out?", "topic": "TALK_GODCO_Tom_Help" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Try not to glorify the past.  See you around, Tom.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Help",
+    "dynamic_line": "Of course!  Just put all your literary findings on that chair over there.  Remember, you're not only doing a favor for me, but for all of humanity as well.  World heritage is what we're talking about!  I managed to get my hands on a book called 'Zombie Survial Guide' while, uh… dumpster diving.  Imagine how much this book alone reveals about our pre-Cataclysm culture!  Oh boy, how wrong we were about everything.",
+    "responses": [
+      { "text": "I mean, can I help with the research?", "topic": "TALK_GODCO_Tom_Research" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Tom_Research",
+    "dynamic_line": "No no no no no!  Thinking is one of the only thing I have left and you can't take that away from me.  But, If you *really* want to make yourself useful, relevant newspapers would help me piece out the puzzle.",
+    "repeat_responses": {
+      "for_item": [ "newest_newspaper", "weeks_old_newspaper", "months_old_newspaper" ],
+      "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
+    },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  }
+]
