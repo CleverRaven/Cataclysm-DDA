@@ -339,8 +339,8 @@
     "category": [ "SPECIES_ELF" ],
     "threshreq": [ "THRESH_SPECIES_ELF" ],
     "flags": [ "SEESLEEP" ],
-    "fatigue_modifier": -0.333,
-    "fatigue_regen_modifier": 0.333
+    "fatigue_modifier": -0.166667,
+    "fatigue_regen_modifier": 1
   },
   {
     "type": "mutation",
