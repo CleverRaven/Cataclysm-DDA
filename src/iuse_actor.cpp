@@ -236,7 +236,6 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
 
     int result = 0;
 
-
     if( need_fire ) {
         if( !p->use_charges_if_avail( itype_fire, need_fire ) ) {
             p->add_msg_if_player( m_info, need_fire_msg, it.tname() );
@@ -357,7 +356,6 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
         return ret_val<void>::make_failure( _( "You need to empty the %1$s before activating it." ),
                                             it.tname() );
     }
-
 
     if( p.is_worn( it ) ) {
         item tmp = item( target );

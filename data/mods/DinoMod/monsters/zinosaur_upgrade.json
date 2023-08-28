@@ -4615,7 +4615,7 @@
     "upgrades": {  },
     "death_drops": [
       { "item": "mil_plate", "count": 4 },
-      { "group": "helicopter", "count": 10 },
+      { "group": "helicopter", "count": 20 },
       { "group": "supplies_metal", "count": 10 }
     ],
     "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },
@@ -4662,7 +4662,7 @@
     "upgrades": {  },
     "death_drops": [
       { "item": "mil_plate", "count": 4 },
-      { "group": "helicopter", "count": 10 },
+      { "group": "helicopter", "count": 20 },
       { "group": "supplies_metal", "count": 10 }
     ],
     "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },
@@ -4709,7 +4709,7 @@
     "upgrades": {  },
     "death_drops": [
       { "item": "mil_plate", "count": 4 },
-      { "group": "helicopter", "count": 10 },
+      { "group": "helicopter", "count": 20 },
       { "group": "supplies_metal", "count": 10 }
     ],
     "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },

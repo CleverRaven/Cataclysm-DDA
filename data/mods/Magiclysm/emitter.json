@@ -51,5 +51,21 @@
     "intensity": 1,
     "qty": 22,
     "chance": 100
+  },
+  {
+    "id": "emit_kelvinist_anti_heat",
+    "type": "emit",
+    "field": "fd_kelvinist_cold",
+    "intensity": 3,
+    "qty": 300,
+    "chance": 100
+  },
+  {
+    "id": "emit_kelvinist_anti_cold",
+    "type": "emit",
+    "field": "fd_kelvinist_warmth",
+    "intensity": 3,
+    "qty": 300,
+    "chance": 100
   }
 ]

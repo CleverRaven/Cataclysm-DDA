@@ -1,28 +1,6 @@
 [
   {
     "type": "npc_class",
-    "id": "NC_THUG",
-    "name": { "str": "Thug" },
-    "job_description": "I'm just here for the paycheck.",
-    "traits": [
-      { "group": "BG_survival_story_CRIMINAL" },
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" }
-    ],
-    "bonus_str": { "rng": [ 2, 4 ] },
-    "bonus_dex": { "rng": [ 0, 2 ] },
-    "skills": [
-      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -4 } ] } },
-      { "skill": "dodge", "bonus": { "rng": [ 1, 3 ] } },
-      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "unarmed", "bonus": { "rng": [ 1, 3 ] } },
-      { "skill": "bashing", "bonus": { "rng": [ 1, 5 ] } },
-      { "skill": "stabbing", "bonus": { "rng": [ 1, 5 ] } },
-      { "skill": "cutting", "bonus": { "rng": [ 1, 5 ] } }
-    ]
-  },
-  {
-    "type": "npc_class",
     "id": "NC_BANDIT_TRADER",
     "name": { "str": "Fenceman" },
     "job_description": "I sell illegal things.",

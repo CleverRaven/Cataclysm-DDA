@@ -46,6 +46,7 @@ class Skill
         int _companion_combat_rank_factor = 0;
         int _companion_survival_rank_factor = 0;
         int _companion_industry_rank_factor = 0;
+        bool _teachable = true;
         bool _obsolete = false;
     public:
         static std::vector<Skill> skills;
@@ -94,6 +95,9 @@ class Skill
         }
         int companion_industry_rank_factor() const {
             return _companion_industry_rank_factor;
+        }
+        bool is_teachable() const {
+            return _teachable;
         }
 
         bool operator==( const Skill &b ) const {
