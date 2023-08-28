@@ -572,6 +572,7 @@
     "spells": [
       { "id": "druid_naturebow1", "level": 4 },
       { "id": "druid_natures_commune", "level": 3 },
+      { "id": "druid_harvest_hunter", "level": 3 },
       { "id": "purify_seed", "level": 2 },
       { "id": "druid_veggrasp", "level": 1 }
     ],
