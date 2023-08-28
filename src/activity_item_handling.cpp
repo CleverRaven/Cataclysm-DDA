@@ -2219,8 +2219,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                     if( you.rate_action_unload( *it->first ) == hint_rating::good &&
                         !it->first->any_pockets_sealed() ) {
                         std::unordered_map<std::string, int> item_counts;
-                        if (unload_sparse_only) {
-                            for( item *contained : it->first->all_items_top(item_pocket::pocket_type::CONTAINER) ) {
+                        if( unload_sparse_only ) {
+                            for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                                 if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                                     // if undefined set to 1, otherwise increment
                                     item_counts[contained->typeId().str()]++;
