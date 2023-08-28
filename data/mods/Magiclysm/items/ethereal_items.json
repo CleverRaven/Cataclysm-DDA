@@ -1386,5 +1386,43 @@
     "color": "green",
     "flags": [ "TRADER_AVOID", "SINGLE_USE" ],
     "use_action": { "type": "heal", "bandages_power": 3, "bleed": 12, "move_cost": 300 }
+  },
+  {
+    "id": "technomancer_summoned_radio",
+    "type": "TOOL",
+    "name": { "str": "aetherspeaker (speaking)", "str_pl": "aetherspeakers (speaking)" },
+    "description": "A magically-summoned aetherspeaker, capable of communicating long-distance with other aetherspeakers or conventional radios.  With a command word, it may instead scan for radio signals.",
+    "weight": "295 g",
+    "volume": "500 ml",
+    "to_hit": -1,
+    "material": [ "concentrated_mana" ],
+    "symbol": ";",
+    "color": "cyan",
+    "flags": [ "TWO_WAY_RADIO", "ONLY_ONE", "TRADER_AVOID", "NO_DROP" ],
+    "charges_per_use": 1,
+    "use_action": [ { "type": "transform", "target": "technomancer_summoned_radio_on", "menu_text": "Turn to scanning mode" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_disposable_cell"
+      }
+    ],
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "technomancer_summoned_radio_on",
+    "copy-from": "technomancer_summoned_radio",
+    "type": "TOOL",
+    "name": { "str": "aetherspeaker (scanning)", "str_pl": "aetherspeakers (scanning)" },
+    "description": "An aetherspeaker tuned to listen for radio signals from the surrounding area.  With a command word, it may instead communicate with other aetherspeakers or radios.",
+    "use_action": [
+      "RADIO_OFF",
+      "RADIO_ON",
+      { "type": "transform", "target": "technomancer_summoned_radio", "menu_text": "Turn to speaking mode" }
+    ],
+    "tick_action": [ "RADIO_TICK" ],
+    "flags": [ "TRADER_AVOID", "ONLY_ONE", "NO_DROP" ]
   }
 ]
