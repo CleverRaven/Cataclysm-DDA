@@ -1592,7 +1592,7 @@ void options_manager::add_options_general()
     add( "SPARSE_ITEM_THRESHOLD", "general", to_translation( "Sparse unloading item limit" ),
          to_translation( "Item stacks (not charges) greater than this number will be ignored when the 'unload sparse' option is enabled in 'Loot: Unload Everything' zones. Pass the salt." ),
          0, 1000, 20
-    );
+       );
 
     add_empty_line();
 
