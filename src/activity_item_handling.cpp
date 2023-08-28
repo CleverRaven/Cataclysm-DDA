@@ -2227,7 +2227,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                                     // print contents of item_counts to log
                                     for( auto const& [key, val] : item_counts ) {
                                         add_msg( "%s has %d %s",
-                                                       it->first->tname(), val, key );
+                                                 it->first->tname(), val, key );
                                     }
 
                                 }
