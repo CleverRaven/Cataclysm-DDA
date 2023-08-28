@@ -1399,16 +1399,7 @@
     "symbol": ";",
     "color": "cyan",
     "flags": [ "TWO_WAY_RADIO", "ONLY_ONE", "TRADER_AVOID", "NO_DROP" ],
-    "charges_per_use": 1,
     "use_action": [ { "type": "transform", "target": "technomancer_summoned_radio_on", "menu_text": "Turn to scanning mode" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_disposable_cell"
-      }
-    ],
     "melee_damage": { "bash": 4 }
   },
   {
@@ -1417,10 +1408,29 @@
     "type": "TOOL",
     "name": { "str": "aetherspeaker (scanning)", "str_pl": "aetherspeakers (scanning)" },
     "description": "An aetherspeaker tuned to listen for radio signals from the surrounding area.  With a command word, it may instead communicate with other aetherspeakers or radios.",
-    "use_action": [
-      { "type": "transform", "target": "technomancer_summoned_radio", "menu_text": "Turn to speaking mode" }
-    ],
+    "use_action": [ "RADIO_ON", { "type": "transform", "target": "technomancer_summoned_radio", "menu_text": "Turn to speaking mode" } ],
     "tick_action": [ "RADIO_TICK" ],
     "flags": [ "TRADER_AVOID", "ONLY_ONE", "NO_DROP" ]
+  },
+  {
+    "id": "technomancer_summoned_ups",
+    "type": "MAGAZINE",
+    "category": "tool_magazine",
+    "name": { "str": "technomantic power supply" },
+    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
+    "weight": "125 g",
+    "volume": "150 ml",
+    "price": 12500,
+    "price_postapoc": 600,
+    "material": [ "iron", "plastic" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": [ "battery" ],
+    "capacity": 1250,
+    "looks_like": "spiral_stone",
+    "flags": [ "TRADER_AVOID", "ONLY_ONE", "NO_DROP", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "IS_UPS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
   }
 ]
