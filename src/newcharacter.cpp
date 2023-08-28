@@ -3431,11 +3431,70 @@ static void draw_location( ui_adaptor &ui, const catacurses::window &w_location,
 
 } // namespace char_creation
 
+static std::string assemble_description_help( const input_context &ctxt, const bool allow_reroll )
+{
+    if( !isWide ) {
+        return string_format( _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
+                              ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+    }
+    std::string help_text = string_format(
+                                _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
+                                ctxt.get_desc( "HELP_KEYBINDINGS" ) )
+                            + string_format( _( "\nPress <color_light_green>%s</color> to save character template." ),
+                                    ctxt.get_desc( "SAVE_TEMPLATE" ) );
+    if( !MAP_SHARING::isSharing() && allow_reroll ) { // no random names when sharing maps
+        help_text += string_format(
+                         _( "\nPress <color_light_green>%s</color> to pick a random name, "
+                            "<color_light_green>%s</color> to randomize all description values, "
+                            "<color_light_green>%s</color> to randomize all but scenario, or "
+                            "<color_light_green>%s</color> to randomize everything." ),
+                         ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ), ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ),
+                         ctxt.get_desc( "REROLL_CHARACTER" ), ctxt.get_desc( "REROLL_CHARACTER_WITH_SCENARIO" ) );
+    } else {
+        help_text += string_format(
+                         _( "\nPress <color_light_green>%s</color> to pick a random name, "
+                            "<color_light_green>%s</color> to randomize all description values." ),
+                         ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ), ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ) );
+    }
+    help_text += string_format(
+                     _( "\nPress <color_light_green>%1$s</color> to change cataclysm start date, "
+                        "<color_light_green>%2$s</color> to change game start date, "
+                        "<color_light_green>%3$s</color> to reset calendar." ),
+                     ctxt.get_desc( "CHANGE_START_OF_CATACLYSM" ), ctxt.get_desc( "CHANGE_START_OF_GAME" ),
+                     ctxt.get_desc( "RESET_CALENDAR" ) );
+    if( !get_option<bool>( "SELECT_STARTING_CITY" ) ) {
+        help_text += string_format(
+                         _( "\nPress <color_light_green>%s</color> to select a specific starting location." ),
+                         ctxt.get_desc( "CHOOSE_LOCATION" ) );
+    } else {
+        help_text += string_format(
+                         _( "\nPress <color_light_green>%s</color> to select a specific starting city and "
+                            "<color_light_green>%s</color> to select a specific starting location." ),
+                         ctxt.get_desc( "CHOOSE_CITY" ), ctxt.get_desc( "CHOOSE_LOCATION" ) );
+    }
+    help_text += string_format(
+                     _( "\nPress <color_light_green>%s</color> or <color_light_green>%s</color> "
+                        "to cycle through editable values." ),
+                     ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ) )
+                 + string_format( _( "\nPress <color_light_green>%s</color> and "
+                                     "<color_light_green>%s</color> to change gender, height, age, and blood type." ),
+                                  ctxt.get_desc( "LEFT" ), ctxt.get_desc( "RIGHT" ) )
+                 + string_format( _( "\nPress <color_light_green>%s</color> to edit value via popup input." ),
+                                  ctxt.get_desc( "CONFIRM" ) )
+                 + string_format( _( "\nPress <color_light_green>%s</color> to finish character creation "
+                                     "or <color_light_green>%s</color> to return to the previous TAB." ),
+                                  ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
+    return help_text;
+}
+
 // NOLINTNEXTLINE(readability-function-size)
 void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                       pool_type pool )
 {
     static constexpr int RANDOM_START_LOC_ENTRY = INT_MIN;
+
+    // guessing most likely, but it doesn't matter, it will be recalculated if wrong
+    int iHelpHeight = 10;
 
     ui_adaptor ui;
     catacurses::window w;
@@ -3485,7 +3544,6 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             w_scenario = catacurses::newwin( 1, ncol2, point( beginx2, 3 ) );
             w_profession = catacurses::newwin( 1, ncol3, point( beginx3, 3 ) );
             w_skills = catacurses::newwin( TERMY - 11, 23, point( 22, 10 ) );
-            w_guide = catacurses::newwin( 9, TERMX - 3, point( 2, TERMY - 10 ) );
             w_height = catacurses::newwin( 1, ncol2, point( beginx2, 6 ) );
             w_age = catacurses::newwin( 1, ncol2, point( beginx2, 7 ) );
             w_blood = catacurses::newwin( 1, ncol2, point( beginx2, 8 ) );
@@ -3504,7 +3562,6 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             w_calendar = catacurses::newwin( 4, ncol_small, point( begin_sncol, 13 ) );
             w_vehicle = catacurses::newwin( 2, ncol_small, point( begin_sncol, 18 ) );
             w_addictions = catacurses::newwin( 2, ncol_small, point( begin_sncol, 20 ) );
-            w_guide = catacurses::newwin( 2, TERMX - 3, point( 2, TERMY - 3 ) );
             w_traits = catacurses::window();
             w_bionics = catacurses::window();
             w_proficiencies = catacurses::window();
@@ -3512,6 +3569,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             w_skills = catacurses::window();
             ui.position_from_window( w );
         }
+        w_guide = catacurses::newwin( iHelpHeight, TERMX - 4, point( 2, TERMY - iHelpHeight - 1 ) );
     };
     init_windows( ui );
     ui.on_screen_resize( init_windows );
@@ -3580,6 +3638,12 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
     bool no_name_entered = false;
     ui.on_redraw( [&]( ui_adaptor & ui ) {
+        const std::string help_text = assemble_description_help( ctxt, allow_reroll );
+        const int new_iHelpHeight = foldstring( help_text, getmaxx( w ) - 4 ).size();
+        if( new_iHelpHeight != iHelpHeight ) {
+            iHelpHeight = new_iHelpHeight;
+            init_windows( ui );
+        }
         werase( w );
         tabs.draw( w );
         draw_points( w, pool, you );
@@ -3757,78 +3821,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
         // Helptext description window
         werase( w_guide );
-        if( isWide ) {
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 9 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
-                            ctxt.get_desc( "HELP_KEYBINDINGS" ) );
-
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 8 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to save character template." ),
-                            ctxt.get_desc( "SAVE_TEMPLATE" ) );
-
-            if( !MAP_SHARING::isSharing() && allow_reroll ) { // no random names when sharing maps
-                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), TERMX, c_light_gray,
-                                _( "Press <color_light_green>%s</color> to pick a random name, "
-                                   "<color_light_green>%s</color> to randomize all description values, "
-                                   "<color_light_green>%s</color> to randomize all but scenario, or "
-                                   "<color_light_green>%s</color> to randomize everything." ),
-                                ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ),
-                                ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ),
-                                ctxt.get_desc( "REROLL_CHARACTER" ),
-                                ctxt.get_desc( "REROLL_CHARACTER_WITH_SCENARIO" ) );
-            } else {
-                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), TERMX, c_light_gray,
-                                _( "Press <color_light_green>%s</color> to pick a random name, "
-                                   "<color_light_green>%s</color> to randomize all description values." ),
-                                ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ),
-                                ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ) );
-            }
-
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 6 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to switch gender." ),
-                            ctxt.get_desc( "CHANGE_GENDER" ) );
-
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 6 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%1$s</color> to change cataclysm start date, <color_light_green>%2$s</color> to change game start date, <color_light_green>%3$s</color> to reset calendar." ),
-                            ctxt.get_desc( "CHANGE_START_OF_CATACLYSM" ), ctxt.get_desc( "CHANGE_START_OF_GAME" ),
-                            ctxt.get_desc( "RESET_CALENDAR" ) );
-
-            if( !get_option<bool>( "SELECT_STARTING_CITY" ) ) {
-                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), TERMX, c_light_gray,
-                                _( "Press <color_light_green>%s</color> to select a specific starting location." ),
-                                ctxt.get_desc( "CHOOSE_LOCATION" ) );
-            } else {
-                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), TERMX, c_light_gray,
-                                _( "Press <color_light_green>%s</color> to select a specific starting city and <color_light_green>%s</color> to select a specific starting location." ),
-                                ctxt.get_desc( "CHOOSE_CITY" ), ctxt.get_desc( "CHOOSE_LOCATION" ) );
-            }
-
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> or <color_light_green>%s</color> "
-                               "to cycle through editable values." ),
-                            ctxt.get_desc( "UP" ),
-                            ctxt.get_desc( "DOWN" ) );
-
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 3 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> and <color_light_green>%s</color> to change gender, height, age, and blood type." ),
-                            ctxt.get_desc( "LEFT" ),
-                            ctxt.get_desc( "RIGHT" ) );
-
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 2 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to edit value via popup input." ),
-                            ctxt.get_desc( "CONFIRM" ) );
-
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to finish character creation "
-                               "or <color_light_green>%s</color> to return to the previous TAB." ),
-                            ctxt.get_desc( "NEXT_TAB" ),
-                            ctxt.get_desc( "PREV_TAB" ) );
-        } else {
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
-                            ctxt.get_desc( "HELP_KEYBINDINGS" ) );
-
-        }
+        fold_and_print( w_guide, point_zero, getmaxx( w_guide ), c_light_gray, help_text );
         wnoutrefresh( w_guide );
 
         char_creation::draw_name( ui, w_name, you, current_selector == char_creation::NAME,
