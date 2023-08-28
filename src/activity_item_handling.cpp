@@ -2224,12 +2224,6 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                                 if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                                     // if undefined set to 1, otherwise increment
                                     item_counts[contained->typeId().str()]++;
-                                    // print contents of item_counts to log
-                                    for( auto const& [key, val] : item_counts ) {
-                                        add_msg( "%s has %d %s",
-                                                 it->first->tname(), val, key );
-                                    }
-
                                 }
                             }
                         }
