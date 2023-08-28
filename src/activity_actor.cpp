@@ -6773,8 +6773,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                 if( you.rate_action_unload( *it->first ) == hint_rating::good &&
                     !it->first->any_pockets_sealed() ) {
                     std::unordered_map<std::string, int> item_counts;
-                    if (unload_sparse_only) {
-                        for( item *contained : it->first->all_items_top(item_pocket::pocket_type::CONTAINER) ) {
+                    if( unload_sparse_only ) {
+                        for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                             if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                                 item_counts[contained->typeId().str()]++;
                             }
