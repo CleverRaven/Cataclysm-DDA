@@ -2828,6 +2828,13 @@ void options_manager::add_options_debug()
        );
 
     add_empty_line();
+
+    add( "PROFICIENCY_TRAINING_SPEED", "debug", to_translation( "Proficiency training speed" ),
+         to_translation( "Scales experience gained from practicing proficiencies.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables proficiency training except for NPC training." ),
+         0.0, 100.0, 1.0, 0.1
+       );
+
+    add_empty_line();
     add_option_group( "debug", Group( "3dfov_opts", to_translation( "3D Field Of Vision Options" ),
                                       to_translation( "Options regarding 3D field of vision." ) ),
     [&]( const std::string & page_id ) {
