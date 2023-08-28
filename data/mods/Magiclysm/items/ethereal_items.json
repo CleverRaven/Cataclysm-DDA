@@ -1418,8 +1418,6 @@
     "name": { "str": "aetherspeaker (scanning)", "str_pl": "aetherspeakers (scanning)" },
     "description": "An aetherspeaker tuned to listen for radio signals from the surrounding area.  With a command word, it may instead communicate with other aetherspeakers or radios.",
     "use_action": [
-      "RADIO_OFF",
-      "RADIO_ON",
       { "type": "transform", "target": "technomancer_summoned_radio", "menu_text": "Turn to speaking mode" }
     ],
     "tick_action": [ "RADIO_TICK" ],
