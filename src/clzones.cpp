@@ -315,13 +315,13 @@ unload_options::query_unload_result unload_options::query_unload()
 {
     molle = query_yn( _( "Detach MOLLE attached pouches?" ) );
     mods = query_yn(
-               _( "Detach mods from weapons? (Be careful as you may not have the skills to reattach them)" ) );
+               _( "Detach mods from weapons?  (Be careful as you may not have the skills to reattach them)" ) );
     int threshold = get_option<int>( "SPARSE_ITEM_THRESHOLD" );
     sparse_only = query_yn( _
-                            ( string_format( "Avoid unloading items stacks (not charges) greater than %i? (Threshold can be adjusted in options)",
+                            ( string_format( "Avoid unloading items stacks (not charges) greater than %i?  (Threshold can be adjusted in options)",
                                     threshold ) ) );
     always_unload = query_yn(
-                        _( "Always unload? (Unload even if the container has a valid sorting location)" ) );
+                        _( "Always unload?  (Unload even if the container has a valid sorting location)" ) );
     return changed;
 }
 
