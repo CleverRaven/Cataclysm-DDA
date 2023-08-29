@@ -10,23 +10,20 @@
 #include <QtCore/QCoreApplication>
 
 creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags flags )
-    : QFrame( parent, flags )
+    : QWidget ( parent, flags )
 {
-    // QWidget* wid = new QWidget( this );
-    // this->addWidget( wid );
+
     this->setAcceptDrops( true );
 
     QHBoxLayout* mainRow = new QHBoxLayout;
     QVBoxLayout* mainColumn1 = new QVBoxLayout;
     QVBoxLayout* mainColumn2 = new QVBoxLayout;
+    QVBoxLayout* mainColumn3 = new QVBoxLayout;
 
     this->setLayout( mainRow );
     mainRow->addLayout( mainColumn1, 0 );
     mainRow->addLayout( mainColumn2, 1 );
-
-    item_group_json.resize( QSize( 800, 600 ) );
-    item_group_json.setReadOnly( true );
-
+    mainRow->addLayout( mainColumn3, 2 );
 
     // =========================================================================================
     // first column of boxes
@@ -165,6 +162,10 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     scrollArea->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding ) );
     scrollArea->setWidgetResizable( true );
 
+    item_group_json.setMinimumSize( QSize( 600, 500 ) );
+    item_group_json.setMaximumWidth(700);
+    item_group_json.setReadOnly( true );
+    mainColumn3->addWidget( &item_group_json );
 
     group_container = new nested_group_container( scrollArea, this );
     scrollArea->setWidget( group_container );
@@ -328,7 +329,7 @@ bool creator::item_group_window::event( QEvent* event )
         return true;
     }
     //call the event method of the base class for the events that aren't handled
-    return QFrame::event( event );
+    return QWidget::event( event );
 }
 
 
