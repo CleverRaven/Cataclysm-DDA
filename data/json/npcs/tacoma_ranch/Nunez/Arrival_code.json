@@ -17,10 +17,26 @@
   },
   {
     "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "refcenter_nunez_departure",
+    "//": "removes pablo and dana nunez from the refugee center",
+    "object": {
+      "remove_npcs": [
+        { "class": "refugee_DanaNunez", "x": 0, "y": 0 },
+        { "class": "refugee_PabloNunez", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "tacoma_nunez_trailer_arrive",
     "method": "json",
     "object": {
       "place_nested": [ { "chunks": [ "nunez_trailer" ], "x": 0, "y": 17 } ],
+      "place_npcs": [
+        { "class": "refugee_DanaNunez", "x": 4, "y": 19 },
+        { "class": "refugee_PabloNunez", "x": 4, "y": 20 }
+      ]
       "set": [
         { "point": "variable", "id": "Pablo_relax", "x": 4, "y": 20 },
         { "point": "variable", "id": "Dana_baking", "x": 4, "y": 19 }
