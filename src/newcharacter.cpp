@@ -3528,7 +3528,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
     catacurses::window w_calendar;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
-        isWide = ( TERMX > FULL_SCREEN_WIDTH && freeWidth > 15 );
+        isWide = freeWidth > 15;
         const int beginx2 = 46;
         const int ncol2 = 40;
         const int beginx3 = TERMX <= 88 ? TERMX - TERMX / 4 : 86;
@@ -3947,11 +3947,10 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             }
         }
         if( isWide ) {
+            mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
             if( prof_addictions.empty() ) {
-                mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
                 wprintz( w_addictions, c_light_red, _( "None!" ) );
             } else {
-                mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
                 for( const addiction &a : prof_addictions ) {
                     const char *format = "%1$s (%2$d) ";
                     wprintz( w_addictions, c_white, string_format( format, a.type->get_name().translated(),
@@ -3959,11 +3958,10 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 }
             }
         } else {
+            mvwprintz( w_addictions, point_zero, COL_HEADER, _( "Starting addictions: " ) );
             if( prof_addictions.empty() ) {
-                mvwprintz( w_addictions, point_zero, COL_HEADER, _( "Starting addictions: " ) );
                 wprintz( w_addictions, c_light_red, _( "None!" ) );
             } else {
-                mvwprintz( w_addictions, point_zero, COL_HEADER, _( "Starting addictions: " ) );
                 for( const addiction &a : prof_addictions ) {
                     const char *format = "%1$s (%2$d) ";
                     wprintz( w_addictions, c_light_gray, "\n" );
@@ -3983,11 +3981,6 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         mvwprintz( w_profession, point_zero, COL_HEADER, _( "Profession: " ) );
         wprintz( w_profession, c_light_gray, you.prof->gender_appropriate_name( you.male ) );
         wnoutrefresh( w_profession );
-
-        werase( w_scenario );
-        mvwprintz( w_scenario, point_zero, COL_HEADER, _( "Scenario: " ) );
-        wprintz( w_scenario, c_light_gray, get_scenario()->gender_appropriate_name( you.male ) );
-        wnoutrefresh( w_scenario );
 
         werase( w_calendar );
         mvwprintz( w_calendar, point_zero, COL_HEADER, _( "Start of cataclysm:" ) );
