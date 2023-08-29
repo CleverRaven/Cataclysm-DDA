@@ -3687,7 +3687,7 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_sallet",
     "name": { "str": "tempered sallet helm" },
-    "description": "A popular Italian helmet of the late medieval era, the sallet covers the head and eyes. The medium steel has been quenched and tempered, offering top-of-the-line protection.  Activate it to toggle the visor.",
+    "description": "A popular Italian helmet of the late medieval era, the sallet covers the head and eyes.  The medium steel has been quenched and tempered, offering top-of-the-line protection.  Activate it to toggle the visor.",
     "price": 35000,
     "price_postapoc": 4500,
     "use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "qt_helmet_sallet_raised", "menu_text": "Raise" },
@@ -3726,7 +3726,7 @@
     "type": "ARMOR",
     "copy-from": "lc_helmet_sallet_raised",
     "name": { "str": "tempered sallet helm (raised)", "str_pl": "tempered sallet helms (raised)" },
-    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes.  The medium steel has been quenched and tempered, offering top-of-the-line protection. Activate it to toggle the visor.",
+    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes.  The medium steel has been quenched and tempered, offering top-of-the-line protection.  Activate it to toggle the visor.",
     "price": 35000,
     "price_postapoc": 4500,
     "use_action": {
