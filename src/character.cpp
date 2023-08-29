@@ -8928,32 +8928,32 @@ void Character::do_to_items_with( const std::string &key, const flag_id &flag,
     }
 }
 
-bool Character::do_to_items_with_until( const flag_id &flag,
-                                        const std::function<bool( item & )> &do_func ) const
+bool Character::has_any_item_with( const flag_id &flag,
+                                   const std::function<bool( item & )> &do_and_check_func ) const
 {
-    return do_to_items_with_until( "HAS FLAG " + flag.str(), flag, nullptr, do_func );
+    return has_any_item_with( "HAS FLAG " + flag.str(), flag, nullptr, do_and_check_func );
 }
 
-bool Character::do_to_items_with_until( const std::string &key, bool( item::*filter_func )() const,
-                                        const std::function<bool( item & )> &do_func ) const
+bool Character::has_any_item_with( const std::string &key, bool( item::*filter_func )() const,
+                                   const std::function<bool( item & )> &do_and_check_func ) const
 {
-    return do_to_items_with_until( key, {}, filter_func, do_func );
+    return has_any_item_with( key, {}, filter_func, do_and_check_func );
 }
 
-bool Character::do_to_items_with_until( const std::string &key, const flag_id &flag,
-                                        bool( item::*filter_func )() const,
-                                        const std::function<bool( item & )> &do_func ) const
+bool Character::has_any_item_with( const std::string &key, const flag_id &flag,
+                                   bool( item::*filter_func )() const,
+                                   const std::function<bool( item & )> &do_and_check_func ) const
 {
     bool aborted = false;
 
-    // If the cache already exists, use it. Stop iterating if the do_func ever returns true. Remove any invalid item references encountered.
+    // If the cache already exists, use it. Stop iterating if the do_and_check_func ever returns true. Remove any invalid item references encountered.
     auto found_cache = inv_search_caches.find( key );
     if( found_cache != inv_search_caches.end() ) {
         auto t1 = std::chrono::high_resolution_clock::now();
         for( auto iter = found_cache->second.items.begin();
              iter != found_cache->second.items.end(); ) {
             if( *iter ) {
-                if( do_func( **iter ) ) {
+                if( do_and_check_func( **iter ) ) {
                     aborted = true;
                     break;
                 }
@@ -8971,8 +8971,8 @@ bool Character::do_to_items_with_until( const std::string &key, const flag_id &f
                 ( filter_func == nullptr || ( it->*filter_func )() ) ) {
 
                 inv_search_caches[key].items.push_back( it->get_safe_reference() );
-                // If do_func returns true, stop running it but keep populating the cache.
-                if( !aborted && do_func( *it ) ) {
+                // If do_and_check_func returns true, stop running it but keep populating the cache.
+                if( !aborted && do_and_check_func( *it ) ) {
                     aborted = true;
                 }
             }
@@ -8980,6 +8980,13 @@ bool Character::do_to_items_with_until( const std::string &key, const flag_id &f
         } );
     }
     return aborted;
+}
+
+bool Character::has_any_item_with_flag_and_charges( const flag_id &flag ) const
+{
+    return has_any_item_with( "HAS FLAG " + flag.str(), flag, nullptr, [&]( const item & it ) {
+        return !it.is_tool() || it.type->tool->max_charges == 0 || it.ammo_remaining( this ) > 0;
+    } );
 }
 
 std::vector<item *> Character::get_items_with( const flag_id &flag ) const
@@ -9009,37 +9016,6 @@ std::vector<item *> Character::get_items_with( const std::string &key, const fla
         ret.push_back( &it );
     } );
     return ret;
-}
-
-bool Character::has_any_item_with( const flag_id &flag,
-                                   const std::function<bool( item & )> &check_func ) const
-{
-    return do_to_items_with_until( "HAS FLAG " + flag.str(), flag, nullptr, [&check_func]( item & it ) {
-        return check_func( it );
-    } );
-}
-
-bool Character::has_any_item_with( const std::string &key,
-                                   bool( item::*filter_func )() const, const std::function<bool( item & )> &check_func ) const
-{
-    return do_to_items_with_until( key, {}, filter_func, [&check_func]( item & it ) {
-        return check_func( it );
-    } );
-}
-
-bool Character::has_any_item_with( const std::string &key, const flag_id &flag,
-                                   bool( item::*filter_func )() const, const std::function<bool( item & )> &check_func ) const
-{
-    return do_to_items_with_until( key, flag, filter_func, [&check_func]( item & it ) {
-        return check_func( it );
-    } );
-}
-
-bool Character::has_any_item_with_flag_and_charges( const flag_id &flag ) const
-{
-    return do_to_items_with_until( "HAS FLAG " + flag.str(), flag, nullptr, [&]( const item & it ) {
-        return !it.is_tool() || it.type->tool->max_charges == 0 || it.ammo_remaining( this ) > 0;
-    } );
 }
 
 void Character::add_to_inv_search_caches( item &it ) const
@@ -9230,7 +9206,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
 item Character::find_firestarter_with_charges( const int quantity ) const
 {
     item ret;
-    do_to_items_with_until( flag_FIRESTARTER, [&]( const item & it ) {
+    has_any_item_with( flag_FIRESTARTER, [&]( const item & it ) {
         if( !it.typeId()->can_have_charges() ) {
             const use_function *usef = it.type->get_use( "firestarter" );
             if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
@@ -9244,6 +9220,7 @@ item Character::find_firestarter_with_charges( const int quantity ) const
             ret = it;
             return true;
         }
+        return false;
     } );
     return ret;
 }

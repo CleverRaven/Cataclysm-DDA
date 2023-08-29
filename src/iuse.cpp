@@ -7363,7 +7363,7 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint & 
             }
         }
 
-        if( p->do_to_items_with_until( flag_RADIO_CONTAINER, [&p, &signal]( item & it ) {
+        if( p->has_any_item_with( flag_RADIO_CONTAINER, [&p, &signal]( item & it ) {
         item *itm = it.get_item_with( [&]( const item & c ) {
             return c.has_flag( flag_BOMB ) && c.has_flag( signal );
             } );
@@ -7374,6 +7374,7 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint & 
                                       itm->display_name(), it.display_name() );
                 return true;
             }
+            return false;
         } ) ) {
             return std::nullopt;
         }

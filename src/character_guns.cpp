@@ -270,7 +270,7 @@ bool Character::gunmod_remove( item &gun, item &mod )
 
 bool Character::has_gun_for_ammo( const ammotype &at ) const
 {
-    return do_to_items_with_until( "is_gun", &item::is_gun, [&at]( const item & it ) {
+    return has_any_item_with( "is_gun", &item::is_gun, [&at]( const item & it ) {
         return it.ammo_types().count( at );
     } );
 }

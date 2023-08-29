@@ -1324,7 +1324,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                     if( seed.is_empty() ) {
                         return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
                     }
-                    if( you.do_to_items_with_until( "is_seed", &item::is_seed, [&seed]( const item & it ) {
+                    if( you.has_any_item_with( "is_seed", &item::is_seed, [&seed]( const item & it ) {
                     return it.typeId() == itype_id( seed );
                     } ) ) {
                         return activity_reason_info::ok( do_activity_reason::NEEDS_PLANTING );
