@@ -44,11 +44,8 @@ Cockroaches flee light, hide under furniture, eat corpses, and breed faster when
 Cataclysm and game start dates are to be set through scenarios
 Friendly NPC crafting by crafting menu
 Functionality to drop items off ledges/cliffs onto creatures below
-Added BELTABLE to folding seat, tweaked folding seat and saddle properties, and adjusted related factory unfoldables.
 NPC fleeing behaviour adjusted and slightly improved
 Adds basic vehicle proficiencies for driving and boating, as well as athletic proficiencies which increase muscle engine output.
-Tweak NPC fleeing AI based on playtesting
-Add 'default' lowest priority loot zone
 
 
 ## Content:
@@ -84,14 +81,6 @@ Add a synagogue
 Adds a chance for small, personal photographs to spawn within people’s wallets and creates a starting pool of 34 snippets from which to pull.
 Adds curved road bends, rotaries and rest stops/laybys
 JSONify Defense Mode
-The NECC NPCs can say your name sometimes.
-New weapon: kanabo
-Make the aftershock skullgun cbm cooler
-Make the bee-apiary relationship a bit more obvious.
-Adds Motorhead NPC class and adjusts scientists and doctors
-Mapgen: another urban house
-Drinking veterans in the Ancilla bar let you raise faction reputation
-Add more stuff to Defense Mode.
 
 
 ## Interface:
@@ -114,7 +103,6 @@ Change description of highlighted regions when editing the overmap
 Detailed information for stats on character creation menu
 Larger and more I18n-friendly safemode UI
 Enable/disable showing several non-player-related messages in the log
-@ menu improvements
 
 
 ## Mods:
@@ -152,22 +140,9 @@ Add the Mind Over Matter mod to the CDDA repository
 [MoM] Mind Over Matter-specific Research facility overhaul
 [XE] Paraclesians: Elemental Races
 [Railroads] New mod
-Adjust MoM stamina costs
-[DinoMod] loot and grammar fixes
-Add Enervation damage type, apply it to Eater and feral vitakinetics
-Fix some problems with the Defense Mode merchant.
-Add three Earthshaper spells
-Add MOM compatibility for Defense Mode.
-Add Defense Mode compatibility with My Sweet Cataclysm.
-Allow Premonition to detect dangerous world events
-Add Whisper of the Leaves spell
-Mythos compatibility for Defense Mode.
-Edit Nature's Commune
-Make psionic powers unteachable
-Even more spells (7 spells)
-Add potion fruits and recipes to make them
-Add fantasy species starting option
-Aftershock: Rebalance Gibson  S86
+[MoM] Add Enervation damage type, apply it to Eater and feral vitakinetics
+[Magiclysm] Add more than a dozen spells to magiclysm
+[Magiclysm] Add fantasy species starting option
 
 
 ## Balance:
@@ -199,8 +174,6 @@ Adds a mutable stream to the mapgen
 Limit the times assassins can try to kill you.
 Increase plastic variety, adjust plastics to be more realistic in terms of protection
 Characters start with basic skills from their previous life
-Increase Leap Cooldown for all mundane frogs.
-Adjust Kickboxing and let you start with it
 
 
 ## Bugfixes:
@@ -270,18 +243,6 @@ Make sure overconfident officers reliably drop their guns
 Fix appliance power drain display right after plugging in/unplugging device
 Fix items and furniture being deleted from grappling hook usage
 Randomly generated characters are now aged appropriately to their profession
-Fix PAGE/UP keys not scrolling text up
-Correct metal fencing sword recipe category
-Fixes to select timepoint menu
-Refined matrix crystal [powder], blue
-Fix crash in object creator spell window
-Prevent the vmenu from drawing junk in w_terrain
-Fix Electric Waves enchant
-Aftershock: Repair exosuit enchantments
-Show spell target tiles in TILES builds when not using tileset
-Fix signal handler: call to exit()
-Mercenary Officer and Mercenary Ghost enemies no longer copy descriptions from the blackops zombie and bio-operator
-Fixes https://github.com/CleverRaven/Cataclysm-DDA/issues/67904
 
 
 ## Performance:
@@ -292,7 +253,6 @@ Fix Nested List lag in crafting menu
 Optimize eoc processing and other fixes to speed up waiting near many npcs
 Optimize pocket overflow function
 Speed up new character screen, particularly when many recipes are known
-Code optimizations reported by static code analysis
 
 
 ## Infrastructure:
