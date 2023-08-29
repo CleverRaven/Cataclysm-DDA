@@ -1710,19 +1710,16 @@ std::optional<item> item_pocket::remove_item( const item &it )
 }
 
 bool item_pocket::remove_internal( const std::function<bool( item & )> &filter,
-                                   int &count, std::list<item> &res, Character *carrier )
+                                   int &count, std::list<item> &res )
 {
     for( auto it = contents.begin(); it != contents.end(); ) {
         if( filter( *it ) ) {
-            if( carrier ) {
-                carrier->remove_from_inv_search_caches( *it );
-            }
             res.splice( res.end(), contents, it++ );
             if( --count == 0 ) {
                 return true;
             }
         } else {
-            it->remove_internal( filter, count, res, carrier );
+            it->remove_internal( filter, count, res );
             ++it;
         }
     }

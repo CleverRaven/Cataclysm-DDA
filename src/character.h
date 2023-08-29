@@ -2742,10 +2742,6 @@ class Character : public Creature, public visitable
          * Add an item to existing @ref inv_search_caches that it meets the criteria for. Will NOT create any new caches.
          */
         void add_to_inv_search_caches( item &it ) const;
-        /**
-         * Remove the specified item from all the caches of @ref inv_search_caches.
-         */
-        void remove_from_inv_search_caches( item &it ) const;
 
         bool has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const override;

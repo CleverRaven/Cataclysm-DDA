@@ -365,7 +365,7 @@ class item_pocket
 
         // this is used for the visitable interface. returns true if no further visiting is required
         bool remove_internal( const std::function<bool( item & )> &filter,
-                              int &count, std::list<item> &res, Character *carrier = nullptr );
+                              int &count, std::list<item> &res );
         // @relates visitable
         VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
                                       item *parent = nullptr );

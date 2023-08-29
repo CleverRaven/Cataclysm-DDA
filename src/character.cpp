@@ -2943,7 +2943,6 @@ std::list<item *> Character::get_dependent_worn_items( const item &it )
 item Character::remove_weapon()
 {
     item tmp = weapon;
-    remove_from_inv_search_caches( weapon );
     weapon = item();
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     cached_info.erase( "weapon_value" );
@@ -9032,21 +9031,6 @@ void Character::add_to_inv_search_caches( item &it ) const
         }
         cache.second.items.push_back( it.get_safe_reference() );
     }
-}
-
-void Character::remove_from_inv_search_caches( item &it ) const
-{
-    it.visit_items( [this]( item * i, item * ) {
-        for( auto iter = inv_search_caches.begin(); iter != inv_search_caches.end(); ) {
-            if( ( !iter->second.flag.is_valid() || i->has_flag( iter->second.flag ) ) &&
-                ( iter->second.filter_func == nullptr || ( i->*iter->second.filter_func )() ) ) {
-                iter = inv_search_caches.erase( iter );
-            } else {
-                ++iter;
-            }
-        }
-        return VisitResponse::NEXT;
-    } );
 }
 
 bool Character::has_charges( const itype_id &it, int quantity,

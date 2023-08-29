@@ -352,7 +352,7 @@ class item_contents
         VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
                                       item *parent = nullptr );
         void remove_internal( const std::function<bool( item & )> &filter,
-                              int &count, std::list<item> &res, Character *carrier = nullptr );
+                              int &count, std::list<item> &res );
 
         void info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
 

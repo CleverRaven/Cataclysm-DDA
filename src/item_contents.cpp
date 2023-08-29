@@ -2366,10 +2366,10 @@ units::volume item_contents::get_nested_content_volume_recursive( const
 }
 
 void item_contents::remove_internal( const std::function<bool( item & )> &filter,
-                                     int &count, std::list<item> &res, Character *carrier )
+                                     int &count, std::list<item> &res )
 {
     for( item_pocket &pocket : contents ) {
-        if( pocket.remove_internal( filter, count, res, carrier ) ) {
+        if( pocket.remove_internal( filter, count, res ) ) {
             return;
         }
     }

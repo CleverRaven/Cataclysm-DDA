@@ -614,9 +614,6 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 
 item &item::convert( const itype_id &new_type, Character *carrier )
 {
-    if( carrier ) {
-        carrier->remove_from_inv_search_caches( *this );
-    }
     // Carry over relative rot similar to crafting
     const double rel_rot = get_relative_rot();
     type = find_type( new_type );
@@ -6223,7 +6220,6 @@ void item::on_wear( Character &p )
 void item::on_takeoff( Character &p )
 {
     p.on_item_takeoff( *this );
-    p.remove_from_inv_search_caches( *this );
 
     if( is_sided() ) {
         set_side( side::BOTH );
@@ -14413,9 +14409,9 @@ int item::get_recursive_disassemble_moves( const Character &guy ) const
 }
 
 void item::remove_internal( const std::function<bool( item & )> &filter,
-                            int &count, std::list<item> &res, Character *carrier )
+                            int &count, std::list<item> &res )
 {
-    contents.remove_internal( filter, count, res, carrier );
+    contents.remove_internal( filter, count, res );
 }
 
 std::list<const item *> item::all_items_top() const

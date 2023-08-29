@@ -2822,12 +2822,9 @@ class item : public visitable
         VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
                                       item *parent = nullptr );
         void remove_internal( const std::function<bool( item & )> &filter,
-                              int &count, std::list<item> &res, Character *carrier = nullptr );
-        item remove_item( item &it, Character *carrier = nullptr );
+                              int &count, std::list<item> &res );
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX ) override;
-        std::list<item> remove_items_with( Character *carrier,
-                                           const std::function<bool( const item &e )> &filter, int count );
 
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<const item *> all_items_top() const;

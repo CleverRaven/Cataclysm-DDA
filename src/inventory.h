@@ -256,9 +256,6 @@ class inventory : public visitable
         override;
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX ) override;
-        std::list<item> remove_items_with( Character *carrier,
-                                           const std::function<bool( const item & )> &filter,
-                                           int count = INT_MAX );
         int charges_of( const itype_id &what, int limit = INT_MAX,
                         const std::function<bool( const item & )> &filter = return_true<item>,
                         const std::function<void( int )> &visitor = nullptr, bool in_tools = false ) const override;

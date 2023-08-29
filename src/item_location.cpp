@@ -633,9 +633,7 @@ class item_location::impl::item_in_container : public item_location::impl
         }
 
         void remove_item() override {
-            Character *carrier = where_recursive() != type::character ? nullptr :
-                                 get_creature_tracker().creature_at<Character>( position() );
-            container->remove_item( *target(), carrier );
+            container->remove_item( *target() );
             container->on_contents_changed();
         }
 
