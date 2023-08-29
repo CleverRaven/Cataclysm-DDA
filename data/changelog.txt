@@ -274,7 +274,6 @@ Remove charges from solid comestibles
 New item categories for martial arts manuals and traps
 Update all active items to new tick action system and remove old system
 Add ability to merge appliance into grid
-Jsonize helicopter piloting requirement
 
 
 ## Build:
