@@ -2,15 +2,17 @@
   {
     "id": "EOC_Nunez_Travel",
     "type": "effect_on_condition",
-    "recurrence": 1000
-    "condition": 
-      { "compare_int": [ { "global_val": "var", "var_name": "nunez_travel", "type": "timer" }, "<", { "time_since_cataclysm": "days" } ],
-    "deactivate_condition": 
-      { "compare_int": [ { "global_val": "var", "var_name": "nunez_arrived", "type": "switch" }, "=", { "const": "1" } ] },
+    "recurrence": 1000,
+    "condition": {
+      "compare_int": [ { "global_val": "var", "var_name": "nunez_travel", "type": "timer" }, "<", { "time_since_cataclysm": "days" } ]
+    },
+    "deactivate_condition": { "compare_int": [ { "global_val": "var", "var_name": "nunez_arrived", "type": "switch" }, "=", { "const": "1" } ] },
     "effect": [
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 },
-        { "mapgen_update": "tacoma_nunez_trailer_arrive", "om_terrain": "ranch_camp_55" },
-		{ "arithmetic": [ { "global_val": "var", "var_name": "nunez_arrived", "type": "switch" }, "=", { "const": "1" } ] }
+      { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 },
+      { "mapgen_update": "tacoma_nunez_trailer_arrive", "om_terrain": "ranch_camp_55" },
+      {
+        "arithmetic": [ { "global_val": "var", "var_name": "nunez_arrived", "type": "switch" }, "=", { "const": "1" } ]
+      }
     ]
   },
   {
@@ -19,16 +21,17 @@
     "method": "json",
     "object": {
       "place_nested": [ { "chunks": [ "nunez_trailer" ], "x": 0, "y": 17 } ],
-      "set": [ { "point": "variable", "id": "Pablo_relax", "x": 4, "y": 20 },
-               { "point": "variable", "id": "Dana_baking", "x": 4, "y": 19 }
-             ]
+      "set": [
+        { "point": "variable", "id": "Pablo_relax", "x": 4, "y": 20 },
+        { "point": "variable", "id": "Dana_baking", "x": 4, "y": 19 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cardboard_castle_1_main",
-    "//": "First iteration of Dino Dave's cardboard castle - main floor.",
+    "nested_mapgen_id": "nunez_trailer",
+    "//": "Nunez bakery inside a silver bullet trailer.",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -39,7 +42,7 @@
         "efghij",
         "       "
       ],
-	  "//": "The stuff in 'ABCDE' should potentially also be made into some new furniture such as piles of stored wood or a propane tank, but this works for the moment.  The purpose is just to stop players from easily getting up to the back wall and interacting through it.",
+      "//": "The stuff in 'ABCDE' should potentially also be made into some new furniture such as piles of stored wood or a propane tank, but this works for the moment.  The purpose is just to stop players from easily getting up to the back wall and interacting through it.",
       "terrain": {
         "1": "t_bullettrailer_nwall_westcorner",
         "2": "t_bullettrailer_nwall",
@@ -66,11 +69,11 @@
         "j": "t_bullettrailer_swall_eastcorner"
       },
       "furniture": {
-	    "A": "f_crate_c",
-	    "B": "f_standing_tank",
-	    "C": "f_standing_tank",
-	    "D": "f_crate_c",
-	    "E": "f_crate_c",
+        "A": "f_crate_c",
+        "B": "f_standing_tank",
+        "C": "f_standing_tank",
+        "D": "f_crate_c",
+        "E": "f_crate_c",
         "1": "f_bullettrailer_table_top",
         "7": "f_bullettrailer_table_middle",
         ".": "f_bullettrailer_cabinet",
