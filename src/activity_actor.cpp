@@ -6732,6 +6732,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         bool unload_mods = false;
         bool unload_molle = false;
         bool unload_sparse_only = false;
+        int unload_sparse_threshold = 20;
 
         std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_zone_unload_all,
                 fac_id );
@@ -6742,6 +6743,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             unload_molle |= options.unload_molle();
             unload_mods |= options.unload_mods();
             unload_sparse_only |= options.unload_sparse_only();
+            unload_sparse_threshold |= options.unload_sparse_threshold();
         }
 
         //Skip items that have already been processed
@@ -6784,7 +6786,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                             if( unload_sparse_only &&
-                                item_counts[contained->typeId().str()] > get_option<int>( "SPARSE_ITEM_THRESHOLD" ) ) {
+                                item_counts[contained->typeId().str()] > unload_sparse_threshold ) {
                                 continue;
                             }
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );

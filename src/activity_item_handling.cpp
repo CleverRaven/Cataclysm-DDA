@@ -2156,6 +2156,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
         bool unload_mods = false;
         bool unload_molle = false;
         bool unload_sparse_only = false;
+        int unload_sparse_threshold = 20;
         bool unload_always = false;
 
         std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_zone_unload_all,
@@ -2167,6 +2168,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             unload_molle |= options.unload_molle();
             unload_mods |= options.unload_mods();
             unload_sparse_only |= options.unload_sparse_only();
+            unload_sparse_threshold |= options.unload_sparse_threshold();
             unload_always |= options.unload_always();
         }
 
@@ -2222,7 +2224,6 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                         if( unload_sparse_only ) {
                             for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                                 if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
-                                    // if undefined set to 1, otherwise increment
                                     item_counts[contained->typeId().str()]++;
                                 }
                             }
@@ -2231,7 +2232,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                             // no liquids don't want to spill stuff
                             if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                                 if( unload_sparse_only &&
-                                    item_counts[contained->typeId().str()] > get_option<int>( "SPARSE_ITEM_THRESHOLD" ) ) {
+                                    item_counts[contained->typeId().str()] > unload_sparse_threshold ) {
                                     continue;
                                 }
                                 move_item( you, *contained, contained->count(), src_loc, src_loc, vpr_src );

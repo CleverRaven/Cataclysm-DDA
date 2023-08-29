@@ -316,10 +316,20 @@ unload_options::query_unload_result unload_options::query_unload()
     molle = query_yn( _( "Detach MOLLE attached pouches?" ) );
     mods = query_yn(
                _( "Detach mods from weapons?  (Be careful as you may not have the skills to reattach them)" ) );
-    int threshold = get_option<int>( "SPARSE_ITEM_THRESHOLD" );
     sparse_only = query_yn( _
-                            ( string_format( "Avoid unloading items stacks (not charges) greater than %i?  (Threshold can be adjusted in options)",
-                                    threshold ) ) );
+                            ( string_format( "Avoid unloading items stacks (not charges) greater than a certain amount?  (Amount defined in next window)" ) ) );
+    if (sparse_only) {
+        int threshold;
+        if (query_int( threshold, _( "What is the maximum stack size to unload?  (20 is a good default)" ))){
+            if (sparse_threshold < 1) {
+                sparse_threshold = 1;
+            } else {
+                sparse_threshold = threshold;
+            }
+        } else {
+            return canceled;
+        }
+    }
     always_unload = query_yn(
                         _( "Always unload?  (Unload even if the container has a valid sorting location)" ) );
     return changed;
@@ -448,10 +458,11 @@ std::string loot_options::get_zone_name_suggestion() const
 
 std::string unload_options::get_zone_name_suggestion() const
 {
+
     return string_format( "%s%s%s%s%s", _( "Unload: " ),
                           mods ? _( "mods, " ) : "",
                           molle ? _( "MOLLE, " ) : "",
-                          sparse_only ? _( "sparse only, " ) : "",
+                          sparse_only ? _(string_format("ignore stacks over %i, ", sparse_threshold) ) : "",
                           always_unload ? _( "unload all" ) : _( "unload unmatched" ) );
 }
 
@@ -471,7 +482,7 @@ std::vector<std::pair<std::string, std::string>> unload_options::get_description
                           string_format( "%s%s%s%s",
                                          mods ? _( "mods " ) : "",
                                          molle ? _( "MOLLE " ) : "",
-                                         sparse_only ? _( "sparse only " ) : "",
+                                         sparse_only ? _( string_format("ignore stacks over %i, ", sparse_threshold) ) : "",
                                          always_unload ? _( "unload all" ) : _( "unload unmatched" ) ) );
 
     return options;
@@ -493,6 +504,7 @@ void unload_options::serialize( JsonOut &json ) const
     json.member( "mods", mods );
     json.member( "molle", molle );
     json.member( "sparse_only", sparse_only );
+    json.member( "sparse_threshold", sparse_threshold );
     json.member( "always_unload", always_unload );
 }
 
@@ -502,6 +514,7 @@ void unload_options::deserialize( const JsonObject &jo_zone )
     jo_zone.read( "mods", mods );
     jo_zone.read( "molle", molle );
     jo_zone.read( "sparse_only", sparse_only );
+    jo_zone.read( "sparse_threshold", sparse_threshold );
     jo_zone.read( "always_unload", always_unload );
 }
 
