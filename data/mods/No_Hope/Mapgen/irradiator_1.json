@@ -202,7 +202,7 @@
         }
       },
       "toilets": { "?": {  } },
-      "vendingmachines": { "V": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "items": {
         "S": { "item": "clothing_outdoor_set", "chance": 20 },
         "c": { "item": "repair_storage", "chance": 20 },
@@ -250,9 +250,9 @@
       ],
       "place_vehicles": [
         { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": 0, "rotation": 0, "x": 8, "y": 48, "status": 1 },
-        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": 0, "rotation": 180, "x": 23, "y": 48, "status": 1 },
-        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": 0, "rotation": 0, "status": 1, "x": 47, "y": 48 },
-        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": 0, "rotation": 180, "x": 60, "y": 48, "status": 1 },
+        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": 0, "rotation": 180, "x": 22, "y": 49, "status": 1 },
+        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": 0, "rotation": 0, "status": 1, "x": 45, "y": 48 },
+        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": 0, "rotation": 180, "x": 60, "y": 49, "status": 1 },
         { "vehicle": "industrial_transport", "chance": 25, "fuel": 0, "rotation": 90, "status": 1, "x": 10, "y": 62 },
         { "vehicle": "industrial_transport", "chance": 25, "fuel": 0, "rotation": 90, "x": 20, "y": 62, "status": 1 },
         { "vehicle": "industrial_transport", "chance": 25, "fuel": 0, "rotation": 90, "status": 1, "x": 53, "y": 62 },

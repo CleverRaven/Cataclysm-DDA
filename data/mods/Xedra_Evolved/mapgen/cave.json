@@ -1,0 +1,117 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cave_underground" ],
+    "weight": 800,
+    "object": {
+      "fill_ter": "t_dirt_underground",
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "........................",
+        "..........         .....",
+        "...    ... .......  ....",
+        "... ..  ..  ..   ..  ...",
+        "... ..W  ..   111 ..  ..",
+        "... ....  ... 1C1  .W ..",
+        "...  ....  .. 111  .. ..",
+        "....  ....  ..    ..  ..",
+        ".....  ....  ......  ...",
+        "......  ....        ....",
+        "......W  ...............",
+        ".......           ......",
+        "....     ... ....  .....",
+        ".... ......111....  ....",
+        ".... ......1C1.....  ...",
+        "..    .....111...... ...",
+        ".. ..  ..... ....... ...",
+        ".. ...  W     ...... ...",
+        ".. ..........  ....  ...",
+        "..  ..........      ....",
+        "...  ........  ....W....",
+        "....          ..........",
+        "........W... ...........",
+        "............>..........."
+      ],
+      "terrain": { ".": "t_soil", " ": "t_dirt_underground", ">": "t_slope_up" },
+      "nested": { "C": { "chunks": [ "goblin_spider_cocoon" ] } },
+      "fields": { "W": { "field": "fd_web", "intensity": 2, "age": 10 }, "1": { "field": "fd_web", "intensity": 3, "age": 1 } },
+      "monsters": { "W": { "monster": "GROUP_GOBLIN_SPIDER", "chance": 2, "density": 0.01 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_spider_cocoon",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "xe_captured_dreamer", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_spider_cocoon",
+    "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "monster": "mon_redcap_aspirant", "x": [ 0 ], "y": [ 0 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_spider_cocoon",
+    "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "monster": "mon_pooka_aspirant", "x": [ 0 ], "y": [ 0 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_spider_cocoon",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "xe_spider_victim", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_spider_cocoon",
+    "object": { "mapgensize": [ 1, 1 ], "place_item": [ { "item": "corpse", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cave_rat" ],
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "........................",
+        ".........%%%%%%%........",
+        "........%%%%%%%%%.......",
+        ".......%%%.....%%%......",
+        "......%%%%.lll.%%%%.....",
+        ".....%%%%%.l l.%%%%%....",
+        "....%%%%%%.l l.%%%%%%...",
+        "...%%%||||.. ..||||%%%..",
+        "..%%%||||||. .||||||%%%.",
+        ".%%%%||||rr   rr||||%%%.",
+        ".%%%%||||rr   rr||||%%%.",
+        ".%%%%||||       ||||%%%.",
+        ".%%%%||||   K   ||||%%%.",
+        ".%%%%||||       ||||%%%.",
+        ".%%%%||||rr   rr||||%%%.",
+        "..%%%||||rr   rr||||%%%.",
+        "...%%%|||||   |||||%%%..",
+        "....%%%||||   ||||%%%...",
+        ".....%%%%%%   %%%%%%....",
+        "......%%%%%%<%%%%%%.....",
+        ".......%%%%%%%%%%%......",
+        "........%%%%%%%%%.......",
+        ".........%%%%%%%........",
+        "........................"
+      ],
+      "terrain": {
+        " ": "t_rock_floor",
+        ".": "t_rock",
+        "|": [ [ "t_rock", 20 ], [ "t_rock_floor", 80 ] ],
+        "%": [ "t_rock", "t_rock_floor" ],
+        "<": "t_slope_up"
+      },
+      "furniture": {  },
+      "monster": { "K": { "monster": "mon_rat_king" }, "r": { "monster": "mon_sewer_rat" } },
+      "items": { "l": { "item": "gobag_contents", "chance": 75 } }
+    }
+  }
+]

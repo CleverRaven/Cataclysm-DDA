@@ -95,6 +95,7 @@ type name are *dimension*`_`*origin*`_`*scale*.
   * `sm` means relative to a corner of a submap.
   * `omt` means relative to a corner of an overmap terrain.
   * `om` means relative to a corner of an overmap.
+  * `bub` means local coordinates, relative to the corner of the reality bubble (`get_map()`).
   * `veh` means relative to a vehicle origin.
 * **scale** means the scale as discussed above.
   * `ms` for map square.
@@ -187,7 +188,13 @@ assert( abs_pos == abs_pos_again );
 only those origins specifically related to rescaling.  To convert to or from
 local or vehicle coordinates requires a specific `map` or `vehicle` object.
 
-TODO: write some examples once this is implemented.
+For example, to convert between global to local coordinates:
+```c++
+tripoint_bub_ms local_pos = get_map().bub_from_abs( global_pos );
+tripoint_abs_ms global_pos = get_map().getglobal( local_pos );
+```
+
+TODO: write some vehicle examples once this is implemented.
 
 ## Point operations
 

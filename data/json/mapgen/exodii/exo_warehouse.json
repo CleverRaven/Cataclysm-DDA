@@ -1,0 +1,80 @@
+[
+  {
+    "om_terrain": "exo_warehouse_1",
+    "//": "A lost Exodii's warehouse, transported to our world during the portal storms.",
+    "type": "mapgen",
+    "weight": 100,
+    "method": "json",
+    "object": {
+      "faction_owner": [ { "id": "exodii", "x": [ 5, 17 ], "y": [ 5, 18 ] } ],
+      "rows": [
+        "        .........       ",
+        "     ....,,,,,,,....    ",
+        "   ....,,,,,,,,,,,,,..  ",
+        "  ..,,,,,,;;;;;,,,,,..  ",
+        "  .,,,;;;;;;;;;;;;;,,.. ",
+        " ..,###############,,.. ",
+        " .,,#c-|---|---|--#,,.. ",
+        "..,,#c--c-c--cc---#,,,..",
+        ".,,,#c-_3___------#;,,..",
+        ".,,;#c-_-__-------#;,,..",
+        ".,,;#c-<---cc-----#;,,..",
+        ".,,;#-|----cc-|---#;,,..",
+        ".,,;#{{C{{{I------#;,,..",
+        ".,,;#{-C---cc-cc--#;,,..",
+        ".,,;#{-C---cc-cc--#;,,..",
+        "..,,#{-||--cc-||--#;,,..",
+        "..,,#{cc---cc-cc--#,,,..",
+        " .,,#g------------#,,.. ",
+        " .,,######MMM######,,.. ",
+        " ..,,,,,;;;;;;;,,,,,,.. ",
+        "  ..,,,,,,,,,,,,,,,,..  ",
+        "  ...,,,,,,,,,,,,,,...  ",
+        "    ....,,,,,,,,....    ",
+        "       ..........       "
+      ],
+      "fill_ter": "t_dirtfloor",
+      "palettes": [ "exodii_stone_palette" ],
+      "place_monster": [ { "monster": "mon_zomborg", "x": [ 10, 11 ], "y": [ 19, 22 ], "pack_size": [ 8, 13 ] } ],
+      "furniture": { "Y": "f_scrap_antenna", "I": "f_exodii_lamp" }
+    }
+  },
+  {
+    "om_terrain": "exo_warehouse_2",
+    "type": "mapgen",
+    "weight": 100,
+    "method": "json",
+    "object": {
+      "faction_owner": [ { "id": "exodii", "x": [ 5, 17 ], "y": [ 5, 18 ] } ],
+      "fill_ter": "t_tile_flat_roof",
+      "rows": [
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvv^^^^^^^^^^^^^^^vvvvv",
+        "vvvv^^^^^^^^^^^^^^^vvvvv",
+        "vvvv^^^>^^^^^^^^^^^vvvvv",
+        "vvvv^^^^^^^^^^^^^^^vvvvv",
+        "vvvv^^^^^^^^^^^^^^^vvvvv",
+        "vvvv^^^^^^^^^^^^^^^vvvvv",
+        "vvvv^^^^^^^Z^^^^^^^vvvvv",
+        "vvvv^^^^^^^^^^^^^^^vvvvv",
+        "vvvv^^^^^^^^^^^^^^^vvvvv",
+        "vvvv^^^^^^^^^^^^^^^vvvvv",
+        "vvvv^^^^^^^^^^^^^^^vvvvv",
+        "vvvv^^^^^^^^^^^^^^^vvvvv",
+        "vvvv^^^^^^^^^^^^^^^vvvvv",
+        "vvvv^^^^^^^^^^^^^^^vvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv"
+      ],
+      "palettes": [ "exodii_stone_palette" ],
+      "furniture": { "Z": "f_exodii_locator_antenna" }
+    }
+  }
+]

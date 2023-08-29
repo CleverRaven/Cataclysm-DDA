@@ -3,14 +3,14 @@
     "result": "XL_holster",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 5,
     "skills_required": [ "gun", 1 ],
     "time": "11 h",
     "autolearn": true,
-    "using": [ [ "strap_small", 1 ], [ "tailoring_leather_small", 4 ], [ "clasps", 1 ] ],
+    "using": [ [ "strap_small", 1 ], [ "tailoring_leather_small", 9 ], [ "clasps", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -18,11 +18,18 @@
     ]
   },
   {
-    "result": "XS_holster",
+    "result": "XL_nylon_holster",
     "type": "recipe",
-    "copy-from": "XL_holster",
-    "time": "8 h",
-    "using": [ [ "strap_small", 1 ], [ "tailoring_leather_small", 3 ], [ "clasps", 1 ] ]
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "skills_required": [ "gun", 1 ],
+    "time": "6 h",
+    "autolearn": true,
+    "using": [ [ "strap_small", 1 ], [ "tailoring_nylon_patchwork", 2 ], [ "clasps", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "ammo_satchel",
@@ -36,17 +43,16 @@
     "time": "1 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "strap_large", 1 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 4 ], [ "strap_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "fastener_small", 2, "LIST" ] ] ]
   },
   {
-    "result": "ammo_satchel",
-    "id_suffix": "from leather",
+    "result": "ammo_satchel_leather",
     "copy-from": "ammo_satchel",
     "type": "recipe",
     "time": "5 h",
-    "using": [ [ "tailoring_leather_small", 2 ], [ "strap_large", 1 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ], [ "strap_large", 1 ] ],
     "extend": { "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ] },
     "components": [ [ [ "fastener_small", 2, "LIST" ] ] ]
   },
@@ -54,8 +60,8 @@
     "result": "baldric_holster",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "pistol", 1 ],
@@ -73,23 +79,23 @@
     "result": "stone_pouch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ [ "throw", 1 ] ],
     "time": "3 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "strap_large", 1 ], [ "tailoring_cotton_patchwork", 2 ], [ "fastener_small", 2 ] ],
+    "using": [ [ "strap_large", 1 ], [ "tailoring_cotton_patchwork", 5 ], [ "fastener_small", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
     "result": "leather_stone_pouch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "3 h",
@@ -97,6 +103,197 @@
     "reversible": true,
     "using": [ [ "strap_large", 1 ], [ "tailoring_leather_small", 6 ], [ "fastener_small", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
+  },
+  {
+    "result": "camera_bag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "skills_required": [ "fabrication", 2 ],
+    "time": "8 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 8 ], [ "fastener_large", 1 ], [ "fastener_small", 1 ], [ "plastic_molding", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_plasticworking" }
+    ]
+  },
+  {
+    "result": "canteen_pouch",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "4 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 6 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
+  },
+  {
+    "result": "deployment_bag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "6 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 9 ], [ "fastener_small", 2 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
+  },
+  {
+    "result": "dry_bag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 5,
+    "time": "6 h 40 m",
+    "autolearn": true,
+    "reversible": { "time": "35 m" },
+    "book_learn": [ [ "plastics_book", 3 ] ],
+    "using": [
+      [ "sewing_standard", 100 ],
+      [ "tailoring_lycra_patchwork", 20 ],
+      [ "clasps", 1 ],
+      [ "waterproofing_plastic_sheets", 10 ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_plasticworking" }
+    ],
+    "components": [ [ [ "duct_tape", 200 ] ] ]
+  },
+  {
+    "result": "fanny",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 4,
+    "time": "6 h",
+    "autolearn": true,
+    "reversible": { "time": "5 m" },
+    "using": [ [ "tailoring_nylon_patchwork", 4 ], [ "fastener_small", 1 ], [ "clasps", 1 ], [ "plastic_molding", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_plasticworking" }
+    ]
+  },
+  {
+    "result": "dump_pouch",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 4,
+    "time": "6 h",
+    "autolearn": true,
+    "using": [
+      [ "tailoring_nylon_patchwork", 10 ],
+      [ "fastener_small", 1 ],
+      [ "strap_small", 1 ],
+      [ "clasps", 1 ],
+      [ "plastic_molding", 1 ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_plasticworking" }
+    ]
+  },
+  {
+    "result": "santa_belt",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "time": "1 h 30 m",
+    "autolearn": true,
+    "using": [ [ "tailoring_leather_small", 5 ], [ "clasps", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
+  },
+  {
+    "result": "fireman_belt",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_leather_small", 6 ], [ "clasps", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "scrap", 2 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ]
+  },
+  {
+    "result": "webbing_belt",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "8 h",
+    "reversible": { "time": "20 m" },
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 8 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [
+      [ [ "scrap", 2 ] ],
+      [ [ "buckle_steel", 1 ], [ "button", 1, "LIST" ], [ "snapfastener_steel", 2 ], [ "touch_fastener", 2 ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "police_belt",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "2 h",
+    "reversible": { "time": "20 m" },
+    "autolearn": true,
+    "using": [ [ "tailoring_leather_small", 6 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [
+      [ [ "scrap", 2 ] ],
+      [ [ "buckle_steel", 1 ], [ "button", 1, "LIST" ], [ "snapfastener_steel", 2 ], [ "touch_fastener", 2 ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ]
+  },
+  {
+    "result": "vest",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "6 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_canvas_patchwork", 14 ], [ "fastener_large", 1 ], [ "fastener_small", 4 ] ],
+    "byproducts": [ [ "scrap_canvas", 28 ] ]
   },
   {
     "result": "chestrig",
@@ -110,7 +307,7 @@
     "time": "2 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 2 ], [ "strap_small", 1 ], [ "clasps", 4 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 2 ], [ "strap_small", 1 ], [ "clasps", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ]
   },
@@ -119,7 +316,7 @@
     "type": "recipe",
     "copy-from": "chestrig",
     "time": "1 h",
-    "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "strap_small", 1 ], [ "clasps", 4 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 2 ], [ "strap_small", 1 ], [ "clasps", 4 ] ],
     "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ]
   },
   {
@@ -127,7 +324,7 @@
     "type": "recipe",
     "copy-from": "chestrig",
     "time": "4 h 30 m",
-    "using": [ [ "tailoring_cotton_patchwork", 3 ], [ "strap_large", 1 ], [ "clasps", 4 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 3 ], [ "strap_large", 1 ], [ "clasps", 4 ] ],
     "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ]
   },
   {
@@ -141,7 +338,7 @@
     "time": "20 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "adhesive", 1 ], [ "tailoring_leather_small", 1 ], [ "clasps", 1 ] ],
+    "using": [ [ "adhesive", 1 ], [ "tailoring_leather_small", 5 ], [ "clasps", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "nail", 4 ] ] ]
   },
@@ -149,14 +346,14 @@
     "result": "back_holster",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "gun", 1 ],
     "time": "11 h",
     "autolearn": true,
-    "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 1 ] ],
+    "using": [ [ "tailoring_leather_small", 7 ], [ "clasps", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -173,8 +370,8 @@
     "difficulty": 3,
     "time": "10 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "tailoring_nylon_patchwork", 3 ], [ "fastener_large", 2 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 16 ], [ "fastener_large", 2 ] ],
+    "byproducts": [ [ "nylon", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -187,14 +384,80 @@
     "difficulty": 3,
     "time": "14 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "strap_large", 2 ], [ "tailoring_leather_small", 10 ], [ "fastener_large", 2 ] ],
+    "reversible": { "time": "25 m" },
+    "using": [ [ "strap_large", 2 ], [ "tailoring_leather_patchwork", 3 ], [ "fastener_large", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ]
+  },
+  {
+    "result": "slingpack",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 3,
+    "time": "8 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 12 ], [ "fastener_large", 1 ], [ "plastic_molding", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_plasticworking" }
+    ]
+  },
+  {
+    "result": "daypack",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 5,
+    "time": "12 h",
+    "autolearn": true,
+    "using": [ [ "strap_large", 2 ], [ "tailoring_nylon_patchwork", 12 ], [ "fastener_large", 2 ], [ "plastic_molding", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
+  },
+  {
+    "result": "purse",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "18 h",
+    "reversible": { "time": "20 m" },
+    "autolearn": true,
+    "using": [ [ "tailoring_leather_patchwork", 2 ], [ "fastener_large", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
+    ]
+  },
+  {
+    "result": "runner_bag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 5,
+    "time": "8 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_canvas_patchwork", 8 ], [ "fastener_large", 1 ], [ "plastic_molding", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
+    "byproducts": [ [ "scrap_canvas", 24 ] ]
   },
   {
     "result": "baldric",
@@ -220,60 +483,60 @@
     "result": "bandolier_pistol",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ [ "gun", 1 ], [ "pistol", 1 ] ],
     "time": "3 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_leather_small", 2 ], [ "clasps", 1 ] ],
+    "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
     "result": "bandolier_rifle",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ [ "gun", 1 ], [ "rifle", 1 ] ],
     "time": "3 h 20 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_leather_small", 2 ], [ "clasps", 1 ] ],
+    "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
     "result": "bandolier_shotgun",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ [ "gun", 1 ], [ "shotgun", 1 ] ],
     "time": "3 h 20 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_leather_small", 2 ], [ "clasps", 1 ] ],
+    "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
     "result": "torso_bandolier_shotgun",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ [ "gun", 1 ], [ "shotgun", 1 ] ],
     "time": "3 h 40 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_leather_small", 3 ], [ "clasps", 1 ] ],
+    "using": [ [ "tailoring_leather_small", 5 ], [ "clasps", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
@@ -288,43 +551,43 @@
     "result": "bandolier_wrist",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ [ "gun", 1 ], [ "rifle", 1 ] ],
     "time": "1 h 20 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "strap_small", 1 ], [ "clasps", 1 ], [ "tailoring_cotton_patchwork", 1 ], [ "fastener_small", 1 ] ],
+    "using": [ [ "strap_small", 1 ], [ "clasps", 1 ], [ "tailoring_canvas_patchwork", 1 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "bholster",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ [ "gun", 1 ], [ "pistol", 1 ] ],
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "tailoring_lycra", 1 ] ],
+    "using": [ [ "tailoring_lycra_patchwork", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ]
   },
   {
     "result": "bbholster",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ [ "gun", 1 ], [ "pistol", 1 ] ],
     "time": "1 h 30 m",
     "autolearn": true,
-    "using": [ [ "tailoring_lycra", 2 ] ],
+    "using": [ [ "tailoring_lycra_patchwork", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ]
   },
   {
@@ -338,7 +601,14 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "rag", 6 ], [ "fur", 2 ], [ "leather", 1 ] ],
+      [
+        [ "sheet_cotton_patchwork", 1 ],
+        [ "sheet_cotton", 1 ],
+        [ "sheet_fur_patchwork", 1 ],
+        [ "tanned_pelt", 1 ],
+        [ "tanned_hide", 1 ],
+        [ "sheet_leather_patchwork", 6 ]
+      ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "pointy_stick", 1 ], [ "mop", 1 ] ]
     ],
     "flags": [ "BLIND_HARD" ]
@@ -354,7 +624,7 @@
     "skills_required": [ "melee", 1 ],
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "tailoring_leather_small", 2 ], [ "clasps", 1 ] ],
+    "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -381,14 +651,14 @@
     "//": "Ankle holster",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "pistol", 1 ],
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "tailoring_leather_small", 3 ], [ "clasps", 1 ] ],
+    "using": [ [ "tailoring_leather_small", 5 ], [ "clasps", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -421,7 +691,7 @@
     "time": "45 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_nylon", 1 ], [ "clasps", 3 ] ]
+    "using": [ [ "tailoring_nylon_patchwork", 1 ], [ "clasps", 3 ] ]
   },
   {
     "result": "bscabbard",
@@ -434,6 +704,7 @@
     "skills_required": [ "melee", 1 ],
     "time": "4 h",
     "autolearn": true,
+    "reversible": { "time": "40 m" },
     "using": [ [ "tailoring_leather_small", 15 ], [ "adhesive", 1 ], [ "clasps", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
@@ -443,14 +714,14 @@
     "result": "armrig",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "1 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton", 2 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 3 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -464,31 +735,36 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton", 2 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 3 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
     "result": "chestpouch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "gun", 1 ],
     "time": "2 h 30 m",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 2 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
+    "reversible": { "time": "10 m" },
+    "using": [
+      [ "tailoring_canvas_patchwork", 4 ],
+      [ "filament_canvas", 2 ],
+      [ "fastener_small", 1 ],
+      [ "strap_small", 1 ],
+      [ "clasps", 1 ]
+    ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
-    "result": "chestpouch",
+    "result": "chestpouch_leather",
     "type": "recipe",
-    "id_suffix": "from leather",
     "time": "5 h 30 m",
     "copy-from": "chestpouch",
-    "using": [ [ "tailoring_leather_small", 2 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 4 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
     "extend": { "proficiencies": [ { "proficiency": "prof_leatherworking" }, { "proficiency": "prof_leatherworking_basic" } ] }
   },
   {
@@ -502,7 +778,7 @@
     "skills_required": [ "fabrication", 2 ],
     "time": "10 h",
     "autolearn": true,
-    "using": [ [ "tailoring_nylon", 5 ], [ "plastic_molding", 2 ], [ "fastener_small", 6 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 5 ], [ "plastic_molding", 2 ], [ "fastener_small", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -515,7 +791,7 @@
     "type": "recipe",
     "copy-from": "tacvest",
     "time": "6 h",
-    "using": [ [ "tailoring_nylon", 3 ], [ "plastic_molding", 2 ], [ "fastener_small", 6 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 3 ], [ "plastic_molding", 2 ], [ "fastener_small", 6 ] ],
     "components": [ [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ], [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ] ]
   },
   {
@@ -523,7 +799,7 @@
     "type": "recipe",
     "copy-from": "tacvest",
     "time": "13 h 30 m",
-    "using": [ [ "tailoring_nylon", 7 ], [ "plastic_molding", 3 ], [ "fastener_small", 6 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 7 ], [ "plastic_molding", 3 ], [ "fastener_small", 6 ] ],
     "components": [ [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ], [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ] ]
   },
   {
@@ -536,16 +812,16 @@
     "difficulty": 2,
     "time": "14 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 10 ], [ "fastener_large", 2 ] ],
+    "reversible": { "time": "1 h" },
+    "using": [ [ "tailoring_canvas_patchwork", 26 ], [ "fastener_large", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
     "result": "flintlock_pouch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ [ "gun", 1 ] ],
@@ -563,8 +839,8 @@
     "result": "grenade_pouch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ [ "gun", 1 ], [ "launcher", 1 ] ],
@@ -613,14 +889,15 @@
     "result": "holster",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "pistol", 1 ],
     "time": "8 h",
+    "reversible": { "time": "1 h" },
     "autolearn": true,
-    "using": [ [ "tailoring_leather_small", 3 ] ],
+    "using": [ [ "tailoring_leather_small", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking" },
@@ -629,11 +906,121 @@
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ], [ [ "fastener_small", 1, "LIST" ] ] ]
   },
   {
+    "result": "nylon_holster",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "pistol", 1 ],
+    "time": "8 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ], [ [ "fastener_small", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "shoulder_holster",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "pistol", 1 ],
+    "time": "8 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_leather_small", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_leatherworking_basic" }
+    ],
+    "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ], [ [ "fastener_small", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "side_double_holster",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "skills_required": [ "pistol", 1 ],
+    "time": "1 m",
+    "reversible": { "time": "30 s" },
+    "autolearn": true,
+    "using": [ [ "tailoring_cotton_patchwork", 1 ] ],
+    "components": [ [ [ "holster", 2 ] ] ]
+  },
+  {
+    "result": "FB_double_holster",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "skills_required": [ "pistol", 1 ],
+    "time": "1 m",
+    "reversible": { "time": "30 s" },
+    "autolearn": true,
+    "using": [ [ "tailoring_cotton_patchwork", 1 ] ],
+    "components": [ [ [ "holster", 2 ] ] ]
+  },
+  {
+    "result": "XS_holster",
+    "type": "recipe",
+    "copy-from": "holster",
+    "time": "6 h",
+    "using": [ [ "tailoring_leather_small", 2 ] ],
+    "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ], [ [ "fastener_small", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "XS_nylon_holster",
+    "type": "recipe",
+    "copy-from": "nylon_holster",
+    "time": "3 h",
+    "using": [ [ "tailoring_nylon_patchwork", 1 ] ],
+    "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ], [ [ "fastener_small", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "side_nylon_double_holster",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "skills_required": [ "pistol", 1 ],
+    "time": "1 m",
+    "reversible": { "time": "30 s" },
+    "autolearn": true,
+    "using": [ [ "tailoring_cotton_patchwork", 1 ] ],
+    "components": [ [ [ "nylon_holster", 2 ] ] ]
+  },
+  {
+    "result": "FB_nylon_double_holster",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "skills_required": [ "pistol", 1 ],
+    "time": "1 m",
+    "reversible": { "time": "30 s" },
+    "autolearn": true,
+    "using": [ [ "tailoring_cotton_patchwork", 1 ] ],
+    "components": [ [ [ "nylon_holster", 2 ] ] ]
+  },
+  {
     "result": "western_holster",
     "type": "recipe",
     "copy-from": "holster",
     "time": "11 h",
-    "using": [ [ "tailoring_leather_small", 4 ] ],
+    "using": [ [ "tailoring_leather_small", 7 ] ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ], [ [ "fastener_small", 2, "LIST" ] ] ]
   },
   {
@@ -669,28 +1056,29 @@
     "result": "leather_belt",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "time": "1 h",
+    "reversible": { "time": "1 m" },
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "tailoring_leather_small", 2 ], [ "clasps", 1 ] ],
+    "using": [ [ "tailoring_leather_small", 5 ] ],
+    "components": [ [ [ "buckle_steel", 1 ], [ "button", 1, "LIST" ], [ "snapfastener_steel", 2 ], [ "touch_fastener", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
     "result": "leather_pouch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 2,
     "skills_required": [ "survival", 1 ],
-    "time": "4 h",
+    "time": "1 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "tailoring_leather_small", 7 ], [ "fastener_small", 1 ] ],
+    "reversible": { "time": "10 m" },
+    "using": [ [ "tailoring_leather_small", 3 ], [ "fastener_small", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -702,8 +1090,8 @@
     "result": "ammo_pouch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 2,
     "skills_required": [ "gun", 1 ],
@@ -722,8 +1110,8 @@
     "result": "legpouch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "gun", 1 ],
@@ -738,14 +1126,14 @@
     "result": "legpouch_large",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "gun", 1 ],
     "time": "4 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "15 m" },
     "using": [ [ "tailoring_nylon_patchwork", 3 ], [ "fastener_small", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "chestpouch", 2 ] ] ]
@@ -805,8 +1193,8 @@
     "result": "tool_pouch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "gun", 1 ],
@@ -839,8 +1227,8 @@
     "result": "tactical_holster",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "gun", 1 ],
@@ -873,8 +1261,8 @@
     "result": "tactical_grenade_pouch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "gun", 1 ],
@@ -890,8 +1278,8 @@
     "result": "triple_stacker_pouch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "gun", 1 ],
@@ -907,8 +1295,8 @@
     "result": "tactical_shotshell_pouch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "gun", 1 ],
@@ -924,8 +1312,8 @@
     "result": "legrig",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 4,
     "skills_required": [ "fabrication", 2 ],
@@ -950,7 +1338,7 @@
     "time": "5 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 3 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "clasps", 2, "LIST" ] ] ]
   },
@@ -984,7 +1372,6 @@
     "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
-    "skill_used": "survival",
     "time": "48 s",
     "reversible": true,
     "autolearn": true,
@@ -994,6 +1381,7 @@
         [ "down_blanket", 1 ],
         [ "fur_blanket", 1 ],
         [ "electric_blanket", 1 ],
+        [ "emer_blanket", 1 ],
         [ "quilt", 1 ],
         [ "quilt_patchwork", 1 ],
         [ "sheet", 1 ]
@@ -1016,11 +1404,27 @@
     "components": [ [ [ "cordage_superior", 6, "LIST" ] ] ]
   },
   {
+    "result": "quiver_takedown_bow",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ "archery", 1 ],
+    "time": "12 h",
+    "autolearn": true,
+    "reversible": true,
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 7 ], [ "fastener_large", 2 ], [ "clasps", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
+  },
+  {
     "result": "quiver",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 2,
     "skills_required": [ "archery", 1 ],
@@ -1029,7 +1433,7 @@
     "decomp_learn": 3,
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ] ],
-    "using": [ [ "tailoring_leather_small", 3 ], [ "fastener_large", 2 ] ],
+    "using": [ [ "tailoring_leather_small", 8 ], [ "fastener_large", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1038,11 +1442,29 @@
     "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
   },
   {
+    "result": "nylon_quiver",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "archery", 2 ],
+    "time": "11 h",
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 1 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 8 ], [ "fastener_large", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
+    "components": [ [ [ "strap_large", 2, "LIST" ] ] ]
+  },
+  {
     "result": "quiver_birchbark",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ [ "survival", 1 ], [ "archery", 1 ] ],
@@ -1057,14 +1479,14 @@
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" }
     ],
-    "components": [ [ [ "birchbark", 3 ] ], [ [ "filament", 3, "LIST" ] ], [ [ "cordage", 1, "LIST" ] ] ]
+    "components": [ [ [ "birchbark", 6 ] ], [ [ "filament", 3, "LIST" ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {
     "result": "quiver_large",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "archery", 1 ],
@@ -1073,7 +1495,7 @@
     "decomp_learn": 3,
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ] ],
-    "using": [ [ "tailoring_leather_small", 11 ], [ "strap_large", 2 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 3 ], [ "strap_large", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -1086,8 +1508,8 @@
     "result": "quiver_large_birchbark",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 4,
     "skills_required": [ [ "survival", 2 ], [ "archery", 2 ] ],
@@ -1102,14 +1524,14 @@
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" }
     ],
-    "components": [ [ [ "birchbark", 10 ] ], [ [ "filament", 10, "LIST" ] ], [ [ "strap_large", 1, "LIST" ] ] ]
+    "components": [ [ [ "birchbark", 18 ] ], [ [ "filament", 10, "LIST" ] ], [ [ "strap_large", 1, "LIST" ] ] ]
   },
   {
     "result": "ragpouch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "time": "1 h",
     "reversible": true,
@@ -1133,6 +1555,22 @@
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 5 ] ] ]
+  },
+  {
+    "result": "nylon_scabbard",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ "melee", 1 ],
+    "time": "8 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 10 ], [ "clasps", 1 ], [ "adhesive", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 5 ] ] ]
   },
@@ -1182,7 +1620,7 @@
     "difficulty": 3,
     "skills_required": [ "melee", 1 ],
     "time": "4 h",
-    "reversible": true,
+    "reversible": { "time": "25 m" },
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 3 ] ],
     "proficiencies": [
@@ -1205,14 +1643,14 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "birchbark", 1 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
+    "components": [ [ [ "birchbark", 2 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
     "result": "sholster",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "pistol", 1 ],
@@ -1239,7 +1677,7 @@
     "time": "45 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 2 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },
@@ -1277,7 +1715,7 @@
       { "proficiency": "prof_leatherworking" }
     ],
     "components": [
-      [ [ "rag", 18 ] ],
+      [ [ "canvas_patch", 78 ] ],
       [ [ "plastic_sheet", 2 ] ],
       [ [ "duffelbag", 1 ], [ "rucksack", 1 ] ],
       [
@@ -1294,6 +1732,21 @@
     ]
   },
   {
+    "result": "survivor_dry_duffelbag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "skills_required": [ "fabrication", 6 ],
+    "time": "8 h",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 200 ], [ "tailoring_lycra_patchwork", 30 ], [ "fastener_large", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
+    "components": [ [ [ "plastic_sheet", 6 ] ], [ [ "dry_duffelbag", 1 ] ], [ [ "duct_tape", 300 ] ] ]
+  },
+  {
     "result": "light_load_bearing_vest",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1305,7 +1758,7 @@
     "time": "13 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_nylon_patchwork", 8 ], [ "strap_small", 3 ], [ "filament", 3 ] ]
+    "using": [ [ "tailoring_nylon_patchwork", 12 ], [ "strap_small", 3 ], [ "filament", 3 ] ]
   },
   {
     "result": "load_bearing_vest",
@@ -1319,7 +1772,7 @@
     "time": "38 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_nylon_patchwork", 23 ], [ "strap_small", 6 ], [ "filament", 6 ] ]
+    "using": [ [ "tailoring_nylon_patchwork", 30 ], [ "strap_small", 6 ], [ "filament", 6 ] ]
   },
   {
     "result": "heavy_load_bearing_vest",
@@ -1332,8 +1785,22 @@
     "skills_required": [ "fabrication", 3 ],
     "time": "59 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "tailoring_nylon_patchwork", 36 ], [ "strap_small", 10 ], [ "filament", 10 ] ]
+    "reversible": { "time": "90 m" },
+    "using": [ [ "tailoring_nylon_patchwork", 45 ], [ "strap_small", 10 ], [ "filament", 10 ] ]
+  },
+  {
+    "result": "heavy_load_bearing_vest_breacher",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ "fabrication", 3 ],
+    "time": "60 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 45 ], [ "strap_small", 10 ], [ "filament", 10 ] ],
+    "components": [ [ [ "single_sling", 1 ] ], [ [ "magnet", 2 ] ] ]
   },
   {
     "result": "survivor_pack",
@@ -1354,7 +1821,7 @@
       { "proficiency": "prof_leatherworking" }
     ],
     "components": [
-      [ [ "rag", 10 ] ],
+      [ [ "canvas_patch", 50 ] ],
       [ [ "backpack", 1 ], [ "backpack_leather", 1 ], [ "molle_pack", 1 ] ],
       [ [ "plastic_sheet", 1 ] ],
       [
@@ -1390,7 +1857,7 @@
       { "proficiency": "prof_leatherworking" }
     ],
     "components": [
-      [ [ "rag", 14 ] ],
+      [ [ "canvas_patch", 64 ] ],
       [
         [ "backpack", 1 ],
         [ "backpack_leather", 1 ],
@@ -1433,7 +1900,7 @@
       { "proficiency": "prof_elastics" }
     ],
     "components": [
-      [ [ "rag", 6 ] ],
+      [ [ "canvas_patch", 26 ] ],
       [ [ "runner_bag", 1 ], [ "backpack", 1 ], [ "backpack_leather", 1 ] ],
       [ [ "plastic_sheet", 1 ] ],
       [
@@ -1449,6 +1916,21 @@
       ],
       [ [ "duct_tape", 80 ] ]
     ]
+  },
+  {
+    "result": "survivor_dry_bag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "fabrication", 4 ],
+    "time": "7 h",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 120 ], [ "tailoring_lycra_patchwork", 10 ], [ "fastener_small", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
+    "components": [ [ [ "lycra_patch", 50 ] ], [ [ "dry_bag", 1 ] ], [ [ "plastic_sheet", 4 ] ], [ [ "duct_tape", 120 ] ] ]
   },
   {
     "result": "survivor_vest",
@@ -1468,7 +1950,12 @@
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
-    "components": [ [ [ "rag", 6 ] ], [ [ "holster", 1 ], [ "sholster", 1 ] ], [ [ "leather_pouch", 3 ] ], [ [ "duct_tape", 50 ] ] ]
+    "components": [
+      [ [ "canvas_patch", 22 ] ],
+      [ [ "holster", 1 ], [ "sholster", 1 ] ],
+      [ [ "leather_pouch", 3 ] ],
+      [ [ "duct_tape", 50 ] ]
+    ]
   },
   {
     "result": "xs_survivor_vest",
@@ -1476,7 +1963,12 @@
     "copy-from": "survivor_vest",
     "time": "12 h",
     "using": [ [ "sewing_standard", 75 ], [ "tailoring_leather_small", 4 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "rag", 5 ] ], [ [ "holster", 1 ], [ "sholster", 1 ] ], [ [ "leather_pouch", 2 ] ], [ [ "duct_tape", 38 ] ] ]
+    "components": [
+      [ [ "canvas_patch", 18 ] ],
+      [ [ "holster", 1 ], [ "sholster", 1 ] ],
+      [ [ "leather_pouch", 2 ] ],
+      [ [ "duct_tape", 38 ] ]
+    ]
   },
   {
     "result": "xl_survivor_vest",
@@ -1484,7 +1976,12 @@
     "copy-from": "survivor_vest",
     "time": "13 h 30 m",
     "using": [ [ "sewing_standard", 150 ], [ "tailoring_leather_small", 9 ], [ "fastener_large", 2 ] ],
-    "components": [ [ [ "rag", 8 ] ], [ [ "holster", 1 ], [ "sholster", 1 ] ], [ [ "leather_pouch", 3 ] ], [ [ "duct_tape", 80 ] ] ]
+    "components": [
+      [ [ "canvas_patch", 28 ] ],
+      [ [ "holster", 1 ], [ "sholster", 1 ] ],
+      [ [ "leather_pouch", 3 ] ],
+      [ [ "duct_tape", 80 ] ]
+    ]
   },
   {
     "result": "swag_bag",
@@ -1503,20 +2000,20 @@
     "result": "tool_belt",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "4 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "tailoring_leather_small", 6 ], [ "clasps", 3 ] ],
+    "reversible": { "time": "10 m" },
+    "using": [ [ "tailoring_leather_small", 12 ], [ "clasps", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
-    "components": [ [ [ "leather_pouch", 7 ] ] ]
+    "components": [ [ [ "leather_pouch", 2 ] ], [ [ "leather_belt", 1 ] ] ]
   },
   {
     "result": "javelin_bag",
@@ -1530,7 +2027,7 @@
     "time": "30 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_leather_small", 11 ], [ "fastener_large", 6 ] ],
+    "using": [ [ "tailoring_leather_small", 26 ], [ "fastener_large", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1543,15 +2040,15 @@
     "result": "grenadebandolier",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "skills_required": [ [ "gun", 1 ], [ "throw", 1 ] ],
     "difficulty": 3,
     "time": "3 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "strap_large", 2 ], [ "tailoring_nylon_patchwork", 1 ] ],
+    "using": [ [ "strap_large", 2 ], [ "tailoring_nylon_patchwork", 14 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -1565,7 +2062,7 @@
     "time": "18 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_leather_small", 30 ], [ "fastener_large", 3 ] ],
+    "using": [ [ "tailoring_leather_small", 44 ], [ "fastener_large", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1576,6 +2073,115 @@
     "components": [ [ [ "sheet_metal_small", 8 ] ], [ [ "strap_large", 2, "LIST" ] ] ]
   },
   {
+    "result": "golf_bag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "fabrication", 3 ],
+    "difficulty": 5,
+    "time": "14 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 12 ], [ "fastener_small", 2 ], [ "plastic_molding", 6 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "scrap", 4 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_plasticworking" }
+    ]
+  },
+  {
+    "result": "mbag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "14 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 18 ], [ "fastener_large", 2 ], [ "plastic_molding", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_plasticworking" }
+    ]
+  },
+  {
+    "result": "rucksack",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "fabrication", 3 ],
+    "difficulty": 5,
+    "time": "30 h",
+    "autolearn": true,
+    "using": [ [ "strap_large", 2 ], [ "tailoring_nylon_patchwork", 28 ], [ "fastener_large", 3 ], [ "plastic_molding", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_plasticworking" }
+    ]
+  },
+  {
+    "result": "molle_pack",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "fabrication", 3 ],
+    "difficulty": 5,
+    "time": "30 h",
+    "autolearn": true,
+    "using": [ [ "strap_large", 2 ], [ "tailoring_nylon_patchwork", 24 ], [ "fastener_large", 3 ], [ "plastic_molding", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_plasticworking" }
+    ]
+  },
+  {
+    "result": "molle_medium_rucksack",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "fabrication", 3 ],
+    "difficulty": 5,
+    "time": "36 h",
+    "autolearn": true,
+    "using": [ [ "strap_large", 2 ], [ "tailoring_nylon_patchwork", 36 ], [ "fastener_large", 3 ], [ "plastic_molding", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_plasticworking" }
+    ]
+  },
+  {
+    "result": "molle_large_rucksack",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "fabrication", 3 ],
+    "difficulty": 5,
+    "time": "48 h",
+    "autolearn": true,
+    "using": [ [ "strap_large", 2 ], [ "tailoring_nylon_patchwork", 42 ], [ "fastener_large", 4 ], [ "plastic_molding", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_plasticworking" }
+    ]
+  },
+  {
     "result": "travelpack",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1584,9 +2190,9 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "7 h 30 m",
-    "reversible": true,
+    "reversible": { "time": "35 m" },
     "autolearn": true,
-    "using": [ [ "tailoring_nylon_patchwork", 5 ], [ "fastener_large", 1 ], [ "waterproofing_plastic_bags", 2 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 15 ], [ "fastener_large", 1 ], [ "waterproofing_plastic_sheets", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
   },
@@ -1599,9 +2205,9 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "6 h 40 m",
-    "reversible": true,
+    "reversible": { "time": "35 m" },
     "book_learn": [ [ "plastics_book", 1 ] ],
-    "using": [ [ "tailoring_nylon_patchwork", 4 ], [ "fastener_large", 1 ], [ "waterproofing_plastic_bags", 2 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 22 ], [ "fastener_large", 1 ], [ "waterproofing_plastic_sheets", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1632,8 +2238,8 @@
     "difficulty": 4,
     "time": "18 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "tailoring_leather_small", 25 ], [ "fastener_large", 3 ] ],
+    "reversible": { "time": "1 h" },
+    "using": [ [ "tailoring_leather_small", 28 ], [ "fastener_large", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1652,8 +2258,8 @@
     "difficulty": 4,
     "time": "14 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "tailoring_leather_small", 25 ], [ "fastener_large", 1 ] ],
+    "reversible": { "time": "1 h" },
+    "using": [ [ "tailoring_leather_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1672,7 +2278,7 @@
     "time": "10 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 10 ], [ "fastener_large", 2 ], [ "waterproofing_plastic_bags", 4 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 32 ], [ "fastener_large", 2 ], [ "waterproofing_plastic_sheets", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -1685,7 +2291,7 @@
     "time": "4 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 5 ], [ "fastener_large", 2 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 13 ], [ "fastener_large", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -1698,20 +2304,12 @@
     "time": "5 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_leather_small", 5 ], [ "fastener_large", 2 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 4 ], [ "fastener_large", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_leatherworking_basic" }
     ],
-    "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
-  },
-  {
-    "result": "rifle_case_xs_soft_leather",
-    "type": "recipe",
-    "copy-from": "rifle_case_soft_leather",
-    "time": "5 h",
-    "using": [ [ "tailoring_leather_small", 3 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
   },
   {
@@ -1723,8 +2321,8 @@
     "difficulty": 2,
     "time": "4h 30 m",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 7 ], [ "fastener_large", 3 ] ],
+    "reversible": { "time": "25 m" },
+    "using": [ [ "tailoring_canvas_patchwork", 17 ], [ "fastener_large", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
   },
@@ -1738,7 +2336,7 @@
     "time": "5 h 30 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_leather_small", 7 ], [ "fastener_large", 3 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 4 ], [ "fastener_large", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking" },
@@ -1756,7 +2354,7 @@
     "time": "5 h 40 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_leather_small", 7 ], [ "fastener_large", 2 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 4 ], [ "fastener_large", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking" },
@@ -1794,8 +2392,8 @@
   {
     "result": "ankle_wallet_pouch",
     "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "30 m",
@@ -1824,17 +2422,17 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
-    "time": "2 m",
+    "time": "6 m",
     "autolearn": true,
     "reversible": true,
-    "components": [ [ [ "cordage_short", 1, "LIST" ] ] ]
+    "components": [ [ [ "rope_any_short", 1, "LIST" ] ] ]
   },
   {
     "result": "suspenders_holster",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "2 h 30 m",
@@ -1855,7 +2453,7 @@
     "time": "3 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "strap_large", 3 ], [ "tailoring_cotton_patchwork", 5 ] ],
+    "using": [ [ "strap_large", 3 ], [ "tailoring_canvas_patchwork", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1874,12 +2472,42 @@
     "time": "5 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "strap_large", 3 ], [ "tailoring_cotton_patchwork", 8 ] ],
+    "using": [ [ "strap_large", 3 ], [ "tailoring_canvas_patchwork", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_carving" }
     ],
+    "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ] ]
+  },
+  {
+    "result": "frame_pack",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "1 h",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "strap_large", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
+  },
+  {
+    "result": "bigframe_pack",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "2 h",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "strap_large", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ] ]
   }
 ]

@@ -7,10 +7,10 @@
     "move_cost": 150,
     "damage_max_instance": [ { "damage_type": "stab", "amount": 5, "armor_penetration": 15, "armor_multiplier": 0.2 } ],
     "effects": [ { "id": "pkill3", "duration": 300 }, { "id": "pkill2", "duration": 600 } ],
-    "hit_dmg_u": "The %1$s injects you with a syringe!",
-    "hit_dmg_npc": "The %1$s injects <npcname> with a syringe!",
-    "no_dmg_msg_u": "The %1$s tries to inject you, but fails to penetrate your armor!",
-    "no_dmg_msg_npc": "The %1$s tries to inject <npcname>, but fails to penetrate their armor!"
+    "hit_dmg_u": "%1$s injects you with a syringe!",
+    "hit_dmg_npc": "%1$s injects <npcname> with a syringe!",
+    "no_dmg_msg_u": "%1$s tries to inject you, but fails to penetrate your armor!",
+    "no_dmg_msg_npc": "%1$s tries to inject <npcname>, but fails to penetrate their armor!"
   },
   {
     "type": "monster_attack",
@@ -24,11 +24,11 @@
     "effects": [ { "id": "webbed", "duration": 300 }, { "id": "webbed", "duration": 300 } ],
     "accuracy": 7,
     "blockable": false,
-    "hit_dmg_u": "The %s grasps at you with silk-covered legs, engulfing you in sticky webs!",
-    "hit_dmg_npc": "The %s grabs <npcname> and covers them in sticky webs!",
-    "miss_msg_u": "The %s tries to grab you, but you dodge!",
-    "miss_msg_npc": "The %s tries to grab <npcname>, but they dodge!",
-    "no_dmg_msg_u": "The %s tries to grasp you, but it slides off your armor.",
-    "no_dmg_msg_npc": "The %s tries to grasp <npcname>, but its legs slide of their armor."
+    "hit_dmg_u": "%s grasps at you with silk-covered legs, engulfing you in sticky webs!",
+    "hit_dmg_npc": "%s grabs <npcname> and covers them in sticky webs!",
+    "miss_msg_u": "%s tries to grab you, but you dodge!",
+    "miss_msg_npc": "%s tries to grab <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%s tries to grasp you, but it slides off your armor.",
+    "no_dmg_msg_npc": "%s tries to grasp <npcname>, but its legs slide of their armor."
   }
 ]

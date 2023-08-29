@@ -1,0 +1,13 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "backrooms",
+    "name": "The Backrooms",
+    "authors": [ "TGW" ],
+    "maintainers": [ "onura46" ],
+    "description": "A strange place between dimensions traps you.  Can you survive among endless halls of yellowed carpet and harshly humming fluorescents?\n\nReplaces all normal worldgen: no wilderness, no rivers, no cities, no farms, no sky.  Just endless, winding indoor halls of mildewy carpeting, faded drywall, desolate breakrooms and abandoned boardrooms.\n\nRecommended city size is 0.  Play Now!  (Default Scenario) is not supported.",
+    "category": "total_conversion",
+    "dependencies": [ "dda" ],
+    "version": "0.1"
+  }
+]

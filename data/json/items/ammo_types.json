@@ -25,6 +25,24 @@
   },
   {
     "type": "ammunition_type",
+    "id": "50beowulf",
+    "name": "12.7x42mm",
+    "default": "50beowulf_xtp"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "450",
+    "name": ".450 Bushmaster",
+    "default": "450_ftx"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "338lapua",
+    "name": ".338 Lapua",
+    "default": "338lapua_hpbt"
+  },
+  {
+    "type": "ammunition_type",
     "id": "nail",
     "name": "nails",
     "default": "nail"
@@ -58,6 +76,12 @@
     "id": "arrow",
     "name": "arrows",
     "default": "arrow_wood"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "strange_arrow",
+    "name": "strange arrows",
+    "default": "arrow_meteor"
   },
   {
     "type": "ammunition_type",
@@ -229,9 +253,21 @@
   },
   {
     "type": "ammunition_type",
+    "id": "303",
+    "name": ".303 British",
+    "default": "303_bthp"
+  },
+  {
+    "type": "ammunition_type",
     "id": "3006",
     "name": ".30-06",
     "default": "3006"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "30carbine",
+    "name": ".30 Carbine",
+    "default": "30carbine"
   },
   {
     "type": "ammunition_type",
@@ -314,8 +350,14 @@
   {
     "type": "ammunition_type",
     "id": "lamp_oil",
-    "name": "lamp oil",
+    "name": "kerosene",
     "default": "lamp_oil"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "crude_lamp_oil",
+    "name": "crude lamp oil",
+    "default": "crude_lamp_oil"
   },
   {
     "type": "ammunition_type",
@@ -355,9 +397,27 @@
   },
   {
     "type": "ammunition_type",
+    "id": "incense",
+    "name": "incense",
+    "default": "incense"
+  },
+  {
+    "type": "ammunition_type",
     "id": "oxygen",
     "name": "oxygen",
     "default": "oxygen"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "hydrogen",
+    "name": "hydrogen",
+    "default": "hydrogen"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "nitrogen",
+    "name": "nitrogen",
+    "default": "nitrogen"
   },
   {
     "type": "ammunition_type",
@@ -409,6 +469,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "uranium",
+    "name": "uranium",
+    "default": "uran_cell"
+  },
+  {
+    "type": "ammunition_type",
     "id": "reactor_slurry",
     "name": "plutonium slurry",
     "default": "plut_slurry"
@@ -451,6 +517,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "methanol_fuelcell",
+    "name": "methanol",
+    "default": "chem_methanol_fuelcell"
+  },
+  {
+    "type": "ammunition_type",
     "id": "8x40mm",
     "name": "8x40mm caseless",
     "default": "8mm_caseless"
@@ -460,12 +532,6 @@
     "id": "20x66mm",
     "name": "20x66mm caseless shotgun",
     "default": "20x66_shot"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "5x50",
-    "name": "5x50mm flechette",
-    "default": "5x50dart"
   },
   {
     "type": "ammunition_type",
@@ -481,15 +547,9 @@
   },
   {
     "type": "ammunition_type",
-    "id": "cac2powder",
-    "name": "powdered calcium carbide premix",
-    "default": "cac2powder"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "metal_rail",
-    "name": "ferrous rail projectile",
-    "default": "steel_rail"
+    "id": "coal",
+    "name": "coal",
+    "default": "coal_lump"
   },
   {
     "type": "ammunition_type",
@@ -511,6 +571,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "liq_bandage",
+    "name": "liquid bandage",
+    "default": "liq_bandage"
+  },
+  {
+    "type": "ammunition_type",
     "id": "stimpack_ammo",
     "name": "stimulant module",
     "default": "stimpack_ammo"
@@ -523,15 +589,15 @@
   },
   {
     "type": "ammunition_type",
-    "id": "RPG-7",
-    "name": "RPG-7 rocket",
-    "default": "RPG-7_ammo"
+    "id": "rebreather_filter",
+    "name": "rebreather CO2 scrubber",
+    "default": "rebreather_filler_soda_lime"
   },
   {
     "type": "ammunition_type",
-    "id": "rebreather_filter",
-    "name": "rebreather filter",
-    "default": "rebreather_filter"
+    "id": "rebreather_o2_regenerator",
+    "name": "rebreather O2 regenerator",
+    "default": "rebreather_filler_ko2"
   },
   {
     "type": "ammunition_type",
@@ -544,12 +610,6 @@
     "id": "gasfilter_m",
     "name": "gas mask cartridge",
     "default": "gasfilter_m"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "gasfilter_l",
-    "name": "hazmat mask cartridge",
-    "default": "gasfilter_l"
   },
   {
     "type": "ammunition_type",
@@ -631,12 +691,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "unfinished_cac2",
-    "name": "partially burned calcium carbide",
-    "default": "unfinished_cac2"
-  },
-  {
-    "type": "ammunition_type",
     "id": "chemical_spray",
     "name": "sprayable chemical",
     "default": "gas_fungicidal"
@@ -676,6 +730,12 @@
     "id": "extinguishing_agent",
     "name": "extinguishing agent",
     "default": "extinguishing_agent"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "teargas_spray",
+    "name": "tear gas spray",
+    "default": "teargas_spray"
   },
   {
     "id": "tinder",
@@ -748,5 +808,29 @@
     "id": "green_pen_ink",
     "name": "green pen ink",
     "default": "green_pen_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "ammonia_liquid",
+    "name": "ammonia",
+    "default": "ammonia_liquid"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "notch",
+    "name": "notch",
+    "default": "notch"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "turpentine",
+    "name": "turpentine",
+    "default": "chem_turpentine"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "airgun_pellet",
+    "name": "airgun pellet",
+    "default": "airgun_pellet_target"
   }
 ]

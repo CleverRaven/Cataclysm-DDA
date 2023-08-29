@@ -8,6 +8,7 @@
     "to_hit": -1,
     "color": "yellow",
     "symbol": ".",
+    "flags": [ "COIN_SHAPED" ],
     "material": [ "copper" ],
     "volume": "1 ml",
     "price": 1,
@@ -47,6 +48,16 @@
         "condition": {
           "and": [ { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }, { "u_has_perception": 6 } ]
         }
+      },
+      {
+        "text": "What's with those weird metal zombies I've been seeing?  They resemble some of the robots around here.",
+        "condition": { "u_has_var": "seen_zomborg", "type": "dialogue", "context": "exodii", "value": "yes" },
+        "topic": "TALK_EXODII_MERCHANT_Zomborgs"
+      },
+      {
+        "text": "Would you be willing to sell some of your robots?",
+        "condition": { "u_has_var": "rubik_offered_robosell", "type": "dialogue", "context": "exodii", "value": "yes" },
+        "topic": "TALK_EXODII_MERCHANT_Robot_Buy"
       },
       {
         "text": "You wanted to ask me some questions earlier, and I think I was rude about it.  What did you want to ask?",
@@ -142,7 +153,7 @@
       {
         "//": "Check to see if you've sold enough for Rubik's trust in you to increase a bit",
         "condition": {
-          "and": [ { "compare_int": [ { "u_val": "sold" }, ">=", { "const": 20 } ] }, { "not": { "u_has_faction_trust": 20 } } ]
+          "and": [ { "compare_num": [ { "u_val": "sold" }, ">=", { "const": 20 } ] }, { "not": { "u_has_faction_trust": 20 } } ]
         },
         "effect": [ { "arithmetic": [ { "u_val": "sold" }, "-=", { "const": 20 } ] }, { "u_add_faction_trust": 1 } ]
       },
@@ -174,6 +185,24 @@
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
+      },
+      {
+        "text": "I paid a visit to the bunker.",
+        "condition": { "and": [ { "u_has_var": "u_scouted_bunker", "type": "mission", "context": "completed", "value": "yes" } ] },
+        "effect": [
+          { "u_lose_var": "u_scouted_bunker", "type": "mission", "context": "completed" },
+          { "arithmetic": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "=", { "const": 1 } ] }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_mission_1_complete"
+      },
+      {
+        "text": "I found the warehouse.",
+        "condition": { "and": [ { "u_has_var": "u_found_warehouse", "type": "mission", "context": "completed", "value": "yes" } ] },
+        "effect": [
+          { "u_lose_var": "u_found_warehouse", "type": "mission", "context": "completed" },
+          { "arithmetic": [ { "global_val": "var", "var_name": "warehouse_was_found" }, "=", { "const": 1 } ] }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete"
       },
       {
         "text": "Any chance you could help me get some of those sweet bionic upgrades?",
@@ -239,7 +268,7 @@
     "//~": "For a card an' a wink, eh? --> That was a good exchange",
     "speaker_effect": {
       "condition": {
-        "and": [ { "compare_int": [ { "u_val": "sold" }, ">=", { "const": 20 } ] }, { "not": { "u_has_faction_trust": 21 } } ]
+        "and": [ { "compare_num": [ { "u_val": "sold" }, ">=", { "const": 20 } ] }, { "not": { "u_has_faction_trust": 21 } } ]
       },
       "effect": [ { "arithmetic": [ { "u_val": "sold" }, "-=", { "const": 20 } ] }, { "u_add_faction_trust": 1 } ]
     },
@@ -319,6 +348,7 @@
     "speaker_effect": { "effect": { "u_add_var": "rubik_intro", "type": "dialogue", "context": "started", "value": "yes" } },
     "responses": [
       { "text": "Like, ask me a question?  Sure, I guess.", "topic": "TALK_EXODII_MERCHANT_Talk_Intro1a" },
+      { "text": "Know where I can find any work?", "topic": "TALK_EXODII_MERCHANT_Jobs" },
       {
         "text": "No.  I'm too busy to answer your questions, you're supposed to answer mine.  I guess I'll head out.",
         "topic": "TALK_DONE"
@@ -639,6 +669,125 @@
     ]
   },
   {
+    "id": "TALK_EXODII_MERCHANT_Zomborgs",
+    "type": "talk_topic",
+    "dynamic_line": "'Tis a good an' yark, sooth.  Them as can have the metal deep in, can be saved for the risen, but it b'ain't a sure course.  Some as comes back anyway, an' some be too much flesh.  The grander lot are no exodii like ol' Rubik, most be friends more kin to thyself.  Us'll harken out and trundle home the pieces for a scrub-and-bucket.",
+    "//~": "Ah, good question.  Enough cybernetic implants can keep someone from coming back as a zombie, but it's not a sure thing.  Some come back anyway, and some just don't have enough cybernetics.  Most of them aren't full exodii like old Rubik, they're more our friends - like you.  Sooner or later we'll get out there, put them down, and bring their parts back for cleaning.",
+    "responses": [
+      {
+        "text": "So you use these cybernetics to prevent zombification, but they don't work perfectly?  Why not?",
+        "topic": "TALK_EXODII_MERCHANT_Robot_Make"
+      },
+      { "text": "Alright.  Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Robot_Make",
+    "type": "talk_topic",
+    "dynamic_line": "Rubik's not the finest dandy to yark it, an I'm ken, but this'n'll do best as can.  Ol' Rubik an' the stompy-clanker gang be shiny an' fine as can be, for y'see so well, but on the wind-up, the guts be nigh so fleshy as they were afore, twixt as they be with wire and steel.  Ain't none so left as remembers precise how it all goes, and much is boggled from bits and drabs o' a dozen elsewheres.  'Tis a marked fine they work at all, though work they do, and nicely.  Still, 'tis hard to know what'll crumple out from the can.  Those as return, they be… less well made as ol' Rubik.  Some as did work themselves, even, and mayhap against the good old ways.",
+    "//": "Lore note: Rubik is an unreliable narrator here, by giving part-truths.  Nothing here is a lie but they're omitting some important details.",
+    "//~": "I don't think I'm the best to explain that, but I'll do my best.  Our technology might seem pretty high-tech and well made to you, but on the inside I'm still mostly human meat bound up in wires and steel.  Nobody's left thar remembers exactly how it all goes, and much of it is cobbled together from a few different dimensions.  It's a miracle they work as well as they do, but somehow it's actually pretty functional.  Still, it can be hard to know exactly what could go wrong.  The ones who come back as zombies, they're generally less well made than me.  Some even did their own cybernetic conversions, and didn't exactly follow best practices.",
+    "responses": [
+      {
+        "text": "You seem to have a lot of standardized robotic helpers, like those quads.  Is that a different thing?",
+        "topic": "TALK_EXODII_MERCHANT_Robot_Quads"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Robot_Quads",
+    "type": "talk_topic",
+    "dynamic_line": "*'s tone changes slightly, sounding a bit pained.  \"Ah, them be an in-between, more machiner.  Us'n use the softer bits o' other critters for them, an' there be a manufactory for the walker.  A hard but needed choice.\"",
+    "//": "Rubik is not giving you the whole story here and will avoid giving you the whole story unless you force them.",
+    "responses": [
+      { "text": "How long does it take you to make one of these walkers?", "topic": "TALK_EXODII_MERCHANT_Robot_Make_Time" },
+      { "text": "Can I buy one of your machines?", "topic": "TALK_EXODII_MERCHANT_Robot_Buy" },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Robot_Make_Time",
+    "type": "talk_topic",
+    "dynamic_line": "Blinker than a bat, but downer than a cat.  Razzin' up the bits be a trick and some.  The draw-make automates can manufactorize the outer shell, and there be automates for the most o' the tools.  Some bits be more a breakfast o' rats, an' for them, us'n has some artisanals.  Us'n b'ain't on the solid now, so 'tis a longer down.",
+    "//~": "Faster than you might guess, but it can still take a while, the hardest part is sourcing the materials for one.  We've got printers that make the body, and others that make the tools and equipment the walker will use.  Some of the special parts have to be manufactured by hand, so we have a small team that does that.  Right now, it's very slow, we're still setting up our operations.",
+    "responses": [
+      { "text": "Can I buy one of your machines?", "topic": "TALK_EXODII_MERCHANT_Robot_Buy" },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Robot_Buy",
+    "type": "talk_topic",
+    "dynamic_line": "* sounds thoughtful.  \"This'n can't make a call o' the quarter.  The stompers be a king's necklace, and the manufactory don't run on dreams.  Mayhap when us'n be more on the solid, but for the tick and tumble, no.",
+    "speaker_effect": { "effect": { "u_add_var": "rubik_offered_robosell", "type": "dialogue", "context": "exodii", "value": "yes" } },
+    "//~": "I don't know about that.  Each one we make is very important to our operations here, and they're extremely expensive.  I might be able to sell you one later, but not right now.",
+    "//2": "In the future, Rubik should be able to sell the player a robot.  This is a placeholder until that time arrives.",
+    "responses": [
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Jobs",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "*Rubik pulls out a sheaf of mismatched papers, and leafs through the pages for a second.  Their broad metallic fingers look surprisingly deft and delicate, and incongruous on the otherwise unremarkable looseleaf.  \"Aye, an' there's room for a pop-an-work roun' here.  Rubik's got tassed a lissy, right and clean",
+        {
+          "u_has_mission": "EXODII_MISSION_CONTACT_HUB",
+          "yes": ".  Right and so, mayhap ye should first see about that escoltin'.",
+          "no": [
+            {
+              "compare_int": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "==", { "const": 1 } ],
+              "yes": [
+                {
+                  "compare_int": [ { "global_val": "var", "var_name": "warehouse_was_found" }, "==", { "const": 1 } ],
+                  "yes": ", but for the right-an-quick, this'n has nothin' t'be tassed for ye.",
+                  "no": ".  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?"
+                }
+              ],
+              "no": ".  How'd ye be twigged by a quick an' round, a nice escoltin' out to a place sommat of curiosity?"
+            }
+          ]
+        }
+      ]
+    },
+    "//~": "Yeah, we're always in need of some help around here.  Here's the list I've got for stuff like this.",
+    "responses": [
+      {
+        "text": "Sounds like you're saying a job?  That's what I'm looking for.  Tell me more.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "EXODII_MISSION_CONTACT_HUB" } },
+            {
+              "not": { "compare_int": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "==", { "const": 1 } ] }
+            }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_mission_1_intro"
+      },
+      {
+        "text": "Sounds like you're saying a job?  That's what I'm looking for.  Tell me more.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "EXODII_MISSION_WAREHOUSE" } },
+            {
+              "not": { "compare_int": [ { "global_val": "var", "var_name": "warehouse_was_found" }, "==", { "const": 1 } ] }
+            },
+            { "compare_int": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "==", { "const": 1 } ] }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_mission_2_intro"
+      },
+      { "text": "I'm not interested in anything right now.  I'll see you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "TALK_EXODII_MERCHANT_Dialect",
     "type": "talk_topic",
     "dynamic_line": "Sure as ye can, at least sommat.  Us'n'll try as we might to parley your Anglic, but so ye kennit as us be from otherlands and all, it ain't that simple.",
@@ -861,6 +1010,59 @@
       { "text": "Tell me about \"ol' Upper Landing\".  What was your home like?", "topic": "TALK_EXODII_MERCHANT_Home" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Scythean",
+    "type": "talk_topic",
+    "dynamic_line": "Ha!  A new string and beans, an I'm ken.  Latched and keyed in the bright shine o' the deadland afore this'n.  He be a thing o' fire and bronze, an' the node appreciates his grit.  \"A cnight of old, clade in shining steel, leading the hoste onward to glorie,\" as 'twere.  This'n finds him an apt one to give rede.  To command in battle, that's t'yark.",
+    "//~": "Ha!  A new part of our crew.  Signed up early on in the world we were in before.  He's a really tough guy, and the node appreciates his grit.  <recites some poetry>, as 'twere.  I think he's pretty good as a military commander.",
+    "responses": [
+      {
+        "text": "You know, every so often you talk normally and I realize you could probably drop the whole accent if you wanted to.",
+        "topic": "TALK_EXODII_MERCHANT_Anglic_Tease"
+      },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      {
+        "text": "I think I've had about enough of trying to figure out what you're talking about, see you later.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Anglic_Tease",
+    "type": "talk_topic",
+    "dynamic_line": "Mayhap, but where'd be the fun in that?  Asides, quoth poetry is one thing, but changin' this'n's whole yark for always takes a lot o' practice.",
+    "//~": "Maybe, but where's the fun in that?  Besides, quoting poetry is one thing, but changing the way I speak all the time takes a lot of practice.",
+    "responses": [
+      {
+        "text": "What was it you were saying before, about the mission you had for me?",
+        "topic": "TALK_EXODII_MERCHANT_mission_1_intro"
+      },
+      { "text": "Well, a person can get sick of trying to piece it together.  See you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Meetcute",
+    "type": "talk_topic",
+    "dynamic_line": "Aye.  Ye kennit, when two of a sort happen upon each other as per chance, an' find a liking to another?  'Tis a bit o' Anglic yark.",
+    "//~": "Right.  You see, it's when two compatible people randomly happen into each other and take a liking to one another.  It's a bit of Anglic slang.",
+    "responses": [
+      {
+        "text": "Yeah, that's what I thought it meant, just… nevermind.  What were you saying about the job?",
+        "topic": "TALK_EXODII_MERCHANT_mission_1_intro"
+      },
+      { "text": "I don't know what kind of game you're playing, but I'm out for a bit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Hempen1",
+    "type": "talk_topic",
+    "dynamic_line": "*seems to become wistful for a moment.  \"Harks this'n yonder, right so.  'Tis a bit o' t'ol' King's Landing right there, kennit, yarkin' from back when Rubik were nigh smaller than a kelpie.  It…\"  Rubik's gravelly voice falters.  \"Ah, 'tis mightily tassed to harken back yonder.  Mayhap another time.",
+    "//~": "That takes me way back.  That's a bit of the old King's Landing right there, you know, calling back from when I was just little.  It… ah, it's really hard for me to think about those old days.  Maybe another time.",
+    "responses": [
+      { "text": "Maybe later then.  What were you saying about the job?", "topic": "TALK_EXODII_MERCHANT_mission_1_intro" },
+      { "text": "You know, I think it'd be best if I just got going.", "topic": "TALK_DONE" }
     ]
   },
   {

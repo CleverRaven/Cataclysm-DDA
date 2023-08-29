@@ -148,7 +148,7 @@
         { "vehicle": "parkinglotbasic", "x": 87, "y": 15, "chance": 100, "status": 1, "rotation": 90 },
         { "vehicle": "parkinglotbasic", "x": 88, "y": 7, "chance": 100, "status": 1, "rotation": 90 },
         { "vehicle": "military_vehicles", "x": 87, "y": 82, "chance": 25, "status": 1, "rotation": 270 },
-        { "vehicle": "military_vehicles", "x": 80, "y": 67, "chance": 25, "status": 1, "rotation": 90 },
+        { "vehicle": "military_vehicles", "x": 80, "y": 66, "chance": 25, "status": 1, "rotation": 90 },
         { "vehicle": "military_cargo_truck", "x": 91, "y": 33, "chance": 100, "rotation": 270 },
         { "vehicle": "humvee", "x": 89, "y": 32, "chance": 100 }
       ]
@@ -295,15 +295,15 @@
       "place_vehicles": [
         { "vehicle": "parkinglotbasic", "x": 69, "y": 20, "chance": 100, "rotation": 90 },
         { "vehicle": "parkinglotbasic", "x": 62, "y": 21, "chance": 100, "rotation": 90 },
-        { "vehicle": "parkinglotbasic", "x": 55, "y": 19, "chance": 100, "rotation": 270 },
+        { "vehicle": "parkinglotbasic", "x": 55, "y": 18, "chance": 100, "rotation": 270 },
         { "vehicle": "parkinglotbasic", "x": 41, "y": 20, "chance": 100, "rotation": 90 },
-        { "vehicle": "parkinglotbasic", "x": 27, "y": 20, "chance": 100, "rotation": 90 },
+        { "vehicle": "parkinglotbasic", "x": 28, "y": 20, "chance": 100, "rotation": 90 },
         { "vehicle": "parkinglotbasic", "x": 20, "y": 21, "chance": 100, "rotation": 90 },
-        { "vehicle": "parkinglotbasic", "x": 13, "y": 20, "chance": 100, "rotation": 270 },
+        { "vehicle": "parkinglotbasic", "x": 13, "y": 18, "chance": 100, "rotation": 270 },
         { "vehicle": "parkinglotbasic", "x": 12, "y": 12, "chance": 100 },
         { "vehicle": "parkinglotbasic", "x": 12, "y": 5, "chance": 100, "rotation": 270 },
         { "vehicle": "parkinglotbasic", "x": 18, "y": 5, "chance": 100, "rotation": 270 },
-        { "vehicle": "parkinglotbasic", "x": 3, "y": 20, "chance": 100, "rotation": 90 }
+        { "vehicle": "parkinglotbasic", "x": 4, "y": 20, "chance": 100, "rotation": 90 }
       ]
     }
   },
@@ -365,8 +365,8 @@
         "x,,,,b ,,               ,,,,,,ssssssssssssssssssssssssssssssssssssssssssssss_______yy___________",
         "x ,, b ,,              ,NNN,,,ssssssssssssssssssssssssssssssssssssssssssssss________________ssss",
         "x ,,,b ,,,            ,NNnN,,sssssssssssssssssssssssssssssssssssssssssssssss_______yy_______ssss",
-        "x,,, b,,,,      ,  ,,,,Nn,,,Nsssssss{{ssssssssssssssssssssssssssssssssssssss_______yy_______sssI",
-        "x ,,,b ,,,,,  ,,,,,,,,,NNn,,Nss//D///////////////////////////////////////sss_______yy_______ssss",
+        "x,,, b,,,,      ,  ,,,,Nn,,,Nsssssss{{ssssssssssssssssssssssssssssssssssssss_______yy_______ssss",
+        "x ,,,b ,,,,,  ,,,,,,,,,NNn,,Nss//D///////////////////////////////////////sss_______yy_______sssI",
         "x ,,,b ,,,,,,,,,,,,,,,,,NNnNNss/e...???????????..???????....<..(>/$$.`OO/sss________________ssss",
         "x ,, b ,,,,,,,,,,,  ,   ,NNN,ss/...............................///....ht/sss_______yy_______ssss",
         "x ,, b,,,,,,,, ,         ,,, ss/.................................d.i.###gsss_______yy_______sss-",
@@ -382,9 +382,9 @@
         "x ,,,b ,,,,,,                ss/....???????????..???????.........Dssssssssss________________sss|",
         "x,,,,b,,,,,,,,               ss/.................................Dssssssssss_______yy_______sss|",
         "x ,, bbbb},,,                ss/.................................Dssssssssss_______yy_______sss|",
-        "G ,,,b,,}},,,,               ss/................................./ssssssssss_______yy_______sss|",
-        "G ,, b,,}}},,                ss/................................./ssssssssss________________sssw",
-        "x ,,,b,}}}},,,               ss/....???????????..???????......i../ssssssssss_______yy_______sss|",
+        "G ,,,b..}},,,,               ss/................................./ssssssssss_______yy_______sss|",
+        "G ,, b..}}},,                ss/................................./ssssssssss________________sssw",
+        "x ,,,b.}}}},,,               ss/....???????????..???????......i../ssssssssss_______yy_______sss|",
         "x ,, bb}}},,,,               ss/....???????????..???????.........Dssssssssss_______yy_______sss-",
         "x,,, b}},,,,,,               ss/.................................Dssssssssss_______yy_______sss~",
         "x ,,,b,,,,,,,                ss/.................................Dssssssssss________________ssss",
@@ -429,7 +429,6 @@
         { "group": "SUS_fridge", "x": [ 48, 49 ], "y": 39, "chance": 90, "repeat": [ 2, 6 ] },
         { "group": "SUS_fridge", "x": [ 44, 47 ], "y": 41, "chance": 90, "repeat": [ 4, 12 ] },
         { "group": "SUS_fridge", "x": [ 48, 49 ], "y": 41, "chance": 90, "repeat": [ 2, 6 ] },
-        { "item": "american_flag", "x": 95, "y": 47 },
         { "item": "tshirt", "x": 59, "y": 71, "chance": 75, "repeat": [ 250, 300 ] },
         { "item": "long_undertop", "x": 58, "y": 71, "chance": 75, "repeat": [ 250, 300 ] },
         { "item": "long_underpants", "x": 57, "y": 71, "chance": 75, "repeat": [ 250, 300 ] },
@@ -464,7 +463,8 @@
         { "item": "ammo_satchel", "x": 36, "y": 66, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "chestpouch", "x": 55, "y": 66, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "grenadebandolier", "x": 54, "y": 66, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "grenade_pouch", "x": 53, "y": 66, "chance": 75, "repeat": [ 50, 150 ] },
+        { "item": "grenade_pouch", "x": 53, "y": 66, "chance": 75, "repeat": [ 50, 100 ] },
+        { "item": "tactical_grenade_pouch", "x": 53, "y": 66, "chance": 75, "repeat": [ 50, 100 ] },
         { "item": "dump_pouch", "x": 52, "y": 66, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "tacvest", "x": 51, "y": 66, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "backpack", "x": 50, "y": 66, "chance": 75, "repeat": [ 50, 150 ] },
@@ -506,14 +506,15 @@
         { "item": "manual_stabbing", "x": 53, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "manual_gun", "x": 52, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "manual_traps_mil", "x": 51, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "manual_rifle", "x": 50, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "mag_fieldrepair", "x": 49, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
+        { "item": "manual_traps_mil_basic", "x": 50, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
+        { "item": "manual_rifle", "x": 49, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
+        { "item": "mag_fieldrepair", "x": 48, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "boltcutters", "x": 55, "y": 59, "chance": 75, "repeat": [ 10, 25 ] },
         { "item": "halligan", "x": 54, "y": 59, "chance": 75, "repeat": [ 10, 25 ] },
         { "item": "crowbar", "x": 53, "y": 59, "chance": 75, "repeat": [ 10, 25 ] },
         { "item": "e_tool", "x": 52, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "mask_gas", "x": 51, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "gasfilter_m", "x": 50, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
+        { "item": "gasfilter_med", "x": 50, "y": 59, "chance": 75, "repeat": [ 10, 30 ] },
         { "item": "binoculars", "x": 49, "y": 59, "chance": 75, "repeat": [ 50, 100 ] },
         { "item": "multitool", "x": 46, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "heatpack", "x": 45, "y": 59, "chance": 75, "repeat": [ 150, 300 ] },
@@ -524,9 +525,8 @@
         { "item": "sleeping_bag_roll", "x": 41, "y": 59, "chance": 75, "repeat": [ 150, 300 ] },
         { "item": "rollmat", "x": 40, "y": 59, "chance": 75, "repeat": [ 150, 300 ] },
         { "group": "full_ifak", "x": 39, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "mess_tin", "x": 38, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "thermos", "x": 38, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "mil_mess_kit", "x": 37, "y": 59, "chance": 75, "repeat": [ 50, 100 ] },
+        { "item": "mess_kit", "x": 37, "y": 59, "chance": 75, "repeat": [ 50, 100 ] },
         { "item": "water_purifier", "x": 36, "y": 59, "chance": 75, "repeat": [ 50, 100 ] },
         { "item": "pur_tablets", "x": 36, "y": 59, "chance": 75, "repeat": [ 50, 100 ] },
         { "group": "MRE", "x": [ 49, 55 ], "y": [ 53, 54 ], "chance": 75, "repeat": 1500 },
@@ -566,7 +566,7 @@
         { "vehicle": "military_vehicles", "x": 79, "y": 42, "chance": 25, "status": 1, "rotation": 90 },
         { "vehicle": "military_vehicles", "x": 86, "y": 13, "chance": 25, "status": 1, "rotation": 270 },
         { "vehicle": "military_vehicles", "x": 79, "y": 54, "chance": 25, "status": 1, "rotation": 270 },
-        { "vehicle": "forklift", "x": 62, "y": 62, "chance": 80, "status": 0, "rotation": 90 }
+        { "vehicle": "forklift_vehicles", "x": 62, "y": 62, "chance": 80, "status": 0, "rotation": 90 }
       ]
     }
   },
@@ -762,8 +762,8 @@
         { "item": "mgl", "x": 10, "y": 11, "chance": 75, "repeat": 3 },
         { "item": "40x46mm_m433", "x": 10, "y": 12, "chance": 75, "repeat": 20 },
         {
-          "item": "m4_carbine",
-          "variant": "m4a1",
+          "item": "modular_m4_carbine",
+          "variant": "modular_m4a1",
           "x": 12,
           "y": [ 9, 11 ],
           "magazine": 100,
@@ -771,21 +771,21 @@
           "repeat": 30
         },
         {
-          "item": "m27_assault_rifle",
-          "variant": "m27iar",
+          "item": "modular_m27_assault_rifle",
+          "variant": "modular_m27iar",
           "x": 12,
           "y": 9,
           "magazine": 100,
           "chance": 75,
           "repeat": 8
         },
-        { "item": "m16a4", "x": 12, "y": 9, "magazine": 100, "chance": 75, "repeat": 2 },
+        { "item": "modular_m16a4", "x": 12, "y": 9, "magazine": 100, "chance": 75, "repeat": 2 },
         { "item": "stanag30", "x": 12, "y": 12, "chance": 75, "repeat": 80 },
         { "item": "stanag50", "x": 12, "y": 12, "chance": 75, "repeat": 20 },
         { "item": "556", "x": 14, "y": [ 9, 12 ], "chance": 75, "repeat": 150 },
         {
-          "item": "m4_carbine",
-          "variant": "m4a1",
+          "item": "modular_m4_carbine",
+          "variant": "modular_m4a1",
           "x": 16,
           "y": [ 9, 11 ],
           "magazine": 100,
@@ -798,6 +798,7 @@
         { "item": "m240", "x": 20, "y": 9, "chance": 75, "repeat": 4 },
         { "item": "mossberg_930", "variant": "m1014", "x": 20, "y": 10, "chance": 75, "repeat": 10 },
         { "item": "mossberg_590", "x": 20, "y": 10, "chance": 75, "repeat": 8 },
+        { "item": "m26_mass_standalone", "x": 20, "y": 10, "chance": 10, "repeat": 4 },
         { "item": "m2010", "x": 20, "y": 11, "magazine": 100, "chance": 75, "repeat": 2 },
         { "item": "m110a1", "x": 20, "y": 11, "magazine": 100, "chance": 75, "repeat": 8 },
         { "item": "m2010mag", "x": 20, "y": 12, "chance": 75, "repeat": 10 },
@@ -852,7 +853,7 @@
         { "vehicle": "military_vehicles", "x": 60, "y": 30, "chance": 50 },
         { "vehicle": "military_vehicles", "x": 59, "y": 39, "chance": 50 },
         { "vehicle": "military_vehicles", "x": 9, "y": 32, "chance": 25, "status": 1 },
-        { "vehicle": "military_vehicles", "x": 20, "y": 39, "chance": 25, "status": 1 },
+        { "vehicle": "military_vehicles", "x": 18, "y": 39, "chance": 25, "status": 1 },
         { "vehicle": "military_vehicles", "x": 83, "y": 39, "chance": 25, "rotation": 90 },
         { "vehicle": "welding_cart", "x": 67, "y": 36, "chance": 80, "status": 0 },
         { "vehicle": "engine_crane", "x": 55, "y": 26, "chance": 80, "status": 0 }
@@ -913,7 +914,7 @@
         "x,,,,b ,,,                                      Xssssssssssss8888ssX     sss_______yy_______sss ",
         "x,,,,b,,,,                                      XssssssssssssssssssX     sss_______yy_______sss ",
         "x ,, b ,,,                                      XssssssssssssssssssX     sss________________sss ",
-        "x ,, b,,,,                                      Xssss<sssssss8888ssX     sss_______yy_______sss ",
+        "x ,, b,,,,                                      XssssUsssssss8888ssX     sss_______yy_______sss ",
         "x ,, b ,,,                                      XsssZssssZsssdJJ8ssX     sss_______yy_______sss ",
         "x,,, b,,,                                       Xssssssssssss8888ssX     sss_______yy_______sss ",
         "x,,,,b ,,,                                      XssssssssssssssssssX     sss________________sss ",
@@ -970,6 +971,7 @@
         "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxG"
       ],
       "palettes": [ "mil_base_palette" ],
+      "terrain": { "U": "t_ladder_up" },
       "items": {
         "n": [ { "item": "mil_base_casing_hmg", "chance": 50, "repeat": [ 50, 100 ] } ],
         ";": [ { "item": "mil_base_bodybag", "chance": 90 } ],
@@ -1151,14 +1153,13 @@
         { "item": "weak_antibiotic", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "strong_antibiotic", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "diazepam", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
-        { "item": "vaccine_shot", "x": 29, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
         { "item": "flu_shot", "x": 29, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
         { "item": "adrenaline_injector", "x": 29, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
         { "item": "vitamins", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "calcium_tablet", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "group": "charged_inhaler", "x": 28, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
         { "item": "bandages", "x": 29, "y": 25, "chance": 30, "repeat": [ 20, 60 ] },
-        { "item": "adhesive_bandages", "x": 29, "y": 25, "chance": 30, "repeat": [ 20, 60 ] },
+        { "group": "adhesive_bandages_box_used", "x": 29, "y": 25, "chance": 30, "repeat": [ 10, 30 ] },
         { "item": "medical_gauze", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "medical_tape", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "group": "mil_base_iv", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 80 ] },
@@ -1167,7 +1168,7 @@
         { "item": "disinfectant", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "quikclot", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "bfipowder", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
-        { "item": "cotton_ball", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
+        { "group": "cotton_ball_bag_used", "x": 29, "y": 25, "chance": 50, "repeat": [ 2, 6 ] },
         { "item": "scalpel", "x": 30, "y": 25, "chance": 50, "repeat": [ 1, 20 ] },
         { "item": "scissors", "x": 30, "y": 25, "chance": 50, "repeat": [ 1, 20 ] },
         { "item": "stethoscope", "x": 30, "y": 25, "chance": 50, "repeat": [ 1, 20 ] },
@@ -1248,7 +1249,7 @@
     "om_terrain": [ "mil_base_road_entrance" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "    ________________    ",
         "    _______yy_______    ",
@@ -1290,7 +1291,7 @@
     "om_terrain": [ "mil_base_minefield_n" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "xxxxxxxxxxxxxxxxxxxxxxxx",
         "PmmmmmmmmmmmPmmmmmmmmmmm",
@@ -1328,7 +1329,7 @@
     "om_terrain": [ "mil_base_minefield_ne" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "xxxxxxxxxxxxxxxxxxxxxxxx",
         "PmmmmmmmmmmmPmmmmmmmmmPx",
@@ -1371,7 +1372,7 @@
     "om_terrain": [ "mil_base_minefield_e" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "mmmmmmmmmmmmmmmmmmmmmmPx",
         "mmmmmmmmmmmmmmmmmmmmmmmx",
@@ -1409,7 +1410,7 @@
     "om_terrain": [ "mil_base_minefield_se" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "mmmmmmmmmmmmmmmmmmmmmmPx",
         "mmmmmmmmmmmmmmmmmmmmmmmx",
@@ -1452,7 +1453,7 @@
     "om_terrain": [ "mil_base_minefield_s" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "mmmmmmmmmmmmmmmmmmmmmmmm",
         "mmmmmmmmmmmmmmmmmmmmmmmm",
@@ -1490,7 +1491,7 @@
     "om_terrain": [ "mil_base_minefield_sw" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "xmmmmmmmmmmmmmmmmmmmmmmm",
         "xmmmmmmmmmmmmmmmmmmmmmmm",
@@ -1533,7 +1534,7 @@
     "om_terrain": [ "mil_base_minefield_w" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "xmmmmmmmmmmmmmmmmmmmmmmm",
         "xmmmmmmmmmmmmmmmmmmmmmmm",
@@ -1571,7 +1572,7 @@
     "om_terrain": [ "mil_base_minefield_nw" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "xxxxxxxxxxxxxxxxxxxxxxxx",
         "xPmmmmmmmmmmmPmmmmmmmmmm",

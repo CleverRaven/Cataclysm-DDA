@@ -2,16 +2,22 @@
   {
     "result": "acidbomb",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
     "time": "1 m",
-    "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "components": [
       [ [ "jar_glass_sealed", 1 ], [ "clay_canister", 2 ], [ "flask_glass", 2 ] ],
-      [ [ "any_strong_acid", 2, "LIST" ] ],
+      [
+        [ "any_strong_acid", 2, "LIST" ],
+        [ "blood_acid", 2 ],
+        [ "blood_acid_underground", 2 ],
+        [ "blood_acid_plant", 2 ],
+        [ "blood_acid_insect", 2 ]
+      ],
       [ [ "cordage_short", 1, "LIST" ] ]
     ]
   },
@@ -25,13 +31,22 @@
     "difficulty": 5,
     "time": "10 m",
     "book_learn": [ [ "textbook_anarch", 5 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
+    "//": [
+      "Now, this IS huge. This is in fact a very complex invention. ",
+      "After all, Svante Arrhenius got a Nobel Prize for this!"
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_organic_chemistry" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "paper", 5 ], [ "rolling_paper", 32 ] ],
       [ [ "chem_sulphuric_acid", 2 ] ],
       [ [ "chem_nitric_acid", 1 ] ],
-      [ [ "ammonia", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "methed_alcohol", 250 ] ],
+      [ [ "ammonia_liquid", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "methed_alcohol", 250 ] ],
       [ [ "chem_glycerol", 2 ] ]
     ]
   },
@@ -69,6 +84,7 @@
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "thread", 10 ] ],
@@ -101,6 +117,7 @@
     "time": "40 m",
     "reversible": true,
     "book_learn": [ [ "recipe_labchem", 5 ], [ "textbook_anarch", 7 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "using": [ [ "small_grenade_case", 1 ] ],
     "components": [
@@ -123,9 +140,14 @@
     "time": "8 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_gaswarfare", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "using": [ [ "small_gas_canister_case", 1 ] ],
-    "components": [ [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ], [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [
+      [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
+      [ [ "ammonia_liquid", 2 ], [ "lye_powder", 200 ] ],
+      [ [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "fungicidalbomb_makeshift",
@@ -139,6 +161,7 @@
     "time": "8 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_gaswarfare", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
@@ -160,10 +183,11 @@
     "time": "8 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_gaswarfare", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
-      [ [ "insecticide", 50 ] ],
+      [ [ "insecticide", 1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "small_gas_canister_case", 1, "LIST" ] ],
       [ [ "superglue", 1 ] ]
@@ -172,15 +196,15 @@
   {
     "result": "molotov",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
     "time": "30 s",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "accelerant_liquid", 500 ] ],
-    "components": [ [ [ "rag", 1 ] ], [ [ "bottle_glass", 1 ], [ "flask_glass", 2 ], [ "clay_canister", 2 ] ] ]
+    "using": [ [ "flammable_liquid", 500 ] ],
+    "components": [ [ [ "cotton_patchwork", 1 ] ], [ [ "bottle_glass", 1 ], [ "flask_glass", 2 ], [ "clay_canister", 2 ] ] ]
   },
   {
     "result": "dynamite_bomb",
@@ -194,6 +218,7 @@
     "time": "12 m",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 1 } ],
     "tools": [ [ [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "soldering_iron", 30 ] ] ],
     "components": [ [ [ "metal_tank_little", 1 ] ], [ [ "nail", 200 ], [ "scrap", 16 ] ], [ [ "fuse", 1 ] ], [ [ "dynamite", 1 ] ] ]
@@ -214,6 +239,7 @@
       [ "adv_chemistry", 3 ],
       [ "textbook_anarch", 3 ]
     ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "time": "7 m 30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "using": [ [ "small_gas_canister_case", 1 ] ],
@@ -236,6 +262,7 @@
     "reversible": true,
     "autolearn": false,
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "using": [ [ "military_explosive", 46 ], [ "explosives_casting_standard", 1 ], [ "small_grenade_case", 1 ] ],
     "components": [
@@ -256,6 +283,7 @@
     "reversible": true,
     "autolearn": false,
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "using": [ [ "military_explosive", 92 ], [ "explosives_casting_standard", 1 ] ],
     "components": [
@@ -277,6 +305,7 @@
     "time": "15 m",
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "military_explosive", 92 ], [ "explosives_casting_standard", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "delay_fuze", 1 ] ] ]
@@ -292,6 +321,7 @@
     "time": "15 m",
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "military_explosive", 697 ], [ "explosives_casting_standard", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -304,7 +334,7 @@
   {
     "result": "military_explosive_half_barrel_bomb",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -312,6 +342,7 @@
     "time": "2 h",
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "explosives_casting_standard", 5 ], [ "military_explosive", 10000 ] ],
     "components": [
       [ [ "delay_fuze", 1 ] ],
@@ -322,7 +353,7 @@
   {
     "result": "military_explosive_full_barrel_bomb",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -330,6 +361,7 @@
     "time": "2 h",
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "explosives_casting_standard", 10 ], [ "military_explosive", 20000 ] ],
     "components": [
       [ [ "delay_fuze", 1 ] ],
@@ -349,6 +381,7 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "small_grenade_case", 1, "LIST" ] ],
@@ -370,6 +403,7 @@
     "time": "7 m",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "can_medium", 1 ] ],
@@ -390,6 +424,7 @@
     "time": "15 m",
     "//": "You cut the tube to make the bomb.",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "using": [ [ "stable_explosive", 29 ], [ "volatile_explosive", 1 ] ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "fuse", 1 ] ] ]
@@ -405,9 +440,21 @@
     "difficulty": 1,
     "time": "15 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "using": [ [ "volatile_explosive", 30 ] ],
-    "//": "As someone explained to me in the discord server, you could only realistically use only volatile explosives to make a bomb if the case is hard, which is the reason why I'm allowing it on pipebombs and grenades, but not in bombs which use gallon jugs. Additionally, the biggest reason why you wouldn't make a large bomb with only volatile explosives is that the high volume concentration would make it extremely likely that minimal friction might detonate the entire system, which is the reason why I'm allowing it on smaller explosives, but not on the largest like the barrel bombs.",
+    "//": [
+      "As someone explained to me in the discord server, you could ",
+      "only realistically use only volatile explosives to make a bomb ",
+      "if the case is hard, which is the reason why I'm allowing it ",
+      "on pipebombs and grenades, but not in bombs which use gallon jugs. ",
+      "Additionally, the biggest reason why you wouldn't make a ",
+      "large bomb with only volatile explosives is that the high volume ",
+      "concentration would make it extremely likely that minimal friction ",
+      "might detonate the entire system, which is the reason why I'm ",
+      "allowing it on smaller explosives, but not on the largest like ",
+      "the barrel bombs."
+    ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
@@ -422,6 +469,7 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "stable_explosive", 226 ], [ "volatile_explosive", 6 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -443,6 +491,7 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "stable_explosive", 253 ], [ "volatile_explosive", 6 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "fuse", 1 ] ], [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ], [ [ "jug_plastic", 1 ] ] ]
@@ -450,7 +499,7 @@
   {
     "result": "half_barrel_bomb",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -458,13 +507,14 @@
     "time": "30 m",
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "volatile_explosive", 86 ], [ "stable_explosive", 3354 ] ],
     "components": [ [ [ "fuse", 1 ] ], [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ], [ [ "keg_steel", 1 ] ] ]
   },
   {
     "result": "full_barrel_bomb",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -472,6 +522,7 @@
     "time": "1 h",
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "volatile_explosive", 173 ], [ "stable_explosive", 6747 ] ],
     "components": [ [ [ "fuse", 1 ] ], [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ], [ [ "30gal_drum", 1 ] ] ]
   }

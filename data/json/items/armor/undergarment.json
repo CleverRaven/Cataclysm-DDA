@@ -45,24 +45,6 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "army_top",
-    "repairs_like": "tank_top",
-    "type": "ARMOR",
-    "name": { "str": "camo tank top" },
-    "description": "A sleeveless cotton shirt with camouflage dye.  Very easy to move in.",
-    "weight": "78 g",
-    "volume": "250 ml",
-    "price": 1500,
-    "price_postapoc": 50,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "tank_top",
-    "color": "green",
-    "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 60, "covers": [ "torso" ] } ]
-  },
-  {
     "id": "bellyband",
     "type": "ARMOR",
     "name": { "str": "belly band" },
@@ -84,7 +66,7 @@
     "id": "bellywrap",
     "type": "ARMOR",
     "name": { "str": "belly wrap" },
-    "description": "Rags wrapped around the belly.  Usually worn in combination with a chestwrap.  Provides a negligible protection against punches on your stomach.",
+    "description": "Rags wrapped around the belly.  Usually worn in combination with a chestwrap.  Provides negligible protection against punches to your stomach.",
     "weight": "120 g",
     "volume": "500 ml",
     "looks_like": "bellyband",
@@ -102,9 +84,9 @@
     "id": "bellywrap_fur",
     "type": "ARMOR",
     "name": { "str": "fur belly wrap" },
-    "description": "Fur pelts wrapped around the belly.  Usually worn in combination with a chestwrap.  Provides a negligible protection against punches on your stomach.",
+    "description": "Fur pelts wrapped around the belly.  Usually worn in combination with a chestwrap.  Provides negligible protection against punches to your stomach.",
     "copy-from": "bellywrap",
-    "weight": "300 g",
+    "weight": "1104 g",
     "volume": "750 ml",
     "price": 700,
     "material": [ "fur" ],
@@ -117,9 +99,9 @@
     "id": "bellywrap_leather",
     "type": "ARMOR",
     "name": { "str": "leather belly wrap" },
-    "description": "Leather patches wrapped around the belly.  Usually worn in combination with a chestwrap.  Provides a weak protection against punches on your stomach.",
+    "description": "Leather patches wrapped around the belly.  Usually worn in combination with a chestwrap.  Provides weak protection against punches to your stomach.",
     "copy-from": "bellywrap",
-    "weight": "240 g",
+    "weight": "888 g",
     "volume": "750 ml",
     "price": 525,
     "material": [ "leather" ],
@@ -132,7 +114,7 @@
     "id": "bellywrap_wool",
     "type": "ARMOR",
     "name": { "str": "wool belly wrap" },
-    "description": "Felt patches wrapped around the belly.  Usually worn in combination with a chestwrap.  Provides a negligible protection against punches on your stomach.",
+    "description": "Felt patches wrapped around the belly.  Usually worn in combination with a chestwrap.  Provides negligible protection against punches to your stomach.",
     "copy-from": "bellywrap",
     "price": 500,
     "material": [ "wool" ],
@@ -142,38 +124,11 @@
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
   },
   {
-    "id": "bikini_top",
-    "type": "ARMOR",
-    "name": { "str": "bikini top" },
-    "description": "A simple bikini top.",
-    "variant_type": "generic",
-    "variants": [
-      { "id": "generic_bikini_top", "name": { "str": "bikini top" }, "description": "A simple bikini top.", "weight": 90 },
-      {
-        "id": "flag_bikini_top",
-        "name": { "str": "flag bikini top" },
-        "description": "A simple bikini top embroidered with the pattern of an American flag",
-        "weight": 10
-      }
-    ],
-    "weight": "32 g",
-    "volume": "250 ml",
-    "price": 1800,
-    "price_postapoc": 50,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "bra",
-    "color": "light_red",
-    "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
-  },
-  {
     "id": "bikini_top_fur",
     "type": "ARMOR",
     "name": { "str": "fur bikini top" },
     "description": "A simple fur bikini top.",
-    "weight": "44 g",
+    "weight": "200 g",
     "volume": "250 ml",
     "price": 4900,
     "price_postapoc": 100,
@@ -191,7 +146,7 @@
     "type": "ARMOR",
     "name": { "str": "leather bikini top" },
     "description": "A simple leather bikini top.",
-    "weight": "38 g",
+    "weight": "200 g",
     "volume": "250 ml",
     "price": 3500,
     "price_postapoc": 50,
@@ -203,6 +158,158 @@
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [ { "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "binder_top",
+    "type": "ARMOR",
+    "name": { "str": "binder" },
+    "description": "A binder, meant to bind the chest close to the body to keep a persons chest flat.",
+    "weight": "110 g",
+    "volume": "250 ml",
+    "price": 3500,
+    "price_postapoc": 150,
+    "material": [ "lycra", "cotton" ],
+    "symbol": "[",
+    "looks_like": "bikini_top",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 0.5,
+    "flags": [ "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 10, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "binder_top_black",
+        "name": { "str": "black binder" },
+        "description": "This one is black.",
+        "weight": 140,
+        "append": true
+      },
+      {
+        "id": "binder_top_gray",
+        "name": { "str": "gray binder" },
+        "description": "This one is gray.",
+        "weight": 90,
+        "append": true
+      },
+      {
+        "id": "binder_top_white",
+        "name": { "str": "white binder" },
+        "description": "This one is white.",
+        "weight": 70,
+        "append": true
+      },
+      {
+        "id": "binder_top_blue",
+        "name": { "str": "blue binder" },
+        "description": "This one is blue.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "binder_top_green",
+        "name": { "str": "green binder" },
+        "description": "This one is green.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "binder_top_red",
+        "name": { "str": "red binder" },
+        "description": "This one is red.",
+        "weight": 12,
+        "append": true
+      },
+      {
+        "id": "binder_top_orange",
+        "name": { "str": "orange binder" },
+        "description": "This one is orange.",
+        "weight": 12,
+        "append": true
+      },
+      {
+        "id": "binder_top_pink",
+        "name": { "str": "pink binder" },
+        "description": "This one is pink.",
+        "weight": 4,
+        "append": true
+      },
+      {
+        "id": "binder_top_american",
+        "name": { "str": "american binder" },
+        "description": "This one is painted with the star spangled banner, the red white and blue, old glory, the american flag.",
+        "weight": 1,
+        "append": true
+      },
+      {
+        "id": "binder_top_ribcage",
+        "name": { "str": "ribcage binder" },
+        "description": "This one is black, with white rib bones.",
+        "weight": 12,
+        "append": true
+      },
+      {
+        "id": "binder_top_mushroom",
+        "name": { "str": "mushroom binder" },
+        "description": "This one has a row of mushrooms on it.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "binder_top_floral",
+        "name": { "str": "floral binder" },
+        "description": "This one has a floral pattern.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "binder_top_dinos",
+        "name": { "str": "dinosaur binder" },
+        "description": "This one has a cartoon rendition of a stegosaurus on it.",
+        "weight": 8,
+        "append": true
+      },
+      {
+        "id": "binder_top_trans",
+        "name": { "str": "trans flag binder" },
+        "description": "This one is painted after the trans pride flag.",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "binder_top_nonbinary",
+        "name": { "str": "non-binary flag binder" },
+        "description": "This one is painted after the non-binary pride flag.",
+        "weight": 6,
+        "append": true
+      },
+      {
+        "id": "binder_top_meme",
+        "name": { "str": "meme binder" },
+        "description": "This one has an image of a stuffed rat chef, looking up with arms spread to the heavens, with text above reading \"I don't want to cook anymore\", and the bottom text reading \"I want to DIE\" all in a comic sans font.",
+        "weight": 4,
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "xl_binder_top",
+    "type": "ARMOR",
+    "copy-from": "binder_top",
+    "name": { "str_sp": "XL binder" },
+    "description": "A binder, meant to bind the chest close to the body to keep a persons chest flat, but custom made to accommodate larger mutants.",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_binder_top",
+    "type": "ARMOR",
+    "copy-from": "binder_top",
+    "looks_like": "binder_top",
+    "name": { "str_sp": "XS binder" },
+    "description": "A binder, meant to bind the chest close to the body to keep a persons chest flat, but custom made to accommodate smaller mutants.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boxer_briefs",
@@ -247,6 +354,22 @@
     "type": "ARMOR",
     "name": { "str_sp": "boxer shorts" },
     "description": "Men's boxer shorts.  More fashionable than briefs and just as comfortable.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_boxer_shorts",
+        "name": { "str_sp": "boxer shorts" },
+        "description": "Men's boxer shorts.  More fashionable than briefs and just as comfortable.",
+        "weight": 30
+      },
+      {
+        "id": "flag_boxer_shorts",
+        "name": { "str_sp": "star-spangled boxer shorts" },
+        "description": "This pair has been printed with the pattern of an American flag, with stars and miniature eagles embroidered at strategic positions.",
+        "append": true,
+        "weight": 1
+      }
+    ],
     "weight": "42 g",
     "volume": "250 ml",
     "price": 1000,
@@ -288,6 +411,22 @@
     "type": "ARMOR",
     "name": { "str_sp": "boy shorts" },
     "description": "Female underwear similar to men's boxer shorts, but much more close-fitting.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_boy_shorts",
+        "name": { "str_sp": "boy shorts" },
+        "description": "Female underwear similar to men's boxer shorts, but much more close-fitting.",
+        "weight": 30
+      },
+      {
+        "id": "flag_boy_shorts",
+        "name": { "str_sp": "star-spangled boy shorts" },
+        "description": "This pair has been printed with the pattern of an American flag, with stars and miniature eagles embroidered at strategic positions.",
+        "append": true,
+        "weight": 1
+      }
+    ],
     "weight": "42 g",
     "volume": "250 ml",
     "price": 1000,
@@ -343,6 +482,25 @@
     "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
+    "id": "xl_bra",
+    "type": "ARMOR",
+    "copy-from": "bra",
+    "name": { "str_sp": "XL bra" },
+    "description": "A simple bra.  For protecting those bits you don't want zombies to look at, made for larger mutants.",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_bra",
+    "type": "ARMOR",
+    "copy-from": "bra",
+    "looks_like": "bra",
+    "name": { "str_sp": "XS bra" },
+    "description": "A simple bra.  For protecting those bits you don't want zombies to look at, made for smaller mutants.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "briefs",
     "type": "ARMOR",
     "name": { "str_sp": "briefs" },
@@ -362,10 +520,9 @@
   },
   {
     "id": "camisole",
-    "repairs_like": "tank_top",
     "type": "ARMOR",
     "name": { "str": "camisole" },
-    "description": "A small camisole made from silk.  Typically used as an undergarment, they are light and easy to wear.",
+    "description": "A small camisole made from silk.  Typically used as an undergarment, it is light and easy to wear.",
     "weight": "42 g",
     "volume": "500 ml",
     "price": 2000,
@@ -377,7 +534,10 @@
     "color": "light_blue",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 65, "covers": [ "torso" ] } ]
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 70 },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100 }
+    ]
   },
   {
     "id": "chestwrap",
@@ -402,7 +562,7 @@
     "type": "ARMOR",
     "name": { "str": "fur chestwrap" },
     "description": "Fur pelts wrapped around the chest.  Preserves your modesty and keeps things out of the way, but not good for much else.",
-    "weight": "154 g",
+    "weight": "372 g",
     "volume": "750 ml",
     "price": 700,
     "price_postapoc": 10,
@@ -420,7 +580,7 @@
     "type": "ARMOR",
     "name": { "str": "leather chestwrap" },
     "description": "Leather patches wrapped around the chest.  Preserves your modesty and keeps things out of the way, but not good for much else.",
-    "weight": "137 g",
+    "weight": "296 g",
     "volume": "750 ml",
     "price": 525,
     "price_postapoc": 10,
@@ -453,7 +613,6 @@
   },
   {
     "id": "corset",
-    "repairs_like": "vest_leather",
     "type": "ARMOR",
     "name": { "str": "leather corset" },
     "description": "A snug, black leather corset.  Has no pockets, but its thick material provides good protection from harm.  Use it to loosen it if you want to wear it over normal clothing.",
@@ -471,7 +630,10 @@
     "environmental_protection": 1,
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "corset_loose", "menu_text": "Loosen" },
     "flags": [ "VARSIZE", "FANCY", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 15, "coverage": 75, "covers": [ "torso" ] } ]
+    "armor": [
+      { "encumbrance": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 70 },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100 }
+    ]
   },
   {
     "id": "corset_loose",
@@ -483,11 +645,13 @@
     "environmental_protection": 1,
     "use_action": { "type": "transform", "msg": "You wrap your corset tighter.", "target": "corset", "menu_text": "Wrap tighter" },
     "delete": { "flags": [ "SKINTIGHT" ] },
-    "armor": [ { "encumbrance": 12, "coverage": 75, "covers": [ "torso" ] } ]
+    "armor": [
+      { "encumbrance": 12, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 70 },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100 }
+    ]
   },
   {
     "id": "corset_waist",
-    "repairs_like": "vest_leather",
     "type": "ARMOR",
     "name": { "str": "waist corset" },
     "description": "A snug, black leather waist corset.  Works as a stylish solution for back pain.  Use it to loosen it if you want to wear it over normal clothing.",
@@ -538,7 +702,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of leg warmers", "str_pl": "pairs of leg warmers" },
     "description": "Snug, soft cloth sleeves to keep your legs warm.",
-    "weight": "46 g",
+    "weight": "70 g",
     "volume": "500 ml",
     "price": 1000,
     "price_postapoc": 50,
@@ -552,10 +716,11 @@
     "armor": [
       {
         "encumbrance": 1,
-        "coverage": 75,
+        "coverage": 100,
         "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r", "leg_upper_l", "leg_upper_r" ]
-      }
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r" ]
+      },
+      { "coverage": 90, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
     ]
   },
   {
@@ -563,7 +728,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of fur leggings", "str_pl": "pairs of fur leggings" },
     "description": "Snug fur sleeves to keep your legs warm.  Simple yet effective since prehistoric times.",
-    "weight": "694 g",
+    "weight": "700 g",
     "volume": "1500 ml",
     "price": 1500,
     "price_postapoc": 250,
@@ -577,10 +742,11 @@
     "armor": [
       {
         "encumbrance": 3,
-        "coverage": 75,
+        "coverage": 100,
         "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r", "leg_upper_l", "leg_upper_r" ]
-      }
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r" ]
+      },
+      { "coverage": 90, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
     ]
   },
   {
@@ -588,7 +754,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of fetlock furs", "str_pl": "pairs of fetlock furs" },
     "description": "Snug fur sleeves to keep your fetlocks warm.",
-    "weight": "66 g",
+    "weight": "500 g",
     "volume": "750 ml",
     "price": 25000,
     "price_postapoc": 250,
@@ -616,7 +782,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL leg warmers", "str_pl": "pairs of XL leg warmers" },
     "description": "Large, soft, snug cloth sleeves to keep your exotic anatomy warm.",
-    "weight": "50 g",
+    "weight": "90 g",
     "volume": "750 ml",
     "price": 20000,
     "price_postapoc": 50,
@@ -630,10 +796,11 @@
     "armor": [
       {
         "encumbrance": 7,
-        "coverage": 75,
+        "coverage": 100,
         "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r", "leg_upper_l", "leg_upper_r" ]
-      }
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r" ]
+      },
+      { "coverage": 90, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
     ]
   },
   {
@@ -662,7 +829,7 @@
     "warmth": 30,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 3, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "long_undertop",
@@ -680,7 +847,15 @@
     "warmth": 30,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 3, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "armor": [
+      { "encumbrance": 3, "coverage": 100, "covers": [ "arm_l", "arm_r" ] },
+      {
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower" ],
+        "coverage": 100,
+        "encumbrance": 3
+      }
+    ]
   },
   {
     "id": "long_undertop_sleeveless",
@@ -698,7 +873,9 @@
     "warmth": 30,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 3, "coverage": 95, "covers": [ "torso" ] } ]
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100, "encumbrance": 3 }
+    ]
   },
   {
     "id": "panties",
@@ -733,7 +910,10 @@
     "warmth": 20,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "armor": [
+      { "coverage": 100, "covers": [ "arm_l", "arm_r" ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100 }
+    ]
   },
   {
     "id": "sports_bra",
@@ -778,9 +958,9 @@
     "type": "ARMOR",
     "name": { "str": "tank top" },
     "description": "A sleeveless cotton shirt.  Very easy to move in.",
-    "weight": "78 g",
-    "volume": "250 ml",
-    "price": 500,
+    "weight": "130 g",
+    "volume": "115 ml",
+    "price": "9 USD",
     "price_postapoc": 50,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -788,11 +968,35 @@
     "color": "light_gray",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 60, "covers": [ "torso" ] } ]
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100 },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 90 }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "tank_top_generic",
+        "name": { "str": "tank top" },
+        "description": "A sleeveless cotton shirt.  Very easy to move in.",
+        "weight": 45
+      },
+      {
+        "id": "tank_top_camo",
+        "name": { "str": "camo tank top" },
+        "description": "A sleeveless cotton shirt with a camouflage pattern.  Very easy to move in.",
+        "weight": 3
+      },
+      {
+        "id": "tank_top_cheerleader",
+        "name": { "str": "cheerleader tank top" },
+        "description": "A red cheerleader tank top.  It has the word \"Cheers\" printed at the top.",
+        "weight": 2
+      }
+    ],
+    "//": "Based on https://www.amazon.com/dp/B07SDD5CZH"
   },
   {
     "id": "tights",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "tights" },
     "description": "A snug cloth garment which clings tightly to the legs and feet to protect them from the cold.",
@@ -825,7 +1029,7 @@
     "warmth": 20,
     "material_thickness": 0.05,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 95, "covers": [ "torso" ] } ]
+    "armor": [ { "coverage": 100, "covers": [ "torso" ] } ]
   },
   {
     "id": "under_armor_shorts",
@@ -864,13 +1068,16 @@
     "warmth": 10,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 80, "covers": [ "torso" ] } ]
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100 },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 90 }
+    ]
   },
   {
     "id": "unitard",
     "type": "ARMOR",
     "name": { "str": "unitard" },
-    "description": "A skin-tight spandex garment resembling a crew necked leotard combined with leggings.  Commonly used by gymnasts, dancers and equestrian vaulters, the unitard provides overall coverage with great flexibility.",
+    "description": "A skin-tight spandex garment resembling a crew-necked leotard combined with leggings.  Commonly used by gymnasts, dancers and equestrian vaulters, the unitard provides overall coverage with great flexibility.",
     "weight": "110 g",
     "volume": "250 ml",
     "price": 3100,
@@ -881,6 +1088,10 @@
     "warmth": 20,
     "material_thickness": 0.02,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100 },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 90 }
+    ]
   }
 ]

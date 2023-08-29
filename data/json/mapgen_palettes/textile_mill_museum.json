@@ -1,0 +1,58 @@
+[
+  {
+    "type": "palette",
+    "id": "textile_mill_museum",
+    "terrain": {
+      "+": "t_door_c",
+      "-": "t_wall",
+      ".": "t_region_groundcover_urban",
+      "#": "t_fence_metal",
+      "1": "t_window",
+      "~": "t_water_sh",
+      "0": "t_water_sh",
+      "<": "t_wood_stairs_up",
+      ">": "t_wood_stairs_down",
+      ":": "t_thconc_floor",
+      "N": "t_thconc_floor",
+      "b": "t_wall_wood",
+      "_": "t_sidewalk",
+      "^": "t_gutter_downspout",
+      ",": "t_open_air",
+      "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+      "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ]
+    },
+    "furniture": {
+      "0": "f_water_mill",
+      "n": "f_machinery_old",
+      "N": "f_machinery_old",
+      "w": "f_spinwheel",
+      "s": "f_scutch_breaker",
+      "m": "f_machinery_light",
+      "M": "f_machinery_heavy",
+      "=": "f_counter",
+      "g": "f_stool",
+      "W": "f_workbench",
+      "t": "f_table",
+      "h": "f_chair",
+      "c": [ [ "f_crate_c", 2 ], "f_crate_o" ],
+      "C": [ [ "f_crate_c", 2 ], "f_crate_o" ],
+      "D": "f_vending_c",
+      "V": "f_vending_c",
+      "y": "f_trashcan",
+      "d": "f_desk",
+      "i": "f_indoor_plant_y",
+      "7": "f_filing_cabinet",
+      "l": "f_locker"
+    },
+    "items": {
+      "l": { "item": "clothing_work_set", "chance": 25 },
+      "d": { "item": "office", "chance": 30 },
+      "W": { "item": "SUS_tailoring_tool_drawer", "chance": 25 },
+      "t": { "item": "SUS_tailoring_materials", "chance": 25 },
+      "C": { "item": "SUS_tailoring_tool_drawer", "chance": 25 },
+      "c": { "item": "SUS_tailoring_materials", "chance": 25 },
+      "7": { "item": "office_paper", "chance": 30 }
+    },
+    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "V": { "item_group": "vending_food", "lootable": true } }
+  }
+]

@@ -1,0 +1,71 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "soldier_guns_3x3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_items": [ { "item": "military_squad_guns", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 100 } ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 2 ], "y": [ 0, 2 ] }, { "field": "fd_gibs_flesh", "x": [ 0, 2 ], "y": [ 0, 2 ] } ],
+      "place_monster": [ { "group": "GROUP_MIL_EXTRA", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "military_squad_guns",
+    "subtype": "distribution",
+    "groups": [
+      [ "military_standard_assault_rifles", 80 ],
+      [ "military_standard_lmgs", 10 ],
+      [ "military_standard_sniper_rifles", 5 ],
+      [ "military_standard_shotguns", 5 ]
+    ]
+  },
+  {
+    "name": "GROUP_MIL_EXTRA",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_soldier", "weight": 76 },
+      { "monster": "mon_feral_soldier", "weight": 20 },
+      { "monster": "mon_zombie_bio_op", "weight": 4 }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_military",
+    "object": {
+      "rows": [
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "-----------1----------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "                        ",
+        "                        "
+      ],
+      "place_monster": [
+        { "monster": "mon_dispatch", "x": [ 1, 23 ], "y": [ 1, 23 ], "chance": 4 },
+        { "group": "GROUP_NETHER_CAPTURED", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 0, 2 ] }
+      ],
+      "nested": { "-": { "chunks": [ [ "soldier_guns_3x3", 1 ], [ "null", 149 ] ] }, "1": { "chunks": [ "soldier_guns_3x3" ] } }
+    }
+  }
+]

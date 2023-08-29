@@ -17,7 +17,6 @@
 #include "color.h"
 #include "color_loader.h"
 #include "debug.h"
-#include "font_loader.h"
 #include "point.h"
 #include "hash_utils.h"
 #include "sdl_wrappers.h"
@@ -59,7 +58,7 @@ class Font
             int fontheight,
             const palette_array &palette,
             bool fontblending );
-    public:
+
         // the width of the font, background is always this size.
         int width;
         // the height of the font, background is always this size.

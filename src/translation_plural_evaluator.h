@@ -4,6 +4,7 @@
 
 #if defined(LOCALIZE)
 
+#include <array>
 #include <limits>
 #include <stack>
 #include <vector>
@@ -88,11 +89,11 @@ class TranslationPluralRulesEvaluator
         };
 
         static ExprToken GetNextToken( const char *&p );
-        static std::vector<ExprToken> Lexer( const std::string &expr );
+        static std::vector<ExprToken> Lexer( std::string_view expr );
 
         struct ExprNode {
             std::size_t n_children;
-            ExprNode *children[3];
+            std::array<ExprNode *, 3> children;
             ExprToken token;
             ExprNode() : n_children( 0 ), children{ nullptr, nullptr, nullptr } {}
             void AddChild( ExprNode *child );
@@ -107,7 +108,7 @@ class TranslationPluralRulesEvaluator
         static void DisposeExprNodeRecursive( ExprNode *node );
         void DisposeExprTree();
 
-        std::size_t Evaluate( const std::size_t n ) const;
+        std::size_t Evaluate( std::size_t n ) const;
         void ParsePluralRules( const std::string &plural_forms );
         explicit TranslationPluralRulesEvaluator( const std::string &plural_forms );
         ~TranslationPluralRulesEvaluator();

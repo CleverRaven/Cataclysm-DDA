@@ -7,13 +7,11 @@
 
 #include "type_id.h"
 
-class JsonIn;
 class JsonObject;
 class JsonOut;
 template<typename T>
 class generic_factory;
 class speed_description_value;
-
 
 class speed_description
 {
@@ -21,7 +19,7 @@ class speed_description
         static void load_speed_descriptions( const JsonObject &jo, const std::string &src );
         static void reset();
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         static const std::vector<speed_description> &get_all();
 
@@ -47,7 +45,7 @@ class speed_description_value
 
         bool was_loaded = false;
         void load( const JsonObject &jo );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 
         double value() const {
             return value_;

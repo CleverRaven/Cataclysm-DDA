@@ -1,4 +1,4 @@
-# Effect data
+# Effects
 
 ## How to give effects in-game?
 ### Comestibles
@@ -164,6 +164,9 @@ if it doesn't exist.
     "rating": "good"        - Defaults to "neutral" if missing
 ```
 This is used for how the messages when the effect is applied and removed are displayed. Also this affects "blood_analysis_description" (see below) field: effects with "good" rating will be colored green, effects with any other rating will be colored red when character conducts a blood analysis through some means.
+
+If [apply_message](#advanced-apply_message) is an array you can't include this entry (it is handled with apply message).
+
 Valid entries are:
 ```C++
 "good"
@@ -181,6 +184,17 @@ If the "apply_message" or "remove_message" fields exist, the respective message 
 displayed upon the addition or removal of the effect. Note: "apply_message" will only display
 if the effect is being added, not if it is simply incrementing a current effect (so only new bites, etc.).
 
+### advanced apply_message
+```C++
+    "apply_message": [
+        ["Your effect is applied", "good"],
+        ["You took way too much effect", "bad"],
+    ] 
+```
+You can instead of having a string for apply_message and including a [rating](#rating) can do advanced apply_message. This is an array of arrays with each inner array matching up with an intensity level and including the message and rating. This is useful for effects that too much of is a bad thing.
+
+When using an advanced apply_message you can not include a [rating: ""](#rating) entry.
+
 ### Memorial Log
 ```C++
     "apply_memorial_log": "log",
@@ -192,12 +206,26 @@ the message fields the "apply_memorial_log" will only be added to the log for ne
 
 ### Resistances
 ```C++
-    "resist_trait": "NOPAIN",
+    "resist_traits": "NOPAIN",
     "resist_effect": "flumed"
 ```
 These fields are used to determine if an effect is being resisted or not. If the player has the
 matching trait or effect then they are "resisting" the effect, which changes its effects and description.
 Effects can only have one "resist_trait" and one "resist_effect" at a time.
+
+### Immunity Flags
+```JSON
+"immune_flags": [ "INFECTION_IMMUNE", "YOUR_FLAG" ]
+```
+Having any of the defined character flags (See JSON_FLAGS.md#Character flags) will make you immune to the effect. Note that these are completely JSON-driven, so you can add a custom flag for your effect without C++ changes.
+
+### Bodypart Immunity Flags
+
+```JSON
+"immune_bp_flags": [ "LIMB_UPPER" ]
+```
+
+When applying the effect to a bodypart directly the part in question having this JSON character flag will prevent the effect from applying.
 
 ### Removes effects
 ```C++
@@ -301,11 +329,6 @@ main part (arms, head, legs, etc.).
 them more pkill. "pain_sizing" and "hurt_sizing" cause large/huge mutations to affect the chance of pain
 and hurt effects triggering. "harmful_cough" means that the coughs caused by this effect can hurt the player.
 
-### Flags
-
-"EFFECT_INVISIBLE" Character affected by an effect with this flag are invisible.
-"EFFECT_IMPEDING" Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`
-
 ### Vitamin Mods
 
 ```json
@@ -346,6 +369,30 @@ As defined, this will cause non-resistant characters to gain between 1 and 2 of 
 - `death_event` An event that is sent when the player dies from this effect.
 
 For `chance_kill` and `chance_kill_resist`, it accepts an array of arrays in the format described. Each entry in the array will be applied for a successive intensity level of the field. If the intensity level of the field is greater than the number of entries in the array, the last entry will be used.
+
+### Limb score modifiers
+
+```JSON
+    "limb_score_mods": [
+      {
+        "limb_score": "lift",
+        "modifier": 0.5,
+        "resist_modifier": 0.75,
+        "scaling": -0.1,
+        "resist_scaling": -0.05
+      }
+    ]
+```
+
+- "limb_score"        Mandatory, string id of the limb score in question
+- "modifier"          Optional float (default 1.0), the multiplier on the limb score at effect intensity 1
+- "resist_modifier"   Optional float (default 1.0), the multiplier on the limb score at effect intensity 1 when the character resists the effect
+- "scaling"           Optional float (default 0.0), amount added to the multiplier on every intensity level above 1
+- "resist_scaling"    Optional float (default 0.0), amount added to the multiplier on every intensity level above 1 when the character resists the effect
+
+
+Limb score modifiers work as multipliers in the limb score calculations.  The example modifier will halve the non-resistant player's lift score at intensity 1 and decrease it by 10% of the start value for every successive intensity level (*0.4 at int 2, *0.3 at int 3 etc.), while decreasing a resistant character's lift score by 25% and intensifying in 5% steps (*0.70 at int 2, *0.65 at int 3).  Limb score modifiers are applied after health/encumbrance penalties multiplicatively (ex. 1.0 starting lift score reduced by two *0.5 modifiers equals 0.25, not 0), and separate instances of the same effect applied to separate bodyparts will be counted separately (ex. two instances of "staggered" on a character's arms will each apply their limb score modifiers).
+
 
 ### Effect effects
 ```C++
@@ -502,7 +549,7 @@ Valid arguments:
 "healing_rate"      - Healed rate per day
 "healing_head"      - Percentage of healing value for head
 "healing_torso"     - Percentage of healing value for torso
-
+"enchantments" - (_optional_) List of enchantments applied by this effect (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.) Values can either be the enchantments id or an inline definition of the enchantment.
 ```
 Each argument can also take either one or two values.
 ```C++

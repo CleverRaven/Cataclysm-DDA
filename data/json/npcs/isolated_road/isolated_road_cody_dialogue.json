@@ -138,7 +138,8 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "21 d" },
             { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 3 },
-            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
@@ -149,7 +150,8 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "21 d" },
             { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 3 },
-            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_READY"
@@ -160,7 +162,8 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "28 d" },
             { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 4 },
-            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
@@ -171,7 +174,8 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "28 d" },
             { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 4 },
-            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_READY"
@@ -182,7 +186,8 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "35 d" },
             { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 5 },
-            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
@@ -193,7 +198,8 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "35 d" },
             { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 5 },
-            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_READY"
@@ -213,6 +219,11 @@
         "condition": { "u_has_var": "blacksmith_heard_the_deal", "type": "dialogue", "context": "artisans", "value": "yes" },
         "topic": "TALK_BLACKSMITH_SERVICES",
         "effect": "start_trade"
+      },
+      {
+        "text": "I heard you might want some metal…",
+        "topic": "TALK_BLACKSMITH_DEAL_NEGOTIATE",
+        "condition": { "u_has_mission": "MISSION_SCRAPPER_SET_TRADE_ROUTE_BLACKSMITH" }
       },
       { "text": "I have to go.", "topic": "TALK_DONE" }
     ]
@@ -385,6 +396,38 @@
       },
       { "text": "Not really interested.", "topic": "TALK_DONE" },
       { "text": "I'll think about it.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_PROTOTYPE_NOT_FEELING_IT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Oh, these.  With the end of the world, Jay and I had been talking about some new projects for the wasteland warriors.  Anyways it doesn't matter anymore since, well it doesn't matter."
+    ],
+    "responses": [
+      {
+        "text": "Are you and Jay close?",
+        "condition": { "not": { "u_has_var": "blacksmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" } },
+        "topic": "TALK_BLACKSMITH_JAY"
+      },
+      {
+        "text": "I'm sure we'll fix things soon!",
+        "condition": { "u_has_var": "blacksmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" },
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_DEAL_NEGOTIATE",
+    "type": "talk_topic",
+    "dynamic_line": [ "Sure, honey!  I'm always in need of more material!  What's the price, though?" ],
+    "responses": [
+      {
+        "text": "Well, how about 100 merch for every 70 pounds of metal…",
+        "effect": { "u_spawn_item": "trade_writ" },
+        "topic": "TALK_DONE"
+      }
     ]
   }
 ]

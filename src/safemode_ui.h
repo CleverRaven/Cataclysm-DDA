@@ -11,7 +11,7 @@
 #include "creature.h"
 #include "enums.h"
 
-class JsonIn;
+class JsonArray;
 class JsonOut;
 
 class safemode
@@ -99,16 +99,16 @@ class safemode
     public:
         std::string lastmon_whitelist; // NOLINT(cata-serialize)
 
-        bool has_rule( const std::string &rule_in, Creature::Attitude attitude_in );
+        bool has_rule( std::string_view rule_in, Creature::Attitude attitude_in );
         void add_rule( const std::string &rule_in, Creature::Attitude attitude_in,
                        int proximity_in, rule_state state_in );
-        void remove_rule( const std::string &rule_in, Creature::Attitude attitude_in );
+        void remove_rule( std::string_view rule_in, Creature::Attitude attitude_in );
         void clear_character_rules();
         rule_state check_monster( const std::string &creature_name_in, Creature::Attitude attitude_in,
-                                  int proximity_in, const bool driving = false ) const;
+                                  int proximity_in, bool driving = false ) const;
 
         bool is_sound_safe( const std::string &sound_name_in, int proximity_in,
-                            const bool driving = false ) const;
+                            bool driving = false ) const;
 
         std::string npc_type_name();
 
@@ -123,7 +123,7 @@ class safemode
         bool empty() const;
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonArray &ja );
 };
 
 safemode &get_safemode();

@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "coordinates.h"
-#include "npc.h"
 #include "talker.h"
 #include "type_id.h"
 
@@ -18,7 +17,7 @@ struct tripoint;
 /*
  * Talker wrapper class for furniture
  */
-class talker_furniture: public talker
+class talker_furniture: public talker_cloner<talker_furniture>
 {
     public:
         explicit talker_furniture( computer *new_me ): me_comp( new_me ) {
@@ -37,6 +36,7 @@ class talker_furniture: public talker
         int posy() const override;
         int posz() const override;
         tripoint pos() const override;
+        tripoint_abs_ms global_pos() const override;
         tripoint_abs_omt global_omt_location() const override;
 
         std::string get_value( const std::string &var_name ) const override;

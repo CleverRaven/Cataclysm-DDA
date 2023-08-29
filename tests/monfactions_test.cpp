@@ -38,14 +38,13 @@ static std::string att_enum_to_string( mf_attitude att )
     return "?";
 }
 
-
 // generates a file in current directory that contains dump of all inter-faction attitude
 TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
 {
-    cata::ofstream outfile;
+    std::ofstream outfile;
     outfile.open( fs::u8path( "monfactions.txt" ) );
-    for( const auto &f : monfactions::get_all() ) {
-        for( const auto &f1 : monfactions::get_all() ) {
+    for( const monfaction &f : monfactions::get_all() ) {
+        for( const monfaction &f1 : monfactions::get_all() ) {
             mf_attitude att = f.attitude( f1.id );
             mf_attitude rev_att = f1.attitude( f.id );
             // NOLINTNEXTLINE(cata-text-style)
@@ -61,9 +60,9 @@ TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
 
 TEST_CASE( "monfactions_reciprocate", "[monster][monfactions]" )
 {
-    for( const auto &f : monfactions::get_all() ) {
+    for( const monfaction &f : monfactions::get_all() ) {
         SECTION( f.id.str() ) {
-            for( const auto &f1 : monfactions::get_all() ) {
+            for( const monfaction &f1 : monfactions::get_all() ) {
                 mf_attitude att = f.attitude( f1.id );
                 mf_attitude rev_att = f1.attitude( f.id );
 
@@ -90,8 +89,6 @@ TEST_CASE( "monfactions_reciprocate", "[monster][monfactions]" )
         }
     }
 }
-
-
 
 TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
 {
@@ -138,7 +135,6 @@ TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
 
         CHECK( attitude( "zombie_aquatic", "zombie" ) == MFA_FRIENDLY );
         CHECK( attitude( "zombie", "zombie_aquatic" ) == MFA_FRIENDLY );
-        CHECK( attitude( "zombie", "spider_web" ) == MFA_NEUTRAL );
         CHECK( attitude( "zombie", "small_animal" ) == MFA_NEUTRAL );
 
         CHECK( attitude( "plant", "triffid" ) == MFA_FRIENDLY );

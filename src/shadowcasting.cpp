@@ -639,16 +639,15 @@ void cast_zlight(
 // I can't figure out how to make implicit instantiation work when the parameters of
 // the template-supplied function pointers are involved, so I'm explicitly instantiating instead.
 template void cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
-    const std::array<float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-    const std::array<const float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
-    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const array_of_grids_of<float> &output_caches,
+    const array_of_grids_of<const float> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
     const tripoint &origin, int offset_distance, float numerator,
     vertical_direction dir );
 
 template void cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>(
-    const std::array<fragment_cloud( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-    const std::array<const fragment_cloud( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS>
-    &input_arrays,
-    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const array_of_grids_of<fragment_cloud> &output_caches,
+    const array_of_grids_of<const fragment_cloud> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
     const tripoint &origin, int offset_distance, fragment_cloud numerator,
     vertical_direction dir );

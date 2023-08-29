@@ -19,10 +19,7 @@
     "melee_skill": 6,
     "melee_dice": 3,
     "melee_dice_sides": 8,
-    "melee_cut": 5,
-    "armor_bash": 15,
-    "armor_cut": 25,
-    "armor_bullet": 20,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "vision_night": 100,
     "mech_str_bonus": 5,
     "mech_battery": "huge_atomic_battery_cell",
@@ -45,7 +42,8 @@
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_1",
       "STUN_IMMUNE"
-    ]
+    ],
+    "armor": { "bash": 15, "cut": 25, "bullet": 20 }
   },
   {
     "id": "mon_mech_combat",
@@ -67,10 +65,7 @@
     "melee_skill": 2,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "melee_cut": 0,
-    "armor_bash": 25,
-    "armor_cut": 45,
-    "armor_bullet": 36,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "vision_night": 50,
     "mech_str_bonus": 10,
     "mech_battery": "huge_atomic_battery_cell",
@@ -93,7 +88,8 @@
       "PATH_AVOID_DANGER_1",
       "LOUDMOVES",
       "STUN_IMMUNE"
-    ]
+    ],
+    "armor": { "bash": 25, "cut": 45, "bullet": 36 }
   },
   {
     "id": "mon_mech_lifter",
@@ -115,10 +111,7 @@
     "melee_skill": 4,
     "melee_dice": 4,
     "melee_dice_sides": 8,
-    "melee_cut": 0,
-    "armor_bash": 22,
-    "armor_cut": 30,
-    "armor_bullet": 24,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "vision_night": 50,
     "mech_str_bonus": 30,
     "mech_battery": "huge_atomic_battery_cell",
@@ -143,6 +136,7 @@
       "PATH_AVOID_DANGER_1",
       "LOUDMOVES",
       "STUN_IMMUNE"
-    ]
+    ],
+    "armor": { "bash": 22, "cut": 30, "bullet": 24 }
   }
 ]

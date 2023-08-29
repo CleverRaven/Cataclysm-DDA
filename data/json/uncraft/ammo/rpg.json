@@ -13,8 +13,7 @@
       [ [ "gunpowder_artillery", 3000 ] ],
       [ [ "impact_fuze", 1 ] ],
       [ [ "scrap", 3 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "RPG-7_pg7vr",
@@ -30,8 +29,7 @@
       [ [ "gunpowder_artillery", 3000 ] ],
       [ [ "impact_fuze", 1 ] ],
       [ [ "scrap", 3 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "RPG-7_tbg7v",
@@ -48,8 +46,7 @@
       [ [ "impact_fuze", 1 ] ],
       [ [ "scrap", 3 ] ],
       [ [ "incendiary", 150 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "RPG-7_og7v",
@@ -59,7 +56,6 @@
     "difficulty": 6,
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "chem_compositionb", 200 ] ], [ [ "gunpowder_artillery", 3000 ] ], [ [ "impact_fuze", 1 ] ], [ [ "scrap", 3 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "chem_compositionb", 200 ] ], [ [ "gunpowder_artillery", 3000 ] ], [ [ "impact_fuze", 1 ] ], [ [ "scrap", 3 ] ] ]
   }
 ]

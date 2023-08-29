@@ -13,7 +13,7 @@
 // Covers functions:
 // - Character::bodypart_exposure
 
-TEST_CASE( "character body part exposure", "[char][bodypart][exposure]" )
+TEST_CASE( "character_body_part_exposure", "[char][bodypart][exposure]" )
 {
     Character &dummy = get_player_character();
     clear_avatar();

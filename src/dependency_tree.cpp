@@ -39,12 +39,12 @@ void dependency_node::add_child( dependency_node *child )
     }
 }
 
-bool dependency_node::is_available()
+bool dependency_node::is_available() const
 {
     return all_errors.empty();
 }
 
-std::map<NODE_ERROR_TYPE, std::vector<std::string > > dependency_node::errors()
+std::map<NODE_ERROR_TYPE, std::vector<std::string > > dependency_node::errors() const
 {
     return all_errors;
 }
@@ -64,7 +64,7 @@ void dependency_node::check_cyclicity()
     std::stack<dependency_node *> nodes_to_check;
     std::set<mod_id> nodes_visited;
 
-    for( auto &elem : parents ) {
+    for( dependency_node *&elem : parents ) {
         nodes_to_check.push( elem );
     }
     nodes_visited.insert( key );
@@ -75,16 +75,14 @@ void dependency_node::check_cyclicity()
 
         if( nodes_visited.find( check->key ) != nodes_visited.end() ) {
             if( all_errors[CYCLIC].empty() ) {
-                all_errors[CYCLIC].push_back( "Error: Circular Dependency Circuit Found!" );
+                all_errors[CYCLIC].emplace_back( "Error: Circular Dependency Circuit Found!" );
             }
             continue;
         }
 
         // add check parents, if exist, to stack
-        if( !check->parents.empty() ) {
-            for( auto &elem : check->parents ) {
-                nodes_to_check.push( elem );
-            }
+        for( dependency_node *&elem : check->parents ) {
+            nodes_to_check.push( elem );
         }
         nodes_visited.insert( check->key );
     }
@@ -107,7 +105,7 @@ void dependency_node::inherit_errors()
     std::stack<dependency_node * > nodes_to_check;
     std::set<mod_id> nodes_visited;
 
-    for( auto &elem : parents ) {
+    for( dependency_node *&elem : parents ) {
         nodes_to_check.push( elem );
     }
     nodes_visited.insert( key );
@@ -117,17 +115,15 @@ void dependency_node::inherit_errors()
         nodes_to_check.pop();
 
         // add check errors
-        if( !check->errors().empty() ) {
-            std::map<NODE_ERROR_TYPE, std::vector<std::string > > cerrors = check->errors();
-            for( auto &cerror : cerrors ) {
-                std::vector<std::string> node_errors = cerror.second;
-                NODE_ERROR_TYPE error_type = cerror.first;
-                std::vector<std::string> cur_errors = all_errors[error_type];
-                for( auto &node_error : node_errors ) {
-                    if( std::find( cur_errors.begin(), cur_errors.end(), node_error ) ==
-                        cur_errors.end() ) {
-                        all_errors[cerror.first].push_back( node_error );
-                    }
+        std::map<NODE_ERROR_TYPE, std::vector<std::string > > cerrors = check->errors();
+        for( auto &cerror : cerrors ) {
+            std::vector<std::string> node_errors = cerror.second;
+            NODE_ERROR_TYPE error_type = cerror.first;
+            std::vector<std::string> cur_errors = all_errors[error_type];
+            for( auto &node_error : node_errors ) {
+                if( std::find( cur_errors.begin(), cur_errors.end(), node_error ) ==
+                    cur_errors.end() ) {
+                    all_errors[cerror.first].push_back( node_error );
                 }
             }
         }
@@ -135,10 +131,8 @@ void dependency_node::inherit_errors()
             continue;
         }
         // add check parents, if exist, to stack
-        if( !check->parents.empty() ) {
-            for( auto &elem : check->parents ) {
-                nodes_to_check.push( elem );
-            }
+        for( dependency_node *&elem : check->parents ) {
+            nodes_to_check.push( elem );
         }
         nodes_visited.insert( check->key );
     }
@@ -152,7 +146,7 @@ std::vector<mod_id> dependency_node::get_dependencies_as_strings()
 
     ret.reserve( as_nodes.size() );
 
-    for( auto &as_node : as_nodes ) {
+    for( dependency_node *&as_node : as_nodes ) {
         ret.push_back( as_node->key );
     }
 
@@ -167,7 +161,7 @@ std::vector<dependency_node *> dependency_node::get_dependencies_as_nodes()
     std::set<mod_id> found;
 
     std::stack<dependency_node *> nodes_to_check;
-    for( auto &elem : parents ) {
+    for( dependency_node *&elem : parents ) {
         nodes_to_check.push( elem );
     }
     found.insert( key );
@@ -185,10 +179,8 @@ std::vector<dependency_node *> dependency_node::get_dependencies_as_nodes()
         dependencies.push_back( check );
 
         // add parents to check list
-        if( !check->parents.empty() ) {
-            for( auto &elem : check->parents ) {
-                nodes_to_check.push( elem );
-            }
+        for( dependency_node *&elem : check->parents ) {
+            nodes_to_check.push( elem );
         }
         found.insert( check->key );
     }
@@ -213,7 +205,7 @@ std::vector<mod_id> dependency_node::get_dependents_as_strings()
 
     ret.reserve( as_nodes.size() );
 
-    for( auto &as_node : as_nodes ) {
+    for( dependency_node *&as_node : as_nodes ) {
         ret.push_back( as_node->key );
     }
 
@@ -228,7 +220,7 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
     std::set<mod_id> found;
 
     std::stack<dependency_node *> nodes_to_check;
-    for( auto &elem : children ) {
+    for( dependency_node *&elem : children ) {
         nodes_to_check.push( elem );
     }
     found.insert( key );
@@ -243,16 +235,14 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
         }
         dependents.push_back( check );
 
-        if( !check->children.empty() ) {
-            for( auto &elem : check->children ) {
-                nodes_to_check.push( elem );
-            }
+        for( dependency_node *&elem : check->children ) {
+            nodes_to_check.push( elem );
         }
         found.insert( check->key );
     }
 
     // sort from front, keeping only one copy of the node
-    for( auto &dependent : dependents ) {
+    for( dependency_node *&dependent : dependents ) {
         if( std::find( ret.begin(), ret.end(), dependent ) == ret.end() ) {
             ret.push_back( dependent );
         }
@@ -390,7 +380,7 @@ void dependency_tree::check_for_strongly_connected_components()
     std::set<dependency_node *> in_circular_connection;
     for( auto &elem : strongly_connected_components ) {
         if( elem.size() > 1 ) {
-            for( auto &elem_node : elem ) {
+            for( dependency_node *&elem_node : elem ) {
                 DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "--" << elem_node->key.str() << "\n";
                 in_circular_connection.insert( elem_node );
             }
@@ -398,8 +388,8 @@ void dependency_tree::check_for_strongly_connected_components()
         }
     }
     // now go back through this and give them all the circular error code!
-    for( const auto &elem : in_circular_connection ) {
-        elem->all_errors[CYCLIC].push_back( "In Circular Dependency Cycle" );
+    for( dependency_node * const &elem : in_circular_connection ) {
+        elem->all_errors[CYCLIC].emplace_back( "In Circular Dependency Cycle" );
     }
 }
 

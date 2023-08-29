@@ -7,30 +7,31 @@
 namespace gamepad
 {
 
-constexpr int max_triggers = 2;
-constexpr int max_sticks = 2;
+static constexpr int max_triggers = 2;
+static constexpr int max_sticks = 2;
 //constexpr int max_axis = 6;
-constexpr int max_buttons = 30;
+static constexpr int max_buttons = 30;
 
-static int triggers_axis[max_triggers] = {
+static std::array<int, max_triggers> triggers_axis = {
     SDL_CONTROLLER_AXIS_TRIGGERLEFT,
     SDL_CONTROLLER_AXIS_TRIGGERRIGHT
 };
-static int sticks_axis[max_sticks][2] = {
-    { SDL_CONTROLLER_AXIS_LEFTX,  SDL_CONTROLLER_AXIS_LEFTY  },
-    { SDL_CONTROLLER_AXIS_RIGHTX, SDL_CONTROLLER_AXIS_RIGHTY }
+static std::array<std::array<int, 2>, max_sticks> sticks_axis = { {
+        { {SDL_CONTROLLER_AXIS_LEFTX,  SDL_CONTROLLER_AXIS_LEFTY}  },
+        { {SDL_CONTROLLER_AXIS_RIGHTX, SDL_CONTROLLER_AXIS_RIGHTY} }
+    }
 };
 
-static int triggers_state[max_triggers] = {0, 0};
-static int sticks_state[max_sticks] = {0, 0};
+static std::array<int, max_triggers> triggers_state = {0, 0};
+static std::array<int, max_sticks> sticks_state = {0, 0};
 
 static int triggers_threshold = 16000;
 static int sticks_threshold = 16000;
 static int error_margin = 2000;
 
-static int sticks_map[max_sticks][16] = {{0}, {0}};
-static int triggers_map[max_triggers] = {0};
-static int buttons_map[max_buttons] = {0};
+static std::array<std::array<int, 16>, max_sticks> sticks_map = {};
+static std::array<int, max_triggers> triggers_map = {0};
+static std::array<int, max_buttons> buttons_map = {0};
 
 struct task_t {
     Uint32 when;
@@ -39,20 +40,20 @@ struct task_t {
     int state;
 };
 
-constexpr int max_tasks           = max_buttons + max_sticks + max_triggers + 1;
+static constexpr int max_tasks           = max_buttons + max_sticks + max_triggers + 1;
 //constexpr int buttons_task_index  = 0;
-constexpr int sticks_task_index   = max_buttons;
-constexpr int triggers_task_index = max_buttons + max_sticks;
+static constexpr int sticks_task_index   = max_buttons;
+static constexpr int triggers_task_index = max_buttons + max_sticks;
 
-task_t all_tasks[max_tasks];
+static std::array<task_t, max_tasks> all_tasks;
 
 static int repeat_delay = 400;
 static int repeat_interval = 200;
 static int diagonal_detect_delay = 250;
 
 // SDL related stuff
-SDL_TimerID timer_id;
-SDL_GameController *controller = nullptr;
+static SDL_TimerID timer_id;
+static SDL_GameController *controller = nullptr;
 
 static Uint32 timer_func( Uint32 interval, void * )
 {
@@ -99,8 +100,8 @@ void init()
         buttons_map[i] = JOY_0 + i;
     }
 
-    for( int i = 0; i < max_tasks; ++i ) {
-        all_tasks[i].counter = 0;
+    for( gamepad::task_t &task : all_tasks ) {
+        task.counter = 0;
     }
 
     int ret = SDL_Init( SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER );
@@ -146,7 +147,7 @@ SDL_GameController *get_controller()
     return controller;
 }
 
-static int one_of_two( const int arr[2], int val )
+static int one_of_two( const std::array<int, 2> &arr, int val )
 {
     if( arr[0] == val ) {
         return 0;
@@ -175,7 +176,8 @@ static void send_input( int ibtn, input_event_t itype = input_event_t::gamepad )
     last_input = input_event( ibtn, itype );
 }
 
-static void dpad_changes( task_t &task, const int m[16], Uint32 now, int old_state, int new_state )
+static void dpad_changes( task_t &task, const std::array<int, 16> &m, Uint32 now, int old_state,
+                          int new_state )
 {
     // get rid of unneeded bits
     old_state &= 0b1111;
@@ -324,7 +326,7 @@ void handle_button_event( SDL_Event &event )
 void handle_scheduler_event( SDL_Event &event )
 {
     Uint32 now = event.user.timestamp;
-    for( auto &task : all_tasks )
+    for( gamepad::task_t &task : all_tasks )
         if( task.counter && task.when <= now ) {
             send_input( task.button );
             task.counter += 1;

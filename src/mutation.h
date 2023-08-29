@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -17,7 +18,6 @@
 #include "damage.h"
 #include "hash_utils.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "point.h"
 #include "translations.h"
 #include "type_id.h"
@@ -88,14 +88,16 @@ struct mut_transform {
     bool active = false;
     /** subtracted from @ref Creature::moves when transformation is successful */
     int moves = 0;
+    // If true the transformation uses the "normal" mutation rules - canceling conflicting traits etc
+    bool safe = false;
     mut_transform();
-    bool load( const JsonObject &jsobj, const std::string &member );
+    bool load( const JsonObject &jsobj, std::string_view member );
 };
 
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
-    std::function<bool( const dialogue & )>trigger;
+    std::function<bool( dialogue & )>trigger;
 
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
@@ -105,6 +107,51 @@ struct reflex_activation_data {
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
     void deserialize( const JsonObject &jo );
+};
+
+struct trait_and_var {
+    trait_id trait;
+    std::string variant;
+
+    trait_and_var() = default;
+    trait_and_var( const trait_id &t, const std::string &v ) : trait( t ), variant( v ) {}
+
+    void deserialize( const JsonValue &jv );
+    void serialize( JsonOut &jsout ) const;
+
+    std::string name() const;
+    std::string desc() const;
+
+    bool operator==( const trait_and_var &other ) const {
+        return trait == other.trait && variant == other.variant;
+    }
+};
+
+struct trait_replacement {
+    std::optional<proficiency_id> prof;
+    std::optional<trait_and_var> trait;
+    bool error = false;
+};
+
+struct mutation_variant {
+    std::string id;
+
+    translation alt_name;
+    translation alt_description;
+
+    // If the description should be appended to the non-variant description
+    bool append_desc = false;
+
+    // Used for automatic selection of variant when mutation is assigned
+    // With 0 weight, the variant will never be automatically assigned
+    int weight = 0;
+
+    // !!THIS MUST BE SET AFTER LOADING!!
+    // This is the trait that the variant corresponds to, so we can save/load correctly
+    trait_id parent;
+
+    void deserialize( const JsonObject &jo );
+    void load( const JsonObject &jo );
 };
 
 struct mutation_branch {
@@ -117,8 +164,6 @@ struct mutation_branch {
         bool purifiable = false;
         // True if it's a threshold itself, and shouldn't be obtained *easily* (False by default).
         bool threshold = false;
-        // True if it can only be obtained after reaching the Terminus, (False by default, prevents purification).
-        bool terminus = false;
         // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
         bool profession = false;
         // True if the mutation is obtained through the debug menu
@@ -127,6 +172,8 @@ struct mutation_branch {
         bool player_display = true;
         // True if mutation is purely comestic and can be changed anytime without any effect
         bool vanity = false;
+        // Dummy mutations are special; they're not gained through normal mutating, and will instead be targeted for the purposes of removing conflicting mutations
+        bool dummy = false;
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;
@@ -149,24 +196,25 @@ struct mutation_branch {
         int ugliness   = 0;
         int cost       = 0;
         // costs are consumed every cooldown turns,
-        int cooldown   = 0;
+        time_duration cooldown   = 0_turns;
         // bodytemp elements:
         int bodytemp_min = 0;
         int bodytemp_max = 0;
         int bodytemp_sleep = 0;
         // Healing per turn
-        cata::optional<float> healing_awake = cata::nullopt;
-        cata::optional<float> healing_resting = cata::nullopt;
+        std::optional<float> healing_awake = std::nullopt;
+        std::optional<float> healing_multiplier = std::nullopt;
         // Limb mending bonus
-        cata::optional<float> mending_modifier = cata::nullopt;
+        std::optional<float> mending_modifier = std::nullopt;
+        std::optional<float> pain_modifier = std::nullopt;
         // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
-        cata::optional<float> hp_modifier = cata::nullopt;
+        std::optional<float> hp_modifier = std::nullopt;
         // Second HP modifier that stacks with first but is otherwise identical.
-        cata::optional<float> hp_modifier_secondary = cata::nullopt;
+        std::optional<float> hp_modifier_secondary = std::nullopt;
         // Flat bonus/penalty to hp.
-        cata::optional<float> hp_adjustment = cata::nullopt;
+        std::optional<float> hp_adjustment = std::nullopt;
         // Modify strength stat without changing HP
-        cata::optional<float> str_modifier = cata::nullopt;
+        std::optional<float> str_modifier = std::nullopt;
         //melee bonuses
         int cut_dmg_bonus = 0;
         float pierce_dmg_bonus = 0.0f;
@@ -174,24 +222,26 @@ struct mutation_branch {
         int bash_dmg_bonus = 0;
         std::pair<int, int> rand_bash_bonus;
         // Additional bonuses
-        cata::optional<float> dodge_modifier = cata::nullopt;
-        cata::optional<float> movecost_modifier = cata::nullopt;
-        cata::optional<float> movecost_flatground_modifier = cata::nullopt;
-        cata::optional<float> movecost_obstacle_modifier = cata::nullopt;
-        cata::optional<float> attackcost_modifier = cata::nullopt;
-        cata::optional<float> cardio_multiplier = cata::nullopt;
-        cata::optional<float> weight_capacity_modifier = cata::nullopt;
-        cata::optional<float> hearing_modifier = cata::nullopt;
-        cata::optional<float> movecost_swim_modifier = cata::nullopt;
-        cata::optional<float> noise_modifier = cata::nullopt;
+        std::optional<float> dodge_modifier = std::nullopt;
+        std::optional<float> movecost_modifier = std::nullopt;
+        std::optional<float> movecost_flatground_modifier = std::nullopt;
+        std::optional<float> movecost_obstacle_modifier = std::nullopt;
+        std::optional<float> attackcost_modifier = std::nullopt;
+        std::optional<float> cardio_multiplier = std::nullopt;
+        std::optional<float> weight_capacity_modifier = std::nullopt;
+        std::optional<float> hearing_modifier = std::nullopt;
+        std::optional<float> movecost_swim_modifier = std::nullopt;
+        std::optional<float> noise_modifier = std::nullopt;
         float scent_modifier = 1.0f;
-        cata::optional<int> scent_intensity;
-        cata::optional<int> scent_mask;
-        int bleed_resist = 0;
+        std::optional<int> scent_intensity;
+        std::optional<int> scent_mask;
 
         int butchering_quality = 0;
 
         cata::value_ptr<mut_transform> transform;
+
+        // Cosmetic variants of this mutation
+        std::map<std::string, mutation_variant> variants;
 
         std::vector<std::vector<reflex_activation_data>> trigger_list;
 
@@ -199,59 +249,59 @@ struct mutation_branch {
         std::map<skill_id, int> craft_skill_bonus;
 
         /**What do you smell like*/
-        cata::optional<scenttype_id> scent_typeid;
+        std::optional<scenttype_id> scent_typeid;
 
         /**Map of glowing body parts and their glow intensity*/
         std::map<bodypart_str_id, float> lumination;
 
         /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
         float fat_to_max_hp = 0.0f;
-        /**How fast does healthy tends toward healthy_mod*/
+        /**How fast does lifetsyle tends toward daily_health*/
         float healthy_rate = 1.0f;
 
         /**maximum damage dealt by water every minute when wet. Can be negative and regen hit points.*/
         int weakness_to_water = 0;
 
-        cata::optional<float> crafting_speed_multiplier = cata::nullopt;
+        std::optional<float> crafting_speed_multiplier = std::nullopt;
 
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
-        cata::optional<float> stealth_modifier = cata::nullopt;
+        std::optional<float> stealth_modifier = std::nullopt;
 
         // Speed lowers--or raises--for every X F (X C) degrees below or above 65 F (18.3 C)
-        cata::optional<float> temperature_speed_modifier = cata::nullopt;
+        std::optional<float> temperature_speed_modifier = std::nullopt;
         // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
-        cata::optional<float> metabolism_modifier = cata::nullopt;
+        std::optional<float> metabolism_modifier = std::nullopt;
         // As above but for thirst.
-        cata::optional<float> thirst_modifier = cata::nullopt;
+        std::optional<float> thirst_modifier = std::nullopt;
         // As above but for fatigue.
-        cata::optional<float> fatigue_modifier = cata::nullopt;
+        std::optional<float> fatigue_modifier = std::nullopt;
         // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
-        cata::optional<float> fatigue_regen_modifier = cata::nullopt;
+        std::optional<float> fatigue_regen_modifier = std::nullopt;
         // Modifier for the rate at which stamina regenerates.
-        cata::optional<float> stamina_regen_modifier = cata::nullopt;
+        std::optional<float> stamina_regen_modifier = std::nullopt;
         // the modifier for obtaining an item from a container as a handling penalty
-        cata::optional<float> obtain_cost_multiplier = cata::nullopt;
+        std::optional<float> obtain_cost_multiplier = std::nullopt;
         // the modifier for the stomach size
-        cata::optional<float> stomach_size_multiplier = cata::nullopt;
+        std::optional<float> stomach_size_multiplier = std::nullopt;
         // the modifier for the vomit chance
-        cata::optional<float> vomit_multiplier = cata::nullopt;
+        std::optional<float> vomit_multiplier = std::nullopt;
         // the modifier for sweat amount
-        cata::optional<float> sweat_multiplier = cata::nullopt;
+        std::optional<float> sweat_multiplier = std::nullopt;
 
         // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
-        cata::optional<float> overmap_sight = cata::nullopt;
+        std::optional<float> overmap_sight = std::nullopt;
 
         // Multiplier for sight range, defaulting to 1.
-        cata::optional<float> overmap_multiplier = cata::nullopt;
+        std::optional<float> overmap_multiplier = std::nullopt;
 
         // Multiplier for reading speed, defaulting to 1.
-        cata::optional<float> reading_speed_multiplier = cata::nullopt;
+        std::optional<float> reading_speed_multiplier = std::nullopt;
 
         // Multiplier for skill rust delay, defaulting to 1.
-        cata::optional<float> skill_rust_multiplier = cata::nullopt;
+        std::optional<float> skill_rust_multiplier = std::nullopt;
 
         // Multiplier for consume time, defaulting to 1.
-        cata::optional<float> consume_time_modifier = cata::nullopt;
+        std::optional<float> consume_time_modifier = std::nullopt;
 
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
@@ -279,22 +329,26 @@ struct mutation_branch {
         std::set<bodypart_str_id> no_cbm_on_bp;
 
         // amount of mana added or subtracted from max
-        cata::optional<float> mana_modifier = cata::nullopt;
-        cata::optional<float> mana_multiplier = cata::nullopt;
-        cata::optional<float> mana_regen_multiplier = cata::nullopt;
+        std::optional<float> mana_modifier = std::nullopt;
+        std::optional<float> mana_multiplier = std::nullopt;
+        std::optional<float> mana_regen_multiplier = std::nullopt;
         // for every point of bionic power, reduces max mana pool by 1 * bionic_mana_penalty
-        cata::optional<float> bionic_mana_penalty = cata::nullopt;
-        cata::optional<float> casting_time_multiplier = cata::nullopt;
+        std::optional<float> bionic_mana_penalty = std::nullopt;
+        std::optional<float> casting_time_multiplier = std::nullopt;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         // hide activation menu when activating - preferred for spell targeting activations
-        cata::optional<bool> hide_on_activated = cata::nullopt;
+        std::optional<bool> hide_on_activated = std::nullopt;
         // hide activation menu when deactivating - preferred for spell targeting deactivations
-        cata::optional<bool> hide_on_deactivated = cata::nullopt;
+        std::optional<bool> hide_on_deactivated = std::nullopt;
         /** Monster cameras added by this mutation */
         std::map<mtype_id, int> moncams;
         /** effect_on_conditions triggered when this mutation activates */
         std::vector<effect_on_condition_id> activated_eocs;
+        // if the above activated eocs should be run without turning on the mutation
+        bool activated_is_setup = false;
+        /** effect_on_conditions triggered while this mutation is active */
+        std::vector<effect_on_condition_id> processed_eocs;
         /** effect_on_conditions triggered when this mutation deactivates */
         std::vector<effect_on_condition_id> deactivated_eocs;
         /** mutation enchantments */
@@ -339,6 +393,10 @@ struct mutation_branch {
         std::map<bodypart_str_id, float> encumbrance_multiplier_always;
         // Body parts that now need OVERSIZE gear
         std::set<bodypart_str_id> restricts_gear;
+        std::set<sub_bodypart_str_id> restricts_gear_subparts;
+        // Body parts that will now already have rigid gear
+        std::set<bodypart_str_id> remove_rigid;
+        std::set<sub_bodypart_str_id> remove_rigid_subparts;
         // item flags that allow wearing gear even if its body part is restricted
         std::set<flag_id> allowed_items;
         // Mutation stat mods
@@ -353,17 +411,36 @@ struct mutation_branch {
         translation raw_name;
         translation raw_desc;
     public:
-        std::string name() const;
-        std::string desc() const;
+        std::string name( const std::string &variant = "" ) const;
+        std::string desc( const std::string &variant = "" ) const;
 
         /**
          * Returns the color to display the mutation name with.
          */
         nc_color get_display_color() const;
         /**
+         * Picks a variant out of the possibilities based on their wieghts.
+         * If all have zero weights, returns nullptr
+         */
+        const mutation_variant *pick_variant() const;
+        /**
+         * Returns a pointer to the mutation variant with corresponding id, or nullptr if none exists
+         */
+        const mutation_variant *variant( const std::string &id ) const;
+        /**
+         * Have the player pick a variant out of the options available.
+         * Return a pointer to the variant
+         * Returns nullptr and does not open a menu if there are no variants.
+         */
+        const mutation_variant *pick_variant_menu() const;
+        /**
          * Returns true if a character with this mutation shouldn't be able to wear given item.
          */
         bool conflicts_with_item( const item &it ) const;
+        /**
+         * Returns true if a character with this mutation has to take off rigid items at the location.
+         */
+        bool conflicts_with_item_rigid( const item &it ) const;
         /**
          * Returns damage resistance on a given body part granted by this mutation.
          */
@@ -372,11 +449,6 @@ struct mutation_branch {
          * Returns bionic slot bonus on a given body part granted by this mutation
          */
         int bionic_slot_bonus( const bodypart_str_id &part ) const;
-        /**
-         * Shortcut for getting the name of a (translated) mutation, same as
-         * @code get( mutation_id ).name @endcode
-         */
-        static std::string get_name( const trait_id &mutation_id );
         /**
          * All known mutations. Key is the mutation id, value is the mutation_branch that you would
          * also get by calling @ref get.
@@ -400,9 +472,20 @@ struct mutation_branch {
          */
         static bool trait_is_blacklisted( const trait_id &tid );
 
+        /**
+         * Load a trait migration given by JSON object.
+         */
+        static void load_trait_migration( const JsonObject &jo );
+
+        /**
+         * Give the appropriate replacement migrated trait
+         */
+        static const trait_replacement &trait_migration( const trait_id &tid );
+
         /** called after all JSON has been read and performs any necessary cleanup tasks */
-        static void finalize();
+        static void finalize_all();
         static void finalize_trait_blacklist();
+        void finalize();
 
         /**
          * @name Trait groups
@@ -492,12 +575,20 @@ struct mutation_category_trait {
 
         // Meta-label indicating that the category isn't finished yet.
         bool wip = false;
+        // Skip consistency tests for this category. This should only really be used on categories that only contain dummy mutations.
+        bool skip_test = false;
         // Mutation category i.e "BIRD", "CHIMERA"
         mutation_category_id id;
         // The trait that you gain when you break the threshold for this category
         trait_id threshold_mut;
+        // Amount of vitamin necessary to attempt breaking the threshold
+        int threshold_min = 2200;
         // Mutation vitamin
         vitamin_id vitamin;
+        // Chance to remove base traits
+        int base_removal_chance = 100;
+        // Multiplier of vitamin costs when mutating this category removes starting traits
+        float base_removal_cost_mul = 3.0f;
 
         static const std::map<mutation_category_id, mutation_category_trait> &get_all();
         static const mutation_category_trait &get_category(
@@ -513,8 +604,10 @@ bool mutation_category_is_valid( const mutation_category_id &cat );
 bool mutation_type_exists( const std::string &id );
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );
 std::vector<trait_id> get_mutations_in_type( const std::string &id );
-bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
-bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept;
+bool mutation_is_in_category( const trait_id &mut, const mutation_category_id &cat );
+std::vector<trait_and_var> mutations_var_in_type( const std::string &id );
+bool trait_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
+bool trait_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
 
 bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );

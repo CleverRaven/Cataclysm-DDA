@@ -25,7 +25,13 @@
     "worn_override": "REFUGEE_Pablo_worn",
     "carry_override": "REFUGEE_Pablo_carried",
     "weapon_override": "REFUGEE_Pablo_wield",
-    "traits": [ { "trait": "QUICK" }, { "trait": "Exp_Bookkeeping1" }, { "group": "Appearance_Latin" } ],
+    "traits": [
+      { "trait": "QUICK" },
+      { "trait": "Exp_Bookkeeping1" },
+      { "group": "Appearance_Latin" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -5 ] } ] } ] } },
       { "skill": "computer", "bonus": { "rng": [ 1, 2 ] } },
@@ -119,7 +125,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_1a",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         "*dusts off his jacket and makes eye contact with you.  \"",
         [ "Hello, nice to see you again.", "It's good to see you're still around." ],
         "\""

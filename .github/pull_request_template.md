@@ -2,7 +2,7 @@
 Leave the headings unless they don't apply to your PR.
 
 Please read carefully and don't delete the comments delimited by "< !--" and "-- >"
-Once a pull request is submitted automatic stylistic and consistency checks will be performed on the PR's changes.
+Once a pull request is submitted, automatic stylistic and consistency checks will be performed on the PR's changes.
 The results of these can be either seen under the "Files changed" section of a PR or in the check's details.
 
 NOTE: Please grant permission for repository maintainers to edit your PR.  It is EXTREMELY common for PRs to be held up due to trivial changes being requested and the author being unavailable to make them. -->
@@ -20,7 +20,7 @@ https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/changelog.txt -->
 
 #### Purpose of change
 
-<!-- With a few sentences, describe your reasons for making this change.  If it relates to an existing issue, you can link it with a # followed by the GitHub issue number, like #1234.  If your pull request *fully* resolves an issue, include the word "Fix" or "Fixes" before the issue number, like: Fixes #1234.
+<!-- With a few sentences, describe your reasons for making this change.  If it relates to an existing issue, you can link it with a # followed by the GitHub issue number, like #1234.  If your pull request *fully* resolves an issue, include the word "Fix" or "Fixes" before the issue number, like: Fixes #xxxx
 If there is no related issue, explain here what issue, feature, or other concern you are addressing.  If this is a bugfix, include steps to reproduce the original bug, so your fix can be verified. -->
 
 #### Describe the solution
@@ -33,8 +33,14 @@ If there is no related issue, explain here what issue, feature, or other concern
 
 #### Testing
 
-<!-- Describe what steps you took to test that this PR resolved the bug or added the feature, and what tests you performed to make sure it didn't cause any regressions.  Also include testing suggestions for reviewers and maintainers. -->
+<!-- Describe what steps you took to test that this PR resolved the bug or added the feature, and what tests you performed to make sure it didn't cause any regressions.  Also include testing suggestions for reviewers and maintainers. See TESTING_YOUR_CHANGES.md -->
 
 #### Additional context
 
 <!-- Add any other context (such as mock-ups, proof of concepts or screenshots) about the feature or bugfix here. -->
+
+
+<!--README: Cataclysm: Dark Days Ahead is released under the Creative Commons Attribution ShareAlike 3.0 license.
+The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever.
+By contributing to the project you agree to the term of the license and that any contribution you make will also be covered by the same license.
+See http://creativecommons.org/licenses/by-sa/3.0/ for details. -->

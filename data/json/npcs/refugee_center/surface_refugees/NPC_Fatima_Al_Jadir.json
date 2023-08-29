@@ -26,7 +26,12 @@
     "worn_override": "REFUGEE_Fatima_worn",
     "carry_override": "REFUGEE_Fatima_carried",
     "weapon_override": "REFUGEE_Fatima_wield",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_SouthAsian" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "proficiencies": [ "prof_metalworking", "prof_welding_basic", "prof_welding" ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ -2, 1 ] } ] } ] } },
@@ -118,7 +123,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_1a",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         "*futilely dusts a bit of grime on her coveralls, then looks at you.  \"",
         [ "Hello again.", "Good to see you're still around.", "Oh, hi." ],
         "\""

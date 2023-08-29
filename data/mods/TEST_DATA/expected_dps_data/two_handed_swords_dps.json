@@ -1,0 +1,23 @@
+[
+  {
+    "type": "test_data",
+    "//": "expected value around 27, 25 for long swords",
+    "expected_dps": {
+      "mc_estoc": 26.377,
+      "estoc_inferior": 15.5,
+      "estoc_fake": 8.95,
+      "mc_katana": 26.005,
+      "katana_inferior": 15.586,
+      "katana_fake": 8.078,
+      "mc_longsword": 26.329,
+      "longsword_inferior": 15.5,
+      "longsword_fake": 7.572,
+      "mc_nodachi": 27.598,
+      "nodachi_inferior": 16.25,
+      "nodachi_fake": 9.324,
+      "mc_zweihander": 27.512,
+      "zweihander_inferior": 17.374,
+      "zweihander_fake": 12.868
+    }
+  }
+]

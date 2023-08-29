@@ -1,18 +1,5 @@
 [
   {
-    "id": "fd_clairvoyant",
-    "type": "field_type",
-    "intensity_levels": [ { "name": "clairvoyance", "sym": "8", "dangerous": false } ],
-    "decay_amount_factor": 5,
-    "gas_absorption_factor": 12,
-    "dirty_transparency_cache": true,
-    "outdoor_age_speedup": "0 turns",
-    "priority": 8,
-    "half_life": "1 seconds",
-    "phase": "solid",
-    "display_field": false
-  },
-  {
     "id": "fd_vault_atmosphere",
     "type": "field_type",
     "intensity_levels": [
@@ -91,13 +78,29 @@
       }
     ],
     "description_affix": "covered_in",
-    "immunity_data": { "traits": [ "SHAPESHIFTER" ] },
+    "immunity_data": { "flags": [ "ALKAHEST_IMMUNE" ] },
     "underwater_age_speedup": "8 h",
     "priority": 2,
     "half_life": "8 h",
     "phase": "liquid",
     "display_field": true,
     "looks_like": "fd_sludge"
+  },
+  {
+    "id": "fd_eshaper_dust",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "dust", "sym": "~", "dangerous": false, "transparent": false, "translucency": 14 } ],
+    "decay_amount_factor": 15,
+    "gas_absorption_factor": 5,
+    "percent_spread": 30,
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "priority": 8,
+    "half_life": "20 seconds",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_tear_gas"
   },
   {
     "id": "fd_cold_energy",
@@ -127,7 +130,44 @@
         "effects": [ { "effect_id": "ice_energy", "intensity": 3, "immune_in_vehicle": true, "is_environmental": false } ]
       }
     ],
-    "immunity_data": { "traits": [ "PERMAFROST_MAGE" ] },
+    "immunity_data": { "flags": [ "COLD_ENERGY_IMMUNE" ] },
     "half_life": "3 seconds"
+  },
+  {
+    "id": "fd_fog_permanent",
+    "type": "field_type",
+    "copy-from": "fd_fog",
+    "half_life": "999999999 minutes",
+    "looks_like": "fd_fog"
+  },
+  {
+    "id": "fd_kelvinist_warmth",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "heated air", "sym": "&", "convection_temperature_mod": 7 },
+      { "color": "yellow", "convection_temperature_mod": 15 },
+      { "color": "red", "convection_temperature_mod": 30 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 50,
+    "outdoor_age_speedup": "15 minutes",
+    "priority": 7,
+    "half_life": "30 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_kelvinist_cold",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "chill air", "sym": "&", "convection_temperature_mod": -7 },
+      { "color": "blue", "convection_temperature_mod": -15 },
+      { "color": "cyan", "convection_temperature_mod": -30 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 50,
+    "outdoor_age_speedup": "15 minutes",
+    "priority": 7,
+    "half_life": "30 minutes",
+    "phase": "gas"
   }
 ]

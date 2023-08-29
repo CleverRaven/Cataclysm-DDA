@@ -9,6 +9,7 @@
 #include <iosfwd>
 #include <list>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -18,9 +19,9 @@
 #include "color.h"
 #include "common_types.h"
 #include "coordinates.h"
+#include "cube_direction.h"
 #include "enum_bitset.h"
 #include "mapgen_parameter.h"
-#include "optional.h"
 #include "point.h"
 #include "translations.h"
 #include "type_id.h"
@@ -41,10 +42,10 @@ struct mapgen_arguments;
 struct oter_t;
 struct overmap_location;
 
-static const overmap_land_use_code_id land_use_code_forest( "forest" );
-static const overmap_land_use_code_id land_use_code_wetland( "wetland" );
-static const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
-static const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_saltwater" );
+inline const overmap_land_use_code_id land_use_code_forest( "forest" );
+inline const overmap_land_use_code_id land_use_code_wetland( "wetland" );
+inline const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
+inline const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_saltwater" );
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -106,6 +107,8 @@ type random();
 /** Whether these directions are parallel. */
 bool are_parallel( type dir1, type dir2 );
 
+type from_cube( cube_direction, const std::string &error_msg );
+
 } // namespace om_direction
 
 template<>
@@ -145,8 +148,7 @@ struct overmap_spawns {
         }
 
     protected:
-        template<typename JsonObjectType>
-        void load( const JsonObjectType &jo ) {
+        void load( const JsonObject &jo ) {
             jo.read( "group", group );
             jo.read( "population", population );
         }
@@ -159,9 +161,8 @@ struct overmap_static_spawns : public overmap_spawns {
         return overmap_spawns::operator==( rhs ) && chance == rhs.chance;
     }
 
-    template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
-    void deserialize( const Value &jsin ) {
-        auto jo = jsin.get_object();
+    void deserialize( const JsonValue &jsin ) {
+        JsonObject jo = jsin.get_object();
         overmap_spawns::load( jo );
         jo.read( "chance", chance );
     }
@@ -220,7 +221,6 @@ struct oter_type_t {
     public:
         static const oter_type_t null_type;
 
-    public:
         string_id<oter_type_t> id;
         std::vector<std::pair<string_id<oter_type_t>, mod_id>> src;
         translation name;
@@ -232,6 +232,8 @@ struct oter_type_t {
         unsigned char travel_cost = 5;  // Affects the pathfinding and travel times
         std::string extras = "none";
         int mondensity = 0;
+        effect_on_condition_id entry_EOC;
+        effect_on_condition_id exit_EOC;
         // Spawns are added to the submaps *once* upon mapgen of the submaps
         overmap_static_spawns static_spawns;
         bool was_loaded = false;
@@ -344,6 +346,14 @@ struct oter_t {
             return type->mondensity;
         }
 
+        effect_on_condition_id get_entry_EOC() const {
+            return type->entry_EOC;
+        }
+
+        effect_on_condition_id get_exit_EOC() const {
+            return type->exit_EOC;
+        }
+
         const overmap_static_spawns &get_static_spawns() const {
             return type->static_spawns;
         }
@@ -416,7 +426,7 @@ struct oter_t {
 // OMSPEC_FREQ determines the length of the side of the square in which each
 // overmap special will be placed.  At OMSPEC_FREQ 6, the overmap is divided
 // into 900 squares; lots of space for interesting stuff!
-static constexpr int OMSPEC_FREQ = 15;
+constexpr int OMSPEC_FREQ = 15;
 
 struct overmap_special_spawns : public overmap_spawns {
     numeric_interval<int> radius;
@@ -425,9 +435,8 @@ struct overmap_special_spawns : public overmap_spawns {
         return overmap_spawns::operator==( rhs ) && radius == rhs.radius;
     }
 
-    template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
-    void deserialize( const Value &jsin ) {
-        auto jo = jsin.get_object();
+    void deserialize( const JsonValue &jsin ) {
+        JsonObject jo = jsin.get_object();
         overmap_spawns::load( jo );
         jo.read( "radius", radius );
     }
@@ -444,7 +453,7 @@ struct overmap_special_locations {
      * It's true if oter meets any of locations.
      */
     bool can_be_placed_on( const oter_id &oter ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonArray &ja );
 };
 
 struct overmap_special_terrain : overmap_special_locations {
@@ -455,21 +464,20 @@ struct overmap_special_terrain : overmap_special_locations {
     oter_str_id terrain;
     std::set<std::string> flags;
 
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &om );
 };
 
 struct overmap_special_connection {
     tripoint p;
-    cata::optional<tripoint> from;
-    om_direction::type initial_dir = om_direction::type::invalid; // NOLINT(cata-serialize)
+    std::optional<tripoint> from;
+    cube_direction initial_dir = cube_direction::last; // NOLINT(cata-serialize)
     // TODO: Remove it.
     string_id<oter_type_t> terrain;
     string_id<overmap_connection> connection;
     bool existing = false;
 
-    template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
-    void deserialize( const Value &jsin ) {
-        auto jo = jsin.get_object();
+    void deserialize( const JsonValue &jsin ) {
+        JsonObject jo = jsin.get_object();
         jo.read( "point", p );
         jo.read( "terrain", terrain );
         jo.read( "existing", existing );
@@ -511,6 +519,12 @@ class overmap_special
         }
         bool is_rotatable() const {
             return rotatable_;
+        }
+        bool has_eoc() const {
+            return has_eoc_;
+        }
+        effect_on_condition_id get_eoc() const {
+            return eoc;
         }
         bool can_spawn() const;
         /** Returns terrain at the given point. */
@@ -559,7 +573,8 @@ class overmap_special
         overmap_special_subtype subtype_;
         overmap_special_placement_constraints constraints_;
         shared_ptr_fast<const overmap_special_data> data_;
-
+        effect_on_condition_id eoc;
+        bool has_eoc_ = false;
         bool rotatable_ = true;
         overmap_special_spawns monster_spawns_;
         cata::flat_set<std::string> flags_;
@@ -573,7 +588,7 @@ struct overmap_special_migration {
     public:
         static void load_migrations( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static void check();
         // Check if the given overmap special should be migrated
         static bool migrated( const overmap_special_id &os_id );

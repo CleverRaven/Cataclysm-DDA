@@ -1,0 +1,126 @@
+[
+  {
+    "//1": "Only used for displaying as a widget in the sidebar.  Not to be included with other bodygraphs.",
+    "//2": "Note: The code assumes the graph is at most 15x13 (WxH)",
+    "type": "body_graph",
+    "id": "full_body_widget",
+    "fill_sym": "#",
+    "fill_color": "white",
+    "rows": [
+      "     1e1                                ",
+      "     1m1                                ",
+      "    22222                               ",
+      "  322222225                             ",
+      "  332222255                             ",
+      " 33 22222 55                            ",
+      " 3  22222  5                            ",
+      "4  7772999  6                           ",
+      "   777 999                              ",
+      "   777 999                              ",
+      "    77 99                               ",
+      "    77 99                               ",
+      "     8 0                                ",
+      "                                        ",
+      "                                        ",
+      "                                        ",
+      "                                        ",
+      "                                        ",
+      "                                        ",
+      "                                        "
+    ],
+    "parts": {
+      "e": { "body_parts": [ "eyes" ] },
+      "m": { "body_parts": [ "mouth" ] },
+      "1": { "body_parts": [ "head" ] },
+      "2": { "body_parts": [ "torso" ] },
+      "3": { "body_parts": [ "arm_r" ] },
+      "4": { "body_parts": [ "hand_r" ] },
+      "5": { "body_parts": [ "arm_l" ] },
+      "6": { "body_parts": [ "hand_l" ] },
+      "7": { "body_parts": [ "leg_r" ] },
+      "8": { "body_parts": [ "foot_r" ] },
+      "9": { "body_parts": [ "leg_l" ] },
+      "0": { "body_parts": [ "foot_l" ] }
+    }
+  },
+  {
+    "//1": "Only used for displaying as a widget in the sidebar.  Not to be included with other bodygraphs.",
+    "//2": "Note: The code assumes the graph is at most 15x13 (WxH)",
+    "type": "body_graph",
+    "id": "compact_full_body_widget",
+    "fill_sym": "#",
+    "fill_color": "white",
+    "rows": [
+      "   1e1                                  ",
+      "   1m1                                  ",
+      "  32225                                 ",
+      " 3 222 5                                ",
+      "4  729  6                               ",
+      "   7 9                                  ",
+      "  88 00                                 "
+    ],
+    "parts": {
+      "e": { "body_parts": [ "eyes" ] },
+      "m": { "body_parts": [ "mouth" ] },
+      "1": { "body_parts": [ "head" ] },
+      "2": { "body_parts": [ "torso" ] },
+      "3": { "body_parts": [ "arm_r" ] },
+      "4": { "body_parts": [ "hand_r" ] },
+      "5": { "body_parts": [ "arm_l" ] },
+      "6": { "body_parts": [ "hand_l" ] },
+      "7": { "body_parts": [ "leg_r" ] },
+      "8": { "body_parts": [ "foot_r" ] },
+      "9": { "body_parts": [ "leg_l" ] },
+      "0": { "body_parts": [ "foot_l" ] }
+    }
+  },
+  {
+    "//1": "Only used for displaying as a widget in the sidebar.  Not to be included with other bodygraphs.",
+    "//2": "Note: The code assumes the graph is at most 15x13 (WxH)",
+    "type": "body_graph",
+    "id": "tiny_full_body_widget",
+    "fill_sym": "#",
+    "fill_color": "white",
+    "rows": [
+      "1eme1                                   ",
+      "43256                                   ",
+      "87 90                                   "
+    ],
+    "fill_rows": [
+      "(⁰⎼⁰)                                   ",
+      "₀/∀\\₀                                   ",
+      "_╱ ╲_                                   "
+    ],
+    "parts": {
+      "e": { "body_parts": [ "eyes" ] },
+      "m": { "body_parts": [ "mouth" ] },
+      "1": { "body_parts": [ "head" ] },
+      "2": { "body_parts": [ "torso" ] },
+      "3": { "body_parts": [ "arm_r" ] },
+      "4": { "body_parts": [ "hand_r" ] },
+      "5": { "body_parts": [ "arm_l" ] },
+      "6": { "body_parts": [ "hand_l" ] },
+      "7": { "body_parts": [ "leg_r" ] },
+      "8": { "body_parts": [ "foot_r" ] },
+      "9": { "body_parts": [ "leg_l" ] },
+      "0": { "body_parts": [ "foot_l" ] }
+    }
+  },
+  {
+    "//1": "Only used for displaying as a widget in the sidebar.  Not to be included with other bodygraphs.",
+    "//2": "Note: The code assumes the graph is at most 15x13 (WxH)",
+    "type": "body_graph",
+    "id": "tiny_full_body_side_widget",
+    "copy-from": "tiny_full_body_widget",
+    "rows": [
+      " 1em                                    ",
+      "43256                                   ",
+      "87 90                                   "
+    ],
+    "fill_rows": [
+      " (⁰◀                                    ",
+      "₀/∀\\₀                                   ",
+      "_╱ ╲_                                   "
+    ]
+  }
+]

@@ -26,7 +26,6 @@
     "symbol": "LINE_XOXO",
     "looks_like": "t_rock_wall",
     "color": "light_gray",
-    "connects_to": "WALL",
     "move_cost": 0,
     "coverage": 100,
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],

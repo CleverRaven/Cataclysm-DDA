@@ -1,0 +1,163 @@
+[
+  {
+    "type": "overmap_terrain",
+    "name": "border patrol office",
+    "id": [
+      "field_office_1",
+      "field_office_2",
+      "field_office_3",
+      "field_office_4",
+      "field_office_5",
+      "field_office_6",
+      "field_office_7",
+      "field_office_8",
+      "field_office_9",
+      "field_office_10",
+      "field_office_11",
+      "field_office_12",
+      "field_office_13",
+      "field_office_14",
+      "field_office_15",
+      "field_office_16",
+      "field_office_ex_1",
+      "field_office_ex_2",
+      "field_office_ex_3",
+      "field_office_ex_4",
+      "field_office_ex_5",
+      "field_office_ex_6",
+      "field_office_ex_7",
+      "field_office_ex_8",
+      "field_office_ex_9",
+      "field_office_ex_10",
+      "field_office_ex_11",
+      "field_office_ex_12",
+      "field_office_ex_13",
+      "field_office_ex_14",
+      "field_office_ex_15",
+      "field_office_ex_16",
+      "field_office_17",
+      "field_office_18",
+      "field_office_19",
+      "field_office_20"
+    ],
+    "copy-from": "generic_large_office_tower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "boann_sidhe_island",
+    "name": "forest?",
+    "sym": "F",
+    "color": "c_light_green",
+    "looks_like": "forest",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "boann_sidhe_z1",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue",
+    "looks_like": "open_air",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "safe_house" ],
+    "copy-from": "generic_city_house"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "safe_house_roof" ],
+    "copy-from": "generic_city_house_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "safe_house_basement" ],
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "cathedralv_1_NW",
+      "cathedralv_1_NE",
+      "cathedralv_1_SW",
+      "cathedralv_1_SE",
+      "cathedralv_2_NW",
+      "cathedralv_2_NE",
+      "cathedralv_2_SW",
+      "cathedralv_2_SE",
+      "cathedralv_3_NW",
+      "cathedralv_3_NE",
+      "cathedralv_3_SW",
+      "cathedralv_3_SE"
+    ],
+    "name": "cathedral",
+    "sym": "C",
+    "color": "i_light_red",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "cathedralv_4_NW",
+      "cathedralv_4_NE",
+      "cathedralv_5_NW",
+      "cathedralv_5_NE",
+      "cathedralv_6_NW",
+      "cathedralv_6_NE",
+      "cathedralv_7_NW",
+      "cathedralv_7_NE"
+    ],
+    "copy-from": "cathedral_1_NW",
+    "name": "cathedral tower",
+    "delete": { "flags": [ "SIDEWALK" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cathedralv_b_NW", "cathedralv_b_NE", "cathedralv_b_SW", "cathedralv_b_SE" ],
+    "copy-from": "cathedral_1_NW",
+    "name": "cathedral basement",
+    "delete": { "flags": [ "SIDEWALK" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "ierde_genius_loci_NW",
+      "ierde_genius_loci_NE",
+      "ierde_genius_loci_SW",
+      "ierde_genius_loci_SE",
+      "undine_genius_loci_NW",
+      "undine_genius_loci_NE",
+      "undine_genius_loci_SW",
+      "undine_genius_loci_SE",
+      "sylph_genius_loci_NW",
+      "sylph_genius_loci_NE",
+      "sylph_genius_loci_SW",
+      "sylph_genius_loci_SE",
+      "arvore_genius_loci_NW",
+      "arvore_genius_loci_NE",
+      "arvore_genius_loci_SW",
+      "arvore_genius_loci_SE",
+      "salamander_genius_loci_NW",
+      "salamander_genius_loci_NE",
+      "salamander_genius_loci_SW",
+      "salamander_genius_loci_SE",
+      "homullus_genius_loci_NW",
+      "homullus_genius_loci_NE",
+      "homullus_genius_loci_SW",
+      "homullus_genius_loci_SE",
+      "genius_loci_NW_roof",
+      "genius_loci_NE_roof",
+      "genius_loci_SW_roof",
+      "genius_loci_SE_roof"
+    ],
+    "name": "elemental altar",
+    "sym": "O",
+    "color": "light_green",
+    "looks_like": "standing_stones",
+    "see_cost": 5,
+    "mondensity": 2
+  }
+]

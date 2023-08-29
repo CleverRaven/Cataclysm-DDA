@@ -9,7 +9,7 @@
     "difficulty": 1,
     "time": "100 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 10 ] ],
+    "using": [ [ "sewing_simple", 10 ] ],
     "components": [ [ [ "grass_yarn", 5 ] ] ]
   },
   {
@@ -22,7 +22,7 @@
     "difficulty": 1,
     "time": "110 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 30 ] ],
+    "using": [ [ "sewing_simple", 30 ] ],
     "components": [ [ [ "grass_yarn", 10 ] ] ]
   },
   {
@@ -36,7 +36,7 @@
     "time": "10 m",
     "autolearn": true,
     "id_suffix": "from_sheet",
-    "using": [ [ "sewing_standard", 20 ] ],
+    "using": [ [ "sewing_simple", 20 ] ],
     "components": [ [ [ "grass_sheet", 2 ] ] ]
   },
   {
@@ -48,8 +48,8 @@
     "skill_used": "tailor",
     "time": "80 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "rag", 60 ] ] ]
+    "using": [ [ "tailoring_cotton_patchwork_simple", 33 ] ],
+    "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 2 ] ]
   },
   {
     "result": "electric_blanket",
@@ -62,9 +62,15 @@
     "skills_required": [ "electronics", 2 ],
     "time": "120 m",
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
-    "using": [ [ "sewing_standard", 20 ], [ "soldering_standard", 20 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 33 ], [ "soldering_standard", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
-    "components": [ [ [ "rag", 35 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "element", 8 ] ], [ [ "cable", 10 ] ], [ [ "amplifier", 1 ] ] ]
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "amplifier", 1 ] ]
+    ],
+    "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 2 ] ]
   },
   {
     "result": "gold_ring",
@@ -80,7 +86,7 @@
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "gold_small", 3 ] ] ]
+    "components": [ [ [ "gold_small", 2 ] ] ]
   },
   {
     "result": "gold_bracelet",
@@ -96,7 +102,7 @@
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "gold_small", 12 ] ] ]
+    "components": [ [ [ "gold_small", 8 ] ] ]
   },
   {
     "result": "copper_bracelet",
@@ -112,7 +118,7 @@
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
+    "components": [ [ [ "copper", 9 ] ] ]
   },
   {
     "type": "recipe",
@@ -128,7 +134,7 @@
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "silver_small", 15 ] ] ]
+    "components": [ [ [ "silver_small", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -164,8 +170,9 @@
     "difficulty": 1,
     "time": "85 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 160 ] ] ]
+    "using": [ [ "tailoring_cotton_patchwork_simple", 33 ] ],
+    "components": [ [ [ "down_feather", 160 ] ] ],
+    "byproducts": [ [ "scrap_cotton", 2 ] ]
   },
   {
     "result": "fur_blanket",
@@ -177,12 +184,11 @@
     "difficulty": 1,
     "skills_required": [ "survival", 1 ],
     "time": "80 m",
-    "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 24 ] ],
+    "using": [ [ "tailoring_cotton_patchwork_simple", 33 ], [ "tailoring_fur_patchwork_simple", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
-    "components": [ [ [ "rag", 30 ] ], [ [ "fur", 10 ], [ "tanned_pelt", 2 ] ] ]
+    "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 2 ], [ "fur", 3 ] ]
   },
   {
     "result": "fur_cat_tail",
@@ -321,15 +327,14 @@
     "components": [ [ [ "leather", 2 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
-    "result": "rebreather_filter",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_OTHER",
-    "skill_used": "fabrication",
+    "result": "rebreather_filler_soda_lime",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
     "difficulty": 5,
-    "skills_required": [ "chemistry", 1 ],
-    "time": "60 m",
+    "time": "2 h",
     "book_learn": [
       [ "textbook_fireman", 4 ],
       [ "atomic_survival", 4 ],
@@ -338,17 +343,176 @@
       [ "emergency_book", 3 ],
       [ "textbook_gaswarfare", 4 ]
     ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "batch_time_factors": [ 80, 2 ],
+    "charges": 90,
+    "using": [ [ "forging_standard", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 60, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "material_quicklime", 70 ] ], [ [ "lye_potassium", 4 ], [ "lye", 4 ] ] ],
+    "//": "Quicklime is slaked with KOH solution (1 part KOH per 2 parts CaO, I assume mass), after that water is evaporated, the resulting mix is heated up in a crucible and resulting chunks are broken into granules"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "rebreather_filler_ko2",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 5,
+    "time": "1 h 40 m",
+    "book_learn": [
+      [ "textbook_fireman", 4 ],
+      [ "atomic_survival", 4 ],
+      [ "adv_chemistry", 4 ],
+      [ "textbook_chemistry", 4 ],
+      [ "emergency_book", 3 ],
+      [ "textbook_gaswarfare", 4 ]
+    ],
+    "batch_time_factors": [ 80, 4 ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "charges": 90,
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
+    "components": [ [ [ "chem_potassium", 350 ] ] ],
+    "//": "Potassium is just heated up until it reacts with the oxygen in air"
+  },
+  {
+    "result": "rebreather_cartridge_air",
+    "id_suffix": "ground_up",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "flags": [ "FULL_MAGAZINE" ],
+    "time": "60 m",
+    "book_learn": [
+      [ "textbook_fireman", 4 ],
+      [ "atomic_survival", 4 ],
+      [ "emergency_book", 3 ],
+      [ "textbook_gaswarfare", 4 ],
+      [ "manual_swimming", 3 ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" } ],
+    "using": [ [ "soldering_standard", 40 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
-      [ [ "oxy_powder", 50 ] ],
-      [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],
+      [ [ "hose", 2 ] ],
+      [ [ "rebreather_filler_soda_lime", 90 ] ],
       [ [ "superglue", 1 ] ],
-      [ [ "scrap", 2 ], [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ]
+      [ [ "wire_mesh", 1 ] ],
+      [ [ "scrap", 8 ], [ "can_food", 4 ], [ "can_drink", 4 ], [ "canister_empty", 4 ] ],
+      [ [ "small_scuba_tank", 1 ], [ "oxygen_tank", 1 ] ]
     ]
   },
   {
-    "result": "gasfilter_s",
+    "result": "rebreather_cartridge_o2",
+    "id_suffix": "ground_up",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "flags": [ "FULL_MAGAZINE" ],
+    "time": "60 m",
+    "book_learn": [
+      [ "textbook_fireman", 4 ],
+      [ "atomic_survival", 4 ],
+      [ "emergency_book", 3 ],
+      [ "textbook_gaswarfare", 4 ],
+      [ "manual_swimming", 3 ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" } ],
+    "using": [ [ "soldering_standard", 40 ] ],
+    "tools": [ [ [ "pseudo_app_oxygen_concentrator", 1620 ] ], [ [ "pseudo_app_hd_compressor_unit", 1350 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [
+      [ [ "hose", 2 ] ],
+      [ [ "rebreather_filler_soda_lime", 180 ] ],
+      [ [ "superglue", 1 ] ],
+      [ [ "wire_mesh", 1 ] ],
+      [ [ "scrap", 8 ], [ "can_food", 4 ], [ "can_drink", 4 ], [ "canister_empty", 4 ] ],
+      [ [ "small_scuba_tank", 1 ], [ "oxygen_tank", 1 ] ]
+    ]
+  },
+  {
+    "result": "rebreather_cartridge_air",
+    "id_suffix": "refill",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "flags": [ "FULL_MAGAZINE" ],
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "rebreather_filler_soda_lime", 90 ] ], [ [ "rebreather_cartridge_air", 1 ], [ "rebreather_cartridge_o2", 1 ] ] ]
+  },
+  {
+    "result": "rebreather_cartridge_o2",
+    "id_suffix": "refill",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "flags": [ "FULL_MAGAZINE" ],
+    "time": "20 m",
+    "autolearn": true,
+    "tools": [ [ [ "pseudo_app_oxygen_concentrator", 1620 ] ], [ [ "pseudo_app_hd_compressor_unit", 1350 ] ] ],
+    "components": [ [ [ "rebreather_filler_soda_lime", 180 ] ], [ [ "rebreather_cartridge_air", 1 ], [ "rebreather_cartridge_o2", 1 ] ] ]
+  },
+  {
+    "result": "rebreather_cartridge_regen",
+    "id_suffix": "ground_up",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "flags": [ "FULL_MAGAZINE" ],
+    "time": "50 m",
+    "book_learn": [
+      [ "textbook_fireman", 4 ],
+      [ "atomic_survival", 4 ],
+      [ "emergency_book", 3 ],
+      [ "textbook_gaswarfare", 4 ],
+      [ "manual_swimming", 3 ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" } ],
+    "using": [ [ "soldering_standard", 40 ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [
+      [ [ "hose", 2 ] ],
+      [ [ "rebreather_filler_ko2", 360 ] ],
+      [ [ "superglue", 1 ] ],
+      [ [ "wire_mesh", 1 ] ],
+      [ [ "scrap", 10 ], [ "can_food", 5 ], [ "can_drink", 5 ], [ "canister_empty", 5 ] ]
+    ]
+  },
+  {
+    "result": "rebreather_cartridge_regen",
+    "id_suffix": "refill",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "flags": [ "FULL_MAGAZINE" ],
+    "time": "15 m",
+    "autolearn": true,
+    "components": [ [ [ "rebreather_cartridge_regen", 1 ] ], [ [ "rebreather_filler_ko2", 360 ] ] ]
+  },
+  {
+    "result": "gasfilter_sm",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -357,10 +521,10 @@
     "difficulty": 2,
     "time": "5 m",
     "autolearn": true,
-    "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ], [ "bottle_plastic_small", 1 ] ] ]
+    "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "plastic_sheet_small", 1 ], [ "bottle_plastic_small", 1 ] ] ]
   },
   {
-    "result": "gasfilter_m",
+    "result": "gasfilter_med",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -369,34 +533,7 @@
     "difficulty": 2,
     "time": "10 m",
     "autolearn": true,
-    "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ], [ "bottle_plastic_small", 1 ] ] ]
-  },
-  {
-    "result": "gasfilter_l",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_OTHER",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "skills_required": [ "chemistry", 1 ],
-    "time": "60 m",
-    "book_learn": [
-      [ "textbook_fireman", 4 ],
-      [ "atomic_survival", 4 ],
-      [ "adv_chemistry", 4 ],
-      [ "textbook_chemistry", 4 ],
-      [ "emergency_book", 3 ],
-      [ "textbook_gaswarfare", 4 ]
-    ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "oxy_powder", 50 ] ],
-      [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],
-      [ [ "superglue", 1 ] ],
-      [ [ "scrap", 2 ], [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ]
-    ]
+    "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "plastic_sheet_small", 1 ], [ "bottle_plastic_small", 1 ] ] ]
   },
   {
     "result": "sleeping_bag_roll",
@@ -410,8 +547,7 @@
     "time": "75 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "rag", 30 ] ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 28 ] ]
   },
   {
     "result": "sleeping_bag_fur_roll",
@@ -423,20 +559,20 @@
     "difficulty": 5,
     "skills_required": [ "survival", 1 ],
     "time": "75 m",
-    "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ], [ "pocket_survival", 1 ] ],
-    "using": [ [ "sewing_standard", 30 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 17 ], [ "sewing_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ],
-    "components": [ [ [ "rag", 10 ] ], [ [ "fur", 18 ], [ "tanned_pelt", 3 ], [ "wool_staple", 9 ] ] ]
+    "components": [ [ [ "sheet_fur_patchwork", 3 ], [ "tanned_pelt", 3 ], [ "wool_staple", 9 ] ] ],
+    "byproducts": [ [ "cotton_patchwork", 1 ] ]
   },
   {
     "result": "survivor_belt_notools",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_OTHER",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 3 ],
@@ -463,7 +599,7 @@
     "time": "6 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 7 ] ],
-    "components": [ [ [ "rag", 5 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 11 ] ] ]
   },
   {
     "type": "recipe",
@@ -477,5 +613,44 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "lighter", 5 ], [ "ref_lighter", 5 ], [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "wax", 1 ], [ "candle", 1 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "belt_loop_small",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "nylon", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "belt_loop_medium",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "belt_loop_small", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "belt_loop_large",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "belt_loop_medium", 2 ] ] ]
   }
 ]

@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <iosfwd>
 #include <new>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -13,7 +14,6 @@
 #include "catacharset.h"
 #include "color.h"
 #include "damage.h"
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -38,22 +38,11 @@ struct enum_traits<precip_class> {
     static constexpr precip_class last = precip_class::last;
 };
 
-enum class sun_intensity_type : int {
-    none,
-    light,
-    normal,
-    high,
-    last
-};
-template<>
-struct enum_traits<sun_intensity_type > {
-    static constexpr sun_intensity_type last = sun_intensity_type::last;
-};
-
 enum weather_sound_category : int {
     silent,
     drizzle,
     rainy,
+    rainstorm,
     thunder,
     flurries,
     snowstorm,
@@ -102,6 +91,8 @@ struct weather_type {
         float sight_penalty = 0.0f;
         // Modification to ambient light.
         int light_modifier = 0;
+        // Multiplier to radiation from Sun.
+        float sun_multiplier = 1.f;
         // Sound attenuation of a given weather type.
         int sound_attn = 0;
         // If true, our activity gets interrupted.
@@ -110,22 +101,22 @@ struct weather_type {
         precip_class precip = precip_class::none;
         // Whether said precipitation falls as rain.
         bool rains = false;
-        // Whether said precipitation is acidic.
-        bool acidic = false;
         // string for tiles animation
         std::string tiles_animation;
         // Information for weather animations
         weather_animation_t weather_animation;
         // if playing sound effects what to use
         weather_sound_category sound_category = weather_sound_category::silent;
-        // strength of the sun
-        sun_intensity_type sun_intensity = sun_intensity_type::none;
+        // if multiple weather conditions are true the higher priority wins
+        int priority = 0;
         // when this weather should happen
-        std::function<bool( const dialogue & )> condition;
+        std::function<bool( dialogue & )> condition;
         std::vector<weather_type_id> required_weathers;
         time_duration duration_min = 0_turns;
         time_duration duration_max = 0_turns;
-        void load( const JsonObject &jo, const std::string &src );
+        std::optional<std::string> debug_cause_eoc;
+        std::optional<std::string> debug_leave_eoc;
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
         std::string get_symbol() const {

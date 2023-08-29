@@ -7,6 +7,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -15,7 +16,6 @@
 #include <vector>
 
 #include "memory_fast.h"
-#include "optional.h"
 #include "point.h"
 #include "translations.h"
 #include "type_id.h"
@@ -31,7 +31,7 @@ class map;
 struct construction;
 
 using faction_id = string_id<faction>;
-static const faction_id your_fac( "your_followers" );
+inline const faction_id your_fac( "your_followers" );
 const std::string type_fac_hash_str = "__FAC__";
 
 //Generic activity: maximum search distance for zones, constructions, etc.
@@ -56,10 +56,11 @@ class zone_type
         std::string desc() const;
 
         bool can_be_personal = false;
+        bool hidden = false;
 
         static void load_zones( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string & );
+        void load( const JsonObject &jo, std::string_view );
         /**
          * All spells in the game.
          */
@@ -172,6 +173,12 @@ class blueprint_options : public zone_options, public mark_option
         query_con_result query_con();
 
     public:
+        blueprint_options() = default;
+        blueprint_options( std::string mark, construction_group_str_id const &group,
+                           construction_id const &index )
+            : mark( std::move( mark ) ), group( group ), index( index ) {
+        }
+
         std::string get_mark() const override {
             return mark;
         }
@@ -216,6 +223,59 @@ class loot_options : public zone_options, public mark_option
     public:
         std::string get_mark() const override {
             return mark;
+        }
+
+        void set_mark( std::string const &nmark ) {
+            mark = nmark;
+        }
+
+        bool has_options() const override {
+            return true;
+        }
+
+        bool query_at_creation() override;
+        bool query() override;
+
+        std::string get_zone_name_suggestion() const override;
+
+        std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
+
+        void serialize( JsonOut &json ) const override;
+        void deserialize( const JsonObject &jo_zone ) override;
+};
+
+class unload_options : public zone_options, public mark_option
+{
+    private:
+        // what to unload
+        std::string mark;
+        bool mods;
+        bool molle;
+        bool always_unload;
+
+        enum query_unload_result {
+            canceled,
+            successful,
+            changed,
+        };
+
+        query_unload_result query_unload();
+
+    public:
+        std::string get_mark() const override {
+            return mark;
+        }
+
+        bool unload_mods() const {
+            return mods;
+        }
+
+        bool unload_molle() const {
+            return molle;
+        }
+
+        bool unload_always() const {
+            return always_unload;
         }
 
         void set_mark( std::string const &nmark ) {
@@ -300,7 +360,7 @@ class zone_data
         // returns true if type is changed
         bool set_type();
         void set_position( const std::pair<tripoint, tripoint> &position, bool manual = true,
-                           bool update_avatar = true );
+                           bool update_avatar = true, bool skip_cache_update = false );
         void set_enabled( bool enabled_arg );
         void set_temporary_disabled( bool enabled_arg );
         void set_is_vehicle( bool is_vehicle_arg );
@@ -308,12 +368,19 @@ class zone_data
         static std::string make_type_hash( const zone_type_id &_type, const faction_id &_fac ) {
             return _type.c_str() + type_fac_hash_str + _fac.c_str();
         }
-        static zone_type_id unhash_type( const std::string &hash_type ) {
+        static zone_type_id unhash_type( const std::string_view hash_type ) {
             size_t end = hash_type.find( type_fac_hash_str );
             if( end != std::string::npos && end < hash_type.size() ) {
                 return zone_type_id( hash_type.substr( 0, end ) );
             }
             return zone_type_id( "" );
+        }
+        static faction_id unhash_fac( const std::string_view hash_type ) {
+            size_t start = hash_type.find( type_fac_hash_str ) + type_fac_hash_str.size();
+            if( start != std::string::npos ) {
+                return faction_id( hash_type.substr( start ) );
+            }
+            return faction_id( "" );
         }
         std::string get_name() const {
             return name;
@@ -355,7 +422,7 @@ class zone_data
             }
             return tripoint_abs_ms{ end };
         }
-        void update_cached_shift( tripoint_abs_ms player_loc ) {
+        void update_cached_shift( const tripoint_abs_ms &player_loc ) {
             cached_shift = player_loc;
         }
         tripoint_abs_ms get_center_point() const;
@@ -432,9 +499,14 @@ class zone_manager
         void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
                   bool invert, bool enabled,
                   const tripoint &start, const tripoint &end,
-                  const shared_ptr_fast<zone_options> &options = nullptr, const bool personal = false,
+                  const shared_ptr_fast<zone_options> &options = nullptr, bool personal = false,
                   bool silent = false, map *pmap = nullptr );
-        const zone_data *get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type ) const;
+        // get first matching zone
+        const zone_data *get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type,
+                                      const faction_id &fac = your_fac ) const;
+        // get all matching zones (useful for LOOT_CUSTOM and LOOT_ITEM_GROUP)
+        std::vector<zone_data const *> get_zones_at( const tripoint_abs_ms &where, const zone_type_id &type,
+                const faction_id &fac = your_fac ) const;
         void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
                                        zone_data &new_zone, map *pmap = nullptr );
 
@@ -459,11 +531,14 @@ class zone_manager
                        int range = MAX_DISTANCE, const faction_id &fac = your_fac ) const;
         bool has_loot_dest_near( const tripoint_abs_ms &where ) const;
         bool custom_loot_has( const tripoint_abs_ms &where, const item *it,
-                              const zone_type_id &ztype ) const;
+                              const zone_type_id &ztype, const faction_id &fac = your_fac ) const;
+        std::vector<zone_data const *> get_near_zones( const zone_type_id &type,
+                const tripoint_abs_ms &where, int range,
+                const faction_id &fac = your_fac ) const;
         std::unordered_set<tripoint_abs_ms> get_near(
             const zone_type_id &type, const tripoint_abs_ms &where, int range = MAX_DISTANCE,
             const item *it = nullptr, const faction_id &fac = your_fac ) const;
-        cata::optional<tripoint_abs_ms> get_nearest(
+        std::optional<tripoint_abs_ms> get_nearest(
             const zone_type_id &type, const tripoint_abs_ms &where, int range = MAX_DISTANCE,
             const faction_id &fac = your_fac ) const;
         zone_type_id get_near_zone_type_for_item( const item &it, const tripoint_abs_ms &where,
@@ -474,8 +549,8 @@ class zone_manager
                                       const faction_id &fac = your_fac ) const;
         const zone_data *get_bottom_zone( const tripoint_abs_ms &where,
                                           const faction_id &fac = your_fac ) const;
-        cata::optional<std::string> query_name( const std::string &default_name = "" ) const;
-        cata::optional<zone_type_id> query_type( bool personal = false ) const;
+        std::optional<std::string> query_name( const std::string &default_name = "" ) const;
+        std::optional<zone_type_id> query_type( bool personal = false ) const;
         void swap( zone_data &a, zone_data &b );
         void rotate_zones( map &target_map, int turns );
         // list of tripoints of zones that are loot zones only
@@ -491,10 +566,10 @@ class zone_manager
 
         bool has_personal_zones() const;
 
-        bool save_zones();
-        bool save_world_zones();
-        void load_zones();
-        void load_world_zones();
+        bool save_zones( std::string const &suffix = {} );
+        bool save_world_zones( std::string const &suffix = {} );
+        void load_zones( std::string const &suffix = {} );
+        void load_world_zones( std::string const &suffix = {} );
         void zone_edited( zone_data &zone );
         void revert_vzones();
         void serialize( JsonOut &json ) const;

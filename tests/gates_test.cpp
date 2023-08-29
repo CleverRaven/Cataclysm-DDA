@@ -10,7 +10,7 @@
 #include "sounds.h"
 #include "type_id.h"
 
-TEST_CASE( "doors should be able to open and close", "[gates]" )
+TEST_CASE( "doors_should_be_able_to_open_and_close", "[gates]" )
 {
     map &here = get_map();
     clear_map();
@@ -23,7 +23,7 @@ TEST_CASE( "doors should be able to open and close", "[gates]" )
         REQUIRE( here.ter( pos ).obj().id == t_door_c->id );
 
         THEN( "the door should be able to open and close" ) {
-            CHECK( here.open_door( pos, true, false ) );
+            CHECK( here.open_door( get_avatar(), pos, true, false ) );
             CHECK( here.ter( pos ).obj().id == t_door_o->id );
 
             CHECK( here.close_door( pos, true, false ) );
@@ -42,7 +42,7 @@ TEST_CASE( "doors should be able to open and close", "[gates]" )
     }
 }
 
-TEST_CASE( "windows should be able to open and close", "[gates]" )
+TEST_CASE( "windows_should_be_able_to_open_and_close", "[gates]" )
 {
     map &here = get_map();
     clear_map();
@@ -55,7 +55,7 @@ TEST_CASE( "windows should be able to open and close", "[gates]" )
 
     WHEN( "the window is opened from the inside" ) {
         THEN( "the window should be able to open" ) {
-            CHECK( here.open_door( pos, true, false ) );
+            CHECK( here.open_door( get_avatar(), pos, true, false ) );
             CHECK( here.ter( pos ).obj().id == t_window_no_curtains_open->id );
         }
     }
@@ -70,7 +70,7 @@ TEST_CASE( "windows should be able to open and close", "[gates]" )
 // Note that it is not intended for all doors and windows to make swish sound,
 // some doors and windows might make other types of sounds in the future
 // TODO: update test case when door and window sounds become defined in JSON.
-TEST_CASE( "doors and windows should make whoosh sound", "[gates]" )
+TEST_CASE( "doors_and_windows_should_make_whoosh_sound", "[gates]" )
 {
     map &here = get_map();
     clear_map();
@@ -86,7 +86,7 @@ TEST_CASE( "doors and windows should make whoosh sound", "[gates]" )
         // make sure there is no sounds before action
         REQUIRE( sounds::get_monster_sounds().first.empty() );
 
-        REQUIRE( here.open_door( pos, true, false ) );
+        REQUIRE( here.open_door( get_avatar(), pos, true, false ) );
         REQUIRE( here.ter( pos ).obj().id == t_door_o->id );
 
         THEN( "the door should make a swish sound" ) {
@@ -114,7 +114,7 @@ TEST_CASE( "doors and windows should make whoosh sound", "[gates]" )
         // make sure there is no sounds before action
         REQUIRE( sounds::get_monster_sounds().first.empty() );
 
-        REQUIRE( here.open_door( pos, true, false ) );
+        REQUIRE( here.open_door( get_avatar(), pos, true, false ) );
         REQUIRE( here.ter( pos ).obj().id == t_window_no_curtains_open->id );
 
         THEN( "the window should make a swish sound" ) {
@@ -137,7 +137,7 @@ TEST_CASE( "doors and windows should make whoosh sound", "[gates]" )
     }
 }
 
-TEST_CASE( "character should lose moves when opening or closing doors or windows", "[gates]" )
+TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows", "[gates]" )
 {
     avatar &they = get_avatar();
     map &here = get_map();

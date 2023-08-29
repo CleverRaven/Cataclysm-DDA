@@ -1,0 +1,82 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_DEFENSE_WANDERER",
+    "dynamic_line": {
+      "npc_has_var": "knows_u",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "yes": "<greet>",
+      "no": "Freeze you <swear> <zombies>!"
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "&Hold up your hands.  \"Don't worry, I'm not going to hurt you\"",
+        "topic": "TALK_NPC_DEFENSE_WANDERER_CALM",
+        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "Hand over your stuff!  Don't make any sudden moves, or you die!",
+        "trial": { "type": "INTIMIDATE", "difficulty": 30 },
+        "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" },
+        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "Nice to see you.",
+        "topic": "TALK_NPC_DEFENSE_WANDERER_INTRO",
+        "condition": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      { "text": "Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_DEFENSE_WANDERER_CALM",
+    "dynamic_line": "Oh, you're not one of the <zombies>.  I'm glad to see another survivor out here, such a relief.",
+    "responses": [
+      { "text": "Alright, let's chat.", "topic": "TALK_NPC_DEFENSE_WANDERER_INTRO" },
+      { "text": "I'll be back later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_DEFENSE_WANDERER_INTRO",
+    "dynamic_line": [ "What's up?", "What do you need?", "What can I do for you?" ],
+    "responses": [
+      { "text": "What are you doing out here in the sticks?", "topic": "TALK_NPC_DEFENSE_WANDERER_STORY" },
+      { "text": "Care to trade?", "topic": "TALK_NPC_DEFENSE_WANDERER_INTRO", "effect": "start_trade" },
+      {
+        "text": "Why don't you come with me, maybe we can hold out here?",
+        "trial": { "type": "PERSUADE", "difficulty": -35, "mod": [ [ "value", 2 ] ] },
+        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
+        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 0, "fear": 0 } }
+      },
+      { "text": "I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_DEFENSE_WANDERER_STORY",
+    "dynamic_line": "I can't remember, actually.  I have a fague sense of being in my house, asleep, before I woke up in the middle of a field.  I have this strange feeling that something's after me, keep seeing things out in the woods, so I had to keep moving.",
+    "//": "Potential lore?  This could be a good mystery.",
+    "responses": [
+      { "text": "Seems like a hard life.", "topic": "TALK_NPC_DEFENSE_WANDERER_INTRO" },
+      { "text": "Where'd you get all your stuff at?", "topic": "TALK_NPC_DEFENSE_WANDERER_STUFF" },
+      {
+        "text": "I guess we're both in a similar predicament, then.  Why not team up with me?  We can hold out together and try to stay alive.",
+        "trial": { "type": "PERSUADE", "difficulty": -35, "mod": [ [ "value", 2 ] ] },
+        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
+        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 0, "fear": 0 } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_DEFENSE_WANDERER_STUFF",
+    "dynamic_line": "I just found it near where I woke up at.  Who's it was and where it came from I have no idea, but I couldn't find anyone else around, and it seemed like it'd all been left there for someone to pick up.",
+    "responses": [ { "text": "Makes sense.", "topic": "TALK_NPC_DEFENSE_WANDERER_INTRO" } ]
+  }
+]

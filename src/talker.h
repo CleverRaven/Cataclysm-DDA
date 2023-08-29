@@ -4,13 +4,15 @@
 
 #include "coordinates.h"
 #include "effect.h"
+#include "item.h"
+#include "messages.h"
+#include "type_id.h"
 #include "units.h"
 #include "units_fwd.h"
 #include <list>
 
 class computer;
 class faction;
-class item;
 class item_location;
 class mission;
 class monster;
@@ -21,6 +23,8 @@ class recipe;
 struct tripoint;
 class vehicle;
 
+using bodytype_id = std::string;
+
 /*
  * Talker is an entity independent way of providing a participant in a dialogue.
  * Talker is a virtual abstract class and should never really be used.  Instead,
@@ -30,6 +34,9 @@ class talker
 {
     public:
         virtual ~talker() = default;
+        virtual std::unique_ptr<talker> clone() const {
+            return std::make_unique<talker>();
+        }
         // virtual member accessor functions
         virtual Character *get_character() {
             return nullptr;
@@ -52,7 +59,7 @@ class talker
         virtual monster *get_monster() {
             return nullptr;
         }
-        virtual monster *get_monster() const {
+        virtual const monster *get_monster() const {
             return nullptr;
         }
         virtual Creature *get_creature() {
@@ -89,8 +96,15 @@ class talker
         virtual int posz() const {
             return 0;
         }
-        virtual tripoint pos() const = 0;
-        virtual tripoint_abs_omt global_omt_location() const = 0;
+        virtual tripoint pos() const {
+            return {};
+        }
+        virtual tripoint_abs_ms global_pos() const {
+            return {};
+        }
+        virtual tripoint_abs_omt global_omt_location() const {
+            return {};
+        }
         virtual void set_pos( tripoint ) {}
         virtual std::string distance_to_goal() const {
             return "";
@@ -116,6 +130,15 @@ class talker
         }
         virtual int get_cur_hp( const bodypart_id & ) const {
             return 0;
+        }
+        virtual int get_hp_max( const bodypart_id & ) const {
+            return 0;
+        }
+        virtual int get_cur_part_temp( const bodypart_id & ) const {
+            return 0;
+        }
+        virtual bool get_is_alive() const {
+            return false;
         }
 
         // stats, skills, traits, bionics, and magic
@@ -166,17 +189,47 @@ class talker
         virtual int get_skill_level( const skill_id & ) const {
             return 0;
         }
+        virtual int get_spell_level( const trait_id & ) const {
+            return 0;
+        }
+        virtual int get_spell_level( const spell_id & ) const {
+            return 0;
+        }
+        virtual int get_spell_exp( const spell_id & ) const {
+            return 0;
+        }
+        virtual int get_highest_spell_level() const {
+            return 0;
+        }
+        virtual void set_spell_level( const spell_id &, int ) {}
+        virtual void set_spell_exp( const spell_id &, int ) {}
         virtual void set_skill_level( const skill_id &, int ) {}
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
+        virtual bool has_recipe( const recipe_id & ) const {
+            return false;
+        }
+        virtual void learn_recipe( const recipe_id & ) {}
+        virtual void forget_recipe( const recipe_id & ) {}
         virtual void mutate( const int &, const bool & ) {}
         virtual void mutate_category( const mutation_category_id &, const bool & ) {}
         virtual void set_mutation( const trait_id & ) {}
         virtual void unset_mutation( const trait_id & ) {}
+        virtual void activate_mutation( const trait_id & ) {}
+        virtual void deactivate_mutation( const trait_id & ) {}
         virtual void set_fatigue( int ) {};
         virtual bool has_flag( const json_character_flag & ) const {
             return false;
+        }
+        virtual bool has_species( const species_id & ) const {
+            return false;
+        }
+        virtual bool bodytype( const bodytype_id & ) const {
+            return false;
+        }
+        virtual int get_grab_strength() const {
+            return 0;
         }
         virtual bool crossed_threshold() const {
             return false;
@@ -196,6 +249,10 @@ class talker
         virtual bool knows_proficiency( const proficiency_id & ) const {
             return false;
         }
+        virtual time_duration proficiency_practiced_time( const proficiency_id & ) const {
+            return 0_seconds;
+        }
+        virtual void set_proficiency_practiced_time( const proficiency_id &, int ) {}
         virtual std::vector<skill_id> skills_offered_to( const talker & ) const {
             return {};
         }
@@ -208,22 +265,40 @@ class talker
         virtual std::string skill_training_text( const talker &, const skill_id & ) const {
             return {};
         }
+        virtual std::vector<proficiency_id> proficiencies_teacheable() const {
+            return {};
+        }
         virtual std::vector<proficiency_id> proficiencies_offered_to( const talker & ) const {
+            return {};
+        }
+        virtual std::string proficiency_seminar_text( const proficiency_id & ) const {
             return {};
         }
         virtual std::string proficiency_training_text( const talker &, const proficiency_id & ) const {
             return {};
         }
+        virtual std::vector<matype_id> styles_teacheable() const {
+            return {};
+        }
         virtual std::vector<matype_id> styles_offered_to( const talker & ) const {
+            return {};
+        }
+        virtual std::string style_seminar_text( const matype_id & ) const {
             return {};
         }
         virtual std::string style_training_text( const talker &, const matype_id & ) const {
             return {};
         }
-        virtual std::vector<spell_id> spells_offered_to( talker & ) {
+        virtual std::vector<spell_id> spells_teacheable() const {
             return {};
         }
-        virtual std::string spell_training_text( talker &, const spell_id & ) {
+        virtual std::vector<spell_id> spells_offered_to( talker & ) const {
+            return {};
+        }
+        virtual std::string spell_seminar_text( const spell_id & ) const {
+            return {};
+        }
+        virtual std::string spell_training_text( talker &, const spell_id & ) const {
             return {};
         }
         virtual void store_chosen_training( const skill_id &, const matype_id &,
@@ -246,7 +321,7 @@ class talker
         virtual bool is_mute() const {
             return false;
         }
-        virtual void add_effect( const efftype_id &, const time_duration &, std::string, bool, bool,
+        virtual void add_effect( const efftype_id &, const time_duration &, const std::string &, bool, bool,
                                  int ) {}
         virtual void remove_effect( const efftype_id & ) {}
         virtual void add_bionic( const bionic_id & ) {}
@@ -309,6 +384,7 @@ class talker
             return {};
         }
         virtual void i_add( const item & ) {}
+        virtual void i_add_or_drop( item & ) {}
         virtual void remove_items_with( const std::function<bool( const item & )> & ) {}
         virtual bool unarmed_attack() const {
             return false;
@@ -411,7 +487,16 @@ class talker
         virtual int get_thirst() const {
             return 0;
         }
+        virtual int get_instant_thirst() const {
+            return 0;
+        }
         virtual int get_stored_kcal() const {
+            return 0;
+        }
+        virtual int get_healthy_kcal() const {
+            return 0;
+        }
+        virtual int get_size() const {
             return 0;
         }
         virtual int get_stim() const {
@@ -448,7 +533,17 @@ class talker
             return true;
         }
         virtual void mod_pain( int ) {}
+        virtual void set_pain( int ) {}
         virtual int pain_cur() const {
+            return 0;
+        }
+        virtual void attack_target( Creature &, bool, const matec_id &,
+                                    bool, int ) {}
+
+        virtual int attack_speed() const {
+            return 0;
+        }
+        virtual double armor_at( damage_type_id &, bodypart_id & ) const {
             return 0;
         }
         virtual bool worn_with_flag( const flag_id &, const bodypart_id & ) const {
@@ -459,6 +554,9 @@ class talker
         }
         virtual bool has_item_with_flag( const flag_id & ) const {
             return false;
+        }
+        virtual int item_rads( const flag_id &, aggregate_type ) const {
+            return 0;
         }
         virtual units::energy power_cur() const {
             return 0_kJ;
@@ -474,7 +572,7 @@ class talker
             return 0;
         }
         virtual void set_mana_cur( int ) {}
-        virtual void mod_healthy_mod( int, int ) {}
+        virtual void mod_daily_health( int, int ) {}
         virtual int morale_cur() const {
             return 0;
         }
@@ -554,6 +652,35 @@ class talker
         }
         virtual int get_body_temp_delta() const {
             return 0;
+        }
+        virtual std::vector<bodypart_id> get_all_body_parts( bool, bool ) const {
+            return std::vector<bodypart_id>();
+        }
+        virtual int get_part_hp_cur( const bodypart_id & ) const {
+            return 0;
+        }
+        virtual int get_part_hp_max( const bodypart_id & ) const {
+            return 0;
+        }
+        virtual void set_all_parts_hp_cur( int ) const {}
+        virtual void set_part_hp_cur( const bodypart_id &, int ) const {}
+        virtual void die() {}
+        virtual matec_id get_random_technique( Creature &, bool, bool,
+                                               bool, const std::vector<matec_id> & = {} ) const {
+            return matec_id();
+        }
+        virtual void learn_martial_art( const matype_id & ) const {}
+        virtual void forget_martial_art( const matype_id & ) const {}
+        virtual bool knows_martial_art( const matype_id & ) const {
+            return false;
+        }
+};
+template <class T, class B = talker>
+class talker_cloner : public B
+{
+    public:
+        std::unique_ptr<talker> clone() const override {
+            return std::make_unique<T>( static_cast<T const &>( *this ) );
         }
 };
 #endif // CATA_SRC_TALKER_H

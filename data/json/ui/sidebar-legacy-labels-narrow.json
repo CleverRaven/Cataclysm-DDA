@@ -1,0 +1,184 @@
+[
+  {
+    "id": "ln_limbs_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs",
+    "arrange": "rows",
+    "label_align": "left",
+    "text_align": "left",
+    "widgets": [ "status_hpg_layout_head", "status_hpg_layout_larm", "status_hpg_layout_lleg" ]
+  },
+  {
+    "id": "ln_limbs_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs",
+    "arrange": "rows",
+    "label_align": "right",
+    "text_align": "right",
+    "widgets": [ "status_hpg_layout_torso", "status_hpg_layout_rarm", "status_hpg_layout_rleg" ]
+  },
+  {
+    "id": "ln_limbs_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs",
+    "arrange": "columns",
+    "widgets": [ "ln_limbs_left_layout", "ln_limbs_right_layout" ]
+  },
+  {
+    "id": "ln_limbs_sa_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs",
+    "arrange": "rows",
+    "label_align": "left",
+    "text_align": "left",
+    "widgets": [ "status_hpn_layout_head", "status_hpn_layout_larm", "status_hpn_layout_lleg" ]
+  },
+  {
+    "id": "ln_limbs_sa_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs",
+    "arrange": "rows",
+    "label_align": "right",
+    "text_align": "right",
+    "widgets": [ "status_hpn_layout_torso", "status_hpn_layout_rarm", "status_hpn_layout_rleg" ]
+  },
+  {
+    "id": "ln_limbs_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs (self-aware)",
+    "arrange": "columns",
+    "widgets": [ "ln_limbs_sa_left_layout", "ln_limbs_sa_right_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "ln_focus_move_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Focus/Move",
+    "arrange": "columns",
+    "widgets": [ "focus_num", "move_count_mode_desc" ]
+  },
+  {
+    "id": "ln_movement_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Movement",
+    "arrange": "rows",
+    "widgets": [ "sound_mood_layout", "stamina_speed_layout", "ln_focus_move_layout" ]
+  },
+  {
+    "id": "ln_power_safe_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Power/Safe Mode",
+    "arrange": "columns",
+    "widgets": [ "power_short_desc", "safe_mode_desc" ]
+  },
+  {
+    "id": "ln_stats_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stats",
+    "arrange": "rows",
+    "widgets": [ "str_dex_layout", "int_per_layout", "ln_power_safe_layout" ]
+  },
+  {
+    "id": "ln_weariness_desc",
+    "type": "widget",
+    "label": "Weary",
+    "style": "text",
+    "var": "weariness_text"
+  },
+  {
+    "id": "ln_transition_graph",
+    "type": "widget",
+    "label": "WTrans",
+    "style": "graph",
+    "symbols": ".\\|",
+    "width": 5,
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "var": "weary_transition_level"
+  },
+  {
+    "id": "ln_activity_desc",
+    "type": "widget",
+    "label": "Act",
+    "copy-from": "activity_desc"
+  },
+  {
+    "id": "ln_malus_desc",
+    "type": "widget",
+    "label": "Malus",
+    "style": "text",
+    "var": "weary_malus_text"
+  },
+  {
+    "id": "ln_weary_active_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "ln_weariness_desc", "ln_activity_desc" ]
+  },
+  {
+    "id": "ln_weary_transition_malus_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "ln_transition_graph", "ln_malus_desc" ]
+  },
+  {
+    "id": "ln_weariness_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weariness",
+    "arrange": "rows",
+    "widgets": [ "ln_weary_active_layout", "ln_weary_transition_malus_layout" ]
+  },
+  {
+    "id": "ln_needs_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Needs",
+    "arrange": "rows",
+    "widgets": [ "hunger_desc_label", "thirst_desc_label", "fatigue_desc_label", "pain_desc_label", "body_temp_desc_label" ]
+  },
+  {
+    "id": "ln_needs_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Needs (self-aware)",
+    "arrange": "rows",
+    "widgets": [ "hunger_desc_label", "thirst_desc_label", "fatigue_desc_label", "pain_num_label", "body_temp_desc_label" ]
+  },
+  {
+    "id": "legacy_labels_narrow_sidebar",
+    "type": "widget",
+    "style": "sidebar",
+    "label": "labels narrow",
+    "separator": ": ",
+    "padding": 2,
+    "width": 32,
+    "widgets": [
+      "ln_limbs_layout",
+      "ln_limbs_sa_layout",
+      "ln_movement_layout",
+      "ln_stats_layout",
+      "ln_weariness_layout",
+      "ln_needs_layout",
+      "ln_needs_sa_layout",
+      "all_location_info_rows_layout",
+      "wind_temp_layout",
+      "weapon_style_layout",
+      "vehicle_acf_label_layout",
+      "compass_all_danger_layout",
+      "rad_badge_desc",
+      "sundial_label_layout"
+    ]
+  }
+]

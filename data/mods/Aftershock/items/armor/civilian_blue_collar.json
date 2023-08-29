@@ -1,0 +1,164 @@
+[
+  {
+    "id": "afs_hi_vis_jacket",
+    "repairs_like": "jacket_windbreaker",
+    "type": "ARMOR",
+    "copy-from": "jacket_windbreaker",
+    "looks_like": "jacket_windbreaker",
+    "name": { "str": "hi-vis jacket" },
+    "description": "Glowing orange and very visible indeed.",
+    "color": "red",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      }
+    ]
+  },
+  {
+    "id": "afs_hi_vis_vest",
+    "type": "ARMOR",
+    "copy-from": "vest",
+    "looks_like": "vest",
+    "name": { "str": "hi-vis vest" },
+    "description": "A bright orange winter vest with several front facing pockets.  Not even close to warm enough.",
+    "material": [ "cotton", "plastic" ],
+    "warmth": 70,
+    "material_thickness": 2,
+    "color": "red"
+  },
+  {
+    "id": "afs_company_jacket",
+    "type": "ARMOR",
+    "copy-from": "jacket_windbreaker",
+    "looks_like": "jacket_windbreaker",
+    "name": { "str": "company jacket" },
+    "description": "A synthetic jacket adorned with the logos and colors of some interstellar corporation.  Impermeable, but not very warm.",
+    "color": "blue"
+  },
+  {
+    "id": "afs_supervisor_jacket",
+    "type": "ARMOR",
+    "copy-from": "jacket_windbreaker",
+    "looks_like": "jacket_windbreaker",
+    "name": { "str": "supervisor jacket" },
+    "description": "A variant company jacket tailored to slightly recall a business suit, often issued to low level managers.  Some might think it looks nicer, but it's just as cheaply made.",
+    "color": "blue"
+  },
+  {
+    "id": "afs_work_tie",
+    "type": "ARMOR",
+    "copy-from": "tie_skinny",
+    "looks_like": "tie_skinny",
+    "name": { "str": "worker's tie" },
+    "description": "Calling this thin strip of dark fabric a tie would do it a favour."
+  },
+  {
+    "id": "spacer_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "jumpsuit",
+    "name": { "str": "crew jumpsuit" },
+    "description": "A lightweight cloth jumpsuit adorned with the faded corporate regalia of some freight hauling association or another.  This one is a standard design favored by spacers, with ample, easy access pockets.",
+    "color": "brown"
+  },
+  {
+    "id": "spacer_cap",
+    "type": "ARMOR",
+    "copy-from": "hat_cotton",
+    "material": [ "plastic", "cotton" ],
+    "looks_like": "powered_earmuffs",
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "PARTIAL_DEAF" ],
+    "name": { "str": "communications cap" },
+    "description": "A padded cotton cap built around an augmented reality headset.  During normal operation it would provide visual information about a ship subsystems and a communications link with the rest of the crew, but severed from a spaceship, only their hearing protection function retains any utility.",
+    "armor": [
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 33, "encumbrance": 0 },
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 2 }
+    ],
+    "color": "brown"
+  },
+  {
+    "id": "afs_herc_rig",
+    "type": "ARMOR",
+    "name": { "str": "HERC rig" },
+    "description": "A lightweight steel-reinforced tool carrier.  Keeps your tools safe and about in zero-g, Mars, the bottom of the Pacific, or other generally inhospitable environments.  It has several deep pockets, and two mounting points for pressurized canisters or other large magazines.",
+    "weight": "600 g",
+    "volume": "10 L",
+    "looks_like": "tacvest",
+    "price": 7400,
+    "price_postapoc": 5000,
+    "material": [ "steel", "plastic" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "material_thickness": 2,
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
+    "pocket_data": [
+      {
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "90 cm",
+        "moves": 40,
+        "flag_restriction": [ "BELT_CLIP" ],
+        "rigid": true,
+        "holster": true,
+        "transparent": true
+      },
+      {
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "90 cm",
+        "moves": 40,
+        "flag_restriction": [ "BELT_CLIP" ],
+        "rigid": true,
+        "holster": true,
+        "transparent": true
+      },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "5 kg", "moves": 150 },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "2 L",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "30 kg",
+        "flag_restriction": [ "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "2 L",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "30 kg",
+        "flag_restriction": [ "MAG_BULKY" ],
+        "moves": 60
+      }
+    ],
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "encumbrance": [ 2, 15 ], "coverage": 20, "covers": [ "torso" ] } ]
+  }
+]

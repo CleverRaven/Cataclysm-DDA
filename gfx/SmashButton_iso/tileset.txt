@@ -1,0 +1,13 @@
+NAME: SmashButton_iso
+VIEW: SmashButton iso
+JSON: tile_config.json
+TILESET: SmashButton_iso.png
+Original Author: HitButton
+
+
+#SmashButton iso is an isometric tileset created from scratch, with some inspiration drawn from Retrodays. Initiated by hitbutton under the name Hitbutton iso and later remade by I-am-Erk into Smashbutton iso.
+#it was imported from Cataclysm:Dark Days Ahead under Creative Commons Attribution-ShareAlike 3.0 Unported License(http://creativecommons.org/licenses/by-sa/3.0/)
+#as of https://github.com/CleverRaven/Cataclysm-DDA/commits/3b4c426f00a146738613226b3f43271ceeee8307/gfx/HitButton_iso, see original for attribution details.
+
+#Visit https://discord.gg/kAXNZuy to discuss and contribute to this community-driven tileset!
+#Find source github at https://github.com/I-am-Erk/CDDA-Tilesets/tree/master/gfx/HitButton_iso

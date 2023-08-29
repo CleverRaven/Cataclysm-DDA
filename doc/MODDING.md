@@ -1,4 +1,4 @@
-﻿# Modding guide
+# Modding guide
 
 Certain features of the game can be modified without rebuilding the game from source code. This includes professions, monsters, npcs, and more. Just modify the pertinent files and run the game to see your changes.
 
@@ -284,7 +284,7 @@ Monster stats can be adjusted using the `monster_adjustment` JSON element.
     "type": "monster_adjustment",
     "species": "ZOMBIE",
     "flag": { "name": "REVIVES", "value": false },
-	"stat": { "name": "speed", "modifier": 0.9 }
+	  "stat": { "name": "speed", "modifier": 0.9 }
   }
 ```
 Using this syntax allows modification of the following things:
@@ -315,3 +315,4 @@ Many editors have features that let you track `{ [` and `] }` to see if they're 
 Almost everything in this game can be modded. Almost. This section is intended to chart those areas not supported for modding to save time and headaches.
 
 The Names folder and contents (EN etcetera) confirmed 5/23/20
+Construction recipes. Can be worked around by adding requirements and modding those, confirmed 7/4/22

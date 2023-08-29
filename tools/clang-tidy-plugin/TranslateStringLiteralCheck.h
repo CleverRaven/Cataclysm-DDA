@@ -6,8 +6,8 @@
 #include <clang/ASTMatchers/ASTMatchFinder.h>
 #include <llvm/ADT/StringRef.h>
 
-#include "ClangTidy.h"
-#include "ClangTidyCheck.h"
+#include <clang-tidy/ClangTidy.h>
+#include <clang-tidy/ClangTidyCheck.h>
 
 namespace clang
 {
@@ -22,13 +22,13 @@ namespace cata
 class TranslateStringLiteralCheck : public ClangTidyCheck
 {
     private:
-        static std::string pruneFormatStrings( const std::string &str );
+        static std::string pruneFormatStrings( std::string_view str );
         static std::string pruneTags( const std::string &str );
         static std::string removeSubstrings( const std::string &str,
                                              const std::unordered_set<std::string> &substrings );
-        static std::string extractText( const std::string &str );
+        static std::string extractText( std::string_view str );
         static bool isUnit( const std::string &str );
-        static bool containsTranslatableText( const std::string &str );
+        static bool containsTranslatableText( std::string_view str );
     public:
         TranslateStringLiteralCheck( StringRef Name, ClangTidyContext *Context )
             : ClangTidyCheck( Name, Context ) {}

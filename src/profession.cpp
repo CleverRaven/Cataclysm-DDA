@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "game.h"
+#include "achievement.h"
 #include "addiction.h"
 #include "avatar.h"
 #include "calendar.h"
@@ -19,11 +20,16 @@
 #include "itype.h"
 #include "json.h"
 #include "magic.h"
+#include "mission.h"
+#include "mutation.h"
 #include "options.h"
+#include "past_games_info.h"
 #include "pimpl.h"
 #include "translations.h"
 #include "type_id.h"
 #include "visitable.h"
+
+static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
 
 namespace
 {
@@ -131,7 +137,7 @@ class item_reader : public generic_typed_reader<item_reader>
                 return profession::itypedec( jv.get_string() );
             }
             JsonArray jarr = jv.get_array();
-            const auto id = jarr.get_string( 0 );
+            const std::string id = jarr.get_string( 0 );
             const snippet_id snippet( jarr.get_string( 1 ) );
             return profession::itypedec( id, snippet );
         }
@@ -143,7 +149,7 @@ class item_reader : public generic_typed_reader<item_reader>
         }
 };
 
-void profession::load( const JsonObject &jo, const std::string & )
+void profession::load( const JsonObject &jo, const std::string_view )
 {
     //If the "name" is an object then we have to deal with gender-specific titles,
     if( jo.has_object( "name" ) ) {
@@ -189,6 +195,8 @@ void profession::load( const JsonObject &jo, const std::string & )
         _description_male = to_translation( "prof_desc_male", desc_male );
         _description_female = to_translation( "prof_desc_female", desc_female );
     }
+    optional( jo, was_loaded, "age_lower", age_lower );
+    optional( jo, was_loaded, "age_upper", age_upper );
 
     if( jo.has_string( "vehicle" ) ) {
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
@@ -241,19 +249,22 @@ void profession::load( const JsonObject &jo, const std::string & )
     }
     optional( jo, was_loaded, "no_bonus", no_bonus );
 
+    optional( jo, was_loaded, "requirement", _requirement );
+
     optional( jo, was_loaded, "skills", _starting_skills, skilllevel_reader {} );
     optional( jo, was_loaded, "addictions", _starting_addictions, addiction_reader {} );
     // TODO: use string_id<bionic_type> or so
     optional( jo, was_loaded, "CBMs", _starting_CBMs, string_id_reader<::bionic_data> {} );
     optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
     // TODO: use string_id<mutation_branch> or so
-    optional( jo, was_loaded, "traits", _starting_traits, string_id_reader<::mutation_branch> {} );
+    optional( jo, was_loaded, "traits", _starting_traits );
     optional( jo, was_loaded, "forbidden_traits", _forbidden_traits,
               string_id_reader<::mutation_branch> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 
     // Flag which denotes if a profession is a hobby
     optional( jo, was_loaded, "subtype", _subtype, "" );
+    optional( jo, was_loaded, "missions", _missions, string_id_reader<::mission_type> {} );
 }
 
 const profession *profession::generic()
@@ -296,14 +307,14 @@ void profession::reset()
 void profession::check_definitions()
 {
     item_substitutions.check_consistency();
-    for( const auto &prof : all_profs.get_all() ) {
+    for( const profession &prof : all_profs.get_all() ) {
         prof.check_definition();
     }
 }
 
 void profession::check_item_definitions( const itypedecvec &items ) const
 {
-    for( const auto &itd : items ) {
+    for( const profession::itypedec &itd : items ) {
         if( !item::type_is_defined( itd.type_id ) ) {
             debugmsg( "profession %s: item %s does not exist", id.str(), itd.type_id.str() );
         } else if( !itd.snip_id.is_null() ) {
@@ -355,9 +366,9 @@ void profession::check_definition() const
         }
     }
 
-    for( const auto &t : _starting_traits ) {
-        if( !t.is_valid() ) {
-            debugmsg( "trait %s for profession %s does not exist", t.c_str(), id.c_str() );
+    for( const trait_and_var &t : _starting_traits ) {
+        if( !t.trait.is_valid() ) {
+            debugmsg( "trait %s for profession %s does not exist", t.trait.str(), id.str() );
         }
     }
     for( const auto &elem : _starting_pets ) {
@@ -368,6 +379,17 @@ void profession::check_definition() const
     for( const auto &elem : _starting_skills ) {
         if( !elem.first.is_valid() ) {
             debugmsg( "skill %s for profession %s does not exist", elem.first.c_str(), id.c_str() );
+        }
+    }
+
+    for( const auto &m : _missions ) {
+        if( !m.is_valid() ) {
+            debugmsg( "starting mission %s for profession %s does not exist", m.c_str(), id.c_str() );
+        }
+
+        if( std::find( m->origins.begin(), m->origins.end(), ORIGIN_GAME_START ) == m->origins.end() ) {
+            debugmsg( "starting mission %s for profession %s must include an origin of ORIGIN_GAME_START",
+                      m.c_str(), id.c_str() );
         }
     }
 }
@@ -420,9 +442,7 @@ static void clear_faults( item &it )
     if( it.get_var( "dirt", 0 ) > 0 ) {
         it.set_var( "dirt", 0 );
     }
-    if( it.is_faulty() ) {
-        it.faults.clear();
-    }
+    it.faults.clear();
 }
 
 std::list<item> profession::items( bool male, const std::vector<trait_id> &traits ) const
@@ -460,7 +480,7 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
     for( auto iter = result.begin(); iter != result.end(); ) {
-        const auto sub = item_substitutions.get_substitution( *iter, traits );
+        const std::vector<item> sub = item_substitutions.get_substitution( *iter, traits );
         if( !sub.empty() ) {
             result.insert( result.begin(), sub.begin(), sub.end() );
             iter = result.erase( iter );
@@ -529,7 +549,7 @@ std::vector<proficiency_id> profession::proficiencies() const
     return _starting_proficiencies;
 }
 
-std::vector<trait_id> profession::get_locked_traits() const
+std::vector<trait_and_var> profession::get_locked_traits() const
 {
     return _starting_traits;
 }
@@ -549,15 +569,47 @@ bool profession::has_flag( const std::string &flag ) const
     return flags.count( flag ) != 0;
 }
 
-bool profession::can_pick( const Character &you, const int points ) const
+ret_val<void> profession::can_afford( const Character &you, const int points ) const
 {
-    return point_cost() - you.prof->point_cost() <= points;
+    if( point_cost() - you.prof->point_cost() <= points ) {
+        return ret_val<void>::make_success();
+    }
+
+    return ret_val<void>::make_failure( _( "You don't have enough points" ) );
+}
+
+ret_val<void> profession::can_pick() const
+{
+    // if meta progression is disabled then skip this
+    if( get_past_games().achievement( achievement_achievement_arcade_mode ) ||
+        !get_option<bool>( "META_PROGRESS" ) ) {
+        return ret_val<void>::make_success();
+    }
+
+    if( _requirement ) {
+        const achievement_completion_info *other_games = get_past_games().achievement(
+                    _requirement.value()->id );
+        if( !other_games ) {
+            return ret_val<void>::make_failure(
+                       _( "You must complete the achievement \"%s\" to unlock this profession." ),
+                       _requirement.value()->name() );
+        } else if( other_games->games_completed.empty() ) {
+            return ret_val<void>::make_failure(
+                       _( "You must complete the achievement \"%s\" to unlock this profession." ),
+                       _requirement.value()->name() );
+        }
+    }
+
+    return ret_val<void>::make_success();
 }
 
 bool profession::is_locked_trait( const trait_id &trait ) const
 {
-    return std::find( _starting_traits.begin(), _starting_traits.end(), trait ) !=
-           _starting_traits.end();
+    auto pred = [&trait]( const trait_and_var & query ) {
+        return query.trait == trait;
+    };
+    return std::find_if( _starting_traits.begin(), _starting_traits.end(),
+                         pred ) != _starting_traits.end();
 }
 
 bool profession::is_forbidden_trait( const trait_id &trait ) const
@@ -575,8 +627,8 @@ void profession::learn_spells( avatar &you ) const
     for( const std::pair<spell_id, int> spell_pair : spells() ) {
         you.magic->learn_spell( spell_pair.first, you, true );
         spell &sp = you.magic->get_spell( spell_pair.first );
-        while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
-            sp.gain_level();
+        while( sp.get_level() < spell_pair.second && !sp.is_max_level( you ) ) {
+            sp.gain_level( you );
         }
     }
 }
@@ -603,7 +655,7 @@ json_item_substitution::substitution::info::info( const JsonValue &value )
         jo.read( "item", new_item, true );
         ratio = jo.get_float( "ratio" );
         if( ratio <= 0.0 ) {
-            jo.throw_error( "Ratio must be positive", "ratio" );
+            jo.throw_error_at( "ratio", "Ratio must be positive" );
         }
     }
 }
@@ -772,4 +824,14 @@ const
 bool profession::is_hobby() const
 {
     return _subtype == "hobby";
+}
+
+const std::vector<mission_type_id> &profession::missions() const
+{
+    return _missions;
+}
+
+std::optional<achievement_id> profession::get_requirement() const
+{
+    return _requirement;
 }

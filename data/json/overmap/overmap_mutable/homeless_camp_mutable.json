@@ -7,7 +7,7 @@
     "city_distance": [ 0, 24 ],
     "city_sizes": [ 6, -1 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC", "URBAN" ],
+    "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ],
     "check_for_locations": [
       [ [ 0, 0, 0 ], [ "forest" ] ],
       [ [ 1, 0, 0 ], [ "forest" ] ],

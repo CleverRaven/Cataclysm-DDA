@@ -9,26 +9,29 @@
       [ "huge_atomic_battery_cell", 2 ],
       [ "20x66_20_mag", 10 ],
       [ "20x66_40_mag", 5 ],
-      [ "5x50_50_mag", 5 ],
-      [ "5x50_100_mag", 5 ],
       [ "8x40_10_mag", 5 ],
       [ "8x40_25_mag", 5 ],
       [ "8x40_50_mag", 10 ],
       [ "8x40_100_mag", 10 ],
       [ "8x40_250_mag", 5 ],
       [ "8x40_500_mag", 5 ],
-      [ "hk_g80mag", 40 ],
       [ "hk46mag", 15 ],
       [ "hk46bigmag", 5 ],
       [ "m107a1mag", 50 ],
       [ "tac50mag", 20 ],
+      [ "ai_338mag", 10 ],
+      [ "ai_338mag_10", 10 ],
       [ "m2010mag", 10 ],
       [ "scarhmag", 50 ],
       [ "scarhbigmag", 20 ],
       [ "stanag5", 2 ],
+      [ "stanag5ranger", 1 ],
       [ "stanag10", 5 ],
+      [ "stanag10ranger", 2 ],
       [ "stanag20", 10 ],
+      [ "stanag20ranger", 3 ],
       [ "stanag30", 20 ],
+      [ "stanag30ranger", 5 ],
       [ "stanag40", 2 ],
       [ "stanag50", 2 ],
       [ "stanag60", 3 ],
@@ -48,7 +51,7 @@
     "type": "item_group",
     "id": "mags_military",
     "//": "_DEPRECATED_ Older military magazines still in service.",
-    "items": [ [ "m1911mag", 5 ], [ "m9mag", 15 ], [ "stanag30", 20 ], [ "stanag50", 5 ], [ "usp9mag", 15 ], [ "usp45mag", 5 ] ]
+    "items": [ [ "m1911mag", 5 ], [ "m9mag", 15 ], [ "stanag30", 20 ], [ "stanag50", 5 ], [ "usp45mag", 5 ] ]
   },
   {
     "type": "item_group",
@@ -64,7 +67,9 @@
       [ "m1918mag", 5 ],
       [ "m9mag", 25 ],
       [ "stenmag", 40 ],
-      [ "thompson_mag", 5 ]
+      [ "thompson_mag", 5 ],
+      [ "m1carbinemag", 10 ],
+      [ "m1carbinebigmag", 5 ]
     ]
   },
   {
@@ -101,13 +106,30 @@
       { "item": "hk46bigmag", "prob": 5, "charges": [ 0, 40 ] },
       { "item": "m9bigmag", "prob": 10, "charges": [ 0, 30 ] },
       { "item": "mp5bigmag", "prob": 20, "charges": [ 0, 50 ] },
+      { "item": "stanag30ranger", "prob": 5, "charges": [ 0, 30 ] },
       { "item": "stanag30", "prob": 20, "charges": [ 0, 30 ] },
       { "item": "ump45mag", "prob": 20, "charges": [ 0, 25 ] },
       { "item": "usp45mag", "prob": 10, "charges": [ 0, 12 ] },
       { "item": "usp9mag", "prob": 10, "charges": [ 0, 15 ] },
       { "item": "as50mag", "prob": 2, "charges": [ 0, 10 ] },
+      { "item": "ai_338mag", "prob": 5, "charges": [ 0, 5 ] },
+      { "item": "ai_338mag_10", "prob": 10, "charges": [ 0, 10 ] },
       { "item": "hk417mag_20rd", "prob": 20, "charges": [ 0, 20 ] }
     ]
+  },
+  {
+    "id": "stanag_30_random",
+    "type": "item_group",
+    "//": "one of the possible 30 round stanags",
+    "subtype": "distribution",
+    "entries": [ { "item": "stanag30", "prob": 80 }, { "item": "stanag30ranger", "prob": 20 } ]
+  },
+  {
+    "id": "stanag_10_random",
+    "type": "item_group",
+    "//": "one of the possible 10 round stanags",
+    "subtype": "distribution",
+    "entries": [ { "item": "stanag10", "prob": 80 }, { "item": "stanag10ranger", "prob": 20 } ]
   },
   {
     "type": "item_group",
@@ -139,11 +161,10 @@
       [ "rugerlcpmag", 10 ],
       [ "sw22mag", 10 ],
       [ "p220_10_mag", 1 ],
-      [ "p226mag_15rd_357sig", 25 ],
-      [ "p320mag_14rd_357sig", 10 ],
+      [ "p226mag_12rd_357sig", 25 ],
+      [ "p320mag_13rd_357sig", 10 ],
       [ "bhp9mag_13rd", 2 ],
       [ "bhp9mag_15rd", 1 ],
-      [ "p38mag", 1 ],
       [ "ppq9mag_10rd", 4 ],
       [ "ppq9mag_15rd", 2 ],
       [ "ppq9mag_17rd", 1 ],
@@ -153,9 +174,11 @@
       [ "ppq45mag", 1 ],
       [ "taurus_spectrum_mag", 1 ],
       [ "hptc9", 1 ],
-      [ "hptcf380", 1 ],
-      [ "hptjcp", 1 ],
-      [ "hptjhp", 1 ],
+      [ "hptcf380mag_8rd", 2 ],
+      [ "hptcf380mag_10rd", 1 ],
+      [ "hpt3895mag_10rd", 1 ],
+      [ "hptjcpmag", 2 ],
+      [ "hptjhpmag", 2 ],
       [ "witness_mag_10", 2 ],
       [ "cz75mag_12rd", 9 ],
       [ "cz75mag_20rd", 5 ],
@@ -208,6 +231,7 @@
       [ "kp32mag", 5 ],
       [ "fn1910mag", 2 ],
       { "item": "fnp90mag", "prob": 2, "charges": [ 0, 50 ] },
+      [ "p38mag", 1 ],
       [ "ppkmag", 15 ],
       [ "usp9mag_10rd", 5 ],
       [ "usp9mag_18rd", 5 ],
@@ -217,10 +241,24 @@
   },
   {
     "type": "item_group",
+    "id": "mags_pistol_hunting",
+    "//": "Empty magazines for high-caliber pistols found within hunting supply stores and related locations.",
+    "items": [
+      { "item": "glock_20mag", "prob": 30, "charges": [ 0, 0 ] },
+      { "item": "500_speedloader5", "prob": 15, "charges": [ 0, 0 ] },
+      { "item": "38_speedloader6", "prob": 40, "charges": [ 0, 0 ] },
+      { "item": "38_speedloader", "prob": 40, "charges": [ 0, 0 ] },
+      { "item": "40_speedloader6", "prob": 30, "charges": [ 0, 0 ] },
+      { "item": "44_speedloader6", "prob": 30, "charges": [ 0, 0 ] },
+      { "item": "454_speedloader5", "prob": 20, "charges": [ 0, 0 ] },
+      { "item": "454_speedloader6", "prob": 20, "charges": [ 0, 0 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "mags_smg_common",
     "//": "Factory specification SMG magazines commonly owned by citizens.",
     "items": [
-      [ "a180mag", 10 ],
       [ "mac10mag", 10 ],
       [ "mac11mag", 5 ],
       [ "mp5mag", 10 ],
@@ -258,6 +296,7 @@
     "id": "mags_smg_rare",
     "//": "Aftermarket or otherwise uncommon SMG magazines excluding milspec.",
     "items": [
+      [ "a180mag", 1 ],
       [ "a180mag1", 1 ],
       [ "a180mag2", 1 ],
       [ "a180mag3", 1 ],
@@ -290,6 +329,8 @@
     "//": "Factory specification rifle magazines commonly owned by citizens.",
     "items": [
       { "item": "blrmag", "prob": 5, "charges": [ 0, 4 ] },
+      { "item": "ruger_pr_mag", "prob": 5, "charges": [ 0, 5 ] },
+      { "item": "ruger_arr_mag", "prob": 12, "charges": [ 0, 3 ] },
       { "item": "m14mag", "prob": 40, "charges": [ 0, 20 ] },
       { "item": "m14smallmag", "prob": 40, "charges": [ 0, 5 ] },
       [ "marlin_tubeloader", 5 ],
@@ -306,8 +347,14 @@
       { "item": "stanag20", "prob": 5, "charges": [ 0, 20 ] },
       { "item": "stanag30", "prob": 10, "charges": [ 0, 30 ] },
       { "item": "stanag40", "prob": 3, "charges": [ 0, 40 ] },
+      { "item": "ar10mag_10rd", "prob": 30, "charges": [ 0, 10 ] },
       { "item": "ar10mag_20rd", "prob": 30, "charges": [ 0, 20 ] },
-      { "item": "akmag30", "prob": 25, "charges": [ 0, 30 ] }
+      { "item": "ar10mag_25rd", "prob": 20, "charges": [ 0, 25 ] },
+      { "item": "akmag30", "prob": 25, "charges": [ 0, 30 ] },
+      { "item": "zpap85mag", "prob": 25, "charges": [ 0, 30 ] },
+      { "item": "papm77mag_10rd", "prob": 25, "charges": [ 0, 10 ] },
+      { "item": "bren2_762mag30", "prob": 10, "charges": [ 0, 30 ] },
+      { "item": "bren2_762mag10", "prob": 10, "charges": [ 0, 10 ] }
     ]
   },
   {
@@ -316,6 +363,8 @@
     "//": "Factory specification rifle magazines commonly owned by citizens.",
     "items": [
       { "item": "blrmag", "prob": 5 },
+      { "item": "ruger_pr_mag", "prob": 5 },
+      { "item": "ruger_arr_mag", "prob": 12 },
       { "item": "m14mag", "prob": 40 },
       { "item": "m14smallmag", "prob": 40 },
       [ "marlin_tubeloader", 5 ],
@@ -328,12 +377,24 @@
       { "item": "ruger90", "prob": 5 },
       { "item": "ruger100", "prob": 5 },
       { "item": "stanag5", "prob": 60 },
+      { "item": "stanag5ranger", "prob": 5 },
       { "item": "stanag10", "prob": 5 },
+      { "item": "stanag10ranger", "prob": 2 },
       { "item": "stanag20", "prob": 5 },
+      { "item": "stanag20ranger", "prob": 2 },
       { "item": "stanag30", "prob": 5 },
+      { "item": "stanag30ranger", "prob": 3 },
       { "item": "stanag40", "prob": 3 },
+      { "item": "ar10mag_10rd", "prob": 30 },
       { "item": "ar10mag_20rd", "prob": 30 },
-      { "item": "akmag30", "prob": 5 }
+      { "item": "ar10mag_25rd", "prob": 20 },
+      { "item": "akmag30", "prob": 5 },
+      { "item": "m1carbinemag", "prob": 15 },
+      { "item": "zpap85mag", "prob": 5 },
+      { "item": "papm77mag_10rd", "prob": 5 },
+      { "item": "papm77mag", "prob": 5 },
+      { "item": "bren2_762mag30", "prob": 5 },
+      { "item": "bren2_762mag10", "prob": 5 }
     ]
   },
   {
@@ -351,6 +412,10 @@
       [ "akmag20", 40 ],
       [ "akmag40", 40 ],
       [ "akdrum75", 30 ],
+      [ "vz58mag30", 30 ],
+      [ "vz58mag10", 30 ],
+      [ "clip303_5rd", 15 ],
+      [ "enfield_303mag", 4 ],
       [ "fnp90mag", 15 ],
       [ "falmag", 100 ],
       [ "falbigmag", 50 ],
@@ -362,12 +427,37 @@
       [ "stanag90", 10 ],
       [ "stanag100drum", 15 ],
       [ "stanag150", 10 ],
+      [ "ar10mag_50rd", 10 ],
       [ "augmag_10rd", 5 ],
       [ "augmag_30rd", 15 ],
       [ "augmag_42rd", 5 ],
       [ "augmag_100rd", 2 ],
       [ "g36mag_30rd", 15 ],
-      [ "g36mag_100rd", 3 ]
+      [ "g36mag_100rd", 3 ],
+      [ "usc10mag", 5 ],
+      [ "usc15mag", 7 ],
+      [ "usc20mag", 20 ],
+      [ "mrad_338lapua_mag", 5 ],
+      [ "ai_338mag", 15 ],
+      [ "ai_338mag_10", 10 ],
+      [ "ai_308mag_10", 15 ],
+      [ "m1carbinebigmag", 30 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_rifle_hunting",
+    "//": "Empty hunting rifle magazines found within hunting supply stores and related locations.",
+    "items": [
+      { "item": "ruger1022mag", "prob": 40, "charges": [ 0, 0 ] },
+      { "item": "ruger1022bigmag", "prob": 30, "charges": [ 0, 0 ] },
+      { "item": "blrmag", "prob": 20, "charges": [ 0, 0 ] },
+      { "item": "ruger_pr_mag", "prob": 20, "charges": [ 0, 0 ] },
+      { "item": "ruger_arr_mag", "prob": 25, "charges": [ 0, 0 ] },
+      { "item": "ar10mag_10rd", "prob": 30, "charges": [ 0, 0 ] },
+      { "item": "ar10mag_20rd", "prob": 30, "charges": [ 0, 0 ] },
+      { "item": "50beowulf_ar15mag", "prob": 10, "charges": [ 0, 0 ] },
+      { "item": "450_ar15mag", "prob": 10, "charges": [ 0, 0 ] }
     ]
   },
   {
@@ -460,6 +550,8 @@
       [ "762R_clip", 10 ],
       [ "clip9mm_10rd", 5 ],
       [ "af2011a1mag", 1 ],
+      [ "vz58mag30", 8 ],
+      [ "vz58mag10", 8 ],
       [ "ak74mag", 10 ],
       [ "makarovmag", 10 ],
       [ "mausermag_10rd", 3 ],
@@ -472,7 +564,9 @@
       [ "rpk74mag", 10 ],
       [ "skorpion61mag", 10 ],
       [ "skorpion82mag", 10 ],
-      [ "tokarevmag", 10 ]
+      [ "tokarevmag", 10 ],
+      [ "greasegun30mag", 5 ],
+      [ "greasegun32mag", 2 ]
     ]
   },
   {
@@ -483,6 +577,8 @@
       [ "762x39_clip", 10 ],
       [ "762R_clip", 10 ],
       [ "clip9mm_10rd", 5 ],
+      [ "vz58mag30", 8 ],
+      [ "vz58mag10", 8 ],
       [ "makarovmag", 10 ],
       [ "mausermag_10rd", 3 ],
       [ "mausermag_20rd", 2 ],
@@ -503,5 +599,12 @@
       { "group": "mags_smg_common", "prob": 10 },
       { "group": "mags_smg_rare", "prob": 5 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_hunting",
+    "subtype": "distribution",
+    "//": "Empty store magazines for hunting guns.",
+    "entries": [ { "group": "mags_pistol_hunting", "prob": 100 }, { "group": "mags_rifle_hunting", "prob": 100 } ]
   }
 ]

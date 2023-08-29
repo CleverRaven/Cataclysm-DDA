@@ -6,6 +6,8 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "city.h"
+#include "clzones.h"
 #include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -28,6 +30,10 @@
 #include "rng.h"
 
 class item;
+
+static const efftype_id effect_bleed( "bleed" );
+
+static const zone_type_id zone_type_ZONE_START_POINT( "ZONE_START_POINT" );
 
 namespace
 {
@@ -292,15 +298,19 @@ void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
  * Maybe TODO: Allow "picking up" items or parts of bashable furniture
  *             and using them to help with bash attempts.
  */
-static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
+static int rate_location( map &m, const tripoint &p,
+                          const bool must_be_inside, const bool accommodate_npc,
                           const int bash_str, const int attempt,
-                          int ( &checked )[MAPSIZE_X][MAPSIZE_Y] )
+                          cata::mdarray<int, point_bub_ms> &checked )
 {
-    if( ( must_be_inside && m.is_outside( p ) ) ||
-        m.impassable( p ) ||
-        m.is_divable( p ) ||
-        checked[p.x][p.y] > 0 ||
-        m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+    const auto invalid_char_pos = [&]( const tripoint & tp ) -> bool {
+        return ( must_be_inside && m.is_outside( tp ) ) ||
+        m.impassable( tp ) || m.is_divable( tp ) ||
+        m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, tp );
+    };
+
+    if( checked[p.x][p.y] > 0 || invalid_char_pos( p ) ||
+        ( accommodate_npc && invalid_char_pos( p + point_north_west ) ) ) {
         return 0;
     }
 
@@ -319,7 +329,7 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
         const tripoint pt( add_p, p.z );
         if( m.passable( pt ) ||
             m.bash_resistance( pt ) <= bash_str ||
-            m.open_door( pt, !m.is_outside( from ), true ) ) {
+            m.open_door( get_avatar(), pt, !m.is_outside( from ), true ) ) {
             st.push_back( pt );
         }
     };
@@ -359,6 +369,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     here.invalidate_map_cache( here.get_abs_sub().z() );
     here.build_map_cache( here.get_abs_sub().z() );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
+    const bool accommodate_npc = flags().count( "LONE_START" ) == 0;
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
     // TODO: Allow using items here
     const int bash = you.get_str();
@@ -370,30 +381,44 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     tripoint best_spot = you.pos();
     // In which attempt did this area get checked?
     // We can overwrite earlier attempts, but not start in them
-    int checked[MAPSIZE_X][MAPSIZE_Y] = {};
+    cata::mdarray<int, point_bub_ms> checked = {};
 
     bool found_good_spot = false;
 
-    // Try some random points at start
+    //Check if a start_point zone exists first
+    const zone_manager &mgr = zone_manager::get_manager();
+    for( const auto &i : mgr.get_zones() ) {
+        const zone_data &zone = i.get();
+        if( zone.get_type() == zone_type_ZONE_START_POINT ) {
+            if( here.inbounds( zone.get_center_point() ) ) {
+                found_good_spot = true;
+                best_spot = here.getlocal( zone.get_center_point() );
+                break;
+            }
+        }
+    }
+
+    // Otherwise, find a random starting spot
 
     int tries = 0;
     const auto check_spot = [&]( const tripoint & pt ) {
         ++tries;
-        const int rate = rate_location( here, pt, must_be_inside, bash, tries, checked );
+        const int rate = rate_location( here, pt, must_be_inside, accommodate_npc, bash, tries, checked );
         if( best_rate < rate ) {
             best_rate = rate;
             best_spot = pt;
             if( rate == INT_MAX ) {
-                found_good_spot = true;
+                return true;
             }
         }
+        return false;
     };
 
     while( !found_good_spot && tries < 100 ) {
         tripoint rand_point( HALF_MAPSIZE_X + rng( 0, SEEX * 2 - 1 ),
                              HALF_MAPSIZE_Y + rng( 0, SEEY * 2 - 1 ),
                              you.posz() );
-        check_spot( rand_point );
+        found_good_spot = check_spot( rand_point );
     }
     // If we haven't got a good location by now, screw it and brute force it
     // This only happens in exotic locations (deep of a science lab), but it does happen
@@ -403,7 +428,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
         int &y = tmp.y;
         for( x = 0; x < MAPSIZE_X; x++ ) {
             for( y = 0; y < MAPSIZE_Y && !found_good_spot; y++ ) {
-                check_spot( tmp );
+                found_good_spot = check_spot( tmp );
             }
         }
     }
@@ -466,7 +491,7 @@ void start_location::handle_heli_crash( avatar &you ) const
             // Damage + Bleed
             case 1:
             case 2:
-                you.make_bleed( effect_source::empty(), bp, 6_minutes );
+                you.add_effect( effect_bleed, 6_minutes, bp );
             /* fallthrough */
             case 3:
             case 4:

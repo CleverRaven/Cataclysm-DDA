@@ -18,8 +18,8 @@
       "You consumed a large amount of black dragon mutagen.",
       "You consumed a life-changing amount of black dragon mutagen."
     ],
-    "main_parts_only": true,
     "max_intensity": 3,
+    "resist_traits": [ "THRESH_DRAGON_BLACK" ],
     "base_mods": {
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
@@ -30,7 +30,7 @@
       "pain_chance": [ 100 ],
       "pain_tick": [ 75 ]
     },
-    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
     "blood_analysis_description": "Black Dragon Mutagen Contamination"
   },
@@ -43,8 +43,8 @@
       "You consumed a large amount of concentrated mana.",
       "You consumed a life-changing amount of concentrated mana."
     ],
-    "main_parts_only": true,
     "max_intensity": 3,
+    "resist_traits": [ "THRESH_MANA" ],
     "base_mods": {
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
@@ -55,7 +55,7 @@
       "pain_chance": [ 100 ],
       "pain_tick": [ 75 ]
     },
-    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
     "blood_analysis_description": "Concentrated Mana Mutagen Contamination"
   },
@@ -165,7 +165,7 @@
     "apply_message": "Your speed is boosted to superhuman levels!",
     "remove_message": "You return to your normal speed.",
     "rating": "good",
-    "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 250 ] }
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 2.5 }, { "value": "ATTACK_SPEED", "multiply": -0.7 } ] } ]
   },
   {
     "type": "effect_type",
@@ -253,8 +253,8 @@
   },
   {
     "type": "effect_type",
-    "id": "debug_feather_fall",
-    "name": [ "Debug Feather Fall" ],
+    "id": "feather_fall",
+    "name": [ "Pluma" ],
     "desc": [ "You are light as a feather and fall like one." ],
     "apply_message": "Your body feels light as a feather.",
     "remove_message": "The earth pulls you down hard.",
@@ -350,6 +350,7 @@
     "apply_message": "This smells like home.",
     "remove_message": "Time to go.",
     "rating": "bad",
+    "max_duration": "1 d",
     "flags": [ "DIMENSIONAL_ANCHOR" ]
   },
   {
@@ -379,11 +380,10 @@
     "name": [ "Nature's Commune" ],
     "desc": [ "You can feel Mother Nature welcoming you, revitalizing your body and calming the natural fauna around you." ],
     "apply_message": "A warm embrace surrounds you, like that of a mother with her child.",
-    "remove_message": "Your commune with Mother Nature fades.",
+    "remove_message": "Your communion with Mother Nature fades.",
     "rating": "good",
-    "max_duration": "20 m",
-    "//": "No morale_mod is currently possible in effects, but this effect should give +5/+10 morale whenever that it's implemented.",
-    "base_mods": { "health_min": [ 1 ], "health_chance": [ 40 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 80 ] }
+    "max_duration": "120 m",
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 40 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 80 ], "health_tick": [ 30 ] }
   },
   {
     "type": "effect_type",
@@ -443,6 +443,386 @@
     "desc": [ "Ice crystals erode your body from all directions." ],
     "base_mods": { "speed_mod": [ -10 ], "hurt_amount": [ 1 ] },
     "scaling_mods": { "speed_mod": [ -15 ], "hurt_amount": [ 4 ] },
+    "int_add_val": 1,
     "max_intensity": 3
+  },
+  {
+    "id": "eshaper_melee_damage",
+    "type": "effect_type",
+    "name": [ "Heft" ],
+    "desc": [
+      "Your body is heavy as the heaviest rocks.  Your attack speed is slowed down, but your melee damage increased drastically."
+    ],
+    "apply_message": "You feel your body compress and harden.",
+    "remove_message": "You no longer feel encumbered.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.25 }, { "value": "MELEE_DAMAGE", "multiply": 0.6 } ] } ]
+  },
+  {
+    "id": "eshaper_crystal_wrap",
+    "type": "effect_type",
+    "name": [ "Crystal Wrapping" ],
+    "desc": [ "Thin layer of almost living crystals, that rapidly grows and moves on the body." ],
+    "apply_message": "You feel a light, purple material cover your body and clothes.",
+    "remove_message": "The crystals crumble.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ],
+        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 } ]
+      }
+    ]
+  },
+  {
+    "id": "electric_eye",
+    "type": "effect_type",
+    "name": [ "Electric Eye" ],
+    "desc": [
+      "Enhance your sight with your powers.  It allows you to see creatures of the same energy around you, and some minor bonuses."
+    ],
+    "apply_message": "Your sight is enhanced.",
+    "remove_message": "Your sight turn back to usual state.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "BONUS_BLOCK", "add": 1 },
+          { "value": "BONUS_DODGE", "add": 1 },
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "PERCEPTION", "add": 4 },
+          { "value": "SIGHT_RANGE_ELECTRIC", "add": 1000 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "electric_waves",
+    "type": "effect_type",
+    "name": [ "Electric Waves" ],
+    "desc": [ "Your body will release a massive electric charges when you attack monsters." ],
+    "apply_message": "A powerful energy streams out of your hands.",
+    "remove_message": "The energy streams calm down.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ "enchant_stormshaper_electric_waves" ]
+  },
+  {
+    "id": "electric_arts",
+    "type": "effect_type",
+    "name": [ "Electric Arts" ],
+    "desc": [ "Make you less vulnerable to electric damage." ],
+    "apply_message": "You feel a small sparks under your skin.  They do not harm you.",
+    "remove_message": "Sparks under your skin vanish.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "ARMOR_ELEC", "add": -35 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "ice_age_eff",
+    "name": [ "Glaciation" ],
+    "desc": [ "You are frozen, your bones are fragile; cracking in the cold, and your muscles are cut by razor sharp ice." ],
+    "base_mods": { "speed_mod": [ -75 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "flower_fern_eff",
+    "name": [ "Positivity" ],
+    "desc": [ "Your feel yourself a bit better." ],
+    "rating": "good",
+    "base_mods": { "per_mod": [ 1 ], "dex_mod": [ 1 ], "str_mod": [ 1 ], "int_mod": [ 1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "glowing_mushroom_eff",
+    "name": [ "Lightness" ],
+    "desc": [ "You feel yourself a bit lighter.  You doubt you can lose weight from this." ],
+    "base_mods": { "speed_mod": [ 15 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "flask_speed_eff",
+    "name": [ "Velocitas" ],
+    "desc": [ "Make you faster, and allow to hold this state for a while." ],
+    "apply_message": "You feel your legs can work much better than before",
+    "remove_message": "Your speed slows down.",
+    "rating": "good",
+    "base_mods": { "speed_mod": [ 40 ], "stamina_min": [ 20 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "flask_healing_eff",
+    "name": [ "Sanatio" ],
+    "desc": [ "Improve your organism's ability to heal himself." ],
+    "//": "i have no idea how health works now, so ill just copypaste the nature commune effect and stretch it.",
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 2880 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 5760 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "flask_stamina_eff",
+    "name": [ "Constantia" ],
+    "desc": [ "You can't get tired." ],
+    "apply_message": "You feel an energy in your muscles, jazzed up and full of vitality.",
+    "remove_message": "The energy in your body fades away.",
+    "base_mods": { "stamina_min": [ 50 ] }
+  },
+  {
+    "id": "flask_excitement",
+    "type": "effect_type",
+    "name": [ "Motus" ],
+    "desc": [ "Your reaction now is way better than before." ],
+    "apply_message": "You can feel the fly wings movement now.",
+    "remove_message": "Your reflexes turn back to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SPEED", "add": 30 },
+          { "value": "ATTACK_SPEED", "add": 20 },
+          { "value": "BONUS_DODGE", "add": 2 },
+          { "value": "MELEE_DAMAGE", "multiply": 0.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "flask_resistance",
+    "type": "effect_type",
+    "name": [ "Resistentia" ],
+    "desc": [ "A thin layer of energy covers your body, and allows you to take more physical damage than before." ],
+    "apply_message": "Your touch sense are blunted for a bit, but your skin feels more dense.",
+    "remove_message": "The sturdy feeling is gone.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "values": [ { "value": "ARMOR_BASH", "add": -10 }, { "value": "ARMOR_CUT", "add": -10 }, { "value": "ARMOR_STAB", "add": -10 } ]
+      }
+    ]
+  },
+  {
+    "id": "flask_illumination",
+    "type": "effect_type",
+    "name": [ "Illuminatio" ],
+    "desc": [ "Your body emit a lot of light around." ],
+    "apply_message": "Your skin glow like an old lantern.  You feel no discomfort for some reason.",
+    "remove_message": "Your skin turn back to normal state.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 800 } ] } ]
+  },
+  {
+    "id": "flask_mana_regen",
+    "type": "effect_type",
+    "name": [ "Recuperatio" ],
+    "desc": [ "Increase the amount of ley-lines your body can process at once, making you restore your mana pool faster." ],
+    "apply_message": "You can feel the thinnest ley lines around you.",
+    "remove_message": "The mana senses blunts.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": 2 } ] } ]
+  },
+  {
+    "id": "flask_max_mana",
+    "type": "effect_type",
+    "name": [ "Augere" ],
+    "desc": [ "Increase the amount of mana you can operate." ],
+    "apply_message": "You feel a deep mana well inside your body.",
+    "remove_message": "Your well feels empty now.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1500 } ] } ]
+  },
+  {
+    "id": "flask_regeneration",
+    "type": "effect_type",
+    "name": [ "Regeneration" ],
+    "desc": [ "Slowly regenerate your damaged body." ],
+    "apply_message": "Your flesh and bones start to regenerate before your eyes.",
+    "remove_message": "Your regeneration slows down.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "intermittent_activation": { "effects": [ { "frequency": "30 seconds", "spell_effects": [ { "id": "flask_regeneration_effect" } ] } ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "technomancer_cl_booster_effect",
+    "name": [ "Technomancer boost" ],
+    "desc": [ "Your technomancer spells are empowered." ],
+    "remove_message": "Your technomancer boost fades.",
+    "rating": "good",
+    "show_intensity": true,
+    "max_intensity": 25,
+    "int_add_val": 1
+  },
+  {
+    "type": "effect_type",
+    "id": "biomancer_cl_booster_effect",
+    "name": [ "Biomancer boost" ],
+    "desc": [ "Your biomancer spells are empowered." ],
+    "remove_message": "Your biomancer boost fades.",
+    "rating": "good",
+    "show_intensity": true,
+    "max_intensity": 25,
+    "int_add_val": 1
+  },
+  {
+    "type": "effect_type",
+    "id": "earthshaper_fortitude_of_stone",
+    "name": [ "Stones' Fortitude" ],
+    "desc": [ "You feel little hunger or thirst." ],
+    "apply_message": "",
+    "remove_message": "Your stomach suddenly rumbles as you feel a pang of hunger.",
+    "rating": "good",
+    "max_duration": "24 hours",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "HUNGER",
+            "multiply": { "math": [ "(-0.2 - (0.04 * u_val('spell_level', 'spell: earthshaper_fortitude_of_stone')))" ] }
+          },
+          {
+            "value": "THIRST",
+            "multiply": { "math": [ "(-0.2 - (0.04 * u_val('spell_level', 'spell: earthshaper_fortitude_of_stone')))" ] }
+          },
+          {
+            "value": "METABOLISM",
+            "multiply": { "math": [ "(-0.2 - (0.04 * u_val('spell_level', 'spell: earthshaper_fortitude_of_stone')))" ] }
+          },
+          { "value": "REGEN_HP", "multiply": -1.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_tremorsense",
+    "name": [ "Tremorsense" ],
+    "desc": [ "You can feel them moving around you." ],
+    "apply_message": "",
+    "remove_message": "You can no longer discern the vibrations of the living earth.",
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MOTION_VISION_RANGE",
+            "add": { "math": [ "( u_val('spell_level', 'spell: earthshaper_danger_sense') * 3)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sense_outsiders",
+    "name": [ "Sense Outsider" ],
+    "desc": [ "You can sense the presence of things that should not be." ],
+    "apply_message": "",
+    "remove_message": "Your awareness of outsiders fades.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SIGHT_RANGE_NETHER",
+            "add": { "math": [ "(( u_val('spell_level', 'spell: animist_sense_outsiders') * 2.5) + 3)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_kelvinist_anti_cold",
+    "name": [ "Cloak of Warmth" ],
+    "desc": [ "The air around you is warmer thanks to your magic." ],
+    "apply_message": "",
+    "remove_message": "A cool breeze hits your skin.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "emitter": "emit_kelvinist_anti_cold",
+        "values": [
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+          {
+            "value": "ARMOR_COLD",
+            "add": { "math": [ "( u_val('spell_level', 'spell: kelvinist_anti_cold') * -1)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_kelvinist_anti_heat",
+    "name": [ "Cloak of Chill" ],
+    "desc": [ "The air around you is cooler thanks to your magic." ],
+    "apply_message": "",
+    "remove_message": "A warm breeze hits your skin.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "emitter": "emit_kelvinist_anti_heat",
+        "values": [
+          { "value": "CLIMATE_CONTROL_CHILL", "add": 50 },
+          {
+            "value": "ARMOR_HEAT",
+            "add": { "math": [ "( u_val('spell_level', 'spell: kelvinist_anti_heat') * -1)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_magus_slowfall",
+    "name": [ "Slowfall" ],
+    "desc": [ "You won't hit the ground nearly as hard anymore." ],
+    "apply_message": "",
+    "remove_message": "You can feel gravity take hold of you again.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "FALL_DAMAGE",
+            "multiply": { "math": [ "(( u_val('spell_level', 'spell: magus_slowfall') * -0.01) - 0.9 )" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_magus_spiderclimb",
+    "name": [ "Spider Climb" ],
+    "desc": [ "You can quickly ascend sheer surfaces." ],
+    "apply_message": "",
+    "remove_message": "Your enhanced climbing ability vanishes.",
+    "rating": "good",
+    "flags": [ "CLIMB_NO_LADDER", "WALL_CLING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_swim_speed",
+    "name": [ "Frog Limbs" ],
+    "desc": [ "Your hands and feet have grown webbing, enabling faster swimming." ],
+    "//": "Minor stamina regen to help with swimming.  If people want to cast this spell as a stamina buff, they're welcome to do it and deal with their froggy limbs.",
+    "apply_message": "",
+    "remove_message": "With an unpleasant twisting sensation your hands and feet return to normal.",
+    "rating": "good",
+    "flags": [ "WEBBED_HANDS", "WEBBED_FEET" ],
+    "base_mods": { "stamina_min": [ 10 ] }
   }
 ]

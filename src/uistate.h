@@ -4,13 +4,13 @@
 
 #include <list>
 #include <map>
+#include <optional>
 #include <string>
 #include <vector>
 
 #include "enums.h"
 #include "flat_set.h"
 #include "json.h"
-#include "optional.h"
 #include "omdata.h"
 #include "type_id.h"
 
@@ -24,14 +24,17 @@ struct advanced_inv_pane_save_state {
         int selected_idx = 0;
 
         bool in_vehicle = false;
+        item_location container;
+        int container_base_loc;
 
-        template<typename JsonStream>
-        void serialize( JsonStream &json, const std::string &prefix ) const {
+        void serialize( JsonOut &json, const std::string &prefix ) const {
             json.member( prefix + "sort_idx", sort_idx );
             json.member( prefix + "filter", filter );
             json.member( prefix + "area_idx", area_idx );
             json.member( prefix + "selected_idx", selected_idx );
             json.member( prefix + "in_vehicle", in_vehicle );
+            json.member( prefix + "container", container );
+            json.member( prefix + "container_base_loc", container_base_loc );
         }
 
         void deserialize( const JsonObject &jo, const std::string &prefix ) {
@@ -40,6 +43,8 @@ struct advanced_inv_pane_save_state {
             jo.read( prefix + "area_idx", area_idx );
             jo.read( prefix + "selected_idx", selected_idx );
             jo.read( prefix + "in_vehicle", in_vehicle );
+            jo.read( prefix + "container", container );
+            jo.read( prefix + "container_base_loc", container_base_loc );
         }
 };
 
@@ -57,8 +62,7 @@ struct advanced_inv_save_state {
         advanced_inv_pane_save_state pane;
         advanced_inv_pane_save_state pane_right;
 
-        template<typename JsonStream>
-        void serialize( JsonStream &json, const std::string &prefix ) const {
+        void serialize( JsonOut &json, const std::string &prefix ) const {
             json.member( prefix + "exit_code", exit_code );
             json.member( prefix + "re_enter_move_all", re_enter_move_all );
             json.member( prefix + "aim_all_location", aim_all_location );
@@ -88,6 +92,10 @@ struct advanced_inv_save_state {
             pane_right.deserialize( jo, prefix + "pane_right_" );
         }
 };
+
+extern void save_inv_state( JsonOut &json );
+extern void load_inv_state( const JsonObject &jo );
+
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
   To use this, see the ****notes**** below
@@ -129,6 +137,23 @@ class uistatedata
         // draw monster groups on the overmap.
         bool overmap_debug_mongroup = false;
 
+        // Distraction manager stuff
+        bool distraction_noise = true;
+        bool distraction_pain = true;
+        bool distraction_attack = true;
+        bool distraction_hostile_close = true;
+        bool distraction_hostile_spotted = true;
+        bool distraction_conversation = true;
+        bool distraction_asthma = true;
+        bool distraction_dangerous_field = true;
+        bool distraction_weather_change = true;
+        bool distraction_hunger = true;
+        bool distraction_thirst = true;
+        bool distraction_temperature = true;
+        bool distraction_mutation = true;
+        bool distraction_oxygen = true;
+        bool numpad_navigation = false;
+
         // V Menu Stuff
         int list_item_sort = 0;
 
@@ -156,6 +181,7 @@ class uistatedata
         // crafting gui
         std::set<recipe_id> hidden_recipes;
         std::set<recipe_id> favorite_recipes;
+        std::set<recipe_id> expanded_recipes;
         cata::flat_set<recipe_id> read_recipes;
         std::vector<recipe_id> recent_recipes;
 
@@ -182,8 +208,8 @@ class uistatedata
         }
 
         // nice little convenience function for serializing an array, regardless of amount. :^)
-        template<typename JsonStream, typename T>
-        void serialize_array( JsonStream &json, std::string name, T &data ) const {
+        template<typename T>
+        void serialize_array( JsonOut &json, const std::string_view name, T &data ) const {
             json.member( name );
             json.start_array();
             for( const auto &d : data ) {
@@ -192,131 +218,8 @@ class uistatedata
             json.end_array();
         }
 
-        void serialize( JsonOut &json ) const {
-            const unsigned int input_history_save_max = 25;
-            json.start_object();
-
-            transfer_save.serialize( json, "transfer_save_" );
-
-            /**** if you want to save whatever so it's whatever when the game is started next, declare here and.... ****/
-            // non array stuffs
-            json.member( "ags_pay_gas_selected_pump", ags_pay_gas_selected_pump );
-            json.member( "adv_inv_container_location", adv_inv_container_location );
-            json.member( "adv_inv_container_index", adv_inv_container_index );
-            json.member( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
-            json.member( "adv_inv_container_type", adv_inv_container_type );
-            json.member( "adv_inv_container_content_type", adv_inv_container_content_type );
-            json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
-            json.member( "overmap_blinking", overmap_blinking );
-            json.member( "overmap_show_overlays", overmap_show_overlays );
-            json.member( "overmap_show_map_notes", overmap_show_map_notes );
-            json.member( "overmap_show_land_use_codes", overmap_show_land_use_codes );
-            json.member( "overmap_show_city_labels", overmap_show_city_labels );
-            json.member( "overmap_show_hordes", overmap_show_hordes );
-            json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
-            json.member( "vmenu_show_items", vmenu_show_items );
-            json.member( "list_item_sort", list_item_sort );
-            json.member( "list_item_filter_active", list_item_filter_active );
-            json.member( "list_item_downvote_active", list_item_downvote_active );
-            json.member( "list_item_priority_active", list_item_priority_active );
-            json.member( "construction_filter", construction_filter );
-            json.member( "last_construction", last_construction );
-            json.member( "construction_tab", construction_tab );
-            json.member( "hidden_recipes", hidden_recipes );
-            json.member( "favorite_recipes", favorite_recipes );
-            json.member( "read_recipes", read_recipes );
-            json.member( "recent_recipes", recent_recipes );
-            json.member( "bionic_ui_sort_mode", bionic_sort_mode );
-            json.member( "overmap_debug_weather", overmap_debug_weather );
-            json.member( "overmap_visible_weather", overmap_visible_weather );
-            json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
-
-            json.member( "input_history" );
-            json.start_object();
-            for( auto &e : input_history ) {
-                json.member( e.first );
-                const std::vector<std::string> &history = e.second;
-                json.start_array();
-                int save_start = 0;
-                if( history.size() > input_history_save_max ) {
-                    save_start = history.size() - input_history_save_max;
-                }
-                for( std::vector<std::string>::const_iterator hit = history.begin() + save_start;
-                     hit != history.end(); ++hit ) {
-                    json.write( *hit );
-                }
-                json.end_array();
-            }
-            json.end_object(); // input_history
-
-            json.member( "lastreload", lastreload );
-
-            json.end_object();
-        }
-
-        void deserialize( const JsonObject &jo ) {
-            jo.allow_omitted_members();
-
-            transfer_save.deserialize( jo, "transfer_save_" );
-            // the rest
-            jo.read( "ags_pay_gas_selected_pump", ags_pay_gas_selected_pump );
-            jo.read( "adv_inv_container_location", adv_inv_container_location );
-            jo.read( "adv_inv_container_index", adv_inv_container_index );
-            jo.read( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
-            jo.read( "adv_inv_container_type", adv_inv_container_type );
-            jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
-            jo.read( "editmap_nsa_viewmode", editmap_nsa_viewmode );
-            jo.read( "overmap_blinking", overmap_blinking );
-            jo.read( "overmap_show_overlays", overmap_show_overlays );
-            jo.read( "overmap_show_map_notes", overmap_show_map_notes );
-            jo.read( "overmap_show_land_use_codes", overmap_show_land_use_codes );
-            jo.read( "overmap_show_city_labels", overmap_show_city_labels );
-            jo.read( "overmap_show_hordes", overmap_show_hordes );
-            jo.read( "overmap_show_forest_trails", overmap_show_forest_trails );
-            jo.read( "hidden_recipes", hidden_recipes );
-            jo.read( "favorite_recipes", favorite_recipes );
-            jo.read( "read_recipes", read_recipes );
-            jo.read( "recent_recipes", recent_recipes );
-            jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
-            jo.read( "overmap_debug_weather", overmap_debug_weather );
-            jo.read( "overmap_visible_weather", overmap_visible_weather );
-            jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
-
-            if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
-                // This is an old save: 1 means view items, 2 means view monsters,
-                // -1 means uninitialized
-                vmenu_show_items = jo.get_int( "list_item_mon", -1 ) != 2;
-            }
-
-            jo.read( "list_item_sort", list_item_sort );
-            jo.read( "list_item_filter_active", list_item_filter_active );
-            jo.read( "list_item_downvote_active", list_item_downvote_active );
-            jo.read( "list_item_priority_active", list_item_priority_active );
-
-            jo.read( "construction_filter", construction_filter );
-            jo.read( "last_construction", last_construction );
-            jo.read( "construction_tab", construction_tab );
-
-            for( const JsonMember member : jo.get_object( "input_history" ) ) {
-                std::vector<std::string> &v = gethistory( member.name() );
-                v.clear();
-                for( const std::string line : member.get_array() ) {
-                    v.push_back( line );
-                }
-            }
-            // fetch list_item settings from input_history
-            if( !gethistory( "item_filter" ).empty() ) {
-                list_item_filter = gethistory( "item_filter" ).back();
-            }
-            if( !gethistory( "list_item_downvote" ).empty() ) {
-                list_item_downvote = gethistory( "list_item_downvote" ).back();
-            }
-            if( !gethistory( "list_item_priority" ).empty() ) {
-                list_item_priority = gethistory( "list_item_priority" ).back();
-            }
-
-            jo.read( "lastreload", lastreload );
-        }
+        void serialize( JsonOut &json ) const;
+        void deserialize( const JsonObject &jo );
 };
 extern uistatedata uistate;
 

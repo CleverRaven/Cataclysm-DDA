@@ -4,6 +4,7 @@
     "id": "desertpack",
     "name": "Desert Region",
     "authors": [ "Dpwb", "DracoGriffin" ],
+    "maintainers": [ "LovamkKicsiGazsii" ],
     "description": "A testbed/WIP mod to showcase regional_map_settings JSON changes.",
     "category": "content",
     "dependencies": [ "dda" ],

@@ -4,6 +4,7 @@
     "id": "gunmod_common",
     "//": "Common gunmods typically owned by citizens and found in many locations.",
     "items": [
+      [ "belt_clip", 5 ],
       [ "brass_catcher", 100 ],
       [ "improve_sights", 60 ],
       [ "muzzle_brake", 20 ],
@@ -14,6 +15,7 @@
       [ "butt_hook", 30 ],
       [ "match_trigger", 20 ],
       [ "offset_sights", 40 ],
+      [ "offset_sight_rail", 30 ],
       [ "cheek_pad", 25 ],
       [ "rail_laser_sight", 40 ],
       [ "red_dot_sight", 70 ],
@@ -30,6 +32,7 @@
       [ "bipod", 20 ],
       [ "folding_stock", 60 ],
       [ "grip", 80 ],
+      [ "wooden_grip", 5 ],
       [ "waterproof_gunmod", 40 ],
       [ "gun_crossbow", 20 ],
       [ "stabilizer", 10 ],
@@ -46,7 +49,15 @@
       [ "u_shotgun", 60 ],
       [ "suppressor", 60 ],
       [ "suppressor_compact", 40 ],
-      [ "retool_ar15_300blk", 40 ]
+      [ "retool_ar15_300blk", 40 ],
+      [ "acog_scope", 40 ],
+      [ "holo_sight", 50 ],
+      [ "holo_magnifier", 30 ],
+      [ "hybrid_sight_4x", 30 ],
+      [ "rifle_scope_high_end_mount", 20 ],
+      [ "modern_handguard", 20 ],
+      [ "bipod_handguard", 10 ],
+      [ "high_end_folding_stock", 10 ]
     ]
   },
   {
@@ -56,10 +67,12 @@
     "items": [
       [ "acog_scope", 100 ],
       [ "holo_sight", 100 ],
+      [ "holo_magnifier", 80 ],
       [ "hybrid_sight_4x", 100 ],
       [ "m203", 30 ],
       [ "m320_mod", 10 ],
       [ "masterkey", 30 ],
+      [ "m26_mass", 35 ],
       [ "rm121aux", 10 ],
       [ "sword_bayonet", 10 ]
     ]
@@ -78,6 +91,7 @@
       [ "acog_scope", 21 ],
       [ "hybrid_sight_4x", 15 ],
       [ "rifle_scope", 25 ],
+      [ "rifle_scope_high_end_mount", 10 ],
       [ "pistol_scope", 4 ]
     ]
   },
@@ -113,7 +127,8 @@
       [ "offset_sights", 6 ],
       [ "acog_scope", 21 ],
       [ "hybrid_sight_4x", 15 ],
-      [ "rifle_scope", 25 ]
+      [ "rifle_scope", 25 ],
+      [ "rifle_scope_high_end_mount", 10 ]
     ]
   },
   {
@@ -134,6 +149,27 @@
     "//": "Default mods for the m38dmr variant of the NATO assault rifle",
     "subtype": "collection",
     "entries": [ { "item": "suppressor" }, { "item": "rifle_scope" }, { "item": "bipod" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "military_grenadier_mods",
+    "//": "Default mods for m4 carbines issued with grenade launchers",
+    "subtype": "distribution",
+    "entries": [ { "item": "m203", "prob": 40 }, { "item": "m320_mod", "prob": 60 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vz58v_mods",
+    "//": "Default mods for the vz. 58 V variant of the VZ combat rifle",
+    "subtype": "collection",
+    "entries": [ { "item": "folding_stock" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "mosin_mods",
+    "//": "Default mods for the EBR variants of the Mosin carbine and battle rifle",
+    "subtype": "collection",
+    "entries": [ { "item": "grip_mount" }, { "item": "rail_mount" }, { "item": "stock_mount" } ]
   },
   {
     "type": "item_group",

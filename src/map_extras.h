@@ -10,6 +10,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "coordinates.h"
+#include "flat_set.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
@@ -58,15 +59,22 @@ class map_extra
         std::string description() const {
             return description_.translated();
         }
+        bool has_flag( const std::string &flag ) const {
+            return flags_.count( flag );
+        }
+        const cata::flat_set<std::string> &get_flags() const {
+            return flags_;
+        }
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void check() const;
     private:
         translation name_;
         translation description_;
-        cata::optional<std::pair<int, int>> min_max_zlevel_;
+        std::optional<std::pair<int, int>> min_max_zlevel_;
+        cata::flat_set<std::string> flags_;
 };
 
 namespace MapExtras

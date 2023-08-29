@@ -509,6 +509,8 @@ void Messages::dialog::init( ui_adaptor &ui )
         ctxt.register_action( "RESET_FILTER" );
         ctxt.register_action( "QUIT" );
         ctxt.register_action( "HELP_KEYBINDINGS" );
+        ctxt.register_action( "SCROLL_UP" );
+        ctxt.register_action( "SCROLL_DOWN" );
 
         // Calculate time string display width. The translated strings are expected to
         // be aligned, so we choose an arbitrary duration here to calculate the width.
@@ -668,7 +670,7 @@ void Messages::dialog::do_filter( const std::string &filter_str )
     bool has_type_filter = false;
     game_message_type filter_type = m_neutral;
     std::string filter_text;
-    const auto colon = filter_str.find( ':' );
+    const size_t colon = filter_str.find( ':' );
     if( colon != std::string::npos ) {
         has_type_filter = msg_type_from_name( filter_type, filter_str.substr( 0, colon ) );
         filter_text = filter_str.substr( colon + 1 );
@@ -720,9 +722,10 @@ void Messages::dialog::input()
         }
     } else {
         const std::string &action = ctxt.handle_input();
-        if( action == "DOWN" && offset + max_lines < folded_filtered.size() ) {
+        if( ( action == "DOWN" || action == "SCROLL_DOWN" ) &&
+            offset + max_lines < folded_filtered.size() ) {
             ++offset;
-        } else if( action == "UP" && offset > 0 ) {
+        } else if( ( action == "UP" || action == "SCROLL_UP" ) && offset > 0 ) {
             --offset;
         } else if( action == "PAGE_DOWN" ) {
             if( offset + max_lines * 2 <= folded_filtered.size() ) {
@@ -769,23 +772,23 @@ void Messages::dialog::run()
 
 std::vector<std::string> Messages::dialog::filter_help_text( int width )
 {
-    const auto &help_fmt = _(
-                               "<color_light_gray>The default is to search the entire message log.  "
-                               "Use message-types as prefixes followed by (:) to filter more specific.\n"
-                               "Valid message-type values are:</color> %s\n"
-                               "\n"
-                               "<color_white>Examples:</color>\n"
-                               "  <color_light_green>good</color><color_white>:mutation\n"
-                               "  :you pick up: 1</color>\n"
-                               "  <color_light_red>bad</color><color_white>:</color>\n"
-                               "\n"
-                           );
+    const char *const &help_fmt = _(
+                                      "<color_light_gray>The default is to search the entire message log.  "
+                                      "Use message-types as prefixes followed by (:) to filter more specific.\n"
+                                      "Valid message-type values are:</color> %s\n"
+                                      "\n"
+                                      "<color_white>Examples:</color>\n"
+                                      "  <color_light_green>good</color><color_white>:mutation\n"
+                                      "  :you pick up: 1</color>\n"
+                                      "  <color_light_red>bad</color><color_white>:</color>\n"
+                                      "\n"
+                                  );
     std::string type_text;
     const auto &type_list = msg_type_and_names();
     for( auto it = type_list.begin(); it != type_list.end(); ++it ) {
         // Skip m_debug outside debug mode (but allow searching for it)
         if( debug_mode || it->first != m_debug ) {
-            const auto &col_name = get_all_colors().get_name( msgtype_to_color( it->first ) );
+            const std::string &col_name = get_all_colors().get_name( msgtype_to_color( it->first ) );
             auto next_it = std::next( it );
             // Skip m_debug outside debug mode
             if( !debug_mode && next_it != type_list.end() && next_it->first == m_debug ) {

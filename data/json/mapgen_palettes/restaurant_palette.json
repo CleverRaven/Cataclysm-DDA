@@ -21,7 +21,6 @@
       "#": "t_brick_wall",
       "+": [ [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
       "-": "t_sidewalk",
-      "9": "t_console_broken",
       "0": "t_ponywall",
       "<": "t_wood_stairs_up",
       ">": "t_wood_stairs_down"
@@ -53,6 +52,7 @@
       "F": "f_fridge",
       "H": "f_sofa",
       "I": "f_sofa",
+      "9": "f_counter",
       "J": "f_counter",
       "K": "f_counter",
       "ƃ": "f_counter_gate_c",
@@ -81,6 +81,7 @@
     },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
     "items": {
+      "9": [ { "item": "cash_register_random", "chance": 100 } ],
       ")": { "item": "trash", "chance": 30, "repeat": [ 2, 5 ] },
       "Z": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ],
       "(": [
@@ -107,7 +108,11 @@
       "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
       "4": { "item": "SUS_junk_drawer", "chance": 100 },
       "5": { "item": "SUS_kitchen_sink", "chance": 100 },
-      "6": [ { "item": "SUS_pantry", "chance": 25 }, { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] } ],
+      "6": [
+        { "item": "SUS_pantry", "chance": 25 },
+        { "item": "cannedfood_commercial", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "SUS_spice_collection", "chance": 100, "repeat": [ 1, 2 ] }
+      ],
       "7": [ { "item": "coffee_display_2", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
       "z": [
         { "item": "chem_home", "chance": 50, "repeat": [ 1, 2 ] },

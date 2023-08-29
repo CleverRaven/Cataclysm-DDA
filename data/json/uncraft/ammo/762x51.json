@@ -13,8 +13,7 @@
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 24 ] ],
       [ [ "copper", 2 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "762_51_incendiary",
@@ -31,7 +30,6 @@
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 24 ] ],
       [ [ "copper", 2 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

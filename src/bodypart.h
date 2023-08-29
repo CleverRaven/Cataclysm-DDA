@@ -3,6 +3,7 @@
 #define CATA_SRC_BODYPART_H
 
 #include <array>
+#include <climits>
 #include <cstddef>
 #include <initializer_list>
 #include <iosfwd>
@@ -18,6 +19,7 @@
 #include "mod_tracker.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 #include "subbodypart.h"
 #include "localized_comparator.h"
 #include "type_id.h"
@@ -31,6 +33,7 @@ template <typename E> struct enum_traits;
 using bodypart_str_id = string_id<body_part_type>;
 using bodypart_id = int_id<body_part_type>;
 
+extern const bodypart_str_id body_part_bp_null;
 extern const bodypart_str_id body_part_head;
 extern const bodypart_str_id body_part_eyes;
 extern const bodypart_str_id body_part_mouth;
@@ -70,8 +73,6 @@ struct enum_traits<body_part> {
 
 enum class side : int;
 
-
-
 // Drench cache
 enum water_tolerance {
     WT_IGNORED = 0,
@@ -109,7 +110,7 @@ struct limb_score {
     public:
         static void load_limb_scores( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static const std::vector<limb_score> &get_all();
 
         const limb_score_id &getId() const {
@@ -136,9 +137,39 @@ struct limb_score {
 };
 
 struct bp_limb_score {
-    limb_score_id id = limb_score_id::NULL_ID();
     float score = 0.0f;
     float max = 0.0f;
+};
+
+struct bp_onhit_effect {
+    // ID of the effect to apply
+    efftype_id id;
+    // Apply the effect to the given bodypart, or to the whole character?
+    bool global = false;
+    // Type of damage that causes the effect - NONE always applies
+    damage_type_id dtype = damage_type_id::NULL_ID();
+    // Percent of the limb's max HP required for the effect to trigger (or absolute DMG for minor limbs)
+    int dmg_threshold = 100;
+    // Percent HP / absolute damage triggering a scale tick
+    float scale_increment = 0.0f;
+    // Percent chance (at damage threshold)
+    int chance = 100;
+    // Chance scaling for damage above the threshold
+    float chance_dmg_scaling = 0.0f;
+    // Intensity applied at the damage threshold.
+    int intensity = 1;
+    // Intensity scaling for damage above the threshold.
+    float intensity_dmg_scaling = 0.0f;
+    // Duration in turns at the damage threshold.
+    int duration = 1;
+    // Duration scaling for damage above the threshold.
+    float duration_dmg_scaling = 0.0f;
+    // Max intensity applied via damage (direct effect addition is exempt)
+    int max_intensity = INT_MAX;
+    // Max duration applied via damage (direct effect addition is exempt)
+    int max_duration = INT_MAX;
+
+    void load( const JsonObject &jo );
 };
 
 struct body_part_type {
@@ -186,7 +217,7 @@ struct body_part_type {
 
     private:
         // limb score values
-        std::vector<bp_limb_score> limb_scores;
+        std::map<limb_score_id, bp_limb_score> limb_scores;
         damage_instance damage;
 
     public:
@@ -206,6 +237,9 @@ struct body_part_type {
 
         // Limb-specific attacks
         std::set<matec_id> techniques;
+
+        // Effects to trigger on getting hit
+        std::vector<bp_onhit_effect> effects_on_hit;
 
         // Those are stored untranslated
         translation name;
@@ -239,6 +273,10 @@ struct body_part_type {
         // Health at which the limb stops contributing its conditional flags / techs
         int health_limit = 0;
 
+        // Minimum BMI to start adding extra encumbrance (only counts the points of BMI that came from fat, ignoring muscle and bone)
+        int bmi_encumbrance_threshold = 999;
+        // Amount of encumbrance per point of BMI over the threshold
+        float bmi_encumbrance_scalar = 0;
         float smash_efficiency = 0.5f;
 
         //Morale parameters
@@ -287,8 +325,6 @@ struct body_part_type {
         // if a limb is vital and at 0 hp, you die.
         bool is_vital = false;
         bool is_limb = false;
-        // If true, extra encumbrance on this limb affects dodge effectiveness
-        bool encumb_impacts_dodge = false;
 
         bool was_loaded = false;
 
@@ -300,7 +336,7 @@ struct body_part_type {
         // if secondary is true instead returns a part from only the secondary sublocations
         sub_bodypart_id random_sub_part( bool secondary ) const;
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
 
@@ -314,43 +350,19 @@ struct body_part_type {
         // Verifies that body parts make sense
         static void check_consistency();
 
-        float get_limb_score( const limb_score_id &id ) const {
-            for( const bp_limb_score &bpls : limb_scores ) {
-                if( bpls.id == id ) {
-                    return bpls.score;
-                }
-            }
-            return 0.0f;
-        }
-
-        float get_limb_score_max( const limb_score_id &id ) const {
-            for( const bp_limb_score &bpls : limb_scores ) {
-                if( bpls.id == id ) {
-                    return bpls.max;
-                }
-            }
-            return 0.0f;
-        }
-
-        bool has_limb_score( const limb_score_id &id ) const {
-            for( const bp_limb_score &bpls : limb_scores ) {
-                if( bpls.id == id ) {
-                    return true;
-                }
-            }
-            return false;
-        }
+        float get_limb_score( const limb_score_id &id ) const;
+        float get_limb_score_max( const limb_score_id &id ) const;
+        bool has_limb_score( const limb_score_id &id ) const;
 
         int bionic_slots() const {
             return bionic_slots_;
         }
 
-        float unarmed_damage( const damage_type &dt ) const;
-        float unarmed_arpen( const damage_type &dt ) const;
+        float unarmed_damage( const damage_type_id &dt ) const;
+        float unarmed_arpen( const damage_type_id &dt ) const;
 
-        float damage_resistance( const damage_type &dt ) const;
+        float damage_resistance( const damage_type_id &dt ) const;
         float damage_resistance( const damage_unit &du ) const;
-
 
         // combine matching body part and subbodypart strings together for printing
         static std::set<translation, localized_comparator> consolidate( std::vector<sub_bodypart_id>
@@ -360,8 +372,6 @@ struct body_part_type {
         static std::set<translation, localized_comparator> consolidate( std::vector<bodypart_id>
                 &covered );
 };
-
-
 
 template<>
 struct enum_traits<body_part_type::type> {
@@ -397,53 +407,9 @@ struct encumbrance_data {
     std::array<layer_details, static_cast<size_t>( layer_level::NUM_LAYER_LEVELS )>
     layer_penalty_details;
 
-    bool add_sub_locations( const layer_level level, const std::vector<sub_bodypart_id> &sub_parts ) {
-        bool return_val = false;
-        for( const sub_bodypart_id &sbp : sub_parts ) {
-            bool found = false;
-            for( const sub_bodypart_id &layer_sbp : layer_penalty_details[static_cast<size_t>
-                    ( level )].covered_sub_parts ) {
-                // if we find a location return true since we should add penalty
-                if( sbp == layer_sbp ) {
-                    found = true;
-                }
-            }
-            // if we've found it already in the list mark our return value as true
-            if( found ) {
-                return_val = true;
-            }
-            // otherwise we should add it to the list
-            else {
-                layer_penalty_details[static_cast<size_t>( level )].covered_sub_parts.push_back( sbp );
-            }
-        }
-        return return_val;
-    }
+    bool add_sub_location( layer_level level, sub_bodypart_id sbp );
 
-    bool add_sub_locations( const layer_level level,
-                            const std::vector<sub_bodypart_str_id> &sub_parts ) {
-        bool return_val = false;
-        for( const sub_bodypart_str_id &temp : sub_parts ) {
-            const sub_bodypart_id &sbp = temp;
-            bool found = false;
-            for( const sub_bodypart_id &layer_sbp : layer_penalty_details[static_cast<size_t>
-                    ( level )].covered_sub_parts ) {
-                // if we find a location return true since we should add penalty
-                if( sbp == layer_sbp ) {
-                    found = true;
-                }
-            }
-            // if we've found it already in the list mark our return value as true
-            if( found ) {
-                return_val = true;
-            }
-            // otherwise we should add it to the list
-            else {
-                layer_penalty_details[static_cast<size_t>( level )].covered_sub_parts.push_back( sbp );
-            }
-        }
-        return return_val;
-    }
+    bool add_sub_location( layer_level level, sub_bodypart_str_id sbp );
 
     void layer( const layer_level level, const int encumbrance, bool conflicts ) {
         layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance, conflicts );
@@ -508,6 +474,9 @@ class bodypart
         // Get our limb attacks
         std::set<matec_id> get_limb_techs() const;
 
+        // Get onhit effects
+        std::vector<bp_onhit_effect> get_onhit_effects( damage_type_id dtype ) const;
+
         // Get modified limb score as defined in limb_scores.json.
         // override forces the limb score to be affected by encumbrance/wounds (-1 == no override).
         float get_limb_score( const limb_score_id &score, int skill = -1, int override_encumb = -1,
@@ -524,6 +493,8 @@ class bodypart
         int get_frostbite_timer() const;
         int get_temp_cur() const;
         int get_temp_conv() const;
+        int get_bmi_encumbrance_threshold() const;
+        float get_bmi_encumbrance_scalar() const;
 
         std::array<int, NUM_WATER_TOLERANCE> get_mut_drench() const;
 
@@ -555,70 +526,6 @@ class bodypart
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &jo );
-};
-
-class body_part_set
-{
-    private:
-
-        cata::flat_set<bodypart_str_id> parts;
-
-        explicit body_part_set( const cata::flat_set<bodypart_str_id> &other ) : parts( other ) { }
-
-    public:
-        body_part_set() = default;
-        body_part_set( std::initializer_list<bodypart_str_id> bps ) {
-            for( const bodypart_str_id &bp : bps ) {
-                set( bp );
-            }
-        }
-        body_part_set unify_set( const body_part_set &rhs );
-        body_part_set intersect_set( const body_part_set &rhs );
-
-        body_part_set make_intersection( const body_part_set &rhs ) const;
-        body_part_set substract_set( const body_part_set &rhs );
-
-        void fill( const std::vector<bodypart_id> &bps );
-
-        bool test( const bodypart_str_id &bp ) const {
-            return parts.count( bp ) > 0;
-        }
-        void set( const bodypart_str_id &bp ) {
-            parts.insert( bp );
-        }
-        void reset( const bodypart_str_id &bp ) {
-            parts.erase( bp );
-        }
-        bool any() const {
-            return !parts.empty();
-        }
-        bool none() const {
-            return parts.empty();
-        }
-        size_t count() const {
-            return parts.size();
-        }
-
-        cata::flat_set<bodypart_str_id>::iterator begin() const {
-            return parts.begin();
-        }
-
-        cata::flat_set<bodypart_str_id>::iterator end() const {
-            return parts.end();
-        }
-
-        void clear() {
-            parts.clear();
-        }
-
-        template<typename Stream>
-        void serialize( Stream &s ) const {
-            s.write( parts );
-        }
-        template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
-        void deserialize( const Value &s ) {
-            s.read( parts );
-        }
 };
 
 /** Returns the new id for old token */

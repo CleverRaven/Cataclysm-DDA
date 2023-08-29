@@ -6,6 +6,7 @@
 #include <memory>
 #include <string>
 
+#include "coordinates.h"
 #include "units_fwd.h"
 
 class Character;
@@ -13,6 +14,7 @@ class character_id;
 class JsonObject;
 class JsonOut;
 class item;
+class item_pocket;
 class map_cursor;
 class vehicle_cursor;
 class talker;
@@ -66,7 +68,9 @@ class item_location
         type where_recursive() const;
 
         /** Returns the position where the item is found */
+        // TODO: fix point types (remove position in favour of pos_bub)
         tripoint position() const;
+        tripoint_bub_ms pos_bub() const;
 
         /** Describes the item location
          *  @param ch if set description is relative to character location */
@@ -93,6 +97,8 @@ class item_location
         /** Handles updates to the item location, mostly for caching. */
         void on_contents_changed();
 
+        void make_active();
+
         /** Gets the selected item or nullptr */
         item *get_item();
         const item *get_item() const;
@@ -101,9 +107,10 @@ class item_location
 
         /** returns the parent item, or an invalid location if it has no parent */
         item_location parent_item() const;
+        item_pocket *parent_pocket() const;
 
         /** returns true if the item is in the inventory of the given character **/
-        bool held_by( Character &who ) const;
+        bool held_by( Character const &who ) const;
 
         /**
          * true if this item location can and does have a parent
@@ -123,6 +130,11 @@ class item_location
         units::mass weight_capacity() const;
 
         /**
+        * Returns true if volume and weight capacity of all parent pockets >= 0
+        */
+        bool check_parent_capacity_recursive() const;
+
+        /**
         * true if the item is inside a not open watertight container
         **/
         bool protected_from_liquids() const;
@@ -134,6 +146,11 @@ class item_location
          * Returns whether another item is eventually contained by this item
          */
         bool eventually_contains( item_location loc ) const;
+
+        /**
+         * Overflow items into parent pockets recursively
+         */
+        void overflow();
 
     private:
         class impl;

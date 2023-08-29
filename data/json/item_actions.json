@@ -20,6 +20,7 @@
     "name": { "str": "Start a fire quickly" }
   },
   {
+    "//": "Remove after 0.G.",
     "type": "item_action",
     "id": "HAMMER",
     "name": { "str": "Pry crate, window, door or nails" }
@@ -151,11 +152,6 @@
   },
   {
     "type": "item_action",
-    "id": "cauterize",
-    "name": { "str": "Cauterize a wound" }
-  },
-  {
-    "type": "item_action",
     "id": "fireweapon_off",
     "name": { "str": "Turn on" }
   },
@@ -166,28 +162,23 @@
   },
   {
     "type": "item_action",
-    "id": "CARVER_ON",
-    "name": { "str": "Turn off" }
+    "id": "CARVER_ON"
   },
   {
     "type": "item_action",
-    "id": "TRIMMER_ON",
-    "name": { "str": "Turn off" }
+    "id": "TRIMMER_ON"
   },
   {
     "type": "item_action",
-    "id": "CIRCSAW_ON",
-    "name": { "str": "Turn off" }
+    "id": "CIRCSAW_ON"
   },
   {
     "type": "item_action",
-    "id": "CHAINSAW_ON",
-    "name": { "str": "Turn off" }
+    "id": "CHAINSAW_ON"
   },
   {
     "type": "item_action",
-    "id": "ELEC_CHAINSAW_ON",
-    "name": { "str": "Turn off" }
+    "id": "ELEC_CHAINSAW_ON"
   },
   {
     "type": "item_action",
@@ -206,8 +197,8 @@
   },
   {
     "type": "item_action",
-    "id": "countdown",
-    "name": { "str": "Start countdown" }
+    "id": "message",
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
@@ -246,6 +237,11 @@
   },
   {
     "type": "item_action",
+    "id": "saw_stock",
+    "name": { "str": "Saw down stock" }
+  },
+  {
+    "type": "item_action",
     "id": "ACIDBOMB_ACT",
     "name": { "str": "Activate" }
   },
@@ -253,6 +249,11 @@
     "type": "item_action",
     "id": "ADRENALINE_INJECTOR",
     "name": { "str": "Inject" }
+  },
+  {
+    "type": "item_action",
+    "id": "AFS_TRANSLOCATOR",
+    "name": { "str": "Create a buoy" }
   },
   {
     "type": "item_action",
@@ -303,21 +304,6 @@
     "type": "item_action",
     "id": "C4",
     "name": { "str": "Activate" }
-  },
-  {
-    "type": "item_action",
-    "id": "CABLE_ATTACH",
-    "name": { "str": "Attach" }
-  },
-  {
-    "type": "item_action",
-    "id": "CORD_ATTACH",
-    "name": { "str": "Attach" }
-  },
-  {
-    "type": "item_action",
-    "id": "TOW_ATTACH",
-    "name": { "str": "Attach" }
   },
   {
     "type": "item_action",
@@ -386,7 +372,11 @@
   },
   {
     "type": "item_action",
-    "id": "COMBATSAW_ON",
+    "id": "COMBATSAW_ON"
+  },
+  {
+    "type": "item_action",
+    "id": "TOOLWEAPON_DEACTIVATE",
     "name": { "str": "Turn off" }
   },
   {
@@ -396,8 +386,7 @@
   },
   {
     "type": "item_action",
-    "id": "E_COMBATSAW_ON",
-    "name": { "str": "Turn off" }
+    "id": "E_COMBATSAW_ON"
   },
   {
     "type": "item_action",
@@ -466,17 +455,17 @@
   },
   {
     "type": "item_action",
-    "id": "EMF_PASSIVE_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
     "id": "EMF_PASSIVE_ON",
     "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
     "id": "EXTINGUISHER",
+    "name": { "str": "Spray" }
+  },
+  {
+    "type": "item_action",
+    "id": "MACE",
     "name": { "str": "Spray" }
   },
   {
@@ -492,11 +481,6 @@
   {
     "type": "item_action",
     "id": "FIRECRACKER",
-    "name": { "str": "Light up" }
-  },
-  {
-    "type": "item_action",
-    "id": "FIRECRACKER_ACT",
     "name": { "str": "Light up" }
   },
   {
@@ -543,11 +527,6 @@
     "type": "item_action",
     "id": "FUNGICIDE",
     "name": { "str": "Take" }
-  },
-  {
-    "type": "item_action",
-    "id": "GRANADE",
-    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
@@ -606,11 +585,6 @@
   },
   {
     "type": "item_action",
-    "id": "LADDER",
-    "name": { "str": "Place" }
-  },
-  {
-    "type": "item_action",
     "id": "MAGIC_8_BALL",
     "name": { "str": "Ask" }
   },
@@ -666,7 +640,7 @@
   },
   {
     "type": "item_action",
-    "id": "MP3_ON",
+    "id": "MP3_DEACTIVATE",
     "name": { "str": "Turn off music" }
   },
   {
@@ -676,12 +650,12 @@
   },
   {
     "type": "item_action",
-    "id": "GASMASK",
+    "id": "GASMASK_ACTIVATE",
     "name": { "str": "Prepare to use" }
   },
   {
     "type": "item_action",
-    "id": "DIVE_TANK",
+    "id": "DIVE_TANK_ACTIVATE",
     "name": { "str": "Use regulator" }
   },
   {
@@ -703,11 +677,6 @@
     "type": "item_action",
     "id": "MYCUS",
     "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
-    "id": "NOISE_EMITTER_OFF",
-    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -812,7 +781,7 @@
   {
     "type": "item_action",
     "id": "RADIO_ON",
-    "name": { "str": "Turn off" }
+    "name": { "str": "scan" }
   },
   {
     "type": "item_action",
@@ -822,7 +791,7 @@
   {
     "type": "item_action",
     "id": "MANAGE_EXOSUIT",
-    "name": { "str": "Manage exoskeleton modules" }
+    "name": { "str": "Manage exosuit modules" }
   },
   {
     "type": "item_action",
@@ -911,11 +880,6 @@
   },
   {
     "type": "item_action",
-    "id": "VACCINE",
-    "name": { "str": "Inject" }
-  },
-  {
-    "type": "item_action",
     "id": "BLOOD_DRAW",
     "name": { "str": "Draw some blood" }
   },
@@ -996,6 +960,11 @@
   },
   {
     "type": "item_action",
+    "id": "link_up",
+    "name": { "str": "Plug in / Manage cables" }
+  },
+  {
+    "type": "item_action",
     "id": "manualnoise",
     "name": { "str": "Make some noise" }
   },
@@ -1028,11 +997,6 @@
     "type": "item_action",
     "id": "change_scent",
     "name": { "str": "Mask scent" }
-  },
-  {
-    "type": "item_action",
-    "id": "unfold_vehicle",
-    "name": { "str": "Unfold" }
   },
   {
     "type": "item_action",
@@ -1096,7 +1060,27 @@
   },
   {
     "type": "item_action",
+    "id": "DBG_LUX_METER",
+    "name": { "str": "Measure light level" }
+  },
+  {
+    "type": "item_action",
     "id": "CALORIES_INTAKE_TRACKER",
     "name": { "str": "Calories intake tracker" }
+  },
+  {
+    "type": "item_action",
+    "id": "VOLTMETER",
+    "name": { "str": "Test for voltage" }
+  },
+  {
+    "type": "item_action",
+    "id": "play_instrument",
+    "name": { "str": "Play instrument" }
+  },
+  {
+    "type": "item_action",
+    "id": "sound",
+    "name": { "str": "Make sound" }
   }
 ]

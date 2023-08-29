@@ -3,12 +3,12 @@
 #define CATA_SRC_VEHICLE_GROUP_H
 
 #include <iosfwd>
+#include <optional>
 #include <unordered_map>
 #include <vector>
 
 #include "mapgen.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "rng.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -41,6 +41,8 @@ class VehicleGroup
             return *vehicles.pick();
         }
 
+        std::vector<vproto_id> all_possible_results() const;
+
         static void load( const JsonObject &jo );
         static void reset();
 
@@ -52,7 +54,7 @@ class VehicleGroup
  * The location and facing data needed to place a vehicle onto the map.
  */
 struct VehicleFacings {
-    VehicleFacings( const JsonObject &jo, const std::string &key );
+    VehicleFacings( const JsonObject &jo, std::string_view key );
 
     units::angle pick() const {
         return random_entry( values );
@@ -107,7 +109,7 @@ class VehicleFunction
         virtual void apply( map &m, const std::string &terrainid ) const = 0;
 };
 
-using vehicle_gen_pointer = void ( * )( map &, const std::string & );
+using vehicle_gen_pointer = void ( * )( map &, std::string_view );
 
 class VehicleFunction_builtin : public VehicleFunction
 {
@@ -148,7 +150,7 @@ class VehicleFunction_json : public VehicleFunction
         int status;
 
         std::string placement;
-        cata::optional<VehicleLocation> location;
+        std::optional<VehicleLocation> location;
 };
 
 /**

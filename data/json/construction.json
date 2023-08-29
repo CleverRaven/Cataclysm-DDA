@@ -17,7 +17,7 @@
     "group": "deconstruct_simple_furniture",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "10 m",
+    "time": "10 s",
     "pre_note": "Certain terrain and furniture can be deconstructed without any tools.",
     "pre_flags": "EASY_DECONSTRUCT",
     "pre_special": "check_deconstruct",
@@ -58,18 +58,6 @@
     "components": [ [ [ "glass_shard", 168 ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_pit_glass"
-  },
-  {
-    "type": "construction",
-    "id": "constr_pit_underground",
-    "group": "underground_pit",
-    "category": "DIG",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "required_skills": [ [ "survival", 3 ] ],
-    "time": "300 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
-    "pre_terrain": "t_rock_floor",
-    "post_terrain": "t_pit"
   },
   {
     "type": "construction",
@@ -118,7 +106,7 @@
     "required_skills": [ [ "survival", 2 ] ],
     "time": "3 m",
     "qualities": [  ],
-    "components": [ [ [ "withered", 80 ], [ "straw_pile", 80 ] ] ],
+    "components": [ [ [ "withered", 80 ], [ "straw_pile", 80 ], [ "leaves", 80 ] ] ],
     "pre_terrain": "t_improvised_shelter",
     "post_terrain": "t_improvised_shelter_filled"
   },
@@ -231,14 +219,50 @@
   },
   {
     "type": "construction",
+    "id": "constr_excavate_forestfloor",
+    "group": "constr_excavate_forestfloor",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "5 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "twig", "count": [ 2, 10 ] }, { "item": "leaves", "count": [ 10, 50 ] } ],
+    "pre_terrain": "t_forestfloor",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
     "id": "constr_fill_water_sh",
     "group": "fill_shallow_water_with_dirt",
     "category": "CONSTRUCT",
     "required_skills": [ [ "survival", 1 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "material_soil", 60 ], [ "material_sand", 600 ] ] ],
+    "components": [ [ [ "material_soil", 60 ] ] ],
     "pre_terrain": "t_water_sh",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_fill_water_murky",
+    "group": "fill_shallow_water_with_dirt",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 60 ] ] ],
+    "pre_terrain": "t_water_murky",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_fill_recess",
+    "group": "fill_recess_with_dirt",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 10 ] ] ],
+    "pre_terrain": "t_puddle",
     "post_terrain": "t_dirt"
   },
   {
@@ -251,6 +275,18 @@
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "material_soil", 60 ] ] ],
     "pre_terrain": "t_swater_sh",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_fill_sewage",
+    "group": "fill_shallow_water_with_dirt",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 60 ] ] ],
+    "pre_terrain": "t_sewage",
     "post_terrain": "t_dirt"
   },
   {
@@ -472,7 +508,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ], [ "cordage_36", 1 ] ] ],
     "pre_terrain": "t_window_no_curtains",
     "post_terrain": "t_window_domestic"
   },
@@ -740,17 +776,9 @@
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
     "time": "50 m",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
+    "using": [ [ "daub_fill", 1 ] ],
     "components": [
       [ [ "2x4", 5 ], [ "stick", 10 ], [ "stick_long", 5 ] ],
-      [
-        [ "material_quicklime", 4 ],
-        [ "material_limestone", 4 ],
-        [ "clay_lump", 4 ],
-        [ "feces_manure", 2 ],
-        [ "feces_dog", 2 ],
-        [ "feces_cow", 1 ]
-      ],
-      [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
       [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ]
     ],
@@ -766,17 +794,9 @@
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
     "time": "50 m",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
+    "using": [ [ "daub_fill", 1 ] ],
     "components": [
       [ [ "2x4", 5 ], [ "stick", 10 ], [ "stick_long", 5 ] ],
-      [
-        [ "material_quicklime", 4 ],
-        [ "material_limestone", 4 ],
-        [ "clay_lump", 4 ],
-        [ "feces_manure", 2 ],
-        [ "feces_dog", 2 ],
-        [ "feces_cow", 1 ]
-      ],
-      [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
       [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ]
     ],
@@ -792,17 +812,9 @@
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 1 } ] ],
+    "using": [ [ "daub_fill", 1 ] ],
     "components": [
       [ [ "2x4", 5 ], [ "stick", 10 ], [ "stick_long", 5 ] ],
-      [
-        [ "material_quicklime", 4 ],
-        [ "material_limestone", 4 ],
-        [ "clay_lump", 4 ],
-        [ "feces_manure", 2 ],
-        [ "feces_dog", 2 ],
-        [ "feces_cow", 1 ]
-      ],
-      [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
       [ [ "straw_pile", 8 ], [ "cattail_stalk", 8 ], [ "dogbane", 8 ], [ "pine_bough", 8 ] ],
       [ [ "water", 10 ], [ "water_clean", 10 ] ]
     ],
@@ -1022,6 +1034,32 @@
   },
   {
     "type": "construction",
+    "id": "constr_showjump_end",
+    "group": "build_showjump_end",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "pointy_stick", 4 ], [ "spear_wood", 4 ], [ "pointy_stick_long", 4 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ] ],
+    "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
+    "post_terrain": "f_showjump_end"
+  },
+  {
+    "type": "construction",
+    "id": "constr_showjump",
+    "group": "build_showjump",
+    "category": "CONSTRUCT",
+    "difficulty": 0,
+    "time": "10 s",
+    "components": [ [ [ "long_pole", 1 ] ] ],
+    "dark_craftable": true,
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_showjump"
+  },
+  {
+    "type": "construction",
     "id": "constr_scrap_wall_halfway",
     "group": "build_metal_wall",
     "//": "Step 1: foundation",
@@ -1057,7 +1095,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
-    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "pre_terrain": "t_dirt",
     "post_terrain": "t_brick_wall_halfway"
   },
@@ -1070,7 +1108,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
-    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "pre_terrain": "t_brick_wall_halfway",
     "post_terrain": "t_brick_wall"
   },
@@ -1090,17 +1128,66 @@
   },
   {
     "type": "construction",
-    "id": "constr_fill_pot",
+    "id": "constr_fill_pit_trap",
+    "group": "fill_pit_with_dirt",
+    "//": "Fills a trap pit with dirt.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "components": [ [ [ "material_soil", 50 ] ] ],
+    "dark_craftable": true,
+    "pre_flags": "PIT_FILLABLE",
+    "post_terrain": "t_dirt",
+    "do_turn_special": "do_turn_shovel",
+    "activity_level": "EXTRA_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_fill_pit_shallow",
+    "group": "fill_pit_with_dirt",
+    "//": "Fills a shallow pit with dirt.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "components": [ [ [ "material_soil", 50 ] ] ],
+    "dark_craftable": true,
+    "pre_terrain": "t_pit_shallow",
+    "post_terrain": "t_dirt",
+    "do_turn_special": "do_turn_shovel",
+    "activity_level": "EXTRA_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_fill_dirmound",
+    "group": "fill_pit_with_dirt",
+    "//": "Fills a dirt mound with dirt.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "dark_craftable": true,
+    "pre_terrain": "t_dirtmound",
+    "post_terrain": "t_dirt",
+    "do_turn_special": "do_turn_shovel",
+    "activity_level": "EXTRA_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_fill_pit",
     "group": "fill_pit_with_dirt",
     "//": "Fills a deep pit with dirt.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "40 m",
+    "time": "15 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "components": [ [ [ "material_soil", 200 ] ] ],
+    "components": [ [ [ "material_soil", 350 ] ] ],
     "dark_craftable": true,
     "pre_terrain": "t_pit",
-    "post_terrain": "t_dirt"
+    "post_terrain": "t_pit_shallow",
+    "do_turn_special": "do_turn_shovel",
+    "activity_level": "EXTRA_EXERCISE"
   },
   {
     "type": "construction",
@@ -1177,6 +1264,35 @@
   },
   {
     "type": "construction",
+    "id": "constr_wooden_gangway",
+    "group": "build_wooden_gangway",
+    "//": "Makes a wooden gangway between two adjacent points, typically roofs.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "100 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 14 ] ], [ [ "nail", 28 ] ] ],
+    "pre_note": "Must be supported on at least two sides.",
+    "pre_special": "check_support_below",
+    "post_terrain": "t_floor_wooden_gangway"
+  },
+  {
+    "type": "construction",
+    "id": "constr_metal_gangway",
+    "group": "build_metal_gangway",
+    "//": "Makes a metal gangway between two adjacent points, typically roofs.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "90 m",
+    "qualities": [ { "id": "GLARE", "level": 1 } ],
+    "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
+    "components": [ [ [ "steel_plate", 2 ] ] ],
+    "pre_note": "Must be supported on at least two sides.",
+    "pre_special": "check_support_below",
+    "post_terrain": "t_floor_metal_gangway"
+  },
+  {
+    "type": "construction",
     "id": "constr_sconc_wall_halfway",
     "group": "build_simple_concrete_wall",
     "//": "Step 1: foundation",
@@ -1211,7 +1327,8 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "using": [ [ "welding_standard", 2 ] ],
+    "//1": "4cm of weld per rebar",
+    "using": [ [ "welding_standard", 64 ] ],
     "components": [ [ [ "rebar", 16 ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_reb_cage"
@@ -1223,8 +1340,9 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "420 m",
-    "using": [ [ "welding_standard", 2 ] ],
-    "components": [ [ [ "pipe", 36 ] ] ],
+    "//1": "3cm of weld per pipe",
+    "using": [ [ "welding_standard", 108 ] ],
+    "components": [ [ [ "pipe", 36 ] ], [ [ "pipe_fittings", 12 ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "f_parkour_bars"
   },
@@ -1278,7 +1396,8 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "using": [ [ "welding_standard", 2 ] ],
+    "//1": "4cm of weld per rebar",
+    "using": [ [ "welding_standard", 64 ] ],
     "components": [ [ [ "rebar", 16 ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_reb_cage"
@@ -1333,8 +1452,8 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "120 m",
-    "using": [ [ "welding_standard", 2 ] ],
-    "components": [ [ [ "rebar", 8 ] ], [ [ "2x4", 12 ] ], [ [ "pipe", 4 ] ] ],
+    "using": [ [ "welding_standard", 60 ] ],
+    "components": [ [ [ "rebar", 8 ] ], [ [ "2x4", 12 ] ], [ [ "pipe", 4 ] ], [ [ "pipe_fittings", 2 ] ] ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_ov_smreb_cage"
   },
@@ -1360,7 +1479,8 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "180 m",
-    "using": [ [ "welding_standard", 2 ] ],
+    "using": [ [ "welding_standard", 60 ] ],
+    "//1": "4cm of weld per rebar and 3cm per pipe",
     "components": [ [ [ "rebar", 12 ] ], [ [ "2x4", 12 ] ], [ [ "pipe", 4 ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_ov_reb_cage"
@@ -1424,7 +1544,7 @@
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ], [ [ "pebble", 50 ] ], [ [ "mortar_build", 1 ] ] ],
+    "components": [ [ [ "rock", 12 ] ], [ [ "pebble", 50 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_rock_wall_half"
   },
@@ -1437,7 +1557,7 @@
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ] ] ],
+    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ] ],
     "pre_terrain": "t_rock_wall_half",
     "post_terrain": "t_rock_wall"
   },
@@ -1548,12 +1668,29 @@
     "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 2 ] ],
     "time": "60 m",
     "components": [
-      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
-      [ [ "stick", 8 ], [ "stick_long", 4 ], [ "2x4", 8 ] ]
+      [ [ "rope_natural", 1, "LIST" ] ],
+      [ [ "stick", 8 ], [ "stick_long", 4 ], [ "2x4", 8 ] ],
+      [ [ "block_and_tackle", 1 ] ]
     ],
     "pre_note": "Can be deconstructed without tools.  Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
     "pre_special": "check_empty",
     "post_terrain": "t_palisade_pulley"
+  },
+  {
+    "type": "construction",
+    "id": "constr_palisade_pulley_wood",
+    "group": "build_rope_pulley_system",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 2 ] ],
+    "time": "60 m",
+    "components": [
+      [ [ "rope_natural", 1, "LIST" ] ],
+      [ [ "stick", 8 ], [ "stick_long", 4 ], [ "2x4", 8 ] ],
+      [ [ "block_and_tackle_wood", 1 ] ]
+    ],
+    "pre_note": "Can be deconstructed without tools.  Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
+    "pre_special": "check_empty",
+    "post_terrain": "t_palisade_pulley_wood"
   },
   {
     "type": "construction",
@@ -1754,7 +1891,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
-    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "pre_terrain": "t_brick_wall_halfway",
     "post_terrain": "t_embrasure_brick"
   },
@@ -1766,7 +1903,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "30 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 660 ] ] ],
     "pre_terrain": "t_brick_wall",
     "post_terrain": "t_embrasure_brick"
   },
@@ -1795,7 +1932,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "30 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 660 ] ] ],
     "pre_terrain": "t_adobe_brick_wall",
     "post_terrain": "t_embrasure_adobe_brick"
   },
@@ -1807,7 +1944,7 @@
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ] ] ],
+    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ] ],
     "pre_terrain": "t_rock_wall_half",
     "post_terrain": "t_embrasure_rock"
   },
@@ -2061,7 +2198,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "25 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "stick_long", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_rack_coat"
   },
@@ -2091,6 +2228,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_chest",
+    "group": "build_chest",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "80 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "wood_panel", 6 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 10 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_chest"
+  },
+  {
+    "type": "construction",
     "id": "constr_table",
     "group": "build_table",
     "category": "FURN",
@@ -2110,7 +2259,8 @@
     "time": "1 m",
     "components": [ [ [ "w_table", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_table"
+    "post_terrain": "f_table",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -2126,19 +2276,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_workbench",
-    "group": "build_workbench",
-    "category": "FURN",
-    "required_skills": [ [ "fabrication", 3 ] ],
-    "time": "60 m",
-    "using": [ [ "welding_standard", 5 ] ],
-    "components": [ [ [ "pipe", 8 ] ], [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 4 ] ] ],
-    "pre_note": "Can be deconstructed without tools.",
-    "pre_special": "check_empty",
-    "post_terrain": "f_workbench"
-  },
-  {
-    "type": "construction",
     "id": "constr_place_workbench",
     "group": "place_workbench",
     "category": "FURN",
@@ -2147,43 +2284,32 @@
     "components": [ [ [ "workbench", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_workbench"
+    "post_terrain": "f_workbench",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
     "id": "constr_chair",
     "group": "build_chair",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "time": "15 s",
+    "components": [ [ [ "chair_wood", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_chair"
+    "post_terrain": "f_chair",
+    "activity_level": "LIGHT_EXERCISE",
+    "required_skills": [ [ "fabrication", 0 ] ]
   },
   {
     "type": "construction",
     "id": "constr_stool",
     "group": "build_stool",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "25 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "stool_wood", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_stool"
-  },
-  {
-    "type": "construction",
-    "id": "constr_bench",
-    "group": "build_bench",
-    "category": "FURN",
-    "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ],
-    "pre_special": "check_empty",
-    "post_terrain": "f_bench"
+    "post_terrain": "f_stool",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -2229,7 +2355,8 @@
     "category": "FURN",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
-    "components": [ [ [ "withered", 50 ] ] ],
+    "//": "12,5 liters",
+    "components": [ [ [ "leaves", 125 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_leaves_pile"
@@ -2244,7 +2371,8 @@
     "components": [ [ [ "hammock", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.  Must be supported on at least two sides.",
     "pre_special": "check_support",
-    "post_terrain": "f_hammock"
+    "post_terrain": "f_hammock",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -2256,41 +2384,13 @@
     "components": [ [ [ "hammock_net", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.  Must be supported on at least two sides.",
     "pre_special": "check_support",
-    "post_terrain": "f_hammock_net"
-  },
-  {
-    "type": "construction",
-    "id": "constr_bed",
-    "group": "build_bed_from_scratch",
-    "category": "FURN",
-    "required_skills": [ [ "fabrication", 4 ] ],
-    "time": "60 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "mattress", 1 ], [ "down_mattress", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_terrain": "f_bed"
-  },
-  {
-    "type": "construction",
-    "id": "constr_bunkbed",
-    "group": "build_bunk_bed",
-    "category": "FURN",
-    "required_skills": [ [ "fabrication", 4 ] ],
-    "time": "130 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [
-      [ [ "2x4", 16 ], [ "wood_panel", 4 ] ],
-      [ [ "2x4", 14 ] ],
-      [ [ "nail", 30 ] ],
-      [ [ "mattress", 2 ], [ "down_mattress", 2 ] ]
-    ],
-    "pre_special": "check_empty",
-    "post_terrain": "f_bunkbed"
+    "post_terrain": "f_hammock_net",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
     "id": "constr_bed_frame",
-    "group": "build_bed_frame",
+    "group": "build_bed",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "55 m",
@@ -2302,37 +2402,72 @@
   {
     "type": "construction",
     "id": "constr_finish_bed",
-    "group": "add_mattress_to_bed_frame",
+    "group": "build_bed",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
-    "components": [ [ [ "mattress", 1 ], [ "down_mattress", 1 ] ] ],
+    "components": [ [ [ "mattress", 1 ] ] ],
     "pre_terrain": "f_bed_frame",
     "post_terrain": "f_bed"
+  },
+  {
+    "type": "construction",
+    "id": "constr_bunkbed",
+    "group": "build_bed",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "70 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 16 ], [ "wood_panel", 4 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 20 ] ], [ [ "mattress", 1 ] ] ],
+    "pre_terrain": "f_bed",
+    "post_terrain": "f_bunkbed"
+  },
+  {
+    "type": "construction",
+    "id": "constr_down_bed_frame",
+    "group": "build_down_bed",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "55 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_bed_frame"
+  },
+  {
+    "type": "construction",
+    "id": "constr_finish_down_bed",
+    "group": "build_down_bed",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "down_mattress", 1 ] ] ],
+    "pre_terrain": "f_bed_frame",
+    "post_terrain": "f_bed_down"
+  },
+  {
+    "type": "construction",
+    "id": "constr_down_bunkbed",
+    "group": "build_down_bed",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "70 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 16 ], [ "wood_panel", 4 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 20 ] ], [ [ "down_mattress", 1 ] ] ],
+    "pre_terrain": "f_bed_down",
+    "post_terrain": "f_bunkbed_down"
   },
   {
     "type": "construction",
     "id": "constr_armchair",
     "group": "build_armchair",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 3 ], [ "tailor", 3 ] ],
-    "time": "45 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 10 ] ], [ [ "nail", 8 ] ], [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "15 s",
+    "components": [ [ [ "armchair", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_armchair"
-  },
-  {
-    "type": "construction",
-    "id": "constr_sofa",
-    "group": "build_sofa",
-    "category": "FURN",
-    "required_skills": [ [ "fabrication", 4 ], [ "tailor", 3 ] ],
-    "time": "60 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_terrain": "f_sofa"
   },
   {
     "type": "construction",
@@ -2384,6 +2519,23 @@
   },
   {
     "type": "construction",
+    "id": "constr_fvat_wood_empty",
+    "group": "build_wooden_fermenting_vat",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ], [ "cooking", 3 ] ],
+    "time": "180 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "CHISEL_WOOD", "level": 1 } ] ],
+    "components": [
+      [ [ "2x4", 14 ] ],
+      [ [ "stick_long", 6 ] ],
+      [ [ "rope_makeshift_30", 1 ], [ "rope_makeshift_6", 5 ], [ "cordage_36", 30 ], [ "cordage_6", 180 ] ],
+      [ [ "splinter", 2 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_fvat_wood_empty"
+  },
+  {
+    "type": "construction",
     "id": "constr_wood_keg",
     "group": "build_wooden_keg",
     "category": "FURN",
@@ -2403,10 +2555,25 @@
     "required_skills": [ [ "fabrication", 2 ], [ "cooking", 1 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "using": [ [ "welding_standard", 2 ] ],
+    "using": [ [ "welding_standard", 5 ] ],
+    "//1": "5cm of weld to join the faucet to the pipe",
     "components": [ [ [ "metal_tank", 4 ] ], [ [ "water_faucet", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_standing_tank"
+  },
+  {
+    "type": "construction",
+    "id": "constr_storage_tank",
+    "group": "build_storage_tank",
+    "//": "a huge metal tank, useful for holding very large volumes of liquids",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "300 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
+    "using": [ [ "welding_standard", 16 ] ],
+    "components": [ [ [ "sheet_metal", 24 ], [ "sheet_metal_small", 576 ] ], [ [ "water_faucet", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_storage_tank"
   },
   {
     "type": "construction",
@@ -2418,7 +2585,8 @@
     "components": [ [ [ "anvil", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_anvil"
+    "post_terrain": "f_anvil",
+    "activity_level": "MODERATE_EXERCISE"
   },
   {
     "type": "construction",
@@ -2430,7 +2598,8 @@
     "components": [ [ [ "char_forge", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_forge"
+    "post_terrain": "f_forge",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -2442,7 +2611,8 @@
     "components": [ [ [ "still", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_still"
+    "post_terrain": "f_still",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -2493,7 +2663,8 @@
     "time": "10 m",
     "components": [ [ [ "straw_pile", 40 ], [ "withered", 40 ] ], [ [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_hay"
+    "post_terrain": "f_hay",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -2527,7 +2698,8 @@
     "required_skills": [ [ "fabrication", 9 ] ],
     "time": "420 m",
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ], [ { "id": "SMOOTH", "level": 2 } ] ],
-    "using": [ [ "welding_standard", 15 ] ],
+    "using": [ [ "welding_standard", 500 ], [ "welding_standard", 500 ] ],
+    "//1": "lots of 1 meter square metal sheet and plating so very big weld",
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "components": [
       [ [ "hdframe", 1 ] ],
@@ -2550,7 +2722,8 @@
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ] ],
-    "using": [ [ "welding_standard", 15 ] ],
+    "using": [ [ "welding_standard", 500 ], [ "welding_standard", 500 ], [ "welding_standard", 500 ] ],
+    "//1": "1200cm of weld per rebar",
     "components": [ [ [ "frame", 4 ] ], [ [ "sheet_metal", 16 ] ], [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 40 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_dumpster"
@@ -2559,11 +2732,13 @@
     "type": "construction",
     "id": "constr_metal_trashcan",
     "group": "build_metal_trashcan",
-    "category": "CONSTRUCT",
+    "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 2 } ] ],
-    "components": [ [ [ "sheet_metal", 2 ] ] ],
+    "//": "wastebasket, no lid, 20 qt capacity, truncated rectangular pyramid base 10in×7.5in, top 11in×8.5in, height 13.5in",
+    "components": [ [ [ "sheet_metal", 1 ] ] ],
+    "byproducts": [ { "item": "sheet_metal_small", "count": 4 }, { "item": "scrap", "count": [ 4, 6 ] } ],
     "pre_special": "check_empty",
     "post_terrain": "f_metal_trashcan"
   },
@@ -2575,7 +2750,8 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "using": [ [ "welding_standard", 1 ] ],
+    "//1": "relatively small weld",
+    "using": [ [ "welding_standard", 25 ] ],
     "components": [ [ [ "sheet_metal", 1 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 5 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_mailbox"
@@ -2601,9 +2777,10 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "180 m",
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
-    "using": [ [ "welding_standard", 8 ] ],
-    "components": [ [ [ "rebar", 16 ] ], [ [ "sheet_metal_small", 12 ] ], [ [ "hinge", 2 ] ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+    "using": [ [ "welding_standard", 500 ] ],
+    "//1": "4cm weld per rebar + welding all the metal squares into place",
+    "components": [ [ [ "rebar", 16 ] ], [ [ "sheet_metal_small", 12 ] ], [ [ "hinge", 2 ] ], [ [ "nuts_bolts", 8 ] ] ],
     "pre_terrain": "t_mdoor_frame",
     "post_terrain": "t_door_bar_c"
   },
@@ -2615,10 +2792,25 @@
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
-    "using": [ [ "welding_standard", 4 ] ],
+    "using": [ [ "welding_standard", 250 ] ],
+    "//1": "4cm weld per rebar + welding all the metal squares into place",
     "components": [ [ [ "rebar", 8 ] ], [ [ "sheet_metal_small", 6 ] ] ],
     "pre_terrain": "t_window",
     "post_terrain": "t_window_bars"
+  },
+  {
+    "type": "construction",
+    "id": "constr_window_bars_frame",
+    "group": "install_bars_onto_window",
+    "category": "WINDOWS",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "90 m",
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "welding_standard", 250 ] ],
+    "//1": "4cm weld per rebar + welding all the metal squares into place",
+    "components": [ [ [ "rebar", 8 ] ], [ [ "sheet_metal_small", 6 ] ] ],
+    "pre_terrain": "t_window_empty",
+    "post_terrain": "t_window_bars_noglass"
   },
   {
     "type": "construction",
@@ -2628,7 +2820,8 @@
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
-    "using": [ [ "welding_standard", 4 ] ],
+    "using": [ [ "welding_standard", 250 ] ],
+    "//": "4cm weld per rebar + welding all the metal squares into place",
     "components": [ [ [ "rebar", 8 ] ], [ [ "sheet_metal_small", 6 ] ] ],
     "pre_terrain": "t_window_no_curtains",
     "post_terrain": "t_window_bars"
@@ -2641,7 +2834,8 @@
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
-    "using": [ [ "welding_standard", 3 ] ],
+    "//1": "4cm weld per rebar + welding all the metal squares into place",
+    "using": [ [ "welding_standard", 250 ] ],
     "components": [ [ [ "rebar", 8 ] ], [ [ "sheet_metal_small", 6 ] ] ],
     "pre_terrain": "t_window_alarm",
     "post_terrain": "t_window_bars_alarm"
@@ -2666,8 +2860,9 @@
     "required_skills": [ [ "fabrication", 9 ] ],
     "time": "600 m",
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
-    "using": [ [ "welding_standard", 20 ] ],
-    "components": [ [ [ "frame", 10 ] ] ],
+    "//1": "50cm weld per frame",
+    "using": [ [ "welding_standard", 500 ], [ "welding_standard", 500 ] ],
+    "components": [ [ [ "frame", 10 ] ], [ [ "nuts_bolts", 200 ] ] ],
     "pre_terrain": "t_concrete",
     "post_terrain": "t_support_l"
   },
@@ -2679,8 +2874,9 @@
     "required_skills": [ [ "fabrication", 8 ] ],
     "time": "240 m",
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
-    "using": [ [ "welding_standard", 10 ] ],
-    "components": [ [ [ "pipe", 18 ] ] ],
+    "//1": "3cm per pipe",
+    "using": [ [ "welding_standard", 54 ] ],
+    "components": [ [ [ "pipe", 18 ] ], [ [ "pipe_fittings", 6 ] ] ],
     "pre_terrain": "t_concrete",
     "post_terrain": "t_support_s"
   },
@@ -2692,7 +2888,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
     "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "w_paint", 25 ] ] ],
+    "components": [ [ [ "paint_white", 3 ] ] ],
     "pre_terrain": "t_grass",
     "post_terrain": "t_grass_white"
   },
@@ -2704,7 +2900,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
     "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "w_paint", 25 ] ] ],
+    "components": [ [ [ "paint_white", 3 ] ] ],
     "pre_terrain": "t_grass_dead",
     "post_terrain": "t_grass_white"
   },
@@ -2716,7 +2912,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
     "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "w_paint", 25 ] ] ],
+    "components": [ [ [ "paint_white", 3 ] ] ],
     "pre_terrain": "t_grass_golf",
     "post_terrain": "t_grass_white"
   },
@@ -2728,7 +2924,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
     "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "y_paint", 25 ] ] ],
+    "components": [ [ [ "paint_yellow", 3 ] ] ],
     "pre_terrain": "t_pavement",
     "post_terrain": "t_pavement_y"
   },
@@ -2740,7 +2936,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
     "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "y_paint", 25 ] ] ],
+    "components": [ [ [ "paint_yellow", 3 ] ] ],
     "pre_terrain": "t_pavement_bg_dp",
     "post_terrain": "t_pavement_y_bg_dp"
   },
@@ -2808,7 +3004,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
     "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "r_paint", 25 ] ] ],
+    "components": [ [ [ "paint_red", 3 ] ] ],
     "pre_terrain": "t_wall",
     "post_terrain": "t_wall_r"
   },
@@ -2820,7 +3016,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
     "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "b_paint", 25 ] ] ],
+    "components": [ [ [ "paint_blue", 3 ] ] ],
     "pre_terrain": "t_wall",
     "post_terrain": "t_wall_b"
   },
@@ -2832,7 +3028,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
     "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "w_paint", 25 ] ] ],
+    "components": [ [ [ "paint_white", 3 ] ] ],
     "pre_terrain": "t_wall",
     "post_terrain": "t_wall_w"
   },
@@ -2844,7 +3040,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
     "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "g_paint", 25 ] ] ],
+    "components": [ [ [ "paint_green", 3 ] ] ],
     "pre_terrain": "t_wall",
     "post_terrain": "t_wall_g"
   },
@@ -2856,7 +3052,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
     "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "p_paint", 25 ] ] ],
+    "components": [ [ [ "paint_purple", 3 ] ] ],
     "pre_terrain": "t_wall",
     "post_terrain": "t_wall_p"
   },
@@ -2868,7 +3064,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
     "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "y_paint", 25 ] ] ],
+    "components": [ [ [ "paint_yellow", 3 ] ] ],
     "pre_terrain": "t_wall",
     "post_terrain": "t_wall_y"
   },
@@ -2886,51 +3082,1627 @@
   },
   {
     "type": "construction",
+    "id": "constr_wood_wall_r",
+    "group": "paint_wall_red",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_red", 3 ] ] ],
+    "pre_terrain": "t_wall_wood",
+    "post_terrain": "t_wood_wall_r"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wood_wall_b",
+    "group": "paint_wall_blue",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_blue", 3 ] ] ],
+    "pre_terrain": "t_wall_wood",
+    "post_terrain": "t_wood_wall_b"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wood_wall_w",
+    "group": "paint_wall_white",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_white", 3 ] ] ],
+    "pre_terrain": "t_wall_wood",
+    "post_terrain": "t_wood_wall_w"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wood_wall_g",
+    "group": "paint_wall_green",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_green", 3 ] ] ],
+    "pre_terrain": "t_wall_wood",
+    "post_terrain": "t_wood_wall_g"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wood_wall_p",
+    "group": "paint_wall_purple",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_purple", 3 ] ] ],
+    "pre_terrain": "t_wall_wood",
+    "post_terrain": "t_wood_wall_p"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wood_wall_y",
+    "group": "paint_wall_yellow",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_yellow", 3 ] ] ],
+    "pre_terrain": "t_wall_wood",
+    "post_terrain": "t_wood_wall_y"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_wood_wall_paint_r",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_wood_wall_r",
+    "post_terrain": "t_wall_wood"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_wood_wall_paint_b",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_wood_wall_b",
+    "post_terrain": "t_wall_wood"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_wood_wall_paint_w",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_wood_wall_w",
+    "post_terrain": "t_wall_wood"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_wood_wall_paint_g",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_wood_wall_g",
+    "post_terrain": "t_wall_wood"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_wood_wall_paint_p",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_wood_wall_p",
+    "post_terrain": "t_wall_wood"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_wood_wall_paint_y",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_wood_wall_y",
+    "post_terrain": "t_wall_wood"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_wall_r",
+    "group": "paint_wall_red",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_red", 3 ] ] ],
+    "pre_terrain": "t_concrete_wall",
+    "post_terrain": "t_concrete_wall_r"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_wall_b",
+    "group": "paint_wall_blue",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_blue", 3 ] ] ],
+    "pre_terrain": "t_concrete_wall",
+    "post_terrain": "t_concrete_wall_b"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_wall_w",
+    "group": "paint_wall_white",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_white", 3 ] ] ],
+    "pre_terrain": "t_concrete_wall",
+    "post_terrain": "t_concrete_wall_w"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_wall_g",
+    "group": "paint_wall_green",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_green", 3 ] ] ],
+    "pre_terrain": "t_concrete_wall",
+    "post_terrain": "t_concrete_wall_g"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_wall_p",
+    "group": "paint_wall_purple",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_purple", 3 ] ] ],
+    "pre_terrain": "t_concrete_wall",
+    "post_terrain": "t_concrete_wall_p"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_wall_y",
+    "group": "paint_wall_yellow",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_yellow", 3 ] ] ],
+    "pre_terrain": "t_concrete_wall",
+    "post_terrain": "t_concrete_wall_y"
+  },
+  {
+    "type": "construction",
+    "id": "constr_strconc_wall_r",
+    "group": "paint_wall_red",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_red", 3 ] ] ],
+    "pre_terrain": "t_strconc_wall",
+    "post_terrain": "t_strconc_wall_r"
+  },
+  {
+    "type": "construction",
+    "id": "constr_strconc_wall_b",
+    "group": "paint_wall_blue",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_blue", 3 ] ] ],
+    "pre_terrain": "t_strconc_wall",
+    "post_terrain": "t_strconc_wall_b"
+  },
+  {
+    "type": "construction",
+    "id": "constr_strconc_wall_w",
+    "group": "paint_wall_white",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_white", 3 ] ] ],
+    "pre_terrain": "t_strconc_wall",
+    "post_terrain": "t_strconc_wall_w"
+  },
+  {
+    "type": "construction",
+    "id": "constr_strconc_wall_g",
+    "group": "paint_wall_green",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_green", 3 ] ] ],
+    "pre_terrain": "t_strconc_wall",
+    "post_terrain": "t_strconc_wall_g"
+  },
+  {
+    "type": "construction",
+    "id": "constr_strconc_wall_p",
+    "group": "paint_wall_purple",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_purple", 3 ] ] ],
+    "pre_terrain": "t_strconc_wall",
+    "post_terrain": "t_strconc_wall_p"
+  },
+  {
+    "type": "construction",
+    "id": "constr_strconc_wall_y",
+    "group": "paint_wall_yellow",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_yellow", 3 ] ] ],
+    "pre_terrain": "t_strconc_wall",
+    "post_terrain": "t_strconc_wall_y"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sconc_wall_r",
+    "group": "paint_wall_red",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_red", 3 ] ] ],
+    "pre_terrain": "t_sconc_wall",
+    "post_terrain": "t_sconc_wall_r"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sconc_wall_b",
+    "group": "paint_wall_blue",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_blue", 3 ] ] ],
+    "pre_terrain": "t_sconc_wall",
+    "post_terrain": "t_sconc_wall_b"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sconc_wall_w",
+    "group": "paint_wall_white",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_white", 3 ] ] ],
+    "pre_terrain": "t_sconc_wall",
+    "post_terrain": "t_sconc_wall_w"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sconc_wall_g",
+    "group": "paint_wall_green",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_green", 3 ] ] ],
+    "pre_terrain": "t_sconc_wall",
+    "post_terrain": "t_sconc_wall_g"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sconc_wall_p",
+    "group": "paint_wall_purple",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_purple", 3 ] ] ],
+    "pre_terrain": "t_sconc_wall",
+    "post_terrain": "t_sconc_wall_p"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sconc_wall_y",
+    "group": "paint_wall_yellow",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_yellow", 3 ] ] ],
+    "pre_terrain": "t_sconc_wall",
+    "post_terrain": "t_sconc_wall_y"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_concrete_wall_paint_r",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_concrete_wall_r",
+    "post_terrain": "t_concrete_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_concrete_wall_paint_b",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_concrete_wall_b",
+    "post_terrain": "t_concrete_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_concrete_wall_paint_w",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_concrete_wall_w",
+    "post_terrain": "t_concrete_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_concrete_wall_paint_g",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_concrete_wall_g",
+    "post_terrain": "t_concrete_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_concrete_wall_paint_p",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_concrete_wall_p",
+    "post_terrain": "t_concrete_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_concrete_wall_paint_y",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_concrete_wall_y",
+    "post_terrain": "t_concrete_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_strconc_wall_paint_r",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_strconc_wall_r",
+    "post_terrain": "t_strconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_strconc_wall_paint_b",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_strconc_wall_b",
+    "post_terrain": "t_strconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_strconc_wall_paint_w",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_strconc_wall_w",
+    "post_terrain": "t_strconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_strconc_wall_paint_g",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_strconc_wall_g",
+    "post_terrain": "t_strconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_strconc_wall_paint_p",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_strconc_wall_p",
+    "post_terrain": "t_strconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_strconc_wall_paint_y",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_strconc_wall_y",
+    "post_terrain": "t_strconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_sconc_wall_paint_r",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_sconc_wall_r",
+    "post_terrain": "t_sconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_sconc_wall_paint_b",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_sconc_wall_b",
+    "post_terrain": "t_sconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_sconc_wall_paint_w",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_sconc_wall_w",
+    "post_terrain": "t_sconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_sconc_wall_paint_g",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_sconc_wall_g",
+    "post_terrain": "t_sconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_sconc_wall_paint_p",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_sconc_wall_p",
+    "post_terrain": "t_sconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_sconc_wall_paint_y",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_sconc_wall_y",
+    "post_terrain": "t_sconc_wall"
+  },
+  {
+    "type": "construction",
     "id": "constr_carpet_red",
     "group": "carpet_floor_red",
     "category": "DECORATE",
-    "required_skills": [ [ "fabrication", 1 ] ],
-    "time": "30 m",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "nail", 5 ] ], [ [ "r_carpet", 1 ] ] ],
     "pre_terrain": "t_floor",
-    "post_terrain": "t_carpet_red"
+    "post_terrain": "t_carpet_red",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
     "id": "constr_carpet_purple",
     "group": "carpet_floor_purple",
     "category": "DECORATE",
-    "required_skills": [ [ "fabrication", 1 ] ],
-    "time": "30 m",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "nail", 5 ] ], [ [ "p_carpet", 1 ] ] ],
     "pre_terrain": "t_floor",
-    "post_terrain": "t_carpet_purple"
+    "post_terrain": "t_carpet_purple",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
     "id": "constr_carpet_yellow",
     "group": "carpet_floor_yellow",
     "category": "DECORATE",
-    "required_skills": [ [ "fabrication", 1 ] ],
-    "time": "30 m",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "nail", 5 ] ], [ [ "y_carpet", 1 ] ] ],
     "pre_terrain": "t_floor",
-    "post_terrain": "t_carpet_yellow"
+    "post_terrain": "t_carpet_yellow",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
     "id": "constr_carpet_green",
     "group": "carpet_floor_green",
     "category": "DECORATE",
-    "required_skills": [ [ "fabrication", 1 ] ],
-    "time": "30 m",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "nail", 5 ] ], [ [ "g_carpet", 1 ] ] ],
     "pre_terrain": "t_floor",
-    "post_terrain": "t_carpet_green"
+    "post_terrain": "t_carpet_green",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_wood_red",
+    "group": "carpet_floor_red",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nail", 5 ] ], [ [ "r_carpet", 1 ] ] ],
+    "pre_terrain": "t_floor_noroof",
+    "post_terrain": "t_carpet_wood_red",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_wood_purple",
+    "group": "carpet_floor_purple",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nail", 5 ] ], [ [ "p_carpet", 1 ] ] ],
+    "pre_terrain": "t_floor_noroof",
+    "post_terrain": "t_carpet_wood_purple",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_wood_yellow",
+    "group": "carpet_floor_yellow",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nail", 5 ] ], [ [ "y_carpet", 1 ] ] ],
+    "pre_terrain": "t_floor_noroof",
+    "post_terrain": "t_carpet_wood_yellow",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_wood_green",
+    "group": "carpet_floor_green",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nail", 5 ] ], [ [ "g_carpet", 1 ] ] ],
+    "pre_terrain": "t_floor_noroof",
+    "post_terrain": "t_carpet_wood_green",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_conc_red",
+    "group": "carpet_floor_red",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "r_carpet", 1 ] ] ],
+    "pre_terrain": "t_thconc_floor",
+    "post_terrain": "t_carpet_concrete_red",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_conc_purple",
+    "group": "carpet_floor_purple",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "p_carpet", 1 ] ] ],
+    "pre_terrain": "t_thconc_floor",
+    "post_terrain": "t_carpet_concrete_purple",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_conc_yellow",
+    "group": "carpet_floor_yellow",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "y_carpet", 1 ] ] ],
+    "pre_terrain": "t_thconc_floor",
+    "post_terrain": "t_carpet_concrete_yellow",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_conc_green",
+    "group": "carpet_floor_green",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "g_carpet", 1 ] ] ],
+    "pre_terrain": "t_thconc_floor",
+    "post_terrain": "t_carpet_concrete_green",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_strconc_red",
+    "group": "carpet_floor_red",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "r_carpet", 1 ] ] ],
+    "pre_terrain": "t_strconc_floor",
+    "post_terrain": "t_carpet_strconcrete_red",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_strconc_purple",
+    "group": "carpet_floor_purple",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "p_carpet", 1 ] ] ],
+    "pre_terrain": "t_strconc_floor",
+    "post_terrain": "t_carpet_strconcrete_purple",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_strconc_yellow",
+    "group": "carpet_floor_yellow",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "y_carpet", 1 ] ] ],
+    "pre_terrain": "t_strconc_floor",
+    "post_terrain": "t_carpet_strconcrete_yellow",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_strconc_green",
+    "group": "carpet_floor_green",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "g_carpet", 1 ] ] ],
+    "pre_terrain": "t_strconc_floor",
+    "post_terrain": "t_carpet_strconcrete_green",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wall_orange",
+    "group": "paint_wall_orange",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_orange", 3 ] ] ],
+    "pre_terrain": "t_wall",
+    "post_terrain": "t_wall_orange"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wall_pink",
+    "group": "paint_wall_pink",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_pink", 3 ] ] ],
+    "pre_terrain": "t_wall",
+    "post_terrain": "t_wall_P"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wall_gray",
+    "group": "paint_wall_gray",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_gray", 3 ] ] ],
+    "pre_terrain": "t_wall",
+    "post_terrain": "t_wall_gray"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wall_brown",
+    "group": "paint_wall_brown",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_brown", 3 ] ] ],
+    "pre_terrain": "t_wall",
+    "post_terrain": "t_wall_brown"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wall_cyan",
+    "group": "paint_wall_cyan",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_cyan", 3 ] ] ],
+    "pre_terrain": "t_wall",
+    "post_terrain": "t_wall_cyan"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wall_black",
+    "group": "paint_wall_black",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_black", 3 ] ] ],
+    "pre_terrain": "t_wall",
+    "post_terrain": "t_wall_black"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wood_wall_orange",
+    "group": "paint_wall_orange",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_orange", 3 ] ] ],
+    "pre_terrain": "t_wall_wood",
+    "post_terrain": "t_wood_wall_orange"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wood_wall_pink",
+    "group": "paint_wall_pink",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_pink", 3 ] ] ],
+    "pre_terrain": "t_wall_wood",
+    "post_terrain": "t_wood_wall_P"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wood_wall_gray",
+    "group": "paint_wall_gray",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_gray", 3 ] ] ],
+    "pre_terrain": "t_wall_wood",
+    "post_terrain": "t_wood_wall_gray"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wood_wall_brown",
+    "group": "paint_wall_brown",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_brown", 3 ] ] ],
+    "pre_terrain": "t_wall_wood",
+    "post_terrain": "t_wood_wall_g"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wood_wall_cyan",
+    "group": "paint_wall_cyan",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_cyan", 3 ] ] ],
+    "pre_terrain": "t_wall_wood",
+    "post_terrain": "t_wood_wall_cyan"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wood_wall_black",
+    "group": "paint_wall_black",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_black", 3 ] ] ],
+    "pre_terrain": "t_wall_wood",
+    "post_terrain": "t_wood_wall_black"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_wood_wall_paint_orange",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_wood_wall_orange",
+    "post_terrain": "t_wall_wood"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_wood_wall_paint_pink",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_wood_wall_P",
+    "post_terrain": "t_wall_wood"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_wood_wall_paint_gray",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_wood_wall_gray",
+    "post_terrain": "t_wall_wood"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_wood_wall_paint_brown",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_wood_wall_brown",
+    "post_terrain": "t_wall_wood"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_wood_wall_paint_cyan",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_wood_wall_cyan",
+    "post_terrain": "t_wall_wood"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_wood_wall_paint_black",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_wood_wall_black",
+    "post_terrain": "t_wall_wood"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_wall_orange",
+    "group": "paint_wall_orange",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_orange", 3 ] ] ],
+    "pre_terrain": "t_concrete_wall",
+    "post_terrain": "t_concrete_wall_orange"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_wall_pink",
+    "group": "paint_wall_pink",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_pink", 3 ] ] ],
+    "pre_terrain": "t_concrete_wall",
+    "post_terrain": "t_concrete_wall_P"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_wall_gray",
+    "group": "paint_wall_gray",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_gray", 3 ] ] ],
+    "pre_terrain": "t_concrete_wall",
+    "post_terrain": "t_concrete_wall_gray"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_wall_brown",
+    "group": "paint_wall_brown",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_brown", 3 ] ] ],
+    "pre_terrain": "t_concrete_wall",
+    "post_terrain": "t_concrete_wall_brown"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_wall_cyan",
+    "group": "paint_wall_cyan",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_cyan", 3 ] ] ],
+    "pre_terrain": "t_concrete_wall",
+    "post_terrain": "t_concrete_wall_cyan"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_wall_black",
+    "group": "paint_wall_black",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_black", 3 ] ] ],
+    "pre_terrain": "t_concrete_wall",
+    "post_terrain": "t_concrete_wall_black"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_concrete_wall_paint_orange",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_concrete_wall_orange",
+    "post_terrain": "t_concrete_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_concrete_wall_paint_pink",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_concrete_wall_P",
+    "post_terrain": "t_concrete_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_concrete_wall_paint_gray",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_concrete_wall_gray",
+    "post_terrain": "t_concrete_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_concrete_wall_paint_brown",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_concrete_wall_brown",
+    "post_terrain": "t_concrete_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_concrete_wall_paint_cyan",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_concrete_wall_cyan",
+    "post_terrain": "t_concrete_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_concrete_wall_paint_black",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_concrete_wall_black",
+    "post_terrain": "t_concrete_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_strconc_wall_orange",
+    "group": "paint_wall_orange",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_orange", 3 ] ] ],
+    "pre_terrain": "t_strconc_wall",
+    "post_terrain": "t_strconc_wall_orange"
+  },
+  {
+    "type": "construction",
+    "id": "constr_strconc_wall_pink",
+    "group": "paint_wall_pink",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_pink", 3 ] ] ],
+    "pre_terrain": "t_strconc_wall",
+    "post_terrain": "t_strconc_wall_P"
+  },
+  {
+    "type": "construction",
+    "id": "constr_strconc_wall_gray",
+    "group": "paint_wall_gray",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_gray", 3 ] ] ],
+    "pre_terrain": "t_strconc_wall",
+    "post_terrain": "t_strconc_wall_gray"
+  },
+  {
+    "type": "construction",
+    "id": "constr_strconc_wall_brown",
+    "group": "paint_wall_brown",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_brown", 3 ] ] ],
+    "pre_terrain": "t_strconc_wall",
+    "post_terrain": "t_strconc_wall_brown"
+  },
+  {
+    "type": "construction",
+    "id": "constr_strconc_wall_cyan",
+    "group": "paint_wall_cyan",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_cyan", 3 ] ] ],
+    "pre_terrain": "t_strconc_wall",
+    "post_terrain": "t_strconc_wall_cyan"
+  },
+  {
+    "type": "construction",
+    "id": "constr_strconc_wall_black",
+    "group": "paint_wall_black",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_black", 3 ] ] ],
+    "pre_terrain": "t_strconc_wall",
+    "post_terrain": "t_strconc_wall_black"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_strconc_wall_paint_orange",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_strconc_wall_orange",
+    "post_terrain": "t_strconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_strconc_wall_paint_pink",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_strconc_wall_P",
+    "post_terrain": "t_strconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_strconc_wall_paint_gray",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_strconc_wall_gray",
+    "post_terrain": "t_strconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_strconc_wall_paint_brown",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_strconc_wall_brown",
+    "post_terrain": "t_strconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_strconc_wall_paint_cyan",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_strconc_wall_cyan",
+    "post_terrain": "t_strconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_strconc_wall_paint_black",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_strconc_wall_black",
+    "post_terrain": "t_strconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sconc_wall_orange",
+    "group": "paint_wall_orange",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_orange", 3 ] ] ],
+    "pre_terrain": "t_sconc_wall",
+    "post_terrain": "t_sconc_wall_orange"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sconc_wall_pink",
+    "group": "paint_wall_pink",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_pink", 3 ] ] ],
+    "pre_terrain": "t_sconc_wall",
+    "post_terrain": "t_sconc_wall_P"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sconc_wall_gray",
+    "group": "paint_wall_gray",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_gray", 3 ] ] ],
+    "pre_terrain": "t_sconc_wall",
+    "post_terrain": "t_sconc_wall_gray"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sconc_wall_brown",
+    "group": "paint_wall_brown",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_brown", 3 ] ] ],
+    "pre_terrain": "t_sconc_wall",
+    "post_terrain": "t_sconc_wall_brown"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sconc_wall_cyan",
+    "group": "paint_wall_cyan",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_cyan", 3 ] ] ],
+    "pre_terrain": "t_sconc_wall",
+    "post_terrain": "t_sconc_wall_cyan"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sconc_wall_black",
+    "group": "paint_wall_black",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "4 m",
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "paint_black", 3 ] ] ],
+    "pre_terrain": "t_sconc_wall",
+    "post_terrain": "t_sconc_wall_black"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_sconc_wall_paint_orange",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_sconc_wall_orange",
+    "post_terrain": "t_sconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_sconc_wall_paint_pink",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_sconc_wall_P",
+    "post_terrain": "t_sconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_sconc_wall_paint_gray",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_sconc_wall_gray",
+    "post_terrain": "t_sconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_sconc_wall_paint_brown",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_sconc_wall_brown",
+    "post_terrain": "t_sconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_sconc_wall_paint_cyan",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_sconc_wall_cyan",
+    "post_terrain": "t_sconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_sconc_wall_paint_black",
+    "group": "take_paint_off_wall",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_sconc_wall_black",
+    "post_terrain": "t_sconc_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_metal_red",
+    "group": "carpet_floor_red",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "r_carpet", 1 ] ] ],
+    "pre_terrain": "t_metal_floor",
+    "post_terrain": "t_carpet_metal_red",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_metal_purple",
+    "group": "carpet_floor_purple",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "p_carpet", 1 ] ] ],
+    "pre_terrain": "t_metal_floor",
+    "post_terrain": "t_carpet_metal_purple",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_metal_yellow",
+    "group": "carpet_floor_yellow",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "y_carpet", 1 ] ] ],
+    "pre_terrain": "t_metal_floor",
+    "post_terrain": "t_carpet_metal_yellow",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_metal_green",
+    "group": "carpet_floor_green",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "g_carpet", 1 ] ] ],
+    "pre_terrain": "t_metal_floor",
+    "post_terrain": "t_carpet_metal_green",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_rock_red",
+    "group": "carpet_floor_red",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nail", 5 ] ], [ [ "r_carpet", 1 ] ] ],
+    "pre_terrain": "t_rock_floor",
+    "post_terrain": "t_carpet_rock_red",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_rock_purple",
+    "group": "carpet_floor_purple",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nail", 5 ] ], [ [ "p_carpet", 1 ] ] ],
+    "pre_terrain": "t_rock_floor",
+    "post_terrain": "t_carpet_rock_purple",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_rock_yellow",
+    "group": "carpet_floor_yellow",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nail", 5 ] ], [ [ "y_carpet", 1 ] ] ],
+    "pre_terrain": "t_rock_floor",
+    "post_terrain": "t_carpet_rock_yellow",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_rock_green",
+    "group": "carpet_floor_green",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nail", 5 ] ], [ [ "g_carpet", 1 ] ] ],
+    "pre_terrain": "t_rock_floor",
+    "post_terrain": "t_carpet_rock_green",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_primitive_red",
+    "group": "carpet_floor_red",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nail", 5 ] ], [ [ "r_carpet", 1 ] ] ],
+    "pre_terrain": "t_floor_primitive",
+    "post_terrain": "t_carpet_primitive_red",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_primitive_purple",
+    "group": "carpet_floor_purple",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nail", 5 ] ], [ [ "p_carpet", 1 ] ] ],
+    "pre_terrain": "t_floor_primitive",
+    "post_terrain": "t_carpet_primitive_purple",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_primitive_yellow",
+    "group": "carpet_floor_yellow",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nail", 5 ] ], [ [ "y_carpet", 1 ] ] ],
+    "pre_terrain": "t_floor_primitive",
+    "post_terrain": "t_carpet_primitive_yellow",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_primitive_green",
+    "group": "carpet_floor_green",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "nail", 5 ] ], [ [ "g_carpet", 1 ] ] ],
+    "pre_terrain": "t_floor_primitive",
+    "post_terrain": "t_carpet_primitive_green",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_linoleum_gray_red",
+    "group": "carpet_floor_red",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "r_carpet", 1 ] ] ],
+    "pre_terrain": "t_linoleum_gray",
+    "post_terrain": "t_carpet_linoleum_gray_red",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_linoleum_gray_purple",
+    "group": "carpet_floor_purple",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "p_carpet", 1 ] ] ],
+    "pre_terrain": "t_linoleum_gray",
+    "post_terrain": "t_carpet_linoleum_gray_purple",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_linoleum_gray_yellow",
+    "group": "carpet_floor_yellow",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "y_carpet", 1 ] ] ],
+    "pre_terrain": "t_linoleum_gray",
+    "post_terrain": "t_carpet_linoleum_gray_yellow",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_linoleum_gray_green",
+    "group": "carpet_floor_green",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "g_carpet", 1 ] ] ],
+    "pre_terrain": "t_linoleum_gray",
+    "post_terrain": "t_carpet_linoleum_gray_green",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_linoleum_white_red",
+    "group": "carpet_floor_red",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "r_carpet", 1 ] ] ],
+    "pre_terrain": "t_linoleum_white",
+    "post_terrain": "t_carpet_linoleum_white_red",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_linoleum_white_purple",
+    "group": "carpet_floor_purple",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "p_carpet", 1 ] ] ],
+    "pre_terrain": "t_linoleum_white",
+    "post_terrain": "t_carpet_linoleum_white_purple",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_linoleum_white_yellow",
+    "group": "carpet_floor_yellow",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "y_carpet", 1 ] ] ],
+    "pre_terrain": "t_linoleum_white",
+    "post_terrain": "t_carpet_linoleum_white_yellow",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_carpet_linoleum_white_green",
+    "group": "carpet_floor_green",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "g_carpet", 1 ] ] ],
+    "pre_terrain": "t_linoleum_white",
+    "post_terrain": "t_carpet_linoleum_white_green",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -2967,11 +4739,14 @@
       [ { "id": "HAMMER", "level": 2 } ],
       [ { "id": "DIG", "level": 2 } ]
     ],
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ] ],
     "components": [ [ [ "2x4", 8 ], [ "log", 8 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
+    "byproducts": [ { "group": "digging_soil_loam_50L", "count": 40 } ],
+    "activity_level": "EXTRA_EXERCISE",
     "pre_flags": "DIGGABLE",
     "pre_special": "check_down_OK",
-    "post_special": "done_dig_stair"
+    "post_special": "done_dig_stair",
+    "do_turn_special": "do_turn_shovel"
   },
   {
     "type": "construction",
@@ -2985,11 +4760,39 @@
       [ { "id": "HAMMER", "level": 2 } ],
       [ { "id": "DIG", "level": 2 } ]
     ],
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 2112 ] ] ],
     "components": [ [ [ "2x4", 12 ], [ "log", 12 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
+    "byproducts": [ { "group": "mining_rock" } ],
+    "activity_level": "EXTRA_EXERCISE",
     "pre_special": "check_down_OK",
     "pre_terrain": "t_rock_floor",
     "post_special": "done_mine_downstair"
+  },
+  {
+    "type": "construction",
+    "id": "constr_mine_resin_cage",
+    "group": "mine_resin_cage",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "70 m",
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ] ] ],
+    "activity_level": "EXTRA_EXERCISE",
+    "pre_terrain": "t_wall_resin_cage",
+    "post_terrain": "t_floor_resin",
+    "pre_note": "This is a slow, hard process that could be accelerated with power tools.  Mi-go structures are dangerously hot -- you'll likely need to take breaks outside."
+  },
+  {
+    "type": "construction",
+    "id": "constr_jackhammer_resin_cage",
+    "group": "jackhammer_resin_cage",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "30 m",
+    "tools": [ [ [ "jackhammer", 300 ], [ "elec_jackhammer", 3960 ] ] ],
+    "activity_level": "EXTRA_EXERCISE",
+    "pre_terrain": "t_wall_resin_cage",
+    "post_terrain": "t_floor_resin",
+    "pre_note": "Your power tool is effective at cutting through the resin cage, but it's still a hard process.  Mi-go structures are dangerously hot -- you'll likely need to take breaks outside."
   },
   {
     "type": "construction",
@@ -3047,7 +4850,7 @@
       [ { "id": "DIG", "level": 2 } ]
     ],
     "tools": [
-      [ [ "pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ],
+      [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 2112 ] ],
       [
         "miner_hat",
         "hat_hard",
@@ -3063,7 +4866,38 @@
     "components": [ [ [ "2x4", 12 ], [ "log", 12 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
     "pre_special": "check_up_OK",
     "pre_terrain": "t_rock",
-    "post_special": "done_mine_upstair"
+    "post_special": "done_mine_upstair",
+    "activity_level": "EXTRA_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_earth_ramp_low",
+    "group": "build_low_end_of_an_earth_ramp",
+    "//": "Builds a low end of an earth ramp going up on this level and down on the level above.",
+    "pre_note": "Build an earth ramp leading to the next z-level above, and the corresponding ramp down leading from the z-level above to this level.  The high end of a ramp must be built adjacent to allow moving between z-levels in both directions.",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "300 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 50 ] ], [ [ "stick", 12 ], [ "stick_long", 6 ], [ "2x4", 6 ] ], [ [ "rock", 20 ] ] ],
+    "pre_special": "check_ramp_low",
+    "post_terrain": "t_earth_ramp_up_low",
+    "post_special": "done_ramp_low"
+  },
+  {
+    "type": "construction",
+    "id": "constr_earth_ramp_high",
+    "group": "build_high_end_of_an_earth_ramp",
+    "//": "Builds a high end of an earth ramp going up on this level and down on the level above.",
+    "pre_note": "Build an earth ramp leading to the next z-level above, and the corresponding ramp down leading from the z-level above to this level.  It must be built next to a low end of a ramp to allow moving between z-levels in both directions.",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "300 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 50 ] ], [ [ "stick", 10 ], [ "2x4", 8 ] ], [ [ "rock", 20 ] ] ],
+    "pre_special": "check_ramp_high",
+    "post_terrain": "t_earth_ramp_up_high",
+    "post_special": "done_ramp_high"
   },
   {
     "type": "construction",
@@ -3124,12 +4958,48 @@
   },
   {
     "type": "construction",
+    "id": "app_veh_tools_kitchen",
+    "group": "place_veh_tools_kitchen",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "veh_tools_kitchen", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_veh_tools_workshop",
+    "group": "place_veh_tools_workshop",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "veh_tools_workshop", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_fridge",
     "group": "place_fridge",
     "category": "APPLIANCE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "fridge", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_stereo",
+    "group": "place_stereo",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "stereo", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
@@ -3142,7 +5012,8 @@
     "time": "5 m",
     "components": [ [ [ "minifridge", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3153,7 +5024,8 @@
     "time": "5 m",
     "components": [ [ [ "freezer", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3164,7 +5036,8 @@
     "time": "5 m",
     "components": [ [ [ "minifreezer", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3175,7 +5048,20 @@
     "time": "5 m",
     "components": [ [ [ "oven", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_microwave",
+    "group": "place_microwave",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "microwave", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3186,7 +5072,8 @@
     "time": "5 m",
     "components": [ [ [ "stationary_water_purifier", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3196,6 +5083,51 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "arcade_machine", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_nitrogen_generator",
+    "group": "place_nitrogen_generator",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "nitrogen_generator", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_ammonia_machine_reactor",
+    "group": "place_ammonia_machine_reactor",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "ammonia_machine_reactor", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_ammonia_machine_pipework",
+    "group": "place_ammonia_machine_pipework",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "ammonia_machine_pipework", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_electrolyzer_makeshift",
+    "group": "place_electrolyzer_makeshift",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "electrolyzer_makeshift", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
@@ -3208,7 +5140,8 @@
     "time": "5 m",
     "components": [ [ [ "forge", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3219,7 +5152,8 @@
     "time": "5 m",
     "components": [ [ [ "kiln", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3230,7 +5164,8 @@
     "time": "5 m",
     "components": [ [ [ "drill_press", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3241,7 +5176,8 @@
     "time": "5 m",
     "components": [ [ [ "tablesaw", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3252,7 +5188,8 @@
     "time": "5 m",
     "components": [ [ [ "mitresaw", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3263,7 +5200,8 @@
     "time": "5 m",
     "components": [ [ [ "bandsaw", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3274,7 +5212,8 @@
     "time": "5 m",
     "components": [ [ [ "router", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3285,7 +5224,8 @@
     "time": "5 m",
     "components": [ [ [ "planer", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3296,7 +5236,22 @@
     "time": "5 m",
     "components": [ [ [ "jointer", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_catalytic_cracking_reactor",
+    "group": "place_catalytic_cracking_reactor",
+    "category": "APPLIANCE",
+    "//1": "maybe some applied science? this seems to be some semi-advanced hardware",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "//2": "I set lower activity and longer time for putting a lot of light and/or small items together. When possible, I'd like it to take more time to disassemble as well.",
+    "time": "40 m",
+    "components": [ [ [ "catalytic_cracking_reactor", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3307,7 +5262,8 @@
     "time": "5 m",
     "components": [ [ [ "hydraulic_press", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3318,7 +5274,8 @@
     "time": "5 m",
     "components": [ [ [ "air_compressor", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3330,7 +5287,8 @@
     "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "solar_panel", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3342,7 +5300,8 @@
     "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "reinforced_solar_panel", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3354,7 +5313,8 @@
     "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "solar_panel_v2", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3366,7 +5326,60 @@
     "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "reinforced_solar_panel_v2", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_wind_turbine",
+    "group": "place_wind_turbine",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "wind_turbine", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_xl_wind_turbine",
+    "group": "place_xl_wind_turbine",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "xl_wind_turbine", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_water_wheel",
+    "group": "place_water_wheel",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "water_wheel", 1 ] ] ],
+    "pre_terrain": "t_water_moving_sh",
+    "post_special": "done_appliance",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_xl_water_wheel",
+    "group": "place_xl_water_wheel",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "xl_water_wheel", 1 ] ] ],
+    "pre_terrain": "t_water_moving_sh",
+    "post_special": "done_appliance",
+    "activity_level": "MODERATE_EXERCISE"
   },
   {
     "type": "construction",
@@ -3377,7 +5390,8 @@
     "time": "5 m",
     "components": [ [ [ "large_space_heater", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3388,7 +5402,8 @@
     "time": "5 m",
     "components": [ [ [ "small_space_heater", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3399,7 +5414,8 @@
     "time": "6 m",
     "components": [ [ [ "small_storage_battery", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3410,7 +5426,8 @@
     "time": "6 m",
     "components": [ [ [ "medium_storage_battery", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3421,7 +5438,8 @@
     "time": "6 m",
     "components": [ [ [ "storage_battery", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3432,7 +5450,8 @@
     "time": "6 m",
     "components": [ [ [ "large_storage_battery", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3443,7 +5462,8 @@
     "time": "6 m",
     "components": [ [ [ "battery_car", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3454,7 +5474,8 @@
     "time": "6 m",
     "components": [ [ [ "household_washing_machine", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3465,7 +5486,8 @@
     "time": "6 m",
     "components": [ [ [ "household_dishwasher", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   },
   {
     "type": "construction",
@@ -3476,7 +5498,20 @@
     "time": "6 m",
     "components": [ [ [ "autoclave", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_wall_light",
+    "group": "place_wall_light",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 s",
+    "components": [ [ [ "wall_light", 1 ] ] ],
+    "pre_flags": "WALL",
+    "post_special": "done_appliance",
+    "activity_level": "NO_EXERCISE"
   },
   {
     "type": "construction",
@@ -3487,7 +5522,8 @@
     "time": "5 s",
     "components": [ [ [ "standing_lamp", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "NO_EXERCISE"
   },
   {
     "type": "construction",
@@ -3498,7 +5534,20 @@
     "time": "5 s",
     "components": [ [ [ "standing_floodlight", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_standing_directed_floodlight",
+    "group": "place_standing_directed_floodlight",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 s",
+    "components": [ [ [ "standing_directed_floodlight", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "NO_EXERCISE"
   },
   {
     "type": "construction",
@@ -3509,7 +5558,8 @@
     "time": "4 m",
     "components": [ [ [ "foot_locker_recharge_station", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "MODERATE_EXERCISE"
   },
   {
     "type": "construction",
@@ -3520,7 +5570,8 @@
     "time": "2 m",
     "components": [ [ [ "box_battery_charger", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance"
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3530,10 +5581,52 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "0 s",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ] ],
+    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "pliers_locking", -1 ], [ "toolset", -1 ] ] ],
     "pre_flags": "WIRED_WALL",
     "pre_special": "check_no_wiring",
-    "post_special": "done_wiring"
+    "post_special": "done_wiring",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_wall_wiring_homemade",
+    "group": "place_wall_wiring",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "20 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "pliers_locking", -1 ], [ "toolset", -1 ] ] ],
+    "components": [ [ [ "cable", 19 ] ], [ [ "duct_tape", 20 ] ] ],
+    "pre_flags": "WALL",
+    "pre_special": "check_no_wiring",
+    "post_special": "done_wiring",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_asrg_containment",
+    "group": "place_asrg_containment",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "5 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "compact_ASRG_containment", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_active_backup_generator",
+    "group": "place_active_backup_generator",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "mechanics", 1 ] ],
+    "time": "5 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "active_backup_generator", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -3573,7 +5666,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_dock",
+    "id": "constr_dock_moving",
     "group": "build_river_dock_shallow_bridge",
     "//": "Set up dock",
     "category": "CONSTRUCT",
@@ -3586,7 +5679,20 @@
   },
   {
     "type": "construction",
-    "id": "constr_dock_deep_pile",
+    "id": "constr_dock",
+    "group": "build_river_dock_shallow_bridge",
+    "//": "Set up dock",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "40 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "log", 1 ] ], [ [ "nail", 12 ] ] ],
+    "pre_terrain": "t_water_sh",
+    "post_terrain": "t_dock"
+  },
+  {
+    "type": "construction",
+    "id": "constr_dock_deep_pile_moving",
     "group": "build_deep_river_dock",
     "//": "Step 1: securing a pile down on the riverbed; not easy work without machinery",
     "category": "CONSTRUCT",
@@ -3595,6 +5701,19 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "wood_beam", 1 ] ], [ [ "spike", 4 ] ] ],
     "pre_terrain": "t_water_moving_dp",
+    "post_terrain": "t_dock_deep_pile"
+  },
+  {
+    "type": "construction",
+    "id": "constr_dock_deep_pile",
+    "group": "build_deep_river_dock",
+    "//": "Step 1: securing a pile down on the lakebed; not easy work without machinery",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "720 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "wood_beam", 1 ] ], [ [ "spike", 4 ] ] ],
+    "pre_terrain": "t_water_dp",
     "post_terrain": "t_dock_deep_pile"
   },
   {
@@ -3651,6 +5770,22 @@
   },
   {
     "type": "construction",
+    "id": "constr_place_screw_press",
+    "group": "place_screw_press",
+    "//": "Set up Screw Press",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "45 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [
+      [ [ "screw_press_tool", 1 ] ],
+      [ [ "rock_large", 2 ], [ "rock", 40 ] ],
+      [ [ "wood_panel", 1 ], [ "sheet_metal", 1 ] ]
+    ],
+    "post_terrain": "f_screw_press"
+  },
+  {
+    "type": "construction",
     "id": "constr_sh_bridge",
     "group": "build_shallow_temporary_bridge",
     "//": "Set up shallow bridge",
@@ -3675,6 +5810,24 @@
   },
   {
     "type": "construction",
+    "id": "constr_apiary",
+    "group": "build_bee_hive",
+    "category": "FARM_WOOD",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "4 h",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }, { "id": "DRILL", "level": 1 } ] ],
+    "components": [
+      [ [ "2x4", 14 ] ],
+      [ [ "wood_panel", 8 ] ],
+      [ [ "nail", 28 ] ],
+      [ [ "swarm_bees", 1 ] ],
+      [ [ "sweet_water", 10 ], [ "honey_bottled", 10 ], [ "honeycomb", 10 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_apiary_empty"
+  },
+  {
+    "type": "construction",
     "id": "constr_cut_grass_long",
     "group": "cut_grass",
     "category": "OTHER",
@@ -3682,6 +5835,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "4 m",
     "byproducts": [ { "item": "straw_pile", "count": [ 1, 3 ] } ],
+    "pre_special": "check_empty_lite",
     "pre_terrain": "t_grass_long",
     "post_terrain": "t_grass"
   },
@@ -3694,6 +5848,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "5 m",
     "byproducts": [ { "item": "straw_pile", "count": [ 2, 4 ] } ],
+    "pre_special": "check_empty_lite",
     "pre_terrain": "t_grass_tall",
     "post_terrain": "t_grass"
   },
@@ -3706,6 +5861,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "4 m",
     "byproducts": [ { "item": "straw_pile", "count": [ 1, 2 ] } ],
+    "pre_special": "check_empty_lite",
     "pre_terrain": "t_grass_dead",
     "post_terrain": "t_grass"
   },
@@ -3718,6 +5874,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "40 s",
     "byproducts": [ { "item": "straw_pile", "count": [ 3, 6 ] } ],
+    "pre_special": "check_empty_lite",
     "pre_terrain": "t_grass_long",
     "post_terrain": "t_grass"
   },
@@ -3730,6 +5887,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "50 s",
     "byproducts": [ { "item": "straw_pile", "count": [ 4, 8 ] } ],
+    "pre_special": "check_empty_lite",
     "pre_terrain": "t_grass_tall",
     "post_terrain": "t_grass"
   },
@@ -3742,8 +5900,21 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "40 s",
     "byproducts": [ { "item": "straw_pile", "count": [ 2, 4 ] } ],
+    "pre_special": "check_empty_lite",
     "pre_terrain": "t_grass_dead",
     "post_terrain": "t_grass"
+  },
+  {
+    "type": "construction",
+    "id": "constr_cut_grass_alien",
+    "group": "cut_grass",
+    "category": "OTHER",
+    "qualities": [ [ { "id": "GRASS_CUT", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 m",
+    "pre_special": "check_empty_lite",
+    "pre_terrain": "t_grass_alien",
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
@@ -3753,6 +5924,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "4 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "pre_special": "check_empty_lite",
     "pre_terrain": "t_grass",
     "post_terrain": "t_dirt"
   },
@@ -3765,6 +5937,7 @@
     "time": "6 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "straw_pile", "count": [ 0, 1 ] } ],
+    "pre_special": "check_empty_lite",
     "pre_terrain": "t_grass_long",
     "post_terrain": "t_dirt"
   },
@@ -3777,6 +5950,7 @@
     "time": "8 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "straw_pile", "count": [ 1, 2 ] } ],
+    "pre_special": "check_empty_lite",
     "pre_terrain": "t_grass_tall",
     "post_terrain": "t_dirt"
   },
@@ -3789,6 +5963,7 @@
     "time": "6 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "straw_pile", "count": [ 0, 1 ] } ],
+    "pre_special": "check_empty_lite",
     "pre_terrain": "t_grass_dead",
     "post_terrain": "t_dirt"
   },
@@ -3800,6 +5975,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "pre_special": "check_empty_lite",
     "pre_terrain": "t_grass_golf",
     "post_terrain": "t_dirt"
   },
@@ -3811,6 +5987,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "pre_special": "check_empty_lite",
     "pre_terrain": "t_grass_white",
     "post_terrain": "t_dirt"
   },
@@ -3837,7 +6014,8 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "clay_lump", "count": [ 6, 12 ] } ],
     "pre_terrain": "t_clay",
-    "post_special": "done_extract_maybe_revert_to_dirt"
+    "post_special": "done_extract_maybe_revert_to_dirt",
+    "activity_level": "EXTRA_EXERCISE"
   },
   {
     "type": "construction",
@@ -3850,7 +6028,8 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "clay_lump", "count": [ 6, 12 ] } ],
     "pre_terrain": "t_claymound",
-    "post_special": "done_extract_maybe_revert_to_dirt"
+    "post_special": "done_extract_maybe_revert_to_dirt",
+    "activity_level": "EXTRA_EXERCISE"
   },
   {
     "type": "construction",
@@ -3918,7 +6097,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "rock", 40 ] ],
-      [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "clay_lump", 12 ] ],
+      [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "mortar_lime", 1 ], [ "clay_lump", 12 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ],
     "pre_note": "Can be deconstructed without tools.",
@@ -3992,7 +6171,8 @@
     "pre_special": "check_no_trap",
     "post_special": "done_mark_firewood",
     "dark_craftable": true,
-    "post_flags": [ "keep_items" ]
+    "post_flags": [ "keep_items" ],
+    "activity_level": "NO_EXERCISE"
   },
   {
     "type": "construction",
@@ -4005,7 +6185,8 @@
     "pre_special": "check_no_trap",
     "post_special": "done_mark_practice_target",
     "dark_craftable": true,
-    "post_flags": [ "keep_items" ]
+    "post_flags": [ "keep_items" ],
+    "activity_level": "NO_EXERCISE"
   },
   {
     "type": "construction",
@@ -4032,9 +6213,33 @@
     "required_skills": [ [ "fabrication", 3 ], [ "mechanics", 2 ], [ "tailor", 1 ] ],
     "time": "3 h",
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 20 ] ], [ [ "string_36", 15 ] ], [ [ "nail", 25 ] ] ],
+    "components": [ [ [ "2x4", 20 ] ], [ [ "string_36", 4 ] ], [ [ "nail", 80 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_spinwheel"
+  },
+  {
+    "type": "construction",
+    "id": "constr_spin_wheel_cordage",
+    "group": "build_spinwheel",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ], [ "mechanics", 2 ], [ "tailor", 1 ] ],
+    "time": "3 h",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 20 ] ], [ [ "cordage_36", 4 ] ], [ [ "nail", 80 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_spinwheel_cordage"
+  },
+  {
+    "type": "construction",
+    "id": "constr_spin_wheel_leather",
+    "group": "build_spinwheel",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ], [ "mechanics", 2 ], [ "tailor", 1 ] ],
+    "time": "3 h",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 20 ] ], [ [ "cordage_36_leather", 4 ] ], [ [ "nail", 80 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_spinwheel_leather"
   },
   {
     "type": "construction",
@@ -4105,7 +6310,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ] ],
-    "using": [ [ "welding_standard", 2 ] ],
+    "using": [ [ "welding_standard", 400 ] ],
     "components": [
       [ [ "sheet_metal_small", 15 ], [ "scrap", 30 ] ],
       [
@@ -4178,7 +6383,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ] ],
-    "using": [ [ "welding_standard", 2 ] ],
+    "using": [ [ "welding_standard", 400 ], [ "welding_standard", 400 ] ],
     "components": [
       [ [ "wire", 2 ] ],
       [ [ "sheet_metal_small", 10 ], [ "scrap", 10 ] ],
@@ -4187,23 +6392,6 @@
     ],
     "pre_special": "check_empty",
     "post_terrain": "f_scrap_bridge"
-  },
-  {
-    "type": "construction",
-    "id": "constr_metal_bench",
-    "group": "build_scrap_metal_bench",
-    "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "90 m",
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "WRENCH", "level": 2 } ], [ { "id": "DRILL", "level": 1 } ] ],
-    "components": [
-      [ [ "pipe_fittings", 1 ], [ "steel_chunk", 2 ] ],
-      [ [ "sheet_metal_small", 3 ], [ "scrap", 3 ] ],
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "pipe", 1 ] ]
-    ],
-    "pre_special": "check_empty",
-    "post_terrain": "f_metal_bench"
   },
   {
     "type": "construction",
@@ -4245,7 +6433,6 @@
       [ [ "pillow", 19 ], [ "down_pillow", 19 ], [ "makeshift_pillow", 19 ], [ "mattress", 4 ] ],
       [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ]
     ],
-    "pre_terrain": "t_floor",
     "post_terrain": "f_pillow_fort"
   },
   {
@@ -4582,25 +6769,116 @@
     "skill": "survival",
     "group": "dig_a_shallow_pit",
     "category": "CONSTRUCT",
-    "difficulty": 1,
-    "time": "30m",
-    "on_display": false,
+    "difficulty": 0,
+    "time": "20m",
+    "on_display": true,
     "qualities": [ { "id": "DIG", "level": 1 } ],
     "pre_flags": [ "DIGGABLE", "FLAT" ],
-    "post_terrain": "t_pit_shallow"
+    "pre_special": "check_empty",
+    "post_terrain": "t_pit_shallow",
+    "byproducts": [ { "group": "digging_soil_loam_50L", "count": 5 } ],
+    "activity_level": "EXTRA_EXERCISE",
+    "do_turn_special": "do_turn_shovel"
   },
   {
     "type": "construction",
     "id": "constr_pit",
     "skill": "survival",
-    "group": "dig_a_deep_pit",
+    "group": "dig_a_pit",
+    "category": "CONSTRUCT",
+    "difficulty": 0,
+    "time": "119m",
+    "on_display": true,
+    "qualities": [ { "id": "DIG", "level": 2 } ],
+    "pre_terrain": "t_pit_shallow",
+    "pre_special": "check_empty_lite",
+    "post_terrain": "t_pit",
+    "byproducts": [ { "group": "digging_soil_loam_50L", "count": 35 } ],
+    "activity_level": "EXTRA_EXERCISE",
+    "do_turn_special": "do_turn_shovel"
+  },
+  {
+    "type": "construction",
+    "id": "constr_open_air",
+    "skill": "survival",
+    "group": "construct_open_air",
+    "category": "CONSTRUCT",
+    "difficulty": 0,
+    "time": "20m",
+    "on_display": true,
+    "qualities": [ { "id": "DIG", "level": 2 } ],
+    "pre_terrain": "t_pit",
+    "post_terrain": "t_open_air",
+    "byproducts": [ { "group": "digging_soil_loam_50L", "count": 5 } ],
+    "activity_level": "EXTRA_EXERCISE",
+    "do_turn_special": "do_turn_shovel"
+  },
+  {
+    "type": "construction",
+    "id": "constr_pit_underground",
+    "group": "dig_a_pit",
+    "category": "DIG",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 3 ] ],
+    "time": "300 m",
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ] ],
+    "byproducts": [ { "group": "mining_rock" } ],
+    "pre_terrain": "t_rock_floor",
+    "post_terrain": "t_pit",
+    "activity_level": "EXTRA_EXERCISE",
+    "do_turn_special": "do_turn_shovel"
+  },
+  {
+    "type": "construction",
+    "id": "constr_water_channel",
+    "skill": "survival",
+    "group": "dig_a_water_channel",
     "category": "CONSTRUCT",
     "difficulty": 1,
-    "time": "150m",
-    "on_display": false,
-    "qualities": [ { "id": "DIG", "level": 2 } ],
+    "time": "20m",
+    "on_display": true,
+    "qualities": [ { "id": "DIG", "level": 1 } ],
     "pre_flags": [ "DIGGABLE", "FLAT" ],
-    "post_terrain": "t_pit"
+    "pre_special": "check_channel",
+    "post_terrain": "t_water_moving_sh",
+    "byproducts": [ { "group": "digging_soil_loam_50L", "count": 5 } ],
+    "activity_level": "EXTRA_EXERCISE",
+    "do_turn_special": "do_turn_shovel"
+  },
+  {
+    "type": "construction",
+    "id": "constr_exhume",
+    "skill": "survival",
+    "group": "dig_a_shallow_pit",
+    "category": "CONSTRUCT",
+    "difficulty": 0,
+    "time": "17m",
+    "on_display": true,
+    "qualities": [ { "id": "DIG", "level": 2 } ],
+    "pre_terrain": "t_grave",
+    "post_terrain": "t_pit_shallow",
+    "byproducts": [ { "group": "digging_soil_loam_50L", "count": 5 } ],
+    "post_special": "done_dig_grave",
+    "activity_level": "EXTRA_EXERCISE",
+    "do_turn_special": "do_turn_exhume"
+  },
+  {
+    "type": "construction",
+    "id": "constr_exhume_new",
+    "skill": "survival",
+    "group": "dig_a_shallow_pit",
+    "category": "CONSTRUCT",
+    "difficulty": 0,
+    "time": "17m",
+    "on_display": true,
+    "qualities": [ { "id": "DIG", "level": 2 } ],
+    "pre_terrain": "t_grave_new",
+    "post_terrain": "t_pit_shallow",
+    "byproducts": [ { "group": "digging_soil_loam_50L", "count": 5 } ],
+    "post_special": "done_dig_grave_nospawn",
+    "post_flags": [ "keep_items" ],
+    "activity_level": "EXTRA_EXERCISE",
+    "do_turn_special": "do_turn_exhume"
   },
   {
     "type": "construction",
@@ -4615,7 +6893,7 @@
       [ { "id": "DRILL", "level": 3 } ],
       [ { "id": "WRENCH", "level": 2 } ]
     ],
-    "using": [ [ "welding_standard", 2 ] ],
+    "using": [ [ "welding_standard", 250 ] ],
     "components": [
       [ [ "fire_brick", 40 ] ],
       [ [ "cu_pipe", 4 ] ],
@@ -4625,7 +6903,7 @@
       [ [ "motor_tiny", 1 ] ],
       [ [ "medium_storage_battery", 2 ] ],
       [ [ "frame", 1 ] ],
-      [ [ "mortar_build", 10 ] ]
+      [ [ "mortar_build", 10 ], [ "mortar_lime", 10 ] ]
     ],
     "pre_special": "check_empty",
     "post_terrain": "f_arcfurnace_empty"
@@ -4685,7 +6963,7 @@
         [ "solar_panel_v2", 2 ],
         [ "reinforced_solar_panel_v2", 2 ]
       ],
-      [ [ "storage_battery", 1 ], [ "medium_storage_battery", 4 ], [ "small_storage_battery", 32 ] ],
+      [ [ "storage_battery", 1 ], [ "medium_storage_battery", 5 ], [ "small_storage_battery", 50 ] ],
       [ [ "sheet_metal", 2 ], [ "wire", 8 ] ],
       [ [ "pipe", 24 ] ]
     ],
@@ -4723,12 +7001,12 @@
     "id": "constr_logstool",
     "group": "build_log_stool",
     "category": "FURN",
-    "required_skills": [ [ "survival", 1 ] ],
-    "time": "10 m",
-    "qualities": [ [ { "id": "CUT", "level": 2 } ] ],
-    "components": [ [ [ "log", 1 ] ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "stool_log", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_logstool"
+    "post_terrain": "f_logstool",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -4779,7 +7057,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_metal_grate_window",
     "post_terrain": "t_metal_grate_window_with_curtain"
   },
@@ -4792,7 +7070,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_metal_grate_window_noglass",
     "post_terrain": "t_metal_grate_window_with_curtain_noglass"
   },
@@ -4818,9 +7096,34 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_single_pane_glass",
     "post_terrain": "t_single_pane_glass_with_curtain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_single_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_single_pane_glass",
+    "post_terrain": "t_single_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_single_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_single_pane_glass_taped",
+    "post_terrain": "t_single_pane_glass"
   },
   {
     "type": "construction",
@@ -4844,9 +7147,34 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_reinforced_single_pane_glass",
     "post_terrain": "t_reinforced_single_pane_glass_with_curtain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_reinforced_single_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_reinforced_single_pane_glass",
+    "post_terrain": "t_reinforced_single_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_reinforced_single_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_reinforced_single_pane_glass_taped",
+    "post_terrain": "t_reinforced_single_pane_glass"
   },
   {
     "type": "construction",
@@ -4870,9 +7198,34 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_double_pane_glass",
     "post_terrain": "t_double_pane_glass_with_curtain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_double_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_double_pane_glass",
+    "post_terrain": "t_double_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_double_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_double_pane_glass_taped",
+    "post_terrain": "t_double_pane_glass"
   },
   {
     "type": "construction",
@@ -4896,9 +7249,34 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_reinforced_double_pane_glass",
     "post_terrain": "t_reinforced_double_pane_glass_with_curtain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_reinforced_double_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_reinforced_double_pane_glass",
+    "post_terrain": "t_reinforced_double_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_reinforced_double_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_reinforced_double_pane_glass_taped",
+    "post_terrain": "t_reinforced_double_pane_glass"
   },
   {
     "type": "construction",
@@ -4928,6 +7306,31 @@
   },
   {
     "type": "construction",
+    "id": "constr_triple_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_triple_pane_glass",
+    "post_terrain": "t_triple_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_triple_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_triple_pane_glass_taped",
+    "post_terrain": "t_triple_pane_glass"
+  },
+  {
+    "type": "construction",
     "id": "constr_reinforced_triple_pane_glass",
     "group": "build_reinforced_triple_glazed_glass_window",
     "//": "Step 1: Build reinforced triple glazed glass window",
@@ -4951,6 +7354,31 @@
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_reinforced_triple_pane_glass",
     "post_terrain": "t_reinforced_triple_pane_glass_with_curtain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_reinforced_triple_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_reinforced_triple_pane_glass",
+    "post_terrain": "t_reinforced_triple_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_reinforced_triple_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_reinforced_triple_pane_glass_taped",
+    "post_terrain": "t_reinforced_triple_pane_glass"
   },
   {
     "type": "construction",
@@ -4980,6 +7408,31 @@
   },
   {
     "type": "construction",
+    "id": "constr_quadruple_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_quadruple_pane_glass",
+    "post_terrain": "t_quadruple_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_quadruple_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_quadruple_pane_glass_taped",
+    "post_terrain": "t_quadruple_pane_glass"
+  },
+  {
+    "type": "construction",
     "id": "constr_reinforced_quadruple_pane_glass",
     "group": "build_reinforced_quadruple_glazed_glass_window",
     "//": "Step 1: Build reinforced quadruple glazed glass window",
@@ -5003,6 +7456,31 @@
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_reinforced_quadruple_pane_glass",
     "post_terrain": "t_reinforced_quadruple_pane_glass_with_curtain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_reinforced_quadruple_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_reinforced_quadruple_pane_glass",
+    "post_terrain": "t_reinforced_quadruple_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_reinforced_quadruple_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_reinforced_quadruple_pane_glass_taped",
+    "post_terrain": "t_reinforced_quadruple_pane_glass"
   },
   {
     "type": "construction",
@@ -5185,7 +7663,7 @@
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 16 ] ] ],
     "pre_terrain": "t_rock_roof",
     "post_terrain": "t_skylight_frame",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ]
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 660 ] ] ]
   },
   {
     "type": "construction",
@@ -5210,7 +7688,8 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "material_gravel", "count": [ 7, 10 ] } ],
     "pre_terrain": "t_railroad_rubble",
-    "post_terrain": "t_dirt"
+    "post_terrain": "t_dirt",
+    "strict": true
   },
   {
     "type": "construction",
@@ -5234,7 +7713,7 @@
     "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [ [ [ "chain", 16 ] ], [ [ "wheel_metal", 2 ] ], [ [ "pipe", 4 ] ] ],
-    "pre_note": "Must be adjacent to a reinforced concrete wall that is itself adjacent to a metal gate in order to open said gate.",
+    "pre_note": "Must be adjacent to ordinary, concrete, brick, or rock wall that is itself adjacent to a metal gate in order to open said gate.",
     "pre_special": "check_empty",
     "post_terrain": "t_gates_mech_control_lab"
   },
@@ -5252,7 +7731,7 @@
       [ [ "sheet_metal", 16 ] ],
       [ [ "frame", 4 ], [ "spike", 24 ] ]
     ],
-    "pre_note": "Must be between reinforced concrete walls to function, and at least one wall must have an adjacent mechanical winch.",
+    "pre_note": "Must be between ordinary, concrete, brick, or rock walls to function, and at least one wall must have an adjacent mechanical winch.",
     "pre_special": "check_empty",
     "post_terrain": "t_door_metal_locked"
   },
@@ -5327,10 +7806,30 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER_SOFT", "level": 1 } ] ],
-    "components": [ [ [ "frame_wood", 1 ] ], [ [ "chunk_rubber", 16 ] ], [ [ "glass_sheet", 2 ] ], [ [ "rag", 8 ] ] ],
+    "components": [ [ [ "frame_wood", 1 ] ], [ [ "chunk_rubber", 16 ] ], [ [ "glass_sheet", 2 ] ], [ [ "cotton_patchwork", 8 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_door_glass_c"
+  },
+  {
+    "type": "construction",
+    "id": "hang_heavy_punching_bag",
+    "group": "hang_heavy_punching_bag",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DRILL", "level": 1 } ], [ { "id": "WRENCH_FINE", "level": 1 } ] ],
+    "components": [
+      [ [ "nuts_bolts", 4 ] ],
+      [ [ "chain", 4 ] ],
+      [ [ "blanket", 6 ] ],
+      [ [ "material_sand", 4000 ] ],
+      [ [ "bag_plastic", 4 ] ],
+      [ [ "duct_tape", 20 ] ]
+    ],
+    "pre_flags": [ "INDOORS" ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_punching_bag"
   },
   {
     "type": "construction",
@@ -5359,6 +7858,45 @@
   },
   {
     "type": "construction",
+    "id": "constr_archery_target_box",
+    "group": "build_archery_target_box",
+    "category": "CONSTRUCT",
+    "time": "1 m",
+    "difficulty": 0,
+    "components": [ [ [ "archery_target_box", 1 ] ] ],
+    "pre_special": "check_down_OK",
+    "post_terrain": "f_archery_target_box"
+  },
+  {
+    "type": "construction",
+    "id": "constr_archery_target_bale",
+    "group": "build_archery_target_bale",
+    "category": "CONSTRUCT",
+    "time": "1 m",
+    "difficulty": 0,
+    "using": [ [ "marking_soft", 10, "LIST" ] ],
+    "pre_terrain": "f_hay",
+    "post_terrain": "f_archery_target_bale"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wooden_flagpole",
+    "group": "build_flagpole",
+    "category": "CONSTRUCT",
+    "time": "30 m",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 1 } ] ],
+    "components": [
+      [ [ "long_pole", 2 ] ],
+      [ [ "rope_makeshift_6", 3 ], [ "rope_6", 3 ], [ "vine_6", 3 ] ],
+      [ [ "nail", 6 ], [ "string_36", 2 ], [ "cordage_36", 2 ] ]
+    ],
+    "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
+    "post_terrain": "f_wooden_flagpole"
+  },
+  {
+    "type": "construction",
     "id": "constr_clayoven",
     "group": "build_clay_oven",
     "category": "FURN",
@@ -5368,5 +7906,396 @@
     "components": [ [ [ "rock", 30 ] ], [ [ "fire_brick", 10 ] ], [ [ "clay_lump", 15 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_clay_oven"
+  },
+  {
+    "type": "construction",
+    "id": "constr_rope_hoist_tree",
+    "group": "build_rope_hoist",
+    "category": "TOOL",
+    "time": "30 s",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "components": [ [ [ "rope_30", 1 ] ] ],
+    "pre_flags": [ "SUPPORTS_ROOF", "TREE" ],
+    "post_terrain": "f_hoist_rope"
+  },
+  {
+    "type": "construction",
+    "id": "constr_rope_hoist_ceiling",
+    "group": "build_rope_hoist",
+    "category": "TOOL",
+    "time": "5 m",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [ [ [ "rope_30", 1 ] ], [ [ "nail", 6 ] ], [ [ "2x4", 2 ] ] ],
+    "pre_flags": [ "SUPPORTS_ROOF", "INDOORS" ],
+    "post_terrain": "f_hoist_rope"
+  },
+  {
+    "type": "construction",
+    "id": "constr_rope_tackle_hoist_tree",
+    "group": "build_rope_tackle_hoist",
+    "category": "TOOL",
+    "time": "10 m",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [ [ [ "rope_30", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "spike", 1 ] ] ],
+    "pre_flags": [ "SUPPORTS_ROOF", "TREE" ],
+    "post_terrain": "f_hoist_pulley"
+  },
+  {
+    "type": "construction",
+    "id": "constr_rope_tackle_hoist_supported",
+    "group": "build_rope_tackle_hoist",
+    "category": "TOOL",
+    "time": "10 m",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [ [ [ "rope_30", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "spike", 1 ] ], [ [ "nail", 6 ] ], [ [ "2x4", 2 ] ] ],
+    "pre_special": "check_support",
+    "post_terrain": "f_hoist_pulley"
+  },
+  {
+    "type": "construction",
+    "id": "constr_rope_tackle_hoist_ceiling",
+    "group": "build_rope_tackle_hoist",
+    "category": "TOOL",
+    "time": "10 m",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [ [ [ "rope_30", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "spike", 1 ] ] ],
+    "pre_flags": [ "SUPPORTS_ROOF", "INDOORS" ],
+    "post_terrain": "f_hoist_pulley"
+  },
+  {
+    "type": "construction",
+    "id": "constr_chain_hoist_thconc",
+    "group": "build_chain_hoist",
+    "category": "TOOL",
+    "time": "30 m",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "qualities": [ [ { "id": "DRILL", "level": 2 } ], [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "chain", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "nuts_bolts", 2 ] ] ],
+    "pre_terrain": "t_thconc_floor",
+    "post_terrain": "f_hoist_chain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_chain_hoist_strconc",
+    "group": "build_chain_hoist",
+    "category": "TOOL",
+    "time": "30 m",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "qualities": [ [ { "id": "DRILL", "level": 3 } ], [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "chain", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "nuts_bolts", 2 ] ] ],
+    "pre_terrain": "t_strconc_floor",
+    "post_terrain": "f_hoist_chain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_chain_hoist_metal",
+    "group": "build_chain_hoist",
+    "category": "TOOL",
+    "time": "30 m",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "qualities": [ [ { "id": "DRILL", "level": 3 } ], [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "chain", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "nuts_bolts", 2 ] ] ],
+    "pre_terrain": "t_metal_floor",
+    "post_terrain": "f_hoist_chain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_extract_sandmound",
+    "group": "extract_sand",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
+    "pre_terrain": "t_sandmound",
+    "post_special": "done_extract_maybe_revert_to_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_extract_sand_underground",
+    "group": "extract_sand",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
+    "pre_terrain": "t_sand_underground",
+    "post_special": "done_extract_maybe_revert_to_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_clear_rubble",
+    "group": "clear_rubble",
+    "category": "OTHER",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "4 m",
+    "byproducts": [
+      { "item": "brick", "count": [ 0, 2 ] },
+      { "item": "rock", "count": [ 0, 2 ] },
+      { "item": "splinter", "count": [ 0, 2 ] },
+      { "item": "scrap", "charges": [ 0, 2 ] },
+      { "item": "material_gravel", "charges": [ 0, 3 ] }
+    ],
+    "pre_terrain": "f_rubble",
+    "post_terrain": "f_null",
+    "activity_level": "EXTRA_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_clear_rubble_rock",
+    "group": "clear_rubble",
+    "category": "OTHER",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 m",
+    "byproducts": [
+      { "item": "rock", "count": [ 0, 5 ] },
+      { "item": "rock_flaking", "count": [ 0, 2 ] },
+      { "item": "flint", "count": [ 0, 2 ] },
+      { "item": "sharp_rock", "count": [ 0, 2 ] },
+      { "item": "pebble", "charges": [ 0, 4 ] }
+    ],
+    "pre_flags": "RUBBLE",
+    "pre_terrain": "f_rubble_rock",
+    "post_terrain": "f_null",
+    "activity_level": "EXTRA_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_clear_rubble_landfill",
+    "group": "clear_rubble",
+    "category": "OTHER",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "4 m",
+    "byproducts": [
+      { "item": "material_soil", "count": [ 0, 2 ] },
+      { "item": "plastic_chunk", "count": [ 0, 2 ] },
+      { "item": "ceramic_shard", "count": [ 0, 2 ] },
+      { "item": "splinter", "count": [ 0, 2 ] },
+      { "item": "scrap_cotton", "count": [ 0, 2 ] }
+    ],
+    "pre_flags": "RUBBLE",
+    "pre_terrain": "f_rubble_landfill",
+    "post_terrain": "f_null",
+    "activity_level": "EXTRA_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_clear_rubble_wreckage",
+    "group": "clear_rubble",
+    "category": "OTHER",
+    "qualities": [ [ { "id": "DIG", "level": 2 }, { "id": "SAW_M", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 m",
+    "byproducts": [
+      { "item": "scrap", "charges": [ 0, 6 ] },
+      { "item": "slag", "charges": [ 0, 3 ] },
+      { "item": "scrap_tin", "count": [ 0, 1 ] },
+      { "item": "scrap_aluminum", "count": [ 0, 1 ] },
+      { "item": "scrap_copper", "count": [ 0, 1 ] }
+    ],
+    "pre_flags": "RUBBLE",
+    "pre_terrain": "f_wreckage",
+    "post_terrain": "f_null",
+    "activity_level": "EXTRA_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_clear_rubble_woodchips",
+    "group": "clear_rubble",
+    "category": "OTHER",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "2 m",
+    "byproducts": [ { "item": "splinter", "count": [ 0, 5 ] } ],
+    "pre_flags": "RUBBLE",
+    "pre_terrain": "f_woodchips",
+    "post_terrain": "f_null",
+    "activity_level": "EXTRA_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_clear_rubble_ash",
+    "group": "clear_rubble",
+    "category": "OTHER",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 m",
+    "byproducts": [ { "item": "ash", "charges": [ 0, 100 ] } ],
+    "pre_flags": "RUBBLE",
+    "pre_terrain": "f_ash",
+    "post_terrain": "f_null",
+    "activity_level": "EXTRA_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_bench_wooden",
+    "group": "build_bench_wooden",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "45 m",
+    "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "log", 1 ], [ "wood_beam", 1 ] ], [ [ "nail", 4 ] ], [ [ "2x4", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_bench_wooden"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_barstool",
+    "group": "place_barstool",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "barstool", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_barstool",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_chair_plywood",
+    "group": "place_chair_plywood",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "chair_plywood", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_chair_plywood",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_chair_wood_black",
+    "group": "place_chair_wood_black",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "chair_wood_black", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_chair_black",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_chair_wood_white",
+    "group": "place_chair_wood_white",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "chair_wood_white", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_chair_white",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_oxygen_concentrator",
+    "group": "place_oxygen_concentrator",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "oxygen_concentrator", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_hd_compressor_unit",
+    "group": "place_hd_compressor_unit",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "hd_compressor_unit", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_obstacle_rock",
+    "group": "obstacle_rock",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "time": "5 m",
+    "components": [ [ [ "rock_large", 22 ] ] ],
+    "pre_terrain": "t_dirt",
+    "post_terrain": "t_rockyobstacle"
+  },
+  {
+    "type": "construction",
+    "id": "constr_stooking_spot",
+    "group": "make_stooking_spot",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 2 ] ],
+    "time": "0 m",
+    "pre_note": "Mark a spot to stack cut grain for drying outdoors.  Once placed, put unrotten undried grain stalks on the stooking spot and examine it to get started.",
+    "pre_special": "check_empty",
+    "post_flags": [ "keep_items" ],
+    "dark_craftable": true,
+    "post_terrain": "f_stook_empty"
+  },
+  {
+    "type": "construction",
+    "id": "constr_brick_oven_prep",
+    "group": "build_brick_oven",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "2 h",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "fire_brick", 30 ] ], [ [ "clay_lump", 5 ] ], [ [ "any_fresh_water", 2, "LIST" ] ] ],
+    "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
+    "post_terrain": "t_brick_oven_base",
+    "activity_level": "ACTIVE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_brick_oven_struct",
+    "group": "build_brick_oven",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "5 h",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "fire_brick", 60 ] ], [ [ "clay_lump", 30 ] ], [ [ "any_fresh_water", 15, "LIST" ] ] ],
+    "pre_terrain": "t_brick_oven_base",
+    "post_terrain": "t_brick_oven_struct",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_brick_oven_finisher",
+    "group": "build_brick_oven",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "3 h",
+    "pre_note": "Carve a thick wooden door for the brick oven.",
+    "qualities": [ [ { "id": "AXE", "level": 2 } ], [ { "id": "CHISEL_WOOD", "level": 1 } ] ],
+    "components": [ [ [ "log", 1 ] ] ],
+    "pre_terrain": "t_brick_oven_struct",
+    "post_terrain": "t_brick_oven",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_brick_oven_finisher_metal",
+    "group": "build_brick_oven",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "15 m",
+    "pre_note": "Weld together a metal door for the brick oven.",
+    "qualities": [ [ { "id": "SAW_M", "level": 2 } ] ],
+    "using": [ [ "welding_standard", 6 ] ],
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "scrap", 5 ] ] ],
+    "pre_terrain": "t_brick_oven_struct",
+    "post_terrain": "t_brick_oven",
+    "activity_level": "MODERATE_EXERCISE"
   }
 ]

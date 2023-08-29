@@ -47,6 +47,27 @@ const MonsterGroup &string_id<MonsterGroup>::obj() const
     return MonsterGroupManager::GetMonsterGroup( *this );
 }
 
+namespace io
+{
+
+template<>
+std::string enum_to_string<mongroup::horde_behaviour>( mongroup::horde_behaviour data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case mongroup::horde_behaviour::none: return "none";
+        case mongroup::horde_behaviour::city: return "city";
+        case mongroup::horde_behaviour::roam: return "roam";
+        case mongroup::horde_behaviour::nemesis: return "nemesis";
+        // *INDENT-ON*
+        case mongroup::horde_behaviour::last:
+            break;
+    }
+    cata_fatal( "Invalid mongroup::horde_behaviour" );
+}
+
+} // namespace io
+
 bool mongroup::is_safe() const
 {
     return type.obj().is_safe;
@@ -105,14 +126,89 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
     return *groupptr;
 }
 
-//Quantity is adjusted directly as a side effect of this function
-MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
-    const mongroup_id &group_name, int *quantity, bool *mon_found )
+static bool is_spawn_valid(
+    const MonsterGroupEntry &entry, const time_point &sunset, const time_point &sunrise,
+    const season_type season, const bool can_spawn_events )
+{
+    // If an event was specified for this entry, check if it matches the current holiday
+    if( entry.event != holiday::none && ( !can_spawn_events ||
+                                          entry.event != get_holiday_from_time() ) ) {
+        return false;
+    }
+
+    //Insure that the time is not before the spawn first appears or after it stops appearing
+    if( calendar::turn < calendar::start_of_cataclysm + entry.starts ) {
+        return false;
+    }
+    if( !entry.lasts_forever() && calendar::turn >= calendar::start_of_cataclysm + entry.ends ) {
+        return false;
+    }
+
+    std::vector<std::pair<time_point, time_point> > valid_times_of_day;
+    bool season_limited = false;
+    bool season_matched = false;
+    //Collect the various spawn conditions, and then insure they are met appropriately
+    for( const std::string &elem : entry.conditions ) {
+        //Collect valid time of day ranges
+        if( elem == "DAY" || elem == "NIGHT" || elem == "DUSK" || elem == "DAWN" ) {
+            if( elem == "DAY" ) {
+                valid_times_of_day.emplace_back( sunrise, sunset );
+            } else if( elem == "NIGHT" ) {
+                valid_times_of_day.emplace_back( sunset, sunrise );
+            } else if( elem == "DUSK" ) {
+                valid_times_of_day.emplace_back( sunset - 1_hours, sunset + 1_hours );
+            } else if( elem == "DAWN" ) {
+                valid_times_of_day.emplace_back( sunrise - 1_hours, sunrise + 1_hours );
+            }
+        }
+
+        //If we have any seasons listed, we know to limit by season, and if any season matches this season, we are good to spawn
+        if( elem == "SUMMER" || elem == "WINTER" || elem == "SPRING" || elem == "AUTUMN" ) {
+            season_limited = true;
+            if( ( season == SUMMER && elem == "SUMMER" ) ||
+                ( season == WINTER && elem == "WINTER" ) ||
+                ( season == SPRING && elem == "SPRING" ) ||
+                ( season == AUTUMN && elem == "AUTUMN" ) ) {
+                season_matched = true;
+            }
+        }
+    }
+
+    //Make sure the current time of day is within one of the valid time ranges for this spawn
+    bool is_valid_time_of_day = false;
+    if( valid_times_of_day.empty() ) {
+        //Then it can spawn whenever, since no times were defined
+        is_valid_time_of_day = true;
+    } else {
+        //Otherwise, it's valid if it matches any of the times of day
+        for( auto &elem : valid_times_of_day ) {
+            if( calendar::turn > elem.first && calendar::turn < elem.second ) {
+                is_valid_time_of_day = true;
+            }
+        }
+    }
+    if( !is_valid_time_of_day ) {
+        return false;
+    }
+
+    //If we are limited by season, make sure we matched a season
+    if( season_limited && !season_matched ) {
+        return false;
+    }
+
+    return true;
+}
+
+// Quantity is adjusted directly as a side effect of this function
+// is_recursive is only true when called recursively from this function
+std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
+    const mongroup_id &group_name, int *quantity, bool *mon_found, bool is_recursive,
+    bool *returned_default, bool use_pack_size )
 {
     const MonsterGroup &group = GetUpgradedMonsterGroup( group_name );
     int spawn_chance = rng( 1, group.event_adjusted_freq_total() );
     //Our spawn details specify, by default, a single instance of the default monster
-    MonsterGroupResult spawn_details = MonsterGroupResult( group.defaultMonster, 1, spawn_data() );
+    std::vector<MonsterGroupResult> spawn_details;
 
     bool monster_found = false;
     // Loop invariant values
@@ -121,114 +217,63 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     const season_type season = season_of_year( calendar::turn );
     std::string opt = get_option<std::string>( "EVENT_SPAWNS" );
     const bool can_spawn_events = opt == "monsters" || opt == "both";
+
     // Step through spawn definitions from the monster group until one is found or
-    for( auto it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it ) {
-        // There's a lot of conditions to work through to see if this spawn definition is valid
-        bool valid_entry = true;
-
-        // If an event was specified for this entry, check if it matches the current holiday
-        if( it->event != holiday::none && ( !can_spawn_events || it->event != get_holiday_from_time() ) ) {
-            valid_entry = false;
-        }
-
-        // Check for monsters within subgroup
-        if( valid_entry && it->is_group() ) {
-            MonsterGroupResult tmp = GetResultFromGroup( it->group, quantity, &monster_found );
-            if( monster_found ) {
-                // Valid monster found within subgroup, break early
-                spawn_details = tmp;
-                break;
-            } else if( quantity ) {
-                // Nothing found in subgroup, reset quantity
-                ( *quantity )++;
-            }
+    for( const MonsterGroupEntry &entry : group.monsters ) {
+        if( !is_spawn_valid( entry, sunset, sunrise, season, can_spawn_events ) ) {
             continue;
         }
-        //Insure that the time is not before the spawn first appears or after it stops appearing
-        valid_entry = valid_entry && ( calendar::start_of_cataclysm + it->starts < calendar::turn );
-        valid_entry = valid_entry && ( it->lasts_forever() ||
-                                       calendar::start_of_cataclysm + it->ends > calendar::turn );
 
-        std::vector<std::pair<time_point, time_point> > valid_times_of_day;
-        bool season_limited = false;
-        bool season_matched = false;
-        //Collect the various spawn conditions, and then insure they are met appropriately
-        for( const std::string &elem : it->conditions ) {
-            //Collect valid time of day ranges
-            if( elem == "DAY" || elem == "NIGHT" || elem == "DUSK" || elem == "DAWN" ) {
-                if( elem == "DAY" ) {
-                    valid_times_of_day.emplace_back( sunrise, sunset );
-                } else if( elem == "NIGHT" ) {
-                    valid_times_of_day.emplace_back( sunset, sunrise );
-                } else if( elem == "DUSK" ) {
-                    valid_times_of_day.emplace_back( sunset - 1_hours, sunset + 1_hours );
-                } else if( elem == "DAWN" ) {
-                    valid_times_of_day.emplace_back( sunrise - 1_hours, sunrise + 1_hours );
-                }
+        // Only keep if the monsters frequency is at least the spawn_chance
+        if( entry.frequency < spawn_chance ) {
+            spawn_chance -= entry.frequency;
+            continue;
+        }
+
+        const int pack_size =
+            entry.pack_maximum > 1 ? rng( entry.pack_minimum, entry.pack_maximum ) : 1;
+
+        if( entry.is_group() ) {
+            // Check for monsters within subgroup
+            for( int i = 0; i < pack_size; i++ ) {
+                std::vector<MonsterGroupResult> tmp_grp =
+                    GetResultFromGroup( entry.group, quantity, mon_found, true );
+                spawn_details.insert( spawn_details.end(), tmp_grp.begin(), tmp_grp.end() );
             }
-
-            //If we have any seasons listed, we know to limit by season, and if any season matches this season, we are good to spawn
-            if( elem == "SUMMER" || elem == "WINTER" || elem == "SPRING" || elem == "AUTUMN" ) {
-                season_limited = true;
-                if( ( season == SUMMER && elem == "SUMMER" ) ||
-                    ( season == WINTER && elem == "WINTER" ) ||
-                    ( season == SPRING && elem == "SPRING" ) ||
-                    ( season == AUTUMN && elem == "AUTUMN" ) ) {
-                    season_matched = true;
-                }
-            }
-        }
-
-        //Make sure the current time of day is within one of the valid time ranges for this spawn
-        bool is_valid_time_of_day = false;
-        if( valid_times_of_day.empty() ) {
-            //Then it can spawn whenever, since no times were defined
-            is_valid_time_of_day = true;
-        } else {
-            //Otherwise, it's valid if it matches any of the times of day
-            for( auto &elem : valid_times_of_day ) {
-                if( calendar::turn > elem.first && calendar::turn < elem.second ) {
-                    is_valid_time_of_day = true;
-                }
-            }
-        }
-        if( !is_valid_time_of_day ) {
-            valid_entry = false;
-        }
-
-        //If we are limited by season, make sure we matched a season
-        if( season_limited && !season_matched ) {
-            valid_entry = false;
-        }
-
-        //If the entry was valid, check to see if we actually spawn it
-        if( valid_entry ) {
-            //If the monsters frequency is greater than the spawn_chance, select this spawn rule
-            if( it->frequency >= spawn_chance ) {
-                if( it->pack_maximum > 1 ) {
-                    spawn_details = MonsterGroupResult( it->name, rng( it->pack_minimum, it->pack_maximum ), it->data );
-                } else {
-                    spawn_details = MonsterGroupResult( it->name, 1, it->data );
-                }
-                //And if a quantity pointer with remaining value was passed, will modify the external value as a side effect
-                //We will reduce it by the spawn rule's cost multiplier
+        } else if( use_pack_size ) {
+            for( int i = 0; i < pack_size; i++ ) {
+                spawn_details.emplace_back( entry.name, pack_size, entry.data );
+                // And if a quantity pointer with remaining value was passed, will modify the external
+                // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
                 if( quantity ) {
-                    *quantity -= std::max( 1, it->cost_multiplier * spawn_details.pack_size );
+                    *quantity -= std::max( 1, entry.cost_multiplier * pack_size );
                 }
-                monster_found = true;
-                //Otherwise, subtract the frequency from spawn result for the next loop around
-            } else {
-                spawn_chance -= it->frequency;
+            }
+        } else {
+            spawn_details.emplace_back( entry.name, pack_size, entry.data );
+            // And if a quantity pointer with remaining value was passed, will modify the external
+            // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
+            if( quantity ) {
+                *quantity -= std::max( 1, entry.cost_multiplier * pack_size );
             }
         }
+        monster_found = true;
+        break;
     }
 
     // Force quantity to decrement regardless of whether we found a monster.
-    if( quantity && !monster_found ) {
+    if( quantity && !monster_found && !is_recursive ) {
         ( *quantity )--;
     }
     if( mon_found ) {
         ( *mon_found ) = monster_found;
+    }
+
+    if( !is_recursive && spawn_details.empty() ) {
+        spawn_details.emplace_back( group.defaultMonster, 1, spawn_data() );
+        if( returned_default ) {
+            ( *returned_default ) = true;
+        }
     }
 
     return spawn_details;
@@ -539,7 +584,7 @@ void MonsterGroupManager::ClearMonsterGroups()
 
 static void check_group_def( const mongroup_id &g )
 {
-    for( const auto &m : g.obj().monsters ) {
+    for( const MonsterGroupEntry &m : g.obj().monsters ) {
         if( m.is_group() ) {
             if( !m.group.is_valid() ) {
                 debugmsg( "monster group %s contains unknown subgroup %s", g.c_str(), m.group.c_str() );
@@ -556,7 +601,7 @@ void MonsterGroupManager::check_group_definitions()
 {
     for( auto &e : monsterGroupMap ) {
         const MonsterGroup &mg = e.second;
-        for( const auto &mge : mg.monsters ) {
+        for( const MonsterGroupEntry &mge : mg.monsters ) {
             if( mge.is_group() ) {
                 if( !mge.group.is_valid() ) {
                     debugmsg( "monster group %s contains unknown subgroup %s", mg.name.c_str(), mge.group.c_str() );
@@ -573,11 +618,11 @@ void MonsterGroupManager::check_group_definitions()
 
 const mtype_id &MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_id &group_name )
 {
-    const auto &group = group_name.obj();
+    const MonsterGroup &group = group_name.obj();
     int spawn_chance = rng( 1, group.event_adjusted_freq_total() );
     std::string opt = get_option<std::string>( "EVENT_SPAWNS" );
     const bool can_spawn_events = opt == "monsters" || opt == "both";
-    for( const auto &monster_type : group.monsters ) {
+    for( const MonsterGroupEntry &monster_type : group.monsters ) {
         if( monster_type.event != holiday::none && ( !can_spawn_events ||
                 monster_type.event != get_holiday_from_time() ) ) {
             continue;

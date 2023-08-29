@@ -74,6 +74,36 @@
   },
   {
     "type": "trap",
+    "id": "tr_mattress",
+    "name": "mattress",
+    "color": "white",
+    "symbol": "0",
+    "visibility": -1,
+    "avoidance": 0,
+    "difficulty": 0,
+    "comfort": 4,
+    "floor_bedding_warmth": 800,
+    "action": "none",
+    "drops": [ "mattress" ],
+    "benign": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_down_mattress",
+    "name": "down mattress",
+    "color": "white",
+    "symbol": "0",
+    "visibility": -1,
+    "avoidance": 0,
+    "difficulty": 0,
+    "comfort": 4,
+    "floor_bedding_warmth": 800,
+    "action": "none",
+    "drops": [ "down_mattress" ],
+    "benign": true
+  },
+  {
+    "type": "trap",
     "id": "tr_rollmat",
     "name": "roll mat",
     "color": "blue",
@@ -134,6 +164,21 @@
   },
   {
     "type": "trap",
+    "id": "tr_microlab_portal_elevator_physics_shift",
+    "name": "microlab shifting elevator",
+    "color": "magenta",
+    "memorial_male": { "ctxt": "memorial_male", "str": "Triggered a dimensional anomaly." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Triggered a dimensional anomaly." },
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "microlab_portal_elevator_physics_shift",
+    "benign": false
+  },
+  {
+    "type": "trap",
     "id": "tr_glimmer_floor",
     "name": "glimmering floor",
     "color": "yellow",
@@ -145,6 +190,17 @@
     "action": "telepad",
     "always_invisible": true,
     "benign": false
+  },
+  {
+    "type": "trap",
+    "id": "tr_light_snare",
+    "name": "light snare trap",
+    "color": "brown",
+    "symbol": "^",
+    "visibility": 1,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "snare_light"
   },
   {
     "type": "trap",
@@ -216,7 +272,7 @@
     "name": "caltrops",
     "color": "dark_gray",
     "memorial_male": { "ctxt": "memorial_male", "str": "Stepped on a caltrop." },
-    "memorial_female": { "ctxt": "memorial_female", "str": "stepped on a caltrop." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Stepped on a caltrop." },
     "symbol": "_",
     "visibility": 4,
     "avoidance": 6,
@@ -365,7 +421,7 @@
     "difficulty": 2,
     "trap_radius": 1,
     "action": "none",
-    "drops": [ "motor", "blade", "blade", "string_36" ]
+    "drops": [ "motor_small", "blade", "blade", "string_36" ]
   },
   {
     "type": "trap",
@@ -498,6 +554,7 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
+    "flags": [ "PIT" ],
     "action": "pit",
     "vehicle_data": { "damage": 500 }
   },
@@ -512,6 +569,7 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
+    "flags": [ "PIT" ],
     "action": "pit_spikes",
     "vehicle_data": { "damage": 500 }
   },
@@ -528,15 +586,17 @@
     "difficulty": 99,
     "action": "lava",
     "flags": [ "CONVECTS_TEMPERATURE" ],
-    "vehicle_data": { "damage": 500 }
+    "vehicle_data": { "damage": 500 },
+    "trigger_message_u": "You stepped into lava!",
+    "trigger_message_npc": "<npcname> stepped into lava!"
   },
   {
     "type": "trap",
     "id": "tr_portal",
     "name": "shimmering portal",
     "color": "magenta",
-    "memorial_male": { "ctxt": "memorial_male", "str": "Triggered a teleoport trap." },
-    "memorial_female": { "ctxt": "memorial_female", "str": "Triggered a teleoport trap." },
+    "memorial_male": { "ctxt": "memorial_male", "str": "Triggered a teleport trap." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Triggered a teleport trap." },
     "symbol": "%",
     "visibility": 0,
     "avoidance": 99,
@@ -678,17 +738,17 @@
     "name": "Summon Trapdoor Spider",
     "description": "This spell summons hostile trapdoor spiders from the earth.",
     "effect": "summon",
-    "effect_str": "mon_spider_trapdoor_giant",
+    "effect_str": "mon_spider_trapdoor_small",
     "shape": "blast",
     "valid_targets": [ "ground" ],
-    "flags": [ "PERMANENT", "HOSTILE_SUMMON" ],
+    "flags": [ "PERMANENT", "HOSTILE_SUMMON", "NO_EXPLOSION_SFX" ],
     "max_level": 15,
     "min_aoe": 2,
-    "max_aoe": 3,
+    "max_aoe": 2,
     "min_damage": 1,
     "max_damage": 1,
     "min_range": 1,
-    "max_range": 3,
+    "max_range": 1,
     "min_duration": 30000,
     "max_duration": 120000,
     "duration_increment": 6000,
@@ -709,6 +769,7 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
+    "flags": [ "PIT" ],
     "action": "pit_glass",
     "vehicle_data": { "damage": 500 }
   },
@@ -1018,21 +1079,22 @@
     "name": "swirling vortex",
     "color": "green",
     "symbol": "#",
-    "visibility": 5,
+    "visibility": -1,
     "avoidance": 99,
     "difficulty": 99,
     "trap_radius": 2,
     "action": "spell",
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
     "spell_data": { "id": "swirling_vortex" }
   },
   {
     "type": "SPELL",
-    "id": "swirling_vortex",
-    "name": { "str": "Swirling Vortex" },
-    "description": "Sends the victim to the entrance.",
+    "id": "trap_base",
+    "name": { "str": "base spell for traps" },
+    "description": "EOCs the victim.",
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "base_casting_time": 75,
     "shape": "blast",
     "min_range": 0,
@@ -1045,5 +1107,53 @@
     "type": "effect_on_condition",
     "id": "EOC_SWIRLING_VORTEX",
     "effect": [ { "u_teleport": { "global_val": "nether_dungeon_door" }, "success_message": "How did you get here?" } ]
+  },
+  {
+    "type": "trap",
+    "id": "tr_portal_dungeon_entrance",
+    "name": "swirling vortex",
+    "color": "green",
+    "action": "spell",
+    "copy-from": "tr_swirling_vortex",
+    "spell_data": { "id": "portal_dungeon_entrance" }
+  },
+  {
+    "type": "SPELL",
+    "id": "portal_dungeon_entrance",
+    "name": "portal dungeon entrance",
+    "copy-from": "trap_base",
+    "effect_str": "EOC_PORTAL_STORM_DUNGEON"
+  },
+  {
+    "type": "trap",
+    "id": "tr_portal_dungeon_exit",
+    "name": "hole to outside",
+    "color": "green",
+    "copy-from": "tr_swirling_vortex",
+    "action": "spell",
+    "spell_data": { "id": "portal_dungeon_exit" }
+  },
+  {
+    "type": "SPELL",
+    "id": "portal_dungeon_exit",
+    "name": "portal dungeon exit",
+    "copy-from": "trap_base",
+    "effect_str": "EOC_PORTAL_STORM_DUNGEON_EXIT"
+  },
+  {
+    "type": "trap",
+    "id": "tr_portal_dungeon_next_level",
+    "name": "Swirling vortex",
+    "color": "blue",
+    "copy-from": "tr_swirling_vortex",
+    "action": "spell",
+    "spell_data": { "id": "portal_dungeon_next_level" }
+  },
+  {
+    "type": "SPELL",
+    "id": "portal_dungeon_next_level",
+    "name": "portal dungeon next level",
+    "copy-from": "trap_base",
+    "effect_str": "EOC_PORTAL_STORM_DUNGEON_NEXT_LEVEL"
   }
 ]

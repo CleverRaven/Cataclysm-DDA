@@ -1,0 +1,30 @@
+[
+  {
+    "type": "snippet",
+    "category": "general_graffiti_snippets",
+    "//": "This graffiti is generally assumed to come from before the Cataclysm but post dino",
+    "text": [
+      { "id": "general_graffiti_dino_1", "text": "Rejoice.  The great eaters have returned" },
+      {
+        "id": "general_graffiti_dino_2",
+        "text": "There is a detailed drawing of a predator dinosaur with an arrow pointing at the mouth and the note 'INSERT HERE'."
+      },
+      { "id": "general_graffiti_dino_3", "text": "<given_name> is dinosaur lunch" },
+      { "id": "general_graffiti_dino_4", "text": "<given_name> + troodon" },
+      { "id": "general_graffiti_dino_5", "text": "Dinos, zombies, it doesn't matter" },
+      { "id": "general_graffiti_dino_6", "text": "Learn to fly!  Mess with a big dino!" },
+      { "id": "general_graffiti_dino_7", "text": "T REX ET ME" },
+      { "id": "general_graffiti_dino_8", "text": "I give up, I'm joining the dinosaurs" },
+      {
+        "id": "general_graffiti_dino_9",
+        "text": "This is a cartoon rendition of a long necked four legged dinosaur."
+      },
+      {
+        "id": "general_graffiti_dino_10",
+        "text": "This is a crudely spray painted tag adorned with dinosaur skulls."
+      },
+      { "id": "general_graffiti_dino_11", "text": "KILL ALL DINOSAURS" },
+      { "id": "general_graffiti_dino_12", "text": "Don't believe the government, the dinosaurs are real!" }
+    ]
+  }
+]

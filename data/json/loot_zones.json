@@ -7,6 +7,13 @@
     "description": "Place to drop unsorted loot.  You can use \"sort out loot\" zone-action to sort items inside.  It can overlap with Loot zones of different types."
   },
   {
+    "id": "LOOT_DEFAULT",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Default",
+    "can_be_personal": true,
+    "description": "Destination for any loot without a more specific zone defined."
+  },
+  {
     "id": "LOOT_FOOD",
     "type": "LOOT_ZONE",
     "name": "Loot: Food",
@@ -16,7 +23,7 @@
   {
     "id": "LOOT_PFOOD",
     "type": "LOOT_ZONE",
-    "name": "Loot: P.Food",
+    "name": "Loot: Perishable Food",
     "can_be_personal": true,
     "description": "Destination for perishable comestibles.  Does include perishable drinks if such zone is not specified."
   },
@@ -30,7 +37,7 @@
   {
     "id": "LOOT_PDRINK",
     "type": "LOOT_ZONE",
-    "name": "Loot: P.Drink",
+    "name": "Loot: Perishable Drink",
     "can_be_personal": true,
     "description": "Destination for perishable drinks."
   },
@@ -77,6 +84,13 @@
     "description": "Destination for tools."
   },
   {
+    "id": "LOOT_TOOL_MAGAZINE",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Tool Magazines",
+    "can_be_personal": true,
+    "description": "Destination for tool magazines."
+  },
+  {
     "id": "LOOT_CLOTHING",
     "type": "LOOT_ZONE",
     "name": "Loot: Clothing",
@@ -86,7 +100,7 @@
   {
     "id": "LOOT_FCLOTHING",
     "type": "LOOT_ZONE",
-    "name": "Loot: F.Clothing",
+    "name": "Loot: Filthy Clothing",
     "can_be_personal": true,
     "description": "Destination for filthy clothing."
   },
@@ -112,6 +126,20 @@
     "description": "Destination for instructional books and magazines."
   },
   {
+    "id": "LOOT_MA_MANUALS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Martial arts manuals",
+    "can_be_personal": true,
+    "description": "Destination for manuals for martial arts."
+  },
+  {
+    "id": "LOOT_TRAPS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Traps",
+    "can_be_personal": true,
+    "description": "Destination for traps."
+  },
+  {
     "id": "LOOT_MODS",
     "type": "LOOT_ZONE",
     "name": "Loot: Mods",
@@ -130,12 +158,12 @@
     "type": "LOOT_ZONE",
     "name": "Loot: Bionics",
     "can_be_personal": true,
-    "description": "Destination for Compact Bionics Modules, a.k.a. CBMS."
+    "description": "Destination for Compact Bionics Modules, a.k.a. CBMs."
   },
   {
     "id": "LOOT_VEHICLE_PARTS",
     "type": "LOOT_ZONE",
-    "name": "Loot: V.Parts",
+    "name": "Loot: Vehicle Parts",
     "can_be_personal": true,
     "description": "Destination for vehicle parts."
   },
@@ -172,7 +200,7 @@
     "type": "LOOT_ZONE",
     "name": "Loot: Fuel",
     "can_be_personal": true,
-    "description": "Destination for gasoline, diesel, lamp oil and other substances used as a fuel."
+    "description": "Destination for gasoline, diesel, kerosene and other substances used as a fuel."
   },
   {
     "id": "LOOT_SEEDS",
@@ -191,7 +219,7 @@
   {
     "id": "LOOT_SPARE_PARTS",
     "type": "LOOT_ZONE",
-    "name": "Loot: S.Parts",
+    "name": "Loot: Spare Parts",
     "can_be_personal": true,
     "description": "Destination for spare parts."
   },
@@ -200,14 +228,14 @@
     "type": "LOOT_ZONE",
     "name": "Loot: Artifacts",
     "can_be_personal": true,
-    "description": "Destination for artifacts"
+    "description": "Destination for artifacts."
   },
   {
     "id": "LOOT_CORPSE",
     "type": "LOOT_ZONE",
     "name": "Loot: Corpses",
     "can_be_personal": true,
-    "description": "Destination for corpses"
+    "description": "Destination for corpses."
   },
   {
     "id": "LOOT_ARMOR",
@@ -219,7 +247,7 @@
   {
     "id": "LOOT_FARMOR",
     "type": "LOOT_ZONE",
-    "name": "Loot: F.Armor",
+    "name": "Loot: Filthy Armor",
     "can_be_personal": true,
     "description": "Destination for filthy armor."
   },
@@ -235,7 +263,7 @@
     "type": "LOOT_ZONE",
     "name": "Loot: Custom",
     "can_be_personal": true,
-    "description": "Destination for loot with a custom filter that you can modify"
+    "description": "Destination for loot with a custom filter that you can modify."
   },
   {
     "id": "LOOT_IGNORE",
@@ -254,9 +282,10 @@
   {
     "id": "LOOT_ITEM_GROUP",
     "type": "LOOT_ZONE",
-    "name": "Loot: item_group",
+    "name": "Loot: Item Group",
     "can_be_personal": false,
-    "description": "Destination for items from an item_group"
+    "hidden": true,
+    "description": "Destination for items from an item group."
   },
   {
     "id": "NO_AUTO_PICKUP",

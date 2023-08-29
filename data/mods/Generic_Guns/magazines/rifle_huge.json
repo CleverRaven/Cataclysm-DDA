@@ -9,7 +9,7 @@
     "linkage": "ammolinkrifle_huge",
     "capacity": 100,
     "count": 100,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle_huge": 100 }, "rigid": true } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle_huge": 100 }, "rigid": false } ]
   },
   {
     "id": "rifle_huge_amr_mag",

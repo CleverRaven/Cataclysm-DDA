@@ -209,6 +209,10 @@
     "name": "forgotten experiment",
     "job_description": "What a magical world to explore…",
     "common": false,
+    "bonus_str": { "rng": [ 3, 7 ] },
+    "bonus_dex": { "rng": [ 3, 5 ] },
+    "bonus_int": { "rng": [ 3, 5 ] },
+    "bonus_per": { "rng": [ 3, 5 ] },
     "worn_override": "NC_CYBORG_worn",
     "carry_override": "NC_DOCTOR_misc",
     "weapon_override": "EMPTY_GROUP",
@@ -227,7 +231,7 @@
     ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
-      { "skill": "firstaid", "bonus": { "rng": [ 4, 8 ] } }
+      { "skill": "firstaid", "bonus": { "rng": [ 6, 8 ] } }
     ],
     "bionics": [
       { "id": "bio_ankles", "chance": 5 },
@@ -245,6 +249,8 @@
       { "id": "bio_sleepy", "chance": 5 },
       { "id": "bio_heat_absorb", "chance": 20 },
       { "id": "bio_eye_enhancer", "chance": 20 },
+      { "id": "bio_recycler", "chance": 100 },
+      { "id": "bio_digestion", "chance": 100 },
       { "id": "bio_pokedeye", "chance": 10 },
       { "id": "bio_hydraulics", "chance": 10 },
       { "id": "bio_painkiller", "chance": 15 },
@@ -256,7 +262,16 @@
       { "id": "bio_armor_arms", "chance": 30 },
       { "id": "bio_armor_legs", "chance": 25 },
       { "id": "bio_razors", "chance": 15 },
+      { "id": "bio_nanobots", "chance": 20 },
+      { "id": "bio_sunglasses", "chance": 50 },
+      { "id": "bio_weight", "chance": 50 },
       { "id": "bio_power_storage", "chance": 100 },
+      { "id": "bio_power_storage_mkII", "chance": 70 },
+      { "id": "bio_trickle", "chance": 100 },
+      { "id": "bio_trickle", "chance": 75 },
+      { "id": "bio_trickle", "chance": 50 },
+      { "id": "bio_trickle", "chance": 25 },
+      { "id": "bio_trickle", "chance": 10 },
       { "id": "bio_torsionratchet", "chance": 20 }
     ]
   }

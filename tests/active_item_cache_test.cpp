@@ -10,15 +10,8 @@
 
 TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
 {
-    clear_map();
+    clear_map( -OVERMAP_DEPTH, OVERMAP_HEIGHT );
     map &here = get_map();
-    for( int z = -OVERMAP_DEPTH; z < OVERMAP_HEIGHT; ++z ) {
-        for( int x = 0; x < MAPSIZE_X; ++x ) {
-            for( int y = 0; y < MAPSIZE_Y; ++y ) {
-                here.i_clear( { x, y, z } );
-            }
-        }
-    }
     REQUIRE( here.get_submaps_with_active_items().empty() );
     // An arbitrary active item.
     item active( "firecracker_act", calendar::turn_zero, item::default_charges_tag() );
@@ -28,7 +21,7 @@ TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
     int z = 0;
     for( int x = 0; x < MAPSIZE_X; ++x ) {
         for( int y = 0; y < MAPSIZE_Y; ++y ) {
-            REQUIRE( here.i_at( { x, y, z } ).empty() );
+            REQUIRE( here.i_at( tripoint{ x, y, z } ).empty() );
             CAPTURE( x, y, z );
             tripoint_abs_sm abs_loc = here.get_abs_sub() + tripoint( x / SEEX, y / SEEY, z );
             CAPTURE( abs_loc );
@@ -36,12 +29,14 @@ TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
             REQUIRE( here.get_submaps_with_active_items().find( abs_loc ) ==
                      here.get_submaps_with_active_items().end() );
             item &item_ref = here.add_item( { x, y, z }, active );
+            here.update_submaps_with_active_items();
             REQUIRE( item_ref.active );
             REQUIRE_FALSE( here.get_submaps_with_active_items().empty() );
             REQUIRE( here.get_submaps_with_active_items().find( abs_loc ) !=
                      here.get_submaps_with_active_items().end() );
-            REQUIRE_FALSE( here.i_at( { x, y, z } ).empty() );
+            REQUIRE_FALSE( here.i_at( tripoint{ x, y, z } ).empty() );
             here.i_clear( { x, y, z } );
+            here.process_items();
         }
     }
 }

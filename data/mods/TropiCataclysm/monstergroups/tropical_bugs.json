@@ -26,23 +26,6 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_BUTTERFLY",
-    "default": "mon_butterfly",
-    "monsters": [ { "monster": "mon_butterfly", "weight": 50 }, { "monster": "mon_moth", "weight": 50 } ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_BUTTERFLY_GIANT",
-    "default": "mon_butterfly_giant",
-    "monsters": [
-      { "monster": "mon_butterfly_giant", "weight": 45 },
-      { "monster": "mon_butterfly_titan", "weight": 5, "cost_multiplier": 2 },
-      { "monster": "mon_moth_giant", "weight": 45 },
-      { "monster": "mon_moth_titan", "weight": 5, "cost_multiplier": 2 }
-    ]
-  },
-  {
-    "type": "monstergroup",
     "name": "GROUP_TERMITE_ALATE",
     "default": "mon_termite_queen",
     "monsters": [ { "monster": "mon_termite_king", "weight": 50 }, { "monster": "mon_termite_queen", "weight": 50 } ]

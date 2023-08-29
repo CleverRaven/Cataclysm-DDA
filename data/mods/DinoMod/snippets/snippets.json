@@ -1,0 +1,82 @@
+[
+  {
+    "type": "snippet",
+    "category": "flier",
+    "text": [
+      {
+        "id": "flier_dinomod_1",
+        "text": "This is an advertisement for a local wildlife exhibit, claiming to have new and exciting animals on display.  Strangely, the only imagery on it is a stylized silhouette of a T. Rex.  The flier reads \"Witness the rebirth of the extinct, grand opening this week!\""
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [
+      { "id": "note_dinomod_1", "text": "\"SWAMPS BAD TEETH HUGE OHGOD\"" },
+      { "id": "note_dinomod_2", "text": "\"Why is that place just fucking crawling with lizards?\"" },
+      {
+        "id": "note_dinomod_3",
+        "text": "\"I bet dinosaurs can read and play chess so don't eat us because we can teach you important things like magnets and ramen\""
+      },
+      { "id": "note_dinomod_4", "text": "\"where's some .700 t-rex medicine when you need it?\"" },
+      {
+        "id": "note_dinomod_5",
+        "text": "\"So is this what happens when you stray off the path and step on a butterfly?\""
+      },
+      {
+        "id": "note_dinomod_6",
+        "text": "\"But even a much older gent  Sees itself forced to wander  He goes by the name Diplodocus  And belongs among the fossils  Mr. Carnegie packs him joyfully  Into giant arks  And sends him as gift  To several monarchs\""
+      },
+      {
+        "id": "note_dinomod_7",
+        "text": "\"What the hell is a brown and magenta 4 legged juvenile?!  Fucker took a dozen or more .308 rounds to put down.  Gives a ton of fucking meat\""
+      },
+      { "id": "note_dinomod_8", "text": "\"I saw the most beautiful dinosaur today.  I must dress her.\"" },
+      {
+        "id": "note_dinomod_9",
+        "text": "\"I saw this one dinosaur and I was like gorge.  And then I saw this other dinosaur and I was like gooorge!  And then I saw this other one and I was like gorgosaurus!  Like for real.\""
+      },
+      {
+        "id": "note_dinomod_10",
+        "text": "\"KILL ALL DINOSAURS.  DO NOT TAKE THEIR DRUGS.  DO NOT LISTEN TO THEIR LIES.  THEY ARE BEAUTIFUL AND WE WILL KILL THEM UNTIL WE DIE AND THEN WE WILL RISE AGAIN AND KILL THEM SOME MORE.  ANYONE WHO SAYS DIFFERENT IS THE ENEMY.\""
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "newest_news",
+    "text": [
+      {
+        "id": "dinomod_newest_news_1",
+        "text": "MANY MISSING: A wave of missing persons reports have shaken an already troubled nation, especially among members of the popular Swampers religion and hotel and casino chain.  Asked to comment, their charismatic CEO Bo Baronyx refused to explain their whereabouts, saying only 'The great eaters have returned and they will be sated' and winked and smiled in the most charming way.  The Swampers are doing their part in this crisis and are accepting donations of meat and money to feed the hungry."
+      },
+      {
+        "id": "dinomod_newest_news_2",
+        "text": "CUTEST VISITORS: A mysterious portal of shimmering blue energy and flashing lights opened above Cretaceous Kindergarten today, showering children with the cutest tiny fuzzy dinosaurs and dinosaur babies.  Local paleontologist and exotic dancer Othniel Marsh expressed skepticism that dinosaurs had not died out millions of years ago but 'at this point why not, at least they're cute'.  And cute they are!"
+      },
+      {
+        "id": "dinomod_newest_news_3",
+        "text": "DENIES DINOSAURS: FEMA official Ernst Stromer said late last night that the cities are not safe and reports of dinosaurs outside the cities are wrong and 'possibly drug-related' but cautioned refugees to 'get all the guns you can' because 'it's bad out there'."
+      },
+      {
+        "id": "dinomod_newest_news_4",
+        "text": "NEVER HUMANS?: Swamper scientists report that in every historical simulation they have run, humans never evolve, with dinosaurs remaining the dominant life form to present day in every model unless an artificial disaster event is introduced.  'Fear not, this world is healing, we will return to normal soon' reports Swamper CEO Bo Baronyx confidently.  Sounds like good news ahead!"
+      },
+      {
+        "id": "dinomod_newest_news_5",
+        "text": "GOD IS A DINOSAUR?:  Colorful FEMA official and slug mutant Ernst Stromer reported this morning that he has 'seen god and she is a hungry torvosaurus too beautiful for this world'.  He says that she 'cannot be harmed by bullets' and that she is 'made of beautiful golden light from above' and she demands human flesh.  Stromer says that every fighting man and woman must go to her to be destroyed by her 'atomic majesty'.  Good news America!"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "dino-reports",
+    "text": [
+      {
+        "id": "dino-reports_1",
+        "text": "\nIMMERSION LOG: 30D-A\n\nPRELIMINARY REPORT:\n\nSUMMARY:\nExploration into sub-scape 30-D revealed biosphere similar to prime, similar to previous sub-scapes in same frequency.  Expedition team reported visual contact with several reptoids ('dinosaurs') and warm, humid conditions.  Though one reptoid made visual contact with the expedition team and approached, all members were returned with no incident.  Refer to previous sub-scape system 30 reports and meta-comparison report for further information."
+      }
+    ]
+  }
+]

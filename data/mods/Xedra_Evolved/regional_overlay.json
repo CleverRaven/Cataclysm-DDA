@@ -1,0 +1,31 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "city": { "houses": { "safe_house": 5 }, "parks": { "vampire_cathedral": 50 } },
+    "map_extras": {
+      "road": {
+        "chance": 75,
+        "extras": {
+          "mx_golden_monolith": 15,
+          "mx_military": 50,
+          "mx_science": 400,
+          "mx_collegekids": 500,
+          "mx_roadblock": 830,
+          "mx_roadblock_mil": 170,
+          "mx_bandits_block": 800,
+          "mx_drugdeal": 300,
+          "mx_supplydrop": 100,
+          "mx_portal": 50,
+          "mx_crater": 100,
+          "mx_portal_in": 40,
+          "mx_roadworks": 1000,
+          "mx_mayhem": 500,
+          "mx_casings": 1000,
+          "mx_corpses": 300,
+          "mx_prison_bus": 150
+        }
+      }
+    }
+  }
+]

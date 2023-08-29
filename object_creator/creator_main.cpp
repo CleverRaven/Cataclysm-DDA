@@ -19,11 +19,11 @@
 #include "worldfactory.h"
 
 #include <QtWidgets/qapplication.h>
-#ifdef QT_STATICPLUGIN
-#include <QtCore/QtPlugin>
+#include <QtCore/QSettings>
+
 #ifdef _WIN32
+#include <QtCore/QtPlugin>
 Q_IMPORT_PLUGIN( QWindowsIntegrationPlugin );
-#endif
 #endif
 
 struct MOD_INFORMATION;
@@ -54,8 +54,6 @@ struct cli_opts {
     int seed = time( nullptr );
     bool verifyexit = false;
     bool check_mods = false;
-    std::string dump;
-    dump_mode dmode = dump_mode::TSV;
     std::vector<std::string> opts;
     std::string world; /** if set try to load first save in this world on startup */
 };
@@ -110,6 +108,10 @@ int main( int argc, char *argv[] )
 
     MAP_SHARING::setDefaults();
 
+    QSettings settings( QSettings::IniFormat, QSettings::UserScope,
+                        "CleverRaven", "Cataclysm - DDA" );
+
+
     cli_opts cli;
 
     rng_set_engine_seed( cli.seed );
@@ -121,10 +123,6 @@ int main( int argc, char *argv[] )
         g->load_static_data();
         if( cli.verifyexit ) {
             exit_handler( 0 );
-        }
-        if( !cli.dump.empty() ) {
-            init_colors();
-            exit( g->dump_stats( cli.dump, cli.dmode, cli.opts ) ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );
@@ -140,12 +138,19 @@ int main( int argc, char *argv[] )
 
     world_generator = std::make_unique<worldfactory>();
     world_generator->init();
-    world_generator->active_world = world_generator->make_new_world( { mod_id( "dda" ) } );
+    std::vector<mod_id> mods;
+    mods.push_back( mod_id( "dda" ) );
+    if( settings.contains( "mods/include" ) ) {
+        QStringList modlist = settings.value( "mods/include" ).value<QStringList>();
+        for( const QString &i : modlist ) {
+            mods.push_back( mod_id( i.toStdString() ) );
+        }
+    }
+    world_generator->active_world = world_generator->make_new_world( { mods } );
 
     g->load_core_data( ui );
     g->load_world_modfiles( ui );
 
     QApplication app( argc, argv );
-
-    return creator::main_window().execute( app );
+    creator::main_window().execute( app );
 }

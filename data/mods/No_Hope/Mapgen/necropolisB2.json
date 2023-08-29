@@ -406,12 +406,12 @@
         { "vehicle": "golf_cart", "x": 35, "y": 7, "chance": 25, "rotation": 270 },
         { "vehicle": "golf_cart", "x": 39, "y": 8, "chance": 25, "rotation": 270 },
         { "vehicle": "golf_cart", "x": 42, "y": 7, "chance": 25, "rotation": 270 },
-        { "vehicle": "golf_cart", "x": 71, "y": 7, "chance": 25, "rotation": 270 },
+        { "vehicle": "golf_cart", "x": 70, "y": 7, "chance": 25, "rotation": 270 },
         { "vehicle": "golf_cart", "x": 66, "y": 7, "chance": 25, "rotation": 270 },
         { "vehicle": "golf_cart", "x": 16, "y": 42, "chance": 25, "rotation": 270 },
         { "vehicle": "golf_cart", "x": 9, "y": 42, "chance": 25, "rotation": 270 },
-        { "vehicle": "golf_cart", "x": 47, "y": 32, "chance": 15, "rotation": 270 },
-        { "vehicle": "golf_cart", "x": 47, "y": 42, "chance": 15, "rotation": 270 },
+        { "vehicle": "golf_cart", "x": 46, "y": 32, "chance": 15, "rotation": 270 },
+        { "vehicle": "golf_cart", "x": 46, "y": 42, "chance": 15, "rotation": 270 },
         { "vehicle": "golf_cart", "x": 43, "y": 32, "chance": 15, "rotation": 270 },
         { "vehicle": "golf_cart", "x": 43, "y": 42, "chance": 15, "rotation": 270 }
       ],
@@ -585,9 +585,9 @@
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
       ],
       "place_vehicles": [
-        { "vehicle": "humvee", "x": 33, "y": 1, "chance": 60, "rotation": 90 },
-        { "vehicle": "humvee", "x": 43, "y": 1, "chance": 60, "rotation": 90 },
-        { "vehicle": "humvee", "x": 53, "y": 1, "chance": 30, "rotation": 90 },
+        { "vehicle": "humvee", "x": 33, "y": 3, "chance": 60, "rotation": 90 },
+        { "vehicle": "humvee", "x": 43, "y": 3, "chance": 60, "rotation": 90 },
+        { "vehicle": "humvee", "x": 53, "y": 3, "chance": 30, "rotation": 90 },
         { "vehicle": "humvee", "x": 51, "y": 20, "chance": 30, "rotation": 270 },
         { "vehicle": "golf_cart", "x": 68, "y": 43, "chance": 25, "rotation": 90 },
         { "vehicle": "golf_cart", "x": 68, "y": 39, "chance": 25, "rotation": 90 },
@@ -856,7 +856,7 @@
       ],
       "place_vehicles": [
         { "vehicle": "golf_cart", "x": 67, "y": 16, "chance": 20, "rotation": 270 },
-        { "vehicle": "golf_cart", "x": 71, "y": 16, "chance": 20, "rotation": 270 },
+        { "vehicle": "golf_cart", "x": 70, "y": 16, "chance": 20, "rotation": 270 },
         { "vehicle": "golf_cart", "x": 63, "y": 16, "chance": 20, "rotation": 270 },
         { "vehicle": "golf_cart", "x": 59, "y": 16, "chance": 20, "rotation": 270 },
         { "vehicle": "golf_cart", "x": 55, "y": 16, "chance": 20, "rotation": 270 },
@@ -1025,12 +1025,12 @@
         { "vehicle": "golf_cart", "x": 15, "y": 20, "chance": 20, "rotation": 0 },
         { "vehicle": "golf_cart", "x": 4, "y": 16, "chance": 20, "rotation": 180 },
         { "vehicle": "golf_cart", "x": 4, "y": 20, "chance": 20, "rotation": 180 },
-        { "vehicle": "golf_cart", "x": 0, "y": 16, "chance": 20, "rotation": 0 },
-        { "vehicle": "golf_cart", "x": 0, "y": 20, "chance": 20, "rotation": 0 },
-        { "vehicle": "golf_cart", "x": 19, "y": 24, "chance": 20, "rotation": 180 },
-        { "vehicle": "golf_cart", "x": 15, "y": 24, "chance": 20, "rotation": 180 },
+        { "vehicle": "golf_cart", "x": 1, "y": 16, "chance": 20, "rotation": 0 },
+        { "vehicle": "golf_cart", "x": 1, "y": 20, "chance": 20, "rotation": 0 },
+        { "vehicle": "golf_cart", "x": 19, "y": 25, "chance": 20, "rotation": 180 },
+        { "vehicle": "golf_cart", "x": 15, "y": 25, "chance": 20, "rotation": 180 },
         { "vehicle": "golf_cart", "x": 4, "y": 24, "chance": 20, "rotation": 0 },
-        { "vehicle": "golf_cart", "x": 0, "y": 24, "chance": 20, "rotation": 0 }
+        { "vehicle": "golf_cart", "x": 1, "y": 24, "chance": 20, "rotation": 0 }
       ]
     },
     "om_terrain": [

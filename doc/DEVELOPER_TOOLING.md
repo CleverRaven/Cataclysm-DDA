@@ -1,3 +1,5 @@
+# Developer Tooling
+
 ## Pre-commit hook
 
 If you have all the relevant tools installed, you can have git automatically
@@ -26,10 +28,10 @@ make astyle
 If you have only `astyle` then use:
 
 ```BASH
-astyle --options=.astylerc --recursive src/*.cpp,*.h tests/*.cpp,*.h`
+astyle --options=.astylerc --recursive src/*.cpp,*.h tests/*.cpp,*.h
 ```
 
-On Windows, there is an [AStyle extension for Visual Studio](https://github.com/lukamicoder/astyle-extension).
+On Windows, there is an [AStyle extension for Visual Studio 2019](https://github.com/lukamicoder/astyle-extension) with an unmerged update for [Visual Studio 2022](https://github.com/lukamicoder/astyle-extension/pull/21).
 
 #### Instruction:
 
@@ -37,7 +39,7 @@ On Windows, there is an [AStyle extension for Visual Studio](https://github.com/
 
 2. Go to `Tools` - `Options` - `AStyle Formatter` - `General`.
 
-3. Import `https://github.com/CleverRaven/Cataclysm-DDA/blob/master/msvc-full-features/AStyleExtension-Cataclysm-DDA.cfg` on `Export/Import` tab using `Import` button:
+3. Import `https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/master/msvc-full-features/AStyleExtension-Cataclysm-DDA.cfg` on `Export/Import` tab using `Import` button:
 
 ![image](https://user-images.githubusercontent.com/16213433/54817923-1d85c200-4ca9-11e9-95ac-e1f84394429b.png)
 
@@ -52,12 +54,6 @@ On Windows, there is an [AStyle extension for Visual Studio](https://github.com/
 *Note:* You can also configure keybindings for aforementioned commands in `Tools` - `Options` - `Environment` - `Keybindings` menu:
 
 ![image](https://user-images.githubusercontent.com/16213433/54818153-aac91680-4ca9-11e9-80e6-51e243b2b33b.png)
-
-#### Code::Blocks
-
-If you are using Code::Blocks the IDE includes an astyle plugin and a command to format the selected text in the context sensitive menu. This has a tendency to underperform when used on only a section of code so best practice is to select all your source code first. In `Settings` - `Editor` - `Keyboard shortcuts` - `Plugins` you can set up a convenient keybinding to run astyle, such as `ctrl`+`alt`+`a` to mesh with `ctrl`+`a` (select all).
-
-The CataclysmWin.cbp will not configure the astyle formatter for you. `Settings` - `Editor` - `Source formatter` holds the settings for astyle and you can find the the relevant commands by opening `.astylerc` in a text editor. One caveat is that in the first tab 1TBS is easily overlooked as the font disguises the number `1`, looking instead like `ITBS`.
 
 ## JSON style
 
@@ -116,14 +112,34 @@ here](https://apt.llvm.org/) to your `sources.list`, install the needed packages
 libclang-12-dev llvm-12-dev llvm-12-tools`), and build Cataclysm with CMake,
 adding `-DCATA_CLANG_TIDY_PLUGIN=ON`.
 
+#### Other Linux distributions
+
 On other distributions you will probably need to build `clang-tidy` yourself.
-* Check out the `llvm`, `clang`, and `clang-tools-extra` repositories in the
-  required layout (as described for example
-  [here](https://quuxplusone.github.io/blog/2018/04/16/building-llvm-from-source/).
+* Expect this process to take about 80GB of disk space.
+* Check out the `llvm` project, release 12 branch, with e.g.
+  `git clone --branch release/12.x --depth 1 https://github.com/llvm/llvm-project.git llvm-12`.
+* Enter the newly cloned repo `cd llvm-12`.
 * Patch in plugin support for `clang-tidy` using [this
   patch](https://github.com/jbytheway/clang-tidy-plugin-support/blob/master/plugin-support.patch).
+  `curl https://raw.githubusercontent.com/jbytheway/clang-tidy-plugin-support/master/plugin-support.patch | patch -p1`
 * Configure LLVM using CMake, including the
-  `-DCMAKE_EXE_LINKER_FLAGS="-rdynamic"` option.
+  `-DCMAKE_EXE_LINKER_FLAGS="-rdynamic"` option.  Some additional options below
+  are simply to reduce the amount of stuff that gets built.  These might nee to
+  be adjusted to your situation (e.g. if you're on another architecture then
+  choose that target instead of X86).
+  ```sh
+  mkdir build
+  cd build
+  cmake \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_EXE_LINKER_FLAGS="-rdynamic" \
+    -DLLVM_TARGETS_TO_BUILD=X86 \
+    -DLLVM_INCLUDE_TESTS=OFF \
+    -DLLVM_ENABLE_PROJECTS='clang;clang-tools-extra;compiler-rt' \
+    ../llvm
+  ```
+* Build LLVM `make -j$(nproc)`.  This can take a long time (maybe 6 core-hours
+  or more).
 * Add the `build/bin` directory to your path so that `clang-tidy` and
   `FileCheck` are found from there.
 
@@ -132,10 +148,10 @@ need to use the CMake version of the Cataclysm build rather than the `Makefile`
 build.  Add the following CMake options:
 ```sh
 -DCATA_CLANG_TIDY_PLUGIN=ON
--DCATA_CLANG_TIDY_INCLUDE_DIR="$extra_dir/clang-tidy"
--DCATA_CHECK_CLANG_TIDY="$extra_dir/test/clang-tidy/check_clang_tidy.py"
+-DCATA_CLANG_TIDY_INCLUDE_DIR="$llvm_dir/clang-tools-extra/clang-tidy"
+-DCATA_CHECK_CLANG_TIDY="$llvm_dir/clang-tools-extra/test/clang-tidy/check_clang_tidy.py"
 ```
-where `$extra_dir` is the location of your `clang-tools-extra` checkout.
+where `$llvm_dir` is the location of your LLVM source directory.
 
 To run `clang-tidy` with this plugin enabled add the
 `'-plugins=$build_dir/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so'` option
@@ -348,8 +364,8 @@ diff <(ls src/*.h | sed 's!.*/!!') <(for i in src/*.cpp; do echo $i; sed -n '/^#
   types, which leads to other requirements for `IWYU pragma: keep`.
 
 * IWYU seems to have particular trouble with types used in maps and
-  `cata::optional`.  Have not looked into this in detail, but again worked
-  around it with pragmas.
+  `cata::optional` (NOTE: cata::optional replaced with std::optional around the C++17 migration).
+  Have not looked into this in detail, but again worked around it with pragmas.
 
 ## Python and pyvips on Windows
 

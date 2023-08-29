@@ -32,7 +32,7 @@
         "c": "t_dirt",
         "F": "t_pit_shallow"
       },
-      "furniture": { "#": "f_skin_wall", "+": "f_skin_door", "x": "f_crate_c", "t": "f_table", "h": "f_chair", "F": "f_firering" },
+      "furniture": { "#": "f_skin_wall", "+": "f_skin_door", "x": "f_crate_o", "t": "f_table", "h": "f_chair", "F": "f_firering" },
       "traps": { "c": "tr_fur_rollmat", "v": "tr_funnel" },
       "place_npcs": [
         { "class": "roabofac_free_merchant", "x": 5, "y": 3 },
@@ -45,7 +45,25 @@
         "F": { "item": "pot", "chance": 100 },
         "v": { "item": "jug_plastic", "chance": 100 }
       },
-      "place_loot": [ { "group": "NC_ROBOFAC_INTERCOM_trade", "chance": 100, "x": 2, "y": [ 2, 4 ], "repeat": [ 9, 15 ] } ]
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "free_merchants", "x": 2, "y": [ 2, 4 ] },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_ROBOFAC_FREE_MERCHANT_misc",
+          "faction": "free_merchants",
+          "x": 2,
+          "y": 2
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_ROBOFAC_FREE_MERCHANT_misc",
+          "faction": "free_merchants",
+          "x": 2,
+          "y": 4
+        }
+      ],
+      "//": "migration from older saved games - remove older shop stocks",
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -60,6 +78,344 @@
         "  "
       ],
       "place_npcs": [ { "class": "robofac_merc_1", "x": 1, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "robofachqy_window_sand_wall",
+    "object": { "mapgensize": [ 8, 8 ], "set": [ { "line": "furniture", "id": "f_sandbag_wall", "x": 0, "y": 0, "x2": 7, "y2": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "robofachq_window_sand_wall_l",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "set": [ { "line": "furniture", "id": "f_sandbag_wall", "x": 0, "y": 0, "x2": 10, "y2": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "window_sandbags_meteorology1",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "robofachqy_window_sand_wall" ], "x": 2, "y": 11 },
+        { "chunks": [ "robofachqy_window_sand_wall" ], "x": 2, "y": 19 },
+        { "chunks": [ "robofachqy_window_sand_wall" ], "x": 15, "y": 11 },
+        { "chunks": [ "robofachqy_window_sand_wall" ], "x": 15, "y": 19 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "window_sandbags_meteorology2",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "robofachqy_window_sand_wall" ], "x": 4, "y": 11 },
+        { "chunks": [ "robofachqy_window_sand_wall" ], "x": 4, "y": 19 },
+        { "chunks": [ "robofachq_window_sand_wall_l" ], "x": 13, "y": 9 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "window_sandbags_surface_road2",
+    "object": { "place_nested": [ { "chunks": [ "robofachq_window_sand_wall_l" ], "x": 13, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "robofachq_ancilla_fortress_basic",
+    "object": {
+      "rows": [
+        "UUUUUUUUUUUUUUUUUUUUUUUU",
+        "_______,,,,,,,,,,,,,,,,,",
+        "_______||||,,,:,,:,,,:,,",
+        "___R___|r |,,,,,,,,,,,,,",
+        "_______||2|,,,,,,,,,,,,,",
+        "___R____________________",
+        "________________________",
+        "___R___,,,,,,_,,,,,,,,,,",
+        "_______,,,,,,_,,,,,,,,,,",
+        ",,,,,,,,,,,,|WWWWWWWWWWW",
+        ",,,,,,,,,,,,|[==|====|==",
+        ",,,|WWWWWWWW|A.A=ll 6h B",
+        "||||========|A.A=  Ydd 7",
+        "h ...AA...  +A.A[  Y   ^",
+        "  6A.A@@..  |||||==[=|||",
+        "h hA.A....   7|>|    |i;",
+        " ddA.A@@..  |||S|    +  ",
+        "   A......  +...   Y |||",
+        "||||========|...    Q  ^",
+        ",,,|WWWWWWWW|      Y t ?",
+        "ssssssssssAA|AA ...  t ?",
+        "_y______ssA.[.. ...  t ?",
+        "_y______ssA.[AA ...Ya a^",
+        "_y______ssA.|==========="
+      ],
+      "palettes": [ "robofachq" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "remove_all": { " ": {  } },
+      "terrain": {
+        "$": [ "t_region_tree_shade", "t_region_tree_fruit", "t_region_shrub_decorative" ],
+        "/": "t_wall_w",
+        "@": "t_metal_floor",
+        "A": "t_metal_floor",
+        "R": "t_radio_tower",
+        "S": "t_secretdoor_concrete_o",
+        "Y": "t_strconc_floor_olight"
+      },
+      "furniture": { "7": "f_filing_cabinet", "A": "f_sandbag_wall", "W": "f_sandbag_wall", ":": "f_small_satelitte_dish" },
+      "items": {
+        "l": [
+          { "item": "NC_ANCILLA_GRUNT_worn", "chance": 50 },
+          { "item": "NC_ANCILLA_GRUNT_wield", "chance": 50 },
+          { "item": "NC_ANCILLA_GRUNT_carry", "chance": 50 }
+        ]
+      },
+      "npcs": { "Q": { "class": "ancilla_hq_guard" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "robofachq_ancilla_bar_basic",
+    "object": {
+      "rows": [
+        "########################",
+        "########################",
+        "||||||||||||||||||||||##",
+        "'''''''''''''''''''''|##",
+        "'''''''''''''''''''''|##",
+        "'''''''''''''''''''''|##",
+        "'''''''''''''''''''''|##",
+        "||||=========|||||||||##",
+        "|cFcb ^h hth^??|^^^^^|##",
+        "|c cb  t hth t?|^ YY  ||",
+        "|rÑc   h      ?|^ YY   >",
+        "|r c     PP  n|||      >",
+        "2      Y   Y  2 2    |||",
+        "||||=========|||||   |##",
+        "'''''''''''''|##|    |##",
+        "'''''''''''''||||    |##",
+        "'''''''''''''||<  YY |##",
+        "'''''''''''''||||    |##",
+        "'''''''''''''|##|    |##",
+        "|||||||||||||||||    |##",
+        "################|    |||",
+        "################| YY  >|",
+        "################||||||||",
+        "########################"
+      ],
+      "palettes": [ "robofachq" ],
+      "remove_all": { " ": {  }, "h": {  }, "c": {  }, "F": {  }, "P": {  }, "t": {  }, "?": {  } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "'": "t_open_air", "Y": "t_strconc_floor_olight", "#": "t_rock" },
+      "furniture": { "b": "f_stool", "P": "f_pool_table" },
+      "item": { "P": [ { "item": "pool_cue", "chance": 100, "repeat": 2 }, { "item": "pool_ball", "chance": 100, "repeat": 8 } ] },
+      "npcs": { "Ñ": { "class": "ancilla_barkeep" } },
+      "place_zones": [
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "robofac_auxiliaries", "x": [ 1, 14 ], "y": [ 8, 12 ] },
+        { "type": "LOOT_UNSORTED", "faction": "robofac_auxiliaries", "x": [ 1, 1 ], "y": [ 10, 10 ] },
+        { "type": "LOOT_CURRENCY", "faction": "robofac_auxiliaries", "x": [ 1, 1 ], "y": [ 9, 9 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_ancilla_bar_place_BEMs",
+    "//": "remove the null chunks once theres enough BEM npcs.",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    1    4    2         ",
+        "                        ",
+        "                        ",
+        "           3            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "nested": {
+        "1": { "chunks": [ [ "BEM_hireable", 40 ], [ "BEM_jabberwock", 20 ], [ "null", 20 ] ] },
+        "2": { "chunks": [ [ "BEM_human_sample", 20 ], [ "BEM_anchor_seller", 20 ], [ "null", 20 ] ] },
+        "3": { "chunks": [ [ "BEM_keycard_seller", 20 ], [ "BEM_template_seller", 20 ], [ "null", 20 ] ] },
+        "4": { "chunks": [ [ "BEM_gunrunner", 20 ], [ "BEM_drugrunner", 20 ], [ "BEM_chatting_veterans", 20 ], [ "null", 20 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "robofachq_ancilla_bar_autodoc",
+    "//": "Spawns by itself at the moment, spawning should be triggered by missions later on.",
+    "object": {
+      "rows": [
+        "########################",
+        "########################",
+        "||||||||||||||||||||||||",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "=======|||||========:::|",
+        "         |      =   :71A",
+        "         |      =   :.YA",
+        "         |      =   :h..",
+        "         |==[=====[=::[:",
+        "^        2              ",
+        "=======|||||===========|",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "||||||||||||||||||||||||",
+        "########################",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "robofachq" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "remove_all": { "7": {  }, "1": {  }, "A": {  }, "h": {  } },
+      "terrain": { "'": "t_open_air", "Y": "t_metal_floor_olight", ":": "t_wall_metal_corrugated", "#": "t_rock" },
+      "furniture": { "7": "f_autodoc_couch", "1": "f_autodoc", "A": "f_rack", "h": "f_chair" },
+      "npcs": { "h": { "class": "ancilla_doctor" } },
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "no_faction", "x": 23, "y": 8 },
+        { "type": "LOOT_CURRENCY", "faction": "no_faction", "x": 23, "y": 9 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "BEM_hireable",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "BEM_hireable", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "BEM_human_sample",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "BEM_human_sample", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "BEM_anchor_seller",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "BEM_anchor_seller", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "BEM_keycard_seller",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "BEM_keycard_seller", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "BEM_template_seller",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "BEM_template_seller", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "BEM_gunrunner",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "BEM_gunrunner", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "BEM_chatting_veterans",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 3, 3 ],
+      "place_npcs": [ { "class": "BEM_silent_veteran", "x": 0, "y": 0 }, { "class": "BEM_chatting_veteran", "x": 2, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "BEM_drugrunner",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "BEM_drugrunner", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "BEM_jabberwock",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "BEM_jabberwock", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_ancilla_bar_remove_BEMs",
+    "object": {
+      "remove_npcs": [
+        { "class": "BEM_hireable", "x": 0, "y": 0 },
+        { "class": "BEM_anchor_seller", "x": 0, "y": 0 },
+        { "class": "BEM_human_sample", "x": 0, "y": 0 },
+        { "class": "BEM_gunrunner", "x": 0, "y": 0 },
+        { "class": "BEM_drugrunner", "x": 0, "y": 0 },
+        { "class": "BEM_jabberwock", "x": 0, "y": 0 },
+        { "class": "BEM_template_seller", "x": 0, "y": 0 },
+        { "class": "BEM_silent_veteran", "x": 0, "y": 0 },
+        { "class": "BEM_chatting_veteran", "x": 0, "y": 0 },
+        { "class": "BEM_keycard_seller", "x": 0, "y": 0 }
+      ]
     }
   }
 ]

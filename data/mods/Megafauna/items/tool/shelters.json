@@ -1,0 +1,52 @@
+[
+  {
+    "id": "mammoth_shelter_kit",
+    "type": "TOOL",
+    "name": { "str": "mammoth shelter kit" },
+    "description": "This is a small shelter, made of large bones, mammoth tusks, and skins.  Use it to place.",
+    "weight": "1360 g",
+    "volume": "7500 ml",
+    "longest_side": "90 cm",
+    "price": 6500,
+    "price_postapoc": 500,
+    "to_hit": -3,
+    "material": [ "bone", "leather" ],
+    "symbol": ";",
+    "color": "brown",
+    "use_action": {
+      "type": "deploy_tent",
+      "radius": 1,
+      "broken_type": "damaged_shelter_kit",
+      "wall": "f_skin_wall",
+      "floor": "f_skin_groundsheet",
+      "door_opened": "f_skin_door_o",
+      "door_closed": "f_skin_door"
+    },
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "large_mammoth_shelter_kit",
+    "type": "TOOL",
+    "name": { "str": "large mammoth shelter kit" },
+    "description": "This is a big shelter, made of large bones, mammoth tusks, and skins.  Use it to place.",
+    "weight": "4080 g",
+    "volume": "22500 ml",
+    "longest_side": "240 cm",
+    "price": 12500,
+    "price_postapoc": 1000,
+    "to_hit": -3,
+    "material": [ "bone", "leather" ],
+    "symbol": ";",
+    "color": "brown",
+    "use_action": {
+      "type": "deploy_tent",
+      "radius": 2,
+      "broken_type": "damaged_shelter_kit",
+      "wall": "f_skin_wall",
+      "floor": "f_skin_groundsheet",
+      "door_opened": "f_skin_door_o",
+      "door_closed": "f_skin_door"
+    },
+    "melee_damage": { "bash": 4 }
+  }
+]

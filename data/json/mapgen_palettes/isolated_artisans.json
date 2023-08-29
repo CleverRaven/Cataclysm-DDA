@@ -97,12 +97,13 @@
         { "item": "mechanics", "chance": 30, "repeat": [ 2, 6 ] },
         { "item": "supplies_metal_precious", "chance": 20, "repeat": [ 2, 6 ] }
       ]
-    }
+    },
+    "toilets": { "t": {  } }
   },
   {
     "type": "palette",
     "id": "gunshow",
-    "terrain": { " ": "t_dirt" },
+    "terrain": { " ": "t_region_soil" },
     "furniture": { "h": "f_chair", "T": "f_table", "d": "f_utility_shelf", "m": "f_metal_crate_o", "|": "f_curtain" },
     "items": {
       "m": [

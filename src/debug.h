@@ -55,9 +55,9 @@
 #define STRING(x) STRING2(x)
 
 #if defined(__GNUC__)
-#define __FUNCTION_NAME__ __PRETTY_FUNCTION__
+#define CATA_FUNCTION_NAME __PRETTY_FUNCTION__
 #else
-#define __FUNCTION_NAME__ __func__
+#define CATA_FUNCTION_NAME __func__
 #endif
 
 /**
@@ -66,7 +66,7 @@
  * a printf style format string.
  */
 
-#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), __FUNCTION_NAME__, __VA_ARGS__)
+#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), CATA_FUNCTION_NAME, __VA_ARGS__)
 
 // Don't use this, use debugmsg instead.
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
@@ -250,6 +250,7 @@ enum debug_filter : int {
     DF_CHARACTER, // character generic
     DF_CHAR_CALORIES, // character stomach and calories
     DF_CHAR_HEALTH, // character health related
+    DF_CRAFTING, // Crafting everything
     DF_CREATURE, // creature generic
     DF_EFFECT, // effects generic
     DF_EXPLOSION, // explosion generic
@@ -260,9 +261,12 @@ enum debug_filter : int {
     DF_MAP, // map generic
     DF_MATTACK, // monster attack generic
     DF_MELEE, // melee generic
+    DF_MONMOVE, // movement/pathfinding-related
     DF_MONSTER, // monster generic
+    DF_MUTATION, // mutation/purification logic
     DF_NPC, // npc generic
     DF_OVERMAP, // overmap generic
+    DF_RADIO, // radio stuff
     DF_RANGED, // ranged generic
     DF_REQUIREMENTS_MAP, // activity_item_handler requirements_map()
     DF_SOUND, // sound generic

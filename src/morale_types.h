@@ -28,7 +28,7 @@ class morale_type_data
             return permanent;
         }
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void check() const;
 
         static void load_type( const JsonObject &jo, const std::string &src );
@@ -65,7 +65,9 @@ extern const morale_type MORALE_CRAVING_MARLOSS;
 extern const morale_type MORALE_FOOD_BAD;
 extern const morale_type MORALE_CANNIBAL;
 extern const morale_type MORALE_VEGETARIAN;
+extern const morale_type MORALE_ANTIVEGGY;
 extern const morale_type MORALE_MEATARIAN;
+extern const morale_type MORALE_ANTIMEAT;
 extern const morale_type MORALE_ANTIFRUIT;
 extern const morale_type MORALE_LACTOSE;
 extern const morale_type MORALE_ANTIJUNK;
@@ -98,6 +100,7 @@ extern const morale_type MORALE_PERM_BADTEMPER;
 extern const morale_type MORALE_PERM_NUMB;
 extern const morale_type MORALE_PERM_CONSTRAINED;
 extern const morale_type MORALE_PERM_NOMAD;
+extern const morale_type MORALE_PERM_RADIOPHILE;
 extern const morale_type MORALE_GAME_FOUND_KITTEN;
 extern const morale_type MORALE_HAIRCUT;
 extern const morale_type MORALE_SHAVE;

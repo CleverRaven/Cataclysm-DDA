@@ -99,5 +99,25 @@
     "max_intensity": 10,
     "max_effective_intensity": 6,
     "scaling_mods": { "int_mod": [ 1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "test_rash",
+    "name": [ "Rash" ],
+    "desc": [ "" ],
+    "base_mods": {
+      "pain_min": [ 1 ],
+      "hurt_min": [ 1 ],
+      "sleep_min": [ 1 ],
+      "pkill_min": [ 1 ],
+      "stim_min": [ 1 ],
+      "health_min": [ 1 ],
+      "h_mod_min": [ 1 ],
+      "rad_min": [ 1 ],
+      "hunger_min": [ 1 ],
+      "thirst_min": [ 1 ],
+      "fatigue_min": [ 1 ],
+      "stamina_min": [ 1 ]
+    }
   }
 ]

@@ -37,9 +37,7 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_GUNMOD_ADDREACHATTACK,
     iteminfo_parts::DESCRIPTION_MELEEDMG,
     iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT,
-    iteminfo_parts::DESCRIPTION_MELEEDMG_BASH,
-    iteminfo_parts::DESCRIPTION_MELEEDMG_CUT,
-    iteminfo_parts::DESCRIPTION_MELEEDMG_PIERCE,
+    iteminfo_parts::DESCRIPTION_MELEEDMG_TYPES,
     iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES,
     iteminfo_parts::DESCRIPTION_APPLICABLEMARTIALARTS,
     iteminfo_parts::DESCRIPTION_REPAIREDWITH,
@@ -72,6 +70,7 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_NOTES,
     iteminfo_parts::DESCRIPTION_CONTENTS,
     iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES,
+    iteminfo_parts::DESCRIPTION_VEHICLE_PARTS,
     iteminfo_parts::DESCRIPTION_MED_ADDICTING
 } ) );
 

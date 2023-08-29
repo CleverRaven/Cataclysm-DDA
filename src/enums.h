@@ -39,24 +39,24 @@ struct enum_traits<aim_entry> {
 };
 
 using I = std::underlying_type_t<aim_entry>;
-static constexpr aim_entry &operator++( aim_entry &lhs )
+inline constexpr aim_entry &operator++( aim_entry &lhs )
 {
     lhs = static_cast<aim_entry>( static_cast<I>( lhs ) + 1 );
     return lhs;
 }
 
-static constexpr aim_entry &operator--( aim_entry &lhs )
+inline constexpr aim_entry &operator--( aim_entry &lhs )
 {
     lhs = static_cast<aim_entry>( static_cast<I>( lhs ) - 1 );
     return lhs;
 }
 
-static constexpr aim_entry operator+( const aim_entry &lhs, const I &rhs )
+inline constexpr aim_entry operator+( const aim_entry &lhs, const I &rhs )
 {
     return static_cast<aim_entry>( static_cast<I>( lhs ) + rhs );
 }
 
-static constexpr aim_entry operator-( const aim_entry &lhs, const I &rhs )
+inline constexpr aim_entry operator-( const aim_entry &lhs, const I &rhs )
 {
     return static_cast<aim_entry>( static_cast<I>( lhs ) - rhs );
 }
@@ -131,6 +131,9 @@ enum class ot_match_type : int {
     // terrain id, which means that suffixes for rotation and linear terrain types
     // are ignored.
     type,
+    // The provided string must completely match the base type id of the overmap
+    // terrain id as well as the linear subtype.
+    subtype,
     // The provided string must be a complete prefix (with additional parts delimited
     // by an underscore) of the overmap terrain id. For example, "forest" will match
     // "forest" or "forest_thick" but not "forestcabin".
@@ -150,7 +153,6 @@ struct enum_traits<ot_match_type> {
 enum class special_game_type : int {
     NONE = 0,
     TUTORIAL,
-    DEFENSE,
     NUM_SPECIAL_GAME_TYPES
 };
 
@@ -329,7 +331,16 @@ enum class distraction_type : int {
     eoc,
     dangerous_field,
     hunger,
-    thirst
+    thirst,
+    temperature,
+    mutation,
+    oxygen,
+    last,
+};
+
+template<>
+struct enum_traits<distraction_type> {
+    static constexpr distraction_type last = distraction_type::last;
 };
 
 enum game_message_type : int {
@@ -446,6 +457,45 @@ enum class character_type : int {
     TEMPLATE,
     NOW,
     FULL_RANDOM,
+};
+
+enum class aggregate_type : int {
+    FIRST,
+    LAST,
+    MIN,
+    MAX,
+    SUM,
+    AVERAGE,
+    num_aggregate_types
+};
+
+template<>
+struct enum_traits<aggregate_type> {
+    static constexpr aggregate_type last = aggregate_type::num_aggregate_types;
+};
+
+enum class link_state : int {
+    // Utility states
+    no_link = 0,   // No connection, the default state
+    needs_reeling, // Cable has been disconnected and needs to be manually reeled in before it can be used again
+
+    // States of a cable's link at the end represented by the item (s_state)
+    ups,       // Linked to a UPS the cable holder is holding
+    solarpack, // Linked to a solarpack the cable holder is wearing
+
+    // States of a cable's link at the end represented by t_abs_pos (t_state)
+    vehicle_port, // Linked to a vehicle's cable ports / electrical controls or an appliance
+    vehicle_battery, // Linked to a vehicle's battery or an appliance
+
+    // States of a link that could be at either the source or the target
+    bio_cable,   // Linked to the cable holder's cable system bionic - s_state if connected to a vehicle, t_state otherwise
+    vehicle_tow, // Linked to a valid tow point on a vehicle - s_state if it's the towing vehicle, t_state if the towed one
+
+    last
+};
+template<>
+struct enum_traits<link_state> {
+    static constexpr link_state last = link_state::last;
 };
 
 #endif // CATA_SRC_ENUMS_H

@@ -49,3 +49,9 @@ def parse_mapgen(json, origin):
                 write_text(com["access_denied"], origin,
                            comment="Access denied message on computer \"{}\""
                            " placed on map {}".format(com_name, om))
+
+    if "place_computers" in json["object"]:
+        for computer in json["object"]["place_computers"]:
+            if "name" in computer:
+                write_text(computer["name"], origin,
+                           comment="Computer name placed on map {}".format(om))

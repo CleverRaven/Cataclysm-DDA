@@ -20,6 +20,65 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_NPC_MUTANT_RABBIT",
+    "name": "Rabbit Mutant",
+    "job_description": "I'm looking for rabbit mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "swimming", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "bonus_per": 2,
+    "bonus_dex": 4,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "trait_group_rabbit" },
+      { "distribution": [ { "group": "trait_group_rabbit_nonthres" }, { "group": "trait_group_rabbit_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_SNAIL",
+    "name": "Shell Cultist",
+    "job_description": "A religious cult of post human snail people that live in a volcanic cave under the ice.",
+    "skills": [
+      { "skill": "fabrication", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "bonus_per": 2,
+    "bonus_str": 2,
+    "bonus_int": 2,
+    "common": false,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "trait_group_snail" },
+      { "distribution": [ { "group": "trait_group_snail_nonthres" }, { "group": "trait_group_snail_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_FROG",
+    "name": "Frog Mutant",
+    "job_description": "I'm looking for frog mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "swimming", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "bonus_per": 2,
+    "bonus_dex": 4,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "trait_group_frog" },
+      { "distribution": [ { "group": "trait_group_frog_nonthres" }, { "group": "trait_group_frog_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_NPC_MUTANT_MEDICAL",
     "name": "Medical Mutant",
     "job_description": "I'm looking for medical mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
@@ -403,25 +462,6 @@
       { "distribution": [ { "group": "trait_group_raptor_nonthres" }, { "group": "trait_group_raptor_postthres" } ] },
       { "group": "trait_group_raptor" },
       { "distribution": [ { "group": "trait_group_raptor_nonthres" }, { "group": "trait_group_raptor_postthres" } ] }
-    ]
-  },
-  {
-    "type": "npc_class",
-    "id": "NC_NPC_MUTANT_MASTODON",
-    "name": "Mastodon Uplift",
-    "job_description": "Humans created me.  Let's see what I can be on my own.",
-    "skills": [
-      { "skill": "survival", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "melee", "bonus": { "rng": [ 6, 10 ] } },
-      { "skill": "unarmed", "bonus": { "rng": [ 6, 10 ] } }
-    ],
-    "bonus_str": 3,
-    "traits": [
-      { "group": "trait_mutant_npc_common" },
-      { "group": "trait_group_mastodon" },
-      {
-        "distribution": [ { "group": "trait_group_mastodon_nonthres" }, { "group": "trait_group_mastodon_postthres" } ]
-      }
     ]
   }
 ]

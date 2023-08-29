@@ -28,7 +28,7 @@
       "s": "f_sink",
       "T": "f_toilet",
       "U": "f_utility_shelf",
-      "V": "f_oven",
+      "V": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "u": "f_cupboard",
       "z": "f_brazier",
       "Z": "f_fireplace",
@@ -56,11 +56,11 @@
     "terrain": {
       ".": [ [ "t_region_groundcover", 4 ], [ "t_region_groundcover_forest", 3 ], "t_region_shrub" ],
       "~": [ [ "t_region_groundcover_barren", 3 ], [ "t_region_groundcover", 3 ], "t_region_shrub" ],
-      "*": [ "t_region_groundcover", "t_region_shrub" ],
+      "*": [ "t_region_shrub", [ "t_region_groundcover_forest", 2 ], [ "t_region_groundcover", 5 ] ],
       "-": [ [ "t_fence", 15 ], "t_region_groundcover" ],
       "w": [ [ { "param": "cabin_window_type", "fallback": "t_window_boarded" }, 6 ], "t_window_frame" ],
       "W": [ [ "t_window_boarded", 3 ], "t_window", "t_window_frame" ],
-      "+": [ [ "t_door_c", 1 ], [ "t_door_locked", 3 ], [ "t_door_b", 2 ] ],
+      "+": [ [ "t_door_c", 1 ], [ "t_door_locked", 4 ], [ "t_door_b", 2 ], [ "t_door_elocked", 2 ] ],
       "=": [ [ "t_door_c", 1 ], [ "t_door_o", 1 ], [ "t_door_b", 2 ] ]
     },
     "furniture": {

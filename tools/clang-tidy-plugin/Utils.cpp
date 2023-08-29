@@ -1,11 +1,18 @@
 #include "Utils.h"
 
-namespace clang
+namespace clang::tidy::cata
 {
-namespace tidy
+
+bool isPointMethod( const FunctionDecl *d )
 {
-namespace cata
-{
+    if( const CXXMethodDecl *Method = dyn_cast_or_null<CXXMethodDecl>( d ) ) {
+        const CXXRecordDecl *Record = Method->getParent();
+        if( isPointType( Record ) ) {
+            return true;
+        }
+    }
+    return false;
+}
 
 NameConvention::NameConvention( StringRef xName )
 {
@@ -57,6 +64,4 @@ NameConvention::MatchResult NameConvention::Match( StringRef name ) const
     }
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

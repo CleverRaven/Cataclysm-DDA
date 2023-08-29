@@ -55,13 +55,11 @@ static const quality_id qual_SEW( "SEW" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
-
 static std::map<requirement_id, requirement_data> requirements_all;
 
 static bool a_satisfies_b( const quality_requirement &a, const quality_requirement &b );
 static bool a_satisfies_b( const std::vector<quality_requirement> &a,
                            const std::vector<quality_requirement> &b );
-
 
 /** @relates string_id */
 template<>
@@ -108,7 +106,7 @@ void quality::load_static( const JsonObject &jo, const std::string &src )
     quality_factory.load( jo, src );
 }
 
-void quality::load( const JsonObject &jo, const std::string & )
+void quality::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
 
@@ -218,7 +216,7 @@ void quality_requirement::load( const JsonValue &value )
     level = quality_data.get_int( "level", 1 );
     count = quality_data.get_int( "amount", 1 );
     if( count <= 0 ) {
-        quality_data.throw_error( "quality amount must be a positive number", "amount" );
+        quality_data.throw_error_at( "amount", "quality amount must be a positive number" );
     }
     // Note: level is not checked, negative values and 0 are allow, see butchering quality.
 }
@@ -324,12 +322,12 @@ requirement_data requirement_data::operator*( unsigned scalar ) const
 {
     requirement_data res = *this;
     for( auto &group : res.components ) {
-        for( auto &e : group ) {
+        for( item_comp &e : group ) {
             e.count = std::max( e.count * static_cast<int>( scalar ), -1 );
         }
     }
     for( auto &group : res.tools ) {
-        for( auto &e : group ) {
+        for( tool_comp &e : group ) {
             e.count = std::max( e.count * static_cast<int>( scalar ), -1 );
         }
     }
@@ -531,7 +529,7 @@ std::string requirement_data::print_all_objs( const std::string &header,
             return t.to_string();
         } );
         std::sort( alternatives.begin(), alternatives.end(), localized_compare );
-        buffer += join( alternatives, _( " or " ) );
+        buffer += string_join( alternatives, _( " or " ) );
     }
     if( buffer.empty() ) {
         return std::string();
@@ -677,7 +675,7 @@ void inline_requirements( std::vector<std::vector<T>> &list,
             }
             already_nested.insert( r );
 
-            const auto &req = r.obj();
+            const requirement_data &req = r.obj();
             const requirement_data multiplied = req * comp.count;
 
             const std::vector<std::vector<T>> &to_inline = getter( multiplied );
@@ -713,10 +711,10 @@ void requirement_data::finalize()
         []( const requirement_data & d ) -> const auto & {
             return d.get_components();
         } );
-        auto &vec = r.second.tools;
+        requirement_data::alter_tool_comp_vector &vec = r.second.tools;
         for( auto &list : vec ) {
             std::vector<tool_comp> new_list;
-            for( auto &comp : list ) {
+            for( tool_comp &comp : list ) {
                 const auto replacements = item_controller->subtype_replacement( comp.type );
                 for( const auto &replaced_type : replacements ) {
                     new_list.emplace_back( replaced_type, comp.count );
@@ -736,7 +734,7 @@ void requirement_data::reset()
 std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
         const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
         int batch,
-        const std::string &hilite, requirement_display_flags flags ) const
+        const std::string_view hilite, requirement_display_flags flags ) const
 {
     std::vector<std::string> out_buffer;
     if( components.empty() ) {
@@ -754,7 +752,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
 template<typename T>
 std::vector<std::string> requirement_data::get_folded_list( int width,
         const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
-        const std::vector< std::vector<T> > &objs, int batch, const std::string &hilite,
+        const std::vector< std::vector<T> > &objs, int batch, const std::string_view hilite,
         requirement_display_flags flags ) const
 {
     // hack: ensure 'cached' availability is up to date
@@ -806,7 +804,7 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
                                list_as_string_unavailable.end() );
 
         const std::string separator = colorize( _( " OR " ), c_white );
-        const std::string unfolded = join( list_as_string, separator );
+        const std::string unfolded = string_join( list_as_string, separator );
         std::vector<std::string> folded = foldstring( unfolded, width - 2 );
 
         for( size_t i = 0; i < folded.size(); i++ ) {
@@ -1029,7 +1027,7 @@ bool requirement_data::check_enough_materials( const read_only_visitable &crafti
     bool retval = true;
     for( const auto &component_choices : components ) {
         bool atleast_one_available = false;
-        for( const auto &comp : component_choices ) {
+        for( const item_comp &comp : component_choices ) {
             if( check_enough_materials( comp, crafting_inv, filter, batch ) ) {
                 atleast_one_available = true;
             }
@@ -1182,7 +1180,7 @@ requirement_data requirement_data::disassembly_requirements() const
     bool remove_fire = false;
     for( auto &it : ret.tools ) {
         bool replaced = false;
-        for( const auto &tool : it ) {
+        for( const tool_comp &tool : it ) {
             const itype_id &type = tool.type;
 
             // If crafting required a welder or forge then disassembly requires metal sawing
@@ -1234,7 +1232,7 @@ requirement_data requirement_data::disassembly_requirements() const
         //qualities with deconstruction equivalents
         for( auto &it : ret.qualities ) {
             bool replaced = false;
-            for( const auto &quality : it ) {
+            for( const quality_requirement &quality : it ) {
                 if( quality.type == qual_SEW ) {
                     replaced = true;
                     new_qualities.emplace_back( qual_CUT, 1, quality.level );
@@ -1289,7 +1287,7 @@ requirement_data requirement_data::disassembly_requirements() const
 }
 
 requirement_data requirement_data::continue_requirements( const std::vector<item_comp>
-        &required_comps, const std::list<item> &remaining_comps )
+        &required_comps, const item_components &remaining_comps )
 {
     // Create an empty requirement_data
     requirement_data ret;
@@ -1649,13 +1647,14 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
 
         // Because this algorithm is super-exponential in the worst case, add a
         // sanity check to prevent things getting too far out of control.
-        // The worst case in the core game currently is chainmail_suit_faraday
-        // with 63 alternatives.
-        static constexpr size_t max_alternatives = 100;
+        // The worst case in the core game currently is boots_fur
+        // with 104 alternatives.
+        static constexpr size_t max_alternatives = 105;
         if( alternatives_.size() + pending.size() > max_alternatives ) {
             debugmsg( "Construction of deduped_requirement_data generated too many alternatives.  "
-                      "The recipe %s should be simplified.  See the Recipe section in "
-                      "doc/JSON_INFO.md for more details.", context.str() );
+                      "The recipe %1s should be simplified.  See the Recipe section in "
+                      "doc/JSON_INFO.md for more details.  It has %2s alternatives.", context.str(),
+                      alternatives_.size() + pending.size() );
             is_too_complex_ = true;
             alternatives_ = { in };
             return;

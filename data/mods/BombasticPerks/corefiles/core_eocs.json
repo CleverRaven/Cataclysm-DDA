@@ -1,0 +1,79 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_open_perk_menu",
+    "effect": [ { "open_dialogue": { "topic": "TALK_PERK_MENU_MAIN" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_level_up",
+    "condition": { "math": [ "u_available_exp", ">", "u_exp_to_perk" ] },
+    "effect": [
+      { "run_eocs": "EOC_give_perk_point" },
+      { "math": [ "u_used_exp", "+=", "u_exp_to_perk" ] },
+      { "math": [ "u_available_exp", "=", "u_val('exp') - u_used_exp" ] },
+      { "math": [ "u_exp_to_perk", "+=", "u_exp_per_level" ] },
+      { "math": [ "u_current_level", "+=", "1" ] },
+      { "run_eocs": "EOC_level_up_notification" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_level_up_notification",
+    "condition": { "compare_int": [ { "u_val": "var", "var_name": "no_notifications" }, "!=", { "const": 1 } ] },
+    "effect": [ { "open_dialogue": { "topic": "TALK_PERK_MENU_MAIN" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_on_kill_check_exp",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "effect": [ { "math": [ "u_available_exp", "=", "u_val('exp') - u_used_exp" ] }, { "run_eocs": "EOC_level_up" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bombastic_perks_initialize",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "and": [ { "not": { "u_has_trait": "perk_perk_menu" } } ] },
+    "effect": [
+      {
+        "u_message": "Bombastic Perks is loaded, configuration menu should appear.  If the mod is properly loaded you should have a new mutation called \"perk menu\".  If you do not, you can enable the mod manually by activating the \"EOC_bombastic_perks_try_configure\" EOC in debug."
+      },
+      { "run_eocs": "EOC_bombastic_perks_try_configure" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bombastic_perks_try_configure",
+    "condition": { "and": [ { "not": { "u_has_trait": "perk_perk_menu" } } ] },
+    "effect": [
+      { "open_dialogue": { "topic": "TALK_PERK_MENU_WELCOME" } },
+      { "queue_eocs": "EOC_bombastic_perks_try_configure", "time_in_future": "30 seconds" },
+      {
+        "u_message": "Configuration menu closed, if Bombastic Perks was not properly configured menu will open again in 30 seconds."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_give_perk_menu",
+    "condition": { "and": [ { "not": { "u_has_trait": "perk_perk_menu" } } ] },
+    "effect": [
+      { "math": [ "u_num_perks", "=", "0" ] },
+      { "math": [ "u_exp_to_perk", "=", "100" ] },
+      { "math": [ "u_exp_per_level", "=", "300" ] },
+      { "math": [ "u_available_exp", "=", "0" ] },
+      { "math": [ "u_current_level", "=", "0" ] },
+      { "math": [ "u_no_playstyle", "=", "0" ] },
+      { "math": [ "u_playstyle_cost", "=", "3" ] },
+      { "math": [ "u_no_prerecs", "=", "0" ] },
+      { "u_add_trait": "perk_perk_menu" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_give_perk_point",
+    "effect": [ { "math": [ "u_num_perks", "++" ] } ]
+  }
+]

@@ -84,6 +84,14 @@ static const FunctionDecl *getContainingFunction(
     return nullptr;
 }
 
+inline bool isInHeader( const SourceLocation &loc, const SourceManager &SM )
+{
+    StringRef Filename = SM.getFilename( loc );
+    // The .h.tmp.cpp catches the test case; that's the style of filename used
+    // by lit.
+    return !SM.isInMainFile( loc ) || Filename.endswith( ".h.tmp.cpp" );
+}
+
 inline bool isPointType( const CXXRecordDecl *R )
 {
     if( !R ) {
@@ -169,16 +177,7 @@ inline auto isYParam()
     return matchesName( "[yY]" );
 }
 
-inline bool isPointMethod( const FunctionDecl *d )
-{
-    if( const CXXMethodDecl *Method = dyn_cast_or_null<CXXMethodDecl>( d ) ) {
-        const CXXRecordDecl *Record = Method->getParent();
-        if( isPointType( Record ) ) {
-            return true;
-        }
-    }
-    return false;
-}
+bool isPointMethod( const FunctionDecl *d );
 
 // Struct to help identify and construct names of associated points and
 // coordinates

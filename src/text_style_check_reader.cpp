@@ -6,7 +6,7 @@ text_style_check_reader::text_style_check_reader( const allow_object object_allo
 {
 }
 
-std::string text_style_check_reader::get_next( JsonValue jv ) const
+std::string text_style_check_reader::get_next( const JsonValue &jv ) const
 {
     const JsonValue &jsin = jv;
     std::string raw;
@@ -50,7 +50,7 @@ std::string text_style_check_reader::get_next( JsonValue jv ) const
                     break;
             }
             try {
-                jsin.string_error( err, std::distance( beg, to ) );
+                jsin.string_error( std::distance( beg, to ), err );
             } catch( const JsonError &e ) {
                 debugmsg( "(json-error)\n%s", e.what() );
             }

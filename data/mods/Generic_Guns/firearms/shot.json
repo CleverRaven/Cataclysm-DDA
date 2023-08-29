@@ -76,5 +76,22 @@
     "name": { "str": "double slam-fire pipe shotgun" },
     "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail.  The lack of sights make this weapon only useful at point-blank range.",
     "ammo": [ "ammo_shot" ]
+  },
+  {
+    "id": "small_shotgun",
+    "copy-from": "m26_mass_standalone",
+    "type": "GUN",
+    "name": { "str": "compact shotgun" },
+    "description": "Small shotgun, assembled from underbarrel shotgun modification and a pistol grip.  Not the best weapon, but has a really small size and weight.",
+    "ammo": [ "ammo_shot" ]
+  },
+  {
+    "id": "feral_shotgun",
+    "copy-from": "feral_jackboot_gun",
+    "type": "GUN",
+    "name": { "str": "feral bikers' shotgun" },
+    "description": "A fake shotgun for feral bikers (because monster aiming is too lethal).",
+    "ammo": [ "ammo_shot" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 1 }, "rigid": true } ]
   }
 ]

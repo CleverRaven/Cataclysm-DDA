@@ -1,0 +1,240 @@
+[
+  {
+    "id": "boarding_axe",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "boarding axe",
+    "ascii_picture": "halberd",
+    "description": "This is a sturdy axe with a pick opposite the blade.  A composite titanium/Kevlar handle provides a sturdy grip that protects against electrical shocks and high temperatures.  Designed for use by soldiers wearing strength-enhancing exosuits, it's quite heavy.  Activate it to fold it into a compact module.",
+    "weight": "3500 g",
+    "volume": "2750 ml",
+    "longest_side": "120 cm",
+    "techniques": [ "WBLOCK_2", "BRUTAL", "SWEEP" ],
+    "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
+    "material": [ "qt_steel", "titanium", "kevlar" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE", "BELT_CLIP" ],
+    "use_action": [
+      {
+        "menu_text": "Collapse",
+        "type": "transform",
+        "target": "collapsed_boarding_axe",
+        "msg": "You fold the axe in on itself."
+      },
+      "CROWBAR"
+    ],
+    "category": "weapons",
+    "melee_damage": { "bash": 30, "cut": 45 }
+  },
+  {
+    "id": "scrap_axe",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "makeshift boarding axe",
+    "ascii_picture": "halberd",
+    "description": "This is an oversized axe made from scraps of salvaged metal.  While not as versatile or durable as the boarding axe, it still packs a punch.",
+    "weight": "4250 g",
+    "volume": "2750 ml",
+    "longest_side": "120 cm",
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -30 ] ],
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
+    "material": [ "budget_steel", "rubber" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
+    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE", "BELT_CLIP" ],
+    "category": "weapons",
+    "melee_damage": { "bash": 30, "cut": 35 }
+  },
+  {
+    "id": "heavy_drill",
+    "type": "TOOL_ARMOR",
+    "symbol": "=",
+    "color": "yellow",
+    "name": "heavy mining drill",
+    "description": "This is a portable roadheader, designed to chew through the toughest rock with three carbide-tipped mining heads.  Heavy cables run from the module to a handheld trigger mechanism.  Currently inactive, it still makes a powerful blunt weapon.",
+    "weight": "45 kg",
+    "volume": "6 L",
+    "longest_side": "90 cm",
+    "sided": true,
+    "techniques": [ "WBLOCK_2", "BRUTAL", "WIDE", "SWEEP" ],
+    "qualities": [ [ "HAMMER", 2 ], [ "DIG", 1 ] ],
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "clumsy" },
+    "material": [ "qt_steel", "carbide" ],
+    "weapon_category": [ "MACES", "GREAT_HAMMERS" ],
+    "flags": [ "NONCONDUCTIVE", "DURABLE_MELEE", "REACH_ATTACK", "USE_UPS", "EXO_LARGE_GADGET" ],
+    "category": "weapons",
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate the drill's motor.",
+      "target": "heavy_drill_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "There is not enough charge to activate the drill."
+    },
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 10 },
+          { "type": "carbide", "covered_by_mat": 15, "thickness": 5 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ],
+    "melee_damage": { "bash": 50, "cut": 5 }
+  },
+  {
+    "id": "heavy_drill_on",
+    "type": "TOOL_ARMOR",
+    "copy-from": "heavy_drill",
+    "name": { "str": "heavy mining drill (on)", "str_pl": "heavy mining drills (on)" },
+    "description": "This is a portable roadheader, designed to chew through the toughest rock.  Currently active, the drill heads are a blur.",
+    "qualities": [ [ "HAMMER", 1 ], [ "DIG", 3 ] ],
+    "extend": { "flags": [ "POWERED", "EXO_LARGE_GADGET" ] },
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "every", "balance": "clumsy" },
+    "power_draw": "1500 mW",
+    "revert_to": "heavy_drill",
+    "use_action": { "ammo_scale": 0, "target": "heavy_drill", "msg": "You deactivate the drill.", "type": "transform" },
+    "melee_damage": { "bash": 50, "cut": 25 }
+  },
+  {
+    "id": "exosuit_claw",
+    "type": "ARMOR",
+    "name": { "str_sp": "exosuit claws" },
+    "description": "A pair of oversized and articulated hydraulic gauntlets with fingertips ending in cruel talons.",
+    "weight": "3 kg",
+    "volume": "300 ml",
+    "longest_side": "50 cm",
+    "price": 1100,
+    "price_postapoc": 250,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
+    "material": [ "qt_steel" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "power_armor": true,
+    "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "OVERSIZE", "OUTER", "EXO_MEDIUM_GADGET" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "superalloy", "covered_by_mat": 25, "thickness": 1.5 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ],
+    "melee_damage": { "bash": 50, "cut": 10 }
+  },
+  {
+    "id": "exosuit_plasma_torch",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "392-UASTA plasma torch", "str_pl": "392-UASTA plasma torches" },
+    "description": "One of the many versions of UASTA certified plasma torches, essentially a civilian plasma railgun used to deliver focused waves of plasma for precision welding or metal cutting.  This is a larger, more powerful model meant to be used by an exosuit for heavy engineering tasks.  Heavy cables run from the module to a handheld trigger mechanism.",
+    "weight": "8 kg",
+    "volume": "6500 ml",
+    "longest_side": "80 cm",
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "good" },
+    "material": [ "qt_steel", "ceramic" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": [ "afs_shydrogen" ],
+    "charges_per_use": 1,
+    "use_action": [ { "type": "cast_spell", "spell_id": "exo_plasmacut", "no_fail": true, "level": 20 }, "OXYTORCH" ],
+    "qualities": [ [ "WELD", 3 ] ],
+    "flags": [ "ALLOWS_REMOTE_USE", "CANT_WEAR", "EXO_LARGE_GADGET", "FRAGILE_MELEE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "magazine_well": "120 ml",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "afs_40g_plasma_civ", "afs_4g_plasma" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "superalloy", "covered_by_mat": 25, "thickness": 1.5 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ],
+    "melee_damage": { "bash": 50, "cut": 10 }
+  },
+  {
+    "id": "exosuit_power_cutter",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "exosuit power cutter (off)", "str_pl": "exosuit power cutters (off)" },
+    "description": "A huge, multi-fuel powered saw with a diamond blade, mounted on an exosuit.  If it has fuel, it can be turned on to turn it into a powerful metal cutting tool.  Heavy cables run from the module to a handheld trigger mechanism.",
+    "weight": "10 kg",
+    "volume": "4 L",
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "good" },
+    "material": [ "qt_steel", "diamond" ],
+    "symbol": "/",
+    "looks_like": "circsaw_off",
+    "color": "light_red",
+    "ammo": [ "gasoline", "diesel", "jp8", "avgas", "lamp_oil", "motor_oil", "propane", "conc_alcohol", "ammonia_liquid" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "description": "This is a tank for fuel.  Holds up to 1 liter.",
+        "rigid": true,
+        "watertight": true,
+        "airtight": true,
+        "ammo_restriction": {
+          "gasoline": 1000,
+          "diesel": 1000,
+          "jp8": 1000,
+          "avgas": 1000,
+          "lamp_oil": 1000,
+          "motor_oil": 1000,
+          "propane": 1000,
+          "conc_alcohol": 1000,
+          "ammonia_liquid": 1000
+        }
+      }
+    ],
+    "charges_per_use": 1,
+    "use_action": { "target": "exosuit_power_cutter_on", "msg": "You rev up the power cutter!", "active": true, "type": "transform" },
+    "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE", "EXO_LARGE_GADGET" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "diamond", "covered_by_mat": 5, "thickness": 1 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 30
+      }
+    ],
+    "melee_damage": { "bash": 10, "cut": 5 }
+  },
+  {
+    "id": "exosuit_power_cutter_on",
+    "copy-from": "exosuit_power_cutter",
+    "type": "TOOL",
+    "name": { "str": "exosuit power cutter (on)", "str_pl": "exosuit power cutters (on)" },
+    "description": "A huge, multi-fuel powered saw with a diamond blade, currently a whirling blur.  It's consuming fuel and can be used as a fantastic tool for cutting metal.  You can also use it as a terrifying weapon, if you're into that sort of thing.",
+    "turns_per_charge": 5,
+    "revert_to": "exosuit_power_cutter",
+    "use_action": {
+      "target": "exosuit_power_cutter",
+      "msg": "Your power cutter falls quiet.",
+      "menu_text": "Turn off",
+      "type": "transform"
+    },
+    "qualities": [ [ "CUT", 3 ], [ "SAW_M", 20 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -80 ] ],
+    "extend": { "flags": [ "MESSY" ] },
+    "melee_damage": { "bash": 10, "cut": 100 }
+  }
+]

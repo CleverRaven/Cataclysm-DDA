@@ -19,7 +19,7 @@ struct character_modifier {
 
         static void load_character_modifiers( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static const std::vector<character_modifier> &get_all();
 
         // Use this to obtain the calculated modifier
@@ -37,18 +37,7 @@ struct character_modifier {
             return modtype;
         }
         // Same as above, but for displaying in the UI
-        std::string mod_type_str() const {
-            switch( modtype ) {
-                case ADD:
-                    return "+";
-                case MULT:
-                    return "x";
-                case NONE:
-                default:
-                    break;
-            }
-            return std::string();
-        }
+        std::string mod_type_str() const;
         // Does this modifier use a built-in function to calculate the modifier?
         bool is_builtin() const {
             return !builtin.empty();

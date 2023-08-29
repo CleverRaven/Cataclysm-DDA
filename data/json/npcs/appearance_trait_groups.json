@@ -74,6 +74,10 @@
       { "group": "Hair_Brown", "prob": 25 },
       { "group": "Hair_Gray", "prob": 10 },
       { "group": "Hair_White", "prob": 10 },
+      { "group": "Hair_Green", "prob": 2 },
+      { "group": "Hair_Blue", "prob": 2 },
+      { "group": "Hair_Purple", "prob": 2 },
+      { "group": "Hair_Pink", "prob": 2 },
       { "trait": "HAIR_BALD", "prob": 3 }
     ]
   },
@@ -88,6 +92,10 @@
       { "group": "Hair_Brown", "prob": 40 },
       { "group": "Hair_Gray", "prob": 8 },
       { "group": "Hair_White", "prob": 7 },
+      { "group": "Hair_Green", "prob": 1 },
+      { "group": "Hair_Blue", "prob": 1 },
+      { "group": "Hair_Purple", "prob": 1 },
+      { "group": "Hair_Pink", "prob": 1 },
       { "trait": "HAIR_BALD", "prob": 3 }
     ]
   },
@@ -102,6 +110,10 @@
       { "group": "Hair_Brown", "prob": 40 },
       { "group": "Hair_Gray", "prob": 5 },
       { "group": "Hair_White", "prob": 8 },
+      { "group": "Hair_Green", "prob": 1 },
+      { "group": "Hair_Blue", "prob": 1 },
+      { "group": "Hair_Purple", "prob": 1 },
+      { "group": "Hair_Pink", "prob": 1 },
       { "trait": "HAIR_BALD", "prob": 3 }
     ]
   },
@@ -114,6 +126,10 @@
       { "group": "Hair_Brown", "prob": 40 },
       { "group": "Hair_Gray", "prob": 6 },
       { "group": "Hair_White", "prob": 5 },
+      { "group": "Hair_Green", "prob": 1 },
+      { "group": "Hair_Blue", "prob": 1 },
+      { "group": "Hair_Purple", "prob": 1 },
+      { "group": "Hair_Pink", "prob": 1 },
       { "trait": "HAIR_BALD", "prob": 3 }
     ]
   },
@@ -157,25 +173,33 @@
     "type": "trait_group",
     "id": "Eye_light",
     "subtype": "distribution",
-    "traits": [ { "trait": "eye_blue", "prob": 55 }, { "trait": "eye_gray", "prob": 25 }, { "trait": "eye_green", "prob": 15 } ]
+    "traits": [
+      { "trait": "eye_color", "variant": "blue", "prob": 55 },
+      { "trait": "eye_color", "variant": "gray", "prob": 25 },
+      { "trait": "eye_color", "variant": "green", "prob": 15 }
+    ]
   },
   {
     "type": "trait_group",
     "id": "Eye_dark",
     "subtype": "distribution",
-    "traits": [ { "trait": "eye_brown", "prob": 60 }, { "trait": "eye_hazel", "prob": 20 }, { "trait": "eye_amber", "prob": 20 } ]
+    "traits": [
+      { "trait": "eye_color", "variant": "brown", "prob": 60 },
+      { "trait": "eye_color", "variant": "hazel", "prob": 20 },
+      { "trait": "eye_color", "variant": "amber", "prob": 20 }
+    ]
   },
   {
     "type": "trait_group",
     "id": "Eye_any",
     "subtype": "distribution",
     "traits": [
-      { "trait": "eye_brown", "prob": 70 },
-      { "trait": "eye_hazel", "prob": 9 },
-      { "trait": "eye_amber", "prob": 8 },
-      { "trait": "eye_blue", "prob": 8 },
-      { "trait": "eye_gray", "prob": 3 },
-      { "trait": "eye_green", "prob": 2 }
+      { "trait": "eye_color", "variant": "brown", "prob": 70 },
+      { "trait": "eye_color", "variant": "hazel", "prob": 9 },
+      { "trait": "eye_color", "variant": "amber", "prob": 8 },
+      { "trait": "eye_color", "variant": "blue", "prob": 8 },
+      { "trait": "eye_color", "variant": "gray", "prob": 3 },
+      { "trait": "eye_color", "variant": "green", "prob": 2 }
     ]
   },
   {
@@ -188,7 +212,13 @@
       { "trait": "hair_black_fro", "prob": 10 },
       { "trait": "hair_black_short", "prob": 35 },
       { "trait": "hair_black_medium", "prob": 25 },
-      { "trait": "hair_black_long", "prob": 13 }
+      { "trait": "hair_black_long", "prob": 13 },
+      { "trait": "buzzcut", "variant": "black", "prob": 25 },
+      { "trait": "ponytail", "variant": "black", "prob": 10 },
+      { "trait": "long_over_eye", "variant": "black", "prob": 10 },
+      { "trait": "messy", "variant": "black", "prob": 13 },
+      { "trait": "short_over_eye", "variant": "black", "prob": 10 },
+      { "trait": "short_no_fringe", "variant": "black", "prob": 15 }
     ]
   },
   {
@@ -201,7 +231,13 @@
       { "trait": "hair_brown_fro", "prob": 5 },
       { "trait": "hair_brown_short", "prob": 35 },
       { "trait": "hair_brown_medium", "prob": 25 },
-      { "trait": "hair_brown_long", "prob": 13 }
+      { "trait": "hair_brown_long", "prob": 13 },
+      { "trait": "buzzcut", "variant": "brown", "prob": 25 },
+      { "trait": "ponytail", "variant": "brown", "prob": 10 },
+      { "trait": "long_over_eye", "variant": "brown", "prob": 10 },
+      { "trait": "messy", "variant": "brown", "prob": 13 },
+      { "trait": "short_over_eye", "variant": "brown", "prob": 10 },
+      { "trait": "short_no_fringe", "variant": "brown", "prob": 15 }
     ]
   },
   {
@@ -214,7 +250,13 @@
       { "trait": "hair_blond_fro", "prob": 1 },
       { "trait": "hair_blond_short", "prob": 35 },
       { "trait": "hair_blond_medium", "prob": 25 },
-      { "trait": "hair_blond_long", "prob": 13 }
+      { "trait": "hair_blond_long", "prob": 13 },
+      { "trait": "buzzcut", "variant": "blond", "prob": 25 },
+      { "trait": "ponytail", "variant": "blond", "prob": 10 },
+      { "trait": "long_over_eye", "variant": "blond", "prob": 10 },
+      { "trait": "messy", "variant": "blond", "prob": 13 },
+      { "trait": "short_over_eye", "variant": "blond", "prob": 10 },
+      { "trait": "short_no_fringe", "variant": "blond", "prob": 15 }
     ]
   },
   {
@@ -227,7 +269,13 @@
       { "trait": "hair_red_fro", "prob": 1 },
       { "trait": "hair_red_short", "prob": 35 },
       { "trait": "hair_red_medium", "prob": 25 },
-      { "trait": "hair_red_long", "prob": 13 }
+      { "trait": "hair_red_long", "prob": 13 },
+      { "trait": "buzzcut", "variant": "red", "prob": 25 },
+      { "trait": "ponytail", "variant": "red", "prob": 10 },
+      { "trait": "long_over_eye", "variant": "red", "prob": 10 },
+      { "trait": "messy", "variant": "red", "prob": 13 },
+      { "trait": "short_over_eye", "variant": "red", "prob": 10 },
+      { "trait": "short_no_fringe", "variant": "red", "prob": 15 }
     ]
   },
   {
@@ -253,7 +301,89 @@
       { "trait": "hair_white_fro", "prob": 1 },
       { "trait": "hair_white_short", "prob": 35 },
       { "trait": "hair_white_medium", "prob": 25 },
-      { "trait": "hair_white_long", "prob": 13 }
+      { "trait": "hair_white_long", "prob": 13 },
+      { "trait": "buzzcut", "variant": "white", "prob": 25 },
+      { "trait": "ponytail", "variant": "white", "prob": 10 },
+      { "trait": "long_over_eye", "variant": "white", "prob": 10 },
+      { "trait": "messy", "variant": "white", "prob": 13 },
+      { "trait": "short_over_eye", "variant": "white", "prob": 10 },
+      { "trait": "short_no_fringe", "variant": "white", "prob": 15 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Hair_Green",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "buzzcut", "variant": "green", "prob": 25 },
+      { "trait": "ponytail", "variant": "green", "prob": 10 },
+      { "trait": "long_over_eye", "variant": "green", "prob": 10 },
+      { "trait": "messy", "variant": "green", "prob": 13 },
+      { "trait": "short_over_eye", "variant": "green", "prob": 10 },
+      { "trait": "short_no_fringe", "variant": "green", "prob": 15 },
+      { "trait": "crewcut", "variant": "green", "prob": 25 },
+      { "trait": "mohawk", "variant": "green", "prob": 1 },
+      { "trait": "fro", "variant": "green", "prob": 1 },
+      { "trait": "medium", "variant": "green", "prob": 25 },
+      { "trait": "long", "variant": "green", "prob": 13 },
+      { "trait": "short", "variant": "green", "prob": 35 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Hair_Blue",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "buzzcut", "variant": "blue", "prob": 25 },
+      { "trait": "ponytail", "variant": "blue", "prob": 10 },
+      { "trait": "long_over_eye", "variant": "blue", "prob": 10 },
+      { "trait": "messy", "variant": "blue", "prob": 13 },
+      { "trait": "short_over_eye", "variant": "blue", "prob": 10 },
+      { "trait": "short_no_fringe", "variant": "blue", "prob": 15 },
+      { "trait": "crewcut", "variant": "blue", "prob": 25 },
+      { "trait": "mohawk", "variant": "blue", "prob": 1 },
+      { "trait": "fro", "variant": "blue", "prob": 1 },
+      { "trait": "medium", "variant": "blue", "prob": 25 },
+      { "trait": "long", "variant": "blue", "prob": 13 },
+      { "trait": "short", "variant": "blue", "prob": 35 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Hair_Purple",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "buzzcut", "variant": "purple", "prob": 25 },
+      { "trait": "ponytail", "variant": "purple", "prob": 10 },
+      { "trait": "long_over_eye", "variant": "purple", "prob": 10 },
+      { "trait": "messy", "variant": "purple", "prob": 13 },
+      { "trait": "short_over_eye", "variant": "purple", "prob": 10 },
+      { "trait": "short_no_fringe", "variant": "purple", "prob": 15 },
+      { "trait": "crewcut", "variant": "purple", "prob": 25 },
+      { "trait": "mohawk", "variant": "purple", "prob": 1 },
+      { "trait": "fro", "variant": "purple", "prob": 1 },
+      { "trait": "medium", "variant": "purple", "prob": 25 },
+      { "trait": "long", "variant": "purple", "prob": 13 },
+      { "trait": "short", "variant": "purple", "prob": 35 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Hair_Pink",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "buzzcut", "variant": "pink", "prob": 25 },
+      { "trait": "ponytail", "variant": "pink", "prob": 10 },
+      { "trait": "long_over_eye", "variant": "pink", "prob": 10 },
+      { "trait": "messy", "variant": "pink", "prob": 13 },
+      { "trait": "short_over_eye", "variant": "pink", "prob": 10 },
+      { "trait": "short_no_fringe", "variant": "pink", "prob": 15 },
+      { "trait": "crewcut", "variant": "pink", "prob": 25 },
+      { "trait": "mohawk", "variant": "pink", "prob": 1 },
+      { "trait": "fro", "variant": "pink", "prob": 1 },
+      { "trait": "medium", "variant": "pink", "prob": 25 },
+      { "trait": "long", "variant": "pink", "prob": 13 },
+      { "trait": "short", "variant": "pink", "prob": 35 }
     ]
   }
 ]

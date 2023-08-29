@@ -124,11 +124,17 @@
   {
     "type": "overmap_terrain",
     "id": [ "pump_station_3", "pump_station_4", "pump_station_5" ],
-    "name": "sewer",
-    "sym": "│",
+    "name": "pump station",
+    "sym": "P",
     "color": "green",
     "see_cost": 999,
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewer_connector",
+    "copy-from": "pump_station_3",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -146,6 +152,14 @@
     "sym": "D",
     "color": "i_brown",
     "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "trailer_public_00", "trailer_public_00_roof" ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "garbage collection point",
+    "sym": "D",
+    "color": "i_brown"
   },
   {
     "type": "overmap_terrain",
@@ -175,7 +189,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "junkyard_1a", "junkyard_roof_1a", "junkyard_1b", "junkyard_roof_1b", "junkyard_2a", "junkyard_2b" ],
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "junkyard",
     "sym": "J",
     "color": "i_brown",
@@ -240,7 +254,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cs_open_sewer",
+    "id": [ "cs_open_sewer", "cs_open_sewer_undergound" ],
     "copy-from": "generic_city_building",
     "name": "open sewer",
     "sym": "s",
@@ -254,5 +268,33 @@
     "sym": "d",
     "color": "i_brown",
     "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "abandoned_textile_mill_0_1",
+      "abandoned_textile_mill_0_2",
+      "abandoned_textile_mill_0_3",
+      "abandoned_textile_mill_1_1",
+      "abandoned_textile_mill_1_2",
+      "abandoned_textile_mill_1_3",
+      "abandoned_textile_mill_2_1",
+      "abandoned_textile_mill_2_2",
+      "abandoned_textile_mill_2_3",
+      "abandoned_textile_mill_3_1",
+      "abandoned_textile_mill_3_2",
+      "abandoned_textile_mill_3_3",
+      "abandoned_textile_mill_4_1",
+      "abandoned_textile_mill_4_2",
+      "abandoned_textile_mill_4_3",
+      "abandoned_textile_mill_b_0_1",
+      "abandoned_textile_mill_b_0_2",
+      "abandoned_textile_mill_b_1_1",
+      "abandoned_textile_mill_b_1_2"
+    ],
+    "copy-from": "generic_city_building",
+    "name": "abandoned textile mill",
+    "color": "light_blue",
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION" ] }
   }
 ]

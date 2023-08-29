@@ -1,7 +1,7 @@
 #include "safe_reference.h"
 
-static_assert( std::is_nothrow_move_constructible<safe_reference_anchor>::value, "" );
-static_assert( std::is_nothrow_move_assignable<safe_reference_anchor>::value, "" );
+static_assert( std::is_nothrow_move_constructible<safe_reference_anchor>::value );
+static_assert( std::is_nothrow_move_assignable<safe_reference_anchor>::value );
 
 safe_reference_anchor::safe_reference_anchor()
 {
@@ -19,9 +19,11 @@ safe_reference_anchor::safe_reference_anchor( safe_reference_anchor && ) noexcep
     safe_reference_anchor()
 {}
 
-safe_reference_anchor &safe_reference_anchor::operator=( const safe_reference_anchor & )
+safe_reference_anchor &safe_reference_anchor::operator=( const safe_reference_anchor &other )
 {
-    impl = std::make_shared<empty>();
+    if( this != &other ) {
+        impl = std::make_shared<empty>();
+    }
     return *this;
 }
 

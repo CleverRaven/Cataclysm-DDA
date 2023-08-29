@@ -5,7 +5,7 @@
     "om_terrain": [ "slimepit_bottom" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "########################",
         "########################",
@@ -34,7 +34,7 @@
       ],
       "terrain": {
         "#": "t_soil",
-        " ": [ "t_dirt", "t_slime" ],
+        " ": [ "t_region_soil", "t_slime" ],
         ">": "t_slope_down",
         "1": "t_earth_ramp_up_low",
         "2": "t_earth_ramp_up_high"

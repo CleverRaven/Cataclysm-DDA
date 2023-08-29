@@ -1,0 +1,177 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_eggsac_host",
+    "//": "Detonates the eggs every once in a while.",
+    "recurrence": [ "5 h", "120 h" ],
+    "condition": {
+      "and": [
+        { "compare_num": [ "moon", "==", { "const": 3 } ] },
+        { "or": [ { "u_has_trait": "EGGSAC_SURVIVABLE" }, { "u_has_trait": "EGGSAC_FATAL" } ] }
+      ]
+    },
+    "deactivate_condition": { "not": { "or": [ { "u_has_trait": "EGGSAC_SURVIVABLE" }, { "u_has_trait": "EGGSAC_FATAL" } ] } },
+    "effect": {
+      "run_eocs": {
+        "id": "eoc_eggsac_mantain_or_remove_switch",
+        "condition": { "u_has_trait": "EGGSAC_SURVIVABLE" },
+        "effect": { "weighted_list_eocs": [ [ "eggsac_mantain", { "const": 10 } ], [ "eggsac_remove", { "u_val": "strength" } ] ] },
+        "false_effect": { "weighted_list_eocs": [ [ "eggsac_mantain", { "const": 25 } ], [ "eggsac_remove", { "u_val": "strength" } ] ] }
+      }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eggsac_mantain",
+    "//": "Spiders erupt from your body! It seems like there are still some eggs in you.",
+    "effect": {
+      "run_eocs": {
+        "id": "eoc_eggsac_survivable_or_fatal",
+        "condition": { "u_has_trait": "EGGSAC_SURVIVABLE" },
+        "effect": [
+          { "npc_cast_spell": { "id": "spider_emergence_weak" } },
+          { "u_message": "Spiders erupt from your body!", "type": "bad" }
+        ],
+        "false_effect": [
+          { "npc_cast_spell": { "id": "spider_emergence_strong" } },
+          { "u_message": "Spiders erupt from your body!", "type": "bad" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eggsac_remove",
+    "//": "Spiders erupt from your body! It seems like those were the last eggs.",
+    "effect": {
+      "run_eocs": {
+        "id": "eoc_eggsac_remove_survivable_or_fatal",
+        "condition": { "u_has_trait": "EGGSAC_SURVIVABLE" },
+        "effect": [
+          { "npc_cast_spell": { "id": "spider_emergence_weak" } },
+          { "u_lose_trait": "EGGSAC_SURVIVABLE" },
+          { "u_message": "Spiders erupt from your body!", "type": "bad" }
+        ],
+        "false_effect": [
+          { "npc_cast_spell": { "id": "spider_emergence_strong" } },
+          { "u_lose_trait": "EGGSAC_FATAL" },
+          { "u_message": "Spiders erupt from your body!", "type": "bad" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "manifest_destiny_goblin",
+    "recurrence": [ "3 days", "5 days" ],
+    "condition": { "u_has_trait": "MANIFEST_DESTINY_GOBLIN" },
+    "deactivate_condition": { "not": { "u_has_trait": "MANIFEST_DESTINY_GOBLIN" } },
+    "effect": [
+      {
+        "arithmetic": [
+          { "u_val": "vitamin", "name": "mutagen_troglobite" },
+          "+=",
+          { "arithmetic": [ { "rand": 100 }, "+", { "const": 750 } ] }
+        ]
+      },
+      {
+        "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "+=", { "arithmetic": [ { "rand": 100 }, "+", { "const": 750 } ] } ]
+      },
+      {
+        "run_eocs": {
+          "id": "manifest_destiny_goblin_complete",
+          "condition": { "u_has_trait": "THRESH_TROGLOBITE" },
+          "effect": [ { "u_lose_trait": "MANIFEST_DESTINY_GOBLIN" }, { "u_add_trait": "MANIFESTED_DESTINY_GOBLIN" } ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "manifested_destiny_goblin",
+    "recurrence": [ "3 days", "5 days" ],
+    "condition": { "u_has_trait": "MANIFESTED_DESTINY_GOBLIN" },
+    "deactivate_condition": { "u_has_trait": "MANIFESTED_DESTINY_GOBLIN" },
+    "effect": [
+      {
+        "arithmetic": [
+          { "u_val": "vitamin", "name": "mutagen_troglobite" },
+          "+=",
+          { "arithmetic": [ { "rand": 100 }, "+", { "const": 1750 } ] }
+        ]
+      },
+      {
+        "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "+=", { "arithmetic": [ { "rand": 100 }, "+", { "const": 1750 } ] } ]
+      },
+      {
+        "run_eocs": {
+          "id": "destiny_goblin_removal",
+          "condition": { "u_has_trait": "THRESH_TROGLOBITE" },
+          "effect": [ { "u_lose_trait": "MANIFESTED_DESTINY_GOBLIN" } ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "manifest_destiny_spider",
+    "recurrence": [ "3 days", "5 days" ],
+    "condition": { "u_has_trait": "MANIFEST_DESTINY_SPIDER" },
+    "deactivate_condition": { "u_has_trait": "MANIFESTED_DESTINY_SPIDER" },
+    "effect": [
+      {
+        "arithmetic": [ { "u_val": "vitamin", "name": "mutagen_spider" }, "+=", { "arithmetic": [ { "rand": 100 }, "+", { "const": 750 } ] } ]
+      },
+      {
+        "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "+=", { "arithmetic": [ { "rand": 100 }, "+", { "const": 750 } ] } ]
+      },
+      {
+        "run_eocs": {
+          "id": "manifest_destiny_spider_complete",
+          "condition": { "u_has_trait": "THRESH_SPIDER" },
+          "effect": [ { "u_lose_trait": "MANIFEST_DESTINY_SPIDER" }, { "u_add_trait": "MANIFESTED_DESTINY_SPIDER" } ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "manifested_destiny_spider",
+    "recurrence": [ "3 days", "5 days" ],
+    "condition": { "u_has_trait": "MANIFESTED_DESTINY_SPIDER" },
+    "deactivate_condition": { "not": { "u_has_trait": "MANIFESTED_DESTINY_SPIDER" } },
+    "effect": [
+      {
+        "arithmetic": [
+          { "u_val": "vitamin", "name": "mutagen_spider" },
+          "+=",
+          { "arithmetic": [ { "rand": 100 }, "+", { "const": 1750 } ] }
+        ]
+      },
+      {
+        "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "+=", { "arithmetic": [ { "rand": 100 }, "+", { "const": 1750 } ] } ]
+      },
+      {
+        "run_eocs": {
+          "id": "destiny_goblin_spider",
+          "condition": { "u_has_trait": "THRESH_SPIDER" },
+          "effect": [ { "u_lose_trait": "MANIFESTED_DESTINY_SPIDER" } ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "consume_human_blood",
+    "condition": { "u_has_trait": "VAMPIRE" },
+    "effect": [
+      {
+        "arithmetic": [
+          { "u_val": "vitamin", "name": "human_blood_vitamin" },
+          "+=",
+          { "arithmetic": [ { "rand": 100 }, "+", { "const": 400 } ] }
+        ]
+      }
+    ]
+  }
+]

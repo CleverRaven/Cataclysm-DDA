@@ -2,6 +2,7 @@
   {
     "type": "overlay_order",
     "overlay_ordering": [
+      { "id": [ "eye_color" ], "order": 250 },
       {
         "id": [
           "THRESH_CATTLE",
@@ -63,7 +64,9 @@
           "FUR",
           "LIGHT_FUR",
           "LUPINE_FUR",
-          "LYNX_FUR",
+          "M_SKIN",
+          "M_SKIN2",
+          "M_SKIN3",
           "PATCHSKIN1",
           "PATCHSKIN2",
           "PLANTSKIN",
@@ -81,6 +84,7 @@
         ],
         "order": 1500
       },
+      { "id": [ "SHELL", "SHELL2", "SHELL3" ], "order": 1520 },
       {
         "id": [
           "FACIAL_HAIR_NONE",
@@ -114,6 +118,9 @@
       },
       {
         "id": [
+          "buzzcut",
+          "crewcut",
+          "fro",
           "hair_black_crewcut",
           "hair_black_mohawk",
           "hair_black_fro",
@@ -150,7 +157,16 @@
           "hair_white_short",
           "hair_white_medium",
           "hair_white_long",
-          "hair_bald"
+          "hair_bald",
+          "long",
+          "long_over_eye",
+          "medium",
+          "messy",
+          "mohawk",
+          "ponytail",
+          "short",
+          "short_no_fringe",
+          "short_over_eye"
         ],
         "order": 1600
       },
@@ -184,13 +200,14 @@
       { "id": [ "HOOVES", "ROOTS1", "ROOTS2", "ROOTS3", "TALONS" ], "order": 4500 },
       { "id": [ "FLOWERS" ], "order": 5000 },
       { "id": [ "ELFA_EARS", "FELINE_EARS", "LUPINE_EARS", "RABBIT_EARS", "URSINE_EARS" ], "order": 5500 },
-      { "id": [ "ANTENNAE", "ANTLERS", "CURVED_HORNS", "HORNS", "POINTED_HORNS" ], "order": 6000 },
+      { "id": [ "ANTENNAE", "ANTLERS", "HORNS_CURLED", "HORNS", "HORNS_POINTED" ], "order": 6000 },
       { "id": [ "COMPOUND_EYES", "ELFAEYES", "FEL_EYE", "LIZ_EYE" ], "order": 6500 },
       {
         "id": [
           "BEAK",
           "BEAK_HUM",
           "BEAK_PECK",
+          "LYNX_FUR",
           "MUZZLE",
           "MUZZLE_BEAR",
           "MUZZLE_LONG",
@@ -206,11 +223,8 @@
       },
       { "id": [ "FANGS", "MANDIBLES", "SABER_TEETH" ], "order": 7500 },
       { "id": [ "FORKED_TONGUE" ], "order": 8000 },
-      {
-        "id": [ "PROF_CYBERCOP", "PROF_FED", "PROF_PD_DET", "PROF_POLICE", "PROF_SWAT", "PHEROMONE_INSECT" ],
-        "order": 8500
-      },
-      { "id": [ "EXODII_BODY_1" ], "order": 10000 }
+      { "id": [ "PROF_FED", "PROF_PD_DET", "PROF_POLICE", "PROF_SWAT", "PHEROMONE_INSECT" ], "order": 8500 },
+      { "id": [ "EXODII_BODY_1", "EXODII_BODY_2" ], "order": 10000 }
     ]
   }
 ]

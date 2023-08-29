@@ -29,6 +29,7 @@ enum class event_type : int {
     angers_amigara_horrors,
     avatar_enters_omt,
     avatar_moves,
+    avatar_dies,
     awakes_dark_wyrms,
     becomes_wanted,
     broken_bone,
@@ -37,8 +38,10 @@ enum class event_type : int {
     causes_resonance_cascade,
     // Eating is always consuming, but consuming also covers medication and
     // fueling bionics
+    character_casts_spell,
     character_consumes_item,
     character_eats_item,
+    character_finished_activity,
     character_forgets_spell,
     character_gains_effect,
     character_gets_headshot,
@@ -52,6 +55,7 @@ enum class event_type : int {
     character_ranged_attacks_character,
     character_ranged_attacks_monster,
     character_smashes_tile,
+    character_starts_activity,
     character_takes_damage,
     character_triggers_trap,
     character_wakes_up,
@@ -85,7 +89,10 @@ enum class event_type : int {
     gains_addiction,
     gains_mutation,
     gains_skill_level,
+    game_avatar_death,
+    game_avatar_new,
     game_load,
+    game_begin,
     game_over,
     game_save,
     game_start,
@@ -95,6 +102,7 @@ enum class event_type : int {
     loses_addiction,
     npc_becomes_hostile,
     opens_portal,
+    opens_spellbook,
     opens_temple,
     player_fails_conduct,
     player_gets_achievement,
@@ -103,6 +111,7 @@ enum class event_type : int {
     releases_subspace_specimens,
     removes_cbm,
     seals_hazardous_material_sarcophagus,
+    spellcasting_finish,
     telefrags_creature,
     teleglow_teleports,
     teleports_into_wall,
@@ -110,6 +119,8 @@ enum class event_type : int {
     throws_up,
     triggers_alarm,
     uses_debug_menu,
+    u_var_changed,
+    vehicle_moves,
     num_event_types // last
 };
 
@@ -170,7 +181,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 85,
+static_assert( static_cast<int>( event_type::num_event_types ) == 96,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -220,6 +231,9 @@ struct event_spec<event_type::avatar_moves> {
 };
 
 template<>
+struct event_spec<event_type::avatar_dies> : event_spec_empty {};
+
+template<>
 struct event_spec<event_type::awakes_dark_wyrms> : event_spec_empty {};
 
 template<>
@@ -261,6 +275,30 @@ struct event_spec<event_type::character_consumes_item> : event_spec_character_it
 
 template<>
 struct event_spec<event_type::character_eats_item> : event_spec_character_item {};
+
+template<>
+struct event_spec<event_type::character_casts_spell> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 6> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "spell", cata_variant_type::spell_id },
+            { "difficulty", cata_variant_type::int_},
+            { "cost", cata_variant_type::int_},
+            { "cast_time", cata_variant_type::int_},
+            { "damage", cata_variant_type::int_}
+
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_finished_activity> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "activity", cata_variant_type::activity_id },
+            { "canceled", cata_variant_type::bool_ }
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::character_forgets_spell> {
@@ -379,6 +417,16 @@ struct event_spec<event_type::character_smashes_tile> {
             { "character", cata_variant_type::character_id },
             { "terrain", cata_variant_type::ter_str_id },
             { "furniture", cata_variant_type::furn_str_id },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_starts_activity> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "activity", cata_variant_type::activity_id },
+            { "resume", cata_variant_type::bool_ }
         }
     };
 };
@@ -555,6 +603,32 @@ struct event_spec<event_type::gains_skill_level> {
 };
 
 template<>
+struct event_spec<event_type::game_avatar_death> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 5> fields = {{
+            { "avatar_id", cata_variant_type::character_id },
+            { "avatar_name", cata_variant_type::string },
+            { "avatar_is_male", cata_variant_type::bool_ },
+            { "is_suicide", cata_variant_type::bool_ },
+            { "last_words", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::game_avatar_new> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 7> fields = {{
+            { "is_new_game", cata_variant_type::bool_ },
+            { "is_debug", cata_variant_type::bool_ },
+            { "avatar_id", cata_variant_type::character_id },
+            { "avatar_name", cata_variant_type::string },
+            { "avatar_is_male", cata_variant_type::bool_ },
+            { "avatar_profession", cata_variant_type::profession_id },
+            { "avatar_custom_profession", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
 struct event_spec<event_type::game_load> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
             { "cdda_version", cata_variant_type::string },
@@ -563,10 +637,16 @@ struct event_spec<event_type::game_load> {
 };
 
 template<>
+struct event_spec<event_type::game_begin> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = { {
+            { "cdda_version", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
 struct event_spec<event_type::game_over> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
-            { "is_suicide", cata_variant_type::bool_ },
-            { "last_words", cata_variant_type::string },
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
             { "total_time_played", cata_variant_type::chrono_seconds },
         }
     };
@@ -583,12 +663,7 @@ struct event_spec<event_type::game_save> {
 
 template<>
 struct event_spec<event_type::game_start> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 6> fields = {{
-            { "avatar_id", cata_variant_type::character_id },
-            { "avatar_name", cata_variant_type::string },
-            { "avatar_is_male", cata_variant_type::bool_ },
-            { "avatar_profession", cata_variant_type::profession_id },
-            { "avatar_custom_profession", cata_variant_type::string },
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
             { "game_version", cata_variant_type::string },
         }
     };
@@ -635,6 +710,14 @@ struct event_spec<event_type::npc_becomes_hostile> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "npc", cata_variant_type::character_id },
             { "npc_name", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::opens_spellbook> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = { {
+            { "character", cata_variant_type::character_id }
         }
     };
 };
@@ -692,6 +775,16 @@ template<>
 struct event_spec<event_type::seals_hazardous_material_sarcophagus> : event_spec_empty {};
 
 template<>
+struct event_spec<event_type::spellcasting_finish> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "spell", cata_variant_type::spell_id },
+            { "school", cata_variant_type::trait_id }
+        }
+    };
+};
+
+template<>
 struct event_spec<event_type::telefrags_creature> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "character", cata_variant_type::character_id },
@@ -725,6 +818,33 @@ template<>
 struct event_spec<event_type::uses_debug_menu> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
             { "debug_menu_option", cata_variant_type::debug_menu_index },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::u_var_changed> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
+            { "var", cata_variant_type::string },
+            { "value", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::vehicle_moves> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 11> fields = {{
+            { "avatar_on_board", cata_variant_type::bool_ },
+            { "avatar_is_driving", cata_variant_type::bool_ }, // non-remote-control
+            { "avatar_remote_control", cata_variant_type::bool_ },
+            { "is_flying_aircraft", cata_variant_type::bool_ }, // actual viable aircraft
+            { "is_floating_watercraft", cata_variant_type::bool_ }, // actual viable boat
+            { "is_on_rails", cata_variant_type::bool_ }, // railway vehicle on rails
+            { "is_falling", cata_variant_type::bool_ }, // not an aircraft, just getting air time
+            { "is_sinking", cata_variant_type::bool_ }, // sinking in water
+            { "is_skidding", cata_variant_type::bool_ },
+            { "velocity", cata_variant_type::int_ }, // vehicle current velocity, mph * 100
+            { "z", cata_variant_type::int_ },
         }
     };
 };
@@ -773,22 +893,8 @@ class event
             return time_;
         }
 
-        cata_variant get_variant( const std::string &key ) const {
-            auto it = data_.find( key );
-            if( it == data_.end() ) {
-                cata_fatal( "No such key %s in event of type %s", key,
-                            io::enum_to_string( type_ ) );
-            }
-            return it->second;
-        }
-
-        cata_variant get_variant_or_void( const std::string &key ) const {
-            auto it = data_.find( key );
-            if( it == data_.end() ) {
-                return cata_variant();
-            }
-            return it->second;
-        }
+        cata_variant get_variant( const std::string &key ) const;
+        cata_variant get_variant_or_void( const std::string &key ) const;
 
         template<cata_variant_type Type>
         auto get( const std::string &key ) const {

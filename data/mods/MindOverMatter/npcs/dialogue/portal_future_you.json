@@ -1,0 +1,97 @@
+[
+  {
+    "id": [ "TALK_PORTAL_STORM_WHAT_ARE_YOU", "TALK_PORTAL_STORM_DO_FOR_ME", "TALK_PORTAL_STORM_WHAT_DO_YOU_GET" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Premonition] *Determine if the voice is a threat*",
+        "topic": "TALK_PORTAL_STORM_DANGER_SENSE_FAIL",
+        "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", "<=", "7" ] }
+      },
+      {
+        "text": "[Premonition 8+] *Determine if the voice is a threat*",
+        "topic": "TALK_PORTAL_STORM_DANGER_SENSE_SUCCEED",
+        "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">", "7" ] }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_PORTAL_STORM_WHAT_ARE_YOU", "TALK_PORTAL_STORM_DO_FOR_ME", "TALK_PORTAL_STORM_WHAT_DO_YOU_GET" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Telepath] *Read the voice's mind(?)*",
+        "topic": "TALK_PORTAL_STORM_telepathy",
+        "condition": { "u_has_trait": "TELEPATH" }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_PORTAL_STORM_telepathy" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You reach out to the voice's location(?) and try to touch its thoughts.  In an instant, your mind is filled by a babble of your *own* thoughts, at exactly the moment you think them, which then repeat again as you realize what is happening and your thoughts about the experience are reflected back at you and your brain is filled with an agonizing cacophony until you break the connection.",
+    "responses": [
+      {
+        "text": "Well, that was a mistake.",
+        "topic": "TALK_PORTAL_STORM_CONVERSATION",
+        "effect": [ { "math": [ "u_pain()", "+=", "5" ] } ]
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_PORTAL_STORM_DANGER_SENSE_FAIL" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You extend your senses, alert for danger, and are immediately almost blinded.  In the heart of the portal storm, there's danger everywhere.  In the air and ground, in the things half-glimpsed that vanish when you look at them, and in yourself, just waiting for the right conditions to be unleashed.  If there's anything sinister in the voice's offer, you cannot tell.",
+    "responses": [ { "text": "*Close your inner eye*", "topic": "TALK_PORTAL_STORM_CONVERSATION" } ]
+  },
+  {
+    "id": [ "TALK_PORTAL_STORM_DANGER_SENSE_SUCCEED" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You extend your senses, alert for danger.  Shutting out the ever-present danger of the post-Cataclysmic world and the portal storm, you focus on the voice.  There is danger there, but not directly.  Whatever the outcome of its offer, it is not meant as a trap.",
+    "responses": [ { "text": "*Close your inner eye*", "topic": "TALK_PORTAL_STORM_CONVERSATION" } ]
+  },
+  {
+    "id": [ "TALK_PORTAL_STORM_WHAT_DO_YOU_GET" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Clarity 3+] *Is the voice lying?*",
+        "topic": "TALK_PORTAL_STORM_CLARITY",
+        "condition": { "math": [ "u_val('spell_level', 'spell: clair_clear_sight')", ">=", "3" ] }
+      }
+    ]
+  },
+  {
+    "id": "TALK_PORTAL_STORM_CLARITY",
+    "type": "talk_topic",
+    "dynamic_line": "&You open your inner eye and in its light you see the truth.  This *is* you.  Was you.  Might be you.  You know it like you know yourself.  Whatever game it's playing, its intentions are not malicious.  They are your own.",
+    "responses": [
+      { "text": "What do I need to do?", "topic": "TALK_PORTAL_STORM_I_NEED_TO_DO" },
+      { "text": "Leave me alone.", "topic": "TALK_PORTAL_STORM_IGNORE" }
+    ]
+  },
+  {
+    "id": "TALK_PORTAL_STORM_I_NEED_TO_DO",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "[Gateway 8+] Thanks, but here I can leave without your help.  Be seeing you.  (End your story)",
+        "topic": "TALK_PORTAL_STORM_TELEPORT_OUT",
+        "condition": { "math": [ "u_val('spell_level', 'spell: teleport_gateway')", ">=", "8" ] },
+        "effect": { "give_achievement": "teleported_offworld" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PORTAL_STORM_TELEPORT_OUT",
+    "dynamic_line": "&Normally you need to have been to your destination to teleport to it, but here in the heart of the chaos you can sense other worlds.  Other times.  An endless torrent of possibility, flowing continuously around and over and through you.  None of it lasts long enough for you to get a good glimpse, but almost anywhere has to be better than here.  With a simple act of will, you reach out and grasp one chance as it floats by, open a doorway, and leave your dying world behind.\n\nAnd what happens to you afterwards, well, that's another story.",
+    "responses": [
+      {
+        "text": "That's what life's about: making the right choice at the right time.",
+        "topic": "TALK_DONE",
+        "effect": [ "u_die" ]
+      }
+    ]
+  }
+]

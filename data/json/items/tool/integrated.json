@@ -1,0 +1,222 @@
+[
+  {
+    "id": "internal_gasoline_tank",
+    "type": "TOOL_ARMOR",
+    "category": "container",
+    "name": { "str": "internal gasoline tank" },
+    "description": "The internal tank for a gasoline fuel cell bionic.",
+    "volume": "501 ml",
+    "weight": "1 g",
+    "price": 0,
+    "material": [ "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "BIONIC_FUEL_SOURCE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "500 ml",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "1 kg",
+        "material_restriction": [ "gasoline" ]
+      }
+    ]
+  },
+  {
+    "id": "internal_ethanol_tank",
+    "type": "TOOL_ARMOR",
+    "category": "container",
+    "name": { "str": "internal ethanol tank" },
+    "description": "The internal ethanol tank for an ethanol burner bionic.",
+    "volume": "401 ml",
+    "weight": "1 g",
+    "price": 0,
+    "material": [ "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "BIONIC_FUEL_SOURCE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "400 ml",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "1 kg",
+        "material_restriction": [ "alcohol" ]
+      }
+    ]
+  },
+  {
+    "id": "internal_oil_tank",
+    "type": "TOOL_ARMOR",
+    "category": "container",
+    "name": { "str": "internal oil tank" },
+    "description": "The internal oil tank for an oil generator bionic.",
+    "volume": "751 ml",
+    "weight": "1 g",
+    "price": 0,
+    "material": [ "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "BIONIC_FUEL_SOURCE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "750 ml",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "1 kg",
+        "material_restriction": [ "lamp_oil", "motor_oil" ]
+      }
+    ]
+  },
+  {
+    "id": "internal_battery_compartment",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "internal battery compartment" },
+    "description": "The internal compartment for holding medium sized batteries, for a battery system bionic.",
+    "volume": "750 ml",
+    "weight": "1 g",
+    "price": 0,
+    "material": [ "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "BIONIC_FUEL_SOURCE" ],
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_LIGHT" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "toolset",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "weight": "100 g",
+    "volume": "75 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": ",",
+    "color": "brown",
+    "warmth": 0,
+    "environmental_protection": 1,
+    "material_thickness": 0.5,
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "WATER_FRIENDLY",
+      "SOFT",
+      "NO_REPAIR",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID"
+    ],
+    "material": [ "superalloy", "copper" ],
+    "name": { "str_sp": "integrated multitool" },
+    "description": "Integrated bionic tools implanted in your fingers.",
+    "to_hit": -1,
+    "armor": [
+      {
+        "material": [
+          { "type": "superalloy", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "copper", "covered_by_mat": 10, "thickness": 0.1 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 50,
+        "encumbrance": 0
+      }
+    ],
+    "qualities": [
+      [ "SAW_W", 1 ],
+      [ "SAW_M", 1 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "WRENCH", 1 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "SCREW", 1 ],
+      [ "SCREW_FINE", 1 ],
+      [ "CUT", 2 ],
+      [ "PRY", 1 ],
+      [ "PRYING_NAIL", 1 ],
+      [ "BUTCHER", -15 ]
+    ],
+    "use_action": [ { "type": "CROWBAR", "ammo_scale": 0 } ],
+    "melee_damage": { "bash": 1, "cut": 3 }
+  },
+  {
+    "id": "integrated_welder",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "weight": "100 g",
+    "volume": "50 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": ",",
+    "color": "brown",
+    "warmth": 0,
+    "environmental_protection": 0,
+    "material_thickness": 0.5,
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "WATER_FRIENDLY",
+      "SOFT",
+      "NO_REPAIR",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID",
+      "USES_BIONIC_POWER"
+    ],
+    "material": [ "superalloy", "copper" ],
+    "name": { "str_sp": "integrated welder" },
+    "description": "Integrated bionic miniature welding tool implanted in your fingers.",
+    "to_hit": -1,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [
+          "iron",
+          "steel",
+          "budget_steel",
+          "lc_steel",
+          "mc_steel",
+          "hc_steel",
+          "ch_steel",
+          "lc_steel_chain",
+          "mc_steel_chain",
+          "hc_steel_chain",
+          "ch_steel_chain",
+          "aluminum",
+          "copper",
+          "bronze",
+          "fancy_bronze",
+          "silver",
+          "gold",
+          "platinum",
+          "superalloy",
+          "plastic",
+          "lead",
+          "tin",
+          "zinc"
+        ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1000,
+        "tool_quality": 10
+      }
+    ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 20,
+    "charged_qualities": [ [ "WELD", 2 ] ],
+    "melee_damage": { "bash": 2, "cut": -1 }
+  }
+]

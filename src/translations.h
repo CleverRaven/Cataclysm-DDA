@@ -48,6 +48,10 @@ inline const T &translation_argument_identity( const T &t )
 }
 
 // Note: in case of std::string argument, the result is copied, this is intended (for safety)
+// Note that _ triggers reserved identifier warnings, but we suppress all
+// three because it's a common use of _ and thus not likely to be a problem in
+// practice.
+// NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
 #define _( msg ) \
     ( ( []( const auto & arg ) { \
         static auto cache = detail::get_local_translation_cache( arg ); \
@@ -70,8 +74,8 @@ inline const char *pgettext( const char *context, const char *msgid )
     return TranslationManager::GetInstance().TranslateWithContext( context, msgid );
 }
 
-inline const char *npgettext( const char *const context, const char *const msgid,
-                              const char *const msgid_plural, const unsigned long long n ) ATTRIBUTE_FORMAT_ARG( 2 );
+inline const char *npgettext( const char *context, const char *msgid,
+                              const char *msgid_plural, unsigned long long n ) ATTRIBUTE_FORMAT_ARG( 2 );
 
 inline const char *npgettext( const char *const context, const char *const msgid,
                               const char *const msgid_plural, const unsigned long long n )
@@ -90,8 +94,22 @@ inline const char *npgettext( const char *const context, const char *const msgid
 
 #endif // LOCALIZE
 
+// Avoid using these functions from libintl.h which won't work because we have
+// our own implementations with different names.
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma GCC diagnostic ignored "-Wredundant-decls"
+[[deprecated( "Use _( ... ) instead" )]]
+//NOLINTNEXTLINE(readability-redundant-declaration,readability-inconsistent-declaration-parameter-name,cata-no-long)
+char *gettext( const char *msgid );
+[[deprecated( "Use n_gettext( ... ) instead" )]]
+//NOLINTNEXTLINE(readability-redundant-declaration,readability-inconsistent-declaration-parameter-name,cata-no-long)
+char *ngettext( const char *msgid, const char *msgid2, unsigned long int n );
+#pragma GCC diagnostic pop
+
 std::string locale_dir();
 
-void set_language();
+void set_language_from_options();
+void set_language( const std::string &lang );
 
 #endif // CATA_SRC_TRANSLATIONS_H

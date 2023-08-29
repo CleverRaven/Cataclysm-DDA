@@ -134,6 +134,26 @@
       },
       { "text": "I'm looking for work.  Can I do anything for the center?", "topic": "TALK_MISSION_LIST" },
       { "text": "Let's trade.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading", "effect": "start_trade" },
+      {
+        "text": "Are you interested in buying any processed lumber?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",
+        "condition": { "u_has_mission": "MISSION_LUMBERMILL_SET_TRADE_ROUTE" }
+      },
+      {
+        "text": "Does this center need any metal?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",
+        "condition": { "u_has_mission": "MISSION_SCRAPPER_SET_TRADE_ROUTE" }
+      },
+      {
+        "text": "Are you interested in any chemical supplies?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_CHEM",
+        "condition": { "u_has_mission": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE" }
+      },
+      {
+        "text": "Are you interested in any household goods?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_MISC",
+        "condition": { "u_has_mission": "MISSION_VALHALLISTS_SET_TRADE_ROUTE" }
+      },
       { "text": "Actually, I need to head out.", "topic": "TALK_DONE" }
     ]
   },
@@ -150,7 +170,7 @@
       {
         "text": "[SOCIAL 1+] If I could look into clearing them out of here, would you be able to pay me back?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars_Reward",
-        "condition": { "u_has_skill": { "skill": "speech", "level": 1 } },
+        "condition": { "math": [ "u_skill('speech')", ">=", "1" ] },
         "effect": { "npc_add_var": "beggars_reward_agreed", "type": "general", "context": "recruit", "value": "yes" }
       },
       { "text": "Why haven't they gone anywhere else?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars2" },
@@ -260,7 +280,7 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware1",
     "type": "talk_topic",
-    "dynamic_line": "We've had some issues with scavengers.  Apparently a big part of the marketing for these shelters was high-end radio equipment that they could use to keep in touch with each other, and a lot of the people we've traded with have asked about it.  Not that we don't have any radios, mind you, but they're all absolutely awful.  Even if we *could* spare any, they'd be useless to anyone that actually needed it - not much point in lugging around a ham radio that can't pick hear anything more than a mile away."
+    "dynamic_line": "We've had some issues with scavengers.  Apparently a big part of the marketing for these shelters was high-end radio equipment that they could use to keep in touch with each other, and a lot of the people we've traded with have asked about it.  Not that we don't have any radios, mind you, but they're all absolutely awful.  Even if we *could* spare any, they'd be useless to anyone that actually needed it - not much point in lugging around a ham radio that can't pick up anything more than a mile away."
   },
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_TroubleWithFood",
@@ -274,6 +294,42 @@
         "effect": { "u_add_var": "u_knows_about_basement", "type": "general", "context": "free_merchants", "value": "yes" }
       },
       { "text": "I'll keep that in mind.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",
+    "type": "talk_topic",
+    "dynamic_line": [ "Sure, we could use some around here for repairs and whatnot.  What are the terms?" ],
+    "responses": [
+      {
+        "text": "Well, how about 250 merch for 100 pounds of…",
+        "effect": { "u_spawn_item": "trade_writ" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_CHEM",
+    "type": "talk_topic",
+    "dynamic_line": [ "Chemicals?  I'm sure we could find some use for them, and we are in need of medical supplies.  What's the offer?" ],
+    "responses": [
+      {
+        "text": "Well, how about 300 merch for 10 liters of…",
+        "effect": { "u_spawn_item": "trade_writ" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_MISC",
+    "type": "talk_topic",
+    "dynamic_line": [ "We are running a bit short on toilet paper, soap, toothpaste…  What's the offer?" ],
+    "responses": [
+      {
+        "text": "Well, how about 200 merch for 75 pounds of…",
+        "effect": { "u_spawn_item": "trade_writ" },
+        "topic": "TALK_DONE"
+      }
     ]
   }
 ]

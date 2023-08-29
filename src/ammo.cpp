@@ -43,7 +43,7 @@ bool string_id<ammunition_type>::is_valid() const
 template<>
 const ammunition_type &string_id<ammunition_type>::obj() const
 {
-    const auto &the_map = all_ammunition_types();
+    const ammo_map_t &the_map = all_ammunition_types();
 
     const auto it = the_map.find( *this );
     if( it != the_map.end() ) {
@@ -64,7 +64,7 @@ void ammunition_type::check_consistency()
 {
     for( const auto &ammo : all_ammunition_types() ) {
         const auto &id = ammo.first;
-        const auto &at = ammo.second.default_ammotype_;
+        const itype_id &at = ammo.second.default_ammotype_;
 
         // TODO: these ammo types should probably not have default ammo at all.
         if( at.str() == "components" || at.str() == "thrown" ) {

@@ -31,6 +31,7 @@ static const efftype_id effect_downed( "downed" );
 
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_prone( "prone" );
+static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_walk( "walk" );
 
 static const trait_id trait_HOOVES( "HOOVES" );
@@ -38,7 +39,7 @@ static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
 static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
 static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 
-TEST_CASE( "being knocked down triples movement cost", "[move_cost][downed]" )
+TEST_CASE( "being_knocked_down_triples_movement_cost", "[move_cost][downed]" )
 {
     avatar &ava = get_avatar();
     clear_avatar();
@@ -54,7 +55,7 @@ TEST_CASE( "being knocked down triples movement cost", "[move_cost][downed]" )
     CHECK( ava.run_cost( 400 ) == 1200 );
 }
 
-TEST_CASE( "footwear may affect movement cost", "[move_cost][shoes]" )
+TEST_CASE( "footwear_may_affect_movement_cost", "[move_cost][shoes]" )
 {
     avatar &ava = get_avatar();
     map &here = get_map();
@@ -100,10 +101,11 @@ TEST_CASE( "footwear may affect movement cost", "[move_cost][shoes]" )
         ava.wear_item( item( "roller_blades" ) );
         REQUIRE( ava.worn_with_flag( flag_ROLLER_INLINE ) );
         REQUIRE( ava.get_modifier( character_modifier_limb_run_cost_mod ) == Approx( 1.11696 ) );
-        WHEN( "on pavement" ) {
+        WHEN( "on pavement and running" ) {
+            ava.set_movement_mode( move_mode_run );
             here.ter_set( ava.pos(), t_pavement );
             THEN( "much faster than sneakers" ) {
-                CHECK( ava.run_cost( 100 ) == 55 );
+                CHECK( ava.run_cost( 100 ) == 27 );
             }
         }
         WHEN( "on grass" ) {
@@ -119,10 +121,11 @@ TEST_CASE( "footwear may affect movement cost", "[move_cost][shoes]" )
         ava.wear_item( item( "rollerskates" ) );
         REQUIRE( ava.worn_with_flag( flag_ROLLER_QUAD ) );
         REQUIRE( ava.get_modifier( character_modifier_limb_run_cost_mod ) == Approx( 1.11696 ) );
-        WHEN( "on pavement" ) {
+        WHEN( "on pavement and running" ) {
+            ava.set_movement_mode( move_mode_run );
             here.ter_set( ava.pos(), t_pavement );
             THEN( "faster than sneakers" ) {
-                CHECK( ava.run_cost( 100 ) == 78 );
+                CHECK( ava.run_cost( 100 ) == 39 );
             }
         }
         WHEN( "on grass" ) {
@@ -138,11 +141,11 @@ TEST_CASE( "footwear may affect movement cost", "[move_cost][shoes]" )
         ava.wear_item( item( "roller_shoes_on" ) );
         REQUIRE( ava.worn_with_flag( flag_ROLLER_ONE ) );
         REQUIRE( ava.get_modifier( character_modifier_limb_run_cost_mod ) == Approx( 1.0 ) );
-        WHEN( "on pavement" ) {
+        WHEN( "on pavement and running" ) {
+            ava.set_movement_mode( move_mode_run );
             here.ter_set( ava.pos(), t_pavement );
-
             THEN( "slightly faster than sneakers" ) {
-                CHECK( ava.run_cost( 100 ) == 85 );
+                CHECK( ava.run_cost( 100 ) == 42 );
             }
         }
         WHEN( "on grass" ) {
@@ -154,7 +157,7 @@ TEST_CASE( "footwear may affect movement cost", "[move_cost][shoes]" )
     }
 }
 
-TEST_CASE( "mutations may affect movement cost", "[move_cost][mutation]" )
+TEST_CASE( "mutations_may_affect_movement_cost", "[move_cost][mutation]" )
 {
     avatar &ava = get_avatar();
     clear_avatar();
@@ -213,12 +216,13 @@ TEST_CASE( "mutations may affect movement cost", "[move_cost][mutation]" )
     }
 }
 
-TEST_CASE( "Crawl score effects on movement cost", "[move_cost]" )
+TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
 {
     // No limb damage
     GIVEN( "Character is uninjured and unencumbered" ) {
         avatar &u = get_avatar();
         clear_avatar();
+        clear_map();
         u.wear_item( item( "sneakers" ) );
         u.moves = 0;
 

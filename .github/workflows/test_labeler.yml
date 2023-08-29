@@ -14,13 +14,13 @@ jobs:
       id: setLabel
       run: |
         if [[ "${{ github.event.workflow_run.name }}" == "astyle" ]]; then
-          echo "::set-output name=label::astyled"
+          echo "label=astyled" >> $GITHUB_OUTPUT
         fi
         if [[ "${{ github.event.workflow_run.name }}" == "JSON Validation" ]]; then
-          echo "::set-output name=label::json-styled"
+          echo "label=json-styled" >> $GITHUB_OUTPUT
         fi
         if [[ "${{ github.event.workflow_run.name }}" == "General build matrix" ]]; then
-          echo "::set-output name=label::BasicBuildPassed"
+          echo "label=BasicBuildPassed" >> $GITHUB_OUTPUT
         fi
     - name: Download success artifact from basic build
       if: ${{ github.event.workflow_run.name == 'General build matrix' }}
@@ -31,7 +31,7 @@ jobs:
         name: basic-build
     - name: set-basic-build-success
       id: set-basic-build-success
-      run: echo "::set-output name=basic-build-success::$( cat basic-build )"
+      run: echo "basic-build-success=$( cat basic-build )" >> $GITHUB_OUTPUT
     - name: Download pr id artifact
       uses: dawidd6/action-download-artifact@v2
       with:
@@ -40,26 +40,39 @@ jobs:
         name: pull_request_id
     - name: set-pr-id
       id: set-pr-id
-      run: echo "::set-output name=pr-id::$( cat pull_request_id )"
+      run: echo "pr-id=$( cat pull_request_id )" >> $GITHUB_OUTPUT
     - name: set-label
       if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.conclusion != 'skipped' || steps.set-basic-build-success.outputs.basic-build-success == 'true' }}
-      uses: actions/github-script@v5
+      uses: actions/github-script@v6.3.3
       with:
         script: |
-            github.rest.issues.addLabels({
-              issue_number: ${{ steps.set-pr-id.outputs.pr-id }},
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              labels: ['${{ steps.setLabel.outputs.label }}']
-            })
+            if ('${{ steps.set-pr-id.outputs.pr-id }}'.trim().length == 0) {
+              console.log("The PR ID artifact does not contain a pull request number.")
+            } else {
+              github.rest.issues.addLabels({
+                issue_number: ${{ steps.set-pr-id.outputs.pr-id }},
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['${{ steps.setLabel.outputs.label }}']
+              })
+            }
     - name: remove-label
       if: ${{ github.event.workflow_run.conclusion == 'failure' && steps.set-basic-build-success.outputs.basic-build-success != 'true' }}
-      uses: actions/github-script@v5
+      uses: actions/github-script@v6.3.3
       with:
         script: |
-            github.rest.issues.removeLabel({
-              issue_number: ${{ steps.set-pr-id.outputs.pr-id }},
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              name: '${{ steps.setLabel.outputs.label }}'
-            })
+            if ('${{ steps.set-pr-id.outputs.pr-id }}'.trim().length == 0) {
+              console.log("The PR ID artifact does not contain a pull request number.")
+            } else {
+              try {
+                github.rest.issues.removeLabel({
+                  issue_number: ${{ steps.set-pr-id.outputs.pr-id }},
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: '${{ steps.setLabel.outputs.label }}'
+                })
+              } catch (e) {
+                console.log(e)
+              }
+            }
+            

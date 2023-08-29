@@ -43,7 +43,7 @@ void live_view::show( const tripoint &p )
     if( !ui ) {
         ui = std::make_unique<ui_adaptor>();
         ui->on_screen_resize( [this]( ui_adaptor & ui ) {
-            auto &mgr = panel_manager::get_manager();
+            panel_manager &mgr = panel_manager::get_manager();
             const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
             const int width = sidebar_right ? mgr.get_width_right() : mgr.get_width_left();
 

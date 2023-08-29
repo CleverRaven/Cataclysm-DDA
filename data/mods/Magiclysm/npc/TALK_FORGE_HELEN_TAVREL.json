@@ -17,12 +17,12 @@
     "id": "NC_FORGE_LORD_REAGENT",
     "name": { "str": "Pirate Queen" },
     "job_description": "My adventures would curdle your blood.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [ { "trait": "VAULT_DEFENDER" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false,
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },
-    "shopkeeper_item_group": "NC_FORGE_LORD_STORE_REAGENT",
+    "shopkeeper_item_group": [ { "group": "NC_FORGE_LORD_STORE_REAGENT_SHOP", "rigid": true } ],
     "worn_override": "NC_FORGE_REAGENT_clothes",
     "weapon_override": "NC_FORGE_REAGENT_wield",
     "skills": [
@@ -67,6 +67,15 @@
       { "item": "enchanted_blackpowder_pistol", "ammo-item": "flintlock_ammo", "charges": 1 },
       { "item": "enchanted_blackpowder_pistol", "ammo-item": "flintlock_ammo", "charges": 1 },
       { "item": "enchanted_blackpowder_pistol", "ammo-item": "flintlock_ammo", "charges": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "NC_FORGE_LORD_STORE_REAGENT_SHOP",
+    "items": [
+      { "group": "NC_FORGE_LORD_STORE_REAGENT", "count": [ 10, 20 ], "prob": 100 },
+      { "group": "NC_FORGE_PIRATE_wield", "count": 10, "prob": 20 }
     ]
   },
   {

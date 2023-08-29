@@ -1,0 +1,229 @@
+[
+  {
+    "id": "achievement_kill_changeling",
+    "type": "achievement",
+    "name": "Smashed a pixie.",
+    "requirements": [ { "event_statistic": "num_avatar_changeling_kills", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_kill_10_changelings",
+    "type": "achievement",
+    "name": "Underhill Hunter",
+    "requirements": [ { "event_statistic": "num_avatar_changeling_kills", "is": ">=", "target": 10 } ]
+  },
+  {
+    "id": "achievement_kill_100_changelings",
+    "type": "achievement",
+    "name": "Unseelie competition",
+    "hidden_by": [ "achievement_kill_10_changelings" ],
+    "requirements": [ { "event_statistic": "num_avatar_changeling_kills", "is": ">=", "target": 100 } ]
+  },
+  {
+    "id": "achievement_kill_1000_changelings",
+    "type": "achievement",
+    "name": "They tell stories to their children of you.",
+    "requirements": [ { "event_statistic": "num_avatar_changeling_kills", "is": ">=", "target": 1000 } ]
+  },
+  {
+    "id": "achievement_kill_10000_changelings",
+    "type": "achievement",
+    "name": "Faebane",
+    "hidden_by": [ "achievement_kill_1000_changelings" ],
+    "requirements": [ { "event_statistic": "num_avatar_changeling_kills", "is": ">=", "target": 10000 } ]
+  },
+  {
+    "id": "achievement_kill_100000_changelings",
+    "type": "achievement",
+    "name": "Your name is considered to be cold iron.",
+    "hidden_by": [ "achievement_kill_10000_changelings" ],
+    "requirements": [ { "event_statistic": "num_avatar_changeling_kills", "is": ">=", "target": 100000 } ]
+  },
+  {
+    "id": "achievement_kill_vampire",
+    "type": "achievement",
+    "name": "Arthur 'Art' Holmwood.  Avenger of lost innocence.",
+    "requirements": [ { "event_statistic": "num_avatar_vampire_kills", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_kill_10_vampires",
+    "type": "achievement",
+    "name": "The third Frog brother.",
+    "requirements": [ { "event_statistic": "num_avatar_vampire_kills", "is": ">=", "target": 10 } ]
+  },
+  {
+    "id": "achievement_kill_100_vampires",
+    "type": "achievement",
+    "name": "Were you chosen as the Slayer?",
+    "hidden_by": [ "achievement_kill_10_vampires" ],
+    "requirements": [ { "event_statistic": "num_avatar_vampire_kills", "is": ">=", "target": 100 } ]
+  },
+  {
+    "id": "achievement_kill_1000_vampires",
+    "type": "achievement",
+    "name": "You have an ongoing competition with Blade.",
+    "requirements": [ { "event_statistic": "num_avatar_vampire_kills", "is": ">=", "target": 1000 } ]
+  },
+  {
+    "id": "achievement_kill_10000_vampires",
+    "type": "achievement",
+    "name": "Founding member of the Hammer and Stake Society",
+    "hidden_by": [ "achievement_kill_1000_vampires" ],
+    "requirements": [ { "event_statistic": "num_avatar_vampire_kills", "is": ">=", "target": 10000 } ]
+  },
+  {
+    "id": "achievement_kill_100000_vampires",
+    "type": "achievement",
+    "name": "Van Helsing's mentor.",
+    "hidden_by": [ "achievement_kill_10000_vampires" ],
+    "requirements": [ { "event_statistic": "num_avatar_vampire_kills", "is": ">=", "target": 100000 } ]
+  },
+  {
+    "id": "achievement_gains_dreamer_trait",
+    "type": "achievement",
+    "name": "Never Wake again",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "DREAMER" ],
+        "description": "Gained access to dream magic.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "avchievement_gains_eater_trait",
+    "type": "achievement",
+    "name": "Destroy what doesn't belong.",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "EATER" ],
+        "description": "Gained access to eater magic.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "avchievement_gains_dreamsmith_trait",
+    "type": "achievement",
+    "name": "Forged by dreams",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "DREAMSMITH" ],
+        "description": "Gained access to dream forging magic",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "avchievement_gains_inventor_trait",
+    "type": "achievement",
+    "name": "This has a small, but fascinating, chance of actually working!  Let's do it!",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "INVENTOR" ],
+        "description": "Gained access to mad genius inventions.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "avchievement_gains_vampire_trait",
+    "type": "achievement",
+    "name": "Welcome to Salem's Lot.",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "VAMPIRE" ],
+        "description": "Developed an unnatural thirst.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "avchievement_gains_vampire2_trait",
+    "type": "achievement",
+    "name": "John 'Not-A-Vampire-At-All' Smith",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "VAMPIRE2" ],
+        "description": "You could still become a Black Ribboner and join the League of Temperance.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "avchievement_gains_vampire3_trait",
+    "type": "achievement",
+    "name": "Ivy Tamwood, eat your heart out.  'kisskiss' hand motion.",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "VAMPIRE3" ],
+        "description": "Right on the edge of becoming a true vampire.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_lvl_1_deduction",
+    "type": "achievement",
+    "name": { "str": "Inspector Lestrade" },
+    "description": "Sherlock Holmes you are not but you definitely see more details than you did before.",
+    "requirements": [ { "event_statistic": "num_gains_deduction_level_1", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "avatar_gains_deduction_level_1",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "deduction" ] },
+      "new_level": { "equals": [ "int", "1" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_deduction_level_1",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_deduction_level_1",
+    "description": { "str_sp": "Investigation skill level 1 gained" }
+  },
+  {
+    "id": "achievement_lvl_5_deduction",
+    "type": "achievement",
+    "name": { "str": "The Truth is out there" },
+    "description": "You can quickly deduce the events leading to every death scene you come across, unfortunately the cause is now always either zombie or suicide.",
+    "requirements": [ { "event_statistic": "num_gains_deduction_level_5", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_1_deduction" ]
+  },
+  {
+    "id": "avatar_gains_deduction_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "deduction" ] },
+      "new_level": { "equals": [ "int", "5" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_deduction_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_deduction_level_5",
+    "description": { "str_sp": "Investigation skill level 5 gained" }
+  }
+]

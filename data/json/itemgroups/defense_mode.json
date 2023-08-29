@@ -11,9 +11,9 @@
       { "item": "hammer_sledge" },
       { "item": "hatchet" },
       { "item": "knife_combat" },
-      { "item": "rapier" },
+      { "item": "hc_rapier" },
       { "item": "machete" },
-      { "item": "katana" },
+      { "item": "hc_katana" },
       { "item": "spear_knife" },
       { "item": "pike" },
       { "item": "chainsaw_off" }
@@ -35,7 +35,7 @@
       { "item": "remington_870" },
       { "item": "browning_blr" },
       { "item": "ak47" },
-      { "item": "m4_carbine", "variant": "m4a1" },
+      { "item": "modular_m4_carbine", "variant": "modular_m4a1" },
       { "item": "savage_111f" },
       { "item": "hk_g3" },
       { "item": "hk_g80" },
@@ -71,7 +71,7 @@
     "id": "defense_caravan_components",
     "subtype": "collection",
     "items": [
-      { "item": "rag" },
+      { "item": "cotton_patchwork" },
       { "item": "fur" },
       { "item": "leather" },
       { "item": "superglue" },
@@ -98,15 +98,15 @@
       { "item": "water" },
       { "item": "energy_drink" },
       { "item": "whiskey" },
-      { "item": "can_beans" },
+      { "group": "can_beans_can_medium_2" },
       { "group": "MRE" },
-      { "item": "flour" },
+      { "group": "flour_bag_paper_powder_10" },
       { "item": "inhaler" },
-      { "item": "codeine" },
-      { "item": "oxycodone" },
-      { "item": "adderall" },
-      { "item": "cig" },
-      { "item": "meth" },
+      { "group": "codeine_bottle_plastic_pill_painkiller_10" },
+      { "group": "oxycodone_bottle_plastic_pill_prescription_10" },
+      { "group": "adderall_bottle_plastic_pill_prescription_10" },
+      { "group": "cig_box_cigarette_20" },
+      { "group": "meth_bag_zipper_6" },
       { "item": "royal_jelly" },
       { "item": "mutagen" },
       { "item": "purifier" }
@@ -159,8 +159,48 @@
       { "item": "smokebomb" },
       { "item": "bot_manhack" },
       { "item": "bot_turret" },
-      { "item": "UPS_off" },
+      { "item": "UPS_OFF" },
       { "item": "mininuke" }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_bag_paper_powder_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "flour", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "codeine_bottle_plastic_pill_painkiller_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_painkiller",
+    "entries": [ { "item": "codeine", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "oxycodone_bottle_plastic_pill_prescription_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "oxycodone", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cig_box_cigarette_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "box_cigarette",
+    "entries": [ { "item": "cig", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "meth_bag_zipper_6",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "meth", "container-item": "null", "count": 6 } ]
   }
 ]

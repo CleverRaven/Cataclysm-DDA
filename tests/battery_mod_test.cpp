@@ -67,7 +67,7 @@ static const itype_id itype_medium_plus_battery_cell( "medium_plus_battery_cell"
 // both to ensure they work as expected, and to exhibit their attributes and terminology (like the
 // curious fact that a battery is treated like a magazine full of ammunition).
 //
-TEST_CASE( "battery tool mod test", "[battery][mod]" )
+TEST_CASE( "battery_tool_mod_test", "[battery][mod]" )
 {
     item med_mod( "magazine_battery_medium_mod" );
 
@@ -150,7 +150,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
 
             WHEN( "medium battery is installed" ) {
                 item med_battery( "medium_battery_cell" );
-                ret_val<bool> result = flashlight.put_in( med_battery, item_pocket::pocket_type::MAGAZINE_WELL );
+                ret_val<void> result = flashlight.put_in( med_battery, item_pocket::pocket_type::MAGAZINE_WELL );
 
                 THEN( "battery installation succeeds" ) {
                     CHECK( result.success() );
@@ -182,9 +182,9 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
                     CHECK( use != nullptr );
                     const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use->get_actor_ptr() );
 
-                    Character &dummy = get_avatar();
+                    Character *dummy = &get_avatar();
                     clear_avatar();
-                    actor->use( dummy, flashlight, false, dummy.pos() );
+                    actor->use( dummy, flashlight, dummy->pos() );
 
                     // Regression tests for #42764 / #42854
                     THEN( "mod remains installed" ) {
@@ -217,7 +217,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
 //   - Can be reloaded with a compatible "magazine" (battery)
 //   - Charge left in the tool's battery is "ammo remaining"
 //
-TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
+TEST_CASE( "battery_and_tool_properties", "[battery][tool][properties]" )
 {
     const item bat_cell( "light_battery_cell" );
     const item flashlight( "flashlight" );
@@ -316,7 +316,7 @@ TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
     }
 }
 
-TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
+TEST_CASE( "installing_battery_in_tool", "[battery][tool][install]" )
 {
     item bat_cell( "light_battery_cell" );
     item flashlight( "flashlight" );
@@ -339,7 +339,7 @@ TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
 
         // Put battery in flashlight
         REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
-        ret_val<bool> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
+        ret_val<void> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
         CHECK( result.success() );
         CHECK( flashlight.magazine_current() );
 
@@ -354,7 +354,7 @@ TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
 
         // Put battery in flashlight
         REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
-        ret_val<bool> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
+        ret_val<void> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
         CHECK( result.success() );
         CHECK( flashlight.magazine_current() );
 
@@ -368,7 +368,7 @@ TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
         // Should fail to install the magazine
         REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
         std::string dmsg = capture_debugmsg_during( [&flashlight, &med_bat_cell]() {
-            ret_val<bool> result = flashlight.put_in( med_bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
+            ret_val<void> result = flashlight.put_in( med_bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
             CHECK_FALSE( result.success() );
         } );
         CHECK_THAT( dmsg, Catch::EndsWith( "holster does not accept this item type or form factor" ) );

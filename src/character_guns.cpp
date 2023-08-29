@@ -54,10 +54,12 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             // All speedloaders are accepted.
             // Ammo check is done somewhere else
             // Ammo check should probably happen here...
-            if( parent != nullptr ) {
-                out = item_location( item_location( src, parent ), node );
-            } else {
-                out = item_location( src, node );
+            if( obj.can_reload_with( *node, true ) ) {
+                if( parent != nullptr ) {
+                    out = item_location( item_location( src, parent ), node );
+                } else {
+                    out = item_location( src, node );
+                }
             }
             return VisitResponse::SKIP;
         }
@@ -90,10 +92,10 @@ std::vector<item_location> Character::find_ammo( const item &obj, bool empty, in
     find_ammo_helper( const_cast<Character &>( *this ), obj, empty, std::back_inserter( res ), true );
 
     if( radius >= 0 ) {
-        for( auto &cursor : map_selector( pos(), radius ) ) {
+        for( map_cursor &cursor : map_selector( pos(), radius ) ) {
             find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
         }
-        for( auto &cursor : vehicle_selector( pos(), radius ) ) {
+        for( vehicle_cursor &cursor : vehicle_selector( pos(), radius ) ) {
             find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
         }
     }
@@ -101,7 +103,8 @@ std::vector<item_location> Character::find_ammo( const item &obj, bool empty, in
     return res;
 }
 
-std::pair<int, int> Character::gunmod_installation_odds( const item &gun, const item &mod ) const
+std::pair<int, int> Character::gunmod_installation_odds( const item_location &gun,
+        const item &mod ) const
 {
     // Mods with INSTALL_DIFFICULT have a chance to fail, potentially damaging the gun
     if( !mod.has_flag( flag_INSTALL_DIFFICULT ) || has_trait( trait_DEBUG_HS ) ) {
@@ -110,12 +113,12 @@ std::pair<int, int> Character::gunmod_installation_odds( const item &gun, const 
 
     int roll = 100; // chance of success (%)
     int risk = 0;   // chance of failure (%)
-    int chances = 1; // start with 1 in 6 (~17% chance)
+    float chances = 1.0f; // start with 1 in 6 (~17% chance)
 
     for( const auto &e : mod.type->min_skills ) {
         // gain an additional chance for every level above the minimum requirement
-        skill_id sk = e.first.str() == "weapon" ? gun.gun_skill() : e.first;
-        chances += std::max( get_skill_level( sk ) - e.second, 0 );
+        skill_id sk = e.first.str() == "weapon" ? gun->gun_skill() : e.first;
+        chances += std::max( get_skill_level( sk ) - e.second, 0.0f );
     }
     // cap success from skill alone to 1 in 5 (~83% chance)
     roll = std::min( static_cast<double>( chances ), 5.0 ) / 6.0 * 100;
@@ -125,11 +128,11 @@ std::pair<int, int> Character::gunmod_installation_odds( const item &gun, const 
     roll += ( get_dex() - 12 ) * 2;
     roll += ( get_int() - 12 ) * 2;
     // each level of damage to the base gun reduces success by 10%
-    roll -= std::max( gun.damage_level(), 0 ) * 10;
+    roll -= gun->damage_level() * 10;
     roll = std::min( std::max( roll, 0 ), 100 );
 
     // risk of causing damage on failure increases with less durable guns
-    risk = ( 100 - roll ) * ( ( 10.0 - std::min( gun.type->gun->durability, 9 ) ) / 10.0 );
+    risk = ( 100 - roll ) * ( ( 10.0 - std::min( gun->type->gun->durability, 9 ) ) / 10.0 );
 
     return std::make_pair( roll, risk );
 }
@@ -151,8 +154,28 @@ void Character::gunmod_add( item &gun, item &mod )
         return;
     }
 
+    itype_id mod_type = mod.typeId();
+    std::string mod_name = mod.tname();
+
+    if( !wield( gun ) ) {
+        add_msg_if_player( _( "You can't wield the %1$s." ), gun.tname() );
+        return;
+    }
+
+    // Wielding will create a new gun and/or mod when the item changes location.
+    item_location wielded_gun = get_wielded_item();
+    std::vector<item *> mods = items_with( [&mod_type]( const item & it ) {
+        return it.typeId() == mod_type;
+    } );
+
+    if( mods.empty() ) {
+        add_msg_if_player( _( "You no longer have a %s and can't continue crafting." ), mod_name );
+        return;
+    }
+
+    item &moved_mod = *mods.front();
     // any (optional) tool charges that are used during installation
-    auto odds = gunmod_installation_odds( gun, mod );
+    auto odds = gunmod_installation_odds( wielded_gun, moved_mod );
     int roll = odds.first;
     int risk = odds.second;
 
@@ -161,8 +184,8 @@ void Character::gunmod_add( item &gun, item &mod )
 
     if( mod.is_irremovable() ) {
         if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
-                       colorize( mod.tname(), mod.color_in_inventory() ),
-                       colorize( gun.tname(), gun.color_in_inventory() ) ) ) {
+                       colorize( moved_mod.tname(), moved_mod.color_in_inventory() ),
+                       colorize( wielded_gun->tname(), wielded_gun->color_in_inventory() ) ) ) {
             add_msg_if_player( _( "Never mind." ) );
             return; // player canceled installation
         }
@@ -171,8 +194,8 @@ void Character::gunmod_add( item &gun, item &mod )
     // if chance of success <100% prompt user to continue
     if( roll < 100 ) {
         uilist prompt;
-        prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), mod.tname(),
-                                     gun.tname() );
+        prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), moved_mod.tname(),
+                                     wielded_gun->tname() );
 
         std::vector<std::function<void()>> actions;
 
@@ -208,11 +231,11 @@ void Character::gunmod_add( item &gun, item &mod )
         actions[prompt.ret]();
     }
 
-    const int moves = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
+    const int moves = !has_trait( trait_DEBUG_HS ) ? moved_mod.type->gunmod->install_time : 0;
 
-    assign_activity( player_activity( gunmod_add_activity_actor( moves, tool ) ) );
-    activity.targets.emplace_back( *this, &gun );
-    activity.targets.emplace_back( *this, &mod );
+    assign_activity( gunmod_add_activity_actor( moves, tool ) );
+    activity.targets.emplace_back( wielded_gun );
+    activity.targets.emplace_back( *this, &moved_mod );
     activity.values.push_back( 0 ); // dummy value
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
@@ -241,9 +264,7 @@ bool Character::gunmod_remove( item &gun, item &mod )
     // Removing gunmod takes only half as much time as installing it
     const int moves = has_trait( trait_DEBUG_HS ) ? 0 : mod.type->gunmod->install_time / 2;
     item_location gun_loc = item_location( *this, &gun );
-    assign_activity(
-        player_activity(
-            gunmod_remove_activity_actor( moves, gun_loc, static_cast<int>( gunmod_idx ) ) ) );
+    assign_activity( gunmod_remove_activity_actor( moves, gun_loc, static_cast<int>( gunmod_idx ) ) );
     return true;
 }
 

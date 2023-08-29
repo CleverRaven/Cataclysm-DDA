@@ -11,6 +11,7 @@
 #include "cata_catch.h"
 #include "localized_comparator.h"
 #include "translations.h"
+#include "unicode.h"
 
 TEST_CASE( "utf8_width", "[catacharset]" )
 {
@@ -42,21 +43,25 @@ TEST_CASE( "base64", "[catacharset]" )
 TEST_CASE( "utf8_to_wstr", "[catacharset]" )
 {
     // std::mbstowcs' returning -1 workaround
-    setlocale( LC_ALL, "" );
+    char *result = setlocale( LC_ALL, "" );
+    REQUIRE( result );
     std::string src( u8"Hello, 世界!" );
     std::wstring dest( L"Hello, 世界!" );
     CHECK( utf8_to_wstr( src ) == dest );
-    setlocale( LC_ALL, "C" );
+    result = setlocale( LC_ALL, "C" );
+    REQUIRE( result );
 }
 
 TEST_CASE( "wstr_to_utf8", "[catacharset]" )
 {
     // std::wcstombs' returning -1 workaround
-    setlocale( LC_ALL, "" );
+    char *result = setlocale( LC_ALL, "" );
+    REQUIRE( result );
     std::wstring src( L"Hello, 世界!" );
     std::string dest( u8"Hello, 世界!" );
     CHECK( wstr_to_utf8( src ) == dest );
-    setlocale( LC_ALL, "C" );
+    result = setlocale( LC_ALL, "C" );
+    REQUIRE( result );
 }
 
 TEST_CASE( "localized_compare", "[catacharset]" )
@@ -86,3 +91,69 @@ TEST_CASE( "localized_compare", "[catacharset]" )
     CHECK( localized_compare( std::make_tuple( a, a, a ), std::make_tuple( a, a, B ) ) );
     std::locale::global( std::locale::classic() );
 }
+
+static void check_in_place_func( const std::function<void( char32_t & )> &func,
+                                 char32_t ch, char32_t expected )
+{
+    func( ch );
+    CHECK( ch == expected );
+}
+
+TEST_CASE( "u32_to_lowercase", "[catacharset]" )
+{
+    // Latin
+    check_in_place_func( u32_to_lowercase, U'a', U'a' );
+    check_in_place_func( u32_to_lowercase, U'A', U'a' );
+    check_in_place_func( u32_to_lowercase, U'é', U'é' );
+    check_in_place_func( u32_to_lowercase, U'É', U'é' );
+    check_in_place_func( u32_to_lowercase, U'ō', U'ō' );
+    check_in_place_func( u32_to_lowercase, U'Ō', U'ō' );
+
+    // Cyrillic
+    check_in_place_func( u32_to_lowercase, U'а', U'а' );
+    check_in_place_func( u32_to_lowercase, U'А', U'а' );
+    check_in_place_func( u32_to_lowercase, U'б', U'б' );
+    check_in_place_func( u32_to_lowercase, U'Б', U'б' );
+
+    // CJK
+    check_in_place_func( u32_to_lowercase, U'中', U'中' );
+    check_in_place_func( u32_to_lowercase, U'の', U'の' );
+
+    // Emoji
+    check_in_place_func( u32_to_lowercase, U'😅', U'😅' );
+}
+
+TEST_CASE( "remove_accent", "[catacharset]" )
+{
+    // Latin
+    check_in_place_func( remove_accent, U'o', U'o' );
+    check_in_place_func( remove_accent, U'ô', U'o' );
+    check_in_place_func( remove_accent, U'ö', U'o' );
+    check_in_place_func( remove_accent, U'ō', U'o' );
+
+    // Cyrillic
+    check_in_place_func( remove_accent, U'б', U'б' );
+
+    // CJK
+    check_in_place_func( remove_accent, U'中', U'中' );
+    check_in_place_func( remove_accent, U'の', U'の' );
+
+    // Emoji
+    check_in_place_func( remove_accent, U'😅', U'😅' );
+}
+
+TEST_CASE( "utf8_view", "[catacharset]" )
+{
+    static const std::string str{"Français中文русский"};
+    static const std::vector<char32_t> expected_code_points{
+        0x46, 0x72, 0x61, 0x6e, 0xe7, 0x61, 0x69, 0x73, // Latin
+        0x4e2d, 0x6587, // CJK
+        0x440, 0x443, 0x441, 0x441, 0x43a, 0x438, 0x439 // Cyrillic
+    };
+    std::vector<char32_t> actual_code_points;
+    for( char32_t c : utf8_view( str ) ) {
+        actual_code_points.emplace_back( c );
+    }
+    CHECK( actual_code_points == expected_code_points );
+}
+

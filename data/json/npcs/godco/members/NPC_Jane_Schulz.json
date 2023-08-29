@@ -1,0 +1,198 @@
+[
+  {
+    "type": "talk_topic",
+    "id": [
+      "TALK_GODCO_Jane_2",
+      "TALK_GODCO_Jane_Mood",
+      "TALK_GODCO_Jane_Story",
+      "TALK_GODCO_Jane_Firstmeet",
+      "TALK_GODCO_Jane_Kostas_Personal"
+    ],
+    "responses": [
+      { "text": "How did you get here?", "topic": "TALK_GODCO_Jane_Story" },
+      { "text": "How are things, living here?", "topic": "TALK_GODCO_Jane_Mood" },
+      { "text": "Are the non-joinees treating you fairly?", "topic": "TALK_GODCO_Jane_Community" },
+      { "text": "Need any help?", "topic": "TALK_GODCO_Jane_Help" },
+      { "text": "Could you provide any medical services?", "topic": "TALK_GODCO_Jane_Heal_You" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "TALK_GODCO_Jane_Help", "TALK_GODCO_Jane_Arturo", "TALK_GODCO_Jane_Medicine", "TALK_GODCO_Jane_Kostas" ],
+    "responses": [
+      {
+        "text": "I might have some medicine for the community.  Anything you're missing?",
+        "topic": "TALK_GODCO_Jane_Medicine"
+      },
+      { "text": "Are you taking care of Arturo?", "topic": "TALK_GODCO_Jane_Arturo" },
+      { "text": "How did you get here?", "topic": "TALK_GODCO_Jane_Story" },
+      { "text": "How are things, living here?", "topic": "TALK_GODCO_Jane_Mood" },
+      { "text": "Are the non-joinees treating you fairly?", "topic": "TALK_GODCO_Jane_Community" },
+      { "text": "Do you want to come with me?", "topic": "TALK_GODCO_Jane_Follow" },
+      { "text": "Could you provide any medical services?", "topic": "TALK_GODCO_Jane_Heal_You" },
+      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
+      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jane_1",
+    "dynamic_line": {
+      "npc_has_var": "u_met_godco_jane",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "How can I help you?", "<u_name>, what can I do for you?" ],
+      "no": "Oh, I don't think we've met before.  My name's Jane, I'm the local doctor."
+    },
+    "responses": [
+      {
+        "text": "Nice to meet you too, Jane.",
+        "effect": { "npc_add_var": "u_met_godco_jane", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "npc_has_var": "u_met_godco_jane", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_GODCO_Jane_Firstmeet"
+      },
+      {
+        "text": "Hi, Jane.  Got a minute?",
+        "condition": { "npc_has_var": "u_met_godco_jane", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_GODCO_Jane_2"
+      },
+      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jane_Firstmeet",
+    "dynamic_line": "Always nice to meet a fellow outsider.  How can I help you?",
+    "responses": [ { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jane_2",
+    "dynamic_line": "Sure, I don't see why not.  I've gotta keep my mind off stuff anyway.",
+    "responses": [ { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jane_Mood",
+    "dynamic_line": "I'm doing somewhat well, thanks to my occupation.  The other joinees, well, they're barely scraping by.  It's been tense, and I'm not seeing it change for the better.",
+    "responses": [
+      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jane_Story",
+    "dynamic_line": "I was a physician, one of the more unfortunate people who didn't call in sick during the riots.  I remember it all so clearly, the cuts, bruises, deep bites, then those oily black eyes, caustic yellow blood, spastic fungal growths… it was <swear> gnarly.  Then things descended into all-new levels of fucked up, and some of my coworkers were preparing to just get the hell out.  I followed them.",
+    "responses": [
+      { "text": "Were you evaced'?", "topic": "TALK_GODCO_Jane_Story1" },
+      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jane_Story1",
+    "dynamic_line": "No, not by the government.",
+    "responses": [
+      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jane_Community",
+    "dynamic_line": "No, not really.  I came here after I was split from my friends by a horde of <zombies>.  They let me in after I gave away some food I found.  The church distrusts my profession; I get by helping Kostas.",
+    "responses": [
+      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jane_Help",
+    "dynamic_line": "I really don't, actually.  Even my help is thankless here.  Bandaging cuts, setting bones, disinfecting wounds; who needs all that when they can pray anything away?",
+    "responses": [
+      { "text": "Do you have any work available?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Would you like to buy any supplies?", "topic": "TALK_GODCO_Jane_Medical_Buy" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jane_Arturo",
+    "dynamic_line": "I do what I can, but he's mostly beyond my skillset.  Coke's a <swear> <name_b>, really messes a person up.  Arturo was on it for several years before he tried to get help, now he has auditory hallucinations; hears voices from nowhere.  Traumatic experiences have a harsher effect on recovering addicts, but <the_cataclysm> is worse than anything we've gone through before."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jane_Medicine",
+    "dynamic_line": "Thorazine would go us a long way, but Arturo's having trouble getting it.  They think he's the key and that my help would obstruct him.  Regardless, there's just so much anti-medical sentiment here that I've given up on prescribing anything.",
+    "responses": [
+      { "text": "Would you like to buy any supplies?", "topic": "TALK_GODCO_Jane_Medical_Buy" },
+      { "text": "What about Kostas?  The Church seems to trust him.", "topic": "TALK_GODCO_Jane_Kostas" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jane_Kostas",
+    "dynamic_line": "He's an alright physician, but the Church massively overrates him.  They think his 'natural medicine' can cure anything, like he's a magic medicine man.  God created everything, so what on Earth isn't natural?!",
+    "responses": [ { "text": "How do you feel about him personally?", "topic": "TALK_GODCO_Jane_Kostas_Personal" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jane_Kostas_Personal",
+    "dynamic_line": "Personally, I like him.  We've worked together for a few cases, but most people refuse to let me work; they only want to see him."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jane_Heal_You",
+    "dynamic_line": "Sure, I've got some supplies on hand, just give me a minute and you'll be right as rain.  It'll cost three icons.",
+    "responses": [
+      {
+        "text": "I can pay for quality work.  Here it is.",
+        "condition": { "u_has_items": { "item": "icon", "count": 3 } },
+        "effect": [ { "u_sell_item": "icon", "count": 3 }, "give_aid" ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "I've changed my mind.  Let's talk about something else.", "topic": "TALK_GODCO_Jane_2" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jane_Follow",
+    "dynamic_line": {
+      "npc_has_var": "jane_willing_to_follow",
+      "type": "mission",
+      "context": "meeting",
+      "value": "yes",
+      "yes": "I'm up for it, Arturo's got enough medicine for two-and-half months.  It's thankless work around here, so let's blow this joint.",
+      "no": "I'd like to leave, but I've got to take care of Arturo.  He's always low or nearly out of antipsychotics, so I do what I can."
+    },
+    "responses": [
+      {
+        "text": "Alright.  Wanna chat?",
+        "condition": { "not": { "npc_has_var": "jane_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_GODCO_Jane_2"
+      },
+      {
+        "text": "Let's go.",
+        "condition": { "npc_has_var": "jane_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" },
+        "effect": "follow",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Jane_Medical_Buy",
+    "dynamic_line": "I could always use more bandages, disinfectant, and the like.  What do you have?",
+    "repeat_responses": {
+      "for_item": [ "adhesive_bandages", "antibiotics", "arm_splint", "leg_splint", "bandages", "disinfectant", "medical_gauze" ],
+      "response": { "text": "I have <topic_item>.", "topic": "TALK_DELIVER_ASK" }
+    },
+    "responses": [
+      { "text": "I don't have anything right now.  Lets talk about something else.", "topic": "TALK_GODCO_Jane_2" },
+      { "text": "I don't have anything right now.  I'll come back with something later.", "topic": "TALK_DONE" }
+    ]
+  }
+]

@@ -1,0 +1,365 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "7x15_mobile_home_0",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "      ||ooo||  ",
+        "      |41O3F|  ",
+        "      o1    o  ",
+        "      o5  hho  ",
+        "      |   ff|  ",
+        "      *  Yhh|  ",
+        "      |l ||||  ",
+        "      oE +_9|  ",
+        "      |  |tS|  ",
+        "      ||+||||  ",
+        "      |I T s|  ",
+        "      |E  @@|  ",
+        "      |   @@|  ",
+        "      |Dd  s|  ",
+        "      ||ooo||  "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "terrain": { "|": "t_wall_w", "_": "t_linoleum_gray" },
+      "place_nested": [
+        { "chunks": [ [ "4x6_porch_0", 1 ], [ "4x6_porch_1", 2 ], [ "4x6_porch_2", 1 ], [ "4x6_porch_3", 1 ] ], "x": 0, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "7x15_mobile_home_1",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "      ||ooo||  ",
+        "      |24O4F|  ",
+        "      o3    o  ",
+        "      o5   Ho  ",
+        "      |Y hfH|  ",
+        "      *  hfH|  ",
+        "      |L ||||  ",
+        "      o  +_9|  ",
+        "      |y |tS|  ",
+        "      ||+||||  ",
+        "      |R s@@|  ",
+        "      |d  @@|  ",
+        "      |  h  |  ",
+        "      |yrrrT|  ",
+        "      ||ooo||  "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "terrain": { "|": "t_wall_w", "_": "t_linoleum_gray" },
+      "place_nested": [
+        { "chunks": [ [ "4x6_porch_0", 1 ], [ "4x6_porch_1", 2 ], [ "4x6_porch_2", 1 ], [ "4x6_porch_3", 1 ] ], "x": 0, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "7x15_mobile_home_2",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "      ||ooo||  ",
+        "      |13O4F|  ",
+        "      o2    o  ",
+        "      o5   yo  ",
+        "      |L  fh|  ",
+        "      *   fh|  ",
+        "      |E ||||  ",
+        "      o  +_9|  ",
+        "      |Y |tS|  ",
+        "      ||+||||  ",
+        "      |I   R|  ",
+        "      |@@  x|  ",
+        "      |@@  x|  ",
+        "      |I T y|  ",
+        "      ||ooo||  "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "terrain": { "|": "t_wall_w", "_": "t_linoleum_gray" },
+      "place_loot": [ { "item": "television", "x": 11, "y": [ 11, 12 ] } ],
+      "place_nested": [
+        { "chunks": [ [ "4x6_porch_0", 1 ], [ "4x6_porch_1", 2 ], [ "4x6_porch_2", 1 ], [ "4x6_porch_3", 1 ] ], "x": 0, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "7x15_mobile_home_3",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "      ||ooo||  ",
+        "      |xy  H|  ",
+        "      ox  lH|  ",
+        "      |x E H|  ",
+        "      |L ||||  ",
+        "      *  +_9|  ",
+        "      |Y |tS|  ",
+        "      |2 ||||  ",
+        "      oO   6o  ",
+        "      |F 153|  ",
+        "      ||+||||  ",
+        "      |T   I|  ",
+        "      |D  @@|  ",
+        "      |RE  I|  ",
+        "      ||ooo||  "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "terrain": { "|": "t_wall_w", "_": "t_linoleum_gray" },
+      "place_loot": [ { "item": "television", "x": 7, "y": 2 } ],
+      "place_nested": [
+        { "chunks": [ [ "4x6_porch_0", 1 ], [ "4x6_porch_1", 2 ], [ "4x6_porch_2", 1 ], [ "4x6_porch_3", 1 ] ], "x": 0, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "7x15_mobile_home_4",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "      ||ooo||  ",
+        "      |HlETR|  ",
+        "      oH   R|  ",
+        "      |y Y R|  ",
+        "      |  ||||  ",
+        "      *  +_9|  ",
+        "      |L |tS|  ",
+        "      |1 ||||  ",
+        "      oO   Ao  ",
+        "      |F 352|  ",
+        "      ||+||||  ",
+        "      |y s@s|  ",
+        "      |b  @ |  ",
+        "      |d   E|  ",
+        "      ||ooo||  "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "terrain": { "|": "t_wall_w", "_": "t_linoleum_gray" },
+      "place_nested": [
+        { "chunks": [ [ "4x6_porch_0", 1 ], [ "4x6_porch_1", 2 ], [ "4x6_porch_2", 1 ], [ "4x6_porch_3", 1 ] ], "x": 0, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "4x6_porch_0",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "  ....",
+        "      ",
+        "      "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { ".": "t_region_soil" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "4x6_porch_1",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "      ",
+        "      ",
+        "    __",
+        "  ..__",
+        "    __",
+        "      "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "_": "t_concrete", ".": "t_region_soil" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "4x6_porch_2",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "    ##",
+        "    ||",
+        "    |n",
+        "  ..__",
+        "    |h",
+        "    ||"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": {
+        "|": "t_railing",
+        "h": "t_floor_noroof",
+        "n": "t_floor_noroof",
+        "_": "t_floor_noroof",
+        ".": "t_region_soil",
+        "#": "t_region_shrub_decorative"
+      },
+      "furniture": { "h": [ "f_camp_chair", "f_null" ], "n": [ "f_tourist_table", "f_null" ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "4x6_porch_3",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  ....",
+        "   #|_",
+        "   #|_",
+        "   #|_",
+        "   #||",
+        "   ###"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "|": "t_railing", "_": "t_floor_noroof", "#": "t_region_shrub_decorative", ".": "t_region_soil" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "trailer_fence_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        " |        @@@@@@@@@@@@| ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |                    | ",
+        " |||||||||||||||||||||| ",
+        "                        "
+      ],
+      "terrain": { "|": "t_splitrail_fence" },
+      "furniture": { "@": "f_hedge_short" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "trailer_fence_2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |                      ",
+        " |           |          ",
+        " |           |          ",
+        " |||||||||||||          ",
+        "                        "
+      ],
+      "terrain": { "|": "t_privacy_fence" },
+      "furniture": { "@": "f_hedge_short" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x8_concrete",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " ______ ",
+        " ______ ",
+        " ______ ",
+        " ______ ",
+        " ______ ",
+        " ______ ",
+        " ______ ",
+        " ______ "
+      ],
+      "terrain": { "_": "t_concrete" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_tree",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "T" ],
+      "terrain": { "T": "t_region_tree" },
+      "flags": [ "ALLOW_TERRAIN_UNDER_ITEMS", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_clothesdryer",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "u" ],
+      "furniture": { "u": "f_rotary_clothesline" },
+      "items": { "u": { "item": "allclothes", "chance": 33, "repeat": [ 1, 3 ] } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_ITEMS", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

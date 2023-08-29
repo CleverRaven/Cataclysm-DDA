@@ -72,7 +72,7 @@
       "W": "t_wall_w",
       "-": "t_floor",
       "w": "t_window_domestic",
-      "*": "t_open_air",
+      " ": "t_open_air",
       "=": "t_flat_roof",
       "R": "t_flat_roof",
       "D": "t_flat_roof",

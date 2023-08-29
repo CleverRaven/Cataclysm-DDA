@@ -6,6 +6,12 @@
     "components": [ [ [ "duct_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
   },
   {
+    "id": "adhesive_cordage",
+    "type": "requirement",
+    "//": "Materials used for joining or tying with strings (typically non-metallic) parts. For use with improvised or simple items.",
+    "components": [ [ [ "adhesive", 1, "LIST" ], [ "cordage", 1, "LIST" ] ] ]
+  },
+  {
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",
@@ -46,6 +52,23 @@
     "type": "requirement",
     "//": "Fibrous plant material for basket weaving or rope making.",
     "components": [ [ [ "withered", 2 ], [ "straw_pile", 2 ], [ "tanbark", 1 ], [ "willowbark", 1 ], [ "birchbark", 1 ] ] ]
+  },
+  {
+    "id": "cordage_fishing",
+    "type": "requirement",
+    "//": " makes 540cm of 10 lbish fishing line with little time spent braiding, thread requires to much work and sinew unglues in water unless threated",
+    "components": [
+      [
+        [ "string_36", 6 ],
+        [ "cordage_36", 6 ],
+        [ "cordage_36_leather", 6 ],
+        [ "string_6", 36 ],
+        [ "cordage_6", 36 ],
+        [ "cordage_6_leather", 36 ],
+        [ "thread_nomex", 108 ],
+        [ "thread_kevlar", 36 ]
+      ]
+    ]
   },
   {
     "id": "cordage",
@@ -101,21 +124,31 @@
     "//": "Materials used for crafting or repairing clothing or sheeting, etc.",
     "components": [
       [
-        [ "rag", 1 ],
+        [ "cotton_patchwork", 8 ],
         [ "sheet_cotton_patchwork", 1 ],
         [ "sheet_cotton", 1 ],
         [ "sheet_lycra", 1 ],
-        [ "lycra_patch", 1 ],
+        [ "sheet_lycra_patchwork", 1 ],
+        [ "lycra_patch", 8 ],
         [ "nylon", 1 ],
         [ "sheet_nylon_patchwork", 1 ],
         [ "sheet_nylon", 1 ],
-        [ "leather", 1 ],
-        [ "nomex", 1 ],
+        [ "leather", 8 ],
+        [ "nomex", 8 ],
         [ "sheet_nomex_patchwork", 1 ],
         [ "sheet_nomex", 1 ],
-        [ "neoprene", 1 ],
-        [ "sheet_neoprene", 1 ]
+        [ "neoprene", 8 ],
+        [ "sheet_neoprene", 1 ],
+        [ "sheet_neoprene_patchwork", 1 ]
       ]
+    ]
+  },
+  {
+    "id": "fabric_standard_small",
+    "type": "requirement",
+    "//": "Materials used for crafting or repairing clothing or sheeting, etc.",
+    "components": [
+      [ [ "cotton_patchwork", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "leather", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ]
     ]
   },
   {
@@ -124,19 +157,26 @@
     "//": "Materials used for crafting or repairing woven fabrics",
     "components": [
       [
-        [ "rag", 1 ],
+        [ "cotton_patchwork", 8 ],
         [ "sheet_cotton_patchwork", 1 ],
         [ "sheet_cotton", 1 ],
-        [ "lycra_patch", 1 ],
+        [ "lycra_patch", 8 ],
+        [ "sheet_lycra_patchwork", 1 ],
         [ "sheet_lycra", 1 ],
-        [ "nylon", 1 ],
+        [ "nylon", 8 ],
         [ "sheet_nylon_patchwork", 1 ],
         [ "sheet_nylon", 1 ],
-        [ "nomex", 1 ],
+        [ "nomex", 8 ],
         [ "sheet_nomex_patchwork", 1 ],
         [ "sheet_nomex", 1 ]
       ]
     ]
+  },
+  {
+    "id": "fabric_standard_permeable_small",
+    "type": "requirement",
+    "//": "Materials used for crafting or repairing woven fabrics",
+    "components": [ [ [ "cotton_patchwork", 1 ], [ "lycra_patch", 8 ], [ "nylon", 8 ], [ "nomex", 8 ] ] ]
   },
   {
     "id": "fabric_standard_nostretch",
@@ -144,91 +184,126 @@
     "//": "Materials used for crafting or repairing non-form fitting clothing",
     "components": [
       [
-        [ "rag", 1 ],
+        [ "cotton_patchwork", 8 ],
         [ "sheet_cotton_patchwork", 1 ],
         [ "sheet_cotton", 1 ],
-        [ "nylon", 1 ],
+        [ "nylon", 8 ],
         [ "sheet_nylon_patchwork", 1 ],
         [ "sheet_nylon", 1 ],
-        [ "nomex", 1 ],
+        [ "nomex", 8 ],
         [ "sheet_nomex_patchwork", 1 ],
         [ "sheet_nomex", 1 ]
       ]
     ]
   },
   {
+    "id": "fabric_standard_nostretch_small",
+    "type": "requirement",
+    "//": "Materials used for crafting or repairing non-form fitting clothing",
+    "components": [ [ [ "cotton_patchwork", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
+  },
+  {
     "id": "fabric_felt",
     "type": "requirement",
     "//": "Materials used for crafting felt clothing",
-    "components": [ [ [ "felt_patch", 1 ], [ "sheet_felt_patchwork", 1 ], [ "sheet_felt", 1 ] ] ]
+    "components": [ [ [ "felt_patch", 8 ], [ "sheet_felt_patchwork", 1 ], [ "sheet_felt", 1 ] ] ]
   },
   {
     "id": "fabric_fauxfur",
     "type": "requirement",
     "//": "Materials used for faux fur clothing",
-    "components": [ [ [ "faux_fur", 1 ], [ "sheet_faux_fur_patchwork", 1 ], [ "sheet_faux_fur", 1 ] ] ]
+    "components": [ [ [ "faux_fur", 8 ], [ "sheet_faux_fur_patchwork", 1 ], [ "sheet_faux_fur", 1 ] ] ]
   },
   {
     "id": "fabric_fur",
     "type": "requirement",
     "//": "Materials used for crafting fur clothing",
-    "components": [ [ [ "fur", 1 ] ] ]
+    "components": [ [ [ "fur", 8 ], [ "sheet_fur_patchwork", 1 ], [ "tanned_pelt", 1 ] ] ]
   },
   {
     "id": "fabric_fur_pelt",
     "type": "requirement",
-    "//": "Materials used for crafting fur clothing, when tanned pelts are available it seems to roughly be a 1:6 ratio",
-    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ]
+    "//": "Materials used for crafting fur clothing",
+    "components": [ [ [ "fur", 8 ], [ "sheet_fur_patchwork", 1 ], [ "tanned_pelt", 1 ] ] ]
   },
   {
     "id": "fabric_leather_hide",
     "type": "requirement",
-    "//": "Materials used for crafting leather clothing, when tanned hides are available it seems to roughly be a 1:6 ratio",
-    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
+    "//": "Materials used for crafting leather clothing.",
+    "components": [ [ [ "leather", 8 ], [ "sheet_leather_patchwork", 1 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "id": "fabric_leather_fur_hide",
     "type": "requirement",
-    "//": "Materials used for crafting leather clothing where fur is or should be an option (can be scraped off with a cutting tool for example), when tanned hides/pelts are available it seems to roughly be a 1:6 ratio",
-    "components": [ [ [ "leather", 6 ], [ "fur", 6 ], [ "tanned_hide", 1 ], [ "tanned_pelt", 1 ] ] ]
+    "//": "Materials used for crafting leather clothing where fur is or should be an option (can be scraped off with a cutting tool for example), when tanned hides/pelts are available it seems to roughly be a 1:8 ratio",
+    "components": [
+      [
+        [ "leather", 8 ],
+        [ "fur", 8 ],
+        [ "tanned_hide", 1 ],
+        [ "tanned_pelt", 1 ],
+        [ "sheet_leather_patchwork", 1 ],
+        [ "sheet_fur_patchwork", 1 ]
+      ]
+    ]
   },
   {
     "id": "fabric_nomex",
     "type": "requirement",
     "//": "Materials used for crafting Nomex clothing",
-    "components": [ [ [ "nomex", 1 ], [ "sheet_nomex_patchwork", 1 ], [ "sheet_nomex", 1 ] ] ]
+    "components": [ [ [ "nomex", 8 ], [ "sheet_nomex_patchwork", 1 ], [ "sheet_nomex", 1 ] ] ]
   },
   {
     "id": "fabric_nylon",
     "type": "requirement",
     "//": "Materials used for crafting nylon clothing",
-    "components": [ [ [ "nylon", 1 ], [ "sheet_nylon_patchwork", 1 ], [ "sheet_nylon", 1 ] ] ]
+    "components": [ [ [ "nylon", 8 ], [ "sheet_nylon_patchwork", 1 ], [ "sheet_nylon", 1 ] ] ]
   },
   {
     "id": "fabric_neoprene",
     "type": "requirement",
-    "//": "Materials used for crafting fur clothing",
-    "components": [ [ [ "neoprene", 1 ], [ "sheet_neoprene_patchwork", 1 ], [ "sheet_neoprene", 1 ] ] ]
+    "//": "Materials used for crafting neoprene clothing",
+    "components": [ [ [ "neoprene", 8 ], [ "sheet_neoprene_patchwork", 1 ], [ "sheet_neoprene", 1 ] ] ]
   },
   {
     "id": "fabric_lycra",
     "type": "requirement",
     "//": "Materials used for crafting lycra clothing",
-    "components": [ [ [ "lycra_patch", 1 ], [ "sheet_lycra", 1 ], [ "sheet_lycra_patchwork", 1 ] ] ]
+    "components": [ [ [ "lycra_patch", 8 ], [ "sheet_lycra", 1 ], [ "sheet_lycra_patchwork", 1 ] ] ]
   },
   {
     "id": "filament",
     "type": "requirement",
-    "//": "Materials for use when sewing items",
+    "//": "Materials for use when sewing items. 10 inches of thread, sinew, fiber, canvas or yarn, or 12 inches of nomex and kevlar thread per unit.",
     "components": [
-      [ [ "thread", 1 ], [ "sinew", 1 ], [ "plant_fibre", 1 ], [ "yarn", 1 ], [ "thread_nomex", 1 ], [ "thread_kevlar", 1 ] ]
+      [
+        [ "thread", 1 ],
+        [ "sinew", 1 ],
+        [ "plant_fibre", 1 ],
+        [ "yarn", 1 ],
+        [ "thread_canvas", 1 ],
+        [ "thread_nomex", 2 ],
+        [ "thread_kevlar", 2 ]
+      ]
     ]
+  },
+  {
+    "id": "advanced_filament",
+    "type": "requirement",
+    "//": "each of these equals 12 inches of thread for use when sewing items requiring advanced thread.",
+    "components": [ [ [ "thread_nomex", 2 ], [ "thread_kevlar", 2 ], [ "thread_canvas", 2 ] ] ]
   },
   {
     "id": "filament_durable",
     "type": "requirement",
-    "//": "Materials for use when sewing high end items, restricted to only the aramid threads.",
-    "components": [ [ [ "thread_kevlar", 1 ], [ "thread_nomex", 1 ] ] ]
+    "//": "Materials for use when sewing high end items, restricted to only the aramid threads and canvas thread.  Canvas thread is 2x the length of aramid thread and is reasonably sturdy, but will be double-stitched anyways to be on the safe side.",
+    "components": [ [ [ "thread_kevlar", 2 ], [ "thread_nomex", 2 ], [ "thread_canvas", 2 ] ] ]
+  },
+  {
+    "id": "filament_canvas",
+    "type": "requirement",
+    "//": "Thread for sewing canvas.  Unlike filament_durable it's ok to use a single 10 inch canvas thread for this, but half-length aramid threads are still double.  Kept separate from filament_durable because canvas thread is doubled up for those to alleviate it being a bit weaker than kevlar threading.",
+    "components": [ [ [ "thread_canvas", 1 ], [ "thread_nomex", 2 ], [ "thread_kevlar", 2 ] ] ]
   },
   {
     "id": "glazing",
@@ -258,7 +333,7 @@
     "id": "rope_natural_short",
     "type": "requirement",
     "//": "Materials used for lashing, when choice of makeshift rope is sensible, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ], [ "seatbelt", 1 ] ] ]
   },
   {
     "id": "rope_any_short",
@@ -276,7 +351,7 @@
     "id": "rope_superior_short",
     "type": "requirement",
     "//": "Materials used for lashing, when extra durability and/or flexibility is needed, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "seatbelt", 1 ] ] ]
   },
   {
     "id": "steel_standard",
@@ -318,7 +393,7 @@
     "id": "waterproofing",
     "type": "requirement",
     "//": "Materials for waterproofing leather and wooden items.",
-    "components": [ [ [ "wax", 1 ], [ "pine_bough", 5 ] ] ]
+    "components": [ [ [ "wax", 1 ], [ "pine_resin", 5 ] ] ]
   },
   {
     "id": "fletching",
@@ -341,7 +416,7 @@
     "id": "weights",
     "type": "requirement",
     "//": "Materials used for adding weight to weapons and to other items. The materials should be malleable, ductile and dense.",
-    "components": [ [ [ "lead", 5 ], [ "silver_small", 5 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
+    "components": [ [ [ "lead", 3 ], [ "silver_small", 3 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
   },
   {
     "id": "plastics",
@@ -358,14 +433,23 @@
   {
     "id": "solar_panel_v2",
     "type": "requirement",
-    "//": "Materials used for repairing upgraded solar panels",
-    "components": [ [ [ "solar_cell", 5 ] ], [ [ "cable", 8 ] ], [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ] ]
+    "//": "Materials used for advanced solar panels",
+    "components": [ [ [ "solar_cell_v2", 3 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "id": "paint",
     "type": "requirement",
     "//": "Materials used for painting something of any color",
-    "components": [ [ [ "r_paint", 1 ], [ "b_paint", 1 ], [ "w_paint", 1 ], [ "g_paint", 1 ], [ "p_paint", 1 ], [ "y_paint", 1 ] ] ]
+    "components": [
+      [
+        [ "paint_red", 1 ],
+        [ "paint_blue", 1 ],
+        [ "paint_white", 1 ],
+        [ "paint_green", 1 ],
+        [ "paint_purple", 1 ],
+        [ "paint_yellow", 1 ]
+      ]
+    ]
   },
   {
     "id": "shoe_rubber",
@@ -402,5 +486,32 @@
     "type": "requirement",
     "//": "Materials for use when forging items from steel",
     "components": [ [ [ "hc_steel_lump", 1 ], [ "hc_steel_chunk", 4 ] ] ]
+  },
+  {
+    "id": "daub_fill",
+    "type": "requirement",
+    "//": "Materials for use when building out of animal dung",
+    "components": [
+      [
+        [ "material_quicklime", 4 ],
+        [ "material_limestone", 4 ],
+        [ "clay_lump", 4 ],
+        [ "feces_manure", 2 ],
+        [ "feces_dog", 2 ],
+        [ "feces_cow", 1 ]
+      ],
+      [ [ "pebble", 10 ], [ "material_sand", 10 ] ]
+    ]
+  },
+  {
+    "id": "carbon",
+    "type": "requirement",
+    "//": "Carbon resources, used for case hardening.",
+    "components": [ [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
+  },
+  {
+    "id": "any_fresh_water",
+    "type": "requirement",
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   }
 ]

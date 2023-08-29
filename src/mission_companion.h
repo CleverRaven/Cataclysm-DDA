@@ -5,13 +5,14 @@
 #include <iosfwd>
 #include <map>
 #include <new>
+#include <optional>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "coordinates.h"
+#include "mapgendata.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -39,6 +40,7 @@ enum mission_kind : int {
     //  Jobs assigned to companions for external parties
     Scavenging_Patrol_Job,
     Scavenging_Raid_Job,
+    Hospital_Raid_Job,
     Menial_Job,
     Carpentry_Job,
     Forage_Job,
@@ -46,6 +48,7 @@ enum mission_kind : int {
 
     //  Faction camp tasks
     Camp_Distribute_Food,  //  Direct action, not serialized
+    Camp_Determine_Leadership,
     Camp_Hide_Mission,     //  Direct action, not serialized
     Camp_Reveal_Mission,   //  Direct action, not serialized
     Camp_Assign_Jobs,
@@ -72,7 +75,14 @@ enum mission_kind : int {
     Camp_Chop_Shop,  //  Obsolete removed during 0.E
     Camp_Plow,
     Camp_Plant,
-    Camp_Harvest
+    Camp_Harvest,
+
+    last_mission_kind
+};
+
+template<>
+struct enum_traits<mission_kind> {
+    static constexpr mission_kind last = mission_kind::last_mission_kind;
 };
 
 //  Operation to get translated UI strings for the corresponding misison
@@ -91,13 +101,15 @@ std::string action_of( mission_kind kind );
 struct mission_id {
     mission_kind id = No_Mission;
     std::string parameters;
-    cata::optional<point> dir;
+    mapgen_arguments mapgen_args;
+    std::optional<point> dir;
+
+    void serialize( JsonOut & ) const;
+    void deserialize( const JsonValue & );
 };
 
-bool is_equal( mission_id first, mission_id second );
+bool is_equal( const mission_id &first, const mission_id &second );
 void reset_miss_id( mission_id &miss_id );
-std::string string_of( mission_id miss_id );
-mission_id mission_id_of( std::string str );
 
 //  ret determines whether the mission is for the start of a mission or the return of the companion(s).
 //  Used in the UI mission generation process to distinguish active missions from available ones.
@@ -106,7 +118,7 @@ struct ui_mission_id {
     bool ret;
 };
 
-bool is_equal( ui_mission_id first, ui_mission_id second );
+bool is_equal( const ui_mission_id &first, const ui_mission_id &second );
 
 struct mission_entry {
     ui_mission_id id;
@@ -182,6 +194,7 @@ void field_plant( npc &p, const std::string &place );
 void field_harvest( npc &p, const std::string &place );
 bool scavenging_patrol_return( npc &p );
 bool scavenging_raid_return( npc &p );
+bool hospital_raid_return( npc &p );
 bool labor_return( npc &p );
 bool carpenter_return( npc &p );
 bool forage_return( npc &p );
@@ -219,16 +232,16 @@ std::vector<comp_rank> companion_rank( const comp_list &available, bool adj = tr
 npc_ptr companion_choose( const std::map<skill_id, int> &required_skills = {}, bool silent_failure =
                               false );
 npc_ptr companion_choose_return( const npc &p, const mission_id &miss_id,
-                                 const time_point &deadline, const bool ignore_parameters = false );
+                                 const time_point &deadline, bool ignore_parameters = false );
 npc_ptr companion_choose_return( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                                  const mission_id &miss_id, const time_point &deadline,
-                                 const bool by_mission = true, const bool ignore_parameters = false );
+                                 bool by_mission = true, bool ignore_parameters = false );
 npc_ptr companion_choose_return( comp_list &npc_list );
 
 //Return NPC to your party
 void companion_return( npc &comp );
 //Smash stuff, steal valuables, and change map marker
-std::set<item> loot_building( const tripoint_abs_omt &site, oter_str_id looted_replacement );
+std::set<item> loot_building( const tripoint_abs_omt &site, const oter_str_id &looted_replacement );
 
 } // namespace talk_function
 #endif // CATA_SRC_MISSION_COMPANION_H

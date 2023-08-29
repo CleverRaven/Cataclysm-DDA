@@ -1,11 +1,5 @@
 [
   {
-    "type": "palette",
-    "id": "fbmg_2_common_palette",
-    "terrain": { "p": "t_palisade", "P": "t_palisade_pulley", "G": "t_palisade_gate", ";": "t_dirt", ",": "t_dirtfloor" },
-    "furniture": { "c": "f_counter", "I": "f_rack", ";": "f_clear" }
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmg_2",
@@ -76,6 +70,7 @@
         "        ",
         "        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbmg_2_common_palette" ]
     }
   },
@@ -101,6 +96,7 @@
         "        ",
         "        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbmg_2_common_palette" ]
     }
   },
@@ -140,6 +136,7 @@
         "        ",
         "        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbmg_2_common_palette" ]
     }
   },
@@ -179,6 +176,7 @@
         "        ",
         "        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbmg_2_common_palette" ]
     }
   },

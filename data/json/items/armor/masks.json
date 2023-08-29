@@ -4,7 +4,7 @@
     "type": "ARMOR",
     "name": { "str": "balaclava" },
     "description": "A warm covering that protects the head and face from the cold.",
-    "weight": "40 g",
+    "weight": "70 g",
     "volume": "250 ml",
     "price": 3500,
     "price_postapoc": 50,
@@ -12,15 +12,15 @@
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "dark_gray",
-    "warmth": 30,
+    "warmth": 15,
     "material_thickness": 0.5,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "head", "mouth" ] } ]
   },
   {
     "id": "balaclava_skull",
     "type": "ARMOR",
-    "repairs_like": "balclava",
     "copy-from": "balclava",
     "name": { "str": "skull balaclava" },
     "description": "A skull-print balaclava covering the head and face, commonly used by motorcycle riders and as part of a costume.",
@@ -31,7 +31,7 @@
     "id": "balaclava_cut_resistant",
     "type": "ARMOR",
     "name": { "str": "cut-resistant balaclava" },
-    "description": "A face covering garment that helps protect from slashes and cuts, in addition to the cold.",
+    "description": "A face covering that helps protect from slashes and cuts, in addition to the cold.",
     "copy-from": "balclava",
     "price": 7600,
     "material": [ "kevlar" ]
@@ -42,7 +42,7 @@
     "category": "clothing",
     "name": { "str": "bandana" },
     "description": "A cotton bandana, worn over the mouth for warmth and minor protection from dust and other contaminants.",
-    "weight": "42 g",
+    "weight": "35 g",
     "volume": "250 ml",
     "price": 600,
     "price_postapoc": 10,
@@ -58,12 +58,11 @@
     "color": "blue",
     "warmth": 5,
     "material_thickness": 0.1,
-    "environmental_protection": 1,
+    "environmental_protection": 2,
     "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "mouth" ] } ]
   },
   {
     "id": "bondage_mask",
-    "repairs_like": "mask_gas",
     "type": "ARMOR",
     "name": { "str": "bondage mask" },
     "description": "A tight mask made of black leather.  The eyes and mouth can be closed using zippers.",
@@ -76,7 +75,7 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "dark_gray",
-    "warmth": 30,
+    "warmth": 10,
     "material_thickness": 0.5,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
@@ -105,28 +104,47 @@
   },
   {
     "id": "fencing_mask",
-    "repairs_like": "chainmail_hood",
     "type": "ARMOR",
     "name": { "str": "fencing mask" },
     "description": "A tough hood made of steel mesh used by fencers.",
     "weight": "520 g",
     "volume": "1250 ml",
     "price": 3500,
-    "price_postapoc": 250,
-    "material": [ "cotton", "steel" ],
+    "price_postapoc": 300,
+    "material": [ "cotton", "mc_steel" ],
     "symbol": "[",
     "looks_like": "balclava",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "head", "eyes" ], "coverage": 90, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "coverage": 90, "encumbrance": 0 }
+      {
+        "covers": [ "head" ],
+        "coverage": 90,
+        "encumbrance": 12,
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "mc_steel", "covered_by_mat": 90, "thickness": 1.5 }
+        ]
+      },
+      {
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "breathability": "GOOD"
+      },
+      {
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 3,
+        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "breathability": "GOOD"
+      }
     ],
-    "warmth": 10,
-    "material_thickness": 1
+    "flags": [ "STURDY", "PADDED" ],
+    "warmth": 15
   },
   {
     "id": "mask_bal",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "ballistic mask" },
@@ -143,12 +161,11 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "PADDED" ],
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
   {
     "id": "mask_dust",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "dust mask" },
     "description": "A simple piece of cotton that straps over the mouth.  Provides a small amount of protection from airborne illness and dust.",
@@ -163,8 +180,9 @@
     "color": "white",
     "warmth": 5,
     "material_thickness": 0.1,
-    "environmental_protection": 2,
-    "armor": [ { "encumbrance": 8, "coverage": 100, "covers": [ "mouth" ] } ],
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "mouth" ] } ],
     "variant_type": "generic",
     "variants": [
       {
@@ -178,6 +196,7 @@
         "id": "blue_mask_dust",
         "name": { "str": "blue dust mask" },
         "description": "It's colored light blue.",
+        "color": "blue",
         "weight": 25,
         "append": true
       },
@@ -185,55 +204,65 @@
         "id": "black_mask_dust",
         "name": { "str": "black dust mask" },
         "description": "It's colored black.",
+        "color": "dark_gray",
         "weight": 15,
         "append": true
       },
       {
         "id": "flower_mask_dust",
         "name": { "str": "flower dust mask" },
-        "description": "It's yellow and decorated in a pattern full of flowers.",
+        "description": "It's yellow and decorated with a flower pattern.",
+        "color": "yellow",
         "weight": 6,
         "append": true
       },
       {
         "id": "camo_mask_dust",
         "name": { "str": "camo dust mask" },
-        "description": "It's painted in camouflage dye.",
+        "description": "It's printed with a camouflage pattern.",
+        "color": "green",
         "weight": 4,
         "append": true
       },
       {
         "id": "mustache_mask_dust",
         "name": { "str": "mustache dust mask" },
-        "description": "It has a large mustache painted on it.",
+        "description": "It has a large mustache printed on it.",
+        "symbol": "w",
+        "color": "dark_gray",
         "weight": 2,
         "append": true
       },
       {
         "id": "skull_mask_dust",
         "name": { "str": "skull dust mask" },
-        "description": "It's black and with a skull mouth decoration.",
+        "description": "It's black, with a skull mouth design.",
+        "symbol": "S",
+        "color": "dark_gray",
         "weight": 2,
         "append": true
       },
       {
         "id": "cartoon_mask_dust",
         "name": { "str": "cartoon dust mask" },
-        "description": "It has cartoon characters painted on it.",
+        "description": "It has cartoon characters printed on it.",
+        "color": "light_red",
         "weight": 2,
         "append": true
       },
       {
         "id": "steampunk_mask_dust",
         "name": { "str": "steampunk dust mask" },
-        "description": "It's colored black and with a steampunk design.  Very fashionable.",
+        "description": "It's colored black, with a steampunk design.  Very fashionable.",
+        "color": "dark_gray",
         "weight": 2,
         "append": true
       },
       {
         "id": "flag_mask_dust",
         "name": { "str": "flag dust mask" },
-        "description": "It's embroidered with the pattern of an American flag.  Perfect for a real patriot.",
+        "description": "It's printed with an American flag pattern.  Perfect for a real patriot.",
+        "color": "light_red",
         "weight": 2,
         "append": true
       }
@@ -241,7 +270,6 @@
   },
   {
     "id": "mask_guy_fawkes",
-    "repairs_like": "mask_hockey",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "Guy Fawkes mask" },
@@ -263,7 +291,6 @@
   },
   {
     "id": "mask_hockey",
-    "repairs_like": "mask_gas",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "hockey mask" },
@@ -282,13 +309,13 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
+    "armor": [ { "encumbrance": 12, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
   },
   {
     "id": "mask_rioter",
     "type": "ARMOR",
     "name": { "str": "rioter mask" },
-    "description": "This is a t-shirt with sleeves tied on the back.  These are usually worn by rioters to hide their identity.",
+    "description": "A t-shirt with the sleeves tied behind the back of one's head.  These are usually worn by rioters to hide their identity.",
     "weight": "123 g",
     "volume": "500 ml",
     "price": 800,
@@ -298,17 +325,15 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "white",
-    "warmth": 10,
+    "warmth": 8,
     "material_thickness": 0.5,
     "environmental_protection": 1,
-    "flags": [ "HELMET_COMPAT" ],
     "armor": [ { "encumbrance": 8, "coverage": 90, "covers": [ "head", "mouth" ] } ]
   },
   {
     "id": "mask_skull",
     "type": "ARMOR",
     "category": "armor",
-    "repairs_like": "mask_hockey",
     "name": { "str": "skull mask" },
     "description": "A plastic skull mask that covers the face.  Spooky.",
     "weight": "50 g",
@@ -340,8 +365,9 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "white",
-    "warmth": 8,
+    "warmth": 10,
     "material_thickness": 0.1,
+    "environmental_protection": 1,
     "flags": [ "OUTER" ],
     "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "mouth" ] } ]
   }

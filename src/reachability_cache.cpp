@@ -171,7 +171,7 @@ bool reachability_cache<Horizontal, Types...>::has_potential_los(
         dirty_any = false;
     }
 
-    point dp = ( to - from );
+    point dp = to - from;
     int d = std::abs( dp.x ) + std::abs( dp.y );
 
     bool south = to.y > from.y;
@@ -187,12 +187,12 @@ inline int reachability_cache<Horizontal, Params...>::dirty_idx( const point &p 
     return ( p.x / SEEX ) * MAPSIZE + p.y / SEEY;
 }
 
-static inline bool transp( const level_cache &lc, const point &p )
+static bool transp( const level_cache &lc, const point &p )
 {
     return lc.transparent_cache_wo_fields[p.x][p.y];
 }
 
-static inline int max3( int arg,  int arg2, int arg3 )
+static int max3( int arg,  int arg2, int arg3 )
 {
     return std::max( std::max( arg, arg2 ), arg3 );
 }

@@ -1,4 +1,6 @@
-# Armor Overview
+# Armor Balance And Design
+
+## Armor Overview
 Armor in cataclysm has varying levels of complexity to attempt a deep simulation of worn clothing. Compared with systems that try to compress down armor to one or two numbers like Pen And Paper game armor class systems or CRPGs with systems like DT and DR (flat and multiplicative reduction) cataclysm attempts to more accurately simulate different materials, their relative coverage of the body, and how that interacts with the player.  A lot of this is simplified or clarified to the player in a way that is digestible. We *shouldn't* hide info from the player but we should *avoid* information overload.
 
 That said this document will practice no such restraint and is designed to be a complete guide to *everything* possible. This guide will cover the basic ideas of **how it works**, **what is necessary** for armor to function, **what is possible** with the armor system and **how to design armor** so that it is balanced and makes sense. An **FAQ** will also be included to cover some specifics people might have about armor or how to understand it as well as a section on things to be added **looking forward**.  Each section will also give specific example item ids you could investigate for examples (as well as code snippets) or for balance considerations.
@@ -8,19 +10,19 @@ Characters in Cataclysm wear armor. This armor provides them with protection, wa
 
 ### protection
 When you take a direct hit in Cataclysm the following happens:
-1. When the player is hit at a specific body part, first a sublocation on the limb is generated from the weighted list of sublimbs
-2. For the torso location an additional secondary sublimb is chosen for items hanging off the player (like backpacks)
+1. When the player is hit at a specific body part, first a sub-location on the limb is generated from the weighted list of sub-limbs
+2. For the torso location an additional secondary sub-limb is chosen for items hanging off the player (like backpacks)
 3. Armor coverage determines whether any armor is hit, or an uncovered part of the player is hit (roll a single `1d100` against coverage).
 4. Go through all worn armor from the most outward clothing piece inwards. Reducing the total damage as you apply the defense of each item.
 5. If the armor doesn't cover the chosen sub body part skip it.
-6. Depending on the attack the armors melee, ranged or general coverage (which is not scaled to the overall body part and instead just how much of the sublimb it covers) is compared to the roll from above.
+6. Depending on the attack the armors melee, ranged or general coverage (which is not scaled to the overall body part and instead just how much of the sub-limb it covers) is compared to the roll from above.
 7. In the future Vitals Coverage will be used to scale incoming critical damage, reducing crit multipliers but it is not implemented yet.
 8. If the above roll fails (ie roll value is above coverage), then the armor does not absorb any damage from the blow, neither does it become damaged.
 9. If the above roll succeeds, the armor is hit, possibly absorbing some damage and possibly getting damaged in the process.
 10. If the armor has ABLATIVE pockets (like ballistic vests) at this point the coverage of those plates is rolled to see if they possibly absorb some damage and possibly get damaged in the process. At most one ablative pocket on an item can apply to an attack and the coverage of the plates is scaled based on the coverage of the armor they are in. This is because if a plate covers 45% of the torso but the clothing its in only covers 50% of the torso, you already know the attack hit the jacket and the jacket is 90% (45/50) plate.
 11. Armor protects against damage.  The values are determined by multiplying the armor thickness by the materials individual damage type resistance factor respectively, given in `materials.json`.
 12. For simple definition armors: If the armor is made from more than 1 material types, then it divides the armors overall thickness based on proportions each is (assumes equal proportions by default). Giving a single protection value per type of damage.
-13. For complex definition armors: Each material on each limb/sublimb can have a specific thickness and also an amount of the overall armored portion that it covers (proportional_coverage). Each individual material is rolled against its proportional_coverage vs `1d100` to see if it applies to any given attack. That is why some armors have a red (worst case) percent, green (best case) percent and a median protection value now because an armor itself can have variable protection for any given attack. This is to simulate armor with padding or plating that don't fully cover it.
+13. For complex definition armors: Each material on each limb/sub-limb can have a specific thickness and also an amount of the overall armored portion that it covers (proportional_coverage). Each individual material is rolled against its proportional_coverage vs `1d100` to see if it applies to any given attack. That is why some armors have a red (worst case) percent, green (best case) percent and a median protection value now because an armor itself can have variable protection for any given attack. This is to simulate armor with padding or plating that don't fully cover it.
 
 Specifically to ablative plates, some transform when damaged instead of damaging normally. The chance of transforming scales based on damage taken.
 
@@ -49,7 +51,6 @@ here is an example armor to look at:
 ```json
 {
   "id": "dress_shirt",
-  "repairs_like": "tshirt",
   "type": "ARMOR",
   "name": { "str": "dress shirt" },
   "description": "A white button-down shirt with long sleeves.  Looks professional!",
@@ -141,15 +142,15 @@ The Phase Immersion suit is about as complicated as it gets.
 
 ### Sublocations
 #### Explanation
-Sublocations are a new-ish feature of characters in Cataclysm. Sub-locations are sub divided pieces of characters limbs. For example a human arm consists of a lower arm, elbow, upper arm, and shoulder. All limbs have sublocations and you can find the full list of them in the bodypart definitions in ```body_parts.json```. When you define specific sublocations for armor it does the following:
-* Makes it so that armor only conflicts with armor that shares sublocations with it on it's layer
+Sub-locations are a new-ish feature of characters in Cataclysm. Sub-locations are sub divided pieces of characters limbs. For example a human arm consists of a lower arm, elbow, upper arm, and shoulder. All limbs have sub-locations and you can find the full list of them in the body part definitions in ```body_parts.json```. When you define specific sub-locations for armor it does the following:
+* Makes it so that armor only conflicts with armor that shares sub-locations with it on it's layer
 * Scales total coverage
 
-So if you appropriately use specifically_covers a character can wear multiple pieces on the same limb and layer. For example a character could wear knee pads, and shin guards. Also when defining sublocations and describing coverage you are describing the amount of the sublocations the armor covers. So a pair of knee pads isn't 5% coverage, specifically covering the knees: its 90% coverage specifically covering the knees and the game is smart enough to know your knee is 5% of your leg. This is to make it simpler, just describe how much of the parts covered are covered, not how much of the overall limb.
+So if you appropriately use specifically_covers a character can wear multiple pieces on the same limb and layer. For example a character could wear knee pads, and shin guards. Also when defining sub-locations and describing coverage you are describing the amount of the sub-locations the armor covers. So a pair of knee pads isn't 5% coverage, specifically covering the knees: its 90% coverage specifically covering the knees and the game is smart enough to know your knee is 5% of your leg. This is to make it simpler, just describe how much of the parts covered are covered, not how much of the overall limb.
 
-The strapped layer also has additional sublimbs that are used for hanging items. These currently only exist on the torso and in the json have ```"secondary": true```. They are for things hanging around your neck (like binoculars), your front (like a rifle on a sling), your back (like a backpack).
+The strapped layer also has additional sub-limbs that are used for hanging items. These currently only exist on the torso and in the json have ```"secondary": true```. They are for things hanging around your neck (like binoculars), your front (like a rifle on a sling), your back (like a backpack).
 
-**if you don't define this for an armor it assumes that the armor covers every sublocation on that limb**
+**if you don't define this for an armor it assumes that the armor covers every sub-location on that limb**
 
 This will play more and more of a role as armor gets further developed.
 
@@ -202,8 +203,17 @@ Sided armor is armor that even though it describes covering, both legs, both arm
     }
   ],
   "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-  "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ],
-  "armor": [ { "encumbrance": [ 2, 3 ], "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
+  "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
+  "armor": [
+    {
+      "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1 } ],
+      "covers": [ "foot_l", "foot_r" ],
+      "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ],
+      "coverage": 25,
+      "encumbrance": [ 2, 3 ],
+      "layers": [ "BELTED" ]
+    }
+  ]
 }
 ```
 #### Further Reading
@@ -239,6 +249,19 @@ This is a trick you can do to shorten the amount of work you need. Once you have
 
 #### Further Reading
 The robofac greaves, mantles, skirts and vambraces use this.
+
+### Repairs
+#### Explanation
+Clothing repairs are inherited from their material type.  Needed materials and repair difficulty are based on these materials (you can make a repair with any material it is made of, but the difficulty is whatever is the hardest part of it to repair).  In cases where the repair difficulty does not match that of its materials the ``repairs-like`` flag can be used to specify an item from which the difficulty and required skills should be inherited instead. This flag does not change the materials required to repair the item, which is always derived from its composition.
+
+#### Example
+The leather belt repairs like a leather patch because steel is more difficult to repair than leather, but the steel belt buckle is exceedingly unlikely to sustain damage compared to the leather majority of the belt.
+```json
+{
+  "id": "belt_leather",
+  "repairs_like": "leather"
+}
+```
 
 ### Advanced Materials
 #### Explanation
@@ -294,14 +317,14 @@ Thassalonian Bronze armor, Heavy Ballistic Vest
 #### Explanation
 Armor can have pockets. They are defined as a Pocket array. A storage guide will be written separately to this. It's worth keeping in mind how pockets effect armor though.
 
-When your armor has potential volume it can store the encumbrance of the armor defaults to scaling as the armor gets fuller and fuller. By default an armors encumberance is equal to its empty encumbrance + (volume stored / 250ml). However this is the base encumbrance that poorly tying an item to yourself with rope would give; so any man made storage will have a better volume / encumbrance than this.
+When your armor has potential volume it can store the encumbrance of the armor defaults to scaling as the armor gets fuller and fuller. By default an armors encumbrance is equal to its empty encumbrance + (volume stored / 250ml). However this is the base encumbrance that poorly tying an item to yourself with rope would give; so any man made storage will have a better volume / encumbrance than this.
 
 You can represent a better volume / encumbrance in 3 ways:
 * The simplest is to specify the encumbrance as an array of two values "[x, y]" this means the encumbrance empty is "x" and if full the item will have encumbrance "y" between 0 and 100% volume it scales linearly.
 
 * The more modern way to do it is to set a scaling factor on the armor itself. This is much easier to read and quickly parse (not requiring mental math) and is a direct scaling on that 250ml constant. So if I set a "volume_encumber_modifier" of .25 it means that it's one additional encumbrance per 1000ml (250ml/.25). This is defined in the advanced armor definition.
 
-* To get really specific you can combine the above with similar "volume_encumber_modifier" but on any individual pocket of the armor. This has the same effect as above but also effects how much that pocket contributes to the overall encumbrance. An example use case would be a rifle on a tactical sling would be more encumbring per volume than magazines affixed to the same vest so you could represent it as such. This can also be used with a modifier of 0 to set it so a pocket does not contribute to encumbrance.
+* To get really specific you can combine the above with similar "volume_encumber_modifier" but on any individual pocket of the armor. This has the same effect as above but also effects how much that pocket contributes to the overall encumbrance. An example use case would be a rifle on a tactical sling would be more encumbering per volume than magazines affixed to the same vest so you could represent it as such. This can also be used with a modifier of 0 to set it so a pocket does not contribute to encumbrance.
 
 #### Example
 simple:
@@ -385,6 +408,7 @@ plate definition:
   "color": "dark_gray",
   "material_thickness": 25,
   "non_functional": "destroyed_large_ceramic_plate",
+  "damage_verb": "makes a crunch, something has shifted",
   "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
   "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
 }
@@ -396,6 +420,8 @@ Look at the Plates and Vests and ballistic armor or anything with ABLATIVE_LARGE
 ### Transform vs Durability
 #### Explanation
 Normally armor degrades with use. This degradation is incremental and decreases the armors effectiveness and protection. However not all armor degrades, some instead will become completely compromised. For these items ```"non_functional": "ITEM_ID"``` can be added. Instead of the normal degradation rules, armor with non_functional will have a chance to transform into its non_functional version when struck. Specifically transform items are concerned with how much damage they take before reduction, rather than after reduction and as the damage scales towards their total resistance (and beyond) scales to a 33% chance to transform (and beyond). Example a 50 damage bullet hitting a 50 damage plate has a 33% chance to transform, a 25 damage bullet would only have a 16.5% chance to cause a transform, 100 damage a 66% chance.
+
+Transforming items can also specify a custom destruction message with ```"damage_verb"``` which is what will be said when it is damaged.
 
 #### Example
 ```json
@@ -414,6 +440,7 @@ Normally armor degrades with use. This degradation is incremental and decreases 
   "color": "dark_gray",
   "material_thickness": 25,
   "non_functional": "destroyed_large_ceramic_plate",
+  "damage_verb": "makes a crunch, something has shifted",
   "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
   "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
 }
@@ -442,7 +469,7 @@ Items with actions can be worn as armor. Usually you need to swap the type to ``
   "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
   "weight": "620 g",
   "volume": "500 ml",
-  "bashing": 1,
+  "melee_damage": { "bash": 1 },
   "charges_per_use": 1,
   "ammo": "battery",
   "use_action": {
@@ -467,12 +494,11 @@ Items with actions can be worn as armor. Usually you need to swap the type to ``
 {
   "id": "survivor_light_on",
   "copy-from": "survivor_light",
-  "repairs_like": "survivor_light",
   "type": "TOOL_ARMOR",
   "name": { "str": "survivor headlamp (on)", "str_pl": "survivor headlamps (on)" },
   "description": "This is a custom-made LED headlamp reinforced to be more durable, brighter, and with a larger and more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
   "flags": [ "LIGHT_350", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
-  "power_draw": 10000,
+  "power_draw": "10 W",
   "revert_to": "survivor_light",
   "use_action": {
     "ammo_scale": 0,
@@ -518,105 +544,105 @@ The Nomad Jumpsuits use this to provide well distributed.
 This is a hopefully exhaustive list of flags you may wish to use on items and what they do.
 
 #### Layers
-ID | Description
--- | --
-PERSONAL | On this layer
+ID        | Description
+--        | --
+PERSONAL  | On this layer
 SKINTIGHT | On this layer
-NORMAL | On this layer
-WAIST | On this layer
-OUTER | On this layer
-BELTED | On this layer
-AURA | On this layer
+NORMAL    | On this layer
+WAIST     | On this layer
+OUTER     | On this layer
+BELTED    | On this layer
+AURA      | On this layer
 
 
 #### Clothing stuff
-ID | Description
--- | --
-VARSIZE | Item may not fit you, if it fits encumberance values are halved compared to defined values.
-STURDY | Armor is much less likely to take damage and degrade when struck
-NO_REPAIR | Can't be repaired by the player using tools like the sewing kit, or welder
-WATER_FRIENDLY | Armor makes the covered body parts not feel bad to be wet
-WATER_PROOF | Makes the body parts immune to water
-RAIN_PROOF | Wont get wet in rain
-HOOD | Keeps head warm if nothing on it
-POCKETS | Keeps hands warm if they are free
+ID               | Description
+--               | --
+VARSIZE          | Item may not fit you, if it fits encumbrance values are halved compared to defined values.
+STURDY           | Armor is much less likely to take damage and degrade when struck
+NO_REPAIR        | Can't be repaired by the player using tools like the sewing kit, or welder
+WATER_FRIENDLY   | Armor makes the covered body parts not feel bad to be wet
+WATER_PROOF      | Makes the body parts immune to water
+RAIN_PROOF       | Wont get wet in rain
+HOOD             | Keeps head warm if nothing on it
+POCKETS          | Keeps hands warm if they are free
 BLOCK_WHILE_WORN | Can be used to block with while worn
-COLLAR | Keeps mouth warm if not covered
-ONLY_ONE | Only one of this item can be worn
-ONE_PER_LAYER | Only one item can be worn on this clothing layer
-FANCY | Clothing is impractically fancy, (like a top hat)
-SUPER_FANCY | Even more fancy than fancy
-FILTHY | Disgusting dirty clothes
-FRAGILE | Breaks fast
-SLOWS_MOVEMENT | Slows you down to wear
+COLLAR           | Keeps mouth warm if not heavily encumbered
+ONLY_ONE         | Only one of this item can be worn
+ONE_PER_LAYER    | Only one item can be worn on this clothing layer
+FANCY            | Clothing is impractically fancy, (like a top hat)
+SUPER_FANCY      | Even more fancy than fancy
+FILTHY           | Disgusting dirty clothes
+FRAGILE          | Breaks fast
+SLOWS_MOVEMENT   | Slows you down to wear
 
 #### Immunities/Defenses
 **only some of these that are used**
 
-ID | Description
--- | --
-ELECTRIC_IMMUNE | Immunity
-BIO_IMMUNE | Immunity
-BASH_IMMUNE | Immunity
-CUT_IMMUNE | Immunity
-BULLET_IMMUNE | Immunity
-ACID_IMMUNE | Immunity
-STAB_IMMUNE | Immunity
-HEAT_IMMUNE | Immunity
-GAS_PROOF | Immunity
-RAD_PROOF | Immunity
+ID                | Description
+--                | --
+ELECTRIC_IMMUNE   | Immunity
+BIO_IMMUNE        | Immunity
+BASH_IMMUNE       | Immunity
+CUT_IMMUNE        | Immunity
+BULLET_IMMUNE     | Immunity
+ACID_IMMUNE       | Immunity
+STAB_IMMUNE       | Immunity
+HEAT_IMMUNE       | Immunity
+GAS_PROOF         | Immunity
+RAD_PROOF         | Immunity
 PSYSHIELD_PARTIAL | Partial mind control protection
-RAD_RESIST | Partial rads protection
-SUN_GLASSES | Protects from suns glare
+RAD_RESIST        | Partial rads protection
+SUN_GLASSES       | Protects from suns glare
 
 #### Mutation stuff
-ID | Description
--- | --
-OVERSIZE | Can be worn by larger Characters
-UNDERSIZE | Can be worn by smaller Characters
-ALLOWS_TAIL | People with tails can still wear it
-ALLOWS_TALONS | People with talons can still wear it
+ID                     | Description
+--                     | --
+OVERSIZE               | Can be worn by larger Characters
+UNDERSIZE              | Can be worn by smaller Characters
+ALLOWS_TAIL            | People with tails can still wear it
+ALLOWS_TALONS          | People with talons can still wear it
 ALLOWS_NATURAL_ATTACKS | Wont hinder special attacks
 
 #### Sci-fi
-ID | Description
--- | --
-ACTIVE_CLOAKING | Makes you invisible
-CLIMATE_CONTROL | Keeps the character at a safe temperature
-NO_CLEAN | Can't be cleaned no matter what you do (combine with filthy)
-SEMITANGIBLE | Can be worn with other stuff on layer
+ID                    | Description
+--                    | --
+ACTIVE_CLOAKING       | Makes you invisible
+CLIMATE_CONTROL       | Keeps the character at a safe temperature
+NO_CLEAN              | Can't be cleaned no matter what you do (combine with filthy)
+SEMITANGIBLE          | Can be worn with other stuff on layer
 POWERARMOR_COMPATIBLE | Can be worn with power armor on
-NANOFAB_REPAIR | Can be repaired in a nanofabricator
-DIMENSIONAL_ANCHOR | Provides nether protection
-PORTAL_PROOF | Provides protection from portals
-GNV_EFFECT | Night Vision
-IR_EFFECT | Infrared Vision
+NANOFAB_REPAIR        | Can be repaired in a nanofabricator
+DIMENSIONAL_ANCHOR    | Provides nether protection
+PORTAL_PROOF          | Provides protection from portals
+GNV_EFFECT            | Night Vision
+IR_EFFECT             | Infrared Vision
 
 #### Ablative
-ID | Description
--- | --
-CANT_WEAR | Armor can't be worn directly (**all ablative plates should have this**)
-ABLATIVE_LARGE | Large ablative plates that fit in the front of standard ballistic vests
+ID              | Description
+--              | --
+CANT_WEAR       | Armor can't be worn directly (**all ablative plates should have this**)
+ABLATIVE_LARGE  | Large ablative plates that fit in the front of standard ballistic vests
 ABLATIVE_MEDIUM | Side ablative plates that fit in the sides of standard ballistic vests
 ABLATIVE_MANTLE | Shoulder, arm and torso armor used by Hub 01
-ABLATIVE_SKIRT | Hip and thigh armor used by Hub 01
+ABLATIVE_SKIRT  | Hip and thigh armor used by Hub 01
 
 #### Situational
-ID | Description
--- | --
-DEAF | Can't hear anything
+ID               | Description
+--               | --
+DEAF             | Can't hear anything
 FLASH_PROTECTION | Protects from flashbangs
-FLOTATION | Causes you to float
-FIN | Makes you swim faster
-PARTIAL_DEAF | Protects from loud sounds while you can hear other sounds
-NO_WEAR_EFFECT | Lets players know this item gives no benefits (used on jewelry)
-PALS_SMALL | Can be incorporated into a LBV / ballistic vest (takes 1 slot)
-PALS_MEDIUM | Can be incorporated into a LBV / ballistic vest (takes 2 slot)
-PALS_LARGE | Can be incorporated into a LBV / ballistic vest (takes 3 slot)
-ROLLER_ONE | Heelies
-ROLLER_INLINE | Inline roller blades
-ROLLER_QUAD | Quad roller blades
-SWIM_GOGGLES | Lets you see under water
+FLOTATION        | Causes you to float
+FIN              | Makes you swim faster
+PARTIAL_DEAF     | Protects from loud sounds while you can hear other sounds
+NO_WEAR_EFFECT   | Lets players know this item gives no benefits (used on jewelry)
+PALS_SMALL       | Can be incorporated into a LBV / ballistic vest (takes 1 slot)
+PALS_MEDIUM      | Can be incorporated into a LBV / ballistic vest (takes 2 slot)
+PALS_LARGE       | Can be incorporated into a LBV / ballistic vest (takes 3 slot)
+ROLLER_ONE       | Heelies
+ROLLER_INLINE    | Inline roller blades
+ROLLER_QUAD      | Quad roller blades
+SWIM_GOGGLES     | Lets you see under water
 
 ## Making your own items
 When you want to add a new item to Cataclysm there are a few things you should prioritize, focus on and consider.
@@ -646,7 +672,7 @@ Coverage has a big rule on the core team of **No hard, powerful armors with 100%
 
 Something a lot of people don't consider is that an armor with 95% coverage is **4 times better** than an armor with 80% coverage when it comes to protecting against attacks.
 
-When balancing coverage try to describe what you would see. Doing multiple armor entries per sublimb can help with this. "well this covers all the elbows and forearms and has some plastic covering 75% of that". Then give it 100% coverage on the elbow and lower arm sublimbs with covered by mat plastic at 75. Then the game is smart enough to figure out how much of the overall arm that all is.
+When balancing coverage try to describe what you would see. Doing multiple armor entries per sub-limb can help with this. "well this covers all the elbows and forearms and has some plastic covering 75% of that". Then give it 100% coverage on the elbow and lower arm sub-limbs with covered by mat plastic at 75. Then the game is smart enough to figure out how much of the overall arm that all is.
 
 
 #### Encumbrance
@@ -656,7 +682,7 @@ This can be very subjective. The main things to keep in mind are.
 3. the more coverage something has the more encumbering it should be.
 4. joints should be penalized more heavily than other locations.
 5. the heavier something is the more encumbering it should be.
-6. the more uncomfortable and poorly designed something is the more encumbring it should be.
+6. the more uncomfortable and poorly designed something is the more encumbering it should be.
 
 So you will find lots of
 * negligible encumbrance (< 2) clothing with almost no protection and 90% to 100% coverage
@@ -678,7 +704,7 @@ also keep in mind that, for example, if something covers the legs and the torso 
 Also the above values assume things being focused around the torso, shoulders, hips and thighs for the same reason mentioned above the further out from your center something is the worse it should be.
 
 ### What 'Just Works'
-Aside from what is described in this guide a lot of the behind the scenes calculations are just handled for you. So for example the info displayed in game per limb is an amalgamation of all of your sublimb entries consolidated. This is just to simplify a single display to the player but is still very useful.
+Aside from what is described in this guide a lot of the behind the scenes calculations are just handled for you. So for example the info displayed in game per limb is an amalgamation of all of your sub-limb entries consolidated. This is just to simplify a single display to the player but is still very useful.
 
 ## FAQ
 Space left for questions as they arise.
@@ -686,7 +712,7 @@ Space left for questions as they arise.
 ## Looking Forward
 In the future ideally
 * Warmth will be handled by material + thickness, or at least scaled by armor coverage.
-* Encumbrance will be entirely handled by material, thickness, 1 - 2 descriptive words, sublocation coverage, coverage (using the 6 tenets from above).
-* Characters will be able to wear human armor on non human limbs with scaling coverage based on how closely their limbs approximate the sublimbs that the armor normally covers.
+* Encumbrance will be entirely handled by material, thickness, 1 - 2 descriptive words, sub-location coverage, coverage (using the 6 tenets from above).
+* Characters will be able to wear human armor on non human limbs with scaling coverage based on how closely their limbs approximate the sub-limbs that the armor normally covers.
 * All old armors will be overhauled to have better and more detailed information.
 * More material refinement.

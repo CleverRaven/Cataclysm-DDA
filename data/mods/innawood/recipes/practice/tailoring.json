@@ -1,0 +1,21 @@
+[
+  {
+    "id": "prac_knitting",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_TAILORING",
+    "name": "knitting",
+    "description": "Practice knitting whatever comes to your mind, from simple forms to elaborate and rich designs.",
+    "skill_used": "tailor",
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "time_multiplier": 1, "skill_penalty": 0 },
+      { "proficiency": "prof_knitting_speed", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
+    "autolearn": [ [ "tailor", 0 ] ],
+    "qualities": [ { "id": "KNIT", "level": 1 } ],
+    "components": [ [ [ "yarn", 40 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ] ]
+  }
+]

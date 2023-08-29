@@ -14,13 +14,34 @@ users:
     - Aerin-of-the-Toast
     - anoobindisguise
     - PatrikLundell
+    - alef
     - TheShadowFerret
     - Jan-Blasiak
+    - MNG-cataclysm
     - mqrause
     - andrei8l
     - haveric
     - MylieDaniels
+    - nopenoperson 
+    - Inglonias
+    - GuardianDll
+    - hexagonrecursion
+    - ANickelN
+    - a-chancey
+    - Cimanyd0
+    - LyranRenegade
+    - Stadler76
+    - sonphantrung
+    - sadenar
+    - RenechCDDA
+    - irwiss
+    - strategineer
+    - pjf
+    - SurFlurer
+    - Procyonae
+    - harakka
+    - Karol1223
 
 keywords:
   - name: confirm-bug
-    value: '^\/confirmed.*'
+    value: '\/(C|c)onfirm.*'

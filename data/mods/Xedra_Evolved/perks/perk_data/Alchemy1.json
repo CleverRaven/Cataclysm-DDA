@@ -1,0 +1,102 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY",
+    "effect": { "u_message": "You have learned all the secrets of this level." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY",
+    "effect": { "u_message": "You learn a new secret of alchemy." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ALCHEMY1",
+    "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY1" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
+    "effect": [
+      {
+        "u_roll_remainder": [ "extra_str_aspirin", "blackout_rage_drink", "sixdust", "small_blessing_brigit" ],
+        "type": "recipe",
+        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
+        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]
+      },
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "24 hours" }
+    ],
+    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ALCHEMY2",
+    "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY2" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
+    "effect": [
+      {
+        "u_roll_remainder": [ "prophets_lsd", "truckers_stamina_pills", "spiritshow_dust", "charm_of_marzanna" ],
+        "type": "recipe",
+        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
+        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]
+      },
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "48 hours" }
+    ],
+    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ALCHEMY3",
+    "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY3" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "feline_periapta",
+          "lupine_periapta",
+          "cephalopod_periapta",
+          "plant_periapta",
+          "scorpion_periapta",
+          "butterfly_periapta",
+          "spider_periapta",
+          "cold_iron_ingot"
+        ],
+        "type": "recipe",
+        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
+        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]
+      },
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "96 hours" }
+    ],
+    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_COLD_IRON",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_ALCHEMY3" },
+        { "u_has_trait": "perk_ALCHEMY3_COLD_IRON" },
+        { "not": { "u_has_effect": "mental_exhaustion" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_roll_remainder": [ "cold_iron_knife", "cold_iron_sword", "cold_iron_warhammer", "cold_iron_battleaxe", "blood_of_saints" ],
+        "type": "recipe",
+        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
+        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]
+      },
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "96 hours" }
+    ],
+    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ALCHEMY4",
+    "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY4" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
+    "effect": [
+      {
+        "u_roll_remainder": [ "life_extension_potion", "potion_strength", "potion_dex", "hares_leap_potion" ],
+        "type": "recipe",
+        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
+        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]
+      },
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "192 hours" }
+    ],
+    "false_effect": [ { "u_message": "Your thoughts are too scattered to unearth more secrets of the universe." } ]
+  }
+]

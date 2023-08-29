@@ -2,6 +2,7 @@
 #include <iosfwd>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -15,7 +16,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
-#include "optional.h"
 #include "point.h"
 #include "tileray.h"
 #include "type_id.h"
@@ -76,7 +76,7 @@ static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up
         }
     }
     here.invalidate_map_cache( 0 );
-    here.build_map_cache( 0 );
+    here.build_map_cache( 0, true );
 }
 
 // Algorithm goes as follows:
@@ -134,6 +134,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
 
     std::set<tripoint> vpts = veh.get_points();
     while( veh.engine_on && veh.safe_velocity() > 0 && cycles < 10 ) {
+        clear_creatures();
         CAPTURE( cycles );
         for( const tripoint &checkpt : vpts ) {
             int partnum = 0;
@@ -171,7 +172,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
         vpts = veh.get_points();
         cycles++;
     }
-    const cata::optional<vpart_reference> vp = here.veh_at( player_character.pos() ).part_with_feature(
+    const std::optional<vpart_reference> vp = here.veh_at( player_character.pos() ).part_with_feature(
                 VPFLAG_BOARDABLE, true );
     REQUIRE( vp );
     if( vp ) {

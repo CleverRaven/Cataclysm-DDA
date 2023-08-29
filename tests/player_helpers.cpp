@@ -23,7 +23,9 @@
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "profession.h"
 #include "ret_val.h"
+#include "skill.h"
 #include "stomach.h"
 #include "type_id.h"
 
@@ -56,8 +58,8 @@ bool player_has_item_of_type( const std::string &type )
 }
 
 // Return true if character has an item with get_var( var ) set to the given value
-bool character_has_item_with_var_val( const Character &they, const std::string var,
-                                      const std::string val )
+bool character_has_item_with_var_val( const Character &they, const std::string &var,
+                                      const std::string &val )
 {
     return they.has_item_with( [var, val]( const item & cand ) {
         return cand.get_var( var ) == val;
@@ -72,15 +74,20 @@ void clear_character( Character &dummy, bool skip_nutrition )
     // delete all worn items.
     dummy.worn.clear();
     dummy.calc_encumbrance();
+    dummy.invalidate_crafting_inventory();
     dummy.inv->clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
+    dummy.mutation_category_level.clear();
+    dummy.clear_bionics();
 
     // Clear stomach and then eat a nutritious meal to normalize stomach
     // contents (needs to happen before clear_morale).
     dummy.stomach.empty();
     dummy.guts.empty();
     dummy.clear_vitamins();
+    dummy.health_tally = 0;
+    dummy.update_body( calendar::turn, calendar::turn ); // sets last_updated to current turn
     if( !skip_nutrition ) {
         item food( "debug_nutrition" );
         dummy.consume( food );
@@ -92,17 +99,21 @@ void clear_character( Character &dummy, bool skip_nutrition )
     // However, the above does not set stored kcal
     dummy.set_stored_kcal( dummy.get_healthy_kcal() );
 
-    dummy.empty_skills();
+    dummy.prof = profession::generic();
+    dummy.hobbies.clear();
+    dummy._skills->clear();
     dummy.martial_arts_data->clear_styles();
     dummy.clear_morale();
-    dummy.clear_bionics();
     dummy.activity.set_to_null();
+    dummy.backlog.clear();
     dummy.reset_chargen_attributes();
     dummy.set_pain( 0 );
     dummy.reset_bonuses();
     dummy.set_speed_base( 100 );
     dummy.set_speed_bonus( 0 );
     dummy.set_sleep_deprivation( 0 );
+    dummy.set_moves( 0 );
+    dummy.oxygen = dummy.get_oxygen_max();
     for( const proficiency_id &prof : dummy.known_proficiencies() ) {
         dummy.lose_proficiency( prof, true );
     }
@@ -116,6 +127,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
 
     // Make sure we don't carry around weird effects.
     dummy.clear_effects();
+    dummy.set_underwater( false );
 
     // Make stats nominal.
     dummy.str_max = 8;
@@ -131,6 +143,10 @@ void clear_character( Character &dummy, bool skip_nutrition )
 
     const tripoint spot( 60, 60, 0 );
     dummy.setpos( spot );
+    dummy.clear_values();
+    dummy.magic = pimpl<known_magic>();
+    dummy.forget_all_recipes();
+    dummy.set_focus( dummy.calc_focus_equilibrium() );
 }
 
 void arm_shooter( npc &shooter, const std::string &gun_type,
@@ -145,44 +161,47 @@ void arm_shooter( npc &shooter, const std::string &gun_type,
 
     const itype_id &gun_id{ itype_id( gun_type ) };
     // Give shooter a loaded gun of the requested type.
-    item &gun = shooter.i_add( item( gun_id ) );
+    item_location gun = shooter.i_add( item( gun_id ) );
     itype_id ammo_id;
     // if ammo is not supplied we want the default
     if( ammo_type.empty() ) {
-        if( gun.ammo_default().is_null() ) {
-            ammo_id = item( gun.magazine_default() ).ammo_default();
+        if( gun->ammo_default().is_null() ) {
+            ammo_id = item( gun->magazine_default() ).ammo_default();
         } else {
-            ammo_id = gun.ammo_default();
+            ammo_id = gun->ammo_default();
         }
     } else {
         ammo_id = itype_id( ammo_type );
     }
     const ammotype &type_of_ammo = item::find_type( ammo_id )->ammo->type;
-    if( gun.magazine_integral() ) {
-        item &ammo = shooter.i_add( item( ammo_id, calendar::turn, gun.ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( gun.can_reload_with( ammo, true ) );
-        REQUIRE( shooter.can_reload( gun, &ammo ) );
-        gun.reload( shooter, item_location( shooter, &ammo ), gun.ammo_capacity( type_of_ammo ) );
+    if( gun->magazine_integral() ) {
+        item_location ammo = shooter.i_add( item( ammo_id, calendar::turn,
+                                            gun->ammo_capacity( type_of_ammo ) ) );
+        REQUIRE( gun->can_reload_with( *ammo, true ) );
+        REQUIRE( shooter.can_reload( *gun, &*ammo ) );
+        gun->reload( shooter, ammo, gun->ammo_capacity( type_of_ammo ) );
     } else {
-        const itype_id magazine_id = gun.magazine_default();
-        item &magazine = shooter.i_add( item( magazine_id ) );
-        item &ammo = shooter.i_add( item( ammo_id, calendar::turn,
-                                          magazine.ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( magazine.can_reload_with( ammo,  true ) );
-        REQUIRE( shooter.can_reload( magazine, &ammo ) );
-        magazine.reload( shooter, item_location( shooter, &ammo ), magazine.ammo_capacity( type_of_ammo ) );
-        gun.reload( shooter, item_location( shooter, &magazine ), magazine.ammo_capacity( type_of_ammo ) );
+        const itype_id magazine_id = gun->magazine_default();
+        item_location magazine = shooter.i_add( item( magazine_id ) );
+        item_location ammo = shooter.i_add( item( ammo_id, calendar::turn,
+                                            magazine->ammo_capacity( type_of_ammo ) ) );
+        REQUIRE( magazine->can_reload_with( *ammo,  true ) );
+        REQUIRE( shooter.can_reload( *magazine, &*ammo ) );
+        magazine->reload( shooter, ammo, magazine->ammo_capacity( type_of_ammo ) );
+        gun->reload( shooter, magazine, magazine->ammo_capacity( type_of_ammo ) );
     }
-    for( const auto &mod : mods ) {
-        gun.put_in( item( itype_id( mod ) ), item_pocket::pocket_type::MOD );
+    for( const std::string &mod : mods ) {
+        gun->put_in( item( itype_id( mod ) ), item_pocket::pocket_type::MOD );
     }
-    shooter.wield( gun );
+    shooter.wield( *gun );
 }
 
 void clear_avatar()
 {
-    clear_character( get_avatar() );
-    get_avatar().clear_identified();
+    avatar &avatar = get_avatar();
+    clear_character( avatar );
+    avatar.clear_identified();
+    avatar.clear_nutrition();
 }
 
 void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
@@ -237,7 +256,7 @@ void give_and_activate_bionic( Character &you, bionic_id const &bioid )
     // get bionic's index - might not be "last added" due to "integrated" ones
     int bioindex = -1;
     for( size_t i = 0; i < you.my_bionics->size(); i++ ) {
-        const auto &bio = ( *you.my_bionics )[ i ];
+        const bionic &bio = ( *you.my_bionics )[ i ];
         if( bio.id == bioid ) {
             bioindex = i;
         }

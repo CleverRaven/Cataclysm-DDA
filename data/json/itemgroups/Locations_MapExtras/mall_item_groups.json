@@ -23,15 +23,15 @@
       { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
       [ "wire", 5 ],
       [ "splinter", 10 ],
-      [ "rag", 15 ],
-      { "item": "rag", "prob": 10, "custom-flags": [ "FILTHY" ] },
+      [ "cotton_patchwork", 15 ],
+      { "item": "cotton_patchwork", "prob": 10, "custom-flags": [ "FILTHY" ] },
       [ "plastic_shopping_bag", 10 ]
     ]
   },
   {
     "id": "candy_shop",
     "type": "item_group",
-    "items": [ { "group": "candy_chocolate", "prob": 460 }, [ "cookies", 50 ], { "item": "licorice", "prob": 50 } ]
+    "items": [ { "group": "candy_chocolate", "prob": 460 }, [ "cookies", 50 ], { "prob": 50, "group": "licorice_bag_plastic_4" } ]
   },
   {
     "id": "tux_shop",
@@ -61,7 +61,7 @@
       { "item": "trimmer_off", "prob": 30, "charges": [ 50, 100 ] },
       [ "fertilizer_liquid", 50 ],
       [ "dahlia_root", 30 ],
-      [ "fertilizer_commercial", 25 ]
+      { "group": "fertilizer_commercial_bag_canvas_60", "prob": 25 }
     ]
   },
   {
@@ -72,14 +72,16 @@
     "items": [
       { "group": "ammo_any_batteries_full", "prob": 50 },
       { "item": "radio", "prob": 30, "charges": 100 },
-      { "item": "mp3", "prob": 30, "charges": 100 }
+      { "item": "mp3", "prob": 30, "charges": 100 },
+      { "item": "pride_flag", "prob": 1 },
+      { "item": "national_flag", "prob": 1 }
     ]
   },
   {
     "id": "vitamin_shop",
     "type": "item_group",
     "items": [
-      [ "adhesive_bandages", 25 ],
+      { "group": "adhesive_bandages_box_full", "prob": 25 },
       { "group": "full_1st_aid", "prob": 15 },
       { "group": "full_ifak", "prob": 15 },
       [ "vitamins", 75 ],
@@ -89,7 +91,6 @@
       [ "pills_sleep", 45 ],
       [ "melatonin_tablet", 30 ],
       [ "disinfectant", 15 ],
-      [ "vaccine_shot", 10 ],
       [ "protein_powder", 40 ],
       [ "caff_gum", 30 ],
       [ "nic_gum", 25 ],
@@ -116,17 +117,18 @@
       [ "disc_golf", 40 ],
       [ "magic_8_ball", 30 ],
       [ "novel_pulp", 20 ],
-      [ "folding_bicycle", 5 ],
+      [ "folded_bicycle", 5 ],
       [ "sunglasses", 25 ],
       [ "cowboy_hat", 25 ],
       { "item": "mp3", "prob": 40, "charges": 100 },
       [ "wolfsuit", 5 ],
       [ "dinosuit", 5 ],
-      { "item": "gum", "prob": 10, "charges": [ 1, 10 ] },
+      { "item": "gum", "prob": 10, "count": [ 1, 10 ] },
       [ "shuttlecock", 10 ],
       [ "baseball", 40 ],
       [ "football", 40 ],
       [ "basketball", 50 ],
+      [ "shark_plushie", 25 ],
       { "item": "talking_doll", "prob": 50, "charges": 100 },
       { "item": "marble", "prob": 60, "charges": [ 1, 20 ] },
       { "item": "creepy_doll", "prob": 1, "charges": 100 },
@@ -137,6 +139,7 @@
       { "group": "toy_makerspace_kit", "prob": 10 },
       { "group": "toy_robot_kit", "prob": 10 },
       { "group": "toy_engine_kit", "prob": 10 },
+      { "item": "air_launcher", "prob": 5 },
       { "item": "wizard_cane_cheap", "prob": 5, "charges": [ 1, 100 ] },
       { "item": "wizard_cane", "prob": 1, "charges": [ 50, 100 ] },
       [ "sinister_cane", 5 ],
@@ -180,7 +183,19 @@
   {
     "id": "victoria_shop",
     "type": "item_group",
-    "items": [ [ "bra", 70 ], [ "panties", 70 ], [ "boy_shorts", 50 ], [ "boxer_shorts", 70 ], [ "briefs", 50 ] ]
+    "items": [
+      [ "bra", 70 ],
+      [ "panties", 70 ],
+      [ "boy_shorts", 50 ],
+      [ "boxer_shorts", 70 ],
+      [ "briefs", 50 ],
+      [ "swim_briefs", 15 ],
+      [ "speedo", 10 ],
+      [ "bikini_top", 15 ],
+      [ "bikini_top_short", 5 ],
+      [ "bikini_bottom", 15 ],
+      [ "bikini_bottom_short", 5 ]
+    ]
   },
   {
     "id": "knife_shop",
@@ -190,14 +205,14 @@
       [ "knife_combat", 35 ],
       { "item": "knife_combat", "container-item": "sheath", "prob": 5 },
       { "item": "knife_combat", "container-item": "gartersheath1", "prob": 5 },
-      { "item": "throwing_knife", "charges-min": 1, "charges-max": 6, "container-item": "leg_sheath6", "prob": 5 },
+      { "item": "throwing_knife", "count-min": 1, "count-max": 6, "entry-wrapper": "leg_sheath6", "prob": 5 },
       [ "throwing_knife", 10 ],
       [ "pockknife", 50 ],
       [ "punch_dagger", 10 ],
       [ "knife_trench", 7 ],
       [ "switchblade", 20 ],
       [ "knife_hunting", 20 ],
-      [ "knife_rambo", 5 ]
+      { "group": "knife_rambo_full", "prob": 5 }
     ]
   },
   {
@@ -251,6 +266,7 @@
       [ "string_6", 50 ],
       [ "leather", 10 ],
       [ "fur", 7 ],
+      [ "sheet_leather", 20 ],
       [ "tanned_hide", 20 ],
       [ "tanned_pelt", 20 ]
     ]
@@ -285,17 +301,17 @@
     "subtype": "distribution",
     "items": [
       { "item": "pipe_tobacco", "prob": 60 },
-      { "item": "tobacco", "prob": 70 },
+      { "prob": 70, "group": "tobacco_bag_plastic_20" },
       { "group": "cigar_box_unopened", "prob": 15, "count": [ 1, 10 ] },
       { "item": "case_cigar", "prob": 20, "count": [ 1, 5 ] },
-      { "item": "weed", "prob": 5 },
+      { "item": "weed", "prob": 5, "count": 5 },
       { "item": "joint", "prob": 5 },
-      { "item": "seed_weed", "prob": 5 },
+      { "item": "seed_weed", "prob": 5, "count": 2 },
       { "item": "seed_tobacco", "prob": 5 },
       { "item": "rolling_paper", "prob": 45 },
       { "item": "pipe_glass", "prob": 20 },
-      { "item": "cig", "prob": 60 },
-      { "item": "chaw", "prob": 60 }
+      { "prob": 60, "group": "cig_box_cigarette_20" },
+      { "prob": 60, "group": "chaw_wrapper_20" }
     ]
   },
   {
@@ -314,7 +330,7 @@
       { "item": "cell_phone", "prob": 60, "charges": 150 },
       { "item": "smart_phone", "prob": 60, "charges": 120 },
       [ "wristwatch", 60 ],
-      [ "mobile_memory_card_used", 10 ],
+      [ "memory_card", 10 ],
       [ "fitness_band", 5 ]
     ]
   },
@@ -337,6 +353,7 @@
       { "item": "candle", "prob": 50, "charges": 100 },
       [ "scissors", 30 ],
       [ "soap", 45 ],
+      [ "moisturizer", 45 ],
       { "item": "tailors_kit", "prob": 25, "charges": 400 },
       { "item": "shavingkit", "prob": 20, "charges": 10 },
       { "item": "elec_hairtrimmer", "prob": 20, "charges": 50 },
@@ -345,7 +362,16 @@
       [ "hair_dryer", 40 ],
       [ "curling_iron", 40 ],
       [ "comb_pocket", 10 ],
-      [ "hairbrush", 10 ]
+      [ "hairbrush", 10 ],
+      [ "mirror", 35 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "chaw_wrapper_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "wrapper",
+    "entries": [ { "item": "chaw", "container-item": "null", "count": 20 } ]
   }
 ]

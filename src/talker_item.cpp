@@ -35,6 +35,11 @@ tripoint talker_item::pos() const
     return me_it->position();
 }
 
+tripoint_abs_ms talker_item::global_pos() const
+{
+    return tripoint_abs_ms( get_map().getabs( me_it->position() ) );
+}
+
 tripoint_abs_omt talker_item::global_omt_location() const
 {
     return get_player_character().global_omt_location();

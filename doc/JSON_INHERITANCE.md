@@ -3,19 +3,32 @@ To reduce duplication in the JSON data it is possible for some types to inherit 
 
 ## Examples
 In the following condensed example ```556``` ammo is derived from ```223``` ammo via ```copy-from```:
+```json
+  {
+    "id": "556",
+    "copy-from": "223",
+    "type": "AMMO",
+    "name": "5.56 NATO M855A1",
+    "description": "5.56x45mm ammunition with a 62gr FMJ bullet...",
+    "price": 3500,
+    "relative": {
+      "damage": -2,
+      "pierce": 4,
+    },
+    "extend": { "effects": [ "NEVER_MISFIRES" ] }
+  }
 ```
-"id": "556",
-"copy-from": "223",
-"type": "AMMO",
-"name": "5.56 NATO M855A1",
-"description": "5.56x45mm ammunition with a 62gr FMJ bullet...",
-"price": 3500,
-"relative": {
-    "damage": -2,
-    "pierce": 4,
-},
-"extend": { "effects": [ "NEVER_MISFIRES" ] }
+In monsters it would look slightly different and has a few options while still using ```copy-from```:
 ```
+"relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_damage": 2 },
+
+
+"//": "Relative usage",
+  "relative": { "melee_damage": [ { "damage_type": "cut", "amount": 2 } ] }
+"//": "or",
+  "relative": { "melee_damage": 2 },
+```
+
 The following rules apply to the above example:
 
 * Missing fields have the same value as the parent
@@ -30,17 +43,19 @@ The following rules apply to the above example:
 
 Reloaded ammo is derived from the factory equivalent but with a 10% penalty to ```damage``` and ```dispersion``` and a chance to misfire:
 
-```
-"id": "reloaded_556",
-"copy-from": "556",
-"type": "AMMO",
-"name": "reloaded 5.56 NATO",
-"proportional": {
-    "damage": 0.9,
-    "dispersion": 1.1
-},
-"extend": { "effects": [ "RECYCLED" ] },
-"delete": { "effects": [ "NEVER_MISFIRES" ] }
+```json
+  {
+    "id": "reloaded_556",
+    "copy-from": "556",
+    "type": "AMMO",
+    "name": "reloaded 5.56 NATO",
+    "proportional": {
+     "damage": 0.9,
+      "dispersion": 1.1
+    },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  }
 ```
 The following additional rules apply to the above example:
 
@@ -50,18 +65,31 @@ Numeric values may be specified ```proportional``` to the parent by via a decima
 
 Flags can be deleted via ```delete```. It is not an error if the deleted flag does not exist in the parent.
 
-It is possible to define an ```abstract``` type that exists only for other types to inherit from and cannot itself be used in game. In the following condensed example ```magazine_belt``` provides values common to all implemented ammo belts:
+As with relative in monsters it would look slightly different and has two options while still using ```copy-from```:
 ```
-"abstract": "magazine_belt",
-"type": "MAGAZINE",
-"name": "Ammo belt",
-"description": "An ammo belt consisting of metal linkages which disintegrate upon firing.",
-"rigid": false,
-"armor_data": {
-    "covers": [ "TORSO" ],
-    ...
-},
-"flags": [ "MAG_BELT", "MAG_DESTROY" ]
+"proportional": { "hp": 1.5, "speed": 1.5, "attack_cost": 1.5, "melee_damage": 0.8 },
+
+
+"//": "Proportional usage",
+  "proportional": { "melee_damage": [ { "damage_type": "cut", "amount": 0.8 } ] },
+"//": "or",
+  "proportional": { "melee_damage": 0.8 },
+```
+
+It is possible to define an ```abstract``` type that exists only for other types to inherit from and cannot itself be used in game. In the following condensed example ```magazine_belt``` provides values common to all implemented ammo belts:
+```json
+  {
+    "abstract": "magazine_belt",
+    "type": "MAGAZINE",
+    "name": "Ammo belt",
+    "description": "An ammo belt consisting of metal linkages which disintegrate upon firing.",
+    "rigid": false,
+    "armor_data": {
+      "covers": [ "TORSO" ],
+      ...
+    },
+    "flags": [ "MAG_BELT", "MAG_DESTROY" ]
+  }
 ```
 The following additional rules apply to the above example:
 

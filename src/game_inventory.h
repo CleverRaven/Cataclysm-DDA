@@ -14,11 +14,6 @@
 class Character;
 struct tripoint;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 class avatar;
 class item;
 class repair_item_actor;
@@ -49,9 +44,9 @@ item_location titled_menu( avatar &you, const std::string &title,
                            const std::string &none_message = "" );
 // item selector for items in @you's inventory with a filter
 item_location titled_filter_menu( const item_filter &filter, avatar &you,
-                                  const std::string &title, const std::string &none_message = "" );
+                                  const std::string &title, int radius = -1, const std::string &none_message = "" );
 item_location titled_filter_menu( const item_location_filter &filter, avatar &you,
-                                  const std::string &title, const std::string &none_message = "" );
+                                  const std::string &title, int radius = -1, const std::string &none_message = "" );
 
 /**
 * @name Customized inventory menus
@@ -66,7 +61,7 @@ item_location titled_filter_menu( const item_location_filter &filter, avatar &yo
 
 void common( avatar &you );
 void common( item_location &loc, avatar &you );
-void compare( avatar &you, const cata::optional<tripoint> &offset );
+void compare( avatar &you, const std::optional<tripoint> &offset );
 void reassign_letter( avatar &you, item &it );
 void swap_letters( avatar &you );
 
@@ -83,15 +78,15 @@ bool compare_items( const item &first, const item &second,
  * Select items to drop.
  * @return A list of pairs of item_location, quantity.
  */
-drop_locations multidrop( avatar &you );
+drop_locations multidrop( Character &you );
 /**
  * Select items to pick up.
  * If target is provided, pick up items only from that tile (presumably adjacent to the avatar).
  * Otherwise, pick up items from the avatar's current location and all adjacent tiles.
  * @return A list of pairs of item_location, quantity.
  */
-drop_locations pickup( avatar &you, const cata::optional<tripoint> &target = cata::nullopt,
-                       std::vector<drop_location> selection = {} );
+drop_locations pickup( avatar &you, const std::optional<tripoint> &target = std::nullopt,
+                       const std::vector<drop_location> &selection = {} );
 
 drop_locations smoke_food( Character &you, units::volume total_capacity,
                            units::volume used_capacity );
@@ -100,15 +95,13 @@ drop_locations smoke_food( Character &you, units::volume total_capacity,
 * Consume an item via a custom menu.
 * If item_location is provided then consume only from the contents of that container.
 */
-item_location consume( avatar &you, const item_location loc = item_location() );
+item_location consume( avatar &you, const item_location &loc = item_location() );
 /** Consuming a food item via a custom menu. */
 item_location consume_food( avatar &you );
 /** Consuming a drink item via a custom menu. */
 item_location consume_drink( avatar &you );
 /** Consuming a medication item via a custom menu. */
 item_location consume_meds( avatar &you );
-/** Consuming fuel item via a custom menu. */
-item_location consume_fuel( avatar &you );
 /** Choosing a container for liquid. */
 item_location container_for( Character &you, const item &liquid, int radius = 0,
                              const item *avoid = nullptr );
@@ -118,6 +111,8 @@ item_location disassemble( Character &you );
 item_location gun_to_modify( Character &you, const item &gunmod );
 /** Book reading menu. */
 item_location read( Character &you );
+/** E-Book reading menu. */
+item_location ereader_to_use( Character &you );
 /** eBook reading menu. */
 item_location ebookread( Character &you, item_location &ereader );
 /** Menu for stealing stuff. */
@@ -132,8 +127,13 @@ void insert_items( avatar &you, item_location &holster );
 drop_locations unload_container( avatar &you );
 /** Choosing a gun to saw down it's barrel. */
 item_location saw_barrel( Character &you, item &tool );
+/** Choosing a gun to saw down its barrel. */
+item_location saw_stock( Character &you, item &tool );
 /** Choosing an item to attach to a load bearing vest. */
 item_location molle_attach( Character &you, item &tool );
+/** Choosing an item to attach to a vehicle tool station. */
+item_location veh_tool_attach( Character &you, const std::string &vp_name,
+                               const std::set<itype_id> &allowed_types );
 /** Choose item to wear. */
 item_location wear( Character &you, const bodypart_id &bp = bodypart_id( "bp_null" ) );
 /** Choose item to take off. */
@@ -146,6 +146,8 @@ item_location repair( Character &you, const repair_item_actor *actor, const item
 item_location install_bionic( Character &you, Character &patient, bool surgeon = false );
 /**Autoclave sterilize menu*/
 item_location sterilize_cbm( Character &you );
+/** Change sprite menu. */
+item_location change_sprite( Character &you );
 /*@}*/
 
 } // namespace inv

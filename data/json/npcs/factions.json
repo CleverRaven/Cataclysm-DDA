@@ -22,7 +22,7 @@
       }
     },
     "mon_faction": "player",
-    "epilogues": [ { "power_min": 0, "id": "epilogue_faction_your_followers_0" } ],
+    "epilogues": [ { "power_min": 0, "power_max": 149, "id": "epilogue_faction_your_followers_0" } ],
     "description": "The survivors who have entrusted you with their well-being.  If morale drops, poor performance and mutiny may become issues."
   },
   {
@@ -63,6 +63,7 @@
     "food_supply": 115200,
     "wealth": 100000000,
     "currency": "RobofacCoin",
+    "price_rules": [ { "group": "NC_ROBOFAC_gear", "markup": 2 } ],
     "relations": {
       "robofac": {
         "kill on sight": false,
@@ -75,13 +76,16 @@
       },
       "marloss": { "kill on sight": true }
     },
-    "epilogues": [ { "power_min": 0, "id": "epilogue_faction_robofac_0" }, { "power_max": 150, "id": "epilogue_faction_robofac_150" } ],
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_robofac_0" },
+      { "power_min": 150, "power_max": 299, "id": "epilogue_faction_robofac_150" }
+    ],
     "description": "The surviving staff of Hub 01, a pre-Cataclysm research lab.  They rarely leave their lab, if at all, and rely on their robots and advanced technology to survive."
   },
   {
     "type": "faction",
     "id": "robofac_auxiliaries",
-    "name": "Hub 01 Ancillia",
+    "name": "Hub 01 Ancilla",
     "likes_u": 15,
     "respects_u": 15,
     "known_by_u": false,
@@ -138,7 +142,7 @@
     },
     "epilogues": [
       { "power_min": 0, "id": "epilogue_faction_old_guard_0" },
-      { "power_max": 150, "id": "epilogue_faction_old_guard_150" }
+      { "power_min": 150, "id": "epilogue_faction_old_guard_150" }
     ],
     "description": "The remains of the federal government.  The extent of their strength is unknown but squads of patrolling soldiers have been seen under their banner."
   },
@@ -154,6 +158,17 @@
     "food_supply": 115200,
     "wealth": 75000000,
     "currency": "FMCNote",
+    "price_rules": [
+      { "item": "money_strap_FMCNote", "fixed_adj": 0 },
+      { "item": "money_bundle_FMCNote", "fixed_adj": 0 },
+      {
+        "item": "RobofacCoin",
+        "fixed_adj": 0.15,
+        "condition": { "compare_num": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "==", { "const": 2 } ] }
+      },
+      { "group": "NC_ROBOFAC_gear", "markup": 2.5 },
+      { "group": "games_board_all", "premium": 2.5 }
+    ],
     "relations": {
       "free_merchants": {
         "kill on sight": false,
@@ -212,8 +227,8 @@
       "hells_raiders": { "kill on sight": true }
     },
     "epilogues": [
-      { "power_min": 0, "id": "epilogue_faction_free_merchants_0" },
-      { "power_max": 150, "id": "epilogue_faction_free_merchants_150" }
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_free_merchants_0" },
+      { "power_min": 150, "id": "epilogue_faction_free_merchants_150" }
     ],
     "description": "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
   },
@@ -289,6 +304,7 @@
     "food_supply": 115200,
     "wealth": 10000000,
     "currency": "FMCNote",
+    "price_rules": [ { "item": "money_strap_FMCNote", "fixed_adj": 0 }, { "item": "money_bundle_FMCNote", "fixed_adj": 0 } ],
     "relations": {
       "free_merchants": {
         "kill on sight": false,
@@ -301,8 +317,8 @@
       }
     },
     "epilogues": [
-      { "power_min": 0, "id": "epilogue_faction_tacoma_commune_0" },
-      { "power_max": 150, "id": "epilogue_faction_tacoma_commune_150" }
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_tacoma_commune_0" },
+      { "power_min": 150, "id": "epilogue_faction_tacoma_commune_150" }
     ],
     "description": "An outpost started by the Free Merchants to provide a source of food and raw materials."
   },
@@ -318,6 +334,7 @@
     "food_supply": 4000,
     "wealth": 100000,
     "currency": "FMCNote",
+    "price_rules": [ { "item": "money_strap_FMCNote", "fixed_adj": 0 }, { "item": "money_bundle_FMCNote", "fixed_adj": 0 } ],
     "relations": {
       "free_merchants": {
         "kill on sight": false,
@@ -330,8 +347,8 @@
       }
     },
     "epilogues": [
-      { "power_min": 0, "id": "epilogue_faction_isolated_road_0" },
-      { "power_max": 150, "id": "epilogue_faction_isolated_road_150" }
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_isolated_road_0" },
+      { "power_min": 150, "id": "epilogue_faction_isolated_road_150" }
     ],
     "description": "A couple of talented artisans in the country."
   },
@@ -399,8 +416,8 @@
       "no_faction": { "knows your voice": true }
     },
     "epilogues": [
-      { "power_min": 0, "id": "epilogue_faction_wasteland_scavengers_0" },
-      { "power_max": 150, "id": "epilogue_faction_wasteland_scavengers_150" }
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_wasteland_scavengers_0" },
+      { "power_min": 150, "id": "epilogue_faction_wasteland_scavengers_150" }
     ],
     "description": "Autonomous bands or individuals who make their living raiding the ruins of the old-world for gear and provisions."
   },
@@ -425,15 +442,100 @@
         "defends your space": true,
         "knows your voice": true
       },
+      "slaves": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": false
+      },
       "free_merchants": { "kill on sight": true },
       "old_guard": { "kill on sight": true },
       "your_followers": { "kill on sight": true }
     },
     "epilogues": [
-      { "power_min": 0, "id": "epilogue_faction_hells_raiders_0" },
-      { "power_max": 150, "id": "epilogue_faction_hells_raiders_150" }
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_hells_raiders_0" },
+      { "power_min": 150, "id": "epilogue_faction_hells_raiders_150" }
     ],
     "description": "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."
+  },
+  {
+    "type": "faction",
+    "id": "slaves",
+    "name": "Enslaved individuals",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 1,
+    "power": 1,
+    "food_supply": 1,
+    "wealth": 1,
+    "relations": {
+      "slaves": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "hells_raiders": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": false
+      },
+      "free_merchants": { "kill on sight": false },
+      "old_guard": { "kill on sight": false },
+      "your_followers": { "kill on sight": false }
+    },
+    "description": "Individuals who have been enslaved or held prisoner for a long period of time, for various reasons."
+  },
+  {
+    "type": "faction",
+    "id": "valhallists",
+    "name": "Norse Evangelicals",
+    "likes_u": 2,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 100,
+    "power": 100,
+    "food_supply": 172800,
+    "wealth": 25000,
+    "currency": "signed_chit",
+    "relations": {
+      "valhallists": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "your_followers": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": false
+      },
+      "marloss": { "kill on sight": true },
+      "hells_raiders": { "kill on sight": true }
+    },
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_valhallists_0" },
+      { "power_min": 150, "id": "epilogue_faction_valhallists_150" }
+    ],
+    "description": "A band of people practicing 'Asatro' or 'Forn Sidr'; the worship of the Norse pantheon.  Thay have the common goal of recruiting new members, entering Valhalla, and exterminating the Marloss Evangelists; whom they deem heretics."
   },
   {
     "type": "faction",
@@ -529,6 +631,10 @@
       },
       "hells_raiders": { "kill on sight": true }
     },
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_isherwoods_0" },
+      { "power_min": 150, "id": "epilogue_faction_isherwoods_150" }
+    ],
     "description": "A small family surviving on their generational land."
   },
   {
@@ -544,6 +650,15 @@
     "food_supply": 87500,
     "wealth": 82500,
     "relations": {
+      "gods_community": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
       "free_merchants": {
         "kill on sight": false,
         "watch your back": true,
@@ -608,6 +723,10 @@
       "hells_raiders": { "kill on sight": true },
       "marloss": { "kill on sight": true }
     },
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_gods_community_0" },
+      { "power_min": 150, "id": "epilogue_faction_gods_community_150" }
+    ],
     "description": "A small group of churchgoers that formed a community in the woods.  They welcome anyone in their faction, but hate the unnatural."
   },
   {
@@ -687,6 +806,10 @@
       "hells_raiders": { "kill on sight": true },
       "marloss": { "kill on sight": true }
     },
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_lapin_0" },
+      { "power_min": 150, "id": "epilogue_faction_lapin_150" }
+    ],
     "description": "Mr. Lapin and any acolytes he may have gathered in the apocalypse."
   },
   {
@@ -733,6 +856,10 @@
       "old_guard": { "kill on sight": true },
       "your_followers": { "kill on sight": false }
     },
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_prisoners_0" },
+      { "power_min": 150, "id": "epilogue_faction_prisoners_150" }
+    ],
     "description": "Former prisoners who got their freedom during the apocalypse."
   },
   {
@@ -746,6 +873,7 @@
     "power": 100,
     "food_supply": 115200,
     "wealth": 75000000,
+    "price_rules": [ { "group": "games_board_all", "premium": 2.5 } ],
     "relations": {
       "free_merchants": {
         "kill on sight": false,
@@ -811,6 +939,94 @@
         "knows your voice": true
       }
     },
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_exodii_0" },
+      { "power_min": 150, "id": "epilogue_faction_exodii_150" }
+    ],
     "description": "A tribe of scavengers and survivors that have been through this before, and sacrificed what they must to make it through."
+  },
+  {
+    "type": "faction",
+    "id": "the_great_library",
+    "name": "The Great Library",
+    "likes_u": 30,
+    "respects_u": 30,
+    "known_by_u": false,
+    "size": 100,
+    "power": 100,
+    "food_supply": 115200,
+    "wealth": 25000000,
+    "currency": "FlatCoin",
+    "price_rules": [
+      { "item": "money_strap_FMCNote", "fixed_adj": 0 },
+      { "item": "money_bundle_FMCNote", "fixed_adj": 0 },
+      { "group": "games_board_all", "premium": 2.5 },
+      { "group": "manuals", "premium": 2 },
+      { "group": "textbooks", "premium": 2 },
+      { "group": "literature", "premium": 2 },
+      { "group": "exotic_books", "premium": 10 }
+    ],
+    "relations": {
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "tacoma_commune": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "hells_raiders": { "kill on sight": true }
+    },
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_the_great_library_0" },
+      { "power_min": 150, "id": "epilogue_faction_the_great_library_150" }
+    ],
+    "description": "A group of academics and other survivors that stand together to preserve and spread knowledge of the world."
   }
 ]

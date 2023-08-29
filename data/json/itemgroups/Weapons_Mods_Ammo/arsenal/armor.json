@@ -1,0 +1,38 @@
+[
+  {
+    "type": "item_group",
+    "id": "arsenal_armor_collection",
+    "subtype": "collection",
+    "items": [
+      { "group": "arsenal_armor_armor", "count": [ 2, 4 ] },
+      { "group": "pristine_esapi_plates", "count": [ 2, 6 ] },
+      { "group": "arsenal_mics_carrying", "prob": 80, "count": [ 2, 8 ] },
+      { "group": "arsenal_mics_rare", "prob": 10 },
+      { "group": "full_ifak", "prob": 80, "count": [ 1, 2 ] },
+      { "group": "arsenal_mics_tools", "count": [ 1, 4 ] },
+      { "item": "large_repairkit", "prob": 2 },
+      { "item": "small_repairkit", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "arsenal_armor_armor",
+    "subtype": "collection",
+    "items": [
+      { "group": "military_ballistic_vest_pristine", "prob": 100, "count": [ 1, 4 ] },
+      { "item": "helmet_army", "prob": 100, "count": [ 1, 4 ] },
+      { "item": "tac_fullhelmet", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "glasses_bal", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "powered_earmuffs", "prob": 60, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "arsenal_armor+plates",
+    "subtype": "collection",
+    "items": [
+      { "group": "arsenal_armor_armor", "count": [ 2, 4 ] },
+      { "group": "pristine_esapi_plates", "prob": 100, "count": [ 2, 6 ] }
+    ]
+  }
+]

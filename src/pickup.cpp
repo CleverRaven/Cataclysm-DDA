@@ -8,6 +8,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -34,7 +35,6 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"
@@ -58,6 +58,7 @@
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
 
+static const flag_id json_flag_SHREDDED( "SHREDDED" );
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 
 //helper function for Pickup::autopickup
@@ -84,6 +85,7 @@ struct pickup_count {
 
 enum pickup_answer : int {
     CANCEL = -1,
+    WIELD,
     SPILL,
     STASH,
     NUM_ANSWERS
@@ -98,6 +100,7 @@ static pickup_answer handle_problematic_pickup( const item &it, const std::strin
     amenu.text = explain;
 
     if( it.is_bucket_nonempty() ) {
+        amenu.addentry( WIELD, true, 'w', _( "Wield %s" ), it.display_name() );
         amenu.addentry( SPILL, u.can_stash( it ), 's', _( "Spill contents of %s, then pick up %s" ),
                         it.tname(), it.display_name() );
     }
@@ -156,12 +159,15 @@ bool Pickup::query_thief()
 }
 
 // Returns false if pickup caused a prompt and the player selected to cancel pickup
-static bool pick_one_up( item_location &loc, int quantity, bool &got_water, PickupMap &mapPickup,
-                         bool autopickup, bool &stash_successful )
+static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &got_gas,
+                         PickupMap &mapPickup,
+                         bool autopickup, bool &stash_successful, bool &got_frozen_liquid )
 {
     Character &player_character = get_player_character();
     int moves_taken = loc.obtain_cost( player_character, quantity );
     bool picked_up = false;
+    bool crushed = false;
+
     pickup_answer option = CANCEL;
 
     // We already checked in do_pickup if this was a nullptr
@@ -197,11 +203,21 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
 
     bool did_prompt = false;
     if( newit.is_frozen_liquid() ) {
-        if( !( got_water = !player_character.crush_frozen_liquid( newloc ) ) ) {
+        if( newit.has_flag( json_flag_SHREDDED ) ) {
             option = STASH;
+        } else {
+            crushed = player_character.crush_frozen_liquid( newloc );
+            if( crushed ) {
+                option = STASH;
+                newit.set_flag( json_flag_SHREDDED );
+            } else {
+                got_frozen_liquid = true;
+            }
         }
-    } else if( newit.made_of_from_type( phase_id::LIQUID ) && !newit.is_frozen_liquid() ) {
+    } else if( newit.made_of_from_type( phase_id::LIQUID ) ) {
         got_water = true;
+    } else if( newit.made_of_from_type( phase_id::GAS ) ) {
+        got_gas = true;
     } else if( !player_character.can_pickWeight_partial( newit, false ) ||
                !player_character.can_stash_partial( newit, false ) ) {
         option = CANCEL;
@@ -226,6 +242,9 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
         case CANCEL:
             picked_up = false;
             break;
+        case WIELD:
+            picked_up = player_character.wield( newit );
+            break;
         case SPILL:
             if( newit.is_container_empty() ) {
                 debugmsg( "Tried to spill contents from an empty container" );
@@ -236,26 +255,19 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
             if( !picked_up ) {
                 break;
             } else {
-                const int invlet = newit.invlet;
+                const char invlet = newit.invlet;
                 newit = it;
                 newit.invlet = invlet;
             }
         // Intentional fallthrough
         case STASH: {
-            item &added_it = player_character.i_add( newit, true, nullptr, &it,
-                             /*allow_drop=*/false, /*allow_wield=*/false, false );
-            if( added_it.is_null() ) {
-                // failed to add, fill pockets if it's a stack
-                if( newit.count_by_charges() ) {
-                    int remaining_charges = newit.charges;
-                    item &carried_item = player_character.get_wielded_item();
-                    if( !carried_item.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) &&
-                        carried_item.can_contain_partial( newit ) ) {
-                        int used_charges = carried_item.fill_with( newit, remaining_charges, false, false, false );
-                        remaining_charges -= used_charges;
-                    }
-                    player_character.worn.pickup_stash( newit, remaining_charges, false );
-                    newit.charges -= remaining_charges;
+            int last_charges = newit.charges;
+            ret_val<item_location> ret = player_character.i_add_or_fill( newit, true, nullptr, &it,
+                                         /*allow_drop=*/false, /*allow_wield=*/false, false );
+            item_location added_it = ret.value();
+            if( ret.success() ) {
+                if( added_it == item_location::nowhere ) {
+                    newit.charges = last_charges - newit.charges;
                     newit.on_pickup( player_character );
                     if( newit.charges != 0 ) {
                         auto &entry = mapPickup[newit.tname()];
@@ -263,23 +275,24 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
                         entry.first = newit;
                         picked_up = true;
                     }
+                } else if( &*added_it == &it ) {
+                    // merged to the original stack, restore original charges
+                    it.charges = last_charges;
+                } else {
+                    // successfully added
+                    auto &entry = mapPickup[newit.tname()];
+                    entry.second += newit.count();
+                    entry.first = newit;
+                    picked_up = true;
                 }
-            } else if( &added_it == &it ) {
-                // merged to the original stack, restore original charges
-                it.charges -= newit.charges;
-            } else {
-                // successfully added
-                auto &entry = mapPickup[newit.tname()];
-                entry.second += newit.count();
-                entry.first = newit;
-                picked_up = true;
             }
-
             break;
         }
     }
 
     if( picked_up ) {
+        contents_change_handler handler;
+        handler.unseal_pocket_containing( loc );
         item &orig_it = *loc.get_item();
         // Subtract moved charges instead of assigning leftover charges,
         // since the total charges of the original item may have changed
@@ -301,6 +314,8 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
                         bool autopickup, bool &stash_successful )
 {
     bool got_water = false;
+    bool got_gas = false;
+    bool got_frozen_liquid = false;
     Character &player_character = get_player_character();
     bool weight_is_okay = ( player_character.weight_carried() <= player_character.weight_capacity() );
 
@@ -322,19 +337,28 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
             continue;
         }
 
-        problem = !pick_one_up( target, quantity, got_water, mapPickup, autopickup, stash_successful );
+        problem = !pick_one_up( target, quantity, got_water, got_gas, mapPickup, autopickup,
+                                stash_successful,
+                                got_frozen_liquid );
     }
 
     if( !mapPickup.empty() ) {
         show_pickup_message( mapPickup );
     }
-
+    if( got_frozen_liquid ) {
+        add_msg( m_info, _( "Chunks of frozen liquid cannot be picked up without the correct tools." ) );
+    }
     if( got_water ) {
         add_msg( m_info, _( "Spilt liquid cannot be picked back up.  Try mopping it instead." ) );
+    }
+    if( got_gas ) {
+        add_msg( m_info, _( "Spilt gasses cannot be picked up.  They will disappear over time." ) );
     }
     if( weight_is_okay && player_character.weight_carried() > player_character.weight_capacity() ) {
         add_msg( m_bad, _( "You're overburdened!" ) );
     }
+
+    player_character.recoil = MAX_RECOIL;
 
     return !problem;
 }
@@ -357,12 +381,12 @@ void Pickup::autopickup( const tripoint &p )
     // Recursively pick up adjacent items if that option is on.
     if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && player.pos() == p ) {
         //Autopickup adjacent
-        direction adjacentDir[8] = {
+        std::array<direction, 8> adjacentDir = {
             direction::NORTH, direction::NORTHEAST, direction::EAST,
             direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST,
             direction::WEST, direction::NORTHWEST
         };
-        for( auto &elem : adjacentDir ) {
+        for( direction &elem : adjacentDir ) {
 
             tripoint apos = tripoint( displace_XY( elem ), 0 );
             apos += p;
@@ -387,8 +411,8 @@ void Pickup::autopickup( const tripoint &p )
         target_items.push_back( selected.first );
         quantities.push_back( it->count_by_charges() ? it->charges : 0 );
     }
-    pickup_activity_actor actor = pickup_activity_actor( target_items, quantities, player.pos(), true );
-    player.assign_activity( player_activity( actor ) );
+    pickup_activity_actor actor( target_items, quantities, player.pos(), true );
+    player.assign_activity( actor );
 
     // Auto pickup will need to auto resume since there can be several of them on the stack.
     player.activity.auto_resume = true;

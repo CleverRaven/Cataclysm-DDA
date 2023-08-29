@@ -50,12 +50,12 @@
       "bio_power_storage_mkII",
       "bio_recoil"
     ],
-    "traits": [ "PROF_CYBERCOP" ],
+    "traits": [ "PROF_FED" ],
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "pistol" } ],
     "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
-        "items": [ "tac_fullhelmet", "police_belt", "pants_cargo", "under_armor", "socks", "boots", "badge_cybercop", "wristwatch" ],
+        "items": [ "tac_fullhelmet", "police_belt", "pants_cargo", "under_armor", "socks", "boots", "badge_marshal", "wristwatch" ],
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "charged_smart_phone" },
@@ -156,7 +156,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_GAME_MASTER" ]
   },
   {
     "type": "profession",
@@ -235,7 +236,8 @@
       },
       "male": [ "briefs", "socks", "pants", "platinum_bracelet" ],
       "female": [ "bra", "panties", "stockings", "garter_belt", "skirt", "platinum_ear" ]
-    }
+    },
+    "missions": [ "MISSION_ASSASSINATION" ]
   },
   {
     "type": "profession",
@@ -244,7 +246,7 @@
     "description": "When bionics first emerged, you were quick to make them into your career, and spent your days overseeing their installation.  That makes you one of the few non-zombies in the world that can calibrate an Autodoc, which might come in handy.",
     "points": 4,
     "skills": [ { "level": 4, "name": "firstaid" }, { "level": 4, "name": "electronics" } ],
-    "proficiencies": [ "prof_intro_biology", "prof_physiology", "prof_wound_care" ],
+    "proficiencies": [ "prof_intro_biology", "prof_physiology", "prof_wound_care", "prof_dissect_humans" ],
     "traits": [ "PROF_AUTODOC" ],
     "items": {
       "both": {
@@ -257,7 +259,7 @@
           "glasses_safety",
           "coat_lab",
           "mbag",
-          "bandages",
+          { "item": "bandages", "count": 3 },
           "wristwatch",
           "stethoscope"
         ],
@@ -275,7 +277,7 @@
     "points": 6,
     "CBMs": [ "bio_surgical_razor", "bio_flashlight", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 8, "name": "firstaid" } ],
-    "proficiencies": [ "prof_intro_biology", "prof_physiology", "prof_wound_care", "prof_wound_care_expert" ],
+    "proficiencies": [ "prof_intro_biology", "prof_physiology", "prof_wound_care", "prof_wound_care_expert", "prof_dissect_humans" ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -336,7 +338,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_PATIENT" ]
   },
   {
     "type": "profession",
@@ -453,7 +456,6 @@
       "both": {
         "items": [
           "pants_army",
-          "army_top",
           "jacket_army_modern",
           "gloves_tactical",
           "rucksack",
@@ -466,13 +468,14 @@
           "tent_kit",
           "rollmat",
           "e_tool",
-          "knife_hunting"
+          "knife_hunting",
+          "mess_kit"
         ],
         "entries": [
-          { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "mil_mess_kit" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "hat_boonie", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           {
             "item": "m2010",
             "ammo-item": "300_winmag",
@@ -533,14 +536,14 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sheath", "contents-item": "knife_combat" },
           {
-            "item": "m27_assault_rifle",
-            "variant": "h&k416a5",
+            "item": "modular_m27_assault_rifle",
+            "variant": "modular_h&k416a5",
             "ammo-item": "556",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "acog_scope" ],
             "custom-flags": [ "auto_wield" ]
           },
-          { "group": "military_ballistic_vest_pristine" },
+          { "group": "us_ballistic_vest_pristine" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" }
         ]
       },
@@ -649,8 +652,12 @@
     ],
     "items": {
       "both": {
-        "items": [ "socks", "jeans", "leather_belt", "boots_steel", "gloves_work", "glasses_safety", "hat_hard", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "items": [ "socks", "jeans", "leather_belt", "boots_steel", "gloves_work", "glasses_safety", "wristwatch" ],
+        "entries": [
+          { "item": "hat_hard", "variant": "yellow_hat_hard" },
+          { "group": "charged_smart_phone" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "panties" ]
@@ -696,7 +703,8 @@
       "bio_trickle",
       "bio_trickle"
     ],
-    "items": { "both": [ "subsuit_xl", "footrags", "hat_noise_cancelling" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
+    "items": { "both": [ "subsuit_xl", "footrags", "hat_noise_cancelling" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] },
+    "missions": [ "MISSION_BIONICS_FAULTY" ]
   },
   {
     "type": "profession",
@@ -725,7 +733,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "camisole", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_BIONICS_FAULTY" ]
   },
   {
     "type": "profession",
@@ -752,6 +761,7 @@
       "bio_water_extractor",
       "bio_taste_blocker"
     ],
+    "proficiencies": [ "prof_dissect_humans" ],
     "skills": [
       { "level": 3, "name": "melee" },
       { "level": 3, "name": "stabbing" },
@@ -771,7 +781,8 @@
       ],
       "male": [ "briefs" ],
       "female": [ "panties" ]
-    }
+    },
+    "missions": [ "MISSION_BIONICS_FAULTY" ]
   },
   {
     "type": "profession",
@@ -795,7 +806,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "missions": [ "MISSION_BIONICS_FAULTY" ]
   },
   {
     "type": "profession",

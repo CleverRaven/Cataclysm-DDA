@@ -56,5 +56,14 @@
     "type": "overmap_terrain",
     "id": "microlab_DinoLab_surface_roof",
     "copy-from": "microlab_DinoLab_surface"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mi-go_scout_tower_dino_1", "mi-go_scout_tower_2", "mi-go_scout_tower_dino_3", "mi-go_scout_tower_4" ],
+    "name": "mi-go scout tower",
+    "sym": ">",
+    "color": "light_gray",
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
   }
 ]

@@ -1,0 +1,123 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_cosmetic" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "__....................._",
+        "__.v.v.v.v.v.v.v.v.v.v._",
+        "__....................._",
+        "__....................._",
+        "__|====-====-=[[=-====|_",
+        "__|  tt^tt  t^RR^# b  |_",
+        "__|              #### |_",
+        "__=t  rrr  rrr        =_",
+        "__|r  r|r  r|r  r|t   |_",
+        "__|r  r|r  r|r  r|7   |_",
+        "__|r  r|r  r|r  r|7   |_",
+        "__|r  r|r  r|r  r|7   |_",
+        "__|r  r|r  r|r  r|t   |_",
+        "__=                   =_",
+        "__|    |r  r|t  t|r  r|_",
+        "__| ^  |r  r|t  t|r  r|_",
+        "__|    |r  r|t  t|r  r|_",
+        "__| ^  |r  r|t  t|r  r|_",
+        "__|                   |_",
+        "__|--I----------------|_",
+        ".4|***C|**CC**kkkk*| T|_",
+        "..|***C|***********|  |_",
+        "..L****+***********I j|_",
+        "..|-------------------|_"
+      ],
+      "fill_ter": "t_linoleum_white",
+      "terrain": {
+        " ": "t_linoleum_white",
+        "j": "t_linoleum_white",
+        "T": "t_linoleum_white",
+        "*": "t_thconc_floor",
+        "k": "t_thconc_floor",
+        "+": "t_door_c",
+        "-": "t_wall_w",
+        "=": "t_wall_glass",
+        "C": "t_thconc_floor",
+        "I": [ "t_door_locked_interior", "t_door_c" ],
+        "L": "t_door_locked",
+        "[": "t_door_glass_c",
+        "R": "t_carpet_red",
+        "_": "t_region_groundcover_urban",
+        ".": "t_concrete",
+        "v": "t_concrete",
+        "4": "t_gutter_downspout",
+        "|": "t_wall_w"
+      },
+      "furniture": {
+        "#": "f_counter",
+        "7": "f_bookcase",
+        "C": "f_crate_c",
+        "S": "f_sink",
+        "^": "f_indoor_plant",
+        "v": "f_indoor_plant",
+        "T": "f_toilet",
+        "j": "f_sink",
+        "k": "f_locker",
+        "b": "f_stool",
+        "r": "f_rack",
+        "t": "f_table"
+      },
+      "items": {
+        "k": { "item": "cleaning", "chance": 70 },
+        "r": [ { "item": "beauty", "chance": 30, "repeat": [ 0, 4 ] } ],
+        "C": [ { "item": "beauty", "chance": 70, "repeat": [ 1, 4 ] } ],
+        "t": [ { "item": "beauty", "chance": 30, "repeat": [ 0, 4 ] } ],
+        "7": [ { "item": "beauty", "chance": 30, "repeat": [ 0, 4 ] } ]
+      },
+      "place_items": [ { "item": "cash_register_random", "x": [ 18, 20 ], "y": 6, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_cosmetic_roof",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  --------------------- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...&...............- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...............&...- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  5...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  --------------------- "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_items": [ { "item": "roof_trash", "x": [ 5, 19 ], "y": [ 5, 22 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 30 ], [ "roof_6x6_utility", 30 ], [ "roof_4x4_utility_1", 40 ] ],
+          "x": [ 5, 14 ],
+          "y": [ 14, 16 ]
+        }
+      ]
+    }
+  }
+]

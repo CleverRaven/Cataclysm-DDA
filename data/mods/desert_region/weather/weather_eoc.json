@@ -1,0 +1,184 @@
+[
+  {
+    "id": "test_duststorm",
+    "type": "TOOL",
+    "name": { "str": "test dust storm causer" },
+    "description": "Causes dust storms.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "!",
+    "color": "light_red",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Touch the opening.",
+      "effect_on_conditions": [ "EOC_CAUSE_EARLY_DUST_STORM" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DUST_STORM_WARN_OR_CAUSE_RECURRING",
+    "recurrence": [ { "global_val": "ds_min_woc", "default": "1 days" }, { "global_val": "ds_max_woc", "default": "2 days" } ],
+    "global": true,
+    "effect": { "run_eocs": "EOC_CAUSE_EARLY_DUST_STORM" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DUST_EARLY_MESSAGES",
+    "recurrence": [ "2 minutes", "5 minutes" ],
+    "global": true,
+    "condition": { "is_weather": "early_dust_storm" },
+    "deactivate_condition": { "not": { "is_weather": "early_dust_storm" } },
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_DUST_STORM_WARN_CAN_SEE_OUTDOORS",
+          "condition": { "and": [ "u_can_see", "u_is_outside", { "not": { "u_has_effect": "sleep" } } ] },
+          "effect": {
+            "run_eocs": {
+              "id": "EOC_DUST_STORM_WARN_DAY_NIGHT",
+              "condition": "is_day",
+              "effect": { "u_message": "DUST_STORM_DAY_MESSAGES_1", "snippet": true },
+              "false_effect": { "u_message": "DUST_STORM_NIGHT_MESSAGES_1", "snippet": true }
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CAUSE_EARLY_DUST_STORM",
+    "global": true,
+    "//": "This sets up all the variables for the start of an early dust storm.",
+    "condition": {
+      "not": {
+        "or": [
+          { "is_weather": "dust_storm" },
+          { "is_weather": "early_dust_storm" },
+          { "compare_num": [ { "global_val": "var", "var_name": "cause_dust_storm" }, "=", { "const": 1 } ] },
+          { "compare_num": [ { "global_val": "var", "var_name": "cause_early_dust_storm" }, "=", { "const": 1 } ] },
+          { "is_weather": "portal_storm" },
+          { "is_weather": "early_portal_storm" },
+          { "compare_num": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 1 } ] },
+          { "compare_num": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 1 } ] }
+        ]
+      }
+    },
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "cause_early_dust_storm" }, "=", { "const": 1 } ] },
+      "next_weather",
+      { "queue_eocs": "EOC_CAUSE_DUST_STORM", "time_in_future": [ "5 minutes", "30 minutes" ] },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_EARLY_DUST_STORM_POPUP",
+            "condition": { "and": [ "u_can_see", "u_is_outside", { "not": { "u_has_effect": "sleep" } } ] },
+            "effect": {
+              "run_eocs": {
+                "id": "EOC_DUST_STORM_POPUP_DAY_NIGHT",
+                "condition": "is_day",
+                "effect": {
+                  "u_message": "You suddenly notice a wall of dust and debris coming your way.  A dust storm is approaching.",
+                  "popup": true,
+                  "type": "bad"
+                },
+                "false_effect": {
+                  "u_message": "NIGHT You suddenly notice a wall of dust and debris coming your way.  A dust storm is approaching.",
+                  "popup": true,
+                  "type": "bad"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CAUSE_DUST_STORM",
+    "global": true,
+    "//": "This sets up all the variables for the start of a dust storm.",
+    "condition": {
+      "not": {
+        "or": [
+          { "is_weather": "dust_storm" },
+          { "compare_num": [ { "global_val": "var", "var_name": "cause_dust_storm" }, "=", { "const": 1 } ] }
+        ]
+      }
+    },
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "cause_early_dust_storm" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "cause_dust_storm" }, "=", { "const": 1 } ] },
+      "next_weather",
+      {
+        "queue_eocs": "EOC_CANCEL_DUST_STORM",
+        "time_in_future": [ { "global_val": "ds_min_length", "default": "1 hours" }, { "global_val": "ds_max_length", "default": "5 hours" } ]
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_DUST_STORM_MESSAGE",
+            "condition": { "and": [ "u_can_see", "u_is_outside", { "not": { "u_has_effect": "sleep" } } ] },
+            "effect": { "u_message": "The dust storm has arrived!", "type": "bad" }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CANCEL_DUST_STORM",
+    "global": true,
+    "//": "This sets up all the variables for the end of a dust storm.",
+    "condition": {
+      "or": [
+        { "is_weather": "dust_storm" },
+        { "is_weather": "early_dust_storm" },
+        { "compare_num": [ { "global_val": "var", "var_name": "cause_dust_storm" }, "=", { "const": 1 } ] },
+        { "compare_num": [ { "global_val": "var", "var_name": "cause_early_dust_storm" }, "=", { "const": 1 } ] }
+      ]
+    },
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "cause_dust_storm" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "cause_early_dust_storm" }, "=", { "const": 0 } ] },
+      "next_weather",
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_END_DUST_STORM_MESSAGE",
+            "condition": { "and": [ "u_can_see", "u_is_outside", { "not": { "u_has_effect": "sleep" } } ] },
+            "effect": { "u_message": "As suddenly as it began, the dust storm fades.", "type": "good" }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DUST_WIND",
+    "recurrence": [ "10 seconds", "30 seconds" ],
+    "global": true,
+    "condition": { "and": [ { "math": [ "weather('windpower')", "<=", "60" ] }, { "is_weather": "early_dust_storm" } ] },
+    "deactivate_condition": { "not": { "is_weather": "early_dust_storm" } },
+    "effect": [ { "math": [ "weather('windpower')", "+=", "3" ] }, { "u_message": "WIND", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DUST_SMOKE",
+    "recurrence": [ "10 seconds", "30 seconds" ],
+    "global": true,
+    "condition": { "is_weather": "dust_storm" },
+    "deactivate_condition": { "not": { "is_weather": "dust_storm" } },
+    "effect": [ { "u_message": "Dust", "type": "bad" }, { "u_set_field": "fd_dust_storm", "outdoor_only": true, "intensity": 3 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DUST_WIND_STRONG",
+    "recurrence": [ "10 seconds", "30 seconds" ],
+    "global": true,
+    "condition": { "and": [ { "math": [ "weather('windpower')", "<=", "120" ] }, { "is_weather": "dust_storm" } ] },
+    "deactivate_condition": { "not": { "is_weather": "dust_storm" } },
+    "effect": [ { "math": [ "weather('windpower')", "+=", "4" ] }, { "u_message": "WIND", "type": "bad" } ]
+  }
+]

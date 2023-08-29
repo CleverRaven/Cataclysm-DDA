@@ -27,7 +27,7 @@
     "weapon_override": "John_Bailey_wield",
     "traits": [
       { "trait": "SKIN_LIGHT" },
-      { "trait": "eye_brown" },
+      { "trait": "eye_color", "variant": "brown" },
       { "trait": "hair_brown_short" },
       { "trait": "DEFT" },
       { "trait": "OUTDOORSMAN" },
@@ -103,8 +103,8 @@
       { "group": "soup_packet" },
       { "item": "dogfood_dry" },
       { "item": "lighter", "charges": 100 },
-      { "item": "aspirin" },
-      { "item": "bandages" },
+      { "group": "aspirin_bottle_plastic_pill_painkiller_20" },
+      { "item": "bandages", "count": [ 1, 3 ] },
       { "item": "pot" },
       { "item": "FMCNote", "count": 10 },
       { "item": "357mag_fmj", "count": 2 },
@@ -174,13 +174,13 @@
     "type": "talk_topic",
     "id": "TALK_RC_John_Bailey_2",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         {
           "u_has_var": "John_Bailey_Convo",
           "context": "RC_John_Bailey_2",
           "value": "seen",
-          "yes": "Like I said,\" John shrugs.  \"I'm just checking\u00A0",
-          "no": "Same as you, I imagine,\" John shrugs.  \"Checking\u00A0"
+          "yes": "Like I said,\" John shrugs.  \"I'm just checking ",
+          "no": "Same as you, I imagine,\" John shrugs.  \"Checking "
         },
         "the place out, doing a little shopping.  Then I'll be on my way again.  Might see if they have any work that needs done first, if the price is right."
       ]
@@ -521,8 +521,8 @@
       "npc_compare_var": "John_Bailey_taught",
       "op": "<=",
       "value": 3,
-      "yes": "Sorry, but that's all I have time for at the moment.  Darius is waiting outside.",
-      "no": "I'd be happy to.  I can't spare a lot of free time, but for a little trade, I'll tell you about whatever I can help with."
+      "no": "Sorry, but that's all I have time for at the moment.  Darius is waiting outside.",
+      "yes": "I'd be happy to.  I can't spare a lot of free time, but for a little trade, I'll tell you about whatever I can help with."
     },
     "speaker_effect": { "effect": { "u_add_var": "John_Bailey_teach", "value": "yes" } },
     "responses": [

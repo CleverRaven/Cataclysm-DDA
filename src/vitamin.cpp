@@ -63,7 +63,7 @@ void vitamin::load_vitamin( const JsonObject &jo )
     vit.rate_ = read_from_json_string<time_duration>( jo.get_member( "rate" ), time_duration::units );
 
     if( !jo.has_string( "vit_type" ) ) {
-        jo.throw_error( "vitamin must have a vitamin type", "vit_type" );
+        jo.throw_error_at( "vit_type", "vitamin must have a vitamin type" );
     }
     vit.type_ = jo.get_enum_value<vitamin_type>( "vit_type" );
 
@@ -75,12 +75,16 @@ void vitamin::load_vitamin( const JsonObject &jo )
         vit.disease_excess_.emplace_back( e.get_int( 0 ), e.get_int( 1 ) );
     }
 
+    for( JsonArray e : jo.get_array( "decays_into" ) ) {
+        vit.decays_into_.emplace_back( vitamin_id( e.get_string( 0 ) ), e.get_int( 1 ) );
+    }
+
     for( std::string e : jo.get_array( "flags" ) ) {
         vit.flags_.insert( e );
     }
 
     if( vitamins_all.find( vit.id_ ) != vitamins_all.end() ) {
-        jo.throw_error( "parsed vitamin overwrites existing definition", "id" );
+        jo.throw_error_at( "id", "parsed vitamin overwrites existing definition" );
     } else {
         vitamins_all[ vit.id_ ] = vit;
     }
@@ -107,6 +111,15 @@ void vitamin::check_consistency()
 void vitamin::reset()
 {
     vitamins_all.clear();
+}
+
+float vitamin::RDA_to_default( int percent ) const
+{
+    // if not a vitamin it's in Units and doesn't need conversion
+    if( type_ != vitamin_type::VITAMIN ) {
+        return percent;
+    }
+    return ( 24_hours / rate_ ) * ( static_cast<float>( percent ) / 100.0f );
 }
 
 namespace io

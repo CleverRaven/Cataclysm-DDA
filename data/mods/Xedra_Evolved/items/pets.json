@@ -1,0 +1,36 @@
+[
+  {
+    "id": "purity_crackers",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "purity crackers" },
+    "description": "An incredibly hard cracker, squeezing it in your hand it feels as though your teeth might break before the cracker.  The packaging on the side shows a tall being feeding these crackers to a horned and four legged creature.",
+    "weight": "300 g",
+    "volume": "250 ml",
+    "price": 100,
+    "price_postapoc": 25,
+    "to_hit": -5,
+    "material": [ "fae_blood", "veggy" ],
+    "symbol": ";",
+    "color": "yellow",
+    "flags": [ "INEDIBLE" ],
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "UNICORNFOOD" ]
+  },
+  {
+    "id": "golden_bridle",
+    "type": "TOOL",
+    "name": { "str": "golden bridle" },
+    "description": "A golden bridle made of spun moon tears, gold, and incredibly strong hair including associated tack that can be placed on a tamed mythical animal that is capable of being ridden.",
+    "weight": "2 kg",
+    "volume": "7 L",
+    "price": 0,
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "material": [ "moon_tears", "fae_fur", "gold" ],
+    "symbol": "M",
+    "color": "yellow",
+    "flags": [ "TACK" ],
+    "melee_damage": { "bash": 5 }
+  }
+]

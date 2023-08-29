@@ -9,7 +9,6 @@
       { "monster": "mon_dispatch", "weight": 10, "cost_multiplier": 50 },
       { "monster": "mon_dispatch_military", "weight": 5, "cost_multiplier": 80 },
       { "monster": "mon_talon_m202a1", "weight": 15, "cost_multiplier": 50 },
-      { "monster": "mon_zombie_flamer", "weight": 10, "cost_multiplier": 50 },
       { "monster": "mon_zombie_military_pilot", "weight": 0 },
       { "monster": "mon_feral_soldier", "weight": 15 }
     ]
@@ -20,8 +19,8 @@
     "monsters": [
       { "monster": "mon_zombie_soldier", "weight": 645 },
       { "monster": "mon_zombie_soldier", "weight": 150, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_zombie_flamer", "weight": 200, "cost_multiplier": 30 },
-      { "monster": "mon_zombie_military_pilot", "weight": 5 }
+      { "monster": "mon_zombie_military_pilot", "weight": 5 },
+      { "monster": "mon_feral_soldier", "weight": 15 }
     ]
   },
   {
@@ -31,12 +30,41 @@
       { "monster": "mon_zombie_soldier", "weight": 565 },
       { "monster": "mon_zombie_soldier", "weight": 100, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zombie_soldier", "weight": 150, "cost_multiplier": 2, "pack_size": [ 2, 6 ] },
-      { "monster": "mon_zombie_flamer", "weight": 100, "cost_multiplier": 30 },
       { "monster": "mon_zombie_military_pilot", "weight": 5 },
       { "monster": "mon_zombie_bio_op", "weight": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_bio_op2", "weight": 25, "cost_multiplier": 5, "starts": "60 days" },
       { "monster": "mon_zombie_armored", "weight": 10, "cost_multiplier": 5 },
       { "monster": "mon_feral_soldier", "weight": 15 }
+    ]
+  },
+  {
+    "name": "GROUP_MIL_HELIPAD",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_soldier", "weight": 645 },
+      { "monster": "mon_zombie_soldier", "weight": 150, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_zombie_milbase_personnel", "weight": 100 },
+      { "monster": "mon_zombie_military_pilot", "weight": 45 },
+      { "monster": "mon_feral_soldier", "weight": 15 }
+    ]
+  },
+  {
+    "name": "GROUP_MIL_PILOT",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_zombie_military_pilot" } ]
+  },
+  {
+    "name": "GROUP_MIL_PASSENGER",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_soldier", "weight": 245 },
+      { "monster": "mon_zombie_hazmat", "weight": 25 },
+      { "monster": "mon_zombie_bio_op", "weight": 5 },
+      { "monster": "mon_zombie_soldier_blackops_1", "weight": 5 },
+      { "monster": "mon_zombie_armored", "weight": 1, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_scientist", "weight": 20 },
+      { "monster": "mon_zombie_medical", "weight": 6 },
+      { "monster": "mon_zombie", "weight": 5 }
     ]
   },
   {
@@ -47,7 +75,6 @@
       { "monster": "mon_zombie_soldier", "weight": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier_acid_1", "weight": 15, "cost_multiplier": 5 },
       { "monster": "mon_zombie_kevlar_1", "weight": 50, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_flamer", "weight": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_military_pilot", "weight": 5 },
       { "monster": "mon_zombie_milbase_personnel", "weight": 40 },
       { "monster": "mon_zombie_bio_op", "weight": 30, "cost_multiplier": 5 },
@@ -79,16 +106,21 @@
       { "monster": "mon_zombie_dog", "weight": 5, "cost_multiplier": 2 },
       { "monster": "mon_dog_zombie_rot", "weight": 5, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer_base", "weight": 5, "cost_multiplier": 2 },
-      { "monster": "mon_feral_swimmer_kickboard", "weight": 1, "cost_multiplier": 2 },
-      { "monster": "mon_feral_diver_knife", "weight": 1, "cost_multiplier": 5 },
+      {
+        "monster": "mon_feral_swimmer_kickboard",
+        "weight": 1,
+        "cost_multiplier": 2,
+        "ends": "165 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
       { "monster": "mon_zombie_static", "weight": 30, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_paramilitary", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
       { "monster": "mon_zombie_scorched", "weight": 25, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier", "weight": 200, "cost_multiplier": 2 },
       { "monster": "mon_zombie_milbase_personnel", "weight": 50 },
       { "monster": "mon_zombie_military_pilot", "weight": 5 },
-      { "monster": "mon_zombie_flamer", "weight": 1, "cost_multiplier": 30 },
       { "monster": "mon_feral_soldier", "weight": 75 }
     ]
   },
@@ -112,28 +144,78 @@
       { "monster": "mon_zombie_dog", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_dog_zombie_rot", "weight": 5, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer_base", "weight": 10, "cost_multiplier": 2 },
-      { "monster": "mon_feral_swimmer_kickboard", "weight": 1, "cost_multiplier": 2 },
-      { "monster": "mon_feral_diver_knife", "weight": 1, "cost_multiplier": 5 },
+      {
+        "monster": "mon_feral_swimmer_kickboard",
+        "weight": 1,
+        "cost_multiplier": 2,
+        "ends": "165 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
       { "monster": "mon_zombie_static", "weight": 30, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_paramilitary", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
       { "monster": "mon_zombie_scorched", "weight": 25 },
       { "monster": "mon_zombie_soldier", "weight": 322, "cost_multiplier": 2 },
       { "monster": "mon_zombie_milbase_personnel", "weight": 50 },
       { "monster": "mon_zombie_military_pilot", "weight": 20 },
-      { "monster": "mon_zombie_flamer", "weight": 1, "cost_multiplier": 30 },
       { "monster": "mon_zombie_scientist", "weight": 100 },
       { "monster": "mon_feral_soldier", "weight": 75 }
     ]
   },
   {
+    "name": "GROUP_AIRCRAFT_CARRIER",
+    "type": "monstergroup",
+    "//": "no children, 40% tech personel 20% civilian personel (med, fire, cook, clercs etc), 20% uniformed zombie, 10% army pilots, and 10% military zeds",
+    "monsters": [
+      { "monster": "mon_zombie_technician", "weight": 15 },
+      { "monster": "mon_feral_sailor_lug_wrench", "weight": 15 },
+      { "monster": "mon_zombie_officer", "weight": 6 },
+      { "monster": "mon_zombie_sailor", "weight": 10 },
+      { "monster": "mon_zombie_fireman", "weight": 6 },
+      { "monster": "mon_zombie_medical", "weight": 6 },
+      { "monster": "mon_zombie_fat", "weight": 6 },
+      { "monster": "mon_zombie_marine", "weight": 6 },
+      { "monster": "mon_zombie_crawler", "weight": 6 },
+      { "monster": "mon_zombie_brainless", "weight": 6 },
+      { "monster": "mon_zombie_sailor", "weight": 18 },
+      { "monster": "mon_zombie_military_pilot", "weight": 18 },
+      { "monster": "mon_zombie_sailor", "weight": 6 },
+      { "monster": "mon_zombie_military_pilot", "weight": 6 },
+      { "monster": "mon_zombie_marine", "weight": 15, "cost_multiplier": 5, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_zombie_marine_upgrade", "weight": 2, "cost_multiplier": 10 },
+      { "monster": "mon_feral_officer", "weight": 2, "cost_multiplier": 10, "starts": "15 days" },
+      { "monster": "mon_feral_sailor_wrench", "weight": 6 },
+      { "monster": "mon_feral_sailor_mop", "weight": 6 },
+      { "monster": "mon_feral_sailor_axe", "weight": 6 },
+      { "monster": "mon_feral_marine_bayonet", "weight": 6 },
+      { "monster": "mon_feral_sailor_wrench", "weight": 6 },
+      { "monster": "mon_feral_marine_bayonet", "weight": 6 }
+    ]
+  },
+  {
+    "name": "GROUP_AIRCRAFT_CARRIER_TECHNICIANS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_technician", "weight": 67 },
+      { "monster": "mon_feral_sailor_lug_wrench", "weight": 67 },
+      { "monster": "mon_zombie_sailor", "weight": 12 },
+      { "monster": "mon_zombie_fireman", "weight": 6 },
+      { "monster": "mon_zombie_officer", "weight": 6 },
+      { "monster": "mon_zombie_medical", "weight": 6 },
+      { "monster": "mon_zombie_fat", "weight": 6 },
+      { "monster": "mon_feral_sailor_wrench", "weight": 6 },
+      { "monster": "mon_feral_sailor_mop", "weight": 6 },
+      { "monster": "mon_feral_sailor_axe", "weight": 6 },
+      { "monster": "mon_feral_marine_bayonet", "weight": 6 },
+      { "monster": "mon_feral_sailor_wrench", "weight": 6 },
+      { "monster": "mon_feral_officer", "weight": 3 }
+    ]
+  },
+  {
     "name": "GROUP_MIL_MASS_GRAVE",
     "type": "monstergroup",
-    "//": "Lots of hazmats and burners.",
-    "monsters": [
-      { "monster": "mon_zombie_soldier", "weight": 10 },
-      { "monster": "mon_zombie_flamer", "weight": 20 },
-      { "monster": "mon_zombie_hazmat", "weight": 20 }
-    ]
+    "//": "Lots of hazmats.",
+    "monsters": [ { "monster": "mon_zombie_soldier", "weight": 10 }, { "monster": "mon_zombie_hazmat", "weight": 20 } ]
   }
 ]

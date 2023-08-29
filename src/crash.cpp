@@ -7,6 +7,7 @@
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <exception>
 #include <initializer_list>
 #include <iostream>
@@ -85,8 +86,13 @@ extern "C" {
         std::cerr << log_text.str();
         FILE *file = fopen( crash_log_file.c_str(), "w" );
         if( file ) {
-            fwrite( log_text.str().data(), 1, log_text.str().size(), file );
-            fclose( file );
+            size_t written = fwrite( log_text.str().data(), 1, log_text.str().size(), file );
+            if( written < log_text.str().size() ) {
+                std::cerr << "Error: writing to log file failed: " << strerror( errno ) << "\n";
+            }
+            if( fclose( file ) ) {
+                std::cerr << "Error: closing log file failed: " << strerror( errno ) << "\n";
+            }
         }
 #if defined(__ANDROID__)
         // Create a placeholder dummy file "config/crash.log.prompt"
@@ -105,7 +111,7 @@ extern "C" {
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-        signal( sig, SIG_DFL );
+        static_cast<void>( signal( sig, SIG_DFL ) );
 #pragma GCC diagnostic pop
         const char *msg;
         switch( sig ) {
@@ -121,6 +127,11 @@ extern "C" {
             case SIGFPE:
                 msg = "SIGFPE: Arithmetical error";
                 break;
+#if defined(SIGBUS)
+            case SIGBUS:
+                msg = "SIGBUS: Bus error";
+                break;
+#endif
             default:
                 return;
         }
@@ -129,7 +140,7 @@ extern "C" {
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-        std::signal( SIGABRT, SIG_DFL );
+        static_cast<void>( std::signal( SIGABRT, SIG_DFL ) );
 #pragma GCC diagnostic pop
         abort(); // NOLINT(cata-assert)
     }
@@ -156,7 +167,7 @@ extern "C" {
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-        std::signal( SIGABRT, SIG_DFL );
+        static_cast<void>( std::signal( SIGABRT, SIG_DFL ) );
 #pragma GCC diagnostic pop
         abort(); // NOLINT(cata-assert)
     } catch( ... ) {
@@ -168,7 +179,7 @@ extern "C" {
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-    std::signal( SIGABRT, SIG_DFL );
+    static_cast<void>( std::signal( SIGABRT, SIG_DFL ) );
 #pragma GCC diagnostic pop
     abort(); // NOLINT(cata-assert)
 }
@@ -181,9 +192,15 @@ void init_crash_handlers()
 #endif
     for( int sig : {
              SIGSEGV, SIGILL, SIGABRT, SIGFPE
+#if defined(SIGBUS)
+             , SIGBUS
+#endif
          } ) {
 
-        std::signal( sig, signal_handler );
+        void ( *previous_handler )( int sig ) = std::signal( sig, signal_handler );
+        if( previous_handler == SIG_ERR ) {
+            std::cerr << "Failed to set signal handler for signal " << sig << "\n";
+        }
     }
     std::set_terminate( crash_terminate_handler );
 }

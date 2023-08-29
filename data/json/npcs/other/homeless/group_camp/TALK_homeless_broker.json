@@ -1,0 +1,125 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_HOMELESS_BROKER",
+    "dynamic_line": {
+      "npc_has_var": "talked_to_homeless",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "yes": "Hello there.  Nice to see you again.",
+      "no": "Who are you?  Would you like to trade?"
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Nice to meet you.",
+        "topic": "TALK_NPC_HOMELESS_BROKER_INTRO",
+        "condition": { "not": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "Hands up!",
+        "trial": { "type": "INTIMIDATE", "difficulty": 30 },
+        "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": 4, "fear": -3 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" },
+        "condition": { "not": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "Pleasure to see you again.",
+        "topic": "TALK_NPC_HOMELESS_BROKER_INTRO",
+        "condition": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      { "text": "See ya.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_HOMELESS_BROKER_INTRO",
+    "dynamic_line": "So, what's up?",
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_NPC_HOMELESS_BROKER_STORY" },
+      {
+        "text": "Where might your friends be?",
+        "topic": "TALK_NPC_HOMELESS_BROKER_FRIENDS",
+        "condition": { "npc_has_var": "told_about_buddies", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
+        "text": "Can I stay here?",
+        "topic": "TALK_NPC_HOMELESS_BROKER_STAY",
+        "condition": { "npc_has_var": "told_about_buddies", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
+        "text": "Can I purchase some of your wares?",
+        "topic": "TALK_NPC_HOMELESS_BROKER_INTRO",
+        "effect": "start_trade"
+      },
+      {
+        "text": "How's that smoker coming along?",
+        "topic": "TALK_NPC_HOMELESS_BROKER_SMOKERACK",
+        "condition": { "npc_has_var": "smoked_meat_tradeable", "type": "dialogue", "context": "trade", "value": "yes" }
+      },
+      {
+        "text": "Any jobs you need done?",
+        "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_HOMELESS_BROKER_STORY",
+    "dynamic_line": [
+      "I was homeless for a while before <the_cataclysm>.  I met some buddies out on the road and we were camping out here.  Now we're just scraping by on what we can find, mostly.  We're willing to trade, though.  Who knows, you might find yourself a good deal.",
+      "Making ends meet, even in the worst circumstances.  We've been camping out here now, trading with whoever passes by.  If something catches your eye, let me know.",
+      "We got tired of being out on the road and decided to stay here for a bit.  We've found a lot of useful stuff out and about, so if you see anything you need I'll make you a deal."
+    ],
+    "speaker_effect": { "effect": { "npc_add_var": "told_about_buddies", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [ { "text": "Hm.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_HOMELESS_BROKER_FRIENDS",
+    "dynamic_line": "They should be around here somewhere.  We usually go out in teams to scavenge, and they haven't told me about anything yet.  They might have something for you to do.",
+    "responses": [ { "text": "Alright.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_HOMELESS_BROKER_STAY",
+    "dynamic_line": "Well, I don't see anything wrong with it.  We should have a spare bed in that tent you could sleep on.  Just don't cause any trouble.",
+    "responses": [ { "text": "Thank you.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_HOMELESS_BROKER_MASSTRADE",
+    "dynamic_line": "Sure!  It turned out well enough for us, and it's one of the few fresh meats we can find.  I'll pay fairly for it.",
+    "repeat_responses": { "for_item": [ "mutant_meat" ], "response": { "text": "I have <topic_item>.", "topic": "TALK_DELIVER_ASK" } },
+    "responses": [
+      { "text": "I have nothing.", "topic": "TALK_NPC_HOMELESS_BROKER_INTRO" },
+      { "text": "I have nothing.  I'd best get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_HOMELESS_BROKER_SMOKERACK",
+    "dynamic_line": "It's wonderful!  We've been preserving a lot more of what we manage to scavenge so we won't have to worry about our food going bad for a while.  We'd be willing to sell some of the excess, if you want.",
+    "responses": [
+      {
+        "text": "I think I'll buy 10 slices.  [$20]",
+        "topic": "TALK_NONE",
+        "effect": [ { "u_buy_item": "meat_smoked", "cost": 2000, "count": 10 } ]
+      },
+      {
+        "text": "You think 20 slices would be alright?  [$40]",
+        "topic": "TALK_NONE",
+        "effect": [ { "u_buy_item": "meat_smoked", "cost": 4000, "count": 20 } ]
+      },
+      {
+        "text": "I'll take 50 slices of the stuff.  [$100]",
+        "topic": "TALK_NONE",
+        "effect": [ { "u_buy_item": "meat_smoked", "cost": 10000, "count": 50 } ]
+      },
+      { "text": "I'll keep that in mind.", "topic": "TALK_NONE" }
+    ]
+  }
+]

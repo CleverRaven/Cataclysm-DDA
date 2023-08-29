@@ -3,6 +3,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -10,6 +11,7 @@
 
 #include "cata_utility.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
 #include "filesystem.h"
 #include "game.h"
@@ -20,7 +22,6 @@
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
-#include "optional.h"
 #include "options.h"
 #include "options_helpers.h"
 #include "point.h"
@@ -30,6 +31,9 @@
 class item;
 
 using move_statistics = statistics<int>;
+
+static const mon_flag_str_id mon_flag_PUSH_VEH( "PUSH_VEH" );
+static const mon_flag_str_id mon_flag_SEES( "SEES" );
 
 static const mtype_id mon_dog_zombie_brute( "mon_dog_zombie_brute" );
 
@@ -81,7 +85,7 @@ static std::ostream &operator<<( std::ostream &os, track const &value )
 
 static std::ostream &operator<<( std::ostream &os, const std::vector<track> &vec )
 {
-    for( const auto &track_instance : vec ) {
+    for( const track &track_instance : vec ) {
         os << track_instance << " ";
     }
     return os;
@@ -252,7 +256,7 @@ static void test_moves_to_squares( const std::string &monster_type, const bool w
     }
 
     if( write_data ) {
-        cata::ofstream data;
+        std::ofstream data;
         data.open( fs::u8path( "slope_test_data_" + std::string( ( trigdist ? "trig_" : "square_" ) ) +
                                monster_type ) );
         for( const auto &stat_pair : turns_at_angle ) {
@@ -353,8 +357,8 @@ TEST_CASE( "monster_extend_flags", "[monster]" )
     // This test verifies that "extend" works on monster flags by checking both
     // those take effect
     const mtype &m = *mon_dog_zombie_brute;
-    CHECK( m.has_flag( MF_SEES ) );
-    CHECK( m.has_flag( MF_PUSH_VEH ) );
+    CHECK( m.has_flag( mon_flag_SEES ) );
+    CHECK( m.has_flag( mon_flag_PUSH_VEH ) );
 }
 
 TEST_CASE( "monster_broken_verify", "[monster]" )

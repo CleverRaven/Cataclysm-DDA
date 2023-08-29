@@ -65,8 +65,8 @@
       },
       "toilets": { "%": {  } },
       "place_items": [
-        { "item": "vending_drink", "x": 19, "y": 8, "chance": 75 },
-        { "item": "vending_food", "x": 20, "y": 8, "chance": 75 },
+        { "item": "vending_drink", "x": 19, "y": 8, "chance": 5 },
+        { "item": "vending_food", "x": 20, "y": 8, "chance": 5 },
         { "item": "arcade_prizes", "x": 21, "y": [ 14, 18 ], "chance": 95 }
       ],
       "place_monsters": [ { "monster": "GROUP_ARCADE", "x": [ 3, 17 ], "y": [ 13, 15 ] } ],

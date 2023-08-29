@@ -48,7 +48,7 @@
       ],
       "place_vehicles": [
         { "vehicle": "schoolbus", "x": 32, "y": 18, "chance": 75, "rotation": 0, "status": 1 },
-        { "vehicle": "car", "x": 48, "y": 23, "chance": 75, "rotation": 270, "status": 1 }
+        { "vehicle": "car", "x": 49, "y": 20, "chance": 75, "rotation": 270, "status": 1 }
       ]
     }
   },
@@ -108,8 +108,8 @@
         { "type": "NPC_NO_INVESTIGATE", "faction": "lobby_beggars", "x": [ 72, 95 ], "y": [ 0, 23 ] }
       ],
       "place_vehicles": [
-        { "vehicle": "schoolbus", "x": 21, "y": 13, "chance": 75, "rotation": 270, "status": 1 },
-        { "vehicle": "flatbed_truck", "x": 98, "y": 18, "chance": 75, "rotation": 90, "status": 1 }
+        { "vehicle": "schoolbus", "x": 19, "y": 13, "chance": 75, "rotation": 270, "status": 1 },
+        { "vehicle": "flatbed_truck", "x": 99, "y": 18, "chance": 75, "rotation": 90, "status": 1 }
       ],
       "items": {
         "@": { "item": "bed", "chance": 80 },

@@ -11,8 +11,7 @@
     "time": "1 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 3 ] ],
-    "components": [ [ [ "rag", 4 ] ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 2 ] ]
   },
   {
     "result": "bandana",
@@ -21,11 +20,22 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
-    "time": "45 m",
+    "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 2 ] ],
-    "components": [ [ [ "rag", 2 ] ] ]
+    "using": [ [ "tailoring_cotton_patchwork_simple", 1 ] ]
+  },
+  {
+    "result": "headscarf",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "tailoring_cotton_patchwork_simple", 1 ] ]
   },
   {
     "result": "beret_wool",
@@ -35,11 +45,10 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
     "difficulty": 2,
-    "time": "2 h",
+    "time": "90 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "felt_patch", 4 ] ] ]
+    "using": [ [ "tailoring_felt_small", 6 ] ]
   },
   {
     "result": "makeshift_blindfold",
@@ -100,7 +109,9 @@
         [ "bandages", 2 ],
         [ "bandages_makeshift", 2 ],
         [ "bandages_makeshift_bleached", 2 ],
-        [ "bandages_makeshift_boiled", 2 ]
+        [ "bandages_makeshift_boiled", 2 ],
+        [ "sheet_cotton_patchwork", 1 ],
+        [ "sheet_cotton", 1 ]
       ]
     ],
     "flags": [ "BLIND_EASY", "NO_RESIZE" ]
@@ -126,10 +137,10 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "4 h",
+    "time": "2 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 16 ] ],
-    "components": [ [ [ "leather", 8 ], [ "tanned_hide", 1 ] ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "byproducts": [ [ "leather", 4 ], [ "scrap_leather", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_millinery" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -144,11 +155,10 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
     "difficulty": 4,
-    "time": "2 h",
+    "time": "5 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 80 ] ],
-    "components": [ [ [ "felt_patch", 8 ] ] ]
+    "using": [ [ "tailoring_felt_patchwork", 11 ] ]
   },
   {
     "result": "crown_golden_survivor",
@@ -164,7 +174,7 @@
     "using": [ [ "blacksmithing_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "gold_small", 300 ] ] ],
+    "components": [ [ [ "gold_small", 200 ] ] ],
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ]
   },
   {
@@ -260,81 +270,6 @@
     ]
   },
   {
-    "result": "gambeson_hood",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "time": "1 h 30 m",
-    "autolearn": true,
-    "using": [ [ "sewing_standard", 10 ], [ "fabric_standard_nostretch", 8 ], [ "fastener_small", 1 ] ]
-  },
-  {
-    "result": "xl_gambeson_hood",
-    "type": "recipe",
-    "copy-from": "gambeson_hood",
-    "difficulty": 4,
-    "time": "2 h",
-    "autolearn": true,
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 12 ], [ "fastener_small", 1 ] ]
-  },
-  {
-    "result": "xs_gambeson_hood",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "time": "1 h",
-    "autolearn": true,
-    "using": [ [ "sewing_standard", 7 ], [ "fabric_standard_nostretch", 6 ], [ "fastener_small", 1 ] ]
-  },
-  {
-    "result": "k_gambeson_hood",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "difficulty": 5,
-    "time": "2 h 30 m",
-    "autolearn": [ [ "tailor", 8 ] ],
-    "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "sewing_standard", 12 ], [ "tailoring_kevlar_fabric", 8 ], [ "fastener_small", 1 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 5 ] ] ]
-  },
-  {
-    "result": "xl_k_gambeson_hood",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "difficulty": 5,
-    "time": "3 h",
-    "autolearn": [ [ "tailor", 8 ] ],
-    "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "sewing_standard", 18 ], [ "tailoring_kevlar_fabric", 12 ], [ "fastener_small", 1 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 7 ] ] ]
-  },
-  {
-    "result": "xs_k_gambeson_hood",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "difficulty": 5,
-    "time": "2 h 30 m",
-    "autolearn": [ [ "tailor", 8 ] ],
-    "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "sewing_standard", 9 ], [ "tailoring_kevlar_fabric", 6 ], [ "fastener_small", 1 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 4 ] ] ]
-  },
-  {
     "result": "glasses_safety",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -360,7 +295,7 @@
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 1 ] ],
     "tools": [
-      [ [ "tongs", -1 ] ],
+      [ [ "metalworking_tongs", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "sheet_metal", -1 ], [ "sheet_metal_small", -1 ] ],
       [ [ "forge", 25 ] ]
@@ -412,11 +347,10 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "2 h",
+    "time": "1 h 30 m",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "rag", 4 ] ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 3 ] ],
+    "byproducts": [ [ "cotton_patchwork", 2 ], [ "scrap_cotton", 2 ] ]
   },
   {
     "result": "hat_cotton",
@@ -426,11 +360,10 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
     "difficulty": 2,
-    "time": "2 h",
+    "time": "1 h 30m",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "rag", 3 ] ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 3 ] ],
+    "byproducts": [ [ "cotton_patchwork", 5 ], [ "scrap_cotton", 2 ] ]
   },
   {
     "result": "maid_hat",
@@ -442,8 +375,7 @@
     "time": "3 h",
     "reversible": true,
     "book_learn": [ [ "mag_animecon", 1 ] ],
-    "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "rag", 3 ] ] ]
+    "using": [ [ "tailoring_cotton_small", 2 ] ]
   },
   {
     "result": "hat_fur",
@@ -454,11 +386,9 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "skills_required": [ "survival", 1 ],
-    "time": "3 h",
+    "time": "2 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "fur", 3 ] ] ],
+    "using": [ [ "tailoring_fur_patchwork", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_millinery" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -475,9 +405,7 @@
     "difficulty": 2,
     "time": "3 h",
     "book_learn": [ [ "textbook_tailor", 2 ], [ "recipe_fauxfur", 1 ] ],
-    "reversible": true,
-    "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "faux_fur", 3 ] ] ],
+    "using": [ [ "tailoring_faux_fur_patchwork", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_millinery" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -507,7 +435,7 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "rag", 2 ], [ "bandana", 1 ] ], [ [ "hat_hard", 1 ] ] ]
+    "components": [ [ [ "sun_shield", 1 ] ], [ [ "hat_hard", 1 ] ] ]
   },
   {
     "result": "hat_hunting",
@@ -519,9 +447,8 @@
     "difficulty": 2,
     "time": "2 h 30 m",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "sewing_standard", 50 ] ],
-    "components": [ [ [ "felt_patch", 10 ] ] ],
+    "using": [ [ "tailoring_felt_patchwork", 9 ] ],
+    "byproducts": [ [ "felt_patch", 7 ] ],
     "proficiencies": [ { "proficiency": "prof_millinery" } ]
   },
   {
@@ -533,7 +460,6 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "40 m",
-    "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
     "using": [ [ "tailoring_wool_knitting", 120 ] ]
@@ -549,8 +475,7 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 8 ], [ "cordage", 2 ] ],
-    "components": [ [ [ "rag", 4 ] ] ]
+    "using": [ [ "tailoring_cotton_small", 16 ], [ "cordage", 2 ] ]
   },
   {
     "result": "helmet_barbute",
@@ -578,7 +503,7 @@
     "type": "recipe",
     "copy-from": "helmet_barbute",
     "time": "12 h",
-    "using": [ [ "blacksmithing_standard", 30 ], [ "steel_standard", 7 ] ],
+    "using": [ [ "blacksmithing_standard", 28 ], [ "steel_standard", 7 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
@@ -587,7 +512,7 @@
     "type": "recipe",
     "copy-from": "helmet_barbute",
     "time": "13 h 30 m",
-    "using": [ [ "blacksmithing_standard", 50 ], [ "steel_standard", 15 ] ],
+    "using": [ [ "blacksmithing_standard", 60 ], [ "steel_standard", 15 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fur", 6 ], [ "leather", 5 ] ] ]
@@ -596,15 +521,15 @@
     "result": "helmet_chitin",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ [ "fabrication", 3 ] ],
-    "time": "3 h",
+    "time": "2 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_arthropod", 5 ] ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 12 ] ] ],
+    "using": [ [ "armor_chitin", 12 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_chitinworking" },
@@ -615,15 +540,15 @@
     "result": "helmet_chitin_xs",
     "type": "recipe",
     "copy-from": "helmet_chitin",
-    "time": "3 h",
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 9 ] ] ]
+    "time": "1 h 30 m",
+    "using": [ [ "armor_chitin", 9 ] ]
   },
   {
     "result": "xl_helmet_chitin",
     "type": "recipe",
     "copy-from": "helmet_chitin",
-    "time": "3 h 20 m",
-    "components": [ [ [ "cordage_superior", 2, "LIST" ] ], [ [ "chitin_piece", 17 ] ] ]
+    "time": "2 h 50 m",
+    "using": [ [ "armor_chitin", 17 ] ]
   },
   {
     "result": "helmet_conical",
@@ -638,7 +563,7 @@
     "using": [ [ "sewing_standard", 18 ], [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ],
+    "components": [ [ [ "fur", 8 ], [ "tanned_pelt", 1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -651,26 +576,27 @@
     "type": "recipe",
     "copy-from": "helmet_conical",
     "time": "12 h 12 m",
-    "using": [ [ "sewing_standard", 13 ], [ "blacksmithing_standard", 6 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "sewing_standard", 13 ], [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "fur", 5 ], [ "tanned_pelt", 1 ] ] ]
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ]
   },
   {
     "result": "xl_helmet_conical",
     "type": "recipe",
     "copy-from": "helmet_conical",
     "time": "13 h 45 m",
-    "using": [ [ "sewing_standard", 23 ], [ "blacksmithing_standard", 11 ], [ "steel_standard", 3 ] ],
+    "using": [ [ "sewing_standard", 23 ], [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ]
+    "components": [ [ [ "fur", 8 ], [ "tanned_pelt", 1 ] ] ]
   },
   {
     "result": "helmet_acidchitin",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 7,
     "book_learn": [ [ "textbook_arthropod", 6 ] ],
@@ -690,6 +616,7 @@
     "type": "recipe",
     "copy-from": "helmet_acidchitin",
     "time": "3 h",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 9 ] ] ]
   },
   {
@@ -726,7 +653,8 @@
     "type": "recipe",
     "copy-from": "helmet_galea",
     "time": "12 h 12 m",
-    "using": [ [ "blacksmithing_standard", 6 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
@@ -753,7 +681,7 @@
     "using": [ [ "blacksmithing_standard", 48 ], [ "steel_standard", 12 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "fur", 14 ], [ "tanned_pelt", 2 ], [ "leather", 14 ], [ "tanned_hide", 2 ] ], [ [ "rag", 4 ] ] ],
+    "components": [ [ [ "fur", 16 ], [ "tanned_pelt", 2 ], [ "leather", 16 ], [ "tanned_hide", 2 ] ], [ [ "cotton_patchwork", 16 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -767,18 +695,19 @@
     "copy-from": "helmet_kabuto",
     "time": "10 h",
     "using": [ [ "blacksmithing_standard", 36 ], [ "steel_standard", 9 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "fur", 11 ], [ "tanned_pelt", 2 ], [ "leather", 11 ], [ "tanned_hide", 2 ] ], [ [ "rag", 3 ] ] ]
+    "components": [ [ [ "fur", 11 ], [ "tanned_pelt", 2 ], [ "leather", 11 ], [ "tanned_hide", 2 ] ], [ [ "cotton_patchwork", 11 ] ] ]
   },
   {
     "result": "xl_helmet_kabuto",
     "type": "recipe",
     "copy-from": "helmet_kabuto",
     "time": "11 h 15 m",
-    "using": [ [ "blacksmithing_standard", 63 ], [ "steel_standard", 16 ] ],
+    "using": [ [ "blacksmithing_standard", 64 ], [ "steel_standard", 16 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "fur", 20 ], [ "tanned_pelt", 3 ], [ "leather", 20 ], [ "tanned_hide", 3 ] ], [ [ "rag", 7 ] ] ]
+    "components": [ [ [ "fur", 20 ], [ "tanned_pelt", 3 ], [ "leather", 20 ], [ "tanned_hide", 3 ] ], [ [ "cotton_patchwork", 20 ] ] ]
   },
   {
     "result": "helmet_larmor",
@@ -788,10 +717,10 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
     "difficulty": 4,
-    "time": "30 m",
+    "time": "2 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 18 ] ],
-    "components": [ [ [ "leather", 16 ], [ "tanned_hide", 3 ], [ "fur", 16 ], [ "tanned_pelt", 3 ] ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
@@ -803,16 +732,36 @@
     "type": "recipe",
     "copy-from": "helmet_larmor",
     "time": "30 m",
-    "using": [ [ "sewing_standard", 13 ] ],
-    "components": [ [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ] ]
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "byproducts": [ [ "leather", 6 ] ]
   },
   {
     "result": "xl_helmet_larmor",
     "type": "recipe",
     "copy-from": "helmet_larmor",
     "time": "35 m",
-    "using": [ [ "sewing_standard", 23 ] ],
-    "components": [ [ [ "leather", 21 ], [ "tanned_hide", 4 ], [ "fur", 21 ], [ "tanned_pelt", 4 ] ] ]
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ]
+  },
+  {
+    "result": "helmet_skull",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "skull_canis", 1 ] ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 1 ], [ "meal_bone", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_carving" }
+    ]
   },
   {
     "result": "helmet_nasal",
@@ -827,7 +776,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ],
+    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -840,9 +789,10 @@
     "type": "recipe",
     "copy-from": "helmet_nasal",
     "time": "7 h 12 m",
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
   {
     "result": "xl_helmet_nasal",
@@ -852,7 +802,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "fur", 5 ], [ "leather", 5 ] ] ]
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
   },
   {
     "result": "helmet_plate",
@@ -880,7 +830,8 @@
     "type": "recipe",
     "copy-from": "helmet_plate",
     "time": "9 h",
-    "using": [ [ "blacksmithing_standard", 42 ], [ "steel_standard", 10 ] ],
+    "using": [ [ "blacksmithing_standard", 40 ], [ "steel_standard", 10 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
@@ -889,10 +840,79 @@
     "type": "recipe",
     "copy-from": "helmet_plate",
     "time": "10 h 10 m",
-    "using": [ [ "blacksmithing_standard", 76 ], [ "steel_standard", 21 ] ],
+    "using": [ [ "blacksmithing_standard", 84 ], [ "steel_standard", 21 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "helmet_metal_sheets_full",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "240 m",
+    "autolearn": true,
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "gambeson_hood", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ]
+  },
+  {
+    "result": "ch_helmet_metal_sheets_full",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "4 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
+    "using": [ [ "carbon", 3 ] ],
+    "components": [ [ [ "helmet_metal_sheets_full", 1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_case_hardening" }
+    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs", -1 ] ] ]
+  },
+  {
+    "result": "helmet_metal_sheets",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "245 m",
+    "autolearn": true,
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "gambeson_hood", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "byproducts": [ [ "sheet_metal_small", 1 ] ]
+  },
+  {
+    "result": "ch_helmet_metal_sheets",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "4 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
+    "using": [ [ "carbon", 3 ] ],
+    "components": [ [ [ "helmet_metal_sheets", 1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_case_hardening" }
+    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs", -1 ] ] ]
   },
   {
     "result": "helmet_scavenger",
@@ -905,12 +925,12 @@
     "skills_required": [ "fabrication", 3 ],
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 65 ], [ "soldering_standard", 8 ] ],
+    "using": [ [ "sewing_aramids", 32 ], [ "soldering_standard", 8 ] ],
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
       [ [ "mask_filter", 1 ] ],
       [ [ "glasses_bal", 1 ], [ "goggles_ski", 1 ] ],
-      [ [ "sheet_kevlar_layered", 8 ] ]
+      [ [ "sheet_kevlar_layered", 1 ] ]
     ],
     "proficiencies": [ { "proficiency": "prof_millinery" }, { "proficiency": "prof_polymerworking" } ]
   },
@@ -919,12 +939,12 @@
     "type": "recipe",
     "copy-from": "helmet_scavenger",
     "time": "3 h",
-    "using": [ [ "sewing_standard", 48 ], [ "soldering_standard", 6 ] ],
+    "using": [ [ "sewing_aramids", 24 ], [ "soldering_standard", 6 ] ],
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
       [ [ "mask_filter", 1 ] ],
       [ [ "glasses_bal", 1 ], [ "goggles_ski", 1 ] ],
-      [ [ "sheet_kevlar_layered", 6 ] ]
+      [ [ "sheet_kevlar_layered", 1 ] ]
     ]
   },
   {
@@ -932,12 +952,12 @@
     "type": "recipe",
     "copy-from": "helmet_scavenger",
     "time": "3 h 20 m",
-    "using": [ [ "sewing_standard", 85 ], [ "soldering_standard", 11 ] ],
+    "using": [ [ "sewing_aramids", 42 ], [ "soldering_standard", 11 ] ],
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
       [ [ "mask_filter", 1 ] ],
       [ [ "glasses_bal", 1 ], [ "goggles_ski", 1 ] ],
-      [ [ "sheet_kevlar_layered", 12 ] ]
+      [ [ "sheet_kevlar_layered", 2 ] ]
     ]
   },
   {
@@ -952,9 +972,9 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
-    "components": [ [ [ "rag", 4 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 4 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 } ]
+    "proficiencies": [ { "proficiency": "prof_armorsmithing", "skill_penalty": 0 } ]
   },
   {
     "result": "helmet_scrap_xs",
@@ -962,7 +982,8 @@
     "copy-from": "helmet_scrap",
     "time": "1 h 30 m",
     "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
-    "components": [ [ [ "rag", 2 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "cotton_patchwork", 2 ] ] ]
   },
   {
     "result": "xl_helmet_scrap",
@@ -970,23 +991,29 @@
     "copy-from": "helmet_scrap",
     "time": "1 h 40 m",
     "using": [ [ "cordage", 2 ], [ "mixed_steel", 1 ] ],
-    "components": [ [ [ "rag", 6 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "cotton_patchwork", 6 ] ] ]
   },
   {
     "result": "hood_fsurvivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 8,
     "skills_required": [ "fabrication", 6 ],
     "time": "6 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ] ],
-    "using": [ [ "sewing_standard", 40 ] ],
+    "using": [ [ "sewing_aramids", 20 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [ [ [ "nomex", 8 ] ], [ [ "sheet_kevlar_layered", 4 ] ], [ [ "nomex_hood", 1 ] ], [ [ "duct_tape", 100 ] ] ],
+    "components": [
+      [ [ "sheet_nomex", 4 ], [ "sheet_nomex_patchwork", 4 ] ],
+      [ [ "sheet_kevlar_layered", 4 ] ],
+      [ [ "nomex_hood", 1 ] ],
+      [ [ "duct_tape", 100 ] ]
+    ],
     "proficiencies": [ { "proficiency": "prof_millinery" }, { "proficiency": "prof_polymerworking" } ]
   },
   {
@@ -994,33 +1021,43 @@
     "type": "recipe",
     "copy-from": "hood_fsurvivor",
     "time": "6 h",
-    "using": [ [ "sewing_standard", 30 ] ],
+    "using": [ [ "sewing_aramids", 15 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [ [ [ "nomex", 6 ] ], [ [ "sheet_kevlar_layered", 3 ] ], [ [ "nomex_hood", 1 ] ], [ [ "duct_tape", 75 ] ] ]
+    "components": [
+      [ [ "sheet_nomex", 3 ], [ "sheet_nomex_patchwork", 3 ] ],
+      [ [ "sheet_kevlar_layered", 3 ] ],
+      [ [ "nomex_hood", 1 ] ],
+      [ [ "duct_tape", 75 ] ]
+    ]
   },
   {
     "result": "xl_hood_fsurvivor",
     "type": "recipe",
     "copy-from": "hood_fsurvivor",
     "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 55 ] ],
+    "using": [ [ "sewing_aramids", 30 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [ [ [ "nomex", 10 ] ], [ [ "sheet_kevlar_layered", 6 ] ], [ [ "nomex_hood", 1 ] ], [ [ "duct_tape", 150 ] ] ]
+    "components": [
+      [ [ "sheet_nomex", 6 ], [ "sheet_nomex_patchwork", 6 ] ],
+      [ [ "sheet_kevlar_layered", 6 ] ],
+      [ [ "nomex_hood", 1 ] ],
+      [ [ "duct_tape", 150 ] ]
+    ]
   },
   {
     "result": "hood_h20survivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 7,
     "skills_required": [ "fabrication", 6 ],
     "time": "7 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 40 ], [ "plastic_molding", 4 ] ],
+    "using": [ [ "sewing_aramids", 20 ], [ "plastic_molding", 4 ] ],
     "qualities": [ { "id": "SEW_CURVED", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_kevlar_layered", 4 ] ], [ [ "wetsuit_hood", 1 ] ], [ [ "duct_tape", 100 ] ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 2 ] ], [ [ "wetsuit_hood", 1 ] ], [ [ "duct_tape", 100 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_millinery" },
       { "proficiency": "prof_plasticworking" },
@@ -1031,19 +1068,19 @@
     "result": "hood_lsurvivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 5,
     "skills_required": [ "fabrication", 4 ],
     "time": "6 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 40 ] ],
+    "using": [ [ "sewing_aramids", 20 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
-      [ [ "rag", 8 ] ],
+      [ [ "cotton_patchwork", 8 ] ],
       [ [ "sheet_kevlar_layered", 4 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 100 ] ]
     ],
     "proficiencies": [
@@ -1057,12 +1094,12 @@
     "type": "recipe",
     "copy-from": "hood_lsurvivor",
     "time": "6 h",
-    "using": [ [ "sewing_standard", 30 ] ],
+    "using": [ [ "sewing_aramids", 15 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
-      [ [ "rag", 6 ] ],
+      [ [ "cotton_patchwork", 6 ] ],
       [ [ "sheet_kevlar_layered", 3 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 75 ] ]
     ]
   },
@@ -1071,12 +1108,12 @@
     "type": "recipe",
     "copy-from": "hood_lsurvivor",
     "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 60 ] ],
+    "using": [ [ "sewing_aramids", 30 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
-      [ [ "rag", 10 ] ],
+      [ [ "cotton_patchwork", 10 ] ],
       [ [ "sheet_kevlar_layered", 6 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 150 ] ]
     ]
   },
@@ -1084,20 +1121,20 @@
     "result": "hood_wsurvivor_nofur",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
     "time": "6 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 40 ] ],
+    "using": [ [ "sewing_aramids", 20 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "faux_fur", 8 ] ],
-      [ [ "rag", 2 ] ],
+      [ [ "cotton_patchwork", 6 ] ],
       [ [ "sheet_kevlar_layered", 4 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 100 ] ]
     ],
     "proficiencies": [
@@ -1112,13 +1149,13 @@
     "type": "recipe",
     "copy-from": "hood_wsurvivor_nofur",
     "time": "6 h",
-    "using": [ [ "sewing_standard", 30 ] ],
+    "using": [ [ "sewing_aramids", 15 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "faux_fur", 6 ] ],
-      [ [ "rag", 2 ] ],
+      [ [ "cotton_patchwork", 4 ] ],
       [ [ "sheet_kevlar_layered", 3 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 75 ] ]
     ]
   },
@@ -1127,13 +1164,13 @@
     "type": "recipe",
     "copy-from": "hood_wsurvivor_nofur",
     "time": "8 h",
-    "using": [ [ "sewing_standard", 60 ] ],
+    "using": [ [ "sewing_aramids", 30 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "faux_fur", 10 ] ],
-      [ [ "rag", 4 ] ],
+      [ [ "cotton_patchwork", 8 ] ],
       [ [ "sheet_kevlar_layered", 6 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 150 ] ]
     ]
   },
@@ -1147,28 +1184,28 @@
     "difficulty": 1,
     "time": "20 m",
     "autolearn": true,
-    "tools": [  ],
-    "components": [ [ [ "duct_tape", 20 ] ], [ [ "bag_plastic", 2 ] ], [ [ "rag", 2 ] ] ],
+    "using": [ [ "waterproofing_plastic_sheets", 2 ] ],
+    "components": [ [ [ "cotton_patchwork", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
     "result": "hood_survivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 4 ],
     "time": "6 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 40 ] ],
+    "using": [ [ "sewing_aramids", 20 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "rag", 2 ] ],
+      [ [ "leather", 8 ], [ "tanned_hide", 1 ] ],
+      [ [ "cotton_patchwork", 4 ] ],
       [ [ "sheet_kevlar_layered", 4 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 100 ] ]
     ],
     "proficiencies": [
@@ -1183,13 +1220,13 @@
     "type": "recipe",
     "copy-from": "hood_survivor",
     "time": "6 h",
-    "using": [ [ "sewing_standard", 30 ] ],
+    "using": [ [ "sewing_aramids", 15 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
-      [ [ "leather", 5 ], [ "tanned_hide", 1 ] ],
-      [ [ "rag", 2 ] ],
-      [ [ "sheet_kevlar_layered", 3 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
+      [ [ "cotton_patchwork", 2 ] ],
+      [ [ "sheet_kevlar_layered", 2 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 75 ] ]
     ]
   },
@@ -1197,20 +1234,20 @@
     "result": "hood_wsurvivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
     "time": "6 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 40 ] ],
+    "using": [ [ "sewing_aramids", 20 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "fur", 8 ], [ "tanned_pelt", 1 ] ],
-      [ [ "rag", 2 ] ],
+      [ [ "cotton_patchwork", 4 ] ],
       [ [ "sheet_kevlar_layered", 4 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 100 ] ]
     ],
     "proficiencies": [
@@ -1226,13 +1263,13 @@
     "type": "recipe",
     "copy-from": "hood_wsurvivor",
     "time": "6 h",
-    "using": [ [ "sewing_standard", 30 ] ],
+    "using": [ [ "sewing_aramids", 15 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
-      [ [ "fur", 6 ], [ "tanned_pelt", 2 ] ],
-      [ [ "rag", 2 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
+      [ [ "cotton_patchwork", 2 ] ],
       [ [ "sheet_kevlar_layered", 3 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 75 ] ]
     ]
   },
@@ -1241,13 +1278,13 @@
     "type": "recipe",
     "copy-from": "hood_wsurvivor",
     "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 60 ] ],
+    "using": [ [ "sewing_aramids", 60 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "fur", 10 ], [ "tanned_pelt", 2 ] ],
-      [ [ "rag", 4 ] ],
-      [ [ "sheet_kevlar_layered", 6 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ], [ "hood_gut", 1 ] ],
+      [ [ "cotton_patchwork", 6 ] ],
+      [ [ "sheet_kevlar_layered", 5 ] ],
+      [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 150 ] ]
     ]
   },
@@ -1255,21 +1292,21 @@
     "result": "hood_xlsurvivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 4 ],
     "time": "6 h 45 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 80 ] ],
+    "using": [ [ "sewing_aramids", 40 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "leather", 14 ], [ "tanned_hide", 3 ] ],
-      [ [ "rag", 4 ] ],
+      [ [ "cotton_patchwork", 6 ] ],
       [ [ "scrap", 2 ] ],
-      [ [ "sheet_kevlar_layered", 6 ] ],
-      [ [ "hood_rain", 2 ], [ "bag_plastic", 4 ], [ "hood_gut", 2 ] ],
+      [ [ "sheet_kevlar_layered", 5 ] ],
+      [ [ "hood_rain", 2 ], [ "plastic_sheet_small", 4 ], [ "hood_gut", 2 ] ],
       [ [ "duct_tape", 200 ] ]
     ],
     "proficiencies": [
@@ -1332,7 +1369,6 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "40 m",
-    "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
     "using": [ [ "tailoring_wool_knitting", 100 ] ]
@@ -1360,7 +1396,6 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "4 h",
-    "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
     "using": [ [ "tailoring_wool_knitting", 190 ] ]
@@ -1373,9 +1408,9 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
     "time": "1 h",
-    "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 9 ], [ "fabric_standard_nostretch", 12 ] ]
+    "using": [ [ "tailoring_cotton_patchwork_simple", 4 ] ],
+    "byproducts": [ [ "cotton_patchwork", 4 ] ]
   },
   {
     "result": "mask_filter",
@@ -1398,8 +1433,8 @@
       [ "textbook_gaswarfare", 3 ]
     ],
     "components": [
-      [ [ "bag_plastic", 2 ], [ "bottle_plastic", 1 ], [ "bottle_bathroom", 1 ], [ "bottle_plastic_small", 2 ] ],
-      [ [ "rag", 2 ], [ "bandana", 2 ], [ "paper", 10 ] ],
+      [ [ "plastic_sheet_small", 2 ], [ "bottle_plastic", 1 ], [ "bottle_bathroom", 1 ], [ "bottle_plastic_small", 2 ] ],
+      [ [ "cotton_patchwork", 2 ], [ "bandana", 2 ], [ "paper", 10 ] ],
       [ [ "charcoal", 10 ] ]
     ],
     "//": "Airtight takes some skills.",
@@ -1409,15 +1444,16 @@
     "result": "mask_fsurvivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
     "skills_required": [ "tailor", 8 ],
     "time": "2 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
-    "using": [ [ "adhesive", 2 ], [ "sewing_standard", 20 ] ],
+    "using": [ [ "adhesive", 2 ], [ "sewing_aramids", 10 ] ],
+    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "mask_bunker", 1 ] ], [ [ "nomex", 4 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_polymerworking" } ]
@@ -1427,7 +1463,8 @@
     "type": "recipe",
     "copy-from": "mask_fsurvivor",
     "time": "2 h",
-    "using": [ [ "adhesive", 1 ], [ "sewing_standard", 15 ] ],
+    "using": [ [ "adhesive", 1 ], [ "sewing_aramids", 7 ] ],
+    "tools": [ [ [ "welder", 42 ], [ "welding_kit", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "mask_bunker", 1 ] ], [ [ "nomex", 3 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 3 ] ] ]
   },
@@ -1435,15 +1472,16 @@
     "result": "mask_fsurvivorxl",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
     "skills_required": [ "tailor", 8 ],
     "time": "2 h 15 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
-    "using": [ [ "adhesive", 2 ], [ "sewing_standard", 20 ] ],
+    "using": [ [ "adhesive", 2 ], [ "sewing_aramids", 15 ] ],
+    "tools": [ [ [ "welder", 74 ], [ "welding_kit", 74 ], [ "welder_crude", 112 ], [ "soldering_iron", 112 ], [ "toolset", 112 ] ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "mask_bunker", 1 ] ], [ [ "nomex", 8 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 6 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_polymerworking" } ]
@@ -1452,8 +1490,8 @@
     "result": "mask_gas",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "fabrication", 1 ],
@@ -1475,8 +1513,8 @@
     "result": "mask_gas_xl",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 4,
     "skills_required": [ "fabrication", 1 ],
@@ -1499,8 +1537,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "expand-existing",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 4,
     "skills_required": [ "fabrication", 1 ],
@@ -1523,8 +1561,8 @@
     "type": "recipe",
     "copy-from": "mask_gas",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skills_required": [ "fabrication", 1 ],
     "time": "1 h",
     "decomp_learn": 3,
@@ -1546,8 +1584,8 @@
     "copy-from": "mask_gas",
     "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "shrink-existing",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skills_required": [ "fabrication", 1 ],
     "time": "1 h",
     "book_learn": [
@@ -1567,16 +1605,16 @@
     "result": "mask_h20survivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
     "skills_required": [ "tailor", 7 ],
-    "time": "1 h",
+    "time": "1 h 10 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
+    "using": [ [ "adhesive", 2 ], [ "sewing_aramids", 10 ], [ "plastic_molding", 8 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
-    "using": [ [ "adhesive", 2 ], [ "sewing_standard", 20 ], [ "plastic_molding", 4 ] ],
     "components": [ [ [ "rebreather", 1 ] ], [ [ "goggles_swim", 1 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ] ]
   },
   {
@@ -1584,37 +1622,25 @@
     "type": "recipe",
     "copy-from": "mask_h20survivor",
     "time": "1 h",
-    "using": [ [ "adhesive", 1 ], [ "sewing_standard", 15 ], [ "plastic_molding", 3 ] ],
+    "using": [ [ "adhesive", 1 ], [ "sewing_aramids", 7 ], [ "plastic_molding", 7 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "rebreather", 1 ] ], [ [ "goggles_swim", 1 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 3 ] ] ]
   },
   {
     "result": "mask_h20survivorxl",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "fabrication",
-    "difficulty": 7,
-    "skills_required": [ "tailor", 7 ],
-    "time": "1 h 10 m",
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
-    "using": [ [ "adhesive", 2 ], [ "sewing_standard", 20 ], [ "plastic_molding", 4 ] ],
+    "copy-from": "mask_h20survivor",
+    "time": "1 h 20 m",
+    "using": [ [ "adhesive", 2 ], [ "sewing_aramids", 15 ], [ "plastic_molding", 9 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [
-      [ [ "rebreather", 1 ] ],
-      [ [ "goggles_swim", 1 ] ],
-      [ [ "plastic_chunk", 4 ] ],
-      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 6 ] ]
-    ]
+    "components": [ [ [ "rebreather", 1 ] ], [ [ "goggles_swim", 1 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 5 ] ] ]
   },
   {
     "result": "mask_hsurvivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
     "skills_required": [ "tailor", 7 ],
@@ -1622,12 +1648,12 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
       [ [ "scrap", 3 ] ],
-      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ]
+      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 2 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_closures_waterproofing" },
@@ -1639,8 +1665,8 @@
     "result": "mask_lsurvivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 6,
     "skills_required": [ "tailor", 5 ],
@@ -1651,8 +1677,8 @@
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
-      [ [ "rag", 3 ] ],
-      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ]
+      [ [ "cotton_patchwork", 3 ] ],
+      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 2 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_closures_waterproofing" },
@@ -1664,8 +1690,8 @@
     "result": "mask_lsurvivorxl",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 6,
     "skills_required": [ "tailor", 5 ],
@@ -1676,8 +1702,8 @@
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
-      [ [ "rag", 6 ] ],
-      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 6 ] ]
+      [ [ "cotton_patchwork", 6 ] ],
+      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 3 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_closures_waterproofing" },
@@ -1708,21 +1734,21 @@
     "difficulty": 6,
     "time": "3 h 30 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 80 ] ],
-    "components": [ [ [ "felt_patch", 8 ] ] ]
+    "using": [ [ "tailoring_felt_patchwork", 4 ] ],
+    "byproducts": [ [ "felt_patch", 4 ] ]
   },
   {
     "result": "mask_survivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 6,
     "skills_required": [ "tailor", 6 ],
     "time": "4 h",
     "autolearn": true,
-    "using": [ [ "adhesive", 1 ], [ "sewing_standard", 10 ] ],
+    "using": [ [ "adhesive", 1 ], [ "sewing_aramids", 10 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
@@ -1741,7 +1767,7 @@
     "type": "recipe",
     "copy-from": "mask_survivor",
     "time": "4 h",
-    "using": [ [ "adhesive", 1 ], [ "sewing_standard", 7 ] ],
+    "using": [ [ "adhesive", 1 ], [ "sewing_aramids", 7 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
@@ -1754,14 +1780,14 @@
     "result": "mask_survivorxl",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 6,
     "skills_required": [ "tailor", 5 ],
     "time": "4 h 30 m",
     "autolearn": true,
-    "using": [ [ "adhesive", 2 ], [ "sewing_standard", 20 ] ],
+    "using": [ [ "adhesive", 2 ], [ "sewing_aramids", 15 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
@@ -1779,20 +1805,20 @@
     "result": "mask_wsurvivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
     "skills_required": [ "tailor", 7 ],
     "time": "4 h",
     "autolearn": true,
-    "using": [ [ "adhesive", 1 ], [ "sewing_standard", 10 ] ],
+    "using": [ [ "adhesive", 1 ], [ "sewing_aramids", 10 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
       [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ]
+      [ [ "fur", 8 ], [ "tanned_pelt", 1 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking" },
@@ -1807,7 +1833,7 @@
     "type": "recipe",
     "copy-from": "mask_wsurvivor",
     "time": "4 h",
-    "using": [ [ "adhesive", 1 ], [ "sewing_standard", 7 ] ],
+    "using": [ [ "adhesive", 1 ], [ "sewing_aramids", 7 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
@@ -1820,14 +1846,14 @@
     "result": "mask_wsurvivorxl",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
     "skills_required": [ "tailor", 7 ],
     "time": "4 h 30 m",
     "autolearn": true,
-    "using": [ [ "adhesive", 1 ], [ "sewing_standard", 20 ] ],
+    "using": [ [ "adhesive", 1 ], [ "sewing_aramids", 15 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
@@ -1856,7 +1882,13 @@
     "components": [
       [ [ "hat_hard", 1 ], [ "helmet_bike", 1 ] ],
       [ [ "flashlight", 1 ] ],
-      [ [ "rag", 2 ], [ "leather", 2 ], [ "cordage", 1, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
+      [
+        [ "cotton_patchwork", 2 ],
+        [ "leather", 2 ],
+        [ "cordage", 1, "LIST" ],
+        [ "duct_tape", 10 ],
+        [ "medical_tape", 20 ]
+      ]
     ]
   },
   {
@@ -1870,8 +1902,7 @@
     "time": "3 h",
     "reversible": true,
     "book_learn": [ [ "textbook_fireman", 6 ], [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "nomex", 6 ] ] ],
+    "using": [ [ "tailoring_nomex_patchwork", 7 ] ],
     "proficiencies": [ { "proficiency": "prof_millinery" }, { "proficiency": "prof_polymerworking" } ]
   },
   {
@@ -1884,7 +1915,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 3 ], [ "fabric_standard_nostretch", 4 ] ]
+    "using": [ [ "tailoring_cotton_patchwork_simple", 2 ] ]
   },
   {
     "result": "pot_helmet",
@@ -1896,7 +1927,7 @@
     "time": "30 m",
     "reversible": { "time": "6 s" },
     "autolearn": true,
-    "components": [ [ [ "rag", 4 ] ], [ [ "pot", 1 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 4 ] ], [ [ "pot", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -1904,14 +1935,14 @@
     "type": "recipe",
     "copy-from": "pot_helmet",
     "time": "30 m",
-    "components": [ [ [ "rag", 3 ] ], [ [ "pot", 1 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 3 ] ], [ [ "pot", 1 ] ] ]
   },
   {
     "result": "rebreather",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "electronics",
     "difficulty": 9,
     "skills_required": [ "tailor", 1 ],
@@ -1920,7 +1951,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 4 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 1 ] ],
       [ [ "power_supply", 2 ] ],
@@ -1934,8 +1965,8 @@
     "result": "rebreather_xl",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "electronics",
     "difficulty": 9,
     "skills_required": [ "tailor", 3 ],
@@ -1944,7 +1975,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 8 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ] ],
       [ [ "power_supply", 2 ] ],
@@ -1959,8 +1990,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "mod_existing",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "electronics", 4 ],
@@ -1969,7 +2000,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 4 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "rebreather", 1 ] ],
       [ [ "mask_filter", 1 ], [ "mask_gas", 1 ] ],
@@ -1982,15 +2013,15 @@
     "type": "recipe",
     "copy-from": "rebreather",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skills_required": [ "tailor", 3 ],
     "time": "1 h 10 m",
     "book_learn": [ [ "manual_swimming", 3 ], [ "atomic_survival", 3 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 2 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 1 ] ],
       [ [ "power_supply", 2 ] ],
@@ -2006,8 +2037,8 @@
     "copy-from": "rebreather",
     "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "mod_existing",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "electronics", 4 ],
@@ -2016,7 +2047,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 2 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "tools": [ [ [ "welder", 56 ], [ "welding_kit", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "rebreather", 1 ] ],
       [ [ "mask_filter", 1 ], [ "mask_gas", 1 ] ],
@@ -2034,9 +2065,8 @@
     "difficulty": 1,
     "time": "1 h",
     "autolearn": true,
-    "reversible": true,
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
-    "using": [ [ "tailoring_wool_knitting", 80 ] ]
+    "using": [ [ "tailoring_wool_knitting", 100 ] ]
   },
   {
     "result": "scarf_fur",
@@ -2047,11 +2077,10 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "skills_required": [ "survival", 1 ],
-    "time": "2 h",
+    "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 3 ] ],
-    "components": [ [ [ "fur", 4 ], [ "tanned_pelt", 1 ] ] ],
+    "using": [ [ "tailoring_fur_patchwork_simple", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
   },
   {
@@ -2064,11 +2093,11 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "skills_required": [ "survival", 1 ],
-    "time": "3 h",
+    "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 3 ] ],
-    "components": [ [ [ "scarf_fur", 3 ] ] ],
+    "using": [ [ "sewing_simple", 3 ] ],
+    "components": [ [ [ "scarf_fur", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
   },
   {
@@ -2081,11 +2110,10 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "skills_required": [ "survival", 1 ],
-    "time": "3 h",
+    "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 9 ] ],
-    "components": [ [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ] ],
+    "using": [ [ "tailoring_fur_patchwork_simple", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
   },
   {
@@ -2138,7 +2166,7 @@
     "skills_required": [ "tailor", 4 ],
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "adhesive", 1 ], [ "sewing_standard", 10 ] ],
+    "using": [ [ "adhesive", 1 ], [ "sewing_aramids", 10 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [
@@ -2171,7 +2199,11 @@
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
     "using": [ [ "sewing_standard", 8 ], [ "soldering_standard", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
-    "components": [ [ [ "rag", 4 ], [ "scarf", 2 ], [ "scarf_long", 1 ], [ "balclava", 1 ] ], [ [ "element", 2 ] ], [ [ "cable", 6 ] ] ]
+    "components": [
+      [ [ "cotton_patchwork", 4 ], [ "scarf", 2 ], [ "scarf_long", 1 ], [ "balclava", 1 ] ],
+      [ [ "element", 2 ], [ "crude_heating_element", 3 ] ],
+      [ [ "cable", 6 ] ]
+    ]
   },
   {
     "result": "tinfoil_hat",
@@ -2181,6 +2213,7 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
     "time": "30 s",
+    "reversible": true,
     "autolearn": true,
     "tools": [  ],
     "components": [ [ [ "aluminum_foil", 4 ] ] ]
@@ -2195,16 +2228,9 @@
     "difficulty": 5,
     "time": "1 h 5 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 20 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 1 ] ],
     "components": [
-      [ [ "leather", 8 ], [ "tanned_hide", 1 ] ],
-      [
-        [ "any_tallow", 1, "LIST" ],
-        [ "cooking_oil", 8 ],
-        [ "cooking_oil2", 8 ],
-        [ "lamp_oil", 200 ],
-        [ "motor_oil", 200 ]
-      ]
+      [ [ "any_tallow", 1, "LIST" ], [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "lamp_oil", 200 ], [ "motor_oil", 200 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_millinery" },
@@ -2222,7 +2248,7 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "fabric_standard_nostretch", 8 ] ],
+    "using": [ [ "tailoring_cotton_patchwork_simple", 3 ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -2250,250 +2276,157 @@
     "difficulty": 4,
     "time": "2 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 10 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 4 ], [ "tailoring_neoprene_patchwork", 3 ] ],
     "qualities": [ { "id": "SEW_CURVED", "level": 1 } ],
-    "components": [ [ [ "neoprene", 2 ] ], [ [ "rag", 2 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_polymerworking" } ]
+    "components": [ [ [ "neoprene", 2 ] ], [ [ "cotton_patchwork", 2 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
     "result": "lc_chainmail_hood",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "3 h",
     "reversible": true,
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 2 ] ],
-    "components": [ [ [ "lc_link_sheet", 2 ] ], [ [ "lc_chain_link", 50 ] ], [ [ "lc_wire", 1 ] ], [ [ "rag", 4 ] ] ],
+    "components": [ [ [ "lc_link_sheet", 2 ] ], [ [ "lc_chain_link", 50 ] ], [ [ "lc_wire", 1 ] ], [ [ "cotton_patchwork", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
   },
   {
-    "result": "xs_lc_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "less_charges",
-    "copy-from": "lc_chainmail_hood",
-    "time": "3 h",
-    "using": [ [ "chainmail_standard", 1 ] ],
-    "components": [ [ [ "lc_link_sheet", 2 ] ], [ [ "lc_chain_link", 38 ] ], [ [ "lc_wire", 2 ] ], [ [ "rag", 3 ] ] ]
-  },
-  {
     "result": "xl_lc_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "more_charges",
     "copy-from": "lc_chainmail_hood",
     "time": "3 h 20 m",
     "using": [ [ "chainmail_standard", 4 ] ],
-    "components": [ [ [ "lc_link_sheet", 3 ] ], [ [ "lc_chain_link", 75 ] ], [ [ "lc_wire", 2 ] ], [ [ "rag", 6 ] ] ]
-  },
-  {
-    "result": "xl_lc_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "standard_charges",
-    "copy-from": "lc_chainmail_hood",
-    "components": [ [ [ "lc_link_sheet", 3 ] ], [ [ "lc_chain_link", 75 ] ], [ [ "lc_wire", 2 ] ], [ [ "rag", 6 ] ] ]
+    "components": [ [ [ "lc_link_sheet", 3 ] ], [ [ "lc_chain_link", 75 ] ], [ [ "lc_wire", 2 ] ], [ [ "cotton_patchwork", 6 ] ] ]
   },
   {
     "result": "xs_lc_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "standard_charges",
     "copy-from": "lc_chainmail_hood",
-    "time": "3 h 20 m",
-    "components": [ [ [ "lc_link_sheet", 2 ] ], [ [ "lc_chain_link", 50 ] ], [ [ "lc_wire", 2 ] ], [ [ "rag", 4 ] ] ]
+    "components": [ [ [ "lc_link_sheet", 2 ] ], [ [ "lc_chain_link", 50 ] ], [ [ "lc_wire", 2 ] ], [ [ "cotton_patchwork", 4 ] ] ]
   },
   {
     "result": "mc_chainmail_hood",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "3 h",
     "reversible": true,
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 2 ] ],
-    "components": [ [ [ "mc_link_sheet", 2 ] ], [ [ "mc_chain_link", 50 ] ], [ [ "mc_wire", 1 ] ], [ [ "rag", 4 ] ] ],
+    "components": [ [ [ "mc_link_sheet", 2 ] ], [ [ "mc_chain_link", 50 ] ], [ [ "mc_wire", 1 ] ], [ [ "cotton_patchwork", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
   },
   {
-    "result": "xs_mc_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "less_charges",
-    "copy-from": "mc_chainmail_hood",
-    "time": "3 h",
-    "using": [ [ "chainmail_standard", 1 ] ],
-    "components": [ [ [ "mc_link_sheet", 2 ] ], [ [ "mc_chain_link", 38 ] ], [ [ "mc_wire", 2 ] ], [ [ "rag", 3 ] ] ]
-  },
-  {
     "result": "xl_mc_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "more_charges",
     "copy-from": "mc_chainmail_hood",
     "time": "3 h 20 m",
     "using": [ [ "chainmail_standard", 4 ] ],
-    "components": [ [ [ "mc_link_sheet", 3 ] ], [ [ "mc_chain_link", 75 ] ], [ [ "mc_wire", 2 ] ], [ [ "rag", 6 ] ] ]
-  },
-  {
-    "result": "xl_mc_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "standard_charges",
-    "copy-from": "mc_chainmail_hood",
-    "components": [ [ [ "mc_link_sheet", 3 ] ], [ [ "mc_chain_link", 75 ] ], [ [ "mc_wire", 2 ] ], [ [ "rag", 6 ] ] ]
+    "components": [ [ [ "mc_link_sheet", 3 ] ], [ [ "mc_chain_link", 75 ] ], [ [ "mc_wire", 2 ] ], [ [ "cotton_patchwork", 6 ] ] ]
   },
   {
     "result": "xs_mc_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "standard_charges",
     "copy-from": "mc_chainmail_hood",
-    "time": "3 h 20 m",
-    "components": [ [ [ "mc_link_sheet", 2 ] ], [ [ "mc_chain_link", 50 ] ], [ [ "mc_wire", 2 ] ], [ [ "rag", 4 ] ] ]
+    "components": [ [ [ "mc_link_sheet", 2 ] ], [ [ "mc_chain_link", 50 ] ], [ [ "mc_wire", 2 ] ], [ [ "cotton_patchwork", 4 ] ] ]
   },
   {
     "result": "hc_chainmail_hood",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "3 h",
     "reversible": true,
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 2 ] ],
-    "components": [ [ [ "hc_link_sheet", 2 ] ], [ [ "hc_chain_link", 50 ] ], [ [ "hc_wire", 1 ] ], [ [ "rag", 4 ] ] ],
+    "components": [ [ [ "hc_link_sheet", 2 ] ], [ [ "hc_chain_link", 50 ] ], [ [ "hc_wire", 1 ] ], [ [ "cotton_patchwork", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
   },
   {
-    "result": "xs_hc_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "less_charges",
-    "copy-from": "hc_chainmail_hood",
-    "time": "3 h",
-    "using": [ [ "chainmail_standard", 1 ] ],
-    "components": [ [ [ "hc_link_sheet", 2 ] ], [ [ "hc_chain_link", 38 ] ], [ [ "hc_wire", 2 ] ], [ [ "rag", 3 ] ] ]
-  },
-  {
     "result": "xl_hc_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "more_charges",
     "copy-from": "hc_chainmail_hood",
     "time": "3 h 20 m",
     "using": [ [ "chainmail_standard", 4 ] ],
-    "components": [ [ [ "hc_link_sheet", 3 ] ], [ [ "hc_chain_link", 75 ] ], [ [ "hc_wire", 2 ] ], [ [ "rag", 6 ] ] ]
-  },
-  {
-    "result": "xl_hc_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "standard_charges",
-    "copy-from": "hc_chainmail_hood",
-    "components": [ [ [ "hc_link_sheet", 3 ] ], [ [ "hc_chain_link", 75 ] ], [ [ "hc_wire", 2 ] ], [ [ "rag", 6 ] ] ]
+    "components": [ [ [ "hc_link_sheet", 3 ] ], [ [ "hc_chain_link", 75 ] ], [ [ "hc_wire", 2 ] ], [ [ "cotton_patchwork", 6 ] ] ]
   },
   {
     "result": "xs_hc_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "standard_charges",
     "copy-from": "hc_chainmail_hood",
-    "time": "3 h 20 m",
-    "components": [ [ [ "hc_link_sheet", 2 ] ], [ [ "hc_chain_link", 50 ] ], [ [ "hc_wire", 2 ] ], [ [ "rag", 4 ] ] ]
+    "components": [ [ [ "hc_link_sheet", 2 ] ], [ [ "hc_chain_link", 50 ] ], [ [ "hc_wire", 2 ] ], [ [ "cotton_patchwork", 4 ] ] ]
   },
   {
     "result": "ch_chainmail_hood",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "3 h",
     "reversible": true,
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 2 ] ],
-    "components": [ [ [ "ch_link_sheet", 2 ] ], [ [ "ch_chain_link", 50 ] ], [ [ "ch_wire", 1 ] ], [ [ "rag", 4 ] ] ],
+    "components": [ [ [ "ch_link_sheet", 2 ] ], [ [ "ch_chain_link", 50 ] ], [ [ "ch_wire", 1 ] ], [ [ "cotton_patchwork", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
   },
   {
     "result": "xs_ch_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "less_charges",
     "copy-from": "ch_chainmail_hood",
-    "time": "3 h",
     "using": [ [ "chainmail_standard", 1 ] ],
-    "components": [ [ [ "ch_link_sheet", 2 ] ], [ [ "ch_chain_link", 38 ] ], [ [ "ch_wire", 2 ] ], [ [ "rag", 3 ] ] ]
+    "components": [ [ [ "ch_link_sheet", 2 ] ], [ [ "ch_chain_link", 38 ] ], [ [ "ch_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]
   },
   {
     "result": "xl_ch_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "more_charges",
     "copy-from": "ch_chainmail_hood",
     "time": "3 h 20 m",
     "using": [ [ "chainmail_standard", 4 ] ],
-    "components": [ [ [ "ch_link_sheet", 3 ] ], [ [ "ch_chain_link", 75 ] ], [ [ "ch_wire", 2 ] ], [ [ "rag", 6 ] ] ]
-  },
-  {
-    "result": "xl_ch_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "standard_charges",
-    "copy-from": "ch_chainmail_hood",
-    "components": [ [ [ "ch_link_sheet", 3 ] ], [ [ "ch_chain_link", 75 ] ], [ [ "ch_wire", 2 ] ], [ [ "rag", 6 ] ] ]
-  },
-  {
-    "result": "xs_ch_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "standard_charges",
-    "copy-from": "ch_chainmail_hood",
-    "time": "3 h 20 m",
-    "components": [ [ [ "ch_link_sheet", 2 ] ], [ [ "ch_chain_link", 50 ] ], [ [ "ch_wire", 2 ] ], [ [ "rag", 4 ] ] ]
+    "components": [ [ [ "ch_link_sheet", 3 ] ], [ [ "ch_chain_link", 75 ] ], [ [ "ch_wire", 2 ] ], [ [ "cotton_patchwork", 6 ] ] ]
   },
   {
     "result": "qt_chainmail_hood",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "3 h",
     "reversible": true,
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 2 ] ],
-    "components": [ [ [ "qt_link_sheet", 2 ] ], [ [ "qt_chain_link", 50 ] ], [ [ "qt_wire", 1 ] ], [ [ "rag", 4 ] ] ],
+    "components": [ [ [ "qt_link_sheet", 2 ] ], [ [ "qt_chain_link", 50 ] ], [ [ "qt_wire", 1 ] ], [ [ "cotton_patchwork", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
   },
   {
     "result": "xs_qt_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "less_charges",
     "copy-from": "qt_chainmail_hood",
-    "time": "3 h",
     "using": [ [ "chainmail_standard", 1 ] ],
-    "components": [ [ [ "qt_link_sheet", 2 ] ], [ [ "qt_chain_link", 38 ] ], [ [ "qt_wire", 2 ] ], [ [ "rag", 3 ] ] ]
+    "components": [ [ [ "qt_link_sheet", 2 ] ], [ [ "qt_chain_link", 38 ] ], [ [ "qt_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]
   },
   {
     "result": "xl_qt_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "more_charges",
     "copy-from": "qt_chainmail_hood",
     "time": "3 h 20 m",
     "using": [ [ "chainmail_standard", 4 ] ],
-    "components": [ [ [ "qt_link_sheet", 3 ] ], [ [ "qt_chain_link", 75 ] ], [ [ "qt_wire", 2 ] ], [ [ "rag", 6 ] ] ]
-  },
-  {
-    "result": "xl_qt_chainmail_hood",
-    "id_suffix": "standard_charges",
-    "type": "recipe",
-    "copy-from": "qt_chainmail_hood",
-    "components": [ [ [ "qt_link_sheet", 3 ] ], [ [ "qt_chain_link", 75 ] ], [ [ "qt_wire", 2 ] ], [ [ "rag", 6 ] ] ]
-  },
-  {
-    "result": "xs_qt_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "standard_charges",
-    "copy-from": "qt_chainmail_hood",
-    "time": "3 h 20 m",
-    "components": [ [ [ "qt_link_sheet", 2 ] ], [ [ "qt_chain_link", 50 ] ], [ [ "qt_wire", 2 ] ], [ [ "rag", 4 ] ] ]
+    "components": [ [ [ "qt_link_sheet", 3 ] ], [ [ "qt_chain_link", 75 ] ], [ [ "qt_wire", 2 ] ], [ [ "cotton_patchwork", 6 ] ] ]
   },
   {
     "result": "pot_xlhelmet",
@@ -2505,15 +2438,15 @@
     "time": "2 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "rag", 10 ] ], [ [ "pot_canning", 1 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 10 ] ], [ [ "pot_canning", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
     "result": "helmet_corinthian",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "9 h 10 m",
@@ -2542,8 +2475,8 @@
     "result": "helmet_bronze",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "9 h 10 m",
@@ -2579,7 +2512,7 @@
     "difficulty": 8,
     "time": "11 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 50 ], [ "steel_standard", 12 ] ],
+    "using": [ [ "blacksmithing_standard", 48 ], [ "steel_standard", 12 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
@@ -2600,7 +2533,7 @@
     "difficulty": 8,
     "time": "10 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 45 ], [ "steel_standard", 10 ] ],
+    "using": [ [ "blacksmithing_standard", 40 ], [ "steel_standard", 10 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
@@ -2659,32 +2592,184 @@
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
-    "result": "lc_helm_close",
+    "result": "lc_lighthelm_close",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
-    "difficulty": 7,
+    "difficulty": 6,
     "time": "5 d",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "lc_steel_standard", 2 ] ],
+    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0.15 }
+    ]
+  },
+  {
+    "result": "xl_lc_lighthelm_close",
+    "type": "recipe",
+    "copy-from": "lc_lighthelm_close",
+    "time": "5 d 14 h",
+    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "mc_lighthelm_close",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "5 d",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0.15 }
+    ]
+  },
+  {
+    "result": "xl_mc_lighthelm_close",
+    "type": "recipe",
+    "copy-from": "mc_lighthelm_close",
+    "time": "5 d 14 h",
+    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "hc_lighthelm_close",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "5 d",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 8 ], [ "hc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0.15 }
+    ]
+  },
+  {
+    "result": "xl_hc_lighthelm_close",
+    "type": "recipe",
+    "copy-from": "hc_lighthelm_close",
+    "time": "5 d 14 h",
+    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 12 ], [ "hc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "ch_lighthelm_close",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "5 d 12 h",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 2 ], [ "carbon", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0.15 },
+      { "proficiency": "prof_case_hardening" }
+    ]
+  },
+  {
+    "result": "xl_ch_lighthelm_close",
+    "type": "recipe",
+    "copy-from": "ch_lighthelm_close",
+    "time": "6 d 8 h",
+    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ], [ "carbon", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "qt_lighthelm_close",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "5 d 16 h",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0.15 },
+      { "proficiency": "prof_quenching" }
+    ]
+  },
+  {
+    "result": "xl_qt_lighthelm_close",
+    "type": "recipe",
+    "copy-from": "qt_lighthelm_close",
+    "time": "6 d 12 h",
+    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
+  },
+  {
+    "result": "lc_helm_close",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "5 d 12 h",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0.15 }
     ]
   },
   {
     "result": "xl_lc_helm_close",
     "type": "recipe",
     "copy-from": "lc_helm_close",
-    "time": "5 d 14 h",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "lc_steel_standard", 3 ] ],
+    "time": "6 d 3 h",
+    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 16 ], [ "lc_steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2692,29 +2777,29 @@
     "result": "mc_helm_close",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "5 d",
+    "time": "5 d 12 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 2 ] ],
+    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0.15 }
     ]
   },
   {
     "result": "xl_mc_helm_close",
     "type": "recipe",
     "copy-from": "mc_helm_close",
-    "time": "5 d 14 h",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "mc_steel_standard", 3 ] ],
+    "time": "6 d 3 h",
+    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2722,29 +2807,29 @@
     "result": "hc_helm_close",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "5 d",
+    "time": "5 d 12 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "hc_steel_standard", 2 ] ],
+    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 12 ], [ "hc_steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0.15 }
     ]
   },
   {
     "result": "xl_hc_helm_close",
     "type": "recipe",
     "copy-from": "hc_helm_close",
-    "time": "5 d 14 h",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "hc_steel_standard", 3 ] ],
+    "time": "6 d 3 h",
+    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 16 ], [ "hc_steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2752,29 +2837,30 @@
     "result": "ch_helm_close",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 8,
-    "time": "5 d 12 h",
+    "time": "6 d 1 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "lc_steel_standard", 2 ] ],
+    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ], [ "carbon", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0.15 },
+      { "proficiency": "prof_case_hardening" }
     ]
   },
   {
     "result": "xl_ch_helm_close",
     "type": "recipe",
     "copy-from": "ch_helm_close",
-    "time": "6 d 8 h",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "lc_steel_standard", 3 ] ],
+    "time": "6 d 23 h",
+    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 16 ], [ "lc_steel_standard", 4 ], [ "carbon", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2782,30 +2868,1103 @@
     "result": "qt_helm_close",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 9,
-    "time": "5 d 16 h",
+    "time": "6 d 5 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 2 ] ],
+    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0.15 },
+      { "proficiency": "prof_quenching" }
     ]
   },
   {
     "result": "xl_qt_helm_close",
     "type": "recipe",
     "copy-from": "qt_helm_close",
-    "time": "6 d 12 h",
-    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 22 ], [ "mc_steel_standard", 3 ] ],
+    "time": "7 d 3 h",
+    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [ [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
+  },
+  {
+    "result": "lc_heavyhelm_close",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "6 d",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "lc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0.15 }
+    ]
+  },
+  {
+    "result": "xl_lc_heavyhelm_close",
+    "type": "recipe",
+    "copy-from": "lc_heavyhelm_close",
+    "time": "6 d 17 h",
+    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 20 ], [ "lc_steel_standard", 5 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "mc_heavyhelm_close",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "6 d",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0.15 }
+    ]
+  },
+  {
+    "result": "xl_mc_heavyhelm_close",
+    "type": "recipe",
+    "copy-from": "mc_heavyhelm_close",
+    "time": "6 d 17 h",
+    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 20 ], [ "mc_steel_standard", 5 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "hc_heavyhelm_close",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "6 d",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "hc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0.15 }
+    ]
+  },
+  {
+    "result": "xl_hc_heavyhelm_close",
+    "type": "recipe",
+    "copy-from": "hc_heavyhelm_close",
+    "time": "6 d 17 h",
+    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 20 ], [ "hc_steel_standard", 5 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "ch_heavyhelm_close",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "time": "6 d 14 h",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "lc_steel_standard", 4 ], [ "carbon", 4 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0.15 },
+      { "proficiency": "prof_case_hardening" }
+    ]
+  },
+  {
+    "result": "xl_ch_heavyhelm_close",
+    "type": "recipe",
+    "copy-from": "ch_heavyhelm_close",
+    "time": "7 d 4 h",
+    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 20 ], [ "lc_steel_standard", 5 ], [ "carbon", 5 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "qt_heavyhelm_close",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 10,
+    "time": "6 d 19 h",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0.15 },
+      { "proficiency": "prof_quenching" }
+    ]
+  },
+  {
+    "result": "xl_qt_heavyhelm_close",
+    "type": "recipe",
+    "copy-from": "qt_heavyhelm_close",
+    "time": "7 d 9 h",
+    "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 20 ], [ "mc_steel_standard", 5 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
+  },
+  {
+    "result": "stockpot_helmet",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "time": "15 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "stock_pot", 1 ] ],
+      [ [ "string_36", 2 ] ],
+      [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ]
+    ]
+  },
+  {
+    "result": "lc_helmet_nasal",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "7 h 12 m",
+    "book_learn": [ [ "textbook_armwest", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_armorsmithing" }
+    ]
+  },
+  {
+    "result": "xs_lc_helmet_nasal",
+    "type": "recipe",
+    "copy-from": "lc_helmet_nasal",
+    "time": "7 h 12 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
+  },
+  {
+    "result": "xl_lc_helmet_nasal",
+    "type": "recipe",
+    "copy-from": "lc_helmet_nasal",
+    "time": "8 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "mc_helmet_nasal",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "7 h 12 m",
+    "book_learn": [ [ "textbook_armwest", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_armorsmithing" }
+    ]
+  },
+  {
+    "result": "xs_mc_helmet_nasal",
+    "type": "recipe",
+    "copy-from": "mc_helmet_nasal",
+    "time": "7 h 12 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
+  },
+  {
+    "result": "xl_mc_helmet_nasal",
+    "type": "recipe",
+    "copy-from": "mc_helmet_nasal",
+    "time": "8 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "hc_helmet_nasal",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "7 h 12 m",
+    "book_learn": [ [ "textbook_armwest", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_armorsmithing" }
+    ]
+  },
+  {
+    "result": "xs_hc_helmet_nasal",
+    "type": "recipe",
+    "copy-from": "hc_helmet_nasal",
+    "time": "7 h 12 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
+  },
+  {
+    "result": "xl_hc_helmet_nasal",
+    "type": "recipe",
+    "copy-from": "hc_helmet_nasal",
+    "time": "8 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "qt_helmet_nasal",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "11 h 12 m",
+    "book_learn": [ [ "textbook_armwest", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_quenching" }
+    ]
+  },
+  {
+    "result": "xs_qt_helmet_nasal",
+    "type": "recipe",
+    "copy-from": "qt_helmet_nasal",
+    "time": "11 h 12 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
+  },
+  {
+    "result": "xl_qt_helmet_nasal",
+    "type": "recipe",
+    "copy-from": "qt_helmet_nasal",
+    "time": "12 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "ch_helmet_nasal",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "10 h 12 m",
+    "book_learn": [ [ "textbook_armwest", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_case_hardening" }
+    ]
+  },
+  {
+    "result": "xs_ch_helmet_nasal",
+    "type": "recipe",
+    "copy-from": "ch_helmet_nasal",
+    "time": "10 h 12 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
+  },
+  {
+    "result": "xl_ch_helmet_nasal",
+    "type": "recipe",
+    "copy-from": "ch_helmet_nasal",
+    "time": "11 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "lc_helmet_turban",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "6 h 00 m",
+    "book_learn": [ [ "textbook_weparabic", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [  ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" }
+    ]
+  },
+  {
+    "result": "xs_lc_helmet_turban",
+    "type": "recipe",
+    "copy-from": "lc_helmet_turban",
+    "time": "7 h 12 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [  ] ]
+  },
+  {
+    "result": "xl_lc_helmet_turban",
+    "type": "recipe",
+    "copy-from": "lc_helmet_turban",
+    "time": "8 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [  ] ]
+  },
+  {
+    "result": "mc_helmet_turban",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "6 h 00 m",
+    "book_learn": [ [ "textbook_weparabic", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [  ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" }
+    ]
+  },
+  {
+    "result": "xs_mc_helmet_turban",
+    "type": "recipe",
+    "copy-from": "mc_helmet_turban",
+    "time": "6 h 00 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [  ] ]
+  },
+  {
+    "result": "xl_mc_helmet_turban",
+    "type": "recipe",
+    "copy-from": "mc_helmet_turban",
+    "time": "8 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [  ] ]
+  },
+  {
+    "result": "hc_helmet_turban",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "6 h 00 m",
+    "book_learn": [ [ "textbook_weparabic", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [  ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" }
+    ]
+  },
+  {
+    "result": "xs_hc_helmet_turban",
+    "type": "recipe",
+    "copy-from": "hc_helmet_turban",
+    "time": "7 h 12 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [  ] ]
+  },
+  {
+    "result": "xl_hc_helmet_turban",
+    "type": "recipe",
+    "copy-from": "hc_helmet_turban",
+    "time": "8 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [  ] ]
+  },
+  {
+    "result": "qt_helmet_turban",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "12 h 12 m",
+    "book_learn": [ [ "textbook_weparabic", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [  ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_quenching" }
+    ]
+  },
+  {
+    "result": "xs_qt_helmet_turban",
+    "type": "recipe",
+    "copy-from": "qt_helmet_turban",
+    "time": "11 h 12 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [  ] ]
+  },
+  {
+    "result": "xl_qt_helmet_turban",
+    "type": "recipe",
+    "copy-from": "qt_helmet_turban",
+    "time": "12 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [  ] ]
+  },
+  {
+    "result": "ch_helmet_turban",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "10 h 12 m",
+    "book_learn": [ [ "textbook_weparabic", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_case_hardening" }
+    ]
+  },
+  {
+    "result": "xs_ch_helmet_turban",
+    "type": "recipe",
+    "copy-from": "ch_helmet_turban",
+    "time": "10 h 12 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [  ] ]
+  },
+  {
+    "result": "xl_ch_helmet_turban",
+    "type": "recipe",
+    "copy-from": "ch_helmet_turban",
+    "time": "11 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [  ] ]
+  },
+  {
+    "result": "lc_chainmail_face",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "reversible": true,
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_weparabic", 6 ] ],
+    "using": [ [ "chainmail_standard", 2 ] ],
+    "components": [ [ [ "lc_link_sheet", 2 ] ], [ [ "lc_chain_link", 30 ] ], [ [ "lc_wire", 1 ] ], [ [ "cotton_patchwork", 3 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "xl_lc_chainmail_face",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_face",
+    "time": "3 h 20 m",
+    "using": [ [ "chainmail_standard", 4 ] ],
+    "components": [ [ [ "lc_link_sheet", 3 ] ], [ [ "lc_chain_link", 50 ] ], [ [ "lc_wire", 2 ] ], [ [ "cotton_patchwork", 5 ] ] ]
+  },
+  {
+    "result": "xs_lc_chainmail_face",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_face",
+    "components": [ [ [ "lc_link_sheet", 2 ] ], [ [ "lc_chain_link", 30 ] ], [ [ "lc_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]
+  },
+  {
+    "result": "mc_chainmail_face",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "reversible": true,
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_weparabic", 6 ] ],
+    "using": [ [ "chainmail_standard", 2 ] ],
+    "components": [ [ [ "mc_link_sheet", 2 ] ], [ [ "mc_chain_link", 30 ] ], [ [ "mc_wire", 1 ] ], [ [ "cotton_patchwork", 3 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "xl_mc_chainmail_face",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_face",
+    "time": "3 h 20 m",
+    "using": [ [ "chainmail_standard", 4 ] ],
+    "components": [ [ [ "mc_link_sheet", 3 ] ], [ [ "mc_chain_link", 50 ] ], [ [ "mc_wire", 2 ] ], [ [ "cotton_patchwork", 5 ] ] ]
+  },
+  {
+    "result": "xs_mc_chainmail_face",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_face",
+    "components": [ [ [ "mc_link_sheet", 2 ] ], [ [ "mc_chain_link", 30 ] ], [ [ "mc_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]
+  },
+  {
+    "result": "hc_chainmail_face",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "reversible": true,
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_weparabic", 6 ] ],
+    "using": [ [ "chainmail_standard", 2 ] ],
+    "components": [ [ [ "hc_link_sheet", 2 ] ], [ [ "hc_chain_link", 30 ] ], [ [ "hc_wire", 1 ] ], [ [ "cotton_patchwork", 3 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "xl_hc_chainmail_face",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_face",
+    "time": "3 h 20 m",
+    "using": [ [ "chainmail_standard", 4 ] ],
+    "components": [ [ [ "hc_link_sheet", 3 ] ], [ [ "hc_chain_link", 50 ] ], [ [ "hc_wire", 2 ] ], [ [ "cotton_patchwork", 5 ] ] ]
+  },
+  {
+    "result": "xs_hc_chainmail_face",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_face",
+    "components": [ [ [ "hc_link_sheet", 2 ] ], [ [ "hc_chain_link", 30 ] ], [ [ "hc_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]
+  },
+  {
+    "result": "qt_chainmail_face",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "reversible": true,
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_weparabic", 6 ] ],
+    "using": [ [ "chainmail_standard", 2 ] ],
+    "components": [ [ [ "qt_link_sheet", 2 ] ], [ [ "qt_chain_link", 30 ] ], [ [ "qt_wire", 1 ] ], [ [ "cotton_patchwork", 3 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" }, { "proficiency": "prof_quenching" } ]
+  },
+  {
+    "result": "xl_qt_chainmail_face",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_face",
+    "time": "3 h 20 m",
+    "using": [ [ "chainmail_standard", 4 ] ],
+    "components": [ [ [ "qt_link_sheet", 3 ] ], [ [ "qt_chain_link", 50 ] ], [ [ "qt_wire", 2 ] ], [ [ "cotton_patchwork", 5 ] ] ]
+  },
+  {
+    "result": "xs_qt_chainmail_face",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_face",
+    "components": [ [ [ "qt_link_sheet", 2 ] ], [ [ "qt_chain_link", 30 ] ], [ [ "qt_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]
+  },
+  {
+    "result": "ch_chainmail_face",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "reversible": true,
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_weparabic", 6 ] ],
+    "using": [ [ "chainmail_standard", 2 ] ],
+    "components": [ [ [ "ch_link_sheet", 2 ] ], [ [ "ch_chain_link", 30 ] ], [ [ "ch_wire", 1 ] ], [ [ "cotton_patchwork", 3 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" }, { "proficiency": "prof_case_hardening" } ]
+  },
+  {
+    "result": "xl_ch_chainmail_face",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_face",
+    "time": "3 h 20 m",
+    "using": [ [ "chainmail_standard", 4 ] ],
+    "components": [ [ [ "ch_link_sheet", 3 ] ], [ [ "ch_chain_link", 50 ] ], [ [ "ch_wire", 2 ] ], [ [ "cotton_patchwork", 5 ] ] ]
+  },
+  {
+    "result": "xs_ch_chainmail_face",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_face",
+    "components": [ [ [ "ch_link_sheet", 2 ] ], [ [ "ch_chain_link", 30 ] ], [ [ "ch_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]
+  },
+  {
+    "result": "lc_chainmail_aventail",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "reversible": true,
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_weparabic", 6 ] ],
+    "using": [ [ "chainmail_standard", 2 ] ],
+    "components": [ [ [ "lc_link_sheet", 2 ] ], [ [ "lc_chain_link", 40 ] ], [ [ "lc_wire", 1 ] ], [ [ "cotton_patchwork", 3 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "xl_lc_chainmail_aventail",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_aventail",
+    "time": "3 h 20 m",
+    "using": [ [ "chainmail_standard", 4 ] ],
+    "components": [ [ [ "lc_link_sheet", 3 ] ], [ [ "lc_chain_link", 60 ] ], [ [ "lc_wire", 2 ] ], [ [ "cotton_patchwork", 5 ] ] ]
+  },
+  {
+    "result": "xs_lc_chainmail_aventail",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_aventail",
+    "components": [ [ [ "lc_link_sheet", 2 ] ], [ [ "lc_chain_link", 40 ] ], [ [ "lc_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]
+  },
+  {
+    "result": "mc_chainmail_aventail",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "reversible": true,
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_weparabic", 6 ] ],
+    "using": [ [ "chainmail_standard", 2 ] ],
+    "components": [ [ [ "mc_link_sheet", 2 ] ], [ [ "mc_chain_link", 40 ] ], [ [ "mc_wire", 1 ] ], [ [ "cotton_patchwork", 3 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "xl_mc_chainmail_aventail",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_aventail",
+    "time": "3 h 20 m",
+    "using": [ [ "chainmail_standard", 4 ] ],
+    "components": [ [ [ "mc_link_sheet", 3 ] ], [ [ "mc_chain_link", 60 ] ], [ [ "mc_wire", 2 ] ], [ [ "cotton_patchwork", 5 ] ] ]
+  },
+  {
+    "result": "xs_mc_chainmail_aventail",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_aventail",
+    "components": [ [ [ "mc_link_sheet", 2 ] ], [ [ "mc_chain_link", 40 ] ], [ [ "mc_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]
+  },
+  {
+    "result": "hc_chainmail_aventail",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "reversible": true,
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_weparabic", 6 ] ],
+    "using": [ [ "chainmail_standard", 2 ] ],
+    "components": [ [ [ "hc_link_sheet", 2 ] ], [ [ "hc_chain_link", 40 ] ], [ [ "hc_wire", 1 ] ], [ [ "cotton_patchwork", 3 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "xl_hc_chainmail_aventail",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_face",
+    "time": "3 h 20 m",
+    "using": [ [ "chainmail_standard", 4 ] ],
+    "components": [ [ [ "hc_link_sheet", 3 ] ], [ [ "hc_chain_link", 60 ] ], [ [ "hc_wire", 2 ] ], [ [ "cotton_patchwork", 5 ] ] ]
+  },
+  {
+    "result": "xs_hc_chainmail_aventail",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_face",
+    "components": [ [ [ "hc_link_sheet", 2 ] ], [ [ "hc_chain_link", 40 ] ], [ [ "hc_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]
+  },
+  {
+    "result": "qt_chainmail_aventail",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "reversible": true,
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_weparabic", 6 ] ],
+    "using": [ [ "chainmail_standard", 2 ] ],
+    "components": [ [ [ "qt_link_sheet", 2 ] ], [ [ "qt_chain_link", 40 ] ], [ [ "qt_wire", 1 ] ], [ [ "cotton_patchwork", 3 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" }, { "proficiency": "prof_quenching" } ]
+  },
+  {
+    "result": "xl_qt_chainmail_aventail",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_aventail",
+    "time": "3 h 20 m",
+    "using": [ [ "chainmail_standard", 4 ] ],
+    "components": [ [ [ "qt_link_sheet", 3 ] ], [ [ "qt_chain_link", 60 ] ], [ [ "qt_wire", 2 ] ], [ [ "cotton_patchwork", 5 ] ] ]
+  },
+  {
+    "result": "xs_qt_chainmail_aventail",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_aventail",
+    "components": [ [ [ "qt_link_sheet", 2 ] ], [ [ "qt_chain_link", 40 ] ], [ [ "qt_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]
+  },
+  {
+    "result": "ch_chainmail_aventail",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "reversible": true,
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_weparabic", 6 ] ],
+    "using": [ [ "chainmail_standard", 2 ] ],
+    "components": [ [ [ "ch_link_sheet", 2 ] ], [ [ "ch_chain_link", 40 ] ], [ [ "ch_wire", 1 ] ], [ [ "cotton_patchwork", 3 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" }, { "proficiency": "prof_case_hardening" } ]
+  },
+  {
+    "result": "xl_ch_chainmail_aventail",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_aventail",
+    "time": "3 h 20 m",
+    "using": [ [ "chainmail_standard", 4 ] ],
+    "components": [ [ [ "ch_link_sheet", 3 ] ], [ [ "ch_chain_link", 60 ] ], [ [ "ch_wire", 2 ] ], [ [ "cotton_patchwork", 5 ] ] ]
+  },
+  {
+    "result": "xs_ch_chainmail_aventail",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_aventail",
+    "components": [ [ [ "ch_link_sheet", 2 ] ], [ [ "lc_chain_link", 40 ] ], [ [ "ch_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]
+  },
+  {
+    "result": "lc_steel_facemask",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 h 00 m",
+    "book_learn": [ [ "textbook_weparabic", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [  ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" }
+    ]
+  },
+  {
+    "result": "xs_lc_steel_facemask",
+    "type": "recipe",
+    "copy-from": "lc_steel_facemask",
+    "time": "7 h 12 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [  ] ]
+  },
+  {
+    "result": "xl_lc_steel_facemask",
+    "type": "recipe",
+    "copy-from": "lc_steel_facemask",
+    "time": "8 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [  ] ]
+  },
+  {
+    "result": "mc_steel_facemask",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "6 h 00 m",
+    "book_learn": [ [ "textbook_weparabic", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [  ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" }
+    ]
+  },
+  {
+    "result": "xs_mc_steel_facemask",
+    "type": "recipe",
+    "copy-from": "mc_steel_facemask",
+    "time": "6 h 00 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [  ] ]
+  },
+  {
+    "result": "xl_mc_steel_facemask",
+    "type": "recipe",
+    "copy-from": "mc_steel_facemask",
+    "time": "8 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [  ] ]
+  },
+  {
+    "result": "hc_steel_facemask",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "10 h 00 m",
+    "book_learn": [ [ "textbook_weparabic", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [  ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_fine_metalsmithing" }
+    ]
+  },
+  {
+    "result": "xs_hc_steel_facemask",
+    "type": "recipe",
+    "copy-from": "hc_steel_facemask",
+    "time": "7 h 12 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [  ] ]
+  },
+  {
+    "result": "xl_hc_steel_facemask",
+    "type": "recipe",
+    "copy-from": "hc_steel_facemask",
+    "time": "8 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [  ] ]
+  },
+  {
+    "result": "qt_steel_facemask",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "30 h 12 m",
+    "book_learn": [ [ "textbook_weparabic", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "gold_small", 2 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_quenching" },
+      { "proficiency": "prof_fine_metalsmithing" }
+    ]
+  },
+  {
+    "result": "xs_qt_steel_facemask",
+    "type": "recipe",
+    "copy-from": "qt_steel_facemask",
+    "time": "11 h 12 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [ [ "gold_small", 1 ] ] ]
+  },
+  {
+    "result": "xl_qt_steel_facemask",
+    "type": "recipe",
+    "copy-from": "qt_steel_facemask",
+    "time": "12 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "gold_small", 3 ] ] ]
+  },
+  {
+    "result": "ch_steel_facemask",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "26 h 12 m",
+    "book_learn": [ [ "textbook_weparabic", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "gold_small", 2 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_case_hardening" },
+      { "proficiency": "prof_fine_metalsmithing" }
+    ]
+  },
+  {
+    "result": "xs_ch_steel_facemask",
+    "type": "recipe",
+    "copy-from": "ch_steel_facemask",
+    "time": "10 h 12 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "components": [ [ [ "gold_small", 1 ] ] ]
+  },
+  {
+    "result": "xl_ch_steel_facemask",
+    "type": "recipe",
+    "copy-from": "ch_steel_facemask",
+    "time": "11 h 5 m",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "gold_small", 3 ] ] ]
   }
 ]

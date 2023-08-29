@@ -8,11 +8,12 @@
 #include "catacharset.h"
 #include "input.h"
 #include "output.h"
+#include "ui.h"
 #include "ui_manager.h"
 
 query_popup::query_popup()
-    : cur( 0 ), default_text_color( c_white ), anykey( false ), cancel( false ), ontop( false ),
-      fullscr( false ), pref_kbd_mode( keyboard_mode::keycode )
+    : cur( 0 ), default_text_color( c_white ), anykey( false ), cancel( false ),
+      ontop( false ), fullscr( false ), pref_kbd_mode( keyboard_mode::keycode )
 {
 }
 
@@ -101,9 +102,9 @@ std::vector<std::vector<std::string>> query_popup::fold_query(
 
     int query_cnt = 0;
     int query_width = 0;
-    for( const auto &opt : options ) {
-        const auto &name = ctxt.get_action_name( opt.action );
-        const auto &desc = ctxt.get_desc( opt.action, name, opt.filter );
+    for( const query_popup::query_option &opt : options ) {
+        const std::string &name = ctxt.get_action_name( opt.action );
+        const std::string &desc = ctxt.get_desc( opt.action, name, opt.filter );
         const int this_query_width = utf8_width( desc, true ) + horz_padding;
         ++query_cnt;
         query_width += this_query_width;
@@ -236,10 +237,14 @@ void query_popup::show() const
     }
 
     for( size_t ind = 0; ind < buttons.size(); ++ind ) {
-        nc_color col = ind == cur ? hilite( c_white ) : c_white;
-        const auto &btn = buttons[ind];
+        const query_popup::button &btn = buttons[ind];
+        nc_color col = c_white;
+        std::string text = colorize( btn.text, col );
+        if( ind == cur ) {
+            text = hilite_string( text );
+        }
         print_colored_text( win, btn.pos + point( border_width, border_width ),
-                            col, col, btn.text );
+                            col, col, text );
     }
 
     wnoutrefresh( win );
@@ -280,12 +285,14 @@ query_popup::result query_popup::query_once()
         ctxt.register_action( "HELP_KEYBINDINGS" );
     }
     if( !options.empty() ) {
-        ctxt.register_action( "LEFT" );
-        ctxt.register_action( "RIGHT" );
+        ctxt.register_leftright();
         ctxt.register_action( "CONFIRM" );
-        for( const auto &opt : options ) {
+        for( const query_popup::query_option &opt : options ) {
             ctxt.register_action( opt.action );
         }
+        // Mouse movement and button
+        ctxt.register_action( "SELECT" );
+        ctxt.register_action( "MOUSE_MOVE" );
     }
     if( anykey ) {
         ctxt.register_action( "ANY_INPUT" );
@@ -302,27 +309,36 @@ query_popup::result query_popup::query_once()
     do {
         res.action = ctxt.handle_input();
         res.evt = ctxt.get_raw_input();
+
+        // If we're tracking mouse movement
+        if( !options.empty() && ( res.action == "MOUSE_MOVE" || res.action == "SELECT" ) ) {
+            std::optional<point> coord = ctxt.get_coordinates_text( win );
+            for( size_t i = 0; i < buttons.size(); i++ ) {
+                if( coord.has_value() && buttons[i].contains( coord.value() ) ) {
+                    if( i != cur ) {
+                        // Mouse-over new button, switch selection
+                        cur = i;
+                        ui_manager::redraw();
+                    }
+                    if( res.action == "SELECT" ) {
+                        // Left-click to confirm selection
+                        res.action = "CONFIRM";
+                    }
+                }
+            }
+        }
     } while(
         // Always ignore mouse movement
-        ( res.evt.type == input_event_t::mouse && res.evt.get_first_input() == MOUSE_MOVE ) ||
+        ( res.evt.type == input_event_t::mouse &&
+          res.evt.get_first_input() == static_cast<int>( MouseInput::Move ) ) ||
         // Ignore window losing focus in SDL
         ( res.evt.type == input_event_t::keyboard_char && res.evt.sequence.empty() )
     );
 
     if( cancel && res.action == "QUIT" ) {
         res.wait_input = false;
-    } else if( res.action == "LEFT" ) {
-        if( cur > 0 ) {
-            --cur;
-        } else {
-            cur = options.size() - 1;
-        }
-    } else if( res.action == "RIGHT" ) {
-        if( cur + 1 < options.size() ) {
-            ++cur;
-        } else {
-            cur = 0;
-        }
+    } else if( res.action == "LEFT" || res.action == "RIGHT" ) {
+        cur = inc_clamp_wrap( cur, res.action == "RIGHT", options.size() );
     } else if( res.action == "CONFIRM" ) {
         if( cur < options.size() ) {
             res.wait_input = false;
@@ -398,6 +414,14 @@ query_popup::query_option::query_option(
 query_popup::button::button( const std::string &text, const point &p )
     : text( text ), pos( p )
 {
+    width = utf8_width( text, true );
+}
+
+bool query_popup::button::contains( const point &p ) const
+{
+    return p.x >= pos.x + border_width &&
+           p.x < pos.x + width + border_width &&
+           p.y == pos.y + border_width;
 }
 
 static_popup::static_popup()

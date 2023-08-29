@@ -4,12 +4,11 @@
     "type": "vehicle_part",
     "categories": [ "movement" ],
     "location": "on_roof",
-    "symbol": "X",
     "color": "light_blue",
-    "broken_symbol": "O",
-    "broken_color": "light_gray",
     "flags": [ "ROTOR", "NO_INSTALL_PLAYER", "NO_REPAIR", "SMASH_REMOVE" ],
-    "description": "A set of aerofoil helicopter rotors, when spun at high speed, they generate thrust via lift."
+    "description": "A set of aerofoil helicopter rotors, when spun at high speed, they generate thrust via lift.",
+    "variants": [ { "symbols": "X", "symbols_broken": "O" } ],
+    "control_requirements": { "air": { "proficiencies": [ "prof_helicopter_pilot" ] } }
   },
   {
     "id": "heavy_duty_military_rotor",
@@ -46,9 +45,7 @@
     "copy-from": "heavy_duty_military_rotor",
     "type": "vehicle_part",
     "name": { "str": "heavy-duty military Blackhawk rotors" },
-    "item": "heavy_duty_military_rotor",
     "//": "rotor diameter is in meters",
-    "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
     "rotor_diameter": 16
   },
   {
@@ -56,7 +53,6 @@
     "copy-from": "heavy_duty_military_rotor",
     "type": "vehicle_part",
     "name": { "str": "heavy-duty military Osprey rotors" },
-    "item": "heavy_duty_military_rotor",
     "//": "rotor diameter is in meters",
     "description": "A set of three military-grade helicopter rotor blades, used to provide lift by rotation.",
     "rotor_diameter": 11

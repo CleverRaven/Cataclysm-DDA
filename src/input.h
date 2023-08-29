@@ -18,40 +18,36 @@
 #include "translations.h"
 
 enum action_id : int;
+class cata_path;
 class hotkey_queue;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 namespace catacurses
 {
 class window;
 } // namespace catacurses
 
 // Curses key constants
-static constexpr int KEY_ESCAPE     = 27;
-static constexpr int KEY_MIN        =
+constexpr int KEY_ESCAPE     = 27;
+constexpr int KEY_MIN        =
     0x101;    /* minimum extended key value */ //<---------not used
-static constexpr int KEY_BREAK      =
+constexpr int KEY_BREAK      =
     0x101;    /* break key */                  //<---------not used
-static constexpr int KEY_DOWN       = 0x102;    /* down arrow */
-static constexpr int KEY_UP         = 0x103;    /* up arrow */
-static constexpr int KEY_LEFT       = 0x104;    /* left arrow */
-static constexpr int KEY_RIGHT      = 0x105;    /* right arrow*/
-static constexpr int KEY_HOME       =
+constexpr int KEY_DOWN       = 0x102;    /* down arrow */
+constexpr int KEY_UP         = 0x103;    /* up arrow */
+constexpr int KEY_LEFT       = 0x104;    /* left arrow */
+constexpr int KEY_RIGHT      = 0x105;    /* right arrow*/
+constexpr int KEY_HOME       =
     0x106;    /* home key */
-static constexpr int KEY_BACKSPACE  =
+constexpr int KEY_BACKSPACE  =
     0x107;    /* Backspace */                  //<---------not used
-static constexpr int KEY_DC         = 0x14A;    /* Delete Character */
-static constexpr int KEY_F0         = 0x108;
+constexpr int KEY_DC         = 0x14A;    /* Delete Character */
+constexpr int KEY_F0         = 0x108;
 inline constexpr int KEY_F( const int n )
 {
     return KEY_F0 + n;    /* F1, F2, etc*/
 }
-static constexpr int F_KEY_NUM_BEG  = 0;
-static constexpr int F_KEY_NUM_END  = 63;
+constexpr int F_KEY_NUM_BEG  = 0;
+constexpr int F_KEY_NUM_END  = 63;
 inline constexpr int F_KEY_NUM( const int key )
 {
     return key - KEY_F0;
@@ -75,11 +71,11 @@ inline constexpr int KEY_NUM( const int n )
 {
     return 0x30 + n;     /* Numbers 0, 1, ..., 9 */
 }
-static constexpr int KEY_NPAGE      = 0x152;    /* page down */
-static constexpr int KEY_PPAGE      = 0x153;    /* page up */
-static constexpr int KEY_ENTER      = 0x157;    /* enter */
-static constexpr int KEY_BTAB       = 0x161;    /* back-tab = shift + tab */
-static constexpr int KEY_END        = 0x168;    /* End */
+constexpr int KEY_NPAGE      = 0x152;    /* page down */
+constexpr int KEY_PPAGE      = 0x153;    /* page up */
+constexpr int KEY_ENTER      = 0x157;    /* enter */
+constexpr int KEY_BTAB       = 0x161;    /* back-tab = shift + tab */
+constexpr int KEY_END        = 0x168;    /* End */
 
 // Platform independent key code (though largely based on SDL key code)
 //
@@ -147,14 +143,34 @@ enum : int {
 };
 } // namespace keycode
 
-static constexpr int LEGEND_HEIGHT = 11;
-static constexpr int BORDER_SPACE = 2;
+constexpr int LEGEND_HEIGHT = 8;
+constexpr int BORDER_SPACE = 2;
 
 bool is_mouse_enabled();
 bool is_keycode_mode_supported();
 std::string get_input_string_from_file( const std::string &fname = "input.txt" );
 
-enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
+// Mouse buttons and movement input
+enum class MouseInput : int {
+
+    LeftButtonPressed = 1,
+    LeftButtonReleased,
+
+    RightButtonPressed,
+    RightButtonReleased,
+
+    ScrollWheelUp,
+    ScrollWheelDown,
+
+    Move,
+
+    X1ButtonPressed,
+    X1ButtonReleased,
+
+    X2ButtonPressed,
+    X2ButtonReleased
+
+};
 
 enum class input_event_t : int  {
     error,
@@ -211,12 +227,52 @@ struct input_event {
         : type( t ), edit_refresh( false ) {
         sequence.push_back( s );
     }
+
+    // overloaded function for a mouse input
+    // made for a cleaner code, to get rid of static_cast's from scoped enum to int
+    //
+    // Instead of:
+    //
+    //    input_event( static_cast<int>( MouseInput::Move ), ... )
+    //    input_event( static_cast<int>( MouseInput::LeftButtonPressed ), ... )
+    //    input_event( static_cast<int>( MouseInput::RightButtonPressed ), ... )
+    //
+    // we now can just use
+    //
+    //    input_event( MouseInput::Move, ... )
+    //    input_event( MouseInput::LeftButtonPressed, ... )
+    //    input_event( MouseInput::RightButtonPressed, ... )
+    //
+    input_event( const MouseInput s, input_event_t t )
+        : type( t ), edit_refresh( false ) {
+        sequence.push_back( static_cast<int>( s ) );
+    }
+
     input_event( const std::set<keymod_t> &mod, int s, input_event_t t );
 
     int get_first_input() const;
 
     void add_input( const int input ) {
         sequence.push_back( input );
+    }
+
+    // overloaded function for a mouse input
+    // made for a cleaner code, to get rid of static_cast's from scoped enum to int
+    //
+    // Instead of:
+    //
+    //    add_input( static_cast<int>( MouseInput::Move ) )
+    //    add_input( static_cast<int>( MouseInput::LeftButtonPressed ) )
+    //    add_input( static_cast<int>( MouseInput::RightButtonPressed ) )
+    //
+    // we now can just use
+    //
+    //    add_input( MouseInput::Move )
+    //    add_input( MouseInput::LeftButtonPressed )
+    //    add_input( MouseInput::RightButtonPressed )
+    //
+    void add_input( const MouseInput mouse_input ) {
+        sequence.push_back( static_cast<int>( mouse_input ) );
     }
 
     bool operator==( const input_event &other ) const {
@@ -425,13 +481,12 @@ class input_manager
         void add_keyboard_char_keycode_pair( int ch, const std::string &name );
         void add_keyboard_code_keycode_pair( int ch, const std::string &name );
         void add_gamepad_keycode_pair( int ch, const std::string &name );
-        void add_mouse_keycode_pair( int ch, const std::string &name );
-
+        void add_mouse_keycode_pair( MouseInput mouse_input, const std::string &name );
         /**
          * Load keybindings from a json file, override existing bindings.
          * Throws std::string on errors
          */
-        void load( const std::string &file_name, bool is_user_preferences );
+        void load( const cata_path &file_name, bool is_user_preferences );
 
         int input_timeout;
 
@@ -501,6 +556,7 @@ class input_context
             input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
+            register_action( "toggle_language_to_en" );
         }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
@@ -513,6 +569,7 @@ class input_context
             input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
+            register_action( "toggle_language_to_en" );
         }
 
 #if defined(__ANDROID__)
@@ -725,22 +782,20 @@ class input_context
          * the delta vector associated with it. Otherwise returns an empty value.
          * The returned vector will always have a z component of 0.
          */
-        cata::optional<tripoint> get_direction( const std::string &action ) const;
+        std::optional<tripoint> get_direction( const std::string &action ) const;
 
         /**
          * Get the coordinates associated with the last mouse click (if any).
-         *
-         * TODO: This right now is more or less specific to the map window,
-         *       and returns the absolute map coordinate.
-         *       Eventually this should be made more flexible.
          */
-        cata::optional<tripoint> get_coordinates( const catacurses::window &capture_win_ );
+        std::optional<tripoint> get_coordinates( const catacurses::window &capture_win_,
+                const point &offset = point_zero, bool center_cursor = false ) const;
 
         // Below here are shortcuts for registering common key combinations.
         void register_directions();
         void register_updown();
         void register_leftright();
         void register_cardinal();
+        void register_navigate_ui_list();
 
         /**
          * Displays the possible actions in the current context and their
@@ -760,7 +815,7 @@ class input_context
         /**
          * Get coordinate of text level from mouse input, difference between this and get_coordinates is that one is getting pixel level coordinate.
          */
-        cata::optional<point> get_coordinates_text( const catacurses::window &capture_win ) const;
+        std::optional<point> get_coordinates_text( const catacurses::window &capture_win ) const;
 
         /**
          * Get the human-readable name for an action.
@@ -871,7 +926,7 @@ class input_context
          * @return A vector of the filtered strings
          */
         std::vector<std::string> filter_strings_by_phrase( const std::vector<std::string> &strings,
-                const std::string &phrase ) const;
+                std::string_view phrase ) const;
 };
 
 /**

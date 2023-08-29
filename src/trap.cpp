@@ -125,7 +125,7 @@ void trap::load_trap( const JsonObject &jo, const std::string &src )
     trap_factory.load( jo, src );
 }
 
-void trap::load( const JsonObject &jo, const std::string & )
+void trap::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name_ );
@@ -140,10 +140,15 @@ void trap::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "memorial_male", memorial_male );
     optional( jo, was_loaded, "memorial_female", memorial_female );
 
+    optional( jo, was_loaded, "trigger_message_u", trigger_message_u );
+    optional( jo, was_loaded, "trigger_message_npc", trigger_message_npc );
+
     // Require either none, or both
     if( !!memorial_male != !!memorial_female ) {
-        jo.throw_error( "Only one gender of memorial message specified for trap %s, but none or both required.",
-                        id.str() );
+        jo.throw_error_at(
+            id.str(),
+            "Only one gender of memorial message specified for trap " + id.str() + ", but none "
+            "or both required." );
     }
 
     optional( jo, was_loaded, "flags", _flags );
@@ -174,7 +179,7 @@ void trap::load( const JsonObject &jo, const std::string & )
             charges = 1;
         }
         if( !item_type.is_empty() && quantity > 0 && charges > 0 ) {
-            components.emplace_back( std::make_tuple( item_type, quantity, charges ) );
+            components.emplace_back( item_type, quantity, charges );
         }
     }
     if( jo.has_object( "vehicle_data" ) ) {
@@ -245,7 +250,7 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
     // Obviously it rapidly gets better as your skills improve.
 
     // Devices skill is helpful for spotting traps
-    const int traps_skill_level = p.get_skill_level( skill_traps );
+    const float traps_skill_level = p.get_skill_level( skill_traps );
 
     // Perception is the main stat for spotting traps, int helps a bit.
     // In this case, stats are more important than skills.

@@ -1,9 +1,11 @@
+#pragma once
 #ifndef CATA_SRC_RANGED_H
 #define CATA_SRC_RANGED_H
 
 #include <iosfwd>
 #include <vector>
 
+#include "creature.h"
 #include "point.h"
 
 class aim_activity_actor;
@@ -11,11 +13,15 @@ class avatar;
 class Character;
 class gun_mode;
 class item;
+class item_location;
 class map;
 class spell;
 class turret_data;
 class vehicle;
 struct vehicle_part;
+
+// Recoil change less or equal to this value (in MoA) stops further aiming
+constexpr double MIN_RECOIL_IMPROVEMENT = 0.01;
 
 namespace target_handler
 {
@@ -31,7 +37,7 @@ trajectory mode_fire( avatar &you, aim_activity_actor &activity );
 trajectory mode_throw( avatar &you, item &relevant, bool blind_throwing );
 
 /** Reach attacking */
-trajectory mode_reach( avatar &you, item &weapon );
+trajectory mode_reach( avatar &you, item_location weapon );
 
 /** Manually firing vehicle turret */
 trajectory mode_turret_manual( avatar &you, turret_data &turret );
@@ -66,11 +72,12 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
 int throw_cost( const Character &c, const item &to_throw );
 
 // check for steadiness for a given pos
-double calc_steadiness( const Character &you, item *weapon, const tripoint &pos,
+double calc_steadiness( const Character &you, const item &weapon, const tripoint &pos,
                         double predicted_recoil );
 
 double calculate_aim_cap( const Character &you, const tripoint &target );
 
+double occupied_tile_fraction( creature_size target_size );
 
 struct Target_attributes {
     int range = 1;

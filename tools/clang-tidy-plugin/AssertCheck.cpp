@@ -1,7 +1,5 @@
 #include "AssertCheck.h"
 
-#include <unordered_set>
-
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Lex/MacroArgs.h"
 #include "clang/Lex/PPCallbacks.h"
@@ -10,11 +8,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 class AssertMacroCallbacks : public PPCallbacks
@@ -61,7 +55,7 @@ class AssertMacroCallbacks : public PPCallbacks
     private:
         Preprocessor *PP;
         AssertCheck *Check;
-        llvm::SmallPtrSet<SourceLocation, 10> CataAssertLocations;
+        llvm::SmallSet<SourceLocation, 10> CataAssertLocations;
 };
 
 void AssertCheck::registerPPCallbacks( const SourceManager &, Preprocessor *PP, Preprocessor * )
@@ -99,6 +93,4 @@ void AssertCheck::check( const MatchFinder::MatchResult &Result )
     diag( loc, "Prefer cata_fatal to abort()." );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

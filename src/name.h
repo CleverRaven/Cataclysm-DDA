@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+class cata_path;
+
 template <typename E> struct enum_traits;
 
 /// @brief types of proper noun tables
@@ -37,7 +39,7 @@ namespace Name
 using names_map = std::map< nameFlags, std::vector< std::string > >;
 names_map &get_names();
 /// Load names from given json file to use for generation
-void load_from_file( const std::string &filename );
+void load_from_file( const cata_path &filename );
 
 /// Return a random name given search flags
 std::string get( nameFlags searchFlags );

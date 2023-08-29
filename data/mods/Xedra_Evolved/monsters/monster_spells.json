@@ -1,0 +1,43 @@
+[
+  {
+    "id": "hoary_blast_march_lord",
+    "type": "SPELL",
+    "name": "Hoary Blast",
+    "description": "You project a glowing white crystal of ice and it explodes on impact into a blossom of shattering cold.",
+    "effect": "attack",
+    "shape": "line",
+    "valid_targets": [ "self", "ally", "hostile", "ground" ],
+    "flags": [ "LOUD" ],
+    "max_level": 20,
+    "min_damage": 12,
+    "max_damage": 36,
+    "damage_increment": 2,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "min_range": 7,
+    "max_range": 7,
+    "field_id": "fd_cold_air4",
+    "field_chance": 100,
+    "min_field_intensity": 3,
+    "max_field_intensity": 3,
+    "damage_type": "cold"
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_salamander_glob",
+    "name": "Salamander Glob",
+    "description": "This is a monster only spell.",
+    "flags": [ "IGNITE_FLAMMABLE" ],
+    "valid_targets": [ "hostile", "ground", "ally", "self" ],
+    "min_damage": 5,
+    "max_damage": 5,
+    "min_range": 6,
+    "max_range": 6,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "base_casting_time": 120,
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "heat"
+  }
+]

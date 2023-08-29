@@ -1,0 +1,39 @@
+[
+  {
+    "id": "spell_components_dreamdross",
+    "type": "requirement",
+    "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_dreamdross2",
+    "type": "requirement",
+    "components": [ [ [ "dreamdross_lump", 1 ], [ "scrap_dreamdross", 10 ] ] ]
+  },
+  {
+    "id": "spell_components_dreamdross3",
+    "type": "requirement",
+    "components": [ [ [ "forged_dreamstuff_ingot", 1 ], [ "dreamdross_lump", 10 ], [ "scrap_dreamdross", 100 ] ] ]
+  },
+  {
+    "id": "spell_components_schematics",
+    "type": "requirement",
+    "components": [ [ [ "drawing_tool", 2, "LIST" ] ], [ [ "paper", 8 ] ] ]
+  },
+  {
+    "id": "spell_components_human_blood",
+    "type": "requirement",
+    "components": [ [ [ "demihuman_blood", 1 ], [ "mutant_human_blood", 1 ], [ "blood", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_dreamer_coin",
+    "type": "requirement",
+    "components": [
+      [ [ "coin_penny", 1 ], [ "coin_nickel", 1 ], [ "coin_quarter", 1 ], [ "coin_half_dollar", 1 ], [ "coin_dollar", 1 ] ]
+    ]
+  },
+  {
+    "id": "spell_components_cable_whip",
+    "type": "requirement",
+    "components": [ [ [ "cable", 15 ] ] ]
+  }
+]

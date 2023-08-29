@@ -5,7 +5,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "//": "Disassemble a single ammo cartridge",
     "time": "6 s",
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "qualities": [ { "id": "PULL", "level": 1 } ]
   }
 ]

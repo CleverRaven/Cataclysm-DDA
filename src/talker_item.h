@@ -19,7 +19,7 @@ struct tripoint;
 /*
  * Talker wrapper class for item.
  */
-class talker_item: public talker
+class talker_item: public talker_cloner<talker_item>
 {
     public:
         explicit talker_item( item_location *new_me ): me_it( new_me ) {
@@ -39,6 +39,7 @@ class talker_item: public talker
         int posy() const override;
         int posz() const override;
         tripoint pos() const override;
+        tripoint_abs_ms global_pos() const override;
         tripoint_abs_omt global_omt_location() const override;
 
         std::string get_value( const std::string &var_name ) const override;

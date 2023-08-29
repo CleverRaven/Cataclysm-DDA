@@ -16,6 +16,7 @@ class dual_list_box : public QWidget
 
         void initialize( const QStringList &items );
         void resize( const QSize & );
+        void set_included( const QStringList ret );
 
         QStringList get_included() const;
     Q_SIGNALS:

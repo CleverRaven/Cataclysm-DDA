@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <functional>
 #include <map>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -18,9 +19,10 @@
 #include "event_bus.h"
 #include "event_statistics.h"
 #include "event_subscriber.h"
+#include "game.h"
 #include "game_constants.h"
 #include "json.h"
-#include "optional.h"
+#include "json_loader.h"
 #include "options_helpers.h"
 #include "point.h"
 #include "type_id.h"
@@ -32,6 +34,8 @@ event_statistic_avatar_last_item_wielded( "avatar_last_item_wielded" );
 static const event_statistic_id event_statistic_first_omt( "first_omt" );
 static const event_statistic_id
 event_statistic_last_oter_type_avatar_entered( "last_oter_type_avatar_entered" );
+static const event_statistic_id
+event_statistic_num_avatar_enters_lab_finale( "num_avatar_enters_lab_finale" );
 static const event_statistic_id
 event_statistic_num_avatar_monster_kills( "num_avatar_monster_kills" );
 static const event_statistic_id
@@ -202,9 +206,9 @@ TEST_CASE( "stats_tracker_event_time_bounds", "[stats]" )
 
 static void send_game_start( event_bus &b, const character_id &u_id )
 {
-    b.send<event_type::game_start>(
-        u_id, "Avatar name", /*is_male=*/false, profession_id::NULL_ID(), "CUSTOM_PROFESSION",
-        "VERION_STRING" );
+    b.send<event_type::game_start>( "VERION_STRING" );
+    b.send<event_type::game_avatar_new>( /*is_new_game=*/true, /*is_debug=*/false, u_id,
+            "Avatar name", /*is_male=*/false, profession_id::NULL_ID(), "CUSTOM_PROFESSION" );
 }
 
 TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
@@ -361,6 +365,19 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         b.send<event_type::character_wields_item>( u_id, itype_crowbar );
         CHECK( event_statistic_first_omt->value( s ) == cata_variant( tripoint_zero ) );
         CHECK( event_statistic_avatar_last_item_wielded->value( s ) == cata_variant( itype_crowbar ) );
+    }
+
+    SECTION( "equals_any" ) {
+        const oter_id lab_finale( "lab_finale" );
+        const oter_id central_lab_finale( "central_lab_finale" );
+        send_game_start( b, u_id );
+        CHECK( event_statistic_num_avatar_enters_lab_finale->value( s ) == cata_variant( 0 ) );
+        b.send<event_type::avatar_enters_omt>( tripoint_zero, lab_finale );
+        CHECK( event_statistic_num_avatar_enters_lab_finale->value( s ) == cata_variant( 1 ) );
+
+        calendar::turn += 1_minutes;
+        b.send<event_type::avatar_enters_omt>( tripoint_below, central_lab_finale );
+        CHECK( event_statistic_num_avatar_enters_lab_finale->value( s ) == cata_variant( 2 ) );
     }
 
     SECTION( "invalid_values_filtered_out" ) {
@@ -549,6 +566,9 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
 
 TEST_CASE( "achievements_tracker", "[stats]" )
 {
+
+    g->start_calendar();
+
     override_option opt( "24_HOUR", "military" );
 
     std::map<achievement_id, const achievement *> achievements_completed;
@@ -679,7 +699,7 @@ TEST_CASE( "achievements_tracker", "[stats]" )
         } else {
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
                    "<color_c_red>Rude awakening</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0001.00</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         }
 
@@ -693,40 +713,44 @@ TEST_CASE( "achievements_tracker", "[stats]" )
                "  <color_c_green>Kill no characters</color>\n" );
 
         CHECK( achievements_completed.empty() );
-        CHECK( achievements_failed.empty() );
+        if( time_since_game_start < 1_minutes ) {
+            CHECK( achievements_failed.empty() );
+        } else {
+            CHECK( achievements_failed.count( a_kill_in_first_minute ) );
+        }
         b.send( avatar_zombie_kill );
 
         if( time_since_game_start < 1_minutes ) {
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
                    "<color_c_light_green>One down, billions to go…</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0800.30</color>\n"
                    "  <color_c_green>1/1 zombie killed</color>\n" );
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_in_first_minute ) ) ==
                    "<color_c_light_green>Rude awakening</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0800.30</color>\n"
                    "  <color_c_green>1/1 monster killed</color>\n" );
         } else {
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
                    "<color_c_light_green>One down, billions to go…</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_green>1/1 zombie killed</color>\n" );
             CHECK( !achievements_completed.count( a_kill_in_first_minute ) );
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
                    "<color_c_red>Rude awakening</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         }
 
         if( time_since_game_start < 1_minutes ) {
             CHECK( a.ui_text_for( &*c_pacifist ) ==
                    "<color_c_red>Pacifist</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 61 0800.30</color>\n"
                    "  <color_c_yellow>Kill no monsters</color>\n"
                    "  <color_c_green>Kill no characters</color>\n" );
         } else {
             CHECK( a.ui_text_for( &*c_pacifist ) ==
                    "<color_c_red>Pacifist</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_yellow>Kill no monsters</color>\n"
                    "  <color_c_green>Kill no characters</color>\n" );
         }
@@ -745,21 +769,21 @@ TEST_CASE( "achievements_tracker", "[stats]" )
         if( time_since_game_start < 1_minutes ) {
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
                    "<color_c_light_green>One down, billions to go…</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0800.30</color>\n"
                    "  <color_c_green>1/1 zombie killed</color>\n" );
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_in_first_minute ) ) ==
                    "<color_c_light_green>Rude awakening</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0800.30</color>\n"
                    "  <color_c_green>1/1 monster killed</color>\n" );
         } else {
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
                    "<color_c_light_green>One down, billions to go…</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_green>1/1 zombie killed</color>\n" );
             CHECK( !achievements_completed.count( a_kill_in_first_minute ) );
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
                    "<color_c_red>Rude awakening</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         }
     }
@@ -959,8 +983,7 @@ TEST_CASE( "legacy_stats_tracker_save_loading", "[stats]" )
             "score_distance_walked"
         ]
     })";
-    std::istringstream is( json_string );
-    JsonIn jsin( is );
+    JsonValue jsin = json_loader::from_string( json_string );
     stats_tracker s;
     s.deserialize( jsin.get_object() );
     CHECK( s.get_events( event_type::character_triggers_trap ).count() == 2 );

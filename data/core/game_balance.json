@@ -25,7 +25,7 @@
     "name": "PLAYER_CARDIOFIT_STAMINA_SCALING",
     "info": "Sets the effect of cardio on maximum stamina.",
     "stype": "int",
-    "value": 3
+    "value": 5
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -136,6 +136,13 @@
     "type": "EXTERNAL_OPTION",
     "name": "DISABLE_ROBOT_RESPONSE",
     "info": "Disables robot spawning from alerts and from being wanted.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PORTAL_STORM_IGNORE_NPC",
+    "info": "Portal storm enemies will ignore NPCs no matter what.",
     "stype": "bool",
     "value": false
   },
@@ -295,6 +302,20 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_RAILROADS",
+    "info": "Allows to place procgen railroads during overmap generation.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_RAILROADS_BEFORE_ROADS",
+    "info": "Defines whether to place railroads before roads.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_SPECIALS",
     "info": "Allows to place overmap specials during overmap generation.",
     "stype": "bool",
@@ -327,5 +348,33 @@
     "info": "All vehicles spawn with this percentage of fuel.  0 is empty, 100 is fully loaded, -1 is random amount from 7% to 35% (default).  Values are read only if OVERRIDE_VEHICLE_INIT_STATE is set to true.",
     "stype": "int",
     "value": -1
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "EMP_DISABLE_ELECTRONICS",
+    "info": "Whether EMP effects will permanently disable items.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DESCRIBE_MUSIC_FREQUENCY",
+    "info": "Determines frequency (in minutes) of displaying music description in sidebar when listening to MP3-players and the like.",
+    "stype": "int",
+    "value": 5
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "ETERNAL_WEATHER",
+    "info": "Sets eternal weather.  Possible values are 'normal', 'clear', 'cloudy', 'light_drizzle', 'drizzle', 'rain', 'rainstorm', 'thunder', 'lightning', 'flurries', 'snowing', 'snowstorm', 'early_portal_storm', 'portal_storm'.  'normal' clears all eternal weather overrides and sets normal weather pattern.  Requires restart of the game after changing value to take effect.",
+    "stype": "string_input",
+    "value": "normal"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SHOW_MUTATION_SELECTOR",
+    "info": "When mutating, displays a menu which allows players to pick from a list of possible mutations.",
+    "stype": "bool",
+    "value": false
   }
 ]

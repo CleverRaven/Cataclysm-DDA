@@ -32,7 +32,7 @@
         "$$$$$$$$$$$$$$$$$$$$$$$$$$ƃ$$$$$$$$$$$$$$$$$$$$$"
       ],
       "palettes": [
-        "standard_domestic_palette",
+        "domestic_general_and_variant_palette",
         "standard_domestic_lino_kitchen",
         "standard_domestic_lino_bathroom",
         "standard_domestic_landscaping_palette"
@@ -117,12 +117,12 @@
         "                                                ",
         "                                                ",
         "                                                ",
-        "               |2222222222223                   ",
-        "               |............3                   ",
-        "               |..&.........3                   ",
-        "               |.......N....3                   ",
-        "               |...=........5                   ",
-        "               |------------3                   ",
+        "               --------------                   ",
+        "               -............-                   ",
+        "               -..&.........-                   ",
+        "               -.......N....-                   ",
+        "               -...=........5                   ",
+        "               --------------                   ",
         "                                                ",
         "                                                ",
         "                                                ",

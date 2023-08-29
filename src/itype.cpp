@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <utility>
 
+#include "ammo.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "debug.h"
 #include "item.h"
@@ -38,6 +40,8 @@ std::string enum_to_string<condition_type>( condition_type data )
             return "FLAG";
         case condition_type::COMPONENT_ID:
             return "COMPONENT_ID";
+        case condition_type::COMPONENT_ID_SUBSTRING:
+            return "COMPONENT_ID_SUBSTRING";
         case condition_type::VAR:
             return "VAR";
         case condition_type::SNIPPET_ID:
@@ -64,6 +68,26 @@ std::string enum_to_string<itype_variant_kind>( itype_variant_kind data )
 }
 } // namespace io
 
+std::string itype::get_item_type_string() const
+{
+    if( tool ) {
+        return "TOOL";
+    } else if( comestible ) {
+        return "FOOD";
+    } else if( armor ) {
+        return "ARMOR";
+    } else if( book ) {
+        return "BOOK";
+    } else if( gun ) {
+        return "GUN";
+    } else if( bionic ) {
+        return "BIONIC";
+    } else if( ammo ) {
+        return "AMMO";
+    }
+    return "misc";
+}
+
 std::string itype::nname( unsigned int quantity ) const
 {
     // Always use singular form for liquids.
@@ -72,6 +96,50 @@ std::string itype::nname( unsigned int quantity ) const
         quantity = 1;
     }
     return name.translated( quantity );
+}
+
+int itype::damage_level( int damage ) const
+{
+    if( damage == 0 ) {
+        return 0;
+    }
+    if( count_by_charges() ) {
+        return 5;
+    }
+    return std::clamp( 1 + 4 * damage / damage_max(), 0, 5 );
+}
+
+bool itype::has_any_quality( const std::string_view quality ) const
+{
+    return std::any_of( qualities.begin(),
+    qualities.end(), [&quality]( const std::pair<quality_id, int> &e ) {
+        return lcmatch( e.first->name, quality );
+    } ) || std::any_of( charged_qualities.begin(),
+    charged_qualities.end(), [&quality]( const std::pair<quality_id, int> &e ) {
+        return lcmatch( e.first->name, quality );
+    } );
+}
+
+int itype::charges_default() const
+{
+    if( tool ) {
+        return tool->def_charges;
+    } else if( comestible ) {
+        return comestible->def_charges;
+    } else if( ammo ) {
+        return ammo->def_charges;
+    }
+    return count_by_charges() ? 1 : 0;
+}
+
+int itype::charges_to_use() const
+{
+    if( tool ) {
+        return tool->charges_per_use;
+    } else if( comestible ) {
+        return 1;
+    }
+    return 0;
 }
 
 int itype::charges_per_volume( const units::volume &vol ) const
@@ -110,24 +178,17 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
     return iter != use_methods.end() ? &iter->second : nullptr;
 }
 
-int itype::tick( Character &p, item &it, const tripoint &pos ) const
+int itype::tick( Character *p, item &it, const tripoint &pos ) const
 {
-    // Note: can go higher than current charge count
-    // Maybe should move charge decrementing here?
     int charges_to_use = 0;
-    for( const auto &method : use_methods ) {
-        const int val = method.second.call( p, it, true, pos ).value_or( 0 );
-        if( charges_to_use < 0 || val < 0 ) {
-            charges_to_use = -1;
-        } else {
-            charges_to_use += val;
-        }
+    for( const auto &method : tick_action ) {
+        charges_to_use += method.second.call( p, it, pos ).value_or( 0 );
     }
 
     return charges_to_use;
 }
 
-cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos ) const
+std::optional<int> itype::invoke( Character *p, item &it, const tripoint &pos ) const
 {
     if( !has_use() ) {
         return 0;
@@ -139,8 +200,8 @@ cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos )
     }
 }
 
-cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos,
-                                   const std::string &iuse_name ) const
+std::optional<int> itype::invoke( Character *p, item &it, const tripoint &pos,
+                                  const std::string &iuse_name ) const
 {
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {
@@ -148,21 +209,26 @@ cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos,
                   iuse_name, nname( 1 ) );
         return 0;
     }
+    if( p ) {
+        p->invalidate_weight_carried_cache();
 
-    p.invalidate_weight_carried_cache();
-    const auto ret = use->can_call( p, it, false, pos );
+        const auto ret = use->can_call( *p, it, pos );
 
-    if( !ret.success() ) {
-        p.add_msg_if_player( m_info, ret.str() );
-        return 0;
+        if( !ret.success() ) {
+            p->add_msg_if_player( m_info, ret.str() );
+            return 0;
+        }
     }
 
-    return use->call( p, it, false, pos );
+    return use->call( p, it, pos );
 }
 
 std::string gun_type_type::name() const
 {
-    return pgettext( "gun_type_type", name_.c_str() );
+    const itype_id gun_type_as_id( name_ );
+    return gun_type_as_id.is_valid()
+           ? gun_type_as_id->nname( 1 )
+           : pgettext( "gun_type_type", name_.c_str() );
 }
 
 bool itype::can_have_charges() const
@@ -253,6 +319,26 @@ int armor_portion_data::max_coverage( bodypart_str_id bp ) const
     return std::max( primary_max_coverage, secondary_max_coverage );
 }
 
+bool armor_portion_data::should_consolidate( const armor_portion_data &l,
+        const armor_portion_data &r )
+{
+    //check if the following are equal:
+    return l.encumber == r.encumber &&
+           l.max_encumber == r.max_encumber &&
+           l.volume_encumber_modifier == r.volume_encumber_modifier &&
+           l.coverage == r.coverage &&
+           l.cover_melee == r.cover_melee &&
+           l.cover_ranged == r.cover_ranged &&
+           l.cover_vitals == r.cover_vitals &&
+           l.env_resist == r.env_resist &&
+           l.breathability == r.breathability &&
+           l.rigid == r.rigid &&
+           l.comfortable == r.comfortable &&
+           l.rigid_layer_only == r.rigid_layer_only &&
+           l.materials == r.materials &&
+           l.layers == r.layers;
+}
+
 int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) const
 {
     // this function takes some fixed points for mass to encumbrance and interpolates them to get results for head encumbrance
@@ -265,10 +351,13 @@ int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) c
 
     std::map<units::mass, int>::iterator itt = mass_to_encumbrance.lower_bound( weight );
 
-    if( itt == mass_to_encumbrance.end() ) {
+    if( itt == mass_to_encumbrance.begin() || itt == mass_to_encumbrance.end() ) {
         debugmsg( "Can't find a notable point to match this with" );
         return 100;
     }
+
+    // get the bound bellow our given weight
+    --itt;
 
     std::map<units::mass, int>::iterator next_itt = std::next( itt );
 
@@ -281,27 +370,53 @@ int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) c
                   scale );
 
     // then add some modifiers
-
+    int multiplier = 100;
+    int additional_encumbrance = 0;
     for( const encumbrance_modifier &em : encumber_modifiers ) {
-        encumbrance += armor_portion_data::convert_descriptor_to_int( em );
+        std::tuple<encumbrance_modifier_type, int> modifier = armor_portion_data::convert_descriptor_to_val(
+                    em );
+        if( std::get<0>( modifier ) == encumbrance_modifier_type::FLAT ) {
+            additional_encumbrance += std::get<1>( modifier );
+        } else if( std::get<0>( modifier ) == encumbrance_modifier_type::MULT ) {
+            multiplier += std::get<1>( modifier );
+        }
     }
+    // modify by multiplier
+    encumbrance = std::roundf( static_cast<float>( encumbrance ) * static_cast<float>
+                               ( multiplier ) / 100.0f );
+    // modify by flat
+    encumbrance += additional_encumbrance;
 
-    return encumbrance;
+    // cap encumbrance at at least 1
+    return std::max( encumbrance, 1 );
 }
 
-int armor_portion_data::convert_descriptor_to_int( encumbrance_modifier em )
+std::tuple<encumbrance_modifier_type, int> armor_portion_data::convert_descriptor_to_val(
+    encumbrance_modifier em )
 {
     // this is where the values for each of these exist
     switch( em ) {
         case encumbrance_modifier::IMBALANCED:
         case encumbrance_modifier::RESTRICTS_NECK:
-            return 10;
+            return { encumbrance_modifier_type::FLAT, 10 };
         case encumbrance_modifier::WELL_SUPPORTED:
-            return -10;
+            return { encumbrance_modifier_type::MULT, -20 };
         case encumbrance_modifier::NONE:
-            return 0;
+            return { encumbrance_modifier_type::FLAT, 0 };
         case encumbrance_modifier::last:
             break;
     }
-    return 0;
+    return { encumbrance_modifier_type::FLAT, 0 };
+}
+
+std::map<itype_id, std::set<itype_id>> islot_magazine::compatible_guns;
+
+const itype_id &itype::tool_slot_first_ammo() const
+{
+    if( tool ) {
+        for( const ammotype &at : tool->ammo_id ) {
+            return at->default_ammotype();
+        }
+    }
+    return itype_id::NULL_ID();
 }

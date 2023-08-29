@@ -488,7 +488,7 @@
       "palettes": [ "lab_common_palette" ],
       "items": {
         "L": [
-          { "item": "clothing_soldier_set", "chance": 30 },
+          { "item": "clothing_soldier_set_pristine", "chance": 30 },
           { "item": "book_military", "chance": 33 },
           { "item": "snacks", "chance": 10 }
         ],
@@ -528,7 +528,7 @@
       "palettes": [ "lab_common_palette" ],
       "items": {
         "L": [
-          { "item": "clothing_soldier_set", "chance": 30 },
+          { "item": "clothing_soldier_set_pristine", "chance": 30 },
           { "item": "book_military", "chance": 33 },
           { "item": "snacks", "chance": 10 }
         ],

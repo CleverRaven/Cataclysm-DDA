@@ -7,16 +7,18 @@
 #include <iosfwd>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "coordinates.h"
 #include "enums.h"
+#include "json.h"
 #include "memory_fast.h"
 #include "omdata.h"
-#include "optional.h"
 #include "overmap_types.h"
 #include "type_id.h"
 
@@ -135,7 +137,9 @@ struct omt_find_params {
     bool must_see = false;
     bool cant_see = false;
     bool existing_only = false;
-    cata::optional<overmap_special_id> om_special = cata::nullopt;
+    int min_z = -OVERMAP_DEPTH;
+    int max_z = OVERMAP_HEIGHT;
+    std::optional<overmap_special_id> om_special = std::nullopt;
 };
 
 class overmapbuffer
@@ -143,8 +147,8 @@ class overmapbuffer
     public:
         overmapbuffer();
 
-        static std::string terrain_filename( const point_abs_om & );
-        static std::string player_filename( const point_abs_om & );
+        static cata_path terrain_filename( const point_abs_om & );
+        static cata_path player_filename( const point_abs_om & );
 
         /**
          * Uses overmap coordinates, that means x and y are directly
@@ -166,7 +170,7 @@ class overmapbuffer
          */
         const oter_id &ter_existing( const tripoint_abs_omt &p );
         void ter_set( const tripoint_abs_omt &p, const oter_id &id );
-        cata::optional<mapgen_arguments> *mapgen_args( const tripoint_abs_omt & );
+        std::optional<mapgen_arguments> *mapgen_args( const tripoint_abs_omt & );
         std::string *join_used_at( const std::pair<tripoint_abs_omt, cube_direction> & );
         std::vector<oter_id> predecessors( const tripoint_abs_omt & );
         /**
@@ -247,7 +251,7 @@ class overmapbuffer
          */
         void add_camp( const basecamp &camp );
 
-        cata::optional<basecamp *> find_camp( const point_abs_omt &p );
+        std::optional<basecamp *> find_camp( const point_abs_omt &p );
         /**
          * Get all npcs in a area with given radius around given central point.
          * All z-levels are considered.
@@ -283,6 +287,8 @@ class overmapbuffer
          * Searches all loaded overmaps.
          */
         shared_ptr_fast<npc> find_npc( character_id id );
+        void foreach_npc( const std::function<void( npc & )> &callback );
+        shared_ptr_fast<npc> find_npc_by_unique_id( const std::string &unique_id );
         /**
          * Get all NPCs active on the overmap
          */
@@ -312,7 +318,7 @@ class overmapbuffer
             const tripoint_abs_omt &origin, const std::string &type,
             int dist, bool must_be_seen, ot_match_type match_type = ot_match_type::type,
             bool existing_overmaps_only = false,
-            const cata::optional<overmap_special_id> &om_special = cata::nullopt );
+            const std::optional<overmap_special_id> &om_special = std::nullopt );
 
         /**
          * Returns a random point of specific terrain type among those found in certain search
@@ -327,7 +333,7 @@ class overmapbuffer
             const tripoint_abs_omt &origin, const std::string &type, int dist,
             bool must_be_seen, ot_match_type match_type = ot_match_type::type,
             bool existing_overmaps_only = false,
-            const cata::optional<overmap_special_id> &om_special = cata::nullopt );
+            const std::optional<overmap_special_id> &om_special = std::nullopt );
         /**
          * Mark a square area around center on Z-level z
          * as seen.
@@ -343,7 +349,7 @@ class overmapbuffer
         bool reveal( const tripoint_abs_omt &center, int radius,
                      const std::function<bool( const oter_id & )> &filter );
         std::vector<tripoint_abs_omt> get_travel_path(
-            const tripoint_abs_omt &src, const tripoint_abs_omt &dest, overmap_path_params params );
+            const tripoint_abs_omt &src, const tripoint_abs_omt &dest, const overmap_path_params &params );
         bool reveal_route( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
                            int radius = 0, bool road_only = false );
         /**
@@ -356,7 +362,7 @@ class overmapbuffer
         tripoint_abs_omt find_closest(
             const tripoint_abs_omt &origin, const std::string &type, int radius, bool must_be_seen,
             ot_match_type match_type = ot_match_type::type, bool existing_overmaps_only = false,
-            const cata::optional<overmap_special_id> &om_special = cata::nullopt );
+            const std::optional<overmap_special_id> &om_special = std::nullopt );
 
         /* These functions return the overmap that contains the given
          * overmap terrain coordinate, and the local coordinates of that point
@@ -394,18 +400,18 @@ class overmapbuffer
         using t_point_with_note = std::pair<point_abs_omt, std::string>;
         using t_notes_vector = std::vector<t_point_with_note>;
         t_notes_vector get_all_notes( int z ) {
-            return get_notes( z, nullptr ); // NULL => don't filter notes
+            return get_notes( z, {} ); // empty string => don't filter notes
         }
-        t_notes_vector find_notes( int z, const std::string &pattern ) {
-            return get_notes( z, &pattern ); // filter with pattern
+        t_notes_vector find_notes( int z, const std::string_view pattern ) {
+            return get_notes( z, pattern ); // filter with pattern
         }
         using t_point_with_extra = std::pair<point_abs_omt, map_extra_id>;
         using t_extras_vector = std::vector<t_point_with_extra>;
         t_extras_vector get_all_extras( int z ) {
-            return get_extras( z, nullptr ); // NULL => don't filter extras
+            return get_extras( z, {} ); // empty string => don't filter extras
         }
-        t_extras_vector find_extras( int z, const std::string &pattern ) {
-            return get_extras( z, &pattern ); // filter with pattern
+        t_extras_vector find_extras( int z, const std::string_view pattern ) {
+            return get_extras( z, pattern ); // filter with pattern
         }
         /**
          * Signal nearby hordes to move to given location.
@@ -428,7 +434,7 @@ class overmapbuffer
          * @param p is the player's location, which functions as the signal origin
          * only the nemesis horde can 'hear' this signal.
          */
-        void signal_nemesis( const tripoint_abs_sm p );
+        void signal_nemesis( const tripoint_abs_sm &p );
         /**
          * adds a nemesis horde into the hordes list of the overmap where the kill_nemesis mision is targeted
          */
@@ -454,7 +460,7 @@ class overmapbuffer
          * Spawn monsters from the overmap onto the main map (game::m).
          * p is an absolute *submap* coordinate.
          */
-        void spawn_monster( const tripoint_abs_sm &p );
+        void spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal = false );
         /**
          * Despawn the monster back onto the overmap. The monsters position
          * (monster::pos()) is interpreted as relative to the main map.
@@ -501,7 +507,7 @@ class overmapbuffer
          * @param force If true, placement will bypass the checks for valid placement.
          * @returns If the special was placed, a vector of the points used, else nullopt.
          */
-        cata::optional<std::vector<tripoint_abs_omt>> place_special(
+        std::optional<std::vector<tripoint_abs_omt>> place_special(
                     const overmap_special &special, const tripoint_abs_omt &origin,
                     om_direction::type dir, bool must_be_unexplored, bool force );
         /**
@@ -534,6 +540,8 @@ class overmapbuffer
         mutable std::set<point_abs_om> known_non_existing;
         // Cached result of previous call to overmapbuffer::get_existing
         overmap mutable *last_requested_overmap;
+        // Set of globally unique overmap specials that have already been placed
+        std::unordered_set<overmap_special_id> placed_unique_specials;
 
         /**
          * Get a list of notes in the (loaded) overmaps.
@@ -541,14 +549,14 @@ class overmapbuffer
          * @param pattern only notes that contain this pattern are returned.
          * If the pattern is NULL, every note matches.
          */
-        t_notes_vector get_notes( int z, const std::string *pattern );
+        t_notes_vector get_notes( int z, std::string_view pattern );
         /**
          * Get a list of map extras in the (loaded) overmaps.
          * @param z only this specific z-level is search for map extras.
          * @param pattern only map extras that contain this pattern are returned.
          * If the pattern is NULL, every map extra matches.
          */
-        t_extras_vector get_extras( int z, const std::string *pattern );
+        t_extras_vector get_extras( int z, std::string_view pattern );
     public:
         /**
          * See overmap::check_ot, this uses global
@@ -558,7 +566,7 @@ class overmapbuffer
         bool check_ot( const std::string &otype, ot_match_type match_type,
                        const tripoint_abs_omt &p );
         bool check_overmap_special_type( const overmap_special_id &id, const tripoint_abs_omt &loc );
-        cata::optional<overmap_special_id> overmap_special_at( const tripoint_abs_omt & );
+        std::optional<overmap_special_id> overmap_special_at( const tripoint_abs_omt & );
 
         /**
         * These versions of the check_* methods will only check existing overmaps, and
@@ -568,6 +576,23 @@ class overmapbuffer
                                 const tripoint_abs_omt &loc );
         bool check_overmap_special_type_existing( const overmap_special_id &id,
                 const tripoint_abs_omt &loc );
+
+        /**
+         * Adds the given globally unique overmap special to the list of placed specials.
+         */
+        void add_unique_special( const overmap_special_id &id );
+        /**
+         * Returns true if the given globally unique overmap special has already been placed.
+         */
+        bool contains_unique_special( const overmap_special_id &id ) const;
+        /**
+         * Writes the placed unique specials as a JSON value.
+         */
+        void serialize_placed_unique_specials( JsonOut &json ) const;
+        /**
+         * Reads placed unique specials from JSON and overwrites the global value.
+         */
+        void deserialize_placed_unique_specials( const JsonValue &jsin );
     private:
         /**
          * Go thorough the monster groups of the overmap and move out-of-bounds

@@ -4,11 +4,21 @@
     "id": "EXODII_basic_trade",
     "subtype": "collection",
     "entries": [
-      { "group": "EXODII_Shop_Tier0", "count": 1, "prob": 100 },
+      { "group": "EXODII_Shop_Tier0", "count": [ 1, 2 ], "prob": 100 },
       { "group": "EXODII_Shop_NomadGear_Tier0", "count": [ 1, 2 ], "prob": 100 },
-      { "group": "EXODII_Shop_Guns_Tier0", "count": 1, "prob": 100 },
-      { "group": "EXODII_Shop_OldArmour", "count": 1, "prob": 100 },
-      { "group": "EXODII_CBM_Store_Tier1", "count": 1, "prob": 100 }
+      { "group": "EXODII_Shop_Guns_Tier0", "count": 2, "prob": 100 },
+      { "group": "EXODII_Shop_OldArmour", "count": [ 1, 2 ], "prob": 100 },
+      { "group": "EXODII_CBM_Store_Tier1", "count": [ 4, 6 ], "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "//": "Spawn extra tier 1 CBMs and a bonus tier 2 if the Exodii don't dislike you.",
+    "id": "EXODII_CBM_Store_tier1_extra",
+    "subtype": "collection",
+    "entries": [
+      { "group": "EXODII_CBM_Store_Tier1", "count": [ 2, 4 ], "prob": 100 },
+      { "group": "EXODII_CBM_Store_Tier2", "count": 1, "prob": 25 }
     ]
   },
   {
@@ -45,16 +55,24 @@
       {
         "collection": [
           { "item": "bp_nomad_cowl", "prob": 100 },
+          { "item": "bp_nomad_bodyglove", "prob": 100 },
+          { "item": "bp_nomad_jumpsuit", "prob": 100 },
+          { "item": "exodii_ac_kit", "prob": 100, "count": 1 },
+          { "item": "exodii_wire_kit", "prob": 100, "count": 1 }
+        ],
+        "prob": 100
+      },
+      {
+        "collection": [
           { "item": "leather", "prob": 50, "count": [ 2, 4 ] },
           { "item": "tanned_hide", "prob": 30, "count": [ 1, 2 ] },
           { "item": "glasses_safety", "prob": 40 },
           { "item": "glasses_bal", "prob": 10 }
         ],
-        "prob": 60
+        "prob": 50
       },
       {
         "collection": [
-          { "item": "bp_nomad_bodyglove", "prob": 100 },
           { "item": "sheet_cotton_patchwork", "prob": 50, "count": [ 1, 4 ] },
           { "item": "cotton_patchwork", "prob": 30, "count": [ 3, 6 ] },
           { "item": "leather", "prob": 50, "count": [ 2, 4 ] },
@@ -64,15 +82,15 @@
           { "item": "zipper_long_plastic", "prob": 10, "count": [ 1, 2 ] },
           { "item": "snapfastener_steel", "prob": 40, "count": [ 5, 10 ] },
           { "item": "chunk_rubber", "prob": 50, "count": [ 1, 2 ] },
-          { "item": "superglue", "prob": 30, "count": [ 1, 2 ] }
+          { "item": "superglue", "prob": 30, "count": [ 1, 2 ] },
+          { "item": "rubber_cement", "prob": 40, "count": [ 1, 2 ] }
         ],
         "prob": 50
       },
       {
         "collection": [
-          { "item": "bp_nomad_jumpsuit", "prob": 100 },
-          { "item": "exodii_ac_kit", "prob": 100, "count": [ 1, 2 ] },
-          { "item": "exodii_wire_kit", "prob": 100, "count": [ 1, 4 ] },
+          { "item": "exodii_ac_kit", "prob": 100, "count": 1 },
+          { "item": "exodii_wire_kit", "prob": 100, "count": [ 1, 3 ] },
           { "item": "sheet_cotton_patchwork", "prob": 50, "count": [ 1, 4 ] },
           { "item": "cotton_patchwork", "prob": 30, "count": [ 3, 6 ] },
           { "item": "leather", "prob": 50, "count": [ 2, 4 ] },
@@ -83,7 +101,7 @@
           { "item": "leather_pouch", "prob": 10 },
           { "item": "superglue", "prob": 30, "count": [ 1, 2 ] }
         ],
-        "prob": 40
+        "prob": 50
       }
     ]
   },
@@ -159,7 +177,8 @@
       [ "bio_scent_mask", 10 ],
       [ "bio_jointservo", 10 ],
       [ "bio_taste_blocker", 10 ],
-      [ "bio_trickle", 10 ]
+      [ "bio_trickle", 10 ],
+      [ "bio_ar", 10 ]
     ]
   },
   {
@@ -182,7 +201,8 @@
       [ "bio_membrane", 10 ],
       [ "bio_painkiller", 10 ],
       [ "bio_radscrubber", 10 ],
-      [ "bio_weight", 10 ]
+      [ "bio_weight", 10 ],
+      [ "bio_synlungs", 10 ]
     ]
   },
   {
@@ -210,7 +230,15 @@
   {
     "type": "item_group",
     "id": "EXODII_CBM_tier1_utility",
-    "items": [ [ "bio_watch", 10 ], [ "bio_alarm", 10 ], [ "bio_sunglasses", 10 ], [ "bio_meteorologist", 10 ] ]
+    "items": [
+      [ "bio_watch", 10 ],
+      [ "bio_alarm", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_meteorologist", 10 ],
+      [ "bio_pitch_perfect", 10 ],
+      [ "bio_fitnessband", 10 ],
+      [ "bio_radio", 10 ]
+    ]
   },
   {
     "type": "item_group",
@@ -232,7 +260,7 @@
   {
     "type": "item_group",
     "id": "EXODII_CBM_tier1_fun",
-    "items": [ [ "bio_tattoo_led", 10 ], [ "bio_nostril", 1 ], [ "bio_voice", 10 ], [ "bio_sleep_shutdown", 10 ] ]
+    "items": [ [ "bio_tattoo_led", 10 ], [ "bio_nostril", 1 ], [ "bio_voice", 10 ], [ "bio_sleep_shutdown", 2 ] ]
   },
   {
     "type": "item_group",
@@ -250,19 +278,24 @@
       [ "bio_shotgun", 10 ],
       [ "bio_laser", 5 ],
       [ "bio_shock", 10 ],
-      [ "bio_recoil", 15 ]
+      [ "bio_recoil", 15 ],
+      [ "bio_taser", 10 ]
     ]
   },
   {
     "type": "item_group",
     "id": "EXODII_CBM_unlocks_weapons_heavy",
     "//": "To get items from this group in the Exodii CBM store requires finishing missions for their faction and earning their trust",
+    "items": [ [ "bio_chain_lightning", 15 ], [ "bio_emp", 1 ], [ "bio_emp_armgun", 1 ], [ "bio_shockwave", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_Store_Salvage_Tech",
+    "//": "At this point the Exodii trust you enough to sell you the materials to bootstrap some of their salvaged tech onto your own tech.",
+    "subtype": "collection",
     "items": [
-      [ "bio_chain_lightning", 15 ],
-      [ "bio_emp", 1 ],
-      [ "bio_emp_armgun", 1 ],
-      [ "bio_railgun", 15 ],
-      [ "bio_shockwave", 10 ]
+      { "item": "exodii_wiring_kit_reference", "prob": 100 },
+      { "item": "exodii_wire_kit", "prob": 100, "count": [ 1, 4 ] }
     ]
   }
 ]
