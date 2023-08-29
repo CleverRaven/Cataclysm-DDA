@@ -1311,19 +1311,19 @@ bool Character::sight_impaired() const
 bool Character::has_alarm_clock() const
 {
     map &here = get_map();
-    return ( has_item_with_flag( flag_ALARMCLOCK, true ) ||
-             ( here.veh_at( pos() ) &&
-               !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
-             has_flag( json_flag_ALARMCLOCK ) );
+    return has_item_with_flag( flag_ALARMCLOCK, true ) ||
+           ( here.veh_at( pos() ) &&
+             !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
+           has_flag( json_flag_ALARMCLOCK );
 }
 
 bool Character::has_watch() const
 {
     map &here = get_map();
-    return ( has_item_with_flag( flag_WATCH, true ) ||
-             ( here.veh_at( pos() ) &&
-               !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
-             has_flag( json_flag_WATCH ) );
+    return has_item_with_flag( flag_WATCH, true ) ||
+           ( here.veh_at( pos() ) &&
+             !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
+           has_flag( json_flag_WATCH );
 }
 
 void Character::react_to_felt_pain( int intensity )
@@ -2270,9 +2270,9 @@ void Character::process_turn()
     // Didn't just pick something up
     last_item = itype_null;
 
-    for( item *relic : all_items_with( "is_relic", &item::is_relic ) ) {
-        relic->process_relic( this, pos() );
-    }
+    do_to_items_with( "is_relic", &item::is_relic, [this]( item & it ) {
+        it.process_relic( this, pos() );
+    } );
 
     suffer();
     // NPCs currently don't make any use of their scent, pointless to calculate it
@@ -5800,12 +5800,12 @@ float Character::active_light() const
     float lumination = 0.0f;
 
     int maxlum = 0;
-    for( item *flagged_item : all_items_with( "is_emissive", &item::is_emissive ) ) {
-        const int lumit = flagged_item->getlight_emit();
+    do_to_items_with( "is_emissive", &item::is_emissive, [&maxlum]( const item & it ) {
+        const int lumit = it.getlight_emit();
         if( maxlum < lumit ) {
             maxlum = lumit;
         }
-    }
+    } );
 
     lumination = static_cast<float>( maxlum );
 
@@ -7456,18 +7456,18 @@ void Character::recalculate_enchantment_cache()
     // start by resetting the cache to all inventory items
     *enchantment_cache = inv->get_active_enchantment_cache( *this );
 
-    for( item *it : all_items_with( "is_relic", &item::is_relic ) ) {
-        for( const enchant_cache &ench : it->get_proc_enchantments() ) {
-            if( ench.is_active( *this, *it ) ) {
+    do_to_items_with( "is_relic", &item::is_relic, [this]( const item & it ) {
+        for( const enchant_cache &ench : it.get_proc_enchantments() ) {
+            if( ench.is_active( *this, it ) ) {
                 enchantment_cache->force_add( ench );
             }
         }
-        for( const enchantment &ench : it->get_defined_enchantments() ) {
-            if( ench.is_active( *this, *it ) ) {
+        for( const enchantment &ench : it.get_defined_enchantments() ) {
+            if( ench.is_active( *this, it ) ) {
                 enchantment_cache->force_add( ench, *this );
             }
         }
-    }
+    } );
 
     // get from traits/ mutations
     for( const std::pair<const trait_id, trait_data> &mut_map : my_mutations ) {
@@ -8888,58 +8888,149 @@ bool Character::in_sleep_state() const
 
 bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) const
 {
-    for( const item *it : all_items_with( flag ) ) {
-        if( !need_charges || !it->is_tool() || it->type->tool->max_charges == 0 ||
-            it->ammo_remaining( this ) > 0 ) {
+    return do_to_items_with_until( flag, [&]( const item & it ) {
+        if( !need_charges || !it.is_tool() || it.type->tool->max_charges == 0 ||
+            it.ammo_remaining( this ) > 0 ) {
+
             return true;
         }
-    }
-    return false;
-}
-
-std::vector<item *> &Character::all_items_with( const flag_id &flag ) const
-{
-    return all_items_with( "HAS FLAG " + flag.str(), flag, nullptr );
-}
-
-std::vector<item *> &Character::all_items_with( const std::string &key,
-        bool( item::*filter_func )() const ) const
-{
-    return all_items_with( key, {}, filter_func );
-}
-
-std::vector<item *> &Character::all_items_with( const std::string &key, const flag_id &flag,
-        bool( item::*filter_func )() const ) const
-{
-    auto iter = inv_search_caches.find( key );
-    if( iter != inv_search_caches.end() ) {
-        // If the cache already exists, use it.
-        return iter->second.items;
-    }
-    // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty sets are still created.
-    inv_search_caches[key].flag = flag;
-    inv_search_caches[key].filter_func = filter_func;
-    visit_items( [this, &key, &flag, &filter_func]( item * it, item * ) {
-        if( ( !flag.is_valid() || it->has_flag( flag ) ) &&
-            ( filter_func == nullptr || ( it->*filter_func )() ) ) {
-            inv_search_caches[key].items.push_back( it );
-        }
-        return VisitResponse::NEXT;
     } );
+}
 
-    return inv_search_caches[key].items;
+void Character::do_to_items_with( const flag_id &flag,
+                                  const std::function<void( item & )> &do_func ) const
+{
+    return do_to_items_with( "HAS FLAG " + flag.str(), flag, nullptr, do_func );
+}
+
+void Character::do_to_items_with( const std::string &key, bool( item::*filter_func )() const,
+                                  const std::function<void( item & )> &do_func ) const
+{
+    return do_to_items_with( key, {}, filter_func, do_func );
+}
+
+void Character::do_to_items_with( const std::string &key, const flag_id &flag,
+                                  bool( item::*filter_func )() const, const std::function<void( item & )> &do_func ) const
+{
+    // If the cache already exists, use it. Remove all invalid item references.
+    auto found_cache = inv_search_caches.find( key );
+    if( found_cache != inv_search_caches.end() ) {
+        inv_search_caches[key].items.erase( std::remove_if( inv_search_caches[key].items.begin(),
+        inv_search_caches[key].items.end(), [&do_func]( const safe_reference<item> it ) {
+            if( it ) {
+                do_func( *it );
+                return false;
+            }
+            return true;
+        } ), inv_search_caches[key].items.end() );
+        return;
+    } else {
+        // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty lists are still created.
+        inv_search_caches[key].flag = flag;
+        inv_search_caches[key].filter_func = filter_func;
+        visit_items( [&]( item * it, item * ) {
+            if( ( !flag.is_valid() || it->has_flag( flag ) ) &&
+                ( filter_func == nullptr || ( it->*filter_func )() ) ) {
+
+                inv_search_caches[key].items.push_back( it->get_safe_reference() );
+                do_func( *it );
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+}
+
+bool Character::do_to_items_with_until( const flag_id &flag,
+                                        const std::function<bool( item & )> &do_func ) const
+{
+    return do_to_items_with_until( "HAS FLAG " + flag.str(), flag, nullptr, do_func );
+}
+
+bool Character::do_to_items_with_until( const std::string &key, bool( item::*filter_func )() const,
+                                        const std::function<bool( item & )> &do_func ) const
+{
+    return do_to_items_with_until( key, {}, filter_func, do_func );
+}
+
+bool Character::do_to_items_with_until( const std::string &key, const flag_id &flag,
+                                        bool( item::*filter_func )() const,
+                                        const std::function<bool( item & )> &do_func ) const
+{
+    bool aborted = false;
+
+    // If the cache already exists, use it. Stop iterating if the do_func ever returns true. Remove any invalid item references encountered.
+    auto found_cache = inv_search_caches.find( key );
+    if( found_cache != inv_search_caches.end() ) {
+        auto t1 = std::chrono::high_resolution_clock::now();
+        for( auto iter = found_cache->second.items.begin();
+             iter != found_cache->second.items.end(); ) {
+            if( *iter ) {
+                if( do_func( **iter ) ) {
+                    aborted = true;
+                    break;
+                }
+                ++iter;
+            } else {
+                iter = inv_search_caches[found_cache->first].items.erase( iter );
+            }
+        }
+    } else {
+        // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty lists are still created.
+        inv_search_caches[key].flag = flag;
+        inv_search_caches[key].filter_func = filter_func;
+        visit_items( [&]( item * it, item * ) {
+            if( ( !flag.is_valid() || it->has_flag( flag ) ) &&
+                ( filter_func == nullptr || ( it->*filter_func )() ) ) {
+
+                inv_search_caches[key].items.push_back( it->get_safe_reference() );
+                // If do_func returns true, stop running it but keep populating the cache.
+                if( !aborted && do_func( *it ) ) {
+                    aborted = true;
+                }
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+    return aborted;
+}
+
+std::vector<item *> Character::get_items_with( const flag_id &flag ) const
+{
+    std::vector<item *> ret;
+    do_to_items_with( "HAS FLAG " + flag.str(), flag, nullptr, [&ret]( item & it ) {
+        ret.push_back( &it );
+    } );
+    return ret;
+}
+
+std::vector<item *> Character::get_items_with( const std::string &key,
+        bool( item::*filter_func )() const ) const
+{
+    std::vector<item *> ret;
+    do_to_items_with( key, {}, filter_func, [&ret]( item & it ) {
+        ret.push_back( &it );
+    } );
+    return ret;
+}
+
+std::vector<item *> Character::get_items_with( const std::string &key, const flag_id &flag,
+        bool( item::*filter_func )() const ) const
+{
+    std::vector<item *> ret;
+    do_to_items_with( key, flag, filter_func, [&ret]( item & it ) {
+        ret.push_back( &it );
+    } );
+    return ret;
 }
 
 void Character::add_to_inv_search_caches( item &it ) const
 {
     for( auto &cache : inv_search_caches ) {
-        if( cache.second.flag.is_valid() && !it.has_flag( cache.second.flag ) ) {
+        if( ( cache.second.flag.is_valid() && !it.has_flag( cache.second.flag ) ) ||
+            ( cache.second.filter_func && !( it.*cache.second.filter_func )() ) ) {
             continue;
         }
-        if( cache.second.filter_func && !( it.*cache.second.filter_func )() ) {
-            continue;
-        }
-        cache.second.items.push_back( &it );
+        cache.second.items.push_back( it.get_safe_reference() );
     }
 }
 
@@ -9025,9 +9116,9 @@ units::energy Character::available_ups() const
         available_charges += get_power_level();
     }
 
-    for( const item *i : all_items_with( flag_IS_UPS ) ) {
-        available_charges += units::from_kilojoule( i->ammo_remaining() );
-    }
+    do_to_items_with( flag_IS_UPS, [&available_charges]( const item & it ) {
+        available_charges += units::from_kilojoule( it.ammo_remaining() );
+    } );
 
     return available_charges;
 }
@@ -9052,14 +9143,14 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from inventory
     if( qty != 0_kJ ) {
-        for( const item *i : all_items_with( flag_IS_UPS ) ) {
-            if( i->is_tool() && i->type->tool->fuel_efficiency >= 0 ) {
-                qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr,
-                        i->type->tool->fuel_efficiency );
+        do_to_items_with( flag_IS_UPS, [&qty]( item & it ) {
+            if( it.is_tool() && it.type->tool->fuel_efficiency >= 0 ) {
+                qty -= it.energy_consume( qty, tripoint_zero, nullptr,
+                                          it.type->tool->fuel_efficiency );
             } else {
-                qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr );
+                qty -= it.energy_consume( qty, tripoint_zero, nullptr );
             }
-        }
+        } );
     }
 
     // UPS from nearby map
@@ -9134,21 +9225,23 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
 
 item Character::find_firestarter_with_charges( const int quantity ) const
 {
-    for( const item *i : all_items_with( flag_FIRESTARTER ) ) {
-        if( !i->typeId()->can_have_charges() ) {
-            const use_function *usef = i->type->get_use( "firestarter" );
+    item ret;
+    do_to_items_with_until( flag_FIRESTARTER, [&]( const item & it ) {
+        if( !it.typeId()->can_have_charges() ) {
+            const use_function *usef = it.type->get_use( "firestarter" );
             if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-                if( actor->can_use( *this->as_character(), *i, tripoint_zero ).success() ) {
-                    return *i;
+                if( actor->can_use( *this->as_character(), it, tripoint_zero ).success() ) {
+                    ret = it;
+                    return true;
                 }
             }
-        } else if( i->ammo_sufficient( this, quantity ) ) {
-            return *i;
+        } else if( it.ammo_sufficient( this, quantity ) ) {
+            ret = it;
+            return true;
         }
-    }
-
-    return item();
+    } );
+    return ret;
 }
 
 bool Character::has_fire( const int quantity ) const
@@ -11926,11 +12019,11 @@ void Character::process_items()
     // Load all items that use the UPS and have their own battery to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     std::vector<item *> inv_use_ups;
-    for( item *flagged_item : all_items_with( flag_USE_UPS ) ) {
-        if( flagged_item->ammo_data() ) {
-            inv_use_ups.push_back( flagged_item );
+    do_to_items_with( flag_USE_UPS, [&inv_use_ups]( item & it ) {
+        if( it.ammo_data() ) {
+            inv_use_ups.push_back( &it );
         }
-    }
+    } );
     if( !inv_use_ups.empty() ) {
         const units::energy available_charges = available_ups();
         units::energy ups_used = 0_kJ;

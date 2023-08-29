@@ -1326,14 +1326,14 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                     if( seed.is_empty() ) {
                         return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
                     }
-                    for( item *seed_it : you.all_items_with( "is_seed", &item::is_seed ) ) {
-                        if( seed_it->typeId() == itype_id( seed ) ) {
-                            return activity_reason_info::ok( do_activity_reason::NEEDS_PLANTING );
-                        }
+                    if( you.do_to_items_with_until( "is_seed", &item::is_seed, [&seed]( const item & it ) {
+                    return it.typeId() == itype_id( seed );
+                    } ) ) {
+                        return activity_reason_info::ok( do_activity_reason::NEEDS_PLANTING );
                     }
                     // didn't find the seed, but maybe there are overlapping farm zones
                     // and another of the zones is for a seed that we have
-                    // so loop again, and return false once all zones done.
+                    // so loop again, and return false once all zones are done.
                 }
 
             } else {

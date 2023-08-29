@@ -1943,10 +1943,10 @@ void npc::decide_needs()
     needrank[need_weapon] = weapon_value( weap );
     needrank[need_food] = 15 - get_hunger();
     needrank[need_drink] = 15 - get_thirst();
-    for( item *food_it : all_items_with( "is_food", &item::is_food ) ) {
-        needrank[ need_food ] += nutrition_for( *food_it ) / 4.0;
-        needrank[ need_drink ] += food_it->get_comestible()->quench / 4.0;
-    }
+    do_to_items_with( "is_food", &item::is_food, [&]( const item & it ) {
+        needrank[ need_food ] += nutrition_for( it ) / 4.0;
+        needrank[ need_drink ] += it.get_comestible()->quench / 4.0;
+    } );
     needs.clear();
     size_t j;
     bool serious = false;

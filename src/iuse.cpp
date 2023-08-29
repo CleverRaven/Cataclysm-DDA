@@ -7363,17 +7363,19 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint & 
             }
         }
 
-        for( item *items : p->all_items_with( flag_RADIO_CONTAINER ) ) {
-            item *itm = items->get_item_with( [&]( const item & c ) {
-                return c.has_flag( flag_BOMB ) && c.has_flag( signal );
+        if( p->do_to_items_with_until( flag_RADIO_CONTAINER, [&p, &signal]( item & it ) {
+        item *itm = it.get_item_with( [&]( const item & c ) {
+            return c.has_flag( flag_BOMB ) && c.has_flag( signal );
             } );
 
             if( itm != nullptr ) {
                 p->add_msg_if_player( m_warning,
                                       _( "The %1$s in your %2$s would explode on this signal.  Place it down before sending the signal." ),
-                                      itm->display_name(), items->display_name() );
-                return std::nullopt;
+                                      itm->display_name(), it.display_name() );
+                return true;
             }
+        } ) ) {
+            return std::nullopt;
         }
 
         p->add_msg_if_player( _( "Click." ) );

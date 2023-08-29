@@ -2690,19 +2690,56 @@ class Character : public Creature, public visitable
         void stop_hauling();
         bool is_hauling() const;
 
-        // Returns a set of all items that have the given flag (@ref item::has_flag). Uses or creates caches from @ref inv_search_caches.
-        std::vector<item *> &all_items_with( const flag_id &flag ) const;
-        // Returns a set of all items that pass the specified boolean item function. Uses or creates caches from @ref inv_search_caches with the given key.
-        std::vector<item *> &all_items_with( const std::string &key,
-                                             bool( item::*filter_func )() const ) const;
-        // Returns a set of all items that have the given flag (@ref item::has_flag) and pass the specified boolean item function. Uses or creates caches from @ref inv_search_caches with the given key.
-        std::vector<item *> &all_items_with( const std::string &key, const flag_id &flag,
-                                             bool( item::*filter_func )() const ) const;
+        /**
+         * @brief Apply a lambda function on all items that pass given criteria: either they have a specific flag, pass a specific boolean item function, or both. Uses or creates caches from @ref inv_search_caches.
+         * @param flag Only process on items with this flag.
+         * @param key A string to use as the key in the cache. Should usually be the same name as the filter function.
+         * @param filter_func Only process on items that return true with this boolean item function. This is cached, so avoid using functions with varying results.
+         * @param do_func A lambda function to apply on all items that pass the filters.
+         */
+        void do_to_items_with( const flag_id &flag,
+                               const std::function<void( item & )> &do_func ) const;
+        void do_to_items_with( const std::string &key, bool( item::*filter_func )() const,
+                               const std::function<void( item & )> &do_func ) const;
+        void do_to_items_with( const std::string &key, const flag_id &flag,
+                               bool( item::*filter_func )() const,
+                               const std::function<void( item & )> &do_func ) const;
+
+        /**
+         * @brief Apply a lambda function on all items that either have a specific flag, pass a specific boolean item function, or both. Uses or creates caches from @ref inv_search_caches. 
+         * @brief If `do_func` ever returns true, this process will abort. If this is not needed, `do_to_items_with` should be used instead, as it's more optimized for processing entire caches.
+         * @param flag Only process on items with this flag.
+         * @param key A string to use as the cache's key. Should usually be the same name as the filter function. Unneeded if checking only for a flag.
+         * @param filter_func Only process on items that return true with this boolean item function. This is cached, so avoid using functions with varying results.
+         * @param do_func A lambda function to apply on all items that pass the filters. If it returns true, all remaining items will be skipped.
+         * @return True if the process was aborted at any point.
+         */
+        bool do_to_items_with_until( const flag_id &flag,
+                                     const std::function<bool( item & )> &do_func ) const;
+        bool do_to_items_with_until( const std::string &key, bool( item::*filter_func )() const,
+                                     const std::function<bool( item & )> &do_func ) const;
+        bool do_to_items_with_until( const std::string &key, const flag_id &flag,
+                                     bool( item::*filter_func )() const,
+                                     const std::function<bool( item & )> &do_func ) const;
+
+        /**
+         * @brief Fetches all items that pass a given criteria: either they have a specific flag, pass a specific boolean item function, or both. Uses or creates caches from @ref inv_search_caches.
+         * @param flag Only get items with this flag.
+         * @param key A string to use as the cache's key. Should usually be the same name as the filter function. Unneeded if checking only for a flag.
+         * @param filter_func Only get items that return true with this boolean item function.
+         * @return A vector of pointers to all items that pass the criteria.
+         */
+        std::vector<item *> get_items_with( const flag_id &flag ) const;
+        std::vector<item *> get_items_with( const std::string &key,
+                                            bool( item::*filter_func )() const ) const;
+        std::vector<item *> get_items_with( const std::string &key, const flag_id &flag,
+                                            bool( item::*filter_func )() const ) const;
 
         // Has a weapon, inventory item or worn item with flag. Uses or creates caches from @ref inv_search_caches.
         bool has_item_with_flag( const flag_id &flag, bool need_charges = false ) const;
+
         /**
-         * Add the specified item to the caches in @ref inv_search_caches. Will NOT add any new caches.
+         * Add an item to existing @ref inv_search_caches that it meets the criteria for. Will NOT create any new caches.
          */
         void add_to_inv_search_caches( item &it ) const;
         /**
@@ -3844,11 +3881,11 @@ class Character : public Creature, public visitable
         mutable bool pseudo_items_valid = false;
         mutable std::vector<const item *> pseudo_items;
 
-        /** Cached results for functions that search through the inventory, like @ref all_items_with_flag */
+        /** Cached results for functions that search through the inventory, like @ref do_to_items_with */
         struct inv_search_cache {
             flag_id flag;
             bool ( item::*filter_func )() const;
-            std::vector<item *> items;
+            std::list<safe_reference<item>> items;
         };
         mutable std::unordered_map<std::string, inv_search_cache> inv_search_caches;
     protected:
