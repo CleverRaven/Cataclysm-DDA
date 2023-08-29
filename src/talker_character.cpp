@@ -656,7 +656,7 @@ bool talker_character_const::wielded_with_flag( const flag_id &flag ) const
 
 bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
 {
-    return me_chr_const->has_item_with_flag( flag );
+    return me_chr_const->has_any_item_with( flag );
 }
 
 int talker_character_const::item_rads( const flag_id &flag, aggregate_type agg_func ) const

@@ -722,7 +722,7 @@ class atm_menu
                           _( "You need a charged cash card before you can deposit money!" ) );
             }
 
-            if( card_count >= 1 && you.has_item_with_flag( flag_OLD_CURRENCY ) ) {
+            if( card_count >= 1 && you.has_any_item_with( flag_OLD_CURRENCY ) ) {
                 add_choice( exchange_cash, _( "Exchange Cash for eCash (1%% fee)" ) );
             }
 
@@ -1748,7 +1748,7 @@ void iexamine::safe( Character &you, const tripoint &examp )
 {
     bool has_cracking_tool = you.has_flag( json_flag_SUPER_HEARING );
     // short-circuit to avoid the more expensive iteration over items
-    has_cracking_tool = has_cracking_tool || you.has_item_with_flag( flag_SAFECRACK );
+    has_cracking_tool = has_cracking_tool || you.has_any_item_with( flag_SAFECRACK );
 
     if( !has_cracking_tool ) {
         you.moves -= to_moves<int>( 10_seconds );

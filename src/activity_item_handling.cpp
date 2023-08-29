@@ -1143,9 +1143,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
 
-        if( you.has_item_with( []( const item & itm ) {
-        return itm.has_flag( json_flag_MOP );
-        } ) ) {
+        if( you.has_any_item_with( json_flag_MOP ) ) {
             return activity_reason_info::ok( do_activity_reason::NEEDS_MOP );
         } else {
             return activity_reason_info::fail( do_activity_reason::NEEDS_MOP );

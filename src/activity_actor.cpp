@@ -3033,7 +3033,7 @@ void safecracking_activity_actor::do_turn( player_activity &act, Character &who 
 {
     bool can_crack = who.has_flag( json_flag_SUPER_HEARING );
     // short-circuit to avoid the more expensive iteration over items
-    can_crack = can_crack || who.has_item_with_flag( flag_SAFECRACK );
+    can_crack = can_crack || who.has_any_item_with( flag_SAFECRACK );
 
     if( !can_crack ) {
         // We lost our cracking tool somehow, bail out.

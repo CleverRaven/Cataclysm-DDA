@@ -1263,7 +1263,7 @@ int Character::overmap_sight_range( float light_level ) const
     float multiplier = mutation_value( "overmap_multiplier" );
     // Binoculars double your sight range.
     // When adding checks here, also call game::update_overmap_seen at the place they first become true
-    const bool has_optic = has_item_with_flag( flag_ZOOM ) ||
+    const bool has_optic = has_any_item_with( flag_ZOOM ) ||
                            has_flag( json_flag_ENHANCED_VISION ) ||
                            ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ||
                            get_map().veh_at( pos() ).avail_part_with_feature( "ENHANCED_VISION" ).has_value();
@@ -1311,7 +1311,7 @@ bool Character::sight_impaired() const
 bool Character::has_alarm_clock() const
 {
     map &here = get_map();
-    return has_item_with_flag( flag_ALARMCLOCK, true ) ||
+    return has_any_item_with_flag_and_charges( flag_ALARMCLOCK ) ||
            ( here.veh_at( pos() ) &&
              !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
            has_flag( json_flag_ALARMCLOCK );
@@ -1320,7 +1320,7 @@ bool Character::has_alarm_clock() const
 bool Character::has_watch() const
 {
     map &here = get_map();
-    return has_item_with_flag( flag_WATCH, true ) ||
+    return has_any_item_with_flag_and_charges( flag_WATCH ) ||
            ( here.veh_at( pos() ) &&
              !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
            has_flag( json_flag_WATCH );
@@ -8885,17 +8885,6 @@ bool Character::in_sleep_state() const
     return Creature::in_sleep_state() || activity.id() == ACT_TRY_SLEEP;
 }
 
-bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) const
-{
-    return do_to_items_with_until( flag, [&]( const item & it ) {
-        if( !need_charges || !it.is_tool() || it.type->tool->max_charges == 0 ||
-            it.ammo_remaining( this ) > 0 ) {
-
-            return true;
-        }
-    } );
-}
-
 void Character::do_to_items_with( const flag_id &flag,
                                   const std::function<void( item & )> &do_func ) const
 {
@@ -9020,6 +9009,37 @@ std::vector<item *> Character::get_items_with( const std::string &key, const fla
         ret.push_back( &it );
     } );
     return ret;
+}
+
+bool Character::has_any_item_with( const flag_id &flag,
+                                   const std::function<bool( item & )> &check_func ) const
+{
+    return do_to_items_with_until( "HAS FLAG " + flag.str(), flag, nullptr, [&check_func]( item & it ) {
+        return check_func( it );
+    } );
+}
+
+bool Character::has_any_item_with( const std::string &key,
+                                   bool( item::*filter_func )() const, const std::function<bool( item & )> &check_func ) const
+{
+    return do_to_items_with_until( key, {}, filter_func, [&check_func]( item & it ) {
+        return check_func( it );
+    } );
+}
+
+bool Character::has_any_item_with( const std::string &key, const flag_id &flag,
+                                   bool( item::*filter_func )() const, const std::function<bool( item & )> &check_func ) const
+{
+    return do_to_items_with_until( key, flag, filter_func, [&check_func]( item & it ) {
+        return check_func( it );
+    } );
+}
+
+bool Character::has_any_item_with_flag_and_charges( const flag_id &flag ) const
+{
+    return do_to_items_with_until( "HAS FLAG " + flag.str(), flag, nullptr, [&]( const item & it ) {
+        return !it.is_tool() || it.type->tool->max_charges == 0 || it.ammo_remaining( this ) > 0;
+    } );
 }
 
 void Character::add_to_inv_search_caches( item &it ) const
@@ -9235,7 +9255,7 @@ bool Character::has_fire( const int quantity ) const
     if( get_map().has_nearby_fire( pos() ) ) {
         return true;
     }
-    if( has_item_with_flag( flag_FIRE ) ) {
+    if( has_any_item_with( flag_FIRE ) ) {
         return true;
     }
     if( !find_firestarter_with_charges( quantity ).is_null() ) {
@@ -9326,7 +9346,7 @@ void Character::use_fire( const int quantity )
     if( get_map().has_nearby_fire( pos() ) ) {
         return;
     }
-    if( has_item_with_flag( flag_FIRE ) ) {
+    if( has_any_item_with( flag_FIRE ) ) {
         return;
     }
 

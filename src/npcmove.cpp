@@ -4079,8 +4079,8 @@ void npc::reach_omt_destination()
             Character &player_character = get_player_character();
             talk_function::assign_guard( *this );
             if( rl_dist( player_character.pos(), pos() ) > SEEX * 2 ) {
-                if( player_character.has_item_with_flag( flag_TWO_WAY_RADIO, true ) &&
-                    has_item_with_flag( flag_TWO_WAY_RADIO, true ) ) {
+                if( player_character.has_any_item_with_flag_and_charges( flag_TWO_WAY_RADIO ) &&
+                    has_any_item_with_flag_and_charges( flag_TWO_WAY_RADIO ) ) {
                     add_msg_if_player_sees( pos(), m_info, _( "From your two-way radio you hear %s reporting in, "
                                             "'I've arrived, boss!'" ), disp_name() );
                 }
