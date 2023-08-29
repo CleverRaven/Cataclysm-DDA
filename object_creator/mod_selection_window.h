@@ -14,9 +14,9 @@
 
 namespace creator
 {
-class mod_selection_window : public QFrame
+class mod_selection_window : public QWidget
 {
-    Q_OBJECT
+
 
     public:
         mod_selection_window( QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags() );
@@ -30,8 +30,6 @@ class mod_selection_window : public QFrame
         }
 
     private:
-        QLabel* mods_label;
-        QSpinBox* mods_box;
 };
 }
 
