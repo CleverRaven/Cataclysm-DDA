@@ -8,9 +8,7 @@
 
 #include <QtWidgets/qapplication.h>
 #include <QtWidgets/qmainwindow.h>
-#include <QtWidgets/qpushbutton.h>
-#include <QtWidgets/qstackedwidget.h>
-#include <QtWidgets/qmenubar.h>
+#include <QtWidgets/qtabwidget.h>
 
 
 namespace io
@@ -37,48 +35,25 @@ int creator::main_window::execute( QApplication &app )
     //Create the main window
     QMainWindow creator_main_window;
 
-    //Create a stacked widget and add it to the main window
-    QStackedWidget stackedWidget( &creator_main_window );
-    creator_main_window.setCentralWidget( &stackedWidget );
 
-    //Add the spell_window and item_group_window to the stacked widget
-    spell_window spell_editor( &stackedWidget );
-    item_group_window item_group_editor( &stackedWidget );
+    //Create a tab widget and add it to the main window
+    QTabWidget* tabWidget = new QTabWidget(&creator_main_window);
+    creator_main_window.setCentralWidget(tabWidget);
 
-    //Add the mod selection window to the stacked widget
-    mod_selection_window mod_selection( &stackedWidget );
+    //Create the spell window and add it as a tab
+    spell_window spell_editor;
+    tabWidget->addTab(&spell_editor, "Spell");
 
-    //Set the current widget to the mod selection window
-    stackedWidget.setCurrentWidget( &mod_selection );
+    //Create the item group window and add it as a tab
+    item_group_window item_group_editor;
+    tabWidget->addTab(&item_group_editor, "Item group");
 
-
-    //Create a menu bar with one menu called navigation
-    //The navigation menu has three actions, one for each window
-    QMenuBar menu_bar( &creator_main_window );
-    QMenu* navigation_menu = menu_bar.addMenu( pgettext( "menu", "Navigation" ) );
-    QAction* spell_action = navigation_menu->addAction( pgettext( "menu", "Spell" ) );
-    QAction* item_group_action = navigation_menu->addAction( pgettext( "menu", "Item group" ) );
-    QAction* mod_selection_action = navigation_menu->addAction( pgettext( "menu", "Mod selection" ) );
-
-    // Connect the navigation menu items to slots that switch the current widget of the stacked widget
-    QObject::connect( spell_action, &QAction::triggered, [&]() {
-        stackedWidget.setCurrentWidget( &spell_editor );
-    } );
-    QObject::connect( item_group_action, &QAction::triggered, [&]() {
-        stackedWidget.setCurrentWidget( &item_group_editor );
-    } );
-    QObject::connect( mod_selection_action, &QAction::triggered, [&]() {
-        stackedWidget.setCurrentWidget( &mod_selection );
-    } );
-
-
-    // Set the menu bar as the main window's menu bar
-    creator_main_window.setMenuBar( &menu_bar );
+    //Create the mod selection window and add it as a tab
+    mod_selection_window mod_selection;
+    tabWidget->addTab(&mod_selection, "Mod selection");
     
-    //Make the main window fullscreen
-    creator_main_window.showFullScreen();
-
-
+    //Make the main window maximized
+    creator_main_window.showMaximized();
 
     return app.exec();
 }
