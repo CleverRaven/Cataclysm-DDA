@@ -1126,19 +1126,31 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                         ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
                         ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
 
-        // This is description line, meaning its length excludes first column and border
-        const std::string clear_line( getmaxx( w ) - iSecondColumn - 1, ' ' );
-        mvwprintz( w, point( iSecondColumn, 3 ), c_black, clear_line );
-        mvwprintz( w, point( iSecondColumn, 4 ), c_black, clear_line );
-        for( int i = 7; i < 14; i++ ) {
-            mvwprintz( w, point( iSecondColumn, i ), c_black, clear_line );
+        const point opt_pos( 2, sel + 6 );
+        ui.set_cursor( w, opt_pos );
+        for( int i = 0; i < 4; i++ ) {
+            mvwprintz( w, point( 2, i + 6 ), i == sel ? COL_SELECT : c_light_gray, "%s:",
+                       stat_labels[i].translated() );
+            mvwprintz( w, point( 16, i + 6 ), c_light_gray, "%2d", *stats[i] );
         }
 
         draw_points( w, pool, u );
-
-        for( int i = 0; i < 4; i++ ) {
-            mvwprintz( w, point( 2, i + 6 ), c_light_gray, "%s:", stat_labels[i].translated() );
-            mvwprintz( w, point( 16, i + 6 ), c_light_gray, "%2d", *stats[i] );
+        const point desc_line = point( iSecondColumn, 3 );
+        if( *stats[sel] <= min_stat_points ) {
+            mvwprintz( w, desc_line, c_red,
+                       //~ %s - stat
+                       string_format( _( "%s cannot be further decreased" ),
+                                      stat_labels[sel].translated() ) );
+        } else if( *stats[sel] >= max_stat_points ) {
+            mvwprintz( w, desc_line, c_red,
+                       //~ %s - stat
+                       string_format( _( "%s cannot be further increased" ),
+                                      stat_labels[sel].translated() ) );
+        } else if( *stats[sel] >= HIGH_STAT && pool != pool_type::FREEFORM ) {
+            mvwprintz( w, desc_line, c_light_red,
+                       //~ %s - stat
+                       string_format( _( "Increasing %s further costs 2 points" ),
+                                      stat_labels[sel].translated() ) );
         }
 
         werase( w_description );
@@ -1146,228 +1158,141 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
         u.set_stored_kcal( u.get_healthy_kcal() );
         u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
 
-        const point opt_pos( 2, sel + 6 );
-        ui.set_cursor( w, opt_pos );
-        mvwprintz( w, opt_pos, COL_SELECT, "%s:", stat_labels[sel].translated() );
-        mvwprintz( w, opt_pos + point( 14, 0 ), c_light_gray, "%2d", *stats[sel] );
-        if( *stats[sel] <= min_stat_points ) {
-            mvwprintz( w, point( iSecondColumn, 3 ), c_red,
-                       //~ %s - stat
-                       string_format( _( "%s cannot be further decreased" ),
-                                      stat_labels[sel].translated() ) );
-        } else if( *stats[sel] >= max_stat_points ) {
-            mvwprintz( w, point( iSecondColumn, 3 ), c_red,
-                       //~ %s - stat
-                       string_format( _( "%s cannot be further increased" ),
-                                      stat_labels[sel].translated() ) );
-        } else if( *stats[sel] >= HIGH_STAT && pool != pool_type::FREEFORM ) {
-            mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
-                       //~ %s - stat
-                       string_format( _( "Increasing %s further costs 2 points" ),
-                                      stat_labels[sel].translated() ) );
-        }
-
+        std::string description_str;
         switch( sel ) {
             case 0: {
                 u.recalc_hp();
                 u.set_stored_kcal( u.get_healthy_kcal() );
-                mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ),
-                           u.get_part_hp_max( bodypart_id( "head" ) ) );
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                mvwprintz( w_description, point( 0, 1 ), COL_STAT_NEUTRAL, _( "Carry weight: %.1f %s" ),
-                           convert_weight( u.weight_capacity() ), weight_units() );
-                mvwprintz( w_description, point( 0, 2 ), COL_STAT_NEUTRAL,
-                           _( "Resistance to knock down effect when hit: %.1f" ), u.stability_roll() );
-                mvwprintz( w_description, point( 0, 3 ), COL_STAT_NEUTRAL, _( "Intimidation skill: %i" ),
-                           u.intimidation() );
-                mvwprintz( w_description, point( 0, 4 ), COL_STAT_NEUTRAL, _( "Maximum oxygen: %i" ),
-                           u.get_oxygen_max() );
-                mvwprintz( w_description, point( 0, 5 ), COL_STAT_NEUTRAL, _( "Shout volume: %i" ),
-                           u.get_shout_volume() );
-                mvwprintz( w_description, point( 0, 6 ), COL_STAT_NEUTRAL, _( "Lifting strength: %i" ),
-                           u.get_lift_str() );
-                mvwprintz( w_description, point( 0, 7 ), COL_STAT_NEUTRAL, _( "Move cost while swimming: %i" ),
-                           u.swim_speed() );
-                mvwprintz( w_description, point( 0, 8 ), COL_STAT_BONUS, _( "Bash damage bonus: %.1f" ),
-                           u.bonus_damage( false ) );
-                mvwprintz( w_description, point( 0, 10 ), COL_STAT_NEUTRAL, _( "Affects:" ) );
-
-                int y = 11;
-
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Throwing range, accuracy, and damage" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Reload speed for weapons using muscle power to reload" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Pull strength of some mutations" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Resistance for being pulled or grabbed by some monsters" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Speed of corpses pulping" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Speed and effectiveness of prying things open, chopping wood, and mining" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of escaping grabs and traps" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Power produced by muscle-powered vehicles" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Most aspects of melee combat" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of smashing furniture or terrain" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Resistance to many diseases and poisons" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Ability to drag heavy objects and grants bonus to speed when dragging them" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Ability to wield heavy weapons with one hand" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Ability to manage gun recoil" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Duration of action of various drugs and alcohol" ) );
+                description_str =
+                    string_format( _( "Base HP: %d" ), u.get_part_hp_max( bodypart_id( "head" ) ) )
+                    + string_format( _( "\nCarry weight: %.1f %s" ), convert_weight( u.weight_capacity() ),
+                                     weight_units() )
+                    + string_format( _( "\nResistance to knock down effect when hit: %.1f" ), u.stability_roll() )
+                    + string_format( _( "\nIntimidation skill: %i" ), u.intimidation() )
+                    + string_format( _( "\nMaximum oxygen: %i" ), u.get_oxygen_max() )
+                    + string_format( _( "\nShout volume: %i" ), u.get_shout_volume() )
+                    + string_format( _( "\nLifting strength: %i" ), u.get_lift_str() )
+                    + string_format( _( "\nMove cost while swimming: %i" ), u.swim_speed() )
+                    + colorize(
+                        string_format( _( "\nBash damage bonus: %.1f" ), u.bonus_damage( false ) ),
+                        COL_STAT_BONUS )
+                    + _( "\n\nAffects:" )
+                    + colorize(
+                        _( "\n- Throwing range, accuracy, and damage"
+                           "\n- Reload speed for weapons using muscle power to reload"
+                           "\n- Pull strength of some mutations"
+                           "\n- Resistance for being pulled or grabbed by some monsters"
+                           "\n- Speed of corpses pulping"
+                           "\n- Speed and effectiveness of prying things open, chopping wood, and mining"
+                           "\n- Chance of escaping grabs and traps"
+                           "\n- Power produced by muscle-powered vehicles"
+                           "\n- Most aspects of melee combat"
+                           "\n- Effectiveness of smashing furniture or terrain"
+                           "\n- Resistance to many diseases and poisons"
+                           "\n- Ability to drag heavy objects and grants bonus to speed when dragging them"
+                           "\n- Ability to wield heavy weapons with one hand"
+                           "\n- Ability to manage gun recoil"
+                           "\n- Duration of action of various drugs and alcohol" ),
+                        c_green );
             }
             break;
 
             case 1: {
-                mvwprintz( w_description, point_zero, COL_STAT_BONUS, _( "Melee to-hit bonus: +%.2f" ),
-                           u.get_melee_hit_base() );
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                mvwprintz( w_description, point( 0, 1 ), COL_STAT_BONUS,
-                           _( "Throwing penalty per target's dodge: +%d" ),
-                           u.throw_dispersion_per_dodge( false ) );
+                description_str =
+                    colorize(
+                        string_format( _( "Melee to-hit bonus: +%.2f" ), u.get_melee_hit_base() )
+                        + string_format( _( "\nThrowing penalty per target's dodge: +%d" ),
+                                         u.throw_dispersion_per_dodge( false ) ),
+                        COL_STAT_BONUS );
                 if( u.ranged_dex_mod() != 0 ) {
-                    mvwprintz( w_description, point( 0, 2 ), COL_STAT_PENALTY, _( "Ranged penalty: -%d" ),
-                               std::abs( u.ranged_dex_mod() ) );
+                    description_str += colorize( string_format( _( "\nRanged penalty: -%d" ),
+                                                 std::abs( u.ranged_dex_mod() ) ), COL_STAT_PENALTY );
+                } else {
+                    description_str += "\n";
                 }
-                mvwprintz( w_description, point( 0, 3 ), COL_STAT_NEUTRAL, _( "Dodge skill: %.f" ),
-                           u.get_dodge() );
-                mvwprintz( w_description, point( 0, 4 ), COL_STAT_NEUTRAL, _( "Move cost while swimming: %i" ),
-                           u.swim_speed() );
-                mvwprintz( w_description, point( 0, 6 ), COL_STAT_NEUTRAL, _( "Affects:" ) );
-
-                int y = 7;
-
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of lockpicking" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Resistance for being grabbed by some monsters" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of escaping grabs and traps" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of disarming traps" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of success when manipulating with gun modifications" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of repairing and modifying clothes and armor" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Attack speed and chance of critical hits in melee combat" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of stealing" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Throwing speed" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Aiming speed" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Speed and effectiveness of chopping wood with powered tools" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance to avoid traps" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance to get better results when butchering corpses or cutting items" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of avoiding cuts on sharp terrain" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of losing control of vehicle when driving" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of damaging melee weapon on attack" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Damage from falling" ) );
+                description_str +=
+                    string_format( _( "\nDodge skill: %.f" ), u.get_dodge() )
+                    + string_format( _( "\nMove cost while swimming: %i" ), u.swim_speed() )
+                    + _( "\n\nAffects:" )
+                    + colorize(
+                        _( "\n- Effectiveness of lockpicking"
+                           "\n- Resistance for being grabbed by some monsters"
+                           "\n- Chance of escaping grabs and traps"
+                           "\n- Effectiveness of disarming traps"
+                           "\n- Chance of success when manipulating with gun modifications"
+                           "\n- Effectiveness of repairing and modifying clothes and armor"
+                           "\n- Attack speed and chance of critical hits in melee combat"
+                           "\n- Effectiveness of stealing"
+                           "\n- Throwing speed"
+                           "\n- Aiming speed"
+                           "\n- Speed and effectiveness of chopping wood with powered tools"
+                           "\n- Chance to avoid traps"
+                           "\n- Chance to get better results when butchering corpses or cutting items"
+                           "\n- Chance of avoiding cuts on sharp terrain"
+                           "\n- Chance of losing control of vehicle when driving"
+                           "\n- Chance of damaging melee weapon on attack"
+                           "\n- Damage from falling" ),
+                        c_green );
             }
             break;
 
             case 2: {
                 const int read_spd = u.read_speed();
-                mvwprintz( w_description, point_zero, ( read_spd == 100 ? COL_STAT_NEUTRAL :
-                                                        ( read_spd < 100 ? COL_STAT_BONUS : COL_STAT_PENALTY ) ),
-                           _( "Read times: %d%%" ), read_spd );
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                mvwprintz( w_description, point( 0, 1 ), COL_STAT_NEUTRAL, _( "Persuade/lie skill: %i" ),
-                           u.persuade_skill() );
-                mvwprintz( w_description, point( 0, 2 ), COL_STAT_BONUS, _( "Crafting bonus: %2d%%" ),
-                           u.get_int() );
-                mvwprintz( w_description, point( 0, 4 ), COL_STAT_NEUTRAL, _( "Affects:" ) );
-
-                int y = 5;
-
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Speed of 'catching up' practical experience to theoretical knowledge" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Detection and disarming traps" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of success when installing bionics" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of success when manipulating with gun modifications" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance to learn a recipe when crafting from a book" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance to learn martial arts techniques when using CQB bionic" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of hacking computers and card readers" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of successful robot reprogramming" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of successful decrypting memory cards" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of bypassing vehicle security system" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance to get better results when disassembling items" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of being paralyzed by fear attack" ) );
+                description_str =
+                    colorize( string_format( _( "Read times: %d%%" ), read_spd ),
+                              ( read_spd == 100 ? COL_STAT_NEUTRAL :
+                                ( read_spd < 100 ? COL_STAT_BONUS : COL_STAT_PENALTY ) ) )
+                    + string_format( _( "\nPersuade/lie skill: %i" ), u.persuade_skill() )
+                    + colorize( string_format( _( "\nCrafting bonus: %2d%%" ), u.get_int() ),
+                                COL_STAT_BONUS )
+                    + _( "\n\nAffects:" )
+                    + colorize(
+                        _( "\n- Speed of 'catching up' practical experience to theoretical knowledge"
+                           "\n- Detection and disarming traps"
+                           "\n- Chance of success when installing bionics"
+                           "\n- Chance of success when manipulating with gun modifications"
+                           "\n- Chance to learn a recipe when crafting from a book"
+                           "\n- Chance to learn martial arts techniques when using CQB bionic"
+                           "\n- Chance of hacking computers and card readers"
+                           "\n- Chance of successful robot reprogramming"
+                           "\n- Chance of successful decrypting memory cards"
+                           "\n- Chance of bypassing vehicle security system"
+                           "\n- Chance to get better results when disassembling items"
+                           "\n- Chance of being paralyzed by fear attack" ),
+                        c_green );
             }
             break;
 
             case 3: {
                 if( u.ranged_per_mod() > 0 ) {
-                    mvwprintz( w_description, point_zero, COL_STAT_PENALTY, _( "Aiming penalty: -%d" ),
-                               u.ranged_per_mod() );
+                    description_str =
+                        colorize( string_format( _( "Aiming penalty: -%d" ), u.ranged_per_mod() ),
+                                  COL_STAT_PENALTY );
                 }
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                mvwprintz( w_description, point( 0, 1 ), COL_STAT_NEUTRAL, _( "Persuade/lie skill: %i" ),
-                           u.persuade_skill() );
-                mvwprintz( w_description, point( 0, 3 ), COL_STAT_NEUTRAL, _( "Affects:" ) );
-
-                int y = 4;
-
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Speed of 'catching up' practical experience to theoretical knowledge" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Time needed for safe cracking" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Sight distance on game map and overmap" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of stealing" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Throwing accuracy" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of losing control of vehicle when driving" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of spotting camouflaged creatures" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of lockpicking" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of foraging" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Precision when examining wounds and using first aid skill" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Detection and disarming traps" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Morale bonus when playing a musical instrument" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Effectiveness of repairing and modifying clothes and armor" ) );
-                y += fold_and_print( w_description, point( 0, y ), getmaxx( w_description ) - 1, c_green,
-                                     _( "- Chance of critical hits in melee combat" ) );
+                description_str +=
+                    string_format( _( "\nPersuade/lie skill: %i" ), u.persuade_skill() )
+                    + _( "\n\nAffects:" )
+                    + colorize(
+                        _( "\n- Speed of 'catching up' practical experience to theoretical knowledge"
+                           "\n- Time needed for safe cracking"
+                           "\n- Sight distance on game map and overmap"
+                           "\n- Effectiveness of stealing"
+                           "\n- Throwing accuracy"
+                           "\n- Chance of losing control of vehicle when driving"
+                           "\n- Chance of spotting camouflaged creatures"
+                           "\n- Effectiveness of lockpicking"
+                           "\n- Effectiveness of foraging"
+                           "\n- Precision when examining wounds and using first aid skill"
+                           "\n- Detection and disarming traps"
+                           "\n- Morale bonus when playing a musical instrument"
+                           "\n- Effectiveness of repairing and modifying clothes and armor"
+                           "\n- Chance of critical hits in melee combat" ),
+                        c_green );
             }
             break;
         }
-
+        fold_and_print( w_description, point_zero, getmaxx( w_description ), COL_STAT_NEUTRAL,
+                        description_str );
         wnoutrefresh( w );
         wnoutrefresh( w_description );
     } );
@@ -1388,7 +1313,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
             }
             continue;
         } else if( action == "DOWN" ) {
-            sel = ( sel + 5 ) % 4;
+            sel = ( sel + 1 ) % 4;
         } else if( action == "UP" ) {
             sel = ( sel + 3 ) % 4;
         }
