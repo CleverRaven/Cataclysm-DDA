@@ -318,10 +318,11 @@ unload_options::query_unload_result unload_options::query_unload()
                _( "Detach mods from weapons?  (Be careful as you may not have the skills to reattach them)" ) );
     sparse_only = query_yn( _
                             ( string_format( "Avoid unloading items stacks (not charges) greater than a certain amount?  (Amount defined in next window)" ) ) );
-    if (sparse_only) {
+    if( sparse_only ) {
         int threshold;
-        if (query_int( threshold, _( "What is the maximum stack size to unload?  (20 is a good default)" ))){
-            if (sparse_threshold < 1) {
+        if( query_int( threshold,
+                       _( "What is the maximum stack size to unload?  (20 is a good default)" ) ) ) {
+            if( sparse_threshold < 1 ) {
                 sparse_threshold = 1;
             } else {
                 sparse_threshold = threshold;
@@ -462,7 +463,7 @@ std::string unload_options::get_zone_name_suggestion() const
     return string_format( "%s%s%s%s%s", _( "Unload: " ),
                           mods ? _( "mods, " ) : "",
                           molle ? _( "MOLLE, " ) : "",
-                          sparse_only ? _(string_format("ignore stacks over %i, ", sparse_threshold) ) : "",
+                          sparse_only ? _( string_format( "ignore stacks over %i, ", sparse_threshold ) ) : "",
                           always_unload ? _( "unload all" ) : _( "unload unmatched" ) );
 }
 
@@ -482,7 +483,7 @@ std::vector<std::pair<std::string, std::string>> unload_options::get_description
                           string_format( "%s%s%s%s",
                                          mods ? _( "mods " ) : "",
                                          molle ? _( "MOLLE " ) : "",
-                                         sparse_only ? _( string_format("ignore stacks over %i, ", sparse_threshold) ) : "",
+                                         sparse_only ? _( string_format( "ignore stacks over %i, ", sparse_threshold ) ) : "",
                                          always_unload ? _( "unload all" ) : _( "unload unmatched" ) ) );
 
     return options;
