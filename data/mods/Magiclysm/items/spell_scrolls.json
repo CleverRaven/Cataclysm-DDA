@@ -1491,5 +1491,68 @@
     "name": { "str": "Scroll of Giant Growth", "str_pl": "Scrolls of Giant Growth" },
     "description": "Grow to enormous size and crush your enemies.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_giant_growth" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_remove_instability",
+    "//": "Biomancer spell",
+    "name": { "str": "Formula of Restore Genetic Stability", "str_pl": "Formulae of Restore Genetic Stability" },
+    "description": "This research paper has an extremely complicated series of formulae with various genetic interspersed.  It claims that the spell will cure the aftereffects of XE037 overexposure.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_remove_instability" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_carrion_feast",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Carrion Feast", "str_pl": "Scrolls of Carrion Feast" },
+    "description": "Eat rotten food with no ill effects.  It doesn't make it taste any better, though.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_carrion_feast" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_classless_watch_spell",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Knowing the Day and the Hour", "str_pl": "Scrolls of Knowing the Day and the Hour" },
+    "description": "Cast this spell to know exactly what time it is.  You're amazed anyone is still making these scrolls; this spell might as well be a museum piece.",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_watch_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_teleport_mark",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Magus's Mark", "str_pl": "Scrolls of Magus's Mark" },
+    "description": "Mark an area to be aetherically resonant so that you can easily find it later; for example, by using the Word of Recall spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_teleport_mark" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_word_of_recall",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Word of Recall", "str_pl": "Scrolls of Word of Recall" },
+    "description": "The counterpart to Magus's Mark, reciting this simple spell will instantly return you to wherever it was that you cast that spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_word_of_recall" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_summon_watcher",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Summon Watcher Spirit", "str_pl": "Scrolls of Summon Watcher Spirit" },
+    "description": "Summon a spirit through whose eyes you can see.  This spell was frowned upon pre-Cataclysm due to the potential for misuse, but its many legitimate uses kept it on the curriculum at major universities' thaumaturgical studies departments.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_summon_watcher" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_beguile_savage_beast",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Beguiling the Savage Beast", "str_pl": "Scrolls of Beguiling the Savage Beast" },
+    "description": "Charm an animal into your service for a time.  They don't even technically have to be savage!",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_beguile_savage_beast" ] }
   }
 ]
