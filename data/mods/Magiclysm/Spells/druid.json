@@ -115,7 +115,7 @@
     "min_duration": 24000,
     "max_duration": 360000,
     "duration_increment": 24000,
-    "difficulty": 6,
+    "difficulty": 5,
     "max_level": 15,
     "spell_class": "DRUID",
     "energy_source": "MANA",
@@ -173,7 +173,7 @@
     "min_duration": 360000,
     "max_duration": 2160000,
     "duration_increment": 72000,
-    "difficulty": 8,
+    "difficulty": 7,
     "max_level": 25,
     "spell_class": "DRUID",
     "energy_source": "MANA"
