@@ -698,5 +698,27 @@
     "base_energy_cost": 600,
     "final_energy_cost": 900,
     "energy_increment": 15
+  },
+  {
+    "id": "technomancer_welder",
+    "type": "SPELL",
+    "name": "Voltaic Touch",
+    "description": "Using the principles of what were once called \"voltaic arcs\", you can electrically heat metal hot enough to weld it together.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_EXPLOSION_SFX" ],
+    "effect": "spawn_item",
+    "effect_str": "technomancer_welder",
+    "shape": "blast",
+    "spell_class": "TECHNOMANCER",
+    "difficulty": 3,
+    "max_level": 15,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 360000,
+    "max_duration": 720000,
+    "duration_increment": 24000,
+    "energy_source": "MANA",
+    "base_energy_cost": 500,
+    "base_casting_time": 3000
   }
 ]

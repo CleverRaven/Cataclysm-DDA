@@ -678,5 +678,32 @@
     "type": "effect_on_condition",
     "id": "EOC_LOSE_WHISPER_LEAVES",
     "effect": [ { "u_lose_trait": "TREE_COMMUNION" } ]
+  },
+  {
+    "id": "druid_summon_tanglevine",
+    "type": "SPELL",
+    "name": "Summon Tanglevine",
+    "description": "This spell causes an animated vine to burst from the ground and attempt to seize a nearby target and hold it fast.",
+    "valid_targets": [ "ground" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "summon",
+    "effect_str": "mon_tanglevine",
+    "shape": "blast",
+    "spell_class": "DRUID",
+    "difficulty": 6,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 5,
+    "max_range": 15,
+    "range_increment": 0.8,
+    "base_casting_time": 250,
+    "energy_source": "MANA",
+    "max_level": 15,
+    "min_duration": 12000,
+    "max_duration": 42000,
+    "duration_increment": 2000,
+    "base_energy_cost": 650,
+    "final_energy_cost": 400,
+    "energy_increment": -16.666
   }
 ]

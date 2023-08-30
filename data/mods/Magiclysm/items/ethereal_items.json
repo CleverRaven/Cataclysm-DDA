@@ -1430,5 +1430,20 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
     "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "technomancer_welder",
+    "type": "TOOL",
+    "name": { "str": "voltaic touch" },
+    "description": "Your hands may currently spark with electricity powerful enough to heat metal to searing temperatures and weld it together.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "$",
+    "color": "red",
+    "flags": [ "UNBREAKABLE", "ZERO_WEIGHT", "LIGHT_50", "FIRE" ],
+    "qualities": [ [ "WELD", 2 ] ],
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   }
 ]
