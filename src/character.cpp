@@ -8989,20 +8989,20 @@ bool Character::has_any_item_with_flag_and_charges( const flag_id &flag ) const
     } );
 }
 
-std::vector<item *> Character::get_items_with( const flag_id &flag,
+std::vector<item *> Character::all_items_with( const flag_id &flag,
         const std::function<bool( item & )> &do_and_check_func )
 {
-    get_items_with( "HAS FLAG " + flag.str(), flag, nullptr, do_and_check_func );
+    all_items_with( "HAS FLAG " + flag.str(), flag, nullptr, do_and_check_func );
 }
 
-std::vector<item *> Character::get_items_with( const std::string &key,
+std::vector<item *> Character::all_items_with( const std::string &key,
         bool( item::*filter_func )() const,
         const std::function<bool( item & )> &do_and_check_func )
 {
-    get_items_with( key, {}, filter_func, do_and_check_func );
+    all_items_with( key, {}, filter_func, do_and_check_func );
 }
 
-std::vector<item *> Character::get_items_with( const std::string &key, const flag_id &flag,
+std::vector<item *> Character::all_items_with( const std::string &key, const flag_id &flag,
         bool( item::*filter_func )() const,
         const std::function<bool( item & )> &do_and_check_func )
 {
@@ -9015,20 +9015,20 @@ std::vector<item *> Character::get_items_with( const std::string &key, const fla
     return ret;
 }
 
-std::vector<const item *> Character::get_items_with( const flag_id &flag,
+std::vector<const item *> Character::all_items_with( const flag_id &flag,
         const std::function<bool( const item & )> &do_and_check_func ) const
 {
-    get_items_with( "HAS FLAG " + flag.str(), flag, nullptr, do_and_check_func );
+    all_items_with( "HAS FLAG " + flag.str(), flag, nullptr, do_and_check_func );
 }
 
-std::vector<const item *> Character::get_items_with( const std::string &key,
+std::vector<const item *> Character::all_items_with( const std::string &key,
         bool( item::*filter_func )() const,
         const std::function<bool( const item & )> &do_and_check_func ) const
 {
-    get_items_with( key, {}, filter_func, do_and_check_func );
+    all_items_with( key, {}, filter_func, do_and_check_func );
 }
 
-std::vector<const item *> Character::get_items_with( const std::string &key, const flag_id &flag,
+std::vector<const item *> Character::all_items_with( const std::string &key, const flag_id &flag,
         bool( item::*filter_func )() const,
         const std::function<bool( const item & )> &do_and_check_func ) const
 {
@@ -12022,7 +12022,7 @@ void Character::process_items()
 
     // Load all items that use the UPS and have their own battery to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
-    std::vector<item *> inv_use_ups = get_items_with( flag_USE_UPS, [&inv_use_ups]( item & it ) {
+    std::vector<item *> inv_use_ups = all_items_with( flag_USE_UPS, [&inv_use_ups]( item & it ) {
         return !!it.ammo_data();
     } );
     if( !inv_use_ups.empty() ) {

@@ -2691,7 +2691,7 @@ class Character : public Creature, public visitable
         bool is_hauling() const;
 
         /**
-         * @brief Apply a lambda function on all items that have the given flag and/or pass the given boolean item function, using or creating caches from @ref inv_search_caches.
+         * @brief Applies a lambda function on all items with the given flag and/or that pass the given boolean item function, using or creating caches from @ref inv_search_caches.
          * @param flag Only process on items with this flag.
          * @param key A string to use as the key in the cache. Should usually be the same name as filter_func.
          * @param filter_func Only process on items that return true with this boolean item function. This is cached, so avoid using functions with varying results.
@@ -2705,7 +2705,7 @@ class Character : public Creature, public visitable
                                bool( item::*filter_func )() const,
                                const std::function<void( item & )> &do_func ) const;
         /**
-        * @brief Find if the character has an item that has the given flag and/or passes the given boolean item function, using or creating caches from @ref inv_search_caches.
+        * @brief Returns true if the character has an item with given flag and/or that passes the given boolean item function, using or creating caches from @ref inv_search_caches.
         * @brief If you want to iterate over the entire cache, `do_to_items_with` should be used instead, as it's more optimized for processing entire caches.
         * @param flag Look for items with this flag.
         * @param key A string to use as the cache's key. Should usually be the same name as filter_func. Unneeded if checking only for a flag.
@@ -2727,7 +2727,7 @@ class Character : public Creature, public visitable
         bool has_any_item_with_flag_and_charges( const flag_id &flag ) const;
 
         /**
-         * @brief Fetches all items that has the given flag and/or passes the given boolean item function, using or creating caches from @ref inv_search_caches.
+         * @brief Returns all items with the given flag and/or that pass the given boolean item function, using or creating caches from @ref inv_search_caches.
          * @param flag Only get items with this flag.
          * @param key A string to use as the cache's key. Should usually be the same name as filter_func. Unneeded if checking only for a flag.
          * @param filter_func Only get items that return true with this boolean item function.
@@ -2735,19 +2735,19 @@ class Character : public Creature, public visitable
          * If it returns true, the item is added to the return vector. These results are not cached, unlike filter_func.
          * @return A vector of pointers to all items that pass the criteria.
          */
-        std::vector<item *> get_items_with( const flag_id &flag,
+        std::vector<item *> all_items_with( const flag_id &flag,
                                             const std::function<bool( item & )> &do_and_check_func = return_true<item> );
-        std::vector<item *> get_items_with( const std::string &key, bool( item::*filter_func )() const,
+        std::vector<item *> all_items_with( const std::string &key, bool( item::*filter_func )() const,
                                             const std::function<bool( item & )> &do_and_check_func = return_true<item> );
-        std::vector<item *> get_items_with( const std::string &key, const flag_id &flag,
+        std::vector<item *> all_items_with( const std::string &key, const flag_id &flag,
                                             bool( item::*filter_func )() const,
                                             const std::function<bool( item & )> &do_and_check_func = return_true<item> );
-        std::vector<const item *> get_items_with( const flag_id &flag,
+        std::vector<const item *> all_items_with( const flag_id &flag,
                 const std::function<bool( const item & )> &do_and_check_func = return_true<item> ) const;
-        std::vector<const item *> get_items_with( const std::string &key,
+        std::vector<const item *> all_items_with( const std::string &key,
                 bool( item::*filter_func )() const,
                 const std::function<bool( const item & )> &do_and_check_func = return_true<item> ) const;
-        std::vector<const item *> get_items_with( const std::string &key, const flag_id &flag,
+        std::vector<const item *> all_items_with( const std::string &key, const flag_id &flag,
                 bool( item::*filter_func )() const,
                 const std::function<bool( const item & )> &do_and_check_func = return_true<item> ) const;
         /**
