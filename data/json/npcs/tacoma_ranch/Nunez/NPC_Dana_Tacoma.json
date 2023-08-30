@@ -1,10 +1,85 @@
 [
   {
+    "type": "npc",
+    "id": "tacoma_DanaNunez",
+    "name_unique": "Dana Nunez",
+    "gender": "female",
+    "name_suffix": "baker",
+    "class": "NC_TACOMA_Dana",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_TACOMA_Dana_1",
+    "faction": "free_merchants",
+    "age": 26,
+    "height": 164,
+    "str": 8,
+    "dex": 9,
+    "int": 9,
+    "per": 11,
+    "personality": { "aggression": -2, "bravery": -1, "collector": 1, "altruism": 4 }
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_BAKER_Dana",
+    "name": { "str": "baker" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "Dana is a young woman who survived with her husband, but she was pregnant and lost the baby.  This class def is for after she moves to Tacoma.",
+    "worn_override": "TACOMA_Dana_worn",
+    "carry_override": "TACOMA_Dana_carried",
+    "weapon_override": "EMPTY_GROUP",
+    "traits": [
+      { "trait": "PAINRESIST" },
+      { "trait": "MYOPIC" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" },
+      { "trait": "hair_red_medium" },
+      { "trait": "SKIN_LIGHT" },
+      { "trait": "eye_color", "variant": "blue" }
+    ],
+    "skills": [
+      { "skill": "cooking", "bonus": 6 },
+      { "skill": "cutting", "bonus": 3 },
+      { "skill": "driving", "bonus": 2 },
+      { "skill": "fabrication", "bonus": 1 },
+      { "skill": "melee", "bonus": 3 },
+      { "skill": "speech", "bonus": 1 },
+      { "skill": "survival", "bonus": 1 },
+      { "skill": "unarmed", "bonus": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "TACOMA_Dana_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bra" },
+      { "item": "panties" },
+      { "item": "socks" },
+      { "item": "longshirt" },
+      { "item": "jeans" },
+      { "item": "belt" },
+      { "item": "jacket_leather" },
+      { "item": "apron_leather" },
+      { "item": "boots" },
+      { "item": "purse" },
+      { "item": "glock_17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
+      { "item": "machete", "container-item": "scabbard" },
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "TACOMA_Dana_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "bandages", "count": 3 } ]
+  },
+  {
     "type": "talk_topic",
     "id": "TALK_TACOMA_Dana_1",
     "dynamic_line": "*stands in the middle of a cramped kitchen, covered in flour.  The scene looks reminiscent of easier times, but the illusion is broken as he apron shifts to reveal a heavy machete and holstered pistol on  her belt.  She looks up as you approach, then beams in recognition. \"Welcome to Dana's Bakery, stranger!\"  She laughs brightly.  \"Glad you made out this way.  What can I do for you?\"",
     "responses": [
       { "text": "Hi Dana, how are things here?", "topic": "TALK_TACOMA_Dana_2" },
+      { "text": "Got any bread for sale?", "topic": "TALK_TACOMA_Dana_Baking" },
       { "text": "Hello, Dana!  What's with the trailer?", "topic": "TALK_TACOMA_Dana_Trailer1" },
       {
         "text": "Hey, Pablo!  Dana said you had some plans to build a bakery?",
@@ -28,6 +103,14 @@
       { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
     ]
   },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Dana_Baking",
+    "//": "Remainder of this topic is stored in npcs/surface_refugees/NPC_Dana_Nunez.json with her other refugee talk_topics.",
+    "responses": [
+      { "text": "I'll look into that.  What were you saying before?.", "topic": "TALK_NONE" }
+      { "text": "I'll look into that.  I'd better get going though.", "topic": "TALK_DONE" }
+    ]
   {
     "type": "talk_topic",
     "id": "TALK_TACOMA_Dana_Trailer1",
