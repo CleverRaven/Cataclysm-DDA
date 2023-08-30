@@ -8930,30 +8930,30 @@ void Character::do_to_items_with( const std::string &key, const flag_id &flag,
 }
 
 bool Character::has_any_item_with( const flag_id &flag,
-                                   const std::function<bool( item & )> &do_and_check_func ) const
+                                   const std::function<bool( const item & )> &check_func ) const
 {
-    return has_any_item_with( "HAS FLAG " + flag.str(), flag, nullptr, do_and_check_func );
+    return has_any_item_with( "HAS FLAG " + flag.str(), flag, nullptr, check_func );
 }
 
 bool Character::has_any_item_with( const std::string &key, bool( item::*filter_func )() const,
-                                   const std::function<bool( item & )> &do_and_check_func ) const
+                                   const std::function<bool( const item & )> &check_func ) const
 {
-    return has_any_item_with( key, {}, filter_func, do_and_check_func );
+    return has_any_item_with( key, {}, filter_func, check_func );
 }
 
 bool Character::has_any_item_with( const std::string &key, const flag_id &flag,
                                    bool( item::*filter_func )() const,
-                                   const std::function<bool( item & )> &do_and_check_func ) const
+                                   const std::function<bool( const item & )> &check_func ) const
 {
     bool aborted = false;
 
-    // If the cache already exists, use it. Stop iterating if the do_and_check_func ever returns true. Remove any invalid item references encountered.
+    // If the cache already exists, use it. Stop iterating if the check_func ever returns true. Remove any invalid item references encountered.
     auto found_cache = inv_search_caches.find( key );
     if( found_cache != inv_search_caches.end() ) {
         for( auto iter = found_cache->second.items.begin();
              iter != found_cache->second.items.end(); ) {
             if( *iter ) {
-                if( do_and_check_func( **iter ) ) {
+                if( check_func( **iter ) ) {
                     aborted = true;
                     break;
                 }
@@ -8971,8 +8971,8 @@ bool Character::has_any_item_with( const std::string &key, const flag_id &flag,
                 ( filter_func == nullptr || ( it->*filter_func )() ) ) {
 
                 inv_search_caches[key].items.push_back( it->get_safe_reference() );
-                // If do_and_check_func returns true, stop running it but keep populating the cache.
-                if( !aborted && do_and_check_func( *it ) ) {
+                // If check_func returns true, stop running it but keep populating the cache.
+                if( !aborted && check_func( *it ) ) {
                     aborted = true;
                 }
             }
@@ -9016,25 +9016,25 @@ std::vector<item *> Character::all_items_with( const std::string &key, const fla
 }
 
 std::vector<const item *> Character::all_items_with( const flag_id &flag,
-        const std::function<bool( const item & )> &do_and_check_func ) const
+        const std::function<bool( const item & )> &check_func ) const
 {
-    all_items_with( "HAS FLAG " + flag.str(), flag, nullptr, do_and_check_func );
+    all_items_with( "HAS FLAG " + flag.str(), flag, nullptr, check_func );
 }
 
 std::vector<const item *> Character::all_items_with( const std::string &key,
         bool( item::*filter_func )() const,
-        const std::function<bool( const item & )> &do_and_check_func ) const
+        const std::function<bool( const item & )> &check_func ) const
 {
-    all_items_with( key, {}, filter_func, do_and_check_func );
+    all_items_with( key, {}, filter_func, check_func );
 }
 
 std::vector<const item *> Character::all_items_with( const std::string &key, const flag_id &flag,
         bool( item::*filter_func )() const,
-        const std::function<bool( const item & )> &do_and_check_func ) const
+        const std::function<bool( const item & )> &check_func ) const
 {
     std::vector<const item *> ret;
-    do_to_items_with( key, flag, filter_func, [&ret, &do_and_check_func]( const item & it ) {
-        if( do_and_check_func( it ) ) {
+    do_to_items_with( key, flag, filter_func, [&ret, &check_func]( const item & it ) {
+        if( check_func( it ) ) {
             ret.push_back( &it );
         }
     } );

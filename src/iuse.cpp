@@ -7363,9 +7363,9 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint & 
             }
         }
 
-        if( p->has_any_item_with( flag_RADIO_CONTAINER, [&p, &signal]( item & it ) {
-        item *itm = it.get_item_with( [&]( const item & c ) {
-            return c.has_flag( flag_BOMB ) && c.has_flag( signal );
+        if( p->has_any_item_with( flag_RADIO_CONTAINER, [&p, &signal]( const item & it ) {
+        item *itm = const_cast<item &>( it ).get_item_with( [&]( const item & c ) {
+                return c.has_flag( flag_BOMB ) && c.has_flag( signal );
             } );
 
             if( itm != nullptr ) {
