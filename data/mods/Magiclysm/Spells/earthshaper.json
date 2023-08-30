@@ -897,11 +897,13 @@
     "spell_class": "EARTHSHAPER",
     "energy_source": "MANA",
     "shape": "blast",
-    "difficulty": 4,
+    "difficulty": 9,
     "effect": "effect_on_condition",
     "effect_str": "EOC_EARTHSHAPER_GRANITE_AEGIS",
-    "base_casting_time": 100,
-    "base_energy_cost": 1000
+    "base_casting_time": 150,
+    "final_casting_time": 100,
+    "casting_time_increment": -5,
+    "base_energy_cost": 750
   },
   {
     "type": "effect_on_condition",
