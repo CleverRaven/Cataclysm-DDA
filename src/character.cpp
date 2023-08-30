@@ -8888,13 +8888,13 @@ bool Character::in_sleep_state() const
 void Character::do_to_items_with( const flag_id &flag,
                                   const std::function<void( item & )> &do_func ) const
 {
-    return do_to_items_with( "HAS FLAG " + flag.str(), flag, nullptr, do_func );
+    do_to_items_with( "HAS FLAG " + flag.str(), flag, nullptr, do_func );
 }
 
 void Character::do_to_items_with( const std::string &key, bool( item::*filter_func )() const,
                                   const std::function<void( item & )> &do_func ) const
 {
-    return do_to_items_with( key, {}, filter_func, do_func );
+    do_to_items_with( key, {}, filter_func, do_func );
 }
 
 void Character::do_to_items_with( const std::string &key, const flag_id &flag,
@@ -8992,14 +8992,14 @@ bool Character::has_any_item_with_flag_and_charges( const flag_id &flag ) const
 std::vector<item *> Character::all_items_with( const flag_id &flag,
         const std::function<bool( item & )> &do_and_check_func )
 {
-    all_items_with( "HAS FLAG " + flag.str(), flag, nullptr, do_and_check_func );
+    return all_items_with( "HAS FLAG " + flag.str(), flag, nullptr, do_and_check_func );
 }
 
 std::vector<item *> Character::all_items_with( const std::string &key,
         bool( item::*filter_func )() const,
         const std::function<bool( item & )> &do_and_check_func )
 {
-    all_items_with( key, {}, filter_func, do_and_check_func );
+    return all_items_with( key, {}, filter_func, do_and_check_func );
 }
 
 std::vector<item *> Character::all_items_with( const std::string &key, const flag_id &flag,
@@ -9018,14 +9018,14 @@ std::vector<item *> Character::all_items_with( const std::string &key, const fla
 std::vector<const item *> Character::all_items_with( const flag_id &flag,
         const std::function<bool( const item & )> &check_func ) const
 {
-    all_items_with( "HAS FLAG " + flag.str(), flag, nullptr, check_func );
+    return all_items_with( "HAS FLAG " + flag.str(), flag, nullptr, check_func );
 }
 
 std::vector<const item *> Character::all_items_with( const std::string &key,
         bool( item::*filter_func )() const,
         const std::function<bool( const item & )> &check_func ) const
 {
-    all_items_with( key, {}, filter_func, check_func );
+    return all_items_with( key, {}, filter_func, check_func );
 }
 
 std::vector<const item *> Character::all_items_with( const std::string &key, const flag_id &flag,
