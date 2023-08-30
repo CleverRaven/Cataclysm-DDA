@@ -3366,12 +3366,9 @@ std::vector<item *> Character::get_cable_ups()
 {
     std::vector<item *> stored_fuels;
 
-    int n = 0;
-    do_to_items_with( flag_CABLE_SPOOL, [&n]( const item & it ) {
-        if( it.link && it.link->has_states( link_state::ups, link_state::bio_cable ) ) {
-            n++;
-        }
-    } );
+    int n = get_items_with( flag_CABLE_SPOOL, [&n]( const item & it ) {
+        return it.link && it.link->has_states( link_state::ups, link_state::bio_cable );
+    } ).size();
     if( n == 0 ) {
         return stored_fuels;
     }
@@ -3401,12 +3398,9 @@ std::vector<item *> Character::get_cable_solar()
 {
     std::vector<item *> solar_sources;
 
-    int n = 0;
-    do_to_items_with( flag_CABLE_SPOOL, [&n]( const item & it ) {
-        if( it.link && it.link->has_states( link_state::solarpack, link_state::bio_cable ) ) {
-            n++;
-        }
-    } );
+    int n = get_items_with( flag_CABLE_SPOOL, [&n]( const item & it ) {
+        return it.link && it.link->has_states( link_state::solarpack, link_state::bio_cable );
+    } ).size();
     if( n == 0 ) {
         return solar_sources;
     }
@@ -3434,13 +3428,10 @@ std::vector<vehicle *> Character::get_cable_vehicle() const
 {
     std::vector<vehicle *> remote_vehicles;
 
-    std::vector<const item *> cables;
-    do_to_items_with( flag_CABLE_SPOOL, [&cables]( const item & it ) {
-        if( it.link && it.link->has_state( link_state::bio_cable ) &&
-            ( it.link->has_state( link_state::vehicle_battery ) ||
-              it.link->has_state( link_state::vehicle_port ) ) ) {
-            cables.push_back( &it );
-        }
+    std::vector<const item *> cables = get_items_with( flag_CABLE_SPOOL, [&cables]( const item & it ) {
+        return it.link && it.link->has_state( link_state::bio_cable ) &&
+               ( it.link->has_state( link_state::vehicle_battery ) ||
+                 it.link->has_state( link_state::vehicle_port ) );
     } );
     int n = cables.size();
     if( n == 0 ) {

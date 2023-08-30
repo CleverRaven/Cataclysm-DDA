@@ -8898,7 +8898,8 @@ void Character::do_to_items_with( const std::string &key, bool( item::*filter_fu
 }
 
 void Character::do_to_items_with( const std::string &key, const flag_id &flag,
-                                  bool( item::*filter_func )() const, const std::function<void( item & )> &do_func ) const
+                                  bool( item::*filter_func )() const,
+                                  const std::function<void( item & )> &do_func ) const
 {
     // If the cache already exists, use it. Remove all invalid item references.
     auto found_cache = inv_search_caches.find( key );
@@ -8983,36 +8984,59 @@ bool Character::has_any_item_with( const std::string &key, const flag_id &flag,
 
 bool Character::has_any_item_with_flag_and_charges( const flag_id &flag ) const
 {
-    return has_any_item_with( "HAS FLAG " + flag.str(), flag, nullptr, [&]( const item & it ) {
+    return has_any_item_with( "HAS FLAG " + flag.str(), flag, nullptr, [this]( const item & it ) {
         return !it.is_tool() || it.type->tool->max_charges == 0 || it.ammo_remaining( this ) > 0;
     } );
 }
 
-std::vector<item *> Character::get_items_with( const flag_id &flag ) const
+std::vector<item *> Character::get_items_with( const flag_id &flag,
+        const std::function<bool( item & )> &do_and_check_func )
 {
-    std::vector<item *> ret;
-    do_to_items_with( "HAS FLAG " + flag.str(), flag, nullptr, [&ret]( item & it ) {
-        ret.push_back( &it );
-    } );
-    return ret;
+    get_items_with( "HAS FLAG " + flag.str(), flag, nullptr, do_and_check_func );
 }
 
 std::vector<item *> Character::get_items_with( const std::string &key,
-        bool( item::*filter_func )() const ) const
+        bool( item::*filter_func )() const,
+        const std::function<bool( item & )> &do_and_check_func )
+{
+    get_items_with( key, {}, filter_func, do_and_check_func );
+}
+
+std::vector<item *> Character::get_items_with( const std::string &key, const flag_id &flag,
+        bool( item::*filter_func )() const,
+        const std::function<bool( item & )> &do_and_check_func )
 {
     std::vector<item *> ret;
-    do_to_items_with( key, {}, filter_func, [&ret]( item & it ) {
-        ret.push_back( &it );
+    do_to_items_with( key, flag, filter_func, [&ret, &do_and_check_func]( item & it ) {
+        if( do_and_check_func( it ) ) {
+            ret.push_back( &it );
+        }
     } );
     return ret;
 }
 
-std::vector<item *> Character::get_items_with( const std::string &key, const flag_id &flag,
-        bool( item::*filter_func )() const ) const
+std::vector<const item *> Character::get_items_with( const flag_id &flag,
+        const std::function<bool( const item & )> &do_and_check_func ) const
 {
-    std::vector<item *> ret;
-    do_to_items_with( key, flag, filter_func, [&ret]( item & it ) {
-        ret.push_back( &it );
+    get_items_with( "HAS FLAG " + flag.str(), flag, nullptr, do_and_check_func );
+}
+
+std::vector<const item *> Character::get_items_with( const std::string &key,
+        bool( item::*filter_func )() const,
+        const std::function<bool( const item & )> &do_and_check_func ) const
+{
+    get_items_with( key, {}, filter_func, do_and_check_func );
+}
+
+std::vector<const item *> Character::get_items_with( const std::string &key, const flag_id &flag,
+        bool( item::*filter_func )() const,
+        const std::function<bool( const item & )> &do_and_check_func ) const
+{
+    std::vector<const item *> ret;
+    do_to_items_with( key, flag, filter_func, [&ret, &do_and_check_func]( const item & it ) {
+        if( do_and_check_func( it ) ) {
+            ret.push_back( &it );
+        }
     } );
     return ret;
 }
@@ -11998,11 +12022,8 @@ void Character::process_items()
 
     // Load all items that use the UPS and have their own battery to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
-    std::vector<item *> inv_use_ups;
-    do_to_items_with( flag_USE_UPS, [&inv_use_ups]( item & it ) {
-        if( it.ammo_data() ) {
-            inv_use_ups.push_back( &it );
-        }
+    std::vector<item *> inv_use_ups = get_items_with( flag_USE_UPS, [&inv_use_ups]( item & it ) {
+        return !!it.ammo_data();
     } );
     if( !inv_use_ups.empty() ) {
         const units::energy available_charges = available_ups();
