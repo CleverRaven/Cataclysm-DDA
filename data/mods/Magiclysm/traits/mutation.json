@@ -54,7 +54,7 @@
     "cancels": [ "MANA_SUB1", "MANA_SUB2", "MANA_SUB3" ],
     "changes_to": [ "MANA_ADD2" ],
     "types": [ "MANA_ADD" ],
-    "category": [ "DRAGON_BLACK", "MANATOUCHED", "SPECIES_ELF" ],
+    "category": [ "DRAGON_BLACK", "MANATOUCHED", "SPECIES_ELF", "SPECIES_RAVENFOLK" ],
     "starting_trait": true,
     "flags": [ "NON_THRESH" ],
     "mana_modifier": 500
@@ -96,7 +96,7 @@
     "description": "You are able to store a little less mana in your body than usual.",
     "cancels": [ "MANA_ADD1", "MANA_ADD2", "MANA_ADD3" ],
     "changes_to": [ "MANA_SUB2" ],
-    "category": [ "SPECIES_DWARF" ],
+    "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ],
     "types": [ "MANA_ADD" ],
     "flags": [ "NON_THRESH" ],
     "mana_modifier": -500
@@ -178,7 +178,7 @@
     "cancels": [ "MANA_REGEN1", "MANA_REGEN2", "MANA_REGEN3" ],
     "changes_to": [ "BAD_MANA_REGEN2" ],
     "types": [ "MANA_REGEN" ],
-    "category": [ "LIZARD", "BEAST", "LUPINE", "URSINE", "CATTLE", "SLIME", "MEDICAL", "CHIMERA" ],
+    "category": [ "LIZARD", "BEAST", "LUPINE", "URSINE", "CATTLE", "SLIME", "MEDICAL", "CHIMERA", "SPECIES_GOBLIN" ],
     "starting_trait": true,
     "flags": [ "NON_THRESH" ],
     "mana_regen_multiplier": 0.9
@@ -232,7 +232,8 @@
       "ELFA",
       "MANATOUCHED",
       "DRAGON_BLACK",
-      "SPECIES_ELF"
+      "SPECIES_ELF",
+      "SPECIES_RAVENFOLK"
     ],
     "starting_trait": true,
     "flags": [ "NON_THRESH" ],
