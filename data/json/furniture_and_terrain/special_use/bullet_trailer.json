@@ -17,6 +17,7 @@
     "copy-from": "t_scrap_wall",
     "description": "A smooth wall of gleaming chrome, slightly dusty from the road.",
     "delete": { "flags": [ "NOITEM" ] },
+    "symbol": "|",
     "color": "light_gray"
   },
   {
