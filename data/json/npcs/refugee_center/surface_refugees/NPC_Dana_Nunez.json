@@ -128,9 +128,9 @@
         "condition": { "u_has_var": "Pablo_ask_recruit", "type": "recruit", "context": "general", "value": "yes" }
       },
       {
-        "text": "About that sourdough starter you had me looking for…",
-        "topic": "TALK_MISSION_INQUIRE",
-        "condition": { "u_has_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "in_progress" }
+        "text": "I've got your sourdough.",
+        "topic": "TALK_DANA_Sourdough3",
+        "condition": { "u_has_item": "landough_calrisean" }
       },
       {
         "text": "Got any more bread I can trade flour for?",
@@ -325,7 +325,7 @@
       },
       "yes": "Not since I last saw you, sorry.  Come by tomorrow and I'll try to keep a loaf set aside for you, but they disappear fast."
     },
-    "speaker_effect": { "effect": { "u_add_var": "Dana_Bread_Sales", "type": "knowledge", "context": "trade", "value": "yes" } }
+    "speaker_effect": { "effect": { "u_add_var": "Dana_Bread_Sales", "type": "knowledge", "context": "trade", "value": "yes" } },
     "responses": [
       {
         "text": "[BARTER] Is that the lowest you can go?  I'd love some bread, but I can't quite make that.",
@@ -371,9 +371,7 @@
     "dynamic_line": "Sorry, it's not something I can bend on.  I don't make a big profit off this, I use what I get to make more bread.  If I cut you a deal, I'll run out of supplies.",
     "//": "see above for responses to buy bread at original price.",
     "speaker_effect": { "effect": { "npc_add_effect": "dana_barter_fail", "duration": "24 h" } },
-    "responses": [
-      { "text": "Thanks, but I think I'll pass.  I gotta run.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Thanks, but I think I'll pass.  I gotta run.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -414,10 +412,48 @@
     "responses": [
       {
         "text": "You seem pretty unhappy about the quality of your bread.  Is there something I can do to help?",
-        "topic": "TALK_MISSION_LIST",
+        "topic": "TALK_DANA_SOURDOUGH",
         "condition": { "not": { "u_has_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "yes" } }
       },
       { "text": "It smells awesome.  I'm going to head out now, thanks!", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DANA_Sourdough",
+    "dynamic_line": "Sure.  If you really like this second-rate bread, you could risk your life for something actually worth it.  I left my actual sourdough starter back in the bakery where I worked.  That baby is a hundred years old, and has been in my family for generations… if you can bring him to me, I'll bake you the finest bread you've ever had.",
+    "responses": [
+      {
+        "text": "Why not?  I'll see what I can do.",
+        "effect": [
+          { "assign_mission": "MISSION_REFUGEE_Dana_Sourdough" },
+          { "u_add_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "yes" }
+        ],
+        "topic": "TALK_DANA_Sourdough2"
+      },
+      { "text": "Maybe not right now, I think I'd better go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DANA_Sourdough2",
+    "dynamic_line": "Take care of yourself out there.\"  She jots down directions to her bakery and hands them to you.  \"His name is Landough, Landough Calrisean.  He'll be in the right-hand fridge, in a jar with a picture of the Millennium Falcon on it.  And listen, when you bring my sourdough back, I don't want to see a scratch on him, you understand?",
+    "responses": [
+      { "text": "Right.  Sure.", "topic": "TALK_DONE" },
+      {
+        "text": "All right, old buddy.  You know, I know what he means to you.  I'll take good care of him, so that he won't get a scratch.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DANA_Sourdough3",
+    "dynamic_line": "*takes the jar from you eagerly, studying it with care.  \"He's been through a lot, hasn't he.  Poor guy.  Aw man.\"  She turns back to you, beaming.  \"Oh, you will not regret this.  He may not look like much, but he's got it where it counts, kid.  It's gonna take me a few days to revive him after being abandoned so long, but he'll be operational soon and then you can come back for some real bread.\"  She frowns.  \"I don't really have much to give you in return, but I'll cut you a deal on bread if that helps.\"",
+    "speaker_effect": { "effect": [ { "u_sell_item": "landough_calrisean" }, { "finish_mission": "MISSION_REFUGEE_Dana_Sourdough" } ] },
+    "responses": [
+      { "text": "I'll hold you to that.", "topic": "TALK_DONE" },
+      { "text": "I'm just glad to help.", "topic": "TALK_DONE" }
     ]
   },
   {
