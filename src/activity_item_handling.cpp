@@ -2220,11 +2220,11 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 if( dest_set.empty() || unload_always ) {
                     if( you.rate_action_unload( *it->first ) == hint_rating::good &&
                         !it->first->any_pockets_sealed() ) {
-                        std::unordered_map<std::string, int> item_counts;
+                        std::unordered_map<itype_id, int> item_counts;
                         if( unload_sparse_only ) {
                             for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                                 if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
-                                    item_counts[contained->typeId().str()]++;
+                                    item_counts[contained->typeId()]++;
                                 }
                             }
                         }
@@ -2232,7 +2232,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                             // no liquids don't want to spill stuff
                             if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                                 if( unload_sparse_only &&
-                                    item_counts[contained->typeId().str()] > unload_sparse_threshold ) {
+                                    item_counts[contained->typeId()] > unload_sparse_threshold ) {
                                     continue;
                                 }
                                 move_item( you, *contained, contained->count(), src_loc, src_loc, vpr_src );
