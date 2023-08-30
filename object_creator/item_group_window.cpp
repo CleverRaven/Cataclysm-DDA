@@ -162,15 +162,18 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     scrollArea->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding ) );
     scrollArea->setWidgetResizable( true );
 
-    item_group_json.setMinimumSize( QSize( 600, 500 ) );
-    item_group_json.setMaximumWidth(700);
-    item_group_json.setReadOnly( true );
-    mainColumn3->addWidget( &item_group_json );
-
     group_container = new nested_group_container( scrollArea, this );
     scrollArea->setWidget( group_container );
     mainColumn2->addWidget( scrollArea );
 
+
+    // =========================================================================================
+    // third column
+
+    item_group_json.setMinimumSize( QSize( 400, 300 ) );
+    item_group_json.setMaximumWidth(500);
+    item_group_json.setReadOnly( true );
+    mainColumn3->addWidget( &item_group_json );
 
     // =========================================================================================
     // Finalize
