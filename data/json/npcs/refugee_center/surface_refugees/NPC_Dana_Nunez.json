@@ -10,7 +10,14 @@
     "mission": 7,
     "chat": "TALK_REFUGEE_Dana_1_firstmeet",
     "faction": "free_merchants",
-    "mission_offered": "MISSION_REFUGEE_Dana_Sourdough"
+    "mission_offered": "MISSION_REFUGEE_Dana_Sourdough",
+    "age": 26,
+    "height": 164,
+    "str": 8,
+    "dex": 9,
+    "int": 9,
+    "per": 11,
+    "personality": { "aggression": -10, "bravery": -5, "collector": 1, "altruism": 4 }
   },
   {
     "type": "npc_class",
@@ -19,10 +26,6 @@
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Dana is a young woman who survived with her husband, but she was pregnant and lost the baby.",
-    "bonus_str": { "rng": [ -2, 2 ] },
-    "bonus_dex": { "rng": [ 0, 4 ] },
-    "bonus_int": { "rng": [ -2, 2 ] },
-    "bonus_per": { "rng": [ -2, 2 ] },
     "worn_override": "REFUGEE_Dana_worn",
     "carry_override": "REFUGEE_Dana_carried",
     "weapon_override": "REFUGEE_Dana_wield",
@@ -31,13 +34,17 @@
       { "trait": "MYOPIC" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" },
-      { "group": "Appearance_Irish" }
+      { "trait": "hair_red_medium" },
+      { "trait": "SKIN_LIGHT" },
+      { "trait": "eye_color", "variant": "blue" }
     ],
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
-      { "skill": "cooking", "bonus": { "rng": [ 4, 6 ] } },
-      { "skill": "unarmed", "bonus": { "rng": [ 1, 2 ] } },
-      { "skill": "melee", "bonus": { "rng": [ 0, 1 ] } }
+      { "skill": "cooking", "bonus": 6 },
+      { "skill": "cutting", "bonus": 1 },
+      { "skill": "driving", "bonus": 2 },
+      { "skill": "melee", "bonus": 1 },
+      { "skill": "speech", "bonus": 1 },
+      { "skill": "unarmed", "bonus": 1 }
     ]
   },
   {
@@ -187,6 +194,7 @@
     "//": "Common 'buy bread' dialogue options put here to avoid reprinting.",
     "id": [
       "TALK_REFUGEE_Dana_Background_baking",
+      "TALK_TACOMA_Dana_Baking",
       "TALK_REFUGEE_Dana_Background_baking_nobarter",
       "TALK_REFUGEE_Dana_Background_baking2_yesbarter"
     ],
@@ -304,7 +312,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Dana_Background_baking",
+    "id": [ "TALK_REFUGEE_Dana_Background_baking", "TALK_TACOMA_Dana_Baking" ],
     "dynamic_line": {
       "npc_has_effect": "dana_baking_sold",
       "no": {
@@ -317,7 +325,7 @@
       },
       "yes": "Not since I last saw you, sorry.  Come by tomorrow and I'll try to keep a loaf set aside for you, but they disappear fast."
     },
-    "speaker_effect": { "effect": { "u_add_var": "Dana_Bread_Sales", "type": "knowledge", "context": "trade", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "Dana_Bread_Sales", "type": "knowledge", "context": "trade", "value": "yes" } }
     "responses": [
       {
         "text": "[BARTER] Is that the lowest you can go?  I'd love some bread, but I can't quite make that.",
@@ -346,7 +354,13 @@
         "trial": { "type": "PERSUADE", "difficulty": 5 },
         "failure": { "topic": "TALK_REFUGEE_Dana_Background_baking2_nobarter" },
         "success": { "topic": "TALK_REFUGEE_Dana_Background_baking2_yesbarter" }
-      },
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Dana_Background_baking",
+    "responses": [
       { "text": "Thanks, can we talk about something else?", "topic": "TALK_REFUGEE_Dana_1" },
       { "text": "I'll look into that.  I'd better get going though.", "topic": "TALK_DONE" }
     ]
@@ -358,7 +372,6 @@
     "//": "see above for responses to buy bread at original price.",
     "speaker_effect": { "effect": { "npc_add_effect": "dana_barter_fail", "duration": "24 h" } },
     "responses": [
-      { "text": "Well, I tried.  Can we talk about something else?", "topic": "TALK_REFUGEE_Dana_1" },
       { "text": "Thanks, but I think I'll pass.  I gotta run.", "topic": "TALK_DONE" }
     ]
   },
@@ -404,7 +417,6 @@
         "topic": "TALK_MISSION_LIST",
         "condition": { "not": { "u_has_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "yes" } }
       },
-      { "text": "Thanks, can we talk about something else?", "topic": "TALK_REFUGEE_Dana_1" },
       { "text": "It smells awesome.  I'm going to head out now, thanks!", "topic": "TALK_DONE" }
     ]
   },
