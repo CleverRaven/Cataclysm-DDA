@@ -1,6 +1,5 @@
 #include "mod_selection_window.h"
 
-#include <QtCore/QSettings>
 
 creator::mod_selection_window::mod_selection_window( QWidget *parent, Qt::WindowFlags flags )
     : QWidget ( parent, flags )
@@ -22,22 +21,23 @@ creator::mod_selection_window::mod_selection_window( QWidget *parent, Qt::Window
 
     //Does nothing on it's own but once settings.setvalue() is called it will create
     //an ini file in C:\Users\User\AppData\Roaming\CleverRaven or equivalent directory
-    QSettings settings( QSettings::IniFormat, QSettings::UserScope,
+    settings = new QSettings( QSettings::IniFormat, QSettings::UserScope,
                         "CleverRaven", "Cataclysm - DDA" );
 
-    dual_list_box* mods_box = new dual_list_box();
-    mods_box->initialize( all_mods );
-    mod_layout->addWidget( mods_box );
 
-    //The user's mod selection gets saved to a file
-    QObject::connect( mods_box, &dual_list_box::pressed, [&]() {
-        settings.setValue( "mods/include", mods_box->get_included() );
+    mods_box.initialize( all_mods );
+    mod_layout->addWidget( &mods_box );
+
+    //When one of the buttons on the mods_box is pressed,
+    //Get all items from the included list and save them to the ini file
+    QObject::connect( &mods_box, &dual_list_box::pressed, [&]() {
+        settings->setValue( "mods/include", mods_box.get_included() );
     } );
 
     //A previous selection of mods is loaded from disk and applied to the modlist widget
-    if( settings.contains( "mods/include" ) ) {
-        QStringList modlist = settings.value( "mods/include" ).value<QStringList>();
-        mods_box->set_included( modlist );
+    if( settings->contains( "mods/include" ) ) {
+        QStringList modlist = settings->value( "mods/include" ).value<QStringList>();
+        mods_box.set_included( modlist );
     }
 
 }

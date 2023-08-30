@@ -5,11 +5,11 @@
 #include <QtWidgets/qframe.h>
 #include <QtWidgets/qlabel.h>
 #include <QtWidgets/qspinbox.h>
+#include <QtCore/QSettings>
 
 #include "dual_list_box.h"
 #include "mod_manager.h"
 #include "worldfactory.h"
-
 
 
 namespace creator
@@ -30,6 +30,8 @@ class mod_selection_window : public QWidget
         }
 
     private:
+        dual_list_box mods_box;
+        QSettings* settings;
 };
 }
 
