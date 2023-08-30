@@ -16,7 +16,7 @@
     "name": "bullet trailer exterior wall",
     "copy-from": "t_scrap_wall",
     "description": "A smooth wall of gleaming chrome, slightly dusty from the road.",
-    "delete": { "flags": [ "NOITEM" ] },
+    "flags": [ "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "symbol": "LINE_OXOX",
     "color": "light_gray"
   },
@@ -28,7 +28,7 @@
   {
     "type": "terrain",
     "id": "t_bullettrailer_nwall_window",
-    "extend": { "flags": [ "TRANSPARENT" ] },
+    "flags": [ "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "TRANSPARENT" ],
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
   {
@@ -69,8 +69,7 @@
   {
     "type": "terrain",
     "id": "t_bullettrailer_swall_windows",
-    "extend": { "flags": [ "TRANSPARENT" ] },
-    "copy-from": "t_bullettrailer_swall_westcorner"
+    "copy-from": "t_bullettrailer_nwall_window"
   },
   {
     "type": "terrain",
@@ -80,8 +79,7 @@
   {
     "type": "terrain",
     "id": "t_bullettrailer_swall_wheels",
-    "extend": { "flags": [ "TRANSPARENT" ] },
-    "copy-from": "t_bullettrailer_swall_westcorner"
+    "copy-from": "t_bullettrailer_nwall_window"
   },
   {
     "type": "terrain",
