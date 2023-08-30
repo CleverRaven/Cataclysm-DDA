@@ -22,10 +22,7 @@
     "update_mapgen_id": "refcenter_nunez_departure",
     "//": "removes pablo and dana nunez from the refugee center",
     "object": {
-      "remove_npcs": [
-        { "class": "refugee_DanaNunez", "x": 11, "y": 13 },
-        { "class": "refugee_PabloNunez", "x": 11, "y": 12 }
-      ]
+      "remove_npcs": [ { "class": "refugee_DanaNunez", "x": 11, "y": 13 }, { "class": "refugee_PabloNunez", "x": 11, "y": 12 } ]
     }
   },
   {
@@ -35,10 +32,7 @@
     "//": "In addition to basic mapgen, adds some point variables in the hopes that I can add some passive movement animations for pablo and dana.",
     "object": {
       "place_nested": [ { "chunks": [ "nunez_trailer" ], "x": 0, "y": 17 } ],
-      "place_npcs": [
-        { "class": "tacoma_DanaNunez", "x": 4, "y": 19 },
-        { "class": "tacoma_PabloNunez", "x": 4, "y": 20 }
-      ]
+      "place_npcs": [ { "class": "tacoma_DanaNunez", "x": 4, "y": 19 }, { "class": "tacoma_PabloNunez", "x": 4, "y": 20 } ],
       "set": [
         { "point": "variable", "id": "Pablo_relax", "x": 4, "y": 20 },
         { "point": "variable", "id": "Dana_baking", "x": 4, "y": 19 }
