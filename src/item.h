@@ -169,6 +169,23 @@ struct iteminfo {
         iteminfo( const std::string &Type, const std::string &Name, double Value, double UnitVal = 0 );
 };
 
+struct stacking_info {
+    item const *base = nullptr;
+    itype const *type = nullptr;
+    itype_variant_data const *variant = nullptr;
+    item_category const *category_ = nullptr;
+
+    stacking_info() = default;
+    explicit stacking_info( item const &it );
+
+    explicit constexpr operator bool() const {
+        return type != nullptr || category_ != nullptr;
+    }
+
+    item_category const &category() const;
+    stacking_info &operator&=( item const &it ) noexcept;
+};
+
 template<>
 struct enum_traits<iteminfo::flags> {
     static constexpr bool is_flag_enum = true;
@@ -399,7 +416,8 @@ class item : public visitable
          */
         std::string tname( unsigned int quantity = 1, bool with_prefix = true,
                            unsigned int truncate = 0, bool with_contents_full = true,
-                           bool with_collapsed = true, bool with_contents_abbrev = true ) const;
+                           bool with_collapsed = true, bool with_contents_abbrev = true,
+                           bool force_base_name = false ) const;
         std::string display_money( unsigned int quantity, unsigned int total,
                                    const std::optional<unsigned int> &selected = std::nullopt ) const;
         /**
@@ -1789,7 +1807,7 @@ class item : public visitable
          * Or "The jacket is too small", when it applies to all jackets, not just the one the
          * character tried to wear).
          */
-        std::string type_name( unsigned int quantity = 1 ) const;
+        std::string type_name( unsigned int quantity = 1, bool force_base_name = false ) const;
 
         /**
          * Number of (charges of) this item that fit into the given volume.
@@ -2833,7 +2851,7 @@ class item : public visitable
         std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
 
         item const *this_or_single_content() const;
-        bool contents_only_one_type() const;
+        stacking_info contents_only_one_type() const;
 
         /**
          * returns a list of pointers to all items inside recursively
@@ -2965,6 +2983,7 @@ class item : public visitable
         std::set<fault_id> faults;
 
     private:
+        friend struct stacking_info;
         item_contents contents;
         /** `true` if item has any of the flags that require processing in item::process_internal.
          * This flag is reset to `true` if item tags are changed.

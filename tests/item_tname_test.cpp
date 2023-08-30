@@ -8,6 +8,7 @@
 #include "character.h"
 #include "flag.h"
 #include "item.h"
+#include "item_category.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "options_helpers.h"
@@ -521,6 +522,7 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
     item backpack_hiking( itype_backpack_hiking );
     item purse( itype_purse );
     item rock( itype_test_rock );
+    rock.clear_itype_variant();
     item rock2( itype_rock );
     const std::string color_pref =
         "<color_c_green>++</color>\u00A0";
@@ -544,9 +546,28 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
                    " " + rocks_nested_tname + " (2)" );
         }
         SECTION( "several stacks" ) {
+            REQUIRE( rock.get_category_shallow().id != purse.get_category_shallow().id );
+            backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
+            backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " 2 items" );
+        }
+        SECTION( "several stacks of same category" ) {
+            REQUIRE( rock.get_category_shallow().id == rock2.get_category_shallow().id );
             backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
             backpack_hiking.put_in( rock2, item_pocket::pocket_type::CONTAINER );
-            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " 2 items" );
+            CHECK( backpack_hiking.tname( 1 ) ==
+                   color_pref + "hiking backpack " + nesting_sym + " " +
+                   colorize( rock.get_category_shallow().name(), c_magenta ) );
+        }
+        SECTION( "several stacks of variants" ) {
+            item rock_blue( itype_test_rock );
+            item rock_green( itype_test_rock );
+            rock_blue.set_itype_variant( "test_rock_blue" );
+            rock_green.set_itype_variant( "test_rock_green" );
+            backpack_hiking.put_in( rock_blue, item_pocket::pocket_type::CONTAINER );
+            backpack_hiking.put_in( rock_green, item_pocket::pocket_type::CONTAINER );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym +
+                   " " + rocks_nested_tname + " (3)" );
         }
         SECTION( "container has whitelist" ) {
             std::string const wlmark = "⁺";

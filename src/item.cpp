@@ -1239,7 +1239,7 @@ item item::in_container( const itype_id &cont, int qty, const bool sealed ) cons
 void item::add_automatic_whitelist()
 {
     std::vector<item_pocket *> pkts = get_all_contained_pockets();
-    if( pkts.size() == 1 && contents_only_one_type() ) {
+    if( pkts.size() == 1 && contents_only_one_type().type != nullptr ) {
         pkts.front()->settings.whitelist_item( contents.first_item().typeId() );
     }
 }
@@ -1394,6 +1394,32 @@ bool item::same_for_rle( const item &rhs ) const
         return false;
     }
     return stacks_with( rhs, true, false, 0, 9 );
+}
+
+stacking_info::stacking_info( item const &it )
+    :
+    base( &it ),
+    type( it.type ),
+    variant( it.has_itype_variant() ? & it.itype_variant() : nullptr ),
+    category_( &it.get_category_of_contents() )
+{}
+
+item_category const &stacking_info::category() const
+{
+    if( type != nullptr ) {
+        return type->category_force.obj();
+    }
+    return *category_;
+}
+
+stacking_info &stacking_info::operator&=( item const &it ) noexcept
+{
+    type = type == it.type && base->contents.stacks_with( it.contents ) ? type : nullptr;
+    variant = variant != nullptr && it.has_itype_variant() &&
+              variant->id == it.itype_variant().id ? variant : nullptr;
+    category_ = category_ != nullptr &&
+                category_->get_id() == it.get_category_of_contents().get_id() ? category_ : nullptr;
+    return *this;
 }
 
 bool item::stacks_with( const item &rhs, bool check_components, bool combine_liquid, int depth,
@@ -6424,7 +6450,8 @@ std::string item::degradation_symbol() const
 }
 
 std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate,
-                         bool with_contents_full, bool with_collapsed, bool with_contents_abbrev ) const
+                         bool with_contents_full, bool with_collapsed, bool with_contents_abbrev,
+                         bool force_base_name ) const
 {
     // item damage and/or fouling level
     std::string damtext;
@@ -6479,7 +6506,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     std::string contents_suffix_text;
 
     if( is_corpse() || typeId() == itype_blood || item_vars.find( "name" ) != item_vars.end() ) {
-        maintext = type_name( quantity );
+        maintext = type_name( quantity, force_base_name );
     } else if( ( ( is_gun() || is_tool() || is_magazine() ) && !is_power_armor() ) ||
                contents.has_additional_pockets() ) {
         int amt = 0;
@@ -6507,7 +6534,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         const int percent_progress = item_counter / 100000;
         maintext += string_format( " (%d%%)", percent_progress );
     } else {
-        maintext = label( quantity ) + ( is_armor() && has_clothing_mod() ? "+1" : "" );
+        maintext = ( force_base_name ? type_name( quantity, true ) : label( quantity ) ) + ( is_armor() &&
+                   has_clothing_mod() ? "+1" : "" );
     }
 
     std::vector<const item_pocket *> pkts = get_all_contained_pockets();
@@ -6527,19 +6555,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         wl || bl ? colorize( "⁺", player_wbl ? c_light_gray : c_dark_gray ) : std::string();
 
     /* only expand full contents name if with_contents == true */
-    if( with_contents_full && !contents.empty() && contents_only_one_type() ) {
-        const item &contents_item = contents.first_item();
-        const unsigned contents_count =
-            ( ( contents_item.made_of( phase_id::LIQUID ) ||
-                contents_item.is_food() || contents_item.count_by_charges() ) &&
-              contents_item.charges > 1 )
-            ? contents_item.charges
-            : contents.num_item_stacks();
-
-        if( !contents_item.is_null() ) {
+    if( stacking_info si = contents_only_one_type(); with_contents_full && !contents.empty() && si ) {
+        if( si.type != nullptr ) {
+            const item &contents_item = contents.first_item();
+            const unsigned contents_count =
+                ( ( contents_item.made_of( phase_id::LIQUID ) ||
+                    contents_item.is_food() || contents_item.count_by_charges() ) &&
+                  contents_item.charges > 1 )
+                ? contents_item.charges
+                : contents.num_item_stacks();
             // with_contents=false for nested items to prevent excessively long names
             const std::string contents_tname = contents_item.tname( contents_count, true, 0, false, false,
-                                               contents_count == 1 );
+                                               contents_count == 1, si.variant == nullptr );
             std::string const ctnc = colorize( contents_tname, contents_item.color_in_inventory() );
             if( contents_count == 1 || !ammo_types().empty() ) {
                 // Don't append an item count for single items, or items that are ammo-exclusive
@@ -6557,6 +6584,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             if( is_collapsed() && with_collapsed ) {
                 contents_suffix_text += string_format( " %s", _( "hidden" ) );
             }
+        } else if( si.category_ != nullptr ) {
+            contents_suffix_text = string_format( pgettext( "item name",
+                                                  //~ [container item name] " > [inner item category]
+                                                  " > %1$s" ), colorize( si.category_->name(), c_magenta ) );
         }
     } else if( with_contents_abbrev && !contents.empty_container() &&
                contents.num_item_stacks() != 0 ) {
@@ -12083,11 +12114,13 @@ const item_category &item::get_category_shallow() const
 
 const item_category &item::get_category_of_contents() const
 {
-    if( type->category_force == item_category_container && contents_only_one_type() ) {
-        return contents.first_item().get_category_of_contents();
-    } else {
-        return this->get_category_shallow();
+    if( type->category_force == item_category_container ) {
+        if( stacking_info si = contents_only_one_type(); si ) {
+            return si.category();
+        }
     }
+
+    return this->get_category_shallow();
 }
 
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt,
@@ -13912,7 +13945,7 @@ bool item::is_reloadable() const
     return false;
 }
 
-std::string item::type_name( unsigned int quantity ) const
+std::string item::type_name( unsigned int quantity, bool force_base_name ) const
 {
     const auto iter = item_vars.find( "name" );
     std::string ret_name;
@@ -13926,7 +13959,7 @@ std::string item::type_name( unsigned int quantity ) const
         }
     } else if( iter != item_vars.end() ) {
         return iter->second;
-    } else if( has_itype_variant() ) {
+    } else if( !force_base_name && has_itype_variant() ) {
         ret_name = itype_variant().alt_name.translated();
     } else {
         ret_name = type->nname( quantity );
@@ -14425,22 +14458,30 @@ std::list<item *> item::all_items_top( item_pocket::pocket_type pk_type, bool un
 
 item const *item::this_or_single_content() const
 {
-    return type->category_force == item_category_container && contents_only_one_type()
+    return type->category_force == item_category_container && contents_only_one_type().type != nullptr
            ? &contents.first_item()
            : this;
 }
 
-bool item::contents_only_one_type() const
+stacking_info item::contents_only_one_type() const
 {
     std::list<const item *> const items = contents.all_items_top( []( item_pocket const & pkt ) {
         return pkt.is_type( item_pocket::pocket_type::CONTAINER ) ||
                pkt.is_type( item_pocket::pocket_type::SOFTWARE );
     } );
-    return items.size() == 1 ||
-           ( items.size() > 1 &&
-    std::all_of( ++items.begin(), items.end(), [&items]( item const * e ) {
-        return e->stacks_with( *items.front() );
-    } ) );
+    stacking_info si;
+    if( items.size() >= 1 ) {
+        si = stacking_info{ *items.front() };
+    }
+    if( items.size() > 1 ) {
+        bool const discard [[maybe_unused]] = std::all_of( ++items.begin(),
+        items.end(), [&si]( item const * e ) {
+            si &= *e;
+            return static_cast<bool>( si );
+        } );
+    }
+
+    return si;
 }
 
 std::list<const item *> item::all_items_ptr() const

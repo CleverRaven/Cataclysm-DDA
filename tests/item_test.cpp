@@ -33,7 +33,7 @@ static const flag_id json_flag_FIX_NEARSIGHT( "FIX_NEARSIGHT" );
 static const flag_id json_flag_HOT( "HOT" );
 
 static const item_category_id item_category_container( "container" );
-static const item_category_id item_category_food( "food" );
+static const item_category_id item_category_spare_parts( "spare_parts" );
 
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_duffelbag( "test_duffelbag" );
@@ -901,19 +901,21 @@ TEST_CASE( "rigid_splint_compliance", "[item][armor]" )
 
 TEST_CASE( "item_single_type_contents", "[item]" )
 {
+    item rock( "test_rock" );
+    std::array<std::string, 2> const variants = { "test_rock_blue", "test_rock_green" };
     item walnut( "walnut" );
-    item nail( "nail" );
     item bag( "bag_plastic" );
     REQUIRE( bag.get_category_of_contents().id == item_category_container );
     int const num = GENERATE( 1, 2 );
     bool ret = true;
     for( int i = 0; i < num; i++ ) {
-        ret &= bag.put_in( walnut, item_pocket::pocket_type::CONTAINER ).success();
+        rock.set_itype_variant( variants[i] );
+        ret &= bag.put_in( rock, item_pocket::pocket_type::CONTAINER ).success();
     }
     REQUIRE( ret );
     CAPTURE( num, bag.display_name() );
-    CHECK( bag.get_category_of_contents() == *item_category_food );
-    REQUIRE( nail.get_category_of_contents().id != walnut.get_category_of_contents().id );
-    REQUIRE( bag.put_in( nail, item_pocket::pocket_type::CONTAINER ).success() );
+    CHECK( bag.get_category_of_contents() == *item_category_spare_parts );
+    REQUIRE( walnut.get_category_of_contents().id != rock.get_category_of_contents().id );
+    REQUIRE( bag.put_in( walnut, item_pocket::pocket_type::CONTAINER ).success() );
     CHECK( bag.get_category_of_contents().id == item_category_container );
 }
