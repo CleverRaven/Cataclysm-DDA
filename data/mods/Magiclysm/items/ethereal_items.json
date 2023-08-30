@@ -478,7 +478,7 @@
     "looks_like": "arrow_heavy_fire_hardened_fletched",
     "description": "A arrow that looks more like it was grown than carved.  Despite that, it flies straight and true.  It explodes into a mass of entangling vegetation when it hits its target.",
     "damage": { "damage_type": "stab", "armor_penetration": 2 },
-    "count": 1
+    "count": 1,
     "effects": [ "RECOVER_6", "TANGLE" ]
   },
   {
