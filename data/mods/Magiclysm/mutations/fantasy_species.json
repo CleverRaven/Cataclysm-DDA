@@ -126,9 +126,9 @@
   {
     "type": "mutation_category",
     "id": "SPECIES_RAVENFOLK",
-    "name": "Dwarf",
+    "name": "Ravenfolk",
     "threshold_mut": "THRESH_SPECIES_RAVENFOLK",
-    "mutagen_message": "You feel the call of the sky.",
+    "mutagen_message": "You feel the call of the sky.  There are treasures out there to collect.",
     "vitamin": "mutagen_species_ravenfolk",
     "memorial_message": "Fell from your perch on the World Tree.",
     "base_removal_chance": 0

@@ -710,7 +710,7 @@ void talk_function::start_camp( npc &p )
     }
     std::optional<basecamp *> camp = get_basecamp( p, camp_type.str() );
     if( camp.has_value() ) {
-        for( int tab_num = base_camps::TAB_MAIN; tab_num < base_camps::TAB_NW; tab_num++ ) {
+        for( int tab_num = base_camps::TAB_MAIN; tab_num <= base_camps::TAB_NW; tab_num++ ) {
             std::vector<ui_mission_id> temp;
             camp.value()->hidden_missions.push_back( temp );
         }
@@ -1374,7 +1374,7 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
 
     // Missions that belong exclusively to the central tile
     {
-        if( can_expand() ) {
+        if( directions.size() < 8 ) {
             const mission_id miss_id = { Camp_Survey_Expansion, "", {}, base_dir };
             comp_list npc_list = get_mission_workers( miss_id );
             entry = string_format( _( "Notes:\n"
@@ -1402,15 +1402,6 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
                 bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( miss_id, _( "Recover Surveyor" ),
                                         entry, avail );
-            }
-        } else {
-            // Unless maximum expansions have been reached, show "Expand Base",
-            // but in a disabled state, with a message about what is required.
-            if( directions.size() < 8 ) {
-                const mission_id miss_id = { Camp_Survey_Expansion, "", {}, base_dir };
-                entry = _( "You will need more beds before you can expand your base." );
-                mission_key.add_start( miss_id, name_display_of( miss_id ),
-                                       entry, false );
             }
         }
     }
