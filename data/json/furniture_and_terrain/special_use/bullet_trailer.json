@@ -23,38 +23,45 @@
   {
     "type": "terrain",
     "id": "t_bullettrailer_nwall",
+    "symbol": "LINE_OXOX",
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
   {
     "type": "terrain",
     "id": "t_bullettrailer_nwall_window",
+    "symbol": "LINE_OXOX",
     "flags": [ "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "TRANSPARENT" ],
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
   {
     "type": "terrain",
     "id": "t_bullettrailer_nwall_eastcorner",
+    "symbol": "LINE_OXOX",
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
   {
     "type": "terrain",
     "id": "t_bullettrailer_wwall",
+    "symbol": "LINE_OXOX",
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
   {
     "type": "terrain",
     "id": "t_bullettrailer_ewall",
+    "symbol": "LINE_OXOX",
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
   {
     "type": "terrain",
     "id": "t_bullettrailer_inner_westcorner",
+    "symbol": "LINE_OXOX",
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
   {
     "type": "terrain",
     "id": "t_bullettrailer_inner_T",
     "copy-from": "t_bullettrailer_nwall_westcorner",
+    "symbol": "LINE_OXOX",
     "name": "bullet trailer interior wall",
     "description": "A simple wall panelled in a coarsely textured grey laminate of some sort."
   },
@@ -63,32 +70,38 @@
     "id": "t_bullettrailer_swall_westcorner",
     "name": "bullet trailer exterior wall",
     "description": "A smooth wall of gleaming chrome, slightly dusty from the road.",
+    "symbol": "LINE_OXOX",
     "color": "light_gray",
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
   {
     "type": "terrain",
     "id": "t_bullettrailer_swall_windows",
+    "symbol": "+",
     "copy-from": "t_bullettrailer_nwall_window"
   },
   {
     "type": "terrain",
     "id": "t_bullettrailer_swall_door",
+    "symbol": "-",
     "copy-from": "t_bullettrailer_swall_westcorner"
   },
   {
     "type": "terrain",
     "id": "t_bullettrailer_swall_wheels",
+    "symbol": "o",
     "copy-from": "t_bullettrailer_nwall_window"
   },
   {
     "type": "terrain",
     "id": "t_bullettrailer_swall",
+    "symbol": "LINE_OXOX",
     "copy-from": "t_bullettrailer_swall_westcorner"
   },
   {
     "type": "terrain",
     "id": "t_bullettrailer_swall_eastcorner",
+    "symbol": "LINE_OXOX",
     "copy-from": "t_bullettrailer_swall_westcorner"
   },
   {
@@ -96,16 +109,19 @@
     "id": "f_bullettrailer_table_top",
     "move_cost_mod": -1,
     "description": "A small trailer table, designed to convert into a bed when not in use.",
+    "symbol": "T",
     "copy-from": "f_table"
   },
   {
     "type": "furniture",
     "id": "f_bullettrailer_table_middle",
+    "symbol": "T",
     "copy-from": "f_bullettrailer_table_top"
   },
   {
     "type": "furniture",
     "id": "f_bullettrailer_table_bottom",
+    "symbol": "T",
     "copy-from": "f_bullettrailer_table_top"
   },
   {
@@ -113,6 +129,7 @@
     "id": "f_bullettrailer_cabinet",
     "name": "trailer cabinets",
     "move_cost_mod": 0,
+    "symbol": "n",
     "description": "Cramped trailer cabinets, with some inbuilt appliances taking up even more of the limited space.",
     "copy-from": "f_cabinet"
   },
@@ -121,6 +138,7 @@
     "id": "f_bullettrailer_sink",
     "name": "trailer sink",
     "move_cost_mod": 0,
+    "symbol": "u",
     "description": "A tiny metal sink and connected cabinet.",
     "copy-from": "f_sink"
   },
@@ -129,6 +147,7 @@
     "id": "f_bullettrailer_desk",
     "name": "mini desk",
     "move_cost_mod": 0,
+    "symbol": "t",
     "description": "A small wooden desk with a little attached bookshelf.",
     "copy-from": "f_desk"
   },
@@ -137,7 +156,7 @@
     "id": "f_bullettrailer_inner_door",
     "name": "trailer bathroom door",
     "move_cost_mod": -1,
-    "symbol": "+",
+    "symbol": "|",
     "color": "light_gray",
     "coverage": 100,
     "flags": [ "NOITEM", "FLAMMABLE_ASH", "BLOCK_WIND", "REDUCE_SCENT", "DOOR" ],
@@ -161,7 +180,7 @@
     "id": "f_bullettrailer_inner_door_o",
     "name": "trailer bathroom door",
     "move_cost_mod": 0,
-    "symbol": "-",
+    "symbol": "/",
     "color": "light_gray",
     "coverage": 30,
     "looks_like": "t_bulletrailer_brownfloor",
@@ -188,12 +207,14 @@
     "id": "f_bullettrailer_toilet",
     "name": "travel toilet",
     "description": "A tiny plastic toilet for use in a travel trailer.  Unlike a normal toilet, it doesn't store water locally for you to siphon out.",
+    "symbol": "b",
     "copy-from": "f_toilet"
   },
   {
     "type": "furniture",
     "id": "f_bullettrailer_minisofa",
     "name": "trailer sofa",
+    "symbol": "h",
     "description": "A folding trailer sofa with a durable, somewhat comfortable weave of coarse red fabric.",
     "copy-from": "f_sofa"
   },
@@ -201,6 +222,7 @@
     "type": "furniture",
     "id": "f_bullettrailer_bed_foot",
     "name": "trailer bed",
+    "symbol": "H",
     "description": "A small but comfy-looking double bed.",
     "copy-from": "f_bed"
   },
@@ -208,6 +230,7 @@
     "type": "furniture",
     "id": "f_bullettrailer_bed_head",
     "name": "trailer bed",
+    "symbol": "H",
     "description": "A small but comfy-looking double bed.",
     "copy-from": "f_bed"
   },
@@ -215,6 +238,7 @@
     "type": "furniture",
     "id": "f_bullettrailer_sign_danabakery",
     "name": "plywood sign for 'Dana's Bakery'",
+    "symbol": "#",
     "description": "A spraypainted plywood sign reads 'Dana's Bakery' in red letters.",
     "copy-from": "f_sign"
   }
