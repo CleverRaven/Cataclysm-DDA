@@ -8949,7 +8949,6 @@ bool Character::has_any_item_with( const std::string &key, const flag_id &flag,
     // If the cache already exists, use it. Stop iterating if the do_and_check_func ever returns true. Remove any invalid item references encountered.
     auto found_cache = inv_search_caches.find( key );
     if( found_cache != inv_search_caches.end() ) {
-        auto t1 = std::chrono::high_resolution_clock::now();
         for( auto iter = found_cache->second.items.begin();
              iter != found_cache->second.items.end(); ) {
             if( *iter ) {
