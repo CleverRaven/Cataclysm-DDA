@@ -1,5 +1,82 @@
 [
   {
+    "type": "npc",
+    "id": "refugee_PabloNunez",
+    "name_unique": "Pablo Nunez",
+    "gender": "male",
+    "name_suffix": "bookkeeper",
+    "class": "NC_TACOMA_Pablo",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_TACOMA_Pablo_1",
+    "age": 28,
+    "height": 184,
+    "str": 10,
+    "dex": 8,
+    "int": 10,
+    "per": 10,
+    "personality": { "aggression": 1, "bravery": 3, "collector": 1, "altruism": 3 },
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_TACOMA_Pablo",
+    "name": { "str": "Bookkeeper" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "Pablo is a young professional who survived with his wife, but she was pregnant and lost the baby.",
+    "worn_override": "TACOMA_Pablo_worn",
+    "carry_override": "TACOMA_Pablo_carried",
+    "weapon_override": "TACOMA_Pablo_wield",
+    "traits": [
+      { "trait": "QUICK" },
+      { "trait": "Exp_Bookkeeping1" },
+      { "trait": "SKIN_MEDIUM" },
+      { "trait": "eye_color", "variant": "brown" },
+      { "trait": "hair_black_short" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "skill": "bashing", "bonus": 3 },
+      { "skill": "computer", "bonus": 4 },
+      { "skill": "cooking", "bonus": 1 },
+      { "skill": "driving", "bonus": 2 },
+      { "skill": "fabrication", "bonus": 2 },
+      { "skill": "mechanics", "bonus": 2 },
+      { "skill": "melee", "bonus": 3 },
+      { "skill": "speech", "bonus": 2 },
+      { "skill": "swimming", "bonus": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Pablo_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "boxer_briefs" },
+      { "item": "socks" },
+      { "item": "tank_top" },
+      { "item": "striped_shirt" },
+      { "item": "pants" },
+      { "item": "armor_scrapsuit" },
+      { "item": "helmet_scrap" },
+      { "item": "motorbike_boots" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Pablo_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "knife_swissarmy" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Pablo_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "bat_metal" } ]
+  },
+  {
     "type": "talk_topic",
     "id": "TALK_TACOMA_Pablo_1",
     "dynamic_line": "*looks up at you from a ledger, takes a moment to place you, then smiles broadly.  \"Great to see you, my friend.  To what do I owe the pleasure?\"",
@@ -118,9 +195,10 @@
       {
         "text": "I don't mind keeping my eye out for some firebricks for you.",
         "topic": "TALK_TACOMA_Pablo_Bakery-Firebricks1",
+        "//": "temporarily disabled by making the condition impossible to achieve.",
         "condition": {
           "and": [
-            { "u_has_var": "tacoma_bakery", "context": "firebricks", "value": "known" },
+            { "u_has_var": "tacoma_bakery", "context": "firebricks", "value": "known_deleted" },
             { "not": { "u_has_var": "tacoma_bakery", "context": "firebricks", "value": "helped" } }
           ]
         }
@@ -128,9 +206,10 @@
       {
         "text": "I can pass a note to Jenny about helping with the mill designs, if you want.",
         "topic": "TALK_TACOMA_Pablo_Bakery-Engineer1",
+        "//": "temporarily disabled by making the condition impossible to achieve.",
         "condition": {
           "and": [
-            { "u_has_var": "tacoma_mill", "context": "message_jenny", "value": "known" },
+            { "u_has_var": "tacoma_mill", "context": "message_jenny", "value": "known_deleted" },
             { "not": { "u_has_var": "tacoma_mill", "context": "message_jenny", "value": "helped" } }
           ]
         }
