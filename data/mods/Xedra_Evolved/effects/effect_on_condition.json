@@ -47,7 +47,7 @@
     "effect": [
       {
         "u_message": "You suddenly realize that your ability to sense the unnatural has expanded to a level beyond those of the normal five senses.",
-        "type": "good",
+        "type": "good"
       },
       {
         "u_add_trait": "EATER_SIXTH_SENSE"
