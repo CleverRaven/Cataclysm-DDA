@@ -718,7 +718,7 @@
     "difficulty": 4,
     "max_level": 15,
     "effect": "spawn_item",
-    "effect_str": "arrow_heavy_fire_hardened_fletched",
+    "effect_str": "arrow_druid",
     "components": "spell_components_druid_arrow",
     "shape": "blast",
     "min_damage": 5,
