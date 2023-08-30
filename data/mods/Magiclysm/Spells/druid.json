@@ -731,7 +731,7 @@
     "base_energy_cost": 250,
     "min_duration": 180000,
     "max_duration": 1440000,
-    "duration_increment": 84000,
+    "duration_increment": 84000
   },
   {
     "id": "druid_beguile_savage_beast",
