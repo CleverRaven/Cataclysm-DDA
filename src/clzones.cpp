@@ -42,7 +42,6 @@
 #include "vehicle.h"
 #include "visitable.h"
 #include "vpart_position.h"
-#include "options.h"
 
 static const faction_id faction_your_followers( "your_followers" );
 
