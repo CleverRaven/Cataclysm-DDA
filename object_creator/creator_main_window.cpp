@@ -2,7 +2,6 @@
 
 #include "spell_window.h"
 #include "item_group_window.h"
-#include "mod_selection_window.h"
 #include "enum_conversions.h"
 #include "translations.h"
 
@@ -49,8 +48,8 @@ int creator::main_window::execute( QApplication &app )
     tabWidget->addTab(&item_group_editor, "Item group");
 
     //Create the mod selection window and add it as a tab
-    mod_selection_window mod_selection;
-    tabWidget->addTab(&mod_selection, "Mod selection");
+    mod_selection = new mod_selection_window();
+    tabWidget->addTab(mod_selection, "Mod selection");
     
     //Make the main window maximized
     creator_main_window.showMaximized();
