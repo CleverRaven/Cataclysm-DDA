@@ -64,7 +64,7 @@
       { "item": "boots" },
       { "item": "purse" },
       { "item": "glock_17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
-      { "item": "machete", "container-item": "scabbard" },
+      { "item": "machete", "container-item": "scabbard" }
     ]
   },
   {
@@ -108,9 +108,10 @@
     "id": "TALK_TACOMA_Dana_Baking",
     "//": "Remainder of this topic is stored in npcs/surface_refugees/NPC_Dana_Nunez.json with her other refugee talk_topics.",
     "responses": [
-      { "text": "I'll look into that.  What were you saying before?.", "topic": "TALK_NONE" }
+      { "text": "I'll look into that.  What were you saying before?.", "topic": "TALK_NONE" },
       { "text": "I'll look into that.  I'd better get going though.", "topic": "TALK_DONE" }
     ]
+  },
   {
     "type": "talk_topic",
     "id": "TALK_TACOMA_Dana_Trailer1",
