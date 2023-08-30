@@ -146,7 +146,7 @@
     "min_damage": { "math": [ "( (u_val('spell_level', 'spell: druid_naturebow1') * 3) + 15)" ] },
     "max_damage": { "math": [ "( (u_val('spell_level', 'spell: druid_naturebow1') * 3) + 15)" ] },
     "effect": "spawn_item",
-    "effect_str": "arrow_heavy_fire_hardened_fletched",
+    "effect_str": "druid_naturearrows1",
     "shape": "blast",
     "min_duration": { "math": [ "( (u_val('spell_level', 'spell: druid_naturebow1') * 24000) + 24000)" ] },
     "max_duration": { "math": [ "( (u_val('spell_level', 'spell: druid_naturebow1') * 24000) + 24000)" ] }
