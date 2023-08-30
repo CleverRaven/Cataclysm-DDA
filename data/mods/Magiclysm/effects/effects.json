@@ -380,10 +380,11 @@
     "name": [ "Nature's Commune" ],
     "desc": [ "You can feel Mother Nature welcoming you, revitalizing your body and calming the natural fauna around you." ],
     "apply_message": "A warm embrace surrounds you, like that of a mother with her child.",
-    "remove_message": "Your communion with Mother Nature fades.",
+    "remove_message": "Your commune with Mother Nature fades.",
     "rating": "good",
-    "max_duration": "120 m",
-    "base_mods": { "health_min": [ 1 ], "health_chance": [ 40 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 80 ], "health_tick": [ 30 ] }
+    "max_duration": "20 m",
+    "//": "No morale_mod is currently possible in effects, but this effect should give +5/+10 morale whenever that it's implemented.",
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 40 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 80 ] }
   },
   {
     "type": "effect_type",
@@ -502,12 +503,18 @@
     "id": "electric_waves",
     "type": "effect_type",
     "name": [ "Electric Waves" ],
-    "desc": [ "Your body will release a massive electric charges when you attack monsters." ],
+    "desc": [ "Your body throw a massive electric charges when you attack monsters." ],
     "apply_message": "A powerful energy streams out of your hands.",
-    "remove_message": "The energy streams calm down.",
+    "remove_message": "Energy streams calm down.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ "enchant_stormshaper_electric_waves" ]
+    "//": "When #61693 will be resolved (or, in other words, the spell will start to throw electric waves, as it says), the ITEM_DAMAGE_ELEC must be removed, and the spell description must be edited.  Alternatively, the effect may be moved into electric gloves, instead of their flat bonus.",
+    "enchantments": [
+      {
+        "hit_me_effect": [ { "id": "electric_waves_damage", "once_in": 3 } ],
+        "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": { "u_val": "spell_level", "spell": "electric_waves" } } ]
+      }
+    ]
   },
   {
     "id": "electric_arts",
@@ -724,105 +731,53 @@
     ]
   },
   {
+    "id": "effect_biomancer_remove_instability",
     "type": "effect_type",
-    "id": "effect_sense_outsiders",
-    "name": [ "Sense Outsider" ],
-    "desc": [ "You can sense the presence of things that should not be." ],
-    "apply_message": "",
-    "remove_message": "Your awareness of outsiders fades.",
+    "name": [ "Increased Stability" ],
+    "desc": [
+      "You are overcoming the aftereffects of XE037 overexposure.",
+      "You were just overcoming the aftereffects of XE037 overexposure but now you feel awful!"
+    ],
+    "apply_message": "You feel…strange.",
+    "remove_message": "The strange feeling passes and you feel more like yourself.",
     "rating": "good",
-    "enchantments": [
-      {
-        "values": [
-          {
-            "value": "SIGHT_RANGE_NETHER",
-            "add": { "math": [ "(( u_val('spell_level', 'spell: animist_sense_outsiders') * 2.5) + 3)" ] }
-          }
-        ]
-      }
-    ]
+    "max_intensity": 2,
+    "show_intensity": false,
+    "vitamins": [ { "vitamin": "instability", "rate": [ [ -1, -1 ] ], "tick": [ "30 m" ] } ],
+    "scaling_mods": { "speed_mod": [ -25 ], "str_mod": [ -5 ], "dex_mod": [ -5 ], "int_mod": [ -5 ], "per_mod": [ -5 ] },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 1, "scaling": -0.3 },
+      { "limb_score": "block", "modifier": 1.0, "scaling": -0.2 },
+      { "limb_score": "vision", "modifier": 1.0, "scaling": -0.05 },
+      { "limb_score": "reaction", "modifier": 1, "scaling": -0.3 },
+      { "limb_score": "move_speed", "modifier": 1.0, "scaling": -0.05 },
+      { "limb_score": "balance", "modifier": 1, "scaling": -0.2 },
+      { "limb_score": "footing", "modifier": 1, "scaling": -0.3 },
+      { "limb_score": "swim", "modifier": 1.0, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
+    "id": "effect_biomancer_carrion_feast",
     "type": "effect_type",
-    "id": "effect_kelvinist_anti_cold",
-    "name": [ "Cloak of Warmth" ],
-    "desc": [ "The air around you is warmer thanks to your magic." ],
-    "apply_message": "",
-    "remove_message": "A cool breeze hits your skin.",
+    "name": [ "Carrion Feast" ],
+    "desc": [ "You can eat rotten food without any trouble, if you can stand the taste." ],
+    "apply_message": "Your have a hunger for some overly-aged meat.",
+    "remove_message": "You can't believe you even considered eating that!  Yuck!",
     "rating": "good",
-    "enchantments": [
-      {
-        "emitter": "emit_kelvinist_anti_cold",
-        "values": [
-          { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
-          {
-            "value": "ARMOR_COLD",
-            "add": { "math": [ "( u_val('spell_level', 'spell: kelvinist_anti_cold') * -1)" ] }
-          }
-        ]
-      }
-    ]
+    "show_intensity": false,
+    "flags": [ "IMMUNE_SPOIL", "PARAIMMUNE" ],
+    "blocks_effects": [ "foodpoison" ],
+    "vitamins": [ { "vitamin": "mutant_toxin", "rate": [ [ -1, -1 ] ], "absorb_mult": [ 0.5 ], "tick": [ "30 s" ] } ]
   },
   {
+    "id": "effect_classless_watch",
     "type": "effect_type",
-    "id": "effect_kelvinist_anti_heat",
-    "name": [ "Cloak of Chill" ],
-    "desc": [ "The air around you is cooler thanks to your magic." ],
+    "name": [ "Know the Day and the Hour" ],
+    "desc": [ "You know exactly what time it is." ],
     "apply_message": "",
-    "remove_message": "A warm breeze hits your skin.",
-    "rating": "good",
-    "enchantments": [
-      {
-        "emitter": "emit_kelvinist_anti_heat",
-        "values": [
-          { "value": "CLIMATE_CONTROL_CHILL", "add": 50 },
-          {
-            "value": "ARMOR_HEAT",
-            "add": { "math": [ "( u_val('spell_level', 'spell: kelvinist_anti_heat') * -1)" ] }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_magus_slowfall",
-    "name": [ "Slowfall" ],
-    "desc": [ "You won't hit the ground nearly as hard anymore." ],
-    "apply_message": "",
-    "remove_message": "You can feel gravity take hold of you again.",
-    "rating": "good",
-    "enchantments": [
-      {
-        "values": [
-          {
-            "value": "FALL_DAMAGE",
-            "multiply": { "math": [ "(( u_val('spell_level', 'spell: magus_slowfall') * -0.01) - 0.9 )" ] }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_magus_spiderclimb",
-    "name": [ "Spider Climb" ],
-    "desc": [ "You can quickly ascend sheer surfaces." ],
-    "apply_message": "",
-    "remove_message": "Your enhanced climbing ability vanishes.",
-    "rating": "good",
-    "flags": [ "CLIMB_NO_LADDER", "WALL_CLING" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_biomancer_swim_speed",
-    "name": [ "Frog Limbs" ],
-    "desc": [ "Your hands and feet have grown webbing, enabling faster swimming." ],
-    "//": "Minor stamina regen to help with swimming.  If people want to cast this spell as a stamina buff, they're welcome to do it and deal with their froggy limbs.",
-    "apply_message": "",
-    "remove_message": "With an unpleasant twisting sensation your hands and feet return to normal.",
-    "rating": "good",
-    "flags": [ "WEBBED_HANDS", "WEBBED_FEET" ],
-    "base_mods": { "stamina_min": [ 10 ] }
+    "remove_message": "You perfect sense of time fades away.",
+    "max_duration": "24 hours",
+    "flags": [ "WATCH" ]
   }
 ]

@@ -278,7 +278,7 @@ tripoint npc::good_escape_direction( bool include_pos )
         std::optional<tripoint_abs_ms> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
                 fac_id );
         // if there is a retreat zone in range, go there
-        if( !retreat_target ) {
+        if( !retreat_target && is_player_ally() ) {
             //if not, consider regrouping on the player if they're getting far away.
             Character &player_character = get_player_character();
             int dist = rl_dist( pos(), player_character.pos() );

@@ -21,7 +21,7 @@
     "type": "item_group",
     "id": "homebooks",
     "copy-from": "homebooks",
-    "extend": { "items": [ { "group": "spellbook_loot_0", "prob": 4 }, { "item": "history_botanical_enchantment", "prob": 2 } ] }
+    "extend": { "items": [ { "group": "spellbook_loot_0", "prob": 4 } ] }
   },
   {
     "type": "item_group",
@@ -1034,7 +1034,8 @@
           { "item": "spell_scroll_animist_sense_outsiders", "prob": 30 },
           { "item": "spell_scroll_summon_undead", "prob": 50 },
           { "item": "spell_scroll_necrotic_gaze", "prob": 50 },
-          { "item": "spell_scroll_summon_wisps", "prob": 50 }
+          { "item": "spell_scroll_summon_wisps", "prob": 50 },
+          { "item": "spell_scroll_animist_summon_watcher", "prob": 50 }
         ],
         "prob": 45
       },
@@ -1222,7 +1223,8 @@
           { "item": "spell_scroll_pain_split", "prob": 50 },
           { "item": "spell_scroll_bio_grotesque", "prob": 50 },
           { "item": "spell_scroll_biomancer_coagulant_weave", "prob": 50 },
-          { "item": "spell_scroll_bio_fleshpouch", "prob": 50 }
+          { "item": "spell_scroll_bio_fleshpouch", "prob": 50 },
+          { "item": "spell_scroll_biomancer_carrion_feast", "prob": 25 }
         ],
         "prob": 35
       },
@@ -1271,7 +1273,8 @@
           { "item": "spell_scroll_recover_fatigue", "prob": 100 },
           { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
           { "item": "spell_scroll_druidic_healing", "prob": 100 },
-          { "item": "spell_scroll_druid_bandage", "prob": 100 }
+          { "item": "spell_scroll_druid_bandage", "prob": 100 },
+          { "item": "spell_scroll_druid_beguile_savage_beast", "prob": 100 }
         ],
         "prob": 10
       }
@@ -1523,6 +1526,33 @@
       { "item": "dragon_black_scale", "prob": 10, "count": [ 12, 36 ] },
       { "item": "glow_dust", "prob": 10, "count": [ 4, 6 ] },
       { "item": "stirge_proboscis", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "lab_torso_research_thaumaturge",
+    "items": [
+      [ "coat_lab", 20 ],
+      [ "coat_lab", 20 ],
+      [ "coat_lab", 20 ],
+      [ "coat_lab", 20 ],
+      [ "tshirt", 80 ],
+      [ "longshirt", 80 ],
+      [ "polo_shirt", 65 ],
+      [ "dress_shirt", 60 ],
+      [ "dress", 70 ],
+      [ "sweatshirt", 75 ],
+      [ "sweater", 75 ],
+      [ "turtleneck", 25 ],
+      [ "turtleneck_shirt", 25 ],
+      [ "hoodie", 65 ],
+      [ "jumpsuit", 20 ],
+      [ "badge_doctor", 10 ],
+      [ "hazmat_suit", 5 ],
+      [ "cleansuit", 10 ],
+      { "item": "coat_lab_plus_one", "prob": 20 },
+      { "item": "coat_lab_plus_two", "prob": 5 }
     ]
   }
 ]
