@@ -1744,15 +1744,6 @@ std::list<item> outfit::use_amount( const itype_id &it, int quantity,
     return used;
 }
 
-void outfit::append_radio_items( std::list<item *> &rc_items )
-{
-    for( item &elem : worn ) {
-        if( elem.has_flag( flag_RADIO_ACTIVATION ) ) {
-            rc_items.push_back( &elem );
-        }
-    }
-}
-
 void outfit::add_dependent_item( std::list<item *> &dependent, const item &it )
 {
     // Adds dependent worn items recursively

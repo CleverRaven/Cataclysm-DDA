@@ -888,8 +888,6 @@ class Character : public Creature, public visitable
         bool takeoff( item_location loc, std::list<item> *res = nullptr );
         bool takeoff( int pos );
 
-        /** Returns list of rc items in player inventory. **/
-        std::list<item *> get_radio_items();
         /** Handles health fluctuations over time */
         virtual void update_health();
         /** Updates all "biology" by one turn. Should be called once every turn. */

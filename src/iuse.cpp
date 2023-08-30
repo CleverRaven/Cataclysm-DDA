@@ -7353,25 +7353,26 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint & 
     } else {
         const flag_id signal( "RADIOSIGNAL_" + std::to_string( choice ) );
 
-        auto item_list = p->get_radio_items();
-        for( item *&elem : item_list ) {
-            if( elem->has_flag( flag_BOMB ) && elem->has_flag( signal ) ) {
+        if( p->has_any_item_with( flag_RADIO_ACTIVATION, [&p,&signal]( const item & it ) {
+            if( it.has_flag( flag_BOMB ) && it.has_flag( signal ) ) {
                 p->add_msg_if_player( m_warning,
-                                      _( "The %s in your inventory would explode on this signal.  Place it down before sending the signal." ),
-                                      elem->display_name() );
-                return std::nullopt;
+                    _( "The %s in your inventory would explode on this signal.  Place it down before sending the signal." ),
+                    it.display_name() );
+                    return true;
             }
+            return false;
+        } ) ) {
+            return std::nullopt;
         }
 
-        if( p->has_any_item_with( flag_RADIO_CONTAINER, [&p, &signal]( const item & it ) {
-        item *itm = const_cast<item &>( it ).get_item_with( [&]( const item & c ) {
+        if( p->has_any_item_with( flag_RADIO_CONTAINER, [&p,&signal]( const item & it ) {
+            const item *rad_cont = it.get_item_with( [&signal]( const item & c ) {
                 return c.has_flag( flag_BOMB ) && c.has_flag( signal );
             } );
-
-            if( itm != nullptr ) {
+            if( rad_cont != nullptr ) {
                 p->add_msg_if_player( m_warning,
                                       _( "The %1$s in your %2$s would explode on this signal.  Place it down before sending the signal." ),
-                                      itm->display_name(), it.display_name() );
+                                      rad_cont->display_name(), it.display_name() );
                 return true;
             }
             return false;

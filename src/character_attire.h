@@ -174,7 +174,6 @@ class outfit
         std::unordered_set<bodypart_id> where_discomfort( const Character &guy ) const;
         // used in game::wield
         void insert_item_at_index( const item &clothing, int index );
-        void append_radio_items( std::list<item *> &rc_items );
         void check_and_recover_morale( player_morale &test_morale ) const;
         void absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
                             std::list<item> &worn_remains, bool &armor_destroyed );

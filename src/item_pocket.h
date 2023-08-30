@@ -310,6 +310,7 @@ class item_pocket
         void clear_items();
         bool has_item( const item &it ) const;
         item *get_item_with( const std::function<bool( const item & )> &filter );
+        const item *get_item_with( const std::function<bool( const item & )> &filter ) const;
         void remove_items_if( const std::function<bool( item & )> &filter );
         /**
          * Is part of the recursive call of item::process. see that function for additional comments

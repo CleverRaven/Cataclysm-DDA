@@ -14552,6 +14552,11 @@ item *item::get_item_with( const std::function<bool( const item & )> &filter )
     return contents.get_item_with( filter );
 }
 
+const item *item::get_item_with( const std::function<bool( const item & )> &filter ) const
+{
+    return contents.get_item_with( filter );
+}
+
 size_t item::num_item_stacks() const
 {
     return contents.num_item_stacks();

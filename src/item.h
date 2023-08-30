@@ -2866,6 +2866,7 @@ class item : public visitable
         item &only_item();
         const item &only_item() const;
         item *get_item_with( const std::function<bool( const item & )> &filter );
+        const item *get_item_with( const std::function<bool( const item & )> &filter ) const;
 
         /**
          * returns the number of items stacks in contents
