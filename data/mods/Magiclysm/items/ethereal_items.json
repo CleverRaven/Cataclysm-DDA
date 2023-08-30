@@ -471,6 +471,17 @@
     ]
   },
   {
+    "id": "druid_naturearrows1",
+    "type": "AMMO",
+    "copy-from": "arrow_heavy_fire_hardened_fletched",
+    "name": { "str": "nature's arrow" },
+    "looks_like": "arrow_heavy_fire_hardened_fletched",
+    "description": "A magically conjured arrow made of twisted wood.",
+    "damage": { "damage_type": "stab", "armor_penetration": 3 },
+    "count": 1,
+    "effects": [ "RECOVER_8" ]
+  },
+  {
     "id": "arrow_druid",
     "type": "AMMO",
     "copy-from": "arrow_heavy_fire_hardened_fletched",
