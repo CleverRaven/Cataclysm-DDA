@@ -670,6 +670,7 @@
     "symbol": "*",
     "color": "light_gray",
     "name": { "str": "empty canister" },
+    "category": "container",
     "description": "An empty canister, which may have once held tear gas or other substances.",
     "material": [ "steel" ],
     "weight": "40 g",
@@ -763,6 +764,15 @@
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" }
   },
   {
+    "type": "GENERIC",
+    "id": "train_data",
+    "copy-from": "usb_drive_nano",
+    "name": { "str_sp": "laboratory shipping records" },
+    "description": "Some type of advanced data storage device, filled with logistical data on subterranean train routes and schedules.",
+    "price": 10000,
+    "price_postapoc": 0
+  },
+  {
     "id": "robofac_hardcase",
     "type": "GENERIC",
     "name": { "str": "DARPA hard case" },
@@ -792,6 +802,36 @@
     "weight": "30 g",
     "volume": "250 ml",
     "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "godcotrader_accounting_records_dirty",
+    "//": "Quest item, should not spawn naturally.",
+    "name": { "str_sp": "accounting records" },
+    "description": "A stack of various forms and papers with credits and debits listed all over them, detailing transactions and purchases.  Reading over them, all of the balances are mismatched, and a significant amount of money is missing.",
+    "price": 0,
+    "price_postapoc": 0,
+    "weight": "1 g",
+    "volume": "1 ml",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": "r",
+    "material": [ "paper" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "godcotrader_accounting_records_clean",
+    "//": "Quest item, should not spawn naturally.",
+    "name": { "str_sp": "accounting records" },
+    "description": "A stack of various forms and papers with credits and debits listed all over them, detailing transactions and purchases.  Reading over them, everything is in good order, whoever did these is skilled at their job.",
+    "price": 0,
+    "price_postapoc": 0,
+    "weight": "1 g",
+    "volume": "1 ml",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": "r",
+    "material": [ "paper" ]
   },
   {
     "type": "GENERIC",
@@ -1369,27 +1409,20 @@
   },
   {
     "type": "GENERIC",
-    "id": "broken_eyebot",
+    "id": "broken_robofac_camspy",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken eyebot" },
+    "name": { "str": "broken camspy", "str_pl": "broken camspies" },
     "category": "other",
-    "description": "A broken eyebot.  Much less threatening now that it won't be calling for backup.  Could be gutted for parts.",
+    "description": "A broken camspy.  It probably won't spy on anything ever again.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "steel", "plastic" ],
     "weight": "31520 g",
     "volume": "15 L",
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
     "melee_damage": { "bash": 6, "cut": 6 }
-  },
-  {
-    "type": "GENERIC",
-    "id": "broken_robofac_camspy",
-    "copy-from": "broken_eyebot",
-    "name": { "str": "broken camspy", "str_pl": "broken camspies" },
-    "description": "A broken camspy.  It probably won't spy on anything ever again.  Could be gutted for parts."
   },
   {
     "type": "GENERIC",
@@ -1402,8 +1435,25 @@
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "steel", "plastic" ],
-    "weight": "62650 g",
-    "volume": "30 L",
+    "weight": "32700 g",
+    "volume": "105 L",
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 4, "cut": 4 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_robofac_skittergun",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken exterminatron" },
+    "category": "other",
+    "description": "A broken Hub 01 exterminatron.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "steel", "plastic" ],
+    "weight": "32700 g",
+    "volume": "105 L",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
@@ -1424,23 +1474,6 @@
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 4, "cut": 4 }
-  },
-  {
-    "type": "GENERIC",
-    "id": "broken_copbot",
-    "symbol": ",",
-    "color": "green",
-    "name": { "str": "broken police bot" },
-    "category": "other",
-    "description": "A broken police bot.  Much less threatening now that it's quiet and still.  Could be gutted for parts.",
-    "price": 30000,
-    "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "140000 g",
-    "volume": "62500 ml",
-    "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -1498,23 +1531,6 @@
     "id": "broken_nursebot_defective",
     "name": { "str": "broken nurse bot" },
     "copy-from": "broken_nursebot"
-  },
-  {
-    "type": "GENERIC",
-    "id": "broken_riotbot",
-    "symbol": ",",
-    "color": "green",
-    "name": { "str": "broken riot control bot" },
-    "category": "other",
-    "description": "A broken riot control bot.  Much less threatening now that it's out of gas.  Could be gutted for parts.",
-    "price": 30000,
-    "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "140000 g",
-    "volume": "62500 ml",
-    "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -2894,7 +2910,7 @@
     "calories": 15,
     "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
     "material": [ "veggy" ],
-    "flags": [ "TRADER_AVOID", "INEDIBLE", "CATTLE", "TINDER" ],
+    "flags": [ "TRADER_AVOID", "INEDIBLE", "CATTLE", "TINDER", "RABBIT" ],
     "weight": "34 g",
     "volume": "250 ml",
     "to_hit": -2
@@ -3043,18 +3059,15 @@
         "name": { "str": "VTuber body pillow" },
         "description": "A big, body-sized pillow with a print of a popular anime VTuber on the front and their scantily-clad version on the back.",
         "weight": 1
+      },
+      {
+        "id": "bodypillow_makeshift",
+        "name": { "str": "makeshift body pillow" },
+        "description": "A big, body-sized pillow.  Someone drew a vaguely humanoid figure on it.  Its heartwarming smile fills you with joy.",
+        "weight": 0
       }
     ],
     "category": "other"
-  },
-  {
-    "type": "GENERIC",
-    "id": "bodypillow_makeshift",
-    "copy-from": "bodypillow",
-    "name": { "str": "makeshift body pillow" },
-    "description": "A big, body-sized pillow.  Someone drew a vaguely humanoid figure on it.  Its heartwarming smile fills you with joy.",
-    "price": 100,
-    "price_postapoc": 50
   },
   {
     "type": "GENERIC",
@@ -3259,21 +3272,34 @@
     "volume": "250 ml"
   },
   {
+    "abstract": "card_plastic_abstract",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "cyan",
+    "name": { "str": "abstract plastic card" },
+    "description": "A generic plastic card item template with numbers based off a credit card.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "plastic" ],
+    "weight": "5 g",
+    "volume": "5 ml",
+    "longest_side": "84 mm",
+    "//": "Based on my own cash card that I measured with a ruler. Yes I'm professional like that. 8.4cm x 5.3cm x 0.1cm. Really it's slightly less than 5ml but we don't do volume lower than 1ml.",
+    "flags": [ "CREDIT_CARD_SHAPED" ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "neutral" }
+  },
+  {
     "id": "cash_card",
     "type": "TOOL",
     "category": "currency",
+    "copy-from": "card_plastic_abstract",
     "symbol": "$",
     "color": "yellow",
     "name": { "str": "cash card" },
     "ascii_picture": "cashcard",
     "description": "A yellow plastic card used to electronically store money.  It holds up to 2 million dollars.",
     "price": 1000,
-    "price_postapoc": 0,
-    "material": [ "plastic" ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID", "CREDIT_CARD_SHAPED" ],
-    "weight": "3 g",
-    "volume": "5 ml",
-    "to_hit": -3,
+    "extend": { "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "money": 200000000 } } ],
     "rand_charges": [
       0,
@@ -3320,18 +3346,13 @@
   {
     "id": "robofac_test_data",
     "type": "TOOL",
-    "symbol": ",",
+    "copy-from": "card_plastic_abstract",
     "color": "yellow",
     "name": { "str": "prototype I/O recorder" },
     "description": "A small, transparent card that was attached to the prototype robot's CPU.  It might contain the data the intercom spoke of.",
     "category": "other",
     "price": 500,
-    "price_postapoc": 0,
-    "material": [ "plastic" ],
-    "flags": [ "MISSION_ITEM", "CREDIT_CARD_SHAPED" ],
-    "weight": "6 g",
-    "volume": "5 ml",
-    "to_hit": -3
+    "extend": { "flags": [ "MISSION_ITEM" ] }
   },
   {
     "type": "GENERIC",
@@ -3346,49 +3367,34 @@
     "id": "gasdiscount_silver",
     "type": "TOOL",
     "category": "currency",
-    "symbol": ",",
+    "copy-from": "card_plastic_abstract",
     "color": "yellow",
     "name": { "str": "silver gas discount card" },
     "description": "This card gives you a little discount on the purchase of gasoline.",
     "price": 500,
-    "price_postapoc": 0,
-    "material": [ "plastic" ],
-    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_1", "CREDIT_CARD_SHAPED" ],
-    "weight": "6 g",
-    "volume": "5 ml",
-    "to_hit": -3
+    "extend": { "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_1" ] }
   },
   {
     "id": "gasdiscount_gold",
     "type": "TOOL",
     "category": "currency",
-    "symbol": ",",
+    "copy-from": "card_plastic_abstract",
     "color": "yellow",
     "name": { "str": "gold gas discount card" },
     "description": "This card gives you a good discount on the purchase of gasoline.",
     "price": 500,
-    "price_postapoc": 0,
-    "material": [ "plastic" ],
-    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_2", "CREDIT_CARD_SHAPED" ],
-    "weight": "6 g",
-    "volume": "5 ml",
-    "to_hit": -3
+    "extend": { "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_2" ] }
   },
   {
     "id": "gasdiscount_platinum",
     "type": "TOOL",
     "category": "currency",
-    "symbol": ",",
+    "copy-from": "card_plastic_abstract",
     "color": "yellow",
     "name": { "str": "platinum gas discount card" },
     "description": "This card gives you a splendid discount on the purchase of gasoline.",
     "price": 500,
-    "price_postapoc": 0,
-    "material": [ "plastic" ],
-    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_3", "CREDIT_CARD_SHAPED" ],
-    "weight": "6 g",
-    "volume": "5 ml",
-    "to_hit": -3
+    "extend": { "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_3" ] }
   },
   {
     "type": "GENERIC",
@@ -3614,21 +3620,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "welding_components",
-    "category": "spare_parts",
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "red",
-    "name": { "str": "welding component kit" },
-    "description": "A set of components useful for constructing a full-featured welding station, complete with soldering capability.",
-    "price": 9000,
-    "price_postapoc": 2500,
-    "weight": "4500 g",
-    "volume": "3 L",
-    "melee_damage": { "bash": 8 }
-  },
-  {
-    "type": "GENERIC",
     "id": "amplifier_head",
     "symbol": ";",
     "color": "blue",
@@ -3839,6 +3830,7 @@
         "rigid": false,
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
+        "max_item_length": "85 mm",
         "moves": 100,
         "flag_restriction": [ "CREDIT_CARD_SHAPED" ]
       },
@@ -3896,6 +3888,7 @@
         "rigid": false,
         "max_contains_weight": "80 g",
         "max_contains_volume": "175 ml",
+        "max_item_length": "10 cm",
         "moves": 100,
         "flag_restriction": [ "CREDIT_CARD_SHAPED" ]
       },
@@ -3959,7 +3952,7 @@
     "price": 10,
     "price_postapoc": 1,
     "material": [ "plastic" ],
-    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS", "POWERARMOR_COMPATIBLE", "PADDED" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "POWERARMOR_COMPATIBLE", "PADDED" ],
     "weight": "250 g",
     "volume": "250 ml",
     "longest_side": "5 cm",
@@ -3971,6 +3964,7 @@
         "rigid": false,
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
+        "max_item_length": "85 mm",
         "moves": 100,
         "flag_restriction": [ "BANK_NOTE_SHAPED", "CREDIT_CARD_SHAPED" ]
       }

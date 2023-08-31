@@ -5,6 +5,7 @@
     "name": "[Ψ]Night Eyes",
     "description": "Your eyes are much more sensitive in low levels of light, and you can even \"see\" in pitch darkness.",
     "message": "You open your senses to the world.",
+    "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
@@ -16,7 +17,7 @@
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "energy_source": "STAMINA",
-    "base_energy_cost": 1000,
+    "base_energy_cost": 1500,
     "final_energy_cost": 500,
     "energy_increment": -50,
     "min_duration": {
@@ -226,11 +227,48 @@
     }
   },
   {
+    "id": "clair_speed_reading",
+    "type": "SPELL",
+    "name": "[Ψ]Speed Reader",
+    "description": "Your powers make words fairly leap off the page directly into your mind, allowing you to read much faster and better absorb what you read.",
+    "message": "You feel like sitting down with a good book.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_SPEED_READING",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2500,
+    "final_energy_cost": 1000,
+    "energy_increment": -125,
+    "min_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: clair_speed_reading') * 36000) + 360000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_val('spell_level', 'spell: clair_speed_reading') * 72000) + 1080000) * (scaling_factor(u_val('intelligence') ) )"
+      ]
+    },
+    "base_casting_time": 500,
+    "final_casting_time": 250,
+    "casting_time_increment": -12,
+    "learn_spells": { "clair_spot_weakness": 5, "clair_ranged_enhance": 7, "clair_voyance": 9, "clair_clear_sight": 15 }
+  },
+  {
     "id": "clair_danger_sense",
     "type": "SPELL",
     "name": "[Ψ]Premonition",
     "description": "You can sense the presence of the things that wish to do you harm.",
     "message": "You open your senses to the dangers of the world.",
+    "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
@@ -243,8 +281,8 @@
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "base_energy_cost": 1500,
-    "final_energy_cost": 450,
-    "energy_increment": -125,
+    "final_energy_cost": 850,
+    "energy_increment": -85,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: clair_danger_sense') * 6000) + 12000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -254,7 +292,7 @@
     "base_casting_time": 85,
     "final_casting_time": 25,
     "casting_time_increment": -7,
-    "learn_spells": { "clair_dodge_power": 7, "clair_night_vision": 9, "clair_clear_sight": 15 }
+    "learn_spells": { "clair_spot_weakness": 6, "clair_dodge_power": 8, "clair_night_vision": 9, "clair_clear_sight": 15 }
   },
   {
     "id": "clair_spot_weakness",
@@ -262,6 +300,7 @@
     "name": "[Ψ]Discern Weakness",
     "description": "Your powers let you pinpoint exactly where your enemies are weak.",
     "message": "The vulnerabilities of your enemy are revealed.",
+    "teachable": false,
     "valid_targets": [ "hostile" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
@@ -278,7 +317,7 @@
     },
     "max_range": 70,
     "base_energy_cost": 2500,
-    "final_energy_cost": 500,
+    "final_energy_cost": 700,
     "energy_increment": -125,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: clair_spot_weakness') * 150) + 1350) * (scaling_factor(u_val('intelligence') ) )" ]
@@ -289,7 +328,83 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
-    "learn_spells": { "clair_voyance": 7, "clair_clear_sight": 12 }
+    "learn_spells": { "clair_ranged_enhance": 4, "clair_voyance": 7, "clair_clear_sight": 12 }
+  },
+  {
+    "id": "clair_sense_rads",
+    "type": "SPELL",
+    "name": "[Ψ]Radiation Sense",
+    "description": "You can open your tenses to the tell-tale glow of radiation.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_RAD_SENSE",
+    "//": "Drain is handled in the subspells below",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "base_energy_cost": 2500,
+    "final_energy_cost": 500,
+    "energy_increment": -125,
+    "base_casting_time": 250,
+    "final_casting_time": 100,
+    "casting_time_increment": -4.5
+  },
+  {
+    "id": "clair_sense_rads_self",
+    "type": "SPELL",
+    "name": "[Ψ]Radiation Sense on you",
+    "description": "Sense your personal radiation.  It's a bug if you have it directly.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_RAD_SENSE_SELF_REPORT",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] }
+  },
+  {
+    "id": "clair_sense_rads_outside",
+    "type": "SPELL",
+    "name": "[Ψ]Radiation Sense on your environment",
+    "description": "Sense your environmental radiation.  It's a bug if you have it directly.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_clair_sense_rads_self",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_sense_rads') * 23000) + 180000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_sense_rads') * 48000) + 450000) * (scaling_factor(u_val('intelligence') ) )" ]
+    }
+  },
+  {
+    "id": "clair_sense_rads_outside_spawn_item",
+    "type": "SPELL",
+    "name": "[Ψ]Radiation Sense summon item",
+    "description": "This is the reoccurring item summon for Radiation Sense.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "spawn_item",
+    "effect_str": "clair_sense_rad_item",
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 1100,
+    "max_duration": 1100
   },
   {
     "id": "clair_dodge_power",
@@ -297,6 +412,7 @@
     "name": "[Ψ]Combat Sense",
     "description": "By gazing just a few moments into the future, you can be wherever your enemies are not attacking.",
     "message": "You can see a premonition of your enemies' attacks like a ghostly image.",
+    "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
@@ -309,8 +425,8 @@
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "base_energy_cost": 3500,
-    "final_energy_cost": 850,
-    "energy_increment": -175,
+    "final_energy_cost": 1250,
+    "energy_increment": -145,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: clair_dodge_power') * 1200) + 3000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
@@ -320,7 +436,39 @@
     "base_casting_time": 150,
     "final_casting_time": 70,
     "casting_time_increment": -9,
-    "learn_spells": { "clair_clear_sight": 9, "clair_voyance": 12 }
+    "learn_spells": { "clair_spot_weakness": 3, "clair_ranged_enhance": 5, "clair_clear_sight": 9, "clair_voyance": 12 }
+  },
+  {
+    "id": "clair_ranged_enhance",
+    "type": "SPELL",
+    "name": "[Ψ]Marksman's Eye",
+    "description": "With your enhanced senses, you can increase the effective range and accuracy of your attacks.",
+    "message": "Distances seem to narrow and your enemies' movements seem to slow.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_clair_ranged_enhance",
+    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "base_energy_cost": 4000,
+    "final_energy_cost": 1500,
+    "energy_increment": -175,
+    "min_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_dodge_power') * 800) + 10000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_val('spell_level', 'spell: clair_dodge_power') * 1500) + 60000) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "base_casting_time": 200,
+    "final_casting_time": 125,
+    "casting_time_increment": -10,
+    "learn_spells": { "clair_spot_weakness": 5, "clair_see_map": 9, "clair_clear_sight": 12 }
   },
   {
     "id": "clair_voyance",
@@ -328,6 +476,7 @@
     "name": "[Ψ]Clairvoyance",
     "description": "The classic example of a clairsentient's powers, you can see through walls and reveal everything nearby.",
     "message": "You open your inner eye.",
+    "teachable": false,
     "valid_targets": [ "ally", "hostile", "ground" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
@@ -350,7 +499,7 @@
     "min_field_intensity": 1,
     "max_field_intensity": 1,
     "base_energy_cost": 5000,
-    "final_energy_cost": 1500,
+    "final_energy_cost": 2500,
     "energy_increment": -250,
     "min_duration": {
       "math": [ "( (u_val('spell_level', 'spell: clair_voyance') * 50) + 250) * (scaling_factor(u_val('intelligence') ) )" ]
@@ -369,6 +518,7 @@
     "name": "[Ψ]Satellite View",
     "description": "You can extend your senses over the landscape, becoming aware of every hill, building, and valley within a large area.",
     "message": "You close your eyes and concentrate, and you can see the landscape spread out as though you were a bird on the wing.",
+    "teachable": false,
     "valid_targets": [ "none" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
@@ -391,6 +541,7 @@
     "name": "[Ψ]Clarity",
     "description": "Thanks to your powers, nothing can stop you from seeing the world as it is.",
     "message": "Your senses sharpen and all distractions vanish.",
+    "teachable": false,
     "valid_targets": [ "self" ],
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "spell_class": "CLAIRSENTIENT",
@@ -408,8 +559,8 @@
     "max_duration": {
       "math": [ "( (u_val('spell_level', 'spell: clair_clear_sight') * 1000) + 45000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
-    "base_energy_cost": 3000,
-    "final_energy_cost": 1250,
+    "base_energy_cost": 5000,
+    "final_energy_cost": 2000,
     "energy_increment": -250,
     "base_casting_time": 75,
     "final_casting_time": 25,

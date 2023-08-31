@@ -111,6 +111,11 @@
     "info": "This item can be activated or reloaded from an adjacent tile without picking it up."
   },
   {
+    "id": "ALWAYS_AIMED",
+    "type": "json_flag",
+    "info": "This gun is <good>always fully aimed</good>."
+  },
+  {
     "id": "AURA",
     "type": "json_flag",
     "//": "This item goes in the outer aura layer, intended for metaphysical effects.",
@@ -1242,10 +1247,6 @@
     "type": "json_flag"
   },
   {
-    "id": "AUTO_DELETE_CABLE",
-    "type": "json_flag"
-  },
-  {
     "id": "CAMERA_PRO",
     "type": "json_flag"
   },
@@ -1897,10 +1898,6 @@
     "type": "json_flag"
   },
   {
-    "id": "MODE_BURST",
-    "type": "json_flag"
-  },
-  {
     "id": "FIRE_TWOHAND",
     "info": "<bad>You must</bad> have two free hands to fire this item.",
     "type": "json_flag"
@@ -2169,6 +2166,16 @@
     "info": "This is meant for exosuit foot plating."
   },
   {
+    "id": "ROBOFAC_ROBOT_MEDIUM",
+    "type": "json_flag",
+    "info": "A medium drone sold by Hub 01."
+  },
+  {
+    "id": "ROBOFAC_ROBOT_SMALL",
+    "type": "json_flag",
+    "info": "A small drone sold by Hub 01."
+  },
+  {
     "id": "VOLTMETER",
     "type": "json_flag",
     "info": "This tool can test for voltage."
@@ -2290,5 +2297,17 @@
     "id": "USE_POWER_WHEN_HIT",
     "type": "json_flag",
     "info": "This armor <info>expends energy when hit</info>."
+  },
+  {
+    "id": "RAT",
+    "type": "json_flag"
+  },
+  {
+    "id": "MOUSE",
+    "type": "json_flag"
+  },
+  {
+    "id": "RABBIT",
+    "type": "json_flag"
   }
 ]

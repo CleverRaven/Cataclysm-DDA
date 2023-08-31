@@ -9,9 +9,9 @@
 #include "player_helpers.h"
 #include "point.h"
 
-
 static const activity_id ACT_ADD_VARIABLE_COMPLETE( "ACT_ADD_VARIABLE_COMPLETE" );
 static const activity_id ACT_ADD_VARIABLE_DURING( "ACT_ADD_VARIABLE_DURING" );
+static const activity_id ACT_GENERIC_EOC( "ACT_GENERIC_EOC" );
 
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_LINE( "EOC_TEST_TRANSFORM_LINE" );
@@ -45,6 +45,8 @@ effect_on_condition_EOC_math_test_equals_assign( "EOC_math_test_equals_assign" )
 static const effect_on_condition_id
 effect_on_condition_EOC_math_test_greater_increment( "EOC_math_test_greater_increment" );
 static const effect_on_condition_id
+effect_on_condition_EOC_math_test_inline_condition( "EOC_math_test_inline_condition" );
+static const effect_on_condition_id
 effect_on_condition_EOC_math_var( "EOC_math_var" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
@@ -69,7 +71,6 @@ effect_on_condition_EOC_string_var_var( "EOC_string_var_var" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_kill" );
 
-
 static const itype_id itype_test_knife_combat( "test_knife_combat" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -84,7 +85,6 @@ static const spell_id spell_test_eoc_spell( "test_eoc_spell" );
 
 static const trait_id trait_process_mutation( "process_mutation" );
 static const trait_id trait_process_mutation_two( "process_mutation_two" );
-
 
 namespace
 {
@@ -170,8 +170,10 @@ TEST_CASE( "EOC_math_integration", "[eoc][math_parser]" )
     CHECK( effect_on_condition_EOC_math_var->test_condition( d ) );
 
     CHECK_FALSE( effect_on_condition_EOC_math_test_equals_assign->test_condition( d ) );
+    CHECK_FALSE( effect_on_condition_EOC_math_test_inline_condition->test_condition( d ) );
     get_avatar().set_stamina( 500 );
     CHECK( effect_on_condition_EOC_math_test_equals_assign->test_condition( d ) );
+    CHECK( effect_on_condition_EOC_math_test_inline_condition->test_condition( d ) );
     effect_on_condition_EOC_math_test_equals_assign->activate( d );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_math_test" ) ) == Approx( 9 ) );
     effect_on_condition_EOC_math_switch_math->activate( d );
@@ -345,7 +347,6 @@ TEST_CASE( "EOC_context_test", "[eoc][math_parser]" )
     CHECK( d.get_value( "npctalk_var_simple" ).empty() );
 }
 
-
 TEST_CASE( "EOC_option_test", "[eoc][math_parser]" )
 {
     clear_avatar();
@@ -353,7 +354,6 @@ TEST_CASE( "EOC_option_test", "[eoc][math_parser]" )
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
-
 
     globvars.clear_global_values();
 
@@ -676,7 +676,7 @@ TEST_CASE( "EOC_run_with_test_queue", "[eoc]" )
     CHECK( d.get_value( "npctalk_var_key3" ).empty() );
 }
 
-TEST_CASE( "EOC_spell_event", "[eoc]" )
+TEST_CASE( "EOC_event_test", "[eoc]" )
 {
     clear_avatar();
     clear_map();
@@ -689,6 +689,7 @@ TEST_CASE( "EOC_spell_event", "[eoc]" )
     REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
 
+    // character_casts_spell
     spell temp_spell( spell_test_eoc_spell );
     temp_spell.set_level( get_avatar(), 5 );
     temp_spell.cast_all_effects( get_avatar(), tripoint() );
@@ -696,6 +697,21 @@ TEST_CASE( "EOC_spell_event", "[eoc]" )
     CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "45" );
     CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "100" );
     CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "5" );
+
+    // character_starts_activity
+    globvars.clear_global_values();
+    get_avatar().assign_activity( ACT_GENERIC_EOC, 1 );
+
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "ACT_GENERIC_EOC" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "0" );
+    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "activity start" );
+
+    // character_finished_activity
+    get_avatar().cancel_activity();
+
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "ACT_GENERIC_EOC" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "1" );
+    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "activity finished" );
 }
 
 TEST_CASE( "EOC_spell_exp", "[eoc]" )
@@ -713,10 +729,8 @@ TEST_CASE( "EOC_spell_exp", "[eoc]" )
 
     CHECK( effect_on_condition_EOC_math_spell_xp->activate( d ) );
 
-
     CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "1000" );
 }
-
 
 TEST_CASE( "EOC_recipe_test", "[eoc]" )
 {
@@ -732,7 +746,6 @@ TEST_CASE( "EOC_recipe_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_recipe_test_1->activate( d ) );
     CHECK( globvars.get_global_value( "fail_var" ).empty() );
     CHECK( get_avatar().knows_recipe( r ) );
-
 
     CHECK( effect_on_condition_EOC_recipe_test_2->activate( d ) );
     CHECK( globvars.get_global_value( "fail_var" ).empty() );

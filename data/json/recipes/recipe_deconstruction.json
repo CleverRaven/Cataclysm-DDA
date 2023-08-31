@@ -773,30 +773,6 @@
     ]
   },
   {
-    "result": "broken_copbot",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "electronics",
-    "difficulty": 6,
-    "time": "2 h",
-    "//": "These robot corpses should really be moved into the butcher mechanic",
-    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "memory_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "omni_wheel", 1 ] ],
-      [ [ "copbot_chassis", 1 ] ],
-      [ [ "android_arms", 1 ] ],
-      [ [ "power_supply", 4 ] ],
-      [ [ "solar_cell", 2 ] ],
-      [ [ "tazer", 1 ] ]
-    ]
-  },
-  {
     "result": "broken_turret_speaker",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -1003,29 +979,6 @@
     ]
   },
   {
-    "result": "broken_eyebot",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "electronics",
-    "difficulty": 2,
-    "time": "30 m",
-    "using": [ [ "soldering_standard", 3 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "small_storage_battery", 1 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "quad_rotors", 1 ] ],
-      [ [ "lens", 1 ] ]
-    ]
-  },
-  {
     "result": "broken_robofac_camspy",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -1169,29 +1122,6 @@
     ]
   },
   {
-    "result": "broken_riotbot",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "electronics",
-    "difficulty": 6,
-    "time": "2 h",
-    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "memory_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "omni_wheel", 1 ] ],
-      [ [ "copbot_chassis", 1 ] ],
-      [ [ "android_arms", 1 ] ],
-      [ [ "power_supply", 4 ] ],
-      [ [ "solar_cell", 2 ] ],
-      [ [ "canister_empty", 1 ] ]
-    ]
-  },
-  {
     "result": "broken_secubot",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -1260,6 +1190,30 @@
       [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "tazer", 2 ] ]
+    ]
+  },
+  {
+    "result": "broken_robofac_skittergun",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "spidery_legs_small", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ]
     ]
   },
   {
@@ -1715,9 +1669,7 @@
       [ [ "exodii_motor", 8 ] ],
       [ [ "gun_module", 3 ] ],
       [ [ "flamethrower", 1 ] ],
-      [ [ "tazer", 1 ] ],
-      [ [ "modular_m4_carbine", 1 ] ],
-      [ [ "pamd68", 1 ] ],
+      [ [ "pamd68", 2 ] ],
       [ [ "power_supply", 20 ] ],
       [ [ "amplifier", 5 ] ],
       [ [ "e_scrap", 50 ] ],
@@ -3027,7 +2979,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "3 m",
-    "components": [ [ [ "charcoal", 200 ] ], [ [ "char_kiln", 1 ] ] ]
+    "components": [ [ [ "charcoal", 10000 ] ], [ [ "char_kiln", 1 ] ] ]
   },
   {
     "type": "uncraft",
@@ -3393,14 +3345,6 @@
     "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "metal_tank_little", 1 ] ] ]
   },
   {
-    "result": "peeler",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-  },
-  {
     "result": "pot_makeshift_copper",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -3599,7 +3543,7 @@
     "result": "garlic_press",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "scrap", 4 ] ] ]
   },
   {
     "result": "gold_ring",
@@ -5887,8 +5831,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "silver_small", 6 ] ] ],
-    "flags": [ "UNCRAFT_BY_CHARGE" ]
+    "components": [ [ [ "silver_small", 6 ] ] ]
   },
   {
     "result": "coin_gold",
@@ -5896,8 +5839,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "gold_small", 6 ] ] ],
-    "flags": [ "UNCRAFT_BY_CHARGE" ]
+    "components": [ [ [ "gold_small", 6 ] ] ]
   },
   {
     "result": "spray_can",
@@ -6062,29 +6004,37 @@
     "result": "sheet_kevlar",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "10 m",
+    "time": "1 m",
     "skill_used": "tailor",
-    "difficulty": 3,
-    "qualities": [ { "id": "CUT_FINE", "level": 2 } ],
-    "components": [ [ [ "thread_kevlar", 80 ] ] ],
-    "//": "Realistically, this may be out of the question (though I have not found info to the contrary), and a full sheet would give way more thread, but this is to keep the time down"
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT_FINE", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "kevlar_patch", 8 ] ] ]
+  },
+  {
+    "result": "sheet_kevlar_patchwork",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT_FINE", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "kevlar_patch", 8 ] ] ]
+  },
+  {
+    "result": "kevlar_patch",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "scrap_kevlar", 4 ] ] ]
   },
   {
     "result": "scrap_kevlar",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "qualities": [ { "id": "CUT_FINE", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "thread_kevlar", 2 ] ] ]
-  },
-  {
-    "result": "sheet_kevlar_layered",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "10 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_kevlar", 16 ] ] ],
-    "//": "just ripping the seams to separate the 16 layers"
   },
   {
     "result": "office_letter_opener",
@@ -7564,5 +7514,105 @@
     "time": "45 m",
     "qualities": [ { "id": "WRENCH", "level": 2 } ],
     "components": [ [ [ "alternator_truck", 1 ] ], [ [ "i4_diesel", 1 ] ], [ [ "frame", 1 ] ], [ [ "jerrycan_big", 1 ] ] ]
+  },
+  {
+    "result": "apron_cut_resistant",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "15 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_kevlar_patchwork", 20 ] ], [ [ "thread_kevlar", 80 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "armguard_cut_resistant",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_kevlar_patchwork", 15 ] ], [ [ "thread_kevlar", 50 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "chaps_cut_resistant",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "20 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_kevlar_patchwork", 50 ] ], [ [ "thread_kevlar", 150 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "stab_vest",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "20 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_kevlar_patchwork", 40 ] ], [ [ "thread_kevlar", 130 ] ], [ [ "sheet_nylon_patchwork", 10 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "bite_suit",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "90 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_kevlar_patchwork", 180 ] ], [ [ "thread_kevlar", 500 ] ], [ [ "sheet_denim_patchwork", 40 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "motorbike_pants",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "8 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_kevlar_patchwork", 4 ] ], [ [ "thread_kevlar", 15 ] ], [ [ "sheet_denim_patchwork", 2 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "bunker_pants",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "32 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "sheet_kevlar_patchwork", 22 ] ],
+      [ [ "thread_kevlar", 65 ] ],
+      [ [ "sheet_nomex_patchwork", 22 ] ],
+      [ [ "sheet_lycra_patchwork", 6 ] ]
+    ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "bunker_coat",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "36 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "sheet_kevlar_patchwork", 20 ] ],
+      [ [ "thread_kevlar", 60 ] ],
+      [ [ "sheet_nomex_patchwork", 20 ] ],
+      [ [ "sheet_lycra_patchwork", 6 ] ]
+    ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "entry_suit",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "60 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_kevlar_patchwork", 30 ] ], [ [ "thread_kevlar", 90 ] ], [ [ "sheet_nomex_patchwork", 30 ] ] ],
+    "flags": [ "BLIND_HARD" ]
   }
 ]

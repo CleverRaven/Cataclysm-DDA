@@ -10,12 +10,11 @@
     "quench": 25,
     "calories": 217,
     "description": "The hit cookie from Mycus Industries!  Now comes in addicting flavors such as Marloss, Chanterelle, and The Encroaching, Unavoidable Death of Human Civilization.",
-    "price": 0,
+    "price": "1 cent",
     "material": [ "wheat", "fruit" ],
-    "charges": 4,
-    "stack_size": 20,
     "fun": 10,
-    "flags": [ "MYCUS_OK", "FUNGAL_VECTOR" ]
+    "flags": [ "MYCUS_OK", "FUNGAL_VECTOR" ],
+    "volume": "12 ml"
   },
   {
     "type": "recipe",
@@ -28,7 +27,8 @@
     "autolearn": true,
     "time": "10 s",
     "qualities": [ { "id": "COOK", "level": 2 } ],
-    "components": [ [ [ "cookies", 4 ] ], [ [ "marloss_berry", 1 ], [ "marloss_seed", 1 ], [ "mycus_fruit", 1 ] ] ]
+    "components": [ [ [ "cookies", 4 ] ], [ [ "marloss_berry", 1 ], [ "marloss_seed", 1 ], [ "mycus_fruit", 1 ] ] ],
+    "charges": 4
   },
   {
     "id": "powerthirst1",

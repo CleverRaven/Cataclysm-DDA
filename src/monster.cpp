@@ -108,6 +108,8 @@ static const efftype_id effect_photophobia( "photophobia" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
+static const efftype_id effect_spooked( "spooked" );
+static const efftype_id effect_spooked_recent( "spooked_recent" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_tied( "tied" );
@@ -151,7 +153,9 @@ static const mon_flag_str_id mon_flag_ATTACK_UPPER( "ATTACK_UPPER" );
 static const mon_flag_str_id mon_flag_BADVENOM( "BADVENOM" );
 static const mon_flag_str_id mon_flag_CAN_DIG( "CAN_DIG" );
 static const mon_flag_str_id mon_flag_CLIMBS( "CLIMBS" );
+static const mon_flag_str_id mon_flag_CORNERED_FIGHTER( "CORNERED_FIGHTER" );
 static const mon_flag_str_id mon_flag_DIGS( "DIGS" );
+static const mon_flag_str_id mon_flag_EATS( "EATS" );
 static const mon_flag_str_id mon_flag_ELECTRIC( "ELECTRIC" );
 static const mon_flag_str_id mon_flag_ELECTRIC_FIELD( "ELECTRIC_FIELD" );
 static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
@@ -263,6 +267,7 @@ monster::monster()
     ignoring = 0;
     upgrades = false;
     upgrade_time = -1;
+    stomach_timer = calendar::turn;
     last_updated = calendar::turn_zero;
     biosig_timer = calendar::before_time_starts;
     udder_timer = calendar::turn;
@@ -284,6 +289,7 @@ monster::monster( const mtype_id &id ) : monster()
     }
     anger = type->agro;
     morale = type->morale;
+    stomach_size = type->stomach_size;
     faction = type->default_faction;
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( mon_flag_NO_BREED );
@@ -540,8 +546,9 @@ void monster::try_reproduce()
         return;
     }
 
-    if( !baby_timer ) {
+    if( !baby_timer && amount_eaten >= stomach_size ) {
         // Assume this is a freshly spawned monster (because baby_timer is not set yet), set the point when it reproduce to somewhere in the future.
+        // Monsters need to have eaten eat to start their pregnancy timer, but that's all.
         baby_timer.emplace( calendar::turn + *type->baby_timer );
     }
 
@@ -557,7 +564,7 @@ void monster::try_reproduce()
     }
 
     map &here = get_map();
-    // add a decreasing chance of additional spawns when "catching up" an existing animal
+    // add a decreasing chance of additional spawns when "catching up" an existing animal.
     int chance = -1;
     while( true ) {
         if( *baby_timer > calendar::turn ) {
@@ -577,6 +584,9 @@ void monster::try_reproduce()
         }
 
         chance += 2;
+        if( has_flag( mon_flag_EATS ) && amount_eaten == 0 ) {
+            chance += 1; //Reduce the chances but don't prevent birth if the animal is not eating.
+        }
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
@@ -585,7 +595,6 @@ void monster::try_reproduce()
                 here.add_item_or_charges( pos(), item( type->baby_egg, *baby_timer, spawn_cnt ), true );
             }
         }
-
         *baby_timer += *type->baby_timer;
     }
 }
@@ -616,9 +625,17 @@ void monster::refill_udders()
         return;
     }
     if( calendar::turn - udder_timer > 1_days ) {
-        // no point granularizing this really, you milk once a day.
+        // You milk once a day.
         ammo.begin()->second = type->starting_ammo.begin()->second;
         udder_timer = calendar::turn;
+    }
+}
+
+void monster::digest_food()
+{
+    if( calendar::turn - stomach_timer > 1_days && amount_eaten > 0 ) {
+        amount_eaten -= 1;
+        stomach_timer = calendar::turn;
     }
 }
 
@@ -1326,7 +1343,7 @@ Creature *monster::attack_target()
 
     Creature *target = get_creature_tracker().creature_at( get_dest() );
     if( target == nullptr || target == this ||
-        attitude_to( *target ) == Attitude::FRIENDLY || !sees( *target ) ) {
+        attitude_to( *target ) == Attitude::FRIENDLY || !sees( *target ) || target->is_hallucination() ) {
         return nullptr;
     }
 
@@ -1561,6 +1578,16 @@ void monster::process_triggers()
 {
     process_trigger( mon_trigger::STALK, [this]() {
         return anger > 0 && one_in( 5 ) ? 1 : 0;
+    } );
+
+    process_trigger( mon_trigger::BRIGHT_LIGHT, [this]() {
+        int ret = 0;
+        static const int dim_light = round( .75 * default_daylight_level() );
+        int light = round( get_map().ambient_light_at( pos() ) );
+        if( light >= dim_light ) {
+            ret += 10;
+        }
+        return ret;
     } );
 
     process_trigger( mon_trigger::FIRE, [this]() {
@@ -1882,13 +1909,15 @@ bool monster::melee_attack( Creature &target, float accuracy )
                     add_msg( m_good, _( "Your %1$s hits %2$s for %3$d damage!" ), get_name(), target.disp_name(),
                              total_dealt );
                 }
-                if( !u_see_me && u_see_target ) {
-                    add_msg( _( "Something hits the %1$s!" ), target.disp_name() );
-                } else if( !u_see_target ) {
-                    add_msg( _( "The %1$s hits something!" ), name() );
-                } else {
-                    //~ %1$s: attacker name, %2$s: target creature name
-                    add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
+                if( get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ) {
+                    if( !u_see_me && u_see_target ) {
+                        add_msg( _( "Something hits the %1$s!" ), target.disp_name() );
+                    } else if( !u_see_target ) {
+                        add_msg( _( "The %1$s hits something!" ), name() );
+                    } else {
+                        //~ %1$s: attacker name, %2$s: target creature name
+                        add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
+                    }
                 }
             }
         } else if( target.is_avatar() ) {
@@ -1914,7 +1943,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
                          body_part_name_accusative( dealt_dam.bp_hit ),
                          target.disp_name( true ),
                          target.skin_name() );
-            } else {
+            } else if( get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ) {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target armor name.
                 add_msg( _( "%1$s hits %2$s but is stopped by its %3$s." ),
@@ -2100,13 +2129,13 @@ bool monster::move_effects( bool )
         bool immediate_break = type->in_species( species_FISH ) || type->in_species( species_MOLLUSK ) ||
                                type->in_species( species_ROBOT ) || type->bodytype == "snake" || type->bodytype == "blob";
         if( !immediate_break && rng( 0, 900 ) > type->melee_dice * type->melee_sides * 1.5 ) {
-            if( u_see_me ) {
+            if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                 add_msg( _( "The %s struggles to break free of its bonds." ), name() );
             }
         } else if( immediate_break ) {
             remove_effect( effect_tied );
             if( tied_item ) {
-                if( u_see_me ) {
+                if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     add_msg( _( "The %s easily slips out of its bonds." ), name() );
                 }
                 here.add_item_or_charges( pos(), *tied_item );
@@ -2120,7 +2149,7 @@ bool monster::move_effects( bool )
                     here.add_item_or_charges( pos(), *tied_item );
                 }
                 tied_item.reset();
-                if( u_see_me ) {
+                if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     if( broken ) {
                         add_msg( _( "The %s snaps the bindings holding it down." ), name() );
                     } else {
@@ -2134,11 +2163,11 @@ bool monster::move_effects( bool )
     }
     if( has_effect( effect_downed ) ) {
         if( rng( 0, 40 ) > type->melee_dice * type->melee_sides * 1.5 ) {
-            if( u_see_me ) {
+            if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                 add_msg( _( "The %s struggles to stand." ), name() );
             }
         } else {
-            if( u_see_me ) {
+            if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                 add_msg( _( "The %s climbs to its feet!" ), name() );
             }
             remove_effect( effect_downed );
@@ -2147,7 +2176,7 @@ bool monster::move_effects( bool )
     }
     if( has_effect( effect_webbed ) ) {
         if( x_in_y( type->melee_dice * type->melee_sides, 6 * get_effect_int( effect_webbed ) ) ) {
-            if( u_see_me ) {
+            if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                 add_msg( _( "The %s breaks free of the webs!" ), name() );
             }
             remove_effect( effect_webbed );
@@ -2157,7 +2186,7 @@ bool monster::move_effects( bool )
     if( has_effect( effect_lightsnare ) ) {
         if( x_in_y( type->melee_dice * type->melee_sides, 12 ) ) {
             remove_effect( effect_lightsnare );
-            if( u_see_me ) {
+            if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                 add_msg( _( "The %s escapes the light snare!" ), name() );
             }
         }
@@ -2169,7 +2198,7 @@ bool monster::move_effects( bool )
                 remove_effect( effect_heavysnare );
                 here.spawn_item( pos(), "rope_6" );
                 here.spawn_item( pos(), "snare_trigger" );
-                if( u_see_me ) {
+                if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     add_msg( _( "The %s escapes the heavy snare!" ), name() );
                 }
             }
@@ -2180,7 +2209,7 @@ bool monster::move_effects( bool )
         if( type->melee_dice * type->melee_sides >= 18 ) {
             if( x_in_y( type->melee_dice * type->melee_sides, 200 ) ) {
                 remove_effect( effect_beartrap );
-                if( u_see_me ) {
+                if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     add_msg( _( "The %s escapes the bear trap!" ), name() );
                 }
             }
@@ -2190,7 +2219,7 @@ bool monster::move_effects( bool )
     if( has_effect( effect_crushed ) ) {
         if( x_in_y( type->melee_dice * type->melee_sides, 100 ) ) {
             remove_effect( effect_crushed );
-            if( u_see_me ) {
+            if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                 add_msg( _( "The %s frees itself from the rubble!" ), name() );
             }
         }
@@ -2206,7 +2235,7 @@ bool monster::move_effects( bool )
         if( rng( 0, 40 ) > type->melee_dice * type->melee_sides ) {
             return false;
         } else {
-            if( u_see_me ) {
+            if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                 add_msg( _( "The %s escapes the pit!" ), name() );
             }
             remove_effect( effect_in_pit );
@@ -2232,7 +2261,7 @@ bool monster::move_effects( bool )
             if( grabber == nullptr ) {
                 remove_effect( grab.get_id() );
                 add_msg_debug( debugmode::DF_MATTACK, "Orphan grab found and removed" );
-                if( u_see_me ) {
+                if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     add_msg( _( "The %s is no longer grabbed!" ), name() );
                 }
                 continue;
@@ -2244,7 +2273,7 @@ bool monster::move_effects( bool )
             if( !x_in_y( monster, grab_str ) ) {
                 return false;
             } else {
-                if( u_see_me ) {
+                if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     add_msg( _( "The %s breaks free from the %s's grab!" ), name(), grabber->name() );
                 }
                 remove_effect( grab.get_id() );
@@ -2726,9 +2755,6 @@ void monster::die( Creature *nkiller )
         set_hp( current_hp );
     }
 
-
-
-
     item_location corpse;
     // drop a corpse, or not - this needs to happen after the spell, for e.g. revivification effects
     switch( type->mdeath_effect.corpse_type ) {
@@ -2757,7 +2783,6 @@ void monster::die( Creature *nkiller )
             add_item( item( "snare_trigger", calendar::turn_zero ) );
         }
     }
-
 
     if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death( corpse.get_item() );
@@ -3124,7 +3149,42 @@ void monster::process_effects()
         }
     }
 
-    // If this critter weakens in light, apply the appropriate effect
+    if( has_flag( mon_flag_CORNERED_FIGHTER ) ) {
+        map &here = get_map();
+        creature_tracker &creatures = get_creature_tracker();
+        for( const tripoint &p : here.points_in_radius( pos(), 2 ) ) {
+            const monster *const mon = creatures.creature_at<monster>( p );
+            const Character *const guy = creatures.creature_at<Character>( p );
+            if( mon && mon != this && mon->faction->attitude( faction ) != MFA_FRIENDLY &&
+                !has_effect( effect_spooked ) && morale <= 0 ) {
+                if( !has_effect( effect_spooked_recent ) ) {
+                    add_effect( effect_spooked, 3_turns, false );
+                    add_effect( effect_spooked_recent, 9_turns, false );
+                } else {
+                    if( morale < type->morale ) {
+                        morale = type->morale;
+                        anger = type->agro;
+                    }
+                }
+            }
+            if( guy ) {
+                monster_attitude att = attitude( guy );
+                if( ( friendly == 0 ) && ( att == MATT_FOLLOW || att == MATT_FLEE ) &&
+                    !has_effect( effect_spooked ) ) {
+                    if( !has_effect( effect_spooked_recent ) ) {
+                        add_effect( effect_spooked, 3_turns, false );
+                        add_effect( effect_spooked_recent, 9_turns, false );
+                    } else {
+                        if( morale < type->morale ) {
+                            morale = type->morale;
+                            anger = type->agro;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     if( has_flag( mon_flag_PHOTOPHOBIC ) && get_map().ambient_light_at( pos() ) >= 30.0f ) {
         add_msg_if_player_sees( *this, m_good, _( "The shadow withers in the light!" ), name() );
         add_effect( effect_photophobia, 5_turns, true );
@@ -3585,6 +3645,11 @@ void monster::on_load()
     try_upgrade( false );
     try_reproduce();
     try_biosignature();
+
+    if( has_flag( mon_flag_EATS ) ) {
+        digest_food();
+    }
+
     if( has_flag( mon_flag_MILKABLE ) ) {
         refill_udders();
     }

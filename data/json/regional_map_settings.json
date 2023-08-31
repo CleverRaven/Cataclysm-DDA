@@ -1007,6 +1007,7 @@
         "urban_16_house_ranch": 50,
         "urban_17_house_ranch": 50,
         "urban_18_victorian": 50,
+        "urban_20_house": 50,
         "emptyresidentiallot": 20,
         "house_vacant": 7,
         "house_vacant1": 7,
@@ -1023,8 +1024,7 @@
         "s_apt_2": 30,
         "school": 15,
         "motel_city": 10,
-        "fishing_pond_city": 10,
-        "railroad_city": 5
+        "fishing_pond_city": 10
       },
       "parks": {
         "park": 50,
@@ -1180,6 +1180,7 @@
         "bowling_alley": 200,
         "church": 200,
         "church_1": 200,
+        "synagogue": 75,
         "office_cubical": 200,
         "office_cubical_1": 200,
         "furniture": 200,
@@ -1301,7 +1302,8 @@
         "cs_tire_shop": 100,
         "homeless_shelter": 100,
         "salon": 500,
-        "strip_mall": 750
+        "strip_mall": 750,
+        "barber_shop": 350
       }
     },
     "weather": {

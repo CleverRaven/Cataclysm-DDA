@@ -185,6 +185,9 @@ class mapgendata
             // TODO: should be able to determine this from the map itself
             return zlevel_;
         }
+        std::vector<oter_id> get_predecessors() const {
+            return predecessors_;
+        }
 
         void set_dir( int dir_in, int val );
         void fill( int val );

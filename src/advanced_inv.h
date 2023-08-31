@@ -142,13 +142,14 @@ class advanced_inventory
         bool is_processing() const;
 
         static std::string get_sortname( advanced_inv_sortby sortby );
-        bool move_all_items();
-        void print_items( const advanced_inventory_pane &pane, bool active );
+        void print_items( side p, bool active );
         void recalc_pane( side p );
         void redraw_pane( side p );
         void redraw_sidebar();
+
+        bool move_all_items();
         /**
-        * Fills drop_or_stash_item_info lists with the current contents of the active pane.
+        * Fills drop_or_stash_item_info lists with the current contents of the active pane, for use with move_all_items.
         * @param player_character Reference to the player character.
         * @param spane Reference to the active AIM pane.
         * @param item_list Reference to the list to fill with items.
@@ -156,7 +157,7 @@ class advanced_inventory
         * @param filter_buckets Whether to skip over containers that would spill in certain locations.
         * @return a string description of why some items were skipped, if any.
         */
-        std::string fill_lists_with_pane_items( Character &player_character, advanced_inventory_pane &spane,
+        std::string fill_lists_with_pane_items( side &p, Character &player_character,
                                                 std::vector<drop_or_stash_item_info> &item_list,
                                                 std::vector<drop_or_stash_item_info> &fav_list, bool filter_buckets );
         // Returns the x coordinate where the header started. The header is

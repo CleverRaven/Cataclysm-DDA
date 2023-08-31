@@ -138,7 +138,10 @@ struct bionic_data {
      * Mutations/traits that prevent installing this CBM
      */
     std::set<trait_id> mutation_conflicts;
-
+    /**
+     * Mutations/traits the cbm adds if it is removed
+     */
+    std::set<trait_id> give_mut_on_removal;
     /**
      * The spells you learn when you install this bionic, and what level you learn them at.
      */
@@ -167,7 +170,13 @@ struct bionic_data {
      */
     std::set<bionic_id> available_upgrades;
 
-    /**Requirement to bionic installation*/
+    /**
+     * Id of another bionic which this bionic needs to have installed to be installed.
+     * Also prevents that bionic from being removed while this bionic is installed.
+     */
+    bionic_id required_bionic;
+
+    /**Requirement to bionic installation - this is a crafting requirement such as soldering_standard or surface_heat*/
     requirement_id installation_requirement;
 
     cata::flat_set<json_character_flag> flags;

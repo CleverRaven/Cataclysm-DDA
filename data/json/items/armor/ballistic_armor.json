@@ -1095,5 +1095,99 @@
       }
     ],
     "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "xl_ballistic_vest",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "XL ballistic vest" },
+    "description": "An enormous handmade ballistic vest built with of lots of salvaged ballistic Kevlar panels.  It's bulkier than a factory made US Army vest, but it is customized for the benefit of an abnormally large mutant who couldn't wear such armors otherwise.  Coated in MOLLE webbing to support modular loadouts for the tacticool mutant.  It could be outfitted with steel plates for further protection.",
+    "weight": "4500 g",
+    "volume": "9 L",
+    "price": "1600 USD",
+    "price_postapoc": "10 USD",
+    "symbol": "[",
+    "material": [ "nylon", "kevlar_layered" ],
+    "color": "light_gray",
+    "warmth": 15,
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "OVERSIZE" ],
+    "use_action": [ { "type": "attach_molle", "size": 12 }, { "type": "detach_molle" } ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "encumbrance": 8,
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "torso" ],
+        "volume_encumber_modifier": 0.25
+      }
+    ],
+    "looks_like": "ballistic_vest_esapi"
+  },
+  {
+    "id": "xl_ballistic_vest_lc",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "XL ballistic vest (mild steel plates)", "str_pl": "XL ballistic vests (mild steel plates)" },
+    "description": "An enormous handmade ballistic vest built with lots of salvaged ballistic Kevlar panels and homemade \"ballistic inserts\" made of mild steel.  The thin metal isn't the most protective, but it's probably better than just plain Kevlar.",
+    "weight": "12500 g",
+    "volume": "9 L",
+    "price_postapoc": "15 USD",
+    "symbol": "[",
+    "material": [ "nylon", "kevlar_layered", "lc_steel" ],
+    "color": "light_gray",
+    "warmth": 20,
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "OVERSIZE" ],
+    "use_action": [ { "type": "attach_molle", "size": 12 }, { "type": "detach_molle" } ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 },
+          { "type": "lc_steel", "covered_by_mat": 85, "thickness": 1.5 }
+        ],
+        "encumbrance": 14,
+        "coverage": 100,
+        "cover_vitals": 95,
+        "covers": [ "torso" ],
+        "volume_encumber_modifier": 0.25
+      }
+    ],
+    "looks_like": "ballistic_vest_esapi"
+  },
+  {
+    "id": "xl_ballistic_vest_qt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "XL ballistic vest (tempered steel plates)", "str_pl": "XL ballistic vests (tempered steel plates)" },
+    "description": "An enormous handmade ballistic vest made of lots of salvaged ballistic Kevlar panels and ten NIJ IIIA plates inserted into custom-made pockets - four each for your front and back and one each for your sides.  Monstrously heavy but extremely protective.",
+    "weight": "18000 g",
+    "volume": "9 L",
+    "price": "1600 USD",
+    "price_postapoc": "30 USD",
+    "symbol": "[",
+    "material": [ "nylon", "kevlar_layered", "qt_steel" ],
+    "color": "light_gray",
+    "warmth": 20,
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "OVERSIZE" ],
+    "use_action": [ { "type": "attach_molle", "size": 12 }, { "type": "detach_molle" } ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 },
+          { "type": "qt_steel", "covered_by_mat": 90, "thickness": 2.5 }
+        ],
+        "encumbrance": 20,
+        "coverage": 100,
+        "cover_vitals": 95,
+        "covers": [ "torso" ],
+        "volume_encumber_modifier": 0.25
+      }
+    ],
+    "looks_like": "ballistic_vest_esapi"
   }
 ]

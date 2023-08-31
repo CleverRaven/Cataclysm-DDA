@@ -1,0 +1,140 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_PREDATORY_1",
+    "dynamic_line": "Well well well, another traveler.  Don't try anything suspicious, you're outnumbered here and we're well armed, and my boss will know what happens soon enough.",
+    "speaker_effect": { "effect": { "npc_first_topic": "TALK_CARAVAN_MERCHANT_PREDATORY_2" } },
+    "responses": [
+      { "text": "Are you threatening me?", "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Threatening" },
+      { "text": "What's your deal here?", "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Job" },
+      { "text": "I won't try anything if you don't.  Just passing through.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_PREDATORY_2",
+    "dynamic_line": "What can I do for you, <name_g>?",
+    "responses": [
+      { "text": "Do you have anything to trade?", "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Trade", "effect": "start_trade" },
+      { "text": "Your prices seem awfully high.", "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Price" },
+      { "text": "What's your story?", "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Story" },
+      { "text": "Nothing much.  Just passing through.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_PREDATORY_Threatening",
+    "dynamic_line": "No, not at all.  Just being cautious.  You know how it gets out here.  We're not looking for trouble.  In fact, if you've got anything worthwhile, maybe we could do a little trading.",
+    "responses": [
+      { "text": "Sure, let's trade.", "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Trade", "effect": "start_trade" },
+      { "text": "What's your deal here?", "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Job" },
+      { "text": "That suits me fine.  I'll be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_PREDATORY_Job",
+    "dynamic_line": "I'm a businessman, and business is my game.  I came out here to help these poor, poor people who are doing without in such a bad time.",
+    "responses": [
+      { "text": "Sure, let's trade.", "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Trade", "effect": "start_trade" },
+      { "text": "That's it?  What's your story?", "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Story" },
+      { "text": "That suits me fine.  I'll be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_PREDATORY_Story",
+    "dynamic_line": "I'm just a man looking to help some poor folks out, caught word of this place from one of those old FEMA bunkers, a group's holed up there.  I figured I'd come out here and help these people out.",
+    "responses": [
+      {
+        "text": "That's interesting.  Well, let's trade.",
+        "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Trade",
+        "effect": "start_trade"
+      },
+      {
+        "text": "Can you give me directions to any of these other survivor groups?",
+        "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Others"
+      },
+      { "text": "Thanks for chatting.  I'd better go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_PREDATORY_Others",
+    "dynamic_line": "No offense, but my clients definitely would not like me giving strangers directions to their hideouts.  You'll have to find them on their own terms.",
+    "responses": [
+      {
+        "text": "I can understand that.  Well, let's trade.",
+        "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Trade",
+        "effect": "start_trade"
+      },
+      { "text": "Thanks for chatting.  I'd better go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_PREDATORY_Trade",
+    "dynamic_line": "Heh, always good to do business.",
+    "responses": [
+      {
+        "text": "Actually, I had a little more to trade still.",
+        "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Trade",
+        "effect": "start_trade"
+      },
+      { "text": "Your prices seem awfully high.", "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Price" },
+      { "text": "Thanks.  What were we talking about before?", "topic": "TALK_NONE" },
+      { "text": "Thanks for that.  I'd better go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_PREDATORY_Price",
+    "dynamic_line": "Like I said, I'm a businessman and business is my job.  Those other yahoos you've been talkin' to don't know what they're doing.",
+    "speaker_effect": { "effect": { "u_add_var": "u_think_suspicious_price", "type": "general", "context": "trade", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Alright.  I'd like to buy something.",
+        "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Trade",
+        "effect": "start_trade"
+      },
+      {
+        "text": "I think you're full of shit.  I know you're gouging for your own benefit, and wouldn't it be a shame if this information were to get out?",
+        "trial": { "type": "PERSUADE", "difficulty": 5, "mod": [ [ "INTIMIDATE", 4 ] ] },
+        "success": { "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Pricegouge_Win" },
+        "failure": { "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Pricegouge_Lose" }
+      },
+      { "text": "Alright.  What were we talking about before?", "topic": "TALK_NONE" },
+      { "text": "I'd better go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_PREDATORY_Pricegouge_Win",
+    "dynamic_line": "Woah woah woah, cool your jets.  I can't let this spread about me, so name your price and keep quiet, and I might give you a discount.",
+    "speaker_effect": { "effect": { "npc_add_var": "u_paidoff", "type": "general", "context": "meeting", "value": "yes" } },
+    "responses": [
+      { "text": "50 merch and you have a deal.", "effect": { "u_spawn_item": "FMCNote", "count": 50 }, "topic": "TALK_DONE" },
+      {
+        "text": "You know what, I don't want your <swear> dirty money.  Go fuck yourself.",
+        "topic": "TALK_DONE",
+        "effect": "hostile"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_PREDATORY_Pricegouge_Lose",
+    "dynamic_line": "What proof do you have <name_b>?  Nothing is what you got, and your the only one here who's full of shit.",
+    "speaker_effect": { "effect": { "npc_first_topic": "TALK_CARAVAN_MERCHANT_PREDATORY_NoTalk" } },
+    "responses": [
+      { "text": "If you don't wanna cooperate, I'll stop this by force.", "topic": "TALK_DONE", "effect": "hostile" },
+      { "text": "…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_PREDATORY_NoTalk",
+    "dynamic_line": "Get out of here, <name_b>.",
+    "responses": [ { "text": "Alright.", "topic": "TALK_DONE" } ]
+  }
+]

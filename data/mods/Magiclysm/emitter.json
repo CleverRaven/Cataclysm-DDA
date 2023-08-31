@@ -51,5 +51,19 @@
     "intensity": 1,
     "qty": 22,
     "chance": 100
+  },
+  {
+    "id": "emit_rad_mage",
+    "type": "emit",
+    "field": "fd_rad_mage_aura",
+    "intensity": 1,
+    "qty": 4
+  },
+  {
+    "id": "emit_rad_mage_cloud",
+    "type": "emit",
+    "field": "fd_rad_mage_aura",
+    "intensity": 3,
+    "qty": 100
   }
 ]

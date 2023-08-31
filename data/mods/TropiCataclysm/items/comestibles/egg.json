@@ -231,7 +231,7 @@
     "type": "COMESTIBLE",
     "id": "egg_salamander",
     "name": { "str": "cluster of salamander eggs", "str_pl": "clusters of salamander eggs" },
-    "copy-from": "egg_frog",
+    "copy-from": "egg_proxy_frog",
     "description": "A large clump of salamander eggs.  They're gelatinous and transparent.",
     "rot_spawn": "GROUP_EGG_SALAMANDER"
   },
@@ -239,7 +239,7 @@
     "type": "COMESTIBLE",
     "id": "egg_tadfish",
     "name": { "str": "cluster of tadfish eggs", "str_pl": "clusters of tadfish eggs" },
-    "copy-from": "egg_frog",
+    "copy-from": "egg_proxy_frog",
     "description": "A large clump of tadfish eggs.  Very similar to other amphibian eggs.",
     "rot_spawn": "GROUP_EGG_TADFISH"
   },

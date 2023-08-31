@@ -37,7 +37,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_helipad_barricade_wood",
     "blueprint_name": "wooden barricades",
-    "blueprint_provides": [ { "id": "fbmc_helipad_barricade" }, { "id": "bed", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmc_helipad_barricade" } ],
     "blueprint_requires": [ { "id": "fbmc_helipad_0" } ],
     "blueprint_excludes": [ { "id": "fbmc_helipad_barricade" } ]
   },
@@ -51,7 +51,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_helipad_barricade_migo_resin",
     "blueprint_name": "mi-go resin barricades",
-    "blueprint_provides": [ { "id": "fbmc_helipad_barricade" }, { "id": "bed", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmc_helipad_barricade" } ],
     "blueprint_requires": [ { "id": "fbmc_helipad_0" } ],
     "blueprint_excludes": [ { "id": "fbmc_helipad_barricade" } ]
   },
@@ -93,7 +93,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_helipad_reinforce_doors",
     "blueprint_name": "reinforce doors",
-    "blueprint_provides": [ { "id": "fbmc_helipad_reinforce_doors" }, { "id": "bed", "amount": 4 }, { "id": "relaying" }, { "id": "walls" } ],
+    "blueprint_provides": [ { "id": "fbmc_helipad_reinforce_doors" }, { "id": "relaying" }, { "id": "walls" } ],
     "blueprint_requires": [ { "id": "fbmc_helipad_barricade" } ],
     "blueprint_excludes": [ { "id": "fbmc_helipad_reinforce_doors" } ]
   },

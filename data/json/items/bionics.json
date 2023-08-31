@@ -937,6 +937,18 @@
     "difficulty": 4
   },
   {
+    "id": "bio_synlungs",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Synthetic Lungs CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "Highly efficient synthetic lungs which replace the user's own.  After installation the user's cardio fitness will be greatly increased and will not need regular exercise to maintain but the user will need continuous power to remain breathing.  Further, they will weaken the user's immune system somewhat.",
+    "price": 800000,
+    "price_postapoc": 8000,
+    "difficulty": 7,
+    "weight": "800 g"
+  },
+  {
     "id": "bio_targeting",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
@@ -947,6 +959,18 @@
     "price_postapoc": 5000,
     "weight": "250 g",
     "difficulty": 5
+  },
+  {
+    "id": "bio_taser",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Super Stun Gun CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A bionic stun gun which implants into the hand.  It is highly powerful, able to easily cause electrical burns and cardiac arrest in targets.  The electricity it generates arcs through the air over short distances, making it nearly impossible to miss, but it still requires the user to be nearly adjacent to their target.",
+    "price": 250000,
+    "price_postapoc": 2000,
+    "weight": "100 g",
+    "difficulty": 3
   },
   {
     "id": "bio_teleport",

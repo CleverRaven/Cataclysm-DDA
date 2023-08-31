@@ -338,7 +338,6 @@
       "FLASH_PROTECTION"
     ],
     "weight_capacity_bonus": "20 kg",
-    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" }, { "id": "ench_climate_control_all" } ] },
     "power_draw": "6173 mW",
     "revert_to": "modular_exosuit",
     "use_action": [ { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit" } ],

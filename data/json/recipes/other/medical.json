@@ -239,7 +239,8 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
-    "components": [ [ [ "meal_chitin_piece", 6 ] ], [ [ "lye_powder", 100 ], [ "lye", 3 ] ] ]
+    "components": [ [ [ "meal_chitin_piece", 6 ] ], [ [ "lye_powder", 100 ], [ "lye", 3 ] ] ],
+    "charges": 6
   },
   {
     "type": "recipe",
@@ -255,7 +256,8 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
-    "components": [ [ [ "alder_bark", 6 ] ], [ [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "alder_bark", 6 ] ], [ [ "water_clean", 10 ] ] ],
+    "charges": 6
   },
   {
     "type": "recipe",
@@ -313,7 +315,7 @@
     "skill_used": "tailor",
     "time": "54 m",
     "autolearn": true,
-    "byproduct_group": [ { "item": "seed_cotton_boll", "charges": 2 } ],
+    "byproduct_group": [ { "item": "seed_cotton_boll", "count": 2 } ],
     "result_mult": 10,
     "components": [ [ [ "cotton_boll", 1 ] ] ]
   },

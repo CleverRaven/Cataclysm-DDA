@@ -178,7 +178,9 @@ static const material_id material_mc_steel( "mc_steel" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_veggy( "veggy" );
+static const material_id material_water( "water" );
 
+static const mon_flag_str_id mon_flag_EATS( "EATS" );
 static const mon_flag_str_id mon_flag_FLIES( "FLIES" );
 static const mon_flag_str_id mon_flag_IMMOBILE( "IMMOBILE" );
 static const mon_flag_str_id mon_flag_NO_NECRO( "NO_NECRO" );
@@ -449,17 +451,57 @@ bool mattack::eat_food( monster *z )
         map_stack items = here.i_at( p );
         for( item &item : items ) {
             //Fun limit prevents scavengers from eating feces
-            if( !item.is_food() || item.get_comestible_fun() < -20 ) {
+            if( !item.is_food() || item.get_comestible_fun() < -20 || item.made_of( material_water ) ) {
                 continue;
             }
             //Don't eat own eggs
-            if( z->type->baby_egg != item.type->get_id() ) {
+            if( z->has_flag( mon_flag_EATS ) && z->type->baby_egg != item.type->get_id() &&
+                z->amount_eaten < z->stomach_size ) {
                 int consumed = 1;
                 if( item.count_by_charges() ) {
-                    here.use_charges( p, 0, item.type->get_id(), consumed );
+                    z->amount_eaten += 1;
+                    add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
+                    here.use_charges( p, 1, item.type->get_id(), consumed );
                 } else {
-                    here.use_amount( p, 0, item.type->get_id(), consumed );
+                    z->amount_eaten += 1;
+                    add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
+                    here.use_amount( p, 1, item.type->get_id(), consumed );
                 }
+                return true;
+            }
+            if( !z->has_flag( mon_flag_EATS ) && z->type->baby_egg != item.type->get_id() ) {
+                int consumed = 1;
+                if( item.count_by_charges() ) {
+                    add_msg_if_player_sees( *z, _( "The %1s eats the %2s." ), z->name(), item.display_name() );
+                    here.use_charges( p, 1, item.type->get_id(), consumed );
+                } else {
+                    add_msg_if_player_sees( *z, _( "The %1s gobbles up the %2s." ), z->name(), item.display_name() );
+                    here.use_amount( p, 1, item.type->get_id(), consumed );
+                }
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+bool mattack::eat_carrion( monster *z )
+{
+    map &here = get_map();
+    for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
+        // Don't snap up food RIGHT under the player's nose.
+        if( rl_dist( get_player_character().pos(), p ) <= 2 ) {
+            continue;
+        }
+        map_stack items = here.i_at( p );
+        for( item &item : items ) {
+            //TODO: Completely eaten corpses should leave bones and other inedibles.
+            if( item.has_flag( flag_CORPSE ) && z->amount_eaten < z->stomach_size &&
+                ( item.made_of( material_flesh ) || item.made_of( material_iflesh ) ||
+                  item.made_of( material_hflesh ) || item.made_of( material_veggy ) ) ) {
+                item.mod_damage( 500 );
+                z->amount_eaten += 1;
+                add_msg_if_player_sees( *z, _( "The %1s gnaws on the %2s." ), z->name(), item.display_name() );
                 return true;
             }
         }

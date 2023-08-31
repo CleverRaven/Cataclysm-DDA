@@ -65,12 +65,12 @@
     "id": "NC_ANCILLA_DOCTOR_EXPENSIVE_ITEMS",
     "subtype": "collection",
     "entries": [
-      { "item": "morphine", "prob": 100 },
-      { "item": "antibiotics", "prob": 100 },
-      { "item": "strong_antibiotic", "prob": 100 },
+      { "item": "morphine", "prob": 100, "count": 4 },
+      { "prob": 100, "group": "antibiotics_bottle_plastic_pill_prescription_15" },
+      { "prob": 100, "group": "strong_antibiotic_bottle_plastic_pill_prescription_5" },
       { "item": "anesthetic", "prob": 100 },
-      { "item": "oxycodone", "prob": 100 },
-      { "item": "codeine", "prob": 100 }
+      { "prob": 100, "group": "oxycodone_bottle_plastic_pill_prescription_10" },
+      { "prob": 100, "group": "codeine_bottle_plastic_pill_painkiller_10" }
     ]
   },
   {
@@ -180,5 +180,13 @@
     "id": "TALK_ANCILLA_DOCTOR_WORK",
     "dynamic_line": "It takes resources to keep this show running: disinfectant, antibiotics, anesthetics, so on.  I'll give you a great price if you bring any of those.",
     "responses": [ { "text": "I'll keep that in mind.", "topic": "TALK_ANCILLA_DOCTOR" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "strong_antibiotic_bottle_plastic_pill_prescription_5",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "strong_antibiotic", "container-item": "null", "count": 5 } ]
   }
 ]

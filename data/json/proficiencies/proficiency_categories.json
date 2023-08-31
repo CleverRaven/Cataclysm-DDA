@@ -82,5 +82,17 @@
     "id": "prof_tailoring",
     "name": "Fabrics and Tailoring",
     "description": "Proficiencies for sewing, binding and mending fabrics and clothing materials."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_vehicles",
+    "name": "Vehicles",
+    "description": "Proficiencies for driving, piloting, and general vehicle operations."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_athletics",
+    "name": "Athletics",
+    "description": "Proficiencies for various athletic activities."
   }
 ]

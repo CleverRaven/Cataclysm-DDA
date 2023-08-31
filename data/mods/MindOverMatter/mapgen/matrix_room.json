@@ -54,9 +54,10 @@
       "X": "t_door_metal_locked",
       "3": "t_door_metal_c",
       "4": "t_door_metal_pickable",
-      "C": "t_nether_crystal_structure",
+      "C": "t_nether_glass_floor",
       "R": "t_railing"
     },
+    "furniture": { "C": "f_nether_crystal_structure" },
     "items": { "c": { "item": "dist_matrix_crystals", "chance": 100 } }
   }
 ]

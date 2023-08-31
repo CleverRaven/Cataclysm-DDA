@@ -2,7 +2,7 @@
   {
     "id": "bh_m89",
     "copy-from": "rifle_manual",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": ".500 Magnum lever gun" },
     "description": "A finely put together rifle, constructed in the image of old west lever-guns, this weapon features an impressive chambering of .500 Magnum.  Less unmanageable and impractical than within a handgun platform, the power potential of the huge round is nevertheless preserved within this rifle sized package.  Capable of taking down most forms of game, including deer, boars, and small dinosaurs, this is a respectable weapon for only the most enthusiastic of large-calibre shooters.",
@@ -23,6 +23,8 @@
     "to_hit": -1,
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
+    "range": 7,
+    "//range": "Given that .700 NX enjoys MUCH better range at 42 tiles, maybe give this a bit more range at some point, too?",
     "ammo": [ "500" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 180,

@@ -54,6 +54,7 @@ enum class mon_trigger : int {
     SOUND,              // Heard a sound
     PLAYER_NEAR_BABY,   // Player/npc is near a baby monster of this type
     MATING_SEASON,      // It's the monster's mating season (defined by baby_flags)
+    BRIGHT_LIGHT,       // Illumination in the monster's tile is 75% of full daylight or higher
 
     LAST               // This item must always remain last.
 };
@@ -258,7 +259,6 @@ struct mtype {
         pet_food_data petfood;
     private:
 
-
         behavior::node_t goals;
 
     public:
@@ -280,6 +280,8 @@ struct mtype {
         int speed = 0;          /** e.g. human = 100 */
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
+        int stomach_size = 0;         /** how many times this monster will eat */
+        int amount_eaten = 0;         /** how many times it has eaten */
 
         // how close the monster is willing to approach its target while under the MATT_FOLLOW attitude
         int tracking_distance = 8;
@@ -321,8 +323,6 @@ struct mtype {
         // Vision range is linearly scaled depending on lighting conditions
         int vision_day = 40;    /** vision range in bright light */
         int vision_night = 1;   /** vision range in total darkness */
-
-
 
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
         // Monster's ability to destroy terrain and vehicles
