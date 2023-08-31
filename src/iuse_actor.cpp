@@ -5080,7 +5080,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
                 return false;
             }
             if( !inv.has_flag( flag_CABLE_SPOOL ) ) {
-                return can_extend_devices && inv.type->can_use( "link_up" );
+                return can_extend_devices && inv.can_link_up();
             }
             return can_extend.find( inv.typeId().c_str() ) != can_extend.end() && &inv != &it;
         };
@@ -5088,7 +5088,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
                    _( "You don't have a compatible cable." ) );
     } else {
         const auto filter = [&it]( const item & inv ) {
-            if( !inv.has_flag( flag_CABLE_SPOOL ) || !inv.type->can_use( "link_up" ) ||
+            if( !inv.has_flag( flag_CABLE_SPOOL ) || !inv.can_link_up() ||
                 ( inv.link && ( it.link_length() >= 0 || inv.link->has_state( link_state::needs_reeling ) ) ) ) {
                 return false;
             }
@@ -5178,7 +5178,7 @@ std::optional<int> link_up_actor::remove_extensions( Character *p, item &it ) co
 {
     std::list<item *> all_cables = it.all_items_ptr( item_pocket::pocket_type::CABLE );
     all_cables.remove_if( []( const item * cable ) {
-        return !cable->has_flag( flag_CABLE_SPOOL ) || !cable->type->can_use( "link_up" );
+        return !cable->has_flag( flag_CABLE_SPOOL ) || !cable->can_link_up();
     } );
 
     if( all_cables.empty() ) {

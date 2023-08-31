@@ -13003,9 +13003,14 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
     return false;
 }
 
+bool item::can_link_up() const
+{
+    return !!link || type->can_use( "link_up" );
+}
+
 void item::set_link_traits( const bool assign_t_state )
 {
-    if( !link || !type->can_use( "link_up" ) ) {
+    if( !can_link_up() ) {
         return;
     }
 
@@ -13017,7 +13022,7 @@ void item::set_link_traits( const bool assign_t_state )
     link->s_bub_pos = tripoint_min;
 
     for( const item *cable : cables() ) {
-        if( !cable->type->can_use( "link_up" ) ) {
+        if( !cable->can_link_up() ) {
             continue;
         }
         const link_up_actor *actor = static_cast<const link_up_actor *>
@@ -13087,10 +13092,10 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
         }
     }
     const item_filter used_ups = [&]( const item & itm ) {
-        return itm.has_flag( flag_IS_UPS ) && itm.get_var( "cable" ) == "plugged_in";
+        return itm.get_var( "cable" ) == "plugged_in";
     };
     if( link->s_state == link_state::ups ) {
-        if( carrier == nullptr || !carrier->has_item_with( used_ups ) ) {
+        if( carrier == nullptr || !carrier->has_any_item_with( flag_IS_UPS, used_ups ) ) {
             add_msg_if_player_sees( pos, m_bad,
                                     string_format( is_cable_item ? _( "The %s has come loose from the UPS." ) :
                                                    _( "The %s's cable has come loose from the UPS." ), type_name() ) );
@@ -13406,7 +13411,7 @@ bool item::process_linked_item( Character *carrier, const tripoint & /*pos*/,
         active = false;
         return false;
     }
-    bool has_connected_cable = carrier->has_item_with( [&required_state]( const item & it ) {
+    bool has_connected_cable = carrier->has_any_item_with( "can_link_up", &item::can_link_up, [&required_state]( const item & it ) {
         return it.link && it.link->has_state( required_state );
     } );
     if( !has_connected_cable ) {

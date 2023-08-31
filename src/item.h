@@ -1463,6 +1463,11 @@ class item : public visitable
             void deserialize( const JsonObject &data );
         };
         /**
+         * @brief Returns true if the item is/has a cable that can link up to other things.
+         */
+        bool can_link_up() const;
+
+        /**
          * @brief Sets max_length and efficiency of a link, taking cable extensions into account.
          * @brief max_length is set to the sum of all cable lengths.
          * @brief efficiency is set to the product of all efficiencies multiplied together.
