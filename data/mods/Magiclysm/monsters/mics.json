@@ -24,6 +24,19 @@
     "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
   },
   {
+    "id": "mon_mirror_image_rad_mage",
+    "type": "MONSTER",
+    "copy-from": "mon_mirror_image",
+    "looks_like": "mon_feral_radiation_mage",
+    "name": "feral radiation mage",
+    "description": "A research thaumaturge with the international radiation danger symbol in front of a pentagram on their lab coat.  If you had a geiger counter active, it would probably be going crazy right now.",
+    "default_faction": "zombie",
+    "species": [ "UNKNOWN" ],
+    "special_attacks": [ [ "DISAPPEAR", 20 ] ],
+    "anger_triggers": [ "STALK" ],
+    "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
+  },
+  {
     "id": "mon_animated_blade",
     "type": "MONSTER",
     "name": "animated blade",
@@ -75,5 +88,33 @@
     "special_attacks": [ [ "DISAPPEAR", 2000 ] ],
     "death_function": { "message": "", "corpse_type": "NO_CORPSE" },
     "flags": [ "FLIES", "SEES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
+  },
+  {
+    "id": "mon_watcher_spirit",
+    "type": "MONSTER",
+    "name": "watcher spirit",
+    "description": "A summoned watcher spirit, translucent and barely visible.  It gazes all around itself.",
+    "default_faction": "player",
+    "bodytype": "blob",
+    "species": [ "AIR_SPIRIT" ],
+    "volume": "1500 ml",
+    "weight": "136 g",
+    "hp": 20,
+    "speed": 160,
+    "material": [ "wind" ],
+    "symbol": "o",
+    "color": "white",
+    "aggression": -10,
+    "morale": 40,
+    "melee_skill": 1,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "dodge": 9,
+    "vision_day": 30,
+    "vision_night": 30,
+    "harvest": "exempt",
+    "anger_triggers": [  ],
+    "death_function": { "message": "The %s dissipates in a gust of wind!", "corpse_type": "NO_CORPSE" },
+    "flags": [ "SEES", "HEARS", "FLIES", "PATH_AVOID_DANGER_1", "CAMOUFLAGE", "HARDTOSHOOT", "NOGIB", "NOHEAD", "NO_BREATHE" ]
   }
 ]

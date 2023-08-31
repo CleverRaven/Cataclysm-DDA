@@ -60,6 +60,7 @@ static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_FISHING_SPOT( "FISHING_SPOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
 static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
+static const zone_type_id zone_type_LOOT_DEFAULT( "LOOT_DEFAULT" );
 static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
@@ -1075,6 +1076,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
     }
 
     if( cat.get_id() == item_category_food ) {
+
         const item *it_food = nullptr;
         bool perishable = false;
         // Look for food, and whether any contents which will spoil if left out.
@@ -1102,18 +1104,31 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         if( it_food != nullptr ) {
             if( it_food->get_comestible()->comesttype == "DRINK" ) {
                 if( perishable && has_near( zone_type_LOOT_PDRINK, where, range, fac ) ) {
-                    return zone_type_LOOT_PDRINK;
+                    if( !get_near( zone_type_LOOT_PDRINK, where, range, &it, fac ).empty() ) {
+                        return zone_type_LOOT_PDRINK;
+                    }
                 } else if( has_near( zone_type_LOOT_DRINK, where, range, fac ) ) {
-                    return zone_type_LOOT_DRINK;
+                    if( !get_near( zone_type_LOOT_DRINK, where, range, &it, fac ).empty() ) {
+                        return zone_type_LOOT_DRINK;
+                    }
                 }
             }
 
             if( perishable && has_near( zone_type_LOOT_PFOOD, where, range, fac ) ) {
-                return zone_type_LOOT_PFOOD;
+                if( !get_near( zone_type_LOOT_PFOOD, where, range, &it, fac ).empty() ) {
+                    return zone_type_LOOT_PFOOD;
+                }
             }
         }
+        if( !get_near( zone_type_LOOT_FOOD, where, range, &it, fac ).empty() ) {
+            return zone_type_LOOT_FOOD;
+        }
+    }
 
-        return zone_type_LOOT_FOOD;
+    if( has_near( zone_type_LOOT_DEFAULT, where, range, fac ) ) {
+        if( !get_near( zone_type_LOOT_DEFAULT, where, range, &it, fac ).empty() ) {
+            return zone_type_LOOT_DEFAULT;
+        }
     }
 
     return zone_type_id();

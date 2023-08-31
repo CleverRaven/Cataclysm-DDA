@@ -43,6 +43,9 @@ In-game Armor sprite change
 Cockroaches flee light, hide under furniture, eat corpses, and breed faster when fed
 Cataclysm and game start dates are to be set through scenarios
 Friendly NPC crafting by crafting menu
+Functionality to drop items off ledges/cliffs onto creatures below
+NPC fleeing behaviour adjusted and slightly improved
+Adds basic vehicle proficiencies for driving and boating, as well as athletic proficiencies which increase muscle engine output.
 
 
 ## Content:
@@ -135,6 +138,11 @@ Add the Mind Over Matter mod to the CDDA repository
 [Magiclysm] Add a spell-using feral human to Magiclysm
 [MoM] Add telepathic and telekinetic damage types
 [MoM] Mind Over Matter-specific Research facility overhaul
+[XE] Paraclesians: Elemental Races
+[Railroads] New mod
+[MoM] Add Enervation damage type, apply it to Eater and feral vitakinetics
+[Magiclysm] Add more than a dozen spells to magiclysm
+[Magiclysm] Add fantasy species starting option
 
 
 ## Balance:
@@ -165,6 +173,7 @@ Higher dodge skill lowers the stamina cost to dodge
 Adds a mutable stream to the mapgen
 Limit the times assassins can try to kill you.
 Increase plastic variety, adjust plastics to be more realistic in terms of protection
+Characters start with basic skills from their previous life
 
 
 ## Bugfixes:
@@ -233,6 +242,7 @@ Make sure overconfident officers reliably drop their guns
 [MoM] Fix zombie telepathic stuns
 Fix appliance power drain display right after plugging in/unplugging device
 Fix items and furniture being deleted from grappling hook usage
+Randomly generated characters are now aged appropriately to their profession
 
 
 ## Performance:
@@ -241,6 +251,8 @@ Refactor effect types to use map indirection and enums instead of strings
 Removes the ludicrous amount of OMs the refugee and research centres define
 Fix Nested List lag in crafting menu
 Optimize eoc processing and other fixes to speed up waiting near many npcs
+Optimize pocket overflow function
+Speed up new character screen, particularly when many recipes are known
 
 
 ## Infrastructure:
@@ -261,12 +273,16 @@ New documentation on how to test proposed changes
 Remove charges from solid comestibles
 New item categories for martial arts manuals and traps
 Update all active items to new tick action system and remove old system
+Add ability to merge appliance into grid
 
 
 ## Build:
 Support Mac arm64 build
 Adds VS Code Dev Containers & Workspace Config
 Allow for cross-compiling from Linux to Windows in Devcontainer
+Faster local VS builds
+Fast Windows iteration with llvm-lib and lld-link
+Cross compile object creator from linux to Windows using Devcontainer
 
 
 ## I18N and A11Y:

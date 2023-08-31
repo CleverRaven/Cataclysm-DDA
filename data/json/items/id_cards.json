@@ -215,5 +215,20 @@
     "//": "Given by Hub 01's director, intentionally works everywhere.",
     "description": "An employee badge for a system's supervisor.  The reverse side describes the protocol for using it; this could grant access through white zone card readers.",
     "flags": [ "SCIENCE_CARD_MU_UNIVERSAL", "CREDIT_CARD_SHAPED" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "warehouse_rebooter",
+    "color": "blue",
+    "symbol": "%",
+    "name": { "str": "exodii comm rebooter" },
+    "description": "A small rectangular device that Rubik gave you.  It is meant to be plugged in a locator antenna to reactivate it.",
+    "price": 0,
+    "volume": "250 ml",
+    "weight": "500g",
+    "material": [ "plastic", "steel" ],
+    "flags": [ "TRADER_AVOID" ],
+    "price_postapoc": 0,
+    "category": "keys"
   }
 ]

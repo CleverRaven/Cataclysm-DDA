@@ -106,6 +106,7 @@ Within these are the standard list of JSON objects having "type": "proficiency".
     "name": { "str": "Master Archer's Form" },
     "description": "You are a master at the art of Archery.",
     "can_learn": true,
+    "teachable": true,
     "time_to_learn": "20 h",
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
@@ -125,6 +126,7 @@ Within these are the standard list of JSON objects having "type": "proficiency".
 | `name`                      | Mandatory | String | Name of the proficiency, used for all in-game display.                               |
 | `description`               | Mandatory | String | Description of what abilities or special knowledge the proficiency entails.          |
 | `can_learn`                 | Mandatory | Bool   | Whether or not this proficiency can be learned through normal means during the game. |
+| `teachable`                 | Optional  | Bool   | Whether it's possible to teach this proficiency between characters. (Default = true) |
 | `default_time_multiplier`   | Optional  | Float  | Time multiplier for crafting recipes (see below).                                    |
 | `default_skill_penalty`     | Optional  | Float  | Effective skill penalty for crafting recipes (see below).                            |
 | `default_weakpoint_bonus`   | Optional  | Float  | Flat bonus to the attacker's skill.                                                  |

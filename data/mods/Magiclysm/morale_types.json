@@ -3,5 +3,10 @@
     "id": "morale_iocus",
     "type": "morale_type",
     "text": "Enjoyed Iocus"
+  },
+  {
+    "id": "morale_forest_unity",
+    "type": "morale_type",
+    "text": "Peace of the Forest"
   }
 ]

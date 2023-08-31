@@ -29,7 +29,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "coconut_flesh", 5 ] ] ]
+    "components": [ [ [ "coconut_flesh", 4 ] ], [ [ "coconut_water", 1 ] ], [ [ "bowl_coconut", 2 ] ] ]
   },
   {
     "result": "irradiated_watermelon",

@@ -42,7 +42,7 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": "How can I help you?",
+      "yes": [ "How can I help you?", "<u_name>, what can I do for you?" ],
       "no": "Oh, I don't think we've met before.  My name's Jane, I'm the local doctor."
     },
     "responses": [

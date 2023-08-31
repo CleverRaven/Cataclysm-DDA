@@ -1139,7 +1139,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "name": { "str": "swarm of bees", "str_pl": "swarms of bees" },
-    "description": "A swarm of honey bees, displaced from the hive.  Without support and nutrients, or taking root somewhere, they will die in a few days.",
+    "description": "A swarm of honey bees, displaced from the hive.  Without the support and nutrients of an apiary, or taking root somewhere, they will die in a few days.",
     "//": "While bees have mass and volume, it is easier to round to zero for the purposes of the game.",
     "price": 0,
     "price_postapoc": 0,

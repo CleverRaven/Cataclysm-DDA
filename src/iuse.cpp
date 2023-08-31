@@ -7051,7 +7051,6 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint
     if( ( it->ammo_remaining() > it->type->maximum_charges() - 1000 ) && ( p2.x != pos.x ||
             p2.y != pos.y ) ) {
 
-
         if( p->is_elec_immune() ) {
             if( one_in( 10 ) ) {
                 add_msg( m_good, _( "The cuffs try to shock you, but you're protected from electricity." ) );
@@ -7064,7 +7063,6 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint
             p->mod_pain( rng( 2, 5 ) );
 
         }
-
 
         it->charges -= 50;
         if( it->charges < 1 ) {

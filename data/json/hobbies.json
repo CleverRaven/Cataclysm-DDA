@@ -2,11 +2,22 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "boating_license",
+    "name": "Boating License",
+    "description": "You've trained in how to pilot marine craft, as well as general boating and swimming safety.",
+    "points": 0,
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_boat_pilot" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "driving_license",
     "name": "Driving License",
     "description": "You got your driving license and know how to drive a car, change the oil and tires, and other basics.",
     "points": 0,
-    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" } ]
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "proficiencies": [ "prof_driver" ]
   },
   {
     "type": "profession",
@@ -50,7 +61,7 @@
     "subtype": "hobby",
     "id": "mundane_survival",
     "name": "Mundane Survival",
-    "description": "You've managed to survive modern life in a first world country.  Through your ordeals you've learned how to treat scraps and bruises and how to assemble basic furniture.",
+    "description": "You've managed to survive modern life in a first world country.  Through your ordeals you've learned how to treat scrapes and bruises, and how to assemble basic furniture.",
     "points": 0,
     "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "firstaid" } ]
   },
@@ -178,7 +189,7 @@
     "name": "Parkour",
     "description": "You've practiced parkour for many years, and made the world your playground.  It wouldn't be a lie to say that running is your life.  Which is good, because now that the end has come, you're running for your life.",
     "points": 2,
-    "proficiencies": [ "prof_parkour" ],
+    "proficiencies": [ "prof_parkour", "prof_athlete_basic" ],
     "skills": [ { "level": 1, "name": "swimming" } ]
   },
   {
@@ -255,7 +266,7 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "archery_master",
-    "name": "Archery (Master)",
+    "name": "Archery (Expert)",
     "description": "You're a modern day Robin Hood and probably have hella back muscles.  Perhaps you're an Olympic archer in training or maybe you're descended from the longbowmen of old.  In either case, sniping zombie heads should be as easy as pinning apples to trees for you.",
     "points": 8,
     "skills": [ { "level": 8, "name": "archery" }, { "level": 5, "name": "gun" } ],
@@ -278,6 +289,7 @@
     "description": "You're a strong swimmer, and you're pretty sure zombies aren't.  You can't swim forever, but it's certainly an advantage over the undead.",
     "points": 2,
     "skills": [ { "level": 4, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic" ],
     "traits": [ "OUTDOORSMAN" ]
   },
   {
@@ -288,6 +300,7 @@
     "description": "You're an excellent swimmer and may be part fish.  Plus, all that swimming has left you in great shape.  There aren't any zombie sharks in the water, right?",
     "points": 5,
     "skills": [ { "level": 6, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ],
     "traits": [ "OUTDOORSMAN", "GOODCARDIO" ]
   },
   {
@@ -306,7 +319,8 @@
     "name": "Baseball (Intermediate)",
     "description": "You got the stance, you got the grip, you got the game.  Swinging at a zombie's head is close enough to swinging at a baseball… right?",
     "points": 4,
-    "skills": [ { "level": 4, "name": "bashing" }, { "level": 4, "name": "throw" }, { "level": 1, "name": "swimming" } ]
+    "skills": [ { "level": 4, "name": "bashing" }, { "level": 4, "name": "throw" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic" ]
   },
   {
     "type": "profession",
@@ -315,7 +329,8 @@
     "name": "Baseball Pitcher (Expert)",
     "description": "You're accustomed to striking out poor batters at the plate and can probably throw a mean knuckleball.  Now you get to practice your fastball, but perhaps with rocks or grenades this time.",
     "points": 6,
-    "skills": [ { "level": 4, "name": "bashing" }, { "level": 7, "name": "throw" }, { "level": 3, "name": "swimming" } ]
+    "skills": [ { "level": 4, "name": "bashing" }, { "level": 7, "name": "throw" }, { "level": 3, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic" ]
   },
   {
     "type": "profession",
@@ -325,6 +340,7 @@
     "description": "You didn't quite make it into the big leagues, but you were close.  Now it's time to go for the grand slam or you'll be dealing with worse than a strike out.",
     "points": 6,
     "skills": [ { "level": 6, "name": "bashing" }, { "level": 5, "name": "throw" }, { "level": 3, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ],
     "traits": [ "GOODCARDIO" ]
   },
   {
@@ -344,6 +360,7 @@
     "description": "While not the type of wrestler to use folding chairs as weapons, you have experience wrasslin' and tusslin' with others out on the mat.  There's no referees around to see, but hopefully your skills will help you avoid getting pinned by the undead.",
     "points": 5,
     "skills": [ { "level": 3, "name": "melee" }, { "level": 4, "name": "unarmed" }, { "level": 4, "name": "dodge" } ],
+    "proficiencies": [ "prof_athlete_basic" ],
     "traits": [ "FAST_REFLEXES" ]
   },
   {
@@ -354,6 +371,7 @@
     "description": "You were likely on the 100+ wins list back in school and maybe you're a collegiate wrestler or you're using it as part of something like MMA.  Considering how grabby those zombies are, you should get plenty of use out of your skills.",
     "points": 8,
     "skills": [ { "level": 5, "name": "melee" }, { "level": 6, "name": "unarmed" }, { "level": 6, "name": "dodge" } ],
+    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ],
     "traits": [ "FAST_REFLEXES", "GOODCARDIO" ]
   },
   {
@@ -612,7 +630,8 @@
     "name": "Motorsports",
     "description": "You're a big fan of cars and other things that go vroom, whether it's fixing them or driving them.  You may not be a professional, but you know your way around an engine.",
     "points": 1,
-    "skills": [ { "level": 3, "name": "driving" }, { "level": 1, "name": "mechanics" } ]
+    "skills": [ { "level": 3, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "proficiencies": [ "prof_driver" ]
   },
   {
     "type": "profession",
@@ -621,7 +640,23 @@
     "name": "Racing",
     "description": "You're a real speed demon in anything with an engine!  Pulling off hairpin turns at high speeds is a difficult skill to master but you can drift with the best of them.",
     "points": 5,
-    "skills": [ { "level": 8, "name": "driving" }, { "level": 2, "name": "mechanics" } ]
+    "skills": [ { "level": 8, "name": "driving" }, { "level": 2, "name": "mechanics" } ],
+    "proficiencies": [ "prof_driver" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "kickboxing_beginner",
+    "name": "Cardio Kickboxing",
+    "description": "You've trained in non-combat kickboxing at a gym as a way to exercise.  While you were taught the moves, you've never sparred or fought anything more dangerous than a falling punching bag.  Whether you can remember your training when push kick comes to jab is up to you.",
+    "points": 5,
+    "skills": [
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 2, "name": "swimming" },
+      { "level": 1, "name": "dodge" }
+    ],
+    "traits": [ "PROF_KICKBOXER" ]
   },
   {
     "type": "profession",
@@ -638,7 +673,7 @@
     "subtype": "hobby",
     "id": "self_defense",
     "name": "Self-Defense",
-    "description": "You have taken some self-defense classes at a local gym.  You start with your choice of Boxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
+    "description": "You have taken some self-defense classes at a local gym.  You start with your choice of Boxing, Kickboxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
     "points": 5,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 3, "name": "unarmed" }, { "level": 3, "name": "dodge" } ],
     "traits": [ "MARTIAL_ARTS2" ]
@@ -725,7 +760,8 @@
     "description": "You ran the Boston Marathon every year.  That conditioning should make you better equipped than most in avoiding the dead.",
     "points": 5,
     "traits": [ "GOODCARDIO", "FLEET" ],
-    "skills": [ { "level": 2, "name": "swimming" } ]
+    "skills": [ { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic" ]
   },
   {
     "type": "profession",
@@ -859,9 +895,41 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "cyclist_beginner",
+    "name": "Cyclist (Beginner)",
+    "description": "Whether through regular commuting, or just riding for the joy of it, you're no stranger to bicycles.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_driver", "prof_athlete_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "cyclist_intermediate",
+    "name": "Cyclist (Intermediate)",
+    "description": "You've shed gallons of sweat, and more than a little blood, riding the streets and trails as a cyclist.",
+    "points": 4,
+    "skills": [ { "level": 4, "name": "driving" }, { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_driver", "prof_athlete_basic", "prof_athlete_expert" ],
+    "traits": [ "GOODCARDIO" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "cyclist_expert",
+    "name": "Cyclist (Expert)",
+    "description": "You've honed the fitness and form of a professional bicycle racer.  When you're riding, your wheels are like an extension of your body.",
+    "points": 7,
+    "skills": [ { "level": 6, "name": "driving" }, { "level": 3, "name": "swimming" } ],
+    "proficiencies": [ "prof_driver", "prof_athlete_basic", "prof_athlete_expert", "prof_athlete_master" ],
+    "traits": [ "GOODCARDIO", "DEFT" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "basketball_beginner",
     "name": "Basketball (Beginner)",
-    "description": "You'd shoot some b-ball outside of the school, until a couple of corpses up to no good started making trouble in the neighborhood.",
+    "description": "You used to shoot some b-ball outside of the school… at least, until a couple of corpses who were up to no good started making trouble in your neighborhood.",
     "points": 2,
     "skills": [ { "level": 2, "name": "throw" }, { "level": 2, "name": "dodge" }, { "level": 1, "name": "swimming" } ]
   },
@@ -872,16 +940,19 @@
     "name": "Basketball (Intermediate)",
     "description": "Your ability to play point or post will beat the undead in overtime.",
     "points": 4,
-    "skills": [ { "level": 4, "name": "throw" }, { "level": 3, "name": "dodge" }, { "level": 2, "name": "swimming" } ]
+    "skills": [ { "level": 4, "name": "throw" }, { "level": 3, "name": "dodge" }, { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic" ],
+    "traits": [ "FAST_REFLEXES" ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
     "id": "basketball_expert",
     "name": "Basketball (Expert)",
-    "description": "You can sink 3-pointers all day and dribble around the most determined defenders.",
+    "description": "You can sink 3-pointers all day, and dribble around the most determined defenders.",
     "points": 7,
     "skills": [ { "level": 6, "name": "throw" }, { "level": 4, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ],
     "traits": [ "GOODCARDIO", "FAST_REFLEXES" ]
   },
   {
@@ -901,6 +972,7 @@
     "description": "You're no stranger to throwing the ol' pigskin and taking a few tackles.  Hopefully your skills in dodging defenders will help you charge through the hordes of undead.",
     "points": 5,
     "skills": [ { "level": 3, "name": "throw" }, { "level": 3, "name": "dodge" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic" ],
     "traits": [ "TOUGH", "FLEET" ]
   },
   {
@@ -911,6 +983,7 @@
     "description": "You played college ball, ya know.  You could have gone pro if the world hadn't ended.",
     "points": 8,
     "skills": [ { "level": 4, "name": "throw" }, { "level": 5, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ],
     "traits": [ "TOUGH", "FLEET", "PAINRESIST" ]
   },
   {
@@ -1027,6 +1100,7 @@
       { "level": 1, "name": "dodge" }
     ],
     "traits": [ "PROF_SKATER" ],
+    "proficiencies": [ "prof_athlete_basic" ],
     "missions": [ "MISSION_SKATES" ]
   },
   {
@@ -1038,6 +1112,7 @@
     "points": 3,
     "skills": [ { "level": 2, "name": "bashing" }, { "level": 2, "name": "swimming" }, { "level": 1, "name": "melee" } ],
     "traits": [ "PROF_SKATER" ],
+    "proficiencies": [ "prof_athlete_basic" ],
     "missions": [ "MISSION_SKATES" ]
   },
   {

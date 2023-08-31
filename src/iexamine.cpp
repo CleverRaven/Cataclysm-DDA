@@ -2706,7 +2706,8 @@ ret_val<void> iexamine::can_fertilize( Character &you, const tripoint &tile,
     if( here.i_at( tile ).size() > 1 ) {
         return ret_val<void>::make_failure( _( "Tile is already fertilized" ) );
     }
-    if( !you.has_charges( fertilizer, 1 ) ) {
+    if( ( fertilizer->count_by_charges() && !you.has_charges( fertilizer, 1 ) ) ||
+        !you.has_amount( fertilizer, 1 ) ) {
         return ret_val<void>::make_failure(
                    _( "Tried to fertilize with %s, but player doesn't have any." ),
                    fertilizer.c_str() );
@@ -2724,7 +2725,12 @@ void iexamine::fertilize_plant( Character &you, const tripoint &tile,
         return;
     }
 
-    std::list<item> planted = you.use_charges( fertilizer, 1 );
+    std::list<item> planted;
+    if( fertilizer->count_by_charges() ) {
+        planted = you.use_charges( fertilizer, 1 );
+    } else {
+        planted = you.use_amount( fertilizer, 1 );
+    }
 
     // Reduce the amount of time it takes until the next stage of the plant by
     // 20% of a seasons length. (default 2.8 days).
@@ -3113,7 +3119,6 @@ void iexamine::arcfurnace_full( Character &, const tripoint &examp )
 }
 //arc furnace end
 
-
 void iexamine::stook_empty( Character &, const tripoint &examp )
 {
     map &here = get_map();
@@ -3475,7 +3480,6 @@ static void fvat_set_full( const tripoint &pos )
         here.furn_set( pos, f_fvat_full );
     }
 }
-
 
 void iexamine::fvat_empty( Character &you, const tripoint &examp )
 {
@@ -4576,7 +4580,6 @@ void iexamine::sign( Character &you, const tripoint &examp )
         } else {
             you.add_msg_if_player( m_neutral, _( "Nothing legible on the sign." ) );
         }
-
 
         // Allow chance to modify message.
         std::vector<tool_comp> tools;
