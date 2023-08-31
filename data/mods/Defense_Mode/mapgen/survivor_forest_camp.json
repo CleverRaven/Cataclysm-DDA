@@ -33,10 +33,7 @@
         "       -----------      "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "nested": {
-        "E": { "chunks": [ [ "leather_tent_5x5_S", 100 ] ] },
-        "A": { "chunks": [ [ "survivor_corpse", 25 ] ] }
-      },
+      "nested": { "E": { "chunks": [ [ "leather_tent_5x5_S", 100 ] ] }, "A": { "chunks": [ [ "survivor_corpse", 25 ] ] } },
       "terrain": {
         ",": [ "t_region_groundcover" ],
         "~": "t_water_dp",
