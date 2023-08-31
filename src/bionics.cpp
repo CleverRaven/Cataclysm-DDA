@@ -3366,7 +3366,7 @@ std::vector<item *> Character::get_cable_ups()
 {
     std::vector<item *> stored_fuels;
 
-    int n = cache_get_items_with( flag_CABLE_SPOOL, [&n]( const item & it ) {
+    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
         return it.link && it.link->has_states( link_state::ups, link_state::bio_cable );
     } ).size();
     if( n == 0 ) {
@@ -3398,7 +3398,7 @@ std::vector<item *> Character::get_cable_solar()
 {
     std::vector<item *> solar_sources;
 
-    int n = cache_get_items_with( flag_CABLE_SPOOL, [&n]( const item & it ) {
+    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
         return it.link && it.link->has_states( link_state::solarpack, link_state::bio_cable );
     } ).size();
     if( n == 0 ) {
@@ -3429,7 +3429,7 @@ std::vector<vehicle *> Character::get_cable_vehicle() const
     std::vector<vehicle *> remote_vehicles;
 
     std::vector<const item *> cables = cache_get_items_with( flag_CABLE_SPOOL,
-    [&cables]( const item & it ) {
+    []( const item & it ) {
         return it.link && it.link->has_state( link_state::bio_cable ) &&
                ( it.link->has_state( link_state::vehicle_battery ) ||
                  it.link->has_state( link_state::vehicle_port ) );

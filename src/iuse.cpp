@@ -4307,7 +4307,7 @@ std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint &
                 p->add_msg_if_player( _( "You and your friend play on your %s for a while." ), it_name );
             }
             for( npc *n : friends_w_game ) {
-                std::vector<item *> nit = n->cache_get_items_with( it->typeId(), [&it]( const item & i ) {
+                std::vector<item *> nit = n->cache_get_items_with( it->typeId(), []( const item & i ) {
                     return i.ammo_sufficient( nullptr );
                 } );
                 n->assign_activity( game_act );
