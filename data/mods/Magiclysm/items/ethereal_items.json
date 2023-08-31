@@ -1537,7 +1537,7 @@
     "symbol": "$",
     "color": "red",
     "material": [ "concentrated_mana" ],
-    "flags": [ "UNBREAKABLE", "ZERO_WEIGHT", "ALLOWS_NATURAL_ATTACKS", "INTEGRATED", "PADDING", "OUTER", "ONLY_ONE", "NO_DROP" ],
+    "flags": [ "UNBREAKABLE", "ZERO_WEIGHT", "ALLOWS_NATURAL_ATTACKS", "INTEGRATED", "PADDED", "OUTER", "ONLY_ONE", "NO_DROP" ],
     "qualities": [ [ "WELD", 2 ] ],
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 2, "electric": 6 },
