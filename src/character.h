@@ -2690,26 +2690,26 @@ class Character : public Creature, public visitable
 
         /**
          * @brief Applies a lambda function on all items with the given flag and/or that pass the given boolean item function, using or creating caches from @ref inv_search_caches.
-         * @param type Only process on items with this item type.
-         * @param flag Only process on items with this flag.
+         * @param type Only process on items of this item type.
+         * @param type_flag Only process on items whose type has this flag.
          * @param key A string to use as the key in the cache. Should usually be the same name as filter_func.
          * @param filter_func Only process on items that return true with this boolean item function. This is cached, so avoid using functions with varying results.
          * @param do_func A lambda function to apply on all items that pass the filters.
          */
         void do_to_items_with( const itype_id &type,
                                const std::function<void( item & )> &do_func ) const;
-        void do_to_items_with( const flag_id &flag,
+        void do_to_items_with( const flag_id &type_flag,
                                const std::function<void( item & )> &do_func ) const;
         void do_to_items_with( const std::string &key, bool( item::*filter_func )() const,
                                const std::function<void( item & )> &do_func ) const;
-        void do_to_items_with( const std::string &key, const itype_id &type, const flag_id &flag,
+        void do_to_items_with( const std::string &key, const itype_id &type, const flag_id &type_flag,
                                bool( item::*filter_func )() const,
                                const std::function<void( item & )> &do_func ) const;
         /**
         * @brief Returns true if the character has an item with given flag and/or that passes the given boolean item function, using or creating caches from @ref inv_search_caches.
         * @brief If you want to iterate over the entire cache, `do_to_items_with` should be used instead, as it's more optimized for processing entire caches.
-        * @param type Look for items with this item type.
-        * @param flag Look for items with this flag.
+        * @param type Look for items of this item type.
+        * @param type_flag Look for items whose type has this flag.
         * @param key A string to use as the cache's key. Should usually be the same name as filter_func. Unneeded if checking only for a flag.
         * @param filter_func Look for items that return true with this boolean item function.
         * @param check_func An optional lambda function applied to items that pass the flag/bool function filters.
@@ -2718,22 +2718,22 @@ class Character : public Creature, public visitable
         */
         bool has_any_item_with( const itype_id &type,
                                 const std::function<bool( const item & )> &check_func = return_true<item> ) const;
-        bool has_any_item_with( const flag_id &flag,
+        bool has_any_item_with( const flag_id &type_flag,
                                 const std::function<bool( const item & )> &check_func = return_true<item> ) const;
         bool has_any_item_with( const std::string &key, bool( item::*filter_func )() const,
                                 const std::function<bool( const item & )> &check_func = return_true<item> ) const;
-        bool has_any_item_with( const std::string &key, const itype_id &type, const flag_id &flag,
+        bool has_any_item_with( const std::string &key, const itype_id &type, const flag_id &type_flag,
                                 bool( item::*filter_func )() const,
                                 const std::function<bool( const item & )> &check_func = return_true<item> ) const;
         /**
         * @brief Find if the character has an item with a specific flag and, if needed, has charges. Uses or creates caches from @ref inv_search_caches.
         */
-        bool has_any_item_with_flag_and_charges( const flag_id &flag ) const;
+        bool has_any_item_with_flag_and_charges( const flag_id &type_flag ) const;
 
         /**
          * @brief Returns all items with the given flag and/or that pass the given boolean item function, using or creating caches from @ref inv_search_caches.
-         * @param type Only get items with this item type.
-         * @param flag Only get items with this flag.
+         * @param type Only get items of this item type.
+         * @param type_flag Only get items whose type has this flag.
          * @param key A string to use as the cache's key. Should usually be the same name as filter_func. Unneeded if checking only for a flag.
          * @param filter_func Only get items that return true with this boolean item function.
          * @param do_and_check_func An optional lambda function applied to items that pass the flag/bool function filters.
@@ -2742,22 +2742,22 @@ class Character : public Creature, public visitable
          */
         std::vector<item *> all_items_with( const itype_id &type,
                                             const std::function<bool( item & )> &do_and_check_func = return_true<item> );
-        std::vector<item *> all_items_with( const flag_id &flag,
+        std::vector<item *> all_items_with( const flag_id &type_flag,
                                             const std::function<bool( item & )> &do_and_check_func = return_true<item> );
         std::vector<item *> all_items_with( const std::string &key, bool( item::*filter_func )() const,
                                             const std::function<bool( item & )> &do_and_check_func = return_true<item> );
         std::vector<item *> all_items_with( const std::string &key, const itype_id &type,
-                                            const flag_id &flag, bool( item::*filter_func )() const,
+                                            const flag_id &type_flag, bool( item::*filter_func )() const,
                                             const std::function<bool( item & )> &do_and_check_func = return_true<item> );
         std::vector<const item *> all_items_with( const itype_id &type,
                 const std::function<bool( const item & )> &check_func = return_true<item> ) const;
-        std::vector<const item *> all_items_with( const flag_id &flag,
+        std::vector<const item *> all_items_with( const flag_id &type_flag,
                 const std::function<bool( const item & )> &check_func = return_true<item> ) const;
         std::vector<const item *> all_items_with( const std::string &key,
                 bool( item::*filter_func )() const,
                 const std::function<bool( const item & )> &check_func = return_true<item> ) const;
         std::vector<const item *> all_items_with( const std::string &key, const itype_id &type,
-                const flag_id &flag, bool( item::*filter_func )() const,
+                const flag_id &type_flag, bool( item::*filter_func )() const,
                 const std::function<bool( const item & )> &check_func = return_true<item> ) const;
         /**
          * Add an item to existing @ref inv_search_caches that it meets the criteria for. Will NOT create any new caches.
@@ -3901,7 +3901,7 @@ class Character : public Creature, public visitable
         /** Cached results for functions that search through the inventory, like @ref do_to_items_with */
         struct inv_search_cache {
             itype_id type;
-            flag_id flag;
+            flag_id type_flag;
             bool ( item::*filter_func )() const;
             std::list<safe_reference<item>> items;
         };
