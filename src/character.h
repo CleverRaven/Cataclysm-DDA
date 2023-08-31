@@ -2697,14 +2697,23 @@ class Character : public Creature, public visitable
          * @param do_func A lambda function to apply on all items that pass the filters.
          */
         void cache_visit_items_with( const itype_id &type,
-                                     const std::function<void( item & )> &do_func ) const;
+                                     const std::function<void( item & )> &do_func );
         void cache_visit_items_with( const flag_id &type_flag,
-                                     const std::function<void( item & )> &do_func ) const;
+                                     const std::function<void( item & )> &do_func );
         void cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
-                                     const std::function<void( item & )> &do_func ) const;
+                                     const std::function<void( item & )> &do_func );
         void cache_visit_items_with( const std::string &key, const itype_id &type,
                                      const flag_id &type_flag, bool( item::*filter_func )() const,
-                                     const std::function<void( item & )> &do_func ) const;
+                                     const std::function<void( item & )> &do_func );
+        void cache_visit_items_with( const itype_id &type,
+                                     const std::function<void( const item & )> &do_func ) const;
+        void cache_visit_items_with( const flag_id &type_flag,
+                                     const std::function<void( const item & )> &do_func ) const;
+        void cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
+                                     const std::function<void( const item & )> &do_func ) const;
+        void cache_visit_items_with( const std::string &key, const itype_id &type,
+                                     const flag_id &type_flag, bool( item::*filter_func )() const,
+                                     const std::function<void( const item & )> &do_func ) const;
         /**
         * @brief Returns true if the character has an item with given flag and/or that passes the given boolean item function, using or creating caches from @ref inv_search_caches.
         * @brief If you want to iterate over the entire cache, `cache_visit_items_with` should be used instead, as it's more optimized for processing entire caches.

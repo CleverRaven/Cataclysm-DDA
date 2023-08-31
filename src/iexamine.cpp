@@ -4684,7 +4684,7 @@ static int findBestGasDiscount( Character &you )
 {
     int discount = 0;
 
-    you.cache_visit_items_with( flag_GAS_DISCOUNT, [&discount]( item & it ) {
+    you.cache_visit_items_with( flag_GAS_DISCOUNT, [&discount]( const item & it ) {
         discount = std::max( discount, getGasDiscountCardQuality( it ) );
     } );
 

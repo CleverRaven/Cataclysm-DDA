@@ -8886,26 +8886,78 @@ bool Character::in_sleep_state() const
 }
 
 void Character::cache_visit_items_with( const itype_id &type,
-                                        const std::function<void( item & )> &do_func ) const
+                                        const std::function<void( item & )> &do_func )
 {
     cache_visit_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, do_func );
 }
 
 void Character::cache_visit_items_with( const flag_id &type_flag,
-                                        const std::function<void( item & )> &do_func ) const
+                                        const std::function<void( item & )> &do_func )
 {
     cache_visit_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, do_func );
 }
 
 void Character::cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
-                                        const std::function<void( item & )> &do_func ) const
+                                        const std::function<void( item & )> &do_func )
 {
     cache_visit_items_with( key, {}, {}, filter_func, do_func );
 }
 
 void Character::cache_visit_items_with( const std::string &key, const itype_id &type,
                                         const flag_id &type_flag, bool( item::*filter_func )() const,
-                                        const std::function<void( item & )> &do_func ) const
+                                        const std::function<void( item & )> &do_func )
+{
+    // If the cache already exists, use it. Remove all invalid item references.
+    auto found_cache = inv_search_caches.find( key );
+    if( found_cache != inv_search_caches.end() ) {
+        inv_search_caches[key].items.erase( std::remove_if( inv_search_caches[key].items.begin(),
+        inv_search_caches[key].items.end(), [&do_func]( const safe_reference<item> it ) {
+            if( it ) {
+                do_func( *it );
+                return false;
+            }
+            return true;
+        } ), inv_search_caches[key].items.end() );
+        return;
+    } else {
+        // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty lists are still created.
+        inv_search_caches[key].type = type;
+        inv_search_caches[key].type_flag = type_flag;
+        inv_search_caches[key].filter_func = filter_func;
+        visit_items( [&]( item * it, item * ) {
+            if( ( !type.is_valid() || it->typeId() == type ) &&
+                ( !type_flag.is_valid() || it->type->has_flag( type_flag ) ) &&
+                ( filter_func == nullptr || ( it->*filter_func )() ) ) {
+
+                inv_search_caches[key].items.push_back( it->get_safe_reference() );
+                do_func( *it );
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+}
+
+void Character::cache_visit_items_with( const itype_id &type,
+                                        const std::function<void( const item & )> &do_func ) const
+{
+    cache_visit_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, do_func );
+}
+
+void Character::cache_visit_items_with( const flag_id &type_flag,
+                                        const std::function<void( const item & )> &do_func ) const
+{
+    cache_visit_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, do_func );
+}
+
+void Character::cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
+                                        const std::function<void( const item & )> &do_func ) const
+{
+    cache_visit_items_with( key, {}, {}, filter_func, do_func );
+}
+
+void Character::cache_visit_items_with( const std::string &key, const itype_id &type,
+                                        const flag_id &type_flag, bool( item::*filter_func )() const,
+                                        const std::function<void( const item & )> &do_func ) const
 {
     // If the cache already exists, use it. Remove all invalid item references.
     auto found_cache = inv_search_caches.find( key );
