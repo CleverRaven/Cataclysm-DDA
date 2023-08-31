@@ -280,7 +280,7 @@
     "id": "ranger",
     "name": "Introspectionist",
     "description": "You segregated yourself from society because you wanted to concentrate on improving yourself.  It was you and your best friend, but now the apocalypse won't leave you alone.",
-    "spells": [ { "id": "magic_missile", "level": 4 } ],
+    "spells": [ { "id": "magic_missile", "level": 4 }, { "id": "classless_watch_spell", "level": 2 } ],
     "points": 4,
     "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "firstaid" } ],
     "traits": [ "MAGUS" ],
@@ -393,6 +393,8 @@
       { "id": "phase_door", "level": 10 },
       { "id": "dimension_door", "level": 2 },
       { "id": "translocate_self", "level": 5 },
+      { "id": "magus_teleport_mark", "level": 6 },
+      { "id": "magus_word_of_recall", "level": 4 },
       { "id": "magus_escape", "level": 3 },
       { "id": "gravity_well", "level": 2 }
     ],
@@ -494,7 +496,8 @@
     "spells": [
       { "id": "eshaper_spawn_tools", "level": 3 },
       { "id": "move_earth", "level": 2 },
-      { "id": "earthshaper_pillar", "level": 1 }
+      { "id": "earthshaper_pillar", "level": 1 },
+      { "id": "classless_watch_spell", "level": 1 }
     ],
     "traits": [ "EARTHSHAPER" ],
     "items": {
@@ -544,7 +547,8 @@
       { "id": "druid_feralform", "level": 4 },
       { "id": "summon_wolf_druid", "level": 3 },
       { "id": "purify_seed", "level": 3 },
-      { "id": "dark_sight", "level": 2 }
+      { "id": "dark_sight", "level": 2 },
+      { "id": "classless_watch_spell", "level": 1 }
     ],
     "skills": [ { "level": 4, "name": "survival" }, { "level": 3, "name": "spellcraft" } ],
     "traits": [ "ANIMALEMPATH", "SLOWREADER", "DRUID" ],
@@ -572,8 +576,10 @@
     "spells": [
       { "id": "druid_naturebow1", "level": 4 },
       { "id": "druid_natures_commune", "level": 3 },
+      { "id": "druid_harvest_hunter", "level": 3 },
       { "id": "purify_seed", "level": 2 },
-      { "id": "druid_veggrasp", "level": 1 }
+      { "id": "druid_veggrasp", "level": 1 },
+      { "id": "classless_watch_spell", "level": 2 }
     ],
     "skills": [
       { "level": 2, "name": "survival" },
@@ -830,7 +836,8 @@
     "spells": [
       { "id": "druidic_healing", "level": 4 },
       { "id": "purify_seed", "level": 4 },
-      { "id": "druid_woodshaft", "level": 3 }
+      { "id": "druid_woodshaft", "level": 3 },
+      { "id": "classless_watch_spell", "level": 2 }
     ],
     "skills": [
       { "level": 4, "name": "survival" },

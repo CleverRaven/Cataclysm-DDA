@@ -377,6 +377,7 @@
       "NONCONDUCTIVE",
       "ONLY_ONE",
       "NO_REPAIR",
+      "SHEATH_BOW",
       "NO_SALVAGE",
       "NO_UNLOAD",
       "WATERPROOF_GUN",
@@ -385,18 +386,111 @@
     ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
+    "ammo": [ "arrow" ],
     "min_strength": 9,
     "weight": "540 g",
     "longest_side": "140 cm",
     "to_hit": 1,
     "reload_noise_volume": 3,
     "loudness": 6,
-    "ranged_damage": { "damage_type": "stab", "amount": 29 },
-    "range": 12,
+    "ranged_damage": { "damage_type": "stab", "amount": 9 },
+    "clip_size": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "range": 14,
     "dispersion": 950,
     "durability": 6,
     "volume": "2500 ml",
     "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "druid_quiver",
+    "type": "ARMOR",
+    "name": { "str": "Woodquiver" },
+    "description": "A magically conjured quiver, marvelously light and easy to wear despite the arrows it holds.",
+    "weight": "260 g",
+    "volume": "500 ml",
+    "price": 6500,
+    "price_postapoc": 1000,
+    "melee_damage": { "bash": 2 },
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "quiver",
+    "color": "green",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "ammo_restriction": { "arrow": 60, "bolt": 60, "arrow_orichalcum": 60 },
+        "weight_multiplier": 0.33333,
+        "volume_multiplier": 0.33333,
+        "moves": 20
+      }
+    ],
+    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE" ],
+    "armor": [
+      {
+        "encumbrance": [ 3, 5 ],
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
+    ]
+  },
+  {
+    "id": "druid_quiver_plus",
+    "type": "ARMOR",
+    "name": { "str": "Woodquiver" },
+    "description": "A magically conjured quiver, marvelously light and easy to wear despite the arrows it holds.  This is an enhanced version, created by your increased mastery of the spell.",
+    "weight": "260 g",
+    "volume": "500 ml",
+    "price": 6500,
+    "price_postapoc": 1000,
+    "melee_damage": { "bash": 2 },
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "quiver",
+    "color": "green",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "ammo_restriction": { "arrow": 120, "bolt": 120, "arrow_orichalcum": 120 },
+        "weight_multiplier": 0.16667,
+        "volume_multiplier": 0.16667,
+        "moves": 20
+      }
+    ],
+    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE" ],
+    "armor": [
+      {
+        "encumbrance": [ 3, 5 ],
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
+    ]
+  },
+  {
+    "id": "druid_naturearrows1",
+    "type": "AMMO",
+    "copy-from": "arrow_heavy_fire_hardened_fletched",
+    "name": { "str": "nature's arrow" },
+    "looks_like": "arrow_heavy_fire_hardened_fletched",
+    "description": "A magically conjured arrow made of twisted wood.",
+    "damage": { "damage_type": "stab", "armor_penetration": 3 },
+    "count": 1,
+    "effects": [ "RECOVER_8" ]
+  },
+  {
+    "id": "arrow_druid",
+    "type": "AMMO",
+    "copy-from": "arrow_heavy_fire_hardened_fletched",
+    "name": { "str": "twisted wooden arrow" },
+    "looks_like": "arrow_heavy_fire_hardened_fletched",
+    "description": "A arrow that looks more like it was grown than carved.  Despite that, it flies straight and true.  It explodes into a mass of entangling vegetation when it hits its target.",
+    "damage": { "damage_type": "stab", "armor_penetration": 2 },
+    "count": 1,
+    "effects": [ "RECOVER_6", "TANGLE" ]
   },
   {
     "type": "TOOL",

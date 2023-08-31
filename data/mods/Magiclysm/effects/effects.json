@@ -680,5 +680,104 @@
     "show_intensity": true,
     "max_intensity": 25,
     "int_add_val": 1
+  },
+  {
+    "type": "effect_type",
+    "id": "earthshaper_fortitude_of_stone",
+    "name": [ "Stones' Fortitude" ],
+    "desc": [ "You feel little hunger or thirst." ],
+    "apply_message": "",
+    "remove_message": "Your stomach suddenly rumbles as you feel a pang of hunger.",
+    "rating": "good",
+    "max_duration": "24 hours",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "HUNGER",
+            "multiply": { "math": [ "(-0.2 - (0.04 * u_val('spell_level', 'spell: earthshaper_fortitude_of_stone')))" ] }
+          },
+          {
+            "value": "THIRST",
+            "multiply": { "math": [ "(-0.2 - (0.04 * u_val('spell_level', 'spell: earthshaper_fortitude_of_stone')))" ] }
+          },
+          {
+            "value": "METABOLISM",
+            "multiply": { "math": [ "(-0.2 - (0.04 * u_val('spell_level', 'spell: earthshaper_fortitude_of_stone')))" ] }
+          },
+          { "value": "REGEN_HP", "multiply": -1.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_tremorsense",
+    "name": [ "Tremorsense" ],
+    "desc": [ "You can feel them moving around you." ],
+    "apply_message": "",
+    "remove_message": "You can no longer discern the vibrations of the living earth.",
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MOTION_VISION_RANGE",
+            "add": { "math": [ "( u_val('spell_level', 'spell: earthshaper_danger_sense') * 3)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "effect_biomancer_remove_instability",
+    "type": "effect_type",
+    "name": [ "Increased Stability" ],
+    "desc": [
+      "You are overcoming the aftereffects of XE037 overexposure.",
+      "You were just overcoming the aftereffects of XE037 overexposure but now you feel awful!"
+    ],
+    "apply_message": "You feel…strange.",
+    "remove_message": "The strange feeling passes and you feel more like yourself.",
+    "rating": "good",
+    "max_intensity": 2,
+    "show_intensity": false,
+    "vitamins": [ { "vitamin": "instability", "rate": [ [ -1, -1 ] ], "tick": [ "30 m" ] } ],
+    "scaling_mods": { "speed_mod": [ -25 ], "str_mod": [ -5 ], "dex_mod": [ -5 ], "int_mod": [ -5 ], "per_mod": [ -5 ] },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 1, "scaling": -0.3 },
+      { "limb_score": "block", "modifier": 1.0, "scaling": -0.2 },
+      { "limb_score": "vision", "modifier": 1.0, "scaling": -0.05 },
+      { "limb_score": "reaction", "modifier": 1, "scaling": -0.3 },
+      { "limb_score": "move_speed", "modifier": 1.0, "scaling": -0.05 },
+      { "limb_score": "balance", "modifier": 1, "scaling": -0.2 },
+      { "limb_score": "footing", "modifier": 1, "scaling": -0.3 },
+      { "limb_score": "swim", "modifier": 1.0, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "id": "effect_biomancer_carrion_feast",
+    "type": "effect_type",
+    "name": [ "Carrion Feast" ],
+    "desc": [ "You can eat rotten food without any trouble, if you can stand the taste." ],
+    "apply_message": "Your have a hunger for some overly-aged meat.",
+    "remove_message": "You can't believe you even considered eating that!  Yuck!",
+    "rating": "good",
+    "show_intensity": false,
+    "flags": [ "IMMUNE_SPOIL", "PARAIMMUNE" ],
+    "blocks_effects": [ "foodpoison" ],
+    "vitamins": [ { "vitamin": "mutant_toxin", "rate": [ [ -1, -1 ] ], "absorb_mult": [ 0.5 ], "tick": [ "30 s" ] } ]
+  },
+  {
+    "id": "effect_classless_watch",
+    "type": "effect_type",
+    "name": [ "Know the Day and the Hour" ],
+    "desc": [ "You know exactly what time it is." ],
+    "apply_message": "",
+    "remove_message": "You perfect sense of time fades away.",
+    "max_duration": "24 hours",
+    "flags": [ "WATCH" ]
   }
 ]

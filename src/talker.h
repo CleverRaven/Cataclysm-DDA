@@ -201,6 +201,9 @@ class talker
         virtual int get_highest_spell_level() const {
             return 0;
         }
+        virtual int get_spell_count( const trait_id & ) const {
+            return 0;
+        }
         virtual void set_spell_level( const spell_id &, int ) {}
         virtual void set_spell_exp( const spell_id &, int ) {}
         virtual void set_skill_level( const skill_id &, int ) {}
@@ -265,22 +268,40 @@ class talker
         virtual std::string skill_training_text( const talker &, const skill_id & ) const {
             return {};
         }
+        virtual std::vector<proficiency_id> proficiencies_teacheable() const {
+            return {};
+        }
         virtual std::vector<proficiency_id> proficiencies_offered_to( const talker & ) const {
+            return {};
+        }
+        virtual std::string proficiency_seminar_text( const proficiency_id & ) const {
             return {};
         }
         virtual std::string proficiency_training_text( const talker &, const proficiency_id & ) const {
             return {};
         }
+        virtual std::vector<matype_id> styles_teacheable() const {
+            return {};
+        }
         virtual std::vector<matype_id> styles_offered_to( const talker & ) const {
+            return {};
+        }
+        virtual std::string style_seminar_text( const matype_id & ) const {
             return {};
         }
         virtual std::string style_training_text( const talker &, const matype_id & ) const {
             return {};
         }
-        virtual std::vector<spell_id> spells_offered_to( talker & ) {
+        virtual std::vector<spell_id> spells_teacheable() const {
             return {};
         }
-        virtual std::string spell_training_text( talker &, const spell_id & ) {
+        virtual std::vector<spell_id> spells_offered_to( talker & ) const {
+            return {};
+        }
+        virtual std::string spell_seminar_text( const spell_id & ) const {
+            return {};
+        }
+        virtual std::string spell_training_text( talker &, const spell_id & ) const {
             return {};
         }
         virtual void store_chosen_training( const skill_id &, const matype_id &,

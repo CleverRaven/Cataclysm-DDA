@@ -16,12 +16,15 @@
             { "math": [ "triffids_allowed", "==", "1" ] },
             { "math": [ "robots_allowed", "==", "1" ] },
             { "math": [ "subspace_allowed", "==", "1" ] },
-            { "math": [ "megafauna_allowed", "==", "1" ] },
             { "math": [ "dinos_allowed", "==", "1" ] },
             { "math": [ "lizardfolk_allowed", "==", "1" ] },
             { "math": [ "goblins_allowed", "==", "1" ] },
             { "math": [ "golems_allowed", "==", "1" ] },
-            { "math": [ "orcs_allowed", "==", "1" ] }
+            { "math": [ "orcs_allowed", "==", "1" ] },
+            { "math": [ "megafauna_allowed", "==", "1" ] },
+            { "math": [ "mindovermatter_allowed", "==", "1" ] },
+            { "math": [ "candymonsters_allowed", "==", "1" ] },
+            { "math": [ "mythos_allowed", "==", "1" ] }
           ]
         },
         "topic": "TALK_DONE"
@@ -91,18 +94,6 @@
         "text": "Disable robots.",
         "condition": { "math": [ "robots_allowed", "==", "1" ] },
         "effect": { "math": [ "robots_allowed", "=", "0" ] },
-        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
-      },
-      {
-        "text": "Allow megafauna.",
-        "condition": { "and": [ { "mod_is_loaded": "megafauna" }, { "math": [ "megafauna_allowed", "==", "0" ] } ] },
-        "effect": { "math": [ "megafauna_allowed", "=", "1" ] },
-        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
-      },
-      {
-        "text": "Disable megafauna.",
-        "condition": { "and": [ { "mod_is_loaded": "megafauna" }, { "math": [ "megafauna_allowed", "==", "1" ] } ] },
-        "effect": { "math": [ "megafauna_allowed", "=", "0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
@@ -178,6 +169,56 @@
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
+        "text": "Allow megafauna.",
+        "condition": { "and": [ { "mod_is_loaded": "megafauna" }, { "math": [ "megafauna_allowed", "==", "0" ] } ] },
+        "effect": { "math": [ "megafauna_allowed", "=", "1" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Disable megafauna.",
+        "condition": { "and": [ { "mod_is_loaded": "megafauna" }, { "math": [ "megafauna_allowed", "==", "1" ] } ] },
+        "effect": { "math": [ "megafauna_allowed", "=", "0" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Allow psychics.",
+        "condition": { "and": [ { "mod_is_loaded": "mindovermatter" }, { "math": [ "mindovermatter_allowed", "==", "0" ] } ] },
+        "effect": { "math": [ "mindovermatter_allowed", "=", "1" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Disable psychics.",
+        "condition": { "and": [ { "mod_is_loaded": "mindovermatter" }, { "math": [ "mindovermatter_allowed", "==", "1" ] } ] },
+        "effect": { "math": [ "mindovermatter_allowed", "=", "0" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Allow sweets.",
+        "condition": { "and": [ { "mod_is_loaded": "my_sweet_cataclysm" }, { "math": [ "candymonsters_allowed", "==", "0" ] } ] },
+        "effect": { "math": [ "candymonsters_allowed", "=", "1" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Disable sweets.",
+        "condition": { "and": [ { "mod_is_loaded": "my_sweet_cataclysm" }, { "math": [ "candymonsters_allowed", "==", "1" ] } ] },
+        "effect": { "math": [ "candymonsters_allowed", "=", "0" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Mgah'ehye ya nyth'drnn.",
+        "//": "Allow my servants.",
+        "condition": { "and": [ { "mod_is_loaded": "Mythos-Creatures" }, { "math": [ "mythos_allowed", "==", "0" ] } ] },
+        "effect": { "math": [ "mythos_allowed", "=", "1" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
+        "text": "Mgah ya nyth'drnn.",
+        "//": "Stop my servants.",
+        "condition": { "and": [ { "mod_is_loaded": "Mythos-Creatures" }, { "math": [ "mythos_allowed", "==", "1" ] } ] },
+        "effect": { "math": [ "mythos_allowed", "=", "0" ] },
+        "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
+      },
+      {
         "text": "Play!",
         "condition": {
           "or": [
@@ -187,12 +228,15 @@
             { "math": [ "triffids_allowed", "==", "1" ] },
             { "math": [ "robots_allowed", "==", "1" ] },
             { "math": [ "subspace_allowed", "==", "1" ] },
-            { "math": [ "megafauna_allowed", "==", "1" ] },
             { "math": [ "dinos_allowed", "==", "1" ] },
             { "math": [ "lizardfolk_allowed", "==", "1" ] },
             { "math": [ "goblins_allowed", "==", "1" ] },
             { "math": [ "golems_allowed", "==", "1" ] },
-            { "math": [ "orcs_allowed", "==", "1" ] }
+            { "math": [ "orcs_allowed", "==", "1" ] },
+            { "math": [ "megafauna_allowed", "==", "1" ] },
+            { "math": [ "mindovermatter_allowed", "==", "1" ] },
+            { "math": [ "candymonsters_allowed", "==", "1" ] },
+            { "math": [ "mythos_allowed", "==", "1" ] }
           ]
         },
         "topic": "TALK_DONE"

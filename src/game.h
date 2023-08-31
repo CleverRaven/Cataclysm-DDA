@@ -57,7 +57,8 @@ extern int savegame_loading_version;
 
 class input_context;
 
-input_context get_default_mode_input_context();
+input_context create_default_mode_input_context();
+input_context &get_default_mode_input_context();
 
 enum quit_status {
     QUIT_NO = 0,    // Still playing
@@ -1062,7 +1063,6 @@ class game
         pimpl<memorial_logger> memorial_logger_ptr; // NOLINT(cata-serialize)
         pimpl<spell_events> spell_events_ptr; // NOLINT(cata-serialize)
         pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
-
 
         map &m;
         avatar &u;

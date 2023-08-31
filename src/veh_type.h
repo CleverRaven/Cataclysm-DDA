@@ -162,6 +162,11 @@ struct vpslot_terrain_transform {
     time_duration post_field_age = 0_turns;
 };
 
+struct vp_control_req {
+    std::set<std::pair<skill_id, int>> skills;
+    std::set<proficiency_id> proficiencies;
+};
+
 class vpart_category
 {
     public:
@@ -297,6 +302,9 @@ class vpart_info
         // @returns time required for unfolding this part
         time_duration get_unfolding_time() const;
 
+        /** Returns whether or not the vehicle this part installed requires something to control */
+        bool has_control_req() const;
+
     private:
         std::set<std::string> flags;
         // category list for installation ui breakdown
@@ -334,6 +342,10 @@ class vpart_info
         std::map<skill_id, int> install_skills;
         std::map<skill_id, int> repair_skills;
         std::map<skill_id, int> removal_skills;
+
+        // required skill to control vehicle
+        vp_control_req control_air;
+        vp_control_req control_land;
 
         /** @ref item_group this part breaks into when destroyed */
         item_group_id breaks_into_group = item_group_id( "EMPTY_GROUP" );

@@ -261,7 +261,7 @@
         "1": { "chunks": [ [ "BEM_hireable", 40 ], [ "BEM_jabberwock", 20 ], [ "null", 20 ] ] },
         "2": { "chunks": [ [ "BEM_human_sample", 20 ], [ "BEM_anchor_seller", 20 ], [ "null", 20 ] ] },
         "3": { "chunks": [ [ "BEM_keycard_seller", 20 ], [ "BEM_template_seller", 20 ], [ "null", 20 ] ] },
-        "4": { "chunks": [ [ "BEM_gunrunner", 20 ], [ "BEM_drugrunner", 20 ], [ "null", 20 ] ] }
+        "4": { "chunks": [ [ "BEM_gunrunner", 20 ], [ "BEM_drugrunner", 20 ], [ "BEM_chatting_veterans", 20 ], [ "null", 20 ] ] }
       }
     }
   },
@@ -372,6 +372,16 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "BEM_chatting_veterans",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 3, 3 ],
+      "place_npcs": [ { "class": "BEM_silent_veteran", "x": 0, "y": 0 }, { "class": "BEM_chatting_veteran", "x": 2, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "BEM_drugrunner",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -402,6 +412,8 @@
         { "class": "BEM_drugrunner", "x": 0, "y": 0 },
         { "class": "BEM_jabberwock", "x": 0, "y": 0 },
         { "class": "BEM_template_seller", "x": 0, "y": 0 },
+        { "class": "BEM_silent_veteran", "x": 0, "y": 0 },
+        { "class": "BEM_chatting_veteran", "x": 0, "y": 0 },
         { "class": "BEM_keycard_seller", "x": 0, "y": 0 }
       ]
     }

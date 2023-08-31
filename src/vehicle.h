@@ -65,6 +65,9 @@ class vehicle_part_with_feature_range;
 
 void handbrake();
 
+void practice_athletic_proficiency( Character &p );
+void practice_pilot_proficiencies( Character &p, bool &boating );
+
 namespace catacurses
 {
 class window;
@@ -253,7 +256,6 @@ struct vehicle_part {
         friend class vehicle_stack;
         friend item_location;
         friend class turret_data;
-
 
         // DefaultConstructible, with vpart_id::NULL_ID type and default base item
         vehicle_part();
@@ -1641,6 +1643,9 @@ class vehicle
         bool would_install_prevent_flyable( const vpart_info &vpinfo, const Character &pc ) const;
         bool would_removal_prevent_flyable( const vehicle_part &vp, const Character &pc ) const;
         bool would_repair_prevent_flyable( const vehicle_part &vp, const Character &pc ) const;
+        // Can control this vehicle?
+        bool can_control_in_air( const Character &pc ) const;
+        bool can_control_on_land( const Character &pc ) const;
         /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area
@@ -2142,6 +2147,7 @@ class vehicle
         std::vector<int> accessories; // NOLINT(cata-serialize)
         std::vector<int> cable_ports; // NOLINT(cata-serialize)
         std::vector<int> fake_parts; // NOLINT(cata-serialize)
+        std::vector<int> control_req_parts; // NOLINT(cata-serialize)
 
         // config values
         std::string name;   // vehicle name

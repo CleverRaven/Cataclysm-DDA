@@ -561,7 +561,7 @@
     "dissect": "dissect_batrachian_sample_single",
     "harvest": "mammal_tiny",
     "vision_night": 30,
-    "special_attacks": [ { "type": "leap", "cooldown": 4, "max_range": 4, "allow_no_target": true } ],
+    "special_attacks": [ { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true } ],
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "HURT", "FRIEND_ATTACKED" ],
     "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "WATER_CAMOUFLAGE" ]
   },

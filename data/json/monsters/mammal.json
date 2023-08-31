@@ -73,7 +73,7 @@
     "dodge": 2,
     "harvest": "mammal_fur",
     "dissect": "dissect_ursine_sample_single",
-    "special_attacks": [ [ "EAT_FOOD", 60 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 60 ], { "type": "bite", "cooldown": 30, "infection_chance": 44 } ],
     "upgrades": { "age_grow": 480, "into": "mon_bear" }
   },
   {
@@ -112,7 +112,7 @@
     "reproduction": { "baby_monster": "mon_bear_cub", "baby_count": 1, "baby_timer": 700 },
     "//": "220 days gestation period, the mother and cubs remain together for 16-17 months.",
     "baby_flags": [ "SPRING" ],
-    "special_attacks": [ [ "EAT_FOOD", 20 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 20 ], { "type": "bite", "cooldown": 15, "infection_chance": 44 } ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "CORNERED_FIGHTER" ],
     "armor": { "bash": 2, "electric": 1 }
   },
@@ -145,6 +145,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "zombify_into": "mon_zombeaver",
+    "special_attacks": [ { "type": "bite", "cooldown": 15 } ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "WATER_CAMOUFLAGE" ]
   },
   {
@@ -333,7 +334,6 @@
     "volume": "400 ml",
     "weight": "400 g",
     "hp": 6,
-    "//": "Kittens do not have their full fur yet and are really sensitive to cold temperature",
     "harvest": "mammal_tiny",
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 14,
@@ -348,9 +348,11 @@
       "PATH_AVOID_DANGER_1",
       "WARM",
       "HIT_AND_RUN",
+      "CORNERED_FIGHTER",
       "NO_BREED"
     ],
     "upgrades": { "age_grow": 120, "into": "mon_cat" },
+    "//": "Kittens do not have their full fur yet and are really sensitive to cold temperature",
     "armor": { "cold": 0 }
   },
   {
@@ -378,7 +380,10 @@
     "dodge": 8,
     "//": "Their fur keeps them warm",
     "vision_night": 20,
-    "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
+    "special_attacks": [
+      { "id": "scratch", "attack_upper": false, "cooldown": 10 },
+      { "type": "bite", "cooldown": 15, "infection_chance": 50 }
+    ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "harvest": "cat_small_with_skull",
@@ -401,6 +406,7 @@
       "PATH_AVOID_DANGER_1",
       "WARM",
       "HIT_AND_RUN",
+      "CORNERED_FIGHTER",
       "CAN_BE_CULLED"
     ],
     "armor": { "cold": 2 }
@@ -587,7 +593,7 @@
     "speed": 100,
     "dodge": 5,
     "//": "Fat helps keeping their body warm",
-    "reproduction": { "baby_monster": "mon_cat_chonker_kitten", "baby_count": 8, "baby_timer": 60 },
+    "reproduction": { "baby_monster": "mon_cat_chonker_kitten", "baby_count": 4, "baby_timer": 60 },
     "armor": { "cold": 3 }
   },
   {
@@ -612,7 +618,7 @@
     "copy-from": "mon_cat",
     "name": { "str": "black cat" },
     "description": "A black ball of fur with prominent green eyes staring right into your soul.",
-    "reproduction": { "baby_monster": "mon_cat_black_kitten", "baby_count": 8, "baby_timer": 60 }
+    "reproduction": { "baby_monster": "mon_cat_black_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_chipmunk",
@@ -1090,7 +1096,7 @@
     "melee_skill": 4,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-    "special_attacks": [ [ "LUNGE", 5 ] ],
+    "extend": { "special_attacks": [ [ "LUNGE", 5 ] ] },
     "harvest": "dog_with_skull_leather",
     "reproduction": { "baby_monster": "mon_dog_pitbullmix_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
@@ -1254,7 +1260,7 @@
     "morale": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 4,
-    "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ],
+    "extend": { "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ] },
     "reproduction": { "baby_monster": "mon_dog_bcollie_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
     "petfood": {
@@ -1330,7 +1336,7 @@
     "vision_night": 4,
     "harvest": "dog_with_skull_leather",
     "fear_triggers": [ "HURT" ],
-    "special_attacks": [ [ "LUNGE", 5 ] ],
+    "extend": { "special_attacks": [ [ "LUNGE", 5 ] ] },
     "reproduction": { "baby_monster": "mon_dog_boxer_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines"
   },
@@ -1564,7 +1570,7 @@
     "morale": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "vision_night": 6,
-    "special_attacks": [ [ "LUNGE", 5 ] ],
+    "extend": { "special_attacks": [ [ "LUNGE", 5 ] ] },
     "reproduction": { "baby_monster": "mon_dog_gshepherd_pup", "baby_count": 7, "baby_timer": 300 },
     "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
     "petfood": {
@@ -1719,7 +1725,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "vision_night": 6,
     "harvest": "dog_with_skull_leather",
-    "special_attacks": [ [ "LUNGE", 5 ] ],
+    "extend": { "special_attacks": [ [ "LUNGE", 5 ] ] },
     "reproduction": { "baby_monster": "mon_dog_rottweiler_pup", "baby_count": 7, "baby_timer": 300 },
     "//2": "1-7 puppies & 300-320 days per-litter for size medium canines",
     "petfood": {
@@ -1794,7 +1800,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 4,
     "vision_night": 6,
-    "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ],
+    "extend": { "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ] },
     "reproduction": { "baby_monster": "mon_dog_auscattle_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
     "petfood": {

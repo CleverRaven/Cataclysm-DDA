@@ -2188,6 +2188,14 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
             return [is_npc, this_spell_id]( dialogue & d ) {
                 return d.actor( is_npc )->get_spell_exp( this_spell_id );
             };
+        } else if( checked_value == "spell_count" ) {
+            trait_id school = trait_id::NULL_ID();
+            if( jo.has_member( "school" ) ) {
+                school = trait_id( jo.get_string( "school" ) );
+            }
+            return [is_npc, school]( dialogue & d ) {
+                return d.actor( is_npc )->get_spell_count( school );
+            };
         } else if( checked_value == "proficiency" ) {
             const std::string proficiency_name = jo.get_string( "proficiency_id" );
             const proficiency_id the_proficiency_id( proficiency_name );

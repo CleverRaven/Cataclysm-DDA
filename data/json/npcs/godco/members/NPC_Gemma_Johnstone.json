@@ -46,7 +46,7 @@
         "type": "general",
         "context": "meeting",
         "value": "yes",
-        "yes": [ "Praise the Lord.", "Good to see you're still around, <granny_name_g>." ],
+        "yes": [ "Praise the Lord.", "Good to see you're still around, <granny_name_g>.", "Hey <u_name>.  How can I help you?" ],
         "no": "Great to see a new face.  I'm Gemma.  Will you be staying here with us?"
       }
     },

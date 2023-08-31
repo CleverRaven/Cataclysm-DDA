@@ -97,7 +97,7 @@
       { "item": "chemistry_set", "prob": 4, "charges": [ 0, 500 ] },
       { "item": "oxy_powder", "prob": 8, "charges": [ 100, 200 ] },
       [ "fungicide", 10 ],
-      [ "insecticide", 10 ],
+      { "group": "insecticide_bag_plastic", "prob": 10 },
       { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_15" },
       [ "optical_cloak", 1 ],
       [ "holo_cloak", 1 ],
