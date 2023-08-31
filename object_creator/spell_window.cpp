@@ -65,7 +65,7 @@ static spell_type default_spell_type()
 }
 
 creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
-    : QMainWindow( parent, flags )
+    : QWidget ( parent, flags )
 {
     editable_spell = default_spell_type();
 
@@ -77,9 +77,6 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     int col = 0;
     int max_row = 0;
     int max_col = 0;
-
-    spell_json.resize( QSize( 800, 600 ) );
-    spell_json.setReadOnly( true );
 
 
     // =========================================================================================
@@ -1242,6 +1239,19 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         write_json();
     } );
 
+
+    // =========================================================================================
+    // eight column of boxes (just json output)
+    max_row = std::max( max_row, row );
+    row = 0;
+    col++;
+
+    spell_json.setParent( this );
+    spell_json.resize( QSize( 800, 600 ) );
+    spell_json.setReadOnly( true );
+    spell_json.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    spell_json.show();
+    
     max_row = std::max( max_row, row );
     max_col = std::max( max_col, col );
     this->resize( QSize( ( max_col + 1 ) * default_text_box_width,
