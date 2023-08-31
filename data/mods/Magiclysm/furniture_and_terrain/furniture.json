@@ -6,7 +6,7 @@
     "move_cost_mod": 10,
     "symbol": "H",
     "color": "white",
-    "looks_like": "f_altar",
+    "looks_like": "f_boulder_earthshaper",
     "coverage": 40,
     "required_str": 30,
     "description": "An ancient stone altar, moss-grown and weather-worn.",
