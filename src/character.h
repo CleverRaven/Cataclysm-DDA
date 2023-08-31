@@ -2895,6 +2895,9 @@ class Character : public Creature, public visitable
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &it );
 
+        /**Handles overheat mechanics for guns, returns true if the gun cant fire due to overheat effects*/
+        bool handle_gun_overheat( item &it );
+
         /** Get maximum recoil penalty due to vehicle motion */
         double recoil_vehicle() const;
 
