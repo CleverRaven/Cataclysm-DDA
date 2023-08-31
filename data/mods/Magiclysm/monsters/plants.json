@@ -54,6 +54,6 @@
     "dodge": 4,
     "death_function": { "message": "The %s rots into nothingness in moments.", "corpse_type": "NO_CORPSE" },
     "flags": [ "HEARS", "GOODHEARING", "IMMOBILE", "NOHEAD", "HARDTOSHOOT", "GRABS", "PLASTIC" ],
-    "armor": { "bash": 18, "stab": 10, "electric": 3, "ballistic": 12 }
+    "armor": { "bash": 18, "stab": 10, "electric": 3, "bullet": 22 }
   }
 ]

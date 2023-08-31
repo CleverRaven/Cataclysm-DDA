@@ -739,7 +739,7 @@
     "name": "Summon Tanglevine",
     "description": "This spell causes an animated vine to burst from the ground and attempt to seize a nearby target and hold it fast.",
     "valid_targets": [ "ground" ],
-    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "flags": [ "VERBAL", "SOMATIC" ],
     "effect": "summon",
     "effect_str": "mon_tanglevine",
     "shape": "blast",

@@ -1540,8 +1540,10 @@
     "flags": [ "UNBREAKABLE", "ZERO_WEIGHT", "ALLOWS_NATURAL_ATTACKS", "INTEGRATED", "PADDED", "OUTER", "ONLY_ONE", "NO_DROP" ],
     "qualities": [ [ "WELD", 2 ] ],
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
-    "melee_damage": { "bash": 2, "electric": 6 },
-    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "melee_damage": { "bash": 2 },
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 6 } ] } ]
+    }
   },
   {
     "type": "GENERIC",
