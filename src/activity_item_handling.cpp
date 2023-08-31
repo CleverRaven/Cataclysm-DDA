@@ -1143,7 +1143,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
 
-        if( you.has_any_item_with( json_flag_MOP ) ) {
+        if( you.cache_has_item_with( json_flag_MOP ) ) {
             return activity_reason_info::ok( do_activity_reason::NEEDS_MOP );
         } else {
             return activity_reason_info::fail( do_activity_reason::NEEDS_MOP );
@@ -1324,7 +1324,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                     if( seed.is_empty() ) {
                         return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
                     }
-                    if( you.has_any_item_with( "is_seed", &item::is_seed, [&seed]( const item & it ) {
+                    if( you.cache_has_item_with( "is_seed", &item::is_seed, [&seed]( const item & it ) {
                     return it.typeId() == itype_id( seed );
                     } ) ) {
                         return activity_reason_info::ok( do_activity_reason::NEEDS_PLANTING );
@@ -2908,7 +2908,7 @@ static bool generic_multi_activity_do(
         for( const zone_data &zone : zones ) {
             const itype_id seed =
                 dynamic_cast<const plot_options &>( zone.get_options() ).get_seed();
-            std::vector<item *> seed_inv = you.all_items_with( "is_seed", itype_id( seed ), {},
+            std::vector<item *> seed_inv = you.cache_get_items_with( "is_seed", itype_id( seed ), {},
                                            &item::is_seed );
             if( seed_inv.empty() ) {
                 // we don't have the required seed, even though we should at this point.

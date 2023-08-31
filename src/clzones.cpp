@@ -302,7 +302,7 @@ unload_options::query_unload_result unload_options::query_unload()
 plot_options::query_seed_result plot_options::query_seed()
 {
     Character &player_character = get_player_character();
-    std::vector<item *> seed_inv = player_character.all_items_with( "is_seed", &item::is_seed );
+    std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed );
     zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
     const std::unordered_set<tripoint_abs_ms> zone_src_set =

@@ -1500,7 +1500,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
         popup( _( "It is too cold to plant anything now." ) );
         return;
     }
-    std::vector<item *> seed_inv = player_character.all_items_with( "is_seed", &item::is_seed,
+    std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed,
     []( const item & itm ) {
         return itm.typeId() != itype_marloss_seed && itm.typeId() != itype_fungal_seeds;
     } );

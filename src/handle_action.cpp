@@ -1279,7 +1279,7 @@ static void loot()
     Character &player_character = get_player_character();
     int flags = 0;
     zone_manager &mgr = zone_manager::get_manager();
-    const bool has_fertilizer = player_character.has_any_item_with( flag_FERTILIZER );
+    const bool has_fertilizer = player_character.cache_has_item_with( flag_FERTILIZER );
 
     // reset any potentially disabled zones from a past activity
     mgr.reset_disabled();

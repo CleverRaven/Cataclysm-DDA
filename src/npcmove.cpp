@@ -3894,7 +3894,7 @@ bool npc::consume_food()
     int want_hunger = std::max( 0, get_hunger() );
     int want_quench = std::max( 0, get_thirst() );
 
-    const std::vector<item *> inv_food = all_items_with( "is_food", &item::is_food );
+    const std::vector<item *> inv_food = cache_get_items_with( "is_food", &item::is_food );
 
     if( inv_food.empty() ) {
         if( !is_player_ally() ) {
@@ -4079,8 +4079,8 @@ void npc::reach_omt_destination()
             Character &player_character = get_player_character();
             talk_function::assign_guard( *this );
             if( rl_dist( player_character.pos(), pos() ) > SEEX * 2 ) {
-                if( player_character.has_any_item_with_flag_and_charges( flag_TWO_WAY_RADIO ) &&
-                    has_any_item_with_flag_and_charges( flag_TWO_WAY_RADIO ) ) {
+                if( player_character.cache_has_item_with_flag_and_charges( flag_TWO_WAY_RADIO ) &&
+                    cache_has_item_with_flag_and_charges( flag_TWO_WAY_RADIO ) ) {
                     add_msg_if_player_sees( pos(), m_info, _( "From your two-way radio you hear %s reporting in, "
                                             "'I've arrived, boss!'" ), disp_name() );
                 }

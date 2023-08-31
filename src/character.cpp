@@ -1263,7 +1263,7 @@ int Character::overmap_sight_range( float light_level ) const
     float multiplier = mutation_value( "overmap_multiplier" );
     // Binoculars double your sight range.
     // When adding checks here, also call game::update_overmap_seen at the place they first become true
-    const bool has_optic = has_any_item_with( flag_ZOOM ) ||
+    const bool has_optic = cache_has_item_with( flag_ZOOM ) ||
                            has_flag( json_flag_ENHANCED_VISION ) ||
                            ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ||
                            get_map().veh_at( pos() ).avail_part_with_feature( "ENHANCED_VISION" ).has_value();
@@ -1311,7 +1311,7 @@ bool Character::sight_impaired() const
 bool Character::has_alarm_clock() const
 {
     map &here = get_map();
-    return has_any_item_with_flag_and_charges( flag_ALARMCLOCK ) ||
+    return cache_has_item_with_flag_and_charges( flag_ALARMCLOCK ) ||
            ( here.veh_at( pos() ) &&
              !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
            has_flag( json_flag_ALARMCLOCK );
@@ -1320,7 +1320,7 @@ bool Character::has_alarm_clock() const
 bool Character::has_watch() const
 {
     map &here = get_map();
-    return has_any_item_with_flag_and_charges( flag_WATCH ) ||
+    return cache_has_item_with_flag_and_charges( flag_WATCH ) ||
            ( here.veh_at( pos() ) &&
              !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
            has_flag( json_flag_WATCH );
@@ -2270,7 +2270,7 @@ void Character::process_turn()
     // Didn't just pick something up
     last_item = itype_null;
 
-    do_to_items_with( "is_relic", &item::is_relic, [this]( item & it ) {
+    cache_visit_items_with( "is_relic", &item::is_relic, [this]( item & it ) {
         it.process_relic( this, pos() );
     } );
 
@@ -5799,7 +5799,7 @@ float Character::active_light() const
     float lumination = 0.0f;
 
     int maxlum = 0;
-    do_to_items_with( "is_emissive", &item::is_emissive, [&maxlum]( const item & it ) {
+    cache_visit_items_with( "is_emissive", &item::is_emissive, [&maxlum]( const item & it ) {
         const int lumit = it.getlight_emit();
         if( maxlum < lumit ) {
             maxlum = lumit;
@@ -7455,7 +7455,7 @@ void Character::recalculate_enchantment_cache()
     // start by resetting the cache to all inventory items
     *enchantment_cache = inv->get_active_enchantment_cache( *this );
 
-    do_to_items_with( "is_relic", &item::is_relic, [this]( const item & it ) {
+    cache_visit_items_with( "is_relic", &item::is_relic, [this]( const item & it ) {
         for( const enchant_cache &ench : it.get_proc_enchantments() ) {
             if( ench.is_active( *this, it ) ) {
                 enchantment_cache->force_add( ench );
@@ -8885,27 +8885,27 @@ bool Character::in_sleep_state() const
     return Creature::in_sleep_state() || activity.id() == ACT_TRY_SLEEP;
 }
 
-void Character::do_to_items_with( const itype_id &type,
-                                  const std::function<void( item & )> &do_func ) const
+void Character::cache_visit_items_with( const itype_id &type,
+                                        const std::function<void( item & )> &do_func ) const
 {
-    do_to_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, do_func );
+    cache_visit_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, do_func );
 }
 
-void Character::do_to_items_with( const flag_id &type_flag,
-                                  const std::function<void( item & )> &do_func ) const
+void Character::cache_visit_items_with( const flag_id &type_flag,
+                                        const std::function<void( item & )> &do_func ) const
 {
-    do_to_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, do_func );
+    cache_visit_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, do_func );
 }
 
-void Character::do_to_items_with( const std::string &key, bool( item::*filter_func )() const,
-                                  const std::function<void( item & )> &do_func ) const
+void Character::cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
+                                        const std::function<void( item & )> &do_func ) const
 {
-    do_to_items_with( key, {}, {}, filter_func, do_func );
+    cache_visit_items_with( key, {}, {}, filter_func, do_func );
 }
 
-void Character::do_to_items_with( const std::string &key, const itype_id &type,
-                                  const flag_id &type_flag, bool( item::*filter_func )() const,
-                                  const std::function<void( item & )> &do_func ) const
+void Character::cache_visit_items_with( const std::string &key, const itype_id &type,
+                                        const flag_id &type_flag, bool( item::*filter_func )() const,
+                                        const std::function<void( item & )> &do_func ) const
 {
     // If the cache already exists, use it. Remove all invalid item references.
     auto found_cache = inv_search_caches.find( key );
@@ -8937,27 +8937,27 @@ void Character::do_to_items_with( const std::string &key, const itype_id &type,
     }
 }
 
-bool Character::has_any_item_with( const itype_id &type,
-                                   const std::function<bool( const item & )> &check_func ) const
+bool Character::cache_has_item_with( const itype_id &type,
+                                     const std::function<bool( const item & )> &check_func ) const
 {
-    return has_any_item_with( "HAS TYPE " + type.str(), type, {}, nullptr, check_func );
+    return cache_has_item_with( "HAS TYPE " + type.str(), type, {}, nullptr, check_func );
 }
 
-bool Character::has_any_item_with( const flag_id &type_flag,
-                                   const std::function<bool( const item & )> &check_func ) const
+bool Character::cache_has_item_with( const flag_id &type_flag,
+                                     const std::function<bool( const item & )> &check_func ) const
 {
-    return has_any_item_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, check_func );
+    return cache_has_item_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, check_func );
 }
 
-bool Character::has_any_item_with( const std::string &key, bool( item::*filter_func )() const,
-                                   const std::function<bool( const item & )> &check_func ) const
+bool Character::cache_has_item_with( const std::string &key, bool( item::*filter_func )() const,
+                                     const std::function<bool( const item & )> &check_func ) const
 {
-    return has_any_item_with( key, {}, {}, filter_func, check_func );
+    return cache_has_item_with( key, {}, {}, filter_func, check_func );
 }
 
-bool Character::has_any_item_with( const std::string &key, const itype_id &type,
-                                   const flag_id &type_flag, bool( item::*filter_func )() const,
-                                   const std::function<bool( const item & )> &check_func ) const
+bool Character::cache_has_item_with( const std::string &key, const itype_id &type,
+                                     const flag_id &type_flag, bool( item::*filter_func )() const,
+                                     const std::function<bool( const item & )> &check_func ) const
 {
     bool aborted = false;
 
@@ -8998,39 +8998,40 @@ bool Character::has_any_item_with( const std::string &key, const itype_id &type,
     return aborted;
 }
 
-bool Character::has_any_item_with_flag_and_charges( const flag_id &type_flag ) const
+bool Character::cache_has_item_with_flag_and_charges( const flag_id &type_flag ) const
 {
-    return has_any_item_with( "HAS FLAG " + type_flag.str(), {}, type_flag,
+    return cache_has_item_with( "HAS FLAG " + type_flag.str(), {}, type_flag,
     nullptr, [this]( const item & it ) {
         return !it.is_tool() || it.type->tool->max_charges == 0 || it.ammo_remaining( this ) > 0;
     } );
 }
 
-std::vector<item *> Character::all_items_with( const itype_id &type,
+std::vector<item *> Character::cache_get_items_with( const itype_id &type,
         const std::function<bool( item & )> &do_and_check_func )
 {
-    return all_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, do_and_check_func );
+    return cache_get_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, do_and_check_func );
 }
 
-std::vector<item *> Character::all_items_with( const flag_id &type_flag,
+std::vector<item *> Character::cache_get_items_with( const flag_id &type_flag,
         const std::function<bool( item & )> &do_and_check_func )
 {
-    return all_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, do_and_check_func );
+    return cache_get_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr,
+                                 do_and_check_func );
 }
 
-std::vector<item *> Character::all_items_with( const std::string &key,
+std::vector<item *> Character::cache_get_items_with( const std::string &key,
         bool( item::*filter_func )() const,
         const std::function<bool( item & )> &do_and_check_func )
 {
-    return all_items_with( key, {}, {}, filter_func, do_and_check_func );
+    return cache_get_items_with( key, {}, {}, filter_func, do_and_check_func );
 }
 
-std::vector<item *> Character::all_items_with( const std::string &key, const itype_id &type,
+std::vector<item *> Character::cache_get_items_with( const std::string &key, const itype_id &type,
         const flag_id &type_flag, bool( item::*filter_func )() const,
         const std::function<bool( item & )> &do_and_check_func )
 {
     std::vector<item *> ret;
-    do_to_items_with( key, type, type_flag, filter_func, [&ret, &do_and_check_func]( item & it ) {
+    cache_visit_items_with( key, type, type_flag, filter_func, [&ret, &do_and_check_func]( item & it ) {
         if( do_and_check_func( it ) ) {
             ret.push_back( &it );
         }
@@ -9038,31 +9039,31 @@ std::vector<item *> Character::all_items_with( const std::string &key, const ity
     return ret;
 }
 
-std::vector<const item *> Character::all_items_with( const itype_id &type,
+std::vector<const item *> Character::cache_get_items_with( const itype_id &type,
         const std::function<bool( const item & )> &check_func ) const
 {
-    return all_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, check_func );
+    return cache_get_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, check_func );
 }
 
-std::vector<const item *> Character::all_items_with( const flag_id &type_flag,
+std::vector<const item *> Character::cache_get_items_with( const flag_id &type_flag,
         const std::function<bool( const item & )> &check_func ) const
 {
-    return all_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, check_func );
+    return cache_get_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, check_func );
 }
 
-std::vector<const item *> Character::all_items_with( const std::string &key,
+std::vector<const item *> Character::cache_get_items_with( const std::string &key,
         bool( item::*filter_func )() const,
         const std::function<bool( const item & )> &check_func ) const
 {
-    return all_items_with( key, {}, {}, filter_func, check_func );
+    return cache_get_items_with( key, {}, {}, filter_func, check_func );
 }
 
-std::vector<const item *> Character::all_items_with( const std::string &key, const itype_id &type,
-        const flag_id &type_flag, bool( item::*filter_func )() const,
+std::vector<const item *> Character::cache_get_items_with( const std::string &key,
+        const itype_id &type, const flag_id &type_flag, bool( item::*filter_func )() const,
         const std::function<bool( const item & )> &check_func ) const
 {
     std::vector<const item *> ret;
-    do_to_items_with( key, type, type_flag, filter_func, [&ret, &check_func]( const item & it ) {
+    cache_visit_items_with( key, type, type_flag, filter_func, [&ret, &check_func]( const item & it ) {
         if( check_func( it ) ) {
             ret.push_back( &it );
         }
@@ -9149,7 +9150,7 @@ units::energy Character::available_ups() const
         available_charges += get_power_level();
     }
 
-    do_to_items_with( flag_IS_UPS, [&available_charges]( const item & it ) {
+    cache_visit_items_with( flag_IS_UPS, [&available_charges]( const item & it ) {
         available_charges += units::from_kilojoule( it.ammo_remaining() );
     } );
 
@@ -9176,7 +9177,7 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from inventory
     if( qty != 0_kJ ) {
-        do_to_items_with( flag_IS_UPS, [&qty]( item & it ) {
+        cache_visit_items_with( flag_IS_UPS, [&qty]( item & it ) {
             if( it.is_tool() && it.type->tool->fuel_efficiency >= 0 ) {
                 qty -= it.energy_consume( qty, tripoint_zero, nullptr,
                                           it.type->tool->fuel_efficiency );
@@ -9259,7 +9260,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
 item Character::find_firestarter_with_charges( const int quantity ) const
 {
     item ret;
-    has_any_item_with( flag_FIRESTARTER, [&]( const item & it ) {
+    cache_has_item_with( flag_FIRESTARTER, [&]( const item & it ) {
         if( !it.typeId()->can_have_charges() ) {
             const use_function *usef = it.type->get_use( "firestarter" );
             if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
@@ -9285,7 +9286,7 @@ bool Character::has_fire( const int quantity ) const
     if( get_map().has_nearby_fire( pos() ) ) {
         return true;
     }
-    if( has_any_item_with( flag_FIRE ) ) {
+    if( cache_has_item_with( flag_FIRE ) ) {
         return true;
     }
     if( !find_firestarter_with_charges( quantity ).is_null() ) {
@@ -9376,7 +9377,7 @@ void Character::use_fire( const int quantity )
     if( get_map().has_nearby_fire( pos() ) ) {
         return;
     }
-    if( has_any_item_with( flag_FIRE ) ) {
+    if( cache_has_item_with( flag_FIRE ) ) {
         return;
     }
 
@@ -12031,7 +12032,7 @@ void Character::process_items()
 
     // Load all items that use the UPS and have their own battery to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
-    std::vector<item *> inv_use_ups = all_items_with( flag_USE_UPS, [&inv_use_ups]( item & it ) {
+    std::vector<item *> inv_use_ups = cache_get_items_with( flag_USE_UPS, [&inv_use_ups]( item & it ) {
         return !!it.ammo_data();
     } );
     if( !inv_use_ups.empty() ) {

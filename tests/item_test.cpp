@@ -341,7 +341,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             THEN( "should dissolve in water" ) {
                 g->water_affect_items( guy );
-                CHECK_FALSE( guy.has_any_item_with( flag_WATER_DISSOLVE ) );
+                CHECK_FALSE( guy.cache_has_item_with( flag_WATER_DISSOLVE ) );
             }
         }
 
@@ -358,7 +358,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             THEN( "should dissolve in water" ) {
                 g->water_affect_items( guy );
-                CHECK_FALSE( guy.has_any_item_with( flag_WATER_DISSOLVE ) );
+                CHECK_FALSE( guy.cache_has_item_with( flag_WATER_DISSOLVE ) );
             }
         }
 
@@ -375,7 +375,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             THEN( "should not dissolve in water" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.has_any_item_with( flag_WATER_DISSOLVE ) );
+                CHECK( guy.cache_has_item_with( flag_WATER_DISSOLVE ) );
             }
         }
 
@@ -394,7 +394,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             THEN( "should dissolve in water" ) {
                 g->water_affect_items( guy );
-                CHECK_FALSE( guy.has_any_item_with( flag_WATER_DISSOLVE ) );
+                CHECK_FALSE( guy.cache_has_item_with( flag_WATER_DISSOLVE ) );
             }
         }
 
@@ -413,7 +413,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             THEN( "should not dissolve in water" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.has_any_item_with( flag_WATER_DISSOLVE ) );
+                CHECK( guy.cache_has_item_with( flag_WATER_DISSOLVE ) );
             }
         }
     }
@@ -432,7 +432,9 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             THEN( "should be broken by water" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.has_item_with( []( const item & it ) { return it.has_flag( flag_ITEM_BROKEN ); } ) );
+                CHECK( guy.has_item_with( []( const item & it ) {
+                    return it.has_flag( flag_ITEM_BROKEN );
+                } ) );
             }
         }
 
@@ -449,7 +451,9 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             THEN( "should be broken by water" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.has_item_with( []( const item & it ) { return it.has_flag( flag_ITEM_BROKEN ); } ) );
+                CHECK( guy.has_item_with( []( const item & it ) {
+                    return it.has_flag( flag_ITEM_BROKEN );
+                } ) );
             }
         }
 
@@ -466,7 +470,9 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             THEN( "should not be broken by water" ) {
                 g->water_affect_items( guy );
-                CHECK_FALSE( guy.has_item_with( []( const item & it ) { return it.has_flag( flag_ITEM_BROKEN ); } ) );
+                CHECK_FALSE( guy.has_item_with( []( const item & it ) {
+                    return it.has_flag( flag_ITEM_BROKEN );
+                } ) );
             }
         }
 
@@ -485,7 +491,9 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             THEN( "should be broken by water" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.has_item_with( []( const item & it ) { return it.has_flag( flag_ITEM_BROKEN ); } ) );
+                CHECK( guy.has_item_with( []( const item & it ) {
+                    return it.has_flag( flag_ITEM_BROKEN );
+                } ) );
             }
         }
 
@@ -504,7 +512,9 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             THEN( "should not be broken by water" ) {
                 g->water_affect_items( guy );
-                CHECK_FALSE( guy.has_item_with( []( const item & it ) { return it.has_flag( flag_ITEM_BROKEN ); } ) );
+                CHECK_FALSE( guy.has_item_with( []( const item & it ) {
+                    return it.has_flag( flag_ITEM_BROKEN );
+                } ) );
             }
         }
     }
@@ -654,7 +664,9 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             THEN( "should get wet in water" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.has_item_with( []( const item & it ) { return it.has_flag( flag_WET ); } ) );
+                CHECK( guy.has_item_with( []( const item & it ) {
+                    return it.has_flag( flag_WET );
+                } ) );
             }
         }
 
@@ -668,7 +680,9 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             THEN( "should get wet in water" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.has_item_with( []( const item & it ) { return it.has_flag( flag_WET ); } ) );
+                CHECK( guy.has_item_with( []( const item & it ) {
+                    return it.has_flag( flag_WET );
+                } ) );
             }
         }
 
@@ -685,7 +699,9 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             THEN( "should get wet in water" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.has_item_with( []( const item & it ) { return it.has_flag( flag_WET ); } ) );
+                CHECK( guy.has_item_with( []( const item & it ) {
+                    return it.has_flag( flag_WET );
+                } ) );
             }
         }
 
@@ -702,7 +718,9 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             THEN( "should not get wet in water" ) {
                 g->water_affect_items( guy );
-                CHECK_FALSE( guy.has_item_with( []( const item & it ) { return it.has_flag( flag_WET ); } ) );
+                CHECK_FALSE( guy.has_item_with( []( const item & it ) {
+                    return it.has_flag( flag_WET );
+                } ) );
             }
         }
     }
