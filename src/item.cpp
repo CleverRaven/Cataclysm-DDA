@@ -6420,9 +6420,9 @@ std::string item::overheat_symbol() const
         case 3:
             return string_format( _( "<color_light_red>\u2585HEAT </color>" ) );
         case 4:
-            return string_format( _( "<color_red>\u2587HEAT! </color>" ) );
+            return string_format( _( "<color_red>\u2587HEAT! </color>" ) ); // NOLINT(cata-text-style)
         case 5:
-            return string_format( _( "<color_pink>\u2588HEAT!! </color>" ) );
+            return string_format( _( "<color_pink>\u2588HEAT!! </color>" ) ); // NOLINT(cata-text-style)
         default:
             return "";
     }
