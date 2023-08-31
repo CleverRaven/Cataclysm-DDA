@@ -5,6 +5,7 @@
     "name": { "str": "tanglevine" },
     "description": "A thick mass of animated vine, lashing back and forth at anything that comes within reach.  Long thorns grow from its sides.",
     "species": [ "PLANT" ],
+    "default_faction": "magical_plant",
     "volume": "92500 ml",
     "weight": "120 kg",
     "hp": 60,

@@ -729,7 +729,7 @@
     "id": "druid_bramble_spear_enhanced",
     "type": "SPELL",
     "name": "Enhanced Spear of Brambles",
-    "description": "This spell turns a stick into a vicious spear that drips with sticky sap. You now know this spell like the back of your hand, and no longer need any spell components.",
+    "description": "This spell turns a bit of bark or a twig into a vicious spear that drips with sticky sap.  You now know this spell like the back of your hand, and no longer need such massive spell components as you did previously.",
     "valid_targets": [ "none" ],
     "flags": [ "CONCENTRATE", "VERBAL", "NO_HANDS" ],
     "effect": "spawn_item",
