@@ -57,7 +57,8 @@ extern int savegame_loading_version;
 
 class input_context;
 
-input_context get_default_mode_input_context();
+input_context create_default_mode_input_context();
+input_context &get_default_mode_input_context();
 
 enum quit_status {
     QUIT_NO = 0,    // Still playing

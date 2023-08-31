@@ -2398,7 +2398,14 @@ tripoint game::mouse_edge_scrolling_overmap( input_context &ctxt )
     return ret.first;
 }
 
-input_context get_default_mode_input_context()
+static input_context default_mode_input_context = create_default_mode_input_context();
+
+input_context &get_default_mode_input_context()
+{
+    return default_mode_input_context;
+}
+
+input_context create_default_mode_input_context()
 {
     input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
     // Because those keys move the character, they don't pan, as their original name says
