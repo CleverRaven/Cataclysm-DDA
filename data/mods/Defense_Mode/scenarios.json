@@ -10,7 +10,22 @@
     "name": "Fortified",
     "points": 0,
     "description": "You do not know who you are, nor do you know why you're here.  All you know is that you must fight and defend yourself from the horde.",
-    "allowed_locs": [ "bar", "hospital", "public_works", "megastore", "mansion" ],
+    "allowed_locs": [
+      "bar",
+      "hospital",
+      "public_works",
+      "megastore",
+      "mansion",
+      "sloc_shelter_a",
+      "gunstore",
+      "survivor_camp",
+      "cabin",
+      "cave",
+      "sugar_house",
+      "sloc_bank",
+      "pawn_shop",
+      "restraunt"
+    ],
     "eoc": [ "scenario_defense_mode" ],
     "forced_traits": [ "HAS_NEMESIS" ],
     "flags": [ "LONE_START" ],
@@ -46,5 +61,53 @@
     "id": "mansion",
     "name": "Mansion",
     "terrain": [ "dm_mansion_e2" ]
+  },
+  {
+    "type": "start_location",
+    "id": "gunstore",
+    "name": "Gun Store",
+    "terrain": [ "s_gunstore_looted" ]
+  },
+  {
+    "type": "start_location",
+    "id": "survivor_camp",
+    "name": "Survivor Camp",
+    "terrain": [ "dm_survivor_forest_camp" ]
+  },
+  {
+    "type": "start_location",
+    "id": "cabin",
+    "name": "Cabin",
+    "terrain": [ "Cabin" ]
+  },
+  {
+    "type": "start_location",
+    "id": "cave",
+    "name": "Cave",
+    "terrain": [ "cave" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sugar_house",
+    "name": "Sugar House",
+    "terrain": [ "sugar_house" ]
+  },
+  {
+    "type": "start_location",
+    "id": "motel",
+    "name": "Motel",
+    "terrain": [ "motel_twd_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "pawn_shop",
+    "name": "Pawn Shop",
+    "terrain": [ "pawn" ]
+  },
+  {
+    "type": "start_location",
+    "id": "restraunt",
+    "name": "Restraunt",
+    "terrain": [ "s_restaurant" ]
   }
 ]
