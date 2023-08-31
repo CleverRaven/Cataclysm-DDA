@@ -20,6 +20,8 @@
 
 #include <QtWidgets/qapplication.h>
 #include <QtCore/QSettings>
+#include <QtWidgets/qsplashscreen.h>
+#include <QtGui/qpainter.h>
 
 #ifdef _WIN32
 #include <QtCore/QtPlugin>
@@ -108,6 +110,24 @@ int main( int argc, char *argv[] )
 
     MAP_SHARING::setDefaults();
 
+    QApplication app( argc, argv );
+
+    //Create a splash screen that tells the user we're loading
+    //First we create a pixmap with the desired size
+    QPixmap splash( QSize(640, 480) );
+    splash.fill(Qt::gray);
+    //Then we use a painter to draw text on it
+    QPainter painter( &splash );
+    painter.setPen( Qt::black );
+    painter.setFont( QFont( "Arial", 20 ) );
+    painter.drawText( QRect( 0, 0, 640, 480 ), Qt::AlignCenter, "Object Creator is Loading..." );
+    painter.end();
+    
+    //Then we create the splash screen and show it
+    QSplashScreen splashscreen( splash );
+    splashscreen.show();
+    app.processEvents();
+
     QSettings settings( QSettings::IniFormat, QSettings::UserScope,
                         "CleverRaven", "Cataclysm - DDA" );
 
@@ -151,6 +171,5 @@ int main( int argc, char *argv[] )
     g->load_core_data( ui );
     g->load_world_modfiles( ui );
 
-    QApplication app( argc, argv );
     creator::main_window().execute( app );
 }
