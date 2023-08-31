@@ -8885,19 +8885,25 @@ bool Character::in_sleep_state() const
     return Creature::in_sleep_state() || activity.id() == ACT_TRY_SLEEP;
 }
 
+void Character::do_to_items_with( const itype_id &type,
+                                  const std::function<void( item & )> &do_func ) const
+{
+    do_to_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, do_func );
+}
+
 void Character::do_to_items_with( const flag_id &flag,
                                   const std::function<void( item & )> &do_func ) const
 {
-    do_to_items_with( "HAS FLAG " + flag.str(), flag, nullptr, do_func );
+    do_to_items_with( "HAS FLAG " + flag.str(), {}, flag, nullptr, do_func );
 }
 
 void Character::do_to_items_with( const std::string &key, bool( item::*filter_func )() const,
                                   const std::function<void( item & )> &do_func ) const
 {
-    do_to_items_with( key, {}, filter_func, do_func );
+    do_to_items_with( key, {}, {}, filter_func, do_func );
 }
 
-void Character::do_to_items_with( const std::string &key, const flag_id &flag,
+void Character::do_to_items_with( const std::string &key, const itype_id &type, const flag_id &flag,
                                   bool( item::*filter_func )() const,
                                   const std::function<void( item & )> &do_func ) const
 {
@@ -8915,10 +8921,12 @@ void Character::do_to_items_with( const std::string &key, const flag_id &flag,
         return;
     } else {
         // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty lists are still created.
+        inv_search_caches[key].type = type;
         inv_search_caches[key].flag = flag;
         inv_search_caches[key].filter_func = filter_func;
         visit_items( [&]( item * it, item * ) {
             if( ( !flag.is_valid() || it->has_flag( flag ) ) &&
+                ( !type.is_valid() || it->typeId() == type ) &&
                 ( filter_func == nullptr || ( it->*filter_func )() ) ) {
 
                 inv_search_caches[key].items.push_back( it->get_safe_reference() );
@@ -8929,20 +8937,26 @@ void Character::do_to_items_with( const std::string &key, const flag_id &flag,
     }
 }
 
+bool Character::has_any_item_with( const itype_id &type,
+                                   const std::function<bool( const item & )> &check_func ) const
+{
+    return has_any_item_with( "HAS TYPE " + type.str(), type, {}, nullptr, check_func );
+}
+
 bool Character::has_any_item_with( const flag_id &flag,
                                    const std::function<bool( const item & )> &check_func ) const
 {
-    return has_any_item_with( "HAS FLAG " + flag.str(), flag, nullptr, check_func );
+    return has_any_item_with( "HAS FLAG " + flag.str(), {}, flag, nullptr, check_func );
 }
 
 bool Character::has_any_item_with( const std::string &key, bool( item::*filter_func )() const,
                                    const std::function<bool( const item & )> &check_func ) const
 {
-    return has_any_item_with( key, {}, filter_func, check_func );
+    return has_any_item_with( key, {}, {}, filter_func, check_func );
 }
 
-bool Character::has_any_item_with( const std::string &key, const flag_id &flag,
-                                   bool( item::*filter_func )() const,
+bool Character::has_any_item_with( const std::string &key, const itype_id &type,
+                                   const flag_id &flag, bool( item::*filter_func )() const,
                                    const std::function<bool( const item & )> &check_func ) const
 {
     bool aborted = false;
@@ -8964,10 +8978,12 @@ bool Character::has_any_item_with( const std::string &key, const flag_id &flag,
         }
     } else {
         // Otherwise, add a new cache and populate with all appropriate items in the inventory. Empty lists are still created.
+        inv_search_caches[key].type = type;
         inv_search_caches[key].flag = flag;
         inv_search_caches[key].filter_func = filter_func;
         visit_items( [&]( item * it, item * ) {
             if( ( !flag.is_valid() || it->has_flag( flag ) ) &&
+                ( !type.is_valid() || it->typeId() == type ) &&
                 ( filter_func == nullptr || ( it->*filter_func )() ) ) {
 
                 inv_search_caches[key].items.push_back( it->get_safe_reference() );
@@ -8984,30 +9000,36 @@ bool Character::has_any_item_with( const std::string &key, const flag_id &flag,
 
 bool Character::has_any_item_with_flag_and_charges( const flag_id &flag ) const
 {
-    return has_any_item_with( "HAS FLAG " + flag.str(), flag, nullptr, [this]( const item & it ) {
+    return has_any_item_with( "HAS FLAG " + flag.str(), {}, flag, nullptr, [this]( const item & it ) {
         return !it.is_tool() || it.type->tool->max_charges == 0 || it.ammo_remaining( this ) > 0;
     } );
+}
+
+std::vector<item *> Character::all_items_with( const itype_id &type,
+        const std::function<bool( item & )> &do_and_check_func )
+{
+    return all_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, do_and_check_func );
 }
 
 std::vector<item *> Character::all_items_with( const flag_id &flag,
         const std::function<bool( item & )> &do_and_check_func )
 {
-    return all_items_with( "HAS FLAG " + flag.str(), flag, nullptr, do_and_check_func );
+    return all_items_with( "HAS FLAG " + flag.str(), {}, flag, nullptr, do_and_check_func );
 }
 
 std::vector<item *> Character::all_items_with( const std::string &key,
         bool( item::*filter_func )() const,
         const std::function<bool( item & )> &do_and_check_func )
 {
-    return all_items_with( key, {}, filter_func, do_and_check_func );
+    return all_items_with( key, {}, {}, filter_func, do_and_check_func );
 }
 
-std::vector<item *> Character::all_items_with( const std::string &key, const flag_id &flag,
-        bool( item::*filter_func )() const,
+std::vector<item *> Character::all_items_with( const std::string &key, const itype_id &type,
+        const flag_id &flag, bool( item::*filter_func )() const,
         const std::function<bool( item & )> &do_and_check_func )
 {
     std::vector<item *> ret;
-    do_to_items_with( key, flag, filter_func, [&ret, &do_and_check_func]( item & it ) {
+    do_to_items_with( key, type, flag, filter_func, [&ret, &do_and_check_func]( item & it ) {
         if( do_and_check_func( it ) ) {
             ret.push_back( &it );
         }
@@ -9015,25 +9037,31 @@ std::vector<item *> Character::all_items_with( const std::string &key, const fla
     return ret;
 }
 
+std::vector<const item *> Character::all_items_with( const itype_id &type,
+        const std::function<bool( const item & )> &check_func ) const
+{
+    return all_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, check_func );
+}
+
 std::vector<const item *> Character::all_items_with( const flag_id &flag,
         const std::function<bool( const item & )> &check_func ) const
 {
-    return all_items_with( "HAS FLAG " + flag.str(), flag, nullptr, check_func );
+    return all_items_with( "HAS FLAG " + flag.str(), {}, flag, nullptr, check_func );
 }
 
 std::vector<const item *> Character::all_items_with( const std::string &key,
         bool( item::*filter_func )() const,
         const std::function<bool( const item & )> &check_func ) const
 {
-    return all_items_with( key, {}, filter_func, check_func );
+    return all_items_with( key, {}, {}, filter_func, check_func );
 }
 
-std::vector<const item *> Character::all_items_with( const std::string &key, const flag_id &flag,
-        bool( item::*filter_func )() const,
+std::vector<const item *> Character::all_items_with( const std::string &key, const itype_id &type,
+        const flag_id &flag, bool( item::*filter_func )() const,
         const std::function<bool( const item & )> &check_func ) const
 {
     std::vector<const item *> ret;
-    do_to_items_with( key, flag, filter_func, [&ret, &check_func]( const item & it ) {
+    do_to_items_with( key, type, flag, filter_func, [&ret, &check_func]( const item & it ) {
         if( check_func( it ) ) {
             ret.push_back( &it );
         }
@@ -9045,6 +9073,7 @@ void Character::add_to_inv_search_caches( item &it ) const
 {
     for( auto &cache : inv_search_caches ) {
         if( ( cache.second.flag.is_valid() && !it.has_flag( cache.second.flag ) ) ||
+            ( cache.second.type.is_valid() && it.typeId() != cache.second.type ) ||
             ( cache.second.filter_func && !( it.*cache.second.filter_func )() ) ) {
             continue;
         }
