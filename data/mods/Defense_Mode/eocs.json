@@ -303,7 +303,6 @@
     "//": "Keeps you from running away from your hideout.",
     "global": true,
     "recurrence": 10,
-    "global": true,
     "condition": {
       "or": [
         { "u_near_om_location": "field", "range": 0 },
