@@ -52,5 +52,22 @@
   {
     "type": "MONSTER_FACTION",
     "name": "elves"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "earth_spirit_faction",
+    "base_faction": "animal",
+    "neutral": [ "small_animal", "herbivore" ],
+    "hate": [ "zombie", "nether_player_hate" ],
+    "by_mood": [ "human", "player" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "forest_spirit_faction",
+    "base_faction": "animal",
+    "neutral": [ "canidae", "fish", "mega_bird" ],
+    "friendly": [ "small_animal", "herbivore", "mega_herbivore" ],
+    "hate": [ "zombie", "fungus", "nether_player_hate" ],
+    "by_mood": [ "human", "player" ]
   }
 ]
