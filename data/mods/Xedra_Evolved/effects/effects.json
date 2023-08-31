@@ -34,7 +34,7 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [ { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(( u_val('spell_level', , 'school: EATER') * 1.5) + 3)" ] } } ]
+        "values": [ { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(( u_val('spell_level', 'school: EATER') * 1.5) + 3)" ] } } ]
       }
     ]
   },
