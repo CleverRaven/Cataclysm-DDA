@@ -35,7 +35,10 @@
       { "monster": "mon_owlbear_zombie_brute", "weight": 1, "cost_multiplier": 15, "starts": "30 days" },
       { "monster": "mon_troll_zombie", "weight": 3, "cost_multiplier": 13 },
       { "monster": "mon_yulecat_zombie", "weight": 3, "cost_multiplier": 12 },
-      { "monster": "mon_yulecat_zombie_brute", "weight": 1, "cost_multiplier": 25 }
+      { "monster": "mon_yulecat_zombie_brute", "weight": 1, "cost_multiplier": 25 },
+      { "group": "GROUP_FOREST_SPIRIT", "weight": 15, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ], "cost_multiplier": 3 },
+      { "group": "GROUP_FOREST_SPIRIT", "weight": 20, "conditions": [ "SPRING", "SUMMER", "AUTUMN", "DAY" ], "cost_multiplier": 3 },
+      { "group": "GROUP_EARTH_SPIRIT", "weight": 5, "cost_multiplier": 3 },
     ]
   },
   {
@@ -57,7 +60,8 @@
       { "monster": "mon_wisp", "weight": 1, "cost_multiplier": 10, "conditions": [ "NIGHT" ], "pack_size": [ 1, 3 ] },
       { "monster": "mon_dragon_black_wyrmling", "weight": 2, "cost_multiplier": 50 },
       { "monster": "mon_dragon_black_young", "weight": 1, "cost_multiplier": 65 },
-      { "monster": "mon_ogre", "weight": 3, "cost_multiplier": 12 }
+      { "monster": "mon_ogre", "weight": 3, "cost_multiplier": 12 },
+      { "group": "GROUP_FOREST_SPIRIT_SWAMP", "weight": 10, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] }
     ]
   },
   {
@@ -83,7 +87,8 @@
         "pack_size": [ 1, 2 ],
         "starts": "30 days"
       },
-      { "monster": "mon_yulecat_zombie_brute", "weight": 5, "cost_multiplier": 30, "starts": "30 days" }
+      { "monster": "mon_yulecat_zombie_brute", "weight": 5, "cost_multiplier": 30, "starts": "30 days" },
+      { "group": "GROUP_EARTH_SPIRIT_CAVE", "weight": 50 }
     ]
   },
   {
@@ -250,5 +255,41 @@
     "name": "GROUP_WORKSHOP",
     "default": "mon_workshop_elf",
     "monsters": [ { "monster": "mon_workshop_elf", "freq": 100, "cost_multiplier": 2 } ]
+  },
+    {
+    "type": "monstergroup",
+    "name": "GROUP_FOREST_SPIRIT",
+    "monsters": [
+      { "monster": "mon_mossling", "weight": 24, "cost_multiplier": 1 },
+      { "monster": "mon_mossling", "weight": 8, "cost_multiplier": 2, "pack_size": [ 3, 6 ] },
+      { "monster": "mon_dryad", "weight": 8, "cost_multiplier": 2 },
+      { "monster": "mon_dryad", "weight": 3, "cost_multiplier": 2, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_brackenwight", "weight": 5, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FOREST_SPIRIT_SWAMP",
+    "monsters": [
+      { "monster": "mon_mossling", "weight": 25, "cost_multiplier": 1 },
+      { "monster": "mon_mossling", "weight": 10, "cost_multiplier": 2, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_brackenwight", "weight": 8, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_EARTH_SPIRIT",
+    "monsters": [
+      { "monster": "mon_earth_gnome", "weight": 25, "cost_multiplier": 1 },
+       { "monster": "mon_earth_gnome", "weight": 5, "cost_multiplier": 1, "pack_size": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_EARTH_SPIRIT_CAVE",
+    "monsters": [
+      { "monster": "mon_earth_gnome", "weight": 25, "cost_multiplier": 1 },
+      { "monster": "mon_earth_gnome", "weight": 15, "cost_multiplier": 3, "pack_size": [ 2, 4 ] }
+    ]
   }
 ]
