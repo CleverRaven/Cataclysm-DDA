@@ -137,6 +137,23 @@
     ]
   },
   {
+    "id": "spell_components_druid_arrow",
+    "type": "requirement",
+    "//": "Sticks for the for the Harvest of the Hunter spell",
+    "components": [
+      [
+        [ "pine_bough", 2 ],
+        [ "stick", 1 ],
+        [ "stick_long", 1 ],
+        [ "stick_fiber", 2 ],
+        [ "alder_bark", 5 ],
+        [ "tanbark", 5 ],
+        [ "birchbark", 5 ],
+        [ "willowbark", 5 ]
+      ]
+    ]
+  },
+  {
     "id": "spell_components_magus_mark",
     "type": "requirement",
     "components": [ [ [ "crystallized_mana", 10 ] ] ]
