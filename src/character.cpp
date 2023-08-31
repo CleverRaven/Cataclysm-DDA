@@ -1311,7 +1311,7 @@ bool Character::sight_impaired() const
 bool Character::has_alarm_clock() const
 {
     map &here = get_map();
-    return cache_has_item_with_flag_and_charges( flag_ALARMCLOCK ) ||
+    return cache_has_item_with_flag( flag_ALARMCLOCK, true ) ||
            ( here.veh_at( pos() ) &&
              !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
            has_flag( json_flag_ALARMCLOCK );
@@ -1320,7 +1320,7 @@ bool Character::has_alarm_clock() const
 bool Character::has_watch() const
 {
     map &here = get_map();
-    return cache_has_item_with_flag_and_charges( flag_WATCH ) ||
+    return cache_has_item_with_flag( flag_WATCH, true ) ||
            ( here.veh_at( pos() ) &&
              !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
            has_flag( json_flag_WATCH );
@@ -9050,11 +9050,20 @@ bool Character::cache_has_item_with( const std::string &key, const itype_id &typ
     return aborted;
 }
 
-bool Character::cache_has_item_with_flag_and_charges( const flag_id &type_flag ) const
+bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) const
 {
-    return cache_has_item_with( "HAS FLAG " + type_flag.str(), {}, type_flag,
-    nullptr, [this]( const item & it ) {
-        return !it.is_tool() || it.type->tool->max_charges == 0 || it.ammo_remaining( this ) > 0;
+    return has_item_with( [&flag, &need_charges, this]( const item & it ) {
+        return it.has_flag( flag ) && ( !need_charges || !it.is_tool() ||
+                                        it.type->tool->max_charges == 0 || it.ammo_remaining( this ) > 0 );
+    } );
+}
+
+bool Character::cache_has_item_with_flag( const flag_id &type_flag, bool need_charges ) const
+{
+    return cache_has_item_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr,
+    [this, &need_charges]( const item & it ) {
+        return !need_charges || !it.is_tool() || it.type->tool->max_charges == 0 ||
+               it.ammo_remaining( this ) > 0;
     } );
 }
 

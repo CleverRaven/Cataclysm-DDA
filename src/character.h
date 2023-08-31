@@ -2735,10 +2735,13 @@ class Character : public Creature, public visitable
                                   bool( item::*filter_func )() const,
                                   const std::function<bool( const item & )> &check_func = return_true<item> ) const;
         /**
-        * @brief Find if the character has an item with a specific flag and, if needed, has charges. Uses or creates caches from @ref inv_search_caches.
+        * @brief Find if the character has an item with a specific flag. Can also checks for charges, if needed.
         */
-        bool cache_has_item_with_flag_and_charges( const flag_id &type_flag ) const;
-
+        bool has_item_with_flag( const flag_id &flag, bool need_charges = false ) const;
+        /**
+        * @brief Find if the character has an item whose type has a specific flag. Can also checks for charges, if needed. Uses or creates caches from @ref inv_search_caches.
+        */
+        bool cache_has_item_with_flag( const flag_id &type_flag, bool need_charges = false ) const;
         /**
          * @brief Returns all items with the given flag and/or that pass the given boolean item function, using or creating caches from @ref inv_search_caches.
          * @param type Only get items of this item type.
