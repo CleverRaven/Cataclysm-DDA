@@ -11,7 +11,7 @@
       },
       {
         "id": "faction_base_modular_hub_field_version_2_0",
-        "description": "Modular Field Camp version 2 (no trenches, more beds, courtyards, expansions not dependent on beds)",
+        "description": "Modular Field Camp version 2 (no trenches, more beds, courtyards)",
         "om_terrains": [ "field" ]
       },
       { "id": "faction_base_firestation_0", "description": "Firestation Base", "om_terrains": [ "fire_station" ] },

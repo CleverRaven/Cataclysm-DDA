@@ -82,6 +82,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int get_spell_level( const spell_id & ) const override;
         int get_spell_exp( const spell_id & ) const override;
         int get_highest_spell_level() const override;
+        int get_spell_count( const trait_id & ) const override;
         bool knows_proficiency( const proficiency_id &proficiency ) const override;
         time_duration proficiency_practiced_time( const proficiency_id & ) const override;
 
