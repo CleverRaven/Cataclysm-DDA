@@ -493,7 +493,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "standing_teleport_stones" ],
-    "name": "standing stones",
+    "name": "ancient ring of stones",
     "sym": "O",
     "color": "dark_gray",
     "flags": [ "NO_ROTATE", "REQUIRES_PREDECESSOR" ],
