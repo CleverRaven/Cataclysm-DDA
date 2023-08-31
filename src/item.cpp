@@ -6115,13 +6115,20 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         // Likewise, ammo is green if you have guns that use it
         // ltred if you have the gun but no mags
         // Gun with integrated mag counts as both
-        bool has_gun = player_character.has_item_with( [this]( const item & i ) {
-            return i.is_gun() && i.ammo_types().count( ammo_type() );
+        bool has_gun = player_character.has_any_item_with( "is_gun", &item::is_gun,
+        [this]( const item & i ) {
+            return i.ammo_types().count( ammo_type() );
         } );
-        bool has_mag = player_character.has_item_with( [this]( const item & i ) {
-            return ( i.is_gun() && i.magazine_integral() && i.ammo_types().count( ammo_type() ) ) ||
-                   ( i.is_magazine() && i.ammo_types().count( ammo_type() ) );
+        bool has_mag = player_character.has_any_item_with( "is_gun", &item::is_gun,
+        [this]( const item & i ) {
+            return i.magazine_integral() && i.ammo_types().count( ammo_type() );
         } );
+        has_mag = has_mag ? true :
+                  player_character.has_any_item_with( "is_magazine", &item::is_magazine,
+        [this]( const item & i ) {
+            return i.ammo_types().count( ammo_type() );
+        } );
+
         if( has_gun && has_mag ) {
             ret = c_green;
         } else if( has_gun || has_mag ) {
@@ -6130,8 +6137,9 @@ nc_color item::color_in_inventory( const Character *const ch ) const
     } else if( is_magazine() ) {
         // Magazines are green if you have guns and ammo for them
         // ltred if you have one but not the other
-        bool has_gun = player_character.has_item_with( [this]( const item & it ) {
-            return it.is_gun() && it.magazine_compatible().count( typeId() ) > 0;
+        bool has_gun = player_character.has_any_item_with( "is_gun", &item::is_gun,
+        [this]( const item & it ) {
+            return it.magazine_compatible().count( typeId() ) > 0;
         } );
         bool has_ammo = !player_character.find_ammo( *this, false, -1 ).empty();
         if( has_gun && has_ammo ) {
@@ -13411,7 +13419,8 @@ bool item::process_linked_item( Character *carrier, const tripoint & /*pos*/,
         active = false;
         return false;
     }
-    bool has_connected_cable = carrier->has_any_item_with( "can_link_up", &item::can_link_up, [&required_state]( const item & it ) {
+    bool has_connected_cable = carrier->has_any_item_with( "can_link_up", &item::can_link_up,
+    [&required_state]( const item & it ) {
         return it.link && it.link->has_state( required_state );
     } );
     if( !has_connected_cable ) {

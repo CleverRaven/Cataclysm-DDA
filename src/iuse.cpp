@@ -458,8 +458,8 @@ void remove_radio_mod( item &it, Character &p )
 // Checks that the player can smoke
 std::optional<std::string> iuse::can_smoke( const Character &you )
 {
-    auto cigs = you.items_with( []( const item & it ) {
-        return it.active && it.has_flag( flag_LITCIG );
+    auto cigs = you.all_items_with( flag_LITCIG, []( const item & it ) {
+        return it.active;
     } );
 
     if( !cigs.empty() ) {
@@ -2512,9 +2512,7 @@ std::optional<int> iuse::radio_off( Character *p, item *it, const tripoint & )
 std::optional<int> iuse::directional_antenna( Character *p, item *, const tripoint & )
 {
     // Find out if we have an active radio
-    auto radios = p->items_with( []( const item & it ) {
-        return it.typeId() == itype_radio_on;
-    } );
+    auto radios = p->all_items_with( itype_radio_on );
     // If we don't wield the radio, also check on the ground
     if( radios.empty() ) {
         map_stack items = get_map().i_at( p->pos() );
@@ -4309,8 +4307,8 @@ std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint &
                 p->add_msg_if_player( _( "You and your friend play on your %s for a while." ), it_name );
             }
             for( npc *n : friends_w_game ) {
-                std::vector<item *> nit = n->items_with( [&it]( const item & i ) {
-                    return i.typeId() == it->typeId() && i.ammo_sufficient( nullptr );
+                std::vector<item *> nit = n->all_items_with( it->typeId(), [&it]( const item & i ) {
+                    return i.ammo_sufficient( nullptr );
                 } );
                 n->assign_activity( game_act );
                 n->activity.targets.emplace_back( *n, nit.front() );
@@ -7353,21 +7351,21 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint & 
     } else {
         const flag_id signal( "RADIOSIGNAL_" + std::to_string( choice ) );
 
-        if( p->has_any_item_with( flag_RADIO_ACTIVATION, [&p,&signal]( const item & it ) {
-            if( it.has_flag( flag_BOMB ) && it.has_flag( signal ) ) {
+        if( p->has_any_item_with( flag_BOMB, [&p, &signal]( const item & it ) {
+        if( it.has_flag( flag_RADIO_ACTIVATION ) && it.has_flag( signal ) ) {
                 p->add_msg_if_player( m_warning,
-                    _( "The %s in your inventory would explode on this signal.  Place it down before sending the signal." ),
-                    it.display_name() );
-                    return true;
+                                      _( "The %s in your inventory would explode on this signal.  Place it down before sending the signal." ),
+                                      it.display_name() );
+                return true;
             }
             return false;
         } ) ) {
             return std::nullopt;
         }
 
-        if( p->has_any_item_with( flag_RADIO_CONTAINER, [&p,&signal]( const item & it ) {
-            const item *rad_cont = it.get_item_with( [&signal]( const item & c ) {
-                return c.has_flag( flag_BOMB ) && c.has_flag( signal );
+        if( p->has_any_item_with( flag_RADIO_CONTAINER, [&p, &signal]( const item & it ) {
+        const item *rad_cont = it.get_item_with( [&signal]( const item & c ) {
+            return c.has_flag( flag_BOMB ) && c.has_flag( signal );
             } );
             if( rad_cont != nullptr ) {
                 p->add_msg_if_player( m_warning,

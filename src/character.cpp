@@ -8903,8 +8903,8 @@ void Character::do_to_items_with( const std::string &key, bool( item::*filter_fu
     do_to_items_with( key, {}, {}, filter_func, do_func );
 }
 
-void Character::do_to_items_with( const std::string &key, const itype_id &type, const flag_id &type_flag,
-                                  bool( item::*filter_func )() const,
+void Character::do_to_items_with( const std::string &key, const itype_id &type,
+                                  const flag_id &type_flag, bool( item::*filter_func )() const,
                                   const std::function<void( item & )> &do_func ) const
 {
     // If the cache already exists, use it. Remove all invalid item references.
@@ -9000,7 +9000,8 @@ bool Character::has_any_item_with( const std::string &key, const itype_id &type,
 
 bool Character::has_any_item_with_flag_and_charges( const flag_id &type_flag ) const
 {
-    return has_any_item_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, [this]( const item & it ) {
+    return has_any_item_with( "HAS FLAG " + type_flag.str(), {}, type_flag,
+    nullptr, [this]( const item & it ) {
         return !it.is_tool() || it.type->tool->max_charges == 0 || it.ammo_remaining( this ) > 0;
     } );
 }

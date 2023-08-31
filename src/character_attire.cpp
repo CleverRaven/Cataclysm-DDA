@@ -2014,8 +2014,9 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
 {
     for( item &clothing : worn ) {
 
-        std::vector<item *> guns = clothing.items_with( []( const item & it ) {
-            return it.is_gun();
+        std::vector<item *> guns = guy.all_items_with( "is_gun", &item::is_gun,
+        [&guy]( const item & it ) {
+            return !guy.is_wielding( it );
         } );
 
         if( !guns.empty() && clothing.type->can_use( "holster" ) ) {

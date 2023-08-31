@@ -386,9 +386,7 @@ void add_leash( monster &z )
         return;
     }
     Character &player_character = get_player_character();
-    std::vector<item *> rope_inv = player_character.items_with( []( const item & itm ) {
-        return itm.has_flag( json_flag_TIE_UP );
-    } );
+    std::vector<item *> rope_inv = player_character.all_items_with( json_flag_TIE_UP );
     if( rope_inv.empty() ) {
         return;
     }
@@ -535,9 +533,7 @@ void insert_battery( monster &z )
         return;
     }
     Character &player_character = get_player_character();
-    std::vector<item *> bat_inv = player_character.items_with( []( const item & itm ) {
-        return itm.has_flag( json_flag_MECH_BAT );
-    } );
+    std::vector<item *> bat_inv = player_character.all_items_with( json_flag_MECH_BAT );
     if( bat_inv.empty() ) {
         return;
     }

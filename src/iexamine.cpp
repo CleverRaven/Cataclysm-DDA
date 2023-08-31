@@ -3496,9 +3496,7 @@ void iexamine::fvat_empty( Character &you, const tripoint &examp )
     if( !brew_present ) {
         add_msg( _( "This keg is empty." ) );
         // TODO: Allow using brews from crafting inventory
-        const auto b_inv = you.items_with( []( const item & it ) {
-            return it.is_brewable();
-        } );
+        const auto b_inv = you.all_items_with( "is_brewable", &item::is_brewable );
         if( b_inv.empty() ) {
             add_msg( m_info, _( "You have no brew to ferment." ) );
             return;

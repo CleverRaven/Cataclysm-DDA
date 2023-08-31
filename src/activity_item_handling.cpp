@@ -2908,12 +2908,11 @@ static bool generic_multi_activity_do(
         for( const zone_data &zone : zones ) {
             const itype_id seed =
                 dynamic_cast<const plot_options &>( zone.get_options() ).get_seed();
-            std::vector<item *> seed_inv = you.items_with( [seed]( const item & itm ) {
-                return itm.typeId() == itype_id( seed );
-            } );
-            // we don't have the required seed, even though we should at this point.
-            // move onto the next tile, and if need be that will prompt a fetch seeds activity.
+            std::vector<item *> seed_inv = you.all_items_with( "is_seed", itype_id( seed ), {},
+                                           &item::is_seed );
             if( seed_inv.empty() ) {
+                // we don't have the required seed, even though we should at this point.
+                // move onto the next tile, and if need be that will prompt a fetch seeds activity.
                 continue;
             }
             // TODO: fix point types

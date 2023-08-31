@@ -2702,8 +2702,8 @@ class Character : public Creature, public visitable
                                const std::function<void( item & )> &do_func ) const;
         void do_to_items_with( const std::string &key, bool( item::*filter_func )() const,
                                const std::function<void( item & )> &do_func ) const;
-        void do_to_items_with( const std::string &key, const itype_id &type, const flag_id &type_flag,
-                               bool( item::*filter_func )() const,
+        void do_to_items_with( const std::string &key, const itype_id &type,
+                               const flag_id &type_flag, bool( item::*filter_func )() const,
                                const std::function<void( item & )> &do_func ) const;
         /**
         * @brief Returns true if the character has an item with given flag and/or that passes the given boolean item function, using or creating caches from @ref inv_search_caches.
