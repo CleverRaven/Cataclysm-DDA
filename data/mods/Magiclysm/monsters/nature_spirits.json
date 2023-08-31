@@ -106,8 +106,8 @@
       {
         "id": "spell_brackenwight_root",
         "type": "spell",
-        "spell_data": { "id": "brackenstrike", "min_level": 5 },
-        "cooldown": 15,
+        "spell_data": { "id": "druid_rootstrike", "min_level": 5 },
+        "cooldown": 20,
         "monster_message": "Roots explode out of %1$s and impale you!"
       }
     ],
