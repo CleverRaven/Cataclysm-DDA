@@ -22,9 +22,9 @@
       "cabin",
       "cave",
       "sugar_house",
-      "sloc_bank",
+      "dm_bank",
       "pawn_shop",
-      "restraunt"
+      "dm_restraunt"
     ],
     "eoc": [ "scenario_defense_mode" ],
     "forced_traits": [ "HAS_NEMESIS" ],
@@ -106,8 +106,14 @@
   },
   {
     "type": "start_location",
-    "id": "restraunt",
+    "id": "dm_restraunt",
     "name": "Restraunt",
     "terrain": [ "s_restaurant" ]
+  },
+  {
+    "type": "start_location",
+    "id": "dm_bank",
+    "name": "Bank",
+    "terrain": [ "bank" ]
   }
 ]
