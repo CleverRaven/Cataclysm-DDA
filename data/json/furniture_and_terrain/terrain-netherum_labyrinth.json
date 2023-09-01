@@ -85,7 +85,7 @@
     "roof": "t_nl_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "oxytorch": {
-      "result": "t_nl_mist",
+      "result": "t_nl_broken_metal_floor",
       "duration": "24 seconds",
       "byproducts": [ { "item": "steel_plate", "count": [ 2, 3 ] }, { "item": "steel_chunk", "count": [ 12, 20 ] } ]
     },
@@ -94,7 +94,7 @@
       "str_max": 400,
       "sound": "metal wailing!",
       "sound_fail": "clang!",
-      "ter_set": "t_nl_mist",
+      "ter_set": "t_nl_broken_metal_floor",
       "items": [
         { "item": "steel_lump", "count": [ 1, 4 ] },
         { "item": "steel_chunk", "count": [ 3, 12 ] },
@@ -119,7 +119,7 @@
       "str_max": 200,
       "sound": "metal crying!",
       "sound_fail": "clang!",
-      "ter_set": "t_nl_mist",
+      "ter_set": "t_nl_broken_metal_floor",
       "items": [ { "item": "steel_chunk", "count": [ 10, 22 ] } ]
     }
   },
