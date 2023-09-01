@@ -137,7 +137,7 @@
     "species": [ "EARTH_SPIRIT" ],
     "volume": "40 L",
     "weight": "54 kg",
-       "bodytype": "human",
+    "bodytype": "human",
     "hp": 100,
     "speed": 85,
     "material": [ "stone" ],
