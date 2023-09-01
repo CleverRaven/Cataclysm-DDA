@@ -1080,6 +1080,145 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
     } while( true );
 }
 
+static std::string assemble_stat_details( avatar &u, const unsigned char sel )
+{
+    std::string description_str;
+    switch( sel ) {
+        case 0: {
+            u.recalc_hp();
+            u.set_stored_kcal( u.get_healthy_kcal() );
+            description_str =
+                string_format( _( "Base HP: %d" ), u.get_part_hp_max( bodypart_id( "head" ) ) )
+                + string_format( _( "\nCarry weight: %.1f %s" ), convert_weight( u.weight_capacity() ),
+                                 weight_units() )
+                + string_format( _( "\nResistance to knock down effect when hit: %.1f" ), u.stability_roll() )
+                + string_format( _( "\nIntimidation skill: %i" ), u.intimidation() )
+                + string_format( _( "\nMaximum oxygen: %i" ), u.get_oxygen_max() )
+                + string_format( _( "\nShout volume: %i" ), u.get_shout_volume() )
+                + string_format( _( "\nLifting strength: %i" ), u.get_lift_str() )
+                + string_format( _( "\nMove cost while swimming: %i" ), u.swim_speed() )
+                + colorize(
+                    string_format( _( "\nBash damage bonus: %.1f" ), u.bonus_damage( false ) ),
+                    COL_STAT_BONUS )
+                + _( "\n\nAffects:" )
+                + colorize(
+                    _( "\n- Throwing range, accuracy, and damage"
+                       "\n- Reload speed for weapons using muscle power to reload"
+                       "\n- Pull strength of some mutations"
+                       "\n- Resistance for being pulled or grabbed by some monsters"
+                       "\n- Speed of corpses pulping"
+                       "\n- Speed and effectiveness of prying things open, chopping wood, and mining"
+                       "\n- Chance of escaping grabs and traps"
+                       "\n- Power produced by muscle-powered vehicles"
+                       "\n- Most aspects of melee combat"
+                       "\n- Effectiveness of smashing furniture or terrain"
+                       "\n- Resistance to many diseases and poisons"
+                       "\n- Ability to drag heavy objects and grants bonus to speed when dragging them"
+                       "\n- Ability to wield heavy weapons with one hand"
+                       "\n- Ability to manage gun recoil"
+                       "\n- Duration of action of various drugs and alcohol" ),
+                    c_green );
+        }
+        break;
+
+        case 1: {
+            description_str =
+                colorize(
+                    string_format( _( "Melee to-hit bonus: +%.2f" ), u.get_melee_hit_base() )
+                    + string_format( _( "\nThrowing penalty per target's dodge: +%d" ),
+                                     u.throw_dispersion_per_dodge( false ) ),
+                    COL_STAT_BONUS );
+            if( u.ranged_dex_mod() != 0 ) {
+                description_str += colorize( string_format( _( "\nRanged penalty: -%d" ),
+                                             std::abs( u.ranged_dex_mod() ) ), COL_STAT_PENALTY );
+            } else {
+                description_str += "\n";
+            }
+            description_str +=
+                string_format( _( "\nDodge skill: %.f" ), u.get_dodge() )
+                + string_format( _( "\nMove cost while swimming: %i" ), u.swim_speed() )
+                + _( "\n\nAffects:" )
+                + colorize(
+                    _( "\n- Effectiveness of lockpicking"
+                       "\n- Resistance for being grabbed by some monsters"
+                       "\n- Chance of escaping grabs and traps"
+                       "\n- Effectiveness of disarming traps"
+                       "\n- Chance of success when manipulating with gun modifications"
+                       "\n- Effectiveness of repairing and modifying clothes and armor"
+                       "\n- Attack speed and chance of critical hits in melee combat"
+                       "\n- Effectiveness of stealing"
+                       "\n- Throwing speed"
+                       "\n- Aiming speed"
+                       "\n- Speed and effectiveness of chopping wood with powered tools"
+                       "\n- Chance to avoid traps"
+                       "\n- Chance to get better results when butchering corpses or cutting items"
+                       "\n- Chance of avoiding cuts on sharp terrain"
+                       "\n- Chance of losing control of vehicle when driving"
+                       "\n- Chance of damaging melee weapon on attack"
+                       "\n- Damage from falling" ),
+                    c_green );
+        }
+        break;
+
+        case 2: {
+            const int read_spd = u.read_speed();
+            description_str =
+                colorize( string_format( _( "Read times: %d%%" ), read_spd ),
+                          ( read_spd == 100 ? COL_STAT_NEUTRAL :
+                            ( read_spd < 100 ? COL_STAT_BONUS : COL_STAT_PENALTY ) ) )
+                + string_format( _( "\nPersuade/lie skill: %i" ), u.persuade_skill() )
+                + colorize( string_format( _( "\nCrafting bonus: %2d%%" ), u.get_int() ),
+                            COL_STAT_BONUS )
+                + _( "\n\nAffects:" )
+                + colorize(
+                    _( "\n- Speed of 'catching up' practical experience to theoretical knowledge"
+                       "\n- Detection and disarming traps"
+                       "\n- Chance of success when installing bionics"
+                       "\n- Chance of success when manipulating with gun modifications"
+                       "\n- Chance to learn a recipe when crafting from a book"
+                       "\n- Chance to learn martial arts techniques when using CQB bionic"
+                       "\n- Chance of hacking computers and card readers"
+                       "\n- Chance of successful robot reprogramming"
+                       "\n- Chance of successful decrypting memory cards"
+                       "\n- Chance of bypassing vehicle security system"
+                       "\n- Chance to get better results when disassembling items"
+                       "\n- Chance of being paralyzed by fear attack" ),
+                    c_green );
+        }
+        break;
+
+        case 3: {
+            if( u.ranged_per_mod() > 0 ) {
+                description_str =
+                    colorize( string_format( _( "Aiming penalty: -%d" ), u.ranged_per_mod() ),
+                              COL_STAT_PENALTY );
+            }
+            description_str +=
+                string_format( _( "\nPersuade/lie skill: %i" ), u.persuade_skill() )
+                + _( "\n\nAffects:" )
+                + colorize(
+                    _( "\n- Speed of 'catching up' practical experience to theoretical knowledge"
+                       "\n- Time needed for safe cracking"
+                       "\n- Sight distance on game map and overmap"
+                       "\n- Effectiveness of stealing"
+                       "\n- Throwing accuracy"
+                       "\n- Chance of losing control of vehicle when driving"
+                       "\n- Chance of spotting camouflaged creatures"
+                       "\n- Effectiveness of lockpicking"
+                       "\n- Effectiveness of foraging"
+                       "\n- Precision when examining wounds and using first aid skill"
+                       "\n- Detection and disarming traps"
+                       "\n- Morale bonus when playing a musical instrument"
+                       "\n- Effectiveness of repairing and modifying clothes and armor"
+                       "\n- Chance of critical hits in melee combat" ),
+                    c_green );
+        }
+        break;
+    }
+    return description_str;
+}
+
+/** Handle the stats tab of the character generation menu */
 void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 {
     // TODO: Move this out to a common header and eliminate other separate instances of these strings.
@@ -1161,139 +1300,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
         u.set_stored_kcal( u.get_healthy_kcal() );
         u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
 
-        std::string description_str;
-        switch( sel ) {
-            case 0: {
-                u.recalc_hp();
-                u.set_stored_kcal( u.get_healthy_kcal() );
-                description_str =
-                    string_format( _( "Base HP: %d" ), u.get_part_hp_max( bodypart_id( "head" ) ) )
-                    + string_format( _( "\nCarry weight: %.1f %s" ), convert_weight( u.weight_capacity() ),
-                                     weight_units() )
-                    + string_format( _( "\nResistance to knock down effect when hit: %.1f" ), u.stability_roll() )
-                    + string_format( _( "\nIntimidation skill: %i" ), u.intimidation() )
-                    + string_format( _( "\nMaximum oxygen: %i" ), u.get_oxygen_max() )
-                    + string_format( _( "\nShout volume: %i" ), u.get_shout_volume() )
-                    + string_format( _( "\nLifting strength: %i" ), u.get_lift_str() )
-                    + string_format( _( "\nMove cost while swimming: %i" ), u.swim_speed() )
-                    + colorize(
-                        string_format( _( "\nBash damage bonus: %.1f" ), u.bonus_damage( false ) ),
-                        COL_STAT_BONUS )
-                    + _( "\n\nAffects:" )
-                    + colorize(
-                        _( "\n- Throwing range, accuracy, and damage"
-                           "\n- Reload speed for weapons using muscle power to reload"
-                           "\n- Pull strength of some mutations"
-                           "\n- Resistance for being pulled or grabbed by some monsters"
-                           "\n- Speed of corpses pulping"
-                           "\n- Speed and effectiveness of prying things open, chopping wood, and mining"
-                           "\n- Chance of escaping grabs and traps"
-                           "\n- Power produced by muscle-powered vehicles"
-                           "\n- Most aspects of melee combat"
-                           "\n- Effectiveness of smashing furniture or terrain"
-                           "\n- Resistance to many diseases and poisons"
-                           "\n- Ability to drag heavy objects and grants bonus to speed when dragging them"
-                           "\n- Ability to wield heavy weapons with one hand"
-                           "\n- Ability to manage gun recoil"
-                           "\n- Duration of action of various drugs and alcohol" ),
-                        c_green );
-            }
-            break;
-
-            case 1: {
-                description_str =
-                    colorize(
-                        string_format( _( "Melee to-hit bonus: +%.2f" ), u.get_melee_hit_base() )
-                        + string_format( _( "\nThrowing penalty per target's dodge: +%d" ),
-                                         u.throw_dispersion_per_dodge( false ) ),
-                        COL_STAT_BONUS );
-                if( u.ranged_dex_mod() != 0 ) {
-                    description_str += colorize( string_format( _( "\nRanged penalty: -%d" ),
-                                                 std::abs( u.ranged_dex_mod() ) ), COL_STAT_PENALTY );
-                } else {
-                    description_str += "\n";
-                }
-                description_str +=
-                    string_format( _( "\nDodge skill: %.f" ), u.get_dodge() )
-                    + string_format( _( "\nMove cost while swimming: %i" ), u.swim_speed() )
-                    + _( "\n\nAffects:" )
-                    + colorize(
-                        _( "\n- Effectiveness of lockpicking"
-                           "\n- Resistance for being grabbed by some monsters"
-                           "\n- Chance of escaping grabs and traps"
-                           "\n- Effectiveness of disarming traps"
-                           "\n- Chance of success when manipulating with gun modifications"
-                           "\n- Effectiveness of repairing and modifying clothes and armor"
-                           "\n- Attack speed and chance of critical hits in melee combat"
-                           "\n- Effectiveness of stealing"
-                           "\n- Throwing speed"
-                           "\n- Aiming speed"
-                           "\n- Speed and effectiveness of chopping wood with powered tools"
-                           "\n- Chance to avoid traps"
-                           "\n- Chance to get better results when butchering corpses or cutting items"
-                           "\n- Chance of avoiding cuts on sharp terrain"
-                           "\n- Chance of losing control of vehicle when driving"
-                           "\n- Chance of damaging melee weapon on attack"
-                           "\n- Damage from falling" ),
-                        c_green );
-            }
-            break;
-
-            case 2: {
-                const int read_spd = u.read_speed();
-                description_str =
-                    colorize( string_format( _( "Read times: %d%%" ), read_spd ),
-                              ( read_spd == 100 ? COL_STAT_NEUTRAL :
-                                ( read_spd < 100 ? COL_STAT_BONUS : COL_STAT_PENALTY ) ) )
-                    + string_format( _( "\nPersuade/lie skill: %i" ), u.persuade_skill() )
-                    + colorize( string_format( _( "\nCrafting bonus: %2d%%" ), u.get_int() ),
-                                COL_STAT_BONUS )
-                    + _( "\n\nAffects:" )
-                    + colorize(
-                        _( "\n- Speed of 'catching up' practical experience to theoretical knowledge"
-                           "\n- Detection and disarming traps"
-                           "\n- Chance of success when installing bionics"
-                           "\n- Chance of success when manipulating with gun modifications"
-                           "\n- Chance to learn a recipe when crafting from a book"
-                           "\n- Chance to learn martial arts techniques when using CQB bionic"
-                           "\n- Chance of hacking computers and card readers"
-                           "\n- Chance of successful robot reprogramming"
-                           "\n- Chance of successful decrypting memory cards"
-                           "\n- Chance of bypassing vehicle security system"
-                           "\n- Chance to get better results when disassembling items"
-                           "\n- Chance of being paralyzed by fear attack" ),
-                        c_green );
-            }
-            break;
-
-            case 3: {
-                if( u.ranged_per_mod() > 0 ) {
-                    description_str =
-                        colorize( string_format( _( "Aiming penalty: -%d" ), u.ranged_per_mod() ),
-                                  COL_STAT_PENALTY );
-                }
-                description_str +=
-                    string_format( _( "\nPersuade/lie skill: %i" ), u.persuade_skill() )
-                    + _( "\n\nAffects:" )
-                    + colorize(
-                        _( "\n- Speed of 'catching up' practical experience to theoretical knowledge"
-                           "\n- Time needed for safe cracking"
-                           "\n- Sight distance on game map and overmap"
-                           "\n- Effectiveness of stealing"
-                           "\n- Throwing accuracy"
-                           "\n- Chance of losing control of vehicle when driving"
-                           "\n- Chance of spotting camouflaged creatures"
-                           "\n- Effectiveness of lockpicking"
-                           "\n- Effectiveness of foraging"
-                           "\n- Precision when examining wounds and using first aid skill"
-                           "\n- Detection and disarming traps"
-                           "\n- Morale bonus when playing a musical instrument"
-                           "\n- Effectiveness of repairing and modifying clothes and armor"
-                           "\n- Chance of critical hits in melee combat" ),
-                        c_green );
-            }
-            break;
-        }
+        std::string description_str = assemble_stat_details(u, sel);
         fold_and_print( w_description, point_zero, getmaxx( w_description ), COL_STAT_NEUTRAL,
                         description_str );
         wnoutrefresh( w );
