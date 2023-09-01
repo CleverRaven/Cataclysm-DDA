@@ -1,0 +1,130 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "labyrinth" ],
+    "object": {
+      "fill_ter": "t_nl_mist",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_nl_mist" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "labyrinth_f1.01_NW",
+    "//": "Northwest corner of the 1st floor labyrinth, option 01",
+    "object": {
+      "mapgensize": [ 24,24 ],
+      "rows": [
+        "                        ",
+        " EEEEE                  ",
+        " EeeeE                  ",
+        " EeeeE                  ",
+        " EEÉEE           #######",
+        " |...|           #___+_#",
+        " |...|           #___#_+",
+        " |...||||||||||||#####_#",
+        " |......|.......|||||__+",
+        " ||.....+........+__|_##",
+        "  ||....|........###|+| ",
+        "   |||+|||||.......#__| ",
+        "    |.....||.......#__| ",
+        "    |......|.......#__| ",
+        "    |......|.......#__| ",
+        "    |......||......#+|| ",
+        "    |.......+.........| ",
+        "    |.......+.........| ",
+        "    |......|||||||||||| ",
+        "    |......|            ",
+        "    ||....||            ",
+        "     ||||||             ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { 
+        " ": "t_nl_mist",
+        "e": "t_nl_elevator_floor",
+        "E": "t_nl_elevator_wall",
+        "É": "t_nl_elevator_door_c",
+        "|": "t_nl_metal_wall",
+        "#": "t_nl_scrap_wall",
+        "+": "t_nl_metal_door_c",
+        ".": "t_nl_metal_floor",
+        "_": "t_nl_scrap_floor"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "labyrinth_f1.01_NE",
+    "//": "Northeast corner of the 1st floor labyrinth, option 01",
+    "object": {
+      "mapgensize": [ 24,24 ],
+      "rows": [
+        "            ||||||      ",
+        "          |||....|||    ",
+        " ||||||  ||........||   ",
+        " |....| ||..........||  ",
+        " |****| |............|  ",
+        "##****|||............|| ",
+        "......|...............| ",
+        "#.....+...............| ",
+        "......|...............| ",
+        "##****|||............|| ",
+        " |****| |............|  ",
+        " |....| ||..........||  ",
+        " ||||||  ||........||   ",
+        "          |||....|||    ",
+        "            ||||||      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { 
+        " ": "t_nl_mist",
+        "*": "t_nl_chasm",
+        "e": "t_nl_elevator_floor",
+        "E": "t_nl_elevator_wall",
+        "É": "t_nl_elevator_door_c",
+        "|": "t_nl_metal_wall",
+        "#": "t_nl_scrap_wall",
+        "+": "t_nl_metal_door_c",
+        ".": "t_nl_metal_floor",
+        "_": "t_nl_scrap_floor"
+      }
+    }
+  }
+]
